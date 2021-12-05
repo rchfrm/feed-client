@@ -10,7 +10,6 @@ import Router from 'next/router'
 
 import { mixpanelExternalLinkClick } from '@/helpers/mixpanelHelpers'
 import { track } from '@/helpers/trackingHelpers'
-import { getLinkType } from '@/helpers/utils'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as appServer from '@/app/helpers/appServer'
@@ -43,9 +42,9 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
   if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
 }
 
-const getLinkAction = (ctaLink, linkType, trackingPayload) => {
+const getLinkAction = (ctaLink, actionType, trackingPayload) => {
   // INTERNAL
-  if (linkType === 'internal') {
+  if (actionType === 'link_int') {
     return () => Router.push(ctaLink)
   }
   // EXTERANA:
@@ -78,7 +77,7 @@ const getFbRelinkAction = (hasFbAuth, missingScopes) => {
  */
 export const getAction = ({
   ctaLink,
-  linkType,
+  actionType,
   apiMethod,
   apiEndpoint,
   entityType,
@@ -110,7 +109,7 @@ export const getAction = ({
       const [, variable] = match
       link = data[variable]
     }
-    return getLinkAction(link, linkType, {
+    return getLinkAction(link, actionType, {
       title,
       topic,
       isDismissible,
@@ -206,6 +205,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     }
     const {
       title,
+      actionType,
       appSummary: summary,
       appMessage: description,
       ctaText,
@@ -217,11 +217,10 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     } = dictionaryEntry || {}
     const date = moment(created_at).format('DD MMM')
     const dateLong = moment(created_at).format('DD MMM YY')
-    const linkType = ctaLink ? getLinkType(ctaLink) : null
     // Get Action function
     const onAction = isActionable ? getAction({
       ctaLink,
-      linkType,
+      actionType,
       apiMethod,
       apiEndpoint,
       entityType,
@@ -246,13 +245,14 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       title: formatNotificationText(title, data),
       summary: formatNotificationText(summary, data),
       description: formatNotificationText(description, data),
-      ctaText,
+      actionType,
       buttonType,
-      linkType,
+      ctaLink,
+      ctaText,
       isActionable,
       isDismissible,
-      hidden: hide || isComplete,
       isComplete,
+      hidden: hide || isComplete,
       isRead,
       onAction,
       formatted: true,

@@ -4,7 +4,6 @@ import useAsyncEffect from 'use-async-effect'
 import { useRouter } from 'next/router'
 import shallow from 'zustand/shallow'
 
-import * as integrationErrorsHelpers from '@/app/helpers/integrationErrorsHelpers'
 import * as server from '@/app/helpers/appServer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
@@ -18,6 +17,7 @@ import useUnconfirmedEmails from '@/app/hooks/useUnconfirmedEmails'
 import useNotificationStore from '@/app/stores/notificationsStore'
 
 import * as ROUTES from '@/app/constants/routes'
+import copy from '@/app/copy/integrationErrorsCopy'
 
 const getNotificationsStoreState = (state) => ({
   notifications: state.notifications,
@@ -34,24 +34,14 @@ const IntegrationErrorHandler = () => {
   const { notifications } = useNotificationStore(getNotificationsStoreState, shallow)
   const { artist, artistId } = React.useContext(ArtistContext)
   const { user, hasPendingEmail } = React.useContext(UserContext)
-  const { auth, accessToken, redirectType } = React.useContext(AuthContext)
+  const { accessToken, redirectType } = React.useContext(AuthContext)
   const { globalLoading } = React.useContext(InterfaceContext)
   const unconfirmedEmails = useUnconfirmedEmails(user)
   const router = useRouter()
 
-  const getError = React.useCallback((integrationError) => {
+  const checkError = React.useCallback((integrationError) => {
     // Stop here if there are no artists associated with an account
     if (!user.artists || !user.artists.length || !integrationError) return
-    // Get any missing permissions from the FB redirect response
-    const { missingScopes = [] } = auth
-    // Handle missing scopes from FB
-    if (missingScopes.length) {
-      const error = {
-        topic: 'facebook-missing-permissions',
-        context: missingScopes,
-      }
-      return integrationErrorsHelpers.getErrorResponse({ error })
-    }
 
     // Stop here if running locally
     if (isDevelopment) return
@@ -64,19 +54,19 @@ const IntegrationErrorHandler = () => {
     // Stop here if artist is not owned
     if (!artistOwned) return
 
-    return integrationErrorsHelpers.getErrorResponse({ error: integrationError, artist })
-  }, [auth, artist, artistId, user, isDevelopment])
+    return integrationError
+  }, [artist, artistId, user, isDevelopment])
 
   React.useEffect(() => {
     if (notifications.length) {
       const [integrationError] = notifications.filter(({ isComplete, type }) => type === 'alert' && !isComplete)
 
       if (integrationError) {
-        setIntegrationError(getError(integrationError))
+        setIntegrationError(checkError(integrationError))
         setHasCheckedArtistErrors(true)
       }
     }
-  }, [notifications, getError])
+  }, [notifications, checkError])
 
   const checkAndShowUserError = () => {
     if (!user.artists || !user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL) return
@@ -84,11 +74,15 @@ const IntegrationErrorHandler = () => {
     // Handle email not confirmed
     if (!integrationError && hasPendingEmail && unconfirmedEmails.length) {
       const email = unconfirmedEmails[0]
+      const topic = 'email_not_confirmed'
       const error = {
-        topic: 'email_not_confirmed',
-        description: 'User email has not been confirmed',
+        topic,
+        description: copy[topic](email.email),
+        actionType: 'email_confirmation',
+        emailType: email.type,
+        ctaText: 'Edit email',
       }
-      setIntegrationError(integrationErrorsHelpers.getErrorResponse({ error, email }))
+      setIntegrationError(error)
     }
   }
 
@@ -108,8 +102,8 @@ const IntegrationErrorHandler = () => {
 
   const errorRequiresReAuth = React.useMemo(() => {
     if (!integrationError) return false
-    const { action } = integrationError
-    return action === 'fb_reauth'
+    const { actionType } = integrationError
+    return actionType === 'fb_reauth'
   }, [integrationError])
 
   // Decide whether to show integration error

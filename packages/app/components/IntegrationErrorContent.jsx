@@ -1,13 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import shallow from 'zustand/shallow'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { requestVerificationEmail } from '@/app/helpers/appServer'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { AuthContext } from '@/contexts/AuthContext'
-import useNotificationStore from '@/app/stores/notificationsStore'
 
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
@@ -17,22 +14,12 @@ import Router from 'next/router'
 
 import * as ROUTES from '@/app/constants/routes'
 
-const getNotificationsStore = (state) => ({
-  setAsDismissed: state.setAsDismissed,
-})
-
 const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
-  // IMPORT AUTH AND AUTH ERROR
   const { auth, authError } = React.useContext(AuthContext)
-  const { artistId } = React.useContext(ArtistContext)
-  const { setAsDismissed } = useNotificationStore(getNotificationsStore, shallow)
-
-  // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
 
-  // BUILD ALERT CONTENT
   const alertContents = React.useMemo(() => {
-    const { message } = integrationError
+    const { description: message } = integrationError
     return (
       <>
         <Error error={authError || networkError} />
@@ -44,22 +31,21 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
   }, [integrationError, authError, networkError])
 
   const alertButtons = React.useMemo(() => {
-    // Get values from integration error
     const {
-      action,
-      buttonText,
-      href,
-      fbLink,
+      actionType,
+      buttonType,
+      ctaText,
+      ctaLink,
     } = integrationError
     // Link button
-    if (action === 'link') {
-      const facebookButton = fbLink
+    if (actionType === 'link_ext') {
+      const facebookButton = buttonType === 'facebook'
       return [
         {
-          text: buttonText,
+          text: ctaText,
           onClick: () => {},
           color: 'green',
-          href,
+          href: ctaLink,
           facebookButton,
         },
         {
@@ -70,7 +56,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       ]
     }
     // Reauth button
-    if (action === 'fb_reauth') {
+    if (actionType === 'fb_reauth') {
       const { missingPermissions } = integrationError
       const onClick = () => {
         const { providerIds } = auth
@@ -82,23 +68,13 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         }
       }
       return [{
-        text: buttonText,
+        text: ctaText,
         onClick,
         facebookButton: true,
       }]
     }
-    // Dismiss button
-    if (action === 'dismiss') {
-      const { id } = integrationError
-
-      return [{
-        text: buttonText,
-        onClick: () => setAsDismissed(id, 'artists', artistId, false),
-        color: 'green',
-      }]
-    }
     // Edit email and email confirmation buttons
-    if (action === 'email_confirmation') {
+    if (actionType === 'email_confirmation') {
       const { emailType } = integrationError
 
       const resendConfirmationLink = async () => {
@@ -110,7 +86,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       }
       return [
         {
-          text: buttonText,
+          text: ctaText,
           onClick: goToConfirmEmailPage,
           color: 'green',
         },
@@ -123,11 +99,11 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     }
     // Default
     return [{
-      text: buttonText || 'Ok',
+      text: ctaText || 'Ok',
       onClick: closeAlert,
       color: 'black',
     }]
-  }, [closeAlert, integrationError, auth, artistId, setAsDismissed])
+  }, [closeAlert, integrationError, auth])
 
   React.useEffect(() => {
     if (!auth.token) {

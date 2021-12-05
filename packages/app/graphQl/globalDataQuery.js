@@ -3,9 +3,8 @@ const getQuery = () => `
     allNotifications(first: 100) {
       id
       topic
-      code
-      subcode
       title
+      actionType
       actionable
       dismissable
       hide
