@@ -19,7 +19,7 @@ const PartnerItem = ({ partner, isSwiperActive, className }) => {
         rel="noopener noreferrer"
         className={[
           'flex items-center',
-          isSwiperActive ? 'w-40 h-40' : 'h-32 w-32',
+          isSwiperActive ? 'w-40 h-auto' : 'w-32 h-auto',
         ].join(' ')}
       >
         <figure>
