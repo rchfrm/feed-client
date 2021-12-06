@@ -4,7 +4,7 @@ const getQuery = () => `
       id
       topic
       title
-      actionType
+      ctaType
       actionable
       dismissable
       hide

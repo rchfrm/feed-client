@@ -205,7 +205,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     }
     const {
       title,
-      actionType,
+      ctaType,
       appSummary: summary,
       appMessage: description,
       ctaText,
@@ -220,7 +220,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     // Get Action function
     const onAction = getAction({
       ctaLink,
-      ctaType: actionType,
+      ctaType,
       apiMethod,
       apiEndpoint,
       entityType,
@@ -246,7 +246,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       summary: formatNotificationText(summary, data),
       description: formatNotificationText(description, data),
       buttonType,
-      ctaType: actionType,
+      ctaType,
       ctaLink,
       ctaText,
       isActionable,
