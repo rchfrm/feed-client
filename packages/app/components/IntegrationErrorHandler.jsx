@@ -78,7 +78,7 @@ const IntegrationErrorHandler = () => {
       const error = {
         topic,
         description: copy[topic](email.email),
-        actionType: 'email_confirmation',
+        ctaType: 'email_confirmation',
         emailType: email.type,
         ctaText: 'Edit email',
       }
@@ -102,8 +102,8 @@ const IntegrationErrorHandler = () => {
 
   const errorRequiresReAuth = React.useMemo(() => {
     if (!integrationError) return false
-    const { actionType } = integrationError
-    return actionType === 'fb_reauth'
+    const { ctaType } = integrationError
+    return ctaType === 'fb_reauth'
   }, [integrationError])
 
   // Decide whether to show integration error

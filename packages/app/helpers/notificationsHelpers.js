@@ -42,9 +42,9 @@ const getEndpoint = (apiEndpoint, entityType, entityId) => {
   if (entityType === 'organizations') return apiEndpoint.replace('${organization.id}', entityId)
 }
 
-const getLinkAction = (actionType, ctaLink, trackingPayload) => {
+const getLinkAction = (ctaType, ctaLink, trackingPayload) => {
   // INTERNAL
-  if (actionType === 'link_int') {
+  if (ctaType === 'link_int') {
     return () => Router.push(ctaLink)
   }
   // EXTERNAL:
@@ -77,7 +77,7 @@ const getFbRelinkAction = (hasFbAuth, missingScopes) => {
  */
 export const getAction = ({
   ctaLink,
-  actionType,
+  ctaType,
   apiMethod,
   apiEndpoint,
   entityType,
@@ -109,7 +109,7 @@ export const getAction = ({
       const [, variable] = match
       link = data[variable]
     }
-    return getLinkAction(actionType, link, {
+    return getLinkAction(ctaType, link, {
       title,
       topic,
       isDismissible,
@@ -220,7 +220,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
     // Get Action function
     const onAction = getAction({
       ctaLink,
-      actionType,
+      ctaType: actionType,
       apiMethod,
       apiEndpoint,
       entityType,
@@ -245,8 +245,8 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       title: formatNotificationText(title, data),
       summary: formatNotificationText(summary, data),
       description: formatNotificationText(description, data),
-      actionType,
       buttonType,
+      ctaType: actionType,
       ctaLink,
       ctaText,
       isActionable,

@@ -32,13 +32,13 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
 
   const alertButtons = React.useMemo(() => {
     const {
-      actionType,
+      ctaType,
       buttonType,
       ctaText,
       ctaLink,
     } = integrationError
     // Link button
-    if (actionType === 'link_ext') {
+    if (ctaType === 'link_ext') {
       const facebookButton = buttonType === 'facebook'
       return [
         {
@@ -56,7 +56,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       ]
     }
     // Reauth button
-    if (actionType === 'fb_reauth') {
+    if (ctaType === 'fb_reauth') {
       const { missingPermissions } = integrationError
       const onClick = () => {
         const { providerIds } = auth
@@ -74,7 +74,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       }]
     }
     // Edit email and email confirmation buttons
-    if (actionType === 'email_confirmation') {
+    if (ctaType === 'email_confirmation') {
       const { emailType } = integrationError
 
       const resendConfirmationLink = async () => {

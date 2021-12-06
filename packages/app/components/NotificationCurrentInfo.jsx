@@ -68,7 +68,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       <NotificationCurrentInfoButton
         ctaText={ctaText}
         ctaLink={openedNotification.ctaLink}
-        actionType={openedNotification.actionType}
+        ctaType={openedNotification.ctaType}
         buttonType={openedNotification.buttonType}
         isActionable={isActionable}
         isDismissible={openedNotification.isDismissible}
