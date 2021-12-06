@@ -28,6 +28,10 @@ function getQuery(page) {
           bio
           ${image({ imgixParams: 'q: "50", auto: format, w: "600", h: "600", fit: crop', sizes: '10vw' })}
         }
+        partners {
+          website
+          ${image({ fieldName: 'logo', imgixParams: 'q: "50", auto: format, w: "600", h: "600", fit: clamp' })}
+        }
         features {
           id
           header

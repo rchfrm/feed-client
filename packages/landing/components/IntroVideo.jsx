@@ -6,7 +6,7 @@ const IntroVideo = () => {
       id="intro-video"
       className={[
         'section--padding',
-        'bg-grey-1',
+        'bg-white',
       ].join(' ')}
     >
       <div
