@@ -23,12 +23,11 @@ Been waiting a while? Check you have posts opted in for promotion in the _${inac
       return `There are currently no posts in the ${promotionStatus} state. Maybe try a different category.`
     },
 
-    // All and New user
-    allNewUser: () => `**Feed** is fetching your posts - please wait a few moments and then click the button to refresh the page.`,
-
     // All and Old user
     allOldUser: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
   },
+
+  importingPosts: 'Gathering your recent posts from Facebook & Instagram...',
 
   noDefaultLinkWarning: `**You need to set the default link used in your ads before they can run.**
 

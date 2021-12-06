@@ -455,3 +455,19 @@ export const getPostById = async (artistId, assetId) => {
   const [formattedPost] = formatPostsResponse([res])
   return { res: formattedPost, error }
 }
+
+// GET INITIAL POSTS IMPORT STATUS
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
+export const getInitialPostsImportStatus = async (artistId) => {
+  const endpoint = `/artists/${artistId}/assets/metadata`
+  const payload = null
+  const errorTracking = {
+    category: 'Post',
+    action: 'Get initial posts import status',
+  }
+  const { res, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+  return { res, error }
+}
