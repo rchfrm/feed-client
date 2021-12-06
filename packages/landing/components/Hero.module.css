@@ -6,12 +6,8 @@
       font-size: 4.3vw;
     }
 
-    @media (--lg) {
-      font-size: 4.4vw;
-    }
-
     @media (--bmw) {
-      font-size: 64px;
+      font-size: 48px;
     }
   }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { testForMissingPages } from '@/app/helpers/integrationErrorsHelpers'
+import testForMissingPages from '@/app/helpers/integrationErrorsHelpers'
 
 import MarkdownText from '@/elements/MarkdownText'
 import ButtonFacebook from '@/elements/ButtonFacebook'

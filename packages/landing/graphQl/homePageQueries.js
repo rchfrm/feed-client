@@ -20,13 +20,16 @@ function getQuery(page) {
         straplineB
         description
         ${image('mobileImage')}
-        ${image('desktopImage')}
         testimonies {
           id
           handle
           quote
           bio
           ${image({ imgixParams: 'q: "50", auto: format, w: "600", h: "600", fit: crop', sizes: '10vw' })}
+        }
+        partners {
+          website
+          ${image({ fieldName: 'logo', imgixParams: 'q: "50", auto: format, w: "600", h: "600"' })}
         }
         features {
           id

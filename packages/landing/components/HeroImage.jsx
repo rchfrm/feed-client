@@ -4,13 +4,10 @@ import PropTypes from 'prop-types'
 import { detect } from 'detect-browser'
 import { Image } from 'react-datocms'
 
-import useOnResize from '@/landing/hooks/useOnResize'
-
 import * as styles from '@/landing/Hero.module.css'
 
 export default function HeroImage({
-  mobile,
-  desktop,
+  image,
 }) {
   const [isChrome, setIsChrome] = React.useState(false)
   const [responsiveImage, setResponsiveImage] = React.useState(null)
@@ -20,14 +17,6 @@ export default function HeroImage({
       setIsChrome(true)
     }
   }, [])
-
-  // Get srcs based on device
-  const { width } = useOnResize()
-
-  const image = React.useMemo(() => {
-    const isMobile = width < 992
-    return isMobile ? mobile : desktop
-  }, [width, desktop, mobile])
 
   React.useEffect(() => {
     if (image) {
@@ -41,7 +30,7 @@ export default function HeroImage({
         className={[
           'col-span-12',
           'xs:block',
-          'md:col-start-1',
+          'md:col-start-7',
           'md:col-end-13',
           'md:row-start-2',
           'md:row-end-5',
@@ -63,6 +52,5 @@ export default function HeroImage({
 }
 
 HeroImage.propTypes = {
-  mobile: PropTypes.object.isRequired,
-  desktop: PropTypes.object.isRequired,
+  image: PropTypes.object.isRequired,
 }

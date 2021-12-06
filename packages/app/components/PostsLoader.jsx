@@ -298,9 +298,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
   if (!isPending && !loadingMore && !posts.length) {
     return (
       <PostsNone
-        refreshPosts={refreshPosts}
         promotionStatus={promotionStatus}
-        sortBy={sortBy}
         artist={artist}
       />
     )

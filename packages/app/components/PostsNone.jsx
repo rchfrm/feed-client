@@ -1,30 +1,15 @@
-// IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
-// IMPORT CONTEXTS
+
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-import { UserContext } from '@/app/contexts/UserContext'
-// IMPORT COMPONENTS
-import PostsRefreshButton from '@/app/PostsRefreshButton'
-// IMPORT ELEMENTS
+
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/PostsPageCopy'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
-// IMPORT STYLES
 import styles from '@/app/PostsPage.module.css'
 
-const testNewUser = (user) => {
-  const { created_at } = user
-  const createdAtMoment = moment(created_at)
-  const now = moment()
-  const hourDiff = now.diff(createdAtMoment, 'hours')
-  if (hourDiff <= 1) return true
-  return false
-}
-
-const getCopy = ({ isNewUser, hasBudget, promotionStatus }) => {
+const getCopy = ({ hasBudget, promotionStatus }) => {
   const inactiveTitle = postsHelpers.getPostTypesTitle('inactive')
   const { noPostsCopy } = copy
   // ACTIVE
@@ -36,25 +21,15 @@ const getCopy = ({ isNewUser, hasBudget, promotionStatus }) => {
   if (promotionStatus === 'archived') {
     return noPostsCopy.archive()
   }
-  // ALL and New user
-  if (isNewUser) return noPostsCopy.allNewUser()
   // ALL and Old user
   return noPostsCopy.allOldUser()
 }
 
-const PostsNone = ({ refreshPosts, promotionStatus, artist }) => {
-  // IMPORT CONTEXTS
+const PostsNone = ({ promotionStatus, artist }) => {
   const { setHeader } = React.useContext(InterfaceContext)
-  const { user } = React.useContext(UserContext)
-
-  const isNewUser = React.useMemo(() => {
-    return testNewUser(user)
-  }, [user])
   const hasBudget = !!artist.daily_budget
+  const copyMarkdown = getCopy({ hasBudget, promotionStatus })
 
-  const copyMarkdown = getCopy({ isNewUser, hasBudget, promotionStatus })
-
-  // Update header
   React.useEffect(() => {
     setHeader({ text: 'your posts', punctuation: ',' })
   }, [setHeader])
@@ -69,24 +44,17 @@ const PostsNone = ({ refreshPosts, promotionStatus, artist }) => {
         ].join(' ')}
         markdown={copyMarkdown}
       />
-      {/* Refresh posts fetch if new user */}
-      {isNewUser && (
-        <PostsRefreshButton refreshPosts={refreshPosts} />
-      )}
     </div>
   )
 }
 
 PostsNone.propTypes = {
   artist: PropTypes.object,
-  refreshPosts: PropTypes.func.isRequired,
   promotionStatus: PropTypes.string.isRequired,
 }
 
 PostsNone.defaultProps = {
   artist: null,
 }
-
-
 
 export default PostsNone

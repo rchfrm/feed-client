@@ -15,15 +15,11 @@ import Router from 'next/router'
 import * as ROUTES from '@/app/constants/routes'
 
 const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
-  // IMPORT AUTH AND AUTH ERROR
   const { auth, authError } = React.useContext(AuthContext)
-
-  // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
 
-  // BUILD ALERT CONTENT
   const alertContents = React.useMemo(() => {
-    const { message } = integrationError
+    const { description: message } = integrationError
     return (
       <>
         <Error error={authError || networkError} />
@@ -35,22 +31,21 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
   }, [integrationError, authError, networkError])
 
   const alertButtons = React.useMemo(() => {
-    // Get values from integration error
     const {
-      action,
-      buttonText,
-      href,
-      fbLink,
+      ctaType,
+      buttonType,
+      ctaText,
+      ctaLink,
     } = integrationError
     // Link button
-    if (action === 'link') {
-      const facebookButton = fbLink
+    if (ctaType === 'link_ext') {
+      const facebookButton = buttonType === 'facebook'
       return [
         {
-          text: buttonText,
+          text: ctaText,
           onClick: () => {},
-          color: 'green',
-          href,
+          color: facebookButton ? 'facebook' : 'green',
+          href: ctaLink,
           facebookButton,
         },
         {
@@ -61,7 +56,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       ]
     }
     // Reauth button
-    if (action === 'fb_reauth') {
+    if (ctaType === 'fb_reauth') {
       const { missingPermissions } = integrationError
       const onClick = () => {
         const { providerIds } = auth
@@ -73,13 +68,13 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         }
       }
       return [{
-        text: buttonText,
+        text: ctaText,
         onClick,
         facebookButton: true,
       }]
     }
     // Edit email and email confirmation buttons
-    if (action === 'email_confirmation') {
+    if (ctaType === 'email_confirmation') {
       const { emailType } = integrationError
 
       const resendConfirmationLink = async () => {
@@ -91,7 +86,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       }
       return [
         {
-          text: buttonText,
+          text: ctaText,
           onClick: goToConfirmEmailPage,
           color: 'green',
         },
@@ -104,7 +99,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     }
     // Default
     return [{
-      text: buttonText || 'Ok',
+      text: ctaText || 'Ok',
       onClick: closeAlert,
       color: 'black',
     }]
