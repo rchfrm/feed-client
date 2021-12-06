@@ -20,7 +20,6 @@ function getQuery(page) {
         straplineB
         description
         ${image('mobileImage')}
-        ${image('desktopImage')}
         testimonies {
           id
           handle

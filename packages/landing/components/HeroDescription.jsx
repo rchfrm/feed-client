@@ -17,7 +17,7 @@ export default function HeroDescription({ description }) {
 
         'md:text-xl',
         'md:z-10',
-        'md:col-end-7',
+        'md:col-end-6',
 
         'lg:text-2xl',
       ].join(' ')}

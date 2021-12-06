@@ -9,8 +9,7 @@ const Hero = ({
   heroStraplineA,
   heroStraplineB,
   heroCopy,
-  heroImageMobile,
-  heroImageDesktop,
+  heroImage,
 }) => {
   return (
     <section className="section--padding  bmw">
@@ -18,7 +17,7 @@ const Hero = ({
         <HeroStrapline partA={heroStraplineA} partB={heroStraplineB} />
         <HeroSignUp />
         <HeroDescription description={heroCopy} />
-        <HeroImage mobile={heroImageMobile} desktop={heroImageDesktop} />
+        <HeroImage image={heroImage} />
       </div>
     </section>
   )
@@ -28,8 +27,7 @@ Hero.propTypes = {
   heroStraplineA: PropTypes.string.isRequired,
   heroStraplineB: PropTypes.string.isRequired,
   heroCopy: PropTypes.string.isRequired,
-  heroImageMobile: PropTypes.object.isRequired,
-  heroImageDesktop: PropTypes.object.isRequired,
+  heroImage: PropTypes.object.isRequired,
 }
 
 export default Hero
