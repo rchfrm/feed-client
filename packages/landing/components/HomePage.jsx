@@ -14,7 +14,6 @@ export default function HomePage({ pageData }) {
     straplineB,
     description,
     mobileImage,
-    desktopImage,
     testimonies,
     partners,
     features,
@@ -28,9 +27,8 @@ export default function HomePage({ pageData }) {
     <>
       <Hero
         heroStraplineA={straplineA}
-        heroImageDesktop={desktopImage}
         heroCopy={description}
-        heroImageMobile={mobileImage}
+        heroImage={mobileImage}
         heroStraplineB={straplineB}
       />
       {hasTestimonies && <Testimonies testimonies={testimonies} />}
@@ -54,7 +52,6 @@ HomePage.propTypes = {
     straplineB: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     mobileImage: PropTypes.object.isRequired,
-    desktopImage: PropTypes.object.isRequired,
     testimonies: PropTypes.array,
     features: PropTypes.array,
   }).isRequired,

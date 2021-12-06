@@ -13,16 +13,21 @@ const PartnerItem = ({ partner, isSwiperActive, className }) => {
       isSwiperActive ? 'items-center' : 'col-span-6 sm:col-span-3',
     ].join(' ')}
     >
-      <a href={website} target="_blank" rel="noopener noreferrer">
+      <a
+        href={website}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={[
+          'flex items-center',
+          isSwiperActive ? 'w-40 h-auto' : 'w-32 h-auto',
+        ].join(' ')}
+      >
         <figure>
           <Image
             data={{
               ...logo.responsiveImage,
               alt: `${website}`,
             }}
-            className={[
-              isSwiperActive ? 'w-40 h-auto' : 'w-32 h-auto',
-            ].join(' ')}
           />
         </figure>
       </a>

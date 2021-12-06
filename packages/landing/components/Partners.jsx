@@ -24,7 +24,7 @@ const Partners = ({ partners }) => {
       <div ref={swiperContainer} className="swiper-container">
         <ul className={[
           'swiper-wrapper',
-          !isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-8 px-0 md:px-40 mb-0 box-border' : null,
+          !isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-8 px-0 md:px-40 mb-0 box-border' : 'flex items-center',
         ].join(' ')}
         >
           {partners.map((partner) => {
