@@ -11,13 +11,14 @@ export default function HeroDescription({ description }) {
         'col-start-1',
         'mb-12',
         'md:pb-6',
+        'md:mr-12',
         'bg-white',
 
         'sm:text-2xl',
 
         'md:text-xl',
         'md:z-10',
-        'md:col-end-6',
+        'md:col-end-7',
 
         'lg:text-2xl',
       ].join(' ')}
