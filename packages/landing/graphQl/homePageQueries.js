@@ -20,7 +20,6 @@ function getQuery(page) {
         straplineB
         description
         ${image('mobileImage')}
-        ${image('desktopImage')}
         testimonies {
           id
           handle
@@ -30,7 +29,7 @@ function getQuery(page) {
         }
         partners {
           website
-          ${image({ fieldName: 'logo', imgixParams: 'q: "50", auto: format, w: "600", h: "600", fit: clamp' })}
+          ${image({ fieldName: 'logo', imgixParams: 'q: "50", auto: format, w: "600", h: "600"' })}
         }
         features {
           id
