@@ -104,7 +104,11 @@
 
   :global(.button) {
     width: 100%;
-    border-radius: 0 0 0 var(--dialogue-radius);
+    border-radius: 0 0 0 0;
     margin-bottom: 0;
+  }
+
+  :global(.button):last-child {
+    border-radius: 0 0 0 var(--dialogue-radius);
   }
 }

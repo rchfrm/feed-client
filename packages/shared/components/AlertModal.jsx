@@ -21,6 +21,7 @@ const getButtonColor = (color) => {
 }
 
 const getButtonVersion = (color) => {
+  if (color === 'facebook') return 'facebook'
   if (color === 'green') return 'green'
   if (color === 'red') return 'red'
   return 'black'
@@ -161,6 +162,7 @@ const AlertModal = () => {
                       disabled={disabled}
                       fbButtonFallbackClassName="p-4 text-white mb-0"
                       trackComponentName="AlertModal"
+                      fallbackCta={text}
                     >
                       {text}
                     </ButtonType>

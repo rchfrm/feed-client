@@ -1,20 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TestimonyItem from '@/landing/TestimonyItem'
+import PartnerItem from '@/landing/PartnerItem'
 
 import useSwiperWithBreakpoint from '@/landing/hooks/useSwiperWithBreakpoint'
 
-const Testimonies = ({
-  testimonies,
-}) => {
-  // Setup swiper
+const Partners = ({ partners }) => {
   const swiperContainer = React.useRef(null)
   const swiperPagination = React.useRef(null)
-  const swiperSlide = React.useRef(null)
   const isSwiperActive = useSwiperWithBreakpoint({
     breakpoint: 992,
-    items: testimonies,
+    items: partners,
     containerEl: swiperContainer.current,
     paginationEl: swiperPagination.current,
   })
@@ -28,18 +24,17 @@ const Testimonies = ({
       <div ref={swiperContainer} className="swiper-container">
         <ul className={[
           'swiper-wrapper',
-          !isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-10 box-border px-10 mb-0' : null,
+          !isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-8 px-0 md:px-40 mb-0 box-border' : null,
         ].join(' ')}
         >
-          {testimonies.map((testimony) => {
-            const { id } = testimony
+          {partners.map((partner) => {
+            const { website } = partner
             return (
-              <TestimonyItem
-                key={id}
-                testimony={testimony}
+              <PartnerItem
+                key={website}
+                partner={partner}
                 isSwiperActive={isSwiperActive}
                 className="swiper-slide"
-                swiperSlide={swiperSlide}
               />
             )
           })}
@@ -58,8 +53,8 @@ const Testimonies = ({
   )
 }
 
-Testimonies.propTypes = {
-  testimonies: PropTypes.array.isRequired,
+Partners.propTypes = {
+  partners: PropTypes.array.isRequired,
 }
 
-export default Testimonies
+export default Partners
