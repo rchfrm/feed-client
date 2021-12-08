@@ -32,10 +32,8 @@ export default function HeroImage({
           'xs:block',
           'md:col-start-7',
           'md:col-end-13',
-          'md:row-start-2',
+          'md:row-start-3',
           'md:row-end-5',
-          'lg:row-start-2',
-          'lg:row-end-5',
           styles.heroFigure,
           isChrome ? 'styles._isChrome' : '',
         ].join(' ')}
