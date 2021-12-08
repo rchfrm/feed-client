@@ -42,8 +42,13 @@ const requiredScopesAccount = produce(requiredScopesSignup, draft => {
 })
 
 
-export const dofetchSignInMethodsForEmail = (email) => {
-  return auth.fetchSignInMethodsForEmail(email)
+export const dofetchSignInMethodsForEmail = async (email) => {
+  const res = await auth.fetchSignInMethodsForEmail(email)
+    .catch((error) => {
+      return { error }
+    })
+  if (res.error) return { error: res.error }
+  return { signInMethods: res }
 }
 
 export const doCreateUserWithEmailAndPassword = (email, password) => {
