@@ -14,7 +14,7 @@ export default function HeroSignUp() {
         'col-span-12',
         'row-start-2',
         'sm:col-start-3',
-        'sm:col-end-10',
+        'sm:col-end-11',
         'flex flex-column xs:flex-row xs:items-end',
         'pb-8 xs:pb-16',
         'lg:z-10',
