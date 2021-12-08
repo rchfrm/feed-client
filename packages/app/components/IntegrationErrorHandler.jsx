@@ -21,6 +21,7 @@ import copy from '@/app/copy/integrationErrorsCopy'
 
 const getNotificationsStoreState = (state) => ({
   notifications: state.notifications,
+  loading: state.loading,
 })
 
 const IntegrationErrorHandler = () => {
@@ -31,7 +32,7 @@ const IntegrationErrorHandler = () => {
   const isLoggedIn = useLoggedInTest()
   const isDevelopment = process.env.NODE_ENV === 'development'
 
-  const { notifications } = useNotificationStore(getNotificationsStoreState, shallow)
+  const { notifications, loading: notificationsLoading } = useNotificationStore(getNotificationsStoreState, shallow)
   const { artist, artistId } = React.useContext(ArtistContext)
   const { user, hasPendingEmail } = React.useContext(UserContext)
   const { accessToken, redirectType } = React.useContext(AuthContext)
@@ -58,15 +59,15 @@ const IntegrationErrorHandler = () => {
   }, [artist, artistId, user, isDevelopment])
 
   React.useEffect(() => {
-    if (notifications.length) {
-      const [integrationError] = notifications.filter(({ isComplete, type }) => type === 'alert' && !isComplete)
+    if (!notificationsLoading) {
+      const [integrationError] = notifications.filter(({ isComplete, type, hidden }) => type === 'alert' && !isComplete && !hidden)
 
       if (integrationError) {
         setIntegrationError(checkError(integrationError))
-        setHasCheckedArtistErrors(true)
       }
+      setHasCheckedArtistErrors(true)
     }
-  }, [notifications, checkError])
+  }, [notifications, checkError, notificationsLoading])
 
   const checkAndShowUserError = () => {
     if (!user.artists || !user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL) return
@@ -92,7 +93,7 @@ const IntegrationErrorHandler = () => {
     }
     checkAndShowUserError()
   // eslint-disable-next-line
-  }, [isLoggedIn, globalLoading, integrationError, hasCheckedArtistErrors])
+  }, [isLoggedIn, globalLoading, hasCheckedArtistErrors])
 
   const hasErrorWithAccessToken = React.useMemo(() => {
     if (!integrationError) return false
