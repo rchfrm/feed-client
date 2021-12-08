@@ -91,15 +91,6 @@ export const loginWithFacebook = () => {
   return auth.signInWithRedirect(fbProvider)
 }
 
-
-export const signUpWithFacebook = () => {
-  requiredScopesSignup.forEach(scope => {
-    fbProvider.addScope(scope)
-  })
-  return auth.signInWithRedirect(fbProvider)
-}
-
-
 /**
 * @param {array} requestedPermissions optional array of scope requests
 * @returns {Promise<void>}
