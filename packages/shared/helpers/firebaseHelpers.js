@@ -42,6 +42,10 @@ const requiredScopesAccount = produce(requiredScopesSignup, draft => {
 })
 
 
+export const dofetchSignInMethodsForEmail = (email) => {
+  return auth.fetchSignInMethodsForEmail(email)
+}
+
 export const doCreateUserWithEmailAndPassword = (email, password) => {
   return auth.createUserWithEmailAndPassword(email, password)
 }

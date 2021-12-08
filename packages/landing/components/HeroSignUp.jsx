@@ -4,10 +4,47 @@ import Input from '@/elements/Input'
 import brandColors from 'shared/constants/brandColors'
 import ArrowAltIcon from 'shared/components/icons/ArrowAltIcon'
 
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
+import useGlobalInfoStore from '@/landing/store/globalInfoStore'
+
 import * as styles from '@/landing/Hero.module.css'
+
+const getGlobalInfoStoreState = (state) => ({
+  joinLink: state.joinLink,
+  loginLink: state.loginLink,
+})
 
 export default function HeroSignUp() {
   const [email, setEmail] = React.useState('')
+  const { joinLink, loginLink } = useGlobalInfoStore(getGlobalInfoStoreState)
+  const trackLocation = 'hero'
+
+  const fetchSignInMethodsAndRedirect = async () => {
+    if (email) {
+      const signInMethods = await firebaseHelpers.dofetchSignInMethodsForEmail(email)
+
+      if (!signInMethods.length) {
+        mixpanelExternalLinkClick(joinLink, { location: trackLocation })
+        return
+      }
+
+      if (signInMethods.length === 1 && signInMethods[0] === 'password') {
+        mixpanelExternalLinkClick(loginLink, { location: trackLocation })
+        return
+      }
+
+      if (signInMethods.length === 1 && signInMethods[0] === 'facebook.com') {
+        mixpanelExternalLinkClick(loginLink, { location: trackLocation })
+        return
+      }
+
+      if (['facebook.com', 'password'].every(signInMethod => signInMethods.indexOf(signInMethod) > -1)) {
+        mixpanelExternalLinkClick(loginLink, { location: trackLocation })
+      }
+    }
+  }
+
   return (
     <div
       className={[
@@ -29,9 +66,7 @@ export default function HeroSignUp() {
         className={[styles.heroInputBox, 'flex-1 border-pink mb-3 xs:mr-4 xs:mb-0'].join(' ')}
       />
       <Button
-        onClick={() => {
-          console.log('Call fetchSigninMethodsForEmail')
-        }}
+        onClick={fetchSignInMethodsAndRedirect}
         version="pink"
         className={[
           'py-4',
