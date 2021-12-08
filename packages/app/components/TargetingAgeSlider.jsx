@@ -8,7 +8,7 @@ import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import Slider from '@/elements/Slider'
 
 const TargetingAgeSlider = ({ ageMin, ageMax, setTargetingState, className }) => {
-  const lowestAge = 15
+  const lowestAge = 18
   const highestAge = 65
 
   const getLabel = (age) => {

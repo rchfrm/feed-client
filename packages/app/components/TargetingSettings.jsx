@@ -39,6 +39,7 @@ const TargetingSettings = () => {
     saveTargetingSettings,
     targetingLoading,
     cancelUpdateSettings,
+    errorUpdatingSettings,
   } = React.useContext(TargetingContext)
 
   // Fetch locations options
@@ -82,6 +83,10 @@ const TargetingSettings = () => {
             'mb-12',
           ].join(' ')}
         />
+        {/* ERROR HANDLING */}
+        {errorUpdatingSettings && (
+          <Error error={errorUpdatingSettings} />
+        )}
         {/* AGE */}
         <TargetingAgeSlider
           className="pb-20"
