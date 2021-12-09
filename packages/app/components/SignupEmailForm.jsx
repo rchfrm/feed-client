@@ -137,7 +137,7 @@ const SignupEmailForm = () => {
         required
       />
       <Button
-        className={styles.signupButton}
+        className={[styles.signupButton, 'ml-auto'].join(' ')}
         version="green wide"
         disabled={!formComplete}
         type="sumbit"

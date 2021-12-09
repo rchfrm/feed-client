@@ -76,9 +76,6 @@ function LoginPageContent({ showEmailLogin }) {
           </>
         )}
 
-      {/* T&C text */}
-      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText('log in')} />
-
     </div>
   )
 }
