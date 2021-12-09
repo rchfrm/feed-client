@@ -2,7 +2,7 @@
 import * as ROUTES from '@/app/constants/routes'
 
 export default {
-  tcText: (cta) => `By clicking ${cta}, you agree to our [Terms of Service](https://archform.ltd/terms) and [Privacy Policy](https://archform.ltd/privacy).`,
+  tcText: (action) => `By ${action}, you agree to our [Terms of Service](https://archform.ltd/terms) and [Privacy Policy](https://archform.ltd/privacy).`,
 
   signupTitle: '# Enter a password to create your account',
 

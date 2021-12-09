@@ -1,12 +1,15 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Router from 'next/router'
 
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import useSignup from '@/app/hooks/useSignup'
-import brandColors from '@/constants/brandColors'
+import LoginSignupEmailEdit from '@/app/LoginSignupEmailEdit'
+
 import ArrowAltIcon from 'shared/components/icons/ArrowAltIcon'
+import brandColors from '@/constants/brandColors'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
@@ -21,9 +24,10 @@ import styles from '@/LoginPage.module.css'
 
 const scrollTop = () => window.scrollTo(0, 0)
 
-const SignupEmailForm = () => {
-  const [email, setEmail] = React.useState('')
+const SignupEmailForm = ({ initialEmail }) => {
+  const [email, setEmail] = React.useState(initialEmail)
   const [password, setPassword] = React.useState('')
+  const [isEmailEdit, setIsEmailEdit] = React.useState(!initialEmail)
   const [error, setError] = React.useState(null)
   const [hasEmailError, setHasEmailError] = React.useState(false)
 
@@ -114,17 +118,25 @@ const SignupEmailForm = () => {
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       <Error className={styles.error} error={error} />
-      <Input
-        className={styles.input}
-        handleChange={onInputChange}
-        name="email"
-        type="email"
-        label="Email"
-        value={email}
-        error={hasEmailError}
-        autoFocus
-        required
-      />
+      {isEmailEdit ? (
+        <Input
+          className={styles.input}
+          handleChange={onInputChange}
+          name="email"
+          type="email"
+          label="Email"
+          value={email}
+          error={hasEmailError}
+          autoFocus
+          required
+        />
+      ) : (
+        <LoginSignupEmailEdit
+          email={email}
+          isEmailEdit={isEmailEdit}
+          setIsEmailEdit={setIsEmailEdit}
+        />
+      )}
       <Input
         className={styles.input}
         handleChange={onInputChange}
@@ -152,6 +164,14 @@ const SignupEmailForm = () => {
       </Button>
     </form>
   )
+}
+
+SignupEmailForm.propTypes = {
+  initialEmail: PropTypes.string,
+}
+
+SignupEmailForm.defaultProps = {
+  initialEmail: '',
 }
 
 export default SignupEmailForm

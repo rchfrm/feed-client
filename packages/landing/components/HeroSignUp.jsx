@@ -43,22 +43,22 @@ export default function HeroSignUp() {
     }
 
     if (!signInMethods.length) {
-      mixpanelExternalLinkClick(joinLink, { location: trackLocation })
+      mixpanelExternalLinkClick('http://localhost:3000/join', { email, location: trackLocation })
       return
     }
 
     if (signInMethods.length === 1 && signInMethods[0] === 'password') {
-      mixpanelExternalLinkClick(loginLink, { location: trackLocation })
+      mixpanelExternalLinkClick(loginLink, { email, location: trackLocation })
       return
     }
 
     if (signInMethods.length === 1 && signInMethods[0] === 'facebook.com') {
-      mixpanelExternalLinkClick(loginLink, { location: trackLocation })
+      mixpanelExternalLinkClick(loginLink, { email, location: trackLocation })
       return
     }
 
     if (['facebook.com', 'password'].every(signInMethod => signInMethods.indexOf(signInMethod) > -1)) {
-      mixpanelExternalLinkClick(loginLink, { location: trackLocation })
+      mixpanelExternalLinkClick(loginLink, { email, location: trackLocation })
     }
   }
 

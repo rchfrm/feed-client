@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { AuthContext } from '@/contexts/AuthContext'
 import SignupEmailForm from '@/app/SignupEmailForm'
@@ -9,7 +10,7 @@ import TickCircleIcon from '@/icons/TickCircleIcon'
 
 import copy from '@/app/copy/LoginPageCopy'
 
-const SignupPageContent = () => {
+const SignupPageContent = ({ email }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
 
   // Clear auth error when leaving page
@@ -25,8 +26,8 @@ const SignupPageContent = () => {
         <div className="sm:ml-16">
           <Error error={authError} />
           <h1 className="mb-2 text-2xl">Enter a password to create your account</h1>
-          <MarkdownText className={['small--text'].join(' ')} markdown={copy.tcText('next')} />
-          <SignupEmailForm />
+          <MarkdownText className={['small--text'].join(' ')} markdown={copy.tcText('clicking next')} />
+          <SignupEmailForm initialEmail={email} />
         </div>
       </div>
       <div className="flex-1 sm:order-1 pt-15 sm:pt-10 border-solid border-t sm:border-t-0 sm:border-r border-grey-3">
@@ -54,9 +55,11 @@ const SignupPageContent = () => {
 }
 
 SignupPageContent.propTypes = {
+  email: PropTypes.string,
 }
 
 SignupPageContent.defaultProps = {
+  email: '',
 }
 
 export default SignupPageContent
