@@ -43,7 +43,7 @@ export default function HeroSignUp() {
     }
 
     if (!signInMethods.length) {
-      mixpanelExternalLinkClick('http://localhost:3000/join', { email, location: trackLocation })
+      mixpanelExternalLinkClick(joinLink, { email, location: trackLocation })
       return
     }
 
