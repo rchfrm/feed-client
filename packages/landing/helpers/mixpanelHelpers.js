@@ -54,7 +54,7 @@ export const mixpanelInternalLinkClick = (url, payload = {}) => {
 
 // External link click
 export const mixpanelExternalLinkClick = (url, payload = {}, responseWait = 300) => {
-  const { queryParams } = payload
+  const { queryParams = {} } = payload
   const newUrl = new URL(url)
 
   if (Object.entries(queryParams).length) {

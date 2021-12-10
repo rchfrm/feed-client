@@ -98,7 +98,7 @@ const SignupEmailForm = ({ initialEmail }) => {
       })
     if (!signupRes) return
     // Create user on server
-    const { res: user, error } = await runCreateUser()
+    const { res: user, error } = await runCreateUser({ firstName: '', lastName: '' })
     if (error) {
       setError(error)
       scrollTop()

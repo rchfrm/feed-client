@@ -34,7 +34,7 @@ const LoginSignupButtons = ({
           icon={(
             <EmailIcon
               color={brandColors.bgColor}
-              style={{ width: '1.25rem', height: 'auto' }}
+              style={{ width: '1.75rem', height: 'auto' }}
             />
           )}
           trackComponentName="LoginSignupButtons"
