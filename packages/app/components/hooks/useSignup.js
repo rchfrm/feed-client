@@ -6,8 +6,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { trackSignUp } from '@/helpers/trackingHelpers'
-import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
+import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -15,13 +14,11 @@ const useSignup = (initialPathname) => {
   // Import contexts
   const {
     setNoAuth,
-    setMissingScopes,
     setAuthLoading,
     storeAuth,
   } = React.useContext(AuthContext)
-  const { runCreateUser, setUserLoading } = React.useContext(UserContext)
-  const { setNoArtist, setArtistLoading } = React.useContext(ArtistContext)
-
+  const { setUserLoading } = React.useContext(UserContext)
+  const { setArtistLoading } = React.useContext(ArtistContext)
 
   // * HANDLE NEW USER
   // -----------------
@@ -43,58 +40,12 @@ const useSignup = (initialPathname) => {
     // Sentry error
     fireSentryError({
       category: 'sign up',
-      action: 'handleNewUser',
+      action: 'rejectNewUser',
       label: errorLabel,
       description: error.message,
     })
     return userRedirected
   }, [setArtistLoading, setNoAuth, setUserLoading, initialPathname])
-
-  const handleNewUser = React.useCallback(async (additionalUserInfo) => {
-    const { profile: authProfile } = additionalUserInfo
-    const { first_name, last_name, email, granted_scopes } = authProfile
-    // If no email, ask for it
-    if (!email) {
-      setNoArtist()
-      setUserLoading(false)
-      return signupHelpers.redirectPage(ROUTES.SIGN_UP_MISSING_EMAIL, initialPathname)
-    }
-    // If it's a new user, create their profile on the server
-    const { res: user, error } = await runCreateUser({
-      firstName: first_name,
-      lastName: last_name,
-    })
-    // Handle Error
-    if (error) {
-      // Sentry error
-      fireSentryError({
-        category: 'sign up',
-        action: 'handleNewUser',
-        label: 'Error in createUser()',
-        description: error.message,
-      })
-      return rejectNewUser({ errorMessage: error.message })
-    }
-    // Check whether the new user has missing scopes
-    const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
-    // Set missing scopes
-    if (missingScopes.length) {
-      setMissingScopes(missingScopes) // from Auth context
-      // BREADCRUMB
-      fireSentryBreadcrumb({
-        category: 'sign up',
-        action: 'Handle new FB user',
-        label: 'missing scopes',
-      })
-    }
-    // Clear artists (because new user)
-    setNoArtist()
-    // TRACK
-    trackSignUp({ authProvider: 'facebook', userId: user.id })
-    // REDIRECT
-    return signupHelpers.redirectPage(ROUTES.POSTS, initialPathname)
-  }, [initialPathname, rejectNewUser, runCreateUser, setMissingScopes, setNoArtist, setUserLoading])
-
 
   // * SIGNUP WITH EMAIL
   const signupWithEmail = React.useCallback(async (email, password) => {
@@ -115,7 +66,7 @@ const useSignup = (initialPathname) => {
     return token
   }, [setAuthLoading, storeAuth])
 
-  return { handleNewUser, signupWithEmail }
+  return { signupWithEmail, rejectNewUser }
 }
 
 export default useSignup

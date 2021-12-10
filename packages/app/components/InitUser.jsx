@@ -5,7 +5,6 @@ import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
-import useReferralStore from '@/app/stores/referralStore'
 import useLogin from '@/app/hooks/useLogin'
 import useSignup from '@/app/hooks/useSignup'
 
@@ -15,9 +14,6 @@ import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpe
 
 let userRedirected = false
 
-// Read from referralStore
-const getGetStoredReferrerCode = state => state.getStoredReferrerCode
-
 const InitUser = ({ children }) => {
   // Get and store router info
   const router = useRouter()
@@ -26,8 +22,6 @@ const InitUser = ({ children }) => {
   // Component state
   const [ready, setReady] = React.useState(false)
   const [initialUserLoading, setInitialUserLoading] = React.useState(true)
-  // READ REFERRAL CODE
-  const getStoredReferrerCode = useReferralStore(getGetStoredReferrerCode)
   // Import contexts
   const {
     setAccessToken,
@@ -61,8 +55,7 @@ const InitUser = ({ children }) => {
 
   // HOOKS
   const { handleExistingUser, handleNoAuthUser, detectSignedInUser } = useLogin(initialPathname, initialFullPath, showContent)
-  const { handleNewUser } = useSignup(initialPathname, initialFullPath)
-
+  const { rejectNewUser } = useSignup(initialPathname, initialFullPath)
 
   // HANDLE Invalid FB credential
   const handleFbInvalidCredential = (message) => {
@@ -146,15 +139,16 @@ const InitUser = ({ children }) => {
       setAccessToken(accessToken)
       // Store what caused the REDIRECT
       setRedirectType(operationType)
-      // Handle new user
+      // Reject new user
       const { isNewUser } = additionalUserInfo
       if (isNewUser) {
         fireSentryBreadcrumb({
           category: 'sign up',
-          action: 'Handle new FB user',
+          action: 'Reject new FB user',
         })
-        const referrerCode = getStoredReferrerCode()
-        userRedirected = await handleNewUser(additionalUserInfo, referrerCode)
+        userRedirected = await rejectNewUser({
+          errorMessage: 'There is no user account connected to this Facebook account',
+        })
       } else {
         // Handle existing user
         fireSentryBreadcrumb({
