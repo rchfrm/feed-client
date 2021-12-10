@@ -45,9 +45,13 @@ function Main({ children }) {
   // eslint-disable-next-line
   }, [artist.integrations])
 
-  React.useEffect(() => {
+  const handleRouteChange = React.useCallback(() => {
     setIsSignedOutPage(ROUTES.signedOutPages.includes(router.pathname))
   }, [router.pathname])
+
+  React.useEffect(() => {
+    router.events.on('routeChangeComplete', handleRouteChange)
+  }, [router.events, handleRouteChange])
 
   return (
     <main id="page--container" className={isSignedOutPage ? 'mr-0' : 'md:ml-10'}>
