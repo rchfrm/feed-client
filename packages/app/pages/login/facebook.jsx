@@ -11,9 +11,7 @@ const page = () => (
     staticPage
     authPage
   >
-    <LoginPageContent
-      showFacebookLogin
-    />
+    <LoginPageContent showFacebookLogin />
   </BasePage>
 )
 

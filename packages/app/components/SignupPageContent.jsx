@@ -34,18 +34,12 @@ const SignupPageContent = ({ email }) => {
         <div className="sm:mr-16">
           <MarkdownText className="mb-10 text-lg" markdown={copy.signupTeaser} />
           <ul className="mb-10 pl-10">
-            <li className="flex mb-4">
-              <TickCircleIcon className="w-6 h-6 mr-6" />
-              Really intelligent algorithm
-            </li>
-            <li className="flex mb-4">
-              <TickCircleIcon className="w-6 h-6 mr-6" />
-              Stop/start ads whenever you like
-            </li>
-            <li className="flex mb-4">
-              <TickCircleIcon className="w-6 h-6 mr-6" />
-              Only pay 10% of your daily budget
-            </li>
+            {copy.signupReasons.map((reason) => (
+              <li key={reason} className="flex mb-4">
+                <TickCircleIcon className="w-6 h-6 mr-6" />
+                {reason}
+              </li>
+            ))}
           </ul>
           <MarkdownText markdown={copy.loginReminder} />
         </div>

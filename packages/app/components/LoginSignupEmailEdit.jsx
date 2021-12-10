@@ -17,7 +17,7 @@ const LoginSignupEmailEdit = ({ email, isEmailEdit, setIsEmailEdit }) => {
           'rounded-full text-xs',
         ].join(' ')}
         onClick={() => setIsEmailEdit(!isEmailEdit)}
-        trackComponentName="SignupEmailForm"
+        trackComponentName="LoginSignupEmailEdit"
       >
         <PencilIcon fill={brandColors.white} />
         Edit

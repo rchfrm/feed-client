@@ -64,9 +64,7 @@ export const mixpanelExternalLinkClick = (url, payload = {}, responseWait = 300)
   }
 
   // Call this to go to page
-  const goToPage = () => {
-    window.location.href = newUrl
-  }
+  const goToPage = () => { window.location.href = newUrl }
   // If mixpanel is not setup, just go to page
   if (!isMixpanelSetup) return goToPage()
   // Start timer ro run page change if mixpanel is too slow
