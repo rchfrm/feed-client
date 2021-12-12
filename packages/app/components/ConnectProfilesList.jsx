@@ -16,40 +16,23 @@ const ConnectProfilesList = ({
   setErrors,
   className,
 }) => {
-  // Toggled button disabled based on country select OR ad account select OR no accounts selected
   React.useEffect(() => {
     const allAccounts = Object.values(artistAccounts)
     // Test whether every account already exists
     const everyAccountExists = allAccounts.every(({ exists }) => exists)
-    // Make sure every every connected account has a country set
-    const allCountriesSet = allAccounts.every(({ country_code, connect }) => {
-      return country_code || !connect
-    })
-    // Make sure every every connected account has an ad account set
-    const allAdAccountsSet = allAccounts.every(({ adaccount_id, connect }) => {
-      return adaccount_id || !connect
-    })
     // Find all accounts that don't yet exist but are selected to connect
     const selectedAccounts = allAccounts.filter(({ connect }) => connect)
-    // Disable button if country is not set, ad account is not set, or no selected, non-existing accounts
-    const disableButton = !allCountriesSet || !allAdAccountsSet || (!selectedAccounts.length && !everyAccountExists)
+    // Disable button if no selected, non-existing accounts
+    const disableButton = !selectedAccounts.length && !everyAccountExists
     setButtonDisabled(disableButton)
-
-    if (!disableButton) {
-      setDisabledReason('')
-      return
-    }
-
-    if (!allAdAccountsSet) {
-      setDisabledReason('Please select an ad account for each account you want to connect.')
-    }
-
-    if (!allCountriesSet) {
-      setDisabledReason('Please select a country for each account you want to connect.')
-    }
 
     if (!selectedAccounts.length) {
       setDisabledReason('Please select at least one account')
+      return
+    }
+
+    if (!disableButton) {
+      setDisabledReason('')
     }
   }, [artistAccounts, setDisabledReason, setButtonDisabled])
 

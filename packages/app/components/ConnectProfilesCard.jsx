@@ -40,9 +40,9 @@ const ConnectProfilesCard = ({
           </div>
         </div>
         {/* NAME */}
-        <p className="font-bold font-body text-md mb-2">{name}
-          {instagram_username && <div className="font-normal"> (@{instagram_username})</div>}
-        </p>
+        <div className="font-bold font-body text-md">{name}
+          {instagram_username && <p className="mb-0 font-normal"> (@{instagram_username})</p>}
+        </div>
         {/* CONNECT BUTTON */}
         <div className="ml-auto">
           <ToggleSwitch

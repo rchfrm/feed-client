@@ -21,16 +21,13 @@ import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnect
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
-import { sortArrayByKey } from '@/helpers/utils'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
   const { type: actionType, payload } = action
-  const artistAccount = draftState[payload.id] || {}
-  const { available_facebook_ad_accounts: availableAdAccounts } = artistAccount
-  const selectedAdAccount = actionType === 'update-artist-adaccount' ? availableAdAccounts.find(({ id }) => id === payload.value) : null
+
   switch (actionType) {
     case 'add-artists':
       Object.entries(payload.artists).forEach(([key, value]) => {
@@ -39,13 +36,6 @@ const artistsReducer = (draftState, action) => {
       break
     case 'toggle-connect':
       draftState[payload.id].connect = !draftState[payload.id].connect
-      break
-    case 'update-artist':
-      draftState[payload.id][payload.field] = payload.value
-      break
-    case 'update-artist-adaccount':
-      draftState[payload.id].adaccount_id = payload.value
-      draftState[payload.id].selected_facebook_ad_account = selectedAdAccount
       break
     default:
       throw new Error(`Could not find ${actionType} in artistsReducer`)
@@ -114,7 +104,7 @@ const ConnectProfilesLoader = ({
       return
     }
     setFetchedArtistsFinished(true)
-    const { accounts: artists, adaccounts: adAccounts } = artistsAndAccounts
+    const { accounts: artists } = artistsAndAccounts
     // Error if no artist accounts
     if (Object.keys(artists).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
@@ -129,23 +119,9 @@ const ConnectProfilesLoader = ({
     // Remove profiles that have already been connected
     const userArtists = user?.artists || []
     const artistsFiltered = !user.artists.length ? artists : artistHelpers.removeAlreadyConnectedArtists(artists, userArtists)
-    // Sort ad accounts
-    const adAccountsSorted = sortArrayByKey(adAccounts, 'name')
     // Add ad accounts to artists
-    const processedArtists = await artistHelpers.addAdAccountsToArtists({ artists: artistsFiltered, adAccounts: adAccountsSorted })
+    const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
     if (!isMounted()) return
-    // Error if no ad accounts
-    if (!adAccounts.length) {
-      setErrors([...errors, { message: copy.noAdAccountsError }])
-      setPageLoading(false)
-      toggleGlobalLoading(false)
-      // Track
-      fireSentryError({
-        category: 'sign up',
-        action: 'No ad accounts were found after running artistHelpers.getArtistOnSignUp()',
-      })
-      return
-    }
     setArtistAccounts({
       type: 'add-artists',
       payload: {
