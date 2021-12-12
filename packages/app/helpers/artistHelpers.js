@@ -15,13 +15,11 @@ export const createArtist = async (artist, accessToken, token) => {
   return api.post('/artists', {
     name: artist.name,
     location: null,
-    country_code: artist.country_code,
     integrations: {
       facebook: {
         page_id: artist.page_id,
         access_token: accessToken,
         instagram_id: artist.instagram_id,
-        adaccount_id: artist.selected_facebook_ad_account.id,
       },
     },
   }, token)

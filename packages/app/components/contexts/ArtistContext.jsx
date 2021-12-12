@@ -165,7 +165,7 @@ function ArtistProvider({ children }) {
       artistDraft.spotifyConnected = spotifyConnected
       artistDraft.missingDefaultLink = missingDefaultLink
       artistDraft.integrations = integrationsFormatted
-      artistDraft.feedMinBudgetInfo = feedMinBudgetInfo
+      artistDraft.feedMinBudgetInfo = feedMinBudgetInfo || {}
       artistDraft.isSpendingPaused = isSpendingPaused
     })
 

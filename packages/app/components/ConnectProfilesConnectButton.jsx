@@ -35,7 +35,6 @@ const ConnectProfilesConnectButton = ({
     return Object.values(artistAccounts).filter(({ connect }) => connect)
   }, [artistAccounts])
 
-
   const runCreateArtists = React.useCallback(async () => {
     toggleGlobalLoading(true)
     setIsConnecting(true)

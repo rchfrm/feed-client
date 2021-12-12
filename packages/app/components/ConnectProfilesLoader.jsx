@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
@@ -8,6 +9,8 @@ import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
@@ -23,6 +26,7 @@ import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnect
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
+import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
@@ -51,6 +55,7 @@ const ConnectProfilesLoader = ({
   const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const { user, userLoading } = React.useContext(UserContext)
+  const { connectArtists } = React.useContext(ArtistContext)
   // Get any missing scopes
   const { missingScopes } = auth
 
@@ -119,6 +124,22 @@ const ConnectProfilesLoader = ({
     // Remove profiles that have already been connected
     const userArtists = user?.artists || []
     const artistsFiltered = !user.artists.length ? artists : artistHelpers.removeAlreadyConnectedArtists(artists, userArtists)
+    // Handle connecting a single artist
+    if (Object.keys(artistsFiltered).length === 1) {
+      const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
+      toggleGlobalLoading(true)
+      setIsConnecting(true)
+      // Santise URLs
+      const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
+      const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
+      if (error) {
+        toggleGlobalLoading(false)
+        setIsConnecting(false)
+        setErrors(errors => [...errors, error])
+        return
+      }
+      Router.push(ROUTES.HOME)
+    }
     // Add ad accounts to artists
     const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
     if (!isMounted()) return
