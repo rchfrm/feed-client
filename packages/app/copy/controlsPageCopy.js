@@ -56,17 +56,14 @@ export default {
 
   // CONTROLS WIZARD
   // ----------------
-  controlsWizardLinkStepIntro: `Set-up will only take a minute. First off, let’s set your default link.
+  controlsWizardAdAccountStepIntro: 'Set-up will only take a minute. First off, let us know which Facebook Ad Account we should use to set-up your ads.',
+  controlsWizardLinkStepIntro: `By default where should people go when they click your ads?
 
-  **Where should people go when they click your ads?**`,
-  controlsWizardLinkStepOutro: 'You will be able to change the default link or set different links on specific posts later on.',
-  controlsWizardPostsStepIntro: `Can Feed automatically select which recent posts (last 28 days) are promoted? You can still opt out specific posts from the posts page.
+  You will be able to set different links on specific posts later on.`,
+  controlsWizardPostsStepIntro: `You never know what is going to catch someone’s attention! That’s why Feed makes posts in the last 28 days promotable by default.
 
-  If you choose “No”, you’ll need to manually select posts for Feed to test.
-
-  **Keep recent posts promotable by default?**`,
-  controlsWizardBudgetStepQuestion: '**How much would you like to spend per day in total?**',
-  controlsWizardBudgetRecommendation: 'This amount includes our 10% service fee. We recommend you set an amount that you can sustain over longer periods.',
+  You can still opt out specific posts you don't want Feed to promote.`,
+  controlsWizardBudgetStepIntro: 'This amount includes our 10% service fee. We recommend you set an amount that you can sustain over longer periods.',
   controlsWizardPaymentStepIntro: `Almost there!
 
   Feed charges a 10% service fee on the budget you spend through the platform. The fee is included in the budget you set in the last step, not in addition to it.`,

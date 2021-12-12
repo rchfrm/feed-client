@@ -112,20 +112,18 @@ const ControlsWizardLinkStep = () => {
         )}
       <Error error={error} />
       <Button
-        version="green icon"
+        version="outline-green icon"
         onClick={handleNext}
-        className="w-full mb-6"
+        className="w-1/3 ml-auto mb-6"
         loading={isLoading}
         trackComponentName="ControlsWizardLinkStep"
       >
         Next
         <ArrowAltIcon
           className="ml-3"
-          fill={brandColors.white}
           direction="right"
         />
       </Button>
-      <MarkdownText markdown={copy.controlsWizardLinkStepOutro} />
     </>
   )
 }

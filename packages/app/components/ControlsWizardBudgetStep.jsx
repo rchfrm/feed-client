@@ -78,7 +78,7 @@ const ControlsWizardBudgetStep = () => {
 
   return (
     <>
-      <MarkdownText markdown={copy.controlsWizardBudgetStepQuestion} />
+      <MarkdownText markdown={copy.controlsWizardBudgetStepIntro} />
       <div className="h-26 mb-4 px-6">
         <TargetingBudgetSlider
           sliderStep={sliderStep}
@@ -106,7 +106,6 @@ const ControlsWizardBudgetStep = () => {
           direction="right"
         />
       </Button>
-      <MarkdownText markdown={copy.controlsWizardBudgetRecommendation} className="mb-10" />
     </>
   )
 }
