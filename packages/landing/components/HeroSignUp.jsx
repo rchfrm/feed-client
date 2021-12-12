@@ -43,17 +43,17 @@ export default function HeroSignUp() {
     }
 
     if (!signInMethods.length) {
-      mixpanelExternalLinkClick(joinLink, { queryParams: { email, name: 'Dennis' }, location: trackLocation })
+      mixpanelExternalLinkClick(joinLink, { queryParams: { email }, location: trackLocation })
       return
     }
 
     if (signInMethods.length === 1 && signInMethods[0] === 'password') {
-      mixpanelExternalLinkClick(loginLink, { queryParams: { email }, location: trackLocation })
+      mixpanelExternalLinkClick(`${loginLink}/email`, { queryParams: { email }, location: trackLocation })
       return
     }
 
     if (signInMethods.length === 1 && signInMethods[0] === 'facebook.com') {
-      mixpanelExternalLinkClick(loginLink, { queryParams: { email }, location: trackLocation })
+      mixpanelExternalLinkClick(`${loginLink}/facebook`, { queryParams: { email }, location: trackLocation })
       return
     }
 

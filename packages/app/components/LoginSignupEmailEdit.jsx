@@ -14,7 +14,7 @@ const LoginSignupEmailEdit = ({ email, isEmailEdit, setIsEmailEdit }) => {
         className={[
           'h-8',
           'bg-insta',
-          'rounded-full text-xs',
+          'rounded-full',
         ].join(' ')}
         onClick={() => setIsEmailEdit(!isEmailEdit)}
         trackComponentName="LoginSignupEmailEdit"
