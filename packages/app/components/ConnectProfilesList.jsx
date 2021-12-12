@@ -57,12 +57,6 @@ const ConnectProfilesList = ({
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
   }, [artistAccounts])
 
-  const cardClasses = [
-    'mb-8 xs:mb-0',
-    'col-span-6',
-    'lg:col-span-4',
-  ].join(' ')
-
   return (
     <ul
       className={[
@@ -73,34 +67,27 @@ const ConnectProfilesList = ({
         className,
       ].join(' ')}
     >
-      {artistAccountsArray.map((artistAccount, index) => {
-        return (
-          <React.Fragment key={artistAccount.page_id}>
-            {index === 2 && (
-              <ConnectProfilesFacebookConnectCard
-                auth={auth}
-                errors={errors}
+      <div className="col-span-12 sm:col-span-5 mb-12 sm:mb-0">
+        {artistAccountsArray.map((artistAccount, index) => {
+          return (
+            <React.Fragment key={index}>
+              <ConnectProfilesCard
+                artist={artistAccount}
+                updateArtists={updateArtists}
                 setErrors={setErrors}
-                className={cardClasses}
+                className="mb-6"
               />
-            )}
-            <ConnectProfilesCard
-              artist={artistAccount}
-              updateArtists={updateArtists}
-              setErrors={setErrors}
-              className={cardClasses}
-            />
-          </React.Fragment>
-        )
-      })}
-      {artistAccountsArray.length < 3 && (
+            </React.Fragment>
+          )
+        })}
+      </div>
+      <div className="col-span-12 sm:col-span-6 sm:col-start-7">
         <ConnectProfilesFacebookConnectCard
           auth={auth}
           errors={errors}
           setErrors={setErrors}
-          className={cardClasses}
         />
-      )}
+      </div>
     </ul>
   )
 }

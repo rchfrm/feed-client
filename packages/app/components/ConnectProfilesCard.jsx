@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 
-import ConnectProfilesCardCountry from '@/app/ConnectProfilesCardCountry'
-import ConnectProfilesCardAdAccount from '@/app/ConnectProfilesCardAdAccount'
-
 const ConnectProfilesCard = ({
   artist,
   updateArtists,
@@ -31,47 +28,28 @@ const ConnectProfilesCard = ({
         className,
       ].join(' ')}
     >
-      <div className="flex justify-between flex-column">
-        {/* NAME */}
-        <p className="font-bold font-body text-md mb-2">{name}
-          {instagram_username && <span className="font-normal"> (@{instagram_username})</span>}
-        </p>
+      <div className="flex items-center">
         {/* IMAGE */}
-        <div className="w-full">
+        <div className="w-16 h-16 mr-8">
           <div className="media media--square mb-4">
             <img
-              className={['center--image rounded-dialogue'].join(' ')}
+              className={['center--image rounded-full'].join(' ')}
               src={artist.picture}
               alt={`${artist.name} Facebook profile photo`}
             />
           </div>
         </div>
-      </div>
-      {/* COUNTRY SELECT */}
-      <ConnectProfilesCardCountry
-        artist={artist}
-        updateArtists={updateArtists}
-        className="mb-4"
-      />
-      {/* AD ACCOUNT */}
-      <ConnectProfilesCardAdAccount
-        artist={artist}
-        updateArtists={updateArtists}
-        className="mb-4"
-      />
-      {/* CONNECT BUTTON */}
-      <div
-        className={[
-          'flex items-center justify-between w-full',
-          'h-14 rounded-button px-4',
-          'bg-grey-1',
-        ].join(' ')}
-      >
-        <p className="mb-0 font-bold">Connect</p>
-        <ToggleSwitch
-          state={connect}
-          onChange={onConnectClick}
-        />
+        {/* NAME */}
+        <p className="font-bold font-body text-md mb-2">{name}
+          {instagram_username && <div className="font-normal"> (@{instagram_username})</div>}
+        </p>
+        {/* CONNECT BUTTON */}
+        <div className="ml-auto">
+          <ToggleSwitch
+            state={connect}
+            onChange={onConnectClick}
+          />
+        </div>
       </div>
     </li>
   )

@@ -14,8 +14,6 @@ const ConnectProfilesFacebookConnectCard = ({
   return (
     <li className={[
       className,
-      'flex flex-column justify-center items-center',
-      'text-center p-12',
     ].join(' ')}
     >
       <MarkdownText className="text-lg font-bold" markdown={copy.connectCardTitle} />
@@ -25,7 +23,7 @@ const ConnectProfilesFacebookConnectCard = ({
         setErrors={setErrors}
         buttonText="Connect more"
         trackComponentName="ConnectProfilesFacebookConnectCard"
-        className="w-full max-w-md mb-12"
+        className="w-full xs:w-1/2"
       />
     </li>
   )
