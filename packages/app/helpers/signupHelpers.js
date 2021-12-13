@@ -24,10 +24,6 @@ export const redirectPage = (newPathname, currentPathname, useRejectedPagePath =
 
 // KICK TO LOGIN (if necessary)
 export const kickToLogin = ({ initialPathname, initialFullPath, setRejectedPagePath }) => {
-  // If on signup email page, just go to plain signup
-  if (initialPathname === ROUTES.SIGN_UP_EMAIL) {
-    return redirectPage(ROUTES.SIGN_UP, initialPathname)
-  }
   // Only kick to login if user is on restricted page
   if (ROUTES.restrictedPages.includes(initialPathname)) {
     setRejectedPagePath(initialFullPath)
