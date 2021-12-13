@@ -70,7 +70,7 @@ const SignupEmailForm = ({ initialEmail }) => {
     }
   }
 
-  const { signupWithEmail } = useSignup()
+  const { signupWithEmail, rejectNewUser } = useSignup()
 
   // * HANDLE FORM SUBMIT
   const handleSubmit = async (e) => {
@@ -100,8 +100,6 @@ const SignupEmailForm = ({ initialEmail }) => {
     // Create user on server
     const { res: user, error } = await runCreateUser({ firstName: '', lastName: '' })
     if (error) {
-      setError(error)
-      scrollTop()
       toggleGlobalLoading(false)
       // Sentry error
       fireSentryError({
@@ -110,6 +108,7 @@ const SignupEmailForm = ({ initialEmail }) => {
         description: error.message,
         label: email,
       })
+      return rejectNewUser({ redirectTo: ROUTES.SIGN_UP, errorMessage: error.message })
     }
     trackSignUp({ authProvider: 'password', userId: user.id })
     Router.push(ROUTES.POSTS)
