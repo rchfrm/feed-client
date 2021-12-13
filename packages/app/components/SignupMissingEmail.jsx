@@ -6,7 +6,6 @@ import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
-import { AuthContext } from '@/contexts/AuthContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
@@ -19,50 +18,36 @@ import copy from '@/app/copy/signupCopy'
 
 import styles from '@/LoginPage.module.css'
 
-
 const SignupMissingEmail = ({ fbEmail, className }) => {
   // GET AUTH and ARTIST context
-  const { auth: { authProfile } } = React.useContext(AuthContext)
   const { setNoArtist } = React.useContext(ArtistContext)
   const [email, setEmail] = React.useState(fbEmail)
   const [isEmailValid, setIsEmailValid] = React.useState(false)
   const [showEmailError, setShowEmailError] = React.useState(false)
-  const [firstName, setFirstName] = React.useState(authProfile.first_name)
-  const [lastName, setLastName] = React.useState(authProfile.last_name)
   const [loading, setLoading] = React.useState(false)
-  const [isFormValid, setIsFormValid] = React.useState(false)
   const [error, setError] = React.useState(null)
   // TEST EMAIL VALIDITY
   React.useEffect(() => {
     const isEmailValid = testValidEmail(email)
     setIsEmailValid(isEmailValid)
   }, [email])
-  // TEST FORM VALIDITY
-  React.useEffect(() => {
-    const isFormValid = firstName && lastName && isEmailValid
-    setIsFormValid(isFormValid)
-  }, [firstName, lastName, isEmailValid])
   // GET USER CREATION
   const { runCreateUser, setUserLoading } = React.useContext(UserContext)
   // Submit form
   const onSubmit = async (e) => {
     e.preventDefault()
-    if (!isFormValid) return
+    if (!isEmailValid) return
     setLoading(true)
     setUserLoading(true)
     // STORE USER
-    const { res: user, error } = await runCreateUser({
-      firstName,
-      lastName,
-      email,
-    })
+    const { res: user, error } = await runCreateUser(email)
     if (error) {
       setError(error)
       setUserLoading(false)
       setLoading(false)
       return
     }
-    // Clear artists (beacuse new user)
+    // Clear artists (because new user)
     setNoArtist()
     // Stop loading
     setUserLoading(false)
@@ -87,7 +72,6 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
         <Input
           name="emailContact"
           label="Contact email"
-          // placeholder="Contact email"
           value={email}
           updateValue={setEmail}
           type="email"
@@ -97,30 +81,10 @@ const SignupMissingEmail = ({ fbEmail, className }) => {
             setShowEmailError(true)
           }}
         />
-        {/* FIRST NAME */}
-        {!authProfile.first_name && (
-          <Input
-            name="firstName"
-            label="First name"
-            value={firstName}
-            updateValue={setFirstName}
-            type="text"
-          />
-        )}
-        {/* LAST NAME */}
-        {!authProfile.last_name && (
-          <Input
-            name="lastName"
-            label="Last name"
-            value={lastName}
-            updateValue={setLastName}
-            type="text"
-          />
-        )}
         {/* SUBMIT BUTTON */}
         <Button
           version="black wide"
-          disabled={!isFormValid}
+          disabled={!isEmailValid}
           type="sumbit"
           loading={loading}
           className="ml-auto"

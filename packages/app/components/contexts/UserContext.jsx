@@ -68,14 +68,12 @@ function UserProvider({ children }) {
   // Get Getter to read reffere code from store
   const getStoredReferrerCode = useReferralStore(getGetStoredReferrerCode)
 
-  const runCreateUser = React.useCallback(async ({ firstName, lastName, email }) => {
+  const runCreateUser = React.useCallback(async (email) => {
     setUserLoading(true)
     // Get referrer code (from local storage)
     const referrerCode = getStoredReferrerCode()
     // Create user in DB
     const { res: newUser, error: errorCreatingUser } = await sharedServer.createUser({
-      firstName,
-      lastName,
       ...(email && { email }),
       referrerCode,
     })

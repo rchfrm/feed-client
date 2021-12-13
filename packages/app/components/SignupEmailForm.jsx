@@ -98,7 +98,7 @@ const SignupEmailForm = ({ initialEmail }) => {
       })
     if (!signupRes) return
     // Create user on server
-    const { res: user, error } = await runCreateUser({ firstName: '', lastName: '' })
+    const { res: user, error } = await runCreateUser()
     if (error) {
       toggleGlobalLoading(false)
       // Sentry error
