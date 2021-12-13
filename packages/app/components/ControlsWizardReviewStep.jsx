@@ -23,7 +23,7 @@ const ControlsWizardReviewStep = () => {
     <>
       <MarkdownText markdown={copy.controlsWizardReviewStepIntro} />
       <Button
-        version="outline-green icon"
+        version="green icon"
         onClick={goToPostsPage}
         spinnerFill={brandColors.white}
         className="w-full mb-10"

@@ -51,6 +51,28 @@ export const getArtist = async (artistId, accessToken) => {
   return { artist }
 }
 
+// Update ad account
+/**
+* @param {string} artistId
+* @param {string} adAccountId
+* @returns {Promise<object>} { res, error }
+*/
+export const updateAdAccount = (artistId, adAccountId) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    integrations: {
+      facebook: {
+        adaccount_id: adAccountId,
+      },
+    },
+  }
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Set ad account ID',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
 
 /**
  * Create sorted array of artist accounts

@@ -116,30 +116,7 @@ function ArtistProvider({ children }) {
     toggleGlobalLoading(false)
   }
 
-  const storeArtist = React.useCallback(async (id) => {
-    // TODO : Store previously selected artists in state,
-    //  then if the user switches back to that artist, there doesn't need to be a new server call
-    setArtistLoading(true)
-    setIsControlsLoading(true)
-    toggleGlobalLoading(true)
-    // Get artist information from server
-    const { artist, error } = await artistHelpers.getArtist(id)
-    if (error) {
-      setArtistLoading(false)
-      // Sentry error
-      fireSentryError({
-        category: 'sign up',
-        action: 'Could not get artist using artistHelpers.getArtist(id)',
-        description: error.message,
-        label: `artistId: ${id}`,
-      })
-      return {
-        error: { message: `Error fetching artist ID: ${id}` },
-      }
-    }
-
-    if (!artist) return
-
+  const updateArtist = React.useCallback((artist) => {
     // Test whether artist is musician
     const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
@@ -178,9 +155,36 @@ function ArtistProvider({ children }) {
         artist: artistUpdated,
       },
     })
+  }, [setArtist])
+
+  const storeArtist = React.useCallback(async (id) => {
+    // TODO : Store previously selected artists in state,
+    //  then if the user switches back to that artist, there doesn't need to be a new server call
+    setArtistLoading(true)
+    setIsControlsLoading(true)
+    toggleGlobalLoading(true)
+    // Get artist information from server
+    const { artist, error } = await artistHelpers.getArtist(id)
+    if (error) {
+      setArtistLoading(false)
+      // Sentry error
+      fireSentryError({
+        category: 'sign up',
+        action: 'Could not get artist using artistHelpers.getArtist(id)',
+        description: error.message,
+        label: `artistId: ${id}`,
+      })
+      return {
+        error: { message: `Error fetching artist ID: ${id}` },
+      }
+    }
+
+    if (!artist) return
+
+    updateArtist(artist)
     setArtistLoading(false)
     return { artist }
-  }, [setArtist, toggleGlobalLoading, setIsControlsLoading])
+  }, [toggleGlobalLoading, setIsControlsLoading, updateArtist])
 
   /**
    * @param {array} artistAccounts
@@ -315,6 +319,7 @@ function ArtistProvider({ children }) {
     setPostPreferences,
     storeArtist,
     updateBudget,
+    updateArtist,
     updateSpendingPaused,
     hasBudget,
     featureFlags,

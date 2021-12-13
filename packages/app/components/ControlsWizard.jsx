@@ -12,6 +12,7 @@ import { WizardContextProvider } from '@/app/contexts/WizardContext'
 
 const ControlsWizard = ({
   setIsWizardActive,
+  adAccountId,
   defaultLinkId,
   budget,
   defaultPaymentMethod,
@@ -23,7 +24,7 @@ const ControlsWizard = ({
       id: 0,
       title: 'Select Facebook Ad Account',
       component: <ControlsWizardAdAccountStep />,
-      shouldSkip: false,
+      shouldSkip: Boolean(adAccountId),
     },
     {
       id: 1,
@@ -83,6 +84,7 @@ const ControlsWizard = ({
 ControlsWizard.propTypes = {
   setIsWizardActive: PropTypes.func.isRequired,
   defaultLinkId: PropTypes.string,
+  adAccountId: PropTypes.string,
   budget: PropTypes.number.isRequired,
   defaultPaymentMethod: PropTypes.object,
   isProfilePartOfOrganisation: PropTypes.bool,
@@ -91,6 +93,7 @@ ControlsWizard.propTypes = {
 ControlsWizard.defaultProps = {
   defaultPaymentMethod: null,
   defaultLinkId: '',
+  adAccountId: '',
   isProfilePartOfOrganisation: false,
 }
 

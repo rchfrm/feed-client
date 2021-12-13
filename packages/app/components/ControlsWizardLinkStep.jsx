@@ -113,6 +113,7 @@ const ControlsWizardLinkStep = () => {
       <Error error={error} />
       <Button
         version="outline-green icon"
+        spinnerFill={brandColors.black}
         onClick={handleNext}
         className="w-1/3 ml-auto mb-6"
         loading={isLoading}

@@ -94,8 +94,8 @@ const ControlsWizardBudgetStep = () => {
       </div>
       <Button
         version="outline-green icon"
-        onClick={handleNext}
         spinnerFill={brandColors.black}
+        onClick={handleNext}
         className="w-full mb-6"
         loading={targetingLoading}
         trackComponentName="ControlsWizardBudgetStep"
