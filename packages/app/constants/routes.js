@@ -1,7 +1,6 @@
 // * APP VERSION
 
 export const SIGN_UP = '/join'
-export const SIGN_UP_MISSING_EMAIL = '/join/missing-email'
 export const CONFIRM_EMAIL = '/confirm-email'
 export const REFERRAL = '/join/referral'
 export const LOGIN = '/login'
@@ -36,7 +35,6 @@ export const HOME = POSTS
 
 // Array of RESTRICTED PAGES
 export const restrictedPages = [
-  SIGN_UP_MISSING_EMAIL,
   CONFIRM_EMAIL,
   CONNECT_ACCOUNTS,
   THANK_YOU,
