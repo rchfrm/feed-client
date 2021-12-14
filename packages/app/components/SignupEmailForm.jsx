@@ -127,6 +127,16 @@ const SignupEmailForm = ({ initialEmail }) => {
     })
   }
 
+  React.useEffect(() => {
+    const reCaptchaEl = document.getElementsByClassName('grecaptcha-badge')[0]
+    reCaptchaEl.style.top = '14px'
+    reCaptchaEl.style.visibility = 'visible'
+
+    return () => {
+      reCaptchaEl.style.visibility = 'hidden'
+    }
+  }, [])
+
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       <Error className={styles.error} error={error} />
