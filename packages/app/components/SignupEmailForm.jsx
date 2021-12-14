@@ -97,21 +97,34 @@ const SignupEmailForm = ({ initialEmail }) => {
         })
       })
     if (!signupRes) return
-    // Create user on server
-    const { res: user, error } = await runCreateUser()
-    if (error) {
-      toggleGlobalLoading(false)
-      // Sentry error
-      fireSentryError({
-        category: 'sign up',
-        action: 'createUser() with password failed',
-        description: error.message,
-        label: email,
-      })
-      return rejectNewUser({ redirectTo: ROUTES.SIGN_UP, errorMessage: error.message })
-    }
-    trackSignUp({ authProvider: 'password', userId: user.id })
-    Router.push(ROUTES.POSTS)
+
+    window.grecaptcha.enterprise.ready(async () => {
+      // Generate reCAPTCHA token to evaluate user interaction risks
+      const verificationAction = 'register'
+      const verificationToken = await window.grecaptcha.enterprise.execute(process.env.recaptcha_key, { action: verificationAction })
+
+      // Create user on server
+      const { res: user, error } = await runCreateUser({ verificationToken, verificationAction })
+      if (error) {
+        toggleGlobalLoading(false)
+        // Sentry error
+        fireSentryError({
+          category: 'sign up',
+          action: 'createUser() with password failed',
+          description: error.message,
+          label: email,
+        })
+        return rejectNewUser({ redirectTo: ROUTES.SIGN_UP, errorMessage: error.message })
+      }
+
+      if (user.is_email_verification_needed) {
+        Router.push(ROUTES.CONFIRM_EMAIL)
+        return
+      }
+
+      trackSignUp({ authProvider: 'password', userId: user.id })
+      Router.push(ROUTES.POSTS)
+    })
   }
 
   return (
