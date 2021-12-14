@@ -22,8 +22,6 @@ import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpe
 import * as ROUTES from '@/app/constants/routes'
 import styles from '@/LoginPage.module.css'
 
-const scrollTop = () => window.scrollTo(0, 0)
-
 const SignupEmailForm = ({ initialEmail }) => {
   const [email, setEmail] = React.useState(initialEmail)
   const [password, setPassword] = React.useState('')
@@ -86,7 +84,6 @@ const SignupEmailForm = ({ initialEmail }) => {
     const signupRes = await signupWithEmail(email, password)
       .catch((error) => {
         setError(error)
-        scrollTop()
         toggleGlobalLoading(false)
         // Sentry error
         fireSentryError({
@@ -127,12 +124,25 @@ const SignupEmailForm = ({ initialEmail }) => {
     })
   }
 
-  React.useEffect(() => {
+  const showReCaptchaBadge = (_, observer) => {
     const reCaptchaEl = document.getElementsByClassName('grecaptcha-badge')[0]
-    reCaptchaEl.style.top = '14px'
-    reCaptchaEl.style.visibility = 'visible'
+
+    if (reCaptchaEl) {
+      reCaptchaEl.style.top = '14px'
+      reCaptchaEl.style.visibility = 'visible'
+      observer.disconnect()
+    }
+  }
+
+  React.useEffect(() => {
+    /* There’s no guarantee that the reCaptcha DOM element exist on page load.
+    So we watch the document body and apply styling once the element does exist. */
+    const observer = new MutationObserver(showReCaptchaBadge)
+
+    observer.observe(document.body, { childList: true, subtree: true })
 
     return () => {
+      const reCaptchaEl = document.getElementsByClassName('grecaptcha-badge')[0]
       reCaptchaEl.style.visibility = 'hidden'
     }
   }, [])
