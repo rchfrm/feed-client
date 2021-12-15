@@ -100,7 +100,7 @@ const ConnectProfilesLoader = ({
     if (!accessToken) return toggleGlobalLoading(false)
     // START FETCHING ARTISTS
     setPageLoading(true)
-    const { res: artistsAndAccounts, error } = await artistHelpers.getArtistOnSignUp(accessToken)
+    const { res, error } = await artistHelpers.getArtistOnSignUp(accessToken)
     if (error) {
       if (!isMounted()) return
       setErrors([error])
@@ -109,9 +109,9 @@ const ConnectProfilesLoader = ({
       return
     }
     setFetchedArtistsFinished(true)
-    const { accounts: artists } = artistsAndAccounts
+    const { accounts: artistAccounts } = res
     // Error if no artist accounts
-    if (Object.keys(artists).length === 0) {
+    if (Object.keys(artistAccounts).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
       setPageLoading(false)
       toggleGlobalLoading(false)
@@ -123,7 +123,7 @@ const ConnectProfilesLoader = ({
     }
     // Remove profiles that have already been connected
     const userArtists = user?.artists || []
-    const artistsFiltered = !user.artists.length ? artists : artistHelpers.removeAlreadyConnectedArtists(artists, userArtists)
+    const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
     // Handle connecting a single artist
     if (Object.keys(artistsFiltered).length === 1) {
       const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
@@ -152,7 +152,6 @@ const ConnectProfilesLoader = ({
     setPageLoading(false)
     toggleGlobalLoading(false)
   }, [userLoading, isConnecting])
-
 
   // Set initial error (if any)
   React.useEffect(() => {

@@ -51,6 +51,21 @@ export const getArtist = async (artistId, accessToken) => {
   return { artist }
 }
 
+// Get all available ad accounts
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
+export const getAdAccounts = async (artistId) => {
+  const requestUrl = `/artists/${artistId}/available_adaccounts`
+  const payload = {}
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Get available ad accounts',
+  }
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
 // Update ad account
 /**
 * @param {string} artistId

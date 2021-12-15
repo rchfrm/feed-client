@@ -10,7 +10,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-import { updateAdAccount, getArtistOnSignUp, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/controlsPageCopy'
 import brandColors from '../../shared/constants/brandColors'
@@ -30,7 +30,7 @@ const ControlsWizardAdAccountStep = () => {
     if (!isMounted()) return
 
     setIsLoadingAdAccountOptions(true)
-    const { res: { adaccounts: adAccounts } } = await getArtistOnSignUp('')
+    const { res: { adaccounts: adAccounts } } = await getAdAccounts(artistId)
     const options = adAccounts.map(({ id, name }) => ({ name, value: id }))
     setAdAccountOptions(options)
     setIsLoadingAdAccountOptions(false)
