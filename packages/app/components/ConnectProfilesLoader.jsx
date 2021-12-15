@@ -19,6 +19,7 @@ import ButtonHelp from '@/elements/ButtonHelp'
 import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectButton from '@/app/ConnectProfilesConnectButton'
+import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
 import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 
@@ -52,7 +53,7 @@ const ConnectProfilesLoader = ({
   className,
 }) => {
   // IMPORT CONTEXTS
-  const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
+  const { auth, accessToken, authError, setAuthError, isFacebookRedirect } = React.useContext(AuthContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
@@ -124,22 +125,6 @@ const ConnectProfilesLoader = ({
     // Remove profiles that have already been connected
     const userArtists = user?.artists || []
     const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
-    // Handle connecting a single artist
-    if (Object.keys(artistsFiltered).length === 1) {
-      const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
-      toggleGlobalLoading(true)
-      setIsConnecting(true)
-      // Santise URLs
-      const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
-      const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
-      if (error) {
-        toggleGlobalLoading(false)
-        setIsConnecting(false)
-        setErrors(errors => [...errors, error])
-        return
-      }
-      Router.push(ROUTES.HOME)
-    }
     // Add ad accounts to artists
     const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
     if (!isMounted()) return
@@ -149,6 +134,24 @@ const ConnectProfilesLoader = ({
         artists: processedArtists,
       },
     })
+    // Handle connecting a single artist
+    if (Object.keys(processedArtists).length === 1 && isFacebookRedirect) {
+      setPageLoading(false)
+      toggleGlobalLoading(false)
+      const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
+      // Santise URLs
+      const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
+      setIsConnecting(true)
+      const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
+      if (error) {
+        setIsConnecting(false)
+        setErrors(errors => [...errors, error])
+        setIsConnecting(false)
+        return
+      }
+      Router.push(ROUTES.HOME)
+      return
+    }
     setPageLoading(false)
     toggleGlobalLoading(false)
   }, [userLoading, isConnecting])
@@ -157,6 +160,10 @@ const ConnectProfilesLoader = ({
   React.useEffect(() => {
     setErrors([authError])
   }, [authError])
+
+  if (isConnecting && Object.keys(artistAccounts).length > 0) {
+    return <ConnectProfilesIsConnecting artistAccounts={artistAccounts} />
+  }
 
   if (pageLoading || isConnecting) return <Spinner />
 

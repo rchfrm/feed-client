@@ -23,10 +23,10 @@ const ControlsWizardReviewStep = () => {
     <>
       <MarkdownText markdown={copy.controlsWizardReviewStepIntro} />
       <Button
-        version="green icon"
+        version="green"
         onClick={goToPostsPage}
         spinnerFill={brandColors.white}
-        className="w-full mb-10"
+        className="w-1/3 ml-auto mb-12"
         trackComponentName="ControlsWizardReviewStep"
       >
         Start!

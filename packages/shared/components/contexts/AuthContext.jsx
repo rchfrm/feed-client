@@ -1,4 +1,5 @@
 import React from 'react'
+import Router from 'next/router'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
@@ -52,6 +53,7 @@ function AuthProvider({ children }) {
   const [redirectType, setRedirectType] = React.useState('')
   const [authLoading, setAuthLoading] = React.useState(false)
   const [rejectedPagePath, setRejectedPagePath] = React.useState('')
+  const [isFacebookRedirect, setIsFacebookRedirect] = React.useState(false)
 
   const setMissingScopes = (scopes) => {
     setAuth({
@@ -131,6 +133,20 @@ function AuthProvider({ children }) {
     setLocalStorage('rejectedPagePath', '')
   }, [])
 
+  const handleRouteChange = React.useCallback(() => {
+    if (isFacebookRedirect) {
+      setIsFacebookRedirect(false)
+    }
+  }, [isFacebookRedirect])
+
+  React.useEffect(() => {
+    Router.events.on('routeChangeStart', handleRouteChange)
+
+    return () => {
+      Router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [handleRouteChange])
+
   const value = {
     accessToken,
     auth,
@@ -148,6 +164,8 @@ function AuthProvider({ children }) {
     rejectedPagePath,
     setRejectedPagePath,
     clearRejectedPathPath,
+    isFacebookRedirect,
+    setIsFacebookRedirect,
   }
 
   return (

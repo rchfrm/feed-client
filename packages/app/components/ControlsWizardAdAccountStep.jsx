@@ -79,9 +79,9 @@ const ControlsWizardAdAccountStep = () => {
       />
       <Error error={error} />
       <Button
-        version="outline-green icon"
+        version="outline-green"
         onClick={handleNext}
-        className="w-1/3 ml-auto mb-6"
+        className="w-1/3 ml-auto mb-12"
         loading={isLoading}
         spinnerFill={brandColors.black}
         trackComponentName="ControlsWizardAdAccountStep"

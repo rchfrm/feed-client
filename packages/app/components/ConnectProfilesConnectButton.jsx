@@ -5,7 +5,8 @@ import Router from 'next/router'
 
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+
+import ConnectProfilesAccountsToConnectList from '@/app/ConnectProfilesAccountsToConnectList'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
@@ -29,26 +30,25 @@ const ConnectProfilesConnectButton = ({
 }) => {
   const { user } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   const accountsToConnect = React.useMemo(() => {
     return Object.values(artistAccounts).filter(({ connect }) => connect)
   }, [artistAccounts])
 
   const runCreateArtists = React.useCallback(async () => {
-    toggleGlobalLoading(true)
     setIsConnecting(true)
     // Santise URLs
     const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(accountsToConnect)
     const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
     if (error) {
-      toggleGlobalLoading(false)
       setIsConnecting(false)
       setErrors(errors => [...errors, error])
+      setIsConnecting(false)
       return
     }
+
     Router.push(ROUTES.HOME)
-  }, [user, accountsToConnect, setErrors, setIsConnecting, toggleGlobalLoading, connectArtists, accessToken])
+  }, [user, accountsToConnect, setErrors, setIsConnecting, connectArtists, accessToken])
 
   return (
     <div
@@ -61,21 +61,11 @@ const ConnectProfilesConnectButton = ({
         {/* LIST OF CONNECTING PROFILES */}
         {!disabledReason && accountsToConnect.length && (
           <div className="text--block">
-            <p>{`You have selected ${accountsToConnect.length} ${accountsToConnect.length === 1 ? 'page' : 'pages'}: `}
-              {accountsToConnect.map((account, index) => {
-                const isLast = index + 1 === accountsToConnect.length
-                const isNextToLast = index + 1 === accountsToConnect.length - 1
-                return (
-                  <span
-                    key={account.page_id}
-                  >
-                    <span className="font-bold">{account.name}</span>
-                    {!isLast && !isNextToLast && ', '}
-                    {isNextToLast && ' and '}
-                  </span>
-                )
-              })}
-            </p>
+            <div>{`You have selected ${accountsToConnect.length} ${accountsToConnect.length === 1 ? 'page' : 'pages'}: `}
+              <ConnectProfilesAccountsToConnectList
+                accountsToConnect={accountsToConnect}
+              />
+            </div>
           </div>
         )}
         {/* DISABLED REASON */}

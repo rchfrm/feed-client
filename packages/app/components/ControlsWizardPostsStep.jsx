@@ -56,7 +56,7 @@ const ControlsWizardPostsStep = () => {
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardPostsStepIntro} />
-      <div className="flex w-1/2 ml-auto mb-10">
+      <div className="flex w-1/2 ml-auto mb-12">
         <Button
           version="outline-black small"
           onClick={() => savePromotableDefaultStatus(false)}
