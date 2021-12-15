@@ -53,7 +53,7 @@ const ControlsWizardAdAccountStep = () => {
 
   const handleNext = () => {
     if (!adAccountId) return
-    // Skip api request if the link hasn't changed
+    // Skip API request if ad account hasn't changed
     if (adAccountId === facebookIntegration?.adaccount_id) {
       next()
       return

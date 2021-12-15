@@ -83,7 +83,7 @@ export const updateAdAccount = (artistId, adAccountId) => {
   }
   const errorTracking = {
     category: 'Artist',
-    action: 'Set ad account ID',
+    action: 'Update ad account',
   }
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
