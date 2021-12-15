@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ConnectProfilesCard from '@/app/ConnectProfilesCard'
-import ConnectProfilesFacebookConnectCard from '@/app/ConnectProfilesFacebookConnectCard'
+import ConnectProfilesItem from '@/app/ConnectProfilesItem'
+import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
@@ -50,22 +50,21 @@ const ConnectProfilesList = ({
         className,
       ].join(' ')}
     >
-      <div className="col-span-12 sm:col-span-5 mb-12 sm:mb-0">
+      <div className="col-span-12 sm:col-span-5 mb-12 xs:mb-0">
         {artistAccountsArray.map((artistAccount, index) => {
           return (
-            <React.Fragment key={index}>
-              <ConnectProfilesCard
-                artist={artistAccount}
-                updateArtists={updateArtists}
-                setErrors={setErrors}
-                className="mb-6"
-              />
-            </React.Fragment>
+            <ConnectProfilesItem
+              key={index}
+              artist={artistAccount}
+              updateArtists={updateArtists}
+              setErrors={setErrors}
+              className="mb-6"
+            />
           )
         })}
       </div>
       <div className="col-span-12 sm:col-span-6 sm:col-start-7">
-        <ConnectProfilesFacebookConnectCard
+        <ConnectProfilesConnectMore
           auth={auth}
           errors={errors}
           setErrors={setErrors}

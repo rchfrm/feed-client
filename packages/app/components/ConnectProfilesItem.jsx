@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 
-const ConnectProfilesCard = ({
+const ConnectProfilesItem = ({
   artist,
   updateArtists,
   className,
@@ -55,14 +55,14 @@ const ConnectProfilesCard = ({
   )
 }
 
-ConnectProfilesCard.propTypes = {
+ConnectProfilesItem.propTypes = {
   artist: PropTypes.object.isRequired,
   updateArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
-ConnectProfilesCard.defaultProps = {
+ConnectProfilesItem.defaultProps = {
   className: null,
 }
 
-export default ConnectProfilesCard
+export default ConnectProfilesItem

@@ -6,7 +6,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/connectProfilesCopy'
 
-const ConnectProfilesFacebookConnectCard = ({
+const ConnectProfilesConnectMore = ({
   errors,
   setErrors,
   className,
@@ -22,22 +22,22 @@ const ConnectProfilesFacebookConnectCard = ({
         errors={errors}
         setErrors={setErrors}
         buttonText="Connect more"
-        trackComponentName="ConnectProfilesFacebookConnectCard"
+        trackComponentName="ConnectProfilesFacebookConnect"
         className="w-full xs:w-1/2"
       />
     </li>
   )
 }
 
-ConnectProfilesFacebookConnectCard.propTypes = {
+ConnectProfilesConnectMore.propTypes = {
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
-ConnectProfilesFacebookConnectCard.defaultProps = {
+ConnectProfilesConnectMore.defaultProps = {
   errors: [],
   className: null,
 }
 
-export default ConnectProfilesFacebookConnectCard
+export default ConnectProfilesConnectMore
