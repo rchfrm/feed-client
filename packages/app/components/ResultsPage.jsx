@@ -12,6 +12,7 @@ const ResultsPage = () => {
   const {
     hasSetUpControls,
     isLoading,
+    adAccountId,
     defaultLinkId,
     defaultPromotionEnabled,
     budget,
@@ -27,6 +28,7 @@ const ResultsPage = () => {
         <div className="col-span-6 col-start-1">
           <ControlsWizard
             setIsWizardActive={setIsWizardActive}
+            adAccountId={adAccountId}
             defaultLinkId={defaultLinkId}
             defaultPromotionEnabled={defaultPromotionEnabled}
             budget={budget}
