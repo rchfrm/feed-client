@@ -88,10 +88,18 @@ body {
   }
 }
 
+.lg,
 .bmw {
   width: 100%;
-  max-width: var(--bmw);
   margin: 0 auto;
+}
+
+.lg {
+  max-width: var(--lg);
+}
+
+.bmw {
+  max-width: var(--bmw);
 }
 
 .page--content {
