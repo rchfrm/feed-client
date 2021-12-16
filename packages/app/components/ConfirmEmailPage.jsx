@@ -12,20 +12,17 @@ import { UserContext } from '@/app/contexts/UserContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
-import Button from '@/elements/Button'
-import PencilIcon from '@/icons/PencilIcon'
 
 import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
 import ConfirmEmailChangeEmail from '@/app/ConfirmEmailChangeEmail'
 import ConfirmEmailEmailSuccess from '@/app/ConfirmEmailEmailSuccess'
+import LoginSignupEmailEdit from '@/app/LoginSignupEmailEdit'
 
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
 import { getUser } from '@/helpers/sharedServer'
 
 import copy from '@/app/copy/signupCopy'
-
-import brandColors from '@/constants/brandColors'
 
 import styles from '@/LoginPage.module.css'
 
@@ -196,26 +193,22 @@ const ConfirmEmailPage = ({
       ].join(' ')}
     >
       {/* INTRO */}
-      <MarkdownText markdown={copy.emailVerify(email)} />
+      <h2>Check your inbox</h2>
+      <MarkdownText markdown={copy.emailVerify(emailType)} />
       {/* ERROR */}
       <Error error={error} />
       {/* CHANGE EMAIL */}
       <div>
-        <p className="mb-5">Didn't receive an email?</p>
-        <div className="xxs:flex justify-between items-center">
-          <ConfirmEmailResendButton
-            emailType={emailType}
-            setError={setError}
-          />
-          <Button
-            version="x-small green icon"
-            onClick={() => setIsChangeEmail(true)}
-            trackComponentName="ConfirmEmailPage"
-          >
-            <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
-            Change email address
-          </Button>
-        </div>
+        <LoginSignupEmailEdit
+          email={email}
+          isEmailEdit={isChangeEmail}
+          setIsEmailEdit={setIsChangeEmail}
+        />
+        <p className="inline-block mb-0">Can’t find the email?</p>
+        <ConfirmEmailResendButton
+          emailType={emailType}
+          setError={setError}
+        />
       </div>
     </div>
   )

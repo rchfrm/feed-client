@@ -11,7 +11,6 @@ const ConfirmEmailResendButton = ({
   buttonText,
   setError,
   parentLoading,
-  className,
 }) => {
   const [emailResent, setEmailResent] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
@@ -36,18 +35,14 @@ const ConfirmEmailResendButton = ({
     }
   }, [emailResent])
   return (
-    <div
-      className={[
-        className,
-      ].join(' ')}
-    >
+    <>
       {emailResent ? (
         <Success message="Email sent" className="mb-0" />
       ) : (
         <Button
-          version="x-small black icon"
+          version="text"
           onClick={resendEmail}
-          className="mb-5 xxs:mb-0"
+          className="ml-1"
           loading={loading}
           disabled={parentLoading}
           trackComponentName="ConfirmEmailResendButton"
@@ -55,7 +50,7 @@ const ConfirmEmailResendButton = ({
           {buttonText}
         </Button>
       )}
-    </div>
+    </>
   )
 }
 
@@ -68,7 +63,7 @@ ConfirmEmailResendButton.propTypes = {
 }
 
 ConfirmEmailResendButton.defaultProps = {
-  buttonText: 'Resend email',
+  buttonText: 'Resend',
   parentLoading: false,
   className: null,
 }
