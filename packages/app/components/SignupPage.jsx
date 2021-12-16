@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { useRouter } from 'next/router'
 import useAsyncEffect from 'use-async-effect'
@@ -23,7 +22,7 @@ const getReferralStoreState = (state) => ({
   getStoredReferrerCode: state.getStoredReferrerCode,
 })
 
-const SignupPage = ({ showEmailSignup }) => {
+const SignupPage = () => {
   // READ STORE
   const {
     testCodeValidity,
@@ -35,12 +34,19 @@ const SignupPage = ({ showEmailSignup }) => {
   // READ CODE FROM QUERY
   const [checking, setChecking] = React.useState(true)
   const [error, setError] = React.useState(null)
+  const [email, setEmail] = React.useState('')
   const { asPath: urlString } = useRouter()
+
   useAsyncEffect(async (isMounted) => {
     const { query } = parseUrl(urlString)
+    const email = decodeURIComponent(query?.email || '')
     const queryCode = query?.code
     const localCode = getStoredReferrerCode()
     const initialReferralCode = queryCode || localCode
+
+    if (email) {
+      setEmail(email)
+    }
     // If no code in query just behave as normal
     if (!initialReferralCode) {
       setChecking(false)
@@ -63,7 +69,6 @@ const SignupPage = ({ showEmailSignup }) => {
     // and has been stored in store and local storage
     storeTrueCode(initialReferralCode)
     setError(null)
-  // eslint-disable-next-line
   }, [])
 
   // STOP HERE IF CHECKING QUERY CODE
@@ -72,21 +77,9 @@ const SignupPage = ({ showEmailSignup }) => {
   return (
     <>
       <Error error={error} />
-      <SignupPageContent
-        showEmailSignup={showEmailSignup}
-        setChecking={setChecking}
-      />
+      <SignupPageContent email={email} />
     </>
   )
 }
-
-SignupPage.propTypes = {
-  showEmailSignup: PropTypes.bool,
-}
-
-SignupPage.defaultProps = {
-  showEmailSignup: false,
-}
-
 
 export default SignupPage
