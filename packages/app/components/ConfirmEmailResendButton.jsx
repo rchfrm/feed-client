@@ -59,13 +59,11 @@ ConfirmEmailResendButton.propTypes = {
   buttonText: PropTypes.string,
   setError: PropTypes.func.isRequired,
   parentLoading: PropTypes.bool,
-  className: PropTypes.string,
 }
 
 ConfirmEmailResendButton.defaultProps = {
   buttonText: 'Resend',
   parentLoading: false,
-  className: null,
 }
 
 export default ConfirmEmailResendButton

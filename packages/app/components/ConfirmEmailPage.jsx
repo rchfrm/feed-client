@@ -163,7 +163,6 @@ const ConfirmEmailPage = ({
     return (
       <ConfirmEmailEmailSuccess
         email={email}
-        contactEmail={contactEmail}
         emailType={emailType}
         onContinue={onSuccessContinue}
         className={styles.container}
@@ -204,7 +203,7 @@ const ConfirmEmailPage = ({
           isEmailEdit={isChangeEmail}
           setIsEmailEdit={setIsChangeEmail}
         />
-        <p className="inline-block mb-0">Can’t find the email?</p>
+        <MarkdownText className="inline-block mb-0" markdown={copy.emailQuestion} />
         <ConfirmEmailResendButton
           emailType={emailType}
           setError={setError}

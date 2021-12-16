@@ -7,13 +7,10 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
-import useSignOut from '@/app/hooks/useSignOut'
-
 import pageCopy from '@/app/copy/signupCopy'
 
 const ConfirmEmailEmailSuccess = ({
   email,
-  contactEmail,
   emailType,
   onContinue,
   className,
@@ -21,26 +18,42 @@ const ConfirmEmailEmailSuccess = ({
   const isAuthEmail = emailType === 'email'
   const { auth: { email: signedInEmail } } = React.useContext(AuthContext)
   const hasAuthEmailChanged = isAuthEmail && (email !== signedInEmail)
-  const emailDisplay = isAuthEmail ? email : contactEmail
   const { emailVerifySuccess: copy } = pageCopy
-  const signOut = useSignOut()
+
+  const [seconds, setSeconds] = React.useState(5)
+  const [intervalId, setIntervalId] = React.useState(0)
+
+  React.useEffect(() => {
+    if (seconds < 0) {
+      clearInterval(intervalId)
+      onContinue()
+    }
+  }, [intervalId, seconds, onContinue])
+
+  React.useEffect(() => {
+    setIntervalId(setInterval(() => setSeconds(prevSecond => prevSecond - 1), 1000))
+    return () => clearInterval(intervalId)
+    // eslint-disable-next-line
+  }, [])
+
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-      <Success message={copy.success(emailDisplay)} />
+      <Success className="mb-2 text-xl" message="Thanks!" />
+      <MarkdownText markdown={copy.success(emailType, hasAuthEmailChanged)} />
       {/* Explain about logging out when changing auth email */}
       {hasAuthEmailChanged && (
         <MarkdownText markdown={copy.logoutExplainer} />
       )}
-      <div className="pt-2">
+      <div className="flex items-center justify-end pt-2">
+        <p className="mr-6 mb-0">{seconds}s</p>
         <Button
           version="green small"
-          className="w-full"
+          className="w-1/3"
           onClick={() => {
-            if (hasAuthEmailChanged) return signOut()
             onContinue()
           }}
           trackComponentName="ConfirmEmailEmailSuccess"
@@ -54,14 +67,12 @@ const ConfirmEmailEmailSuccess = ({
 
 ConfirmEmailEmailSuccess.propTypes = {
   email: PropTypes.string.isRequired,
-  contactEmail: PropTypes.string,
   emailType: PropTypes.string.isRequired,
   onContinue: PropTypes.func,
   className: PropTypes.string,
 }
 
 ConfirmEmailEmailSuccess.defaultProps = {
-  contactEmail: '',
   onContinue: () => {},
   className: null,
 }

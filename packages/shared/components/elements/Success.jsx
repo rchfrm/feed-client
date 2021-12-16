@@ -20,7 +20,7 @@ const Success = ({ message, messagePrefix, className }) => {
         markdown={fullMessage}
         disallowedElements={['paragraph']}
         unwrapDisallowed
-        skipTextBlock
+        className="mb-0"
       />
     </p>
   )
