@@ -37,7 +37,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
 
   // *  HANDLE EXISTING USER
   // -----------------------
-  const handleExistingUser = React.useCallback(async ({ additionalUserInfo, authUser } = {}) => {
+  const handleExistingUser = React.useCallback(async ({ additionalUserInfo } = {}) => {
     fireSentryBreadcrumb({
       category: 'login',
       action: 'handleExistingUser',
@@ -45,13 +45,6 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // If it is a pre-existing user, store their profile in the user context
     const { error } = await storeUser()
     if (error) {
-      // Handle auth users that exist but HAVE NO EMAIL
-      if (authUser && !authUser.email) {
-        setUserLoading(false)
-        const redirectTo = ROUTES.SIGN_UP_MISSING_EMAIL
-        const userRedirected = signupHelpers.redirectPage(redirectTo, initialPathname)
-        return userRedirected
-      }
       // Sentry error
       fireSentryError({
         category: 'sign up',

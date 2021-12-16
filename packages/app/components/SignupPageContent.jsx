@@ -1,47 +1,17 @@
-// IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Router from 'next/router'
-// IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
-// IMPORT COMPONENTS
-import LoginSignupButtons from '@/LoginSignupButtons'
-import SignupPageAddReferral from '@/app/SignupPageAddReferral'
 import SignupEmailForm from '@/app/SignupEmailForm'
-import SignupReferralCodeDisplay from '@/app/SignupReferralCodeDisplay'
-// IMPORT HELPERS
-import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { fireSentryError } from '@/app/helpers/sentryHelpers'
-// IMPORT ELEMENTS
+
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
-// Stores
-import useReferralStore from '@/app/stores/referralStore'
-// Constants
-import * as ROUTES from '@/app/constants/routes'
-// IMPORT COPY
+import TickCircleIcon from '@/icons/TickCircleIcon'
+
 import copy from '@/app/copy/LoginPageCopy'
-// IMPORT STYLES
-import styles from '@/LoginPage.module.css'
 
-const getHasTrueCode = state => state.hasTrueCode
-
-const SignupPageContent = ({
-  showEmailSignup,
-  setChecking,
-}) => {
-  // Handle auth error
+const SignupPageContent = ({ email }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
-  const [error, setError] = React.useState(null)
-
-  // Test for referral code
-  const hasReferralCode = useReferralStore(getHasTrueCode)
-  // Change route when clicking on email button
-  const goToEmailSignup = React.useCallback(() => {
-    setError(null)
-    Router.push(ROUTES.SIGN_UP_EMAIL)
-  }, [])
 
   // Clear auth error when leaving page
   React.useEffect(() => {
@@ -50,64 +20,40 @@ const SignupPageContent = ({
     }
   }, [setAuthError])
 
-  // Calls firebaseHelpers.signupWithFacebook using a redirect,
-  // so that when user is returned to log in page handleRedirect is triggered
-  const facebookSignup = async () => {
-    firebaseHelpers.signUpWithFacebook()
-      .catch((error) => {
-        setError(error)
-        // Sentry error
-        fireSentryError({
-          category: 'sign up',
-          action: 'error clicking on FB button',
-        })
-      })
-  }
-
   return (
-    <div className={styles.container}>
-
-      <Error className={styles.error} error={error || authError} />
-
-      {/* Email login form */}
-      {showEmailSignup ? (
-        // EMAIL LOGIN FORM
-        <SignupEmailForm />
-      ) : (
-        <>
-          <LoginSignupButtons
-            type="join"
-            onFacebookClick={facebookSignup}
-            onEmailClick={goToEmailSignup}
-          />
-          {/*
-            SHOW WHAT REFERRAL CODE IS BEING USED
-            or
-            FORM for ADDING CODE
-          */}
-          {hasReferralCode ? (
-            <SignupReferralCodeDisplay setChecking={setChecking} />
-          ) : (
-            <SignupPageAddReferral />
-          )}
-          {/* Link to login page */}
+    <div className="flex flex-column sm:flex-row mx-auto sm:pt-8 max-w-4xl">
+      <div className="flex-1 pb-5 sm:pb-0 pt-10 sm:order-2">
+        <div className="sm:ml-16">
+          <Error error={authError} />
+          <h1 className="mb-2 text-2xl">Enter {!email ? 'an email and' : 'a'} password to create your account</h1>
+          <MarkdownText className={['small--text'].join(' ')} markdown={copy.tcText('clicking next')} />
+          <SignupEmailForm initialEmail={email} />
+        </div>
+      </div>
+      <div className="flex-1 sm:order-1 pt-15 sm:pt-10 border-solid border-t sm:border-t-0 sm:border-r border-grey-3">
+        <div className="sm:mr-16">
+          <MarkdownText className="mb-10 text-lg" markdown={copy.signupTeaser} />
+          <ul className="mb-10 pl-10">
+            {copy.signupReasons.map((reason) => (
+              <li key={reason} className="flex mb-4">
+                <TickCircleIcon className="w-6 h-6 mr-6" />
+                {reason}
+              </li>
+            ))}
+          </ul>
           <MarkdownText markdown={copy.loginReminder} />
-        </>
-      )}
-
-      <MarkdownText className={[styles.tcText, 'small--text'].join(' ')} markdown={copy.tcText('sign up')} />
+        </div>
+      </div>
     </div>
   )
 }
 
 SignupPageContent.propTypes = {
-  showEmailSignup: PropTypes.bool,
-  setChecking: PropTypes.func.isRequired,
+  email: PropTypes.string,
 }
 
 SignupPageContent.defaultProps = {
-  showEmailSignup: false,
+  email: '',
 }
-
 
 export default SignupPageContent

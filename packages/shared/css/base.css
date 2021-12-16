@@ -63,7 +63,6 @@ body {
   width: 100%;
 
   @media (--md) {
-    margin-left: var(--sp-10);
     padding: 0 var(--sp-16);
   }
 }
@@ -72,6 +71,10 @@ body {
   margin-left: 0 !important;
   padding: 0!important;
   padding-bottom: var(--sp-10) !important;
+
+  @media (--md) {
+    margin-left: var(--sp-10);
+  }
 }
 
 #page--container-landing {
@@ -85,10 +88,18 @@ body {
   }
 }
 
+.lg,
 .bmw {
   width: 100%;
-  max-width: var(--bmw);
   margin: 0 auto;
+}
+
+.lg {
+  max-width: var(--lg);
+}
+
+.bmw {
+  max-width: var(--bmw);
 }
 
 .page--content {

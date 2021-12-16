@@ -1,30 +1,31 @@
-// * APP VERSION
-
-// IMPORT PACKAGES
 import React from 'react'
+import PropTypes from 'prop-types'
 import Router from 'next/router'
 import Link from 'next/link'
-// IMPORT CONTEXTS
+
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-// IMPORT ELEMENTS
+
+import LoginSignupEmailEdit from '@/app/LoginSignupEmailEdit'
+
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-// HOOKS
+import MarkdownText from '@/elements/MarkdownText'
+
 import useLogin from '@/app/hooks/useLogin'
 
 import * as ROUTES from '@/app/constants/routes'
+import copy from '@/app/copy/LoginPageCopy'
 
 import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import styles from '@/LoginPage.module.css'
 
-
-const LoginEmailForm = ({ className }) => {
+const LoginEmailForm = ({ initialEmail, className }) => {
   // IMPORT CONTEXTS
   const { rejectedPagePath } = React.useContext(AuthContext)
   const { storeUser, userError } = React.useContext(UserContext)
@@ -32,8 +33,9 @@ const LoginEmailForm = ({ className }) => {
   // GLOBAL LOADING
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   // DEFINE PAGE STATE
-  const [email, setEmail] = React.useState('')
+  const [email, setEmail] = React.useState(initialEmail)
   const [password, setPassword] = React.useState('')
+  const [isEmailEdit, setIsEmailEdit] = React.useState(!initialEmail)
   const [error, setError] = React.useState(null)
   // GET LOGIN FUNCTION
   const { loginWithEmail } = useLogin()
@@ -118,19 +120,28 @@ const LoginEmailForm = ({ className }) => {
     >
 
       <Error error={userError || error} />
-
-      <Input
-        className={styles.input}
-        name="email"
-        placeholder=""
-        value={email || ''}
-        handleChange={handleChange}
-        type="email"
-        label="Email"
-        version="box"
-        width={100}
-        autoFocus
-      />
+      <h1 className="mb-4 text-xl">Enter your {!initialEmail ? 'email &' : ''} password</h1>
+      <MarkdownText className={[styles.tcText, 'small--text', 'mb-4'].join(' ')} markdown={copy.tcText('logging in')} />
+      {isEmailEdit ? (
+        <Input
+          className={styles.input}
+          name="email"
+          placeholder=""
+          value={email || ''}
+          handleChange={handleChange}
+          type="email"
+          label="Email"
+          version="box"
+          width={100}
+          autoFocus
+        />
+      ) : (
+        <LoginSignupEmailEdit
+          email={email}
+          isEmailEdit={isEmailEdit}
+          setIsEmailEdit={setIsEmailEdit}
+        />
+      )}
 
       <Input
         className={styles.input}
@@ -150,18 +161,28 @@ const LoginEmailForm = ({ className }) => {
       </p>
 
       <Button
-        className={styles.submit}
-        version="black"
+        className={[styles.submit, 'ml-auto'].join(' ')}
+        version="green"
         disabled={false}
         onClick={onFormSubmit}
         type="input"
         trackComponentName="LoginEmailForm"
       >
-        log in.
+        Log in
       </Button>
 
     </form>
   )
+}
+
+LoginEmailForm.propTypes = {
+  initialEmail: PropTypes.string,
+  className: PropTypes.string,
+}
+
+LoginEmailForm.defaultProps = {
+  initialEmail: '',
+  className: null,
 }
 
 export default LoginEmailForm
