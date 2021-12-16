@@ -13,7 +13,7 @@ const Hero = ({
   heroImageDesktop,
 }) => {
   return (
-    <section className="section--padding  bmw">
+    <section className="section--padding lg">
       <div className={['grid', 'grid-cols-12', 'xs:gap-4'].join(' ')}>
         <HeroStrapline partA={heroStraplineA} partB={heroStraplineB} />
         <HeroSignUp />
