@@ -42,6 +42,15 @@ const requiredScopesAccount = produce(requiredScopesSignup, draft => {
 })
 
 
+export const dofetchSignInMethodsForEmail = async (email) => {
+  const res = await auth.fetchSignInMethodsForEmail(email)
+    .catch((error) => {
+      return { error }
+    })
+  if (res.error) return { error: res.error }
+  return { signInMethods: res }
+}
+
 export const doCreateUserWithEmailAndPassword = (email, password) => {
   return auth.createUserWithEmailAndPassword(email, password)
 }
@@ -81,15 +90,6 @@ export const doEmailUpdate = async (email) => {
 export const loginWithFacebook = () => {
   return auth.signInWithRedirect(fbProvider)
 }
-
-
-export const signUpWithFacebook = () => {
-  requiredScopesSignup.forEach(scope => {
-    fbProvider.addScope(scope)
-  })
-  return auth.signInWithRedirect(fbProvider)
-}
-
 
 /**
 * @param {array} requestedPermissions optional array of scope requests

@@ -1,8 +1,8 @@
 import BasePage from '@/app/BasePage'
-import SignupPage from '@/app/SignupPage'
+import LoginPageContent from '@/app/LoginPageContent'
 
 const headerConfig = {
-  text: 'sign up',
+  text: 'log in',
 }
 
 const page = () => (
@@ -11,9 +11,8 @@ const page = () => (
     staticPage
     authPage
   >
-    <SignupPage showEmailSignup />
+    <LoginPageContent showFacebookLogin />
   </BasePage>
 )
-
 
 export default page

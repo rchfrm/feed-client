@@ -1,12 +1,11 @@
 // * APP VERSION
 
 export const SIGN_UP = '/join'
-export const SIGN_UP_EMAIL = '/join/email'
-export const SIGN_UP_MISSING_EMAIL = '/join/missing-email'
 export const CONFIRM_EMAIL = '/confirm-email'
 export const REFERRAL = '/join/referral'
 export const LOGIN = '/login'
 export const LOGIN_EMAIL = '/login/email'
+export const LOGIN_FACEBOOK = '/login/facebook'
 export const PASSWORD_FORGET = '/forgot-password'
 export const PASSWORD_RESET = '/password-reset'
 
@@ -36,7 +35,6 @@ export const HOME = POSTS
 
 // Array of RESTRICTED PAGES
 export const restrictedPages = [
-  SIGN_UP_MISSING_EMAIL,
   CONFIRM_EMAIL,
   CONNECT_ACCOUNTS,
   THANK_YOU,
@@ -55,10 +53,10 @@ export const restrictedPages = [
 // Array of pages that you can access without being signed in
 export const signedOutPages = [
   SIGN_UP,
-  SIGN_UP_EMAIL,
   REFERRAL,
   LOGIN,
   LOGIN_EMAIL,
+  LOGIN_FACEBOOK,
   PASSWORD_FORGET,
   PASSWORD_RESET,
 ]

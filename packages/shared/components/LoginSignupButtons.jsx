@@ -11,6 +11,7 @@ import styles from '@/LoginPage.module.css'
 
 const LoginSignupButtons = ({
   type,
+  isFacebookLogin,
   onFacebookClick,
   onEmailClick,
 }) => {
@@ -25,28 +26,35 @@ const LoginSignupButtons = ({
       >
         {buttonPrefix} Facebook
       </ButtonFacebook>
-      <Button
-        className={styles.emailButton}
-        onClick={onEmailClick}
-        version="black"
-        icon={(
-          <EmailIcon
-            color={brandColors.bgColor}
-            style={{ width: '1.25rem', height: 'auto' }}
-          />
-        )}
-        trackComponentName="LoginSignupButtons"
-      >
-        {buttonPrefix} email
-      </Button>
+      {!isFacebookLogin && (
+        <Button
+          className={styles.emailButton}
+          onClick={onEmailClick}
+          version="black"
+          icon={(
+            <EmailIcon
+              color={brandColors.bgColor}
+              style={{ width: '1.75rem', height: 'auto' }}
+            />
+          )}
+          trackComponentName="LoginSignupButtons"
+        >
+          {buttonPrefix} email
+        </Button>
+      )}
     </div>
   )
 }
 
 LoginSignupButtons.propTypes = {
   type: PropTypes.string.isRequired,
+  isFacebookLogin: PropTypes.bool,
   onFacebookClick: PropTypes.func.isRequired,
   onEmailClick: PropTypes.func.isRequired,
+}
+
+LoginSignupButtons.defaultProps = {
+  isFacebookLogin: false,
 }
 
 export default LoginSignupButtons

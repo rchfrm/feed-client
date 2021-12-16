@@ -9,15 +9,16 @@ const Hero = ({
   heroStraplineA,
   heroStraplineB,
   heroCopy,
-  heroImage,
+  heroImageMobile,
+  heroImageDesktop,
 }) => {
   return (
-    <section className="section--padding  bmw">
+    <section className="section--padding lg">
       <div className={['grid', 'grid-cols-12', 'xs:gap-4'].join(' ')}>
         <HeroStrapline partA={heroStraplineA} partB={heroStraplineB} />
         <HeroSignUp />
         <HeroDescription description={heroCopy} />
-        <HeroImage image={heroImage} />
+        <HeroImage mobile={heroImageMobile} desktop={heroImageDesktop} />
       </div>
     </section>
   )
@@ -27,7 +28,8 @@ Hero.propTypes = {
   heroStraplineA: PropTypes.string.isRequired,
   heroStraplineB: PropTypes.string.isRequired,
   heroCopy: PropTypes.string.isRequired,
-  heroImage: PropTypes.object.isRequired,
+  heroImageMobile: PropTypes.object.isRequired,
+  heroImageDesktop: PropTypes.object.isRequired,
 }
 
 export default Hero
