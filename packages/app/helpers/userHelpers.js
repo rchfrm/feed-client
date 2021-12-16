@@ -1,5 +1,6 @@
 import produce from 'immer'
 import { sortArtistsAlphabetically } from '@/app/helpers/artistHelpers'
+import * as utils from '@/helpers/utils'
 
 export const sortUserArtists = (user) => {
   return produce(user, draft => {
@@ -7,6 +8,11 @@ export const sortUserArtists = (user) => {
   })
 }
 
+export const isForcedEmailConfirmation = (user) => {
+  const isNewUser = utils.testTimeDiff(user.createdAt, 'hours', 24)
+  const isForcedEmailConfirmation = isNewUser && user.is_email_verification_needed && !user.email_verified
+  return isForcedEmailConfirmation
+}
 
 /**
  * @param {object} user

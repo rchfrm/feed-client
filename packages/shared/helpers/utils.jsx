@@ -668,3 +668,11 @@ export const getStringFromChildrenProp = (children) => {
 
   return ''
 }
+
+export const testTimeDiff = (date, unitOfTime, limit) => {
+  const createdAtMoment = moment(date)
+  const now = moment()
+  const timeDiff = now.diff(createdAtMoment, unitOfTime)
+  if (timeDiff <= limit) return true
+  return false
+}

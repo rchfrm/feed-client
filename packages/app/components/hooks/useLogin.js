@@ -11,6 +11,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+import { isForcedEmailConfirmation } from '@/app/helpers/userHelpers'
 import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
@@ -25,7 +26,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     setRejectedPagePath,
     setAuthLoading,
   } = React.useContext(AuthContext)
-  const { setNoUser, storeUser, setUserLoading } = React.useContext(UserContext)
+  const { setNoUser, storeUser } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   // * HANDLE NO AUTH USER
@@ -77,6 +78,11 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
           label: 'missing scopes',
         })
       }
+    }
+    if (isForcedEmailConfirmation(user)) {
+      setNoArtist()
+      const userRedirected = signupHelpers.redirectPage(ROUTES.CONFIRM_EMAIL, initialPathname)
+      return userRedirected
     }
     // Check if they have artists connected to their account or not,
     // if they don't, set setNoArtist, and push them to the Connect Artist page
@@ -133,7 +139,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       const userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
       return userRedirected
     }
-  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser, setUserLoading])
+  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser])
 
   // * DETECT SIGNED IN USER
   // -----------------------

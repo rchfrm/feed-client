@@ -56,7 +56,7 @@ const ConfirmEmailPage = ({
   } = React.useContext(UserContext)
 
   // GET EMAIL THAT NEEDS VERIFYING
-  const unconfirmedEmails = useUnconfirmedEmails(user)
+  const { unconfirmedEmails } = useUnconfirmedEmails(user)
 
   const [email, setEmail] = React.useState('')
 
