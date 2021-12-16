@@ -1,5 +1,4 @@
 import React from 'react'
-import Router from 'next/router'
 import { useImmerReducer } from 'use-immer'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
@@ -132,20 +131,6 @@ function AuthProvider({ children }) {
     setRejectedPagePath('')
     setLocalStorage('rejectedPagePath', '')
   }, [])
-
-  const handleRouteChange = React.useCallback(() => {
-    if (isFacebookRedirect) {
-      setIsFacebookRedirect(false)
-    }
-  }, [isFacebookRedirect])
-
-  React.useEffect(() => {
-    Router.events.on('routeChangeStart', handleRouteChange)
-
-    return () => {
-      Router.events.off('routeChangeStart', handleRouteChange)
-    }
-  }, [handleRouteChange])
 
   const value = {
     accessToken,

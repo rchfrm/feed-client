@@ -53,7 +53,7 @@ const ConnectProfilesLoader = ({
   className,
 }) => {
   // IMPORT CONTEXTS
-  const { auth, accessToken, authError, setAuthError, isFacebookRedirect } = React.useContext(AuthContext)
+  const { auth, accessToken, authError, setAuthError, isFacebookRedirect, setIsFacebookRedirect } = React.useContext(AuthContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
@@ -160,6 +160,10 @@ const ConnectProfilesLoader = ({
   React.useEffect(() => {
     setErrors([authError])
   }, [authError])
+
+  React.useEffect(() => {
+    return () => setIsFacebookRedirect(false)
+  }, [setIsFacebookRedirect])
 
   if (isConnecting && Object.keys(artistAccounts).length > 0) {
     return <ConnectProfilesIsConnecting artistAccounts={artistAccounts} />
