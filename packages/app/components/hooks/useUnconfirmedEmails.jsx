@@ -1,5 +1,3 @@
-import { isForcedEmailConfirmation } from '@/app/helpers/userHelpers'
-
 const useUnconfirmedEmails = (user) => {
   const {
     email: authEmail,
@@ -17,7 +15,7 @@ const useUnconfirmedEmails = (user) => {
     { type: 'contactEmail', email: contactEmailToVerify },
   ].filter(({ email }) => email)
 
-  return { unconfirmedEmails, isForcedEmailConfirmation: isForcedEmailConfirmation(user) }
+  return unconfirmedEmails
 }
 
 export default useUnconfirmedEmails

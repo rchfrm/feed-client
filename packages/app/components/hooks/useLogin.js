@@ -11,7 +11,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { isForcedEmailConfirmation } from '@/app/helpers/userHelpers'
 import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
@@ -79,7 +78,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
         })
       }
     }
-    if (isForcedEmailConfirmation(user)) {
+    if (user.is_email_verification_needed) {
       setNoArtist()
       const userRedirected = signupHelpers.redirectPage(ROUTES.CONFIRM_EMAIL, initialPathname)
       return userRedirected

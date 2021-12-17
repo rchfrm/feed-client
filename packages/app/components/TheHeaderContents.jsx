@@ -6,7 +6,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
 import useNotificationsStore from '@/app/stores/notificationsStore'
-import useUnconfirmedEmails from '@/app/hooks/useUnconfirmedEmails'
 
 // IMPORT ELEMENTS
 import FeedLogo from '@/icons/FeedLogo'
@@ -29,7 +28,6 @@ function TheHeaderContents({
 }) {
   // GET USER
   const { user } = React.useContext(UserContext)
-  const { isForcedEmailConfirmation } = useUnconfirmedEmails(user)
   // Handle flash of oversized logo
   const [logoOpacity, setLogoOpacity] = React.useState(0)
   React.useEffect(() => {
@@ -97,7 +95,7 @@ function TheHeaderContents({
       {/* Page Header */}
       {showPageTitle && <PageHeader className={styles.pageTitle} />}
       {/* Subnav button */}
-      {isLoggedIn && user?.id && !isForcedEmailConfirmation && (
+      {isLoggedIn && user?.id && !user.is_email_verification_needed && (
         <TheSubNavButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}

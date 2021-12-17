@@ -16,7 +16,7 @@ const PendingEmailWarning = ({
   className,
 }) => {
   const [resendEmailError, setResendEmailError] = React.useState(null)
-  const { unconfirmedEmails } = useUnconfirmedEmails(user)
+  const unconfirmedEmails = useUnconfirmedEmails(user)
 
   // Stop here if no emails need verifying
   if (!unconfirmedEmails.length) return null

@@ -16,7 +16,6 @@ import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 
 import useLogin from '@/app/hooks/useLogin'
-import { isForcedEmailConfirmation } from '@/app/helpers/userHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/LoginPageCopy'
@@ -110,7 +109,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
       // TRACK LOGIN
       trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
-      Router.push(isForcedEmailConfirmation(user) ? ROUTES.CONFIRM_EMAIL : ROUTES.POSTS)
+      Router.push(user.is_email_verification_needed ? ROUTES.CONFIRM_EMAIL : ROUTES.POSTS)
     }
   }
 

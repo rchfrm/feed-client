@@ -8,7 +8,6 @@ import { UserContext } from '@/app/contexts/UserContext'
 
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useBrowserStore from '@/hooks/useBrowserStore'
-import useUnconfirmedEmails from '@/app/hooks/useUnconfirmedEmails'
 
 import styles from '@/app/ThePageButtons.module.css'
 
@@ -55,7 +54,6 @@ const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }
 const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
   const { user } = React.useContext(UserContext)
-  const { isForcedEmailConfirmation } = useUnconfirmedEmails(user)
   const { device = {} } = useBrowserStore()
   const { isMobile, isIOS } = device
   // Get currency from artist
@@ -65,7 +63,7 @@ const ThePageButtons = () => {
     artist: { missingDefaultLink, isSpendingPaused },
   } = React.useContext(ArtistContext)
   // Don't show buttons if no logged in
-  if (!isLoggedIn || isForcedEmailConfirmation) return null
+  if (!isLoggedIn || user.is_email_verification_needed) return null
 
   return (
     <div

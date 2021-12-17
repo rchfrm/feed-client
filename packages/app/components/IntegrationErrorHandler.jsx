@@ -37,7 +37,7 @@ const IntegrationErrorHandler = () => {
   const { user, hasPendingEmail } = React.useContext(UserContext)
   const { accessToken, redirectType } = React.useContext(AuthContext)
   const { globalLoading } = React.useContext(InterfaceContext)
-  const { unconfirmedEmails } = useUnconfirmedEmails(user)
+  const unconfirmedEmails = useUnconfirmedEmails(user)
   const router = useRouter()
 
   const checkError = React.useCallback((integrationError) => {
