@@ -16,7 +16,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { trackSignUp } from '@/helpers/trackingHelpers'
+import { trackSignUp, track } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
@@ -115,6 +115,7 @@ const SignupEmailForm = ({ initialEmail }) => {
       }
 
       if (user.is_email_verification_needed) {
+        track('recaptcha email verification needed', { userId: user.id })
         Router.push(ROUTES.CONFIRM_EMAIL)
         return
       }

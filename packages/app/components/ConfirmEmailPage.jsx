@@ -21,6 +21,7 @@ import LoginSignupEmailEdit from '@/app/LoginSignupEmailEdit'
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
 import { getUser } from '@/helpers/sharedServer'
+import { trackSignUp } from '@/helpers/trackingHelpers'
 
 import copy from '@/app/copy/signupCopy'
 
@@ -145,6 +146,9 @@ const ConfirmEmailPage = ({
       return
     }
     if (res?.success) {
+      if (user.is_email_verification_needed) {
+        trackSignUp({ authProvider: 'password', userId: user.id })
+      }
       const { res: userUpdated } = await getUser()
       setIsSuccessful(true)
       updateUser(userUpdated)

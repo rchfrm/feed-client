@@ -12,7 +12,7 @@ const Success = ({ message, messagePrefix, className }) => {
   const fullMessage = `${messagePrefix}${message}`
   const classes = ['success--message', className].join(' ')
   return (
-    <p className={classes}>
+    <div className={classes}>
       <span className="success-message_icon">
         <TickIcon fill={brandColors.successColor} />
       </span>
@@ -22,7 +22,7 @@ const Success = ({ message, messagePrefix, className }) => {
         unwrapDisallowed
         className="mb-0"
       />
-    </p>
+    </div>
   )
 }
 
