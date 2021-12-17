@@ -5,9 +5,11 @@ import Success from '@/elements/Success'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
+import ConfirmEmailSuccessReauthenticate from '@/app/ConfirmEmailSuccessReauthenticate'
+
 import { AuthContext } from '@/contexts/AuthContext'
 
-import pageCopy from '@/app/copy/signupCopy'
+import copy from '@/app/copy/signupCopy'
 
 const ConfirmEmailEmailSuccess = ({
   email,
@@ -18,20 +20,21 @@ const ConfirmEmailEmailSuccess = ({
   const isAuthEmail = emailType === 'email'
   const { auth: { email: signedInEmail } } = React.useContext(AuthContext)
   const hasAuthEmailChanged = isAuthEmail && (email !== signedInEmail)
-  const { emailVerifySuccess: copy } = pageCopy
 
   const [seconds, setSeconds] = React.useState(5)
   const [intervalId, setIntervalId] = React.useState(0)
 
   React.useEffect(() => {
-    if (seconds < 0) {
+    if (seconds < 1) {
       clearInterval(intervalId)
       onContinue()
     }
   }, [intervalId, seconds, onContinue])
 
   React.useEffect(() => {
-    setIntervalId(setInterval(() => setSeconds(prevSecond => prevSecond - 1), 1000))
+    if (!hasAuthEmailChanged) {
+      setIntervalId(setInterval(() => setSeconds(prevSecond => prevSecond - 1), 1000))
+    }
     return () => clearInterval(intervalId)
     // eslint-disable-next-line
   }, [])
@@ -43,24 +46,26 @@ const ConfirmEmailEmailSuccess = ({
       ].join(' ')}
     >
       <Success className="mb-2 text-xl" message="Thanks!" />
-      <MarkdownText markdown={copy.success(emailType, hasAuthEmailChanged)} />
-      {/* Explain about logging out when changing auth email */}
-      {hasAuthEmailChanged && (
-        <MarkdownText markdown={copy.logoutExplainer} />
+      <MarkdownText markdown={copy.emailVerifySuccess(emailType, hasAuthEmailChanged)} />
+      {hasAuthEmailChanged ? (
+        <ConfirmEmailSuccessReauthenticate
+          email={email}
+        />
+      ) : (
+        <div className="flex items-center justify-end pt-2">
+          <p className="mr-6 mb-0">{seconds}s</p>
+          <Button
+            version="green small"
+            className="w-1/3"
+            onClick={() => {
+              onContinue()
+            }}
+            trackComponentName="ConfirmEmailEmailSuccess"
+          >
+            Continue
+          </Button>
+        </div>
       )}
-      <div className="flex items-center justify-end pt-2">
-        <p className="mr-6 mb-0">{seconds}s</p>
-        <Button
-          version="green small"
-          className="w-1/3"
-          onClick={() => {
-            onContinue()
-          }}
-          trackComponentName="ConfirmEmailEmailSuccess"
-        >
-          {copy.button(hasAuthEmailChanged)}
-        </Button>
-      </div>
     </div>
   )
 }
