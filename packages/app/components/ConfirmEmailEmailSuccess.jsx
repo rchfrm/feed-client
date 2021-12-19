@@ -18,8 +18,8 @@ const ConfirmEmailEmailSuccess = ({
   className,
 }) => {
   const isAuthEmail = emailType === 'email'
-  const { auth: { email: signedInEmail } } = React.useContext(AuthContext)
-  const hasAuthEmailChanged = isAuthEmail && (email !== signedInEmail)
+  const { auth: { email: signedInEmail, providerIds } } = React.useContext(AuthContext)
+  const isReauthenticateNeeded = isAuthEmail && (email !== signedInEmail) && providerIds.includes('password')
 
   const [seconds, setSeconds] = React.useState(5)
   const [intervalId, setIntervalId] = React.useState(0)
@@ -32,7 +32,7 @@ const ConfirmEmailEmailSuccess = ({
   }, [intervalId, seconds, onContinue])
 
   React.useEffect(() => {
-    if (!hasAuthEmailChanged) {
+    if (!isReauthenticateNeeded) {
       setIntervalId(setInterval(() => setSeconds(prevSecond => prevSecond - 1), 1000))
     }
     return () => clearInterval(intervalId)
@@ -46,8 +46,8 @@ const ConfirmEmailEmailSuccess = ({
       ].join(' ')}
     >
       <Success className="mb-2 text-xl" message="Thanks!" />
-      <MarkdownText markdown={copy.emailVerifySuccess(emailType, hasAuthEmailChanged)} />
-      {hasAuthEmailChanged ? (
+      <MarkdownText markdown={copy.emailVerifySuccess(emailType, isReauthenticateNeeded)} />
+      {isReauthenticateNeeded ? (
         <ConfirmEmailSuccessReauthenticate
           email={email}
           onContinue={onContinue}
