@@ -50,6 +50,7 @@ const ConfirmEmailEmailSuccess = ({
       {hasAuthEmailChanged ? (
         <ConfirmEmailSuccessReauthenticate
           email={email}
+          onContinue={onContinue}
         />
       ) : (
         <div className="flex items-center justify-end pt-2">

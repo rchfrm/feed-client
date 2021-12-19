@@ -4,18 +4,29 @@ import Link from 'next/link'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 
 import * as ROUTES from '@/app/constants/routes'
+import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 
-const ConfirmEmailSuccessReauthenticate = ({ email }) => {
+const ConfirmEmailSuccessReauthenticate = ({ email, onContinue }) => {
   const [password, setPassword] = React.useState('')
+  const [error, setError] = React.useState(null)
 
   const onFormSubmit = async (e) => {
     e.preventDefault()
 
-    // Logic to reauthenticate
-    console.log(email)
-    console.log(password)
+    const { error } = await firebaseHelpers.doReauthenticateWithCredential(email, password)
+    if (error) {
+      setError(error)
+      return
+    }
+    onContinue()
+  }
+
+  const handleChange = (e) => {
+    const { target: { value } } = e
+    setPassword(value)
   }
 
   return (
@@ -27,12 +38,13 @@ const ConfirmEmailSuccessReauthenticate = ({ email }) => {
         name="password"
         placeholder=""
         value={password}
-        handleChange={setPassword}
+        handleChange={handleChange}
         type="password"
         label="Password"
         version="box"
         width={100}
       />
+      <Error error={error} />
       <p className="small--p">
         <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot your Password?</a></Link>
       </p>
@@ -50,9 +62,11 @@ const ConfirmEmailSuccessReauthenticate = ({ email }) => {
 
 ConfirmEmailSuccessReauthenticate.propTypes = {
   email: PropTypes.string.isRequired,
+  onContinue: PropTypes.func,
 }
 
 ConfirmEmailSuccessReauthenticate.defaultProps = {
+  onContinue: () => {},
 }
 
 export default ConfirmEmailSuccessReauthenticate

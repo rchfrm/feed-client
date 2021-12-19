@@ -163,7 +163,7 @@ const ConfirmEmailPage = ({
   if (!isSuccessful && (hasInitialVerificationCode || userLoading)) return null
 
   // SHOW SUCCESS MESSAGE
-  if (!isSuccessful) {
+  if (isSuccessful) {
     return (
       <ConfirmEmailEmailSuccess
         email={email}
