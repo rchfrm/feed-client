@@ -78,6 +78,9 @@ const ConfirmEmailPage = ({
     if (userLoading) return
     const emailType = getEmailType({ query, emailVerified, contactEmailVerified, contactEmail })
     const { email } = unconfirmedEmails.find((email) => email.type === emailType) || {}
+
+    if (!email) return
+
     setEmail(email)
     setEmailType(emailType)
   // eslint-disable-next-line
