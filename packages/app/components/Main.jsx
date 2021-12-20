@@ -1,6 +1,5 @@
 // IMPORT PACKAGES
 import React from 'react'
-import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 // IMPORT COMPONENTS
