@@ -42,6 +42,7 @@ const ControlsContent = ({ activeSlug }) => {
   const {
     hasSetUpControls,
     isLoading,
+    adAccountId,
     defaultLinkId,
     defaultPromotionEnabled,
     budget,
@@ -96,6 +97,7 @@ const ControlsContent = ({ activeSlug }) => {
         <div className="col-span-6 col-start-1">
           <ControlsWizard
             setIsWizardActive={setIsWizardActive}
+            adAccountId={adAccountId}
             defaultLinkId={defaultLinkId}
             defaultPromotionEnabled={defaultPromotionEnabled}
             budget={budget}

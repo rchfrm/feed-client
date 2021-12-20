@@ -6,6 +6,8 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
+import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
   defaultPaymentMethod: state.defaultPaymentMethod,
@@ -28,8 +30,11 @@ const useControlsWizard = () => {
   } = useBillingStore(getBillingStoreState)
   const { postsPreferences, budget, controlsLoading } = useControlsStore(getControlsStoreState)
   const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
-  const { artistId, artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
+  const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
+  const { min_daily_budget_info } = artist
   const { user } = React.useContext(UserContext)
+  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
+  const adAccountId = facebookIntegration?.adaccount_id
 
   const currentUserOrganisation = allOrgs.find(organisation => organisation.role === 'owner')
   const isProfilePartOfOrganisation = Object.keys(currentUserOrganisation?.artists || {}).includes(artistId)
@@ -49,6 +54,7 @@ const useControlsWizard = () => {
   return {
     isLoading: billingLoading || artistLoading || controlsLoading,
     hasSetUpControls,
+    adAccountId,
     defaultLinkId,
     defaultPromotionEnabled,
     budget,

@@ -165,6 +165,8 @@ const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
 
 // Fetch data from server and update store (or return cached data)
 const fetchData = (set, get) => async (action, artist) => {
+  let minConversionsBudget = 0
+  let formattedMinConversionsBudget = ''
   const { savedLinks, isControlsLoading, artistId, currency } = get()
   // Stop here if data is already loading
   if (isControlsLoading) return
@@ -183,8 +185,12 @@ const fetchData = (set, get) => async (action, artist) => {
   }
   const { folders } = res
   // Get minimium conversions budget
-  const { res: { min_recommended_stories_rounded: minConversionsBudget } } = await getMinBudgets(artist.id)
-  const formattedMinConversionsBudget = formatCurrency(minConversionsBudget, currency)
+  if (Object.keys(artist.feedMinBudgetInfo).length) {
+    const { res: { min_recommended_stories_rounded } } = await getMinBudgets(artist.id)
+
+    minConversionsBudget = min_recommended_stories_rounded
+    formattedMinConversionsBudget = formatCurrency(minConversionsBudget, currency)
+  }
   // Get posts preferences and conversions preferences
   const posts = getPreferences(artist, 'posts')
   const conversions = getPreferences(artist, 'conversions')

@@ -56,11 +56,11 @@ const ControlsWizardPostsStep = () => {
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardPostsStepIntro} />
-      <div className="flex mb-10">
+      <div className="flex w-1/2 ml-auto mb-12">
         <Button
           version="outline-black small"
           onClick={() => savePromotableDefaultStatus(false)}
-          className="mr-6 border-black"
+          className="w-full mr-6 border-black"
           spinnerFill={brandColors.black}
           loading={isLoading && !isEnabled}
           trackComponentName="ControlsWizardPostsStep"
@@ -74,7 +74,7 @@ const ControlsWizardPostsStep = () => {
         <Button
           version="outline-black small"
           onClick={() => savePromotableDefaultStatus(true)}
-          className="border-black"
+          className="w-full border-black"
           spinnerFill={brandColors.black}
           loading={isLoading && isEnabled}
           trackComponentName="ControlsWizardPostsStep"
