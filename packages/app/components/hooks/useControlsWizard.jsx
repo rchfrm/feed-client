@@ -18,6 +18,7 @@ const getBillingStoreState = (state) => ({
 const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
   budget: state.budget,
+  controlsLoading: state.isControlsLoading,
 })
 
 const useControlsWizard = () => {
@@ -27,7 +28,7 @@ const useControlsWizard = () => {
     loading: billingLoading,
     allOrgs,
   } = useBillingStore(getBillingStoreState)
-  const { postsPreferences, budget } = useControlsStore(getControlsStoreState)
+  const { postsPreferences, budget, controlsLoading } = useControlsStore(getControlsStoreState)
   const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
   const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
   const { min_daily_budget_info } = artist
@@ -46,12 +47,13 @@ const useControlsWizard = () => {
   // eslint-disable-next-line
   }, [artistLoading, user, setupBilling])
 
-  const hasSetUpControls = Boolean(defaultLinkId
+  const hasSetUpControls = Boolean(adAccountId
+    && defaultLinkId
     && budget
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
   return {
-    isLoading: billingLoading || artistLoading,
+    isLoading: billingLoading || artistLoading || controlsLoading,
     hasSetUpControls,
     adAccountId,
     defaultLinkId,

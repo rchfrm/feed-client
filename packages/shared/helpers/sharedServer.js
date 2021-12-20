@@ -30,12 +30,16 @@ export const getUser = async () => {
  * @returns {Promise<any>}
  */
 export const createUser = async ({
+  verificationToken,
+  verificationAction,
   email,
   referrerCode,
 }, token) => {
   if (!token) token = await firebaseHelpers.getIdTokenOrFail()
   const requestUrl = '/accounts/register'
   const payload = {
+    verification_token: verificationToken,
+    verification_action: verificationAction,
     ...(email && { email }),
     ...(referrerCode && { referrer_code: referrerCode }),
     token,

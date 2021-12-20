@@ -10,12 +10,12 @@ const useUnconfirmedEmails = (user) => {
 
   const emailToVerify = pendingEmail || (!emailVerified && authEmail) || ''
   const contactEmailToVerify = pendingContactEmail || (!contactEmailVerified && contactEmail) || ''
-  const uncomfirmedEmails = [
+  const unconfirmedEmails = [
     { type: 'email', email: emailToVerify },
     { type: 'contactEmail', email: contactEmailToVerify },
   ].filter(({ email }) => email)
 
-  return uncomfirmedEmails
+  return unconfirmedEmails
 }
 
 export default useUnconfirmedEmails

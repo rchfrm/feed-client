@@ -65,6 +65,7 @@ const nextConfig = {
     gtm_id: process.env.GTM_ID,
     gtm_auth: process.env.GTM_AUTH,
     gtm_preview: process.env.GTM_PREVIEW,
+    recaptcha_key: process.env.RECAPTCHA_KEY,
     release_version: process.env.RELEASE_VERSION,
     show_live_warning,
   },
