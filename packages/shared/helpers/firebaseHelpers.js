@@ -92,7 +92,7 @@ export const doReauthenticateWithCredential = async (email, password) => {
     .catch((error) => {
       return { error }
     })
-  if (res) return res
+  if (res) return { authUser: res }
 }
 
 export const loginWithFacebook = () => {
