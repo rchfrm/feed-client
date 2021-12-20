@@ -47,7 +47,8 @@ const useControlsWizard = () => {
   // eslint-disable-next-line
   }, [artistLoading, user, setupBilling])
 
-  const hasSetUpControls = Boolean(defaultLinkId
+  const hasSetUpControls = Boolean(adAccountId
+    && defaultLinkId
     && budget
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
