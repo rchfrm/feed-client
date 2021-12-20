@@ -82,10 +82,10 @@ const ControlsWizardPaymentStep = () => {
         />
       )}
       <Button
-        version="outline-green icon"
+        version="outline-green"
         onClick={savePaymentMethod}
         spinnerFill={brandColors.black}
-        className="w-full mb-10"
+        className="w-1/3 ml-auto mb-12"
         loading={isLoading}
         trackComponentName="ControlsWizardPaymentStep"
       >
