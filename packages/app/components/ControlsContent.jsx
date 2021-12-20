@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useAsync } from 'react-async'
 
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
@@ -15,17 +14,10 @@ import IntegrationsPanel from '@/app/IntegrationsPanel'
 import LinkBank from '@/app/LinkBank'
 import AdDefaults from '@/app/AdDefaults'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import useControlsWizard from '@/app/hooks/useControlsWizard'
-
-import * as targetingHelpers from '@/app/helpers/targetingHelpers'
-
-const fetchState = ({ artistId, currencyOffset }) => {
-  return targetingHelpers.fetchTargetingState(artistId, currencyOffset)
-}
 
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
@@ -43,43 +35,25 @@ const ControlsContent = ({ activeSlug }) => {
     hasSetUpControls,
     isLoading,
     adAccountId,
+    locations,
     defaultLinkId,
-    defaultPromotionEnabled,
     budget,
     defaultPaymentMethod,
     isProfilePartOfOrganisation,
   } = useControlsWizard()
 
   // Destructure context
-  const { artistId } = React.useContext(ArtistContext)
-  const { toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
+  const { globalLoading } = React.useContext(InterfaceContext)
 
   // Fetch from targeting context
   const {
     targetingState,
     isDesktopLayout,
-    initPage,
     errorFetchingSettings,
-    currencyOffset,
   } = React.useContext(TargetingContext)
 
-  // Load and set initial targeting state
-  const { isPending } = useAsync({
-    promiseFn: fetchState,
-    watch: artistId,
-    // The variable(s) to pass to promiseFn
-    artistId,
-    currencyOffset,
-    // When fetch finishes
-    onResolve: (state) => {
-      const { error } = state
-      toggleGlobalLoading(false)
-      initPage(state, error)
-    },
-  })
-
   // Handle error
-  if (errorFetchingSettings && !isPending) {
+  if (errorFetchingSettings) {
     return (
       <div>
         <h3>Error fetching settings</h3>
@@ -97,9 +71,9 @@ const ControlsContent = ({ activeSlug }) => {
         <div className="col-span-6 col-start-1">
           <ControlsWizard
             setIsWizardActive={setIsWizardActive}
-            adAccountId={adAccountId}
             defaultLinkId={defaultLinkId}
-            defaultPromotionEnabled={defaultPromotionEnabled}
+            locations={locations}
+            adAccountId={adAccountId}
             budget={budget}
             defaultPaymentMethod={defaultPaymentMethod}
             isProfilePartOfOrganisation={isProfilePartOfOrganisation}

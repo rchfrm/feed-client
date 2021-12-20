@@ -13,8 +13,9 @@ import { WizardContextProvider } from '@/app/contexts/WizardContext'
 
 const ControlsWizard = ({
   setIsWizardActive,
-  adAccountId,
   defaultLinkId,
+  adAccountId,
+  locations,
   budget,
   defaultPaymentMethod,
   isProfilePartOfOrganisation,
@@ -44,7 +45,7 @@ const ControlsWizard = ({
       id: 3,
       title: 'Where are you based?',
       component: <ControlsWizardLocationStep />,
-      shouldSkip: false,
+      shouldSkip: Object.keys(locations).length > 0,
       hasSkipButton: true,
     },
     {
