@@ -22,22 +22,22 @@ const ControlsWizard = ({
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      title: 'Select Facebook Ad Account',
-      component: <ControlsWizardAdAccountStep />,
-      shouldSkip: Boolean(adAccountId),
-    },
-    {
-      id: 1,
-      title: 'Choose a default link',
+      title: 'Choose a goal',
       component: <ControlsWizardLinkStep />,
       shouldSkip: Boolean(defaultLinkId),
     },
     {
-      id: 2,
-      title: 'Enable new posts by default',
+      id: 1,
+      title: 'Make new posts promotable by default?',
       component: <ControlsWizardPostsStep />,
       shouldSkip: false,
       hasSkipButton: true,
+    },
+    {
+      id: 2,
+      title: 'Select Facebook Ad Account',
+      component: <ControlsWizardAdAccountStep />,
+      shouldSkip: Boolean(adAccountId),
     },
     {
       id: 3,
