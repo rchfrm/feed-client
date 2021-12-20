@@ -1,6 +1,7 @@
 // IMPORT PACKAGES
 import React from 'react'
 import { AuthContext } from '@/contexts/AuthContext'
+import { UserContext } from '@/app/contexts/UserContext'
 // IMPORT COMPONENTS
 import TheFooterLinks from '@/app/TheFooterLinks'
 // IMPORT HOOKS
@@ -16,10 +17,11 @@ const thisYear = new Date().getFullYear()
 const Footer = () => {
   const isLoggedIn = useLoggedInTest()
   const { auth } = React.useContext(AuthContext)
+  const { user } = React.useContext(UserContext)
 
   return (
     <footer className={[styles.TheFooter, isLoggedIn ? styles._loggedIn : ''].join(' ')}>
-      {!isLoggedIn && (
+      {(!isLoggedIn || user.is_email_verification_needed) && (
         <TheFooterLinks hasAuth={!!auth.token} />
       )}
 
