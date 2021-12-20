@@ -30,11 +30,11 @@ import styles from '@/LoginPage.module.css'
 import * as ROUTES from '@/app/constants/routes'
 
 // Get the email type that needs verifying
-const getEmailType = ({ query, emailVerified, contactEmailVerified, contactEmail }) => {
+const getEmailType = ({ query, emailVerified, pendingEmail, contactEmailVerified, pendingContactEmail, contactEmail }) => {
   const queryType = query?.type
   if (queryType) return queryType
-  if (!emailVerified) return 'email'
-  if (contactEmail && !contactEmailVerified) return 'contactEmail'
+  if (!emailVerified || pendingEmail) return 'email'
+  if ((contactEmail && !contactEmailVerified) || pendingContactEmail) return 'contactEmail'
   return 'none'
 }
 
@@ -58,6 +58,7 @@ const ConfirmEmailPage = ({
 
   // GET EMAIL THAT NEEDS VERIFYING
   const unconfirmedEmails = useUnconfirmedEmails(user)
+  console.log('unconfirmedEmails', unconfirmedEmails)
 
   const [email, setEmail] = React.useState('')
 
@@ -76,7 +77,7 @@ const ConfirmEmailPage = ({
   const [emailType, setEmailType] = React.useState('')
   React.useEffect(() => {
     if (userLoading) return
-    const emailType = getEmailType({ query, emailVerified, contactEmailVerified, contactEmail })
+    const emailType = getEmailType({ query, emailVerified, pendingEmail, contactEmailVerified, pendingContactEmail, contactEmail })
     const { email } = unconfirmedEmails.find((email) => email.type === emailType) || {}
 
     if (!email) return
