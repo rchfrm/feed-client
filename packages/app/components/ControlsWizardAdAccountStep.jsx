@@ -36,6 +36,11 @@ const ControlsWizardAdAccountStep = () => {
     setIsLoadingAdAccountOptions(false)
   }, [])
 
+  const handleChange = (e) => {
+    const { target: { value } } = e
+    setAdAccountId(value)
+  }
+
   const saveAdAccount = async (adAccountId) => {
     setIsLoading(true)
 
@@ -75,7 +80,7 @@ const ControlsWizardAdAccountStep = () => {
         options={adAccountOptions}
         selectedValue={adAccountId}
         name="ad_account"
-        handleChange={setAdAccountId}
+        handleChange={handleChange}
       />
       <Error error={error} />
       <Button
