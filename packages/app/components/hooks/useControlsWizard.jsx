@@ -16,6 +16,7 @@ const getBillingStoreState = (state) => ({
 const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
   budget: state.budget,
+  controlsLoading: state.isControlsLoading,
 })
 
 const useControlsWizard = () => {
@@ -25,7 +26,7 @@ const useControlsWizard = () => {
     loading: billingLoading,
     allOrgs,
   } = useBillingStore(getBillingStoreState)
-  const { postsPreferences, budget } = useControlsStore(getControlsStoreState)
+  const { postsPreferences, budget, controlsLoading } = useControlsStore(getControlsStoreState)
   const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
   const { artistId, artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
@@ -46,7 +47,7 @@ const useControlsWizard = () => {
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
   return {
-    isLoading: billingLoading || artistLoading,
+    isLoading: billingLoading || artistLoading || controlsLoading,
     hasSetUpControls,
     defaultLinkId,
     defaultPromotionEnabled,
