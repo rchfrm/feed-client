@@ -1,5 +1,4 @@
 import React from 'react'
-import useAsyncEffect from 'use-async-effect'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -11,74 +10,66 @@ import Error from '@/elements/Error'
 import Select from '@/elements/Select'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
-import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
-
 import copy from '@/app/copy/controlsPageCopy'
-import brandColors from '../../shared/constants/brandColors'
+import brandColors from '@/constants/brandColors'
+import countries from '@/constants/countries'
 
-const locationOptions = [
-  {
-    name: 'United Kingdom',
-    id: 'UK',
-  },
-  {
-    name: 'Spain',
-    id: 'ESP',
-  },
-]
+import { updateLocation } from '@/app/helpers/artistHelpers'
+
+const locationOptions = countries.map(({ id, name }) => {
+  return {
+    value: id,
+    name,
+  }
+})
 
 const ControlsWizardLocationStep = () => {
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [isLoadingLocationOptions, setIsLoadingLocationOptions] = React.useState(false)
-  const [location, setLocation] = React.useState('')
-  const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
-  const { artist } = React.useContext(ArtistContext)
-  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
+  const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
 
-  useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [countryCode, setCountryCode] = React.useState(artist.country_code || locationOptions[0].value)
+  const [error, setError] = React.useState(null)
 
-    setIsLoadingLocationOptions(false)
-  }, [])
+  const handleChange = (e) => {
+    const { target: { value } } = e
+    setCountryCode(value)
+  }
 
-  const saveLocation = async (location) => {
-    console.log(location)
+  const saveLocation = async (countryCode) => {
     setIsLoading(true)
 
-    // Make API request
-
-    // Update artist
+    const { res: artist, error } = await updateLocation(artistId, countryCode)
+    if (error) {
+      setError(error)
+      setIsLoading(false)
+      return
+    }
+    // Update artist context
+    updateArtist(artist)
     setIsLoading(false)
-    setError(null)
     next()
   }
 
   const handleNext = () => {
-    if (!location) return
-    // Skip API request if ad account hasn't changed
-    if (location === facebookIntegration?.location) {
+    if (!countryCode) return
+    // Skip API request if country code hasn't changed
+    if (countryCode === artist.country_code) {
       next()
       return
     }
-    saveLocation(location)
+    saveLocation(countryCode)
   }
-
-  React.useEffect(() => {
-    if (!location) {
-      setLocation(locationOptions[0]?.value)
-    }
-  }, [location, setLocation])
 
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardLocationStepIntro} />
       <Select
-        loading={isLoadingLocationOptions}
+        name="country_code"
+        handleChange={handleChange}
+        selectedValue={countryCode}
+        placeholder="Select country"
         options={locationOptions}
-        selectedValue={location}
-        name="ad_account"
-        handleChange={setLocation}
       />
       <Error error={error} />
       <Button

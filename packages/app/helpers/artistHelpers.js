@@ -88,6 +88,21 @@ export const updateAdAccount = (artistId, adAccountId) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
+// Update country code
+/**
+* @param {string} artistId
+* @param {string} countryCode
+* @returns {Promise<object>} { res, error }
+*/
+export const updateLocation = (artistId, countryCode) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = { country_code: countryCode }
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update country code',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
 
 /**
  * Create sorted array of artist accounts
