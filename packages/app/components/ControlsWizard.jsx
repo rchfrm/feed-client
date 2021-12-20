@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ControlsWizardAdAccountStep from '@/app/ControlsWizardAdAccountStep'
 import ControlsWizardLinkStep from '@/app/ControlsWizardLinkStep'
 import ControlsWizardPostsStep from '@/app/ControlsWizardPostsStep'
+import ControlsWizardAdAccountStep from '@/app/ControlsWizardAdAccountStep'
+import ControlsWizardLocationStep from '@/app/ControlsWizardLocationStep'
 import ControlsWizardBudgetStep from '@/app/ControlsWizardBudgetStep'
 import ControlsWizardPaymentStep from '@/app/ControlsWizardPaymentStep'
 import ControlsWizardReviewStep from '@/app/ControlsWizardReviewStep'
@@ -41,18 +42,25 @@ const ControlsWizard = ({
     },
     {
       id: 3,
+      title: 'Where are you based?',
+      component: <ControlsWizardLocationStep />,
+      shouldSkip: false,
+      hasSkipButton: true,
+    },
+    {
+      id: 4,
       title: 'Set your daily budget',
       component: <ControlsWizardBudgetStep />,
       shouldSkip: Boolean(budget),
     },
     {
-      id: 4,
+      id: 5,
       title: 'Add a payment method',
       component: <ControlsWizardPaymentStep />,
       shouldSkip: !isProfilePartOfOrganisation || Boolean(defaultPaymentMethod),
     },
     {
-      id: 5,
+      id: 6,
       title: 'All set!',
       component: <ControlsWizardReviewStep />,
       shouldSkip: false,

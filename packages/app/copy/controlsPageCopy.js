@@ -63,6 +63,7 @@ export default {
   controlsWizardPostsStepIntro: `You never know what is going to catch someone's attention! That's why Feed makes recent posts (made in the last 28 days) promotable by default.
 
   You can disable specific posts you don't want Feed to promote later on.`,
+  controlsWizardLocationStepIntro: `We'll use the country you're based in as a starting point for our targeting.`,
   controlsWizardBudgetStepIntro: 'This amount includes our 10% service fee. We recommend you set an amount that you can sustain over longer periods.',
   controlsWizardPaymentStepIntro: `Almost there!
 
