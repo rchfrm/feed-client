@@ -14,6 +14,7 @@ import IntegrationsPanel from '@/app/IntegrationsPanel'
 import LinkBank from '@/app/LinkBank'
 import AdDefaults from '@/app/AdDefaults'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -44,6 +45,7 @@ const ControlsContent = ({ activeSlug }) => {
 
   // Destructure context
   const { globalLoading } = React.useContext(InterfaceContext)
+  const { artistId } = React.useContext(ArtistContext)
 
   // Fetch from targeting context
   const {
@@ -51,6 +53,10 @@ const ControlsContent = ({ activeSlug }) => {
     isDesktopLayout,
     errorFetchingSettings,
   } = React.useContext(TargetingContext)
+
+  React.useEffect(() => {
+    setIsWizardActive(false)
+  }, [artistId])
 
   // Handle error
   if (errorFetchingSettings) {
