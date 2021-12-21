@@ -9,6 +9,7 @@ import Error from '@/elements/Error'
 
 import Select from '@/elements/Select'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import PencilIcon from '@/icons/PencilIcon'
 
 import copy from '@/app/copy/controlsPageCopy'
 import brandColors from '@/constants/brandColors'
@@ -29,7 +30,13 @@ const ControlsWizardLocationStep = () => {
 
   const [isLoading, setIsLoading] = React.useState(false)
   const [countryCode, setCountryCode] = React.useState(artist.country_code || locationOptions[0].value)
+  const [country, setCountry] = React.useState('')
+  const [isEditMode, setIsEditMode] = React.useState(!countryCode)
   const [error, setError] = React.useState(null)
+
+  React.useEffect(() => {
+    setCountry(locationOptions.find((location) => location.value === countryCode).name)
+  }, [countryCode])
 
   const handleChange = (e) => {
     const { target: { value } } = e
@@ -64,13 +71,29 @@ const ControlsWizardLocationStep = () => {
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardLocationStepIntro} />
-      <Select
-        name="country_code"
-        handleChange={handleChange}
-        selectedValue={countryCode}
-        placeholder="Select country"
-        options={locationOptions}
-      />
+      {isEditMode
+        ? (
+          <Select
+            name="country_code"
+            handleChange={handleChange}
+            selectedValue={countryCode}
+            placeholder="Select country"
+            options={locationOptions}
+          />
+        ) : (
+          <div className="flex justify-between items-center mb-8">
+            <p className="break-all mb-0 text-grey-3">{country}</p>
+            <Button
+              version="green small icon"
+              className="h-8 ml-3 rounded-full"
+              onClick={() => setIsEditMode(true)}
+              trackComponentName="ControlsWizardLinkStep"
+            >
+              <PencilIcon fill={brandColors.white} />
+              Edit
+            </Button>
+          </div>
+        )}
       <Error error={error} />
       <Button
         version="outline-green"

@@ -55,7 +55,7 @@ const useControlsWizard = () => {
 
   // Initialise targeting context state
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted() || !artistId || Object.keys(targetingState).length > 0) return
+    if (!isMounted() || !artistId) return
 
     const state = await fetchTargetingState(artistId, currencyOffset)
     const { error } = state
