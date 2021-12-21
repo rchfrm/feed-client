@@ -6,10 +6,10 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
+import EditBlock from '@/app/EditBlock'
 
 import Select from '@/elements/Select'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-import PencilIcon from '@/icons/PencilIcon'
 
 import copy from '@/app/copy/controlsPageCopy'
 import brandColors from '@/constants/brandColors'
@@ -81,18 +81,13 @@ const ControlsWizardLocationStep = () => {
             options={locationOptions}
           />
         ) : (
-          <div className="flex justify-between items-center mb-8">
-            <p className="break-all mb-0 text-grey-3">{country}</p>
-            <Button
-              version="green small icon"
-              className="h-8 ml-3 rounded-full"
-              onClick={() => setIsEditMode(true)}
-              trackComponentName="ControlsWizardLinkStep"
-            >
-              <PencilIcon fill={brandColors.white} />
-              Edit
-            </Button>
-          </div>
+          <EditBlock
+            value={country}
+            isEditMode={isEditMode}
+            setIsEditMode={setIsEditMode}
+            trackComponentName="ControlsWizardLocationStep"
+            className="mb-8"
+          />
         )}
       <Error error={error} />
       <Button

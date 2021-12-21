@@ -6,7 +6,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import useSignup from '@/app/hooks/useSignup'
-import LoginSignupEmailEdit from '@/app/LoginSignupEmailEdit'
+import EditBlock from '@/app/EditBlock'
 
 import ArrowAltIcon from 'shared/components/icons/ArrowAltIcon'
 import brandColors from '@/constants/brandColors'
@@ -164,10 +164,12 @@ const SignupEmailForm = ({ initialEmail }) => {
           required
         />
       ) : (
-        <LoginSignupEmailEdit
-          email={email}
-          isEmailEdit={isEmailEdit}
-          setIsEmailEdit={setIsEmailEdit}
+        <EditBlock
+          value={email}
+          isEditMode={isEmailEdit}
+          setIsEditMode={setIsEmailEdit}
+          trackComponentName="SignupEmailForm"
+          className="mb-4"
         />
       )}
       <Input

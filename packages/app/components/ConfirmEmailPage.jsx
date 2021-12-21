@@ -16,7 +16,7 @@ import Error from '@/elements/Error'
 import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
 import ConfirmEmailChangeEmail from '@/app/ConfirmEmailChangeEmail'
 import ConfirmEmailEmailSuccess from '@/app/ConfirmEmailEmailSuccess'
-import LoginSignupEmailEdit from '@/app/LoginSignupEmailEdit'
+import EditBlock from '@/app/EditBlock'
 
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
@@ -205,10 +205,12 @@ const ConfirmEmailPage = ({
       <Error error={error} />
       {/* CHANGE EMAIL */}
       <div>
-        <LoginSignupEmailEdit
-          email={email}
-          isEmailEdit={isChangeEmail}
-          setIsEmailEdit={setIsChangeEmail}
+        <EditBlock
+          value={email}
+          isEditMode={isChangeEmail}
+          setIsEditMode={setIsChangeEmail}
+          trackComponentName="ConfirmEmailPage"
+          className="mb-4"
         />
         <MarkdownText className="inline-block mb-0" markdown={copy.emailQuestion} />
         <ConfirmEmailResendButton

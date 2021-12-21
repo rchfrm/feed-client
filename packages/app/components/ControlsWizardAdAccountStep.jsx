@@ -8,22 +8,28 @@ import Select from '@/elements/Select'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
+import EditBlock from '@/app/EditBlock'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+
 import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/controlsPageCopy'
 import brandColors from '../../shared/constants/brandColors'
 
 const ControlsWizardAdAccountStep = () => {
-  const [adAccountOptions, setAdAccountOptions] = React.useState([])
-  const [isLoadingAdAccountOptions, setIsLoadingAdAccountOptions] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [adAccountId, setAdAccountId] = React.useState('')
-  const [error, setError] = React.useState(null)
-  const { next } = React.useContext(WizardContext)
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
+
+  const [adAccountOptions, setAdAccountOptions] = React.useState([])
+  const [adAccountId, setAdAccountId] = React.useState(facebookIntegration?.adaccount_id || '')
+  const [adAccountName, setAdAccountName] = React.useState('')
+  const [isEditMode, setIsEditMode] = React.useState(!adAccountId)
+  const [isLoadingAdAccountOptions, setIsLoadingAdAccountOptions] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
+
+  const { next } = React.useContext(WizardContext)
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
@@ -35,6 +41,12 @@ const ControlsWizardAdAccountStep = () => {
     setAdAccountOptions(options)
     setIsLoadingAdAccountOptions(false)
   }, [])
+
+  React.useEffect(() => {
+    if (!adAccountId || !adAccountOptions.length) return
+
+    setAdAccountName(adAccountOptions.find((adAccount) => adAccount.value === adAccountId).name)
+  }, [adAccountId, adAccountOptions])
 
   const handleChange = (e) => {
     const { target: { value } } = e
@@ -75,13 +87,24 @@ const ControlsWizardAdAccountStep = () => {
   return (
     <>
       <MarkdownText markdown={copy.controlsWizardAdAccountStepIntro} />
-      <Select
-        loading={isLoadingAdAccountOptions}
-        options={adAccountOptions}
-        selectedValue={adAccountId}
-        name="ad_account"
-        handleChange={handleChange}
-      />
+      {isEditMode
+        ? (
+          <Select
+            loading={isLoadingAdAccountOptions}
+            options={adAccountOptions}
+            selectedValue={adAccountId}
+            name="ad_account"
+            handleChange={handleChange}
+          />
+        ) : (
+          <EditBlock
+            value={adAccountName}
+            isEditMode={isEditMode}
+            setIsEditMode={setIsEditMode}
+            trackComponentName="ControlsWizardAdAccountStep"
+            className="mb-8"
+          />
+        )}
       <Error error={error} />
       <Button
         version="outline-green"
