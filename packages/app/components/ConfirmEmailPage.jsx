@@ -58,7 +58,6 @@ const ConfirmEmailPage = ({
 
   // GET EMAIL THAT NEEDS VERIFYING
   const unconfirmedEmails = useUnconfirmedEmails(user)
-  console.log('unconfirmedEmails', unconfirmedEmails)
 
   const [email, setEmail] = React.useState('')
 

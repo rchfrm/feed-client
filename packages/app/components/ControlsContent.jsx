@@ -78,6 +78,10 @@ const ControlsContent = ({ activeSlug }) => {
     },
   })
 
+  React.useEffect(() => {
+    setIsWizardActive(false)
+  }, [artistId])
+
   // Handle error
   if (errorFetchingSettings && !isPending) {
     return (
