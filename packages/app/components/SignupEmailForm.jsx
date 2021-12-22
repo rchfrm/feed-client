@@ -16,13 +16,11 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
-import { trackSignUp } from '@/helpers/trackingHelpers'
+import { trackSignUp, track } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 import styles from '@/LoginPage.module.css'
-
-const scrollTop = () => window.scrollTo(0, 0)
 
 const SignupEmailForm = ({ initialEmail }) => {
   const [email, setEmail] = React.useState(initialEmail)
@@ -86,7 +84,6 @@ const SignupEmailForm = ({ initialEmail }) => {
     const signupRes = await signupWithEmail(email, password)
       .catch((error) => {
         setError(error)
-        scrollTop()
         toggleGlobalLoading(false)
         // Sentry error
         fireSentryError({
@@ -97,22 +94,59 @@ const SignupEmailForm = ({ initialEmail }) => {
         })
       })
     if (!signupRes) return
-    // Create user on server
-    const { res: user, error } = await runCreateUser()
-    if (error) {
-      toggleGlobalLoading(false)
-      // Sentry error
-      fireSentryError({
-        category: 'sign up',
-        action: 'createUser() with password failed',
-        description: error.message,
-        label: email,
-      })
-      return rejectNewUser({ redirectTo: ROUTES.SIGN_UP, errorMessage: error.message })
-    }
-    trackSignUp({ authProvider: 'password', userId: user.id })
-    Router.push(ROUTES.POSTS)
+
+    window.grecaptcha.enterprise.ready(async () => {
+      // Generate reCAPTCHA token to evaluate user interaction risks
+      const verificationAction = 'register'
+      const verificationToken = await window.grecaptcha.enterprise.execute(process.env.recaptcha_key, { action: verificationAction })
+
+      // Create user on server
+      const { res: user, error } = await runCreateUser({ verificationToken, verificationAction })
+      if (error) {
+        toggleGlobalLoading(false)
+        // Sentry error
+        fireSentryError({
+          category: 'sign up',
+          action: 'createUser() with password failed',
+          description: error.message,
+          label: email,
+        })
+        return rejectNewUser({ redirectTo: ROUTES.SIGN_UP, errorMessage: error.message })
+      }
+
+      if (user.is_email_verification_needed) {
+        track('recaptcha email verification needed', { userId: user.id })
+        Router.push(ROUTES.CONFIRM_EMAIL)
+        return
+      }
+
+      trackSignUp({ authProvider: 'password', userId: user.id })
+      Router.push(ROUTES.POSTS)
+    })
   }
+
+  const showReCaptchaBadge = (_, observer) => {
+    const reCaptchaEl = document.getElementsByClassName('grecaptcha-badge')[0]
+
+    if (reCaptchaEl) {
+      reCaptchaEl.style.top = '14px'
+      reCaptchaEl.style.visibility = 'visible'
+      observer.disconnect()
+    }
+  }
+
+  React.useEffect(() => {
+    /* There’s no guarantee that the reCaptcha DOM element exist on page load.
+    So we watch the document body and apply styling once the element does exist. */
+    const observer = new MutationObserver(showReCaptchaBadge)
+
+    observer.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      const reCaptchaEl = document.getElementsByClassName('grecaptcha-badge')[0]
+      reCaptchaEl.style.visibility = 'hidden'
+    }
+  }, [])
 
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>

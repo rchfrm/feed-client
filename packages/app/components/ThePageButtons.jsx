@@ -4,6 +4,7 @@ import ThePageButtonsIcon from '@/app/ThePageButtonsIcon'
 import ActiveLink from '@/elements/ActiveLink'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useBrowserStore from '@/hooks/useBrowserStore'
@@ -52,6 +53,7 @@ const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }
 
 const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
+  const { user } = React.useContext(UserContext)
   const { device = {} } = useBrowserStore()
   const { isMobile, isIOS } = device
   // Get currency from artist
@@ -61,7 +63,7 @@ const ThePageButtons = () => {
     artist: { missingDefaultLink, isSpendingPaused },
   } = React.useContext(ArtistContext)
   // Don't show buttons if no logged in
-  if (!isLoggedIn) return null
+  if (!isLoggedIn || user.is_email_verification_needed) return null
 
   return (
     <div

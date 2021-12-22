@@ -5,13 +5,19 @@ import ResultsLoader from '@/app/ResultsLoader'
 
 import Spinner from '@/elements/Spinner'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
+
 import useControlsWizard from '@/app/hooks/useControlsWizard'
 
 const ResultsPage = () => {
   const [isWizardActive, setIsWizardActive] = React.useState(false)
+  const { globalLoading } = React.useContext(InterfaceContext)
+  const { artistId } = React.useContext(ArtistContext)
   const {
     hasSetUpControls,
     isLoading,
+    adAccountId,
     defaultLinkId,
     defaultPromotionEnabled,
     budget,
@@ -19,7 +25,11 @@ const ResultsPage = () => {
     isProfilePartOfOrganisation,
   } = useControlsWizard()
 
-  if (isLoading) return <Spinner />
+  React.useEffect(() => {
+    setIsWizardActive(false)
+  }, [artistId])
+
+  if (globalLoading || isLoading) return <Spinner />
 
   return (
     !hasSetUpControls || isWizardActive ? (
@@ -27,6 +37,7 @@ const ResultsPage = () => {
         <div className="col-span-6 col-start-1">
           <ControlsWizard
             setIsWizardActive={setIsWizardActive}
+            adAccountId={adAccountId}
             defaultLinkId={defaultLinkId}
             defaultPromotionEnabled={defaultPromotionEnabled}
             budget={budget}

@@ -1,6 +1,5 @@
 // IMPORT PACKAGES
 import React from 'react'
-import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 // IMPORT COMPONENTS
@@ -16,8 +15,6 @@ import NotificationsHandler from '@/app/NotificationsHandler'
 // // IMPORT STORES
 import useControlsStore from '@/app/stores/controlsStore'
 
-import * as ROUTES from '@/app/constants/routes'
-
 const controlsStoreInit = state => state.initControlsStore
 const getUpdateLinksWithIntegrations = state => state.updateLinksWithIntegrations
 const controlsStoreClearAll = state => state.clearAll
@@ -25,8 +22,6 @@ const controlsStoreClearAll = state => state.clearAll
 function Main({ children }) {
   const { artistId, artist } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
-  const [isSignedOutPage, setIsSignedOutPage] = React.useState(true)
-  const router = useRouter()
 
   // SETUP CONTROLS STORE WHEN ARTIST CHANGES
   const setupControlsStore = useControlsStore(controlsStoreInit)
@@ -45,16 +40,8 @@ function Main({ children }) {
   // eslint-disable-next-line
   }, [artist.integrations])
 
-  const handleRouteChange = React.useCallback(() => {
-    setIsSignedOutPage(ROUTES.signedOutPages.includes(router.pathname))
-  }, [router.pathname])
-
-  React.useEffect(() => {
-    router.events.on('routeChangeComplete', handleRouteChange)
-  }, [router.events, handleRouteChange])
-
   return (
-    <main id="page--container" className={isSignedOutPage ? 'mr-0' : 'md:ml-10'}>
+    <main id="page--container" className="md:ml-10">
       <TargetingContextProvider>
         <SidePanelContextProvider>
           <InitUser>

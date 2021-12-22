@@ -12,31 +12,29 @@ import { UserContext } from '@/app/contexts/UserContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
-import Button from '@/elements/Button'
-import PencilIcon from '@/icons/PencilIcon'
 
 import ConfirmEmailResendButton from '@/app/ConfirmEmailResendButton'
 import ConfirmEmailChangeEmail from '@/app/ConfirmEmailChangeEmail'
 import ConfirmEmailEmailSuccess from '@/app/ConfirmEmailEmailSuccess'
+import LoginSignupEmailEdit from '@/app/LoginSignupEmailEdit'
 
 import { parseUrl } from '@/helpers/utils'
 import { verifyEmail } from '@/app/helpers/appServer'
 import { getUser } from '@/helpers/sharedServer'
+import { trackSignUp } from '@/helpers/trackingHelpers'
 
 import copy from '@/app/copy/signupCopy'
-
-import brandColors from '@/constants/brandColors'
 
 import styles from '@/LoginPage.module.css'
 
 import * as ROUTES from '@/app/constants/routes'
 
 // Get the email type that needs verifying
-const getEmailType = ({ query, emailVerified, contactEmailVerified, contactEmail }) => {
+const getEmailType = ({ query, emailVerified, pendingEmail, contactEmailVerified, pendingContactEmail, contactEmail }) => {
   const queryType = query?.type
   if (queryType) return queryType
-  if (!emailVerified) return 'email'
-  if (contactEmail && !contactEmailVerified) return 'contactEmail'
+  if (!emailVerified || pendingEmail) return 'email'
+  if ((contactEmail && !contactEmailVerified) || pendingContactEmail) return 'contactEmail'
   return 'none'
 }
 
@@ -78,8 +76,11 @@ const ConfirmEmailPage = ({
   const [emailType, setEmailType] = React.useState('')
   React.useEffect(() => {
     if (userLoading) return
-    const emailType = getEmailType({ query, emailVerified, contactEmailVerified, contactEmail })
+    const emailType = getEmailType({ query, emailVerified, pendingEmail, contactEmailVerified, pendingContactEmail, contactEmail })
     const { email } = unconfirmedEmails.find((email) => email.type === emailType) || {}
+
+    if (!email) return
+
     setEmail(email)
     setEmailType(emailType)
   // eslint-disable-next-line
@@ -148,6 +149,9 @@ const ConfirmEmailPage = ({
       return
     }
     if (res?.success) {
+      if (user.is_email_verification_needed) {
+        trackSignUp({ authProvider: 'password', userId: user.id })
+      }
       const { res: userUpdated } = await getUser()
       setIsSuccessful(true)
       updateUser(userUpdated)
@@ -166,7 +170,6 @@ const ConfirmEmailPage = ({
     return (
       <ConfirmEmailEmailSuccess
         email={email}
-        contactEmail={contactEmail}
         emailType={emailType}
         onContinue={onSuccessContinue}
         className={styles.container}
@@ -196,26 +199,22 @@ const ConfirmEmailPage = ({
       ].join(' ')}
     >
       {/* INTRO */}
-      <MarkdownText markdown={copy.emailVerify(email)} />
+      <h2>Check your inbox</h2>
+      <MarkdownText markdown={copy.emailVerify(emailType)} />
       {/* ERROR */}
       <Error error={error} />
       {/* CHANGE EMAIL */}
       <div>
-        <p className="mb-5">Didn't receive an email?</p>
-        <div className="xxs:flex justify-between items-center">
-          <ConfirmEmailResendButton
-            emailType={emailType}
-            setError={setError}
-          />
-          <Button
-            version="x-small green icon"
-            onClick={() => setIsChangeEmail(true)}
-            trackComponentName="ConfirmEmailPage"
-          >
-            <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
-            Change email address
-          </Button>
-        </div>
+        <LoginSignupEmailEdit
+          email={email}
+          isEmailEdit={isChangeEmail}
+          setIsEmailEdit={setIsChangeEmail}
+        />
+        <MarkdownText className="inline-block mb-0" markdown={copy.emailQuestion} />
+        <ConfirmEmailResendButton
+          emailType={emailType}
+          setError={setError}
+        />
       </div>
     </div>
   )

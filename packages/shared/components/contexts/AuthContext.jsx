@@ -52,6 +52,7 @@ function AuthProvider({ children }) {
   const [redirectType, setRedirectType] = React.useState('')
   const [authLoading, setAuthLoading] = React.useState(false)
   const [rejectedPagePath, setRejectedPagePath] = React.useState('')
+  const [isFacebookRedirect, setIsFacebookRedirect] = React.useState(false)
 
   const setMissingScopes = (scopes) => {
     setAuth({
@@ -148,6 +149,8 @@ function AuthProvider({ children }) {
     rejectedPagePath,
     setRejectedPagePath,
     clearRejectedPathPath,
+    isFacebookRedirect,
+    setIsFacebookRedirect,
   }
 
   return (

@@ -77,7 +77,6 @@ export const doPasswordUpdate = async (password) => {
   if (res) return res
 }
 
-
 export const doEmailUpdate = async (email) => {
   const res = await auth.currentUser.updateEmail(email)
     .catch((error) => {
@@ -86,6 +85,15 @@ export const doEmailUpdate = async (email) => {
   if (res) return res
 }
 
+export const doReauthenticateWithCredential = async (email, password) => {
+  const credential = app.auth.EmailAuthProvider.credential(email, password)
+
+  const res = await auth.currentUser.reauthenticateWithCredential(credential)
+    .catch((error) => {
+      return { error }
+    })
+  if (res) return { authUser: res }
+}
 
 export const loginWithFacebook = () => {
   return auth.signInWithRedirect(fbProvider)

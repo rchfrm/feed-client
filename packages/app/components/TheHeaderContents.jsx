@@ -95,7 +95,7 @@ function TheHeaderContents({
       {/* Page Header */}
       {showPageTitle && <PageHeader className={styles.pageTitle} />}
       {/* Subnav button */}
-      {isLoggedIn && user?.id && (
+      {isLoggedIn && user?.id && !user.is_email_verification_needed && (
         <TheSubNavButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}
