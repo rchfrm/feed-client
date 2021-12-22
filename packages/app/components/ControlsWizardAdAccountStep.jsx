@@ -22,6 +22,7 @@ const ControlsWizardAdAccountStep = () => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
 
   const [adAccountOptions, setAdAccountOptions] = React.useState([])
+  const [adAccounts, setAdAccounts] = React.useState([])
   const [adAccountId, setAdAccountId] = React.useState(facebookIntegration?.adaccount_id || '')
   const [adAccountName, setAdAccountName] = React.useState('')
   const [isEditMode, setIsEditMode] = React.useState(!adAccountId)
@@ -29,7 +30,7 @@ const ControlsWizardAdAccountStep = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const { next } = React.useContext(WizardContext)
+  const { next, setWizardState } = React.useContext(WizardContext)
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
@@ -38,6 +39,7 @@ const ControlsWizardAdAccountStep = () => {
     setIsLoadingAdAccountOptions(true)
     const { res: { adaccounts: adAccounts } } = await getAdAccounts(artistId)
     const options = adAccounts.map(({ id, name }) => ({ name, value: id }))
+    setAdAccounts(adAccounts)
     setAdAccountOptions(options)
     setIsLoadingAdAccountOptions(false)
   }, [])
@@ -61,6 +63,17 @@ const ControlsWizardAdAccountStep = () => {
       setError(error)
       setIsLoading(false)
       return
+    }
+    // If business country is set in the choosen ad account we store it in the local wizard context state
+    const country = adAccounts.find((adAccount) => adAccount.id === adAccountId).business_country
+    if (country) {
+      setWizardState({
+        type: 'set-state',
+        payload: {
+          key: 'adAccountCountry',
+          value: 'China',
+        },
+      })
     }
     // Update artist context
     updateArtist(artist)

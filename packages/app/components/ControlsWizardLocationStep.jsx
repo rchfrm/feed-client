@@ -25,11 +25,12 @@ const locationOptions = countries.map(({ id, name }) => {
 })
 
 const ControlsWizardLocationStep = () => {
-  const { next } = React.useContext(WizardContext)
+  const { next, wizardState } = React.useContext(WizardContext)
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
+  const adAccountCountryCode = locationOptions.find((location) => location.name === wizardState.adAccountCountry)?.value
 
   const [isLoading, setIsLoading] = React.useState(false)
-  const [countryCode, setCountryCode] = React.useState(artist.country_code || locationOptions[0].value)
+  const [countryCode, setCountryCode] = React.useState(adAccountCountryCode || locationOptions[0].value)
   const [country, setCountry] = React.useState('')
   const [isEditMode, setIsEditMode] = React.useState(!countryCode)
   const [error, setError] = React.useState(null)
