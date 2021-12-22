@@ -11,6 +11,7 @@ import '../../shared/css/utilities.css'
 import Head from 'next/head'
 import AppContents from '@/app/AppContents'
 import SetupFacebookChatPlugin from '@/elements/SetupFacebookChatPlugin'
+import SetupReCaptcha from '@/elements/SetupReCaptcha'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { trackPWA, setupTracking, trackPageView } from '@/helpers/trackingHelpers'
 
@@ -101,6 +102,9 @@ function Feed({ Component, pageProps }) {
 
       {/* FACEBOOK CHAT */}
       <SetupFacebookChatPlugin pageId={fbPageId} />
+
+      {/* RECAPTCHA */}
+      <SetupReCaptcha />
 
       <AppContents>
         <PageTransition timeout={300} classNames="page-transition">

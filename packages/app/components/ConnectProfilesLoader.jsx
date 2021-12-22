@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
@@ -8,6 +9,8 @@ import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 // IMPORT ELEMENTS
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
@@ -16,21 +19,20 @@ import ButtonHelp from '@/elements/ButtonHelp'
 import ConnectProfilesFacebook from '@/app/ConnectProfilesFacebook'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectButton from '@/app/ConnectProfilesConnectButton'
+import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
 import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
-import { sortArrayByKey } from '@/helpers/utils'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
+import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
   const { type: actionType, payload } = action
-  const artistAccount = draftState[payload.id] || {}
-  const { available_facebook_ad_accounts: availableAdAccounts } = artistAccount
-  const selectedAdAccount = actionType === 'update-artist-adaccount' ? availableAdAccounts.find(({ id }) => id === payload.value) : null
+
   switch (actionType) {
     case 'add-artists':
       Object.entries(payload.artists).forEach(([key, value]) => {
@@ -39,13 +41,6 @@ const artistsReducer = (draftState, action) => {
       break
     case 'toggle-connect':
       draftState[payload.id].connect = !draftState[payload.id].connect
-      break
-    case 'update-artist':
-      draftState[payload.id][payload.field] = payload.value
-      break
-    case 'update-artist-adaccount':
-      draftState[payload.id].adaccount_id = payload.value
-      draftState[payload.id].selected_facebook_ad_account = selectedAdAccount
       break
     default:
       throw new Error(`Could not find ${actionType} in artistsReducer`)
@@ -58,9 +53,10 @@ const ConnectProfilesLoader = ({
   className,
 }) => {
   // IMPORT CONTEXTS
-  const { auth, accessToken, authError, setAuthError } = React.useContext(AuthContext)
+  const { auth, accessToken, authError, setAuthError, isFacebookRedirect, setIsFacebookRedirect } = React.useContext(AuthContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const { user, userLoading } = React.useContext(UserContext)
+  const { connectArtists } = React.useContext(ArtistContext)
   // Get any missing scopes
   const { missingScopes } = auth
 
@@ -105,7 +101,7 @@ const ConnectProfilesLoader = ({
     if (!accessToken) return toggleGlobalLoading(false)
     // START FETCHING ARTISTS
     setPageLoading(true)
-    const { res: artistsAndAccounts, error } = await artistHelpers.getArtistOnSignUp(accessToken)
+    const { res, error } = await artistHelpers.getArtistOnSignUp(accessToken)
     if (error) {
       if (!isMounted()) return
       setErrors([error])
@@ -114,9 +110,9 @@ const ConnectProfilesLoader = ({
       return
     }
     setFetchedArtistsFinished(true)
-    const { accounts: artists, adaccounts: adAccounts } = artistsAndAccounts
+    const { accounts: artistAccounts } = res
     // Error if no artist accounts
-    if (Object.keys(artists).length === 0) {
+    if (Object.keys(artistAccounts).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
       setPageLoading(false)
       toggleGlobalLoading(false)
@@ -128,39 +124,50 @@ const ConnectProfilesLoader = ({
     }
     // Remove profiles that have already been connected
     const userArtists = user?.artists || []
-    const artistsFiltered = !user.artists.length ? artists : artistHelpers.removeAlreadyConnectedArtists(artists, userArtists)
-    // Sort ad accounts
-    const adAccountsSorted = sortArrayByKey(adAccounts, 'name')
+    const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
     // Add ad accounts to artists
-    const processedArtists = await artistHelpers.addAdAccountsToArtists({ artists: artistsFiltered, adAccounts: adAccountsSorted })
+    const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
     if (!isMounted()) return
-    // Error if no ad accounts
-    if (!adAccounts.length) {
-      setErrors([...errors, { message: copy.noAdAccountsError }])
-      setPageLoading(false)
-      toggleGlobalLoading(false)
-      // Track
-      fireSentryError({
-        category: 'sign up',
-        action: 'No ad accounts were found after running artistHelpers.getArtistOnSignUp()',
-      })
-      return
-    }
     setArtistAccounts({
       type: 'add-artists',
       payload: {
         artists: processedArtists,
       },
     })
+    // Handle connecting a single artist
+    if (Object.keys(processedArtists).length === 1 && isFacebookRedirect) {
+      setPageLoading(false)
+      toggleGlobalLoading(false)
+      const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
+      // Santise URLs
+      const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
+      setIsConnecting(true)
+      const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
+      if (error) {
+        setIsConnecting(false)
+        setErrors(errors => [...errors, error])
+        setIsConnecting(false)
+        return
+      }
+      Router.push(ROUTES.HOME)
+      return
+    }
     setPageLoading(false)
     toggleGlobalLoading(false)
   }, [userLoading, isConnecting])
-
 
   // Set initial error (if any)
   React.useEffect(() => {
     setErrors([authError])
   }, [authError])
+
+  React.useEffect(() => {
+    return () => setIsFacebookRedirect(false)
+  }, [setIsFacebookRedirect])
+
+  if (isConnecting && Object.keys(artistAccounts).length > 0) {
+    return <ConnectProfilesIsConnecting artistAccounts={artistAccounts} />
+  }
 
   if (pageLoading || isConnecting) return <Spinner />
 

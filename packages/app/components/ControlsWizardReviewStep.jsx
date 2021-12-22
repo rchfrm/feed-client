@@ -6,8 +6,6 @@ import * as ROUTES from '@/app/constants/routes'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
-
 import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/controlsPageCopy'
@@ -25,18 +23,13 @@ const ControlsWizardReviewStep = () => {
     <>
       <MarkdownText markdown={copy.controlsWizardReviewStepIntro} />
       <Button
-        version="green icon"
+        version="green"
         onClick={goToPostsPage}
         spinnerFill={brandColors.white}
-        className="w-full mb-10"
+        className="w-1/3 ml-auto mb-12"
         trackComponentName="ControlsWizardReviewStep"
       >
-        Review Posts
-        <ArrowAltIcon
-          className="ml-3"
-          fill={brandColors.white}
-          direction="right"
-        />
+        Start!
       </Button>
     </>
   )

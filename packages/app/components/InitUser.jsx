@@ -28,6 +28,7 @@ const InitUser = ({ children }) => {
     setRedirectType,
     setAuthError,
     storeAuth,
+    setIsFacebookRedirect,
   } = React.useContext(AuthContext)
   const { userLoading } = React.useContext(UserContext)
 
@@ -108,6 +109,7 @@ const InitUser = ({ children }) => {
     }
     // * Handle REDIRECT success
     if (authUser) {
+      setIsFacebookRedirect(true)
       fireSentryBreadcrumb({
         category: 'login',
         action: 'Handle successful FB redirect',

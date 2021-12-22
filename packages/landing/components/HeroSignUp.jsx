@@ -31,7 +31,7 @@ export default function HeroSignUp() {
     setError(null)
 
     if (!email) {
-      setError({ message: 'Please provide an email address' })
+      mixpanelExternalLinkClick(joinLink, { location: trackLocation })
       return
     }
 
@@ -53,12 +53,12 @@ export default function HeroSignUp() {
     }
 
     if (signInMethods.length === 1 && signInMethods[0] === 'facebook.com') {
-      mixpanelExternalLinkClick(`${loginLink}/facebook`, { queryParams: { email }, location: trackLocation })
+      mixpanelExternalLinkClick(`${loginLink}/facebook`, { location: trackLocation })
       return
     }
 
     if (['facebook.com', 'password'].every(signInMethod => signInMethods.indexOf(signInMethod) > -1)) {
-      mixpanelExternalLinkClick(loginLink, { queryParams: { email }, location: trackLocation })
+      mixpanelExternalLinkClick(loginLink, { location: trackLocation })
     }
   }
 

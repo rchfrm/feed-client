@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ConnectProfilesCard from '@/app/ConnectProfilesCard'
-import ConnectProfilesFacebookConnectCard from '@/app/ConnectProfilesFacebookConnectCard'
+import ConnectProfilesItem from '@/app/ConnectProfilesItem'
+import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
@@ -16,52 +16,29 @@ const ConnectProfilesList = ({
   setErrors,
   className,
 }) => {
-  // Toggled button disabled based on country select OR ad account select OR no accounts selected
   React.useEffect(() => {
     const allAccounts = Object.values(artistAccounts)
     // Test whether every account already exists
     const everyAccountExists = allAccounts.every(({ exists }) => exists)
-    // Make sure every every connected account has a country set
-    const allCountriesSet = allAccounts.every(({ country_code, connect }) => {
-      return country_code || !connect
-    })
-    // Make sure every every connected account has an ad account set
-    const allAdAccountsSet = allAccounts.every(({ adaccount_id, connect }) => {
-      return adaccount_id || !connect
-    })
     // Find all accounts that don't yet exist but are selected to connect
     const selectedAccounts = allAccounts.filter(({ connect }) => connect)
-    // Disable button if country is not set, ad account is not set, or no selected, non-existing accounts
-    const disableButton = !allCountriesSet || !allAdAccountsSet || (!selectedAccounts.length && !everyAccountExists)
+    // Disable button if no selected, non-existing accounts
+    const disableButton = !selectedAccounts.length && !everyAccountExists
     setButtonDisabled(disableButton)
-
-    if (!disableButton) {
-      setDisabledReason('')
-      return
-    }
-
-    if (!allAdAccountsSet) {
-      setDisabledReason('Please select an ad account for each account you want to connect.')
-    }
-
-    if (!allCountriesSet) {
-      setDisabledReason('Please select a country for each account you want to connect.')
-    }
 
     if (!selectedAccounts.length) {
       setDisabledReason('Please select at least one account')
+      return
+    }
+
+    if (!disableButton) {
+      setDisabledReason('')
     }
   }, [artistAccounts, setDisabledReason, setButtonDisabled])
 
   const artistAccountsArray = React.useMemo(() => {
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
   }, [artistAccounts])
-
-  const cardClasses = [
-    'mb-8 xs:mb-0',
-    'col-span-6',
-    'lg:col-span-4',
-  ].join(' ')
 
   return (
     <ul
@@ -73,34 +50,26 @@ const ConnectProfilesList = ({
         className,
       ].join(' ')}
     >
-      {artistAccountsArray.map((artistAccount, index) => {
-        return (
-          <React.Fragment key={artistAccount.page_id}>
-            {index === 2 && (
-              <ConnectProfilesFacebookConnectCard
-                auth={auth}
-                errors={errors}
-                setErrors={setErrors}
-                className={cardClasses}
-              />
-            )}
-            <ConnectProfilesCard
+      <div className="col-span-12 sm:col-span-5 mb-12 xs:mb-0">
+        {artistAccountsArray.map((artistAccount, index) => {
+          return (
+            <ConnectProfilesItem
+              key={index}
               artist={artistAccount}
               updateArtists={updateArtists}
               setErrors={setErrors}
-              className={cardClasses}
+              className="mb-6"
             />
-          </React.Fragment>
-        )
-      })}
-      {artistAccountsArray.length < 3 && (
-        <ConnectProfilesFacebookConnectCard
+          )
+        })}
+      </div>
+      <div className="col-span-12 sm:col-span-6 sm:col-start-7">
+        <ConnectProfilesConnectMore
           auth={auth}
           errors={errors}
           setErrors={setErrors}
-          className={cardClasses}
         />
-      )}
+      </div>
     </ul>
   )
 }

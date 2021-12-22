@@ -6,6 +6,8 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
+import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
   defaultPaymentMethod: state.defaultPaymentMethod,
@@ -16,6 +18,7 @@ const getBillingStoreState = (state) => ({
 const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
   budget: state.budget,
+  controlsLoading: state.isControlsLoading,
 })
 
 const useControlsWizard = () => {
@@ -25,10 +28,13 @@ const useControlsWizard = () => {
     loading: billingLoading,
     allOrgs,
   } = useBillingStore(getBillingStoreState)
-  const { postsPreferences, budget } = useControlsStore(getControlsStoreState)
+  const { postsPreferences, budget, controlsLoading } = useControlsStore(getControlsStoreState)
   const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
-  const { artistId, artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
+  const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
+  const { min_daily_budget_info } = artist
   const { user } = React.useContext(UserContext)
+  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
+  const adAccountId = facebookIntegration?.adaccount_id
 
   const currentUserOrganisation = allOrgs.find(organisation => organisation.role === 'owner')
   const isProfilePartOfOrganisation = Object.keys(currentUserOrganisation?.artists || {}).includes(artistId)
@@ -41,13 +47,15 @@ const useControlsWizard = () => {
   // eslint-disable-next-line
   }, [artistLoading, user, setupBilling])
 
-  const hasSetUpControls = Boolean(defaultLinkId
+  const hasSetUpControls = Boolean(adAccountId
+    && defaultLinkId
     && budget
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
   return {
-    isLoading: billingLoading || artistLoading,
+    isLoading: billingLoading || artistLoading || controlsLoading,
     hasSetUpControls,
+    adAccountId,
     defaultLinkId,
     defaultPromotionEnabled,
     budget,

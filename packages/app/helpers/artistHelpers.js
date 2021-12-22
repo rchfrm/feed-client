@@ -15,13 +15,11 @@ export const createArtist = async (artist, accessToken, token) => {
   return api.post('/artists', {
     name: artist.name,
     location: null,
-    country_code: artist.country_code,
     integrations: {
       facebook: {
         page_id: artist.page_id,
         access_token: accessToken,
         instagram_id: artist.instagram_id,
-        adaccount_id: artist.selected_facebook_ad_account.id,
       },
     },
   }, token)
@@ -51,6 +49,43 @@ export const getArtist = async (artistId, accessToken) => {
   artist._embedded = { dataSources: sanitisedDataSources }
   artist.URLs = utils.filterArtistUrls(artist)
   return { artist }
+}
+
+// Get all available ad accounts
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
+export const getAdAccounts = async (artistId) => {
+  const requestUrl = `/artists/${artistId}/available_adaccounts`
+  const payload = {}
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Get available ad accounts',
+  }
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
+// Update ad account
+/**
+* @param {string} artistId
+* @param {string} adAccountId
+* @returns {Promise<object>} { res, error }
+*/
+export const updateAdAccount = (artistId, adAccountId) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    integrations: {
+      facebook: {
+        adaccount_id: adAccountId,
+      },
+    },
+  }
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update ad account',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
 
@@ -99,7 +134,7 @@ export const removeAlreadyConnectedArtists = (newArtists, userArtists) => {
   })
 }
 
-export const addAdAccountsToArtists = async ({ artists, adAccounts }) => {
+export const processArtists = async ({ artists }) => {
   const artistsProcessed = Object.values(artists).map((artist) => {
     const {
       instagram_username,
@@ -107,7 +142,6 @@ export const addAdAccountsToArtists = async ({ artists, adAccounts }) => {
       page_id,
       page_token,
     } = artist
-    const selectedAdAccount = adAccounts[0]
     // Get the FB page url
     const facebookPageUrl = `https://www.facebook.com/${page_token || page_id}`
     // Get the Insta page url
@@ -115,8 +149,6 @@ export const addAdAccountsToArtists = async ({ artists, adAccounts }) => {
     // Return processed account
     return {
       ...artist,
-      available_facebook_ad_accounts: adAccounts,
-      selected_facebook_ad_account: selectedAdAccount,
       facebook_page_url: facebookPageUrl,
       instagram_url: instaPageUrl,
       connect: true,

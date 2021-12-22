@@ -7,7 +7,6 @@ export const sortUserArtists = (user) => {
   })
 }
 
-
 /**
  * @param {object} user
  * @param {string} orgTypes 'owned' | 'all'

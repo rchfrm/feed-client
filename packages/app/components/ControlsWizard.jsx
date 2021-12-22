@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ControlsWizardAdAccountStep from '@/app/ControlsWizardAdAccountStep'
 import ControlsWizardLinkStep from '@/app/ControlsWizardLinkStep'
 import ControlsWizardPostsStep from '@/app/ControlsWizardPostsStep'
 import ControlsWizardBudgetStep from '@/app/ControlsWizardBudgetStep'
@@ -11,6 +12,7 @@ import { WizardContextProvider } from '@/app/contexts/WizardContext'
 
 const ControlsWizard = ({
   setIsWizardActive,
+  adAccountId,
   defaultLinkId,
   budget,
   defaultPaymentMethod,
@@ -20,31 +22,37 @@ const ControlsWizard = ({
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      title: 'Choose a link',
+      title: 'Select Facebook Ad Account',
+      component: <ControlsWizardAdAccountStep />,
+      shouldSkip: Boolean(adAccountId),
+    },
+    {
+      id: 1,
+      title: 'Choose a default link',
       component: <ControlsWizardLinkStep />,
       shouldSkip: Boolean(defaultLinkId),
     },
     {
-      id: 1,
-      title: 'Budget',
-      component: <ControlsWizardBudgetStep />,
-      shouldSkip: Boolean(budget),
-    },
-    {
       id: 2,
-      title: 'Payment method',
-      component: <ControlsWizardPaymentStep />,
-      shouldSkip: !isProfilePartOfOrganisation || Boolean(defaultPaymentMethod),
-    },
-    {
-      id: 3,
-      title: 'Promotable posts',
+      title: 'Enable new posts by default',
       component: <ControlsWizardPostsStep />,
       shouldSkip: false,
       hasSkipButton: true,
     },
     {
+      id: 3,
+      title: 'Set your daily budget',
+      component: <ControlsWizardBudgetStep />,
+      shouldSkip: Boolean(budget),
+    },
+    {
       id: 4,
+      title: 'Add a payment method',
+      component: <ControlsWizardPaymentStep />,
+      shouldSkip: !isProfilePartOfOrganisation || Boolean(defaultPaymentMethod),
+    },
+    {
+      id: 5,
       title: 'All set!',
       component: <ControlsWizardReviewStep />,
       shouldSkip: false,
@@ -76,6 +84,7 @@ const ControlsWizard = ({
 ControlsWizard.propTypes = {
   setIsWizardActive: PropTypes.func.isRequired,
   defaultLinkId: PropTypes.string,
+  adAccountId: PropTypes.string,
   budget: PropTypes.number.isRequired,
   defaultPaymentMethod: PropTypes.object,
   isProfilePartOfOrganisation: PropTypes.bool,
@@ -84,6 +93,7 @@ ControlsWizard.propTypes = {
 ControlsWizard.defaultProps = {
   defaultPaymentMethod: null,
   defaultLinkId: '',
+  adAccountId: '',
   isProfilePartOfOrganisation: false,
 }
 

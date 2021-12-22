@@ -26,7 +26,7 @@ const BasePage = ({
   children,
 }) => {
   // Get interface context
-  const { setHeader, toggleSubNav, toggleGlobalLoading, globalLoading } = React.useContext(InterfaceContext)
+  const { setHeader, toggleSubNav, toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
   // ON MOUNT
@@ -80,12 +80,10 @@ const BasePage = ({
           </div>
         </div>
       ) : (
-        !globalLoading && (
-          <>
-            {/* PAGE CONTENT */}
-            {children}
-          </>
-        )
+        <>
+          {/* PAGE CONTENT */}
+          {children}
+        </>
       )}
     </>
   )

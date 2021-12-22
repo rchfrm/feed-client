@@ -220,7 +220,12 @@ const TargetingContextProvider = ({ children }) => {
     if (noLocations) return setDisableSaving('location')
     // Reset
     setDisableSaving(initialState.disableSaving)
-  }, [targetingState.budget, feedMinBudgetInfo, currencyOffset, selectedCountries, selectedCities])
+  }, [targetingState.budget, feedMinBudgetInfo, currencyOffset, selectedCountries, selectedCities, locationOptions])
+
+  React.useEffect(() => {
+    const minReccBudget = budgetHelpers.calcMinReccBudget(feedMinBudgetInfo, locationOptions)
+    setMinReccBudget(minReccBudget)
+  }, [feedMinBudgetInfo, locationOptions])
 
   // SAVE CAMPAIGN
   const settingsSaved = React.useRef(initialState.settingsSaved)
