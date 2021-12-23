@@ -4,7 +4,7 @@ import * as api from '@/helpers/api'
 import { requiredScopesAccount } from '@/helpers/firebaseHelpers'
 import facebook from '@/app/constants/facebook'
 
-export const getFbRedirectUrl = (requestedPermissions) => {
+export const getFbRedirectUrl = (requestedPermissions, isReauth) => {
   const scopeRequests = requestedPermissions || requiredScopesAccount
 
   return `
@@ -13,19 +13,20 @@ export const getFbRedirectUrl = (requestedPermissions) => {
     redirect_uri=${facebook.REDIRECT_URL}&
     state=empty&
     scope=${scopeRequests.join(',')}
+    ${isReauth ? '&auth_type=rerequest' : ''}
   `
 }
 
 /**
- * @param {string} facebookCode
+ * @param {string} code
  * @param {string} redirectUri
  * @returns {Promise<any>}
  */
-export const setFacebookAccessToken = async (code, redirectUri) => {
+export const setFacebookAccessToken = async (code, redirectUrl) => {
   const requestUrl = '/actions/facebook/access_token'
   const payload = {
     code,
-    redirect_uri: redirectUri,
+    redirect_uri: redirectUrl,
   }
   const errorTracking = {
     category: 'Connect Accounts',

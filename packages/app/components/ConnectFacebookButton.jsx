@@ -13,11 +13,12 @@ const ConnectFacebookButton = ({
   className,
 }) => {
   const { auth } = React.useContext(AuthContext)
-  const { missingScopes } = auth
+  const { missingScopes, providerIds } = auth
 
   const linkFacebook = () => {
+    const isReauth = missingScopes.length || providerIds.includes('facebook.com')
     const requestedScopes = missingScopes.length ? missingScopes : null
-    const url = getFbRedirectUrl(requestedScopes)
+    const url = getFbRedirectUrl(requestedScopes, isReauth)
 
     window.location.href = url
   }
