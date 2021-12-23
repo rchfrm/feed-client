@@ -38,7 +38,7 @@ const fetchGlobalData = () => {
 }
 
 
-const { REACT_APP_API_URL, REACT_APP_API_URL_LIVE } = process.env
+const { REACT_APP_API_URL, REACT_APP_API_URL_LIVE, REACT_APP_URL } = process.env
 const build_env = process.env.BUILD_ENV || process.env.NODE_ENV
 const isDev = build_env === 'development'
 // Show warning if using the live DB locally
@@ -58,6 +58,7 @@ const nextConfig = {
     firebase_app_id: process.env.FIREBASE_APP_ID,
     stripe_provider: process.env.STRIPE_PROVIDER,
     react_app_api_url: REACT_APP_API_URL,
+    react_app_url: REACT_APP_URL,
     build_env,
     isDev,
     sentry_dsn: 'https://d3ed114866ac498da2fdd9acf2c6bd87@sentry.io/3732610',

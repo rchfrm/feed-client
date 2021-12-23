@@ -5,7 +5,7 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
-import { getFbRedirectUri } from '@/app/helpers/facebookHelpers'
+import { getFbRedirectUrl } from '@/app/helpers/facebookHelpers'
 
 const ConnectFacebookButton = ({
   buttonText,
@@ -17,7 +17,7 @@ const ConnectFacebookButton = ({
 
   const linkFacebook = () => {
     const requestedScopes = missingScopes.length ? missingScopes : null
-    const url = getFbRedirectUri(requestedScopes)
+    const url = getFbRedirectUrl(requestedScopes)
 
     window.location.href = url
   }

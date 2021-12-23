@@ -2,33 +2,18 @@
 import * as api from '@/helpers/api'
 
 import { requiredScopesAccount } from '@/helpers/firebaseHelpers'
-import * as ROUTES from '@/app/constants/routes'
+import facebook from '@/app/constants/facebook'
 
-const url = 'https://graph.facebook.com/v8.0/'
-
-export const getInstagramBusinessUsername = async (ig_business_id, fb_access_token) => {
-  const endpoint = `${url + ig_business_id}?fields=username&access_token=${fb_access_token}`
-  try {
-    const res = await fetch(endpoint, {
-      method: 'GET',
-    })
-    if (res.ok) {
-      const jsonResponse = await res.json()
-      return jsonResponse.username
-    }
-    throw new Error('Request to GET Instagram Username failed')
-  } catch (err) {
-    return err
-  }
-}
-
-export const getFbRedirectUri = (requestedPermissions) => {
+export const getFbRedirectUrl = (requestedPermissions) => {
   const scopeRequests = requestedPermissions || requiredScopesAccount
-  const facebookAppId = '617771208738795'
-  const redirectUri = `https://localhost:3001${ROUTES.CONNECT_ACCOUNTS}`
-  const stateParam = ''
 
-  return `https://www.facebook.com/v12.0/dialog/oauth?client_id=${facebookAppId}&redirect_uri=${redirectUri}&state=${stateParam}&scope=${scopeRequests.join(',')}`
+  return `
+    ${facebook.OAUTH_URL}?
+    client_id=${facebook.APP_ID}&
+    redirect_uri=${facebook.REDIRECT_URL}&
+    state=empty&
+    scope=${scopeRequests.join(',')}
+  `
 }
 
 /**

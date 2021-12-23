@@ -30,6 +30,7 @@ import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
 import { parseUrl } from '@/helpers/utils'
 
 import * as ROUTES from '@/app/constants/routes'
+import facebook from '@/app/constants/facebook'
 import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
@@ -82,17 +83,19 @@ const ConnectProfilesLoader = ({
     }
   }, [setAuthError])
 
-
   useAsyncEffect(async (isMounted) => {
     const { query } = parseUrl(urlString)
-    const code = decodeURIComponent(query?.code)
-    const redirectUri = `https://localhost:3001${ROUTES.CONNECT_ACCOUNTS}`
+    const code = decodeURIComponent(query?.code || '')
 
-    if (!isMounted()) return
+    if (!isMounted() || !code) return
+    const { error } = await setFacebookAccessToken(code, facebook.REDIRECT_URL)
 
-    const { res } = await setFacebookAccessToken(code, redirectUri)
-    console.log(res)
-  }, [urlString])
+    if (error) {
+      setErrors([error])
+      setPageLoading(false)
+      toggleGlobalLoading(false)
+    }
+  }, [])
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
@@ -112,12 +115,9 @@ const ConnectProfilesLoader = ({
     if (userLoading || isConnecting) return
     // If missing scopes, we need to show the connect button
     if (missingScopes.length) return toggleGlobalLoading(false)
-    // If no access token, then there will be no way to talk to facebook
-    // so don't set artists accounts
-    if (!accessToken) return toggleGlobalLoading(false)
     // START FETCHING ARTISTS
     setPageLoading(true)
-    const { res, error } = await artistHelpers.getArtistOnSignUp(accessToken)
+    const { res, error } = await artistHelpers.getArtistOnSignUp()
     if (error) {
       if (!isMounted()) return
       setErrors([error])
