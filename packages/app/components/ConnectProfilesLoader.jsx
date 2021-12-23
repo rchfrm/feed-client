@@ -70,6 +70,7 @@ const ConnectProfilesLoader = ({
   // DEFINE BUTTON STATE (disabled if required fields are absent)
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
   const [disabledReason, setDisabledReason] = React.useState('')
+  const [hasSetAccessToken, setHasSetAccessToken] = React.useState(false)
 
   // DEFINE ERRORS
   const [errors, setErrors] = React.useState([authError])
@@ -84,16 +85,34 @@ const ConnectProfilesLoader = ({
   }, [setAuthError])
 
   useAsyncEffect(async (isMounted) => {
+    // Set initial auth error (if any)
+    setErrors([authError])
+
+    // Grab query params from Facebook redirect
     const { query } = parseUrl(urlString)
     const code = decodeURIComponent(query?.code || '')
+    const redirectError = decodeURIComponent(query?.error_description || '').replace('+', ' ')
+
+    if (redirectError) {
+      setErrors([...errors, { message: redirectError }])
+      setPageLoading(false)
+      toggleGlobalLoading(false)
+      return
+    }
 
     if (!isMounted() || !code) return
-    const { error } = await setFacebookAccessToken(code, facebook.REDIRECT_URL)
+    const { res, error } = await setFacebookAccessToken(code, facebook.REDIRECT_URL)
+    // Set missing scopes
+    // setMissingScopes(missingScopes)
 
     if (error) {
       setErrors([error])
       setPageLoading(false)
       toggleGlobalLoading(false)
+    }
+
+    if (res) {
+      setHasSetAccessToken(true)
     }
   }, [])
 
@@ -115,6 +134,9 @@ const ConnectProfilesLoader = ({
     if (userLoading || isConnecting) return
     // If missing scopes, we need to show the connect button
     if (missingScopes.length) return toggleGlobalLoading(false)
+    // If no access token, then there will be no way to talk to Facebook
+    // so don't set artists accounts
+    if (!hasSetAccessToken) return
     // START FETCHING ARTISTS
     setPageLoading(true)
     const { res, error } = await artistHelpers.getArtistOnSignUp()
@@ -171,11 +193,6 @@ const ConnectProfilesLoader = ({
     setPageLoading(false)
     toggleGlobalLoading(false)
   }, [userLoading, isConnecting])
-
-  // Set initial error (if any)
-  React.useEffect(() => {
-    setErrors([authError])
-  }, [authError])
 
   React.useEffect(() => {
     return () => setIsFacebookRedirect(false)

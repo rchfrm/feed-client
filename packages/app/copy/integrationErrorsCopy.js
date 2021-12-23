@@ -17,7 +17,7 @@ const getMissingPermissionsList = (missingPermissions) => {
   return permissionsTextArray.join('\n')
 }
 
-const getMissingPagesCopy = () => `It might also be that you don't have any pages on Facebook yet, create those first and come back to Feed in order to connect them.`
+const getMissingPagesCopy = () => "It might also be that you don't have any pages on Facebook yet, create those first and come back to Feed in order to connect them."
 
 export default {
   missing_permission_scope: (missingPermissions, hasOnlyMissingPages) => {
