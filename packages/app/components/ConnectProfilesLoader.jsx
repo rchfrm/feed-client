@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
@@ -26,6 +26,8 @@ import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnect
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
+import { parseUrl } from '@/helpers/utils'
 
 import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/connectProfilesCopy'
@@ -71,12 +73,26 @@ const ConnectProfilesLoader = ({
   // DEFINE ERRORS
   const [errors, setErrors] = React.useState([authError])
 
+  const { asPath: urlString } = useRouter()
+
   // Clear auth error when leaving page
   React.useEffect(() => {
     return () => {
       setAuthError(null)
     }
   }, [setAuthError])
+
+
+  useAsyncEffect(async (isMounted) => {
+    const { query } = parseUrl(urlString)
+    const code = decodeURIComponent(query?.code)
+    const redirectUri = `https://localhost:3001${ROUTES.CONNECT_ACCOUNTS}`
+
+    if (!isMounted()) return
+
+    const { res } = await setFacebookAccessToken(code, redirectUri)
+    console.log(res)
+  }, [urlString])
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}

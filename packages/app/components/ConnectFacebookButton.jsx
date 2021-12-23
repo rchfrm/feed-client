@@ -1,36 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ButtonFacebook from '@/elements/ButtonFacebook'
+
 import { AuthContext } from '@/contexts/AuthContext'
 
-import ButtonFacebook from '@/elements/ButtonFacebook'
-import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+import { getFbRedirectUri } from '@/app/helpers/facebookHelpers'
 
 const ConnectFacebookButton = ({
-  errors,
-  setErrors,
   buttonText,
   trackComponentName,
   className,
 }) => {
   const { auth } = React.useContext(AuthContext)
-  const { missingScopes, providerIds } = auth
+  const { missingScopes } = auth
 
-  const linkFacebook = React.useCallback(() => {
-    if (missingScopes.length || providerIds.includes('facebook.com')) {
-      const requestedScopes = missingScopes.length ? missingScopes : null
-      firebaseHelpers.reauthFacebook(requestedScopes)
-        .catch((error) => {
-          setErrors([...errors, error])
-        })
-      return
-    }
-    firebaseHelpers.linkFacebookAccount()
-      .catch((error) => {
-        setErrors([...errors, error])
-      })
-  // eslint-disable-next-line
-  }, [missingScopes.length, providerIds])
+  const linkFacebook = () => {
+    const requestedScopes = missingScopes.length ? missingScopes : null
+    const url = getFbRedirectUri(requestedScopes)
+
+    window.location.href = url
+  }
 
   return (
     <ButtonFacebook
@@ -47,15 +37,12 @@ const ConnectFacebookButton = ({
 }
 
 ConnectFacebookButton.propTypes = {
-  errors: PropTypes.array,
-  setErrors: PropTypes.func.isRequired,
   buttonText: PropTypes.string.isRequired,
   trackComponentName: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
 ConnectFacebookButton.defaultProps = {
-  errors: [],
   className: null,
 }
 
