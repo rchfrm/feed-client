@@ -7,18 +7,16 @@ import * as api from '@/helpers/api'
 
 /**
  * @param {string} artist
- * @param {string} accessToken
  * @param {string} [token]
  * @returns {Promise<any>}
  */
-export const createArtist = async (artist, accessToken, token) => {
+export const createArtist = async (artist, token) => {
   return api.post('/artists', {
     name: artist.name,
     location: null,
     integrations: {
       facebook: {
         page_id: artist.page_id,
-        access_token: accessToken,
         instagram_id: artist.instagram_id,
       },
     },

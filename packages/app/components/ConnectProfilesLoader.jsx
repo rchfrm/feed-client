@@ -56,7 +56,7 @@ const ConnectProfilesLoader = ({
   className,
 }) => {
   // IMPORT CONTEXTS
-  const { auth, accessToken, authError, setAuthError, isFacebookRedirect, setIsFacebookRedirect } = React.useContext(AuthContext)
+  const { auth, authError, setAuthError, isFacebookRedirect, setIsFacebookRedirect } = React.useContext(AuthContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
@@ -158,7 +158,7 @@ const ConnectProfilesLoader = ({
       // Santise URLs
       const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
       setIsConnecting(true)
-      const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
+      const { error } = await connectArtists(artistAccountsSanitised, user) || {}
       if (error) {
         setIsConnecting(false)
         setErrors(errors => [...errors, error])
@@ -226,7 +226,6 @@ const ConnectProfilesLoader = ({
       {/* BUTTON TO CONNECT ACCOUNT */}
       <ConnectProfilesConnectButton
         artistAccounts={artistAccounts}
-        accessToken={accessToken}
         setErrors={setErrors}
         setIsConnecting={setIsConnecting}
         disabled={buttonDisabled}

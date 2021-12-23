@@ -188,11 +188,10 @@ function ArtistProvider({ children }) {
 
   /**
    * @param {array} artistAccounts
-   * @param {string} accessToken
    * @param {object} oldUser
    * @returns {Promise<any>}
   */
-  const connectArtists = React.useCallback(async (artistAccounts, accessToken, oldUser) => {
+  const connectArtists = React.useCallback(async (artistAccounts, oldUser) => {
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
     // Filter out non-connected artist accounts
@@ -206,7 +205,7 @@ function ArtistProvider({ children }) {
     }
     // Create all artists
     const createAllArtists = unconnectedArtistAccounts.map(async (artist) => {
-      return artistHelpers.createArtist(artist, accessToken)
+      return artistHelpers.createArtist(artist)
     })
     // Wait to connect all artists
     await Promise.all(createAllArtists)
