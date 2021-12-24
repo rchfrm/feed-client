@@ -93,7 +93,8 @@ const ConnectProfilesLoader = ({
   }, [setAuthError])
 
   useAsyncEffect(async (isMounted) => {
-    const stateLocalStorageKey = 'redirectState'
+    setPageLoading(true)
+
     // Set initial auth error (if any)
     setErrors([authError])
 
@@ -102,6 +103,7 @@ const ConnectProfilesLoader = ({
     const code = decodeURIComponent(query?.code || '')
     const state = decodeURIComponent(query?.state)
     const redirectError = decodeURIComponent(query?.error_description || '').replace('+', ' ')
+    const stateLocalStorageKey = 'redirectState'
 
     // Verify if state param from callback is matching the state we passed during the redirect request
     if (state !== getLocalStorage(stateLocalStorageKey)) return
@@ -163,9 +165,8 @@ const ConnectProfilesLoader = ({
     if (missingScopes.length) return toggleGlobalLoading(false)
     // If no access token, then there will be no way to talk to Facebook
     // so don't set artists accounts
-    if (!hasSetAccessToken) return toggleGlobalLoading(false)
+    // if (!hasSetAccessToken) return toggleGlobalLoading(false)
     // START FETCHING ARTISTS
-    setPageLoading(true)
     const { res, error } = await artistHelpers.getArtistOnSignUp()
     if (error) {
       if (!isMounted()) return
