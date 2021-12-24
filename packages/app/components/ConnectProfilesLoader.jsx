@@ -27,6 +27,7 @@ import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnect
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
+import { requiredScopesAccount } from '@/helpers/firebaseHelpers'
 import { parseUrl } from '@/helpers/utils'
 
 import * as ROUTES from '@/app/constants/routes'
@@ -56,7 +57,7 @@ const ConnectProfilesLoader = ({
   className,
 }) => {
   // IMPORT CONTEXTS
-  const { auth, authError, setAuthError, isFacebookRedirect, setIsFacebookRedirect } = React.useContext(AuthContext)
+  const { auth, authError, setAuthError, isFacebookRedirect, setIsFacebookRedirect, setMissingScopes } = React.useContext(AuthContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
@@ -101,9 +102,8 @@ const ConnectProfilesLoader = ({
     }
 
     if (!isMounted() || !code) return
+    // Exchange Facebook code for an access token which will be stored in the back-end
     const { res, error } = await setFacebookAccessToken(code, facebook.REDIRECT_URL)
-    // Set missing scopes
-    // setMissingScopes(missingScopes)
 
     if (error) {
       setErrors([error])
@@ -112,6 +112,13 @@ const ConnectProfilesLoader = ({
     }
 
     if (res) {
+      const { scopes: grantedScopes } = res
+      const missingScopes = requiredScopesAccount.filter((scope) => !grantedScopes.includes(scope))
+
+      if (missingScopes.length) {
+        // Set missing scopes in Auth context
+        setMissingScopes(missingScopes)
+      }
       setHasSetAccessToken(true)
     }
   }, [])
@@ -136,7 +143,7 @@ const ConnectProfilesLoader = ({
     if (missingScopes.length) return toggleGlobalLoading(false)
     // If no access token, then there will be no way to talk to Facebook
     // so don't set artists accounts
-    if (!hasSetAccessToken) return
+    if (!hasSetAccessToken) return toggleGlobalLoading(false)
     // START FETCHING ARTISTS
     setPageLoading(true)
     const { res, error } = await artistHelpers.getArtistOnSignUp()
@@ -192,7 +199,7 @@ const ConnectProfilesLoader = ({
     }
     setPageLoading(false)
     toggleGlobalLoading(false)
-  }, [userLoading, isConnecting])
+  }, [userLoading, isConnecting, hasSetAccessToken])
 
   React.useEffect(() => {
     return () => setIsFacebookRedirect(false)
