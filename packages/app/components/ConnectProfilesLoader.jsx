@@ -28,7 +28,7 @@ import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
 import { requiredScopesAccount } from '@/helpers/firebaseHelpers'
-import { parseUrl } from '@/helpers/utils'
+import { parseUrl, getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 import * as ROUTES from '@/app/constants/routes'
 import facebook from '@/app/constants/facebook'
@@ -57,7 +57,14 @@ const ConnectProfilesLoader = ({
   className,
 }) => {
   // IMPORT CONTEXTS
-  const { auth, authError, setAuthError, isFacebookRedirect, setIsFacebookRedirect, setMissingScopes } = React.useContext(AuthContext)
+  const {
+    auth,
+    authError,
+    setAuthError,
+    isFacebookRedirect,
+    setIsFacebookRedirect,
+    setMissingScopes,
+  } = React.useContext(AuthContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
@@ -76,7 +83,7 @@ const ConnectProfilesLoader = ({
   // DEFINE ERRORS
   const [errors, setErrors] = React.useState([authError])
 
-  const { asPath: urlString } = useRouter()
+  const router = useRouter()
 
   // Clear auth error when leaving page
   React.useEffect(() => {
@@ -86,13 +93,20 @@ const ConnectProfilesLoader = ({
   }, [setAuthError])
 
   useAsyncEffect(async (isMounted) => {
+    const stateLocalStorageKey = 'redirectState'
     // Set initial auth error (if any)
     setErrors([authError])
 
     // Grab query params from Facebook redirect
-    const { query } = parseUrl(urlString)
+    const { query } = parseUrl(router.asPath)
     const code = decodeURIComponent(query?.code || '')
+    const state = decodeURIComponent(query?.state)
     const redirectError = decodeURIComponent(query?.error_description || '').replace('+', ' ')
+
+    // Verify if state param from callback is matching the state we passed during the redirect request
+    if (state !== getLocalStorage(stateLocalStorageKey)) return
+
+    setLocalStorage(stateLocalStorageKey, '')
 
     if (redirectError) {
       setErrors([...errors, { message: redirectError }])
@@ -102,6 +116,9 @@ const ConnectProfilesLoader = ({
     }
 
     if (!isMounted() || !code) return
+
+    setIsFacebookRedirect(true)
+
     // Exchange Facebook code for an access token which will be stored in the back-end
     const { res, error } = await setFacebookAccessToken(code, facebook.REDIRECT_URL)
 
@@ -114,6 +131,9 @@ const ConnectProfilesLoader = ({
     if (res) {
       const { scopes: grantedScopes } = res
       const missingScopes = requiredScopesAccount.filter((scope) => !grantedScopes.includes(scope))
+
+      // Clear query params since code can only be used once
+      router.replace(router.pathname, null)
 
       if (missingScopes.length) {
         // Set missing scopes in Auth context

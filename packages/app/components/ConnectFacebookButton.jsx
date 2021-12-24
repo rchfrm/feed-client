@@ -6,6 +6,7 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import { getFbRedirectUrl } from '@/app/helpers/facebookHelpers'
+import * as utils from '@/helpers/utils'
 
 const ConnectFacebookButton = ({
   buttonText,
@@ -18,8 +19,10 @@ const ConnectFacebookButton = ({
   const linkFacebook = () => {
     const isReauth = missingScopes.length || providerIds.includes('facebook.com')
     const requestedScopes = missingScopes.length ? missingScopes : null
-    const url = getFbRedirectUrl(requestedScopes, isReauth)
+    const state = (Math.random() + 1).toString(36).substring(4)
+    const url = getFbRedirectUrl(requestedScopes, state, isReauth)
 
+    utils.setLocalStorage('redirectState', state)
     window.location.href = url
   }
 
