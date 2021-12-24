@@ -65,7 +65,6 @@ const ConnectProfilesLoader = ({
     setIsFacebookRedirect,
     setMissingScopes,
   } = React.useContext(AuthContext)
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
   // Get any missing scopes
@@ -78,7 +77,7 @@ const ConnectProfilesLoader = ({
   // DEFINE BUTTON STATE (disabled if required fields are absent)
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
   const [disabledReason, setDisabledReason] = React.useState('')
-  const [hasSetAccessToken, setHasSetAccessToken] = React.useState(false)
+  const [hasCheckedFbRedirect, setHasCheckedFbRedirect] = React.useState(false)
 
   // DEFINE ERRORS
   const [errors, setErrors] = React.useState([authError])
@@ -105,29 +104,30 @@ const ConnectProfilesLoader = ({
     const redirectError = decodeURIComponent(query?.error_description || '').replace('+', ' ')
     const stateLocalStorageKey = 'redirectState'
 
-    // Verify if state param from callback is matching the state we passed during the redirect request
-    if (state !== getLocalStorage(stateLocalStorageKey)) return
+    /*
+    Return early if:
+    - Unmounted
+    - No FB redirect code
+    - Redirect error
+    - The state param from the callback doesn't match the state we passed during the redirect request
+    */
+    if (!isMounted() || !code || redirectError || state !== getLocalStorage(stateLocalStorageKey)) {
+      setHasCheckedFbRedirect(true)
 
-    setLocalStorage(stateLocalStorageKey, '')
-
-    if (redirectError) {
-      setErrors([...errors, { message: redirectError }])
-      setPageLoading(false)
-      toggleGlobalLoading(false)
+      if (redirectError) {
+        setErrors([...errors, { message: redirectError }])
+      }
       return
     }
 
-    if (!isMounted() || !code) return
-
     setIsFacebookRedirect(true)
+    setLocalStorage(stateLocalStorageKey, '')
 
     // Exchange Facebook code for an access token which will be stored in the back-end
     const { res, error } = await setFacebookAccessToken(code, facebook.REDIRECT_URL)
 
     if (error) {
-      setErrors([error])
-      setPageLoading(false)
-      toggleGlobalLoading(false)
+      setErrors([error.message])
     }
 
     if (res) {
@@ -141,8 +141,8 @@ const ConnectProfilesLoader = ({
         // Set missing scopes in Auth context
         setMissingScopes(missingScopes)
       }
-      setHasSetAccessToken(true)
     }
+    setHasCheckedFbRedirect(true)
   }, [])
 
   // DEFINE ARTIST INTEGRATIONS
@@ -162,17 +162,15 @@ const ConnectProfilesLoader = ({
     // Stop here if user is loading or profiles are being connected
     if (userLoading || isConnecting) return
     // If missing scopes, we need to show the connect button
-    if (missingScopes.length) return toggleGlobalLoading(false)
-    // If no access token, then there will be no way to talk to Facebook
-    // so don't set artists accounts
-    // if (!hasSetAccessToken) return toggleGlobalLoading(false)
+    if (missingScopes.length) return setPageLoading(false)
+    // Stop here if we haven't checked yet if the user came from a redirect
+    if (!hasCheckedFbRedirect) return
     // START FETCHING ARTISTS
     const { res, error } = await artistHelpers.getArtistOnSignUp()
     if (error) {
       if (!isMounted()) return
       setErrors([error])
       setPageLoading(false)
-      toggleGlobalLoading(false)
       return
     }
     setFetchedArtistsFinished(true)
@@ -181,7 +179,6 @@ const ConnectProfilesLoader = ({
     if (Object.keys(artistAccounts).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
       setPageLoading(false)
-      toggleGlobalLoading(false)
       // Track
       fireSentryError({
         category: 'sign up',
@@ -203,7 +200,6 @@ const ConnectProfilesLoader = ({
     // Handle connecting a single artist
     if (Object.keys(processedArtists).length === 1 && isFacebookRedirect) {
       setPageLoading(false)
-      toggleGlobalLoading(false)
       const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
       // Santise URLs
       const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
@@ -219,8 +215,7 @@ const ConnectProfilesLoader = ({
       return
     }
     setPageLoading(false)
-    toggleGlobalLoading(false)
-  }, [userLoading, isConnecting, hasSetAccessToken])
+  }, [userLoading, isConnecting, hasCheckedFbRedirect])
 
   React.useEffect(() => {
     return () => setIsFacebookRedirect(false)
@@ -265,7 +260,7 @@ const ConnectProfilesLoader = ({
     <div className={className}>
       {/* ERRORS */}
       {errors.map((error, index) => {
-        return <Error error={error} key={index} />
+        return <Error error={error} key={index} className="col-span-12" />
       })}
 
       {/* BUTTON TO CONNECT ACCOUNT */}
