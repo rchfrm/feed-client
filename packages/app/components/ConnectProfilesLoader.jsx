@@ -8,7 +8,6 @@ import useAsyncEffect from 'use-async-effect'
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 // IMPORT ELEMENTS
@@ -97,7 +96,7 @@ const ConnectProfilesLoader = ({
     // Set initial auth error (if any)
     setErrors([authError])
 
-    // Grab query params from Facebook redirect
+    // Try to grab query params from Facebook redirect
     const { query } = parseUrl(router.asPath)
     const code = decodeURIComponent(query?.code || '')
     const state = decodeURIComponent(query?.state)
@@ -134,7 +133,7 @@ const ConnectProfilesLoader = ({
       const { scopes: grantedScopes } = res
       const missingScopes = requiredScopesAccount.filter((scope) => !grantedScopes.includes(scope))
 
-      // Clear query params since code can only be used once
+      // Clear query params since the FB code can only be used once
       router.replace(router.pathname, null)
 
       if (missingScopes.length) {
