@@ -122,13 +122,14 @@ const ConnectProfilesLoader = ({
     }
 
     // Exchange Facebook code for an access token which will be stored in the back-end
-    const { res, error } = await setFacebookAccessToken(code, facebook.REDIRECT_URL)
+    const redirectUrl = `${process.env.react_app_url}${ROUTES.CONNECT_ACCOUNTS}`
+    const { res, error } = await setFacebookAccessToken(code, redirectUrl)
 
     setLocalStorage(stateLocalStorageKey, '')
     router.replace(router.pathname, null)
 
     if (error) {
-      setErrors([error.message])
+      setErrors([error])
     }
 
     if (res) {
