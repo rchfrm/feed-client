@@ -30,7 +30,6 @@ import { requiredScopesAccount } from '@/helpers/firebaseHelpers'
 import { parseUrl, getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 import * as ROUTES from '@/app/constants/routes'
-import facebook from '@/app/constants/facebook'
 import copy from '@/app/copy/connectProfilesCopy'
 
 const artistsReducer = (draftState, action) => {
