@@ -112,8 +112,6 @@ const ConnectProfilesLoader = ({
     */
     if (!isMounted() || !code || redirectError || state !== getLocalStorage(stateLocalStorageKey)) {
       setHasCheckedFbRedirect(true)
-      setLocalStorage(stateLocalStorageKey, '')
-      router.replace(router.pathname, null)
 
       if (redirectError) {
         setErrors([...errors, { message: redirectError }])
@@ -121,11 +119,11 @@ const ConnectProfilesLoader = ({
       return
     }
 
+    setIsFacebookRedirect(true)
+    setLocalStorage(stateLocalStorageKey, '')
+
     // Exchange Facebook code for an access token which will be stored in the back-end
     const { res, error } = await setFacebookAccessToken(code, facebook.REDIRECT_URL)
-
-    setLocalStorage(stateLocalStorageKey, '')
-    router.replace(router.pathname, null)
 
     if (error) {
       setErrors([error.message])
@@ -135,12 +133,14 @@ const ConnectProfilesLoader = ({
       const { scopes: grantedScopes } = res
       const missingScopes = requiredScopesAccount.filter((scope) => !grantedScopes.includes(scope))
 
+      // Clear query params since the FB code can only be used once
+      router.replace(router.pathname, null)
+
       if (missingScopes.length) {
         // Set missing scopes in Auth context
         setMissingScopes(missingScopes)
       }
     }
-    setIsFacebookRedirect(true)
     setHasCheckedFbRedirect(true)
   }, [])
 

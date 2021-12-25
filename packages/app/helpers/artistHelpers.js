@@ -29,15 +29,16 @@ const sanitiseDataSources = (dataSources) => {
 
 /**
  * @param {string} artistId
+ * @param {string} [accessToken]
  * @returns {Promise<any>}
  */
-export const getArtist = async (artistId) => {
-  const artist = await api.get(`/artists/${artistId}`)
+export const getArtist = async (artistId, accessToken) => {
+  const artist = await api.get(`/artists/${artistId}`, accessToken)
     .catch((error) => {
       return { error }
     })
   if (artist.error) return { error: artist.error }
-  const dataSources = await api.get(`/artists/${artistId}/data_sources`, { fields: 'name', limit: 100 })
+  const dataSources = await api.get(`/artists/${artistId}/data_sources`, { fields: 'name', limit: 100 }, accessToken)
     .catch((error) => {
       return { error }
     })
