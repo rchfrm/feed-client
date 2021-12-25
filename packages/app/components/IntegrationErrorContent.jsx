@@ -14,7 +14,7 @@ import Router from 'next/router'
 
 import * as ROUTES from '@/app/constants/routes'
 
-const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
+const IntegrationErrorContent = ({ integrationError, dismiss, showError }) => {
   const { auth, authError } = React.useContext(AuthContext)
   const { showAlert, closeAlert } = useAlertModal()
 
@@ -22,13 +22,13 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     const { description: message } = integrationError
     return (
       <>
-        <Error error={authError || networkError} />
+        <Error error={authError} />
         {message && (
           <MarkdownText markdown={message} />
         )}
       </>
     )
-  }, [integrationError, authError, networkError])
+  }, [integrationError, authError])
 
   const alertButtons = React.useMemo(() => {
     const {
@@ -125,13 +125,11 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
 IntegrationErrorContent.propTypes = {
   integrationError: PropTypes.object,
   dismiss: PropTypes.func.isRequired,
-  networkError: PropTypes.object,
   showError: PropTypes.bool.isRequired,
 }
 
 IntegrationErrorContent.defaultProps = {
   integrationError: {},
-  networkError: null,
 }
 
 

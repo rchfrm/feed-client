@@ -48,8 +48,6 @@ AuthContext.displayName = 'AuthContext'
 function AuthProvider({ children }) {
   const [auth, setAuth] = useImmerReducer(authReducer, initialAuthState)
   const [authError, setAuthError] = React.useState(null)
-  const [accessToken, setAccessToken] = React.useState(null)
-  const [redirectType, setRedirectType] = React.useState('')
   const [authLoading, setAuthLoading] = React.useState(false)
   const [rejectedPagePath, setRejectedPagePath] = React.useState('')
   const [isFacebookRedirect, setIsFacebookRedirect] = React.useState(false)
@@ -68,7 +66,6 @@ function AuthProvider({ children }) {
     setAuth({ type: 'no-auth-user' })
     setAuthError(authError)
     setAuthLoading(false)
-    setAccessToken(null)
     clearUsedReferralCode()
   }, [setAuth, clearUsedReferralCode])
 
@@ -133,15 +130,11 @@ function AuthProvider({ children }) {
   }, [])
 
   const value = {
-    accessToken,
     auth,
     authError,
     authLoading,
     setNoAuth,
     relinkFacebook,
-    redirectType,
-    setRedirectType,
-    setAccessToken,
     setAuthError,
     setAuthLoading,
     storeAuth,

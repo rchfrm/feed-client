@@ -24,8 +24,6 @@ const InitUser = ({ children }) => {
   const [initialUserLoading, setInitialUserLoading] = React.useState(true)
   // Import contexts
   const {
-    setAccessToken,
-    setRedirectType,
     setAuthError,
     storeAuth,
   } = React.useContext(AuthContext)
@@ -79,7 +77,7 @@ const InitUser = ({ children }) => {
     // Check for the result of a redirect from Facebook
     const redirectResult = await firebaseHelpers.redirectResult()
     // Destructure redirect result
-    const { user: authUser, error, credential, additionalUserInfo, operationType } = redirectResult
+    const { user: authUser, error, additionalUserInfo } = redirectResult
     // * Handle no redirect
     if (!authUser && !error) {
       userRedirected = detectSignedInUser(isMounted)
@@ -134,11 +132,6 @@ const InitUser = ({ children }) => {
           })
           throw (err)
         })
-      // Extract and set the Facebook ACCESS TOKEN
-      const { accessToken } = credential
-      setAccessToken(accessToken)
-      // Store what caused the REDIRECT
-      setRedirectType(operationType)
       // Reject new user
       const { isNewUser } = additionalUserInfo
       if (isNewUser) {
