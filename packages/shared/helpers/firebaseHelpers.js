@@ -24,15 +24,18 @@ export const auth = app.auth()
 // The scopes required during signup
 export const requiredScopesSignup = [
   'email',
-  'read_insights',
-  'pages_manage_ads',
-  'pages_manage_metadata',
-  'pages_read_engagement',
-  'pages_read_user_content',
   'pages_show_list',
-  'ads_management',
+  'pages_read_engagement',
+  'read_insights',
   'instagram_basic',
   'instagram_manage_insights',
+]
+
+// The scopes required for running ads
+export const requiredScopesAds = [
+  'ads_management',
+  'pages_manage_ads',
+  'pages_manage_metadata',
 ]
 
 // The scopes required after a user account has been created
@@ -40,7 +43,6 @@ export const requiredScopesAccount = produce(requiredScopesSignup, draft => {
   const index = draft.findIndex((scope) => scope === 'email')
   if (index !== -1) draft.splice(index, 1)
 })
-
 
 export const dofetchSignInMethodsForEmail = async (email) => {
   const res = await auth.fetchSignInMethodsForEmail(email)
@@ -110,7 +112,6 @@ export const linkFacebookAccount = (requestedPermissions) => {
   })
   return auth.currentUser.linkWithRedirect(fbProvider)
 }
-
 
 /**
  * @param {array} requestedPermissions optional array of scope requests
