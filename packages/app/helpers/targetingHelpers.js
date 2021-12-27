@@ -122,7 +122,7 @@ export const getSummary = {
 
 // Fetch the popular locations
 export const fetchPopularLocations = async (artistId) => {
-  const { res: popularLocations, error } = await server.getTargetingPopularLocations(artistId)
+  const { res, error } = await server.getTargetingPopularLocations(artistId)
   if (error) {
     // Sentry error
     fireSentryError({
@@ -132,7 +132,7 @@ export const fetchPopularLocations = async (artistId) => {
     })
     return { error }
   }
-  return { popularLocations, error }
+  return { popularLocations: res?.geolocations, error }
 }
 
 const getMergedLocations = (currentRegions, popularRegions, locationKey) => {

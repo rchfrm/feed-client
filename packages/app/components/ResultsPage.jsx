@@ -19,7 +19,6 @@ const ResultsPage = () => {
     isLoading,
     adAccountId,
     defaultLinkId,
-    defaultPromotionEnabled,
     budget,
     defaultPaymentMethod,
     isProfilePartOfOrganisation,
@@ -39,7 +38,6 @@ const ResultsPage = () => {
             setIsWizardActive={setIsWizardActive}
             adAccountId={adAccountId}
             defaultLinkId={defaultLinkId}
-            defaultPromotionEnabled={defaultPromotionEnabled}
             budget={budget}
             defaultPaymentMethod={defaultPaymentMethod}
             isProfilePartOfOrganisation={isProfilePartOfOrganisation}

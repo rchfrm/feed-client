@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useImmerReducer } from 'use-immer'
 
 import ProgressBar from '@/app/ProgressBar'
 
@@ -14,9 +15,26 @@ const initialContext = {
   setCurrentStep: () => {},
 }
 
+const wizardStateReducer = (draftState, action) => {
+  const {
+    type: actionType,
+    payload,
+  } = action
+
+  switch (actionType) {
+    case 'set-state': {
+      draftState[payload.key] = payload.value
+      break
+    }
+    default:
+      throw new Error(`Unable to find ${action.type} in wizardReducer`)
+  }
+}
+
 const WizardContext = React.createContext(initialContext)
 
 const WizardContextProvider = ({ steps, children, hasBackButton }) => {
+  const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, {})
   const [currentStep, setCurrentStep] = React.useState(0)
   const { hasSkipButton = false } = steps[currentStep]
   const totalSteps = steps.length - 1
@@ -39,6 +57,8 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
         back,
         currentStep,
         setCurrentStep,
+        wizardState,
+        setWizardState,
       }}
     >
       <h2>{steps[currentStep].title}</h2>

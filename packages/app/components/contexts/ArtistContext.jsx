@@ -157,11 +157,13 @@ function ArtistProvider({ children }) {
     })
   }, [setArtist])
 
-  const storeArtist = React.useCallback(async (id) => {
+  const storeArtist = React.useCallback(async (id, hasSwitchedBetweenArtists = true) => {
     // TODO : Store previously selected artists in state,
     //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)
-    setIsControlsLoading(true)
+    if (hasSwitchedBetweenArtists) {
+      setIsControlsLoading(true)
+    }
     toggleGlobalLoading(true)
     // Get artist information from server
     const { artist, error } = await artistHelpers.getArtist(id)
@@ -232,7 +234,9 @@ function ArtistProvider({ children }) {
       return
     }
     const selectedArtist = updatedUser.artists[0]
-    await storeArtist(selectedArtist.id)
+    const hasSwitchedBetweenArtists = oldUser?.artists[0]?.id !== selectedArtist.id
+
+    await storeArtist(selectedArtist.id, hasSwitchedBetweenArtists)
     setArtistLoading(false)
     // TRACK
     const newUser = !oldUser.artists.length
