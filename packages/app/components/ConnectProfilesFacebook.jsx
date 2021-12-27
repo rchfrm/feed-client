@@ -7,7 +7,6 @@ import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 
-// IMPORT COPY
 import copy from '@/app/copy/connectProfilesCopy'
 
 const getIntroText = (isFindMore) => {

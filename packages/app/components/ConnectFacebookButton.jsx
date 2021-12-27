@@ -6,10 +6,12 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import { getFbRedirectUrl } from '@/app/helpers/facebookHelpers'
-import * as ROUTES from '@/app/constants/routes'
 import * as utils from '@/helpers/utils'
 
+import * as ROUTES from '@/app/constants/routes'
+
 const ConnectFacebookButton = ({
+  redirectPath,
   buttonText,
   trackComponentName,
   className,
@@ -22,7 +24,7 @@ const ConnectFacebookButton = ({
     const requestedPermissions = missingScopes.length ? missingScopes : null
     const state = (Math.random() + 1).toString(36).substring(4)
     const url = getFbRedirectUrl({
-      redirectSlug: ROUTES.CONNECT_ACCOUNTS,
+      redirectPath,
       requestedPermissions,
       state,
       isReauth,
@@ -47,6 +49,7 @@ const ConnectFacebookButton = ({
 }
 
 ConnectFacebookButton.propTypes = {
+  redirectPath: PropTypes.string,
   buttonText: PropTypes.string.isRequired,
   trackComponentName: PropTypes.string.isRequired,
   className: PropTypes.string,
@@ -54,6 +57,7 @@ ConnectFacebookButton.propTypes = {
 
 ConnectFacebookButton.defaultProps = {
   className: null,
+  redirectPath: ROUTES.CONNECT_ACCOUNTS,
 }
 
 export default ConnectFacebookButton

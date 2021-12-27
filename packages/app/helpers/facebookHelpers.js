@@ -4,9 +4,9 @@ import * as api from '@/helpers/api'
 import { requiredScopesAccount } from '@/helpers/firebaseHelpers'
 import facebook from '@/app/constants/facebook'
 
-export const getFbRedirectUrl = ({ redirectSlug, requestedPermissions, state, isReauth }) => {
+export const getFbRedirectUrl = ({ redirectPath, requestedPermissions, state, isReauth }) => {
   const scopeRequests = requestedPermissions || requiredScopesAccount
-  const redirectUrl = `${process.env.react_app_url}${redirectSlug}`
+  const redirectUrl = `${process.env.react_app_url}${redirectPath}`
 
   return `
     ${facebook.OAUTH_URL}?
