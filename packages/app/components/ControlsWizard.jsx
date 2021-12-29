@@ -101,6 +101,7 @@ const ControlsWizard = ({
 ControlsWizard.propTypes = {
   setIsWizardActive: PropTypes.func.isRequired,
   defaultLinkId: PropTypes.string,
+  missingScopes: PropTypes.array.isRequired,
   adAccountId: PropTypes.string,
   budget: PropTypes.number.isRequired,
   defaultPaymentMethod: PropTypes.object,
