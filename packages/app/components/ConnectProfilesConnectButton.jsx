@@ -21,7 +21,6 @@ import * as ROUTES from '@/app/constants/routes'
 
 const ConnectProfilesConnectButton = ({
   artistAccounts,
-  accessToken,
   setErrors,
   setIsConnecting,
   disabled,
@@ -39,7 +38,7 @@ const ConnectProfilesConnectButton = ({
     setIsConnecting(true)
     // Santise URLs
     const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(accountsToConnect)
-    const { error } = await connectArtists(artistAccountsSanitised, accessToken, user) || {}
+    const { error } = await connectArtists(artistAccountsSanitised, user) || {}
     if (error) {
       setIsConnecting(false)
       setErrors(errors => [...errors, error])
@@ -48,7 +47,7 @@ const ConnectProfilesConnectButton = ({
     }
 
     Router.push(ROUTES.HOME)
-  }, [user, accountsToConnect, setErrors, setIsConnecting, connectArtists, accessToken])
+  }, [user, accountsToConnect, setErrors, setIsConnecting, connectArtists])
 
   return (
     <div
@@ -92,7 +91,6 @@ const ConnectProfilesConnectButton = ({
 
 ConnectProfilesConnectButton.propTypes = {
   artistAccounts: PropTypes.object,
-  accessToken: PropTypes.string.isRequired,
   setErrors: PropTypes.func.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
   disabled: PropTypes.bool,

@@ -36,7 +36,7 @@ export const requiredScopesSignup = [
 ]
 
 // The scopes required after a user account has been created
-const requiredScopesAccount = produce(requiredScopesSignup, draft => {
+export const requiredScopesAccount = produce(requiredScopesSignup, draft => {
   const index = draft.findIndex((scope) => scope === 'email')
   if (index !== -1) draft.splice(index, 1)
 })

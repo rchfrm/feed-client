@@ -7,18 +7,16 @@ import * as api from '@/helpers/api'
 
 /**
  * @param {string} artist
- * @param {string} accessToken
  * @param {string} [token]
  * @returns {Promise<any>}
  */
-export const createArtist = async (artist, accessToken, token) => {
+export const createArtist = async (artist, token) => {
   return api.post('/artists', {
     name: artist.name,
     location: null,
     integrations: {
       facebook: {
         page_id: artist.page_id,
-        access_token: accessToken,
         instagram_id: artist.instagram_id,
       },
     },
@@ -31,16 +29,15 @@ const sanitiseDataSources = (dataSources) => {
 
 /**
  * @param {string} artistId
- * @param {string} [accessToken]
  * @returns {Promise<any>}
  */
-export const getArtist = async (artistId, accessToken) => {
-  const artist = await api.get(`/artists/${artistId}`, accessToken)
+export const getArtist = async (artistId) => {
+  const artist = await api.get(`/artists/${artistId}`)
     .catch((error) => {
       return { error }
     })
   if (artist.error) return { error: artist.error }
-  const dataSources = await api.get(`/artists/${artistId}/data_sources`, { fields: 'name', limit: 100 }, accessToken)
+  const dataSources = await api.get(`/artists/${artistId}/data_sources`, { fields: 'name', limit: 100 })
     .catch((error) => {
       return { error }
     })
@@ -117,20 +114,17 @@ export const getSortedArtistAccountsArray = (artistAccounts) => {
 }
 
 /**
- * @param {string} facebookAccessToken
- * @param {string} [verifyIdToken]
  * @returns {Promise<any>}
  */
-export const getArtistOnSignUp = async (facebookAccessToken) => {
+export const getArtistOnSignUp = async () => {
   const requestUrl = '/artists/available'
-  const payload = { access_token: facebookAccessToken }
+  const payload = null
   const errorTracking = {
     category: 'Artist',
-    action: 'Get available aritsts',
+    action: 'Get available artists',
   }
-  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }
-
 
 export const sortArtistsAlphabetically = (artists) => {
   return utils.sortArrayByKey(artists, 'name')
