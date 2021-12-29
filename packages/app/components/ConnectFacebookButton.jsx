@@ -21,9 +21,10 @@ const ConnectFacebookButton = ({
   const { missingScopes, providerIds } = auth
 
   const linkFacebook = () => {
-    const isReauth = scopes.length || missingScopes.length || providerIds.includes('facebook.com')
-    const requestedPermissions = scopes || missingScopes || null
+    const isReauth = scopes?.length || missingScopes.length || providerIds.includes('facebook.com')
+    const requestedPermissions = scopes || missingScopes.length ? missingScopes : null || null
     const state = (Math.random() + 1).toString(36).substring(4)
+
     const url = getFbRedirectUrl({
       redirectPath,
       requestedPermissions,

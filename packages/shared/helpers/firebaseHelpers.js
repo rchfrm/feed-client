@@ -36,6 +36,7 @@ export const requiredScopesAds = [
   'ads_management',
   'pages_manage_ads',
   'pages_manage_metadata',
+  'pages_read_user_content',
 ]
 
 // The scopes required after a user account has been created
