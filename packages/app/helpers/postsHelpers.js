@@ -456,6 +456,30 @@ export const getPostById = async (artistId, assetId) => {
   return { res: formattedPost, error }
 }
 
+// GET POST CALL TO ACTION
+/**
+ * @param {string} artistId
+ * @param {string} assetId
+ * @returns {Promise<any>}
+ */
+export const getPostCallToActions = async (artistId, assetId) => {
+  const endpoint = `/artists/${artistId}/assets/${assetId}/call_to_actions`
+  const payload = null
+  const errorTracking = {
+    category: 'Post',
+    action: 'Get post call to actions',
+  }
+  const { res = [], error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+
+  const callToActions = res.map((callToAction) => ({
+    id: callToAction.id,
+    value: callToAction.call_to_action,
+    campaignType: callToAction.options.campaign_type,
+  }))
+
+  return { res: callToActions, error }
+}
+
 // GET INITIAL POSTS IMPORT STATUS
 /**
  * @param {string} artistId

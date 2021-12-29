@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
 import produce from 'immer'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
 import CallToActionSelector from '@/app/CallToActionSelector'
+import Error from '@/elements/Error'
 
-import { setPostCallToAction } from '@/app/helpers/postsHelpers'
+import { getPostCallToActions, setPostCallToAction } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
@@ -16,24 +18,35 @@ const getControlsStoreState = (state) => ({
 const PostCardSettingsCallToAction = ({
   postId,
   postIndex,
-  postCallToActions,
+  artistId,
   updatePost,
   campaignType,
   postPromotionStatus,
   isDisabled,
 }) => {
-  // Get initial call to action value and id
-  const { id = '', value = '' } = postCallToActions[0] || {}
   // Manage local state
-  const [callToActions, setCallToActions] = React.useState(postCallToActions)
-  const [selectedCallToAction, setSelectedCallToAction] = React.useState(value)
-  const [callToActionId, setCallToActionId] = React.useState(id)
+  const [callToActions, setCallToActions] = React.useState([])
+  const [selectedCallToAction, setSelectedCallToAction] = React.useState('')
+  const [callToActionId, setCallToActionId] = React.useState('')
+  const [error, setError] = React.useState(null)
   // Get global default call to actions for both campaign types from store
   const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultPostsCallToAction } = postsPreferences
   const { callToAction: defaultConversionsCallToAction } = conversionsPreferences
 
   const isPostActive = postPromotionStatus === 'active'
+
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted) return
+
+    const { res, error } = await getPostCallToActions(artistId, postId)
+
+    if (error) {
+      setError(error)
+      return
+    }
+    setCallToActions(res)
+  }, [])
 
   const handleSuccess = (callToAction) => {
     // Check if call to action already exists for the selected campaign type
@@ -69,25 +82,27 @@ const PostCardSettingsCallToAction = ({
   }, [campaignType, callToActions, defaultPostsCallToAction, defaultConversionsCallToAction])
 
   return (
-    <CallToActionSelector
-      onSelect={setPostCallToAction}
-      onSuccess={handleSuccess}
-      callToAction={selectedCallToAction}
-      setCallToAction={setSelectedCallToAction}
-      callToActionId={callToActionId}
-      postId={postId}
-      isPostActive={isPostActive}
-      campaignType={campaignType}
-      shouldSaveOnChange
-      disabled={isDisabled}
-    />
+    <>
+      <CallToActionSelector
+        onSelect={setPostCallToAction}
+        onSuccess={handleSuccess}
+        callToAction={selectedCallToAction}
+        setCallToAction={setSelectedCallToAction}
+        callToActionId={callToActionId}
+        postId={postId}
+        isPostActive={isPostActive}
+        campaignType={campaignType}
+        shouldSaveOnChange
+        disabled={isDisabled}
+      />
+      <Error error={error} />
+    </>
   )
 }
 
 PostCardSettingsCallToAction.propTypes = {
   postId: PropTypes.string.isRequired,
   postIndex: PropTypes.number.isRequired,
-  postCallToActions: PropTypes.arrayOf(PropTypes.object).isRequired,
   updatePost: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool.isRequired,
