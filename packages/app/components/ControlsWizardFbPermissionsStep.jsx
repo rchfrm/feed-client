@@ -8,12 +8,10 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
-import { requiredScopesAds } from '@/helpers/firebaseHelpers'
-
 // import * as ROUTES from '@/app/constants/routes'
 import brandColors from '@/constants/brandColors'
 
-const ControlsWizardFbPermissionsStep = () => {
+const ControlsWizardFbPermissionsStep = ({ scopes }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
@@ -30,7 +28,7 @@ const ControlsWizardFbPermissionsStep = () => {
       <p>To be able to runs ads through Feed we need a few additional Facebook permissions from you</p>
       <ConnectFacebookButton
         // redirectPath={ROUTES.CONTROLS}
-        scopes={requiredScopesAds}
+        scopes={scopes}
         errors={error}
         setErrors={setError}
         buttonText="Continue with Facebook"

@@ -13,6 +13,7 @@ import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
+import { requiredScopesSignup } from '@/helpers/firebaseHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -67,7 +68,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     if (additionalUserInfo) {
       // Check whether the new user has missing scopes
       const { profile: { granted_scopes } } = additionalUserInfo
-      const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
+      const missingScopes = signupHelpers.getMissingScopes(granted_scopes, requiredScopesSignup)
       // Set missing scopes
       if (missingScopes.length) {
         setMissingScopes(missingScopes) // from Auth context

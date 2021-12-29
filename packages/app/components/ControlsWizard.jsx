@@ -15,6 +15,7 @@ import { WizardContextProvider } from '@/app/contexts/WizardContext'
 const ControlsWizard = ({
   setIsWizardActive,
   defaultLinkId,
+  missingScopes,
   adAccountId,
   locations,
   budget,
@@ -26,8 +27,8 @@ const ControlsWizard = ({
     {
       id: 0,
       title: 'Facebook permissions',
-      component: <ControlsWizardFbPermissionsStep />,
-      shouldSkip: false,
+      component: <ControlsWizardFbPermissionsStep scopes={missingScopes} />,
+      shouldSkip: !missingScopes.length,
     },
     {
       id: 1,

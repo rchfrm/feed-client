@@ -59,7 +59,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     if (additionalUserInfo) {
       // Check whether the new user has missing scopes
       const { profile: { granted_scopes } } = additionalUserInfo
-      const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
+      const missingScopes = signupHelpers.getMissingScopes(granted_scopes, firebaseHelpers.requiredScopesSignup)
       // Set missing scopes
       if (missingScopes.length) {
         setMissingScopes(missingScopes) // from Auth context

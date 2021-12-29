@@ -11,6 +11,8 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { fetchPopularLocations, fetchTargetingState } from '@/app/helpers/targetingHelpers'
+import { getMissingScopes } from '@/app/helpers/signupHelpers'
+import { requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
@@ -49,6 +51,8 @@ const useControlsWizard = () => {
   } = React.useContext(TargetingContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
+  const grantedScopes = facebookIntegration?.authorization.scopes
+  const missingScopes = getMissingScopes(grantedScopes, requiredScopesAds)
 
   const currentUserOrganisation = allOrgs.find(organisation => organisation.role === 'owner')
   const isProfilePartOfOrganisation = Object.keys(currentUserOrganisation?.artists || {}).includes(artistId)
@@ -81,6 +85,7 @@ const useControlsWizard = () => {
   }, [artistLoading, user, setupBilling])
 
   const hasSetUpControls = Boolean(defaultLinkId
+    && !missingScopes.length
     && adAccountId
     && Object.keys(locations).length
     && budget
@@ -89,6 +94,7 @@ const useControlsWizard = () => {
   return {
     isLoading: billingLoading || artistLoading || controlsLoading,
     hasSetUpControls,
+    missingScopes,
     adAccountId,
     locations,
     defaultLinkId,
