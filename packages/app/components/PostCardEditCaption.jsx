@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
 import produce from 'immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -12,7 +13,7 @@ import Error from '@/elements/Error'
 import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 import PostCardEditAlert from '@/app/PostCardEditAlert'
 
-import { updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
+import { updatePostCaption, resetPostCaption, getPostAddMessages } from '@/app/helpers/postsHelpers'
 import { track } from '@/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
@@ -26,16 +27,31 @@ const PostCardEditCaption = ({
   isDisabled,
 }) => {
   // Internal state
-  const { id = '', message = '' } = post.adMessages[0] || {}
+  const { id = '', message = '' } = {}
   const captionTypes = ['ad', 'post']
   const [originalCaption] = React.useState(post.message)
   const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
-  const [adMessages, setAdMessages] = React.useState(post.adMessages)
+  const [adMessages, setAdMessages] = React.useState([])
   const hasAdMessage = !!adMessages
   const [newCaption, setNewCaption] = React.useState(message)
   const [adMessageId, setAdMessageId] = React.useState(id)
   const [savedNewCaption, setSavedNewCaption] = React.useState(message)
+  const [error, setError] = React.useState(null)
+
+  const { artistId } = React.useContext(ArtistContext)
+
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted) return
+
+    const { res, error } = await getPostAddMessages(artistId, post.id)
+
+    if (error) {
+      setError(error)
+      return
+    }
+    setAdMessages(res)
+  }, [])
 
   // Turn off edit mode when moving to post view
   React.useEffect(() => {
@@ -75,9 +91,7 @@ const PostCardEditCaption = ({
   }, [postIndex, updatePost, adMessages])
 
   // SAVE NEW CAPTION on DB
-  const { artistId } = React.useContext(ArtistContext)
   const [isLoading, setIsLoading] = React.useState(false)
-  const [error, setError] = React.useState(null)
   const [showAlert, setShowAlert] = React.useState(false)
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const updatePostDb = React.useCallback(async (newCaption, forceRun = false) => {

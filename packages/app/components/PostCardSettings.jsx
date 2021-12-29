@@ -51,7 +51,6 @@ const PostCardSettings = ({
     promotionStatus,
     promotionEligibility,
     linkSpecs,
-    callToActions,
     id: postId,
     priorityEnabled,
   } = post
@@ -158,7 +157,7 @@ const PostCardSettings = ({
             <PostCardSettingsCallToAction
               postId={post.id}
               postIndex={postIndex}
-              postCallToActions={callToActions}
+              artistId={artistId}
               updatePost={updatePost}
               campaignType={campaignType}
               postPromotionStatus={promotionStatus}
