@@ -71,7 +71,7 @@ const ControlsWizardAdAccountStep = () => {
         type: 'set-state',
         payload: {
           key: 'adAccountCountry',
-          value: 'China',
+          value: country,
         },
       })
     }
