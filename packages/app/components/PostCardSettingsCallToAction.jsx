@@ -18,16 +18,18 @@ const getControlsStoreState = (state) => ({
 const PostCardSettingsCallToAction = ({
   postId,
   postIndex,
+  postCallToActions,
   artistId,
   updatePost,
   campaignType,
   postPromotionStatus,
   isDisabled,
 }) => {
+  const { id = '', value = '' } = postCallToActions[0] || {}
   // Manage local state
-  const [callToActions, setCallToActions] = React.useState([])
-  const [selectedCallToAction, setSelectedCallToAction] = React.useState('')
-  const [callToActionId, setCallToActionId] = React.useState('')
+  const [callToActions, setCallToActions] = React.useState(postCallToActions)
+  const [selectedCallToAction, setSelectedCallToAction] = React.useState(value)
+  const [callToActionId, setCallToActionId] = React.useState(id)
   const [error, setError] = React.useState(null)
   // Get global default call to actions for both campaign types from store
   const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
@@ -39,13 +41,21 @@ const PostCardSettingsCallToAction = ({
   useAsyncEffect(async (isMounted) => {
     if (!isMounted) return
 
-    const { res, error } = await getPostCallToActions(artistId, postId)
+    if (!postCallToActions.length) {
+      const { res, error } = await getPostCallToActions(artistId, postId)
 
-    if (error) {
-      setError(error)
-      return
+      if (error) {
+        setError(error)
+        return
+      }
+      setCallToActions(res)
+      // Update global posts list state
+      const payload = {
+        postIndex,
+        callToActions: res,
+      }
+      updatePost('update-call-to-actions', payload)
     }
-    setCallToActions(res)
   }, [])
 
   const handleSuccess = (callToAction) => {
@@ -103,12 +113,14 @@ const PostCardSettingsCallToAction = ({
 PostCardSettingsCallToAction.propTypes = {
   postId: PropTypes.string.isRequired,
   postIndex: PropTypes.number.isRequired,
+  postCallToActions: PropTypes.arrayOf(PropTypes.object),
   updatePost: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool.isRequired,
 }
 
 PostCardSettingsCallToAction.defaultProps = {
+  postCallToActions: [],
 }
 
 export default PostCardSettingsCallToAction

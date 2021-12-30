@@ -21,18 +21,19 @@ import brandColors from '@/constants/brandColors'
 const PostCardEditCaption = ({
   post, // NB: This does not update when the `posts` array in <PostsLoader /> updates
   postIndex,
+  postAdMessages,
   updatePost,
   isEditable,
   campaignType,
   isDisabled,
 }) => {
   // Internal state
-  const { id = '', message = '' } = {}
+  const { id = '', message = '' } = postAdMessages[0] || {}
   const captionTypes = ['ad', 'post']
   const [originalCaption] = React.useState(post.message)
   const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
-  const [adMessages, setAdMessages] = React.useState([])
+  const [adMessages, setAdMessages] = React.useState(postAdMessages)
   const hasAdMessage = !!adMessages
   const [newCaption, setNewCaption] = React.useState(message)
   const [adMessageId, setAdMessageId] = React.useState(id)
@@ -44,13 +45,21 @@ const PostCardEditCaption = ({
   useAsyncEffect(async (isMounted) => {
     if (!isMounted) return
 
-    const { res, error } = await getPostAddMessages(artistId, post.id)
+    if (!adMessages.length) {
+      const { res, error } = await getPostAddMessages(artistId, post.id)
 
-    if (error) {
-      setError(error)
-      return
+      if (error) {
+        setError(error)
+        return
+      }
+      setAdMessages(res)
+      // Update global posts list state
+      const payload = {
+        postIndex,
+        adMessages: res,
+      }
+      updatePost('update-captions', payload)
     }
-    setAdMessages(res)
   }, [])
 
   // Turn off edit mode when moving to post view
@@ -285,6 +294,7 @@ const PostCardEditCaption = ({
 PostCardEditCaption.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
+  postAdMessages: PropTypes.arrayOf(PropTypes.object),
   updatePost: PropTypes.func.isRequired,
   isEditable: PropTypes.bool.isRequired,
   campaignType: PropTypes.string.isRequired,
@@ -292,7 +302,7 @@ PostCardEditCaption.propTypes = {
 }
 
 PostCardEditCaption.defaultProps = {
-
+  postAdMessages: [],
 }
 
 export default PostCardEditCaption
