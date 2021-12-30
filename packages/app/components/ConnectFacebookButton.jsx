@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ButtonFacebook from '@/elements/ButtonFacebook'
+
 import { AuthContext } from '@/contexts/AuthContext'
 
-import ButtonFacebook from '@/elements/ButtonFacebook'
-import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+import { getFbRedirectUrl } from '@/app/helpers/facebookHelpers'
+import * as ROUTES from '@/app/constants/routes'
+import * as utils from '@/helpers/utils'
 
 const ConnectFacebookButton = ({
-  errors,
-  setErrors,
   buttonText,
   trackComponentName,
   className,
@@ -16,21 +17,20 @@ const ConnectFacebookButton = ({
   const { auth } = React.useContext(AuthContext)
   const { missingScopes, providerIds } = auth
 
-  const linkFacebook = React.useCallback(() => {
-    if (missingScopes.length || providerIds.includes('facebook.com')) {
-      const requestedScopes = missingScopes.length ? missingScopes : null
-      firebaseHelpers.reauthFacebook(requestedScopes)
-        .catch((error) => {
-          setErrors([...errors, error])
-        })
-      return
-    }
-    firebaseHelpers.linkFacebookAccount()
-      .catch((error) => {
-        setErrors([...errors, error])
-      })
-  // eslint-disable-next-line
-  }, [missingScopes.length, providerIds])
+  const linkFacebook = () => {
+    const isReauth = missingScopes.length || providerIds.includes('facebook.com')
+    const requestedPermissions = missingScopes.length ? missingScopes : null
+    const state = (Math.random() + 1).toString(36).substring(4)
+    const url = getFbRedirectUrl({
+      redirectSlug: ROUTES.CONNECT_ACCOUNTS,
+      requestedPermissions,
+      state,
+      isReauth,
+    })
+
+    utils.setLocalStorage('redirectState', state)
+    window.location.href = url
+  }
 
   return (
     <ButtonFacebook
@@ -47,15 +47,12 @@ const ConnectFacebookButton = ({
 }
 
 ConnectFacebookButton.propTypes = {
-  errors: PropTypes.array,
-  setErrors: PropTypes.func.isRequired,
   buttonText: PropTypes.string.isRequired,
   trackComponentName: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
 ConnectFacebookButton.defaultProps = {
-  errors: [],
   className: null,
 }
 
