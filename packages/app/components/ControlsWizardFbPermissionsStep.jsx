@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 
 import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
+
+import controlsCopy from '@/app/copy/controlsPageCopy'
 
 // import * as ROUTES from '@/app/constants/routes'
 
@@ -12,7 +15,7 @@ const ControlsWizardFbPermissionsStep = ({ scopes }) => {
 
   return (
     <>
-      <p className="mb-12">To be able to runs ads through Feed we need a few additional Facebook permissions from you.</p>
+      <MarkdownText markdown={controlsCopy.controlsWizardFbPermissionsStepIntro(scopes)} />
       <Error error={error} />
       <ConnectFacebookButton
         // redirectPath={ROUTES.CONTROLS}
@@ -20,7 +23,7 @@ const ControlsWizardFbPermissionsStep = ({ scopes }) => {
         errors={error}
         setErrors={setError}
         buttonText="Continue with Facebook"
-        className="w-full xs:w-72 ml-auto mb-12"
+        className="w-full xs:w-72 mx-auto mb-12"
         trackComponentName="ControlsWizardFbPermissionsStep"
       />
     </>

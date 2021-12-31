@@ -1,4 +1,4 @@
-const getMissingPermissionsList = (missingPermissions) => {
+export const getMissingPermissionsList = (missingPermissions) => {
   const permissionsTextArray = missingPermissions.map((permission) => {
     if (permission === 'email') return '- View your email address'
     if (permission === 'read_insights') return '- Access your page and app insights'
@@ -21,7 +21,7 @@ const getMissingPagesCopy = () => "It might also be that you don't have any page
 
 export default {
   missing_permission_scope: (missingPermissions, hasOnlyMissingPages) => {
-    const permissionList = getMissingPermissionsList(missingPermissions, hasOnlyMissingPages)
+    const permissionList = getMissingPermissionsList(missingPermissions)
     const missingPagesText = hasOnlyMissingPages ? getMissingPagesCopy() : ''
     return `In order to promote your posts, we need the following permissions from Facebook...
   
@@ -31,7 +31,7 @@ ${permissionList}
 
 ${missingPagesText}
     
-Click ‘Continue with Facebook’ to grant those permissions.`
+Click 'Continue with Facebook' to grant those permissions.`
   },
   email_not_confirmed: (email) => `**Confirm your email**
 

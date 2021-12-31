@@ -26,21 +26,22 @@ const ControlsWizard = ({
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      title: 'Facebook permissions',
-      component: <ControlsWizardFbPermissionsStep scopes={missingScopes} />,
-      shouldSkip: !missingScopes.length,
-    },
-    {
-      id: 1,
       title: 'Choose a goal',
       component: <ControlsWizardLinkStep />,
       shouldSkip: Boolean(defaultLinkId),
     },
     {
-      id: 2,
+      id: 1,
       title: 'Make new posts promotable by default?',
       component: <ControlsWizardPostsStep />,
       shouldSkip: false,
+      hasSkipButton: true,
+    },
+    {
+      id: 2,
+      title: 'Facebook Permissions',
+      component: <ControlsWizardFbPermissionsStep scopes={missingScopes} />,
+      shouldSkip: !missingScopes.length,
       hasSkipButton: true,
     },
     {
