@@ -6,9 +6,8 @@ import { AuthContext } from '@/contexts/AuthContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import { parseUrl, setLocalStorage, getLocalStorage } from '@/helpers/utils'
-import { updateAccessToken } from '@/app/helpers/artistHelpers'
+import { updateAccessToken, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
-import { requiredScopesAccount } from '@/helpers/firebaseHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -32,15 +31,12 @@ const useFbRedirect = (errors, setErrors) => {
       setErrors([error])
     }
 
-    return res
+    return res.scopes
   }
 
   const checkAndSetMissingScopes = (grantedScopes) => {
-    const missingScopes = requiredScopesAccount.filter((scope) => !grantedScopes.includes(scope))
-
-    if (missingScopes.length) {
-      setMissingScopes(missingScopes)
-    }
+    const missingScopes = getMissingScopes({ grantedScopes })
+    setMissingScopes(missingScopes)
   }
 
   const saveAccessToken = async () => {
@@ -58,7 +54,7 @@ const useFbRedirect = (errors, setErrors) => {
       },
     })
 
-    return res
+    return res.scopes
   }
 
   useAsyncEffect(async (isMounted) => {
@@ -86,14 +82,14 @@ const useFbRedirect = (errors, setErrors) => {
       return
     }
 
-    const { scopes: grantedScopes } = await exchangeCodeForAccessToken(code)
-
-    checkAndSetMissingScopes(grantedScopes)
+    let grantedScopes = []
+    grantedScopes = await exchangeCodeForAccessToken(code)
 
     if (artistId) {
-      await saveAccessToken()
+      grantedScopes = await saveAccessToken()
     }
 
+    checkAndSetMissingScopes(grantedScopes)
     setIsFacebookRedirect(true)
     setHasCheckedFbRedirect(true)
   }, [])

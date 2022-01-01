@@ -18,7 +18,7 @@ const ConnectFacebookButton = ({
   className,
 }) => {
   const { auth } = React.useContext(AuthContext)
-  const { missingScopes, providerIds } = auth
+  const { missingScopes: { account: missingScopes }, providerIds } = auth
 
   const linkFacebook = () => {
     const isReauth = scopes?.length || missingScopes.length || providerIds.includes('facebook.com')

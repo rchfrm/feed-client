@@ -21,7 +21,7 @@ const ConnectProfilesFacebook = ({
   isFindMore,
   className,
 }) => {
-  const { missingScopes } = auth
+  const { missingScopes: { account: missingScopes } } = auth
   const introText = getIntroText(isFindMore)
   const buttonText = isFindMore ? 'Connect more pages' : 'Continue with Facebook'
 

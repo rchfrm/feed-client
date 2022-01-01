@@ -57,8 +57,8 @@ export default {
 
   // CONTROLS WIZARD
   // ----------------
-  controlsWizardAdAccountStepIntro: 'Set-up will only take a minute. First off, let us know which Facebook Ad Account we should use to set-up your ads.',
-  controlsWizardLinkStepIntro: `Where do you want people to go when they click on your ads?
+  controlsWizardAdAccountStepIntro: 'Let us know which Facebook Ad Account we should use to set-up your ads.',
+  controlsWizardLinkStepIntro: `Set-up will only take a minute. First off, where do you want people to go when they click on your ads?
 
   You will be able to set different links on specific posts later on.`,
   controlsWizardPostsStepIntro: `You never know what is going to catch someone's attention! That's why Feed makes recent posts (made in the last 28 days) promotable by default.

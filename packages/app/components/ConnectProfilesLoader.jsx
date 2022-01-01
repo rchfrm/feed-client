@@ -63,7 +63,7 @@ const ConnectProfilesLoader = ({
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
   // Get any missing scopes
-  const { missingScopes } = auth
+  const { missingScopes: { account: missingScopes } } = auth
 
   // DEFINE LOADING VERSIONS
   const [pageLoading, setPageLoading] = React.useState(false)

@@ -9,10 +9,8 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { getArtistIntegrationByPlatform, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { fetchPopularLocations, fetchTargetingState } from '@/app/helpers/targetingHelpers'
-import { getMissingScopes } from '@/app/helpers/signupHelpers'
-import { requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
@@ -51,8 +49,7 @@ const useControlsWizard = () => {
   } = React.useContext(TargetingContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
-  const grantedScopes = facebookIntegration?.authorization.scopes
-  const missingScopes = getMissingScopes(grantedScopes, requiredScopesAds)
+  const { ads: missingScopes } = getMissingScopes({ artist })
 
   const currentUserOrganisation = allOrgs.find(organisation => organisation.role === 'owner')
   const isProfilePartOfOrganisation = Object.keys(currentUserOrganisation?.artists || {}).includes(artistId)
