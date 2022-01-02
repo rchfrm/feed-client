@@ -372,7 +372,7 @@ export const hasSetFacebookAdAccount = (artist) => {
 
 export const getMissingScopes = ({ grantedScopes, artist }) => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
-  const authorizedScopes = grantedScopes || facebookIntegration?.authorization.scopes
+  const authorizedScopes = (grantedScopes || facebookIntegration?.authorization.scopes).filter((scope) => scope !== 'public_profile')
 
   return {
     account: requiredScopesAccount.filter(scope => !authorizedScopes.includes(scope)),
