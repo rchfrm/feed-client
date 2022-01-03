@@ -8,7 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import controlsCopy from '@/app/copy/controlsPageCopy'
 
-// import * as ROUTES from '@/app/constants/routes'
+import * as ROUTES from '@/app/constants/routes'
 
 const ControlsWizardFbPermissionsStep = ({ scopes }) => {
   const [error, setError] = React.useState(null)
@@ -18,7 +18,7 @@ const ControlsWizardFbPermissionsStep = ({ scopes }) => {
       <MarkdownText markdown={controlsCopy.controlsWizardFbPermissionsStepIntro(scopes)} />
       <Error error={error} />
       <ConnectFacebookButton
-        // redirectPath={ROUTES.CONTROLS}
+        redirectPath={ROUTES.CONTROLS}
         scopes={scopes}
         errors={error}
         setErrors={setError}
