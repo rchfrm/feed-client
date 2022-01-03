@@ -10,7 +10,7 @@ const initialAuthState = {
   token: '',
   email: '',
   authProfile: {},
-  missingScopes: { account: [], ads: [] },
+  missingScopes: { signUp: [], account: [], ads: [] },
   providerIds: [],
 }
 

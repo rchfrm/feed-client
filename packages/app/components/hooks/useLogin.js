@@ -11,6 +11,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
+import { getMissingScopes } from '@/app/helpers/artistHelpers'
 import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 import { requiredScopesSignup } from '@/helpers/firebaseHelpers'
@@ -68,7 +69,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     if (additionalUserInfo) {
       // Check whether the new user has missing scopes
       const { profile: { granted_scopes } } = additionalUserInfo
-      const missingScopes = signupHelpers.getMissingScopes(granted_scopes, requiredScopesSignup)
+      const { signUp: missingScopes } = getMissingScopes({ grantedScopes: granted_scopes })
       // Set missing scopes
       if (missingScopes.length) {
         setMissingScopes(missingScopes) // from Auth context

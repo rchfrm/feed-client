@@ -4,7 +4,7 @@ import get from 'lodash/get'
 
 import * as utils from '@/helpers/utils'
 import * as api from '@/helpers/api'
-import { requiredScopesAccount, requiredScopesAds } from '@/helpers/firebaseHelpers'
+import { requiredScopesSignup, requiredScopesAccount, requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 /**
  * @param {string} artist
@@ -374,8 +374,13 @@ export const getMissingScopes = ({ grantedScopes, artist }) => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const authorizedScopes = (grantedScopes || facebookIntegration?.authorization.scopes).filter((scope) => scope !== 'public_profile')
 
+  const filterRequiredScopes = (requiredScopes) => {
+    return requiredScopes.filter((scope) => !authorizedScopes.includes(scope))
+  }
+
   return {
-    account: requiredScopesAccount.filter(scope => !authorizedScopes.includes(scope)),
-    ads: requiredScopesAds.filter(scope => !authorizedScopes.includes(scope)),
+    signUp: filterRequiredScopes(requiredScopesSignup),
+    account: filterRequiredScopes(requiredScopesAccount),
+    ads: filterRequiredScopes(requiredScopesAds),
   }
 }

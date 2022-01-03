@@ -4,15 +4,6 @@ import * as utils from '@/helpers/utils'
 
 import * as ROUTES from '@/app/constants/routes'
 
-// GET MISSING SCOPES
-export const getMissingScopes = (grantedScopes, requiredScopes) => {
-  return requiredScopes.reduce((arr, scope) => {
-    const scopeGranted = grantedScopes.includes(scope)
-    if (scopeGranted) return arr
-    return [...arr, scope]
-  }, [])
-}
-
 export const redirectPage = (newPathname, currentPathname, useRejectedPagePath = false) => {
   const rejectedPagePath = useRejectedPagePath ? utils.getLocalStorage('rejectedPagePath') : ''
   const newPagePath = rejectedPagePath || newPathname
