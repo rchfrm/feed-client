@@ -5,8 +5,7 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
-import { getFbRedirectUrl } from '@/app/helpers/facebookHelpers'
-import * as utils from '@/helpers/utils'
+import { handleFbRedirect } from '@/app/helpers/facebookHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -18,30 +17,13 @@ const ConnectFacebookButton = ({
   className,
 }) => {
   const { auth } = React.useContext(AuthContext)
-  const { missingScopes: { account: missingScopes }, providerIds } = auth
-
-  const linkFacebook = () => {
-    const isReauth = scopes?.length || missingScopes.length || providerIds.includes('facebook.com')
-    const requestedPermissions = scopes || (missingScopes.length ? missingScopes : null) || null
-    const state = (Math.random() + 1).toString(36).substring(4)
-
-    const url = getFbRedirectUrl({
-      redirectPath,
-      requestedPermissions,
-      state,
-      isReauth,
-    })
-
-    utils.setLocalStorage('redirectState', state)
-    window.location.href = url
-  }
 
   return (
     <ButtonFacebook
       className={[
         className,
       ].join(' ')}
-      onClick={linkFacebook}
+      onClick={() => handleFbRedirect(auth, scopes, redirectPath)}
       fallbackCta={buttonText}
       trackComponentName={trackComponentName}
     >
