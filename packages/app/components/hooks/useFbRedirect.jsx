@@ -9,6 +9,8 @@ import { parseUrl, setLocalStorage, getLocalStorage } from '@/helpers/utils'
 import { updateAccessToken, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
 
+import copy from '@/app/copy/global'
+
 import * as ROUTES from '@/app/constants/routes'
 
 const useFbRedirect = (errors, setErrors) => {
@@ -24,14 +26,7 @@ const useFbRedirect = (errors, setErrors) => {
     const redirectUrl = `${process.env.react_app_url}${ROUTES.CONNECT_ACCOUNTS}`
     const { res, error } = await setFacebookAccessToken(code, redirectUrl)
 
-    setLocalStorage(stateLocalStorageKey, '')
-    router.replace(router.pathname, null)
-
-    if (error) {
-      setErrors([error])
-    }
-
-    return res.scopes
+    return { res, error }
   }
 
   const checkAndSetMissingScopes = (grantedScopes) => {
@@ -42,19 +37,17 @@ const useFbRedirect = (errors, setErrors) => {
   const saveAccessToken = async () => {
     const { res, error } = await updateAccessToken(artistId)
 
-    if (error) {
-      setErrors([error])
+    // Update facebook granted scopes in artist context
+    if (res) {
+      setArtist({
+        type: 'update-facebook-integration-scopes',
+        payload: {
+          scopes: res.scopes,
+        },
+      })
     }
 
-    // Update facebook granted scopes in artist context
-    setArtist({
-      type: 'update-facebook-integration-scopes',
-      payload: {
-        scopes: res.scopes,
-      },
-    })
-
-    return res.scopes
+    return { res, error }
   }
 
   useAsyncEffect(async (isMounted) => {
@@ -62,8 +55,11 @@ const useFbRedirect = (errors, setErrors) => {
     const { query } = parseUrl(router.asPath)
     const code = decodeURIComponent(query?.code || '')
     const state = decodeURIComponent(query?.state)
-    const redirectError = decodeURIComponent(query?.error_description || '').replace('+', ' ')
+    const redirectError = decodeURIComponent(query?.error || '').replace('+', ' ')
+    const errorReason = decodeURIComponent(query?.error_reason || '')
+    const errorMessage = copy.fbRedirectError(errorReason)
 
+    router.replace(router.pathname, null)
     /*
     Return early if:
     - Unmounted
@@ -72,24 +68,43 @@ const useFbRedirect = (errors, setErrors) => {
     - The state param from the callback doesn't match the state we passed during the redirect request
     */
     if (!isMounted() || !code || redirectError || state !== getLocalStorage(stateLocalStorageKey)) {
-      setHasCheckedFbRedirect(true)
       setLocalStorage(stateLocalStorageKey, '')
-      router.replace(router.pathname, null)
 
       if (redirectError) {
-        setErrors([...errors, { message: redirectError }])
+        setErrors([...errors, { message: errorMessage }])
       }
+      setHasCheckedFbRedirect(true)
       return
     }
 
     let grantedScopes = []
-    grantedScopes = await exchangeCodeForAccessToken(code)
+    setLocalStorage(stateLocalStorageKey, '')
 
+    // Exchange the FB redirect code for an access token
+    const { res: exchangeCodeforTokenRes, error } = await exchangeCodeForAccessToken(code)
+
+    if (error) {
+      setErrors([...errors, { message: errorMessage }])
+      setHasCheckedFbRedirect(true)
+      return
+    }
+    grantedScopes = exchangeCodeforTokenRes.scopes
+
+    // If user has an artist make sure to update the access token in the db
     if (artistId) {
-      grantedScopes = await saveAccessToken()
+      const { res: saveAccessTokenRes, error } = await saveAccessToken()
+
+      if (error) {
+        setErrors([...errors, { message: error.message }])
+        setHasCheckedFbRedirect(true)
+        return
+      }
+      grantedScopes = saveAccessTokenRes.scopes
     }
 
+    // Set missing scopes in auth context
     checkAndSetMissingScopes(grantedScopes)
+
     setIsFacebookRedirect(true)
     setHasCheckedFbRedirect(true)
   }, [])

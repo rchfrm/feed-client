@@ -76,19 +76,14 @@ const ConnectProfilesLoader = ({
   // DEFINE ERRORS
   const [errors, setErrors] = React.useState([authError])
 
-  const { hasCheckedFbRedirect } = useFbRedirect(errors, setErrors)
-
   // Clear auth error when leaving page
   React.useEffect(() => {
-    setPageLoading(true)
-
-    // Set initial auth error (if any)
-    setErrors([authError])
-
     return () => {
       setAuthError(null)
     }
   }, [setAuthError, authError])
+
+  const { hasCheckedFbRedirect } = useFbRedirect(errors, setErrors)
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
