@@ -23,7 +23,7 @@ export default {
   missing_permission_scope: (missingPermissions, hasOnlyMissingPages) => {
     const permissionList = getMissingPermissionsList(missingPermissions)
     const missingPagesText = hasOnlyMissingPages ? getMissingPagesCopy() : ''
-    return `In order to promote your posts, we need the following permissions from Facebook...
+    return `Looks like ${missingPermissions.length > 1 ? 'some permissions are' : 'a permission is'} missing. In order to promote your posts, we also need the following...
   
 The ability to:
     
