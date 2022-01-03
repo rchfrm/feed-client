@@ -14,7 +14,6 @@ import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { getMissingScopes } from '@/app/helpers/artistHelpers'
 import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
-import { requiredScopesSignup } from '@/helpers/firebaseHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
