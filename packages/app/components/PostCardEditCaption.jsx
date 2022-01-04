@@ -28,22 +28,21 @@ const PostCardEditCaption = ({
   isDisabled,
 }) => {
   // Internal state
-  const { id = '', message = '' } = postAdMessages[0] || {}
   const captionTypes = ['ad', 'post']
   const [originalCaption] = React.useState(post.message)
   const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
   const [adMessages, setAdMessages] = React.useState(postAdMessages)
   const hasAdMessage = !!adMessages
-  const [newCaption, setNewCaption] = React.useState(message)
-  const [adMessageId, setAdMessageId] = React.useState(id)
-  const [savedNewCaption, setSavedNewCaption] = React.useState(message)
+  const [newCaption, setNewCaption] = React.useState('')
+  const [adMessageId, setAdMessageId] = React.useState('')
+  const [savedNewCaption, setSavedNewCaption] = React.useState('')
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
-    if (adMessages.length || !isMounted) return
+    if (adMessages || !isMounted) return
 
     const { res, error } = await getPostAddMessages(artistId, post.id)
 
@@ -147,7 +146,7 @@ const PostCardEditCaption = ({
   }, [updatePostDb])
 
   React.useEffect(() => {
-    const { id = '', message = '' } = adMessages.find((caption) => caption.campaignType === campaignType) || {}
+    const { id = '', message = '' } = adMessages?.find((caption) => caption.campaignType === campaignType) || {}
     setNewCaption(message)
     setAdMessageId(id)
     setSavedNewCaption(message)
@@ -300,7 +299,7 @@ PostCardEditCaption.propTypes = {
 }
 
 PostCardEditCaption.defaultProps = {
-  postAdMessages: [],
+  postAdMessages: null,
 }
 
 export default PostCardEditCaption

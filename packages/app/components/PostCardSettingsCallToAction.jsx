@@ -25,11 +25,10 @@ const PostCardSettingsCallToAction = ({
   postPromotionStatus,
   isDisabled,
 }) => {
-  const { id = '', value = '' } = postCallToActions[0] || {}
   // Manage local state
   const [callToActions, setCallToActions] = React.useState(postCallToActions)
-  const [selectedCallToAction, setSelectedCallToAction] = React.useState(value)
-  const [callToActionId, setCallToActionId] = React.useState(id)
+  const [selectedCallToAction, setSelectedCallToAction] = React.useState('')
+  const [callToActionId, setCallToActionId] = React.useState('')
   const [error, setError] = React.useState(null)
   // Get global default call to actions for both campaign types from store
   const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
@@ -39,7 +38,7 @@ const PostCardSettingsCallToAction = ({
   const isPostActive = postPromotionStatus === 'active'
 
   useAsyncEffect(async (isMounted) => {
-    if (postCallToActions.length || !isMounted) return
+    if (postCallToActions || !isMounted) return
 
     const { res, error } = await getPostCallToActions(artistId, postId)
 
@@ -82,7 +81,7 @@ const PostCardSettingsCallToAction = ({
 
   React.useEffect(() => {
     // When the campaign type view changes .. set the selected call to action value and id again
-    const { id = '', value = '' } = callToActions.find((callToAction) => callToAction.campaignType === campaignType) || {}
+    const { id = '', value = '' } = callToActions?.find((callToAction) => callToAction.campaignType === campaignType) || {}
     const defaultCallToAction = campaignType === 'all' ? defaultPostsCallToAction : defaultConversionsCallToAction || defaultPostsCallToAction
     // Use post level call to action value, if it doesnt exist use default call to action value, otherwise set empty string
     setSelectedCallToAction(value || defaultCallToAction || '')
@@ -118,7 +117,7 @@ PostCardSettingsCallToAction.propTypes = {
 }
 
 PostCardSettingsCallToAction.defaultProps = {
-  postCallToActions: [],
+  postCallToActions: null,
 }
 
 export default PostCardSettingsCallToAction
