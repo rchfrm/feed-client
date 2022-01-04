@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ControlsWizardAdAccountStep from '@/app/ControlsWizardAdAccountStep'
 import ControlsWizardLinkStep from '@/app/ControlsWizardLinkStep'
 import ControlsWizardPostsStep from '@/app/ControlsWizardPostsStep'
+import ControlsWizardAdAccountStep from '@/app/ControlsWizardAdAccountStep'
+import ControlsWizardLocationStep from '@/app/ControlsWizardLocationStep'
 import ControlsWizardBudgetStep from '@/app/ControlsWizardBudgetStep'
 import ControlsWizardPaymentStep from '@/app/ControlsWizardPaymentStep'
 import ControlsWizardReviewStep from '@/app/ControlsWizardReviewStep'
@@ -12,8 +13,9 @@ import { WizardContextProvider } from '@/app/contexts/WizardContext'
 
 const ControlsWizard = ({
   setIsWizardActive,
-  adAccountId,
   defaultLinkId,
+  adAccountId,
+  locations,
   budget,
   defaultPaymentMethod,
   isProfilePartOfOrganisation,
@@ -22,37 +24,44 @@ const ControlsWizard = ({
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      title: 'Select Facebook Ad Account',
-      component: <ControlsWizardAdAccountStep />,
-      shouldSkip: Boolean(adAccountId),
-    },
-    {
-      id: 1,
-      title: 'Choose a default link',
+      title: 'Choose a goal',
       component: <ControlsWizardLinkStep />,
       shouldSkip: Boolean(defaultLinkId),
     },
     {
-      id: 2,
-      title: 'Enable new posts by default',
+      id: 1,
+      title: 'Make new posts promotable by default?',
       component: <ControlsWizardPostsStep />,
       shouldSkip: false,
       hasSkipButton: true,
     },
     {
+      id: 2,
+      title: 'Select Facebook Ad Account',
+      component: <ControlsWizardAdAccountStep />,
+      shouldSkip: Boolean(adAccountId),
+    },
+    {
       id: 3,
+      title: 'Where are you based?',
+      component: <ControlsWizardLocationStep />,
+      shouldSkip: Object.keys(locations).length > 0,
+      hasSkipButton: true,
+    },
+    {
+      id: 4,
       title: 'Set your daily budget',
       component: <ControlsWizardBudgetStep />,
       shouldSkip: Boolean(budget),
     },
     {
-      id: 4,
+      id: 5,
       title: 'Add a payment method',
       component: <ControlsWizardPaymentStep />,
       shouldSkip: !isProfilePartOfOrganisation || Boolean(defaultPaymentMethod),
     },
     {
-      id: 5,
+      id: 6,
       title: 'All set!',
       component: <ControlsWizardReviewStep />,
       shouldSkip: false,

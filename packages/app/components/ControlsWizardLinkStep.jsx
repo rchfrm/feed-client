@@ -8,12 +8,13 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { setDefaultLink, getLinkById } from '@/app/helpers/linksHelpers'
 import PostLinksSelect from '@/app/PostLinksSelect'
 
+import EditBlock from '@/app/EditBlock'
+
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-import PencilIcon from '@/icons/PencilIcon'
 
 import brandColors from '@/constants/brandColors'
 
@@ -97,18 +98,13 @@ const ControlsWizardLinkStep = () => {
             includeAddLinkOption
           />
         ) : (
-          <div className="flex justify-between items-center mb-8">
-            <p className="break-all mb-0">{link.href}</p>
-            <Button
-              version="green small icon"
-              className="h-8 ml-3 rounded-full"
-              onClick={() => setIsEditMode(true)}
-              trackComponentName="ControlsWizardLinkStep"
-            >
-              <PencilIcon fill={brandColors.white} />
-              Edit
-            </Button>
-          </div>
+          <EditBlock
+            value={link.href}
+            isEditMode={isEditMode}
+            setIsEditMode={setIsEditMode}
+            trackComponentName="ControlsWizardLinkStep"
+            className="mb-8"
+          />
         )}
       <Error error={error} />
       <Button
