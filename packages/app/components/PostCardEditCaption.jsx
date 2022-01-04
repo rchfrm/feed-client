@@ -43,23 +43,21 @@ const PostCardEditCaption = ({
   const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted) return
+    if (adMessages.length || !isMounted) return
 
-    if (!adMessages.length) {
-      const { res, error } = await getPostAddMessages(artistId, post.id)
+    const { res, error } = await getPostAddMessages(artistId, post.id)
 
-      if (error) {
-        setError(error)
-        return
-      }
-      setAdMessages(res)
-      // Update global posts list state
-      const payload = {
-        postIndex,
-        adMessages: res,
-      }
-      updatePost('update-captions', payload)
+    if (error) {
+      setError(error)
+      return
     }
+    setAdMessages(res)
+    // Update global posts list state
+    const payload = {
+      postIndex,
+      adMessages: res,
+    }
+    updatePost('update-captions', payload)
   }, [])
 
   // Turn off edit mode when moving to post view

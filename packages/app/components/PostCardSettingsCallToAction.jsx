@@ -39,23 +39,21 @@ const PostCardSettingsCallToAction = ({
   const isPostActive = postPromotionStatus === 'active'
 
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted) return
+    if (postCallToActions.length || !isMounted) return
 
-    if (!postCallToActions.length) {
-      const { res, error } = await getPostCallToActions(artistId, postId)
+    const { res, error } = await getPostCallToActions(artistId, postId)
 
-      if (error) {
-        setError(error)
-        return
-      }
-      setCallToActions(res)
-      // Update global posts list state
-      const payload = {
-        postIndex,
-        callToActions: res,
-      }
-      updatePost('update-call-to-actions', payload)
+    if (error) {
+      setError(error)
+      return
     }
+    setCallToActions(res)
+    // Update global posts list state
+    const payload = {
+      postIndex,
+      callToActions: res,
+    }
+    updatePost('update-call-to-actions', payload)
   }, [])
 
   const handleSuccess = (callToAction) => {

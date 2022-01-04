@@ -442,7 +442,7 @@ export const getPostById = async (artistId, assetId) => {
   return { res: formattedPost, error }
 }
 
-// GET POST CALL TO ACTION
+// GET POST CALL TO ACTIONS
 /**
  * @param {string} artistId
  * @param {string} assetId
