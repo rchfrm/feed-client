@@ -1,22 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PostsFilterLabel = ({ name }) => {
+const PostsFilterLabel = ({ title, filters }) => {
   return (
     <div>
       <span
         className="mr-2 bg-black text-white text-sm"
         style={{ padding: '1px' }}
       >
-        2
+        {filters.length}
       </span>
-      {name}
+      {title}
     </div>
   )
 }
 
 PostsFilterLabel.propTypes = {
-  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  filters: PropTypes.array.isRequired,
 }
 
 PostsFilterLabel.defaultProps = {

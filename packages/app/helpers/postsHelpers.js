@@ -78,6 +78,55 @@ export const sortTypes = [
   },
 ]
 
+export const filterTypes = [
+  {
+    slug: 'status',
+    title: 'Status',
+    options: [
+      {
+        slug: 'running',
+        title: 'Running',
+      },
+      {
+        slug: 'inactive',
+        title: 'Inactive',
+      },
+      {
+        slug: 'not-run',
+        title: 'Not Run',
+      },
+    ],
+  },
+  {
+    slug: 'platform',
+    title: 'Platform',
+    options: [
+      {
+        slug: 'facebook',
+        title: 'Facebook',
+      },
+      {
+        slug: 'instagram',
+        title: 'Instagram',
+      },
+    ],
+  },
+  {
+    slug: 'postType',
+    title: 'Post Type',
+    options: [
+      {
+        slug: 'post',
+        title: 'Post',
+      },
+      {
+        slug: 'story',
+        title: 'Story',
+      },
+    ],
+  },
+]
+
 // CAMPAIGN TYPES
 export const campaignTypes = [
   {

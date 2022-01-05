@@ -1,13 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-import ButtonPill from '@/elements/ButtonPill'
+import PostsFilterOptionsItem from '@/app/PostsFilterOptionsItem'
 
-const PostsFilterOptions = () => {
-  const [isActive, setIsActive] = React.useState(false)
-
-  const onClick = () => {
-    setIsActive(!isActive)
-  }
+const PostsFilterOptions = ({ setFilters, filterType }) => {
+  const { slug, options } = filterType
 
   return (
     <div className={[
@@ -15,23 +12,22 @@ const PostsFilterOptions = () => {
       'px-4 py-2',
     ].join(' ')}
     >
-      <ButtonPill
-        version="small"
-        onClick={onClick}
-        className={[
-          'h-8 py-0 px-4',
-          isActive ? 'bg-black' : null,
-        ].join(' ')}
-        active={isActive}
-        trackComponentName="PostsFiltersOptionsItem"
-      >
-        Running
-      </ButtonPill>
+      {options.map(({ slug: optionSlug, title }) => (
+        <PostsFilterOptionsItem
+          key={optionSlug}
+          title={title}
+          type={slug}
+          value={optionSlug}
+          setFilters={setFilters}
+        />
+      ))}
     </div>
   )
 }
 
 PostsFilterOptions.propTypes = {
+  setFilters: PropTypes.func.isRequired,
+  filterType: PropTypes.array.isRequired,
 }
 
 PostsFilterOptions.defaultProps = {

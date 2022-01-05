@@ -7,7 +7,7 @@ import PostsFilterRefreshButton from '@/app/PostsFilterRefreshButton'
 
 import ArrowIcon from '@/icons/ArrowIcon'
 
-const PostsFilter = ({ name }) => {
+const PostsFilter = ({ title, filterType, filters, setFilters }) => {
   const [isOpen, setIsOpen] = React.useState(false)
 
   const onClick = () => {
@@ -31,7 +31,7 @@ const PostsFilter = ({ name }) => {
           'bg-grey-2 rounded-button font-bold',
         ].join(' ')}
       >
-        <PostsFilterLabel name={name} />
+        <PostsFilterLabel title={title} filters={filters} />
         <div className={[
           'transition-transform duration-100 transform origin-center',
           isOpen ? 'rotate-90' : null,
@@ -43,14 +43,17 @@ const PostsFilter = ({ name }) => {
           />
         </div>
       </button>
-      <PostsFilterRefreshButton />
-      <PostsFilterOptions />
+      <PostsFilterRefreshButton setFilters={setFilters} filterType={filterType} />
+      <PostsFilterOptions setFilters={setFilters} filterType={filterType} />
     </div>
   )
 }
 
 PostsFilter.propTypes = {
-  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  filterType: PropTypes.object.isRequired,
+  filters: PropTypes.array.isRequired,
+  setFilters: PropTypes.func.isRequired,
 }
 
 PostsFilter.defaultProps = {

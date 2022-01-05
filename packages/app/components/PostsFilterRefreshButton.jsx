@@ -1,13 +1,21 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import RefreshIcon from '@/icons/RefreshIcon'
 import Button from '@/elements/Button'
 
 import brandColors from '@/constants/brandColors'
 
-const PostsFilterRefreshButton = () => {
+const PostsFilterRefreshButton = ({ filterType, setFilters }) => {
+  const { slug } = filterType
+
   const onClick = () => {
-    console.log('refresh')
+    setFilters({
+      type: 'reset-filters',
+      payload: {
+        filterType: slug,
+      },
+    })
   }
 
   return (
@@ -26,6 +34,8 @@ const PostsFilterRefreshButton = () => {
 }
 
 PostsFilterRefreshButton.propTypes = {
+  filterType: PropTypes.string.isRequired,
+  setFilters: PropTypes.func.isRequired,
 }
 
 PostsFilterRefreshButton.defaultProps = {
