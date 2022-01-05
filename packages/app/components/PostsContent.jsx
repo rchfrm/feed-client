@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import PostsSorter from '@/app/PostsSorter'
-import PostsFilters from '@/app/PostsFilters'
+import PostsFiltersOverview from '@/app/PostsFiltersOverview'
 import PostsLoader from '@/app/PostsLoader'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 import PostsNoArtists from '@/app/PostsNoArtists'
@@ -89,7 +89,7 @@ const PostsContent = ({ dummyPostsImages }) => {
               className="col-span-12 sm:col-span-4"
             />
             {/* FILTERS */}
-            <PostsFilters
+            <PostsFiltersOverview
               postTypes={postTypes}
               currentPostType={currentPostType}
               setCurrentPostType={setCurrentPostType}
