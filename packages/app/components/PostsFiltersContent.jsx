@@ -76,7 +76,8 @@ const PostsFiltersContent = ({ className }) => {
 
           const filter = filterTypes[index]
           const filterName = filter.title
-          const filterValue = value.length > 1 ? value.length : filter.options.find((option) => option.slug === value[0]).title
+          const isMultipleFilters = value.length > 1
+          const filterValue = isMultipleFilters ? value.length : filter.options.find((option) => option.slug === value[0]).title
 
           return (
             <ButtonPill
@@ -85,7 +86,13 @@ const PostsFiltersContent = ({ className }) => {
               className={['mr-4'].join(' ')}
               trackComponentName="PostsFilters"
             >
-              {filterName}: {filterValue}
+              {filterName}:
+              <span
+                className={['ml-1 leading-3', isMultipleFilters ? 'bg-black text-white' : null].join(' ')}
+                style={{ padding: '2px' }}
+              >
+                {filterValue}
+              </span>
             </ButtonPill>
           )
         })}

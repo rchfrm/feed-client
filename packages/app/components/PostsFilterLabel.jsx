@@ -5,8 +5,8 @@ const PostsFilterLabel = ({ title, filters }) => {
   return (
     <div>
       <span
-        className="mr-2 bg-black text-white text-sm"
-        style={{ padding: '1px' }}
+        className="inline-block mr-2 text-sm leading-3 bg-black text-white"
+        style={{ padding: '2px' }}
       >
         {filters.length}
       </span>
