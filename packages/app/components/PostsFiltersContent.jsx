@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useImmerReducer } from 'use-immer'
+import { useRouter } from 'next/router'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
@@ -11,6 +12,8 @@ import PlusIcon from '@/icons/PlusIcon'
 import ButtonPill from '@/elements/ButtonPill'
 
 import { filterTypes } from '@/app/helpers/postsHelpers'
+import * as utils from '@/helpers/utils'
+
 import brandColors from '@/constants/brandColors'
 
 const filtersInitialState = {
@@ -42,6 +45,7 @@ const filtersReducer = (draftState, filtersAction) => {
 
 const PostsFiltersContent = ({ className }) => {
   const [filters, setFilters] = useImmerReducer(filtersReducer, filtersInitialState)
+  const [shouldUpdateQueryString, setShouldUpdateQueryString] = React.useState(false)
   const {
     setSidePanelContent,
     setSidePanelButton,
@@ -49,9 +53,36 @@ const PostsFiltersContent = ({ className }) => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
+  const router = useRouter()
+
+  const setQueryString = React.useCallback(() => {
+    const { query: currentQueries } = utils.parseUrl(window.location.href)
+    const newQueries = {
+      ...currentQueries,
+      ...filters,
+    }
+
+    router.replace({
+      pathname: router.pathname,
+      query: newQueries,
+    })
+  }, [filters, router])
+
+  const onClick = () => {
+    setShouldUpdateQueryString(true)
+    toggleSidePanel(false)
+  }
+
+  React.useEffect(() => {
+    if (shouldUpdateQueryString) {
+      setQueryString()
+      setShouldUpdateQueryString(false)
+    }
+  }, [shouldUpdateQueryString, setQueryString])
+
   const CLOSE_BUTTON = (
     <Button
-      onClick={() => toggleSidePanel(false)}
+      onClick={onClick}
       version="green"
       className="border-solid border-0 border-t-4"
       trackComponentName="PostsFilters"
