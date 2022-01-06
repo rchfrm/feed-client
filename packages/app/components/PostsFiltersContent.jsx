@@ -91,7 +91,7 @@ const PostsFiltersContent = ({ setFilterBy, className }) => {
       className="border-solid border-0 border-t-4"
       trackComponentName="PostsFilters"
     >
-      Close
+      Filter
     </Button>
   )
 
