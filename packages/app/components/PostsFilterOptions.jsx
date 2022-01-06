@@ -3,8 +3,14 @@ import PropTypes from 'prop-types'
 
 import PostsFilterOptionsItem from '@/app/PostsFilterOptionsItem'
 
-const PostsFilterOptions = ({ setFilters, filterType }) => {
-  const { slug, options } = filterType
+const PostsFilterOptions = ({
+  filters,
+  filterType,
+  addFilter,
+  removeFilter,
+  setFiltersState,
+}) => {
+  const { options } = filterType
 
   return (
     <div className={[
@@ -16,9 +22,12 @@ const PostsFilterOptions = ({ setFilters, filterType }) => {
         <PostsFilterOptionsItem
           key={optionSlug}
           title={title}
-          type={slug}
           value={optionSlug}
-          setFilters={setFilters}
+          filters={filters}
+          filterType={filterType}
+          addFilter={addFilter}
+          removeFilter={removeFilter}
+          setFiltersState={setFiltersState}
         />
       ))}
     </div>
@@ -26,8 +35,11 @@ const PostsFilterOptions = ({ setFilters, filterType }) => {
 }
 
 PostsFilterOptions.propTypes = {
-  setFilters: PropTypes.func.isRequired,
+  filters: PropTypes.array.isRequired,
   filterType: PropTypes.object.isRequired,
+  addFilter: PropTypes.func.isRequired,
+  removeFilter: PropTypes.func.isRequired,
+  setFiltersState: PropTypes.func.isRequired,
 }
 
 PostsFilterOptions.defaultProps = {

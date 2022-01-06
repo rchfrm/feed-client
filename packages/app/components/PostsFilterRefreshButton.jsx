@@ -6,12 +6,18 @@ import Button from '@/elements/Button'
 
 import brandColors from '@/constants/brandColors'
 
-const PostsFilterRefreshButton = ({ filterType, setFilters }) => {
+const PostsFilterRefreshButton = ({
+  filterType,
+  resetFilters,
+  setFiltersState,
+}) => {
   const onClick = () => {
-    setFilters({
+    resetFilters()
+
+    setFiltersState({
       type: 'reset-filters',
       payload: {
-        filterType,
+        filterType: filterType.slug,
       },
     })
   }
@@ -33,8 +39,9 @@ const PostsFilterRefreshButton = ({ filterType, setFilters }) => {
 }
 
 PostsFilterRefreshButton.propTypes = {
-  filterType: PropTypes.string.isRequired,
-  setFilters: PropTypes.func.isRequired,
+  filterType: PropTypes.object.isRequired,
+  resetFilters: PropTypes.func.isRequired,
+  setFiltersState: PropTypes.func.isRequired,
 }
 
 PostsFilterRefreshButton.defaultProps = {

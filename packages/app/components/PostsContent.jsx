@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import PostsSorter from '@/app/PostsSorter'
-import PostsFiltersOverview from '@/app/PostsFiltersOverview'
+import PostsFiltersContent from '@/app/PostsFiltersContent'
 import PostsLoader from '@/app/PostsLoader'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 import PostsNoArtists from '@/app/PostsNoArtists'
@@ -14,7 +14,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
-import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
+import { sortTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -23,7 +23,6 @@ const PostsContent = ({ dummyPostsImages }) => {
   const { artistId, artist: { missingDefaultLink } } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
 
-  const allFilter = postTypes.find(({ id }) => id === 'all')
   const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
   const [currentPostType, setCurrentPostType] = React.useState('')
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
@@ -89,11 +88,7 @@ const PostsContent = ({ dummyPostsImages }) => {
               className="col-span-12 sm:col-span-4"
             />
             {/* FILTERS */}
-            <PostsFiltersOverview
-              postTypes={postTypes}
-              currentPostType={currentPostType}
-              setCurrentPostType={setCurrentPostType}
-              defaultPostState={allFilter.id}
+            <PostsFiltersContent
               disabled={!hasArtists}
               className="col-span-12 sm:col-span-8"
             />

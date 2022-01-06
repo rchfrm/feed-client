@@ -5,7 +5,7 @@ import PostsFilter from '@/app/PostsFilter'
 
 import { filterTypes } from '@/app/helpers/postsHelpers'
 
-const PostsFilters = ({ filters, setFilters }) => {
+const PostsFilters = ({ initialFilters, setFiltersState }) => {
   return (
     <div>
       <h2 className="mb-8">Posts Filters</h2>
@@ -17,8 +17,8 @@ const PostsFilters = ({ filters, setFilters }) => {
             key={title}
             title={title}
             filterType={filterType}
-            filters={filters[slug]}
-            setFilters={setFilters}
+            initialFilters={initialFilters[slug]}
+            setFiltersState={setFiltersState}
           />
         )
       })}
@@ -27,12 +27,12 @@ const PostsFilters = ({ filters, setFilters }) => {
 }
 
 PostsFilters.propTypes = {
-  filters: PropTypes.shape({
+  initialFilters: PropTypes.shape({
     status: PropTypes.array.isRequired,
     platform: PropTypes.array.isRequired,
     postType: PropTypes.array.isRequired,
   }).isRequired,
-  setFilters: PropTypes.func.isRequired,
+  setFiltersState: PropTypes.func.isRequired,
 }
 
 PostsFilters.defaultProps = {

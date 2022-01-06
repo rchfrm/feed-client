@@ -3,15 +3,30 @@ import PropTypes from 'prop-types'
 
 import ButtonPill from '@/elements/ButtonPill'
 
-const PostsFilterOptionsItem = ({ title, type, value, setFilters }) => {
+const PostsFilterOptionsItem = ({
+  title,
+  value,
+  filters,
+  filterType,
+  addFilter,
+  removeFilter,
+  setFiltersState,
+}) => {
   const [isActive, setIsActive] = React.useState(false)
 
+  React.useEffect(() => {
+    setIsActive(filters.includes(value))
+  }, [filters, value])
+
   const onClick = () => {
+    const filterAction = !isActive ? addFilter : removeFilter
+    filterAction(value)
     setIsActive(!isActive)
-    setFilters({
+
+    setFiltersState({
       type: !isActive ? 'add-filter' : 'remove-filter',
       payload: {
-        filterType: type,
+        filterType: filterType.slug,
         filterValue: value,
       },
     })
@@ -36,9 +51,12 @@ const PostsFilterOptionsItem = ({ title, type, value, setFilters }) => {
 
 PostsFilterOptionsItem.propTypes = {
   title: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  setFilters: PropTypes.func.isRequired,
+  filters: PropTypes.array.isRequired,
+  filterType: PropTypes.object.isRequired,
+  addFilter: PropTypes.func.isRequired,
+  removeFilter: PropTypes.func.isRequired,
+  setFiltersState: PropTypes.func.isRequired,
 }
 
 PostsFilterOptionsItem.defaultProps = {

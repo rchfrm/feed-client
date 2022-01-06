@@ -7,8 +7,21 @@ import PostsFilterRefreshButton from '@/app/PostsFilterRefreshButton'
 
 import ArrowIcon from '@/icons/ArrowIcon'
 
-const PostsFilter = ({ title, filterType, filters, setFilters }) => {
+const PostsFilter = ({ title, filterType, initialFilters, setFiltersState }) => {
   const [isOpen, setIsOpen] = React.useState(false)
+  const [filters, setFilters] = React.useState(initialFilters)
+
+  const addFilter = (value) => {
+    setFilters([...filters, value])
+  }
+
+  const removeFilter = (value) => {
+    setFilters(filters.filter((option) => option !== value))
+  }
+
+  const resetFilters = () => {
+    setFilters([])
+  }
 
   const onClick = () => {
     setIsOpen(!isOpen)
@@ -43,8 +56,18 @@ const PostsFilter = ({ title, filterType, filters, setFilters }) => {
           />
         </div>
       </button>
-      <PostsFilterRefreshButton setFilters={setFilters} filterType={filterType.slug} />
-      <PostsFilterOptions setFilters={setFilters} filterType={filterType} />
+      <PostsFilterRefreshButton
+        filterType={filterType}
+        resetFilters={resetFilters}
+        setFiltersState={setFiltersState}
+      />
+      <PostsFilterOptions
+        filters={filters}
+        filterType={filterType}
+        addFilter={addFilter}
+        removeFilter={removeFilter}
+        setFiltersState={setFiltersState}
+      />
     </div>
   )
 }
@@ -52,8 +75,8 @@ const PostsFilter = ({ title, filterType, filters, setFilters }) => {
 PostsFilter.propTypes = {
   title: PropTypes.string.isRequired,
   filterType: PropTypes.object.isRequired,
-  filters: PropTypes.array.isRequired,
-  setFilters: PropTypes.func.isRequired,
+  initialFilters: PropTypes.array.isRequired,
+  setFiltersState: PropTypes.func.isRequired,
 }
 
 PostsFilter.defaultProps = {

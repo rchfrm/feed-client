@@ -10,6 +10,7 @@ import Button from '@/elements/Button'
 import PlusIcon from '@/icons/PlusIcon'
 import ButtonPill from '@/elements/ButtonPill'
 
+import { filterTypes } from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 
 const filtersInitialState = {
@@ -39,7 +40,7 @@ const filtersReducer = (draftState, filtersAction) => {
   }
 }
 
-const PostsFiltersOverview = ({ className }) => {
+const PostsFiltersContent = ({ className }) => {
   const [filters, setFilters] = useImmerReducer(filtersReducer, filtersInitialState)
   const {
     setSidePanelContent,
@@ -47,10 +48,6 @@ const PostsFiltersOverview = ({ className }) => {
     setSidePanelContentLabel,
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
-
-  React.useEffect(() => {
-    console.log(filters)
-  }, [filters])
 
   const CLOSE_BUTTON = (
     <Button
@@ -66,7 +63,7 @@ const PostsFiltersOverview = ({ className }) => {
   const goToPostsFiltersMenu = () => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContentLabel('Posts Filters')
-    setSidePanelContent(<PostsFilters filters={filters} setFilters={setFilters} />)
+    setSidePanelContent(<PostsFilters initialFilters={filters} setFiltersState={setFilters} />)
     toggleSidePanel(true)
   }
 
@@ -74,8 +71,12 @@ const PostsFiltersOverview = ({ className }) => {
     <div className={className}>
       <p className="font-bold text-base">Filter</p>
       <div className="flex border-solid border-0 border-t-2 pt-5">
-        {Object.entries(filters).map(([key, value]) => {
+        {Object.entries(filters).map(([key, value], index) => {
           if (!value.length) return
+
+          const filter = filterTypes[index]
+          const filterName = filter.title
+          const filterValue = value.length > 1 ? value.length : filter.options.find((option) => option.slug === value[0]).title
 
           return (
             <ButtonPill
@@ -84,7 +85,7 @@ const PostsFiltersOverview = ({ className }) => {
               className={['mr-4'].join(' ')}
               trackComponentName="PostsFilters"
             >
-              {key}: {value.length > 1 ? value.length : value[0]}
+              {filterName}: {filterValue}
             </ButtonPill>
           )
         })}
@@ -99,12 +100,12 @@ const PostsFiltersOverview = ({ className }) => {
   )
 }
 
-PostsFiltersOverview.propTypes = {
+PostsFiltersContent.propTypes = {
   className: PropTypes.string,
 }
 
-PostsFiltersOverview.defaultProps = {
+PostsFiltersContent.defaultProps = {
   className: null,
 }
 
-export default PostsFiltersOverview
+export default PostsFiltersContent
