@@ -67,7 +67,7 @@ const PostsFiltersContent = ({ setFilterBy, className }) => {
       query: newQueries,
     })
 
-    const nonEmptyFilters = Object.fromEntries(Object.entries(filters).filter(([_, value]) => value.length))
+    const nonEmptyFilters = Object.fromEntries(Object.entries(filters).filter(([, value]) => value.length))
 
     setFilterBy(nonEmptyFilters)
   }, [filters, router, setFilterBy])
