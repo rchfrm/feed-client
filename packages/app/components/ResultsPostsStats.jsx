@@ -17,6 +17,15 @@ const ResultsPostsStats = ({
   data,
   className,
 }) => {
+  React.useEffect(() => {
+    postResultsConfig.map((x) => {
+      return data.posts.find((element) => {
+        const key = Array.isArray(x.key) ? x.key[0] : x.key
+        return element[key]
+      })
+    }).filter(Boolean)
+  }, [])
+
   const sortedPosts = postResultsConfig.map((x) => data.posts.find((element) => {
     const key = Array.isArray(x.key) ? x.key[0] : x.key
     return element[key]

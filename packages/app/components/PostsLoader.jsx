@@ -74,29 +74,29 @@ const postsReducer = (draftState, postsAction) => {
 }
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
-const fetchPosts = async ({ promotionStatus, sortBy, artistId, limit, isEndOfAssets, cursor }) => {
+const fetchPosts = async ({ sortBy, filterBy, artistId, limit, isEndOfAssets, cursor }) => {
   if (!artistId) return
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
   // Get posts
-  const posts = await server.getPosts({ limit, artistId, promotionStatus, sortBy, cursor: cursor.current })
+  const posts = await server.getPosts({ limit, artistId, sortBy, filterBy, cursor: cursor.current })
   return posts
 }
 
 // WHEN TO UPDATE POSTS
 const updateDataConditions = (newProps, oldProps) => {
-  const { artistId: newArtistId, promotionStatus: newpromotionStatus, sortBy: newSortBy, loadingMore } = newProps
-  const { artistId: oldArtistId, promotionStatus: oldPromotionStatus, sortBy: oldSortBy, loadingMore: alreadyLoadingMore } = oldProps
+  const { artistId: newArtistId, sortBy: newSortBy, filterBy: newFilterBy, loadingMore } = newProps
+  const { artistId: oldArtistId, sortBy: oldSortBy, filterBy: oldFilterBy, loadingMore: alreadyLoadingMore } = oldProps
   if (loadingMore && !alreadyLoadingMore) return true
   if (newArtistId !== oldArtistId) return true
-  if (newpromotionStatus !== oldPromotionStatus) return true
   if (newSortBy !== oldSortBy) return true
+  if (newFilterBy !== oldFilterBy) return true
   return false
 }
 
 // THE COMPONENT
 // ------------------
-function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
+function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
   // DEFINE STATES
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
@@ -121,7 +121,7 @@ function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
     cursor.current = null
     // Update end of assets state
     isEndOfAssets.current = false
-  }, [artistId, promotionStatus, sortBy])
+  }, [artistId, sortBy, filterBy])
 
   // Run this to fetch posts when the artist changes
   const { isPending } = useAsync({
@@ -133,8 +133,8 @@ function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
     isEndOfAssets,
     loadingMore,
     cursor,
-    promotionStatus,
     sortBy,
+    filterBy,
     // When fetch finishes
     onResolve: (posts) => {
       // Turn off global loading
@@ -298,7 +298,6 @@ function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
   if (!isPending && !loadingMore && !posts.length) {
     return (
       <PostsNone
-        promotionStatus={promotionStatus}
         artist={artist}
       />
     )
@@ -345,7 +344,6 @@ function PostsLoader({ setRefreshPosts, promotionStatus, sortBy }) {
 
 PostsLoader.propTypes = {
   setRefreshPosts: PropTypes.func.isRequired,
-  promotionStatus: PropTypes.string.isRequired,
   sortBy: PropTypes.string.isRequired,
 }
 

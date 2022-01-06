@@ -112,7 +112,7 @@ export const filterTypes = [
     ],
   },
   {
-    slug: 'postType',
+    slug: 'post_type',
     title: 'Post Type',
     options: [
       {

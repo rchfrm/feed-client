@@ -19,7 +19,7 @@ import brandColors from '@/constants/brandColors'
 const filtersInitialState = {
   status: [],
   platform: [],
-  postType: [],
+  post_type: [],
 }
 
 const filtersReducer = (draftState, filtersAction) => {
@@ -43,7 +43,7 @@ const filtersReducer = (draftState, filtersAction) => {
   }
 }
 
-const PostsFiltersContent = ({ className }) => {
+const PostsFiltersContent = ({ setFilterBy, className }) => {
   const [filters, setFilters] = useImmerReducer(filtersReducer, filtersInitialState)
   const [shouldUpdateQueryString, setShouldUpdateQueryString] = React.useState(false)
   const {
@@ -66,7 +66,11 @@ const PostsFiltersContent = ({ className }) => {
       pathname: router.pathname,
       query: newQueries,
     })
-  }, [filters, router])
+
+    const nonEmptyFilters = Object.fromEntries(Object.entries(filters).filter(([_, value]) => value.length))
+
+    setFilterBy(nonEmptyFilters)
+  }, [filters, router, setFilterBy])
 
   const onClick = () => {
     setShouldUpdateQueryString(true)
