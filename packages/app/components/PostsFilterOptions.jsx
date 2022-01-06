@@ -27,7 +27,7 @@ const PostsFilterOptions = ({ setFilters, filterType }) => {
 
 PostsFilterOptions.propTypes = {
   setFilters: PropTypes.func.isRequired,
-  filterType: PropTypes.array.isRequired,
+  filterType: PropTypes.object.isRequired,
 }
 
 PostsFilterOptions.defaultProps = {

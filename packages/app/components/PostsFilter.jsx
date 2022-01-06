@@ -43,7 +43,7 @@ const PostsFilter = ({ title, filterType, filters, setFilters }) => {
           />
         </div>
       </button>
-      <PostsFilterRefreshButton setFilters={setFilters} filterType={filterType} />
+      <PostsFilterRefreshButton setFilters={setFilters} filterType={filterType.slug} />
       <PostsFilterOptions setFilters={setFilters} filterType={filterType} />
     </div>
   )

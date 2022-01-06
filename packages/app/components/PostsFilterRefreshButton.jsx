@@ -7,13 +7,11 @@ import Button from '@/elements/Button'
 import brandColors from '@/constants/brandColors'
 
 const PostsFilterRefreshButton = ({ filterType, setFilters }) => {
-  const { slug } = filterType
-
   const onClick = () => {
     setFilters({
       type: 'reset-filters',
       payload: {
-        filterType: slug,
+        filterType,
       },
     })
   }
@@ -24,6 +22,7 @@ const PostsFilterRefreshButton = ({ filterType, setFilters }) => {
       onClick={onClick}
       className="absolute h-auto top-0 z-20"
       style={{ top: '12px', right: '12px' }}
+      trackComponentName="PostsFilterRefreshButton"
     >
       <RefreshIcon
         className={['w-4 h-auto mr-4'].join(' ')}
