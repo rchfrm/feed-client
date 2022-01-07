@@ -103,7 +103,7 @@ const PostsFiltersContent = ({ setFilterBy, className }) => {
   return (
     <div className={className}>
       <p className="font-bold text-base">Filter</p>
-      <div className="flex border-solid border-0 border-t-2 pt-5">
+      <div className="flex flex-wrap border-solid border-0 border-t-2 pt-5">
         {Object.entries(filters).map(([key, value], index) => {
           if (!value.length) return
 
@@ -116,7 +116,7 @@ const PostsFiltersContent = ({ setFilterBy, className }) => {
             <ButtonPill
               key={key}
               onClick={goToPostsFiltersMenu}
-              className={['mr-4'].join(' ')}
+              className="mr-4 mb-4"
               trackComponentName="PostsFilters"
             >
               {filterName}:
