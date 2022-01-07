@@ -80,11 +80,11 @@ export const sortTypes = [
 
 export const filterTypes = [
   {
-    slug: 'status',
+    slug: 'promotionStatus',
     title: 'Status',
     options: [
       {
-        slug: 'running',
+        slug: 'active',
         title: 'Running',
       },
       {
@@ -92,7 +92,7 @@ export const filterTypes = [
         title: 'Inactive',
       },
       {
-        slug: 'not-run',
+        slug: 'archived',
         title: 'Not Run',
       },
     ],
@@ -112,7 +112,7 @@ export const filterTypes = [
     ],
   },
   {
-    slug: 'post_type',
+    slug: 'postType',
     title: 'Post Type',
     options: [
       {
@@ -379,7 +379,6 @@ export const getCursor = (post = {}) => {
   if (!afterHref) return
   return afterHref.split('after=')[1]
 }
-
 
 // GET POST METRIC CONFIG
 export const getPostMetricsContent = (metricsType, postType) => {

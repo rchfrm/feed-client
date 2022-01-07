@@ -26,7 +26,7 @@ const PostsContent = ({ dummyPostsImages }) => {
   const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [sortBy, setSortBy] = React.useState('')
-  const [filterBy, setFilterBy] = React.useState(null)
+  const [filterBy, setFilterBy] = React.useState({})
   const hasArtists = user.artists.length > 0
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
@@ -95,11 +95,13 @@ const PostsContent = ({ dummyPostsImages }) => {
               className="col-span-12 sm:col-span-8"
             />
           </div>
-          <PostsLoader
-            setRefreshPosts={setRefreshPosts}
-            sortBy={sortBy}
-            filterBy={filterBy}
-          />
+          {sortBy && (
+            <PostsLoader
+              setRefreshPosts={setRefreshPosts}
+              sortBy={sortBy}
+              filterBy={filterBy}
+            />
+          )}
         </div>
       ) : (
         <PostsInitialImport

@@ -3,6 +3,7 @@ import get from 'lodash/get'
 import * as api from '@/helpers/api'
 import flatten from 'lodash/flatten'
 
+import { addArrayCastTypeToQuery } from '@/helpers/utils'
 
 // * ARTIST
 // ------------------
@@ -127,6 +128,8 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
 * @returns {Promise<any>}
 */
 export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor }) => {
+  const formattedFilterQuery = addArrayCastTypeToQuery(filterBy)
+
   const queryParams = {
     limit,
     // add cursor if defined
@@ -134,13 +137,12 @@ export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor 
     // Sort by 'sort by' if defined
     ...(sortBy && { order_by: sortBy }),
     // Filter by 'filter by' if defined
-    ...filterBy,
+    ...formattedFilterQuery,
     // Hide non-promotable posts if showing inactive
     // ...(promotionStatus === 'inactive') && { is_promotable: 1 },
   }
   return api.get(`/artists/${artistId}/assets`, queryParams)
 }
-
 
 /**
  * @param {string} artistId

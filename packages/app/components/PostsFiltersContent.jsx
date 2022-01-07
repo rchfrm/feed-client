@@ -17,9 +17,9 @@ import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 const filtersInitialState = {
-  status: [],
+  promotionStatus: [],
   platform: [],
-  post_type: [],
+  postType: [],
 }
 
 const filtersReducer = (draftState, filtersAction) => {
@@ -67,9 +67,7 @@ const PostsFiltersContent = ({ setFilterBy, className }) => {
       query: newQueries,
     })
 
-    const nonEmptyFilters = Object.fromEntries(Object.entries(filters).filter(([, value]) => value.length))
-
-    setFilterBy(nonEmptyFilters)
+    setFilterBy(filters)
   }, [filters, router, setFilterBy])
 
   const onClick = () => {
