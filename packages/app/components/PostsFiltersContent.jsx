@@ -89,11 +89,11 @@ const PostsFiltersContent = ({ setFilterBy, className }) => {
 
     if (!storedFilter) return
 
-    const formattedFilters = Object.entries(storedFilter).reduce((result, [key, values]) => {
+    const formattedFilters = Object.entries(storedFilter).reduce((result, [key, value]) => {
       return {
         ...result,
         // If filter value is not an array yet, push the value into an array
-        [key]: Array.isArray(values) ? values : [values],
+        [key]: Array.isArray(value) ? value : [value],
       }
     }, {})
 
