@@ -78,6 +78,8 @@ export const sortTypes = [
   },
 ]
 
+export const filters = ['promotionStatus', 'platform', 'postType']
+
 export const filterTypes = [
   {
     slug: 'promotionStatus',

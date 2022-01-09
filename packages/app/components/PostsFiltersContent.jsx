@@ -11,7 +11,7 @@ import Button from '@/elements/Button'
 import PlusIcon from '@/icons/PlusIcon'
 import ButtonPill from '@/elements/ButtonPill'
 
-import { filterTypes } from '@/app/helpers/postsHelpers'
+import * as postsHelpers from '@/app/helpers/postsHelpers'
 import * as utils from '@/helpers/utils'
 
 import brandColors from '@/constants/brandColors'
@@ -25,10 +25,13 @@ const filtersInitialState = {
 const filtersReducer = (draftState, filtersAction) => {
   const { type: actionType, payload = {} } = filtersAction
   const {
+    filters,
     filterType,
     filterValue,
   } = payload
   switch (actionType) {
+    case 'set-filters':
+      return { ...draftState, ...filters }
     case 'add-filter':
       draftState[filterType].push(filterValue)
       break
@@ -55,7 +58,7 @@ const PostsFiltersContent = ({ setFilterBy, className }) => {
 
   const router = useRouter()
 
-  const setQueryString = React.useCallback(() => {
+  const setQueryString = React.useCallback((filters) => {
     const { query: currentQueries } = utils.parseUrl(window.location.href)
     const newQueries = {
       ...currentQueries,
@@ -67,20 +70,50 @@ const PostsFiltersContent = ({ setFilterBy, className }) => {
       query: newQueries,
     })
 
+    utils.setLocalStorage('filterBy', JSON.stringify(filters))
     setFilterBy(filters)
-  }, [filters, router, setFilterBy])
+  }, [router, setFilterBy])
 
   const onClick = () => {
     setShouldUpdateQueryString(true)
     toggleSidePanel(false)
   }
 
+  // On mount set filters based on query string and local storage
+  React.useEffect(() => {
+    // Filter out non filter related queries
+    const filteredFilterQuery = Object.fromEntries(Object.entries(router.query).filter(([key]) => postsHelpers.filters.includes(key)))
+    const currentFilterQuery = Object.keys(filteredFilterQuery).length ? filteredFilterQuery : null
+    const currentFilterStorage = JSON.parse(utils.getLocalStorage('filterBy'))
+    const storedFilter = currentFilterQuery || currentFilterStorage
+
+    if (!storedFilter) return
+
+    const formattedFilters = Object.entries(storedFilter).reduce((result, [key, values]) => {
+      return {
+        ...result,
+        // If filter value is not an array yet, push the value into an array
+        [key]: Array.isArray(values) ? values : [values],
+      }
+    }, {})
+
+    // Update filters state
+    setFilters({
+      type: 'set-filters',
+      payload: {
+        filters: formattedFilters,
+      },
+    })
+    setQueryString(formattedFilters)
+    // eslint-disable-next-line
+  }, [])
+
   React.useEffect(() => {
     if (shouldUpdateQueryString) {
-      setQueryString()
+      setQueryString(filters)
       setShouldUpdateQueryString(false)
     }
-  }, [shouldUpdateQueryString, setQueryString])
+  }, [shouldUpdateQueryString, setQueryString, filters])
 
   const CLOSE_BUTTON = (
     <Button
@@ -107,7 +140,7 @@ const PostsFiltersContent = ({ setFilterBy, className }) => {
         {Object.entries(filters).map(([key, value], index) => {
           if (!value.length) return
 
-          const filter = filterTypes[index]
+          const filter = postsHelpers.filterTypes[index]
           const filterName = filter.title
           const isMultipleFilters = value.length > 1
           const filterValue = isMultipleFilters ? value.length : filter.options.find((option) => option.slug === value[0]).title
