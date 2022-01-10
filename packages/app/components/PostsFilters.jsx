@@ -27,11 +27,7 @@ const PostsFilters = ({ initialFilters, setFiltersState }) => {
 }
 
 PostsFilters.propTypes = {
-  initialFilters: PropTypes.shape({
-    status: PropTypes.array.isRequired,
-    platform: PropTypes.array.isRequired,
-    postType: PropTypes.array.isRequired,
-  }).isRequired,
+  initialFilters: PropTypes.object.isRequired,
   setFiltersState: PropTypes.func.isRequired,
 }
 

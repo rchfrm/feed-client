@@ -345,6 +345,7 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
 PostsLoader.propTypes = {
   setRefreshPosts: PropTypes.func.isRequired,
   sortBy: PropTypes.string.isRequired,
+  filterBy: PropTypes.object.isRequired,
 }
 
 export default PostsLoader
