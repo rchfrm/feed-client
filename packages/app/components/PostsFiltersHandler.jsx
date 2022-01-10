@@ -9,9 +9,9 @@ import * as postsHelpers from '@/app/helpers/postsHelpers'
 import * as utils from '@/helpers/utils'
 
 const filtersInitialState = {
-  promotionStatus: [],
+  promotion_status: [],
   platform: [],
-  postType: [],
+  subtype: [],
 }
 
 const filtersReducer = (draftState, filtersAction) => {

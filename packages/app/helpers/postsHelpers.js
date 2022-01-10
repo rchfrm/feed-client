@@ -78,11 +78,11 @@ export const sortTypes = [
   },
 ]
 
-export const filters = ['promotionStatus', 'platform', 'postType']
+export const filters = ['promotion_status', 'platform', 'subtype']
 
 export const filterTypes = [
   {
-    slug: 'promotionStatus',
+    slug: 'promotion_status',
     title: 'Status',
     options: [
       {
@@ -90,11 +90,11 @@ export const filterTypes = [
         title: 'Running',
       },
       {
-        slug: 'inactive',
+        slug: 'archived',
         title: 'Inactive',
       },
       {
-        slug: 'archived',
+        slug: 'inactive',
         title: 'Not Run',
       },
     ],
@@ -114,7 +114,7 @@ export const filterTypes = [
     ],
   },
   {
-    slug: 'postType',
+    slug: 'subtype',
     title: 'Post Type',
     options: [
       {
