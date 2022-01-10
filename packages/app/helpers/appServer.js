@@ -138,8 +138,6 @@ export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor 
     ...(sortBy && { order_by: sortBy }),
     // Filter by 'filter by' if defined
     ...formattedFilterQuery,
-    // Hide non-promotable posts if showing inactive
-    // ...(promotionStatus === 'inactive') && { is_promotable: 1 },
   }
   return api.get(`/artists/${artistId}/assets`, queryParams)
 }
