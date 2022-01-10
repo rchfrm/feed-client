@@ -38,7 +38,7 @@ const filtersReducer = (draftState, filtersAction) => {
   }
 }
 
-const PostsFiltersHandler = ({ setFilterBy, className }) => {
+const PostsFiltersHandler = ({ setFilterBy, disabled, className }) => {
   const [filters, setFilters] = useImmerReducer(filtersReducer, filtersInitialState)
   const [shouldUpdateQueryString, setShouldUpdateQueryString] = React.useState(false)
 
@@ -97,7 +97,11 @@ const PostsFiltersHandler = ({ setFilterBy, className }) => {
   }, [shouldUpdateQueryString, setQueryString, filters])
 
   return (
-    <div className={className}>
+    <div className={[
+      className,
+      disabled ? 'opacity-50 pointer-events-none' : null,
+    ].join(' ')}
+    >
       <PostsFiltersContent
         filters={filters}
         setFilters={setFilters}
@@ -109,6 +113,7 @@ const PostsFiltersHandler = ({ setFilterBy, className }) => {
 
 PostsFiltersHandler.propTypes = {
   setFilterBy: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

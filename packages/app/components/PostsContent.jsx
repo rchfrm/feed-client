@@ -90,6 +90,7 @@ const PostsContent = ({ dummyPostsImages }) => {
             {/* FILTERS */}
             <PostsFiltersHandler
               setFilterBy={setFilterBy}
+              disabled={!hasArtists}
               className="col-span-12 sm:col-span-8"
             />
           </div>

@@ -5,7 +5,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 
 import PostsNoArtistsConnectAccountsBlock from '@/app/PostsNoArtistsConnectAccountsBlock'
 import PostsSorter from '@/app/PostsSorter'
-import PostsFiltersContent from '@/app/PostsFiltersContent'
+import PostsFiltersHandler from '@/app/PostsFiltersHandler'
 import PostsNoArtistsDummyAll from '@/app/PostsNoArtistsDummyAll'
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 import Error from '@/elements/Error'
@@ -52,7 +52,8 @@ const PostsNoArtists = ({ dummyPostsImages }) => {
             className="col-start-1 col-span-12 sm:col-span-4"
           />
           {/* FILTERS */}
-          <PostsFiltersContent
+          <PostsFiltersHandler
+            setFilterBy={() => {}}
             disabled
             className="row-span-1 col-span-12 sm:col-span-8"
           />
