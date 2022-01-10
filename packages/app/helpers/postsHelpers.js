@@ -316,18 +316,6 @@ export const formatPostsResponse = (posts) => {
         engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
       },
     } : null
-    // Call to Actions
-    const callToActions = post.call_to_actions.map((callToAction) => ({
-      id: callToAction.id,
-      value: callToAction.call_to_action,
-      campaignType: callToAction.options.campaign_type,
-    }))
-    // Ad messages
-    const adMessages = post.ad_messages.map((adMessage) => ({
-      id: adMessage.id,
-      message: adMessage.message,
-      campaignType: adMessage.options.campaign_type,
-    }))
     // Published date
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
@@ -356,8 +344,6 @@ export const formatPostsResponse = (posts) => {
       promotableStatus: post.promotable_status,
       promotionEligibility,
       linkSpecs,
-      callToActions,
-      adMessages,
       message,
       adMessageProps: post.ad_message,
       shortMessage,
@@ -504,6 +490,54 @@ export const getPostById = async (artistId, assetId) => {
   const { res, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
   const [formattedPost] = formatPostsResponse([res])
   return { res: formattedPost, error }
+}
+
+// GET POST CALL TO ACTIONS
+/**
+ * @param {string} artistId
+ * @param {string} assetId
+ * @returns {Promise<any>}
+ */
+export const getPostCallToActions = async (artistId, assetId) => {
+  const endpoint = `/artists/${artistId}/assets/${assetId}/call_to_actions`
+  const payload = null
+  const errorTracking = {
+    category: 'Post',
+    action: 'Get post call to actions',
+  }
+  const { res = [], error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+
+  const callToActions = res.map((callToAction) => ({
+    id: callToAction.id,
+    value: callToAction.call_to_action,
+    campaignType: callToAction.options.campaign_type,
+  }))
+
+  return { res: callToActions, error }
+}
+
+// GET POST AD MESSAGES
+/**
+ * @param {string} artistId
+ * @param {string} assetId
+ * @returns {Promise<any>}
+ */
+export const getPostAddMessages = async (artistId, assetId) => {
+  const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages`
+  const payload = null
+  const errorTracking = {
+    category: 'Post',
+    action: 'Get post ad messages',
+  }
+  const { res = [], error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+
+  const adMessages = res.map((adMessage) => ({
+    id: adMessage.id,
+    message: adMessage.message,
+    campaignType: adMessage.options.campaign_type,
+  }))
+
+  return { res: adMessages, error }
 }
 
 // GET INITIAL POSTS IMPORT STATUS
