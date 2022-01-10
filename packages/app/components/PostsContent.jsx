@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import PostsSorter from '@/app/PostsSorter'
-import PostsFiltersContent from '@/app/PostsFiltersContent'
+import PostsFiltersHandler from '@/app/PostsFiltersHandler'
 import PostsLoader from '@/app/PostsLoader'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 import PostsNoArtists from '@/app/PostsNoArtists'
@@ -88,10 +88,8 @@ const PostsContent = ({ dummyPostsImages }) => {
               className="col-span-12 sm:col-span-4"
             />
             {/* FILTERS */}
-            <PostsFiltersContent
-              filterBy={filterBy}
+            <PostsFiltersHandler
               setFilterBy={setFilterBy}
-              disabled={!hasArtists}
               className="col-span-12 sm:col-span-8"
             />
           </div>
