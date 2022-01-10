@@ -17,9 +17,8 @@ const ResultsPostsStats = ({
   data,
   className,
 }) => {
-  const sortedPosts = postResultsConfig.map((x) => data.posts.find((element) => {
-    const key = Array.isArray(x.key) ? x.key[0] : x.key
-    return element[key]
+  const sortedPosts = postResultsConfig.map((x) => data.posts.find((post) => {
+    return post.type === x.type
   })).filter(Boolean)
 
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
@@ -29,7 +28,7 @@ const ResultsPostsStats = ({
     sortedPosts.length ? (
       sortedPosts.map((post, index) => (
         <ResultsPostStats
-          key={post.id}
+          key={post.type}
           post={post}
           config={postResultsConfig[index]}
           className={[
