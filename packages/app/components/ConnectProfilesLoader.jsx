@@ -66,7 +66,7 @@ const ConnectProfilesLoader = ({
   const { missingScopes: { account: missingScopes } } = auth
 
   // DEFINE LOADING VERSIONS
-  const [pageLoading, setPageLoading] = React.useState(false)
+  const [pageLoading, setPageLoading] = React.useState(true)
   const [fetchedArtistsFinished, setFetchedArtistsFinished] = React.useState(false)
 
   // DEFINE BUTTON STATE (disabled if required fields are absent)
