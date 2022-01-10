@@ -27,9 +27,10 @@ const PostCardScore = ({
           className="bg-green"
         />
       </div>
-      <p className="flex items-center mb-0 font-bold">
-        {scoreOrganic}
-      </p>
+      <span className="flex items-baseline mb-0">
+        <span className="font-bold">{scoreOrganic}</span>
+        <span className="ml-1 text-xs">/ 10</span>
+      </span>
     </div>
   )
 }

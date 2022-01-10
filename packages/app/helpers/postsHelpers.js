@@ -247,6 +247,8 @@ export const formatPostsResponse = (posts) => {
       shares: post.shares,
       video_views: post.views,
       engagementScore: post.engagement_score,
+      score: post.score,
+      normalizedScore: post.normalized_score,
       replies: getNestedMetric(post, 'replies'),
       taps_forward: getNestedMetric(post, 'taps_forward'),
       taps_back: getNestedMetric(post, 'taps_back'),

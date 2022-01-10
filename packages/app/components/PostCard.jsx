@@ -54,7 +54,7 @@ const PostCard = ({
       />
       <div className="relative">
         <PostCardScore
-          scoreOrganic={post.organicMetrics.engagementScore}
+          scoreOrganic={post.organicMetrics.normalizedScore}
           className="py-3 px-4 mb-2"
         />
         {postPromotable ? (
