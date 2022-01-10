@@ -83,7 +83,7 @@ const ConnectProfilesLoader = ({
     }
   }, [setAuthError, authError])
 
-  const { hasCheckedFbRedirect } = useFbRedirect(errors, setErrors)
+  const { hasCheckedFbRedirect } = useFbRedirect(ROUTES.CONNECT_ACCOUNTS, errors, setErrors)
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}

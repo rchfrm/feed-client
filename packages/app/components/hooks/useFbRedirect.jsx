@@ -11,9 +11,8 @@ import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
 
 import copy from '@/app/copy/global'
 
-import * as ROUTES from '@/app/constants/routes'
-
-const useFbRedirect = (errors, setErrors) => {
+const useFbRedirect = (redirectPath, errors, setErrors) => {
+  const redirectUrl = `${process.env.react_app_url}${redirectPath}`
   const [hasCheckedFbRedirect, setHasCheckedFbRedirect] = React.useState(false)
 
   const { setIsFacebookRedirect, setMissingScopes } = React.useContext(AuthContext)
@@ -23,7 +22,6 @@ const useFbRedirect = (errors, setErrors) => {
   const router = useRouter()
 
   const exchangeCodeForAccessToken = async (code) => {
-    const redirectUrl = `${process.env.react_app_url}${ROUTES.CONNECT_ACCOUNTS}`
     const { res, error } = await setFacebookAccessToken(code, redirectUrl)
 
     return { res, error }

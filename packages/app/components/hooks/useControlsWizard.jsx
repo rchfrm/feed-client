@@ -3,6 +3,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import useBillingStore from '@/app/stores/billingStore'
 import useControlsStore from '@/app/stores/controlsStore'
+import useFbRedirect from '@/app/hooks/useFbRedirect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
@@ -12,6 +13,8 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { fetchPopularLocations, fetchTargetingState } from '@/app/helpers/targetingHelpers'
+
+import * as ROUTES from '@/app/constants/routes'
 
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
@@ -39,6 +42,8 @@ const useControlsWizard = () => {
   const { min_daily_budget_info } = artist
   const { user } = React.useContext(UserContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const [errors, setErrors] = React.useState([])
+  const { hasCheckedFbRedirect } = useFbRedirect(ROUTES.CONTROLS, errors, setErrors)
   const {
     targetingState,
     initPage,
@@ -90,7 +95,7 @@ const useControlsWizard = () => {
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
   return {
-    isLoading: billingLoading || artistLoading || controlsLoading,
+    isLoading: billingLoading || artistLoading || controlsLoading || !hasCheckedFbRedirect,
     hasSetUpControls,
     missingScopes,
     adAccountId,
