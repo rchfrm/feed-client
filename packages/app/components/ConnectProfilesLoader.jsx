@@ -109,7 +109,7 @@ const ConnectProfilesLoader = ({
     const { res, error } = await artistHelpers.getArtistOnSignUp()
     if (error) {
       if (!isMounted()) return
-      setErrors([error])
+      setErrors([...errors, error])
       setPageLoading(false)
       return
     }
