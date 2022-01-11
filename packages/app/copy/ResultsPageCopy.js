@@ -89,11 +89,11 @@ export default {
     }
   },
   postDescription: (type, isPurchase) => {
-    if (type === 'engage') {
+    if (type === 'unaware') {
       return `The post that engaged the
       most new people:`
     }
-    if (type === 'reach') {
+    if (type === 'on_platform') {
       return `The post that reached the most people
       from your existing audience:`
     }
@@ -106,19 +106,19 @@ export default {
     )
   },
   postLabelText: (type, isPurchase) => {
-    if (type === 'engage') {
+    if (type === 'unaware') {
       return 'engaged'
     }
-    if (type === 'reach') {
+    if (type === 'on_platform') {
       return 'reached'
     }
     return isPurchase ? 'in sales' : 'events'
   },
   postDescriptionMobile: (type, value, isPurchase) => {
-    if (type === 'engage') {
+    if (type === 'unaware') {
       return `**${value}** new people engaged`
     }
-    if (type === 'reach') {
+    if (type === 'on_platform') {
       return `**${value}** people reached`
     }
     return `**${value}** ${isPurchase ? 'in sales' : 'pixel events triggered'}`
