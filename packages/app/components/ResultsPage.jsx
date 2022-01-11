@@ -17,6 +17,7 @@ const ResultsPage = () => {
   const {
     hasSetUpControls,
     isLoading,
+    missingScopes,
     adAccountId,
     locations,
     defaultLinkId,
@@ -37,6 +38,7 @@ const ResultsPage = () => {
         <div className="col-span-6 col-start-1">
           <ControlsWizard
             setIsWizardActive={setIsWizardActive}
+            missingScopes={missingScopes}
             adAccountId={adAccountId}
             locations={locations}
             defaultLinkId={defaultLinkId}
