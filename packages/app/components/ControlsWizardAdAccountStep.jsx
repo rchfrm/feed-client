@@ -15,7 +15,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/controlsPageCopy'
-import brandColors from '@/constants/brandColors'
+import brandColors from '../../shared/constants/brandColors'
 
 const ControlsWizardAdAccountStep = () => {
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)

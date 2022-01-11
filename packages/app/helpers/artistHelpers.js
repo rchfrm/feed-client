@@ -4,7 +4,6 @@ import get from 'lodash/get'
 
 import * as utils from '@/helpers/utils'
 import * as api from '@/helpers/api'
-import { requiredScopesSignup, requiredScopesAccount, requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 /**
  * @param {string} artist
@@ -98,21 +97,6 @@ export const updateLocation = (artistId, countryCode) => {
   const errorTracking = {
     category: 'Artist',
     action: 'Update country code',
-  }
-  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
-}
-
-// Update access token
-/**
-* @param {string} artistId
-* @returns {Promise<object>} { res, error }
-*/
-export const updateAccessToken = (artistId) => {
-  const requestUrl = `/artists/${artistId}/access_token`
-  const payload = null
-  const errorTracking = {
-    category: 'Artist',
-    action: 'Update access token',
   }
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
@@ -362,25 +346,4 @@ export const getPreferences = (artist, type) => {
     ...(type === 'posts' && { defaultPromotionEnabled: preferences[type].promotion_enabled_default }),
   }
   return formattedPreferencesResponse
-}
-
-export const hasSetFacebookAdAccount = (artist) => {
-  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
-
-  return Boolean(facebookIntegration?.accountId)
-}
-
-export const getMissingScopes = ({ grantedScopes, artist }) => {
-  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
-  const authorizedScopes = (grantedScopes || facebookIntegration?.authorization.scopes).filter((scope) => scope !== 'public_profile')
-
-  const filterRequiredScopes = (requiredScopes) => {
-    return requiredScopes.filter((scope) => !authorizedScopes.includes(scope))
-  }
-
-  return {
-    signUp: filterRequiredScopes(requiredScopesSignup),
-    account: filterRequiredScopes(requiredScopesAccount),
-    ads: filterRequiredScopes(requiredScopesAds),
-  }
 }

@@ -7,6 +7,7 @@ import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 
+// IMPORT COPY
 import copy from '@/app/copy/connectProfilesCopy'
 
 const getIntroText = (isFindMore) => {
@@ -21,7 +22,7 @@ const ConnectProfilesFacebook = ({
   isFindMore,
   className,
 }) => {
-  const { missingScopes: { account: missingScopes } } = auth
+  const { missingScopes } = auth
   const introText = getIntroText(isFindMore)
   const buttonText = isFindMore ? 'Connect more pages' : 'Continue with Facebook'
 
@@ -32,13 +33,14 @@ const ConnectProfilesFacebook = ({
         return <Error error={error} messagePrefix="Error: " key={index} className="mb-10" />
       })}
       <div>
+        <MarkdownText markdown={introText} />
         {/* If missing FB permissions, show missing permissions */}
-        {missingScopes.length > 0 ? (
+        {missingScopes.length > 0 && (
           <MissingScopesMessage
             scopes={missingScopes}
             showButton={false}
           />
-        ) : <MarkdownText markdown={introText} />}
+        )}
         {isFindMore && (
           <MarkdownText className="mb-12" markdown={copy.connectProfilesDescription(isFindMore)} />
         )}

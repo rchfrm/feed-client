@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
-import { getMissingPermissionsList } from '@/app/copy/integrationErrorsCopy'
 
 export default {
   // CONTROLS OPTIONS
@@ -57,22 +56,13 @@ export default {
 
   // CONTROLS WIZARD
   // ----------------
-  controlsWizardAdAccountStepIntro: 'Let us know which Facebook Ad Account we should use to set-up your ads.',
-  controlsWizardLinkStepIntro: `Set-up will only take a minute. First off, where do you want people to go when they click on your ads?
+  controlsWizardAdAccountStepIntro: 'Set-up will only take a minute. First off, let us know which Facebook Ad Account we should use to set-up your ads.',
+  controlsWizardLinkStepIntro: `Where do you want people to go when they click on your ads?
 
   You will be able to set different links on specific posts later on.`,
   controlsWizardPostsStepIntro: `You never know what is going to catch someone's attention! That's why Feed makes recent posts (made in the last 28 days) promotable by default.
 
   You can disable specific posts you don't want Feed to promote later on.`,
-  controlsWizardFbPermissionsStepIntro: (scopes) => {
-    const permissionList = getMissingPermissionsList(scopes)
-
-    return `We need permission to create ad campaigns on your behalf, the ability to:
-
-${permissionList}
-
-Click 'Continue with Facebook' to grant these:`
-  },
   controlsWizardLocationStepIntro: `We'll use the country you're based in as a starting point for our targeting.`,
   controlsWizardBudgetStepIntro: 'This amount includes our 10% service fee. We recommend you set an amount that you can sustain over longer periods.',
   controlsWizardPaymentStepIntro: `Almost there!

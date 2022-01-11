@@ -5,7 +5,6 @@ import React from 'react'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/admin/contexts/UserContext'
 
-import { getMissingScopes } from '@/app/helpers/artistHelpers'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
@@ -60,7 +59,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     if (additionalUserInfo) {
       // Check whether the new user has missing scopes
       const { profile: { granted_scopes } } = additionalUserInfo
-      const { signUp: missingScopes } = getMissingScopes({ grantedScopes: granted_scopes })
+      const missingScopes = signupHelpers.getMissingScopes(granted_scopes)
       // Set missing scopes
       if (missingScopes.length) {
         setMissingScopes(missingScopes) // from Auth context

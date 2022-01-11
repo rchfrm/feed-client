@@ -8,7 +8,6 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import { getUserOrganizations } from '@/app/helpers/userHelpers'
-import { hasSetFacebookAdAccount } from '@/app/helpers/artistHelpers'
 
 const getFetchAndSetNotifications = state => state.fetchAndSetNotifications
 
@@ -16,9 +15,7 @@ const NotificationsHandler = ({}) => {
   // READ CONTEXTS
   const { artistId } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
-  const { auth } = React.useContext(AuthContext)
-  const { missingScopes: { account, ads }, providerIds } = auth
-  const missingScopes = hasSetFacebookAdAccount() ? ads : account
+  const { auth: { missingScopes, providerIds } } = React.useContext(AuthContext)
   // Test if has FB auth
   const hasFbAuth = providerIds.includes('facebook.com')
   // Get function to fetch notifications

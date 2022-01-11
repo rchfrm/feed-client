@@ -2,13 +2,11 @@
 import * as api from '@/helpers/api'
 
 import { requiredScopesAccount } from '@/helpers/firebaseHelpers'
-import * as utils from '@/helpers/utils'
-
 import facebook from '@/app/constants/facebook'
 
-export const getFbRedirectUrl = ({ redirectPath, requestedPermissions, state, isReauth }) => {
+export const getFbRedirectUrl = ({ redirectSlug, requestedPermissions, state, isReauth }) => {
   const scopeRequests = requestedPermissions || requiredScopesAccount
-  const redirectUrl = `${process.env.react_app_url}${redirectPath}`
+  const redirectUrl = `${process.env.react_app_url}${redirectSlug}`
 
   return `
     ${facebook.OAUTH_URL}?
@@ -18,23 +16,6 @@ export const getFbRedirectUrl = ({ redirectPath, requestedPermissions, state, is
     scope=${scopeRequests.join(',')}
     ${isReauth ? '&auth_type=rerequest' : ''}
   `
-}
-
-export const handleFbRedirect = (auth, scopes, redirectPath) => {
-  const { missingScopes: { account: missingScopes }, providerIds } = auth
-  const isReauth = scopes?.length || missingScopes.length || providerIds.includes('facebook.com')
-  const requestedPermissions = scopes || (missingScopes.length ? missingScopes : null) || null
-  const state = (Math.random() + 1).toString(36).substring(4)
-
-  const url = getFbRedirectUrl({
-    redirectPath,
-    requestedPermissions,
-    state,
-    isReauth,
-  })
-
-  utils.setLocalStorage('redirectState', state)
-  window.location.href = url
 }
 
 /**
