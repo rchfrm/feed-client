@@ -33,7 +33,7 @@ const ResultsPostStats = ({
   const { goToPostMetrics } = usePostsSidePanel()
 
   React.useEffect(() => {
-    if (type === 'convert') {
+    if (type === 'conversions') {
       const highestValue = Math.max(post[key[0]], post[key[1]])
       const highestValueKey = Object.keys(post).find(key => post[key] === highestValue)
       setIsPurchase(highestValueKey === key[0])
