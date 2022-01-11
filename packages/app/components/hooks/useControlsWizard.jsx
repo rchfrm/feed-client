@@ -7,11 +7,10 @@ import useFbRedirect from '@/app/hooks/useFbRedirect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-import { AuthContext } from '@/contexts/AuthContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { getArtistIntegrationByPlatform, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { fetchPopularLocations, fetchTargetingState } from '@/app/helpers/targetingHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
@@ -55,7 +54,8 @@ const useControlsWizard = () => {
   } = React.useContext(TargetingContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
-  const { auth: { missingScopes: { ads: missingScopes } } } = React.useContext(AuthContext)
+  const isArtistOwnedByUser = Object.keys(artist.users).includes(user.id) && artist.users[user.id].role === 'owner'
+  const { ads: missingScopes = [] } = isArtistOwnedByUser ? getMissingScopes({ artist }) : {}
 
   const currentUserOrganisation = allOrgs.find(organisation => organisation.role === 'owner')
   const isProfilePartOfOrganisation = Object.keys(currentUserOrganisation?.artists || {}).includes(artistId)

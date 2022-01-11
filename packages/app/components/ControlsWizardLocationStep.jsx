@@ -30,7 +30,7 @@ const ControlsWizardLocationStep = () => {
   const adAccountCountryCode = locationOptions.find((location) => location.name === wizardState.adAccountCountry)?.value
 
   const [isLoading, setIsLoading] = React.useState(false)
-  const [countryCode, setCountryCode] = React.useState(adAccountCountryCode || locationOptions[0].value)
+  const [countryCode, setCountryCode] = React.useState(artist.country_code || adAccountCountryCode || locationOptions[0].value)
   const [country, setCountry] = React.useState('')
   const [isEditMode, setIsEditMode] = React.useState(!countryCode)
   const [error, setError] = React.useState(null)

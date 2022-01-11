@@ -101,7 +101,6 @@ const artistReducer = (draftState, action) => {
 
 function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
-  const { setMissingScopes } = React.useContext(AuthContext)
   const setIsControlsLoading = useControlsStore(updateIsControlsLoading)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -152,9 +151,6 @@ function ArtistProvider({ children }) {
       artistDraft.isSpendingPaused = isSpendingPaused
     })
 
-    const missingScopes = artistHelpers.getMissingScopes({ artist: artistUpdated })
-    setMissingScopes(missingScopes)
-
     // Set hasBudget state
     setHasBudget(!!artist.daily_budget)
 
@@ -164,7 +160,7 @@ function ArtistProvider({ children }) {
         artist: artistUpdated,
       },
     })
-  }, [setArtist, setMissingScopes])
+  }, [setArtist])
 
   const storeArtist = React.useCallback(async (id, hasSwitchedBetweenArtists = true) => {
     // TODO : Store previously selected artists in state,
