@@ -74,7 +74,13 @@ const ConnectProfilesLoader = ({
   const [disabledReason, setDisabledReason] = React.useState('')
 
   // DEFINE ERRORS
-  const [errors, setErrors] = React.useState([authError])
+  const [errors, setErrors] = React.useState([])
+
+  React.useEffect(() => {
+    if (authError) {
+      setErrors([...errors, authError])
+    }
+  }, [authError, errors])
 
   // Clear auth error when leaving page
   React.useEffect(() => {
@@ -105,6 +111,8 @@ const ConnectProfilesLoader = ({
     if (missingScopes.length) return setPageLoading(false)
     // Stop here if we haven't checked yet if the user came from a redirect
     if (!hasCheckedFbRedirect) return
+    // Stop here if we haven either auth or fb auth errors
+    if (errors.length) return setPageLoading(false)
     // START FETCHING ARTISTS
     const { res, error } = await artistHelpers.getArtistOnSignUp()
     if (error) {
