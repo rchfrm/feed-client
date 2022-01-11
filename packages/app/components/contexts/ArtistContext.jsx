@@ -4,7 +4,6 @@ import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
 // IMPORT CONTEXTS
 import { UserContext } from '@/app/contexts/UserContext'
-import { AuthContext } from '@/contexts/AuthContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT STORES
 import useControlsStore from '@/app/stores/controlsStore'
