@@ -18,8 +18,8 @@ const ResultsPage = () => {
     hasSetUpControls,
     isLoading,
     adAccountId,
+    locations,
     defaultLinkId,
-    defaultPromotionEnabled,
     budget,
     defaultPaymentMethod,
     isProfilePartOfOrganisation,
@@ -38,8 +38,8 @@ const ResultsPage = () => {
           <ControlsWizard
             setIsWizardActive={setIsWizardActive}
             adAccountId={adAccountId}
+            locations={locations}
             defaultLinkId={defaultLinkId}
-            defaultPromotionEnabled={defaultPromotionEnabled}
             budget={budget}
             defaultPaymentMethod={defaultPaymentMethod}
             isProfilePartOfOrganisation={isProfilePartOfOrganisation}

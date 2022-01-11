@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
 import produce from 'immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -12,7 +13,7 @@ import Error from '@/elements/Error'
 import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 import PostCardEditAlert from '@/app/PostCardEditAlert'
 
-import { updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
+import { updatePostCaption, resetPostCaption, getPostAddMessages } from '@/app/helpers/postsHelpers'
 import { track } from '@/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
@@ -20,22 +21,43 @@ import brandColors from '@/constants/brandColors'
 const PostCardEditCaption = ({
   post, // NB: This does not update when the `posts` array in <PostsLoader /> updates
   postIndex,
+  postAdMessages,
   updatePost,
   isEditable,
   campaignType,
   isDisabled,
 }) => {
   // Internal state
-  const { id = '', message = '' } = post.adMessages[0] || {}
   const captionTypes = ['ad', 'post']
   const [originalCaption] = React.useState(post.message)
   const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
-  const [adMessages, setAdMessages] = React.useState(post.adMessages)
+  const [adMessages, setAdMessages] = React.useState(postAdMessages)
   const hasAdMessage = !!adMessages
-  const [newCaption, setNewCaption] = React.useState(message)
-  const [adMessageId, setAdMessageId] = React.useState(id)
-  const [savedNewCaption, setSavedNewCaption] = React.useState(message)
+  const [newCaption, setNewCaption] = React.useState('')
+  const [adMessageId, setAdMessageId] = React.useState('')
+  const [savedNewCaption, setSavedNewCaption] = React.useState('')
+  const [error, setError] = React.useState(null)
+
+  const { artistId } = React.useContext(ArtistContext)
+
+  useAsyncEffect(async (isMounted) => {
+    if (adMessages || !isMounted) return
+
+    const { res, error } = await getPostAddMessages(artistId, post.id)
+
+    if (error) {
+      setError(error)
+      return
+    }
+    setAdMessages(res)
+    // Update global posts list state
+    const payload = {
+      postIndex,
+      adMessages: res,
+    }
+    updatePost('update-captions', payload)
+  }, [])
 
   // Turn off edit mode when moving to post view
   React.useEffect(() => {
@@ -75,9 +97,7 @@ const PostCardEditCaption = ({
   }, [postIndex, updatePost, adMessages])
 
   // SAVE NEW CAPTION on DB
-  const { artistId } = React.useContext(ArtistContext)
   const [isLoading, setIsLoading] = React.useState(false)
-  const [error, setError] = React.useState(null)
   const [showAlert, setShowAlert] = React.useState(false)
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const updatePostDb = React.useCallback(async (newCaption, forceRun = false) => {
@@ -126,7 +146,7 @@ const PostCardEditCaption = ({
   }, [updatePostDb])
 
   React.useEffect(() => {
-    const { id = '', message = '' } = adMessages.find((caption) => caption.campaignType === campaignType) || {}
+    const { id = '', message = '' } = adMessages?.find((caption) => caption.campaignType === campaignType) || {}
     setNewCaption(message)
     setAdMessageId(id)
     setSavedNewCaption(message)
@@ -271,6 +291,7 @@ const PostCardEditCaption = ({
 PostCardEditCaption.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
+  postAdMessages: PropTypes.arrayOf(PropTypes.object),
   updatePost: PropTypes.func.isRequired,
   isEditable: PropTypes.bool.isRequired,
   campaignType: PropTypes.string.isRequired,
@@ -278,7 +299,7 @@ PostCardEditCaption.propTypes = {
 }
 
 PostCardEditCaption.defaultProps = {
-
+  postAdMessages: null,
 }
 
 export default PostCardEditCaption

@@ -8,7 +8,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import LoginSignupEmailEdit from '@/app/LoginSignupEmailEdit'
+import EditBlock from '@/app/EditBlock'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
@@ -136,10 +136,12 @@ const LoginEmailForm = ({ initialEmail, className }) => {
           autoFocus
         />
       ) : (
-        <LoginSignupEmailEdit
-          email={email}
-          isEmailEdit={isEmailEdit}
-          setIsEmailEdit={setIsEmailEdit}
+        <EditBlock
+          value={email}
+          isEditMode={isEmailEdit}
+          setIsEditMode={setIsEmailEdit}
+          trackComponentName="LoginEmailform"
+          className="mb-4"
         />
       )}
 

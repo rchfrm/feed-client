@@ -7,17 +7,17 @@ import { formatCurrency } from '@/helpers/utils'
 
 export const postResultsConfig = [
   {
-    type: 'engage',
+    type: 'unaware',
     key: 'engaged',
     color: brandColors.blue,
   },
   {
-    type: 'reach',
+    type: 'on_platform',
     key: 'reach',
     color: brandColors.green,
   },
   {
-    type: 'convert',
+    type: 'conversions',
     key: ['sales_value', 'events_count'],
     color: brandColors.redLight,
   },
@@ -31,6 +31,7 @@ const formatResultsData = (data) => {
     if (value?.asset && (key !== 'spend')) {
       newObject.posts.push({
         ...value.asset,
+        type: key,
       })
     }
     return newObject

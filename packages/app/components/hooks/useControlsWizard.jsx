@@ -1,12 +1,16 @@
 import React from 'react'
+import useAsyncEffect from 'use-async-effect'
 
 import useBillingStore from '@/app/stores/billingStore'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { fetchPopularLocations, fetchTargetingState } from '@/app/helpers/targetingHelpers'
 
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
@@ -29,15 +33,44 @@ const useControlsWizard = () => {
     allOrgs,
   } = useBillingStore(getBillingStoreState)
   const { postsPreferences, budget, controlsLoading } = useControlsStore(getControlsStoreState)
-  const { defaultLinkId, defaultPromotionEnabled } = postsPreferences
+  const { defaultLinkId } = postsPreferences
   const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
   const { min_daily_budget_info } = artist
   const { user } = React.useContext(UserContext)
+  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const {
+    targetingState,
+    initPage,
+    currencyOffset,
+    createLocationOptions,
+    locationOptions: locations,
+    settingsReady,
+    setSettingsReady,
+  } = React.useContext(TargetingContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
 
   const currentUserOrganisation = allOrgs.find(organisation => organisation.role === 'owner')
   const isProfilePartOfOrganisation = Object.keys(currentUserOrganisation?.artists || {}).includes(artistId)
+
+  // Initialise targeting context state
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted() || !artistId) return
+
+    const state = await fetchTargetingState(artistId, currencyOffset)
+    const { error } = state
+    initPage(state, error)
+  }, [artistId])
+
+  // Fetch popular locations and store them in targeting context
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted() || !Object.keys(targetingState).length > 0 || settingsReady) return
+
+    const { popularLocations } = await fetchPopularLocations(artistId)
+    createLocationOptions(targetingState, popularLocations)
+    setSettingsReady(true)
+    toggleGlobalLoading(false)
+  }, [targetingState])
 
   // Set-up organisation part of billing store
   React.useEffect(() => {
@@ -47,8 +80,9 @@ const useControlsWizard = () => {
   // eslint-disable-next-line
   }, [artistLoading, user, setupBilling])
 
-  const hasSetUpControls = Boolean(adAccountId
-    && defaultLinkId
+  const hasSetUpControls = Boolean(defaultLinkId
+    && adAccountId
+    && Object.keys(locations).length
     && budget
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
@@ -56,8 +90,8 @@ const useControlsWizard = () => {
     isLoading: billingLoading || artistLoading || controlsLoading,
     hasSetUpControls,
     adAccountId,
+    locations,
     defaultLinkId,
-    defaultPromotionEnabled,
     budget,
     defaultPaymentMethod,
     isProfilePartOfOrganisation,
