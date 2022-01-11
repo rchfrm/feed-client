@@ -35,6 +35,7 @@ const ControlsContent = ({ activeSlug }) => {
   const {
     hasSetUpControls,
     isLoading,
+    missingScopes,
     adAccountId,
     locations,
     defaultLinkId,
@@ -81,6 +82,7 @@ const ControlsContent = ({ activeSlug }) => {
         <div className="col-span-6 col-start-1">
           <ControlsWizard
             setIsWizardActive={setIsWizardActive}
+            missingScopes={missingScopes}
             defaultLinkId={defaultLinkId}
             locations={locations}
             adAccountId={adAccountId}

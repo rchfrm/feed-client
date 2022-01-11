@@ -10,4 +10,10 @@ export default {
     
 Please check your inbox to confirm. ${!isAccountPage ? `Or change the email address on the [Account Page](${ROUTES.ACCOUNT}).` : ''}`
   },
+  fbRedirectError: (errorReason) => {
+    if (errorReason === 'user_denied') {
+      return `Looks like you didn't complete the process of connecting to Facebook. Click Continue with Facebook to try again, or [email us](mailto:help@tryfeed.co) for help.`
+    }
+    return `Something went wrong. Please try connecting with Facebook again.`
+  },
 }

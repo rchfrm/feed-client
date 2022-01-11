@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 
 import { useImmerReducer } from 'use-immer'
 import useAsyncEffect from 'use-async-effect'
@@ -22,12 +22,11 @@ import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
 import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 
+import useFbRedirect from '@/app/hooks/useFbRedirect'
+
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
-import { requiredScopesAccount } from '@/helpers/firebaseHelpers'
-import { parseUrl, getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/connectProfilesCopy'
@@ -60,89 +59,37 @@ const ConnectProfilesLoader = ({
     authError,
     setAuthError,
     isFacebookRedirect,
-    setIsFacebookRedirect,
-    setMissingScopes,
   } = React.useContext(AuthContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
   // Get any missing scopes
-  const { missingScopes } = auth
+  const { missingScopes: { account: missingScopes } } = auth
 
   // DEFINE LOADING VERSIONS
-  const [pageLoading, setPageLoading] = React.useState(false)
+  const [pageLoading, setPageLoading] = React.useState(true)
   const [fetchedArtistsFinished, setFetchedArtistsFinished] = React.useState(false)
 
   // DEFINE BUTTON STATE (disabled if required fields are absent)
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
   const [disabledReason, setDisabledReason] = React.useState('')
-  const [hasCheckedFbRedirect, setHasCheckedFbRedirect] = React.useState(false)
 
   // DEFINE ERRORS
-  const [errors, setErrors] = React.useState([authError])
+  const [errors, setErrors] = React.useState([])
 
-  const router = useRouter()
+  React.useEffect(() => {
+    if (authError) {
+      setErrors([...errors, authError])
+    }
+  }, [authError, errors])
 
   // Clear auth error when leaving page
   React.useEffect(() => {
     return () => {
       setAuthError(null)
     }
-  }, [setAuthError])
+  }, [setAuthError, authError])
 
-  useAsyncEffect(async (isMounted) => {
-    setPageLoading(true)
-
-    // Set initial auth error (if any)
-    setErrors([authError])
-
-    // Try to grab query params from Facebook redirect
-    const { query } = parseUrl(router.asPath)
-    const code = decodeURIComponent(query?.code || '')
-    const state = decodeURIComponent(query?.state)
-    const redirectError = decodeURIComponent(query?.error_description || '').replace('+', ' ')
-    const stateLocalStorageKey = 'redirectState'
-
-    /*
-    Return early if:
-    - Unmounted
-    - No FB redirect code
-    - Redirect error
-    - The state param from the callback doesn't match the state we passed during the redirect request
-    */
-    if (!isMounted() || !code || redirectError || state !== getLocalStorage(stateLocalStorageKey)) {
-      setHasCheckedFbRedirect(true)
-      setLocalStorage(stateLocalStorageKey, '')
-      router.replace(router.pathname, null)
-
-      if (redirectError) {
-        setErrors([...errors, { message: redirectError }])
-      }
-      return
-    }
-
-    // Exchange Facebook code for an access token which will be stored in the back-end
-    const redirectUrl = `${process.env.react_app_url}${ROUTES.CONNECT_ACCOUNTS}`
-    const { res, error } = await setFacebookAccessToken(code, redirectUrl)
-
-    setLocalStorage(stateLocalStorageKey, '')
-    router.replace(router.pathname, null)
-
-    if (error) {
-      setErrors([error])
-    }
-
-    if (res) {
-      const { scopes: grantedScopes } = res
-      const missingScopes = requiredScopesAccount.filter((scope) => !grantedScopes.includes(scope))
-
-      if (missingScopes.length) {
-        // Set missing scopes in Auth context
-        setMissingScopes(missingScopes)
-      }
-    }
-    setIsFacebookRedirect(true)
-    setHasCheckedFbRedirect(true)
-  }, [])
+  const { hasCheckedFbRedirect } = useFbRedirect(ROUTES.CONNECT_ACCOUNTS, errors, setErrors)
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
@@ -164,11 +111,13 @@ const ConnectProfilesLoader = ({
     if (missingScopes.length) return setPageLoading(false)
     // Stop here if we haven't checked yet if the user came from a redirect
     if (!hasCheckedFbRedirect) return
+    // Stop here if we haven either auth or fb auth errors
+    if (errors.length) return setPageLoading(false)
     // START FETCHING ARTISTS
     const { res, error } = await artistHelpers.getArtistOnSignUp()
     if (error) {
       if (!isMounted()) return
-      setErrors([error])
+      setErrors([...errors, error])
       setPageLoading(false)
       return
     }
@@ -215,10 +164,6 @@ const ConnectProfilesLoader = ({
     }
     setPageLoading(false)
   }, [userLoading, isConnecting, hasCheckedFbRedirect])
-
-  React.useEffect(() => {
-    return () => setIsFacebookRedirect(false)
-  }, [setIsFacebookRedirect])
 
   if (isConnecting && Object.keys(artistAccounts).length > 0) {
     return <ConnectProfilesIsConnecting artistAccounts={artistAccounts} />

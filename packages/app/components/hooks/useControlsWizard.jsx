@@ -3,14 +3,17 @@ import useAsyncEffect from 'use-async-effect'
 
 import useBillingStore from '@/app/stores/billingStore'
 import useControlsStore from '@/app/stores/controlsStore'
+import useFbRedirect from '@/app/hooks/useFbRedirect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
-import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { getArtistIntegrationByPlatform, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { fetchPopularLocations, fetchTargetingState } from '@/app/helpers/targetingHelpers'
+
+import * as ROUTES from '@/app/constants/routes'
 
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
@@ -38,6 +41,8 @@ const useControlsWizard = () => {
   const { min_daily_budget_info } = artist
   const { user } = React.useContext(UserContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const [errors, setErrors] = React.useState([])
+  const { hasCheckedFbRedirect } = useFbRedirect(ROUTES.CONTROLS, errors, setErrors)
   const {
     targetingState,
     initPage,
@@ -49,6 +54,8 @@ const useControlsWizard = () => {
   } = React.useContext(TargetingContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
+  const isArtistOwnedByUser = Object.keys(artist.users).includes(user.id) && artist.users[user.id].role === 'owner'
+  const { ads: missingScopes = [] } = isArtistOwnedByUser ? getMissingScopes({ artist }) : {}
 
   const currentUserOrganisation = allOrgs.find(organisation => organisation.role === 'owner')
   const isProfilePartOfOrganisation = Object.keys(currentUserOrganisation?.artists || {}).includes(artistId)
@@ -81,14 +88,16 @@ const useControlsWizard = () => {
   }, [artistLoading, user, setupBilling])
 
   const hasSetUpControls = Boolean(defaultLinkId
+    && !missingScopes.length
     && adAccountId
     && Object.keys(locations).length
     && budget
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
   return {
-    isLoading: billingLoading || artistLoading || controlsLoading,
+    isLoading: billingLoading || artistLoading || controlsLoading || !hasCheckedFbRedirect,
     hasSetUpControls,
+    missingScopes,
     adAccountId,
     locations,
     defaultLinkId,

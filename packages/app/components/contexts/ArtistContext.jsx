@@ -89,6 +89,10 @@ const artistReducer = (draftState, action) => {
       draftState.spotifyConnected = spotifyConnected
       break
     }
+    case 'update-facebook-integration-scopes': {
+      draftState.integrations.find(integration => integration.platform === 'facebook').authorization.scopes = payload.scopes
+      break
+    }
     default:
       throw new Error(`Unable to find ${action.type} in artistReducer`)
   }
