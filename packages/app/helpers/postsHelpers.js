@@ -78,7 +78,7 @@ export const sortTypes = [
   },
 ]
 
-export const filters = ['promotion_status', 'platform', 'subtype']
+export const filters = ['promotion_status', 'platform', 'internal_type']
 
 export const filterTypes = [
   {
@@ -114,7 +114,7 @@ export const filterTypes = [
     ],
   },
   {
-    slug: 'subtype',
+    slug: 'internal_type',
     title: 'Post Type',
     options: [
       {

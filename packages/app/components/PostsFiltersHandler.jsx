@@ -11,7 +11,7 @@ import * as utils from '@/helpers/utils'
 const filtersInitialState = {
   promotion_status: [],
   platform: [],
-  subtype: [],
+  internal_type: [],
 }
 
 const filtersReducer = (draftState, filtersAction) => {
