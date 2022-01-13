@@ -184,15 +184,16 @@ const TargetingContextProvider = ({ children }) => {
 
   // INIT TARGETING PAGE
   const [errorFetchingSettings, setErrorFetchingSettings] = React.useState(null)
-  const initPage = React.useCallback((targetingState, error) => {
+  const initPage = React.useCallback(async (targetingState, error) => {
     // Handle error
     if (error) {
       setErrorFetchingSettings(error)
       return
     }
     setErrorFetchingSettings(null)
-    // Create locations object
-    const locationOptions = createLocationOptions(targetingState)
+    // Fetch popular locations and create locations object
+    const { popularLocations } = await targetingHelpers.fetchPopularLocations(artistId)
+    const locationOptions = createLocationOptions(targetingState, popularLocations)
     // Set inital countries (to trigger min budget)
     const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
@@ -203,7 +204,8 @@ const TargetingContextProvider = ({ children }) => {
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
     updateSpending((targetingState.budget / currencyOffset), !targetingState.status)
-  }, [feedMinBudgetInfo, createLocationOptions, updateSpending, currencyOffset])
+    setSettingsReady(true)
+  }, [feedMinBudgetInfo, createLocationOptions, updateSpending, currencyOffset, artistId])
 
   // DISABLE SAVING (eg if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
@@ -291,7 +293,6 @@ const TargetingContextProvider = ({ children }) => {
     const { cityKeys, countryCodes } = resetState
     updateLocationsArrays({ cityKeys, countryCodes })
   }, [targetingState, initialTargetingState])
-
 
   // RESET EVERYTHING WHEN ARTIST ID CHANGES
   React.useEffect(() => {

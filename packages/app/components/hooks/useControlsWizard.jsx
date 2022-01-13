@@ -8,10 +8,9 @@ import useFbRedirect from '@/app/hooks/useFbRedirect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import { getArtistIntegrationByPlatform, getMissingScopes } from '@/app/helpers/artistHelpers'
-import { fetchPopularLocations, fetchTargetingState } from '@/app/helpers/targetingHelpers'
+import { fetchTargetingState } from '@/app/helpers/targetingHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -40,17 +39,14 @@ const useControlsWizard = () => {
   const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
   const { min_daily_budget_info } = artist
   const { user } = React.useContext(UserContext)
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const [errors, setErrors] = React.useState([])
   const { hasCheckedFbRedirect } = useFbRedirect(ROUTES.CONTROLS, errors, setErrors)
   const {
     targetingState,
     initPage,
     currencyOffset,
-    createLocationOptions,
     locationOptions: locations,
     settingsReady,
-    setSettingsReady,
   } = React.useContext(TargetingContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
@@ -62,22 +58,12 @@ const useControlsWizard = () => {
 
   // Initialise targeting context state
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted() || !artistId) return
+    if (!isMounted() || !artistId || controlsLoading || Object.keys(targetingState).length > 0) return
 
     const state = await fetchTargetingState(artistId, currencyOffset)
     const { error } = state
     initPage(state, error)
-  }, [artistId])
-
-  // Fetch popular locations and store them in targeting context
-  useAsyncEffect(async (isMounted) => {
-    if (!isMounted() || !Object.keys(targetingState).length > 0 || settingsReady) return
-
-    const { popularLocations } = await fetchPopularLocations(artistId)
-    createLocationOptions(targetingState, popularLocations)
-    setSettingsReady(true)
-    toggleGlobalLoading(false)
-  }, [targetingState])
+  }, [artistId, controlsLoading])
 
   // Set-up organisation part of billing store
   React.useEffect(() => {
@@ -95,7 +81,7 @@ const useControlsWizard = () => {
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
   return {
-    isLoading: billingLoading || artistLoading || controlsLoading || !hasCheckedFbRedirect,
+    isLoading: billingLoading || artistLoading || controlsLoading || !hasCheckedFbRedirect || !settingsReady,
     hasSetUpControls,
     missingScopes,
     adAccountId,
