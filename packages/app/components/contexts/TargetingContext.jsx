@@ -191,7 +191,7 @@ const TargetingContextProvider = ({ children }) => {
       return
     }
     setErrorFetchingSettings(null)
-    // Fetch popular locations and create locations object
+    // Fetch popular locations and create location options object
     const { popularLocations } = await targetingHelpers.fetchPopularLocations(artistId)
     const locationOptions = createLocationOptions(targetingState, popularLocations)
     // Set inital countries (to trigger min budget)
