@@ -42,7 +42,7 @@ const PostCardConnectAccounts = ({ errors, setErrors }) => {
       />
       <ButtonHelp
         content={copy.helpText}
-        text="Permissions"
+        text="More info on permissions!"
         label="Facebook permissions"
         className="transform scale-75 text-md font-normal"
       />

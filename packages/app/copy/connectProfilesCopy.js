@@ -38,8 +38,8 @@ You can revoke these from at any time from Facebook. Feed will never post anythi
 **Show a list of the Pages**  
 <span className="text-xs">So you can choose which ones to connect to Feed.<span>
 
-**Receive your email address**  
-<span className="text-xs">To use as your account email / username and send you notifications.<span>
+**Read content posted on the Page**  
+<span className="text-xs">To show your Facebook posts and stories within Feed.<span>
 
 **Access Instagram profile and posts**  
 <span className="text-xs">To show and give insights about your Instagram posts and stories within Feed.<span>
