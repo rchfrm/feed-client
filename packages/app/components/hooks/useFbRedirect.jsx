@@ -57,7 +57,6 @@ const useFbRedirect = (redirectPath, errors, setErrors) => {
     const errorReason = decodeURIComponent(query?.error_reason || '')
     const errorMessage = copy.fbRedirectError(errorReason)
 
-    router.replace(router.pathname, null)
     /*
     Return early if:
     - Unmounted
@@ -65,7 +64,14 @@ const useFbRedirect = (redirectPath, errors, setErrors) => {
     - Redirect error
     - The state param from the callback doesn't match the state we passed during the redirect request
     */
-    if (!isMounted() || !code || redirectError || state !== getLocalStorage(stateLocalStorageKey)) {
+    if (!isMounted || !code) {
+      setHasCheckedFbRedirect(true)
+      return
+    }
+
+    router.replace(router.pathname, null)
+
+    if (redirectError || state !== getLocalStorage(stateLocalStorageKey)) {
       setLocalStorage(stateLocalStorageKey, '')
 
       if (redirectError) {
