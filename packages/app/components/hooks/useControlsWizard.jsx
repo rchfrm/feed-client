@@ -95,7 +95,7 @@ const useControlsWizard = () => {
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
   return {
-    isLoading: billingLoading || artistLoading || controlsLoading || !hasCheckedFbRedirect,
+    isLoading: billingLoading || artistLoading || controlsLoading || !hasCheckedFbRedirect || !settingsReady,
     hasSetUpControls,
     missingScopes,
     adAccountId,
