@@ -70,8 +70,8 @@ export const sortTypes = [
     activeTextColor: 'white',
   },
   {
-    id: 'engagement_score',
-    slug: 'engagement_score',
+    id: 'normalized_score',
+    slug: 'normalized_score',
     title: 'Score',
     color: brandColors.black,
     activeTextColor: 'white',
