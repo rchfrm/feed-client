@@ -191,7 +191,7 @@ const ConnectProfilesLoader = ({
           )}
           <ButtonHelp
             content={copy.helpText}
-            text="Need help?"
+            text="More info on permissions!"
             label="Connect accounts help"
             className="font-bold"
           />

@@ -5,25 +5,25 @@ export default {
   connectProfilesIntro: `Connect your Facebook and Instagram pages to Feed.`,
 
   // If profiles have already been loaded but need more
-  findMoreProfiles: `Have other Facebook and Instagram pages you’d like to connect to Feed?`,
+  findMoreProfiles: `Want to connect more Facebook and Instagram pages to Feed? Click the button below to update your permissions.`,
 
   connectProfilesDescription: (isFindMore) => {
     if (isFindMore) {
-      return `Click the button below to be taken to Facebook to update your permissions. Make sure to select 'Edit Settings' and tick the box next to the relevant pages.`
+      return `**Make sure to choose <span className="text-insta">'Edit Settings'</span> when you get to Facebook, and tick the boxes next to the relevant pages.**`
     }
 
-    return `This gives Feed access to your Facebook and Instagram accounts in order to:
+    return `This links Feed to Facebook and Instagram so you can:
 
-  * view and analyse your posts
-  * set-up ad campaigns and audience targeting
-  * promote your posts
-  * report back on results
+  * analyse your posts to understand what works
+  * view insights on engagement, reach and other metrics
 
-  Please make sure you opt in to all permissions shown, as Feed needs them to work properly. You'll remain in control of all ads and posts.`
+  Please opt in to all permissions shown, as Feed needs them to work properly.
+
+  **You’ll remain fully in control, and Feed will never post anything on your behalf.**`
   },
   confirmAccounts: 'Confirm the Facebook and Instagram accounts that should be connected to Feed.',
   connectCardTitle: 'Can’t find the page you’re looking for?',
-  connectCardDescription: 'Click “Connect more” and make sure to select “Edit Settings” and tick the box next to the relevant page.',
+  connectCardDescription: 'Click “Connect more” and make sure to choose <span className="text-insta font-bold">"Edit Settings"</span>, then tick the boxes next to the relevant pages.',
   noAdAccountsError: `No ad accounts were found, and one is needed to use Feed. Please log in to Facebook to create one.
 
   There's more information about how to do this [here](https://www.facebook.com/business/help/910137316041095?id=420299598837059).`,
@@ -31,46 +31,22 @@ export default {
 
   ### Permissions
 
-  When you connect Feed to Facebook and Instagram, it’ll ask for 10 permissions. All are necessary for Feed to work! Below is an overview of how we use each one.
+  When you connect Feed to Facebook and Instagram, it will ask for the below permissions. All are necessary for Feed to work!
 
-You can revoke these at any time from your Facebook.
+You can revoke these from at any time from Facebook. Feed will never post anything on Facebook & Instagram..
 
-**Manage ads for ad accounts that you have access to**
-> <span className="text-xs">To create and run ads on your behalf.<span>
+**Show a list of the Pages**  
+<span className="text-xs">So you can choose which ones to connect to Feed.<span>
 
-**Receive your email address**
+**Receive your email address**  
+<span className="text-xs">To use as your account email / username and send you notifications.<span>
 
-> <span className="text-xs">To use as your account email / username and send you notifications.<span>
+**Access Instagram profile and posts**  
+<span className="text-xs">To show and give insights about your Instagram posts and stories within Feed.<span>
 
-**Access profile and posts from the Instagram account connected to your Page**
+**Access Instagram insights**  
+<span className="text-xs">To show you insights about your Instagram posts and engagement.<span>
 
-> <span className="text-xs">To show your Instagram posts and stories within Feed, and turn the most effective ones into ads.<span>
-
-**Access insights for the Instagram account connected to your Page**
-
-> <span className="text-xs">To be able to analyse your Instagram posts and stories to identify the ones most likely to be effective as ads.<span>
-
-**Show a list of the Pages you manage**
-
-> <span className="text-xs">So you can choose which ones to connect to Feed.<span>
-
-**Access your Page and App insights**
-
-> <span className="text-xs">Similar to the Instagram equivalent above, to be able to analyse your Facebook posts and stories to identify the ones most likely to be effective as ads.<span>
-
-**Read content posted on the Page**
-
-> <span className="text-xs">Similar to the Instagram equivalent above, to show your Facebook posts and stories within Feed.<span>
-
-**Manage accounts, settings and webhooks for a Page**
-
-> <span className="text-xs">This goes with the previous permission, to allow Feed to show your Facebook posts and stories within Feed.<span>
-
-**Read user content on your Page**
-
-> <span className="text-xs">This refers to things like comments on your posts, and helps Feed analyse the most engaging posts in order to better predict which will be most effective as ads.<span>
-
-**Create and manage ads for your Page**
-
-> <span className="text-xs">The final one, to allow Feed to turn your most effective Facebook posts and stories into ads.<span>`,
+**Access your Page and App insights**  
+<span className="text-xs">To show you insights about your Facebook posts and engagement.<span>`,
 }
