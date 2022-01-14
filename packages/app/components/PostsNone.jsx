@@ -8,16 +8,19 @@ import copy from '@/app/copy/PostsPageCopy'
 
 import styles from '@/app/PostsPage.module.css'
 
-const getCopy = () => {
+const getCopy = (filterBy) => {
+  const hasFiltersApplied = Object.values(filterBy).reduce((result, filterArray) => result + filterArray.length, 0) > 0
   const { noPostsCopy } = copy
-  // ALL and Old user
-  return noPostsCopy.allOldUser()
+
+  if (hasFiltersApplied) {
+    return noPostsCopy.filtered()
+  }
+  return noPostsCopy.all()
 }
 
-const PostsNone = ({ artist }) => {
+const PostsNone = ({ filterBy }) => {
   const { setHeader } = React.useContext(InterfaceContext)
-  const hasBudget = !!artist.daily_budget
-  const copyMarkdown = getCopy({ hasBudget })
+  const copyMarkdown = getCopy(filterBy)
 
   React.useEffect(() => {
     setHeader({ text: 'your posts', punctuation: ',' })

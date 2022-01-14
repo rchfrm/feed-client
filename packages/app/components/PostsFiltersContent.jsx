@@ -37,7 +37,7 @@ const PostsFiltersContent = ({
       className="border-solid border-0 border-t-4"
       trackComponentName="PostsFilters"
     >
-      Filter
+      Apply filter(s)
     </Button>
   )
 

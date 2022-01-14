@@ -298,7 +298,7 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
   if (!isPending && !loadingMore && !posts.length) {
     return (
       <PostsNone
-        artist={artist}
+        filterBy={filterBy}
       />
     )
   }

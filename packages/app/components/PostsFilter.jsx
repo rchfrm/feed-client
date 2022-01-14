@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PostsFilterLabel from '@/app/PostsFilterLabel'
 import PostsFilterOptions from '@/app/PostsFilterOptions'
-import PostsFilterRefreshButton from '@/app/PostsFilterRefreshButton'
+import PostsFilterClearButton from '@/app/PostsFilterClearButton'
 
 import ArrowIcon from '@/icons/ArrowIcon'
 
@@ -56,7 +56,7 @@ const PostsFilter = ({ title, filterType, initialFilters, setFiltersState }) => 
           />
         </div>
       </button>
-      <PostsFilterRefreshButton
+      <PostsFilterClearButton
         filterType={filterType}
         resetFilters={resetFilters}
         setFiltersState={setFiltersState}

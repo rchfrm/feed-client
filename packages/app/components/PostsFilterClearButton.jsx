@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import RefreshIcon from '@/icons/RefreshIcon'
+import TrashIcon from '@/icons/TrashIcon'
 import Button from '@/elements/Button'
 
 import brandColors from '@/constants/brandColors'
@@ -26,11 +26,11 @@ const PostsFilterRefreshButton = ({
     <Button
       version="small icon"
       onClick={onClick}
-      className="absolute h-auto top-0 z-20"
-      style={{ top: '12px', right: '12px' }}
+      className="absolute h-auto top-0 z-20 px-0"
+      style={{ top: '12px', right: '32px' }}
       trackComponentName="PostsFilterRefreshButton"
     >
-      <RefreshIcon
+      <TrashIcon
         className={['w-4 h-auto mr-4'].join(' ')}
         fill={brandColors.textColor}
       />
