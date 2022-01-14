@@ -41,11 +41,11 @@ const PostsNone = ({ filterBy }) => {
 }
 
 PostsNone.propTypes = {
-  artist: PropTypes.object,
+  filterBy: PropTypes.object,
 }
 
 PostsNone.defaultProps = {
-  artist: null,
+  filterBy: null,
 }
 
 export default PostsNone
