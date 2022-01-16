@@ -18,6 +18,8 @@ const PostsFiltersContent = ({
   setFilters,
   setShouldUpdateQueryString,
 }) => {
+  const hasMultipleFiltersApplied = Object.values(filters).reduce((result, filterArray) => result + filterArray.length, 0) > 1
+
   const {
     setSidePanelContent,
     setSidePanelButton,
@@ -25,21 +27,21 @@ const PostsFiltersContent = ({
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  const onClick = () => {
+  const onClick = React.useCallback(() => {
     setShouldUpdateQueryString(true)
     toggleSidePanel(false)
-  }
+  }, [setShouldUpdateQueryString, toggleSidePanel])
 
-  const CLOSE_BUTTON = (
+  const CLOSE_BUTTON = React.useMemo(() => (
     <Button
       onClick={onClick}
       version="green"
       className="border-solid border-0 border-t-4"
       trackComponentName="PostsFilters"
     >
-      Apply filter(s)
+      {`Apply filter${hasMultipleFiltersApplied ? 's' : ''}`}
     </Button>
-  )
+  ), [hasMultipleFiltersApplied, onClick])
 
   const goToPostsFiltersMenu = () => {
     setSidePanelButton(CLOSE_BUTTON)
@@ -47,6 +49,10 @@ const PostsFiltersContent = ({
     setSidePanelContent(<PostsFilters initialFilters={filters} setFiltersState={setFilters} />)
     toggleSidePanel(true)
   }
+
+  React.useEffect(() => {
+    setSidePanelButton(CLOSE_BUTTON)
+  }, [hasMultipleFiltersApplied, CLOSE_BUTTON, setSidePanelButton])
 
   return (
     <div>
