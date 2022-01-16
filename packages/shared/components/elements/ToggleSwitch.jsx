@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { gsap, Power1 } from 'gsap'
 import clamp from 'lodash/clamp'
 import { useDrag } from 'react-use-gesture'
+import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
 import Spinner from '@/elements/Spinner'
 
@@ -24,6 +25,7 @@ const ToggleSwitch = ({
   const containerEl = React.useRef(null)
   const [containerElWidth, setContainerElWidth] = React.useState(0)
   const [switchElWidth, setSwitchElWidth] = React.useState(0)
+  const { sidePanelOpen } = React.useContext(SidePanelContext)
 
   // * ANIMATING
   // -----------
@@ -31,40 +33,46 @@ const ToggleSwitch = ({
   const cssSetter = React.useRef(null)
   const dragBoundaries = React.useRef({})
 
-  // Setup sizes on mount but await dimensions changes which might cause miscalculations
-  const observer = React.useRef(
-    new ResizeObserver(entries => {
-      if (entries.length) {
-        const { width: containerWidth } = entries[0]?.contentRect
-        const { width: switchWidth } = entries[1]?.contentRect
-        setContainerElWidth(containerWidth)
-        setSwitchElWidth(switchWidth)
+  // Use updated dimensions from observer entries to avoid miscalculations due to the side-panel animation
+  const handleResize = (entries, observer) => {
+    const { width: containerWidth } = entries[0]?.contentRect
+    const { width: switchWidth } = entries[1]?.contentRect
+    setContainerElWidth(containerWidth)
+    setSwitchElWidth(switchWidth)
 
-        cssSetter.current = gsap.quickSetter(switchEl.current, 'x', 'px')
-        const maxMove = ((containerWidth - switchWidth) / 2) - 5
-        dragBoundaries.current = {
-          min: -maxMove,
-          max: maxMove,
-        }
-      }
-    }),
-  )
+    cssSetter.current = gsap.quickSetter(switchEl.current, 'x', 'px')
+    const maxMove = ((containerWidth - switchWidth) / 2) - 5
+    dragBoundaries.current = {
+      min: -maxMove,
+      max: maxMove,
+    }
+    observer.disconnect()
+  }
 
-  // Start observing container and switch element dimension changes
   React.useEffect(() => {
-    const observerRef = observer.current
-    const refElements = [containerEl.current, switchEl.current]
+    const observer = new ResizeObserver(handleResize)
 
-    if (containerEl.current && switchEl.current) {
-      refElements.forEach((refElement) => observerRef.observe(refElement))
+    // If the ToggleSwitch component is inside a side-panel start observing container and switch element dimension changes
+    if (sidePanelOpen) {
+      if (containerEl.current && switchEl.current) {
+        [containerEl.current, switchEl.current].forEach((refElement) => {
+          observer.observe(refElement)
+        })
+      }
+    // Otherwise use the dimensions provided by the refs
+    } else {
+      setContainerElWidth(containerEl.current.offsetWidth)
+      setSwitchElWidth(switchEl.current.offsetWidth)
     }
+
     return () => {
-      refElements.forEach((refElement) => observerRef.unobserve(refElement))
+      observer.disconnect()
     }
-  }, [observer])
+  }, [sidePanelOpen])
 
   const animateSwitch = React.useCallback((forceState) => {
     if (!containerElWidth || !switchElWidth) return
+
     const newState = typeof forceState === 'boolean' ? forceState : !state
     const { current: switchCircle } = switchEl
     const maxMove = ((containerElWidth - switchElWidth) / 2) - 5
