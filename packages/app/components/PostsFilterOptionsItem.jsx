@@ -37,7 +37,7 @@ const PostsFilterOptionsItem = ({
       version="small"
       onClick={onClick}
       className={[
-        'h-8 py-0 px-4',
+        'h-8 py-0 px-2 xs:px-4',
         'mr-2',
         isActive ? 'bg-black' : null,
       ].join(' ')}

@@ -15,7 +15,7 @@ const PostsFilterOptions = ({
   return (
     <div className={[
       'absolute bottom-0',
-      'px-4 py-2',
+      'px-2 xs:px-4 py-2',
     ].join(' ')}
     >
       {options.map(({ slug: optionSlug, title }) => (

@@ -40,7 +40,7 @@ const PostsFilter = ({ title, filterType, initialFilters, setFiltersState }) => 
           'relative z-10',
           'flex justify-between items-center',
           'w-full h-10',
-          'px-4 py-2',
+          'px-2 xs:px-4 py-2',
           'bg-grey-2 rounded-button font-bold',
         ].join(' ')}
       >
