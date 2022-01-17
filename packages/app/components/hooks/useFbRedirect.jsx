@@ -5,21 +5,15 @@ import { useRouter } from 'next/router'
 import { AuthContext } from '@/contexts/AuthContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import * as utils from '@/helpers/utils'
-import { getMissingScopes, updateAccessToken } from '@/app/helpers/artistHelpers'
+import { parseUrl, setLocalStorage, getLocalStorage } from '@/helpers/utils'
+import { updateAccessToken, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
 
 // import copy from '@/app/copy/global'
 
 const useFbRedirect = () => {
-  const {
-    setMissingScopes,
-    setIsFacebookRedirect,
-  } = React.useContext(AuthContext)
-  const {
-    artistId,
-    setArtist,
-  } = React.useContext(ArtistContext)
+  const { setMissingScopes, setIsFacebookRedirect } = React.useContext(AuthContext)
+  const { artistId, setArtist } = React.useContext(ArtistContext)
 
   const router = useRouter()
 
@@ -53,7 +47,7 @@ const useFbRedirect = () => {
 
   const checkAndHandleFbRedirect = async () => {
     // Try to grab query params from Facebook redirect
-    const { query } = utils.parseUrl(router.asPath)
+    const { query } = parseUrl(router.asPath)
     const code = decodeURIComponent(query?.code || '')
     const state = decodeURIComponent(query?.state)
     const redirectError = decodeURIComponent(query?.error || '').replace('+', ' ')
@@ -72,10 +66,10 @@ const useFbRedirect = () => {
     }
 
     router.replace(router.pathname, null)
-    const { state: storedState, redirectPath } = JSON.parse(utils.getLocalStorage('fbRedirect'))
+    const { state: storedState, redirectPath } = JSON.parse(getLocalStorage('fbRedirect'))
 
     if (redirectError || state !== storedState) {
-      utils.setLocalStorage('fbRedirect', null)
+      setLocalStorage('fbRedirect', null)
 
       if (redirectError) {
         // setAuthError({ message: errorMessage })
@@ -84,7 +78,7 @@ const useFbRedirect = () => {
     }
 
     let grantedScopes = []
-    utils.setLocalStorage('fbRedirect', null)
+    setLocalStorage('fbRedirect', null)
 
     // Exchange the FB redirect code for an access token
     const { res: exchangeCodeforTokenRes, error } = await exchangeCodeForAccessToken(code, redirectPath)

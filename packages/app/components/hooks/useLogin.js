@@ -26,10 +26,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     setAuthLoading,
   } = React.useContext(AuthContext)
   const { setNoUser, storeUser } = React.useContext(UserContext)
-  const {
-    setNoArtist,
-    storeArtist,
-  } = React.useContext(ArtistContext)
+  const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
   const { checkAndHandleFbRedirect } = useFbRedirect()
 
