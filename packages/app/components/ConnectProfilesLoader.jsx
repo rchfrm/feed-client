@@ -22,8 +22,6 @@ import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import ConnectProfilesNoArtists from '@/app/ConnectProfilesNoArtists'
 import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 
-import useFbRedirect from '@/app/hooks/useFbRedirect'
-
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
@@ -89,8 +87,6 @@ const ConnectProfilesLoader = ({
     }
   }, [setAuthError, authError])
 
-  const { hasCheckedFbRedirect } = useFbRedirect(ROUTES.CONNECT_ACCOUNTS, errors, setErrors)
-
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}
   const [artistAccounts, setArtistAccounts] = useImmerReducer(artistsReducer, initialArtistAccountsState)
@@ -109,8 +105,6 @@ const ConnectProfilesLoader = ({
     if (userLoading || isConnecting) return
     // If missing scopes, we need to show the connect button
     if (missingScopes.length) return setPageLoading(false)
-    // Stop here if we haven't checked yet if the user came from a redirect
-    if (!hasCheckedFbRedirect) return
     // Stop here if we haven either auth or fb auth errors
     if (errors.length) return setPageLoading(false)
     // START FETCHING ARTISTS
@@ -163,7 +157,7 @@ const ConnectProfilesLoader = ({
       return
     }
     setPageLoading(false)
-  }, [userLoading, isConnecting, hasCheckedFbRedirect])
+  }, [userLoading, isConnecting])
 
   if (isConnecting && Object.keys(artistAccounts).length > 0) {
     return <ConnectProfilesIsConnecting artistAccounts={artistAccounts} />
