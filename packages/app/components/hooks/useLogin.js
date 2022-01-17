@@ -62,7 +62,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       return
     }
 
-    // Check wheter we're coming from a manual oauth FB redirect...
+    // Check whether we're coming from a manual oauth FB redirect...
     await checkAndHandleFbRedirect()
 
     const { artists } = user
