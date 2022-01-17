@@ -22,7 +22,7 @@ const initialState = {
   artistId: '',
   userId: '',
   organizationIds: [],
-  hasFbAuth: false,
+  auth: null,
   missingScopes: [],
   loading: true,
   notifications: [],
@@ -60,7 +60,7 @@ const runFormatNotifications = (set) => (notifications, dictionary) => {
 }
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
-const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organizationIds, hasFbAuth, missingScopes }) => {
+const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organizationIds, auth, missingScopes }) => {
   set({ loading: true })
   // Else fetch notifications from server
   const { res: notificationsRaw, error } = await fetchNotifications({ artistId, userId, organizationIds })
@@ -77,7 +77,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
   const notificationsFormatted = formatNotifications({
     notificationsRaw,
     dictionary: notificationDictionary || {},
-    hasFbAuth,
+    auth,
     missingScopes,
   })
   // GET TOTAL ACTIVE NOTIFICATIONS
@@ -86,7 +86,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
   set({
     artistId,
     userId,
-    hasFbAuth,
+    auth,
     missingScopes,
     notifications: notificationsFormatted,
     totalActiveNotifications,

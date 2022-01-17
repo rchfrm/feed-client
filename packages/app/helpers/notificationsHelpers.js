@@ -10,10 +10,12 @@ import Router from 'next/router'
 
 import { mixpanelExternalLinkClick } from '@/helpers/mixpanelHelpers'
 import { track } from '@/helpers/trackingHelpers'
+import { handleFbRedirect } from '@/app/helpers/facebookHelpers'
 
-import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
+
+import * as ROUTES from '@/app/constants/routes'
 
 // To parse cases like {{ this }} and {{{ this }}}
 const RE_TEMPLATE = /\{?\{\{\s([a-z0-9_]+)\s\}\}\}?/g
@@ -60,13 +62,6 @@ const getLinkAction = (ctaType, ctaLink, trackingPayload) => {
   }
 }
 
-const getFbRelinkAction = (hasFbAuth, missingScopes) => {
-  if (hasFbAuth) {
-    return firebaseHelpers.reauthFacebook(missingScopes)
-  }
-  return firebaseHelpers.linkFacebookAccount()
-}
-
 // GET ACTION to handle notification
 /**
  * @param {string} entityType 'users' | 'artists' | 'organizations'
@@ -87,7 +82,7 @@ export const getAction = ({
   title,
   isDismissible,
   isActionable,
-  hasFbAuth,
+  auth,
   missingScopes,
 }) => {
   // Handle relink FB
@@ -95,7 +90,7 @@ export const getAction = ({
     topic === 'facebook-expired-access-token'
     || topic === 'facebook-missing-permissions'
   ) {
-    return () => getFbRelinkAction(hasFbAuth, missingScopes)
+    return () => handleFbRedirect(auth, missingScopes, ROUTES.NOTIFICATIONS)
   }
 
   // Handle no method or link
@@ -177,7 +172,7 @@ const formatNotificationText = (text, data) => {
 // -----------------------
 
 // FORMAT NOTIFICATIONS
-export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAuth = false, missingScopes = [] }) => {
+export const formatNotifications = ({ notificationsRaw, dictionary = {}, auth = {}, missingScopes = [] }) => {
   return notificationsRaw.reduce((allNotifications, notification) => {
     const {
       id,
@@ -230,7 +225,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       title,
       isDismissible,
       isActionable,
-      hasFbAuth,
+      auth,
       missingScopes,
     })
     // Return formatted notification

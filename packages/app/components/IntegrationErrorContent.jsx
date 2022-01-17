@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { requestVerificationEmail } from '@/app/helpers/appServer'
+import { handleFbRedirect } from '@/app/helpers/facebookHelpers'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
@@ -10,13 +10,14 @@ import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import useAlertModal from '@/hooks/useAlertModal'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 import * as ROUTES from '@/app/constants/routes'
 
 const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
   const { auth, authError } = React.useContext(AuthContext)
   const { showAlert, closeAlert } = useAlertModal()
+  const router = useRouter()
 
   const alertContents = React.useMemo(() => {
     const { description: message } = integrationError
@@ -59,14 +60,9 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     if (ctaType === 'fb_reauth') {
       const { missingPermissions } = integrationError
       const onClick = () => {
-        const { providerIds } = auth
-        // Which facebook function
-        if (providerIds.includes('facebook.com')) {
-          firebaseHelpers.reauthFacebook(missingPermissions)
-        } else {
-          firebaseHelpers.linkFacebookAccount()
-        }
+        handleFbRedirect(auth, missingPermissions, router.pathname)
       }
+
       return [{
         text: ctaText,
         onClick,
