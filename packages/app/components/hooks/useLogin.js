@@ -1,24 +1,21 @@
-// * APP VERSION
-
 import React from 'react'
 
 import * as queryString from 'query-string'
-import { useRouter } from 'next/router'
 
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import useFbRedirect from '@/app/hooks/useFbRedirect'
+
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { getMissingScopes, updateAccessToken } from '@/app/helpers/artistHelpers'
+import { getMissingScopes } from '@/app/helpers/artistHelpers'
 import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
-import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
-import copy from '@/app/copy/global'
 
 const useLogin = (initialPathname, initialFullPath, showContent) => {
   const {
@@ -27,104 +24,14 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     setMissingScopes,
     setRejectedPagePath,
     setAuthLoading,
-    setAuthError,
   } = React.useContext(AuthContext)
   const { setNoUser, storeUser } = React.useContext(UserContext)
   const {
     setNoArtist,
     storeArtist,
-    artistId,
-    setArtist,
   } = React.useContext(ArtistContext)
 
-  const stateLocalStorageKey = 'redirectState'
-  const router = useRouter()
-
-  const exchangeCodeForAccessToken = async (code) => {
-    const redirectUrl = `${process.env.react_app_url}/connect-accounts`
-    const { res, error } = await setFacebookAccessToken(code, redirectUrl)
-
-    return { res, error }
-  }
-
-  const checkAndSetMissingScopes = React.useCallback((grantedScopes) => {
-    const missingScopes = getMissingScopes({ grantedScopes })
-    setMissingScopes(missingScopes)
-  }, [setMissingScopes])
-
-  const saveAccessToken = React.useCallback(async () => {
-    const { res, error } = await updateAccessToken(artistId)
-
-    // Update facebook granted scopes in artist context
-    if (res) {
-      setArtist({
-        type: 'update-facebook-integration-scopes',
-        payload: {
-          scopes: res.scopes,
-        },
-      })
-    }
-
-    return { res, error }
-  }, [artistId, setArtist])
-
-  const checkAndHandleFbRedirect = React.useCallback(async () => {
-    // Try to grab query params from Facebook redirect
-    const { query } = utils.parseUrl(router.asPath)
-    const code = decodeURIComponent(query?.code || '')
-    const state = decodeURIComponent(query?.state)
-    const redirectError = decodeURIComponent(query?.error || '').replace('+', ' ')
-    const errorReason = decodeURIComponent(query?.error_reason || '')
-    const errorMessage = copy.fbRedirectError(errorReason)
-
-    /*
-    Return early if:
-    - Unmounted
-    - No FB redirect code
-    - Redirect error
-    - The state param from the callback doesn't match the state we passed during the redirect request
-    */
-    if (!code) {
-      return
-    }
-
-    router.replace(router.pathname, null)
-
-    if (redirectError || state !== utils.getLocalStorage(stateLocalStorageKey)) {
-      utils.setLocalStorage(stateLocalStorageKey, '')
-
-      if (redirectError) {
-        setAuthError({ message: errorMessage })
-      }
-      return
-    }
-
-    let grantedScopes = []
-    utils.setLocalStorage(stateLocalStorageKey, '')
-
-    // Exchange the FB redirect code for an access token
-    const { res: exchangeCodeforTokenRes, error } = await exchangeCodeForAccessToken(code)
-
-    if (error) {
-      setAuthError({ message: errorMessage })
-      return
-    }
-    grantedScopes = exchangeCodeforTokenRes.scopes
-
-    // If user has an artist make sure to update the access token in the db
-    if (artistId) {
-      const { res: saveAccessTokenRes, error } = await saveAccessToken()
-
-      if (error) {
-        setAuthError({ message: error.message })
-        return
-      }
-      grantedScopes = saveAccessTokenRes.scopes
-    }
-
-    // Set missing scopes in auth context
-    checkAndSetMissingScopes(grantedScopes)
-  }, [artistId, checkAndSetMissingScopes, router, saveAccessToken, setAuthError])
+  const { checkAndHandleFbRedirect } = useFbRedirect()
 
   // Handle no auth user
   const handleNoAuthUser = React.useCallback((authError) => {

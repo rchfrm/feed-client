@@ -57,6 +57,7 @@ const ConnectProfilesLoader = ({
     authError,
     setAuthError,
     isFacebookRedirect,
+    setIsFacebookRedirect,
   } = React.useContext(AuthContext)
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
@@ -84,8 +85,9 @@ const ConnectProfilesLoader = ({
   React.useEffect(() => {
     return () => {
       setAuthError(null)
+      setIsFacebookRedirect(false)
     }
-  }, [setAuthError, authError])
+  }, [setAuthError, authError, setIsFacebookRedirect])
 
   // DEFINE ARTIST INTEGRATIONS
   const initialArtistAccountsState = {}

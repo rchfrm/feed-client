@@ -7,8 +7,9 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
-import { getArtistIntegrationByPlatform, getMissingScopes } from '@/app/helpers/artistHelpers'
+import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { fetchTargetingState } from '@/app/helpers/targetingHelpers'
 
 const getBillingStoreState = (state) => ({
@@ -36,6 +37,7 @@ const useControlsWizard = () => {
   const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
   const { min_daily_budget_info } = artist
   const { user } = React.useContext(UserContext)
+  const { auth: { missingScopes: { ads: adsMissingScopes } } } = React.useContext(AuthContext)
   const {
     targetingState,
     initPage,
@@ -46,7 +48,7 @@ const useControlsWizard = () => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
   const isArtistOwnedByUser = Object.keys(artist.users).includes(user.id) && artist.users[user.id].role === 'owner'
-  const { ads: missingScopes = [] } = isArtistOwnedByUser ? getMissingScopes({ artist }) : {}
+  const missingScopes = isArtistOwnedByUser ? adsMissingScopes : []
 
   const currentUserOrganisation = allOrgs.find(organisation => organisation.role === 'owner')
   const isProfilePartOfOrganisation = Object.keys(currentUserOrganisation?.artists || {}).includes(artistId)

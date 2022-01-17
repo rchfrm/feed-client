@@ -33,7 +33,7 @@ export const handleFbRedirect = (auth, scopes, redirectPath) => {
     isReauth,
   })
 
-  utils.setLocalStorage('redirectState', state)
+  utils.setLocalStorage('fbRedirect', JSON.stringify({ state, redirectPath }))
   window.location.href = url
 }
 
