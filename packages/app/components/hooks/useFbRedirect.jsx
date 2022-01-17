@@ -9,10 +9,10 @@ import { parseUrl, setLocalStorage, getLocalStorage } from '@/helpers/utils'
 import { updateAccessToken, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
 
-// import copy from '@/app/copy/global'
+import copy from '@/app/copy/global'
 
 const useFbRedirect = () => {
-  const { setMissingScopes, setIsFacebookRedirect } = React.useContext(AuthContext)
+  const { setMissingScopes, setIsFacebookRedirect, setAuthError } = React.useContext(AuthContext)
   const { artistId, setArtist } = React.useContext(ArtistContext)
 
   const router = useRouter()
@@ -51,8 +51,8 @@ const useFbRedirect = () => {
     const code = decodeURIComponent(query?.code || '')
     const state = decodeURIComponent(query?.state)
     const redirectError = decodeURIComponent(query?.error || '').replace('+', ' ')
-    // const errorReason = decodeURIComponent(query?.error_reason || '')
-    // const errorMessage = copy.fbRedirectError(errorReason)
+    const errorReason = decodeURIComponent(query?.error_reason || '')
+    const errorMessage = copy.fbRedirectError(errorReason)
 
     /*
     Return early if:
@@ -72,7 +72,7 @@ const useFbRedirect = () => {
       setLocalStorage('fbRedirect', null)
 
       if (redirectError) {
-        // setAuthError({ message: errorMessage })
+        setAuthError({ message: errorMessage })
       }
       return
     }
@@ -84,7 +84,7 @@ const useFbRedirect = () => {
     const { res: exchangeCodeforTokenRes, error } = await exchangeCodeForAccessToken(code, redirectPath)
 
     if (error) {
-      // setAuthError({ message: errorMessage })
+      setAuthError({ message: errorMessage })
       return
     }
     grantedScopes = exchangeCodeforTokenRes.scopes
@@ -94,7 +94,7 @@ const useFbRedirect = () => {
       const { res: saveAccessTokenRes, error } = await saveAccessToken()
 
       if (error) {
-        // setAuthError({ message: error.message })
+        setAuthError({ message: error.message })
         return
       }
       grantedScopes = saveAccessTokenRes.scopes

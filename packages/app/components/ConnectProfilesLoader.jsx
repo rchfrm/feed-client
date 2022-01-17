@@ -77,9 +77,9 @@ const ConnectProfilesLoader = ({
 
   React.useEffect(() => {
     if (authError) {
-      setErrors([...errors, authError])
+      setErrors([authError])
     }
-  }, [authError, errors])
+  }, [authError])
 
   // Clear auth error when leaving page
   React.useEffect(() => {
