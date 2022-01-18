@@ -73,7 +73,7 @@ const useControlsWizard = () => {
   const hasSetUpControls = Boolean(defaultLinkId
     && !missingScopes.length
     && adAccountId
-    && Object.keys(locations).length
+    && (Object.keys(locations).length || artist.country_code)
     && budget
     && (!isProfilePartOfOrganisation || defaultPaymentMethod))
 
