@@ -85,10 +85,7 @@ export const getAction = ({
   auth,
 }) => {
   // Handle relink FB
-  if (
-    topic === 'facebook-expired-access-token'
-    || topic === 'facebook-missing-permissions'
-  ) {
+  if (ctaType === 'fb_reauth') {
     const { missingScope = [] } = data
     return () => handleFbRedirect(auth, missingScope, ROUTES.NOTIFICATIONS)
   }
