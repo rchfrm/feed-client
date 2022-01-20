@@ -13,8 +13,7 @@ import copy from '@/app/copy/global'
 
 const useFbRedirect = () => {
   const { setMissingScopes, setIsFacebookRedirect, setAuthError } = React.useContext(AuthContext)
-  const { artistId, setArtist } = React.useContext(ArtistContext)
-
+  const { setArtist } = React.useContext(ArtistContext)
   const router = useRouter()
 
   const exchangeCodeForAccessToken = async (code, redirectPath) => {
@@ -29,7 +28,7 @@ const useFbRedirect = () => {
     setMissingScopes(missingScopes)
   }
 
-  const saveAccessToken = async () => {
+  const saveAccessToken = async (artistId) => {
     const { res, error } = await updateAccessToken(artistId)
 
     // Update facebook granted scopes in artist context
@@ -45,7 +44,7 @@ const useFbRedirect = () => {
     return { res, error }
   }
 
-  const checkAndHandleFbRedirect = async () => {
+  const checkAndHandleFbRedirect = async (artistId) => {
     // Try to grab query params from Facebook redirect
     const { query } = parseUrl(router.asPath)
     const code = decodeURIComponent(query?.code || '')
@@ -91,7 +90,7 @@ const useFbRedirect = () => {
 
     // If user has an artist make sure to update the access token in the db
     if (artistId) {
-      const { res: saveAccessTokenRes, error } = await saveAccessToken()
+      const { res: saveAccessTokenRes, error } = await saveAccessToken(artistId)
 
       if (error) {
         setAuthError({ message: error.message })

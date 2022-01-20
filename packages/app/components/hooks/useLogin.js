@@ -62,9 +62,6 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       return
     }
 
-    // Check whether we're coming from a manual oauth FB redirect...
-    await checkAndHandleFbRedirect()
-
     const { artists } = user
     // If there is additional info from a FB redirect...
     if (additionalUserInfo) {
@@ -89,6 +86,9 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // Check if they have artists connected to their account or not,
     // if they don't, set setNoArtist, and push them to the Connect Artist page
     if (artists.length === 0) {
+      // Check whether we're coming from a manual oauth FB redirect...
+      await checkAndHandleFbRedirect()
+
       fireSentryBreadcrumb({
         category: 'login',
         action: 'handleExistingUser',
@@ -125,6 +125,10 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // otherwise use the first related artist (sorted alphabetically)
     const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
     await storeArtist(selectedArtistId)
+
+    // Check whether we're coming from a manual oauth FB redirect...
+    await checkAndHandleFbRedirect(selectedArtistId)
+
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     if (ROUTES.signedOutPages.includes(initialPathname)) {
