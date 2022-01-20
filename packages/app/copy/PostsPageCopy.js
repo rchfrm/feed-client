@@ -9,7 +9,7 @@ export default {
 
     // If no posts when filtered
     filtered: () => {
-      return `Looks there are no posts that match the filters you've selected.`
+      return `Looks like there are no posts that match the filters you've selected.`
     },
   },
 
