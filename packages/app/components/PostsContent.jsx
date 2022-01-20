@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import PostsSorter from '@/app/PostsSorter'
-import PostsFilters from '@/app/PostsFilters'
+import PostsFiltersHandler from '@/app/PostsFiltersHandler'
 import PostsLoader from '@/app/PostsLoader'
 import PostsRefreshButton from '@/app/PostsRefreshButton'
 import PostsNoArtists from '@/app/PostsNoArtists'
@@ -14,7 +14,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
-import { postTypes, sortTypes } from '@/app/helpers/postsHelpers'
+import { sortTypes } from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -23,11 +23,10 @@ const PostsContent = ({ dummyPostsImages }) => {
   const { artistId, artist: { missingDefaultLink } } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
 
-  const allFilter = postTypes.find(({ id }) => id === 'all')
   const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
-  const [currentPostType, setCurrentPostType] = React.useState('')
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [sortBy, setSortBy] = React.useState('')
+  const [filterBy, setFilterBy] = React.useState({})
   const hasArtists = user.artists.length > 0
   // GET REFRESH POSTS FUNCTION
   const [refreshPosts, setRefreshPosts] = React.useState(() => {})
@@ -89,20 +88,17 @@ const PostsContent = ({ dummyPostsImages }) => {
               className="col-span-12 sm:col-span-4"
             />
             {/* FILTERS */}
-            <PostsFilters
-              postTypes={postTypes}
-              currentPostType={currentPostType}
-              setCurrentPostType={setCurrentPostType}
-              defaultPostState={allFilter.id}
+            <PostsFiltersHandler
+              setFilterBy={setFilterBy}
               disabled={!hasArtists}
               className="col-span-12 sm:col-span-8"
             />
           </div>
-          {currentPostType && (
+          {sortBy && (
             <PostsLoader
               setRefreshPosts={setRefreshPosts}
-              promotionStatus={currentPostType}
               sortBy={sortBy}
+              filterBy={filterBy}
             />
           )}
         </div>

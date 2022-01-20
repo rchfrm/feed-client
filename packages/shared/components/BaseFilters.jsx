@@ -152,7 +152,7 @@ const BaseFilters = ({
       className,
     ].join(' ')}
     >
-      <div className={['inputLabel__text', styles.label].join(' ')}>
+      <div className={['inputLabel__text', styles.label, 'text-base'].join(' ')}>
         <span className="flex items-center h-8">
           {labelText}
           {/* LABEL TOOLTIP */}

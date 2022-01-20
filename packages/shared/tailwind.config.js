@@ -50,6 +50,10 @@ module.exports = (purgeFiles) => ({
         twitter: '#5BC0EB',
         sc: '#FDE74C',
       },
+      height: {
+        22: '5.5rem',
+        23: '5.75rem',
+      },
       spacing: {
         7: '1.75rem',
         9: '2.25rem',
@@ -71,6 +75,9 @@ module.exports = (purgeFiles) => ({
       },
       width: {
         fit: 'fit-content',
+      },
+      transitionProperty: {
+        height: 'height',
       },
     },
   },

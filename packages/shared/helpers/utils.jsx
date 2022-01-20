@@ -668,3 +668,15 @@ export const getStringFromChildrenProp = (children) => {
 
   return ''
 }
+
+// Add array cast type to query object keys
+export const addArrayCastTypeToQuery = (object) => {
+  return Object.entries(object).reduce((result, [key, value]) => {
+    if (!value.length) return result
+
+    return {
+      ...result,
+      [`${key}${value.length > 1 ? ':array' : ''}`]: value,
+    }
+  }, {})
+}

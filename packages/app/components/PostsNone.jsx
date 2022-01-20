@@ -6,29 +6,21 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/PostsPageCopy'
 
-import * as postsHelpers from '@/app/helpers/postsHelpers'
 import styles from '@/app/PostsPage.module.css'
 
-const getCopy = ({ hasBudget, promotionStatus }) => {
-  const inactiveTitle = postsHelpers.getPostTypesTitle('inactive')
+const getCopy = (filterBy) => {
+  const hasFiltersApplied = Object.values(filterBy).reduce((result, filterArray) => result + filterArray.length, 0) > 0
   const { noPostsCopy } = copy
-  // ACTIVE
-  if (promotionStatus === 'active') {
-    if (hasBudget) return noPostsCopy.activeWithBudget(inactiveTitle)
-    return noPostsCopy.activeNoBudget()
+
+  if (hasFiltersApplied) {
+    return noPostsCopy.filtered()
   }
-  // ARCHIVED
-  if (promotionStatus === 'archived') {
-    return noPostsCopy.archive()
-  }
-  // ALL and Old user
-  return noPostsCopy.allOldUser()
+  return noPostsCopy.all()
 }
 
-const PostsNone = ({ promotionStatus, artist }) => {
+const PostsNone = ({ filterBy }) => {
   const { setHeader } = React.useContext(InterfaceContext)
-  const hasBudget = !!artist.daily_budget
-  const copyMarkdown = getCopy({ hasBudget, promotionStatus })
+  const copyMarkdown = getCopy(filterBy)
 
   React.useEffect(() => {
     setHeader({ text: 'your posts', punctuation: ',' })
@@ -49,12 +41,11 @@ const PostsNone = ({ promotionStatus, artist }) => {
 }
 
 PostsNone.propTypes = {
-  artist: PropTypes.object,
-  promotionStatus: PropTypes.string.isRequired,
+  filterBy: PropTypes.object,
 }
 
 PostsNone.defaultProps = {
-  artist: null,
+  filterBy: null,
 }
 
 export default PostsNone
