@@ -83,14 +83,14 @@ export const getAction = ({
   isDismissible,
   isActionable,
   auth,
-  missingScopes,
 }) => {
   // Handle relink FB
   if (
     topic === 'facebook-expired-access-token'
     || topic === 'facebook-missing-permissions'
   ) {
-    return () => handleFbRedirect(auth, missingScopes, ROUTES.NOTIFICATIONS)
+    const { missingScope = [] } = data
+    return () => handleFbRedirect(auth, missingScope, ROUTES.NOTIFICATIONS)
   }
 
   // Handle no method or link
@@ -172,7 +172,7 @@ const formatNotificationText = (text, data) => {
 // -----------------------
 
 // FORMAT NOTIFICATIONS
-export const formatNotifications = ({ notificationsRaw, dictionary = {}, auth = {}, missingScopes = [] }) => {
+export const formatNotifications = ({ notificationsRaw, dictionary = {}, auth = {} }) => {
   return notificationsRaw.reduce((allNotifications, notification) => {
     const {
       id,
@@ -226,7 +226,6 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, auth = 
       isDismissible,
       isActionable,
       auth,
-      missingScopes,
     })
     // Return formatted notification
     const formattedNotification = {

@@ -20,10 +20,10 @@ export const getFbRedirectUrl = ({ redirectPath, requestedPermissions, state, is
   `
 }
 
-export const handleFbRedirect = (auth, scopes, redirectPath) => {
-  const { missingScopes: { account: missingScopes }, providerIds } = auth
-  const isReauth = scopes?.length || missingScopes.length || providerIds.includes('facebook.com')
-  const requestedPermissions = scopes || (missingScopes.length ? missingScopes : null) || null
+export const handleFbRedirect = (auth, missingScopes, redirectPath) => {
+  const { providerIds } = auth
+  const isReauth = missingScopes?.length || providerIds.includes('facebook.com')
+  const requestedPermissions = missingScopes.length ? missingScopes : null
   const state = (Math.random() + 1).toString(36).substring(4)
 
   const url = getFbRedirectUrl({
