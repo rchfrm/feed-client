@@ -56,11 +56,13 @@ const PostsFilter = ({ title, filterType, initialFilters, setFiltersState }) => 
           />
         </div>
       </button>
-      <PostsFilterClearButton
-        filterType={filterType}
-        resetFilters={resetFilters}
-        setFiltersState={setFiltersState}
-      />
+      {filters.length > 0 && (
+        <PostsFilterClearButton
+          filterType={filterType}
+          resetFilters={resetFilters}
+          setFiltersState={setFiltersState}
+        />
+      )}
       <PostsFilterOptions
         filters={filters}
         filterType={filterType}
