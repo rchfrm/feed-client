@@ -58,9 +58,9 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     }
     // Reauth button
     if (ctaType === 'fb_reauth') {
-      const { data: { missingScope = [] } } = integrationError
+      const { data: { missing_scope: missingScopes = [] } } = integrationError
       const onClick = () => {
-        handleFbRedirect(auth, missingScope, router.pathname)
+        handleFbRedirect(auth, missingScopes, router.pathname)
       }
 
       return [{

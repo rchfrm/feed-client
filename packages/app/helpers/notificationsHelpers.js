@@ -86,8 +86,8 @@ export const getAction = ({
 }) => {
   // Handle relink FB
   if (ctaType === 'fb_reauth') {
-    const { missingScope = [] } = data
-    return () => handleFbRedirect(auth, missingScope, ROUTES.NOTIFICATIONS)
+    const { missing_scope: missingScopes = [] } = data
+    return () => handleFbRedirect(auth, missingScopes, ROUTES.NOTIFICATIONS)
   }
 
   // Handle no method or link
