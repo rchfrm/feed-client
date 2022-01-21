@@ -6,27 +6,27 @@ import ResultsPostsChartBackground from '@/app/ResultsPostsChartBackground'
 
 const posts = [
   {
-    top: '0%',
+    bottom: '15%',
     left: '0%',
     organicReach: '1.1%',
   },
   {
-    top: '33.33%',
+    bottom: '33.33%',
     left: '6.66%',
     organicReach: '5.2%',
   },
   {
-    top: '50%',
+    bottom: '50%',
     left: '33.33%',
     organicReach: '12.1%',
   },
   {
-    top: '75%',
+    bottom: '75%',
     left: '66.66%',
     organicReach: '3.9%',
   },
   {
-    top: '90%',
+    bottom: '90%',
     left: '86.58%',
     organicReach: '2.0%',
   },
@@ -40,8 +40,14 @@ const ResultsPostsChart = ({ className }) => {
         <ResultsPostsChartDescription average="0.87%" globalAverage="0.62%" />
       </div>
       <ResultsPostsChartBackground>
-        {posts.map(({ top, left, organicReach }) => (
-          <ResultsPostsChartPost key={top} top={top} left={left} organicReach={organicReach} />
+        {posts.map(({ bottom, left, organicReach }, index) => (
+          <ResultsPostsChartPost
+            key={bottom}
+            index={index}
+            bottom={bottom}
+            left={left}
+            organicReach={organicReach}
+          />
         ))}
       </ResultsPostsChartBackground>
     </div>
