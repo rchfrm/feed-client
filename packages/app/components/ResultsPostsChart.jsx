@@ -1,8 +1,10 @@
 import React from 'react'
 
-import ResultsPostsChartDescription from '@/app/ResultsPostsChartDescription'
+import ResultsChartHeader from '@/app/ResultsChartHeader'
 import ResultsPostsChartPost from '@/app/ResultsPostsChartPost'
 import ResultsPostsChartBackground from '@/app/ResultsPostsChartBackground'
+
+import brandColors from '@/constants/brandColors'
 
 const posts = [
   {
@@ -33,12 +35,28 @@ const posts = [
 ]
 
 const ResultsPostsChart = ({ className }) => {
+  const legendItems = [
+    {
+      label: 'Global average',
+      value: '0.62%',
+      color: brandColors.black,
+      lineStyle: 'dashed',
+    },
+    {
+      label: 'Your average',
+      value: '0.87%',
+      color: brandColors.greyDark,
+      lineStyle: 'dashed',
+    },
+  ]
+
   return (
     <div className={className}>
-      <div className="w-1/2 mb-12">
-        <p className="font-bold text-xl">Reach of your recent posts</p>
-        <ResultsPostsChartDescription average="0.87%" globalAverage="0.62%" />
-      </div>
+      <ResultsChartHeader
+        title="Reach of your recent posts"
+        description="See the estimated percentage of your audience your posts from the last 30 days have reached. Your audience is not just your followers, it's also people who have engaged with you before but haven't necessarily followed you."
+        legendItems={legendItems}
+      />
       <ResultsPostsChartBackground>
         {posts.map(({ bottom, left, organicReach }, index) => (
           <ResultsPostsChartPost
