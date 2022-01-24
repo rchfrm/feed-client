@@ -78,6 +78,57 @@ export const sortTypes = [
   },
 ]
 
+export const filters = ['promotion_status', 'platform', 'internal_type']
+
+export const filterTypes = [
+  {
+    slug: 'promotion_status',
+    title: 'Status',
+    options: [
+      {
+        slug: 'active',
+        title: 'Running',
+      },
+      {
+        slug: 'archived',
+        title: 'Inactive',
+      },
+      {
+        slug: 'inactive',
+        title: 'Not Run',
+      },
+    ],
+  },
+  {
+    slug: 'platform',
+    title: 'Platform',
+    options: [
+      {
+        slug: 'facebook',
+        title: 'Facebook',
+      },
+      {
+        slug: 'instagram',
+        title: 'Instagram',
+      },
+    ],
+  },
+  {
+    slug: 'internal_type',
+    title: 'Post Type',
+    options: [
+      {
+        slug: 'post',
+        title: 'Post',
+      },
+      {
+        slug: 'story',
+        title: 'Story',
+      },
+    ],
+  },
+]
+
 // CAMPAIGN TYPES
 export const campaignTypes = [
   {
@@ -316,7 +367,6 @@ export const getCursor = (post = {}) => {
   if (!afterHref) return
   return afterHref.split('after=')[1]
 }
-
 
 // GET POST METRIC CONFIG
 export const getPostMetricsContent = (metricsType, postType) => {

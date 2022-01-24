@@ -7,24 +7,10 @@ export default {
     // If no posts when filtering to all
     all: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
 
-    // No active posts with budget
-    activeWithBudget: (inactiveTitle) => `**Feed** is setting up your posts for promotion. There may be a delay whilst your ads await approval.
-
-Been waiting a while? Check you have posts opted in for promotion in the _${inactiveTitle}_ tab.`,
-
-    // No active posts without budget
-    activeNoBudget: () => `Currently, none of your posts are running as ads because you don’t have a budget set. Get started by entering a daily budget [here](${ROUTES.CONTROLS}).`,
-
-    // Archive
-    archive: () => `After you’ve been using Feed for a little while, posts that have previously run as ads will appear here.`,
-
     // If no posts when filtered
-    other: (promotionStatus) => {
-      return `There are currently no posts in the ${promotionStatus} state. Maybe try a different category.`
+    filtered: () => {
+      return `Looks like there are no posts that match the filters you've selected.`
     },
-
-    // All and Old user
-    allOldUser: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
   },
 
   importingPosts: 'Gathering your recent posts from Facebook & Instagram...',
