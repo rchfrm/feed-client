@@ -11,13 +11,12 @@ export const getFbRedirectUrl = ({ redirectPath, requestedPermissions, state, is
   const redirectUrl = `${process.env.react_app_url}${redirectPath}`
 
   return `
-    ${facebook.OAUTH_URL}?
-    client_id=${facebook.APP_ID}&
-    redirect_uri=${redirectUrl}&
-    state=${state}&
-    scope=${scopeRequests.join(',')}
-    ${isReauth ? '&auth_type=rerequest' : ''}
-  `
+${facebook.OAUTH_URL}?
+client_id=${facebook.APP_ID}&
+redirect_uri=${redirectUrl}&
+state=${state}&
+scope=${scopeRequests.join(',')}
+${isReauth ? '&auth_type=rerequest' : ''}`
 }
 
 export const handleFbRedirect = (auth, scopes, redirectPath) => {
