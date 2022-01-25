@@ -5,7 +5,9 @@ import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 
+import ResultsHeader from '@/app/ResultsHeader'
 import ResultsContent from '@/app/ResultsContent'
+import ResultsNoSpendContent from '@/app/ResultsNoSpendContent'
 import copy from '@/app/copy/ResultsPageCopy'
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -22,6 +24,7 @@ const ResultsLoader = () => {
   const [adResultsData, setAdResultsData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
+  const [resultsType, setResultsType] = React.useState('organic')
 
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
 
@@ -42,12 +45,23 @@ const ResultsLoader = () => {
   if (error) <Error error={error} />
 
   return (
-    <>
-      {adResultsData && <ResultsContent data={adResultsData} />}
-      {(!adResultsData && !isLoading) && (
-        <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
-      )}
-    </>
+    adResultsData ? (
+      <>
+        <ResultsHeader
+          data={adResultsData}
+          resultsType={resultsType}
+          setResultsType={setResultsType}
+        />
+        {resultsType === 'paid' && <ResultsContent data={adResultsData} />}
+        {resultsType === 'organic' && <ResultsNoSpendContent />}
+      </>
+    ) : (
+      <>
+        {!isLoading && (
+          <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
+        )}
+      </>
+    )
   )
 }
 

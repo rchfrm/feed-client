@@ -34,7 +34,7 @@ const posts = [
   },
 ]
 
-const ResultsPostsChart = ({ className }) => {
+const ResultsRecentPostsReachChart = ({ className }) => {
   const legendItems = [
     {
       label: 'Global average',
@@ -72,10 +72,10 @@ const ResultsPostsChart = ({ className }) => {
   )
 }
 
-ResultsPostsChart.propTypes = {
+ResultsRecentPostsReachChart.propTypes = {
 }
 
-ResultsPostsChart.defaultProps = {
+ResultsRecentPostsReachChart.defaultProps = {
 }
 
-export default ResultsPostsChart
+export default ResultsRecentPostsReachChart

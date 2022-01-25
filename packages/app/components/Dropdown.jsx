@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 
 import { capitalise } from '@/helpers/utils'
 
-const Dropdown = ({ title, items, handleItemClick, className }) => {
+const Dropdown = ({
+  children,
+  items,
+  handleItemClick,
+  className,
+  buttonClassName,
+}) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const dropdownRef = React.useRef(null)
 
@@ -34,17 +40,17 @@ const Dropdown = ({ title, items, handleItemClick, className }) => {
   }, [isOpen])
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className={[className, 'relative'].join(' ')} ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={className}
+        className={buttonClassName}
       >
-        {title}
+        {children}
       </button>
       {isOpen && (
         <ul
           className={[
-            'absolute p-2',
+            'absolute top-2 left-2 p-2',
             'border-2 border-solid border-black',
             'bg-white rounded-dialogue',
           ].join(' ')}
@@ -66,14 +72,16 @@ const Dropdown = ({ title, items, handleItemClick, className }) => {
 }
 
 Dropdown.propTypes = {
-  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
   items: PropTypes.array.isRequired,
   handleItemClick: PropTypes.func.isRequired,
   className: PropTypes.string,
+  buttonClassName: PropTypes.string,
 }
 
 Dropdown.defaultProps = {
   className: null,
+  buttonClassName: null,
 }
 
 export default Dropdown

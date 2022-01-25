@@ -1,12 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import ChartLine from '@/app/ChartLine'
 import ResultsChartHeader from '@/app/ResultsChartHeader'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsFollowersChart = ({ className }) => {
+const ResultsFollowerGrowthChart = () => {
   const legendItems = [
     {
       label: 'Instagram',
@@ -35,7 +34,7 @@ const ResultsFollowersChart = ({ className }) => {
   const { period: labels, ...followerGrowthData } = data
 
   return (
-    <div className={className}>
+    <>
       <ResultsChartHeader
         title="Follower growth"
         description="See how your Facebook Likes and Instagram Followers are growing over time."
@@ -45,16 +44,14 @@ const ResultsFollowersChart = ({ className }) => {
         labels={labels}
         data={followerGrowthData}
       />
-    </div>
+    </>
   )
 }
 
-ResultsFollowersChart.propTypes = {
-  className: PropTypes.string,
+ResultsFollowerGrowthChart.propTypes = {
 }
 
-ResultsFollowersChart.defaultProps = {
-  className: null,
+ResultsFollowerGrowthChart.defaultProps = {
 }
 
-export default ResultsFollowersChart
+export default ResultsFollowerGrowthChart
