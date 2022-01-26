@@ -1,8 +1,8 @@
 import React from 'react'
 
-import ResultsAverageReachStats from '@/app/ResultsAverageReachStats'
-import ResultsHighlyEngagedStats from '@/app/ResultsHighlyEngagedStats'
-import ResultsSlowGrowthStats from '@/app/ResultsSlowGrowthStats'
+import ResultsReachStats from '@/app/ResultsReachStats'
+import ResultsEngageStats from '@/app/ResultsEngageStats'
+import ResultsGrowthStats from '@/app/ResultsGrowthStats'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -14,7 +14,7 @@ const ResultsNoSpendStats = () => {
       <div className="col-span-12 sm:col-span-4">
         <p className="font-bold text-xl sm:text-center">Average reach</p>
         {hasData ? (
-          <ResultsAverageReachStats className="flex flex-col sm:items-center" />
+          <ResultsReachStats className="flex flex-col sm:items-center" />
         ) : (
           <MarkdownText markdown="No data.." className="px-16 text-center text-xl text-blue" />
         )}
@@ -22,7 +22,7 @@ const ResultsNoSpendStats = () => {
       <div className="col-span-12 sm:col-span-4">
         <p className="font-bold text-xl sm:text-center">Highly engaged</p>
         {hasData ? (
-          <ResultsHighlyEngagedStats className="flex flex-col sm:items-center" />
+          <ResultsEngageStats className="flex flex-col sm:items-center" />
         ) : (
           <MarkdownText markdown="No data.." className="px-16 text-center text-xl text-green" />
         )}
@@ -30,7 +30,7 @@ const ResultsNoSpendStats = () => {
       <div className="col-span-12 sm:col-span-4">
         <p className="font-bold text-xl sm:text-center">Slow growth</p>
         {hasData ? (
-          <ResultsSlowGrowthStats className="flex flex-col sm:items-center" />
+          <ResultsGrowthStats className="flex flex-col sm:items-center" />
         ) : (
           <MarkdownText markdown="No data.." className="px-16 text-center text-xl text-insta" />
         )}

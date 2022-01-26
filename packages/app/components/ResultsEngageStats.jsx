@@ -10,7 +10,7 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import copy from '@/app/copy/ResultsPageCopy'
 import brandColors from '@/constants/brandColors'
 
-const ResultsHighlyEngagedStats = ({ className }) => {
+const ResultsEngageStats = ({ className }) => {
   const isDesktopLayout = useBreakpointTest('sm')
   const value = 7.2
 
@@ -37,12 +37,12 @@ const ResultsHighlyEngagedStats = ({ className }) => {
   )
 }
 
-ResultsHighlyEngagedStats.propTypes = {
+ResultsEngageStats.propTypes = {
   className: PropTypes.string,
 }
 
-ResultsHighlyEngagedStats.defaultProps = {
+ResultsEngageStats.defaultProps = {
   className: '',
 }
 
-export default ResultsHighlyEngagedStats
+export default ResultsEngageStats
