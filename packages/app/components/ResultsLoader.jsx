@@ -13,7 +13,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { getAdResultsSummary } from '@/app/helpers/resultsHelpers'
+import { getAdResultsSummary, getOrganicBenchmark } from '@/app/helpers/resultsHelpers'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
@@ -21,6 +21,7 @@ const getControlsStoreState = (state) => ({
 
 const ResultsLoader = () => {
   const { artistId } = React.useContext(ArtistContext)
+  const [noSpendResultsData, setNoSpendResultsData] = React.useState(null)
   const [adResultsData, setAdResultsData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
@@ -28,32 +29,51 @@ const ResultsLoader = () => {
 
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
 
-  useAsyncEffect(async (isMounted) => {
-    setIsLoading(true)
-    const res = await getAdResultsSummary(artistId)
-    if (!isMounted()) return
+  const resultsData = noSpendResultsData || adResultsData
+
+  const handleDataRequest = async (getData, data, setData) => {
+    if (data) {
+      setIsLoading(false)
+      return
+    }
+
+    const res = await getData(artistId)
+
     if (error) {
       setError(error)
       setIsLoading(false)
       return
     }
-    setAdResultsData(res)
-    setIsLoading(false)
-  }, [])
 
-  if (isLoading) <Spinner />
-  if (error) <Error error={error} />
+    setIsLoading(false)
+    setData(res)
+  }
+
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted()) return
+    setIsLoading(true)
+
+    if (resultsType === 'organic') {
+      handleDataRequest(getOrganicBenchmark, noSpendResultsData, setNoSpendResultsData)
+    } else {
+      handleDataRequest(getAdResultsSummary, adResultsData, setAdResultsData)
+    }
+  }, [resultsType])
+
+  if (isLoading) return <Spinner />
+  if (error) return <Error error={error} />
 
   return (
-    adResultsData ? (
+    resultsData ? (
       <>
         <ResultsHeader
-          data={adResultsData}
+          data={resultsData}
           resultsType={resultsType}
           setResultsType={setResultsType}
+          setIsLoading={setIsLoading}
         />
-        {resultsType === 'paid' && <ResultsContent data={adResultsData} />}
-        {resultsType === 'organic' && <ResultsNoSpendContent />}
+        {resultsType === 'organic' && noSpendResultsData && <ResultsNoSpendContent data={noSpendResultsData} />}
+        {resultsType === 'paid' && adResultsData && <ResultsContent data={adResultsData} />}
       </>
     ) : (
       <>

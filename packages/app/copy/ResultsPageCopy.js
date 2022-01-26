@@ -148,4 +148,21 @@ We’ll be in touch shortly after with more information.`,
   noSpendReachDescription: (value) => `Your posts reach **${value}%** of your addressable audience.`,
   noSpendEngageDescription: (value) => `**${value}%** of your followers engage, with each post on average.`,
   noSpendGrowthDescription: (value) => `You're adding **${value}** followers a month on average.`,
+  quartileDescription: (quartile, percentile) => {
+    if (quartile === 1) {
+      return `Room to improve, but better than **${percentile}%** of others`
+    }
+
+    if (quartile === 2) {
+      return `Not that bad, better than **${percentile}%** of others`
+    }
+
+    if (quartile === 3) {
+      return `Better than most - **${percentile}%** to be precise!`
+    }
+
+    if (quartile === 4) {
+      return `One of the best - top **${100 - percentile}%**!`
+    }
+  },
 }

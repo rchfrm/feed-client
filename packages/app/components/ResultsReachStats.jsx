@@ -7,18 +7,17 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import copy from '@/app/copy/ResultsPageCopy'
 import brandColors from '@/constants/brandColors'
 
-const ResultsReachStats = ({ className }) => {
+const ResultsReachStats = ({ data, className }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const value = 1.2
+  const { value, percentile, quartile, copy } = data
 
   return (
     <div className={[className].join(' ')}>
       <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
         <MarkdownText
-          markdown={copy.noSpendReachDescription(value)}
+          markdown={copy}
           className="sm:px-1 mr-auto sm:mr-0 mb-6 sm:mb-0 sm:text-center"
         />
       </div>
@@ -27,10 +26,12 @@ const ResultsReachStats = ({ className }) => {
           className="text-6xl font-bold hidden sm:block"
           style={{ color: brandColors.blue }}
         >
-          1.2%
+          {value}%
         </p>
       </div>
       <ResultsPercentileChart
+        percentile={percentile}
+        quartile={quartile}
         color={brandColors.blue}
       />
     </div>
@@ -38,6 +39,7 @@ const ResultsReachStats = ({ className }) => {
 }
 
 ResultsReachStats.propTypes = {
+  data: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 

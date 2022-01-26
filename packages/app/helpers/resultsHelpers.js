@@ -295,6 +295,67 @@ export const getStatsData = (data) => {
   }
 }
 
+const getQuartile = (percentile) => {
+  if (percentile <= 25) {
+    return {
+      value: 1,
+      copy: 'Average',
+    }
+  }
+  if (percentile > 25 && percentile <= 50) {
+    return {
+      value: 2,
+      copy: 'Average',
+    }
+  }
+  if (percentile > 50 && percentile <= 75) {
+    return {
+      value: 3,
+      copy: 'Average',
+    }
+  }
+  if (percentile > 75) {
+    return {
+      value: 4,
+      copy: 'Average',
+    }
+  }
+}
+
+export const getNoSpendStatsData = ({ data }) => {
+  const {
+    aggregated: {
+      reach_rate,
+      engagement_rate,
+      followers_growth_absolute,
+      followers_growth_rate,
+    },
+  } = data
+
+  const reachData = {
+    value: (reach_rate.median.value * 100).toFixed(1),
+    percentile: (reach_rate.median.percentile * 100).toFixed(1),
+    quartile: getQuartile((reach_rate.median.percentile * 100).toFixed(1)),
+    copy: resultsCopy.noSpendReachDescription((reach_rate.median.value * 100).toFixed(1)),
+  }
+
+  const engageData = {
+    value: (engagement_rate.median.value * 100).toFixed(1),
+    percentile: (engagement_rate.median.percentile * 100).toFixed(1),
+    quartile: getQuartile((engagement_rate.median.percentile * 100).toFixed(1)),
+    copy: resultsCopy.noSpendEngageDescription((engagement_rate.median.value * 100).toFixed(1)),
+  }
+
+  const growthData = {
+    value: (followers_growth_absolute.median.value * 100).toFixed(1),
+    percentile: (followers_growth_rate.median.percentile * 100).toFixed(1),
+    quartile: getQuartile((followers_growth_rate.median.percentile * 100).toFixed(1)),
+    copy: resultsCopy.noSpendGrowthDescription((followers_growth_absolute.median.value * 100).toFixed(1)),
+  }
+
+  return { reachData, engageData, growthData }
+}
+
 // GET AD RESULTS SUMMARY
 /**
  * @param {string} artistId
@@ -316,4 +377,38 @@ export const getAdResultsSummary = async (artistId) => {
     }
   }
   return formattedData
+}
+
+// GET ORGANIC BENCHMARK
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
+export const getOrganicBenchmark = async (artistId) => {
+  const endpoint = `/artists/${artistId}/organic_benchmark`
+  const payload = {}
+  const errorTracking = {
+    category: 'Results',
+    action: 'Get organic benchmark',
+  }
+  const { res } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+
+  return res
+}
+
+// GET AGGREGATED ORGANIC BENCHMARK
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
+export const getAggregatedOrganicBenchmark = async () => {
+  const endpoint = '/organic_benchmarks/aggregated'
+  const payload = {}
+  const errorTracking = {
+    category: 'Results',
+    action: 'Get aggregated organic benchmark',
+  }
+  const res = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+
+  return res
 }

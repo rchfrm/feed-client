@@ -11,11 +11,17 @@ const ResultsHeaderMenu = ({
   dateTo,
   setResultsType,
   resultsType,
+  setIsLoading,
 }) => {
+  const lol = (type) => {
+    setIsLoading(true)
+    setResultsType(type)
+  }
+
   return (
     <Dropdown
       items={['organic', 'paid']}
-      handleItemClick={setResultsType}
+      handleItemClick={lol}
       buttonClassName="px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1"
     >
       {!isLast30Days ? (

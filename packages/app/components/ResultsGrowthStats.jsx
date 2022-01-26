@@ -8,18 +8,17 @@ import PlusIcon from '@/icons/PlusIcon'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import copy from '@/app/copy/ResultsPageCopy'
 import brandColors from '@/constants/brandColors'
 
-const ResultsGrowthStats = ({ className }) => {
+const ResultsGrowthStats = ({ data, className }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const value = 50
+  const { value, percentile, quartile, copy } = data
 
   return (
     <div className={[className].join(' ')}>
       <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
         <MarkdownText
-          markdown={copy.noSpendGrowthDescription(value)}
+          markdown={copy}
           className="sm:px-1 mr-auto sm:mr-0 mb-6 sm:mb-0 sm:text-center"
         />
       </div>
@@ -29,10 +28,12 @@ const ResultsGrowthStats = ({ className }) => {
           className="text-6xl font-bold hidden sm:block"
           style={{ color: brandColors.instagram.bg }}
         >
-          50
+          {value}
         </p>
       </div>
       <ResultsPercentileChart
+        percentile={percentile}
+        quartile={quartile}
         color={brandColors.instagram.bg}
       />
     </div>
@@ -40,6 +41,7 @@ const ResultsGrowthStats = ({ className }) => {
 }
 
 ResultsGrowthStats.propTypes = {
+  data: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 
