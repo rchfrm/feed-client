@@ -7,7 +7,7 @@ import StarIcon from '@/icons/StarIcon'
 import brandColors from '@/constants/brandColors'
 
 const PostCardScore = ({
-  scoreOrganic,
+  score,
   className,
 }) => {
   return (
@@ -27,15 +27,16 @@ const PostCardScore = ({
           className="bg-green"
         />
       </div>
-      <p className="flex items-center mb-0 font-bold">
-        {scoreOrganic}
-      </p>
+      <span className="flex items-baseline mb-0">
+        <span className="font-bold">{score}</span>
+        <span className="ml-1 text-xs">/ 10</span>
+      </span>
     </div>
   )
 }
 
 PostCardScore.propTypes = {
-  scoreOrganic: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
   className: PropTypes.string,
 }
 
