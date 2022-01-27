@@ -32,6 +32,12 @@ const optimisationsEventsDictionary = {
     event: 'subscriber',
     detail: 'an ad about subscribing',
   },
+  omni_view_content: {
+    name: 'Content Views',
+    fbEventName: 'ViewContent',
+    event: 'content views',
+    detail: 'an ad about viewing more content',
+  },
 }
 
 const versusLastMonth = (prevValue) => `, versus ${prevValue} last month`

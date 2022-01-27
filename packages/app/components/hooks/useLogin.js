@@ -1,5 +1,3 @@
-// * APP VERSION
-
 import React from 'react'
 
 import * as queryString from 'query-string'
@@ -7,6 +5,8 @@ import * as queryString from 'query-string'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import useFbRedirect from '@/app/hooks/useFbRedirect'
 
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
@@ -18,7 +18,6 @@ import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpe
 import * as ROUTES from '@/app/constants/routes'
 
 const useLogin = (initialPathname, initialFullPath, showContent) => {
-  // Import contexts
   const {
     setNoAuth,
     storeAuth,
@@ -29,8 +28,9 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
   const { setNoUser, storeUser } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
-  // * HANDLE NO AUTH USER
-  // ---------------------
+  const { checkAndHandleFbRedirect } = useFbRedirect()
+
+  // Handle no auth user
   const handleNoAuthUser = React.useCallback((authError) => {
     // Reset all contexts
     setNoAuth(authError)
@@ -42,9 +42,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     return userRedirected
   }, [setNoAuth, setNoUser, setNoArtist, setRejectedPagePath, initialPathname, initialFullPath])
 
-
-  // *  HANDLE EXISTING USER
-  // -----------------------
+  // Handle existing user
   const handleExistingUser = React.useCallback(async ({ additionalUserInfo } = {}) => {
     fireSentryBreadcrumb({
       category: 'login',
@@ -63,6 +61,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       handleNoAuthUser({ message: 'No user was found in the database' })
       return
     }
+
     const { artists } = user
     // If there is additional info from a FB redirect...
     if (additionalUserInfo) {
@@ -87,6 +86,9 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // Check if they have artists connected to their account or not,
     // if they don't, set setNoArtist, and push them to the Connect Artist page
     if (artists.length === 0) {
+      // Check whether we're coming from a manual oauth FB redirect...
+      await checkAndHandleFbRedirect()
+
       fireSentryBreadcrumb({
         category: 'login',
         action: 'handleExistingUser',
@@ -123,6 +125,10 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // otherwise use the first related artist (sorted alphabetically)
     const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
     await storeArtist(selectedArtistId)
+
+    // Check whether we're coming from a manual oauth FB redirect...
+    await checkAndHandleFbRedirect(selectedArtistId)
+
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
     if (ROUTES.signedOutPages.includes(initialPathname)) {
@@ -131,7 +137,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
         action: 'handleExistingUser',
         label: 'go to home page',
       })
-      // TRACK LOGIN
+      // Track login
       trackLogin({ method: 'already logged in', userId: user.id })
       // Redirect to page they tried to access (or home page)
       const defaultLandingPage = ROUTES.HOME
@@ -139,10 +145,9 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       const userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
       return userRedirected
     }
-  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser])
+  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser, checkAndHandleFbRedirect])
 
-  // * DETECT SIGNED IN USER
-  // -----------------------
+  // Detect signed in user
   const handleInitialAuthCheck = React.useCallback(async (authUser, authError) => {
     fireSentryBreadcrumb({
       category: 'login',
@@ -161,7 +166,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
           description: `Error with firebaseHelpers.getVerifyIdToken(): ${error.message}`,
         })
       })
-    // STORE AUTH
+    // Store auth
     await storeAuth({ authUser, authToken, authError })
     const userRedirected = await handleExistingUser({ authUser })
     return userRedirected
@@ -185,8 +190,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     })
   }, [handleInitialAuthCheck, showContent])
 
-  // * EMAIL LOGIN
-  // -------------
+  // Email login
   const loginWithEmail = React.useCallback(async (email, password) => {
     setAuthLoading(true)
     const { authUser, error: loginError } = await firebaseHelpers.doSignInWithEmailAndPassword(email, password)
