@@ -287,6 +287,8 @@ export const getConversionData = (data) => {
   return null
 }
 
+export const noSpendAudiencesTypes = ['reach', 'engage', 'growth']
+
 export const getStatsData = (data) => {
   return {
     newAudienceData: getNewAudienceData(data),
@@ -295,12 +297,12 @@ export const getStatsData = (data) => {
   }
 }
 
-const getQuartile = (percentile) => {
+const getQuartile = (percentile, audience) => {
   if (percentile <= 25) {
     return {
       value: 1,
       position: 'left',
-      copy: 'Average',
+      copy: audience === 'growth' ? 'Slow' : 'Low',
     }
   }
   if (percentile > 25 && percentile <= 50) {
@@ -314,14 +316,14 @@ const getQuartile = (percentile) => {
     return {
       value: 3,
       position: 'center',
-      copy: 'Average',
+      copy: audience === 'growth' ? 'Solid' : 'Good',
     }
   }
   if (percentile > 75) {
     return {
       value: 4,
       position: 'right',
-      copy: 'Average',
+      copy: audience === 'growth' ? 'Fast' : 'High',
     }
   }
 }
@@ -336,25 +338,34 @@ export const getNoSpendStatsData = ({ data }) => {
     },
   } = data
 
+  const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
+  const reachRateMedianPercentile = (reach_rate.median.percentile * 100).toFixed(1)
+
   const reachData = {
-    value: (reach_rate.median.value * 100).toFixed(1),
-    percentile: (reach_rate.median.percentile * 100).toFixed(1),
-    quartile: getQuartile((reach_rate.median.percentile * 100).toFixed(1)),
-    copy: resultsCopy.noSpendReachDescription((reach_rate.median.value * 100).toFixed(1)),
+    value: reachRateMedianValue,
+    percentile: reachRateMedianPercentile,
+    quartile: getQuartile(reachRateMedianPercentile, 'reach'),
+    copy: resultsCopy.noSpendReachDescription(reachRateMedianValue),
   }
+
+  const engagementRateMedianValue = (engagement_rate.median.value * 100).toFixed(1)
+  const engagementRateMedianPercentile = (engagement_rate.median.percentile * 100).toFixed(1)
 
   const engageData = {
-    value: (engagement_rate.median.value * 100).toFixed(1),
-    percentile: (engagement_rate.median.percentile * 100).toFixed(1),
-    quartile: getQuartile((engagement_rate.median.percentile * 100).toFixed(1)),
-    copy: resultsCopy.noSpendEngageDescription((engagement_rate.median.value * 100).toFixed(1)),
+    value: engagementRateMedianValue,
+    percentile: engagementRateMedianPercentile,
+    quartile: getQuartile(engagementRateMedianPercentile, 'engage'),
+    copy: resultsCopy.noSpendEngageDescription(engagementRateMedianValue),
   }
 
+  const followersGrowthAbsoluteMedianValue = (followers_growth_absolute.median.value * 100).toFixed(1)
+  const followersGrowthRateMedianPercentile = (followers_growth_rate.median.percentile * 100).toFixed(1)
+
   const growthData = {
-    value: (followers_growth_absolute.median.value * 100).toFixed(1),
-    percentile: (followers_growth_rate.median.percentile * 100).toFixed(1),
-    quartile: getQuartile((followers_growth_rate.median.percentile * 100).toFixed(1)),
-    copy: resultsCopy.noSpendGrowthDescription((followers_growth_absolute.median.value * 100).toFixed(1)),
+    value: followersGrowthAbsoluteMedianValue,
+    percentile: followersGrowthRateMedianPercentile,
+    quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
+    copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue),
   }
 
   return { reachData, engageData, growthData }

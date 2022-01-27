@@ -1,13 +1,12 @@
 import React from 'react'
 
 import ResultsNoSpendChartsTab from '@/app/ResultsNoSpendChartsTab'
+import { noSpendAudiencesTypes } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendChartsTabs = ({ audienceType, setAudienceType }) => {
-  const audiencesTypes = ['reach', 'engage', 'growth']
-
   return (
-    <ul className="w-full flex justify-around mb-12">
-      {audiencesTypes.map((audience) => (
+    <ul className="w-full grid grid-cols-12 sm:col-gap-12 justify-around mb-12">
+      {noSpendAudiencesTypes.map((audience) => (
         <ResultsNoSpendChartsTab
           key={audience}
           audience={audience}

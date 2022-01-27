@@ -9,6 +9,7 @@ const Dropdown = ({
   handleItemClick,
   className,
   buttonClassName,
+  disabled,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const dropdownRef = React.useRef(null)
@@ -43,7 +44,10 @@ const Dropdown = ({
     <div className={[className, 'relative'].join(' ')} ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={buttonClassName}
+        className={[
+          buttonClassName,
+          disabled ? 'pointer-events-none' : null,
+        ].join(' ')}
       >
         {children}
       </button>
@@ -77,6 +81,7 @@ Dropdown.propTypes = {
   handleItemClick: PropTypes.func.isRequired,
   className: PropTypes.string,
   buttonClassName: PropTypes.string,
+  disabled: PropTypes.bool.isRequired,
 }
 
 Dropdown.defaultProps = {

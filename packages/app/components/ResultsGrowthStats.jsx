@@ -10,43 +10,46 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsGrowthStats = ({ data, className }) => {
+const ResultsGrowthStats = ({ data }) => {
   const isDesktopLayout = useBreakpointTest('sm')
   const { value, percentile, quartile, copy } = data
 
   return (
-    <div className={[className].join(' ')}>
-      <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
-        <MarkdownText
-          markdown={copy}
-          className="sm:px-1 mr-auto sm:mr-0 mb-6 sm:mb-0 sm:text-center"
-        />
-      </div>
-      <div className="flex flex-row items-center justify-center">
-        <PlusIcon className="h-8 w-8 mr-1 mb-4 hidden sm:block" fill={brandColors.instagram.bg} style={{ filter: 'brightness(75%)' }} />
-        <p
-          className="text-6xl font-bold hidden sm:block"
-          style={{ color: brandColors.instagram.bg }}
-        >
-          {value}
-        </p>
+    <>
+      <div className="flex sm:flex-col items-center justify-between">
+        <div>
+          <p className="font-bold text-xl sm:text-center">{quartile.copy} growth</p>
+          <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
+            <MarkdownText
+              markdown={copy}
+              className="mb-6 sm:mb-0 sm:text-center"
+            />
+          </div>
+        </div>
+        <div className="flex items-center">
+          <PlusIcon className="h-8 w-8 mr-1 mb-4 hidden sm:block" fill={brandColors.instagram.bg} style={{ filter: 'brightness(75%)' }} />
+          <p
+            className="text-3xl ml-2 mb-0 sm:text-6xl sm:ml-0 sm:mb-5 text-center font-bold"
+            style={{ color: brandColors.instagram.bg }}
+          >
+            {value}
+          </p>
+        </div>
       </div>
       <ResultsPercentileChart
         percentile={percentile}
         quartile={quartile}
         color={brandColors.instagram.bg}
       />
-    </div>
+    </>
   )
 }
 
 ResultsGrowthStats.propTypes = {
   data: PropTypes.object.isRequired,
-  className: PropTypes.string,
 }
 
 ResultsGrowthStats.defaultProps = {
-  className: '',
 }
 
 export default ResultsGrowthStats

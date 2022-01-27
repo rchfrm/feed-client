@@ -29,15 +29,13 @@ const ResultsNoSpendStats = ({ data }) => {
   return (
     <>
       <div className="col-span-12 sm:col-span-4">
-        <p className="font-bold text-xl sm:text-center">{reachData?.quartile?.copy} reach</p>
         {reachData ? (
-          <ResultsReachStats data={reachData} className="flex flex-col sm:items-center" />
+          <ResultsReachStats data={reachData} />
         ) : (
           <MarkdownText markdown="No data.." className="px-16 text-center text-xl text-blue" />
         )}
       </div>
       <div className="col-span-12 sm:col-span-4">
-        <p className="font-bold text-xl sm:text-center">{engageData?.quartile?.copy} engaged</p>
         {engageData ? (
           <ResultsEngageStats data={engageData} className="flex flex-col sm:items-center" />
         ) : (
@@ -45,7 +43,6 @@ const ResultsNoSpendStats = ({ data }) => {
         )}
       </div>
       <div className="col-span-12 sm:col-span-4">
-        <p className="font-bold text-xl sm:text-center">{growthData?.quartile?.copy} growth</p>
         {growthData ? (
           <ResultsGrowthStats data={growthData} className="flex flex-col sm:items-center" />
         ) : (

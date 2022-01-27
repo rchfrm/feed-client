@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import Dropdown from '@/app/Dropdown'
 
 import { capitalise } from '@/helpers/utils'
@@ -13,6 +15,9 @@ const ResultsHeaderMenu = ({
   resultsType,
   setIsLoading,
 }) => {
+  const { artist: { start_spending_at } } = React.useContext(ArtistContext)
+  const isSpendingArtist = Boolean(start_spending_at)
+
   const handleItemClick = (type) => {
     // Don't do anything if we're already on the selected results type
     if (type === resultsType) {
@@ -27,6 +32,7 @@ const ResultsHeaderMenu = ({
       items={['organic', 'paid']}
       handleItemClick={handleItemClick}
       buttonClassName="px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1"
+      disabled={!isSpendingArtist}
     >
       {isLast30Days ? (
         <span>

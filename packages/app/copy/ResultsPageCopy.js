@@ -154,7 +154,7 @@ We’ll be in touch shortly after with more information.`,
     }
 
     if (quartile === 2) {
-      return `Not that bad, better than **${percentile}%** of others`
+      return `Better than **${percentile}%** of others - about average`
     }
 
     if (quartile === 3) {

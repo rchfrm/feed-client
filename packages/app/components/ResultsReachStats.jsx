@@ -9,21 +9,24 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsReachStats = ({ data, className }) => {
+const ResultsReachStats = ({ data }) => {
   const isDesktopLayout = useBreakpointTest('sm')
   const { value, percentile, quartile, copy } = data
 
   return (
-    <div className={[className].join(' ')}>
-      <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
-        <MarkdownText
-          markdown={copy}
-          className="sm:px-1 mr-auto sm:mr-0 mb-6 sm:mb-0 sm:text-center"
-        />
-      </div>
-      <div className="flex flex-row items-center justify-center">
+    <>
+      <div className="flex sm:flex-col items-center justify-between">
+        <div>
+          <p className="font-bold text-xl sm:text-center">{quartile.copy} reach</p>
+          <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
+            <MarkdownText
+              markdown={copy}
+              className="mb-6 sm:mb-0 sm:text-center"
+            />
+          </div>
+        </div>
         <p
-          className="text-6xl font-bold hidden sm:block"
+          className="text-3xl ml-2 mb-0 sm:text-6xl sm:ml-0 sm:mb-5 text-center font-bold"
           style={{ color: brandColors.blue }}
         >
           {value}%
@@ -34,17 +37,15 @@ const ResultsReachStats = ({ data, className }) => {
         quartile={quartile}
         color={brandColors.blue}
       />
-    </div>
+    </>
   )
 }
 
 ResultsReachStats.propTypes = {
   data: PropTypes.object.isRequired,
-  className: PropTypes.string,
 }
 
 ResultsReachStats.defaultProps = {
-  className: '',
 }
 
 export default ResultsReachStats
