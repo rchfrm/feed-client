@@ -1,5 +1,5 @@
 import React from 'react'
-import useAsyncEffect from 'use-async-effect'
+
 import { useRouter } from 'next/router'
 
 import { AuthContext } from '@/contexts/AuthContext'
@@ -11,17 +11,13 @@ import { setFacebookAccessToken } from '@/app/helpers/facebookHelpers'
 
 import copy from '@/app/copy/global'
 
-const useFbRedirect = (redirectPath, errors, setErrors) => {
-  const redirectUrl = `${process.env.react_app_url}${redirectPath}`
-  const [hasCheckedFbRedirect, setHasCheckedFbRedirect] = React.useState(false)
-
-  const { setIsFacebookRedirect, setMissingScopes } = React.useContext(AuthContext)
-  const { artistId, setArtist } = React.useContext(ArtistContext)
-
-  const stateLocalStorageKey = 'redirectState'
+const useFbRedirect = () => {
+  const { setMissingScopes, setIsFacebookRedirect, setAuthError } = React.useContext(AuthContext)
+  const { setArtist } = React.useContext(ArtistContext)
   const router = useRouter()
 
-  const exchangeCodeForAccessToken = async (code) => {
+  const exchangeCodeForAccessToken = async (code, redirectPath) => {
+    const redirectUrl = `${process.env.react_app_url}${redirectPath}`
     const { res, error } = await setFacebookAccessToken(code, redirectUrl)
 
     return { res, error }
@@ -32,7 +28,7 @@ const useFbRedirect = (redirectPath, errors, setErrors) => {
     setMissingScopes(missingScopes)
   }
 
-  const saveAccessToken = async () => {
+  const saveAccessToken = async (artistId) => {
     const { res, error } = await updateAccessToken(artistId)
 
     // Update facebook granted scopes in artist context
@@ -48,7 +44,7 @@ const useFbRedirect = (redirectPath, errors, setErrors) => {
     return { res, error }
   }
 
-  useAsyncEffect(async (isMounted) => {
+  const checkAndHandleFbRedirect = async (artistId) => {
     // Try to grab query params from Facebook redirect
     const { query } = parseUrl(router.asPath)
     const code = decodeURIComponent(query?.code || '')
@@ -64,43 +60,40 @@ const useFbRedirect = (redirectPath, errors, setErrors) => {
     - Redirect error
     - The state param from the callback doesn't match the state we passed during the redirect request
     */
-    if (!isMounted || !code) {
-      setHasCheckedFbRedirect(true)
+    if (!code) {
       return
     }
 
     router.replace(router.pathname, null)
+    const { state: storedState, redirectPath } = JSON.parse(getLocalStorage('fbRedirect'))
 
-    if (redirectError || state !== getLocalStorage(stateLocalStorageKey)) {
-      setLocalStorage(stateLocalStorageKey, '')
+    if (redirectError || state !== storedState) {
+      setLocalStorage('fbRedirect', null)
 
       if (redirectError) {
-        setErrors([...errors, { message: errorMessage }])
+        setAuthError({ message: errorMessage })
       }
-      setHasCheckedFbRedirect(true)
       return
     }
 
     let grantedScopes = []
-    setLocalStorage(stateLocalStorageKey, '')
+    setLocalStorage('fbRedirect', null)
 
     // Exchange the FB redirect code for an access token
-    const { res: exchangeCodeforTokenRes, error } = await exchangeCodeForAccessToken(code)
+    const { res: exchangeCodeforTokenRes, error } = await exchangeCodeForAccessToken(code, redirectPath)
 
     if (error) {
-      setErrors([...errors, { message: errorMessage }])
-      setHasCheckedFbRedirect(true)
+      setAuthError({ message: errorMessage })
       return
     }
     grantedScopes = exchangeCodeforTokenRes.scopes
 
     // If user has an artist make sure to update the access token in the db
     if (artistId) {
-      const { res: saveAccessTokenRes, error } = await saveAccessToken()
+      const { res: saveAccessTokenRes, error } = await saveAccessToken(artistId)
 
       if (error) {
-        setErrors([...errors, { message: error.message }])
-        setHasCheckedFbRedirect(true)
+        setAuthError({ message: error.message })
         return
       }
       grantedScopes = saveAccessTokenRes.scopes
@@ -108,16 +101,10 @@ const useFbRedirect = (redirectPath, errors, setErrors) => {
 
     // Set missing scopes in auth context
     checkAndSetMissingScopes(grantedScopes)
-
     setIsFacebookRedirect(true)
-    setHasCheckedFbRedirect(true)
-  }, [])
+  }
 
-  React.useEffect(() => {
-    return () => setIsFacebookRedirect(false)
-  }, [setIsFacebookRedirect])
-
-  return { hasCheckedFbRedirect }
+  return { checkAndHandleFbRedirect }
 }
 
 export default useFbRedirect

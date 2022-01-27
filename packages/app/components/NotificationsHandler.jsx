@@ -8,7 +8,6 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import { getUserOrganizations } from '@/app/helpers/userHelpers'
-import { hasSetFacebookAdAccount } from '@/app/helpers/artistHelpers'
 
 const getFetchAndSetNotifications = state => state.fetchAndSetNotifications
 
@@ -17,10 +16,6 @@ const NotificationsHandler = ({}) => {
   const { artistId } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
   const { auth } = React.useContext(AuthContext)
-  const { missingScopes: { account, ads }, providerIds } = auth
-  const missingScopes = hasSetFacebookAdAccount() ? ads : account
-  // Test if has FB auth
-  const hasFbAuth = providerIds.includes('facebook.com')
   // Get function to fetch notifications
   const fetchAndSetNotifications = useNotificationsStore(getFetchAndSetNotifications)
   // Fetch notifications when artist changes
@@ -30,7 +25,7 @@ const NotificationsHandler = ({}) => {
     const orgs = getUserOrganizations(user)
     const organizationIds = orgs.map(({ id }) => id)
     // Fetch and set notifications
-    fetchAndSetNotifications({ artistId, userId, organizationIds, hasFbAuth, missingScopes })
+    fetchAndSetNotifications({ artistId, userId, organizationIds, auth })
   // eslint-disable-next-line
   }, [artistId, user.id, fetchAndSetNotifications])
   return null
