@@ -13,7 +13,11 @@ const ResultsHeaderMenu = ({
   resultsType,
   setIsLoading,
 }) => {
-  const lol = (type) => {
+  const handleItemClick = (type) => {
+    // Don't do anything if we're already on the selected results type
+    if (type === resultsType) {
+      return
+    }
     setIsLoading(true)
     setResultsType(type)
   }
@@ -21,10 +25,10 @@ const ResultsHeaderMenu = ({
   return (
     <Dropdown
       items={['organic', 'paid']}
-      handleItemClick={lol}
+      handleItemClick={handleItemClick}
       buttonClassName="px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1"
     >
-      {!isLast30Days ? (
+      {isLast30Days ? (
         <span>
           <strong>{capitalise(resultsType)}</strong> insights from the <strong>last 30 days</strong>
         </span>

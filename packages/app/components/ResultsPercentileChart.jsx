@@ -8,20 +8,21 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsPercentileChart = ({ percentile, quartile, color }) => {
+  const { value: quartileValue, position: quartilePosition } = quartile
   return (
     <>
       <div className="relative flex w-full h-4 mb-4">
         {[...Array(4)].map((_, index) => (
           <ResultsPercentileChartQuartile
             key={index}
-            isActive={(index + 1) === quartile.value}
+            isActive={(index + 1) === quartileValue}
             isFirstQuartile={index === 0}
             isLastQuartile={index === 3}
             color={color}
           />
         ))}
       </div>
-      <MarkdownText className="text-xs mr-auto" markdown={copy.quartileDescription(quartile.value, percentile)} />
+      <MarkdownText className="w-full text-xs" style={{ textAlign: quartilePosition }} markdown={copy.quartileDescription(quartileValue, percentile)} />
     </>
   )
 }

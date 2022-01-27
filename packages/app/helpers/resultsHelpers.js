@@ -299,24 +299,28 @@ const getQuartile = (percentile) => {
   if (percentile <= 25) {
     return {
       value: 1,
+      position: 'left',
       copy: 'Average',
     }
   }
   if (percentile > 25 && percentile <= 50) {
     return {
       value: 2,
+      position: 'center',
       copy: 'Average',
     }
   }
   if (percentile > 50 && percentile <= 75) {
     return {
       value: 3,
+      position: 'center',
       copy: 'Average',
     }
   }
   if (percentile > 75) {
     return {
       value: 4,
+      position: 'right',
       copy: 'Average',
     }
   }

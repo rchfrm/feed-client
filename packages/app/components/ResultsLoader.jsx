@@ -67,7 +67,7 @@ const ResultsLoader = () => {
     resultsData ? (
       <>
         <ResultsHeader
-          data={resultsData}
+          dateRange={adResultsData?.dateRange}
           resultsType={resultsType}
           setResultsType={setResultsType}
           setIsLoading={setIsLoading}

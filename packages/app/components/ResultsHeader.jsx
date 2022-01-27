@@ -5,12 +5,11 @@ import moment from 'moment'
 import ResultsHeaderMenu from '@/app/ResultsHeaderMenu'
 import ResultsSpendingPausedWarning from '@/app/ResultsSpendingPausedWarning'
 
-const ResultsHeader = ({ data, resultsType, setResultsType, setIsLoading }) => {
-  const { dateRange } = data || {}
+const ResultsHeader = ({ dateRange, resultsType, setResultsType, setIsLoading }) => {
   const yesterday = moment().subtract(1, 'day')
-  const isLast30Days = moment(dateRange?.to).isSame(yesterday, 'day')
-  const dateFrom = moment(dateRange?.from).format('DD MMM')
-  const dateTo = moment(dateRange?.to).format('DD MMM')
+  const isLast30Days = moment(dateRange.to).isSame(yesterday, 'day') || resultsType === 'organic'
+  const dateFrom = moment(dateRange.from).format('DD MMM')
+  const dateTo = moment(dateRange.to).format('DD MMM')
 
   return (
     <div className="flex flex-column sm:flex-row justify-between sm:items-center mb-6 sm:mb-12">
@@ -28,7 +27,17 @@ const ResultsHeader = ({ data, resultsType, setResultsType, setIsLoading }) => {
 }
 
 ResultsHeader.propTypes = {
+  dateRange: PropTypes.object,
   resultsType: PropTypes.string.isRequired,
+  setResultsType: PropTypes.func.isRequired,
+  setIsLoading: PropTypes.func.isRequired,
+}
+
+ResultsHeader.defaultProps = {
+  dateRange: {
+    from: null,
+    to: null,
+  },
 }
 
 export default ResultsHeader
