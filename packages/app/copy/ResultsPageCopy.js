@@ -36,7 +36,7 @@ const optimisationsEventsDictionary = {
     name: 'Content Views',
     fbEventName: 'ViewContent',
     event: 'content views',
-    details: 'an ad about viewing more content',
+    detail: 'an ad about viewing more content',
   },
 }
 
