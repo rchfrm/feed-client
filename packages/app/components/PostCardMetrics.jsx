@@ -51,7 +51,7 @@ const PostCardMetrics = ({
             >
               <div className="col-span-4">
                 <PostCardMetricsScore
-                  score={typeMetrics.engagementScore}
+                  score={type === 'organic' ? typeMetrics.normalizedScore : typeMetrics.engagementScore}
                   metricsType={type}
                   className={[
                     'mb-8 mx-auto',
