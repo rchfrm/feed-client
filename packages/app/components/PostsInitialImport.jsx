@@ -28,7 +28,7 @@ const PostsInitialImport = ({
       return
     }
 
-    if (res.last_update_completed_at) {
+    if (res.initial_assets_scoring_completed_at) {
       clearInterval(intervalId)
       setCanLoadPosts(true)
       return
