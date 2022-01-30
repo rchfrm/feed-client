@@ -1,13 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import { Line } from 'react-chartjs-2'
 
 import * as utils from '@/helpers/utils'
+import * as insightsHelpers from '@/app/helpers/insightsHelpers'
+
 import brandColors from '@/constants/brandColors'
 
 const baseLineConfig = {
   backgroundColor: 'transparent',
+  spanGaps: true,
 }
 
 const baseChartConfig = {
@@ -66,23 +70,46 @@ const baseChartConfig = {
   },
 }
 
-const ChartLine = ({ labels, data }) => {
-  const [chartDataSets, setChartDataSets] = React.useState([])
+const ChartLine = ({ data }) => {
   const [dateLabels, setDateLabels] = React.useState([])
+  const [chartDataSets, setChartDataSets] = React.useState([])
+
+  const createChartData = (data) => {
+    const { source: currentDataSource, platform: currentPlatform } = data
+
+    // Stop if no data source
+    if (!data.source) return
+
+    // Define relevant moments
+    const earliestMoment = moment(data.earliest.date, 'YYYY-MM-DD')
+    const latestMoment = moment(data.mostRecent.date, 'YYYY-MM-DD')
+
+    // Calculate granularity
+    const granularity = insightsHelpers.calcGranularity(earliestMoment, latestMoment)
+
+    // Get period dates and values from the data, based on the granularity
+    const [periodDates, periodValues] = insightsHelpers.getChartData(data, granularity)
+
+    // Cycle through the dates and add the relevant labels
+    const periodLabels = insightsHelpers.getPeriodLabels(periodDates)
+    setDateLabels(periodLabels)
+
+    return {
+      ...baseLineConfig,
+      borderColor: brandColors[currentPlatform].bg,
+      label: currentDataSource,
+      data: periodValues,
+    }
+  }
 
   React.useEffect(() => {
-    const chartData = Object.entries(data).map(([key, value]) => {
-      return {
-        ...baseLineConfig,
-        label: value.text,
-        borderColor: brandColors[key].bg,
-        data: value.values,
-      }
+    const chartData = data.map((dataSource) => {
+      return createChartData(dataSource)
     })
 
     setChartDataSets(chartData)
-    setDateLabels(labels)
-  }, [labels, data])
+  }, [data])
+
 
   return (
     <Line
@@ -98,8 +125,7 @@ const ChartLine = ({ labels, data }) => {
 export default ChartLine
 
 ChartLine.propTypes = {
-  labels: PropTypes.array.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
 }
 
 ChartLine.defaultProps = {

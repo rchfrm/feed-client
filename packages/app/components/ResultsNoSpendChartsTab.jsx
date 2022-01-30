@@ -37,7 +37,7 @@ const ResultsNoSpendChartsTab = ({
 ResultsNoSpendChartsTab.propTypes = {
   audience: PropTypes.string.isRequired,
   audienceType: PropTypes.string.isRequired,
-  setAudienceType: PropTypes.object.isRequired,
+  setAudienceType: PropTypes.func.isRequired,
 }
 
 export default ResultsNoSpendChartsTab
