@@ -145,7 +145,13 @@ We’ll be in touch shortly after with more information.`,
     }
     return 'Your results will appear here soon (within 24 hours of starting ads).'
   },
-  noSpendReachDescription: (value) => `Your posts reach **${value}%** of your addressable audience.`,
+  noSpendReachDescription: (value, isMobile) => {
+    if (isMobile) {
+      return 'The percentage of your audience reached by a typical post.'
+    }
+
+    return `Your posts reach **${value}%** of your addressable audience.`
+  },
   noSpendEngageDescription: (value) => `**${value}%** of your followers engage, with each post on average.`,
   noSpendGrowthDescription: (value) => `You're adding **${value}** followers a month on average.`,
   quartileDescription: (quartile, percentile) => {
