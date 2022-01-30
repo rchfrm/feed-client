@@ -10,10 +10,12 @@ import Router from 'next/router'
 
 import { mixpanelExternalLinkClick } from '@/helpers/mixpanelHelpers'
 import { track } from '@/helpers/trackingHelpers'
+import { handleFbRedirect } from '@/app/helpers/facebookHelpers'
 
-import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
+
+import * as ROUTES from '@/app/constants/routes'
 
 // To parse cases like {{ this }} and {{{ this }}}
 const RE_TEMPLATE = /\{?\{\{\s([a-z0-9_]+)\s\}\}\}?/g
@@ -60,13 +62,6 @@ const getLinkAction = (ctaType, ctaLink, trackingPayload) => {
   }
 }
 
-const getFbRelinkAction = (hasFbAuth, missingScopes) => {
-  if (hasFbAuth) {
-    return firebaseHelpers.reauthFacebook(missingScopes)
-  }
-  return firebaseHelpers.linkFacebookAccount()
-}
-
 // GET ACTION to handle notification
 /**
  * @param {string} entityType 'users' | 'artists' | 'organizations'
@@ -87,15 +82,12 @@ export const getAction = ({
   title,
   isDismissible,
   isActionable,
-  hasFbAuth,
-  missingScopes,
+  auth,
 }) => {
   // Handle relink FB
-  if (
-    topic === 'facebook-expired-access-token'
-    || topic === 'facebook-missing-permissions'
-  ) {
-    return () => getFbRelinkAction(hasFbAuth, missingScopes)
+  if (ctaType === 'fb_reauth') {
+    const { required_scope: requiredScope = [] } = data
+    return () => handleFbRedirect(auth, requiredScope, ROUTES.NOTIFICATIONS)
   }
 
   // Handle no method or link
@@ -177,7 +169,7 @@ const formatNotificationText = (text, data) => {
 // -----------------------
 
 // FORMAT NOTIFICATIONS
-export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAuth = false, missingScopes = [] }) => {
+export const formatNotifications = ({ notificationsRaw, dictionary = {}, auth = {} }) => {
   return notificationsRaw.reduce((allNotifications, notification) => {
     const {
       id,
@@ -230,8 +222,7 @@ export const formatNotifications = ({ notificationsRaw, dictionary = {}, hasFbAu
       title,
       isDismissible,
       isActionable,
-      hasFbAuth,
-      missingScopes,
+      auth,
     })
     // Return formatted notification
     const formattedNotification = {

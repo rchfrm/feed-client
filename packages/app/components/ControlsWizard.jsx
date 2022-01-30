@@ -10,6 +10,8 @@ import ControlsWizardBudgetStep from '@/app/ControlsWizardBudgetStep'
 import ControlsWizardPaymentStep from '@/app/ControlsWizardPaymentStep'
 import ControlsWizardReviewStep from '@/app/ControlsWizardReviewStep'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
 
 const ControlsWizard = ({
@@ -22,6 +24,7 @@ const ControlsWizard = ({
   defaultPaymentMethod,
   isProfilePartOfOrganisation,
 }) => {
+  const { artist } = React.useContext(ArtistContext)
   const [steps, setSteps] = React.useState([])
   const initialSteps = React.useMemo(() => [
     {
@@ -54,7 +57,7 @@ const ControlsWizard = ({
       id: 4,
       title: 'Where are you based?',
       component: <ControlsWizardLocationStep />,
-      shouldSkip: Object.keys(locations).length > 0,
+      shouldSkip: Object.keys(locations).length > 0 || Boolean(artist?.country_code),
       hasSkipButton: true,
     },
     {
