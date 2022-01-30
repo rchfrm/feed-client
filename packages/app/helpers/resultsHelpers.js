@@ -287,7 +287,7 @@ export const getConversionData = (data) => {
   return null
 }
 
-export const noSpendAudiencesTypes = ['reach', 'engage', 'growth']
+export const noSpendAudiencesTypes = ['reach', 'engagement', 'growth']
 
 export const getStatsData = (data) => {
   return {
@@ -354,7 +354,7 @@ export const getNoSpendStatsData = ({ data }) => {
   const engageData = {
     value: engagementRateMedianValue,
     percentile: engagementRateMedianPercentile,
-    quartile: getQuartile(engagementRateMedianPercentile, 'engage'),
+    quartile: getQuartile(engagementRateMedianPercentile, 'engagement'),
     copy: resultsCopy.noSpendEngageDescription(engagementRateMedianValue),
   }
 

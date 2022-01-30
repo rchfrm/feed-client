@@ -10,7 +10,7 @@ const ResultsNoSpendCharts = () => {
 
   const charts = {
     reach: ResultsRecentPostsReachChart,
-    engage: ResultsRecentPostsEngageChart,
+    engagement: ResultsRecentPostsEngageChart,
     growth: ResultsFollowerGrowthChart,
   }
   const Chart = charts[audienceType]
