@@ -152,7 +152,7 @@ We’ll be in touch shortly after with more information.`,
 
     return `Your posts reach **${value}%** of your addressable audience.`
   },
-  noSpendEngageDescription: (value) => `**${value}%** of your followers engage, with each post on average.`,
+  noSpendEngageDescription: (value) => `**${value}%** of your followers engage with each post on average.`,
   noSpendGrowthDescription: (value) => `You're adding **${value}** followers a month on average.`,
   quartileDescription: (quartile, percentile) => {
     if (quartile === 1) {

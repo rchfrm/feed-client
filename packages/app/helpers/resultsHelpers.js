@@ -358,7 +358,7 @@ export const getNoSpendStatsData = ({ data }) => {
     copy: resultsCopy.noSpendEngageDescription(engagementRateMedianValue),
   }
 
-  const followersGrowthAbsoluteMedianValue = (followers_growth_absolute.median.value * 100).toFixed(1)
+  const followersGrowthAbsoluteMedianValue = (followers_growth_absolute.median.value * 100)
   const followersGrowthRateMedianPercentile = (followers_growth_rate.median.percentile * 100).toFixed(1)
 
   const growthData = {

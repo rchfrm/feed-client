@@ -37,21 +37,6 @@ const posts = [
   },
 ]
 
-const legendItems = [
-  {
-    label: 'Global average',
-    value: '4.62%',
-    color: brandColors.black,
-    lineStyle: 'dashed',
-  },
-  {
-    label: 'Your average',
-    value: '5.87%',
-    color: brandColors.greyDark,
-    lineStyle: 'dashed',
-  },
-]
-
 const averages = {
   reach: {
     you: 5.87,
@@ -68,6 +53,21 @@ const ResultsRecentPostsChart = ({ audienceType }) => {
   const maxValue = Math.max(...posts.map((post) => post[audienceType]))
   const yourAverage = averages[audienceType].you
   const globalAverage = averages[audienceType].global
+
+  const legendItems = [
+    {
+      label: 'Global average',
+      value: averages[audienceType].global,
+      color: brandColors.black,
+      lineStyle: 'dashed',
+    },
+    {
+      label: 'Your average',
+      value: averages[audienceType].you,
+      color: brandColors.greyDark,
+      lineStyle: 'dashed',
+    },
+  ]
 
   return (
     <div>
