@@ -1,19 +1,11 @@
 import React from 'react'
 
 import ResultsNoSpendChartsTabs from '@/app/ResultsNoSpendChartsTabs'
-import ResultsRecentPostsReachChart from '@/app/ResultsRecentPostsReachChart'
-import ResultsRecentPostsEngageChart from '@/app/ResultsRecentPostsEngageChart'
+import ResultsRecentPostsChart from '@/app/ResultsRecentPostsChart'
 import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
 
 const ResultsNoSpendCharts = () => {
   const [audienceType, setAudienceType] = React.useState('reach')
-
-  const charts = {
-    reach: ResultsRecentPostsReachChart,
-    engagement: ResultsRecentPostsEngageChart,
-    growth: ResultsFollowerGrowthChart,
-  }
-  const Chart = charts[audienceType]
 
   return (
     <div
@@ -26,7 +18,13 @@ const ResultsNoSpendCharts = () => {
         audienceType={audienceType}
         setAudienceType={setAudienceType}
       />
-      <Chart />
+      {audienceType === 'growth' ? (
+        <ResultsFollowerGrowthChart />
+      ) : (
+        <ResultsRecentPostsChart
+          audienceType={audienceType}
+        />
+      )}
     </div>
   )
 }

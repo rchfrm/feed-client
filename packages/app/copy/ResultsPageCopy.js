@@ -171,4 +171,18 @@ We’ll be in touch shortly after with more information.`,
       return `One of the best - top **${100 - percentile}%**!`
     }
   },
+  recentPostsChartTitle: (audienceType) => {
+    if (audienceType === 'reach') {
+      return 'Reach of your recent posts'
+    }
+
+    return 'Engagement rate of your recent posts'
+  },
+  recentPostsChartDescription: (audienceType) => {
+    if (audienceType === 'reach') {
+      return "See the estimated percentage of your audience your posts from the last 30 days have reached. Your audience is not just your followers, it's also people who have engaged with you before but haven't necessarily followed you."
+    }
+
+    return 'See the percentage of your followers that engaged with your posts from the last 30 days.'
+  },
 }

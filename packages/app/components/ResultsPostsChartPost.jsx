@@ -4,9 +4,15 @@ import { gsap, Power2 } from 'gsap'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-const ResultsPostsChartPost = ({ post, index, lastThirtyDays, maxValue }) => {
-  const postRef = React.useRef({ left: 0, bottom: 0 })
-  const [position, setPosition] = React.useState(0)
+const ResultsPostsChartPost = ({
+  post,
+  value,
+  index,
+  lastThirtyDays,
+  maxValue,
+}) => {
+  const postRef = React.useRef(null)
+  const [position, setPosition] = React.useState({ left: 0, bottom: 0 })
 
   const { left, bottom } = position
   const isDesktopLayout = useBreakpointTest('sm')
@@ -14,11 +20,14 @@ const ResultsPostsChartPost = ({ post, index, lastThirtyDays, maxValue }) => {
   React.useEffect(() => {
     const postIndex = lastThirtyDays.findIndex(day => day === post.date)
 
-    const left = postIndex * (100 / 30)
-    const bottom = (post.reach / maxValue) * 100
+    // Calculate position on x-axis based on the post object index within the last 30 days array
+    const left = postIndex * (100 / lastThirtyDays.length)
+
+    // Calculate position on y-axis based on value (reach or engagement score), highest reach score and post DOM element height.
+    const bottom = (value / maxValue) * 88.5
 
     setPosition({ left, bottom })
-  }, [lastThirtyDays, post.date, post.reach, maxValue])
+  }, [lastThirtyDays, post.date, value, maxValue])
 
   const animatePost = React.useCallback(() => {
     if (postRef.current) {
@@ -35,16 +44,16 @@ const ResultsPostsChartPost = ({ post, index, lastThirtyDays, maxValue }) => {
 
   return (
     <div
-      className="absolute bottom-0 rounded-dialogue z-10"
+      className="absolute bottom-0 z-10"
       style={{
-        paddingTop: '6%',
+        // paddingTop: '6%',
         width: '6%',
         left: `${left}%`,
-        transform: 'translateX(-25%) translateY(100%)',
-        background: 'rgb(63,94,251) linear-gradient(90deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)',
+        transform: 'translateX(-25%)',
       }}
       ref={postRef}
     >
+      <img src="/images/dummyPostImages/dolo-iglesias.png" className="rounded-dialogue" alt="post image" />
       <div
         className="absolute bg-white px-1 rounded-dialogue border border-solid border-1"
         style={{
@@ -54,7 +63,7 @@ const ResultsPostsChartPost = ({ post, index, lastThirtyDays, maxValue }) => {
           fontSize: !isDesktopLayout ? '8px' : '12px',
         }}
       >
-        {post.reach}%
+        {value}%
       </div>
     </div>
   )
@@ -62,6 +71,7 @@ const ResultsPostsChartPost = ({ post, index, lastThirtyDays, maxValue }) => {
 
 ResultsPostsChartPost.propTypes = {
   post: PropTypes.object.isRequired,
+  value: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   lastThirtyDays: PropTypes.array.isRequired,
   maxValue: PropTypes.number.isRequired,

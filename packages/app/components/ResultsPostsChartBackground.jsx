@@ -10,16 +10,8 @@ const ResultsPostsChartBackground = ({
   yourAverage,
   globalAverage,
 }) => {
-  const [globalAveragePosition, setGlobalAveragePosition] = React.useState(0)
-  const [yourAveragePosition, setYourAveragePosition] = React.useState(0)
-
-  React.useEffect(() => {
-    setGlobalAveragePosition((globalAverage / maxValue) * 100)
-    setYourAveragePosition((yourAverage / maxValue) * 100)
-  }, [globalAverage, yourAverage, maxValue])
-
   return (
-    <div className={['w-full relative'].join(' ')}>
+    <>
       <div
         className="relative"
         style={{ paddingTop: '52.2%' }}
@@ -34,9 +26,9 @@ const ResultsPostsChartBackground = ({
         />
         {children}
       </div>
-      <ResultsPostsChartAverageLine bottom={globalAveragePosition} color={brandColors.black} />
-      <ResultsPostsChartAverageLine bottom={yourAveragePosition} color={brandColors.grey} />
-    </div>
+      <ResultsPostsChartAverageLine value={globalAverage} maxValue={maxValue} color={brandColors.black} />
+      <ResultsPostsChartAverageLine value={yourAverage} maxValue={maxValue} color={brandColors.grey} />
+    </>
   )
 }
 
