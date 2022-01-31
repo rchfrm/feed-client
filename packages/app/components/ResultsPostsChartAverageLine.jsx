@@ -6,7 +6,7 @@ const ResultsPostsChartAverageLine = ({ bottom, color }) => {
     <span
       className="w-full border-t border-dashed absolute"
       style={{
-        bottom,
+        bottom: `${bottom}%`,
         height: '2px',
         borderColor: color,
       }}
