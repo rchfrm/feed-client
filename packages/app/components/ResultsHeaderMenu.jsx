@@ -31,16 +31,16 @@ const ResultsHeaderMenu = ({
     <Dropdown
       items={['organic', 'paid']}
       handleItemClick={handleItemClick}
-      buttonClassName="px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1"
+      buttonClassName="w-full xs:w-auto px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1 text-left"
       disabled={!isSpendingArtist}
     >
       {isLast30Days ? (
         <span>
-          <strong>{capitalise(resultsType)}</strong> insights from the <strong>last 30 days</strong>
+          <span className="font-bold underline">{capitalise(resultsType)}</span> insights, <strong>last 30 days...</strong>
         </span>
       ) : (
         <span>
-          <strong>{capitalise(resultsType)}</strong> insights from <strong>{dateFrom}</strong> to <strong>{dateTo}</strong>
+          <span className="font-bold underline">{capitalise(resultsType)}</span> insights from <strong>{dateFrom}</strong> to <strong>{dateTo}</strong>
         </span>
       )}
     </Dropdown>

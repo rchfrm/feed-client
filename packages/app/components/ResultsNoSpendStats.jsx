@@ -5,59 +5,54 @@ import ResultsReachStats from '@/app/ResultsReachStats'
 import ResultsEngageStats from '@/app/ResultsEngageStats'
 import ResultsGrowthStats from '@/app/ResultsGrowthStats'
 
-import { getNoSpendStatsData } from '@/app/helpers/resultsHelpers'
+import { getNoSpendStatsData, noSpendAudiencesTypes } from '@/app/helpers/resultsHelpers'
 
-import MarkdownText from '@/elements/MarkdownText'
+const ResultsNoSpendStats = ({
+  data,
+  audienceType,
+  setHasGrowth,
+  isDesktopLayout,
+  className,
+}) => {
+  const [statsData, setStatsData] = React.useState(null)
 
-const ResultsNoSpendStats = ({ data, setHasGrowth }) => {
-  const [reachData, setReachData] = React.useState(null)
-  const [engageData, setEngageData] = React.useState(null)
-  const [growthData, setGrowthData] = React.useState(null)
+  const components = {
+    reach: ResultsReachStats,
+    engagement: ResultsEngageStats,
+    growth: ResultsGrowthStats,
+  }
 
   React.useEffect(() => {
-    const {
-      reachData,
-      engageData,
-      growthData,
-    } = getNoSpendStatsData(data)
+    const noSpendData = getNoSpendStatsData(data)
 
-    setReachData(reachData)
-    setEngageData(engageData)
-    setGrowthData(growthData)
-
-    setHasGrowth(growthData.hasGrowth)
+    setStatsData(noSpendData)
+    setHasGrowth(noSpendData.growth.hasGrowth)
   }, [data, setHasGrowth])
 
   return (
-    <>
-      <div className="col-span-12 sm:col-span-4">
-        {reachData ? (
-          <ResultsReachStats data={reachData} />
-        ) : (
-          <MarkdownText markdown="No data.." className="px-16 text-center text-xl text-blue" />
-        )}
-      </div>
-      <div className="col-span-12 sm:col-span-4">
-        {engageData ? (
-          <ResultsEngageStats data={engageData} className="flex flex-col sm:items-center" />
-        ) : (
-          <MarkdownText markdown="No data.." className="px-16 text-center text-xl text-green" />
-        )}
-      </div>
-      <div className="col-span-12 sm:col-span-4">
-        {growthData ? (
-          <ResultsGrowthStats data={growthData} className="flex flex-col sm:items-center" />
-        ) : (
-          <MarkdownText markdown="No data.." className="px-16 text-center text-xl text-insta" />
-        )}
-      </div>
-    </>
+    statsData && (
+      <>
+        {noSpendAudiencesTypes.map((type) => {
+          if ((isDesktopLayout && statsData[type]) || (!isDesktopLayout && audienceType === type)) {
+            const ResultsStats = components[type]
+
+            return (
+              <div className={[className, 'col-span-12 sm:col-span-4'].join(' ')}>
+                <ResultsStats data={statsData[type]} />
+              </div>
+            )
+          }
+          return null
+        })}
+      </>
+    )
   )
 }
 
 ResultsNoSpendStats.propTypes = {
   data: PropTypes.object.isRequired,
   setHasGrowth: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 }
 
 ResultsNoSpendStats.defaultProps = {

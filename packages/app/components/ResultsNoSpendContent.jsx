@@ -2,10 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ResultsNoSpendStats from '@/app/ResultsNoSpendStats'
+import ResultsNoSpendChartsTabs from '@/app/ResultsNoSpendChartsTabs'
 import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 const ResultsNoSpendContent = ({ data }) => {
+  const [audienceType, setAudienceType] = React.useState('reach')
   const [hasGrowth, setHasGrowth] = React.useState(true)
+
+  const isDesktopLayout = useBreakpointTest('sm')
 
   return (
     <div className="grid grid-cols-12 sm:col-gap-12 mb-8">
@@ -16,8 +22,20 @@ const ResultsNoSpendContent = ({ data }) => {
           'sm:mb-0',
         ].join(' ')}
         >
-          <ResultsNoSpendStats data={data} setHasGrowth={setHasGrowth} />
-          <ResultsNoSpendCharts hasGrowth={hasGrowth} />
+          <ResultsNoSpendStats
+            data={data}
+            audienceType={audienceType}
+            setHasGrowth={setHasGrowth}
+            isDesktopLayout={isDesktopLayout}
+            className={isDesktopLayout ? 'order-1' : 'order-2'}
+          />
+          <ResultsNoSpendChartsTabs
+            audienceType={audienceType}
+            setAudienceType={setAudienceType}
+            hasGrowth={hasGrowth}
+            className={isDesktopLayout ? 'order-2' : 'order-1'}
+          />
+          <ResultsNoSpendCharts audienceType={audienceType} className="order-3" />
         </div>
       </div>
     </div>

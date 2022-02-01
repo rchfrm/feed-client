@@ -54,7 +54,7 @@ const Dropdown = ({
       {isOpen && (
         <ul
           className={[
-            'absolute top-2 left-2 p-2',
+            'absolute z-10 top-2 left-2 p-2',
             'border-2 border-solid border-black',
             'bg-white rounded-dialogue',
           ].join(' ')}

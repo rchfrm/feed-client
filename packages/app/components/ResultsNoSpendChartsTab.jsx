@@ -19,18 +19,22 @@ const ResultsNoSpendChartsTab = ({
   }
 
   return (
-    <li className="relative col-span-4 flex flex-column justify-center items-center">
-      {!isDesktopLayout && <p className="mb-2">{capitalise(audience)}</p>}
+    <li className="relative col-span-4 flex justify-center">
       <button
         onClick={() => onClick(audience)}
-        className={[
-          'flex justify-center items-center',
-          'w-6 h-6 sm:w-12 sm:h-12',
-          'border-2 border-solid border-black',
-          'rounded-full',
-        ].join(' ')}
+        className="flex flex-column justify-center items-center"
       >
-        {isActive && <div className="w-3 h-3 sm:w-6 sm:h-6 rounded-full bg-green" />}
+        {!isDesktopLayout && <p className="mb-2">{capitalise(audience)}</p>}
+        <div
+          className={[
+            'flex justify-center items-center',
+            'w-6 h-6 sm:w-12 sm:h-12',
+            'border-2 border-solid border-black',
+            'rounded-full',
+          ].join(' ')}
+        >
+          {isActive && <div className="w-3 h-3 sm:w-6 sm:h-6 rounded-full bg-green" />}
+        </div>
       </button>
       {isDesktopLayout && (
         <ResultsNoSpendChartsTabLine

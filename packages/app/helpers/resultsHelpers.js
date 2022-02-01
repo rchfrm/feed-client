@@ -384,7 +384,7 @@ export const getNoSpendStatsData = ({ data }) => {
     }
   }
 
-  return { reachData, engageData, growthData }
+  return { reach: reachData, engagement: engageData, growth: growthData }
 }
 
 // GET AD RESULTS SUMMARY
