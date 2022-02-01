@@ -289,6 +289,17 @@ export const getConversionData = (data) => {
 
 export const noSpendAudiencesTypes = ['reach', 'engagement', 'growth']
 
+export const noSpendDataSources = [
+  {
+    platform: 'facebook',
+    source: 'facebook_likes',
+  },
+  {
+    platform: 'instagram',
+    source: 'instagram_follower_count',
+  },
+]
+
 export const getStatsData = (data) => {
   return {
     newAudienceData: getNewAudienceData(data),

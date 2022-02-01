@@ -52,6 +52,8 @@ ResultsHeaderMenu.propTypes = {
   dateFrom: PropTypes.string.isRequired,
   dateTo: PropTypes.string.isRequired,
   setResultsType: PropTypes.func.isRequired,
+  resultsType: PropTypes.string.isRequired,
+  setIsLoading: PropTypes.func.isRequired,
 }
 
 export default ResultsHeaderMenu

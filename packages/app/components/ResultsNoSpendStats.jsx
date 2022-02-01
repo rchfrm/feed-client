@@ -52,6 +52,8 @@ const ResultsNoSpendStats = ({
 ResultsNoSpendStats.propTypes = {
   data: PropTypes.object.isRequired,
   setHasGrowth: PropTypes.func.isRequired,
+  audienceType: PropTypes.string.isRequired,
+  isDesktopLayout: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
 }
 

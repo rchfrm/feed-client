@@ -46,7 +46,6 @@ const ResultsPostsChartPost = ({
     <div
       className="absolute bottom-0 z-10"
       style={{
-        // paddingTop: '6%',
         width: '6%',
         left: `${left}%`,
         transform: 'translateX(-25%)',

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const ResultsPercentileChartQuartile = ({
   isActive,
@@ -37,6 +38,10 @@ const ResultsPercentileChartQuartile = ({
 }
 
 ResultsPercentileChartQuartile.propTypes = {
+  isActive: PropTypes.bool.isRequired,
+  isFirstQuartile: PropTypes.bool.isRequired,
+  isLastQuartile: PropTypes.bool.isRequired,
+  color: PropTypes.string.isRequired,
 }
 
 ResultsPercentileChartQuartile.defaultProps = {

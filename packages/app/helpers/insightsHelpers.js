@@ -106,7 +106,7 @@ export const formatProjection = (projections) => {
   })
 }
 
-export const formatServerData = ({ dailyData, dates, currentDataSource, currentPlatform, projection }) => {
+export const formatServerData = ({ dailyData, dates = {}, currentDataSource, currentPlatform, projection }) => {
   // Convert dates object to array
   const dataArray = Object.entries(dailyData)
     // Sort by dates, chronologically

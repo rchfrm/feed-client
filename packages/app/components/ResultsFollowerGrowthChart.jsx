@@ -1,6 +1,5 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
-import moment from 'moment'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -10,47 +9,26 @@ import ChartLine from '@/app/ChartLine'
 import ResultsChartHeader from '@/app/ResultsChartHeader'
 
 import brandColors from '@/constants/brandColors'
+
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { formatServerData } from '@/app/helpers/insightsHelpers'
-
+import { noSpendDataSources } from '@/app/helpers/resultsHelpers'
+import { capitalise } from '@/helpers/utils'
 
 const ResultsFollowerGrowthChart = () => {
   const { artistId } = React.useContext(ArtistContext)
   const [dailyData, setDailyData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(null)
 
-  const dataSources = [
-    {
-      platform: 'facebook',
-      source: 'facebook_likes',
-    },
-    {
-      platform: 'instagram',
-      source: 'instagram_follower_count',
-    },
-  ]
-
-  const dates = React.useMemo(() => {
-    return {
-      today: moment().format('YYYY-MM-DD'),
-      yesterday: moment().subtract(1, 'days').format('YYYY-MM-DD'),
-      twoDaysBefore: moment().subtract(2, 'days').format('YYYY-MM-DD'),
-      sevenDaysBefore: moment().subtract(7, 'days').format('YYYY-MM-DD'),
-      oneMonthBefore: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-      sixMonthsBefore: moment().subtract(6, 'month').format('YYYY-MM-DD'),
-      startOfYear: moment().startOf('year').format('YYYY-MM-DD'),
-    }
-  }, [])
-
   useAsyncEffect(async (isMounted) => {
     if (!isMounted) return
 
     setIsLoading(true)
-
+    const dataSources = noSpendDataSources.map(({ source }) => source)
     const {
       facebook_likes,
       instagram_follower_count,
-    } = await getDataSourceValue(['facebook_likes', 'instagram_follower_count'], artistId)
+    } = await getDataSourceValue(dataSources, artistId)
 
     const dailyFacebookData = facebook_likes?.daily_data
     const dailyInstagramData = instagram_follower_count?.daily_data
@@ -61,13 +39,12 @@ const ResultsFollowerGrowthChart = () => {
         return
       }
 
-      const { source, platform } = dataSources[index]
+      const { source, platform } = noSpendDataSources[index]
 
       return formatServerData({
         dailyData,
         currentDataSource: source,
         currentPlatform: platform,
-        dates,
       })
     })
 
@@ -80,18 +57,11 @@ const ResultsFollowerGrowthChart = () => {
     setIsLoading(false)
   }, [])
 
-  const legendItems = [
-    {
-      label: 'Instagram',
-      color: brandColors.instagram.bg,
-      lineStyle: 'solid',
-    },
-    {
-      label: 'Facebook',
-      color: brandColors.facebook.bg,
-      lineStyle: 'solid',
-    },
-  ]
+  const legendItems = noSpendDataSources.map(({ platform }) => ({
+    label: capitalise(platform),
+    color: brandColors[platform].bg,
+    lineStyle: 'solid',
+  }))
 
   return (
     <>
