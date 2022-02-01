@@ -8,7 +8,7 @@ import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 const ResultsNoSpendContent = ({ data }) => {
-  const [audienceType, setAudienceType] = React.useState('reach')
+  const [metricType, setMetricType] = React.useState('reach')
   const [hasGrowth, setHasGrowth] = React.useState(true)
 
   const isDesktopLayout = useBreakpointTest('sm')
@@ -24,18 +24,18 @@ const ResultsNoSpendContent = ({ data }) => {
         >
           <ResultsNoSpendStats
             data={data}
-            audienceType={audienceType}
+            metricType={metricType}
             setHasGrowth={setHasGrowth}
             isDesktopLayout={isDesktopLayout}
             className={isDesktopLayout ? 'order-1' : 'order-2'}
           />
           <ResultsNoSpendChartsTabs
-            audienceType={audienceType}
-            setAudienceType={setAudienceType}
+            metricType={metricType}
+            setMetricType={setMetricType}
             hasGrowth={hasGrowth}
             className={isDesktopLayout ? 'order-2' : 'order-1'}
           />
-          <ResultsNoSpendCharts audienceType={audienceType} className="order-3" />
+          <ResultsNoSpendCharts metricType={metricType} className="order-3" />
         </div>
       </div>
     </div>

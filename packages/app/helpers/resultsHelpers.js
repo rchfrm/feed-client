@@ -287,7 +287,7 @@ export const getConversionData = (data) => {
   return null
 }
 
-export const noSpendAudiencesTypes = ['reach', 'engagement', 'growth']
+export const noSpendMetricTypes = ['reach', 'engagement', 'growth']
 
 export const noSpendDataSources = [
   {

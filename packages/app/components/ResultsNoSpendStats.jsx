@@ -5,11 +5,11 @@ import ResultsReachStats from '@/app/ResultsReachStats'
 import ResultsEngageStats from '@/app/ResultsEngageStats'
 import ResultsGrowthStats from '@/app/ResultsGrowthStats'
 
-import { getNoSpendStatsData, noSpendAudiencesTypes } from '@/app/helpers/resultsHelpers'
+import { getNoSpendStatsData, noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendStats = ({
   data,
-  audienceType,
+  metricType,
   setHasGrowth,
   isDesktopLayout,
   className,
@@ -32,8 +32,8 @@ const ResultsNoSpendStats = ({
   return (
     statsData && (
       <>
-        {noSpendAudiencesTypes.map((type) => {
-          if ((isDesktopLayout && statsData[type]) || (!isDesktopLayout && audienceType === type)) {
+        {noSpendMetricTypes.map((type) => {
+          if ((isDesktopLayout && statsData[type]) || (!isDesktopLayout && metricType === type)) {
             const ResultsStats = components[type]
 
             return (
@@ -52,7 +52,7 @@ const ResultsNoSpendStats = ({
 ResultsNoSpendStats.propTypes = {
   data: PropTypes.object.isRequired,
   setHasGrowth: PropTypes.func.isRequired,
-  audienceType: PropTypes.string.isRequired,
+  metricType: PropTypes.string.isRequired,
   isDesktopLayout: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
 }

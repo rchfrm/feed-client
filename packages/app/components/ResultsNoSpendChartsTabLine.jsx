@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { noSpendAudiencesTypes } from '@/app/helpers/resultsHelpers'
+import { noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
 
-const ResultsNoSpendChartsTabLine = ({ audienceType, isActive }) => {
+const ResultsNoSpendChartsTabLine = ({ metricType, isActive }) => {
   const getWidth = () => {
-    switch (audienceType) {
-      case noSpendAudiencesTypes[0]:
+    switch (metricType) {
+      case noSpendMetricTypes[0]:
         return '25%'
-      case noSpendAudiencesTypes[1]:
+      case noSpendMetricTypes[1]:
         return '125%'
-      case noSpendAudiencesTypes[2]:
+      case noSpendMetricTypes[2]:
         return '250%'
       default:
         return '100%'
@@ -18,12 +18,12 @@ const ResultsNoSpendChartsTabLine = ({ audienceType, isActive }) => {
   }
 
   const getRightOffset = () => {
-    switch (audienceType) {
-      case noSpendAudiencesTypes[0]:
+    switch (metricType) {
+      case noSpendMetricTypes[0]:
         return '75%'
-      case noSpendAudiencesTypes[1]:
+      case noSpendMetricTypes[1]:
         return '175%'
-      case noSpendAudiencesTypes[2]:
+      case noSpendMetricTypes[2]:
         return '300%'
       default:
         return '100%'
@@ -65,7 +65,7 @@ const ResultsNoSpendChartsTabLine = ({ audienceType, isActive }) => {
 }
 
 ResultsNoSpendChartsTabLine.propTypes = {
-  audienceType: PropTypes.string.isRequired,
+  metricType: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
 }
 

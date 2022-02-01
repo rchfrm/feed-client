@@ -7,24 +7,24 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { capitalise } from '@/helpers/utils'
 
 const ResultsNoSpendChartsTab = ({
-  audience,
-  audienceType,
-  setAudienceType,
+  type,
+  metricType,
+  setMetricType,
 }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const isActive = audienceType === audience
+  const isActive = metricType === type
 
   const onClick = (audience) => {
-    setAudienceType(audience)
+    setMetricType(audience)
   }
 
   return (
     <li className="relative col-span-4 flex justify-center">
       <button
-        onClick={() => onClick(audience)}
+        onClick={() => onClick(type)}
         className="flex flex-column justify-center items-center"
       >
-        {!isDesktopLayout && <p className="mb-2">{capitalise(audience)}</p>}
+        {!isDesktopLayout && <p className="mb-2">{capitalise(type)}</p>}
         <div
           className={[
             'flex justify-center items-center',
@@ -38,7 +38,7 @@ const ResultsNoSpendChartsTab = ({
       </button>
       {isDesktopLayout && (
         <ResultsNoSpendChartsTabLine
-          audienceType={audienceType}
+          metricType={metricType}
           isActive={isActive}
         />
       )}
@@ -47,9 +47,9 @@ const ResultsNoSpendChartsTab = ({
 }
 
 ResultsNoSpendChartsTab.propTypes = {
-  audience: PropTypes.string.isRequired,
-  audienceType: PropTypes.string.isRequired,
-  setAudienceType: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  metricType: PropTypes.string.isRequired,
+  setMetricType: PropTypes.func.isRequired,
 }
 
 export default ResultsNoSpendChartsTab

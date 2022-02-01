@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ResultsNoSpendChartsTab from '@/app/ResultsNoSpendChartsTab'
-import { noSpendAudiencesTypes } from '@/app/helpers/resultsHelpers'
+import { noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendChartsTabs = ({
-  audienceType,
-  setAudienceType,
+  metricType,
+  setMetricType,
   hasGrowth,
   className,
 }) => {
@@ -17,15 +17,15 @@ const ResultsNoSpendChartsTabs = ({
       'justify-around mb-0',
     ].join(' ')}
     >
-      {noSpendAudiencesTypes.map((audience) => {
-        if (!hasGrowth && audience === 'growth') return
+      {noSpendMetricTypes.map((type) => {
+        if (!hasGrowth && type === 'growth') return
 
         return (
           <ResultsNoSpendChartsTab
-            key={audience}
-            audience={audience}
-            setAudienceType={setAudienceType}
-            audienceType={audienceType}
+            key={type}
+            type={type}
+            setMetricType={setMetricType}
+            metricType={metricType}
           />
         )
       })}
@@ -34,8 +34,8 @@ const ResultsNoSpendChartsTabs = ({
 }
 
 ResultsNoSpendChartsTabs.propTypes = {
-  audienceType: PropTypes.string.isRequired,
-  setAudienceType: PropTypes.func.isRequired,
+  metricType: PropTypes.string.isRequired,
+  setMetricType: PropTypes.func.isRequired,
   hasGrowth: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
 }

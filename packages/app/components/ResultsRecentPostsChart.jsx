@@ -48,22 +48,22 @@ const averages = {
   },
 }
 
-const ResultsRecentPostsChart = ({ audienceType }) => {
+const ResultsRecentPostsChart = ({ metricType }) => {
   const lastThirtyDays = [...new Array(30)].map((_, index) => moment().startOf('day').subtract(index, 'days').format('YYYY-MM-DD')).reverse()
-  const maxValue = Math.max(...posts.map((post) => post[audienceType]))
-  const yourAverage = averages[audienceType].you
-  const globalAverage = averages[audienceType].global
+  const maxValue = Math.max(...posts.map((post) => post[metricType]))
+  const yourAverage = averages[metricType].you
+  const globalAverage = averages[metricType].global
 
   const legendItems = [
     {
       label: 'Global average',
-      value: averages[audienceType].global,
+      value: averages[metricType].global,
       color: brandColors.black,
       lineStyle: 'dashed',
     },
     {
       label: 'Your average',
-      value: averages[audienceType].you,
+      value: averages[metricType].you,
       color: brandColors.greyDark,
       lineStyle: 'dashed',
     },
@@ -72,8 +72,8 @@ const ResultsRecentPostsChart = ({ audienceType }) => {
   return (
     <div>
       <ResultsChartHeader
-        title={copy.recentPostsChartTitle(audienceType)}
-        description={copy.recentPostsChartDescription(audienceType)}
+        title={copy.recentPostsChartTitle(metricType)}
+        description={copy.recentPostsChartDescription(metricType)}
         legendItems={legendItems}
       />
       <div className="w-full relative">
@@ -87,7 +87,7 @@ const ResultsRecentPostsChart = ({ audienceType }) => {
               key={post.reach}
               index={index}
               post={post}
-              value={post[audienceType]}
+              value={post[metricType]}
               lastThirtyDays={lastThirtyDays}
               maxValue={maxValue}
             />
@@ -99,7 +99,7 @@ const ResultsRecentPostsChart = ({ audienceType }) => {
 }
 
 ResultsRecentPostsChart.propTypes = {
-  audienceType: PropTypes.string.isRequired,
+  metricType: PropTypes.string.isRequired,
 }
 
 ResultsRecentPostsChart.defaultProps = {
