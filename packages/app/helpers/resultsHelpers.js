@@ -333,8 +333,12 @@ export const getNoSpendStatsData = ({ data }) => {
     aggregated: {
       reach_rate,
       engagement_rate,
-      followers_growth_absolute,
-      followers_growth_rate,
+    },
+    followers: {
+      all_platforms: {
+        growth_absolute,
+        growth_rate,
+      },
     },
   } = data
 
@@ -358,14 +362,26 @@ export const getNoSpendStatsData = ({ data }) => {
     copy: resultsCopy.noSpendEngageDescription(engagementRateMedianValue),
   }
 
-  const followersGrowthAbsoluteMedianValue = (followers_growth_absolute.median.value * 100)
-  const followersGrowthRateMedianPercentile = (followers_growth_rate.median.percentile * 100).toFixed(1)
+  let growthData = {}
+  const hasGrowth = true
 
-  const growthData = {
-    value: followersGrowthAbsoluteMedianValue,
-    percentile: followersGrowthRateMedianPercentile,
-    quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
-    copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue),
+  if (hasGrowth) {
+    const followersGrowthAbsoluteMedianValue = (growth_absolute.median.value * 100)
+    const followersGrowthRateMedianPercentile = (growth_rate.median.percentile * 100).toFixed(1)
+
+    growthData = {
+      value: followersGrowthAbsoluteMedianValue,
+      percentile: followersGrowthRateMedianPercentile,
+      quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
+      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue),
+      hasGrowth: true,
+    }
+  } else {
+    growthData = {
+      value: 1538,
+      copy: resultsCopy.noSpendTotalFollowersDescription,
+      hasGrowth: false,
+    }
   }
 
   return { reachData, engageData, growthData }

@@ -9,7 +9,7 @@ import { getNoSpendStatsData } from '@/app/helpers/resultsHelpers'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-const ResultsNoSpendStats = ({ data }) => {
+const ResultsNoSpendStats = ({ data, setHasGrowth }) => {
   const [reachData, setReachData] = React.useState(null)
   const [engageData, setEngageData] = React.useState(null)
   const [growthData, setGrowthData] = React.useState(null)
@@ -24,7 +24,9 @@ const ResultsNoSpendStats = ({ data }) => {
     setReachData(reachData)
     setEngageData(engageData)
     setGrowthData(growthData)
-  }, [data])
+
+    setHasGrowth(growthData.hasGrowth)
+  }, [data, setHasGrowth])
 
   return (
     <>
@@ -55,6 +57,7 @@ const ResultsNoSpendStats = ({ data }) => {
 
 ResultsNoSpendStats.propTypes = {
   data: PropTypes.object.isRequired,
+  setHasGrowth: PropTypes.func.isRequired,
 }
 
 ResultsNoSpendStats.defaultProps = {

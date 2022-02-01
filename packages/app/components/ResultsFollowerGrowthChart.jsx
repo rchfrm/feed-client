@@ -43,15 +43,16 @@ const ResultsFollowerGrowthChart = () => {
     if (!isMounted) return
 
     const {
-      facebook_likes: {
-        daily_data: dailyFacebookData,
-      },
-      instagram_follower_count: {
-        daily_data: dailyInstagramData,
-      },
+      facebook_likes,
+      instagram_follower_count,
     } = await getDataSourceValue(['facebook_likes', 'instagram_follower_count'], artistId)
 
+    const dailyFacebookData = facebook_likes?.daily_data
+    const dailyInstagramData = instagram_follower_count?.daily_data
+
     const formattedData = [dailyFacebookData, dailyInstagramData].map((dailyData, index) => {
+      if (!dailyData || !Object.keys(dailyData).length) return
+
       const { source, platform } = dataSources[index]
 
       return formatServerData({
@@ -61,6 +62,10 @@ const ResultsFollowerGrowthChart = () => {
         dates,
       })
     })
+
+    if (!formattedData.filter(data => data).length) {
+      return
+    }
 
     setDailyData(formattedData)
   }, [])
@@ -78,8 +83,6 @@ const ResultsFollowerGrowthChart = () => {
     },
   ]
 
-  if (!dailyData) return null
-
   return (
     <>
       <ResultsChartHeader
@@ -87,9 +90,13 @@ const ResultsFollowerGrowthChart = () => {
         description="See how your Facebook Likes and Instagram Followers are growing over time."
         legendItems={legendItems}
       />
-      <ChartLine
-        data={dailyData}
-      />
+      {dailyData ? (
+        <ChartLine
+          data={dailyData}
+        />
+      ) : (
+        <p className="w-full text-center">There is currently no follower growth data available.</p>
+      )}
     </>
   )
 }

@@ -9,16 +9,17 @@ import PlusIcon from '@/icons/PlusIcon'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import brandColors from '@/constants/brandColors'
+import { formatNumber } from '@/helpers/utils'
 
 const ResultsGrowthStats = ({ data }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const { value, percentile, quartile, copy } = data
+  const { value, percentile, quartile, copy, hasGrowth } = data
 
   return (
     <>
       <div className="flex sm:flex-col items-center justify-between">
         <div>
-          <p className="font-bold text-xl sm:text-center">{quartile.copy} growth</p>
+          <p className="font-bold text-xl sm:text-center">{hasGrowth ? `${quartile.copy} growth` : 'Tracking'}</p>
           <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
             <MarkdownText
               markdown={copy}
@@ -32,15 +33,17 @@ const ResultsGrowthStats = ({ data }) => {
             className="text-3xl ml-2 mb-0 sm:text-6xl sm:ml-0 sm:mb-5 text-center font-bold"
             style={{ color: brandColors.instagram.bg }}
           >
-            {value}
+            {formatNumber(value)}
           </p>
         </div>
       </div>
-      <ResultsPercentileChart
-        percentile={percentile}
-        quartile={quartile}
-        color={brandColors.instagram.bg}
-      />
+      {hasGrowth && (
+        <ResultsPercentileChart
+          percentile={percentile}
+          quartile={quartile}
+          color={brandColors.instagram.bg}
+        />
+      )}
     </>
   )
 }

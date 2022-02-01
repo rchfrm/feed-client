@@ -154,6 +154,7 @@ We’ll be in touch shortly after with more information.`,
   },
   noSpendEngageDescription: (value) => `**${value}%** of your followers engage with each post on average.`,
   noSpendGrowthDescription: (value) => `You're adding **${value}** followers a month on average.`,
+  noSpendTotalFollowersDescription: "We can't access historical information, so check back in a week to see growth insights.",
   quartileDescription: (quartile, percentile) => {
     if (quartile === 1) {
       return `Room to improve, but better than **${percentile}%** of others`
