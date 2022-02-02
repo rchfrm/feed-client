@@ -9,7 +9,7 @@ import ResultsNoSpendChartsTabs from '@/app/ResultsNoSpendChartsTabs'
 import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-import { getNoSpendStatsData } from '@/app/helpers/resultsHelpers'
+import { getOrganicBenchmarkData } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendContent = ({ data }) => {
   const [resultsData, setResultsData] = React.useState(null)
@@ -23,10 +23,10 @@ const ResultsNoSpendContent = ({ data }) => {
   useAsyncEffect(async (isMounted) => {
     if (!isMounted()) return
 
-    const noSpendData = await getNoSpendStatsData(data, artistId)
+    const organicBenchmarkData = await getOrganicBenchmarkData(data, artistId)
 
-    setResultsData(noSpendData)
-    setHasGrowth(noSpendData.growth.hasGrowth)
+    setResultsData(organicBenchmarkData)
+    setHasGrowth(organicBenchmarkData.growth.hasGrowth)
   }, [data, setHasGrowth, artistId])
 
   return (

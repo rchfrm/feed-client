@@ -14,7 +14,11 @@ const ChartLegend = ({ items }) => {
             }}
           />
           {label}
-          {value && <span className="ml-1 font-bold">{value}</span>}
+          {value && (
+          <span className="ml-1 font-bold">{value}
+            <span>%</span>
+          </span>
+          )}
         </li>
       ))}
     </ul>

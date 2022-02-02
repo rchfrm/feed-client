@@ -355,7 +355,7 @@ export const getDataSourceValues = async (artistId) => {
   }
 }
 
-export const getNoSpendStatsData = async ({ data }, artistId) => {
+export const getOrganicBenchmarkData = async ({ data }, artistId) => {
   const {
     aggregated: {
       reach_rate,
@@ -416,6 +416,27 @@ export const getNoSpendStatsData = async ({ data }, artistId) => {
   }
 
   return { reach: reachData, engagement: engageData, growth: growthData }
+}
+
+export const getAggregatedOrganicBenchmarkData = ({ data }) => {
+  const {
+    aggregated: {
+      reach_rate,
+      engagement_rate,
+    },
+  } = data
+
+  const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
+  const reachData = {
+    value: reachRateMedianValue,
+  }
+
+  const engagementRateMedianValue = (engagement_rate.median.value * 100).toFixed(1)
+  const engageData = {
+    value: engagementRateMedianValue,
+  }
+
+  return { reach: reachData, engagement: engageData }
 }
 
 // GET AD RESULTS SUMMARY
