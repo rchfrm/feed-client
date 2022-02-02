@@ -10,9 +10,8 @@ import ResultsChartHeader from '@/app/ResultsChartHeader'
 
 import brandColors from '@/constants/brandColors'
 
-import { getDataSourceValue } from '@/app/helpers/appServer'
 import { formatServerData } from '@/app/helpers/insightsHelpers'
-import { noSpendDataSources } from '@/app/helpers/resultsHelpers'
+import { noSpendDataSources, getDataSourceValues } from '@/app/helpers/resultsHelpers'
 import { capitalise } from '@/helpers/utils'
 
 const ResultsFollowerGrowthChart = () => {
@@ -24,14 +23,11 @@ const ResultsFollowerGrowthChart = () => {
     if (!isMounted) return
 
     setIsLoading(true)
-    const dataSources = noSpendDataSources.map(({ source }) => source)
-    const {
-      facebook_likes,
-      instagram_follower_count,
-    } = await getDataSourceValue(dataSources, artistId)
 
-    const dailyFacebookData = facebook_likes?.daily_data
-    const dailyInstagramData = instagram_follower_count?.daily_data
+    const {
+      dailyFacebookData,
+      dailyInstagramData,
+    } = await getDataSourceValues(artistId)
 
     const formattedData = [dailyFacebookData, dailyInstagramData].map((dailyData, index) => {
       if (!dailyData || !Object.keys(dailyData).length) {

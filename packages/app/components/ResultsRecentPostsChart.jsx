@@ -37,33 +37,21 @@ const posts = [
   },
 ]
 
-const averages = {
-  reach: {
-    you: 5.87,
-    global: 4.62,
-  },
-  engagement: {
-    you: 6.22,
-    global: 3.98,
-  },
-}
-
-const ResultsRecentPostsChart = ({ metricType }) => {
+const ResultsRecentPostsChart = ({ metricType, yourAverage }) => {
   const lastThirtyDays = [...new Array(30)].map((_, index) => moment().startOf('day').subtract(index, 'days').format('YYYY-MM-DD')).reverse()
   const maxValue = Math.max(...posts.map((post) => post[metricType]))
-  const yourAverage = averages[metricType].you
-  const globalAverage = averages[metricType].global
+  const globalAverage = 5.4
 
   const legendItems = [
     {
       label: 'Global average',
-      value: averages[metricType].global,
+      value: globalAverage,
       color: brandColors.black,
       lineStyle: 'dashed',
     },
     {
       label: 'Your average',
-      value: averages[metricType].you,
+      value: yourAverage,
       color: brandColors.greyDark,
       lineStyle: 'dashed',
     },

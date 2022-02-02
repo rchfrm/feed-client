@@ -1,17 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
+
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ResultsNoSpendStats from '@/app/ResultsNoSpendStats'
 import ResultsNoSpendChartsTabs from '@/app/ResultsNoSpendChartsTabs'
 import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import { getNoSpendStatsData } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendContent = ({ data }) => {
+  const [resultsData, setResultsData] = React.useState(null)
   const [metricType, setMetricType] = React.useState('reach')
   const [hasGrowth, setHasGrowth] = React.useState(true)
 
+  const { artistId } = React.useContext(ArtistContext)
+
   const isDesktopLayout = useBreakpointTest('sm')
+
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted()) return
+
+    const noSpendData = await getNoSpendStatsData(data, artistId)
+
+    setResultsData(noSpendData)
+    setHasGrowth(noSpendData.growth.hasGrowth)
+  }, [data, setHasGrowth, artistId])
 
   return (
     <div className="grid grid-cols-12 sm:col-gap-12 mb-8">
@@ -23,7 +39,7 @@ const ResultsNoSpendContent = ({ data }) => {
         ].join(' ')}
         >
           <ResultsNoSpendStats
-            data={data}
+            data={resultsData}
             metricType={metricType}
             setHasGrowth={setHasGrowth}
             isDesktopLayout={isDesktopLayout}
@@ -35,7 +51,13 @@ const ResultsNoSpendContent = ({ data }) => {
             hasGrowth={hasGrowth}
             className={isDesktopLayout ? 'order-2' : 'order-1'}
           />
-          <ResultsNoSpendCharts metricType={metricType} className="order-3" />
+          {resultsData && (
+            <ResultsNoSpendCharts
+              data={resultsData}
+              metricType={metricType}
+              className="order-3"
+            />
+          )}
         </div>
       </div>
     </div>

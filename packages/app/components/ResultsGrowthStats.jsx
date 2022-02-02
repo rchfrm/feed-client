@@ -19,7 +19,7 @@ const ResultsGrowthStats = ({ data }) => {
     <>
       <div className="flex sm:flex-col items-center justify-between">
         <div>
-          <p className="font-bold text-xl sm:text-center">{hasGrowth ? `${quartile.copy} growth` : 'Tracking'}</p>
+          <p className="font-bold text-xl sm:text-center">{hasGrowth ? `${quartile.copy} growth` : 'Tracking...'}</p>
           <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
             <MarkdownText
               markdown={copy}
@@ -28,7 +28,7 @@ const ResultsGrowthStats = ({ data }) => {
           </div>
         </div>
         <div className="flex items-center">
-          <PlusIcon className="h-8 w-8 mr-1 mb-4 hidden sm:block" fill={brandColors.instagram.bg} style={{ filter: 'brightness(75%)' }} />
+          {(hasGrowth && value > 0) && <PlusIcon className="h-8 w-8 mr-1 mb-4 hidden sm:block" fill={brandColors.instagram.bg} style={{ filter: 'brightness(75%)' }} />}
           <p
             className="text-3xl ml-2 mb-0 sm:text-6xl sm:ml-0 sm:mb-5 text-center font-bold"
             style={{ color: brandColors.instagram.bg }}
@@ -37,12 +37,17 @@ const ResultsGrowthStats = ({ data }) => {
           </p>
         </div>
       </div>
-      {hasGrowth && (
+      {hasGrowth ? (
         <ResultsPercentileChart
           percentile={percentile}
           quartile={quartile}
           color={brandColors.instagram.bg}
         />
+      ) : (
+        <div className="flex flex-column items-center">
+          <p className="mb-0 font-bold">Total Followers</p>
+          <p className="text-sm">(Instagram)</p>
+        </div>
       )}
     </>
   )

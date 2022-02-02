@@ -1,9 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import * as api from '@/helpers/api'
+import moment from 'moment'
 
 import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
 import { formatCurrency } from '@/helpers/utils'
+import { getDataSourceValue } from '@/app/helpers/appServer'
 
 export const postResultsConfig = [
   {
@@ -339,7 +341,21 @@ const getQuartile = (percentile, audience) => {
   }
 }
 
-export const getNoSpendStatsData = ({ data }) => {
+
+export const getDataSourceValues = async (artistId) => {
+  const dataSources = noSpendDataSources.map(({ source }) => source)
+  const {
+    facebook_likes,
+    instagram_follower_count,
+  } = await getDataSourceValue(dataSources, artistId)
+
+  return {
+    dailyFacebookData: facebook_likes?.daily_data,
+    dailyInstagramData: instagram_follower_count?.daily_data,
+  }
+}
+
+export const getNoSpendStatsData = async ({ data }, artistId) => {
   const {
     aggregated: {
       reach_rate,
@@ -388,8 +404,12 @@ export const getNoSpendStatsData = ({ data }) => {
       hasGrowth: true,
     }
   } else {
+    const today = moment().format('YYYY-MM-DD')
+    const { dailyInstagramData } = await getDataSourceValues(artistId)
+    const totalInstagramFollowers = dailyInstagramData[today]
+
     growthData = {
-      value: 1538,
+      value: totalInstagramFollowers,
       copy: resultsCopy.noSpendTotalFollowersDescription,
       hasGrowth: false,
     }
