@@ -34,6 +34,9 @@ const baseChartConfig = {
       gridLines: {
         display: false,
       },
+      ticks: {
+        maxTicksLimit: 3,
+      },
     }],
     yAxes: [{
       gridLines: {
@@ -44,6 +47,7 @@ const baseChartConfig = {
         callback: (value) => {
           return utils.abbreviateNumber(value)
         },
+        maxTicksLimit: 3,
       },
     }],
   },

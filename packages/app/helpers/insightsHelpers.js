@@ -305,7 +305,7 @@ export const getPeriodLabels = (periodDates) => {
   const earliestYear = moment(earliestDate, 'YYYY-MM-DD').year()
   const lastYear = moment(lastDate, 'YYYY-MM-DD').year()
   return periodDates.map((date) => {
-    const labelFormat = earliestYear !== lastYear ? 'DD MMM YYYY' : 'DD MMM'
+    const labelFormat = earliestYear !== lastYear ? 'MMM YY' : 'DD MMM'
     const dateMoment = moment(date, 'YYYY-MM-DD')
     return dateMoment.format(labelFormat)
   })
