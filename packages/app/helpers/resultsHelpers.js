@@ -439,6 +439,30 @@ export const getAggregatedOrganicBenchmarkData = ({ data }) => {
   return { reach: reachData, engagement: engageData }
 }
 
+export const formatRecentPosts = (posts) => {
+  const formattedPosts = posts.map((post) => {
+    const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
+    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url) || []
+    const thumbnails = [
+      post.display?.media?.media_library?.source,
+      post.display?.thumbnail_url,
+      ...thumbnailUrls,
+    ]
+
+    return {
+      id: post.id,
+      publishDate: moment(post.published_time).format('YYYY-MM-DD'),
+      reach: (post.reach_rate * 100).toFixed(1),
+      engagement: (post.engagement_rate * 100).toFixed(1),
+      media,
+      thumbnails,
+      postType: post.subtype || post.type,
+    }
+  })
+
+  return formattedPosts
+}
+
 // GET AD RESULTS SUMMARY
 /**
  * @param {string} artistId

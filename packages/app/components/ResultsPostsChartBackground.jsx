@@ -35,11 +35,13 @@ const ResultsPostsChartBackground = ({
 ResultsPostsChartBackground.propTypes = {
   children: PropTypes.node.isRequired,
   maxValue: PropTypes.number.isRequired,
-  yourAverage: PropTypes.number.isRequired,
-  globalAverage: PropTypes.number.isRequired,
+  yourAverage: PropTypes.string,
+  globalAverage: PropTypes.string,
 }
 
 ResultsPostsChartBackground.defaultProps = {
+  yourAverage: '',
+  globalAverage: '',
 }
 
 export default ResultsPostsChartBackground

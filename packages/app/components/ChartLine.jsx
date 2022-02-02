@@ -36,6 +36,8 @@ const baseChartConfig = {
       },
       ticks: {
         maxTicksLimit: 3,
+        maxRotation: 0,
+        minRotation: 0,
       },
     }],
     yAxes: [{

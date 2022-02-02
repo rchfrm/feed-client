@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { gsap, Power2 } from 'gsap'
 
+import PostCardMedia from '@/app/PostCardMedia'
+
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 const ResultsPostsChartPost = ({
@@ -18,7 +20,7 @@ const ResultsPostsChartPost = ({
   const isDesktopLayout = useBreakpointTest('sm')
 
   React.useEffect(() => {
-    const postIndex = lastThirtyDays.findIndex(day => day === post.date)
+    const postIndex = lastThirtyDays.findIndex(day => day === post.publishDate)
 
     // Calculate position on x-axis based on the post object index within the last 30 days array
     const left = postIndex * (100 / lastThirtyDays.length)
@@ -27,7 +29,7 @@ const ResultsPostsChartPost = ({
     const bottom = (value / maxValue) * 88.5
 
     setPosition({ left, bottom })
-  }, [lastThirtyDays, post.date, value, maxValue])
+  }, [lastThirtyDays, post.publishDate, value, maxValue])
 
   const animatePost = React.useCallback(() => {
     if (postRef.current) {
@@ -52,7 +54,11 @@ const ResultsPostsChartPost = ({
       }}
       ref={postRef}
     >
-      <img src="/images/dummyPostImages/dolo-iglesias.png" className="rounded-dialogue" alt="post image" />
+      <PostCardMedia
+        media={post.media}
+        thumbnails={post.thumbnails}
+        postType={post.postType}
+      />
       <div
         className="absolute bg-white px-1 rounded-dialogue border border-solid border-1"
         style={{
@@ -70,7 +76,7 @@ const ResultsPostsChartPost = ({
 
 ResultsPostsChartPost.propTypes = {
   post: PropTypes.object.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   lastThirtyDays: PropTypes.array.isRequired,
   maxValue: PropTypes.number.isRequired,

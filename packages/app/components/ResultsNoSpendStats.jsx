@@ -27,7 +27,7 @@ const ResultsNoSpendStats = ({
             const ResultsStats = components[type]
 
             return (
-              <div className={[className, 'col-span-12 sm:col-span-4'].join(' ')}>
+              <div key={type} className={[className, 'col-span-12 sm:col-span-4'].join(' ')}>
                 <ResultsStats data={data[type]} />
               </div>
             )
@@ -40,13 +40,14 @@ const ResultsNoSpendStats = ({
 }
 
 ResultsNoSpendStats.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   metricType: PropTypes.string.isRequired,
   isDesktopLayout: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
 }
 
 ResultsNoSpendStats.defaultProps = {
+  data: null,
 }
 
 export default ResultsNoSpendStats
