@@ -65,24 +65,27 @@ const ResultsFollowerGrowthChart = () => {
 
   return (
     <>
-      <ResultsChartHeader
-        title="Follower growth"
-        description="See how your Facebook Likes and Instagram Followers are growing over time."
-        legendItems={legendItems}
-      />
-      <div className="relative w-full" style={{ paddingTop: '50%' }}>
-        <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
-          {dailyData ? (
-            <ChartLine data={dailyData} />
-          ) : (
-            isLoading ? (
-              <Spinner />
-            ) : (
-              <p className="w-full mb-auto text-center">There is currently no follower growth data available.</p>
-            )
-          )}
-        </div>
-      </div>
+      <p className="font-bold text-xl">Follower growth</p>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        dailyData ? (
+          <>
+            <ResultsChartHeader
+              title="Follower growth"
+              description="See how your Facebook Likes and Instagram Followers are growing over time."
+              legendItems={legendItems}
+            />
+            <div className="relative w-full" style={{ paddingTop: '50%' }}>
+              <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+                <ChartLine data={dailyData} />
+              </div>
+            </div>
+          </>
+        ) : (
+          <p className="w-full mb-auto">There is currently no follower growth data available.</p>
+        )
+      )}
     </>
   )
 }

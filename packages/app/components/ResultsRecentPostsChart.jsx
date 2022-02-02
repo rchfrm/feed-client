@@ -11,7 +11,7 @@ import copy from '@/app/copy/ResultsPageCopy'
 
 const posts = [
   {
-    date: '2022-01-03',
+    date: '2022-01-06',
     reach: 12,
     engagement: 2,
   },
@@ -71,8 +71,8 @@ const ResultsRecentPostsChart = ({ metricType }) => {
 
   return (
     <div>
+      <p className="font-bold text-xl">{copy.recentPostsChartTitle(metricType)}</p>
       <ResultsChartHeader
-        title={copy.recentPostsChartTitle(metricType)}
         description={copy.recentPostsChartDescription(metricType)}
         legendItems={legendItems}
       />

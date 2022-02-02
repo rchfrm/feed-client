@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 
 import ChartLegend from '@/app/ChartLegend'
 
-const ResultsChartHeader = ({ title, description, legendItems }) => {
+const ResultsChartHeader = ({ description, legendItems }) => {
   return (
     <div className="w-full xs:w-1/2 mb-4 text-xs">
-      <p className="font-bold text-xl">{title}</p>
       <p>{description}</p>
       <ChartLegend
         items={legendItems}
@@ -16,7 +15,6 @@ const ResultsChartHeader = ({ title, description, legendItems }) => {
 }
 
 ResultsChartHeader.propTypes = {
-  title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   legendItems: PropTypes.array.isRequired,
 }

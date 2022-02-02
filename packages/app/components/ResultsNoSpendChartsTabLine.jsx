@@ -55,7 +55,7 @@ const ResultsNoSpendChartsTabLine = ({ metricType, isActive }) => {
           className="absolute h-4 bg-black"
           style={{
             width: '1px',
-            top: '76px',
+            top: '75px',
             right: getRightOffset(),
           }}
         />
