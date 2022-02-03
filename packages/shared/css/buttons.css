@@ -113,6 +113,34 @@ a[type=button] {
   }
 }
 
+.button--blue {
+  background-color: var(--blue);
+
+  @mixin canHover {
+    &:hover {
+      background-color: var(--blue);
+    }
+  }
+
+  &:focus {
+    background-color: var(--blue);
+  }
+}
+
+.button--pink {
+  background-color: var(--pink);
+
+  @mixin canHover {
+    &:hover {
+      background-color: var(--pink);
+    }
+  }
+
+  &:focus {
+    background-color: var(--pink);
+  }
+}
+
 .button--red {
   background-color: var(--error-color);
 

@@ -36,6 +36,7 @@ const WizardContext = React.createContext(initialContext)
 const WizardContextProvider = ({ steps, children, hasBackButton }) => {
   const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, {})
   const [currentStep, setCurrentStep] = React.useState(0)
+  const [stepsHistory, setStepsHistory] = React.useState([0])
   const { hasSkipButton = false } = steps[currentStep]
   const totalSteps = steps.length - 1
   const isFirstStep = currentStep === 0
@@ -43,11 +44,20 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
   const next = React.useCallback(() => {
     if (currentStep === totalSteps) return
     setCurrentStep(currentStep + 1)
-  }, [currentStep, totalSteps])
+    setStepsHistory([...stepsHistory, currentStep + 1])
+  }, [currentStep, totalSteps, stepsHistory])
 
   const back = () => {
     if (currentStep === 0) return
-    setCurrentStep(currentStep - 1)
+    const filteredSteps = stepsHistory.filter((step) => step !== currentStep)
+
+    setStepsHistory(filteredSteps)
+    setCurrentStep(filteredSteps[filteredSteps.length - 1])
+  }
+
+  const goToStep = (step) => {
+    setCurrentStep(step)
+    setStepsHistory([...stepsHistory, step])
   }
 
   return (
@@ -56,7 +66,7 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
         next,
         back,
         currentStep,
-        setCurrentStep,
+        goToStep,
         wizardState,
         setWizardState,
       }}

@@ -13,13 +13,15 @@ const GetStartedLinkStep = () => {
   }
 
   return (
-    <Button
-      version="outline-green"
-      onClick={handleNext}
-      className=""
-    >
-      Next
-    </Button>
+    <div className="flex flex-1 justify-center items-center">
+      <Button
+        version="outline-green"
+        onClick={handleNext}
+        className=""
+      >
+        Next
+      </Button>
+    </div>
   )
 }
 
