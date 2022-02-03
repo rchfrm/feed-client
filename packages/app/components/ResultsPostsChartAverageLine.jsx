@@ -2,8 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { gsap, Power2 } from 'gsap'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 const ResultsPostsChartAverageLine = ({ value, maxValue, color }) => {
   const lineRef = React.useRef(null)
+  const isDesktopLayout = useBreakpointTest('sm')
   const [linePosition, setLinePosition] = React.useState(0)
 
   React.useEffect(() => {
@@ -25,9 +28,10 @@ const ResultsPostsChartAverageLine = ({ value, maxValue, color }) => {
 
   return (
     <span
-      className="w-full border-t border-dashed absolute"
+      className="border-t border-dashed absolute"
       style={{
         height: '2px',
+        width: isDesktopLayout ? '100%' : '800px',
         borderColor: color,
       }}
       ref={lineRef}

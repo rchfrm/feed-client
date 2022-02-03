@@ -393,8 +393,8 @@ export const getOrganicBenchmarkData = async ({ data }, artistId) => {
   const hasGrowth = true
 
   if (hasGrowth) {
-    const followersGrowthAbsoluteMedianValue = (growth_absolute.median.value * 100)
-    const followersGrowthRateMedianPercentile = (growth_rate.median.percentile * 100).toFixed(1)
+    const followersGrowthAbsoluteMedianValue = (growth_absolute.value * 100)
+    const followersGrowthRateMedianPercentile = (growth_rate.percentile * 100).toFixed(1)
 
     growthData = {
       value: followersGrowthAbsoluteMedianValue,

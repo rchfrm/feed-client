@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ResultsPostsChartAverageLine from '@/app/ResultsPostsChartAverageLine'
-import brandColors from '../../shared/constants/brandColors'
+import brandColors from '@/constants/brandColors'
+
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 const ResultsPostsChartBackground = ({
   children,
@@ -10,11 +12,17 @@ const ResultsPostsChartBackground = ({
   yourAverage,
   globalAverage,
 }) => {
+  const isDesktopLayout = useBreakpointTest('sm')
+
   return (
     <>
       <div
         className="relative"
-        style={{ paddingTop: '52.2%' }}
+        style={{
+          paddingTop: '52.2%',
+          width: isDesktopLayout ? 'auto' : '800px',
+          height: isDesktopLayout ? 'auto' : '418px',
+        }}
       >
         <img
           src="/images/posts_chart_bg.png"

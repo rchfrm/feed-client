@@ -64,7 +64,7 @@ const ResultsPostsChartPost = ({
           left: '50%',
           bottom: '-8px',
           transform: 'translateX(-50%)',
-          fontSize: !isDesktopLayout ? '8px' : '12px',
+          fontSize: isDesktopLayout ? '12px' : '9px',
         }}
       >
         {value}%
