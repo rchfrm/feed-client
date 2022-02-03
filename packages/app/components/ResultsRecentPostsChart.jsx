@@ -61,7 +61,7 @@ const ResultsRecentPostsChart = ({ metricType, yourAverage, globalAverage }) => 
         description={copy.recentPostsChartDescription(metricType)}
         legendItems={legendItems}
       />
-      <div className="w-full relative overflow-x-scroll overflow-y-hidden sm:overflow-x-hidden">
+      <div className="w-full relative overflow-x-scroll overflow-y-hidden sm:overflow-x-hidden pb-2">
         <ResultsPostsChartBackground
           maxValue={maxValue}
           yourAverage={yourAverage}
