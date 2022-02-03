@@ -9,7 +9,6 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 const ResultsPostsChartPost = ({
   post,
   value,
-  index,
   lastThirtyDays,
   maxValue,
 }) => {
@@ -20,7 +19,7 @@ const ResultsPostsChartPost = ({
   const isDesktopLayout = useBreakpointTest('sm')
 
   React.useEffect(() => {
-    const postIndex = lastThirtyDays.findIndex(day => day === post.publishDate)
+    const postIndex = lastThirtyDays.findIndex(day => day === post.publishedTime)
 
     // Calculate position on x-axis based on the post object index within the last 30 days array
     const left = postIndex * (100 / lastThirtyDays.length)
@@ -29,16 +28,16 @@ const ResultsPostsChartPost = ({
     const bottom = (value / maxValue) * 88.5
 
     setPosition({ left, bottom })
-  }, [lastThirtyDays, post.publishDate, value, maxValue])
+  }, [lastThirtyDays, post.publishedTime, value, maxValue])
 
   const animatePost = React.useCallback(() => {
     if (postRef.current) {
       const ease = Power2.easeOut
       const duration = 1
 
-      gsap.to(postRef.current, { bottom: `${bottom}%`, ease, duration, delay: index / 10 })
+      gsap.to(postRef.current, { bottom: `${bottom}%`, ease, duration })
     }
-  }, [bottom, index])
+  }, [bottom])
 
   React.useEffect(() => {
     animatePost()

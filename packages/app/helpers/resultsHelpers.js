@@ -451,7 +451,7 @@ export const formatRecentPosts = (posts) => {
 
     return {
       id: post.id,
-      publishDate: moment(post.published_time).format('YYYY-MM-DD'),
+      publishedTime: moment(post.published_time).format('YYYY-MM-DD'),
       reach: (post.reach_rate * 100).toFixed(1),
       engagement: (post.engagement_rate * 100).toFixed(1),
       media,

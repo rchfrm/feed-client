@@ -21,7 +21,7 @@ const ResultsRecentPostsChart = ({ metricType, yourAverage, globalAverage }) => 
   const { artistId } = React.useContext(ArtistContext)
 
   const lastThirtyDays = [...new Array(30)].map((_, index) => moment().startOf('day').subtract(index, 'days').format('YYYY-MM-DD')).reverse()
-  const maxValue = Math.max(...posts.map((post) => post[metricType]), yourAverage, globalAverage)
+  const maxValue = Math.max(...posts.map((post) => post[metricType]), yourAverage, globalAverage) + 1
 
   const legendItems = [
     {
@@ -41,7 +41,14 @@ const ResultsRecentPostsChart = ({ metricType, yourAverage, globalAverage }) => 
   useAsyncEffect(async (isMounted) => {
     if (!isMounted()) return
 
-    const res = await server.getPosts({ artistId, limit: 20 })
+    const res = await server.getPosts({
+      artistId,
+      filterBy: {
+        date_from: [moment().subtract(30, 'days')],
+        date_to: [moment()],
+      },
+      limit: 60,
+    })
     const formattedRecentPosts = formatRecentPosts(res)
 
     setPosts(formattedRecentPosts)
@@ -60,16 +67,13 @@ const ResultsRecentPostsChart = ({ metricType, yourAverage, globalAverage }) => 
           yourAverage={yourAverage}
           globalAverage={globalAverage}
         >
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <ResultsPostsChartPost
-              artistId={artistId}
               key={post.id}
-              index={index}
               post={post}
               value={post[metricType]}
               lastThirtyDays={lastThirtyDays}
               maxValue={maxValue}
-              metricType={metricType}
             />
           ))}
         </ResultsPostsChartBackground>
