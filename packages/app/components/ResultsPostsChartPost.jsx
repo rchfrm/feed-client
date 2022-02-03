@@ -76,7 +76,6 @@ const ResultsPostsChartPost = ({
 ResultsPostsChartPost.propTypes = {
   post: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
   lastThirtyDays: PropTypes.array.isRequired,
   maxValue: PropTypes.number.isRequired,
 }
