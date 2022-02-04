@@ -341,7 +341,6 @@ const getQuartile = (percentile, audience) => {
   }
 }
 
-
 export const getDataSourceValues = async (artistId) => {
   const dataSources = noSpendDataSources.map(({ source }) => source)
   const {
@@ -355,7 +354,7 @@ export const getDataSourceValues = async (artistId) => {
   }
 }
 
-export const getOrganicBenchmarkData = async ({ data }, artistId) => {
+export const getOrganicBenchmarkData = ({ data }) => {
   const {
     aggregated: {
       reach_rate,
@@ -365,6 +364,7 @@ export const getOrganicBenchmarkData = async ({ data }, artistId) => {
       all_platforms: {
         growth_absolute,
         growth_rate,
+        number_of_followers,
       },
     },
   } = data
@@ -403,12 +403,8 @@ export const getOrganicBenchmarkData = async ({ data }, artistId) => {
       hasGrowth: true,
     }
   } else {
-    const today = moment().format('YYYY-MM-DD')
-    const { dailyFacebookData, dailyInstagramData } = await getDataSourceValues(artistId)
-    const totalFollowers = dailyFacebookData[today] + dailyInstagramData[today]
-
     growthData = {
-      value: totalFollowers,
+      value: number_of_followers.value,
       copy: resultsCopy.noSpendTotalFollowersDescription,
       hasGrowth: false,
     }

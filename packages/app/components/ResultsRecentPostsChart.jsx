@@ -9,6 +9,8 @@ import ResultsChartHeader from '@/app/ResultsChartHeader'
 import ResultsPostsChartPost from '@/app/ResultsPostsChartPost'
 import ResultsPostsChartBackground from '@/app/ResultsPostsChartBackground'
 
+import Spinner from '@/elements/Spinner'
+
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
 
 import brandColors from '@/constants/brandColors'
@@ -18,6 +20,7 @@ import * as server from '@/app/helpers/appServer'
 
 const ResultsRecentPostsChart = ({ metricType, yourAverage, globalAverage }) => {
   const [posts, setPosts] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
 
   const lastThirtyDays = [...new Array(30)].map((_, index) => moment().startOf('day').subtract(index, 'days').format('YYYY-MM-DD')).reverse()
@@ -40,6 +43,7 @@ const ResultsRecentPostsChart = ({ metricType, yourAverage, globalAverage }) => 
 
   useAsyncEffect(async (isMounted) => {
     if (!isMounted()) return
+    setIsLoading(true)
 
     const res = await server.getPosts({
       artistId,
@@ -52,6 +56,7 @@ const ResultsRecentPostsChart = ({ metricType, yourAverage, globalAverage }) => 
     const formattedRecentPosts = formatRecentPosts(res)
 
     setPosts(formattedRecentPosts)
+    setIsLoading(false)
   }, [])
 
   return (
@@ -61,32 +66,44 @@ const ResultsRecentPostsChart = ({ metricType, yourAverage, globalAverage }) => 
         description={copy.recentPostsChartDescription(metricType)}
         legendItems={legendItems}
       />
-      <div className="w-full relative overflow-x-scroll overflow-y-hidden sm:overflow-x-hidden pb-2">
-        <ResultsPostsChartBackground
-          maxValue={maxValue}
-          yourAverage={yourAverage}
-          globalAverage={globalAverage}
-        >
-          {posts.map((post) => (
-            <ResultsPostsChartPost
-              key={post.id}
-              post={post}
-              value={post[metricType]}
-              lastThirtyDays={lastThirtyDays}
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        posts.length ? (
+          <div className="w-full relative overflow-x-scroll overflow-y-hidden sm:overflow-x-hidden pb-2">
+            <ResultsPostsChartBackground
               maxValue={maxValue}
-            />
-          ))}
-        </ResultsPostsChartBackground>
-      </div>
+              yourAverage={yourAverage}
+              globalAverage={globalAverage}
+            >
+              {posts.map((post) => (
+                <ResultsPostsChartPost
+                  key={post.id}
+                  post={post}
+                  value={post[metricType]}
+                  lastThirtyDays={lastThirtyDays}
+                  maxValue={maxValue}
+                />
+              ))}
+            </ResultsPostsChartBackground>
+          </div>
+        ) : (
+          <p>No posts found within the last 30 days.</p>
+        )
+      )}
     </div>
   )
 }
 
 ResultsRecentPostsChart.propTypes = {
   metricType: PropTypes.string.isRequired,
+  yourAverage: PropTypes.string,
+  globalAverage: PropTypes.string,
 }
 
 ResultsRecentPostsChart.defaultProps = {
+  yourAverage: '',
+  globalAverage: '',
 }
 
 export default ResultsRecentPostsChart

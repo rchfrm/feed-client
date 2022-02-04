@@ -1,8 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useAsyncEffect from 'use-async-effect'
-
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ResultsNoSpendStats from '@/app/ResultsNoSpendStats'
 import ResultsNoSpendChartsTabs from '@/app/ResultsNoSpendChartsTabs'
@@ -16,18 +13,14 @@ const ResultsNoSpendContent = ({ data }) => {
   const [metricType, setMetricType] = React.useState('reach')
   const [hasGrowth, setHasGrowth] = React.useState(true)
 
-  const { artistId } = React.useContext(ArtistContext)
-
   const isDesktopLayout = useBreakpointTest('sm')
 
-  useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
-
-    const organicBenchmarkData = await getOrganicBenchmarkData(data, artistId)
+  React.useEffect(() => {
+    const organicBenchmarkData = getOrganicBenchmarkData(data)
 
     setResultsData(organicBenchmarkData)
     setHasGrowth(organicBenchmarkData.growth.hasGrowth)
-  }, [data, setHasGrowth, artistId])
+  }, [data, setHasGrowth])
 
   return (
     <div className="grid grid-cols-12 sm:col-gap-12 mb-8">

@@ -169,7 +169,7 @@ We’ll be in touch shortly after with more information.`,
     }
 
     if (quartile === 4) {
-      return `One of the best - top **${100 - percentile}%**!`
+      return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
     }
   },
   recentPostsChartTitle: (metricType) => {
