@@ -90,8 +90,16 @@ export const filterTypes = [
         title: 'Running',
       },
       {
+        slug: 'in_review',
+        title: 'In Review',
+      },
+      {
         slug: 'archived',
         title: 'Inactive',
+      },
+      {
+        slug: 'rejected',
+        title: 'Rejected',
       },
       {
         slug: 'inactive',
