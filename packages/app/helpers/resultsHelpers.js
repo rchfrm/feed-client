@@ -390,9 +390,8 @@ export const getOrganicBenchmarkData = async ({ data }, artistId) => {
   }
 
   let growthData = {}
-  const hasGrowth = true
 
-  if (hasGrowth) {
+  if (!growth_absolute.value) {
     const followersGrowthAbsoluteMedianValue = (growth_absolute.value * 100)
     const followersGrowthRateMedianPercentile = (growth_rate.percentile * 100).toFixed(1)
 
@@ -405,11 +404,11 @@ export const getOrganicBenchmarkData = async ({ data }, artistId) => {
     }
   } else {
     const today = moment().format('YYYY-MM-DD')
-    const { dailyInstagramData } = await getDataSourceValues(artistId)
-    const totalInstagramFollowers = dailyInstagramData[today]
+    const { dailyFacebookData, dailyInstagramData } = await getDataSourceValues(artistId)
+    const totalFollowers = dailyFacebookData[today] + dailyInstagramData[today]
 
     growthData = {
-      value: totalInstagramFollowers,
+      value: totalFollowers,
       copy: resultsCopy.noSpendTotalFollowersDescription,
       hasGrowth: false,
     }

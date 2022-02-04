@@ -46,7 +46,7 @@ const ResultsGrowthStats = ({ data }) => {
       ) : (
         <div className="flex flex-column items-center">
           <p className="mb-0 font-bold">Total Followers</p>
-          <p className="text-sm">(Instagram)</p>
+          <p className="text-sm">(Facebook &amp; Instagram)</p>
         </div>
       )}
     </>
