@@ -153,8 +153,8 @@ We’ll be in touch shortly after with more information.`,
     return `Your posts reach **${value}%** of your addressable audience.`
   },
   noSpendEngageDescription: (value) => `**${value}%** of your followers engage with each post on average.`,
-  noSpendGrowthDescription: (value) => `You're adding **${value}** followers a month on average.`,
-  noSpendTotalFollowersDescription: "We can't access historical information, so check back in a week to see growth insights.",
+  noSpendGrowthDescription: (value) => `You're adding **${value}** followers a month on average across Facebook & Instagram.`,
+  noSpendTotalFollowersDescription: "We don't have enough historical information yet, so check back later to see growth insights.",
   quartileDescription: (quartile, percentile) => {
     if (quartile === 1) {
       return `Room to improve, but better than **${percentile}%** of others`
@@ -181,7 +181,7 @@ We’ll be in touch shortly after with more information.`,
   },
   recentPostsChartDescription: (metricType) => {
     if (metricType === 'reach') {
-      return "See the estimated percentage of your audience your posts from the last 30 days have reached. Your audience is not just your followers, it's also people who have engaged with you before but haven't necessarily followed you."
+      return "See the estimated percentage of your audience your posts have reached in the last 30 days. Your audience isn't just followers, it’s also people who have engaged with you before but haven’t followed you yet."
     }
 
     return 'See the percentage of your followers that engaged with your posts from the last 30 days.'
