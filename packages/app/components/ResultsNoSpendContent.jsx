@@ -55,6 +55,7 @@ const ResultsNoSpendContent = ({ data }) => {
             <ResultsNoSpendCharts
               data={resultsData}
               metricType={metricType}
+              hasGrowth={hasGrowth}
               className="order-3"
             />
           )}

@@ -20,12 +20,14 @@ const getControlsStoreState = (state) => ({
 })
 
 const ResultsLoader = () => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist: { start_spending_at } } = React.useContext(ArtistContext)
+  const hasStartedSpending = Boolean(start_spending_at)
+
   const [noSpendResultsData, setNoSpendResultsData] = React.useState(null)
   const [adResultsData, setAdResultsData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
-  const [resultsType, setResultsType] = React.useState('organic')
+  const [resultsType, setResultsType] = React.useState(hasStartedSpending ? 'paid' : 'organic')
 
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
 
@@ -67,6 +69,7 @@ const ResultsLoader = () => {
     resultsData ? (
       <>
         <ResultsHeader
+          hasStartedSpending={hasStartedSpending}
           dateRange={adResultsData?.dateRange}
           resultsType={resultsType}
           setResultsType={setResultsType}

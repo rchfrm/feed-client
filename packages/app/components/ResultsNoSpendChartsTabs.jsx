@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import ResultsNoSpendChartsTab from '@/app/ResultsNoSpendChartsTab'
 import { noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
 
@@ -10,6 +12,8 @@ const ResultsNoSpendChartsTabs = ({
   hasGrowth,
   className,
 }) => {
+  const isDesktopLayout = useBreakpointTest('sm')
+
   return (
     <ul className={[
       className,
@@ -18,7 +22,7 @@ const ResultsNoSpendChartsTabs = ({
     ].join(' ')}
     >
       {noSpendMetricTypes.map((type) => {
-        if (!hasGrowth && type === 'growth') return
+        if (!hasGrowth && isDesktopLayout && type === 'growth') return
 
         return (
           <ResultsNoSpendChartsTab

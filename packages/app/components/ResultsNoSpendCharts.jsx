@@ -7,7 +7,7 @@ import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
 
 import { getAggregatedOrganicBenchmark, getAggregatedOrganicBenchmarkData } from '@/app/helpers/resultsHelpers'
 
-const ResultsNoSpendCharts = ({ data, metricType, className }) => {
+const ResultsNoSpendCharts = ({ data, metricType, hasGrowth, className }) => {
   const [aggregatedData, setAggregatedData] = React.useState({})
 
   const yourAverage = data[metricType].value
@@ -24,9 +24,10 @@ const ResultsNoSpendCharts = ({ data, metricType, className }) => {
 
   return (
     <div className={[className, 'col-span-12'].join(' ')}>
-      {metricType === 'growth' ? (
+      {metricType === 'growth' && hasGrowth && (
         <ResultsFollowerGrowthChart />
-      ) : (
+      )}
+      {metricType !== 'growth' && (
         <ResultsRecentPostsChart
           metricType={metricType}
           yourAverage={yourAverage}
@@ -40,6 +41,7 @@ const ResultsNoSpendCharts = ({ data, metricType, className }) => {
 ResultsNoSpendCharts.propTypes = {
   data: PropTypes.object.isRequired,
   metricType: PropTypes.string.isRequired,
+  hasGrowth: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
 }
 
