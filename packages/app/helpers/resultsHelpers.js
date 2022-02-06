@@ -7,6 +7,9 @@ import resultsCopy from '@/app/copy/ResultsPageCopy'
 import { formatCurrency } from '@/helpers/utils'
 import { getDataSourceValue } from '@/app/helpers/appServer'
 
+import * as server from '@/app/helpers/appServer'
+import { formatServerData } from '@/app/helpers/insightsHelpers'
+
 export const postResultsConfig = [
   {
     type: 'unaware',
@@ -413,7 +416,7 @@ export const getOrganicBenchmarkData = ({ data }) => {
   return { reach: reachData, engagement: engageData, growth: growthData }
 }
 
-export const getAggregatedOrganicBenchmarkData = ({ data }) => {
+export const formatAggregatedOrganicBenchmarkData = ({ data }) => {
   const {
     aggregated: {
       reach_rate,
@@ -456,6 +459,47 @@ export const formatRecentPosts = (posts) => {
   })
 
   return formattedPosts
+}
+
+export const getRecentPosts = async (artistId) => {
+  const res = await server.getPosts({
+    artistId,
+    filterBy: {
+      date_from: [moment().subtract(30, 'days')],
+      date_to: [moment()],
+    },
+    limit: 60,
+  })
+  const formattedRecentPosts = formatRecentPosts(res)
+
+  return formattedRecentPosts
+}
+
+export const getFollowerGrowth = async (artistId) => {
+  const {
+    dailyFacebookData,
+    dailyInstagramData,
+  } = await getDataSourceValues(artistId)
+
+  const formattedData = [dailyFacebookData, dailyInstagramData].map((dailyData, index) => {
+    if (!dailyData || !Object.keys(dailyData).length) {
+      return
+    }
+
+    const { source, platform } = noSpendDataSources[index]
+
+    return formatServerData({
+      dailyData,
+      currentDataSource: source,
+      currentPlatform: platform,
+    })
+  })
+
+  if (!formattedData.filter(data => data).length) {
+    return
+  }
+
+  return formattedData
 }
 
 // GET AD RESULTS SUMMARY
@@ -513,4 +557,11 @@ export const getAggregatedOrganicBenchmark = async () => {
   const res = await api.requestWithCatch('get', endpoint, payload, errorTracking)
 
   return res
+}
+
+export const getAverages = async () => {
+  const { res } = await getAggregatedOrganicBenchmark()
+  const aggregatedOrganicBenchmarkData = formatAggregatedOrganicBenchmarkData(res)
+
+  return aggregatedOrganicBenchmarkData
 }

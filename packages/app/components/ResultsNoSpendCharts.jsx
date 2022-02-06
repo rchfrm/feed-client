@@ -1,37 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useAsyncEffect from 'use-async-effect'
 
-import ResultsRecentPostsChart from '@/app/ResultsRecentPostsChart'
-import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
-
-import { getAggregatedOrganicBenchmark, getAggregatedOrganicBenchmarkData } from '@/app/helpers/resultsHelpers'
+import ResultsPostsChartContent from '@/app/ResultsPostsChartContent'
+import ResultsGrowthChartContent from '@/app/ResultsGrowthChartContent'
 
 const ResultsNoSpendCharts = ({ data, metricType, hasGrowth, className }) => {
-  const [aggregatedData, setAggregatedData] = React.useState({})
-
-  const yourAverage = data[metricType].value
-  const globalAverage = aggregatedData[metricType]?.value
-
-  useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
-
-    const { res } = await getAggregatedOrganicBenchmark()
-    const aggregatedOrganicBenchmarkData = getAggregatedOrganicBenchmarkData(res)
-
-    setAggregatedData(aggregatedOrganicBenchmarkData)
-  }, [])
+  const [posts, setPosts] = React.useState([])
+  const [aggregatedOrganicBenchmarkData, setAggregatedOrganicBenchmarkData] = React.useState(null)
+  const [dailyGrowthData, setDailyGrowthData] = React.useState(null)
 
   return (
     <div className={[className, 'col-span-12'].join(' ')}>
-      {metricType === 'growth' && hasGrowth && (
-        <ResultsFollowerGrowthChart />
-      )}
       {metricType !== 'growth' && (
-        <ResultsRecentPostsChart
+        <ResultsPostsChartContent
+          posts={posts}
+          setPosts={setPosts}
+          aggregatedOrganicBenckmarkData={aggregatedOrganicBenchmarkData}
+          setAggregatedOrganicBenchmarkData={setAggregatedOrganicBenchmarkData}
+          organicBenchmarkData={data}
           metricType={metricType}
-          yourAverage={yourAverage}
-          globalAverage={globalAverage}
+        />
+      )}
+      {metricType === 'growth' && hasGrowth && (
+        <ResultsGrowthChartContent
+          dailyData={dailyGrowthData}
+          setDailyData={setDailyGrowthData}
         />
       )}
     </div>
