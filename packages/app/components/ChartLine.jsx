@@ -116,7 +116,6 @@ const ChartLine = ({ data }) => {
     setChartDataSets(chartData)
   }, [data])
 
-
   return (
     <Line
       data={{

@@ -9,6 +9,7 @@ import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsPercentileChart = ({ percentile, quartile, color }) => {
   const { value: quartileValue, position: quartilePosition } = quartile
+
   return (
     <>
       <div className="relative flex w-full h-4 mb-4">
