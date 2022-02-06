@@ -29,7 +29,7 @@ const ResultsPostsChart = ({
 
   return (
     posts.length ? (
-      <div className="w-full relative overflow-x-scroll overflow-y-hidden sm:overflow-x-hidden p-4">
+      <div className="w-full relative overflow-x-scroll overflow-y-hidden sm:overflow-visible pb-2 sm:pb-0">
         <ResultsPostsChartBackground
           maxValue={maxValue}
           yourAverage={yourAverage}
