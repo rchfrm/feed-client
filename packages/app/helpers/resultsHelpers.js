@@ -514,7 +514,10 @@ export const getAdResultsSummary = async (artistId) => {
     category: 'Results',
     action: 'Get ad results summary',
   }
-  const { res } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+  const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+
+  if (error) return { error }
+
   const formattedData = res.summary ? formatResultsData(res.summary) : null
   if (formattedData) {
     formattedData.dateRange = {
@@ -522,7 +525,7 @@ export const getAdResultsSummary = async (artistId) => {
       to: res.date_to,
     }
   }
-  return formattedData
+  return { res: formattedData }
 }
 
 // GET ORGANIC BENCHMARK
@@ -537,9 +540,9 @@ export const getOrganicBenchmark = async (artistId) => {
     category: 'Results',
     action: 'Get organic benchmark',
   }
-  const { res } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+  const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
 
-  return res
+  return { res, error }
 }
 
 // GET AGGREGATED ORGANIC BENCHMARK
@@ -554,14 +557,17 @@ export const getAggregatedOrganicBenchmark = async () => {
     category: 'Results',
     action: 'Get aggregated organic benchmark',
   }
-  const res = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+  const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
 
-  return res
+  return { res, error }
 }
 
 export const getAverages = async () => {
-  const { res } = await getAggregatedOrganicBenchmark()
+  const { res, error } = await getAggregatedOrganicBenchmark()
+
+  if (error) return { error }
+
   const aggregatedOrganicBenchmarkData = formatAggregatedOrganicBenchmarkData(res)
 
-  return aggregatedOrganicBenchmarkData
+  return { res: aggregatedOrganicBenchmarkData }
 }

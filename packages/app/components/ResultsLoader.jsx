@@ -39,7 +39,7 @@ const ResultsLoader = () => {
       return
     }
 
-    const res = await getData(artistId)
+    const { res, error } = await getData(artistId)
 
     if (error) {
       setError(error)
