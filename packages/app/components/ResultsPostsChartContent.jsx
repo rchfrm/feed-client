@@ -80,9 +80,9 @@ const ResultsPostsChartContent = ({
 
   return (
     <div>
-      <p className="font-bold text-xl">{copy.recentPostsChartTitle(metricType)}</p>
+      <p className="font-bold text-xl">{copy.postsChartTitle(metricType)}</p>
       <ResultsChartHeader
-        description={copy.recentPostsChartDescription(metricType)}
+        description={copy.postsChartDescription(metricType)}
         legendItems={legendItems}
       />
       {error && <Error error={error} />}

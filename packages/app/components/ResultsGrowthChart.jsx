@@ -2,7 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ChartLine from '@/app/ChartLine'
+
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsGrowthChart = ({ dailyData, isLoading }) => {
   if (isLoading) return <Spinner />
@@ -15,7 +19,7 @@ const ResultsGrowthChart = ({ dailyData, isLoading }) => {
         </div>
       </div>
     ) : (
-      <p className="w-full mb-auto">There is currently no follower growth data available.</p>
+      <MarkdownText markdown={copy.growthChartNoData} className="w-full mb-auto" />
     )
   )
 }

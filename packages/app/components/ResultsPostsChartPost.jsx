@@ -47,19 +47,12 @@ const ResultsPostsChartPost = ({
     <div
       className="absolute bottom-0 z-10"
       style={{
-        paddingTop: '6%',
         width: '6%',
         left: `${left}%`,
         transform: 'translateX(-25%)',
       }}
       ref={postRef}
     >
-      {/* <div
-        className="top-0 left-0 bottom-0 right-0 absolute"
-        style={{
-          background: 'rgb(63,94,251) linear-gradient(90deg, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)',
-        }}
-      /> */}
       <PostCardMedia
         media={post.media}
         thumbnails={post.thumbnails}

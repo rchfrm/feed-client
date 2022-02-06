@@ -79,11 +79,9 @@ const ResultsLoader = () => {
         {resultsType === 'paid' && adResultsData && <ResultsContent data={adResultsData} />}
       </>
     ) : (
-      <>
-        {!isLoading && (
-          <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
-        )}
-      </>
+      !isLoading && (
+        <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
+      )
     )
   )
 }

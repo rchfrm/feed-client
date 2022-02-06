@@ -10,7 +10,7 @@ const ResultsPostsChartAverageLine = ({ value, maxValue, color }) => {
   const [linePosition, setLinePosition] = React.useState(0)
 
   React.useEffect(() => {
-    setLinePosition((value / maxValue) * 100)
+    setLinePosition((value / maxValue) * 88.5)
   }, [value, maxValue])
 
   const animateLine = React.useCallback(() => {

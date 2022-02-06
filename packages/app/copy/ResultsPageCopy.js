@@ -172,18 +172,21 @@ We’ll be in touch shortly after with more information.`,
       return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
     }
   },
-  recentPostsChartTitle: (metricType) => {
+  postsChartTitle: (metricType) => {
     if (metricType === 'reach') {
       return 'Reach of your recent posts'
     }
 
     return 'Engagement rate of your recent posts'
   },
-  recentPostsChartDescription: (metricType) => {
+  postsChartDescription: (metricType) => {
     if (metricType === 'reach') {
       return "See the estimated percentage of your audience your posts have reached in the last 30 days. Your audience isn't just followers, it’s also people who have engaged with you before but haven’t followed you yet."
     }
 
     return 'See the percentage of your followers that engaged with your posts from the last 30 days.'
   },
+  postsChartNoData: 'No posts found within the last 30 days.',
+  growthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
+  growthChartNoData: 'There is currently no follower growth data available.',
 }

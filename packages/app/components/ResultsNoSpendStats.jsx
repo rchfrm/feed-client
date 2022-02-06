@@ -21,20 +21,18 @@ const ResultsNoSpendStats = ({
 
   return (
     data && (
-      <>
-        {noSpendMetricTypes.map((type) => {
-          if ((isDesktopLayout && data[type]) || (!isDesktopLayout && metricType === type)) {
-            const ResultsStats = components[type]
+      noSpendMetricTypes.map((type) => {
+        if ((isDesktopLayout && data[type]) || (!isDesktopLayout && metricType === type)) {
+          const ResultsStats = components[type]
 
-            return (
-              <div key={type} className={[className, 'col-span-12 sm:col-span-4'].join(' ')}>
-                <ResultsStats data={data[type]} />
-              </div>
-            )
-          }
-          return null
-        })}
-      </>
+          return (
+            <div key={type} className={[className, 'col-span-12 sm:col-span-4'].join(' ')}>
+              <ResultsStats data={data[type]} />
+            </div>
+          )
+        }
+        return null
+      })
     )
   )
 }

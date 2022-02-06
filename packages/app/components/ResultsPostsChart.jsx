@@ -6,6 +6,9 @@ import ResultsPostsChartPost from '@/app/ResultsPostsChartPost'
 import ResultsPostsChartBackground from '@/app/ResultsPostsChartBackground'
 
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsPostsChart = ({
   posts,
@@ -47,7 +50,7 @@ const ResultsPostsChart = ({
         </ResultsPostsChartBackground>
       </div>
     ) : (
-      <p>No posts found within the last 30 days.</p>
+      <MarkdownText markdown={copy.postsChartNoData} className="mb-9" />
     )
   )
 }

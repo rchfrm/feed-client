@@ -12,6 +12,8 @@ import brandColors from '@/constants/brandColors'
 import { getFollowerGrowth, noSpendDataSources } from '@/app/helpers/resultsHelpers'
 import { capitalise } from '@/helpers/utils'
 
+import copy from '@/app/copy/ResultsPageCopy'
+
 const ResultsGrowthChartContent = ({ dailyData, setDailyData }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
@@ -40,7 +42,7 @@ const ResultsGrowthChartContent = ({ dailyData, setDailyData }) => {
       <p className="font-bold text-xl">Follower growth</p>
       <ResultsChartHeader
         title="Follower growth"
-        description="See how your Facebook Likes and Instagram Followers are growing over time."
+        description={copy.growthChartDescription}
         legendItems={legendItems}
       />
       <ResultsGrowthChart
