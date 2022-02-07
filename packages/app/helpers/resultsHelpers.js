@@ -468,7 +468,7 @@ export const getRecentPosts = async (artistId) => {
       date_from: [moment().subtract(30, 'days')],
       date_to: [moment()],
     },
-    limit: 60,
+    limit: 100,
   })
   const formattedRecentPosts = formatRecentPosts(res)
 

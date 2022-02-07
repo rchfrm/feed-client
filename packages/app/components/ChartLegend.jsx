@@ -8,7 +8,7 @@ const ChartLegend = ({ items }) => {
     <ul className="ml-10 mb-10 text-xs">
       {items.map(({ label, value, color, lineStyle }) => (
         <ChartLegendItem
-          key={lineStyle}
+          key={label}
           label={label}
           value={value}
           color={color}
