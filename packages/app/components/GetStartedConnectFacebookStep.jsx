@@ -4,6 +4,9 @@ import React from 'react'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
 import ButtonFacebook from '@/elements/ButtonFacebook'
+import ButtonHelp from '@/elements/ButtonHelp'
+
+import copy from '@/app/copy/connectProfilesCopy'
 
 const GetStartedConnectFacebookStep = () => {
   const { next } = React.useContext(WizardContext)
@@ -13,13 +16,20 @@ const GetStartedConnectFacebookStep = () => {
   }
 
   return (
-    <div className="flex flex-1 justify-center items-center">
+    <div className="flex flex-1 flex-column justify-center items-center">
       <ButtonFacebook
         onClick={handleNext}
         fallbackCta="Continue with Facebook"
+        className="w-96 mb-16"
       >
         Continue with Facebook
       </ButtonFacebook>
+      <ButtonHelp
+        content={copy.helpText}
+        text="The permissions we ask for"
+        label="Permissions help"
+        className=""
+      />
     </div>
   )
 }

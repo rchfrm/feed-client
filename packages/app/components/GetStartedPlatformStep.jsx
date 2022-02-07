@@ -3,10 +3,15 @@ import React from 'react'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 
-import Button from '@/elements/Button'
+import PlatformIcon from '@/icons/PlatformIcon'
+import ButtonPill from '@/elements/ButtonPill'
+
+import { capitalise } from '@/helpers/utils'
+import brandColors from '@/constants/brandColors'
 
 const GetStartedPlatformStep = () => {
   const { goToStep } = React.useContext(WizardContext)
+  const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
 
   const handleNextStep = (platform) => {
     const nextStep = platform === 'facebook' || platform === 'instagram' ? 4 : 2
@@ -15,42 +20,29 @@ const GetStartedPlatformStep = () => {
   }
 
   return (
-    <div className="flex flex-1 flex-wrap justify-center items-center">
-      <Button
-        version="outline-black"
-        onClick={() => handleNextStep('spotify')}
-        className="w-1/3"
-      >
-        Spotify
-      </Button>
-      <Button
-        version="outline-black"
-        onClick={() => handleNextStep('youtube')}
-        className="w-1/3"
-      >
-        Youtube
-      </Button>
-      <Button
-        version="outline-black"
-        onClick={() => handleNextStep('sound cloud')}
-        className="w-1/3"
-      >
-        SoundCloud
-      </Button>
-      <Button
-        version="outline-black"
-        onClick={() => handleNextStep('instagram')}
-        className="w-1/3"
-      >
-        Instagram
-      </Button>
-      <Button
-        version="outline-black"
-        onClick={() => handleNextStep('facebook')}
-        className="w-1/3"
-      >
-        Facebook
-      </Button>
+    <div className="flex flex-1 flex-wrap justify-center content-center w-full sm:w-3/4 mx-auto">
+      {platforms.map((platform) => {
+        return (
+          <ButtonPill
+            key={platform}
+            className="w-32 sm:w-48 mx-0 mx-3 mb-5"
+            onClick={() => handleNextStep(platform)}
+            style={{
+              border: `2px solid ${brandColors.textColor}`,
+            }}
+            hasIcon
+            trackComponentName=""
+          >
+            <PlatformIcon
+              platform={platform}
+              className="mr-5"
+              title={platform}
+              fill={brandColors[platform].bg}
+            />
+            {capitalise(platform)}
+          </ButtonPill>
+        )
+      })}
     </div>
   )
 }

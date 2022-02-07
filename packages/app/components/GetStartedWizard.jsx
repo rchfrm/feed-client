@@ -6,8 +6,7 @@ import GetStartedPlatformStep from '@/app/GetStartedPlatformStep'
 import GetStartedWebsiteLinkStep from '@/app/GetStartedWebsiteLinkStep'
 import GetStartedPlatformLinkStep from '@/app/GetStartedPlatformLinkStep'
 import GetStartedConnectFacebookStep from '@/app/GetStartedConnectFacebookStep'
-import GetStartedAnalysePostsStep from '@/app/GetStartedAnalysePostsStep'
-import GetStartedChoosePostsStep from '@/app/GetStartedChoosePostsStep'
+import GetStartedPostsStep from '@/app/GetStartedPostsStep'
 import GetStartedAdAccountStep from '@/app/GetStartedAdAccountStep'
 import GetStartedFacebookPixelStep from '@/app/GetStartedFacebookPixelStep'
 import GetStartedHomeCountryStep from '@/app/GetStartedHomeCountryStep'
@@ -31,52 +30,47 @@ const GetStartedWizard = () => {
     },
     {
       id: 2,
-      title: 'Platform Link?',
+      title: 'Platform Link',
       component: <GetStartedPlatformLinkStep />,
     },
     {
       id: 3,
-      title: 'Website Link?',
+      title: 'Website Link',
       component: <GetStartedWebsiteLinkStep />,
     },
     {
       id: 4,
-      title: 'Connect Facebook?',
+      title: 'Connect Facebook',
       component: <GetStartedConnectFacebookStep />,
     },
     {
       id: 5,
-      title: 'Analyse Posts?',
-      component: <GetStartedAnalysePostsStep />,
+      title: 'Posts',
+      component: <GetStartedPostsStep />,
     },
     {
       id: 6,
-      title: 'Choose Posts?',
-      component: <GetStartedChoosePostsStep />,
-    },
-    {
-      id: 7,
-      title: 'Ad Account?',
+      title: 'Ad Account',
       component: <GetStartedAdAccountStep />,
     },
     {
-      id: 8,
-      title: 'Facebook Pixel?',
+      id: 7,
+      title: 'Facebook Pixel',
       component: <GetStartedFacebookPixelStep />,
     },
     {
-      id: 9,
-      title: 'Home Country?',
+      id: 8,
+      title: 'Home Country',
       component: <GetStartedHomeCountryStep />,
     },
     {
-      id: 10,
-      title: 'Daily Budget?',
+      id: 9,
+      title: 'Daily Budget',
       component: <GetStartedDailyBudgetStep />,
     },
     {
-      id: 11,
-      title: 'Ad Preview?',
+      id: 10,
+      title: 'Ad Preview',
       component: <GetStartedAdPreviewStep />,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,7 +81,7 @@ const GetStartedWizard = () => {
   }, [initialSteps])
 
   return (
-    <div className="h-full flex flex-column flex-1">
+    <div className="flex flex-column flex-1">
       {steps.length && (
         <WizardContextProvider steps={steps} hasBackButton>
           {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
