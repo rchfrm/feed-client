@@ -12,13 +12,15 @@ import { fetchTargetingState } from '@/app/helpers/targetingHelpers'
 
 const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
+  optimizationPreferences: state.optimizationPreferences,
   budget: state.budget,
   controlsLoading: state.isControlsLoading,
 })
 
 const useControlsWizard = () => {
-  const { postsPreferences, budget, controlsLoading } = useControlsStore(getControlsStoreState)
+  const { postsPreferences, optimizationPreferences, budget, controlsLoading } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
+  const { objective, platform } = optimizationPreferences
   const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
   const {
@@ -34,8 +36,6 @@ const useControlsWizard = () => {
   const isArtistOwnedByUser = Object.keys(artist.users).includes(user.id) && artist.users[user.id].role === 'owner'
   const { ads: missingScopes = [] } = isArtistOwnedByUser ? getMissingScopes({ artist }) : {}
 
-  const objective = 'growth'
-  const platform = 'soundcloud'
   const posts = ['post', 'post']
 
   // Initialise targeting context state

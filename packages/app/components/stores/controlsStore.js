@@ -15,6 +15,7 @@ const initialState = {
   defaultLink: {},
   postsPreferences: {},
   conversionsPreferences: {},
+  optimizationPreferences: {},
   currency: '',
   budget: 0,
   minConversionsBudget: 0,
@@ -191,9 +192,10 @@ const fetchData = (set, get) => async (action, artist) => {
     minConversionsBudget = min_recommended_stories_rounded
     formattedMinConversionsBudget = formatCurrency(minConversionsBudget, currency)
   }
-  // Get posts preferences and conversions preferences
+  // Get posts, conversions and optimization preferences
   const posts = getPreferences(artist, 'posts')
   const conversions = getPreferences(artist, 'conversions')
+  const optimization = getPreferences(artist, 'optimization')
   // Create array of links in folders for display
   const { defaultLinkId } = posts
   const nestedLinks = formatServerLinks({ folders, defaultLinkId, artist })
@@ -213,6 +215,7 @@ const fetchData = (set, get) => async (action, artist) => {
     defaultLink,
     postsPreferences: posts,
     conversionsPreferences: conversions,
+    optimizationPreferences: optimization,
     minConversionsBudget,
     formattedMinConversionsBudget,
   })
@@ -345,6 +348,7 @@ const useControlsStore = create((set, get) => ({
   defaultLink: initialState.defaultLink,
   postsPreferences: initialState.postsPreferences,
   conversionsPreferences: initialState.conversionsPreferences,
+  optimizationPreferences: initialState.optimizationPreferences,
   currency: initialState.currency,
   budget: initialState.budget,
   minConversionsBudget: initialState.minConversionsBudget,
