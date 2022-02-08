@@ -69,11 +69,8 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
     })
 
     setCurrentStep(firstIncompleteStep)
+    // eslint-disable-next-line
   }, [])
-
-  React.useEffect(() => {
-    console.log(stepsHistory)
-  }, [stepsHistory])
 
   return (
     <WizardContext.Provider

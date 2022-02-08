@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import GetStartedObjectiveStep from '@/app/GetStartedObjectiveStep'
 import GetStartedPlatformStep from '@/app/GetStartedPlatformStep'
@@ -15,18 +15,17 @@ import GetStartedAdPreviewStep from '@/app/GetStartedAdPreviewStep'
 
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
 
-const GetStartedWizard = () => {
-  const objective = 'growth'
-  const platform = 'soundcloud'
-  const defaultLinkId = 'set'
-  const missingScopes = []
-  const posts = ['post', 'post']
-  const adAccountId = 'set'
-  const facebookPixel = 'set'
-  const locations = ['UK']
-  const countryCode = ''
-  const budget = 5
-
+const GetStartedWizard = ({
+  objective,
+  platform,
+  defaultLinkId,
+  missingScopes,
+  posts,
+  adAccountId,
+  facebookPixelId,
+  locations,
+  budget,
+}) => {
   const steps = [
     {
       id: 0,
@@ -77,15 +76,15 @@ const GetStartedWizard = () => {
       id: 7,
       title: 'Facebook Pixel',
       component: <GetStartedFacebookPixelStep />,
-      isComplete: Boolean(facebookPixel),
+      isComplete: Boolean(facebookPixelId),
       shouldSkip: objective === 'growth',
     },
     {
       id: 8,
       title: 'Home Country',
       component: <GetStartedHomeCountryStep />,
-      isComplete: Object.keys(locations).length > 0 || Boolean(countryCode),
-      shouldSkip: Object.keys(locations).length > 0 || Boolean(countryCode),
+      isComplete: Object.keys(locations).length > 0,
+      shouldSkip: Object.keys(locations).length > 0,
     },
     {
       id: 9,
@@ -113,9 +112,19 @@ const GetStartedWizard = () => {
 }
 
 GetStartedWizard.propTypes = {
+  objective: PropTypes.string.isRequired,
+  platform: PropTypes.string.isRequired,
+  defaultLinkId: PropTypes.string.isRequired,
+  missingScopes: PropTypes.array.isRequired,
+  posts: PropTypes.array.isRequired,
+  adAccountId: PropTypes.string.isRequired,
+  facebookPixelId: PropTypes.string,
+  locations: PropTypes.object.isRequired,
+  budget: PropTypes.number.isRequired,
 }
 
 GetStartedWizard.defaultProps = {
+  facebookPixelId: '',
 }
 
 export default GetStartedWizard
