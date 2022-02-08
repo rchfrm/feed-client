@@ -384,3 +384,49 @@ export const getMissingScopes = ({ grantedScopes, artist }) => {
     ads: filterRequiredScopes(requiredScopesAds),
   }
 }
+
+// Update optimization objective
+/**
+* @param {string} artistId
+* @param {string} objective
+* @returns {Promise<object>} { res, error }
+*/
+export const updateObjective = (artistId, objective) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    preferences: {
+      optimization: {
+        objective,
+      },
+    },
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update optimization objective',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+// Update optimization platform
+/**
+* @param {string} artistId
+* @param {string} platform
+* @returns {Promise<object>} { res, error }
+*/
+export const updatePlatform = (artistId, platform) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    preferences: {
+      optimization: {
+        platform,
+      },
+    },
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update optimization platform',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
