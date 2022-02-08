@@ -16,8 +16,26 @@ const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
 })
 
+const objectives = [
+  {
+    title: 'Audience growth',
+    value: 'growth',
+    color: 'green',
+  },
+  {
+    title: 'Website sales',
+    value: 'sales',
+    color: 'pink',
+
+  },
+  {
+    title: 'Website visits',
+    value: 'traffic',
+    color: 'blue',
+  },
+]
+
 const GetStartedObjectiveStep = () => {
-  const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { goToStep } = React.useContext(WizardContext)
@@ -25,13 +43,10 @@ const GetStartedObjectiveStep = () => {
   const { artistId } = React.useContext(ArtistContext)
 
   const handleNextStep = async (objective) => {
-    setIsLoading(true)
-
     const { res: artist, error } = await updateObjective(artistId, objective)
 
     if (error) {
       setError({ message: error.message })
-      setIsLoading(false)
       return
     }
 
@@ -43,7 +58,6 @@ const GetStartedObjectiveStep = () => {
 
     const nextStep = objective === 'growth' ? 1 : 3
 
-    setIsLoading(false)
     goToStep(nextStep)
   }
 
@@ -51,48 +65,22 @@ const GetStartedObjectiveStep = () => {
     <div className="flex flex-1 flex-column justify-center">
       <Error error={error} />
       <div className="xs:flex justify-between xs:-mx-4 mb-10 xs:mb-20">
-        <Button
-          version="green"
-          onClick={() => handleNextStep('growth')}
-          loading={isLoading}
-          className="w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0"
-          trackComponentName="GetStartedObjectiveStep"
-        >
-          Audience growth
-          <ArrowAltIcon
-            className="ml-3"
-            direction="right"
-            fill="white"
-          />
-        </Button>
-        <Button
-          version="pink"
-          onClick={() => handleNextStep('sales')}
-          loading={isLoading}
-          className="w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0"
-          trackComponentName="GetStartedObjectiveStep"
-        >
-          Website sales
-          <ArrowAltIcon
-            className="ml-3"
-            direction="right"
-            fill="white"
-          />
-        </Button>
-        <Button
-          version="blue"
-          onClick={() => handleNextStep('traffic')}
-          loading={isLoading}
-          className="w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0"
-          trackComponentName="GetStartedObjectiveStep"
-        >
-          Website visits
-          <ArrowAltIcon
-            className="ml-3"
-            direction="right"
-            fill="white"
-          />
-        </Button>
+        {objectives.map(({ title, value, color }) => (
+          <Button
+            key={value}
+            version={color}
+            onClick={() => handleNextStep(value)}
+            className="w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0"
+            trackComponentName="GetStartedObjectiveStep"
+          >
+            {title}
+            <ArrowAltIcon
+              className="ml-3"
+              direction="right"
+              fill="white"
+            />
+          </Button>
+        ))}
       </div>
       <p className="w-full xs:text-center underline">Something else?</p>
     </div>

@@ -9,11 +9,12 @@ import GetStartedConnectFacebookStep from '@/app/GetStartedConnectFacebookStep'
 import GetStartedPostsStep from '@/app/GetStartedPostsStep'
 import GetStartedAdAccountStep from '@/app/GetStartedAdAccountStep'
 import GetStartedFacebookPixelStep from '@/app/GetStartedFacebookPixelStep'
-import GetStartedHomeCountryStep from '@/app/GetStartedHomeCountryStep'
+import GetStartedLocationStep from '@/app/GetStartedLocationStep'
 import GetStartedDailyBudgetStep from '@/app/GetStartedDailyBudgetStep'
 import GetStartedAdPreviewStep from '@/app/GetStartedAdPreviewStep'
 
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 const GetStartedWizard = ({
   objective,
@@ -26,6 +27,9 @@ const GetStartedWizard = ({
   locations,
   budget,
 }) => {
+  const { artist } = React.useContext(ArtistContext)
+  const hasLocation = Object.keys(locations).length > 0 || Boolean(artist?.country_code)
+
   const steps = [
     {
       id: 0,
@@ -57,7 +61,7 @@ const GetStartedWizard = ({
     {
       id: 4,
       title: 'Connect Facebook',
-      component: <GetStartedConnectFacebookStep />,
+      component: <GetStartedConnectFacebookStep scopes={missingScopes} />,
       isComplete: missingScopes.length === 0,
     },
     {
@@ -82,9 +86,9 @@ const GetStartedWizard = ({
     {
       id: 8,
       title: 'Home Country',
-      component: <GetStartedHomeCountryStep />,
-      isComplete: Object.keys(locations).length > 0,
-      shouldSkip: Object.keys(locations).length > 0,
+      component: <GetStartedLocationStep />,
+      isComplete: hasLocation,
+      shouldSkip: hasLocation,
     },
     {
       id: 9,

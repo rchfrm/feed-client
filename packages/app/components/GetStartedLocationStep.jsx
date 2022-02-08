@@ -2,12 +2,16 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import Select from '@/elements/Select'
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import countries from '@/constants/countries'
+
+import { updateLocation } from '@/app/helpers/artistHelpers'
 
 const locationOptions = countries.map(({ id, name }) => {
   return {
@@ -17,9 +21,15 @@ const locationOptions = countries.map(({ id, name }) => {
 })
 
 const GetStartedHomeCountryStep = () => {
-  const [countryCode, setCountryCode] = React.useState(locationOptions[0].value)
+  const { next, wizardState } = React.useContext(WizardContext)
+  const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
 
-  const { next } = React.useContext(WizardContext)
+  const adAccountCountryCode = locationOptions.find((location) => location.name === wizardState.adAccountCountry)?.value
+
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [countryCode, setCountryCode] = React.useState(artist.country_code || adAccountCountryCode || locationOptions[0].value)
+  const [error, setError] = React.useState(null)
+
 
   const handleChange = (e) => {
     const { target: { value } } = e
@@ -28,8 +38,31 @@ const GetStartedHomeCountryStep = () => {
     setCountryCode(value)
   }
 
-  const handleNext = () => {
+  const saveLocation = async (countryCode) => {
+    setIsLoading(true)
+
+    const { res: artist, error } = await updateLocation(artistId, countryCode)
+
+    if (error) {
+      setError(error)
+      setIsLoading(false)
+      return
+    }
+    // Update artist context
+    updateArtist(artist)
+    setIsLoading(false)
     next()
+  }
+
+  const handleNext = () => {
+    if (!countryCode) return
+
+    // Skip API request if country code hasn't changed
+    if (countryCode === artist.country_code) {
+      next()
+      return
+    }
+    saveLocation(countryCode)
   }
 
   return (
@@ -37,15 +70,18 @@ const GetStartedHomeCountryStep = () => {
       <h2 className="w-full mb-16 font-normal text-xl">Where are you located?</h2>
       <div className="flex flex-column items-center w-1/3">
         <Select
+          name="country_code"
+          handleChange={handleChange}
           options={locationOptions}
           selectedValue={countryCode}
-          name="ad_account"
-          handleChange={handleChange}
+          placeholder="Select country"
           className="w-full mb-12"
         />
+        <Error error={error} />
         <Button
           version="green"
           onClick={handleNext}
+          loading={isLoading}
           className="w-48"
           trackComponentName="GetStartedHomeCountryStep"
         >
