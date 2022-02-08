@@ -21,6 +21,7 @@ const GetStartedConnectFacebookStep = () => {
         onClick={handleNext}
         fallbackCta="Continue with Facebook"
         className="w-96 mb-16"
+        trackComponentName="GetStartedConnectFacebookStep"
       >
         Continue with Facebook
       </ButtonFacebook>
@@ -28,7 +29,7 @@ const GetStartedConnectFacebookStep = () => {
         content={copy.helpText}
         text="The permissions we ask for"
         label="Permissions help"
-        className=""
+        trackComponentName="GetStartedConnectFacebookStep"
       />
     </div>
   )

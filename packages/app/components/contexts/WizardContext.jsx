@@ -37,12 +37,12 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
   const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, {})
   const [currentStep, setCurrentStep] = React.useState(0)
   const [stepsHistory, setStepsHistory] = React.useState([0])
-  const { hasSkipButton = false } = steps[currentStep]
   const totalSteps = steps.length - 1
   const isFirstStep = currentStep === 0
 
   const next = React.useCallback(() => {
     if (currentStep === totalSteps) return
+
     setCurrentStep(currentStep + 1)
     setStepsHistory([...stepsHistory, currentStep + 1])
   }, [currentStep, totalSteps, stepsHistory])
@@ -59,6 +59,21 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
     setCurrentStep(step)
     setStepsHistory([...stepsHistory, step])
   }
+
+  React.useEffect(() => {
+    const firstIncompleteStep = steps.findIndex((step) => {
+      if (!step.shouldSkip && step.id !== 0) {
+        setStepsHistory((steps) => [...steps, step.id])
+      }
+      return !step.isComplete && !step.shouldSkip
+    })
+
+    setCurrentStep(firstIncompleteStep)
+  }, [])
+
+  React.useEffect(() => {
+    console.log(stepsHistory)
+  }, [stepsHistory])
 
   return (
     <WizardContext.Provider
@@ -89,20 +104,6 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
             Back
           </a>
         ) : null}
-        {hasSkipButton && (
-          <a
-            role="button"
-            onClick={next}
-            className="flex text-grey-2 no-underline ml-auto"
-          >
-            Skip
-            <ArrowAltIcon
-              className="w-3 ml-3"
-              direction="right"
-              fill={brandColors.grey}
-            />
-          </a>
-        )}
       </div>
     </WizardContext.Provider>
   )
@@ -112,7 +113,6 @@ WizardContextProvider.propTypes = {
   steps: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      shouldSkip: PropTypes.bool.isRequired,
     }),
   ).isRequired,
   hasBackButton: PropTypes.bool,

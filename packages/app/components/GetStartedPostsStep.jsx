@@ -50,6 +50,7 @@ const GetStartedAnalysePostsStep = () => {
               version="outline-black"
               onClick={handleNext}
               className="w-56 mx-4"
+              trackComponentName="GetStartedPostsStep"
             >
               Load more...
             </Button>
@@ -57,6 +58,7 @@ const GetStartedAnalysePostsStep = () => {
               version="green"
               onClick={handleNext}
               className="w-56 mx-4"
+              trackComponentName="GetStartedPostsStep"
             >
               Save
               <ArrowAltIcon

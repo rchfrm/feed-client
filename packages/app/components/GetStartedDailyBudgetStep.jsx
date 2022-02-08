@@ -90,7 +90,7 @@ const GetStartedDailyBudgetStep = () => {
         version="green"
         onClick={handleNext}
         loading={targetingLoading}
-        className=""
+        trackComponentName="GetStartedDailyBudgetStep"
       >
         Next
         <ArrowAltIcon

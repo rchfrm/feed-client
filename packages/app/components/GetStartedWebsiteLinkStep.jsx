@@ -17,7 +17,7 @@ const GetStartedLinkStep = () => {
       <Button
         version="outline-green"
         onClick={handleNext}
-        className=""
+        trackComponentName="GetStartedWebsiteLinkStep"
       >
         Next
       </Button>

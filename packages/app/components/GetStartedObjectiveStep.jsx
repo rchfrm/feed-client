@@ -29,6 +29,7 @@ const GetStartedObjectiveStep = () => {
           version="green"
           onClick={() => handleNextStep('growth')}
           className="w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0"
+          trackComponentName="GetStartedObjectiveStep"
         >
           Audience growth
           <ArrowAltIcon
@@ -41,6 +42,7 @@ const GetStartedObjectiveStep = () => {
           version="pink"
           onClick={() => handleNextStep('sales')}
           className="w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0"
+          trackComponentName="GetStartedObjectiveStep"
         >
           Website sales
           <ArrowAltIcon
@@ -53,6 +55,7 @@ const GetStartedObjectiveStep = () => {
           version="blue"
           onClick={() => handleNextStep('traffic')}
           className="w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0"
+          trackComponentName="GetStartedObjectiveStep"
         >
           Website visits
           <ArrowAltIcon

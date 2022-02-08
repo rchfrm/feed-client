@@ -17,7 +17,7 @@ const GetStartedFacebookPixelStep = () => {
       <Button
         version="outline-green"
         onClick={handleNext}
-        className=""
+        trackComponentName="GetStartedFacebookPixelStep"
       >
         Next
       </Button>

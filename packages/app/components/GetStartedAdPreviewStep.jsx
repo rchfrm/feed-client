@@ -17,7 +17,7 @@ const GetStartedAdPreviewStep = () => {
       <Button
         version="green"
         onClick={handleNext}
-        className=""
+        trackComponentName="GetStartedAdPreviewStep"
       >
         Done
       </Button>

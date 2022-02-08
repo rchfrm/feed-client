@@ -47,6 +47,7 @@ const GetStartedHomeCountryStep = () => {
           version="green"
           onClick={handleNext}
           className="w-48"
+          trackComponentName="GetStartedHomeCountryStep"
         >
           Save
           <ArrowAltIcon

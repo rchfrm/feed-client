@@ -53,6 +53,7 @@ const GetStartedAdAccountStep = () => {
           version="green"
           onClick={handleNext}
           className="w-48"
+          trackComponentName="GetStartedAdAccountStep"
         >
           Save
           <ArrowAltIcon

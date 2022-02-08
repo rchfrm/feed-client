@@ -31,7 +31,7 @@ const GetStartedPlatformStep = () => {
               border: `2px solid ${brandColors.textColor}`,
             }}
             hasIcon
-            trackComponentName=""
+            trackComponentName="GetStartedPlatformStep"
           >
             <PlatformIcon
               platform={platform}

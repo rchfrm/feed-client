@@ -17,7 +17,7 @@ const GetStartedPlatformLinkStep = () => {
       <Button
         version="outline-green"
         onClick={handleNext}
-        className=""
+        trackComponentName="GetStartedPlatformLinkStep"
       >
         Next
       </Button>
