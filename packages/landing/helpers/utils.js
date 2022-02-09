@@ -157,8 +157,8 @@ export const getIntegrationRegex = (platform, trim) => {
     case 'twitter':
       return /^(?:(?:https?:)?\/\/)?(?:twitter.com)\/([^/]+)/
     case 'youtube':
-      if (trim) return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)/
-      return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)([a-zA-Z0-9-_]+)/
+      if (trim) return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)?/
+      return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/([a-zA-Z0-9-_]{24})|c\/([a-zA-Z0-9-_]+)|user\/([a-zA-Z0-9-_]+)|([a-zA-Z0-9-_]+))$/
     case 'instagram':
       if (trim) return /(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\//
       return /(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_.]+)/
