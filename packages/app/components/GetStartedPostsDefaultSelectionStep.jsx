@@ -58,6 +58,7 @@ const GetStartedPostsDefaultSelectionStep = () => {
           version="outline-black"
           onClick={() => savePromotableDefaultStatus(false)}
           loading={isLoading && !isEnabled}
+          spinnerFill={brandColors.black}
           className="w-56 mx-4"
           trackComponentName="GetStartedPostsStep"
         >
@@ -71,6 +72,7 @@ const GetStartedPostsDefaultSelectionStep = () => {
           version="outline-black"
           onClick={() => savePromotableDefaultStatus(true)}
           loading={isLoading && isEnabled}
+          spinnerFill={brandColors.black}
           className="w-56 mx-4"
           trackComponentName="GetStartedPostsStep"
         >

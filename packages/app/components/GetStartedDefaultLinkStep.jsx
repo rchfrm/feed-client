@@ -128,7 +128,7 @@ const GetStartedDefaultLinkStep = () => {
   return (
     <div className="flex flex-1 flex-column">
       <Error error={error} />
-      <h3 className="mb-0 font-medium text-xl">{copy.defaultLinktitle(objective, platform)}</h3>
+      <h3 className="mb-0 font-medium text-xl">{copy.defaultLinkTitle(objective, platform)}</h3>
       <div className="flex flex-1 flex-column w-1/3 mx-auto justify-center items-center">
         <Input
           name="link-url"

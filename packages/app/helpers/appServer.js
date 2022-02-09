@@ -128,7 +128,11 @@ export const getDataSourceProjection = async (dataSource, artistId) => {
 * @returns {Promise<any>}
 */
 export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor }) => {
-  const formattedFilterQuery = addArrayCastTypeToQuery(filterBy)
+  let formattedFilterQuery = null
+
+  if (filterBy) {
+    formattedFilterQuery = addArrayCastTypeToQuery(filterBy)
+  }
 
   const queryParams = {
     limit,

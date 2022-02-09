@@ -5,8 +5,8 @@ import GetStartedObjectiveStep from '@/app/GetStartedObjectiveStep'
 import GetStartedPlatformStep from '@/app/GetStartedPlatformStep'
 import GetStartedDefaultLinkStep from '@/app/GetStartedDefaultLinkStep'
 import GetStartedConnectFacebookStep from '@/app/GetStartedConnectFacebookStep'
-import GetStartedPostsSelection from '@/app/GetStartedPostsSelection'
-import GetStartedPostsDefaultSelection from '@/app/GetStartedPostsDefaultSelection'
+import GetStartedPostsSelectionStep from '@/app/GetStartedPostsSelectionStep'
+import GetStartedPostsDefaultSelectionStep from '@/app/GetStartedPostsDefaultSelectionStep'
 import GetStartedAdAccountStep from '@/app/GetStartedAdAccountStep'
 import GetStartedFacebookPixelStep from '@/app/GetStartedFacebookPixelStep'
 import GetStartedLocationStep from '@/app/GetStartedLocationStep'
@@ -60,13 +60,13 @@ const GetStartedWizard = ({
     {
       id: 4,
       title: 'Posts selection',
-      component: <GetStartedPostsSelection />,
+      component: <GetStartedPostsSelectionStep />,
       isComplete: posts.length > 0,
     },
     {
       id: 5,
       title: 'Default posts selection',
-      component: <GetStartedPostsDefaultSelection />,
+      component: <GetStartedPostsDefaultSelectionStep />,
       isComplete: posts.length > 0,
     },
     {

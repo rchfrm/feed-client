@@ -67,7 +67,7 @@ const GetStartedHomeCountryStep = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">Where are you located?</h3>
+      <h3 className="mb-0 font-medium text-xl">Where are you based?</h3>
       <div className="flex flex-1 flex-column justify-center items-center w-1/3 mx-auto">
         <Select
           name="country_code"
