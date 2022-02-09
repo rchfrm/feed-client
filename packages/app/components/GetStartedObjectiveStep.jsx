@@ -63,7 +63,7 @@ const GetStartedObjectiveStep = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="w-full mb-0 font-medium text-xl">What are you trying to achieve?</h3>
+      <h3 className="w-full mb-8 xs:mb-0 font-medium text-xl">What are you trying to achieve?</h3>
       <div className="flex flex-1 flex-column justify-center">
         <Error error={error} />
         <div className="xs:flex justify-between xs:-mx-4 mb-10 xs:mb-20">
