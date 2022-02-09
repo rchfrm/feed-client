@@ -71,34 +71,37 @@ const GetStartedDailyBudgetStep = () => {
   }
 
   return (
-    <div className="flex flex-1 flex-column justify-center items-center">
-      <h2 className="w-full mb-16 font-normal text-xl">Finally, how much would you like to spend?</h2>
-      <div className="w-1/2 h-26 mb-4 px-6">
-        <TargetingBudgetSlider
-          sliderStep={sliderStep}
-          sliderValueRange={sliderValueRange}
-          initialBudget={initialTargetingState.budget || (minConversionsBudget * currencyOffset)}
-          onChange={(budget) => {
-            setBudget(budget)
-          }}
-          currency={currencyCode}
-          currencyOffset={currencyOffset}
-          mobileVersion
-        />
+    <div className="flex flex-1 flex-column">
+      <h3 className="mb-0 font-medium text-xl">Finally, how much would you like to spend?</h3>
+      <div className="flex flex-1 flex-column justify-center items-center">
+        <div className="w-1/2 h-26 mb-4 px-6">
+          <TargetingBudgetSlider
+            sliderStep={sliderStep}
+            sliderValueRange={sliderValueRange}
+            initialBudget={initialTargetingState.budget || (minConversionsBudget * currencyOffset)}
+            onChange={(budget) => {
+              setBudget(budget)
+            }}
+            currency={currencyCode}
+            currencyOffset={currencyOffset}
+            mobileVersion
+          />
+        </div>
+        <Button
+          version="green"
+          onClick={handleNext}
+          loading={targetingLoading}
+          className="w-48"
+          trackComponentName="GetStartedDailyBudgetStep"
+        >
+          Save
+          <ArrowAltIcon
+            className="ml-3"
+            direction="right"
+            fill="white"
+          />
+        </Button>
       </div>
-      <Button
-        version="green"
-        onClick={handleNext}
-        loading={targetingLoading}
-        trackComponentName="GetStartedDailyBudgetStep"
-      >
-        Next
-        <ArrowAltIcon
-          className="ml-3"
-          direction="right"
-          fill="white"
-        />
-      </Button>
     </div>
   )
 }

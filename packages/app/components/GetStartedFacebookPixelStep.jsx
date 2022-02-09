@@ -33,27 +33,32 @@ const GetStartedFacebookPixelStep = () => {
   }
 
   return (
-    <div className="flex flex-1 justify-center items-center">
-      <PixelSelector
-        updateParentPixel={setFacebookPixel}
-        trackLocation="Conversions settings"
-        shouldSaveOnChange={false}
-        hasNoPixelOption={false}
-      />
-      <Error error={error} />
-      <Button
-        version="green"
-        onClick={saveFacebookPixel}
-        loading={isLoading}
-        trackComponentName="GetStartedFacebookPixelStep"
-      >
-        Next
-        <ArrowAltIcon
-          className="ml-3"
-          direction="right"
-          fill="white"
+    <div className="flex flex-1 flex-column">
+      <h3 className="mb-0 font-medium text-xl">Which Facebook Pixel would you like Feed to use?</h3>
+      <div className="flex flex-1 flex-column w-1/3 justify-center items-center mx-auto">
+        <PixelSelector
+          updateParentPixel={setFacebookPixel}
+          trackLocation="Conversions settings"
+          shouldSaveOnChange={false}
+          hasNoPixelOption={false}
+          className="w-full mb-4"
         />
-      </Button>
+        <Error error={error} />
+        <Button
+          version="green"
+          onClick={saveFacebookPixel}
+          loading={isLoading}
+          className="w-48"
+          trackComponentName="GetStartedFacebookPixelStep"
+        >
+          Save
+          <ArrowAltIcon
+            className="ml-3"
+            direction="right"
+            fill="white"
+          />
+        </Button>
+      </div>
     </div>
   )
 }

@@ -81,7 +81,7 @@ const GetStartedAdAccountStep = () => {
 
     // Skip API request if ad account hasn't changed
     if (adAccountId === facebookIntegration?.adaccount_id) {
-      const nextStep = objective === 'growth' ? 8 : 9
+      const nextStep = objective === 'growth' ? 7 : 8
       goToStep(nextStep)
 
       return
@@ -90,9 +90,9 @@ const GetStartedAdAccountStep = () => {
   }
 
   return (
-    <div className="flex flex-1 flex-column justify-center items-center">
-      <h2 className="w-full mb-16 font-normal text-xl">Which Facebook ad account would you like Feed to use?</h2>
-      <div className="flex flex-column items-center w-1/3">
+    <div className="flex flex-1 flex-column">
+      <h3 className="mb-0 font-medium text-xl">Which Facebook ad account would you like Feed to use?</h3>
+      <div className="flex flex-1 flex-column justify-center items-center w-1/3 mx-auto">
         <Select
           options={adAccountOptions}
           selectedValue={adAccountId}

@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 
 import GetStartedObjectiveStep from '@/app/GetStartedObjectiveStep'
 import GetStartedPlatformStep from '@/app/GetStartedPlatformStep'
-import GetStartedWebsiteLinkStep from '@/app/GetStartedWebsiteLinkStep'
-import GetStartedPlatformLinkStep from '@/app/GetStartedPlatformLinkStep'
+import GetStartedDefaultLinkStep from '@/app/GetStartedDefaultLinkStep'
 import GetStartedConnectFacebookStep from '@/app/GetStartedConnectFacebookStep'
-import GetStartedPostsStep from '@/app/GetStartedPostsStep'
+import GetStartedPostsSelection from '@/app/GetStartedPostsSelection'
+import GetStartedPostsDefaultSelection from '@/app/GetStartedPostsDefaultSelection'
 import GetStartedAdAccountStep from '@/app/GetStartedAdAccountStep'
 import GetStartedFacebookPixelStep from '@/app/GetStartedFacebookPixelStep'
 import GetStartedLocationStep from '@/app/GetStartedLocationStep'
 import GetStartedDailyBudgetStep from '@/app/GetStartedDailyBudgetStep'
-import GetStartedAdPreviewStep from '@/app/GetStartedAdPreviewStep'
+import GetStartedReviewStep from '@/app/GetStartedReviewStep'
 
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -33,41 +33,40 @@ const GetStartedWizard = ({
   const steps = [
     {
       id: 0,
-      title: 'What are you hoping to achieve?',
+      title: 'Objective',
       component: <GetStartedObjectiveStep />,
       isComplete: Boolean(objective),
     },
     {
       id: 1,
-      title: 'On which platform?',
+      title: 'Platform',
       component: <GetStartedPlatformStep />,
       isComplete: Boolean(platform),
       shouldSkip: objective !== 'growth',
     },
     {
       id: 2,
-      title: 'Platform Link',
-      component: <GetStartedPlatformLinkStep />,
+      title: 'Default link',
+      component: <GetStartedDefaultLinkStep />,
       isComplete: Boolean(defaultLinkId),
-      shouldSkip: objective !== 'growth' || platform === 'facebook' || platform === 'instagram',
+      shouldSkip: objective === 'growth' && (platform === 'facebook' || platform === 'instagram'),
     },
     {
       id: 3,
-      title: 'Website Link',
-      component: <GetStartedWebsiteLinkStep />,
-      isComplete: Boolean(defaultLinkId),
-      shouldSkip: objective === 'growth',
+      title: 'Connect Facebook',
+      component: <GetStartedConnectFacebookStep scopes={missingScopes} />,
+      isComplete: missingScopes.length !== 0,
     },
     {
       id: 4,
-      title: 'Connect Facebook',
-      component: <GetStartedConnectFacebookStep scopes={missingScopes} />,
-      isComplete: missingScopes.length === 0,
+      title: 'Posts selection',
+      component: <GetStartedPostsSelection />,
+      isComplete: posts.length > 0,
     },
     {
       id: 5,
-      title: 'Posts',
-      component: <GetStartedPostsStep />,
+      title: 'Default posts selection',
+      component: <GetStartedPostsDefaultSelection />,
       isComplete: posts.length > 0,
     },
     {
@@ -98,8 +97,8 @@ const GetStartedWizard = ({
     },
     {
       id: 10,
-      title: 'Ad Preview',
-      component: <GetStartedAdPreviewStep />,
+      title: 'Congrats!',
+      component: <GetStartedReviewStep />,
       isComplete: false,
     },
   ]
