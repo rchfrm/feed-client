@@ -200,6 +200,10 @@ const getPaidClicks = (adsSummaryMetrics) => {
   return Math.max(outboundClicks, clickActions)
 }
 
+const getLandingPageViews = (adsSummaryMetrics) => {
+  return get(adsSummaryMetrics, ['actions', 'landing_page_view'], null)
+}
+
 // GET drilldown of paid engagments
 // by adding the various action props
 const getPaidEngagementsDrilldown = (adsSummaryMetrics) => {
@@ -321,6 +325,7 @@ export const formatPostsResponse = (posts) => {
       impressions: adsSummaryMetrics.impressions,
       engagements: get(adsSummaryMetrics, ['actions', 'post_engagement'], null),
       clicks: getPaidClicks(adsSummaryMetrics),
+      landing_page_views: getLandingPageViews(adsSummaryMetrics),
       engagementScore: adsSummary.spend_adjusted_engagement_score,
       drilldowns: {
         engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
@@ -407,6 +412,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
     'spend',
     'reach',
     'clicks',
+    'landing_page_views',
     'video_views',
     'engagements',
     'impressions',
