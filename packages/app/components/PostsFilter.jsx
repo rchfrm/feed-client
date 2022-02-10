@@ -29,9 +29,8 @@ const PostsFilter = ({ title, filterType, initialFilters, setFiltersState }) => 
 
   return (
     <div className={[
-      'relative mb-5',
-      'transition-height ease-in-out duration-200',
-      isOpen ? 'h-23' : 'h-10',
+      'relative',
+      isOpen ? 'mb-0' : 'mb-5',
     ].join(' ')}
     >
       <button
@@ -69,6 +68,7 @@ const PostsFilter = ({ title, filterType, initialFilters, setFiltersState }) => 
         addFilter={addFilter}
         removeFilter={removeFilter}
         setFiltersState={setFiltersState}
+        isOpen={isOpen}
       />
     </div>
   )
