@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
+
 import { useImmerReducer } from 'use-immer'
 
 import ProgressBar from '@/app/ProgressBar'
@@ -12,6 +14,8 @@ const initialContext = {
   next: () => {},
   back: () => {},
   currentStep: 0,
+  goToStep: () => {},
+  wizardState: {},
   setCurrentStep: () => {},
 }
 
@@ -33,10 +37,16 @@ const wizardStateReducer = (draftState, action) => {
 
 const WizardContext = React.createContext(initialContext)
 
-const WizardContextProvider = ({ steps, children, hasBackButton }) => {
+const WizardContextProvider = ({
+  steps,
+  children,
+  goBackToPath,
+  hasBackButton,
+}) => {
   const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, {})
   const [currentStep, setCurrentStep] = React.useState(0)
   const [stepsHistory, setStepsHistory] = React.useState([0])
+
   const totalSteps = steps.length - 1
   const isFirstStep = currentStep === 0
 
@@ -58,6 +68,13 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
   const goToStep = (step) => {
     setCurrentStep(step)
     setStepsHistory([...stepsHistory, step])
+  }
+
+  const goToPage = () => {
+    Router.push({
+      pathname: goBackToPath,
+      query: { postStatus: 'not-run' },
+    })
   }
 
   React.useEffect(() => {
@@ -101,6 +118,13 @@ const WizardContextProvider = ({ steps, children, hasBackButton }) => {
             Back
           </a>
         ) : null}
+        <a
+          role="button"
+          onClick={goToPage}
+          className="flex ml-auto text-grey-2 no-underline"
+        >
+          Skip and go to app
+        </a>
       </div>
     </WizardContext.Provider>
   )
@@ -112,10 +136,12 @@ WizardContextProvider.propTypes = {
       id: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  goBackToPath: PropTypes.string,
   hasBackButton: PropTypes.bool,
 }
 
 WizardContextProvider.defaultProps = {
+  goBackToPath: '',
   hasBackButton: false,
 }
 

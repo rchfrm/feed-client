@@ -16,6 +16,8 @@ import GetStartedReviewStep from '@/app/GetStartedReviewStep'
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import * as ROUTES from '@/app/constants/routes'
+
 const GetStartedWizard = ({
   objective,
   platform,
@@ -106,7 +108,7 @@ const GetStartedWizard = ({
   return (
     <div className="flex flex-column flex-1">
       {steps.length && (
-        <WizardContextProvider steps={steps} hasBackButton>
+        <WizardContextProvider steps={steps} goBackToPath={ROUTES.HOME} hasBackButton>
           {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
         </WizardContextProvider>
       )}

@@ -1,15 +1,18 @@
 import React from 'react'
+import Router from 'next/router'
 // import PropTypes from 'prop-types'
 
-import { WizardContext } from '@/app/contexts/WizardContext'
+import * as ROUTES from '@/app/constants/routes'
 
 import Button from '@/elements/Button'
 
 const GetStartedReviewStep = () => {
-  const { next } = React.useContext(WizardContext)
-
-  const handleNext = () => {
-    next()
+  // Navigate to the posts page
+  const goToPostsPage = () => {
+    Router.push({
+      pathname: ROUTES.HOME,
+      query: { postStatus: 'not-run' },
+    })
   }
 
   return (
@@ -18,7 +21,7 @@ const GetStartedReviewStep = () => {
       <div className="flex flex-1 justify-center items-center">
         <Button
           version="green"
-          onClick={handleNext}
+          onClick={goToPostsPage}
           className="w-48"
           trackComponentName="GetStartedAdPreviewStep"
         >
