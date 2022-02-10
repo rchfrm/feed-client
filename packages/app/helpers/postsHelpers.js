@@ -411,8 +411,8 @@ export const getPostMetricsContent = (metricsType, postType) => {
   return [
     'spend',
     'reach',
-    'clicks',
     'landing_page_views',
+    'clicks',
     'video_views',
     'engagements',
     'impressions',
