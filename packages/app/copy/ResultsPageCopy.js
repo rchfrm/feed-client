@@ -154,8 +154,12 @@ We’ll be in touch shortly after with more information.`,
   },
   noSpendEngageDescription: (value) => `**${value}%** of your followers engage with each post on average.`,
   noSpendGrowthDescription: (value, platform, rate) => {
-    const rateString = `${rate >= 0 ? '+' : ''}${rate}%`
-    return `You're adding **${value}** ${capitalise(platform)} followers a month on average _(${rateString})_.`
+    if (value === 0) {
+      return `You're ${capitalise(platform)} following is steady.`
+    }
+    const rateString = `_(${rate >= 0 ? '+' : ''}${rate}%)_`
+    const changeDescription = value > 0 ? 'adding' : 'losing'
+    return `You're ${changeDescription} **${value}** ${capitalise(platform)} followers a month on average ${rateString}.`
   },
   noSpendTotalFollowersDescription: "We don't have enough historical information yet, so check back later to see growth insights.",
   quartileDescription: (quartile, percentile) => {
