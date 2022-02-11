@@ -1,5 +1,5 @@
 import * as ROUTES from '@/app/constants/routes'
-import { formatNumber, getNestedObjectByValue } from '@/helpers/utils'
+import { capitalise, formatNumber, getNestedObjectByValue } from '@/helpers/utils'
 
 const optimisationsEventsDictionary = {
   omni_purchase: {
@@ -153,7 +153,10 @@ We’ll be in touch shortly after with more information.`,
     return `Your posts reach **${value}%** of your addressable audience.`
   },
   noSpendEngageDescription: (value) => `**${value}%** of your followers engage with each post on average.`,
-  noSpendGrowthDescription: (value) => `You're adding **${value}** followers a month on average across Facebook & Instagram.`,
+  noSpendGrowthDescription: (value, platform, rate) => {
+    const rateString = `${rate >= 0 ? '+' : ''}${rate}%`
+    return `You're adding **${value}** ${capitalise(platform)} followers a month on average _(${rateString})_.`
+  },
   noSpendTotalFollowersDescription: "We don't have enough historical information yet, so check back later to see growth insights.",
   quartileDescription: (quartile, percentile) => {
     if (quartile === 1) {

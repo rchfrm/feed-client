@@ -357,20 +357,28 @@ export const getDataSourceValues = async (artistId) => {
   }
 }
 
+const getFollowerCount = (platform, data) => {
+  return data.followers[platform].number_of_followers.value
+}
+
 export const getOrganicBenchmarkData = ({ data }) => {
+  const igFollowers = getFollowerCount('instagram', data)
+  const fbFollowers = getFollowerCount('facebook', data)
+  const largestPlatform = igFollowers >= fbFollowers ? 'instagram' : 'facebook'
   const {
     aggregated: {
       reach_rate,
       engagement_rate,
     },
     followers: {
-      all_platforms: {
+      [largestPlatform]: {
         growth_absolute,
         growth_rate,
         number_of_followers,
       },
     },
   } = data
+
 
   const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
   const reachRateMedianPercentile = (reach_rate.median.percentile * 100).toFixed(1)
@@ -395,14 +403,15 @@ export const getOrganicBenchmarkData = ({ data }) => {
   let growthData = {}
 
   if (growth_absolute.value) {
-    const followersGrowthAbsoluteMedianValue = (growth_absolute.value * 100)
+    const followersGrowthAbsoluteMedianValue = growth_absolute.value
+    const followersGrowthRateValue = (growth_rate.value * 100).toFixed(1)
     const followersGrowthRateMedianPercentile = (growth_rate.percentile * 100).toFixed(1)
 
     growthData = {
       value: followersGrowthAbsoluteMedianValue,
       percentile: followersGrowthRateMedianPercentile,
       quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
-      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue),
+      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, largestPlatform, followersGrowthRateValue),
       hasGrowth: true,
     }
   } else {
