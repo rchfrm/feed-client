@@ -8,7 +8,7 @@ import ResultsChartHeader from '@/app/ResultsChartHeader'
 import ResultsPostsChart from '@/app/ResultsPostsChart'
 import Error from '@/elements/Error'
 
-import { getRecentPosts, getAverages } from '@/app/helpers/resultsHelpers'
+import { getRecentPosts, getAverages, noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
 
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/ResultsPageCopy'
@@ -68,13 +68,13 @@ const ResultsPostsChartContent = ({
     {
       label: 'Your average',
       value: yourAverage,
-      color: brandColors.greyDark,
+      color: noSpendMetricTypes[metricType].color,
       lineStyle: 'dashed',
     },
     {
       label: 'Global average',
       value: globalAverage,
-      color: brandColors.black,
+      color: brandColors.grey,
       lineStyle: 'dashed',
     },
   ]

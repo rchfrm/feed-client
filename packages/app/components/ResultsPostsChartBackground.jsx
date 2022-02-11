@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import ResultsPostsChartAverageLine from '@/app/ResultsPostsChartAverageLine'
 import brandColors from '@/constants/brandColors'
 
+import { noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
+
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 const ResultsPostsChartBackground = ({
@@ -11,6 +13,7 @@ const ResultsPostsChartBackground = ({
   maxValue,
   yourAverage,
   globalAverage,
+  metricType,
 }) => {
   const isDesktopLayout = useBreakpointTest('sm')
 
@@ -34,8 +37,8 @@ const ResultsPostsChartBackground = ({
         />
         {children}
       </div>
-      <ResultsPostsChartAverageLine value={globalAverage} maxValue={maxValue} color={brandColors.black} />
-      <ResultsPostsChartAverageLine value={yourAverage} maxValue={maxValue} color={brandColors.grey} />
+      <ResultsPostsChartAverageLine value={globalAverage} maxValue={maxValue} color={brandColors.grey} />
+      <ResultsPostsChartAverageLine value={yourAverage} maxValue={maxValue} color={noSpendMetricTypes[metricType].color} />
     </>
   )
 }
@@ -45,6 +48,7 @@ ResultsPostsChartBackground.propTypes = {
   maxValue: PropTypes.number.isRequired,
   yourAverage: PropTypes.string,
   globalAverage: PropTypes.string,
+  metricType: PropTypes.string.isRequired,
 }
 
 ResultsPostsChartBackground.defaultProps = {

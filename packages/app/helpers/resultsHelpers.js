@@ -292,7 +292,22 @@ export const getConversionData = (data) => {
   return null
 }
 
-export const noSpendMetricTypes = ['reach', 'engagement', 'growth']
+// export const noSpendMetricTypes = ['reach', 'engagement', 'growth']
+
+export const noSpendMetricTypes = {
+  reach: {
+    type: 'reach',
+    color: brandColors.blue,
+  },
+  engagement: {
+    type: 'engagement',
+    color: brandColors.green,
+  },
+  growth: {
+    type: 'growth',
+    color: brandColors.instagram.bg,
+  },
+}
 
 export const noSpendDataSources = [
   {

@@ -21,7 +21,7 @@ const ResultsNoSpendStats = ({
 
   return (
     data && (
-      noSpendMetricTypes.map((type) => {
+      Object.keys(noSpendMetricTypes).map((type) => {
         if ((isDesktopLayout && data[type]) || (!isDesktopLayout && metricType === type)) {
           const ResultsStats = components[type]
 

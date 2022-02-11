@@ -37,6 +37,7 @@ const ResultsPostsChart = ({
           maxValue={maxValue}
           yourAverage={yourAverage}
           globalAverage={globalAverage}
+          metricType={metricType}
         >
           {posts.map((post) => (
             <ResultsPostsChartPost

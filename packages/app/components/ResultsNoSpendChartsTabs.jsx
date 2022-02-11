@@ -21,7 +21,7 @@ const ResultsNoSpendChartsTabs = ({
       'justify-around mb-0',
     ].join(' ')}
     >
-      {noSpendMetricTypes.map((type) => {
+      {Object.keys(noSpendMetricTypes).map((type) => {
         if (!hasGrowth && isDesktopLayout && type === 'growth') return
 
         return (
