@@ -27,12 +27,6 @@ const ResultsPercentileChartQuartile = ({
           backgroundColor: isActive ? color : 'none',
         }}
       />
-      {isActive && (
-        <span
-          className="w-0 h-0 block mx-auto border-4 border-solid border-transparent"
-          style={{ borderBottom: '6px solid black' }}
-        />
-      )}
     </div>
   )
 }

@@ -5,7 +5,7 @@ import ChartLegend from '@/app/ChartLegend'
 
 const ResultsChartHeader = ({ description, legendItems }) => {
   return (
-    <div className="w-full xs:w-1/2 mb-4 text-xs">
+    <div className="w-full xs:w-3/4 lg:w-1/2  mb-4 text-xs">
       <p>{description}</p>
       <ChartLegend
         items={legendItems}

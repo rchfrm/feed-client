@@ -12,7 +12,7 @@ const ResultsPercentileChart = ({ percentile, quartile, color }) => {
 
   return (
     <>
-      <div className="relative flex w-full h-4 mb-4">
+      <div className="relative flex w-full h-4 mb-1">
         {[...Array(4)].map((_, index) => (
           <ResultsPercentileChartQuartile
             key={index}
@@ -22,6 +22,12 @@ const ResultsPercentileChart = ({ percentile, quartile, color }) => {
             color={color}
           />
         ))}
+      </div>
+      <div className="relative mx-auto mb-4" style={{ width: '96%' }}>
+        <span
+          className="w-0 h-0 block mx-auto border-4 border-solid border-transparent absolute"
+          style={{ borderBottom: '6px solid black', left: `${percentile}%` }}
+        />
       </div>
       <MarkdownText className="w-full text-xs" style={{ textAlign: quartilePosition }} markdown={copy.quartileDescription(quartileValue, percentile)} />
     </>
