@@ -411,6 +411,7 @@ export const getOrganicBenchmarkData = ({ data }) => {
       value: followersGrowthAbsoluteMedianValue,
       percentile: followersGrowthRateMedianPercentile,
       quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
+      platform: largestPlatform,
       copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, largestPlatform, followersGrowthRateValue),
       hasGrowth: true,
     }
@@ -470,12 +471,14 @@ export const formatRecentPosts = (posts) => {
   return formattedPosts
 }
 
-export const getRecentPosts = async (artistId) => {
+export const getRecentPosts = async (artistId, platform) => {
   const res = await server.getPosts({
     artistId,
     filterBy: {
       date_from: [moment().subtract(30, 'days')],
       date_to: [moment()],
+      platform: [platform],
+      internal_type: ['post'],
     },
     limit: 100,
   })

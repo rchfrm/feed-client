@@ -25,6 +25,7 @@ const ResultsPostsChartContent = ({
   const [globalAverage, setGlobalAverage] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const { platform } = organicBenchmarkData.growth
 
   const { artistId } = React.useContext(ArtistContext)
 
@@ -35,7 +36,7 @@ const ResultsPostsChartContent = ({
 
     setIsLoading(true)
 
-    const data = await getRecentPosts(artistId)
+    const data = await getRecentPosts(artistId, platform)
 
     setPosts(data)
     setIsLoading(false)
