@@ -15,15 +15,13 @@ const ResultsEngageStats = ({ data }) => {
 
   return (
     <>
-      <div className="flex sm:flex-col items-center justify-between">
-        <div>
-          <p className="font-bold text-xl sm:text-center">{quartile.copy} engagement</p>
-          <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
-            <MarkdownText
-              markdown={copy}
-              className="mb-6 sm:mb-0 sm:text-center"
-            />
-          </div>
+      <p className="font-bold text-xl sm:text-center">{quartile.copy} engagement</p>
+      <div className="flex sm:flex-col items-center justify-between mb-6 sm:mb-0">
+        <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
+          <MarkdownText
+            markdown={copy}
+            className="mb-0 sm:text-center"
+          />
         </div>
         <p
           className="text-3xl ml-2 mb-0 sm:text-6xl sm:ml-0 sm:mb-5 text-center font-bold"

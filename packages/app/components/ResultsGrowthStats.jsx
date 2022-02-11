@@ -17,15 +17,13 @@ const ResultsGrowthStats = ({ data }) => {
 
   return (
     <>
-      <div className="flex sm:flex-col items-center justify-between">
-        <div>
-          <p className="font-bold text-xl sm:text-center">{hasGrowth ? `${quartile.copy} growth` : 'Tracking...'}</p>
-          <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
-            <MarkdownText
-              markdown={copy}
-              className="mb-6 sm:mb-0 sm:text-center"
-            />
-          </div>
+      <p className="font-bold text-xl sm:text-center">{hasGrowth ? `${quartile.copy} growth` : 'Tracking...'}</p>
+      <div className="flex sm:flex-col items-center justify-between mb-6 sm:mb-0">
+        <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
+          <MarkdownText
+            markdown={copy}
+            className="mb-0 sm:text-center"
+          />
         </div>
         <div className="flex items-center">
           {(hasGrowth && value > 0) && <PlusIcon className="h-8 w-8 mr-1 mb-4 hidden sm:block" fill={brandColors.instagram.bg} style={{ filter: 'brightness(75%)' }} />}
