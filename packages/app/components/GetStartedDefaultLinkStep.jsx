@@ -12,6 +12,8 @@ import Input from '@/elements/Input'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
+
 import copy from '@/app/copy/getStartedCopy'
 
 const getControlsStoreState = (state) => ({
@@ -33,12 +35,16 @@ const GetStartedDefaultLinkStep = () => {
     defaultLink,
   } = useControlsStore(getControlsStoreState)
 
-  const [link, setLink] = React.useState(defaultLink || {})
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  const { defaultLink: storedDefaultLink } = wizardState
+
+  const [link, setLink] = React.useState(defaultLink || storedDefaultLink || {})
   const [error, setError] = React.useState(null)
 
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { objective, platform } = optimizationPreferences
+
 
   // On text input change update the link object with a name and href
   const handleChange = (e) => {
@@ -101,6 +107,12 @@ const GetStartedDefaultLinkStep = () => {
   }
 
   const handleNext = async () => {
+    if (!artistId) {
+      setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: link }))
+      next()
+      return
+    }
+
     let action = 'add'
 
     if (link.id) {

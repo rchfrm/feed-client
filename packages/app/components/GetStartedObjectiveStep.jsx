@@ -10,6 +10,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { updateObjective } from '@/app/helpers/artistHelpers'
 
 const getControlsStoreState = (state) => ({
@@ -42,7 +43,16 @@ const GetStartedObjectiveStep = () => {
   const { updatePreferences } = useControlsStore(getControlsStoreState)
   const { artistId } = React.useContext(ArtistContext)
 
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+
   const handleNextStep = async (objective) => {
+    const nextStep = objective === 'growth' ? 1 : 2
+
+    if (!artistId) {
+      setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, objective }))
+      goToStep(nextStep)
+    }
+
     const { res: artist, error } = await updateObjective(artistId, objective)
 
     if (error) {
@@ -55,8 +65,6 @@ const GetStartedObjectiveStep = () => {
       'optimizationPreferences',
       { objective: artist.preferences.optimization.objective },
     )
-
-    const nextStep = objective === 'growth' ? 1 : 2
 
     goToStep(nextStep)
   }

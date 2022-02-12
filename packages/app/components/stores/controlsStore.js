@@ -12,7 +12,7 @@ const { integrationsFolderId, folderStatesStorageKey } = linksHelpers
 const initialState = {
   artistId: '',
   isMusician: false,
-  defaultLink: {},
+  defaultLink: null,
   postsPreferences: {},
   conversionsPreferences: {},
   optimizationPreferences: {},

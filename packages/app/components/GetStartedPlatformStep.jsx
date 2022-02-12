@@ -12,7 +12,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { updatePlatform } from '@/app/helpers/artistHelpers'
 
-import { capitalise } from '@/helpers/utils'
+import { capitalise, getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
@@ -27,9 +27,19 @@ const GetStartedPlatformStep = () => {
   const { updatePreferences } = useControlsStore(getControlsStoreState)
   const { artistId } = React.useContext(ArtistContext)
 
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+
   const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
 
   const handleNextStep = async (platform) => {
+    const nextStep = platform === 'facebook' || platform === 'instagram' ? 3 : 2
+
+    if (!artistId) {
+      setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, platform }))
+      goToStep(nextStep)
+      return
+    }
+
     setIsLoading(true)
 
     const { res: artist, error } = await updatePlatform(artistId, platform)
@@ -45,8 +55,6 @@ const GetStartedPlatformStep = () => {
       'optimizationPreferences',
       { platform: artist.preferences.optimization.platform },
     )
-
-    const nextStep = platform === 'facebook' || platform === 'instagram' ? 3 : 2
 
     setIsLoading(false)
     goToStep(nextStep)

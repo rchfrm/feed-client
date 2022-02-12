@@ -6,11 +6,21 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 import ButtonHelp from '@/elements/ButtonHelp'
 
+import { getLocalStorage } from '@/helpers/utils'
+import { getArtistPayload } from '@/app/helpers/artistHelpers'
+
 import copy from '@/app/copy/connectProfilesCopy'
 import * as ROUTES from '@/app/constants/routes'
 
 const GetStartedConnectFacebookStep = ({ scopes }) => {
   const { next } = React.useContext(WizardContext)
+
+  React.useEffect(() => {
+    const data = JSON.parse(getLocalStorage('getStartedWizard'))
+    const payload = getArtistPayload(data)
+
+    console.log(payload)
+  }, [])
 
   return (
     <div className="flex flex-1 flex-column">

@@ -21,7 +21,7 @@ import * as ROUTES from '@/app/constants/routes'
 const GetStartedWizard = ({
   objective,
   platform,
-  defaultLinkId,
+  defaultLink,
   missingScopes,
   posts,
   adAccountId,
@@ -49,8 +49,8 @@ const GetStartedWizard = ({
     {
       id: 2,
       title: 'Default link',
-      component: <GetStartedDefaultLinkStep />,
-      isComplete: Boolean(defaultLinkId),
+      component: <GetStartedDefaultLinkStep defaultLink={defaultLink} />,
+      isComplete: Boolean(defaultLink),
       shouldSkip: objective === 'growth' && (platform === 'facebook' || platform === 'instagram'),
     },
     {
@@ -119,10 +119,10 @@ const GetStartedWizard = ({
 GetStartedWizard.propTypes = {
   objective: PropTypes.string,
   platform: PropTypes.string,
-  defaultLinkId: PropTypes.string.isRequired,
+  defaultLink: PropTypes.string,
   missingScopes: PropTypes.array.isRequired,
   posts: PropTypes.array.isRequired,
-  adAccountId: PropTypes.string.isRequired,
+  adAccountId: PropTypes.string,
   facebookPixelId: PropTypes.string,
   locations: PropTypes.object.isRequired,
   budget: PropTypes.number.isRequired,
@@ -132,6 +132,8 @@ GetStartedWizard.defaultProps = {
   objective: '',
   platform: '',
   facebookPixelId: '',
+  defaultLink: '',
+  adAccountId: '',
 }
 
 export default GetStartedWizard

@@ -223,7 +223,7 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
  * @returns {object} integration
  */
 export const getArtistIntegrationByPlatform = (artist, platformId) => {
-  if (!artist) return null
+  if (!artist || !artist.id) return null
   return artist.integrations.find(({ platform }) => platform === platformId)
 }
 
@@ -429,4 +429,71 @@ export const updatePlatform = (artistId, platform) => {
     action: 'Update optimization platform',
   }
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+const getDefaultLink = (platform) => {
+  // Save link to linkbank
+
+  // Get saved link id
+
+  // Save as default link
+
+  if (platform === 'facebook') {
+    return 'facebook link'
+  }
+
+  return 'instagram link'
+}
+
+const getCallToAction = (objective, platform) => {
+  if (platform === 'facebook' || platform === 'instagram' || objective === 'traffic') {
+    return 'LEARN_MORE'
+  }
+
+  if (platform === 'spotify' || platform === 'soundcloud') {
+    return 'LISTEN_NOW'
+  }
+
+  if (platform === 'youtube') {
+    return 'WATCH_MORE'
+  }
+
+  if (objective === 'sales') {
+    return 'SHOP_NOW'
+  }
+}
+
+const getTargetingPlatform = (platform) => {
+  if (platform === 'instagram' || platform === 'facebook') {
+    return platform
+  }
+
+  return ''
+}
+
+export const getArtistPayload = ({
+  objective,
+  platform = 'website',
+  defaultLinkId,
+}) => {
+  return {
+    preferences: {
+      optimization: {
+        objective,
+        platform,
+      },
+      posts: {
+        default_link_id: defaultLinkId || getDefaultLink(platform),
+        call_to_action: getCallToAction(objective, platform),
+      },
+      conversions: {
+        ...(objective === 'sales' && { call_to_action: 'SHOP_NOW', facebook_pixel_event: 'Purchase' }),
+        ...(objective === 'traffic' && { facebook_pixel_event: 'LandingPageViews' }),
+      },
+    },
+    targeting: {
+      platforms: [getTargetingPlatform(platform)],
+    },
+    ...(objective === 'sales' && { conversions_enabled: true }),
+  }
 }

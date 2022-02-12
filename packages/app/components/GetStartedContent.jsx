@@ -12,7 +12,7 @@ const GetStartedContent = () => {
     isLoading,
     objective,
     platform,
-    defaultLinkId,
+    defaultLink,
     missingScopes,
     posts,
     adAccountId,
@@ -27,7 +27,7 @@ const GetStartedContent = () => {
     <GetStartedWizard
       objective={objective}
       platform={platform}
-      defaultLinkId={defaultLinkId}
+      defaultLink={defaultLink}
       missingScopes={missingScopes}
       posts={posts}
       adAccountId={adAccountId}

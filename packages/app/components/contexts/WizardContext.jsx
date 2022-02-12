@@ -27,8 +27,7 @@ const wizardStateReducer = (draftState, action) => {
 
   switch (actionType) {
     case 'set-state': {
-      draftState[payload.key] = payload.value
-      break
+      return { ...draftState, ...payload }
     }
     default:
       throw new Error(`Unable to find ${action.type} in wizardReducer`)
