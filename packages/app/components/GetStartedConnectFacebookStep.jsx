@@ -1,25 +1,59 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import useControlsStore from '@/app/stores/controlsStore'
+import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 import ButtonHelp from '@/elements/ButtonHelp'
 
 import { getLocalStorage } from '@/helpers/utils'
-import { getArtistPayload } from '@/app/helpers/artistHelpers'
+import { updateArtist } from '@/app/helpers/artistHelpers'
+import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/connectProfilesCopy'
 import * as ROUTES from '@/app/constants/routes'
 
+
+const getControlsStoreState = (state) => ({
+  nestedLinks: state.nestedLinks,
+})
+
 const GetStartedConnectFacebookStep = ({ scopes }) => {
+  const { nestedLinks } = useControlsStore(getControlsStoreState)
+  const saveLinkToLinkBank = useSaveLinkToLinkBank()
+
   const { next } = React.useContext(WizardContext)
+  const { artistId } = React.useContext(ArtistContext)
 
-  React.useEffect(() => {
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted()) return
+
     const data = JSON.parse(getLocalStorage('getStartedWizard'))
-    const payload = getArtistPayload(data)
 
-    console.log(payload)
+    if (!data) return
+
+    const { platform, defaultLink } = data
+    let link = ''
+
+    // If user has provided a link then save it to the linkbank
+    if (defaultLink) {
+      const { savedLink, error } = await saveLinkToLinkBank(defaultLink)
+
+      if (error) {
+        return
+      }
+
+      link = savedLink
+    } else {
+      // Otherwise get the link from the linkbank based on previously chosen platform (either Facebook or Instagram)
+      link = getLinkByPlatform(nestedLinks, platform)
+    }
+
+    await updateArtist(artistId, { ...data, defaultLink: link.id })
   }, [])
 
   return (

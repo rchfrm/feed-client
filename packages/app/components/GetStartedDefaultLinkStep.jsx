@@ -36,7 +36,7 @@ const GetStartedDefaultLinkStep = () => {
   } = useControlsStore(getControlsStoreState)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
-  const { defaultLink: storedDefaultLink } = wizardState
+  const { defaultLink: storedDefaultLink } = wizardState || {}
 
   const [link, setLink] = React.useState(defaultLink || storedDefaultLink || {})
   const [error, setError] = React.useState(null)
@@ -44,7 +44,6 @@ const GetStartedDefaultLinkStep = () => {
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { objective, platform } = optimizationPreferences
-
 
   // On text input change update the link object with a name and href
   const handleChange = (e) => {
@@ -107,12 +106,15 @@ const GetStartedDefaultLinkStep = () => {
   }
 
   const handleNext = async () => {
+    // If there's no connected account yet store the data in local storage
     if (!artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: link }))
       next()
+
       return
     }
 
+    // Otherwise save the data in the db
     let action = 'add'
 
     if (link.id) {

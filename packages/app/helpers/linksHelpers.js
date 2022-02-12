@@ -42,6 +42,14 @@ export const getLinkById = (linkFolders, linkId) => {
   return allLinks.find(({ id }) => id === linkId)
 }
 
+// Get link by platform
+export const getLinkByPlatform = (linkFolders, linkPlatform) => {
+  const allLinks = linkFolders.reduce((arr, { links }) => {
+    return [...arr, ...links]
+  }, [])
+  return allLinks.find(({ platform }) => platform === linkPlatform)
+}
+
 // * SERVER
 // ------------
 

@@ -336,7 +336,7 @@ export const testIfMusician = (artistCategories = []) => {
  */
 export const testIfSpotifyConnected = (integrations) => {
   const spotifyIntegration = getArtistIntegrationByPlatform({ integrations }, 'spotify')
-  return !!spotifyIntegration.accountId
+  return !!spotifyIntegration?.accountId
 }
 
 /**
@@ -431,20 +431,6 @@ export const updatePlatform = (artistId, platform) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
-const getDefaultLink = (platform) => {
-  // Save link to linkbank
-
-  // Get saved link id
-
-  // Save as default link
-
-  if (platform === 'facebook') {
-    return 'facebook link'
-  }
-
-  return 'instagram link'
-}
-
 const getCallToAction = (objective, platform) => {
   if (platform === 'facebook' || platform === 'instagram' || objective === 'traffic') {
     return 'LEARN_MORE'
@@ -463,18 +449,10 @@ const getCallToAction = (objective, platform) => {
   }
 }
 
-const getTargetingPlatform = (platform) => {
-  if (platform === 'instagram' || platform === 'facebook') {
-    return platform
-  }
-
-  return ''
-}
-
 export const getArtistPayload = ({
   objective,
   platform = 'website',
-  defaultLinkId,
+  defaultLink,
 }) => {
   return {
     preferences: {
@@ -483,17 +461,33 @@ export const getArtistPayload = ({
         platform,
       },
       posts: {
-        default_link_id: defaultLinkId || getDefaultLink(platform),
+        default_link_id: defaultLink,
         call_to_action: getCallToAction(objective, platform),
+        promotion_enabled_default: false,
       },
       conversions: {
         ...(objective === 'sales' && { call_to_action: 'SHOP_NOW', facebook_pixel_event: 'Purchase' }),
         ...(objective === 'traffic' && { facebook_pixel_event: 'LandingPageViews' }),
       },
     },
-    targeting: {
-      platforms: [getTargetingPlatform(platform)],
-    },
     ...(objective === 'sales' && { conversions_enabled: true }),
   }
+}
+
+// Update artist
+/**
+* @param {string} artistId
+* @param {object} payload
+* @returns {Promise<object>} { res, error }
+*/
+export const updateArtist = (artistId, data) => {
+  console.log(data)
+  const requestUrl = `/artists/${artistId}`
+  const payload = getArtistPayload(data)
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update artist',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }

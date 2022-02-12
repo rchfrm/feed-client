@@ -27,13 +27,14 @@ const GetStartedPlatformStep = () => {
   const { updatePreferences } = useControlsStore(getControlsStoreState)
   const { artistId } = React.useContext(ArtistContext)
 
-  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
   const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
 
   const handleNextStep = async (platform) => {
     const nextStep = platform === 'facebook' || platform === 'instagram' ? 3 : 2
 
+    // If there's no connected account yet store the data in local storage
     if (!artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, platform }))
       goToStep(nextStep)
@@ -42,6 +43,7 @@ const GetStartedPlatformStep = () => {
 
     setIsLoading(true)
 
+    // Otherwise save the data in the db
     const { res: artist, error } = await updatePlatform(artistId, platform)
 
     if (error) {
