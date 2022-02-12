@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 
 import useOnResize from '@/landing/hooks/useOnResize'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import ResultsPostsChartPost from '@/app/ResultsPostsChartPost'
 import ResultsPostsChartBackground from '@/app/ResultsPostsChartBackground'
@@ -23,6 +24,7 @@ const ResultsPostsChart = ({
   const [hasScrolledLeft, setHasScrolledLeft] = React.useState(false)
 
   const { width } = useOnResize()
+  const isDesktopLayout = useBreakpointTest('sm')
 
   const lastThirtyDays = [...new Array(30)].map((_, index) => moment().startOf('day').subtract(index, 'days').format('YYYY-MM-DD')).reverse()
 
@@ -55,7 +57,11 @@ const ResultsPostsChart = ({
   return (
     posts.length ? (
       <div
-        className="w-full relative overflow-x-scroll overflow-y-hidden pb-2 sm:pb-0"
+        className="relative overflow-x-scroll overflow-y-hidden sm:overflow-visible pb-2 sm:pb-0"
+        style={{
+          width: isDesktopLayout ? '100%' : 'calc(100% + 48px)',
+          marginLeft: isDesktopLayout ? '0px' : '-24px',
+        }}
         ref={postsChartRef}
       >
         <ResultsPostsChartBackground
