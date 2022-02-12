@@ -292,8 +292,6 @@ export const getConversionData = (data) => {
   return null
 }
 
-// export const noSpendMetricTypes = ['reach', 'engagement', 'growth']
-
 export const noSpendMetricTypes = {
   reach: {
     type: 'reach',
