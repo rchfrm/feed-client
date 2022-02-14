@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import GetStartedObjectiveStep from '@/app/GetStartedObjectiveStep'
 import GetStartedPlatformStep from '@/app/GetStartedPlatformStep'
 import GetStartedDefaultLinkStep from '@/app/GetStartedDefaultLinkStep'
-import GetStartedConnectFacebookStep from '@/app/GetStartedConnectFacebookStep'
+import GetStartedConnectFacebook from '@/app/GetStartedConnectFacebook'
 import GetStartedPostsSelectionStep from '@/app/GetStartedPostsSelectionStep'
 import GetStartedPostsDefaultSelectionStep from '@/app/GetStartedPostsDefaultSelectionStep'
 import GetStartedAdAccountStep from '@/app/GetStartedAdAccountStep'
@@ -56,7 +56,7 @@ const GetStartedWizard = ({
     {
       id: 3,
       title: 'Connect Facebook',
-      component: <GetStartedConnectFacebookStep scopes={missingScopes} />,
+      component: <GetStartedConnectFacebook scopes={missingScopes} />,
       isComplete: missingScopes.length !== 0,
     },
     {
