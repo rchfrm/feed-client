@@ -481,7 +481,6 @@ export const getArtistPayload = ({
 * @returns {Promise<object>} { res, error }
 */
 export const updateArtist = (artistId, data) => {
-  console.log(data)
   const requestUrl = `/artists/${artistId}`
   const payload = getArtistPayload(data)
 

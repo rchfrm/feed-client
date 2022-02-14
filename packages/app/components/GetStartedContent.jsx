@@ -5,11 +5,10 @@ import useGetStartedWizard from '@/app/hooks/useGetStartedWizard'
 
 import GetStartedWizard from '@/app/GetStartedWizard'
 
-import Spinner from '@/elements/Spinner'
+// import Spinner from '@/elements/Spinner'
 
 const GetStartedContent = () => {
   const {
-    isLoading,
     objective,
     platform,
     defaultLink,
@@ -20,8 +19,6 @@ const GetStartedContent = () => {
     locations,
     budget,
   } = useGetStartedWizard()
-
-  if (isLoading) return <Spinner />
 
   return (
     <GetStartedWizard

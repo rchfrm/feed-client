@@ -138,7 +138,6 @@ const GetStartedDefaultLink = () => {
     next()
   }
 
-
   return (
     <div className="flex flex-1 flex-column">
       <Error error={error} />

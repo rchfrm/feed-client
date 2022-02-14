@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { WizardContext } from '@/app/contexts/WizardContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
@@ -21,15 +22,14 @@ const getControlsStoreState = (state) => ({
 })
 
 const GetStartedConnectFacebookConnectButton = ({ profiles, setIsConnecting }) => {
-  const [hasConnectedProfile, setHasConnectedProfile] = React.useState(false)
-
-  const { artistId, connectArtists } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
+  const { artistId, connectArtists } = React.useContext(ArtistContext)
+  const { next } = React.useContext(WizardContext)
 
   const { nestedLinks } = useControlsStore(getControlsStoreState)
   const saveLinkToLinkBank = useSaveLinkToLinkBank()
 
-  const runCreateArtists = React.useCallback(async () => {
+  const createArtist = async () => {
     setIsConnecting(true)
 
     // Santise URLs
@@ -38,16 +38,16 @@ const GetStartedConnectFacebookConnectButton = ({ profiles, setIsConnecting }) =
 
     if (error) {
       setIsConnecting(false)
-      return
     }
 
-    setHasConnectedProfile(true)
-  }, [user, profiles, setIsConnecting, connectArtists])
+    setIsConnecting(false)
+  }
 
+  // Patch artist data based on objective and platform
   useAsyncEffect(async (isMounted) => {
-    if (!hasConnectedProfile) return
-    if (!isMounted() || isMounted()) return
+    if (!artistId || !isMounted()) return
 
+    setIsConnecting(true)
     const data = JSON.parse(getLocalStorage('getStartedWizard'))
 
     if (!data) return
@@ -70,12 +70,15 @@ const GetStartedConnectFacebookConnectButton = ({ profiles, setIsConnecting }) =
     }
 
     await updateArtist(artistId, { ...data, defaultLink: link.id })
-  }, [hasConnectedProfile])
+
+    setIsConnecting(false)
+    next()
+  }, [artistId])
 
   return (
     <Button
       version="green"
-      onClick={runCreateArtists}
+      onClick={createArtist}
       className="w-48"
       trackComponentName="GetStartedDailyBudgetStep"
     >

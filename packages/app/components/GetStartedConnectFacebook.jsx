@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
+import { UserContext } from '@/app/contexts/UserContext'
+
+import GetStartedConnectFacebookConnectedProfile from '@/app/GetStartedConnectFacebookConnectedProfile'
 import GetStartedConnectFacebookNoProfiles from '@/app/GetStartedConnectFacebookNoProfiles'
 import GetStartedConnectFacebookProfilesList from '@/app/GetStartedConnectFacebookProfilesList'
 
@@ -13,6 +16,10 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   const [artistAccounts, setArtistAccounts] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
   const [isConnecting, setIsConnecting] = React.useState(false)
+  const [hasSaved, setHasSaved] = React.useState(false)
+
+  const { user } = React.useContext(UserContext)
+  const { artists: connectedArtists } = user
 
   // Get available accounts
   useAsyncEffect(async (isMounted) => {
@@ -41,6 +48,12 @@ const GetStartedConnectFacebook = ({ scopes }) => {
 
   if (isLoading || isConnecting) return <Spinner />
 
+  if (connectedArtists.length && hasSaved) {
+    return (
+      <GetStartedConnectFacebookConnectedProfile connectedArtists={connectedArtists} />
+    )
+  }
+
   if (artistAccounts.length === 0) {
     return (
       <GetStartedConnectFacebookNoProfiles scopes={scopes} />
@@ -54,6 +67,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
         <GetStartedConnectFacebookProfilesList
           profiles={artistAccounts}
           setIsConnecting={setIsConnecting}
+          setHasSaved={setHasSaved}
         />
       </div>
     </div>

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import GetStartedConnectFacebookProfilesItem from '@/app/GetStartedConnectFacebookProfilesItem'
 import GetStartedConnectFacebookConnectButton from '@/app/GetStartedConnectFacebookConnectButton'
 
-const GetStartedConnectFacebookProfilesList = ({ profiles, setIsConnecting }) => {
+const GetStartedConnectFacebookProfilesList = ({ profiles, setIsConnecting, setHasSaved }) => {
   return (
     <div className="flex flex-column items-center">
       <ul>
@@ -20,6 +20,7 @@ const GetStartedConnectFacebookProfilesList = ({ profiles, setIsConnecting }) =>
       <GetStartedConnectFacebookConnectButton
         profiles={profiles}
         setIsConnecting={setIsConnecting}
+        setHasSaved={setHasSaved}
       />
     </div>
   )
