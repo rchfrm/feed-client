@@ -25,7 +25,7 @@ const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
 })
 
-const GetStartedDefaultLinkStep = () => {
+const GetStartedDefaultLink = () => {
   const {
     savedFolders,
     nestedLinks,
@@ -171,10 +171,10 @@ const GetStartedDefaultLinkStep = () => {
   )
 }
 
-GetStartedDefaultLinkStep.propTypes = {
+GetStartedDefaultLink.propTypes = {
 }
 
-GetStartedDefaultLinkStep.defaultProps = {
+GetStartedDefaultLink.defaultProps = {
 }
 
-export default GetStartedDefaultLinkStep
+export default GetStartedDefaultLink

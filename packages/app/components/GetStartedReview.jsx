@@ -6,7 +6,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 import Button from '@/elements/Button'
 
-const GetStartedReviewStep = () => {
+const GetStartedReview = () => {
   // Navigate to the posts page
   const goToPostsPage = () => {
     Router.push({
@@ -32,10 +32,10 @@ const GetStartedReviewStep = () => {
   )
 }
 
-GetStartedReviewStep.propTypes = {
+GetStartedReview.propTypes = {
 }
 
-GetStartedReviewStep.defaultProps = {
+GetStartedReview.defaultProps = {
 }
 
-export default GetStartedReviewStep
+export default GetStartedReview

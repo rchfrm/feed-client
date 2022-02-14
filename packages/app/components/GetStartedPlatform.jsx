@@ -19,7 +19,7 @@ const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
 })
 
-const GetStartedPlatformStep = () => {
+const GetStartedPlatform = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
@@ -97,10 +97,10 @@ const GetStartedPlatformStep = () => {
   )
 }
 
-GetStartedPlatformStep.propTypes = {
+GetStartedPlatform.propTypes = {
 }
 
-GetStartedPlatformStep.defaultProps = {
+GetStartedPlatform.defaultProps = {
 }
 
-export default GetStartedPlatformStep
+export default GetStartedPlatform

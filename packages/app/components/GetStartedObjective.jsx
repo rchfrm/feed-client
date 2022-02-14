@@ -36,7 +36,7 @@ const objectives = [
   },
 ]
 
-const GetStartedObjectiveStep = () => {
+const GetStartedObjective = () => {
   const [error, setError] = React.useState(null)
 
   const { goToStep } = React.useContext(WizardContext)
@@ -100,10 +100,10 @@ const GetStartedObjectiveStep = () => {
   )
 }
 
-GetStartedObjectiveStep.propTypes = {
+GetStartedObjective.propTypes = {
 }
 
-GetStartedObjectiveStep.defaultProps = {
+GetStartedObjective.defaultProps = {
 }
 
-export default GetStartedObjectiveStep
+export default GetStartedObjective

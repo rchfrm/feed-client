@@ -16,7 +16,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
-const GetStartedDailyBudgetStep = () => {
+const GetStartedDailyBudget = () => {
   const {
     targetingState,
     initialTargetingState,
@@ -106,10 +106,10 @@ const GetStartedDailyBudgetStep = () => {
   )
 }
 
-GetStartedDailyBudgetStep.propTypes = {
+GetStartedDailyBudget.propTypes = {
 }
 
-GetStartedDailyBudgetStep.defaultProps = {
+GetStartedDailyBudget.defaultProps = {
 }
 
-export default GetStartedDailyBudgetStep
+export default GetStartedDailyBudget

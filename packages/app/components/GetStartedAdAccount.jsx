@@ -12,7 +12,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
-const GetStartedAdAccountStep = () => {
+const GetStartedAdAccount = () => {
   const objective = 'growth'
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
@@ -121,10 +121,10 @@ const GetStartedAdAccountStep = () => {
   )
 }
 
-GetStartedAdAccountStep.propTypes = {
+GetStartedAdAccount.propTypes = {
 }
 
-GetStartedAdAccountStep.defaultProps = {
+GetStartedAdAccount.defaultProps = {
 }
 
-export default GetStartedAdAccountStep
+export default GetStartedAdAccount

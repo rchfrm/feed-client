@@ -20,7 +20,7 @@ const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
 })
 
-const GetStartedPostsDefaultSelectionStep = () => {
+const GetStartedPostsDefaultSelection = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { next } = React.useContext(WizardContext)
@@ -86,10 +86,10 @@ const GetStartedPostsDefaultSelectionStep = () => {
   )
 }
 
-GetStartedPostsDefaultSelectionStep.propTypes = {
+GetStartedPostsDefaultSelection.propTypes = {
 }
 
-GetStartedPostsDefaultSelectionStep.defaultProps = {
+GetStartedPostsDefaultSelection.defaultProps = {
 }
 
-export default GetStartedPostsDefaultSelectionStep
+export default GetStartedPostsDefaultSelection

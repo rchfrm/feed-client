@@ -19,7 +19,7 @@ import { setPixel, getArtistPixels } from '@/app/helpers/settingsHelpers'
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/getStartedCopy'
 
-const GetStartedFacebookPixelStep = () => {
+const GetStartedFacebookPixel = () => {
   const [facebookPixel, setFacebookPixel] = React.useState(null)
   const [shouldShowPixelSelector, setShouldShowPixelSelector] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -121,10 +121,10 @@ const GetStartedFacebookPixelStep = () => {
   )
 }
 
-GetStartedFacebookPixelStep.propTypes = {
+GetStartedFacebookPixel.propTypes = {
 }
 
-GetStartedFacebookPixelStep.defaultProps = {
+GetStartedFacebookPixel.defaultProps = {
 }
 
-export default GetStartedFacebookPixelStep
+export default GetStartedFacebookPixel

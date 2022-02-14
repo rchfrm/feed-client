@@ -20,7 +20,7 @@ const locationOptions = countries.map(({ id, name }) => {
   }
 })
 
-const GetStartedHomeCountryStep = () => {
+const GetStartedLocation = () => {
   const { next, wizardState } = React.useContext(WizardContext)
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
 
@@ -97,10 +97,10 @@ const GetStartedHomeCountryStep = () => {
   )
 }
 
-GetStartedHomeCountryStep.propTypes = {
+GetStartedLocation.propTypes = {
 }
 
-GetStartedHomeCountryStep.defaultProps = {
+GetStartedLocation.defaultProps = {
 }
 
-export default GetStartedHomeCountryStep
+export default GetStartedLocation

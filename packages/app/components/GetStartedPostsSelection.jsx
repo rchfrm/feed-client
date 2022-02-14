@@ -20,7 +20,7 @@ import { updatePost } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
-const GetStartedPostsSelectionStep = () => {
+const GetStartedPostsSelection = () => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [posts, setPosts] = React.useState([])
   const [selectedPostsIds, setSelectedPostsIds] = React.useState([])
@@ -126,10 +126,10 @@ const GetStartedPostsSelectionStep = () => {
   )
 }
 
-GetStartedPostsSelectionStep.propTypes = {
+GetStartedPostsSelection.propTypes = {
 }
 
-GetStartedPostsSelectionStep.defaultProps = {
+GetStartedPostsSelection.defaultProps = {
 }
 
-export default GetStartedPostsSelectionStep
+export default GetStartedPostsSelection
