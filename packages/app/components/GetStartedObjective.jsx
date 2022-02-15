@@ -95,7 +95,7 @@ const GetStartedObjective = () => {
             </Button>
           ))}
         </div>
-        <p className="w-full xs:text-center underline">Something else?</p>
+        <a className="w-full xs:text-center" href="mailto:help@tryfeed.co">Something else?</a>
       </div>
     </div>
   )

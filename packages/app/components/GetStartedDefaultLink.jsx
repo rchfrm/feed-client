@@ -5,7 +5,7 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 
-import { saveLink, setDefaultLink, getLinkById } from '@/app/helpers/linksHelpers'
+import { saveLink, setDefaultLink, getLinkById, validateLink } from '@/app/helpers/linksHelpers'
 
 import Button from '@/elements/Button'
 import Input from '@/elements/Input'
@@ -47,6 +47,8 @@ const GetStartedDefaultLink = () => {
 
   // On text input change update the link object with a name and href
   const handleChange = (e) => {
+    setError(null)
+
     setLink({ ...link, name: 'default link', href: e.target.value })
   }
 
@@ -109,6 +111,20 @@ const GetStartedDefaultLink = () => {
   const handleNext = async () => {
     // If there's no connected account yet store the data in local storage
     if (!artistId) {
+      const { res, error } = await validateLink(link.href)
+
+      if (error) {
+        setError({ message: error.message })
+        return
+      }
+
+      const { isValid } = res
+
+      if (!isValid) {
+        setError({ message: 'Error saving link, link not valid' })
+        return
+      }
+
       setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: link }))
       next()
 

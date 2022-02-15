@@ -3,6 +3,7 @@ import produce from 'immer'
 import * as utils from '@/helpers/utils'
 import { getPostLinkSpecData } from '@/app/helpers/postsHelpers'
 import * as server from '@/app/helpers/appServer'
+import * as api from '@/helpers/api'
 import { track } from '@/helpers/trackingHelpers'
 
 // * UTILS
@@ -290,4 +291,20 @@ export const afterDeleteFolder = ({ oldFolder, nestedLinks }) => {
     draftNestedLinks.splice(oldFolderIndex, 1)
   })
   return { nestedLinksUpdated }
+}
+
+// Validate link
+/**
+* @param {string} link
+* @returns {Promise<object>} { isValid, link }
+*/
+export const validateLink = (link) => {
+  const requestUrl = '/actions/validate_link'
+  const payload = { link }
+
+  const errorTracking = {
+    category: 'Link',
+    action: 'Validate link',
+  }
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
