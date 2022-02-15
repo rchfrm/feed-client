@@ -46,18 +46,21 @@ const GetStartedObjective = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
   const handleNextStep = async (objective) => {
-    const nextStep = objective === 'growth' ? 1 : 2
+    const isGrowth = objective === 'growth'
+    const nextStep = isGrowth ? 1 : 2
 
     // If there's no connected account yet store the data in local storage
     if (!artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, objective }))
       goToStep(nextStep)
+
+      return
     }
 
     // Otherwise save the data in the db
     const { res: artist, error } = await updateArtist(artistId, {
       objective,
-      ...(objective !== 'growth' && { platform: 'website' }),
+      ...(!isGrowth && { platform: 'website' }),
     })
 
     if (error) {

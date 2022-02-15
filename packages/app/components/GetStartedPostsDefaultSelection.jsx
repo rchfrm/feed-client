@@ -35,18 +35,27 @@ const GetStartedPostsDefaultSelection = () => {
       next()
       return
     }
+
     setIsEnabled(isDefaultPromotionEnabled)
     setIsLoading(true)
+  
     // Batch toggle all posts on server
     const { success } = await server.toggleDefaultPromotionStatus(artistId, isDefaultPromotionEnabled)
     if (!success) return
+
     // Patch artist post preferences
     const { preferences: { posts: { promotion_enabled_default } } } = await server.patchArtistPromotionStatus(artistId, isDefaultPromotionEnabled)
     setIsLoading(false)
+
     // Update artist context status
     setPostPreferences('promotion_enabled_default', promotion_enabled_default)
+
     // Update posts preferences in controls store
-    updatePreferences('postsPreferences', { defaultPromotionEnabled: promotion_enabled_default })
+    updatePreferences({
+      postsPreferences: {
+        defaultPromotionEnabled: promotion_enabled_default,
+      },
+    })
     next()
   }, [artistId, next, setPostPreferences, updatePreferences, defaultPromotionEnabled])
 
