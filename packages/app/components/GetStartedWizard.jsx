@@ -126,7 +126,7 @@ const GetStartedWizard = ({
 GetStartedWizard.propTypes = {
   objective: PropTypes.string,
   platform: PropTypes.string,
-  defaultLink: PropTypes.string,
+  defaultLink: PropTypes.object,
   missingScopes: PropTypes.array.isRequired,
   posts: PropTypes.array.isRequired,
   adAccountId: PropTypes.string,
@@ -138,8 +138,8 @@ GetStartedWizard.propTypes = {
 GetStartedWizard.defaultProps = {
   objective: '',
   platform: '',
+  defaultLink: null,
   facebookPixelId: '',
-  defaultLink: '',
   adAccountId: '',
 }
 

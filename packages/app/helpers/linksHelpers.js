@@ -36,6 +36,8 @@ export const splitLinks = (nestedLinks = []) => {
 
 // Get link by ID
 export const getLinkById = (linkFolders, linkId) => {
+  if (!linkId) return null
+
   const allLinks = linkFolders.reduce((arr, { links }) => {
     return [...arr, ...links]
   }, [])

@@ -76,10 +76,11 @@ const GetStartedDefaultLink = () => {
       updateLinks('chooseNewDefaultLink', { newArtist, newLink })
 
       // Update the post preferences object
-      updatePreferences(
-        'postsPreferences',
-        { defaultLinkId: default_link_id },
-      )
+      updatePreferences({
+        postsPreferences: {
+          defaultLinkId: default_link_id,
+        },
+      })
 
       // Update artist status
       setPostPreferences('default_link_id', default_link_id)

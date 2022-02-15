@@ -63,10 +63,11 @@ const GetStartedObjective = () => {
     }
 
     // Update global store value
-    updatePreferences(
-      'optimizationPreferences',
-      { objective: artist.preferences.optimization.objective },
-    )
+    updatePreferences({
+      optimizationPreferences: {
+        objective: artist.preferences.optimization.objective,
+      },
+    })
 
     goToStep(nextStep)
   }

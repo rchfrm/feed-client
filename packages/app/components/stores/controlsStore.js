@@ -278,19 +278,18 @@ const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
   locallyStoreFolderStates(newState, artistId)
 }
 
-// UPDATE POSTS OR CONVERSIONS PREFERENCES
-const updatePreferences = (set, get) => (type, preferences) => {
+// UPDATE PREFERENCES
+const updatePreferences = (set, get) => (preferences) => {
   const controlsStore = get()
-  const { canRunConversionCampaigns } = controlsStore
-  const newState = produce(controlsStore[type], draftState => {
+
+  const newState = produce(controlsStore, draftState => {
     Object.entries(preferences).forEach(([key, value]) => {
-      draftState[key] = value
+      Object.entries(value).forEach(([k, v]) => {
+        draftState[key][k] = v
+      })
     })
   })
-  set({ [type]: newState })
-  if (type === 'conversionsPreferences') {
-    set({ canRunConversions: canRunConversionCampaigns() })
-  }
+  set(newState)
 }
 
 const updateSpending = (set, get) => (budget, status) => {

@@ -20,6 +20,7 @@ import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
+  updateLinks: state.updateLinks,
   optimizationPreferences: state.optimizationPreferences,
   updatePreferences: state.updatePreferences,
 })
@@ -33,7 +34,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   const { user } = React.useContext(UserContext)
   const { artists: connectedArtists } = user
 
-  const { nestedLinks, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
+  const { nestedLinks, updateLinks, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
 
   const saveLinkToLinkBank = useSaveLinkToLinkBank()
@@ -95,14 +96,27 @@ const GetStartedConnectFacebook = ({ scopes }) => {
       return
     }
 
-    // Update global store value
-    updatePreferences(
-      'optimizationPreferences',
-      {
-        objective: artist.preferences.optimization.objective,
-        platform: artist.preferences.optimization.objective,
+    // Set the new link as the default link
+    updateLinks('chooseNewDefaultLink', { newArtist: artist })
+
+    const currentObjective = artist.preferences.optimization.objective
+
+    // Update preferences in controls store
+    updatePreferences({
+      postsPreferences: {
+        callToAction: artist.preferences.posts.call_to_action,
+        defaultLinkId: artist.preferences.posts.default_link_id,
+        promotionEnabled: artist.preferences.posts.promotion_enabled_default,
       },
-    )
+      optimizationPreferences: {
+        objective: artist.preferences.optimization.objective,
+        platform: artist.preferences.optimization.platform,
+      },
+      conversionsPreferences: {
+        ...(currentObjective === 'sales' && { callToAction: artist.preferences.conversions.call_to_action }),
+        ...((currentObjective === 'sales' || currentObjective === 'traffic') && { facebookPixelEvent: artist.preferences.conversions.facebook_pixel_event }),
+      },
+    })
 
     setIsConnecting(false)
   }, [artistId])

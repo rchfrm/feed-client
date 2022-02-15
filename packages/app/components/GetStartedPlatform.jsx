@@ -53,10 +53,11 @@ const GetStartedPlatform = () => {
     }
 
     // Update global store value
-    updatePreferences(
-      'optimizationPreferences',
-      { platform: artist.preferences.optimization.platform },
-    )
+    updatePreferences({
+      optimizationPreferences: {
+        platform: artist.preferences.optimization.platform,
+      },
+    })
 
     setIsLoading(false)
     goToStep(nextStep)
