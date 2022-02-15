@@ -13,12 +13,15 @@ import GetStartedLocation from '@/app/GetStartedLocation'
 import GetStartedDailyBudget from '@/app/GetStartedDailyBudget'
 import GetStartedReview from '@/app/GetStartedReview'
 
+import Spinner from '@/elements/Spinner'
+
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import * as ROUTES from '@/app/constants/routes'
 
 const GetStartedWizard = ({
+  isLoading,
   objective,
   platform,
   defaultLink,
@@ -109,7 +112,11 @@ const GetStartedWizard = ({
     <div className="flex flex-column flex-1">
       {steps.length && (
         <WizardContextProvider steps={steps} goBackToPath={ROUTES.HOME} hasBackButton>
-          {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)
+          )}
         </WizardContextProvider>
       )}
     </div>

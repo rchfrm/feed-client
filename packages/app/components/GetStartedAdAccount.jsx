@@ -89,6 +89,12 @@ const GetStartedAdAccount = () => {
     saveAdAccount(adAccountId)
   }
 
+  React.useEffect(() => {
+    if (!adAccountId) {
+      setAdAccountId(adAccountOptions[0]?.value)
+    }
+  }, [adAccountId, setAdAccountId, adAccountOptions])
+
   return (
     <div className="flex flex-1 flex-column">
       <h3 className="mb-0 font-medium text-xl">Which Facebook ad account would you like Feed to use?</h3>
