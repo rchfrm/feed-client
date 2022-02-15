@@ -451,18 +451,18 @@ const getCallToAction = (objective, platform) => {
 
 export const getArtistPayload = ({
   objective,
-  platform = 'website',
+  platform,
   defaultLink,
 }) => {
   return {
     preferences: {
       optimization: {
-        objective,
-        platform,
+        ...(objective && { objective }),
+        ...(platform && { platform }),
       },
       posts: {
-        default_link_id: defaultLink,
-        call_to_action: getCallToAction(objective, platform),
+        ...(defaultLink && { default_link_id: defaultLink }),
+        ...(objective && platform && { call_to_action: getCallToAction(objective, platform) }),
         promotion_enabled_default: false,
       },
       conversions: {

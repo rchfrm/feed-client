@@ -10,13 +10,17 @@ import Error from '@/elements/Error'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import { updatePlatform } from '@/app/helpers/artistHelpers'
+import { updateArtist } from '@/app/helpers/artistHelpers'
 
 import { capitalise, getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
+import { getLinkByPlatform } from '../helpers/linksHelpers'
 
 const getControlsStoreState = (state) => ({
+  nestedLinks: state.nestedLinks,
+  optimizationPreferences: state.optimizationPreferences,
   updatePreferences: state.updatePreferences,
+  updateLinks: state.updateLinks,
 })
 
 const GetStartedPlatform = () => {
@@ -24,15 +28,17 @@ const GetStartedPlatform = () => {
   const [error, setError] = React.useState(null)
 
   const { goToStep } = React.useContext(WizardContext)
-  const { updatePreferences } = useControlsStore(getControlsStoreState)
   const { artistId } = React.useContext(ArtistContext)
+  const { updatePreferences, optimizationPreferences, nestedLinks, updateLinks } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
   const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
 
   const handleNextStep = async (platform) => {
-    const nextStep = platform === 'facebook' || platform === 'instagram' ? 3 : 2
+    const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
+    const nextStep = isFacebookOrInstagram ? 3 : 2
 
     // If there's no connected account yet store the data in local storage
     if (!artistId) {
@@ -44,7 +50,12 @@ const GetStartedPlatform = () => {
     setIsLoading(true)
 
     // Otherwise save the data in the db
-    const { res: artist, error } = await updatePlatform(artistId, platform)
+    const { res: artist, error } = await updateArtist(artistId, {
+      objective,
+      platform,
+      // If platform is Facebook or Instagram grab the link from the linkbank
+      ...(isFacebookOrInstagram && { defaultLink: getLinkByPlatform(nestedLinks, platform).id }),
+    })
 
     if (error) {
       setError({ message: error.message })
@@ -52,8 +63,16 @@ const GetStartedPlatform = () => {
       return
     }
 
-    // Update global store value
+    if (isFacebookOrInstagram) {
+      updateLinks('chooseNewDefaultLink', { newArtist: artist })
+    }
+
+    // Update preferences in controls store
     updatePreferences({
+      postsPreferences: {
+        callToAction: artist.preferences.posts.call_to_action,
+        ...(isFacebookOrInstagram && { defaultLinkId: artist.preferences.posts.default_link_id }),
+      },
       optimizationPreferences: {
         platform: artist.preferences.optimization.platform,
       },

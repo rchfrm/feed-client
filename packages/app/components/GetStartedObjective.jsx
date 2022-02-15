@@ -11,7 +11,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
-import { updateObjective } from '@/app/helpers/artistHelpers'
+import { updateArtist } from '@/app/helpers/artistHelpers'
 
 const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
@@ -55,17 +55,28 @@ const GetStartedObjective = () => {
     }
 
     // Otherwise save the data in the db
-    const { res: artist, error } = await updateObjective(artistId, objective)
+    const { res: artist, error } = await updateArtist(artistId, {
+      objective,
+      ...(objective !== 'growth' && { platform: 'website' }),
+    })
 
     if (error) {
       setError({ message: error.message })
       return
     }
 
-    // Update global store value
+    // Update preferences in controls store
     updatePreferences({
+      postsPreferences: {
+        callToAction: artist.preferences.posts.call_to_action,
+      },
       optimizationPreferences: {
         objective: artist.preferences.optimization.objective,
+        platform: artist.preferences.optimization.platform,
+      },
+      conversionsPreferences: {
+        ...(objective === 'sales' && { callToAction: artist.preferences.conversions.call_to_action }),
+        ...((objective === 'sales' || objective === 'traffic') && { facebookPixelEvent: artist.preferences.conversions.facebook_pixel_event }),
       },
     })
 
