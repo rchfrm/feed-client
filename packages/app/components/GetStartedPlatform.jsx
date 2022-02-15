@@ -44,6 +44,7 @@ const GetStartedPlatform = () => {
     if (!artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, platform }))
       goToStep(nextStep)
+
       return
     }
 

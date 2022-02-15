@@ -23,6 +23,7 @@ const getControlsStoreState = (state) => ({
   updateLinks: state.updateLinks,
   optimizationPreferences: state.optimizationPreferences,
   updatePreferences: state.updatePreferences,
+  defaultLink: state.defaultLink,
 })
 
 const GetStartedConnectFacebook = ({ scopes }) => {
@@ -34,8 +35,14 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   const { user } = React.useContext(UserContext)
   const { artists: connectedArtists } = user
 
-  const { nestedLinks, updateLinks, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
-  const { objective } = optimizationPreferences
+  const {
+    nestedLinks,
+    updateLinks,
+    optimizationPreferences,
+    updatePreferences,
+    defaultLink,
+  } = useControlsStore(getControlsStoreState)
+  const { objective, platform } = optimizationPreferences
 
   const saveLinkToLinkBank = useSaveLinkToLinkBank()
 
@@ -66,19 +73,21 @@ const GetStartedConnectFacebook = ({ scopes }) => {
 
   // If needed patch artist data based on objective and platform
   useAsyncEffect(async (isMounted) => {
-    if (!artistId || objective || !isMounted()) return
+    if (!artistId || !isMounted()) return
+
+    if ([objective, platform, defaultLink].every(Boolean)) return
 
     setIsConnecting(true)
     const data = JSON.parse(getLocalStorage('getStartedWizard'))
 
     if (!data) return
 
-    const { platform, defaultLink } = data
+    const { platform: storedPlatform, defaultLink: storedDefaultLink } = data
     let link = ''
 
     // If user has provided a link then save it to the linkbank
-    if (defaultLink) {
-      const { savedLink, error } = await saveLinkToLinkBank(defaultLink)
+    if (storedDefaultLink) {
+      const { savedLink, error } = await saveLinkToLinkBank(storedDefaultLink)
 
       if (error) {
         return
@@ -87,7 +96,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
       link = savedLink
     } else {
       // Otherwise get the link from the linkbank based on previously chosen platform (either Facebook or Instagram)
-      link = getLinkByPlatform(nestedLinks, platform)
+      link = getLinkByPlatform(nestedLinks, storedPlatform)
     }
 
     const { res: artist, error } = await updateArtist(artistId, { ...data, defaultLink: link.id })
