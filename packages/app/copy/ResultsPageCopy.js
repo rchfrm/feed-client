@@ -1,5 +1,5 @@
 import * as ROUTES from '@/app/constants/routes'
-import { formatNumber, getNestedObjectByValue } from '@/helpers/utils'
+import { capitalise, formatNumber, getNestedObjectByValue } from '@/helpers/utils'
 
 const optimisationsEventsDictionary = {
   omni_purchase: {
@@ -151,4 +151,55 @@ We’ll be in touch shortly after with more information.`,
     }
     return 'Your results will appear here soon (within 24 hours of starting ads).'
   },
+  noSpendReachDescription: (value, isMobile) => {
+    if (isMobile) {
+      return 'The percentage of your audience reached by a typical post.'
+    }
+
+    return `Your posts reach **${value}%** of your addressable audience.`
+  },
+  noSpendEngageDescription: (value) => `**${value}%** of your followers engage with each post on average.`,
+  noSpendGrowthDescription: (value, platform, rate) => {
+    if (value === 0) {
+      return `You're ${capitalise(platform)} following is steady.`
+    }
+    const rateString = `_(${rate >= 0 ? '+' : ''}${rate}%)_`
+    const changeDescription = value > 0 ? 'adding' : 'losing'
+    return `You're ${changeDescription} **${value}** ${capitalise(platform)} followers a month on average ${rateString}.`
+  },
+  noSpendTotalFollowersDescription: "We don't have enough historical information yet, so check back later to see growth insights.",
+  quartileDescription: (quartile, percentile) => {
+    if (quartile === 1) {
+      return `Room to improve, but better than **${percentile}%** of others`
+    }
+
+    if (quartile === 2) {
+      return `Better than **${percentile}%** of others - about average`
+    }
+
+    if (quartile === 3) {
+      return `Better than most - **${percentile}%** to be precise!`
+    }
+
+    if (quartile === 4) {
+      return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
+    }
+  },
+  postsChartTitle: (metricType) => {
+    if (metricType === 'reach') {
+      return 'Reach of your recent posts'
+    }
+
+    return 'Engagement rate of your recent posts'
+  },
+  postsChartDescription: (metricType) => {
+    if (metricType === 'reach') {
+      return "See the estimated percentage of your audience your posts have reached in the last 30 days. Your audience isn't just followers, it’s also people who have engaged with you before but haven’t followed you yet."
+    }
+
+    return 'See the percentage of your followers that engaged with your posts from the last 30 days.'
+  },
+  postsChartNoData: 'No posts found within the last 30 days.',
+  growthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
+  growthChartNoData: 'There is currently no follower growth data available.',
 }
