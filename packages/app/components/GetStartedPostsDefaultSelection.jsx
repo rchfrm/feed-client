@@ -38,7 +38,6 @@ const GetStartedPostsDefaultSelection = () => {
 
     setIsEnabled(isDefaultPromotionEnabled)
     setIsLoading(true)
-
     // Batch toggle all posts on server
     const { success } = await server.toggleDefaultPromotionStatus(artistId, isDefaultPromotionEnabled)
     if (!success) return
