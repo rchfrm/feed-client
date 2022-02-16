@@ -6,6 +6,8 @@ import * as ROUTES from '@/app/constants/routes'
 
 import Button from '@/elements/Button'
 
+import copy from '@/app/copy/getStartedCopy'
+
 const GetStartedReview = () => {
   // Navigate to the posts page
   const goToPostsPage = () => {
@@ -17,7 +19,7 @@ const GetStartedReview = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">Feed has submitted your ads for approval!</h3>
+      <h3 className="mb-0 font-medium text-xl">{copy.reviewDescription}</h3>
       <div className="flex flex-1 justify-center items-center">
         <Button
           version="green"

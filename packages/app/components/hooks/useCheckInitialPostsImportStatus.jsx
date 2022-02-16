@@ -21,6 +21,7 @@ const useCheckInitialPostsImportStatus = (artistId, setCanLoadPosts) => {
 
     if (res.last_update_completed_at) {
       clearInterval(intervalId)
+      setInitialLoading(false)
       setCanLoadPosts(true)
       return
     }

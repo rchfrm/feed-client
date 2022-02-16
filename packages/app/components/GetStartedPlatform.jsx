@@ -7,6 +7,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PlatformIcon from '@/icons/PlatformIcon'
 import ButtonPill from '@/elements/ButtonPill'
 import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -14,7 +15,9 @@ import { updateArtist } from '@/app/helpers/artistHelpers'
 
 import { capitalise, getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
-import { getLinkByPlatform } from '../helpers/linksHelpers'
+import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
+
+import copy from '@/app/copy/getStartedCopy'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -85,7 +88,8 @@ const GetStartedPlatform = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">Which platform would you like to grow?</h3>
+      <h3 className="mb-4 font-medium text-xl">{copy.platformSubtitle}</h3>
+      <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.platformDescription} />
       <div className="flex flex-1 flex-wrap">
         <Error error={error} />
         <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mx-auto">

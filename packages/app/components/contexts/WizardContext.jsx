@@ -100,7 +100,7 @@ const WizardContextProvider = ({
       }}
     >
       <h2>{steps[currentStep].title}</h2>
-      <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-12" />
+      <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-8" />
       {children[currentStep]}
       <div className="w-full mt-auto flex justify-between">
         {(hasBackButton && !isFirstStep) ? (
@@ -122,7 +122,7 @@ const WizardContextProvider = ({
           onClick={goToPage}
           className="flex ml-auto text-grey-2 no-underline"
         >
-          Skip and go to app
+          Let me see the app first
         </a>
       </div>
     </WizardContext.Provider>

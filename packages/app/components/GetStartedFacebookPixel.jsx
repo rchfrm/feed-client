@@ -60,7 +60,7 @@ const GetStartedFacebookPixel = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">{copy.facebookPixelTitle(shouldShowPixelSelector)}</h3>
+      <h3 className="mb-0 font-medium text-xl">{copy.facebookPixelSubtitle(shouldShowPixelSelector)}</h3>
       <div className="flex flex-1 flex-column w-1/3 justify-center items-center mx-auto">
         {shouldShowPixelSelector ? (
           <>

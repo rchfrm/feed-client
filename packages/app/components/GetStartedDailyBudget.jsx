@@ -16,6 +16,8 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
+import copy from '@/app/copy/getStartedCopy'
+
 const GetStartedDailyBudget = () => {
   const {
     targetingState,
@@ -72,7 +74,7 @@ const GetStartedDailyBudget = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">Finally, how much would you like to spend?</h3>
+      <h3 className="mb-0 font-medium text-xl">{copy.budgetSubtitle}</h3>
       <div className="flex flex-1 flex-column justify-center items-center">
         <div className="w-1/2 h-26 mb-4 px-6">
           <TargetingBudgetSlider

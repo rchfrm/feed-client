@@ -13,6 +13,8 @@ import countries from '@/constants/countries'
 
 import { updateLocation } from '@/app/helpers/artistHelpers'
 
+import copy from '@/app/copy/getStartedCopy'
+
 const locationOptions = countries.map(({ id, name }) => {
   return {
     value: id,
@@ -67,7 +69,7 @@ const GetStartedLocation = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">Where are you based?</h3>
+      <h3 className="mb-0 font-medium text-xl">{copy.locationSubtitle}</h3>
       <div className="flex flex-1 flex-column justify-center items-center w-1/3 mx-auto">
         <Select
           name="country_code"

@@ -15,6 +15,8 @@ import brandColors from '@/constants/brandColors'
 
 import * as server from '@/app/helpers/appServer'
 
+import copy from '@/app/copy/getStartedCopy'
+
 const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
   postsPreferences: state.postsPreferences,
@@ -60,7 +62,7 @@ const GetStartedPostsDefaultSelection = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="w-full mb-0 font-medium text-xl">Are you happy for Feed to continue selecting the best posts on your behalf?</h3>
+      <h3 className="w-full mb-0 font-medium text-xl">{copy.postsDefaultSelectionSubtitle}</h3>
       <div className="flex flex-1 justify-center items-center">
         <Button
           version="outline-black"

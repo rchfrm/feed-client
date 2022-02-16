@@ -71,20 +71,26 @@ const GetStartedPostsSelection = () => {
     }
   }
 
+  if (initialLoading) return null
+
   return (
     <div className="flex flex-1 flex-column">
-      {!canLoadPosts && !initialLoading ? (
-        <div className="flex mb-16">
-          <Spinner width={24} className="flex-none w-auto mr-2" />
-          <h3 className="mb-0 font-medium text-xl">Analysing your posts...</h3>
-        </div>
+      {!canLoadPosts ? (
+        <>
+          <div className="flex mb-4">
+            <Spinner width={24} className="flex-none w-auto mr-2" />
+            <h3 className="mb-0 font-medium text-xl">{copy.postsSelectionSubtitle(canLoadPosts)}</h3>
+          </div>
+          <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
+        </>
       ) : (
-        <h3 className="mb-8 font-medium text-xl">These are the posts we recommend promoting first...</h3>
+        <>
+          <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle(canLoadPosts)}</h3>
+          <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
+        </>
       )}
       <div className="flex flex-1 flex-column justify-center items-center">
-        {!canLoadPosts && !initialLoading ? (
-          <MarkdownText className="w-2/3 mx-auto text-center" markdown={copy.analysingPosts} />
-        ) : (
+        {canLoadPosts && (
           <>
             <div className="flex mb-8 relative">
               {posts.map((post) => (

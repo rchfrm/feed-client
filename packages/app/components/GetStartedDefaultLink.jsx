@@ -11,6 +11,7 @@ import Button from '@/elements/Button'
 import Input from '@/elements/Input'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import MarkdownText from '@/elements/MarkdownText'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
@@ -158,7 +159,8 @@ const GetStartedDefaultLink = () => {
   return (
     <div className="flex flex-1 flex-column">
       <Error error={error} />
-      <h3 className="mb-0 font-medium text-xl">{copy.defaultLinkTitle(objective, platform)}</h3>
+      <h3 className="mb-4 font-medium text-xl">{copy.defaultLinkSubtitle(objective, platform)}</h3>
+      <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.defaultLinkDescription(objective)} />
       <div className="flex flex-1 flex-column w-1/3 mx-auto justify-center items-center">
         <Input
           name="link-url"

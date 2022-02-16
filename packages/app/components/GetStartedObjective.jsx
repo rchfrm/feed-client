@@ -7,11 +7,14 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import MarkdownText from '@/elements/MarkdownText'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { updateArtist } from '@/app/helpers/artistHelpers'
+
+import copy from '@/app/copy/getStartedCopy'
 
 const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
@@ -88,7 +91,8 @@ const GetStartedObjective = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="w-full mb-8 xs:mb-0 font-medium text-xl">What are you trying to achieve?</h3>
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.objectiveSubtitle}</h3>
+      <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.objectiveDescription} />
       <div className="flex flex-1 flex-column justify-center">
         <Error error={error} />
         <div className="xs:flex justify-between xs:-mx-4 mb-10 xs:mb-20">
@@ -109,7 +113,7 @@ const GetStartedObjective = () => {
             </Button>
           ))}
         </div>
-        <a className="w-full xs:text-center" href="mailto:help@tryfeed.co">Something else?</a>
+        <a className="xs:self-center" href="mailto:help@tryfeed.co">Something else?</a>
       </div>
     </div>
   )

@@ -13,10 +13,13 @@ import GetStartedConnectFacebookNoProfiles from '@/app/GetStartedConnectFacebook
 import GetStartedConnectFacebookProfilesList from '@/app/GetStartedConnectFacebookProfilesList'
 
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
 
 import { getArtistOnSignUp, processArtists, getSortedArtistAccountsArray, updateArtist } from '@/app/helpers/artistHelpers'
 import { getLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
+
+import copy from '@/app/copy/getStartedCopy'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -146,7 +149,8 @@ const GetStartedConnectFacebook = ({ scopes }) => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl mb-12">You've connected multiple profiles, which would you like to set-up first?</h3>
+      <h3 className="mb-4 font-medium text-xl mb-4">{copy.facebookConnectMultipleProfilesSubtitle}</h3>
+      <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectMultipleProfilesDescription} />
       <div className="flex flex-1 justify-center items-center">
         <GetStartedConnectFacebookProfilesList
           profiles={artistAccounts}

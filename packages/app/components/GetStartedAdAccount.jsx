@@ -12,6 +12,8 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
+import copy from '@/app/copy/getStartedCopy'
+
 const GetStartedAdAccount = () => {
   const objective = 'growth'
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
@@ -97,7 +99,7 @@ const GetStartedAdAccount = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">Which Facebook ad account would you like Feed to use?</h3>
+      <h3 className="mb-0 font-medium text-xl">{copy.adAccountSubtitle}</h3>
       <div className="flex flex-1 flex-column justify-center items-center w-1/3 mx-auto">
         <Select
           options={adAccountOptions}
