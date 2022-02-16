@@ -25,10 +25,9 @@ const RadioButtons = ({
   trackGroupLabel,
   className,
 }) => {
-  const classNames = ['radio--buttons', className].join(' ')
   return (
     <div
-      className={classNames}
+      className="radio--buttons"
       htmlrole="radiogroup"
     >
       {options.map(({ value, name, label }, index) => {
@@ -39,6 +38,7 @@ const RadioButtons = ({
           <RadioButton
             key={value}
             value={value}
+            className={className}
             name={name}
             label={label}
             trackGroupLabel={trackGroupLabel}

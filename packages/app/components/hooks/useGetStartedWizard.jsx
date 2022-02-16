@@ -11,7 +11,7 @@ import { getLocalStorage } from '@/helpers/utils'
 import { getArtistIntegrationByPlatform, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { fetchTargetingState } from '@/app/helpers/targetingHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
-
+import { requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -48,6 +48,7 @@ const useControlsWizard = () => {
   const facebookPixelId = facebookIntegration?.pixel_id
   const isArtistOwnedByUser = Object.keys(artist.users).includes(user.id) && artist.users[user.id].role === 'owner'
   const { ads: missingScopes = [] } = isArtistOwnedByUser ? getMissingScopes({ artist }) : {}
+  const scopes = artistId ? missingScopes : requiredScopesAds
 
   const posts = ['post', 'post']
 
@@ -65,7 +66,7 @@ const useControlsWizard = () => {
     objective,
     platform,
     defaultLink,
-    missingScopes,
+    scopes,
     posts,
     adAccountId,
     facebookPixelId,

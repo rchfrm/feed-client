@@ -9,7 +9,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
-const GetStartedConnectFacebookConnectButton = ({ profiles, setIsConnecting }) => {
+const GetStartedConnectFacebookConnectButton = ({ selectedProfile, setIsConnecting }) => {
   const { user } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
 
@@ -17,7 +17,7 @@ const GetStartedConnectFacebookConnectButton = ({ profiles, setIsConnecting }) =
     setIsConnecting(true)
 
     // Santise URLs
-    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(profiles)
+    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls([selectedProfile])
     const { error } = await connectArtists(artistAccountsSanitised, user) || {}
 
     if (error) {
@@ -45,7 +45,7 @@ const GetStartedConnectFacebookConnectButton = ({ profiles, setIsConnecting }) =
 }
 
 GetStartedConnectFacebookConnectButton.propTypes = {
-  profiles: PropTypes.array.isRequired,
+  selectedProfile: PropTypes.object.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
 }
 

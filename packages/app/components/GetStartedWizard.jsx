@@ -25,7 +25,7 @@ const GetStartedWizard = ({
   objective,
   platform,
   defaultLink,
-  missingScopes,
+  scopes,
   posts,
   adAccountId,
   facebookPixelId,
@@ -59,8 +59,8 @@ const GetStartedWizard = ({
     {
       id: 3,
       title: 'Connect Facebook',
-      component: <GetStartedConnectFacebook scopes={missingScopes} />,
-      isComplete: missingScopes.length !== 0,
+      component: <GetStartedConnectFacebook scopes={scopes} />,
+      isComplete: false,
     },
     {
       id: 4,
@@ -127,7 +127,7 @@ GetStartedWizard.propTypes = {
   objective: PropTypes.string,
   platform: PropTypes.string,
   defaultLink: PropTypes.object,
-  missingScopes: PropTypes.array.isRequired,
+  scopes: PropTypes.array.isRequired,
   posts: PropTypes.array.isRequired,
   adAccountId: PropTypes.string,
   facebookPixelId: PropTypes.string,

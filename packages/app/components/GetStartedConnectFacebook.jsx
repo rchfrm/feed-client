@@ -146,7 +146,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">You've connected multiple profiles, which would you like to set-up first?</h3>
+      <h3 className="mb-0 font-medium text-xl mb-12">You've connected multiple profiles, which would you like to set-up first?</h3>
       <div className="flex flex-1 justify-center items-center">
         <GetStartedConnectFacebookProfilesList
           profiles={artistAccounts}

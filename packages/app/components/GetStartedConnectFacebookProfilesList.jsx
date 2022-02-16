@@ -4,21 +4,33 @@ import PropTypes from 'prop-types'
 import GetStartedConnectFacebookProfilesItem from '@/app/GetStartedConnectFacebookProfilesItem'
 import GetStartedConnectFacebookConnectButton from '@/app/GetStartedConnectFacebookConnectButton'
 
+import RadioButtons from '@/elements/RadioButtons'
+
 const GetStartedConnectFacebookProfilesList = ({ profiles, setIsConnecting }) => {
+  const [selectedProfile, setSelectedProfile] = React.useState(null)
+
+  const profileOptions = profiles.map((profile) => ({
+    value: profile.page_id,
+    label: <GetStartedConnectFacebookProfilesItem profile={profile} />,
+  }))
+
+  const [facebookPageId, setFacebookPageId] = React.useState(profileOptions[0].value)
+
+  const handleChange = (value) => {
+    setFacebookPageId(value)
+    setSelectedProfile(profiles.find((profile) => profile.page_id === value))
+  }
+
   return (
-    <div className="flex flex-column items-center">
-      <ul>
-        {profiles.map((profile) => {
-          return (
-            <GetStartedConnectFacebookProfilesItem
-              key={profile.page_id}
-              profile={profile}
-            />
-          )
-        })}
-      </ul>
+    <div>
+      <RadioButtons
+        options={profileOptions}
+        onChange={handleChange}
+        selectedValue={facebookPageId}
+        trackGroupLabel="Connect profiles"
+      />
       <GetStartedConnectFacebookConnectButton
-        profiles={profiles}
+        selectedProfile={selectedProfile}
         setIsConnecting={setIsConnecting}
       />
     </div>

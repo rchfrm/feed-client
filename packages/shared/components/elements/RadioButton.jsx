@@ -19,8 +19,8 @@ const RadioButton = ({
 
   const handleChange = () => {
     track('radio_button_clicked', {
-      label: trackGroupLabel || label,
-      value: trackGroupLabel ? label : value,
+      label: trackGroupLabel,
+      value,
       location: trackLocation,
     })
     onChange(value)
@@ -60,7 +60,10 @@ RadioButton.propTypes = {
     PropTypes.bool,
   ]).isRequired,
   name: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+  ]).isRequired,
   checked: PropTypes.bool,
   highlight: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
