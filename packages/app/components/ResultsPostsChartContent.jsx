@@ -74,7 +74,7 @@ const ResultsPostsChartContent = ({
     {
       label: 'Global average',
       value: globalAverage,
-      color: brandColors.grey,
+      color: brandColors.black,
       lineStyle: 'dashed',
     },
   ]
