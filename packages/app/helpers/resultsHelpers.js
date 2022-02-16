@@ -1,9 +1,14 @@
 /* eslint-disable import/prefer-default-export */
 import * as api from '@/helpers/api'
+import moment from 'moment'
 
 import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
 import { formatCurrency } from '@/helpers/utils'
+import { getDataSourceValue } from '@/app/helpers/appServer'
+
+import * as server from '@/app/helpers/appServer'
+import { formatServerData } from '@/app/helpers/insightsHelpers'
 
 import moment from 'moment'
 
@@ -289,12 +294,239 @@ export const getConversionData = (data) => {
   return null
 }
 
+export const noSpendMetricTypes = {
+  reach: {
+    type: 'reach',
+    color: brandColors.blue,
+  },
+  engagement: {
+    type: 'engagement',
+    color: brandColors.green,
+  },
+  growth: {
+    type: 'growth',
+    color: brandColors.instagram.bg,
+  },
+}
+
+export const noSpendDataSources = [
+  {
+    platform: 'facebook',
+    source: 'facebook_likes',
+  },
+  {
+    platform: 'instagram',
+    source: 'instagram_follower_count',
+  },
+]
+
 export const getStatsData = (data) => {
   return {
     newAudienceData: getNewAudienceData(data),
     existingAudienceData: getExistingAudienceData(data),
     conversionData: getConversionData(data),
   }
+}
+
+const getQuartile = (percentile, audience) => {
+  if (percentile <= 25) {
+    return {
+      value: 1,
+      position: 'left',
+      copy: audience === 'growth' ? 'Slow' : 'Low',
+    }
+  }
+  if (percentile > 25 && percentile <= 50) {
+    return {
+      value: 2,
+      position: 'center',
+      copy: 'Average',
+    }
+  }
+  if (percentile > 50 && percentile <= 75) {
+    return {
+      value: 3,
+      position: 'center',
+      copy: audience === 'growth' ? 'Solid' : 'Good',
+    }
+  }
+  if (percentile > 75) {
+    return {
+      value: 4,
+      position: 'right',
+      copy: audience === 'growth' ? 'Fast' : 'High',
+    }
+  }
+}
+
+export const getDataSourceValues = async (artistId) => {
+  const dataSources = noSpendDataSources.map(({ source }) => source)
+  const {
+    facebook_likes,
+    instagram_follower_count,
+  } = await getDataSourceValue(dataSources, artistId)
+
+  return {
+    dailyFacebookData: facebook_likes?.daily_data,
+    dailyInstagramData: instagram_follower_count?.daily_data,
+  }
+}
+
+const getFollowerCount = (platform, data) => {
+  return data.followers[platform].number_of_followers.value
+}
+
+export const getOrganicBenchmarkData = ({ data }) => {
+  const igFollowers = getFollowerCount('instagram', data)
+  const fbFollowers = getFollowerCount('facebook', data)
+  const largestPlatform = igFollowers >= fbFollowers ? 'instagram' : 'facebook'
+  const {
+    aggregated: {
+      reach_rate,
+      engagement_rate,
+    },
+    followers: {
+      [largestPlatform]: {
+        growth_absolute,
+        growth_rate,
+        number_of_followers,
+      },
+    },
+  } = data
+
+  const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
+  const reachRateMedianPercentile = (reach_rate.median.percentile * 100).toFixed(1)
+
+  const reachData = {
+    value: reachRateMedianValue,
+    percentile: reachRateMedianPercentile,
+    quartile: getQuartile(reachRateMedianPercentile, 'reach'),
+    copy: resultsCopy.noSpendReachDescription(reachRateMedianValue),
+  }
+
+  const engagementRateMedianValue = (engagement_rate.median.value * 100).toFixed(1)
+  const engagementRateMedianPercentile = (engagement_rate.median.percentile * 100).toFixed(1)
+
+  const engageData = {
+    value: engagementRateMedianValue,
+    percentile: engagementRateMedianPercentile,
+    quartile: getQuartile(engagementRateMedianPercentile, 'engagement'),
+    copy: resultsCopy.noSpendEngageDescription(engagementRateMedianValue),
+  }
+
+  let growthData = {}
+
+  if (growth_absolute.value) {
+    const followersGrowthAbsoluteMedianValue = growth_absolute.value
+    const followersGrowthRateValue = (growth_rate.value * 100).toFixed(1)
+    const followersGrowthRateMedianPercentile = (growth_rate.percentile * 100).toFixed(1)
+
+    growthData = {
+      value: followersGrowthAbsoluteMedianValue,
+      percentile: followersGrowthRateMedianPercentile,
+      quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
+      platform: largestPlatform,
+      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, largestPlatform, followersGrowthRateValue),
+      hasGrowth: true,
+    }
+  } else {
+    growthData = {
+      value: number_of_followers.value || 0,
+      platform: largestPlatform,
+      copy: resultsCopy.noSpendTotalFollowersDescription,
+      hasGrowth: false,
+    }
+  }
+
+  return { reach: reachData, engagement: engageData, growth: growthData }
+}
+
+export const formatAggregatedOrganicBenchmarkData = ({ data }) => {
+  const {
+    aggregated: {
+      reach_rate,
+      engagement_rate,
+    },
+  } = data
+
+  const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
+  const reachData = {
+    value: reachRateMedianValue,
+  }
+
+  const engagementRateMedianValue = (engagement_rate.median.value * 100).toFixed(1)
+  const engageData = {
+    value: engagementRateMedianValue,
+  }
+
+  return { reach: reachData, engagement: engageData }
+}
+
+export const formatRecentPosts = (posts) => {
+  const formattedPosts = posts.map((post) => {
+    const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
+    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url) || []
+    const thumbnails = [
+      post.display?.media?.media_library?.source,
+      post.display?.thumbnail_url,
+      ...thumbnailUrls,
+    ]
+
+    return {
+      id: post.id,
+      publishedTime: moment(post.published_time).format('YYYY-MM-DD'),
+      reach: (post.reach_rate * 100).toFixed(1),
+      engagement: (post.engagement_rate * 100).toFixed(1),
+      media,
+      thumbnails,
+      postType: post.subtype || post.type,
+    }
+  })
+
+  return formattedPosts
+}
+
+export const getRecentPosts = async (artistId, platform) => {
+  const res = await server.getPosts({
+    artistId,
+    filterBy: {
+      date_from: [moment().subtract(29, 'days')],
+      date_to: [moment()],
+      platform: [platform],
+      internal_type: ['post'],
+    },
+    limit: 100,
+  })
+  const formattedRecentPosts = formatRecentPosts(res)
+
+  return formattedRecentPosts
+}
+
+export const getFollowerGrowth = async (artistId) => {
+  const {
+    dailyFacebookData,
+    dailyInstagramData,
+  } = await getDataSourceValues(artistId)
+
+  const formattedData = [dailyFacebookData, dailyInstagramData].map((dailyData, index) => {
+    if (!dailyData || !Object.keys(dailyData).length) {
+      return
+    }
+
+    const { source, platform } = noSpendDataSources[index]
+
+    return formatServerData({
+      dailyData,
+      currentDataSource: source,
+      currentPlatform: platform,
+    })
+  })
+
+  if (!formattedData.filter(data => data).length) {
+    return
+  }
+
+  return formattedData
 }
 
 // GET AD RESULTS SUMMARY
@@ -309,7 +541,10 @@ export const getAdResultsSummary = async (artistId) => {
     category: 'Results',
     action: 'Get ad results summary',
   }
-  const { res } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+  const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+
+  if (error) return { error }
+
   const formattedData = res.summary ? formatResultsData(res.summary) : null
   if (formattedData) {
     formattedData.dateRange = {
@@ -317,7 +552,51 @@ export const getAdResultsSummary = async (artistId) => {
       to: res.date_to,
     }
   }
-  return formattedData
+  return { res: formattedData }
+}
+
+// GET ORGANIC BENCHMARK
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
+export const getOrganicBenchmark = async (artistId) => {
+  const endpoint = `/artists/${artistId}/organic_benchmark`
+  const payload = {}
+  const errorTracking = {
+    category: 'Results',
+    action: 'Get organic benchmark',
+  }
+  const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+
+  return { res, error }
+}
+
+// GET AGGREGATED ORGANIC BENCHMARK
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
+export const getAggregatedOrganicBenchmark = async () => {
+  const endpoint = '/organic_benchmarks/aggregated'
+  const payload = {}
+  const errorTracking = {
+    category: 'Results',
+    action: 'Get aggregated organic benchmark',
+  }
+  const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+
+  return { res, error }
+}
+
+export const getAverages = async () => {
+  const { res, error } = await getAggregatedOrganicBenchmark()
+
+  if (error) return { error }
+
+  const aggregatedOrganicBenchmarkData = formatAggregatedOrganicBenchmarkData(res)
+
+  return { res: aggregatedOrganicBenchmarkData }
 }
 
 export const formatRecentPosts = (posts) => {

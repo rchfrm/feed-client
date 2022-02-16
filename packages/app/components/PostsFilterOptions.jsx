@@ -9,14 +9,20 @@ const PostsFilterOptions = ({
   addFilter,
   removeFilter,
   setFiltersState,
+  isOpen,
 }) => {
   const { options } = filterType
 
   return (
-    <div className={[
-      'absolute bottom-0',
-      'px-2 xs:px-4 py-2',
-    ].join(' ')}
+    <div
+      className={[
+        'top-0',
+        'px-2 xs:px-4 py-2',
+        isOpen ? 'relative overflow-auto' : 'absolute overflow-hidden',
+      ].join(' ')}
+      style={{
+        height: isOpen ? '100%' : '40px',
+      }}
     >
       {options.map(({ slug: optionSlug, title }) => (
         <PostsFilterOptionsItem
@@ -40,6 +46,7 @@ PostsFilterOptions.propTypes = {
   addFilter: PropTypes.func.isRequired,
   removeFilter: PropTypes.func.isRequired,
   setFiltersState: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
 }
 
 PostsFilterOptions.defaultProps = {

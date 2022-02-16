@@ -70,6 +70,7 @@ export const getIntegrationInfo = (integration) => {
         placeholderUrl: 'https://youtube.com/channel/<channel ID>',
         channelIdKey: 'channel_id',
         userIdKey: 'user_id',
+        customIdKey: 'custom_id',
         color: brandColors[platform],
         editable: true,
       }
@@ -90,10 +91,10 @@ export const getIntegrationUrl = (integration, baseUrl) => {
 const getAccountId = (integration = {}, integrationInfo) => {
   const { platform } = integration
   if (!platform) return null
-  const { accountIdKey, channelIdKey, userIdKey } = integrationInfo || getIntegrationInfo({ platform })
+  const { accountIdKey, channelIdKey, userIdKey, customIdKey } = integrationInfo || getIntegrationInfo({ platform })
   // Handle YouTube
   if (platform === 'youtube') {
-    return integration[userIdKey] ?? integration[channelIdKey]
+    return integration[userIdKey] ?? integration[channelIdKey] ?? integration[customIdKey]
   }
   // Handle the rest
   return integration[accountIdKey]
@@ -107,9 +108,10 @@ const getAccountIdKey = (integration, href) => {
   const integrationInfo = getIntegrationInfo(integration)
   // Fetch key for youtube
   if (platform === 'youtube') {
-    const { channelIdKey, userIdKey } = integrationInfo
+    const { channelIdKey, userIdKey, customIdKey } = integrationInfo
     if (href.includes('/user/')) return userIdKey
-    return channelIdKey
+    if (href.includes('/channel/')) return channelIdKey
+    return customIdKey
   }
   // Fetch key for the rest
   return integrationInfo.accountIdKey
@@ -171,8 +173,8 @@ export const getIntegrationRegex = (platform, trim) => {
     case 'twitter':
       return /^(?:(?:https?:)?\/\/)?(?:twitter.com)\/([^/]+)/
     case 'youtube':
-      if (trim) return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)/
-      return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)([a-zA-Z0-9-_]+)/
+      if (trim) return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)?/
+      return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/([a-zA-Z0-9-_]{24})|c\/([a-zA-Z0-9-_]+)|user\/([a-zA-Z0-9-_]+)|([a-zA-Z0-9-_]+))$/
     case 'instagram':
       if (trim) return /(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\//
       return /(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_.]+)/
@@ -201,7 +203,7 @@ export const updateIntegration = async (artistId, integration, href, action = 'a
     return appServer.updateIntegration(artistId, [{ platform, value: null }])
   }
   const integrationRegex = testValidIntegration(href, platform)
-  const accountId = integrationRegex[integrationRegex.length - 1]
+  const accountId = integrationRegex.filter(Boolean).pop()
   const accountIdKey = getAccountIdKey(integration, href)
   return appServer.updateIntegration(artistId, [{ platform, accountIdKey, value: accountId }])
 }

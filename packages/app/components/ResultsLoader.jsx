@@ -5,49 +5,84 @@ import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 
+import ResultsHeader from '@/app/ResultsHeader'
 import ResultsContent from '@/app/ResultsContent'
+import ResultsNoSpendContent from '@/app/ResultsNoSpendContent'
 import copy from '@/app/copy/ResultsPageCopy'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { getAdResultsSummary } from '@/app/helpers/resultsHelpers'
+import { getAdResultsSummary, getOrganicBenchmark } from '@/app/helpers/resultsHelpers'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
 })
 
 const ResultsLoader = () => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist: { start_spending_at } } = React.useContext(ArtistContext)
+  const hasStartedSpending = Boolean(start_spending_at)
+
+  const [noSpendResultsData, setNoSpendResultsData] = React.useState(null)
   const [adResultsData, setAdResultsData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
+  const [resultsType, setResultsType] = React.useState(hasStartedSpending ? 'paid' : 'organic')
 
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
 
-  useAsyncEffect(async (isMounted) => {
-    setIsLoading(true)
-    const res = await getAdResultsSummary(artistId)
-    if (!isMounted()) return
+  const resultsData = noSpendResultsData || adResultsData
+
+  const handleDataRequest = async (getData, data, setData) => {
+    if (data) {
+      setIsLoading(false)
+      return
+    }
+
+    const { res, error } = await getData(artistId)
+
     if (error) {
       setError(error)
       setIsLoading(false)
       return
     }
-    setAdResultsData(res)
-    setIsLoading(false)
-  }, [])
 
-  if (isLoading) <Spinner />
-  if (error) <Error error={error} />
+    setIsLoading(false)
+    setData(res)
+  }
+
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted()) return
+    setIsLoading(true)
+
+    if (resultsType === 'organic') {
+      handleDataRequest(getOrganicBenchmark, noSpendResultsData, setNoSpendResultsData)
+    } else {
+      handleDataRequest(getAdResultsSummary, adResultsData, setAdResultsData)
+    }
+  }, [resultsType])
+
+  if (isLoading) return <Spinner />
+  if (error) return <Error error={error} />
 
   return (
-    <>
-      {adResultsData && <ResultsContent data={adResultsData} />}
-      {(!adResultsData && !isLoading) && (
+    resultsData ? (
+      <>
+        <ResultsHeader
+          hasStartedSpending={hasStartedSpending}
+          dateRange={adResultsData?.dateRange}
+          resultsType={resultsType}
+          setResultsType={setResultsType}
+          setIsLoading={setIsLoading}
+        />
+        {resultsType === 'organic' && noSpendResultsData && <ResultsNoSpendContent data={noSpendResultsData} />}
+        {resultsType === 'paid' && adResultsData && <ResultsContent data={adResultsData} />}
+      </>
+    ) : (
+      !isLoading && (
         <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
-      )}
-    </>
+      )
+    )
   )
 }
 

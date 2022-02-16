@@ -90,8 +90,16 @@ export const filterTypes = [
         title: 'Running',
       },
       {
+        slug: 'in_review',
+        title: 'In Review',
+      },
+      {
         slug: 'archived',
         title: 'Inactive',
+      },
+      {
+        slug: 'rejected',
+        title: 'Rejected',
       },
       {
         slug: 'inactive',
@@ -190,6 +198,10 @@ const getPaidClicks = (adsSummaryMetrics) => {
   const outboundClicks = get(adsSummaryMetrics, ['outbound_clicks', 'outbound_click'], 0)
   const clickActions = get(adsSummaryMetrics, ['actions', 'link_click'], 0)
   return Math.max(outboundClicks, clickActions)
+}
+
+const getLandingPageViews = (adsSummaryMetrics) => {
+  return get(adsSummaryMetrics, ['actions', 'landing_page_view'], null)
 }
 
 // GET drilldown of paid engagments
@@ -313,6 +325,7 @@ export const formatPostsResponse = (posts) => {
       impressions: adsSummaryMetrics.impressions,
       engagements: get(adsSummaryMetrics, ['actions', 'post_engagement'], null),
       clicks: getPaidClicks(adsSummaryMetrics),
+      landing_page_views: getLandingPageViews(adsSummaryMetrics),
       engagementScore: adsSummary.spend_adjusted_engagement_score,
       drilldowns: {
         engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
@@ -398,6 +411,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
   return [
     'spend',
     'reach',
+    'landing_page_views',
     'clicks',
     'video_views',
     'engagements',
