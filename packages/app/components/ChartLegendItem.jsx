@@ -25,10 +25,11 @@ export default ChartLegendItem
 
 ChartLegendItem.propTypes = {
   label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   color: PropTypes.string.isRequired,
   lineStyle: PropTypes.string.isRequired,
 }
 
 ChartLegendItem.defaultProps = {
+  value: '',
 }

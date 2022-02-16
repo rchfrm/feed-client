@@ -392,7 +392,6 @@ export const getOrganicBenchmarkData = ({ data }) => {
     },
   } = data
 
-
   const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
   const reachRateMedianPercentile = (reach_rate.median.percentile * 100).toFixed(1)
 
@@ -430,7 +429,8 @@ export const getOrganicBenchmarkData = ({ data }) => {
     }
   } else {
     growthData = {
-      value: number_of_followers.value,
+      value: number_of_followers.value || 0,
+      platform: largestPlatform,
       copy: resultsCopy.noSpendTotalFollowersDescription,
       hasGrowth: false,
     }
@@ -488,7 +488,7 @@ export const getRecentPosts = async (artistId, platform) => {
   const res = await server.getPosts({
     artistId,
     filterBy: {
-      date_from: [moment().subtract(30, 'days')],
+      date_from: [moment().subtract(29, 'days')],
       date_to: [moment()],
       platform: [platform],
       internal_type: ['post'],
