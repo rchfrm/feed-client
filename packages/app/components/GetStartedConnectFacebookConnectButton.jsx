@@ -45,11 +45,12 @@ const GetStartedConnectFacebookConnectButton = ({ selectedProfile, setIsConnecti
 }
 
 GetStartedConnectFacebookConnectButton.propTypes = {
-  selectedProfile: PropTypes.object.isRequired,
+  selectedProfile: PropTypes.object,
   setIsConnecting: PropTypes.func.isRequired,
 }
 
 GetStartedConnectFacebookConnectButton.defaultProps = {
+  selectedProfile: null,
 }
 
 export default GetStartedConnectFacebookConnectButton

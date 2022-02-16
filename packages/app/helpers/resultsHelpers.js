@@ -10,8 +10,6 @@ import { getDataSourceValue } from '@/app/helpers/appServer'
 import * as server from '@/app/helpers/appServer'
 import { formatServerData } from '@/app/helpers/insightsHelpers'
 
-import moment from 'moment'
-
 export const postResultsConfig = [
   {
     type: 'unaware',
@@ -597,28 +595,4 @@ export const getAverages = async () => {
   const aggregatedOrganicBenchmarkData = formatAggregatedOrganicBenchmarkData(res)
 
   return { res: aggregatedOrganicBenchmarkData }
-}
-
-export const formatRecentPosts = (posts) => {
-  const formattedPosts = posts.map((post) => {
-    const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
-    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url) || []
-    const thumbnails = [
-      post.display?.media?.media_library?.source,
-      post.display?.thumbnail_url,
-      ...thumbnailUrls,
-    ]
-
-    return {
-      id: post.id,
-      publishedTime: moment(post.published_time).format('YYYY-MM-DD'),
-      reach: (post.reach_rate * 100).toFixed(1),
-      engagement: (post.engagement_rate * 100).toFixed(1),
-      media,
-      thumbnails,
-      postType: post.subtype || post.type,
-    }
-  })
-
-  return formattedPosts
 }

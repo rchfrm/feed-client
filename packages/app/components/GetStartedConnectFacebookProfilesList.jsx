@@ -18,8 +18,11 @@ const GetStartedConnectFacebookProfilesList = ({ profiles, setIsConnecting }) =>
 
   const handleChange = (value) => {
     setFacebookPageId(value)
-    setSelectedProfile(profiles.find((profile) => profile.page_id === value))
   }
+
+  React.useEffect(() => {
+    setSelectedProfile(profiles.find((profile) => profile.page_id === facebookPageId))
+  }, [profiles, facebookPageId])
 
   return (
     <div>
