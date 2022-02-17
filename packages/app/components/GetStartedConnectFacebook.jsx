@@ -16,7 +16,7 @@ import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
-import { getArtistOnSignUp, processArtists, getSortedArtistAccountsArray, updateArtist } from '@/app/helpers/artistHelpers'
+import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { getLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
@@ -36,7 +36,8 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   const [isConnecting, setIsConnecting] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, connectArtists } = React.useContext(ArtistContext)
+
   const { user } = React.useContext(UserContext)
   const { artists: connectedArtists } = user
 
@@ -54,7 +55,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   // Get available accounts
   useAsyncEffect(async (isMounted) => {
     if (!isMounted) return
-    const { res, error } = await getArtistOnSignUp()
+    const { res, error } = await artistHelpers.getArtistOnSignUp()
 
     if (error) {
       setError(error)
@@ -67,11 +68,35 @@ const GetStartedConnectFacebook = ({ scopes }) => {
     // Error if there are no accounts
     if (Object.keys(artistAccounts).length === 0) {
       // Show error
+      setError({ message: 'No accounts were found' })
       setIsLoading(false)
     }
 
-    const processedArtists = await processArtists({ artists: artistAccounts })
-    const artistAccountsArray = getSortedArtistAccountsArray(processedArtists)
+    const userArtists = user?.artists || []
+    const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
+
+    const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
+    const artistAccountsArray = artistHelpers.getSortedArtistAccountsArray(processedArtists)
+
+    // Handle connecting a single artist
+    if (Object.keys(processedArtists).length === 1) {
+      setIsLoading(false)
+
+      // Santise URLs
+      const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
+      const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
+
+      setIsConnecting(true)
+      const { error } = await connectArtists(artistAccountsSanitised, user) || {}
+
+      if (error) {
+        setIsConnecting(false)
+        setError(error)
+
+        return
+      }
+      return
+    }
 
     setArtistAccounts(artistAccountsArray)
     setIsLoading(false)
@@ -106,7 +131,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
       link = getLinkByPlatform(nestedLinks, storedPlatform)
     }
 
-    const { res: artist, error } = await updateArtist(artistId, { ...data, defaultLink: link.id })
+    const { res: artist, error } = await artistHelpers.updateArtist(artistId, { ...data, defaultLink: link.id })
 
     if (error) {
       setError(error)
