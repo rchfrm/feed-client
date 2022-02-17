@@ -31,15 +31,15 @@ const GetStartedFacebookPixel = () => {
     if (!isMounted()) return
 
     const { res: pixels = [], error } = await getArtistPixels(artistId)
-    setIsLoading(false)
 
     if (error) {
       setError(error)
-      setShouldShowPixelSelector(false)
+      setIsLoading(false)
       return
     }
 
     setShouldShowPixelSelector(pixels.length > 0)
+    setIsLoading(false)
   }, [artistId])
 
   const saveFacebookPixel = async () => {
@@ -50,9 +50,12 @@ const GetStartedFacebookPixel = () => {
     setIsLoading(false)
 
     if (error) {
-      setError({ message: error.message })
+      setError(error)
+      setIsLoading(false)
       return
     }
+
+    setIsLoading(false)
     next()
   }
 
@@ -61,7 +64,14 @@ const GetStartedFacebookPixel = () => {
   return (
     <div className="flex flex-1 flex-column">
       <h3 className="mb-6 font-medium text-xl">{copy.facebookPixelSubtitle(shouldShowPixelSelector)}</h3>
-      <div className="flex flex-1 flex-column w-full justify-center items-center mx-auto">
+      <Error error={error} />
+      <div className={[
+        'flex flex-1 flex-column',
+        'justify-center items-center',
+        'w-full mx-auto',
+        shouldShowPixelSelector ? 'sm:w-1/3' : 'sm:w-1/2',
+      ].join(' ')}
+      >
         {shouldShowPixelSelector ? (
           <>
             <PixelSelector
@@ -71,7 +81,6 @@ const GetStartedFacebookPixel = () => {
               hasNoPixelOption={false}
               className="w-full mb-4"
             />
-            <Error error={error} />
             <Button
               version="green"
               onClick={saveFacebookPixel}

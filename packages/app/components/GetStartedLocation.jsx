@@ -70,6 +70,7 @@ const GetStartedLocation = () => {
   return (
     <div className="flex flex-1 flex-column">
       <h3 className="mb-6 font-medium text-xl">{copy.locationSubtitle}</h3>
+      <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
         <Select
           name="country_code"
@@ -79,7 +80,6 @@ const GetStartedLocation = () => {
           placeholder="Select country"
           className="w-full mb-12"
         />
-        <Error error={error} />
         <Button
           version="green"
           onClick={handleNext}

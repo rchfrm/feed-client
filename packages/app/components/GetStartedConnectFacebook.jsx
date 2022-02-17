@@ -14,6 +14,7 @@ import GetStartedConnectFacebookProfilesList from '@/app/GetStartedConnectFacebo
 
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
+import Error from '@/elements/Error'
 
 import { getArtistOnSignUp, processArtists, getSortedArtistAccountsArray, updateArtist } from '@/app/helpers/artistHelpers'
 import { getLocalStorage } from '@/helpers/utils'
@@ -33,6 +34,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   const [artistAccounts, setArtistAccounts] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
   const [isConnecting, setIsConnecting] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
@@ -55,6 +57,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
     const { res, error } = await getArtistOnSignUp()
 
     if (error) {
+      setError(error)
       setIsLoading(false)
       return
     }
@@ -93,6 +96,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
       const { savedLink, error } = await saveLinkToLinkBank(storedDefaultLink)
 
       if (error) {
+        setError(error)
         return
       }
 
@@ -105,6 +109,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
     const { res: artist, error } = await updateArtist(artistId, { ...data, defaultLink: link.id })
 
     if (error) {
+      setError(error)
       return
     }
 
@@ -151,6 +156,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
     <div className="flex flex-1 flex-column">
       <h3 className="mb-4 font-medium text-xl mb-4">{copy.facebookConnectMultipleProfilesSubtitle}</h3>
       <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectMultipleProfilesDescription} />
+      <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">
         <GetStartedConnectFacebookProfilesList
           profiles={artistAccounts}

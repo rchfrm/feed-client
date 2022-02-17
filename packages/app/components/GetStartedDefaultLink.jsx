@@ -110,12 +110,12 @@ const GetStartedDefaultLink = () => {
   }
 
   const handleNext = async () => {
-    // If there's no connected account yet store the data in local storage
+    // If there's no connected account yet validate the link and store the data in local storage
     if (!artistId) {
       const { res, error } = await validateLink(link.href)
 
       if (error) {
-        setError({ message: error.message })
+        setError(error)
         return
       }
 
@@ -158,9 +158,9 @@ const GetStartedDefaultLink = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <Error error={error} />
       <h3 className="mb-4 font-medium text-xl">{copy.defaultLinkSubtitle(objective, platform)}</h3>
       <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.defaultLinkDescription(objective)} />
+      <Error error={error} />
       <div className="flex flex-1 flex-column w-full sm:w-1/3 mx-auto justify-center items-center">
         <Input
           name="link-url"

@@ -34,7 +34,14 @@ const GetStartedAdAccount = () => {
 
     setIsLoadingAdAccountOptions(true)
 
-    const { res: { adaccounts: adAccounts } } = await getAdAccounts(artistId)
+    const { res, error } = await getAdAccounts(artistId)
+
+    if (error) {
+      setError(error)
+      setIsLoadingAdAccountOptions(false)
+      return
+    }
+    const { adaccounts: adAccounts } = res
     const options = adAccounts.map(({ id, name }) => ({ name, value: id }))
 
     setAdAccounts(adAccounts)
@@ -52,7 +59,7 @@ const GetStartedAdAccount = () => {
   const saveAdAccount = async (adAccountId) => {
     setIsLoading(true)
 
-    const { res: artist, error } = await updateAdAccount(artistId, adAccountId)
+    const { res: artist, error } = await updateAdAccount('', adAccountId)
 
     if (error) {
       setError(error)
@@ -100,6 +107,7 @@ const GetStartedAdAccount = () => {
   return (
     <div className="flex flex-1 flex-column">
       <h3 className="mb-6 font-medium text-xl">{copy.adAccountSubtitle}</h3>
+      <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
         <Select
           options={adAccountOptions}
@@ -109,7 +117,6 @@ const GetStartedAdAccount = () => {
           handleChange={handleChange}
           className="w-full mb-12"
         />
-        <Error error={error} />
         <Button
           version="green"
           onClick={handleNext}

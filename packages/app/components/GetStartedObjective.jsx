@@ -67,7 +67,7 @@ const GetStartedObjective = () => {
     })
 
     if (error) {
-      setError({ message: error.message })
+      setError(error)
       return
     }
 

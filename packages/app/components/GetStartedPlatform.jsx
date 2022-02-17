@@ -62,7 +62,7 @@ const GetStartedPlatform = () => {
     })
 
     if (error) {
-      setError({ message: error.message })
+      setError(error)
       setIsLoading(false)
       return
     }
@@ -90,8 +90,8 @@ const GetStartedPlatform = () => {
     <div className="flex flex-1 flex-column">
       <h3 className="mb-4 font-medium text-xl">{copy.platformSubtitle}</h3>
       <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.platformDescription} />
+      <Error error={error} />
       <div className="flex flex-1 flex-wrap">
-        <Error error={error} />
         <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mb-5 sm:mb-0 mx-auto">
           {platforms.map((platform) => {
             return (
