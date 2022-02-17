@@ -59,7 +59,7 @@ const GetStartedAdAccount = () => {
   const saveAdAccount = async (adAccountId) => {
     setIsLoading(true)
 
-    const { res: artist, error } = await updateAdAccount('', adAccountId)
+    const { res: artist, error } = await updateAdAccount(artistId, adAccountId)
 
     if (error) {
       setError(error)
