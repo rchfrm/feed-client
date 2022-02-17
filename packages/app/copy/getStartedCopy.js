@@ -18,7 +18,6 @@ export default {
     return `Enter the link to your ${getPlatform(platform)}`
   },
   defaultLinkDescription: (objective) => {
-    console.log(objective)
     if (objective !== 'growth') {
       return 'If you have multiple pages, set the homepage for now. You can choose to send people to different pages and/or change this setting later on.'
     }

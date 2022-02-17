@@ -69,8 +69,8 @@ const GetStartedLocation = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">{copy.locationSubtitle}</h3>
-      <div className="flex flex-1 flex-column justify-center items-center w-1/3 mx-auto">
+      <h3 className="mb-6 font-medium text-xl">{copy.locationSubtitle}</h3>
+      <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
         <Select
           name="country_code"
           handleChange={handleChange}
@@ -84,7 +84,7 @@ const GetStartedLocation = () => {
           version="green"
           onClick={handleNext}
           loading={isLoading}
-          className="w-48"
+          className="w-full sm:w-48 mb-5 sm:mb-0"
           trackComponentName="GetStartedHomeCountryStep"
         >
           Save

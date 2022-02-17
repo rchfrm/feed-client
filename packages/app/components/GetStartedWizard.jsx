@@ -102,7 +102,7 @@ const GetStartedWizard = ({
     },
     {
       id: 10,
-      title: 'Congrats!',
+      title: '🥳 Congrats!',
       component: <GetStartedReview />,
       isComplete: false,
     },

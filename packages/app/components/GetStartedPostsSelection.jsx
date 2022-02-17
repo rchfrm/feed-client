@@ -101,11 +101,11 @@ const GetStartedPostsSelection = () => {
                 />
               ))}
             </div>
-            <div className="flex">
+            <div className="flex flex-column sm:flex-row w-full sm:w-auto">
               <Button
                 version="outline-black"
                 onClick={handleNext}
-                className="w-56 mx-4"
+                className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
                 trackComponentName="GetStartedPostsStep"
               >
                 Load more...
@@ -114,7 +114,7 @@ const GetStartedPostsSelection = () => {
                 version="green"
                 onClick={handleNext}
                 loading={isLoading}
-                className="w-56 mx-4"
+                className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
                 trackComponentName="GetStartedPostsStep"
               >
                 Save

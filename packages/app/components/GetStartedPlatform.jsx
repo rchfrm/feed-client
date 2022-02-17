@@ -92,7 +92,7 @@ const GetStartedPlatform = () => {
       <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.platformDescription} />
       <div className="flex flex-1 flex-wrap">
         <Error error={error} />
-        <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mx-auto">
+        <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mb-5 sm:mb-0 mx-auto">
           {platforms.map((platform) => {
             return (
               <ButtonPill

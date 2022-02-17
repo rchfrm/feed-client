@@ -13,7 +13,7 @@ const GetStartedConnectFacebookConnectedProfile = ({ connectedArtists }) => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">You succesfully connected the following profile:</h3>
+      <h3 className="mb-5 sm:mb-0 font-medium text-xl">You succesfully connected the following profile:</h3>
       <div className="flex flex-1 flex-column justify-center items-center">
         <ul className="mb-12">
           {connectedArtists.map((artist) => {
@@ -28,7 +28,7 @@ const GetStartedConnectFacebookConnectedProfile = ({ connectedArtists }) => {
         <Button
           version="green"
           onClick={next}
-          className="w-48"
+          className="w-full sm:w-48 mb-5 sm:mb-0"
           trackComponentName="GetStartedDailyBudgetStep"
         >
           Next

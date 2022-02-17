@@ -62,14 +62,14 @@ const GetStartedPostsDefaultSelection = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="w-full mb-0 font-medium text-xl">{copy.postsDefaultSelectionSubtitle}</h3>
-      <div className="flex flex-1 justify-center items-center">
+      <h3 className="w-full mb-6 font-medium text-xl">{copy.postsDefaultSelectionSubtitle}</h3>
+      <div className="flex flex-1 flex-column sm:flex-row justify-center items-center">
         <Button
           version="outline-black"
           onClick={() => savePromotableDefaultStatus(false)}
           loading={isLoading && !isEnabled}
           spinnerFill={brandColors.black}
-          className="w-56 mx-4"
+          className="w-full sm:w-56 mx-4 mb-6 sm:mb-0"
           trackComponentName="GetStartedPostsStep"
         >
           <CloseCircle
@@ -83,7 +83,7 @@ const GetStartedPostsDefaultSelection = () => {
           onClick={() => savePromotableDefaultStatus(true)}
           loading={isLoading && isEnabled}
           spinnerFill={brandColors.black}
-          className="w-56 mx-4"
+          className="w-full sm:w-56 mx-4 mb-6 sm:mb-0"
           trackComponentName="GetStartedPostsStep"
         >
           <TickCircleIcon

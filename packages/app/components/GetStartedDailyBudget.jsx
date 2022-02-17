@@ -76,7 +76,7 @@ const GetStartedDailyBudget = () => {
     <div className="flex flex-1 flex-column">
       <h3 className="mb-0 font-medium text-xl">{copy.budgetSubtitle}</h3>
       <div className="flex flex-1 flex-column justify-center items-center">
-        <div className="w-1/2 h-26 mb-4 px-6">
+        <div className="w-full sm:w-1/2 h-26 mb-4 px-6">
           <TargetingBudgetSlider
             sliderStep={sliderStep}
             sliderValueRange={sliderValueRange}
@@ -93,7 +93,7 @@ const GetStartedDailyBudget = () => {
           version="green"
           onClick={handleNext}
           loading={targetingLoading}
-          className="w-48"
+          className="w-full sm:w-48 mb-5 sm:mb-0"
           trackComponentName="GetStartedDailyBudgetStep"
         >
           Save

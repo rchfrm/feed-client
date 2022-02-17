@@ -25,18 +25,20 @@ const GetStartedConnectFacebookProfilesList = ({ profiles, setIsConnecting }) =>
   }, [profiles, facebookPageId])
 
   return (
-    <div>
-      <RadioButtons
-        options={profileOptions}
-        onChange={handleChange}
-        selectedValue={facebookPageId}
-        trackGroupLabel="Connect profiles"
-      />
+    <>
+      <div className="mt-4">
+        <RadioButtons
+          options={profileOptions}
+          onChange={handleChange}
+          selectedValue={facebookPageId}
+          trackGroupLabel="Connect profiles"
+        />
+      </div>
       <GetStartedConnectFacebookConnectButton
         selectedProfile={selectedProfile}
         setIsConnecting={setIsConnecting}
       />
-    </div>
+    </>
   )
 }
 

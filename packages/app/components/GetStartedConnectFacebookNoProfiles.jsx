@@ -20,7 +20,7 @@ const GetStartedConnectFacebookNoProfiles = ({ scopes }) => {
           redirectPath={ROUTES.CONTROLS}
           scopes={scopes}
           buttonText="Continue with Facebook"
-          className="w-96 mb-16"
+          className="w-full sm:w-96 mb-16"
           trackComponentName="GetStartedConnectFacebookStep"
         />
         <ButtonHelp
@@ -28,6 +28,7 @@ const GetStartedConnectFacebookNoProfiles = ({ scopes }) => {
           text="The permissions we ask for"
           label="Permissions help"
           trackComponentName="GetStartedConnectFacebookStep"
+          className="mb-5 sm:mb-0"
         />
       </div>
     </div>

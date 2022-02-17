@@ -20,7 +20,7 @@ const GetStartedPostsSelectionStep = ({ post, setSelectedPosts }) => {
         media={post.media}
         thumbnails={post.thumbnails}
         postType={post.postType}
-        className="w-40 mx-4 mb-8"
+        className="w-30 sm:w-40 mx-4 mb-8"
       />
       <ToggleSwitch
         state={isEnabled}

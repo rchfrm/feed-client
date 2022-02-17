@@ -60,8 +60,8 @@ const GetStartedFacebookPixel = () => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-0 font-medium text-xl">{copy.facebookPixelSubtitle(shouldShowPixelSelector)}</h3>
-      <div className="flex flex-1 flex-column w-1/3 justify-center items-center mx-auto">
+      <h3 className="mb-6 font-medium text-xl">{copy.facebookPixelSubtitle(shouldShowPixelSelector)}</h3>
+      <div className="flex flex-1 flex-column w-full justify-center items-center mx-auto">
         {shouldShowPixelSelector ? (
           <>
             <PixelSelector
@@ -76,7 +76,7 @@ const GetStartedFacebookPixel = () => {
               version="green"
               onClick={saveFacebookPixel}
               loading={isLoading}
-              className="w-48"
+              className="w-full sm:w-48 mb-5 sm:mb-0"
               trackComponentName="GetStartedFacebookPixelStep"
             >
               Save
@@ -88,12 +88,12 @@ const GetStartedFacebookPixel = () => {
             </Button>
           </>
         ) : (
-          <div className="flex flex-1 justify-center items-center">
+          <div className="w-full flex flex-1 flex-column sm:flex-row justify-center items-center">
             <Button
               version="outline-black"
               onClick={next}
               spinnerFill={brandColors.black}
-              className="w-56 mx-4"
+              className="w-full sm:w-56 mx-4 mb-5 sm:mb-0"
               trackComponentName="GetStartedPostsStep"
             >
               <CloseCircle
@@ -106,7 +106,7 @@ const GetStartedFacebookPixel = () => {
               version="outline-black"
               onClick={() => setShouldShowPixelSelector(true)}
               spinnerFill={brandColors.black}
-              className="w-56 mx-4"
+              className="w-full sm:w-56 mx-4 mb-5 sm:mb-0"
               trackComponentName="GetStartedPostsStep"
             >
               <TickCircleIcon
