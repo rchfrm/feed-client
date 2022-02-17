@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 
 import Dropdown from '@/app/Dropdown'
 
-import { capitalise } from '@/helpers/utils'
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsHeaderMenu = ({
   hasStartedSpending,
@@ -30,15 +32,7 @@ const ResultsHeaderMenu = ({
       buttonClassName="w-full xs:w-auto px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1 text-left"
       disabled={!hasStartedSpending}
     >
-      {isLast30Days ? (
-        <span>
-          <span className="font-bold underline">{capitalise(resultsType)}</span> insights, <strong>last 30 days...</strong>
-        </span>
-      ) : (
-        <span>
-          <span className="font-bold underline">{capitalise(resultsType)}</span> insights from <strong>{dateFrom}</strong> to <strong>{dateTo}</strong>
-        </span>
-      )}
+      <MarkdownText markdown={copy.headerMenuText(resultsType, isLast30Days, dateFrom, dateTo)} className="mb-0" />
     </Dropdown>
   )
 }
