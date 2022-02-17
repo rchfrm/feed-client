@@ -11,7 +11,7 @@ import GetStartedAdAccount from '@/app/GetStartedAdAccount'
 import GetStartedFacebookPixel from '@/app/GetStartedFacebookPixel'
 import GetStartedLocation from '@/app/GetStartedLocation'
 import GetStartedDailyBudget from '@/app/GetStartedDailyBudget'
-import GetStartedReview from '@/app/GetStartedReview'
+import GetStartedSummary from '@/app/GetStartedSummary'
 
 import Spinner from '@/elements/Spinner'
 
@@ -103,7 +103,7 @@ const GetStartedWizard = ({
     {
       id: 10,
       title: '🥳 Congrats!',
-      component: <GetStartedReview />,
+      component: <GetStartedSummary />,
       isComplete: false,
     },
   ]
