@@ -203,14 +203,16 @@ We’ll be in touch shortly after with more information.`,
   growthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
   growthChartNoData: 'There is currently no follower growth data available.',
   headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
+    const resultsTypeString = `**<span className="underline">${capitalise(resultsType)}</span>** insights`
+
     if (!isLast30Days && (!dateFrom || !dateTo)) {
-      return `**<span className="underline">${capitalise(resultsType)}</span>** insights`
+      return resultsTypeString
     }
 
     if (isLast30Days) {
-      return `**<span className="underline">${capitalise(resultsType)}</span>** insights, **last 30 days...**`
+      return `${resultsTypeString}, **last 30 days...**`
     }
 
-    return `**<span className="underline">${capitalise(resultsType)}</span>** insights from **${dateFrom}** to **${dateTo}**`
+    return `${resultsTypeString} from **${dateFrom}** to **${dateTo}**`
   },
 }
