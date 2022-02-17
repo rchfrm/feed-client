@@ -40,11 +40,16 @@ const ResultsHeaderMenu = ({
 ResultsHeaderMenu.propTypes = {
   hasStartedSpending: PropTypes.bool.isRequired,
   isLast30Days: PropTypes.bool.isRequired,
-  dateFrom: PropTypes.string.isRequired,
-  dateTo: PropTypes.string.isRequired,
+  dateFrom: PropTypes.string,
+  dateTo: PropTypes.string,
   setResultsType: PropTypes.func.isRequired,
   resultsType: PropTypes.string.isRequired,
   setIsLoading: PropTypes.func.isRequired,
+}
+
+ResultsHeaderMenu.defaultProps = {
+  dateFrom: '',
+  dateTo: '',
 }
 
 export default ResultsHeaderMenu
