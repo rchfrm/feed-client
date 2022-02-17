@@ -13,7 +13,6 @@ import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import Spinner from '@/elements/Spinner'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-import Error from '@/elements/Error'
 
 import * as server from '@/app/helpers/appServer'
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'

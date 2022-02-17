@@ -37,14 +37,16 @@ const GetStartedDefaultLink = () => {
   } = useControlsStore(getControlsStoreState)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
-  const { defaultLink: storedDefaultLink } = wizardState || {}
+  const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
 
   const [link, setLink] = React.useState(defaultLink || storedDefaultLink || {})
   const [error, setError] = React.useState(null)
 
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
-  const { objective, platform } = optimizationPreferences
+
+  const objective = optimizationPreferences?.objective || storedObjective
+  const platform = optimizationPreferences?.platform || storedPlatform
 
   // On text input change update the link object with a name and href
   const handleChange = (e) => {
@@ -135,7 +137,8 @@ const GetStartedDefaultLink = () => {
     // Otherwise save the data in the db
     let action = 'add'
 
-    if (link.id) {
+    // Edit the link if the link already exists in the linkbank, unless it's a facebook or instagram link since these are read-only
+    if (link.id && (link.platform !== 'facebook' && link.platform !== 'instagram')) {
       action = 'edit'
     }
 
