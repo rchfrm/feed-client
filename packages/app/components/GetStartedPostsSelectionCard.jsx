@@ -1,7 +1,7 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import PostCardMedia from '@/app/PostCardMedia'
+import PostImage from '@/PostImage'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 
@@ -16,11 +16,11 @@ const GetStartedPostsSelectionStep = ({ post, setSelectedPosts }) => {
 
   return (
     <div className="flex flex-column items-center">
-      <PostCardMedia
-        media={post.media}
-        thumbnails={post.thumbnails}
-        postType={post.postType}
-        className="w-30 sm:w-40 mx-4 mb-8"
+      <PostImage
+        mediaSrc={post.media}
+        mediaType="image"
+        thumbnailOptions={post.thumbnails}
+        className="w-30 sm:w-40 mx-4 mb-8 pointer-events-none"
       />
       <ToggleSwitch
         state={isEnabled}
