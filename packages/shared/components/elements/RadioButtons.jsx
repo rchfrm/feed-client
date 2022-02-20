@@ -23,6 +23,7 @@ const RadioButtons = ({
   selectedValue,
   onChange,
   trackGroupLabel,
+  labelPosition,
   className,
 }) => {
   return (
@@ -44,6 +45,7 @@ const RadioButtons = ({
             trackGroupLabel={trackGroupLabel}
             checked={checked}
             onChange={onChange}
+            labelPosition={labelPosition}
           />
         )
       })}
@@ -62,12 +64,14 @@ RadioButtons.propTypes = {
     PropTypes.number,
     PropTypes.bool,
   ]),
+  labelPosition: PropTypes.string,
 }
 
 RadioButtons.defaultProps = {
   className: '',
   selectedValue: null,
   trackGroupLabel: '',
+  labelPosition: 'right',
 }
 
 

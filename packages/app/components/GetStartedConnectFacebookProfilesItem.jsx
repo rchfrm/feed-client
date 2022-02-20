@@ -7,8 +7,8 @@ const GetStartedConnectFacebookProfilesItem = ({ profile }) => {
   return (
     <div
       className={[
-        'relative',
-        '-mt-3 mb-6',
+        'w-full sm:w-72 relative',
+        '-mt-3 mb-3',
       ].join(' ')}
     >
       <div className="flex items-center">

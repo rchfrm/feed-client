@@ -26,12 +26,13 @@ const GetStartedConnectFacebookProfilesList = ({ profiles, setIsConnecting }) =>
 
   return (
     <>
-      <div className="mt-4">
+      <div className="mt-4 w-100">
         <RadioButtons
           options={profileOptions}
           onChange={handleChange}
           selectedValue={facebookPageId}
           trackGroupLabel="Connect profiles"
+          labelPosition="left"
         />
       </div>
       <GetStartedConnectFacebookConnectButton
