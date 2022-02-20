@@ -4,7 +4,7 @@ import useIsMounted from '@/hooks/useIsMounted'
 
 import { getInitialPostsImportStatus } from '@/app/helpers/postsHelpers'
 
-const useCheckInitialPostsImportStatus = (artistId, setCanLoadPosts) => {
+const useCheckInitialPostsImportStatus = (artistId, canLoadPosts, setCanLoadPosts) => {
   const [initialLoading, setInitialLoading] = React.useState(true)
   const [intervalId, setIntervalId] = React.useState(null)
   const isMounted = useIsMounted()
@@ -21,13 +21,20 @@ const useCheckInitialPostsImportStatus = (artistId, setCanLoadPosts) => {
 
     if (res.last_update_completed_at) {
       clearInterval(intervalId)
-      setInitialLoading(false)
       setCanLoadPosts(true)
+      setInitialLoading(false)
       return
     }
 
     if (initialLoading) setInitialLoading(false)
   }
+
+  React.useEffect(() => {
+    if (!initialLoading && !intervalId && !canLoadPosts) {
+      setIntervalId(setInterval(checkInitialPostsImportStatus, 2000))
+    }
+    // eslint-disable-next-line
+  }, [initialLoading])
 
   React.useEffect(() => {
     if (!intervalId) {
@@ -37,13 +44,6 @@ const useCheckInitialPostsImportStatus = (artistId, setCanLoadPosts) => {
     return () => clearInterval(intervalId)
     // eslint-disable-next-line
   }, [intervalId])
-
-  React.useEffect(() => {
-    if (!initialLoading && !intervalId) {
-      setIntervalId(setInterval(checkInitialPostsImportStatus, 2000))
-    }
-    // eslint-disable-next-line
-  }, [initialLoading])
 
   return { initialLoading }
 }

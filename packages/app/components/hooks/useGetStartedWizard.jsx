@@ -34,6 +34,7 @@ const useControlsWizard = () => {
   const objective = optimizationPreferences?.objective || wizardState?.objective
   const platform = optimizationPreferences?.platform || wizardState?.platform
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId) || wizardState?.defaultLink
+  const { defaultPromotionEnabled } = postsPreferences
   const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
   const {
@@ -50,7 +51,7 @@ const useControlsWizard = () => {
   const { ads: missingScopes = [] } = isArtistOwnedByUser ? getMissingScopes({ artist }) : {}
   const scopes = artistId ? missingScopes : requiredScopesAds
 
-  const posts = ['post', 'post']
+  const posts = []
 
   // Initialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -68,6 +69,7 @@ const useControlsWizard = () => {
     defaultLink,
     scopes,
     posts,
+    defaultPromotionEnabled,
     adAccountId,
     facebookPixelId,
     locations,

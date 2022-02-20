@@ -17,6 +17,7 @@ import Spinner from '@/elements/Spinner'
 
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -27,11 +28,13 @@ const GetStartedWizard = ({
   defaultLink,
   scopes,
   posts,
+  defaultPromotionEnabled,
   adAccountId,
   facebookPixelId,
   locations,
   budget,
 }) => {
+  const { user } = React.useContext(UserContext)
   const { artist } = React.useContext(ArtistContext)
   const hasLocation = Object.keys(locations).length > 0 || Boolean(artist?.country_code)
 
@@ -60,7 +63,7 @@ const GetStartedWizard = ({
       id: 3,
       title: 'Promoting your posts',
       component: <GetStartedConnectFacebook scopes={scopes} />,
-      isComplete: false,
+      isComplete: user.artists.length,
     },
     {
       id: 4,
@@ -72,7 +75,7 @@ const GetStartedWizard = ({
       id: 5,
       title: 'Promoting your posts',
       component: <GetStartedPostsDefaultSelection />,
-      isComplete: posts.length > 0,
+      isComplete: defaultPromotionEnabled !== null,
     },
     {
       id: 6,

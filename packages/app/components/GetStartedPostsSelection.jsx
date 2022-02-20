@@ -31,7 +31,7 @@ const GetStartedPostsSelection = () => {
   const { artistId } = React.useContext(ArtistContext)
   const { next } = React.useContext(WizardContext)
 
-  const { initialLoading } = useCheckInitialPostsImportStatus(artistId, setCanLoadPosts)
+  const { initialLoading } = useCheckInitialPostsImportStatus(artistId, canLoadPosts, setCanLoadPosts)
 
   const postsLimit = 3
   const cursor = React.useRef('')
