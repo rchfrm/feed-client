@@ -11,6 +11,7 @@ import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 import GetStartedConnectFacebookConnectedProfile from '@/app/GetStartedConnectFacebookConnectedProfile'
 import GetStartedConnectFacebookNoProfiles from '@/app/GetStartedConnectFacebookNoProfiles'
 import GetStartedConnectFacebookProfilesList from '@/app/GetStartedConnectFacebookProfilesList'
+import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
@@ -32,6 +33,7 @@ const getControlsStoreState = (state) => ({
 
 const GetStartedConnectFacebook = ({ scopes }) => {
   const [artistAccounts, setArtistAccounts] = React.useState([])
+  const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [isConnecting, setIsConnecting] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -80,13 +82,16 @@ const GetStartedConnectFacebook = ({ scopes }) => {
 
     // Handle connecting a single artist
     if (Object.keys(processedArtists).length === 1) {
+      setArtistAccounts(artistAccountsArray)
+      setSelectedProfile(processedArtists)
+
       setIsLoading(false)
+      setIsConnecting(true)
 
       // Santise URLs
       const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
       const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
 
-      setIsConnecting(true)
       const { error } = await connectArtists(artistAccountsSanitised, user) || {}
 
       if (error) {
@@ -95,6 +100,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
 
         return
       }
+      setIsConnecting(false)
       return
     }
 
@@ -163,6 +169,10 @@ const GetStartedConnectFacebook = ({ scopes }) => {
     setIsConnecting(false)
   }, [artistId])
 
+  if (isConnecting && Object.keys(artistAccounts).length > 0) {
+    return <ConnectProfilesIsConnecting artistAccounts={[selectedProfile]} />
+  }
+
   if (isLoading || isConnecting) return <Spinner />
 
   if (connectedArtists.length && !isConnecting) {
@@ -186,6 +196,8 @@ const GetStartedConnectFacebook = ({ scopes }) => {
         <GetStartedConnectFacebookProfilesList
           profiles={artistAccounts}
           setIsConnecting={setIsConnecting}
+          selectedProfile={selectedProfile}
+          setSelectedProfile={setSelectedProfile}
         />
       </div>
     </div>

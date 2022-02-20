@@ -6,9 +6,12 @@ import GetStartedConnectFacebookConnectButton from '@/app/GetStartedConnectFaceb
 
 import RadioButtons from '@/elements/RadioButtons'
 
-const GetStartedConnectFacebookProfilesList = ({ profiles, setIsConnecting }) => {
-  const [selectedProfile, setSelectedProfile] = React.useState(null)
-
+const GetStartedConnectFacebookProfilesList = ({
+  profiles,
+  setIsConnecting,
+  selectedProfile,
+  setSelectedProfile,
+}) => {
   const profileOptions = profiles.map((profile) => ({
     value: profile.page_id,
     label: <GetStartedConnectFacebookProfilesItem profile={profile} />,
@@ -22,7 +25,7 @@ const GetStartedConnectFacebookProfilesList = ({ profiles, setIsConnecting }) =>
 
   React.useEffect(() => {
     setSelectedProfile(profiles.find((profile) => profile.page_id === facebookPageId))
-  }, [profiles, facebookPageId])
+  }, [profiles, facebookPageId, setSelectedProfile])
 
   return (
     <>
