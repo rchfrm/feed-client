@@ -38,7 +38,7 @@
 
 .noUi-handle.-ghost {
   position: absolute;
-  top: 32px;
+  top: -8px;
   background-color: var(--purple);
   opacity: 0.5;
 }
@@ -48,7 +48,7 @@
   box-shadow: none;
   border: none;
   border-radius: var(--dialogue-radius);
-  background: var(--grey-light);
+  background: linear-gradient(90deg, var(--grey-light) 0%, var(--color-fb));
 
   .slider-track-color-white & {
     background: var(--white);
