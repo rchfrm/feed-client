@@ -12,32 +12,13 @@ import MarkdownText from '@/elements/MarkdownText'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
-import { updateArtist } from '@/app/helpers/artistHelpers'
+import { objectives, updateArtist } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
 const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
 })
-
-const objectives = [
-  {
-    title: 'Audience growth',
-    value: 'growth',
-    color: 'green',
-  },
-  {
-    title: 'Website sales',
-    value: 'sales',
-    color: 'pink',
-
-  },
-  {
-    title: 'Website visits',
-    value: 'traffic',
-    color: 'blue',
-  },
-]
 
 const GetStartedObjective = () => {
   const [error, setError] = React.useState(null)

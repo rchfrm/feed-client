@@ -474,6 +474,25 @@ export const getArtistPayload = ({
   }
 }
 
+export const objectives = [
+  {
+    title: 'Audience growth',
+    value: 'growth',
+    color: 'green',
+  },
+  {
+    title: 'Website sales',
+    value: 'sales',
+    color: 'insta',
+
+  },
+  {
+    title: 'Website visits',
+    value: 'traffic',
+    color: 'blue',
+  },
+]
+
 // Update artist
 /**
 * @param {string} artistId

@@ -127,7 +127,7 @@ a[type=button] {
   }
 }
 
-.button--pink {
+.button--insta {
   background-color: var(--pink);
 
   @mixin canHover {

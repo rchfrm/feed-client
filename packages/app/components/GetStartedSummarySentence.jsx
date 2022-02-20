@@ -9,7 +9,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import PostImage from '@/PostImage'
 import Error from '@/elements/Error'
 
-import { getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { objectives, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { capitalise, formatCurrency } from '@/helpers/utils'
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
 import * as server from '@/app/helpers/appServer'
@@ -32,6 +32,9 @@ const GetStartedSummarySentence = () => {
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
+
+  const { color } = objectives.find(({ value }) => value === objective)
+  const borderClasses = `border-2 border-solid border-${color}`
 
   useAsyncEffect(async (isMounted) => {
     if (!isMounted()) return
@@ -65,7 +68,14 @@ const GetStartedSummarySentence = () => {
   return (
     <>
       <div className="flex flex-wrap items-center mr-auto sm:mr-0 mb-10">
-        <span className="border-2 border-solid border-red rounded-full py-1 px-3 mr-1 mb-2 whitespace-pre">{capitalise(platform)} {objective}</span>
+        <span className={[
+          'rounded-full',
+          'py-1 px-3 mr-1 mb-2',
+          'whitespace-pre',
+          borderClasses,
+        ].join(' ')}
+        >{capitalise(platform)} {objective}
+        </span>
         <span className="whitespace-pre mb-2">using these posts:</span>
         <div className="flex items-center mb-2">
           {posts.map(({ id, media, thumbnails }) => (
