@@ -13,62 +13,84 @@ import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import Spinner from '@/elements/Spinner'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import Error from '@/elements/Error'
 
 import * as server from '@/app/helpers/appServer'
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
-import { updatePost } from '@/app/helpers/postsHelpers'
+import { updatePost, getCursor } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
 const GetStartedPostsSelection = () => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [posts, setPosts] = React.useState([])
-  const [selectedPostsIds, setSelectedPostsIds] = React.useState([])
+  const [postsState, setPostsState] = React.useState({})
   const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
   const { next } = React.useContext(WizardContext)
 
   const { initialLoading } = useCheckInitialPostsImportStatus(artistId, setCanLoadPosts)
 
+  const postsLimit = 3
+  const cursor = React.useRef('')
+
+  const fetchPosts = async () => {
+    if (posts.length === postsLimit) {
+      return
+    }
+
+    const res = await server.getPosts({
+      limit: 2,
+      artistId,
+      sortBy: ['normalized_score'],
+      cursor: cursor.current,
+    })
+
+    const postsFormatted = formatRecentPosts(res)
+    const lastPost = res[res.length - 1]
+
+    if (lastPost._links.after) {
+      const nextCursor = getCursor(lastPost)
+      cursor.current = nextCursor
+    }
+
+    postsFormatted.forEach(({ id, promotionEnabled }) => {
+      setPostsState((prevState) => ({ ...prevState, [id]: promotionEnabled }))
+    })
+
+    setPosts([...posts, ...postsFormatted])
+  }
+
+  const loadMore = async () => {
+    await fetchPosts()
+  }
+
   useAsyncEffect(async (isMounted) => {
     if (!isMounted() || !canLoadPosts) return
 
-    const res = await server.getPosts({
-      artistId,
-      sortBy: ['normalized_score'],
-      limit: 2,
-    })
-
-    const formattedPosts = formatRecentPosts(res)
-
-    setPosts(formattedPosts)
-    setSelectedPostsIds(formattedPosts.map(({ id }) => id))
+    await fetchPosts()
   }, [canLoadPosts])
 
-  const setSelectedPosts = (postId) => {
-    if (selectedPostsIds.includes(postId)) {
-      const filteredPostsIds = selectedPostsIds.filter((id) => id !== postId)
-
-      setSelectedPostsIds(filteredPostsIds)
-    } else {
-      setSelectedPostsIds([...selectedPostsIds, postId])
-    }
-  }
-
   const handleNext = async () => {
-    if (selectedPostsIds.length) {
-      setIsLoading(true)
+    const hasSelectedOnOrMorePosts = Object.values(postsState).some((post) => post)
 
-      const postPromises = selectedPostsIds.map((postId) => {
-        return updatePost({ artistId, postId, promotionEnabled: true, campaignType: 'all' })
-      })
-
-      await Promise.all(postPromises)
-      setIsLoading(false)
-
-      next()
+    if (!hasSelectedOnOrMorePosts) {
+      setError({ message: 'Please opt in at least one post' })
+      return
     }
+
+    setIsLoading(true)
+
+    const postPromises = Object.entries(postsState).map(([key, value]) => {
+      return updatePost({ artistId, postId: key, promotionEnabled: value, campaignType: 'all' })
+    })
+
+    await Promise.all(postPromises)
+    setIsLoading(false)
+
+    next()
   }
 
   if (initialLoading) return null
@@ -92,24 +114,28 @@ const GetStartedPostsSelection = () => {
       <div className="flex flex-1 flex-column justify-center items-center">
         {canLoadPosts && (
           <>
+            <Error error={error} />
             <div className="flex mb-8 relative">
               {posts.map((post) => (
                 <GetStartedPostsSelectionCard
                   key={post.id}
                   post={post}
-                  setSelectedPosts={setSelectedPosts}
+                  postsState={postsState}
+                  setPostsState={setPostsState}
                 />
               ))}
             </div>
             <div className="flex flex-column sm:flex-row w-full sm:w-auto">
-              <Button
-                version="outline-black"
-                onClick={handleNext}
-                className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
-                trackComponentName="GetStartedPostsStep"
-              >
-                Load more...
-              </Button>
+              {(posts.length !== postsLimit) && (
+                <Button
+                  version="outline-black"
+                  onClick={loadMore}
+                  className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
+                  trackComponentName="GetStartedPostsStep"
+                >
+                  Load more...
+                </Button>
+              )}
               <Button
                 version="green"
                 onClick={handleNext}

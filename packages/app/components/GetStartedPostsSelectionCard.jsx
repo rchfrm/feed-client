@@ -5,13 +5,13 @@ import PostImage from '@/PostImage'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 
-const GetStartedPostsSelectionStep = ({ post, setSelectedPosts }) => {
-  const [isEnabled, setIsEnabled] = React.useState(true)
+const GetStartedPostsSelectionStep = ({ post, postsState, setPostsState }) => {
+  const { id, promotionEnabled } = post
+  const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
 
   const handleOnchange = () => {
     setIsEnabled(!isEnabled)
-
-    setSelectedPosts(post.id)
+    setPostsState({ ...postsState, [post.id]: !isEnabled })
   }
 
   return (
@@ -24,7 +24,7 @@ const GetStartedPostsSelectionStep = ({ post, setSelectedPosts }) => {
       />
       <ToggleSwitch
         state={isEnabled}
-        onChange={() => handleOnchange(post.id)}
+        onChange={() => handleOnchange(id)}
       />
     </div>
   )
