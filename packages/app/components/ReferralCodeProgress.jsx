@@ -19,8 +19,8 @@ const getUpcomingReferralAward = (tiers, totalCompleteReferrals, minSpendString)
     return `another ${minSpendString} in credit`
   }
   // return award copy with first word in lowercase
-  const { award } = nextTierIndex === -1 ? tiers[tiers.length - 1] : tiers[nextTierIndex - 1]
-  return award.charAt(0).toLowerCase() + award.slice(1)
+  const { upcoming } = nextTierIndex === -1 ? tiers[tiers.length - 1] : tiers[nextTierIndex - 1]
+  return upcoming
 }
 
 const ReferralCodeProgress = ({
@@ -30,11 +30,11 @@ const ReferralCodeProgress = ({
 }) => {
   // Get referral credit amount
   const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
-  const minSpend = feedMinBudgetInfo.majorUnit.minReccomendedStories * 2
-  const minSpendString = formatCurrency(minSpend, feedMinBudgetInfo.currencyCode, true)
+  const referralAmount = 50
+  const referralAmountString = formatCurrency(referralAmount, 'GBP', true)
 
   // Get tiers
-  const tiers = [...copy.tiers(minSpend, feedMinBudgetInfo.currencyCode)].reverse()
+  const tiers = [...copy.tiers(referralAmount, feedMinBudgetInfo.currencyCode)].reverse()
 
   // Calc percent complete
   const totalTiers = tiers.length
@@ -55,10 +55,10 @@ const ReferralCodeProgress = ({
   }, {})
 
   // Get upcoming benefit
-  const upcomingBenefit = getUpcomingReferralAward(tiers, totalCompleteReferrals, minSpendString)
+  const upcomingBenefit = getUpcomingReferralAward(tiers, totalCompleteReferrals, referralAmountString)
 
   // Intro copy
-  const introCopy = copy.introToProgress(totalReferrals, totalCompleteReferrals, minSpendString, upcomingBenefit)
+  const introCopy = copy.introToProgress(totalReferrals, totalCompleteReferrals, referralAmountString, upcomingBenefit)
 
   return (
     <div

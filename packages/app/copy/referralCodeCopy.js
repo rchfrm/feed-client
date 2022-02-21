@@ -19,17 +19,17 @@ export default {
   sharingLinkExplanation: `You can also share a direct link that will let others sign up using your referral code.`,
 
   // Intro progress
-  introToProgress: (totalReferrals, totalCompleteReferrals, minSpend, upcomingBenefit) => {
+  introToProgress: (totalReferrals, totalCompleteReferrals, referralAmount, upcomingBenefit) => {
     const totalReferredText = totalReferrals === 1 ? 'someone' : `${totalReferrals} people`
     const totalPendingReferrals = totalReferrals - totalCompleteReferrals
     // No referrals of any kind
-    if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend ${minSpend} through the platform, you’ll both receive ${minSpend} in credit!`
+    if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend through the platform, you’ll get ${referralAmount} in credit!`
     // Only incomplete referrals
-    if (totalReferrals && !totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent ${minSpend} through the platform, we’ll give you both ${minSpend} in credit.`
+    if (totalReferrals && !totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent some budget through the platform, we’ll give you ${referralAmount} in credit.`
     // Only complete referrals
     if (totalPendingReferrals === 0) return `Thanks for referring ${totalReferredText} to Feed! Keep sharing your unique link to get ${upcomingBenefit}`
     // Mix of complete and incomplete referrals
-    return `Thanks for referring ${totalReferredText} to Feed! ${totalPendingReferrals} of them ${totalPendingReferrals === 1 ? 'hasn\'t' : 'haven\'t'} yet spent ${minSpend} through the platform. Once they do, you’ll get ${upcomingBenefit}.`
+    return `Thanks for referring ${totalReferredText} to Feed! ${totalPendingReferrals} ${totalPendingReferrals === 1 ? 'hasn\'t' : 'haven\'t'} yet spent anything through the platform.\n\nOnce they do, you’ll ${upcomingBenefit}.`
   },
 
   // TIERS
@@ -38,29 +38,29 @@ export default {
     return [
       {
         referrals: 1,
-        award: `${basicCredit} credit to referrer and referee`,
+        award: `${basicCredit} towards your advertising budget`,
         footnoteSymbol: '*',
         footnote: 'Applicable for every qualifying referral.',
       },
       {
         referrals: 2,
-        award: `Another ${basicCredit} credit`,
+        award: `Another ${basicCredit} (you get this everytime 😉)`,
+        upcoming: `get another ${basicCredit}`,
       },
       {
         referrals: 3,
-        award: `Invitation to private Slack`,
+        award: `Invitation to our Discord`,
+        upcoming: `get an invitation to our Discord`,
       },
       {
         referrals: 5,
-        award: `A 30 minute marketing consultation with Feed team`,
-      },
-      {
-        referrals: 10,
-        award: `${formatCurrency(creditAmount * 5, currency, true)} towards your advertising budget`,
+        award: `30 minute marketing consultation with Feed team`,
+        upcoming: `be closer to getting a 30 minute marketing consultation`,
       },
       {
         referrals: 20,
-        award: `Monthly marketing consultations with Feed team for a year`,
+        award: `Monthly marketing consultations for a year`,
+        upcoming: `be closer to getting monthly marketing consultations`,
       },
     ]
   },
