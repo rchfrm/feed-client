@@ -1,21 +1,19 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-import PlatformIcon from '@/icons/PlatformIcon'
-import ButtonPill from '@/elements/ButtonPill'
+import GetStartedPlatformButton from '@/app/GetStartedPlatformButton'
+
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import { updateArtist } from '@/app/helpers/artistHelpers'
+import { updateArtist, platforms } from '@/app/helpers/artistHelpers'
 
-import { capitalise, getLocalStorage, setLocalStorage } from '@/helpers/utils'
-import brandColors from '@/constants/brandColors'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
@@ -28,6 +26,7 @@ const getControlsStoreState = (state) => ({
 })
 
 const GetStartedPlatform = () => {
+  const [selectedPlatform, setSelectedPlatform] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
@@ -37,11 +36,8 @@ const GetStartedPlatform = () => {
   const { updatePreferences, optimizationPreferences, nestedLinks, updateLinks } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
 
-  const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
-
-  const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
-
   const handleNextStep = async (platform) => {
+    const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
     const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
     const nextStep = isFacebookOrInstagram ? 3 : 2
 
@@ -93,6 +89,13 @@ const GetStartedPlatform = () => {
     goToStep(nextStep)
   }
 
+  React.useEffect(() => {
+    if (!selectedPlatform) return
+
+    handleNextStep()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPlatform])
+
   return (
     <div className="flex flex-1 flex-column">
       <h3 className="mb-4 font-medium text-xl">{copy.platformSubtitle}</h3>
@@ -102,25 +105,12 @@ const GetStartedPlatform = () => {
         <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mb-5 sm:mb-0 mx-auto">
           {platforms.map((platform) => {
             return (
-              <ButtonPill
+              <GetStartedPlatformButton
                 key={platform}
-                className="w-32 sm:w-48 mx-0 mx-3 mb-5"
-                onClick={() => handleNextStep(platform)}
-                loading={isLoading}
-                style={{
-                  border: `2px solid ${brandColors.textColor}`,
-                }}
-                hasIcon
-                trackComponentName="GetStartedPlatformStep"
-              >
-                <PlatformIcon
-                  platform={platform}
-                  className="mr-5"
-                  title={platform}
-                  fill={brandColors[platform].bg}
-                />
-                {capitalise(platform)}
-              </ButtonPill>
+                platform={platform}
+                isLoading={isLoading}
+                setSelectedPlatform={setSelectedPlatform}
+              />
             )
           })}
         </div>

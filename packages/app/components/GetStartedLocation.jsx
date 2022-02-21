@@ -1,5 +1,4 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -85,7 +84,7 @@ const GetStartedLocation = () => {
           onClick={handleNext}
           loading={isLoading}
           className="w-full sm:w-48 mb-5 sm:mb-0"
-          trackComponentName="GetStartedHomeCountryStep"
+          trackComponentName="GetStartedLocation"
         >
           Save
           <ArrowAltIcon

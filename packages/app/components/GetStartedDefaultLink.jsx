@@ -1,5 +1,4 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -178,7 +177,7 @@ const GetStartedDefaultLink = () => {
           version="green"
           onClick={handleNext}
           className="w-full sm:w-48 mb-5 sm:mb-0"
-          trackComponentName="GetStartedPlatformLinkStep"
+          trackComponentName="GetStartedDefaultLink"
         >
           Save
           <ArrowAltIcon

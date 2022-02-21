@@ -1,6 +1,5 @@
 import React from 'react'
 import Router from 'next/router'
-// import PropTypes from 'prop-types'
 
 import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
@@ -25,7 +24,7 @@ const GetStartedSummary = () => {
         version="outline-green"
         onClick={goToPostsPage}
         className="w-full sm:w-48 mb-5 sm:mb-0"
-        trackComponentName="GetStartedAdPreviewStep"
+        trackComponentName="GetStartedAdPreview"
       >
         <span className="text-2xl" role="img" aria-label="raising hands">🙌</span>
       </Button>

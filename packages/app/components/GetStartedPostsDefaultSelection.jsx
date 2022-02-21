@@ -1,5 +1,4 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
@@ -70,7 +69,7 @@ const GetStartedPostsDefaultSelection = () => {
           loading={isLoading && !isEnabled}
           spinnerFill={brandColors.black}
           className="w-full sm:w-56 mx-4 mb-6 sm:mb-0"
-          trackComponentName="GetStartedPostsStep"
+          trackComponentName="GetStartedPostsDefaultSelectionStep"
         >
           <CloseCircle
             fill={brandColors.greyDark}
@@ -84,7 +83,7 @@ const GetStartedPostsDefaultSelection = () => {
           loading={isLoading && isEnabled}
           spinnerFill={brandColors.black}
           className="w-full sm:w-56 mx-4 mb-6 sm:mb-0"
-          trackComponentName="GetStartedPostsStep"
+          trackComponentName="GetStartedPostsDefaultSelectionStep"
         >
           <TickCircleIcon
             className="w-6 h-6 mr-2"

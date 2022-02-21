@@ -493,6 +493,8 @@ export const objectives = [
   },
 ]
 
+export const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
+
 // Update artist
 /**
 * @param {string} artistId

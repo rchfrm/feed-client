@@ -1,5 +1,4 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
@@ -94,7 +93,7 @@ const GetStartedDailyBudget = () => {
           onClick={handleNext}
           loading={targetingLoading}
           className="w-full sm:w-48 mb-5 sm:mb-0"
-          trackComponentName="GetStartedDailyBudgetStep"
+          trackComponentName="GetStartedDailyBudget"
         >
           Save
           <ArrowAltIcon

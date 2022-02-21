@@ -1,30 +1,23 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
-// import PropTypes from 'prop-types'
 
-import PixelSelector from '@/app/PixelSelector'
+import GetStartedFacebookPixelQuestion from '@/app/GetStartedFacebookPixelQuestion'
+import GetStartedFacebookPixelSelector from '@/app/GetStartedFacebookPixelSelector'
 
-import { WizardContext } from '@/app/contexts/WizardContext'
+
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import Button from '@/elements/Button'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
-import CloseCircle from '@/icons/CloseCircle'
-import TickCircleIcon from '@/icons/TickCircleIcon'
 
-import { setPixel, getArtistPixels } from '@/app/helpers/settingsHelpers'
+import { getArtistPixels } from '@/app/helpers/settingsHelpers'
 
-import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/getStartedCopy'
 
 const GetStartedFacebookPixel = () => {
-  const [facebookPixel, setFacebookPixel] = React.useState(null)
   const [shouldShowPixelSelector, setShouldShowPixelSelector] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
-  const { next } = React.useContext(WizardContext)
   const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
@@ -42,23 +35,6 @@ const GetStartedFacebookPixel = () => {
     setIsLoading(false)
   }, [artistId])
 
-  const saveFacebookPixel = async () => {
-    setIsLoading(true)
-
-    const { error } = await setPixel(artistId, facebookPixel)
-
-    setIsLoading(false)
-
-    if (error) {
-      setError(error)
-      setIsLoading(false)
-      return
-    }
-
-    setIsLoading(false)
-    next()
-  }
-
   if (isLoading) return <Spinner />
 
   return (
@@ -73,57 +49,13 @@ const GetStartedFacebookPixel = () => {
       ].join(' ')}
       >
         {shouldShowPixelSelector ? (
-          <>
-            <PixelSelector
-              updateParentPixel={setFacebookPixel}
-              trackLocation="Conversions settings"
-              shouldSaveOnChange={false}
-              hasNoPixelOption={false}
-              className="w-full mb-4"
-            />
-            <Button
-              version="green"
-              onClick={saveFacebookPixel}
-              loading={isLoading}
-              className="w-full sm:w-48 mb-5 sm:mb-0"
-              trackComponentName="GetStartedFacebookPixelStep"
-            >
-              Save
-              <ArrowAltIcon
-                className="ml-3"
-                direction="right"
-                fill="white"
-              />
-            </Button>
-          </>
+          <GetStartedFacebookPixelSelector
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            setError={setError}
+          />
         ) : (
-          <div className="w-full flex flex-1 flex-column sm:flex-row justify-center items-center">
-            <Button
-              version="outline-black"
-              onClick={next}
-              spinnerFill={brandColors.black}
-              className="w-full sm:w-56 mx-4 mb-5 sm:mb-0"
-              trackComponentName="GetStartedPostsStep"
-            >
-              <CloseCircle
-                fill={brandColors.greyDark}
-                className="w-6 h-6 mr-2"
-              />
-              No
-            </Button>
-            <Button
-              version="outline-black"
-              onClick={() => setShouldShowPixelSelector(true)}
-              spinnerFill={brandColors.black}
-              className="w-full sm:w-56 mx-4 mb-5 sm:mb-0"
-              trackComponentName="GetStartedPostsStep"
-            >
-              <TickCircleIcon
-                className="w-6 h-6 mr-2"
-              />
-              Yes
-            </Button>
-          </div>
+          <GetStartedFacebookPixelQuestion setShouldShowPixelSelector={setShouldShowPixelSelector} />
         )}
       </div>
     </div>

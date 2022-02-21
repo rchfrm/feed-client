@@ -1,6 +1,5 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
-// import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
@@ -131,7 +130,7 @@ const GetStartedPostsSelection = () => {
                   version="outline-black"
                   onClick={loadMore}
                   className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
-                  trackComponentName="GetStartedPostsStep"
+                  trackComponentName="GetStartedPostsSelection"
                 >
                   Load more...
                 </Button>
@@ -141,7 +140,7 @@ const GetStartedPostsSelection = () => {
                 onClick={handleNext}
                 loading={isLoading}
                 className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
-                trackComponentName="GetStartedPostsStep"
+                trackComponentName="GetStartedPostsSelection"
               >
                 Save
                 <ArrowAltIcon

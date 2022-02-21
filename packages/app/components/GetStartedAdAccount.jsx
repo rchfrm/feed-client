@@ -1,9 +1,10 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
-// import PropTypes from 'prop-types'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import useControlsStore from '@/app/stores/controlsStore'
 
 import Select from '@/elements/Select'
 import Button from '@/elements/Button'
@@ -14,8 +15,12 @@ import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '
 
 import copy from '@/app/copy/getStartedCopy'
 
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+  budget: state.budget,
+})
+
 const GetStartedAdAccount = () => {
-  const objective = 'growth'
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
 
@@ -26,7 +31,10 @@ const GetStartedAdAccount = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
   const { goToStep, setWizardState } = React.useContext(WizardContext)
+  const nextStep = objective === 'growth' ? 7 : 8
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
@@ -80,7 +88,6 @@ const GetStartedAdAccount = () => {
     updateArtist(artist)
     setIsLoading(false)
 
-    const nextStep = objective === 'growth' ? 8 : 9
     goToStep(nextStep)
   }
 
@@ -89,7 +96,6 @@ const GetStartedAdAccount = () => {
 
     // Skip API request if ad account hasn't changed
     if (adAccountId === facebookIntegration?.adaccount_id) {
-      const nextStep = objective === 'growth' ? 7 : 8
       goToStep(nextStep)
 
       return
@@ -121,7 +127,7 @@ const GetStartedAdAccount = () => {
           onClick={handleNext}
           loading={isLoading}
           className="w-full sm:w-48 mb-5 sm:mb-0"
-          trackComponentName="GetStartedAdAccountStep"
+          trackComponentName="GetStartedAdAccount"
         >
           Save
           <ArrowAltIcon

@@ -1,5 +1,5 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import PostImage from '@/PostImage'
 
@@ -31,6 +31,9 @@ const GetStartedPostsSelectionStep = ({ post, postsState, setPostsState }) => {
 }
 
 GetStartedPostsSelectionStep.propTypes = {
+  post: PropTypes.object.isRequired,
+  postsState: PropTypes.object.isRequired,
+  setPostsState: PropTypes.func.isRequired,
 }
 
 GetStartedPostsSelectionStep.defaultProps = {

@@ -135,6 +135,7 @@ WizardContextProvider.propTypes = {
       id: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  children: PropTypes.node.isRequired,
   goBackToPath: PropTypes.string,
   hasBackButton: PropTypes.bool,
 }

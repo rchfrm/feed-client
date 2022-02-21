@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 
@@ -21,13 +22,13 @@ const GetStartedConnectFacebookNoProfiles = ({ scopes }) => {
           scopes={scopes}
           buttonText="Continue with Facebook"
           className="w-full sm:w-96 mb-16"
-          trackComponentName="GetStartedConnectFacebookStep"
+          trackComponentName="GetStartedConnectFacebookNoProfiles"
         />
         <ButtonHelp
           content={connectProfilesCopy.helpText}
           text="The permissions we ask for"
           label="Permissions help"
-          trackComponentName="GetStartedConnectFacebookStep"
+          trackComponentName="GetStartedConnectFacebookNoProfiles"
           className="mb-5 sm:mb-0"
         />
       </div>
@@ -36,6 +37,7 @@ const GetStartedConnectFacebookNoProfiles = ({ scopes }) => {
 }
 
 GetStartedConnectFacebookNoProfiles.propTypes = {
+  scopes: PropTypes.array.isRequired,
 }
 
 GetStartedConnectFacebookNoProfiles.defaultProps = {

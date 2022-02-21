@@ -49,6 +49,8 @@ const GetStartedConnectFacebookProfilesList = ({
 GetStartedConnectFacebookProfilesList.propTypes = {
   profiles: PropTypes.array.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
+  selectedProfile: PropTypes.object.isRequired,
+  setSelectedProfile: PropTypes.func.isRequired,
 }
 
 GetStartedConnectFacebookProfilesList.defaultProps = {

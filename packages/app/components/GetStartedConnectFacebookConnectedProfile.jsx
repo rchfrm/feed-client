@@ -29,7 +29,7 @@ const GetStartedConnectFacebookConnectedProfile = ({ connectedArtists }) => {
           version="green"
           onClick={next}
           className="w-full sm:w-48 mb-5 sm:mb-0"
-          trackComponentName="GetStartedDailyBudgetStep"
+          trackComponentName="GetStartedConnectFacebookConnectedProfile"
         >
           Next
           <ArrowAltIcon

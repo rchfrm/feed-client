@@ -127,11 +127,13 @@ const GetStartedWizard = ({
 }
 
 GetStartedWizard.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   objective: PropTypes.string,
   platform: PropTypes.string,
   defaultLink: PropTypes.object,
   scopes: PropTypes.array.isRequired,
   posts: PropTypes.array.isRequired,
+  defaultPromotionEnabled: PropTypes.bool,
   adAccountId: PropTypes.string,
   facebookPixelId: PropTypes.string,
   locations: PropTypes.object.isRequired,
@@ -142,8 +144,9 @@ GetStartedWizard.defaultProps = {
   objective: '',
   platform: '',
   defaultLink: null,
-  facebookPixelId: '',
+  defaultPromotionEnabled: null,
   adAccountId: '',
+  facebookPixelId: '',
 }
 
 export default GetStartedWizard

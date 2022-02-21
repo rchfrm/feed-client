@@ -32,7 +32,7 @@ const GetStartedConnectFacebookConnectButton = ({ selectedProfile, setIsConnecti
       version="green"
       onClick={createArtist}
       className="w-full sm:w-48 mb-5 sm:mb-0"
-      trackComponentName="GetStartedDailyBudgetStep"
+      trackComponentName="GetStartedConnectFacebookConnectButton"
     >
       Next
       <ArrowAltIcon
