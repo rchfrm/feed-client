@@ -22,9 +22,8 @@ export default {
   // REFERALLS
   referralsTitle: (totalReferrals, totalCredits) => `🤝 You have earned ${totalCredits} in credits by referring people to Feed💰!\n\nGreat work 👍 these will be applied to future invoices.`,
   directTransferCredits: `Credits eared from referrals made after February '22 will be transferred to you directly, and won't come off future invoices.`,
-  noReferralsTitle: `🤝 Earn £50 for every person you refer to Feed 💰!`,
-  noReferralsDescription: `Share your unique link with someone
-  who could use **Feed**!`,
+  noReferralsTitle: `🤝 See more on the [referrals page](/my-referral-code) 💰!`,
+  noReferralsDescription: `Copy your unique link below and share<br />it with someone who could use **Feed**!`,
 
   // PROFILES
   profilesIntro: 'The following profiles are part of this billing account, and appear on the same invoice.',

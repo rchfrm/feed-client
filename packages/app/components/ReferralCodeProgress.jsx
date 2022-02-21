@@ -1,18 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import MarkdownText from '@/elements/MarkdownText'
-
 import ReferralCodeProgressBar from '@/app/ReferralCodeProgressBar'
-
-import { formatCurrency } from '@/helpers/utils'
-
 import copy from '@/app/copy/referralCodeCopy'
 
 // Use this to get the next upcoming referral award
-const getUpcomingReferralAward = (tiers, totalCompleteReferrals, minSpendString) => {
+export const getUpcomingReferralAward = (tiers, totalCompleteReferrals, minSpendString) => {
   const nextTierIndex = tiers.findIndex(({ referrals: requiredReferrals }) => totalCompleteReferrals >= requiredReferrals)
   // If reached the max
   if (nextTierIndex === 0) {
@@ -30,11 +24,9 @@ const ReferralCodeProgress = ({
 }) => {
   // Get referral credit amount
   const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
-  const referralAmount = 50
-  const referralAmountString = formatCurrency(referralAmount, 'GBP', true)
 
   // Get tiers
-  const tiers = [...copy.tiers(referralAmount, feedMinBudgetInfo.currencyCode)].reverse()
+  const tiers = [...copy.tiers(feedMinBudgetInfo.currencyCode)].reverse()
 
   // Calc percent complete
   const totalTiers = tiers.length
@@ -55,10 +47,10 @@ const ReferralCodeProgress = ({
   }, {})
 
   // Get upcoming benefit
-  const upcomingBenefit = getUpcomingReferralAward(tiers, totalCompleteReferrals, referralAmountString)
+  const upcomingBenefit = getUpcomingReferralAward(tiers, totalCompleteReferrals)
 
   // Intro copy
-  const introCopy = copy.introToProgress(totalReferrals, totalCompleteReferrals, referralAmountString, upcomingBenefit)
+  const introCopy = copy.introToProgress(totalReferrals, totalCompleteReferrals, upcomingBenefit)
 
   return (
     <div

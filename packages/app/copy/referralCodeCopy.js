@@ -1,6 +1,9 @@
 /* eslint-disable quotes */
 import { formatCurrency } from '@/helpers/utils'
 
+const referralAmount = 50
+const referralAmountString = formatCurrency(referralAmount, 'GBP', true)
+
 export default {
   signupClosedIntro: `**There is currently a waiting list to join the Feed beta.**`,
 
@@ -19,13 +22,13 @@ export default {
   sharingLinkExplanation: `You can also share a direct link that will let others sign up using your referral code.`,
 
   // Intro progress
-  introToProgress: (totalReferrals, totalCompleteReferrals, referralAmount, upcomingBenefit) => {
+  introToProgress: (totalReferrals, totalCompleteReferrals, upcomingBenefit) => {
     const totalReferredText = totalReferrals === 1 ? 'someone' : `${totalReferrals} people`
     const totalPendingReferrals = totalReferrals - totalCompleteReferrals
     // No referrals of any kind
-    if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend through the platform, you’ll get ${referralAmount} in credit!`
+    if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend through the platform, you’ll get ${referralAmountString} in credit!`
     // Only incomplete referrals
-    if (totalReferrals && !totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent some budget through the platform, we’ll give you ${referralAmount} in credit.`
+    if (totalReferrals && !totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent some budget through the platform, we’ll give you ${referralAmountString} in credit.`
     // Only complete referrals
     if (totalPendingReferrals === 0) return `Thanks for referring ${totalReferredText} to Feed! Keep sharing your unique link to get ${upcomingBenefit}`
     // Mix of complete and incomplete referrals
@@ -33,8 +36,8 @@ export default {
   },
 
   // TIERS
-  tiers: (creditAmount, currency) => {
-    const basicCredit = formatCurrency(creditAmount, currency, true)
+  tiers: () => {
+    const basicCredit = formatCurrency(referralAmount, 'GBP', true)
     return [
       {
         referrals: 1,
