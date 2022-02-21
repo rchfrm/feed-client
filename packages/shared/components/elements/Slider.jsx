@@ -41,7 +41,7 @@ const Slider = ({
       'mb-5',
       trackColor ? `slider-track-color-${trackColor}` : null,
       'border border-solid border-grey-3 rounded-full',
-      'p-2',
+      'px-3 py-2',
       className,
     ].join(' ')}
     >

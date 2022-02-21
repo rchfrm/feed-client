@@ -68,6 +68,6 @@
 
 .noUi-horizontal .noUi-tooltip {
   transform: translate(-50%, 100%);
-  top: 0;
+  top: -10px;
   bottom: auto;
 }
