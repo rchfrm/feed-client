@@ -21,7 +21,7 @@ import { updatePost, getCursor } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
-const GetStartedPostsSelection = ({ activePosts }) => {
+const GetStartedPostsSelection = () => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [posts, setPosts] = React.useState([])
   const [postsState, setPostsState] = React.useState({})
@@ -37,8 +37,6 @@ const GetStartedPostsSelection = ({ activePosts }) => {
   const cursor = React.useRef('')
 
   const fetchPosts = async () => {
-    console.log(activePosts)
-
     if (posts.length === postsLimit) {
       return
     }

@@ -67,7 +67,10 @@ const useControlsWizard = () => {
 
   // Fetch posts with a status of active or in review
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted() || !artistId) return
+    if (!isMounted() || !artistId) {
+      setPostsLoading(false)
+      return
+    }
 
     const res = await server.getPosts({
       artistId,
