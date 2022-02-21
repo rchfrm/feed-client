@@ -63,12 +63,12 @@ const GetStartedWizard = ({
       id: 3,
       title: 'Promoting your posts',
       component: <GetStartedConnectFacebook scopes={scopes} />,
-      isComplete: user.artists.length,
+      isComplete: Boolean(user.artists.length),
     },
     {
       id: 4,
       title: 'Promoting your posts',
-      component: <GetStartedPostsSelection />,
+      component: <GetStartedPostsSelection activePosts={posts} />,
       isComplete: posts.length > 0,
     },
     {

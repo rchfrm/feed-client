@@ -11,7 +11,10 @@ import { getLocalStorage } from '@/helpers/utils'
 import { getArtistIntegrationByPlatform, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { fetchTargetingState } from '@/app/helpers/targetingHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
+import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
 import { requiredScopesAds } from '@/helpers/firebaseHelpers'
+
+import * as server from '@/app/helpers/appServer'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -22,6 +25,8 @@ const getControlsStoreState = (state) => ({
 })
 
 const useControlsWizard = () => {
+  const [posts, setPosts] = React.useState([])
+  const [postsLoading, setPostsLoading] = React.useState(true)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const {
     nestedLinks,
@@ -51,8 +56,6 @@ const useControlsWizard = () => {
   const { ads: missingScopes = [] } = isArtistOwnedByUser ? getMissingScopes({ artist }) : {}
   const scopes = artistId ? missingScopes : requiredScopesAds
 
-  const posts = []
-
   // Initialise targeting context state
   useAsyncEffect(async (isMounted) => {
     if (!isMounted() || !artistId || controlsLoading || Object.keys(targetingState).length > 0) return
@@ -62,8 +65,25 @@ const useControlsWizard = () => {
     initPage(state, error)
   }, [artistId, controlsLoading])
 
+  // Fetch posts with a status of active or in review
+  useAsyncEffect(async (isMounted) => {
+    if (!isMounted() || !artistId) return
+
+    const res = await server.getPosts({
+      artistId,
+      filterBy: {
+        promotion_status: ['in_review', 'active'],
+      },
+    })
+
+    const formattedRecentPosts = formatRecentPosts(res)
+
+    setPosts(formattedRecentPosts)
+    setPostsLoading(false)
+  }, [artistId])
+
   return {
-    isLoading: artistLoading || controlsLoading || (artistId && !settingsReady),
+    isLoading: artistLoading || controlsLoading || (artistId && !settingsReady) || postsLoading,
     objective,
     platform,
     defaultLink,
