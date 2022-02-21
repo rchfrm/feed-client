@@ -20,9 +20,10 @@ export default {
   failedInvoiceAction: 'Please, **retry making the payment**:',
 
   // REFERALLS
-  referralsTitle: (totalReferrals, totalCredits) => `🤝 You have earnt ${totalCredits} in credits by referring ${totalReferrals} people to Feed💰! Great work 👍 These will be applied to future invoices.`,
-  noReferralsTitle: `🤝 Refer people to Feed to earn credits💰!`,
-  noReferralsDescription: `Share your unique link with someone  
+  referralsTitle: (totalReferrals, totalCredits) => `🤝 You have earned ${totalCredits} in credits by referring people to Feed💰!\n\nGreat work 👍 these will be applied to future invoices.`,
+  directTransferCredits: `Credits eared from referrals made after February '22 will be transferred to you directly, and won't come off future invoices.`,
+  noReferralsTitle: `🤝 Earn £50 for every person you refer to Feed 💰!`,
+  noReferralsDescription: `Share your unique link with someone
   who could use **Feed**!`,
 
   // PROFILES

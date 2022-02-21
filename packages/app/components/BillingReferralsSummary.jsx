@@ -43,7 +43,7 @@ const BillingReferralsSummary = ({
 }) => {
   const { referralsDetails, defaultPaymentMethod } = useBillingStore(getBillingStoreState, shallow)
   const currency = defaultPaymentMethod?.currency || 'GBP'
-  const { earned, referrals_number } = referralsDetails
+  const { earned, referrals_number, qualifying_referrals_number } = referralsDetails
   const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
   const { currency: { offset: currencyOffset } } = min_daily_budget_info || {}
   const totalEarnedStringValue = formatCurrency((earned / currencyOffset), currency)
@@ -57,9 +57,11 @@ const BillingReferralsSummary = ({
       {/* INTRO */}
       <h3 className="font-body font-bold mb-6">Referrals and Credits</h3>
       {/* SUMMARY */}
-      {referralsDetails.referrals_number > 0 ? (
+      {referrals_number > 0 ? (
         <>
-          <MarkdownText markdown={copy.referralsTitle(referrals_number, totalEarnedStringValue)} />
+          <MarkdownText markdown={copy.referralsTitle(qualifying_referrals_number, totalEarnedStringValue)} />
+          <MarkdownText className="text-xs" markdown={copy.directTransferCredits} />
+
           <div className="bg-grey-1 rounded-dialogue p-5 mb-6">
             <ul className="mb-0">
               {metrics.map(({ title, slug }, index) => {
