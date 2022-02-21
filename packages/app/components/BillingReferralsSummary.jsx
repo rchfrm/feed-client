@@ -37,7 +37,6 @@ const BillingReferralsSummary = ({
       <div>
         <MarkdownText markdown={introCopy} />
         <MarkdownText markdown={copy.noReferralsTitle} />
-        <MarkdownText markdown={copy.noReferralsDescription} className="text-center italic" />
       </div>
       <BillingCopyReferralsCode />
     </div>
