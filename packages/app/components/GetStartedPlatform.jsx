@@ -3,6 +3,7 @@ import React from 'react'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import PlatformIcon from '@/icons/PlatformIcon'
 import ButtonPill from '@/elements/ButtonPill'
@@ -32,6 +33,7 @@ const GetStartedPlatform = () => {
 
   const { goToStep } = React.useContext(WizardContext)
   const { artistId } = React.useContext(ArtistContext)
+  const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
   const { updatePreferences, optimizationPreferences, nestedLinks, updateLinks } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
 
@@ -80,6 +82,11 @@ const GetStartedPlatform = () => {
       optimizationPreferences: {
         platform: artist.preferences.optimization.platform,
       },
+    })
+
+    saveTargetingSettings({
+      ...targetingState,
+      platforms: isFacebookOrInstagram ? [platform] : [],
     })
 
     setIsLoading(false)

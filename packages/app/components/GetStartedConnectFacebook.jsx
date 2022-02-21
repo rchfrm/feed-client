@@ -4,6 +4,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
 import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
@@ -39,6 +40,7 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   const [error, setError] = React.useState(null)
 
   const { artistId, connectArtists } = React.useContext(ArtistContext)
+  const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
 
   const { user } = React.useContext(UserContext)
   const { artists: connectedArtists } = user
@@ -164,6 +166,13 @@ const GetStartedConnectFacebook = ({ scopes }) => {
         ...(currentObjective === 'sales' && { callToAction: artist.preferences.conversions.call_to_action }),
         ...((currentObjective === 'sales' || currentObjective === 'traffic') && { facebookPixelEvent: artist.preferences.conversions.facebook_pixel_event }),
       },
+    })
+
+    const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
+
+    saveTargetingSettings({
+      ...targetingState,
+      platforms: isFacebookOrInstagram ? [platform] : [],
     })
 
     setIsConnecting(false)
