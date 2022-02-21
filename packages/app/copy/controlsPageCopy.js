@@ -55,16 +55,4 @@ export default {
   defaultCallToActionIntro: `By default, which call to action should appear on your ads?`,
   facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-
-  // CONVERSIONS WIZARD
-  // ----------------
-  startingStepDescription: 'Looks like you haven\'t set up conversions yet. Start running conversions by clicking the button below.',
-  budgetStepDescription: (minBudget) => `To run conversions you must have a budget of at least ${minBudget}.`,
-  linkStepDescription: 'By default, where should people go when they click a conversion ad? You can set different links for specific posts later on.',
-  pixelStepDescription: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).
-
-  Having trouble? [Email us](mailto:help@tryfeed.co)`,
-  pixelEventStepDescription: 'What action do you want people to take on your website? To create conversion ads, this event must have been triggered at least once before.',
-  callToActionStepDescription: 'What CTA should be shown next to the link in your ads (or the swipe up button for stories)?',
-  postOptInStepDescription: `All set! Only thing left is to select which posts you'd like to use for conversion campaigns from the posts page. Once opted-in Feed will create ads straight away.`,
 }
