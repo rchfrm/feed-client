@@ -41,7 +41,7 @@ const Slider = ({
       'mb-5',
       trackColor ? `slider-track-color-${trackColor}` : null,
       'border border-solid border-grey-3 rounded-full',
-      'p-4',
+      'p-2',
       className,
     ].join(' ')}
     >
@@ -65,7 +65,6 @@ const Slider = ({
       <div className={[
         'relative',
         hasMarkers && label ? 'h-18' : null,
-        !hasMarkers && !label ? '-mt-10' : null,
       ].join(' ')}
       >
         <Nouislider

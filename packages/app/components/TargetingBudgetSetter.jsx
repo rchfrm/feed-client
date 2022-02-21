@@ -40,7 +40,7 @@ const TargetingBudgetSetter = ({
 
   return (
     <>
-      <div className="h-26">
+      <div>
         <SwitchTransition>
           <CSSTransition
             key={showCustomBudget}
