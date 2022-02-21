@@ -11,18 +11,14 @@ import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 
 import GetStartedConnectFacebookConnectedProfile from '@/app/GetStartedConnectFacebookConnectedProfile'
 import GetStartedConnectFacebookNoProfiles from '@/app/GetStartedConnectFacebookNoProfiles'
-import GetStartedConnectFacebookProfilesList from '@/app/GetStartedConnectFacebookProfilesList'
+import GetStartedConnectFacebookProfiles from '@/app/GetStartedConnectFacebookProfiles'
 import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 
 import Spinner from '@/elements/Spinner'
-import MarkdownText from '@/elements/MarkdownText'
-import Error from '@/elements/Error'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { getLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
-
-import copy from '@/app/copy/getStartedCopy'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -71,7 +67,6 @@ const GetStartedConnectFacebook = ({ scopes }) => {
 
     // Error if there are no accounts
     if (Object.keys(artistAccounts).length === 0) {
-      // Show error
       setError({ message: 'No accounts were found' })
       setIsLoading(false)
     }
@@ -190,25 +185,19 @@ const GetStartedConnectFacebook = ({ scopes }) => {
     )
   }
 
-  if (artistAccounts.length === 0) {
-    return (
-      <GetStartedConnectFacebookNoProfiles scopes={scopes} />
-    )
-  }
-
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-4 font-medium text-xl mb-4">{copy.facebookConnectMultipleProfilesSubtitle}</h3>
-      <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectMultipleProfilesDescription} />
-      <Error error={error} />
-      <div className="flex flex-1 flex-column justify-center items-center">
-        <GetStartedConnectFacebookProfilesList
-          profiles={artistAccounts}
+      {artistAccounts.length === 0 ? (
+        <GetStartedConnectFacebookNoProfiles scopes={scopes} />
+      ) : (
+        <GetStartedConnectFacebookProfiles
+          artistAccounts={artistAccounts}
           setIsConnecting={setIsConnecting}
           selectedProfile={selectedProfile}
           setSelectedProfile={setSelectedProfile}
+          error={error}
         />
-      </div>
+      )}
     </div>
   )
 }

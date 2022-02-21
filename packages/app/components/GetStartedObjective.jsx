@@ -73,7 +73,7 @@ const GetStartedObjective = () => {
   React.useEffect(() => {
     if (!selectedObjective) return
 
-    handleNextStep()
+    handleNextStep(selectedObjective)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedObjective])
 

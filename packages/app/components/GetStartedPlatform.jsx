@@ -92,7 +92,7 @@ const GetStartedPlatform = () => {
   React.useEffect(() => {
     if (!selectedPlatform) return
 
-    handleNextStep()
+    handleNextStep(selectedPlatform)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPlatform])
 
