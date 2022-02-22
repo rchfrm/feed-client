@@ -16,7 +16,9 @@ const GetStartedConnectFacebookConnectButton = ({ selectedProfile, setIsConnecti
   const { setWizardState, currentStep } = React.useContext(WizardContext)
 
   const accountsToConnect = React.useMemo(() => {
-    return Object.values(selectedProfile).map((profile) => profile)
+    if (selectedProfile) {
+      return Object.values(selectedProfile).map((profile) => profile)
+    }
   }, [selectedProfile])
 
   const createArtist = async () => {

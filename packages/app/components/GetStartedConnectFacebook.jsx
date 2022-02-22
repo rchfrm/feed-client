@@ -5,6 +5,7 @@ import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
 import GetStartedConnectFacebookConnectedProfile from '@/app/GetStartedConnectFacebookConnectedProfile'
 import GetStartedConnectFacebookNoProfiles from '@/app/GetStartedConnectFacebookNoProfiles'
@@ -15,7 +16,7 @@ import Spinner from '@/elements/Spinner'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
-const GetStartedConnectFacebook = ({ scopes }) => {
+const GetStartedConnectFacebook = () => {
   const [artistAccounts, setArtistAccounts] = React.useState([])
   const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -25,6 +26,9 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   const { artistId, connectArtists } = React.useContext(ArtistContext)
   const { setWizardState, currentStep } = React.useContext(WizardContext)
 
+  const { auth } = React.useContext(AuthContext)
+  const { missingScopes: { ads: missingScopes } } = auth
+
   const { user } = React.useContext(UserContext)
   const { artists: connectedArtists } = user
 
@@ -32,10 +36,15 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   useAsyncEffect(async (isMounted) => {
     if (!isMounted() || isConnecting) return
 
-    const { res, error } = await artistHelpers.getArtistOnSignUp()
+    if (missingScopes.length || error) {
+      setIsLoading(false)
+      return
+    }
 
-    if (error) {
-      setError(error)
+    const { res, error: getArtistError } = await artistHelpers.getArtistOnSignUp()
+
+    if (getArtistError) {
+      setError(getArtistError.message)
       setIsLoading(false)
       return
     }
@@ -104,15 +113,17 @@ const GetStartedConnectFacebook = ({ scopes }) => {
 
   return (
     <div className="flex flex-1 flex-column">
-      {artistAccounts.length === 0 ? (
-        <GetStartedConnectFacebookNoProfiles scopes={scopes} />
+      {Object.keys(artistAccounts).length === 0 ? (
+        <GetStartedConnectFacebookNoProfiles
+          auth={auth}
+          error={error}
+        />
       ) : (
         <GetStartedConnectFacebookProfiles
           artistAccounts={artistAccounts}
           setIsConnecting={setIsConnecting}
           selectedProfile={selectedProfile}
           setSelectedProfile={setSelectedProfile}
-          error={error}
         />
       )}
     </div>
