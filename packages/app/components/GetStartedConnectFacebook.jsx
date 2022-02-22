@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -131,7 +130,6 @@ const GetStartedConnectFacebook = () => {
 }
 
 GetStartedConnectFacebook.propTypes = {
-  scopes: PropTypes.array.isRequired,
 }
 
 GetStartedConnectFacebook.defaultProps = {

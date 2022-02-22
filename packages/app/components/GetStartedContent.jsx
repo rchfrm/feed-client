@@ -10,7 +10,6 @@ const GetStartedContent = () => {
     objective,
     platform,
     defaultLink,
-    scopes,
     posts,
     adAccountId,
     facebookPixelId,
@@ -24,7 +23,6 @@ const GetStartedContent = () => {
       objective={objective}
       platform={platform}
       defaultLink={defaultLink}
-      scopes={scopes}
       posts={posts}
       adAccountId={adAccountId}
       facebookPixelId={facebookPixelId}

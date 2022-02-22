@@ -4,14 +4,12 @@ import useAsyncEffect from 'use-async-effect'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { UserContext } from '@/app/contexts/UserContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-import { getArtistIntegrationByPlatform, getMissingScopes } from '@/app/helpers/artistHelpers'
+import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { fetchTargetingState } from '@/app/helpers/targetingHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
-import { requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 import * as server from '@/app/helpers/appServer'
 
@@ -38,7 +36,6 @@ const useControlsWizard = () => {
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId)
   const { defaultPromotionEnabled } = postsPreferences
   const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
-  const { user } = React.useContext(UserContext)
   const {
     targetingState,
     initPage,
@@ -49,9 +46,6 @@ const useControlsWizard = () => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
   const facebookPixelId = facebookIntegration?.pixel_id
-  const isArtistOwnedByUser = Object.keys(artist.users).includes(user.id) && artist.users[user.id].role === 'owner'
-  const { ads: missingScopes = [] } = isArtistOwnedByUser ? getMissingScopes({ artist }) : {}
-  const scopes = artistId ? missingScopes : requiredScopesAds
 
   // Initialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -87,7 +81,6 @@ const useControlsWizard = () => {
     objective,
     platform,
     defaultLink,
-    scopes,
     posts,
     defaultPromotionEnabled,
     adAccountId,
