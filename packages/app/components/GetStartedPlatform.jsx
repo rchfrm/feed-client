@@ -22,6 +22,7 @@ const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
   optimizationPreferences: state.optimizationPreferences,
   updatePreferences: state.updatePreferences,
+  postsPreferences: state.postsPreferences,
   updateLinks: state.updateLinks,
 })
 
@@ -33,8 +34,15 @@ const GetStartedPlatform = () => {
   const { goToStep } = React.useContext(WizardContext)
   const { artistId } = React.useContext(ArtistContext)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
-  const { updatePreferences, optimizationPreferences, nestedLinks, updateLinks } = useControlsStore(getControlsStoreState)
+  const {
+    updatePreferences,
+    optimizationPreferences,
+    postsPreferences,
+    nestedLinks,
+    updateLinks,
+  } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
+  const { defaultLinkId } = postsPreferences
 
   const handleNextStep = async (platform) => {
     const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
@@ -55,8 +63,7 @@ const GetStartedPlatform = () => {
     const { res: artist, error } = await updateArtist(artistId, {
       objective,
       platform,
-      // If platform is Facebook or Instagram grab the link from the linkbank
-      ...(isFacebookOrInstagram && { defaultLink: getLinkByPlatform(nestedLinks, platform).id }),
+      defaultLink: isFacebookOrInstagram ? getLinkByPlatform(nestedLinks, platform).id : defaultLinkId,
     })
 
     if (error) {

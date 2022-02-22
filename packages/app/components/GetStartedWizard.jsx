@@ -198,6 +198,8 @@ const GetStartedWizard = ({
       ...targetingState,
       platforms: isFacebookOrInstagram ? [platform] : [],
     })
+
+    localStorage.removeItem('getStartedWizard')
   }, [artistId, isLoading, objective, platform, defaultLink])
 
   return (

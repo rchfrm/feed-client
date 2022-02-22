@@ -470,7 +470,11 @@ export const getArtistPayload = ({
         ...(objective === 'traffic' && { facebook_pixel_event: 'LandingPageViews' }),
       },
     },
-    ...(objective === 'sales' && { conversions_enabled: true }),
+    ...(objective === 'sales' && {
+      feature_flags: {
+        conversions_enabled: true,
+      },
+    }),
   }
 }
 
