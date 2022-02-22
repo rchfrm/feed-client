@@ -1,5 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
+
+import { WizardContextProvider } from '@/app/contexts/WizardContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
+
+import useControlsStore from '@/app/stores/controlsStore'
+import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 
 import GetStartedObjective from '@/app/GetStartedObjective'
 import GetStartedPlatform from '@/app/GetStartedPlatform'
@@ -15,11 +24,17 @@ import GetStartedSummary from '@/app/GetStartedSummary'
 
 import Spinner from '@/elements/Spinner'
 
-import { WizardContextProvider } from '@/app/contexts/WizardContext'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { UserContext } from '@/app/contexts/UserContext'
+import { getLocalStorage } from '@/helpers/utils'
+import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
+import { updateArtist } from '@/app/helpers/artistHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
+
+const getControlsStoreState = (state) => ({
+  nestedLinks: state.nestedLinks,
+  updateLinks: state.updateLinks,
+  updatePreferences: state.updatePreferences,
+})
 
 const GetStartedWizard = ({
   isLoading,
@@ -35,28 +50,38 @@ const GetStartedWizard = ({
   budget,
 }) => {
   const { user } = React.useContext(UserContext)
-  const { artist } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
   const hasLocation = Object.keys(locations).length > 0 || Boolean(artist?.country_code)
+
+  const {
+    nestedLinks,
+    updateLinks,
+    updatePreferences,
+  } = useControlsStore(getControlsStoreState)
+
+  const saveLinkToLinkBank = useSaveLinkToLinkBank()
+  const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
 
   const steps = [
     {
       id: 0,
       title: 'Your objective',
       component: <GetStartedObjective />,
-      isComplete: Boolean(objective),
+      isComplete: Boolean(objective || wizardState?.objective),
     },
     {
       id: 1,
       title: 'Your objective',
       component: <GetStartedPlatform />,
-      isComplete: Boolean(platform),
+      isComplete: Boolean(platform || wizardState?.platform),
       shouldSkip: objective !== 'growth',
     },
     {
       id: 2,
       title: 'Your objective',
-      component: <GetStartedDefaultLink defaultLink={defaultLink} />,
-      isComplete: Boolean(defaultLink),
+      component: <GetStartedDefaultLink defaultLink={defaultLink || wizardState?.defaultLink} />,
+      isComplete: Boolean(defaultLink || wizardState?.defaultLink),
       shouldSkip: objective === 'growth' && (platform === 'facebook' || platform === 'instagram'),
     },
     {
@@ -110,6 +135,70 @@ const GetStartedWizard = ({
       isComplete: false,
     },
   ]
+
+  useAsyncEffect(async (isMounted) => {
+    if (
+      !isMounted()
+      || !artistId
+      || [objective, platform, defaultLink].every(Boolean)
+      || isLoading
+      || !wizardState
+    ) {
+      return
+    }
+
+    const { platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState
+    let link = ''
+
+    // If user has provided a link then save it to the linkbank
+    if (storedDefaultLink) {
+      const { savedLink, error } = await saveLinkToLinkBank(storedDefaultLink)
+
+      if (error) {
+        return
+      }
+
+      link = savedLink
+    } else {
+      // Otherwise get the link from the linkbank based on previously chosen platform (either Facebook or Instagram)
+      link = getLinkByPlatform(nestedLinks, storedPlatform)
+    }
+
+    const { res: artist, error } = await updateArtist(artistId, { ...wizardState, defaultLink: link.id })
+
+    if (error) {
+      return
+    }
+
+    // Set the new link as the default link
+    updateLinks('chooseNewDefaultLink', { newArtist: artist })
+
+    const currentObjective = artist.preferences.optimization.objective
+
+    // Update preferences in controls store
+    updatePreferences({
+      postsPreferences: {
+        callToAction: artist.preferences.posts.call_to_action,
+        defaultLinkId: artist.preferences.posts.default_link_id,
+        promotionEnabled: artist.preferences.posts.promotion_enabled_default,
+      },
+      optimizationPreferences: {
+        objective: artist.preferences.optimization.objective,
+        platform: artist.preferences.optimization.platform,
+      },
+      conversionsPreferences: {
+        ...(currentObjective === 'sales' && { callToAction: artist.preferences.conversions.call_to_action }),
+        ...((currentObjective === 'sales' || currentObjective === 'traffic') && { facebookPixelEvent: artist.preferences.conversions.facebook_pixel_event }),
+      },
+    })
+
+    const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
+
+    saveTargetingSettings({
+      ...targetingState,
+      platforms: isFacebookOrInstagram ? [platform] : [],
+    })
+  }, [artistId, isLoading, objective, platform, defaultLink])
 
   return (
     <div className="flex flex-column flex-1">

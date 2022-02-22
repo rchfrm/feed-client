@@ -7,7 +7,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-import { getLocalStorage } from '@/helpers/utils'
 import { getArtistIntegrationByPlatform, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { fetchTargetingState } from '@/app/helpers/targetingHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
@@ -27,7 +26,6 @@ const getControlsStoreState = (state) => ({
 const useControlsWizard = () => {
   const [posts, setPosts] = React.useState([])
   const [postsLoading, setPostsLoading] = React.useState(true)
-  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const {
     nestedLinks,
     postsPreferences,
@@ -36,9 +34,8 @@ const useControlsWizard = () => {
     controlsLoading,
   } = useControlsStore(getControlsStoreState)
 
-  const objective = optimizationPreferences?.objective || wizardState?.objective
-  const platform = optimizationPreferences?.platform || wizardState?.platform
-  const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId) || wizardState?.defaultLink
+  const { objective, platform } = optimizationPreferences
+  const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId)
   const { defaultPromotionEnabled } = postsPreferences
   const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
