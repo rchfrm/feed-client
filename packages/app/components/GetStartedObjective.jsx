@@ -35,7 +35,11 @@ const GetStartedObjective = () => {
 
     // If there's no connected account yet store the data in local storage
     if (!artistId) {
-      setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, objective }))
+      setLocalStorage('getStartedWizard', JSON.stringify({
+        ...wizardState,
+        objective,
+        ...(!isGrowth && { platform: 'website' }),
+      }))
       goToStep(nextStep)
 
       return

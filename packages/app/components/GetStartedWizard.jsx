@@ -22,8 +22,6 @@ import GetStartedLocation from '@/app/GetStartedLocation'
 import GetStartedDailyBudget from '@/app/GetStartedDailyBudget'
 import GetStartedSummary from '@/app/GetStartedSummary'
 
-import Spinner from '@/elements/Spinner'
-
 import { getLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import { updateArtist } from '@/app/helpers/artistHelpers'
@@ -204,15 +202,9 @@ const GetStartedWizard = ({
 
   return (
     <div className="flex flex-column flex-1">
-      {steps.length && (
-        <WizardContextProvider steps={steps} goBackToPath={ROUTES.HOME} hasBackButton>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)
-          )}
-        </WizardContextProvider>
-      )}
+      <WizardContextProvider steps={steps} goBackToPath={ROUTES.HOME} isLoading={isLoading} hasBackButton>
+        {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
+      </WizardContextProvider>
     </div>
   )
 }

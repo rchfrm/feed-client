@@ -12,7 +12,7 @@ const GetStartedConnectFacebookProfilesList = ({
   selectedProfile,
   setSelectedProfile,
 }) => {
-  const profileOptions = profiles.map((profile) => ({
+  const profileOptions = Object.values(profiles).map((profile) => ({
     value: profile.page_id,
     label: <GetStartedConnectFacebookProfilesItem profile={profile} />,
   }))
@@ -24,7 +24,14 @@ const GetStartedConnectFacebookProfilesList = ({
   }
 
   React.useEffect(() => {
-    setSelectedProfile(profiles.find((profile) => profile.page_id === facebookPageId))
+    const filteredSelectedProfile = Object.entries(profiles).reduce((result, [key, value]) => {
+      if (key === facebookPageId) {
+        result[key] = value
+      }
+      return result
+    }, {})
+
+    setSelectedProfile(filteredSelectedProfile)
   }, [profiles, facebookPageId, setSelectedProfile])
 
   return (
@@ -47,13 +54,14 @@ const GetStartedConnectFacebookProfilesList = ({
 }
 
 GetStartedConnectFacebookProfilesList.propTypes = {
-  profiles: PropTypes.array.isRequired,
+  profiles: PropTypes.object.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
-  selectedProfile: PropTypes.object.isRequired,
+  selectedProfile: PropTypes.object,
   setSelectedProfile: PropTypes.func.isRequired,
 }
 
 GetStartedConnectFacebookProfilesList.defaultProps = {
+  selectedProfile: null,
 }
 
 export default GetStartedConnectFacebookProfilesList

@@ -5,6 +5,7 @@ import Router from 'next/router'
 import { useImmerReducer } from 'use-immer'
 
 import ProgressBar from '@/app/ProgressBar'
+import Spinner from '@/elements/Spinner'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
@@ -40,6 +41,7 @@ const WizardContextProvider = ({
   steps,
   children,
   goBackToPath,
+  isLoading,
   hasBackButton,
 }) => {
   const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, {})
@@ -77,16 +79,23 @@ const WizardContextProvider = ({
   }
 
   React.useEffect(() => {
+    if (isLoading) return
+
     const firstIncompleteStep = steps.findIndex((step) => {
       if (!step.shouldSkip && step.id !== 0) {
         setStepsHistory((steps) => [...steps, step.id])
       }
+
+      if (wizardState[step.id]?.forceShow) {
+        return step
+      }
+
       return !step.isComplete && !step.shouldSkip
     })
 
     setCurrentStep(firstIncompleteStep)
     // eslint-disable-next-line
-  }, [])
+  }, [isLoading])
 
   return (
     <WizardContext.Provider
@@ -99,32 +108,38 @@ const WizardContextProvider = ({
         setWizardState,
       }}
     >
-      <h2>{steps[currentStep].title}</h2>
-      <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-8" />
-      {children[currentStep]}
-      <div className="w-full mt-auto flex justify-between">
-        {(hasBackButton && !isFirstStep) ? (
-          <a
-            role="button"
-            onClick={back}
-            className="flex text-grey-2 no-underline"
-          >
-            <ArrowAltIcon
-              className="w-3 mr-3"
-              direction="left"
-              fill={brandColors.grey}
-            />
-            Back
-          </a>
-        ) : null}
-        <a
-          role="button"
-          onClick={goToPage}
-          className="flex ml-auto text-grey-2 no-underline"
-        >
-          Let me see the app first
-        </a>
-      </div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <h2>{steps[currentStep].title}</h2>
+          <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-8" />
+          {children[currentStep]}
+          <div className="w-full mt-auto flex justify-between">
+            {(hasBackButton && !isFirstStep) ? (
+              <a
+                role="button"
+                onClick={back}
+                className="flex text-grey-2 no-underline"
+              >
+                <ArrowAltIcon
+                  className="w-3 mr-3"
+                  direction="left"
+                  fill={brandColors.grey}
+                />
+                Back
+              </a>
+            ) : null}
+            <a
+              role="button"
+              onClick={goToPage}
+              className="flex ml-auto text-grey-2 no-underline"
+            >
+              Let me see the app first
+            </a>
+          </div>
+        </>
+      )}
     </WizardContext.Provider>
   )
 }
@@ -137,6 +152,7 @@ WizardContextProvider.propTypes = {
   ).isRequired,
   children: PropTypes.node.isRequired,
   goBackToPath: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
   hasBackButton: PropTypes.bool,
 }
 

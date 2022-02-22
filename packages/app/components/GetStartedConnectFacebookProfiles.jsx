@@ -35,12 +35,14 @@ const GetStartedConnectFacebookProfiles = ({
 GetStartedConnectFacebookProfiles.propTypes = {
   artistAccounts: PropTypes.object.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
-  selectedProfile: PropTypes.object.isRequired,
+  selectedProfile: PropTypes.object,
   setSelectedProfile: PropTypes.func.isRequired,
-  error: PropTypes.object.isRequired,
+  error: PropTypes.object,
 }
 
 GetStartedConnectFacebookProfiles.defaultProps = {
+  selectedProfile: null,
+  error: null,
 }
 
 export default GetStartedConnectFacebookProfiles

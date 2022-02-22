@@ -4,6 +4,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
+import { WizardContext } from '@/app/contexts/WizardContext'
 
 import GetStartedConnectFacebookConnectedProfile from '@/app/GetStartedConnectFacebookConnectedProfile'
 import GetStartedConnectFacebookNoProfiles from '@/app/GetStartedConnectFacebookNoProfiles'
@@ -21,14 +22,16 @@ const GetStartedConnectFacebook = ({ scopes }) => {
   const [isConnecting, setIsConnecting] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const { connectArtists } = React.useContext(ArtistContext)
+  const { artistId, connectArtists } = React.useContext(ArtistContext)
+  const { setWizardState, currentStep } = React.useContext(WizardContext)
 
   const { user } = React.useContext(UserContext)
   const { artists: connectedArtists } = user
 
   // Get available accounts
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted) return
+    if (!isMounted() || isConnecting) return
+
     const { res, error } = await artistHelpers.getArtistOnSignUp()
 
     if (error) {
@@ -49,11 +52,10 @@ const GetStartedConnectFacebook = ({ scopes }) => {
     const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
     const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
-    const artistAccountsArray = artistHelpers.getSortedArtistAccountsArray(processedArtists)
 
     // Handle connecting a single artist
-    if (Object.keys(processedArtists).length === 1) {
-      setArtistAccounts(artistAccountsArray)
+    if (Object.keys(processedArtists).length === 1 && !artistId) {
+      setArtistAccounts(processedArtists)
       setSelectedProfile(processedArtists)
 
       setIsLoading(false)
@@ -62,6 +64,15 @@ const GetStartedConnectFacebook = ({ scopes }) => {
       // Santise URLs
       const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
       const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
+
+      setWizardState({
+        type: 'set-state',
+        payload: {
+          [currentStep]: {
+            forceShow: true,
+          },
+        },
+      })
 
       const { error } = await connectArtists(artistAccountsSanitised, user) || {}
 
@@ -75,12 +86,12 @@ const GetStartedConnectFacebook = ({ scopes }) => {
       return
     }
 
-    setArtistAccounts(artistAccountsArray)
+    setArtistAccounts(processedArtists)
     setIsLoading(false)
   }, [])
 
-  if (isConnecting && Object.keys(artistAccounts).length > 0) {
-    return <ConnectProfilesIsConnecting artistAccounts={[selectedProfile]} />
+  if (isConnecting && Object.keys(selectedProfile).length > 0) {
+    return <ConnectProfilesIsConnecting artistAccounts={selectedProfile} />
   }
 
   if (isLoading || isConnecting) return <Spinner />
