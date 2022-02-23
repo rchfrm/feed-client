@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
-import { getMissingPermissionsList } from '@/app/copy/integrationErrorsCopy'
 
 export default {
   // CONTROLS OPTIONS
