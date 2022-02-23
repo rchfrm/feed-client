@@ -6,6 +6,7 @@ import { useImmerReducer } from 'use-immer'
 
 import ProgressBar from '@/app/ProgressBar'
 import Spinner from '@/elements/Spinner'
+import ChevronIcon from '@/icons/ChevronIcon'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
@@ -133,9 +134,12 @@ const WizardContextProvider = ({
             <a
               role="button"
               onClick={goToPage}
-              className="flex ml-auto text-grey-2 no-underline"
+              className="flex items-center ml-auto py-1 px-3 text-sm border border-dashed border-black rounded-full no-underline"
             >
               Let me see the app first
+              <ChevronIcon
+                className="h-3 ml-2"
+              />
             </a>
           </div>
         </>
