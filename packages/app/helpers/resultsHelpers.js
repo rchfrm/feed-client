@@ -370,14 +370,29 @@ export const getDataSourceValues = async (artistId) => {
   }
 }
 
-const getFollowerCount = (platform, data) => {
-  return data.followers[platform].number_of_followers.value
+const getGrowthAndFollowersCount = (platform, data) => {
+  return {
+    followers: data.followers[platform].number_of_followers.value,
+    growth: data.followers[platform].growth_rate.value,
+  }
+}
+
+const getLargestPlatform = (igData, fbData) => {
+  const { growth: igGrowth, followers: igFollowers } = igData
+  const { growth: fbGrowth, followers: fbFollowers } = fbData
+
+  if (Math.sign(igGrowth) !== Math.sign(fbGrowth)) {
+    return igGrowth >= fbGrowth ? 'instagram' : 'facebook'
+  }
+
+  return igFollowers >= fbFollowers ? 'instagram' : 'facebook'
 }
 
 export const getOrganicBenchmarkData = ({ data }) => {
-  const igFollowers = getFollowerCount('instagram', data)
-  const fbFollowers = getFollowerCount('facebook', data)
-  const largestPlatform = igFollowers >= fbFollowers ? 'instagram' : 'facebook'
+  const igData = getGrowthAndFollowersCount('instagram', data)
+  const fbData = getGrowthAndFollowersCount('facebook', data)
+  const largestPlatform = getLargestPlatform(igData, fbData)
+
   const {
     aggregated: {
       reach_rate,
