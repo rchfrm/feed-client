@@ -18,7 +18,7 @@ const ResultsHeader = ({
   const dateFrom = dateRange.from && moment(dateRange.from).format('DD MMM')
   const dateTo = dateRange.to && moment(dateRange.to).format('DD MMM')
 
-  const shouldShowSpendingPausedWarning = resultsType === 'paid' && isSpendingPaused
+  const shouldShowSpendingPausedWarning = hasStartedSpending && isSpendingPaused
 
   return (
     <div className="flex flex-column sm:flex-row justify-between sm:items-center mb-6 sm:mb-12">
