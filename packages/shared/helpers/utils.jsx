@@ -9,6 +9,8 @@ import countries from '@/constants/countries'
 import get from 'lodash/get'
 
 export const capitalise = (string) => {
+  if (!string) return
+
   return string[0].toUpperCase() + string.slice(1)
 }
 

@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import { capitalise } from '@/helpers/utils'
 
 const getPlatform = (platform) => {
   if (platform === 'youtube') return 'Youtube channel'
@@ -53,4 +54,15 @@ export default {
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'Finally, how much would you like to spend?',
   reviewDescription: 'Feed has submitted your ads for approval!',
+  objectiveSummary: (objective, platform) => {
+    if (!objective) {
+      return 'Grow, sell or drive traffic'
+    }
+
+    if (objective && objective === 'growth') {
+      return `${capitalise(platform) || `{{ Platform }}`} growth`
+    }
+
+    return `${capitalise(platform)} ${objective}`
+  },
 }

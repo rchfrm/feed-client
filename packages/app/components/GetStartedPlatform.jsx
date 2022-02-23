@@ -52,6 +52,12 @@ const GetStartedPlatform = () => {
     // If there's no connected account yet store the data in local storage
     if (!artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, platform }))
+
+      updatePreferences({
+        optimizationPreferences: {
+          platform,
+        },
+      })
       goToStep(nextStep)
 
       return

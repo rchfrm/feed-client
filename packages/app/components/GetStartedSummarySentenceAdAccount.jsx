@@ -15,7 +15,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
   const adAccountId = facebookIntegration?.adaccount_id
 
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
+    if (!isMounted() || !artistId || !adAccountId) return
 
     const { res, error } = await getAdAccounts(artistId)
 
@@ -31,7 +31,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
   return (
     <>
       <span className="whitespace-pre mb-2">, in</span>
-      <span className="border-2 border-solid border-yellow rounded-full py-1 px-3 mx-1 mb-2">the {adAccountName} ad account</span>
+      <span className="border-2 border-solid border-yellow rounded-full py-1 px-3 mx-1 mb-2">{adAccountName ? `the ${adAccountName} ad account` : 'your ad account'}</span>
     </>
   )
 }

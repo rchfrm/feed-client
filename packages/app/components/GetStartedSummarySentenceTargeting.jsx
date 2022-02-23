@@ -19,7 +19,7 @@ const GetStartedSummarySentenceTargeting = () => {
   return (
     <>
       <span className="whitespace-pre mb-2">with a daily budget of</span>
-      <span className="border-2 border-solid border-green rounded-full py-1 px-3 mx-1 mb-2">{formatCurrency(budget, currencyCode)}</span>
+      <span className="border-2 border-solid border-green rounded-full py-1 px-3 mx-1 mb-2">{formatCurrency(budget || 5, currencyCode)}</span>
     </>
   )
 }

@@ -40,6 +40,13 @@ const GetStartedObjective = () => {
         objective,
         ...(!isGrowth && { platform: 'website' }),
       }))
+
+      updatePreferences({
+        optimizationPreferences: {
+          objective,
+          ...(!isGrowth && { platform: 'website' }),
+        },
+      })
       goToStep(nextStep)
 
       return
