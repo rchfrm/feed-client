@@ -21,6 +21,7 @@ import GetStartedFacebookPixel from '@/app/GetStartedFacebookPixel'
 import GetStartedLocation from '@/app/GetStartedLocation'
 import GetStartedDailyBudget from '@/app/GetStartedDailyBudget'
 import GetStartedSummary from '@/app/GetStartedSummary'
+import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
 import { getLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
@@ -201,7 +202,13 @@ const GetStartedWizard = ({
 
   return (
     <div className="flex flex-column flex-1">
-      <WizardContextProvider steps={steps} goBackToPath={ROUTES.HOME} isLoading={isLoading} hasBackButton>
+      <WizardContextProvider
+        steps={steps}
+        goBackToPath={ROUTES.HOME}
+        isLoading={isLoading}
+        navigation={<GetStartedSummarySentence />}
+        hasBackButton
+      >
         {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
       </WizardContextProvider>
     </div>

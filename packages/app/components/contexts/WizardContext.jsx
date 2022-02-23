@@ -43,6 +43,7 @@ const WizardContextProvider = ({
   children,
   goBackToPath,
   isLoading,
+  navigation,
   hasBackButton,
 }) => {
   const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, {})
@@ -51,6 +52,7 @@ const WizardContextProvider = ({
 
   const totalSteps = steps.length - 1
   const isFirstStep = currentStep === 0
+  const isLastStep = currentStep === totalSteps
 
   const next = React.useCallback(() => {
     if (currentStep === totalSteps) return
@@ -113,6 +115,7 @@ const WizardContextProvider = ({
         <Spinner />
       ) : (
         <>
+          {!isLastStep && navigation}
           <h2>{steps[currentStep].title}</h2>
           <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-8" />
           {children[currentStep]}
