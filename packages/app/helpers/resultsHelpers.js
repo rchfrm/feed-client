@@ -377,7 +377,7 @@ const getGrowthAndFollowersCount = (platform, data) => {
   }
 }
 
-const getLargestPlatform = (igData, fbData) => {
+const getBestPerformingPlatform = (igData, fbData) => {
   const { growth: igGrowth, followers: igFollowers } = igData
   const { growth: fbGrowth, followers: fbFollowers } = fbData
 
@@ -391,7 +391,7 @@ const getLargestPlatform = (igData, fbData) => {
 export const getOrganicBenchmarkData = ({ data }) => {
   const igData = getGrowthAndFollowersCount('instagram', data)
   const fbData = getGrowthAndFollowersCount('facebook', data)
-  const largestPlatform = getLargestPlatform(igData, fbData)
+  const bestPerformingPlatform = getBestPerformingPlatform(igData, fbData)
 
   const {
     aggregated: {
@@ -399,7 +399,7 @@ export const getOrganicBenchmarkData = ({ data }) => {
       engagement_rate,
     },
     followers: {
-      [largestPlatform]: {
+      [bestPerformingPlatform]: {
         growth_absolute,
         growth_rate,
         number_of_followers,
@@ -438,14 +438,14 @@ export const getOrganicBenchmarkData = ({ data }) => {
       value: followersGrowthAbsoluteMedianValue,
       percentile: followersGrowthRateMedianPercentile,
       quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
-      platform: largestPlatform,
-      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, largestPlatform, followersGrowthRateValue),
+      platform: bestPerformingPlatform,
+      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, bestPerformingPlatform, followersGrowthRateValue),
       hasGrowth: true,
     }
   } else {
     growthData = {
       value: number_of_followers.value || 0,
-      platform: largestPlatform,
+      platform: bestPerformingPlatform,
       copy: resultsCopy.noSpendTotalFollowersDescription,
       hasGrowth: false,
     }
