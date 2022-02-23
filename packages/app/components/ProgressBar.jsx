@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import { gsap, Power2 } from 'gsap'
 
-import brandColors from '@/constants/brandColors'
-
 const ProgressBar = ({ percentage, className }) => {
   const maskRef = React.useRef(null)
 
@@ -24,34 +22,19 @@ const ProgressBar = ({ percentage, className }) => {
 
   return (
     <div
-      className={['relative w-full h-7 border border-solid overflow-hidden', className].join(' ')}
+      className={['fixed top-0 left-0 w-full h-1 bg-white', className].join(' ')}
       style={{
-        borderRadius: '25px',
         backgroundImage: 'url(/images/progress_bar_gradient.png)',
         backgroundSize: 'cover',
       }}
     >
       <div
         className="w-full h-full absolute"
-        style={{
-          width: '116%',
-          right: '-8%',
-        }}
       >
         <div
           className="w-full h-full absolute right-0 bg-white"
           ref={maskRef}
-        >
-          <span
-            className="absolute"
-            style={{
-              left: '-32px',
-              borderLeft: '32px solid transparent',
-              borderRight: '0px solid transparent',
-              borderBottom: `26px solid ${brandColors.white}`,
-            }}
-          />
-        </div>
+        />
       </div>
     </div>
   )
