@@ -6,7 +6,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import { getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
-const GetStartedSummarySentence = ({ setError }) => {
+const GetStartedSummarySentenceAdAccount = ({ setError }) => {
   const [adAccountName, setAdAccountName] = React.useState('')
 
   const { artistId, artist } = React.useContext(ArtistContext)
@@ -36,11 +36,11 @@ const GetStartedSummarySentence = ({ setError }) => {
   )
 }
 
-GetStartedSummarySentence.propTypes = {
+GetStartedSummarySentenceAdAccount.propTypes = {
   setError: PropTypes.func.isRequired,
 }
 
-GetStartedSummarySentence.defaultProps = {
+GetStartedSummarySentenceAdAccount.defaultProps = {
 }
 
-export default GetStartedSummarySentence
+export default GetStartedSummarySentenceAdAccount

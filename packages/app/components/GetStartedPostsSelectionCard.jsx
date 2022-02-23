@@ -5,7 +5,7 @@ import PostImage from '@/PostImage'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 
-const GetStartedPostsSelectionStep = ({ post, postsState, setPostsState }) => {
+const GetStartedPostsSelectionCard = ({ post, postsState, setPostsState }) => {
   const { id, promotionEnabled } = post
   const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
 
@@ -30,13 +30,13 @@ const GetStartedPostsSelectionStep = ({ post, postsState, setPostsState }) => {
   )
 }
 
-GetStartedPostsSelectionStep.propTypes = {
+GetStartedPostsSelectionCard.propTypes = {
   post: PropTypes.object.isRequired,
   postsState: PropTypes.object.isRequired,
   setPostsState: PropTypes.func.isRequired,
 }
 
-GetStartedPostsSelectionStep.defaultProps = {
+GetStartedPostsSelectionCard.defaultProps = {
 }
 
-export default GetStartedPostsSelectionStep
+export default GetStartedPostsSelectionCard

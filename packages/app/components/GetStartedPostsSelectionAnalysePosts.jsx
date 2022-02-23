@@ -6,7 +6,7 @@ import Spinner from '@/elements/Spinner'
 
 import copy from '@/app/copy/getStartedCopy'
 
-const GetStartedPostsSelection = ({ canLoadPosts }) => {
+const GetStartedPostsSelectionAnalysePosts = ({ canLoadPosts }) => {
   return (
     <>
       <div className="flex mb-4">
@@ -18,11 +18,11 @@ const GetStartedPostsSelection = ({ canLoadPosts }) => {
   )
 }
 
-GetStartedPostsSelection.propTypes = {
+GetStartedPostsSelectionAnalysePosts.propTypes = {
   canLoadPosts: PropTypes.bool.isRequired,
 }
 
-GetStartedPostsSelection.defaultProps = {
+GetStartedPostsSelectionAnalysePosts.defaultProps = {
 }
 
-export default GetStartedPostsSelection
+export default GetStartedPostsSelectionAnalysePosts

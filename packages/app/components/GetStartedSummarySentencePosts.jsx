@@ -8,7 +8,7 @@ import PostImage from '@/PostImage'
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
 import * as server from '@/app/helpers/appServer'
 
-const GetStartedSummarySentence = () => {
+const GetStartedSummarySentencePosts = () => {
   const [posts, setPosts] = React.useState([])
 
   const { artistId } = React.useContext(ArtistContext)
@@ -47,10 +47,10 @@ const GetStartedSummarySentence = () => {
   )
 }
 
-GetStartedSummarySentence.propTypes = {
+GetStartedSummarySentencePosts.propTypes = {
 }
 
-GetStartedSummarySentence.defaultProps = {
+GetStartedSummarySentencePosts.defaultProps = {
 }
 
-export default GetStartedSummarySentence
+export default GetStartedSummarySentencePosts

@@ -502,7 +502,7 @@ export const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'face
 // Update artist
 /**
 * @param {string} artistId
-* @param {object} payload
+* @param {object} data
 * @returns {Promise<object>} { res, error }
 */
 export const updateArtist = (artistId, data) => {

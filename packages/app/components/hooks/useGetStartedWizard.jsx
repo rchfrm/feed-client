@@ -21,7 +21,7 @@ const getControlsStoreState = (state) => ({
   controlsLoading: state.isControlsLoading,
 })
 
-const useControlsWizard = () => {
+const useGetStartedWizard = () => {
   const [posts, setPosts] = React.useState([])
   const [postsLoading, setPostsLoading] = React.useState(true)
   const {
@@ -90,4 +90,4 @@ const useControlsWizard = () => {
   }
 }
 
-export default useControlsWizard
+export default useGetStartedWizard

@@ -10,7 +10,7 @@ const getControlsStoreState = (state) => ({
   budget: state.budget,
 })
 
-const GetStartedSummarySentence = () => {
+const GetStartedSummarySentenceTargeting = () => {
   const { artist } = React.useContext(ArtistContext)
   const { budget } = useControlsStore(getControlsStoreState)
 
@@ -24,10 +24,10 @@ const GetStartedSummarySentence = () => {
   )
 }
 
-GetStartedSummarySentence.propTypes = {
+GetStartedSummarySentenceTargeting.propTypes = {
 }
 
-GetStartedSummarySentence.defaultProps = {
+GetStartedSummarySentenceTargeting.defaultProps = {
 }
 
-export default GetStartedSummarySentence
+export default GetStartedSummarySentenceTargeting
