@@ -40,7 +40,7 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, postsState, postsL
   }
 
   return (
-    <div className="flex flex-column sm:flex-row w-full sm:w-auto">
+    <div className="flex flex-column justify-center sm:flex-row w-full sm:w-auto">
       {(posts.length !== postsLimit) && (
         <Button
           version="outline-black"

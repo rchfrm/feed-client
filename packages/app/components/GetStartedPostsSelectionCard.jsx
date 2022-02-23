@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostImage from '@/PostImage'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import ToggleSwitch from '@/elements/ToggleSwitch'
+import PostImage from '@/PostImage'
+import TickCircleIcon from '@/icons/TickCircleIcon'
+import brandColors from '@/constants/brandColors'
+
 
 const GetStartedPostsSelectionCard = ({ post, postsState, setPostsState }) => {
+  const isDesktopLayout = useBreakpointTest('sm')
   const { id, promotionEnabled } = post
   const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
 
@@ -15,18 +19,24 @@ const GetStartedPostsSelectionCard = ({ post, postsState, setPostsState }) => {
   }
 
   return (
-    <div className="flex flex-column items-center">
+    <button
+      onClick={() => handleOnchange(id)}
+      className="relative self-center rounded-dialogue"
+      style={{ width: isDesktopLayout ? 'calc(20% - 12px)' : 'calc(33% - 6px)' }}
+    >
       <PostImage
         mediaSrc={post.media}
         mediaType="image"
         thumbnailOptions={post.thumbnails}
-        className="w-30 sm:w-40 mx-4 mb-8 pointer-events-none"
+        className="w-full pointer-events-none"
       />
-      <ToggleSwitch
-        state={isEnabled}
-        onChange={() => handleOnchange(id)}
+      <TickCircleIcon
+        fill={isEnabled ? brandColors.green : brandColors.white}
+        tickFill={isEnabled ? brandColors.white : brandColors.grey}
+        className="absolute bottom-0 w-6 h-6 m-2"
       />
-    </div>
+      {!isEnabled && <div className="absolute w-full h-full top-0 left-0 bg-grey-2 opacity-75 rounded-dialogue" />}
+    </button>
   )
 }
 

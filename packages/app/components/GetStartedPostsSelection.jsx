@@ -75,9 +75,14 @@ const GetStartedPostsSelection = () => {
         <>
           <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle(canLoadPosts)}</h3>
           <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
-          <div className="flex flex-1 flex-column justify-center items-center">
+          <div className="flex flex-1 flex-column">
             <Error error={error} />
-            <div className="flex mb-12 relative">
+            <div
+              className={[
+                'flex flex-1 flex-wrap justify-center gap-2 sm:gap-4',
+                'mb-12',
+              ].join(' ')}
+            >
               {posts.map((post) => (
                 <GetStartedPostsSelectionCard
                   key={post.id}
