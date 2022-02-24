@@ -111,7 +111,7 @@ const GetStartedConnectFacebook = () => {
   }
 
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       {Object.keys(artistAccounts).length === 0 ? (
         <GetStartedConnectFacebookNoProfiles
           auth={auth}

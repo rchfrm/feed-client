@@ -44,7 +44,7 @@ const GetStartedFacebookPixelSelector = ({ isLoading, setIsLoading, setError }) 
         version="green"
         onClick={saveFacebookPixel}
         loading={isLoading}
-        className="w-full sm:w-48 mb-5 sm:mb-0"
+        className="w-full sm:w-48"
         trackComponentName="GetStartedFacebookPixel"
       >
         Save

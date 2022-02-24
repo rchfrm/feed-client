@@ -159,7 +159,7 @@ const GetStartedDefaultLink = () => {
   }
 
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-4 font-medium text-xl">{copy.defaultLinkSubtitle(objective, platform)}</h3>
       <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.defaultLinkDescription(objective)} />
       <Error error={error} />
@@ -176,7 +176,7 @@ const GetStartedDefaultLink = () => {
         <Button
           version="green"
           onClick={handleNext}
-          className="w-full sm:w-48 mb-5 sm:mb-0"
+          className="w-full sm:w-48"
           trackComponentName="GetStartedDefaultLink"
         >
           Save

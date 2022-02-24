@@ -68,7 +68,7 @@ const GetStartedPostsSelection = () => {
   if (initialLoading) return null
 
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       {!canLoadPosts ? (
         <GetStartedPostsSelectionAnalysePosts canLoadPosts={canLoadPosts} />
       ) : (

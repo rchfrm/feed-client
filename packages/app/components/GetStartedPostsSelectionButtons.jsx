@@ -55,7 +55,7 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, postsState, postsL
         version="green"
         onClick={handleNext}
         loading={isLoading}
-        className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
+        className="w-full sm:w-56 mx-0 sm:mx-4"
         trackComponentName="GetStartedPostsSelection"
       >
         Save

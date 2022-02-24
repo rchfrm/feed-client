@@ -12,7 +12,7 @@ const GetStartedConnectFacebookConnectedProfile = ({ connectedArtists }) => {
   const { next } = React.useContext(WizardContext)
 
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-5 sm:mb-0 font-medium text-xl">You succesfully connected the following profile:</h3>
       <div className="flex flex-1 flex-column justify-center items-center">
         <ul className="mb-12">
@@ -28,7 +28,7 @@ const GetStartedConnectFacebookConnectedProfile = ({ connectedArtists }) => {
         <Button
           version="green"
           onClick={next}
-          className="w-full sm:w-48 mb-5 sm:mb-0"
+          className="w-full sm:w-48"
           trackComponentName="GetStartedConnectFacebookConnectedProfile"
         >
           Next

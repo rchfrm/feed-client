@@ -11,7 +11,7 @@ const GetStartedPlatformButton = ({ platform, setSelectedPlatform, isLoading }) 
   return (
     <ButtonPill
       key={platform}
-      className="w-32 sm:w-48 mx-0 mx-3 mb-5"
+      className="w-32 sm:w-48 mx-3 mb-5"
       onClick={() => setSelectedPlatform(platform)}
       loading={isLoading}
       style={{

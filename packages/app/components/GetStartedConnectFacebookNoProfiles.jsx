@@ -41,7 +41,6 @@ const GetStartedConnectFacebookNoProfiles = ({ auth, error }) => {
           text="The permissions we ask for"
           label="Permissions help"
           trackComponentName="GetStartedConnectFacebookNoProfiles"
-          className="mb-5 sm:mb-0"
         />
       </div>
     </div>

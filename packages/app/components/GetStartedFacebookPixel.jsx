@@ -38,7 +38,7 @@ const GetStartedFacebookPixel = () => {
   if (isLoading) return <Spinner />
 
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-6 font-medium text-xl">{copy.facebookPixelSubtitle(shouldShowPixelSelector)}</h3>
       <Error error={error} />
       <div className={[

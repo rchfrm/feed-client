@@ -72,7 +72,7 @@ const GetStartedDailyBudget = () => {
   }
 
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-0 font-medium text-xl">{copy.budgetSubtitle}</h3>
       <div className="flex flex-1 flex-column justify-center items-center">
         <div className="w-full sm:w-1/2 h-26 mb-4 px-6">
@@ -92,7 +92,7 @@ const GetStartedDailyBudget = () => {
           version="green"
           onClick={handleNext}
           loading={targetingLoading}
-          className="w-full sm:w-48 mb-5 sm:mb-0"
+          className="w-full sm:w-48"
           trackComponentName="GetStartedDailyBudget"
         >
           Save

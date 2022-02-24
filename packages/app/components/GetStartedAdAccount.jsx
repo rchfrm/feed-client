@@ -110,7 +110,7 @@ const GetStartedAdAccount = () => {
   }, [adAccountId, setAdAccountId, adAccountOptions])
 
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-6 font-medium text-xl">{copy.adAccountSubtitle}</h3>
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
@@ -126,7 +126,7 @@ const GetStartedAdAccount = () => {
           version="green"
           onClick={handleNext}
           loading={isLoading}
-          className="w-full sm:w-48 mb-5 sm:mb-0"
+          className="w-full sm:w-48"
           trackComponentName="GetStartedAdAccount"
         >
           Save

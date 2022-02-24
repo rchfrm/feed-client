@@ -60,7 +60,7 @@ const GetStartedPostsDefaultSelection = () => {
   }, [artistId, next, setPostPreferences, updatePreferences, defaultPromotionEnabled])
 
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="w-full mb-6 font-medium text-xl">{copy.postsDefaultSelectionSubtitle}</h3>
       <div className="flex flex-1 flex-column sm:flex-row justify-center items-center">
         <Button
@@ -82,7 +82,7 @@ const GetStartedPostsDefaultSelection = () => {
           onClick={() => savePromotableDefaultStatus(true)}
           loading={isLoading && isEnabled}
           spinnerFill={brandColors.black}
-          className="w-full sm:w-56 mx-4 mb-6 sm:mb-0"
+          className="w-full sm:w-56 mx-4"
           trackComponentName="GetStartedPostsDefaultSelectionStep"
         >
           <TickCircleIcon

@@ -89,7 +89,7 @@ const GetStartedObjective = () => {
   }, [selectedObjective])
 
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.objectiveSubtitle}</h3>
       <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.objectiveDescription} />
       <div className="flex flex-1 flex-column justify-center">
