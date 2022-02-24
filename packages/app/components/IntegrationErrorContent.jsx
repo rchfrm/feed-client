@@ -37,6 +37,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       buttonType,
       ctaText,
       ctaLink,
+      isDismissible,
     } = integrationError
     // Link button
     if (ctaType === 'link_ext') {
@@ -89,6 +90,24 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         {
           text: 'Resend link',
           onClick: resendConfirmationLink,
+          color: 'black',
+        },
+      ]
+    }
+    if (ctaType === 'link_int' && isDismissible) {
+      const goToCTALink = () => {
+        Router.push(integrationError.ctaLink)
+        closeAlert()
+      }
+      return [
+        {
+          text: ctaText,
+          onClick: goToCTALink,
+          color: 'green',
+        },
+        {
+          text: 'Dismiss',
+          onClick: () => console.log('click'),
           color: 'black',
         },
       ]
