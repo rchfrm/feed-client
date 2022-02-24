@@ -10,7 +10,6 @@ import GetStartedPostsSelectionAnalysePosts from '@/app/GetStartedPostsSelection
 import GetStartedPostsSelectionButtons from '@/app/GetStartedPostsSelectionButtons'
 
 import MarkdownText from '@/elements/MarkdownText'
-import Error from '@/elements/Error'
 
 import * as server from '@/app/helpers/appServer'
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
@@ -22,22 +21,16 @@ const GetStartedPostsSelection = () => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [posts, setPosts] = React.useState([])
   const [postsState, setPostsState] = React.useState({})
-  const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
 
   const { initialLoading } = useCheckInitialPostsImportStatus(artistId, canLoadPosts, setCanLoadPosts)
 
-  const postsLimit = 4
   const cursor = React.useRef('')
 
   const fetchPosts = async () => {
-    if (posts.length === postsLimit) {
-      return
-    }
-
     const res = await server.getPosts({
-      limit: 3,
+      limit: 5,
       artistId,
       sortBy: ['normalized_score'],
       cursor: cursor.current,
@@ -76,7 +69,6 @@ const GetStartedPostsSelection = () => {
           <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle(canLoadPosts)}</h3>
           <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
           <div className="flex flex-1 flex-column">
-            <Error error={error} />
             <div
               className={[
                 'flex flex-1 flex-wrap justify-center gap-2 sm:gap-4',
@@ -96,8 +88,6 @@ const GetStartedPostsSelection = () => {
               fetchPosts={fetchPosts}
               posts={posts}
               postsState={postsState}
-              postsLimit={postsLimit}
-              setError={setError}
             />
           </div>
         </>

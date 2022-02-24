@@ -2,6 +2,7 @@ import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { WizardContext } from '@/app/contexts/WizardContext'
 
 import PostImage from '@/PostImage'
 import BrokenImageIcon from '@/icons/BrokenImageIcon'
@@ -14,6 +15,7 @@ const GetStartedSummarySentencePosts = () => {
   const [posts, setPosts] = React.useState([])
 
   const { artistId } = React.useContext(ArtistContext)
+  const { wizardState } = React.useContext(WizardContext)
 
   useAsyncEffect(async (isMounted) => {
     if (!isMounted() || !artistId) return
@@ -30,6 +32,14 @@ const GetStartedSummarySentencePosts = () => {
 
     setPosts(formattedRecentPosts)
   }, [])
+
+  React.useEffect(() => {
+    if (!wizardState.enabledPosts) {
+      return
+    }
+
+    setPosts(wizardState.enabledPosts)
+  }, [wizardState.enabledPosts])
 
   return (
     <>

@@ -26,7 +26,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
     const { name } = res.adaccounts.find(({ id }) => id === adAccountId)
 
     setAdAccountName(name)
-  }, [])
+  }, [adAccountId])
 
   return (
     <>

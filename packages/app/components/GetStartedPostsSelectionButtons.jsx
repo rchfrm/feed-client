@@ -10,30 +10,35 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import { updatePost } from '@/app/helpers/postsHelpers'
 
 
-const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, postsState, postsLimit, setError }) => {
+const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, postsState }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
-  const { next } = React.useContext(WizardContext)
+  const { next, setWizardState } = React.useContext(WizardContext)
 
   const loadMore = async () => {
     await fetchPosts()
   }
 
   const handleNext = async () => {
-    const hasSelectedOnOrMorePosts = Object.values(postsState).some((post) => post)
-
-    if (!hasSelectedOnOrMorePosts) {
-      setError({ message: 'Please opt in at least one post' })
-      return
-    }
-
     setIsLoading(true)
 
     const postPromises = Object.entries(postsState).map(([key, value]) => {
       return updatePost({ artistId, postId: key, promotionEnabled: value, campaignType: 'all' })
     })
 
+
     await Promise.all(postPromises)
+
+    const enabledPostIds = Object.keys(postsState).filter(id => postsState[id])
+    const enabledPosts = posts.filter(post => [enabledPostIds[0], enabledPostIds[1]].includes(post.id))
+
+    setWizardState({
+      type: 'set-state',
+      payload: {
+        enabledPosts,
+      },
+    })
+
     setIsLoading(false)
 
     next()
@@ -41,16 +46,14 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, postsState, postsL
 
   return (
     <div className="flex flex-column justify-center sm:flex-row w-full sm:w-auto">
-      {(posts.length !== postsLimit) && (
-        <Button
-          version="outline-black"
-          onClick={loadMore}
-          className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
-          trackComponentName="GetStartedPostsSelection"
-        >
-          Load more...
-        </Button>
-      )}
+      <Button
+        version="outline-black"
+        onClick={loadMore}
+        className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
+        trackComponentName="GetStartedPostsSelection"
+      >
+        Load more...
+      </Button>
       <Button
         version="green"
         onClick={handleNext}
@@ -73,8 +76,6 @@ GetStartedPostsSelectionButtons.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
   postsState: PropTypes.object.isRequired,
-  postsLimit: PropTypes.number.isRequired,
-  setError: PropTypes.func.isRequired,
 }
 
 GetStartedPostsSelectionButtons.defaultProps = {
