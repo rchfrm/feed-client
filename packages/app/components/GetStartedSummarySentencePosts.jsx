@@ -21,7 +21,7 @@ const GetStartedSummarySentencePosts = () => {
     const res = await server.getPosts({
       artistId,
       filterBy: {
-        promotion_status: ['in_review', 'active'],
+        promotion_enabled: [true],
       },
       limit: 2,
     })

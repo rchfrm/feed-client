@@ -19,7 +19,8 @@ const GetStartedPostsSelectionCard = ({ post, postsState, setPostsState }) => {
   }
 
   return (
-    <button
+    <div
+      role="button"
       onClick={() => handleOnchange(id)}
       className="relative self-center rounded-dialogue"
       style={{ width: isDesktopLayout ? 'calc(20% - 12px)' : 'calc(33% - 6px)' }}
@@ -36,7 +37,7 @@ const GetStartedPostsSelectionCard = ({ post, postsState, setPostsState }) => {
         className="absolute bottom-0 w-6 h-6 m-2"
       />
       {!isEnabled && <div className="absolute w-full h-full top-0 left-0 bg-grey-2 opacity-75 rounded-dialogue" />}
-    </button>
+    </div>
   )
 }
 
