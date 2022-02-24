@@ -2,6 +2,8 @@ import React from 'react'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
+
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { formatCurrency } from '@/helpers/utils'
@@ -17,10 +19,14 @@ const GetStartedSummarySentenceTargeting = () => {
   const { feedMinBudgetInfo: { currencyCode } } = artist
 
   return (
-    <>
-      <span className="whitespace-pre mb-2">with a daily budget of</span>
-      <span className="border-2 border-solid border-green rounded-full py-1 px-3 mx-1 mb-2">{formatCurrency(budget || 5, currencyCode)}</span>
-    </>
+    <GetStartedSummarySentenceSection
+      section="targeting"
+      text="with a daily budget of"
+      isComplete={Boolean(budget)}
+      color="green"
+    >
+      {formatCurrency(budget || 5, currencyCode)}
+    </GetStartedSummarySentenceSection>
   )
 }
 

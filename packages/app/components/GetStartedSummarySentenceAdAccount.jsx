@@ -4,6 +4,8 @@ import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
+
 import { getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
 const GetStartedSummarySentenceAdAccount = ({ setError }) => {
@@ -29,10 +31,14 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
   }, [adAccountId])
 
   return (
-    <>
-      <span className="whitespace-pre mb-2">, in</span>
-      <span className="border-2 border-solid border-yellow rounded-full py-1 px-3 mx-1 mb-2">{adAccountName ? `the ${adAccountName} ad account` : 'your ad account'}</span>
-    </>
+    <GetStartedSummarySentenceSection
+      section="ad-account"
+      text=", in"
+      isComplete={adAccountId}
+      color="yellow"
+    >
+      {adAccountName ? `the ${adAccountName} ad account` : 'your ad account'}
+    </GetStartedSummarySentenceSection>
   )
 }
 

@@ -65,12 +65,14 @@ const GetStartedWizard = ({
     {
       id: 0,
       title: 'Your objective',
+      section: 'objective',
       component: <GetStartedObjective />,
       isComplete: Boolean(objective || wizardState?.objective),
     },
     {
       id: 1,
       title: 'Your objective',
+      section: 'objective',
       component: <GetStartedPlatform />,
       isComplete: Boolean(platform || wizardState?.platform),
       shouldSkip: objective !== 'growth',
@@ -78,6 +80,7 @@ const GetStartedWizard = ({
     {
       id: 2,
       title: 'Your objective',
+      section: 'objective',
       component: <GetStartedDefaultLink defaultLink={defaultLink || wizardState?.defaultLink} />,
       isComplete: Boolean(defaultLink || wizardState?.defaultLink),
       shouldSkip: objective === 'growth' && (platform === 'facebook' || platform === 'instagram'),
@@ -85,30 +88,35 @@ const GetStartedWizard = ({
     {
       id: 3,
       title: 'Promoting your posts',
+      section: 'post-promotion',
       component: <GetStartedConnectFacebook />,
       isComplete: Boolean(user.artists.length),
     },
     {
       id: 4,
       title: 'Promoting your posts',
+      section: 'post-promotion',
       component: <GetStartedPostsSelection activePosts={posts} />,
       isComplete: posts.length > 0,
     },
     {
       id: 5,
       title: 'Promoting your posts',
+      section: 'post-promotion',
       component: <GetStartedPostsDefaultSelection />,
       isComplete: defaultPromotionEnabled !== null,
     },
     {
       id: 6,
       title: 'Your ad account',
+      section: 'ad-account',
       component: <GetStartedAdAccount />,
       isComplete: Boolean(adAccountId),
     },
     {
       id: 7,
       title: 'Your ad account',
+      section: 'ad-account',
       component: <GetStartedFacebookPixel />,
       isComplete: Boolean(facebookPixelId),
       shouldSkip: objective === 'growth',
@@ -116,6 +124,7 @@ const GetStartedWizard = ({
     {
       id: 8,
       title: 'Your ad account',
+      section: 'ad-account',
       component: <GetStartedLocation />,
       isComplete: hasLocation,
       shouldSkip: hasLocation,
@@ -123,6 +132,7 @@ const GetStartedWizard = ({
     {
       id: 9,
       title: 'Targeting',
+      section: 'targeting',
       component: <GetStartedDailyBudget />,
       isComplete: Boolean(budget),
     },

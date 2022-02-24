@@ -4,6 +4,8 @@ import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
+import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
+
 import PostImage from '@/PostImage'
 import BrokenImageIcon from '@/icons/BrokenImageIcon'
 
@@ -15,7 +17,12 @@ const GetStartedSummarySentencePosts = () => {
   const [posts, setPosts] = React.useState([])
 
   const { artistId } = React.useContext(ArtistContext)
-  const { wizardState } = React.useContext(WizardContext)
+  const { steps, currentStep, wizardState } = React.useContext(WizardContext)
+
+  const section = 'post-promotion'
+  const isActive = steps[currentStep].section === section
+  const isComplete = posts.length > 0
+  const isInActive = !isActive && !isComplete
 
   useAsyncEffect(async (isMounted) => {
     if (!isMounted() || !artistId) return
@@ -42,8 +49,12 @@ const GetStartedSummarySentencePosts = () => {
   }, [wizardState.enabledPosts])
 
   return (
-    <>
-      <span className="whitespace-pre mb-2">using these posts:</span>
+    <GetStartedSummarySentenceSection
+      section="post-promotion"
+      text="using these posts:"
+      isComplete={posts.length > 0}
+      hasBorder={false}
+    >
       <div className="flex items-center mb-2">
         {posts.length ? (
           posts.map(({ id, media, thumbnails }) => (
@@ -61,12 +72,12 @@ const GetStartedSummarySentencePosts = () => {
             <BrokenImageIcon
               key={index}
               className="relative w-10 h-10 mx-2 rounded-full"
-              circleFill={brandColors.black}
+              circleFill={isInActive ? brandColors.grey : brandColors.black}
             />
           ))
         )}
       </div>
-    </>
+    </GetStartedSummarySentenceSection>
   )
 }
 

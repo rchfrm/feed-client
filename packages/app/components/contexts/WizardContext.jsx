@@ -106,6 +106,7 @@ const WizardContextProvider = ({
         next,
         back,
         currentStep,
+        steps,
         goToStep,
         wizardState,
         setWizardState,
