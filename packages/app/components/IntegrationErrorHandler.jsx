@@ -18,6 +18,7 @@ import useNotificationStore from '@/app/stores/notificationsStore'
 
 import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/integrationErrorsCopy'
+import useDismissNotification from '@/app/hooks/useDismissNotification'
 
 const getNotificationsStoreState = (state) => ({
   notifications: state.notifications,
@@ -39,6 +40,7 @@ const IntegrationErrorHandler = () => {
   const { globalLoading } = React.useContext(InterfaceContext)
   const unconfirmedEmails = useUnconfirmedEmails(user)
   const router = useRouter()
+  const dismissNotification = useDismissNotification(integrationError)
 
   const checkError = React.useCallback((integrationError) => {
     // Stop here if there are no artists associated with an account
@@ -153,8 +155,12 @@ const IntegrationErrorHandler = () => {
 
   // Function to hide integration error
   const hideIntegrationErrors = React.useCallback(() => {
+    const { isDismissible, hidden } = integrationError
+    if (isDismissible && !hidden) {
+      dismissNotification()
+    }
     setShowError(false)
-  }, [])
+  }, [dismissNotification, integrationError])
 
   if (!showError) return null
 
