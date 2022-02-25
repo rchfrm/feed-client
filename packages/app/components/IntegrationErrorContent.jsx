@@ -31,17 +31,6 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     )
   }, [integrationError, authError, networkError])
 
-  const dismissAndClose = React.useCallback(() => {
-    dismiss()
-    closeAlert()
-  }, [closeAlert, dismiss])
-
-  const goToInternalLink = React.useCallback(() => {
-    const { ctaLink } = integrationError
-    Router.push(ctaLink)
-    dismissAndClose()
-  }, [dismissAndClose, integrationError])
-
   const alertButtons = React.useMemo(() => {
     const {
       ctaType,
@@ -49,6 +38,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       ctaText,
       ctaLink,
       isDismissible,
+      onAction,
     } = integrationError
     // Link button
     if (ctaType === 'link_ext') {
@@ -109,12 +99,12 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       return [
         {
           text: ctaText,
-          onClick: goToInternalLink,
+          onClick: onAction,
           color: 'green',
         },
         {
           text: 'Dismiss',
-          onClick: dismissAndClose,
+          onClick: () => {},
           color: 'black',
         },
       ]
