@@ -34,7 +34,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
     <GetStartedSummarySentenceSection
       section={getStartedSections.adAccount}
       text=", in"
-      isComplete={adAccountId}
+      isComplete={Boolean(adAccountId)}
       color="yellow"
     >
       {adAccountName ? `the ${adAccountName} ad account` : 'your ad account'}

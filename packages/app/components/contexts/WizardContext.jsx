@@ -84,7 +84,7 @@ const WizardContextProvider = ({
         return step
       }
 
-      return !step.isComplete && !step.shouldSkip
+      return !step.isComplete && step.isApplicable
     })
 
     setCurrentStep(firstIncompleteStep)

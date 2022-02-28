@@ -48,6 +48,7 @@ const GetStartedWizard = ({
   locations,
   budget,
 }) => {
+  const [steps, setSteps] = React.useState([])
   const { user } = React.useContext(UserContext)
   const { artistId, artist } = React.useContext(ArtistContext)
   const hasLocation = Object.keys(locations).length > 0 || Boolean(artist?.country_code)
@@ -62,7 +63,7 @@ const GetStartedWizard = ({
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
 
-  const steps = [
+  const initialSteps = React.useMemo(() => [
     {
       id: 0,
       title: 'Your objective',
@@ -76,7 +77,7 @@ const GetStartedWizard = ({
       section: getStartedSections.objective,
       component: <GetStartedPlatform />,
       isComplete: Boolean(platform || wizardState?.platform),
-      shouldSkip: objective !== 'growth',
+      isApplicable: objective === 'growth',
     },
     {
       id: 2,
@@ -84,7 +85,7 @@ const GetStartedWizard = ({
       section: getStartedSections.objective,
       component: <GetStartedDefaultLink defaultLink={defaultLink || wizardState?.defaultLink} />,
       isComplete: Boolean(defaultLink || wizardState?.defaultLink),
-      shouldSkip: objective === 'growth' && (platform === 'facebook' || platform === 'instagram'),
+      isApplicable: objective !== 'growth' && (platform !== 'facebook' || platform !== 'instagram'),
     },
     {
       id: 3,
@@ -120,7 +121,7 @@ const GetStartedWizard = ({
       section: getStartedSections.adAccount,
       component: <GetStartedFacebookPixel />,
       isComplete: Boolean(facebookPixelId),
-      shouldSkip: objective === 'growth',
+      isApplicable: objective !== 'growth',
     },
     {
       id: 8,
@@ -143,7 +144,13 @@ const GetStartedWizard = ({
       component: <GetStartedSummary />,
       isComplete: false,
     },
-  ]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [])
+
+  React.useEffect(() => {
+    // Filter out the steps that should be skipped completely
+    setSteps(initialSteps.filter((step) => !step.shouldSkip))
+  }, [initialSteps])
 
   useAsyncEffect(async (isMounted) => {
     if (
