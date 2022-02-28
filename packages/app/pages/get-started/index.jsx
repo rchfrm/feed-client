@@ -1,22 +1,19 @@
-import React from 'react'
-
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
+import GetStartedContent from '@/app/GetStartedContent'
 
 const headerConfig = {
-  text: 'get started',
+  text: 'get started..',
 }
 
-const Page = () => {
-  return (
-    <BasePage
-      headerConfig={headerConfig}
-      artistRequired
-      controlsRequired
-    >
-      <div>Get started..</div>
-    </BasePage>
-  )
-}
+const Page = () => (
+  <BasePage
+    headerConfig={headerConfig}
+    artistRequired
+    hasNoProfilesPage
+  >
+    <GetStartedContent />
+  </BasePage>
+)
 
 export default testPageReady('app')(Page)

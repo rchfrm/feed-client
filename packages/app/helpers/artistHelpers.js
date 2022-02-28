@@ -223,7 +223,7 @@ export const sanitiseArtistAccountUrls = (artistAccounts) => {
  * @returns {object} integration
  */
 export const getArtistIntegrationByPlatform = (artist, platformId) => {
-  if (!artist) return null
+  if (!artist || !artist.id) return null
   return artist.integrations.find(({ platform }) => platform === platformId)
 }
 
@@ -336,7 +336,7 @@ export const testIfMusician = (artistCategories = []) => {
  */
 export const testIfSpotifyConnected = (integrations) => {
   const spotifyIntegration = getArtistIntegrationByPlatform({ integrations }, 'spotify')
-  return !!spotifyIntegration.accountId
+  return !!spotifyIntegration?.accountId
 }
 
 /**
@@ -356,10 +356,10 @@ export const getDefaultLinkId = (artist) => {
 export const getPreferences = (artist, type) => {
   const { preferences } = artist
   const formattedPreferencesResponse = {
-    defaultLinkId: preferences[type].default_link_id,
-    callToAction: preferences[type].call_to_action,
+    ...(type !== 'optimization' && { defaultLinkId: preferences[type].default_link_id, callToAction: preferences[type].call_to_action }),
     ...(type === 'conversions' && { facebookPixelEvent: preferences[type].facebook_pixel_event }),
     ...(type === 'posts' && { defaultPromotionEnabled: preferences[type].promotion_enabled_default }),
+    ...(type === 'optimization' && { objective: preferences[type].objective, platform: preferences[type].platform }),
   }
   return formattedPreferencesResponse
 }
@@ -383,4 +383,135 @@ export const getMissingScopes = ({ grantedScopes, artist }) => {
     account: filterRequiredScopes(requiredScopesAccount),
     ads: filterRequiredScopes(requiredScopesAds),
   }
+}
+
+// Update optimization objective
+/**
+* @param {string} artistId
+* @param {string} objective
+* @returns {Promise<object>} { res, error }
+*/
+export const updateObjective = (artistId, objective) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    preferences: {
+      optimization: {
+        objective,
+      },
+    },
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update optimization objective',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+// Update optimization platform
+/**
+* @param {string} artistId
+* @param {string} platform
+* @returns {Promise<object>} { res, error }
+*/
+export const updatePlatform = (artistId, platform) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    preferences: {
+      optimization: {
+        platform,
+      },
+    },
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update optimization platform',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+const getCallToAction = (objective, platform) => {
+  if (platform === 'facebook' || platform === 'instagram' || objective === 'traffic') {
+    return 'LEARN_MORE'
+  }
+
+  if (platform === 'spotify' || platform === 'soundcloud') {
+    return 'LISTEN_NOW'
+  }
+
+  if (platform === 'youtube') {
+    return 'WATCH_MORE'
+  }
+
+  if (objective === 'sales') {
+    return 'SHOP_NOW'
+  }
+}
+
+export const getArtistPayload = ({
+  objective,
+  platform,
+  defaultLink,
+}) => {
+  return {
+    preferences: {
+      optimization: {
+        ...(objective && { objective }),
+        ...(platform && { platform }),
+      },
+      posts: {
+        ...(defaultLink && { default_link_id: defaultLink }),
+        ...(objective && platform && { call_to_action: getCallToAction(objective, platform) }),
+        promotion_enabled_default: false,
+      },
+      conversions: {
+        ...(objective === 'sales' && { call_to_action: 'SHOP_NOW', facebook_pixel_event: 'Purchase' }),
+        ...(objective === 'traffic' && { facebook_pixel_event: 'LandingPageViews' }),
+      },
+    },
+    ...(objective === 'sales' && {
+      feature_flags: {
+        conversions_enabled: true,
+      },
+    }),
+  }
+}
+
+export const objectives = [
+  {
+    title: 'Audience growth',
+    value: 'growth',
+    color: 'green',
+  },
+  {
+    title: 'Website sales',
+    value: 'sales',
+    color: 'insta',
+
+  },
+  {
+    title: 'Website visits',
+    value: 'traffic',
+    color: 'blue',
+  },
+]
+
+export const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
+
+// Update artist
+/**
+* @param {string} artistId
+* @param {object} data
+* @returns {Promise<object>} { res, error }
+*/
+export const updateArtist = (artistId, data) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = getArtistPayload(data)
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update artist',
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }

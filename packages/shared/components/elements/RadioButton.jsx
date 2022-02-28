@@ -13,14 +13,15 @@ const RadioButton = ({
   trackGroupLabel,
   trackLocation,
   className,
+  labelPosition,
 }) => {
   const valueString = value.toString()
   const id = `radio-${valueString}`
 
   const handleChange = () => {
     track('radio_button_clicked', {
-      label: trackGroupLabel || label,
-      value: trackGroupLabel ? label : value,
+      label: trackGroupLabel,
+      value,
       location: trackLocation,
     })
     onChange(value)
@@ -44,7 +45,10 @@ const RadioButton = ({
         onChange={handleChange}
       />
       <label
-        className="radio--button_label"
+        className={[
+          'radio--button_label',
+          labelPosition === 'left' ? 'radio--button_label-left' : null,
+        ].join(' ')}
         htmlFor={id}
       >
         {label}
@@ -60,13 +64,17 @@ RadioButton.propTypes = {
     PropTypes.bool,
   ]).isRequired,
   name: PropTypes.string,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+  ]).isRequired,
   checked: PropTypes.bool,
   highlight: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   trackGroupLabel: PropTypes.string,
   trackLocation: PropTypes.string,
   className: PropTypes.string,
+  labelPosition: PropTypes.string,
 }
 
 RadioButton.defaultProps = {
@@ -76,6 +84,7 @@ RadioButton.defaultProps = {
   trackGroupLabel: '',
   trackLocation: '',
   className: null,
+  labelPosition: 'right',
 }
 
 export default RadioButton
