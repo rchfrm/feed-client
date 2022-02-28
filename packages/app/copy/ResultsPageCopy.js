@@ -202,4 +202,17 @@ We’ll be in touch shortly after with more information.`,
   postsChartNoData: 'No posts found within the last 30 days.',
   growthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
   growthChartNoData: 'There is currently no follower growth data available.',
+  headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
+    const resultsTypeString = `**<span className="underline">${capitalise(resultsType)}</span>** insights`
+
+    if (!isLast30Days && (!dateFrom || !dateTo)) {
+      return resultsTypeString
+    }
+
+    if (isLast30Days) {
+      return `${resultsTypeString}, **last 30 days...**`
+    }
+
+    return `${resultsTypeString} from **${dateFrom}** to **${dateTo}**`
+  },
 }

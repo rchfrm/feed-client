@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -8,16 +9,22 @@ import ResultsSpendOverview from '@/app/ResultsSpendOverview'
 import ResultsConversionsTeaser from '@/app/ResultsConversionsTeaser'
 import ResultsConversionsActivator from '@/app/ResultsConversionsActivator'
 
+import MarkdownText from '@/elements/MarkdownText'
+
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import copy from '@/app/copy/ResultsPageCopy'
 
 const getConversionsPreferences = state => state.conversionsPreferences
 
-const ResultsContent = ({ data }) => {
+const ResultsContent = ({ data, isSpendingPaused }) => {
   const { featureFlags: { conversionsEnabled: hasConversionsFeatureEnabled } } = React.useContext(ArtistContext)
 
   const conversionsPreferences = useControlsStore(getConversionsPreferences)
   const hasSetUpConversions = Object.values(conversionsPreferences).every(Boolean)
   const hasConversionColumn = hasConversionsFeatureEnabled && hasSetUpConversions
+
+  if (!data) return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
 
   return (
     <div>
@@ -62,7 +69,12 @@ const ResultsContent = ({ data }) => {
 }
 
 ResultsContent.propTypes = {
+  data: PropTypes.object,
+  isSpendingPaused: PropTypes.bool.isRequired,
+}
 
+ResultsContent.defaultProps = {
+  data: null,
 }
 
 export default ResultsContent
