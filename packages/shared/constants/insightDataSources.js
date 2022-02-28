@@ -242,6 +242,17 @@ export default {
     dataType: 'cumulative',
   },
 
+  instagram_historical_follower_count: {
+    name: 'instagram_historical_follower_count',
+    platform: 'instagram',
+    visible: true,
+    breakdown: false,
+    title: 'followers',
+    subtitle: 'total',
+    period: '',
+    dataType: 'cumulative',
+  },
+
   instagram_profile_views: {
     name: 'instagram_profile_views',
     platform: 'instagram',
