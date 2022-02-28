@@ -9,7 +9,7 @@
   border: none;
   background-color: var(--green);
   box-shadow: none;
-  height: var(--sp-6) !important;
+  height: var(--sp-4) !important;
   cursor: grab;
 
   &.noUi-active {
@@ -19,9 +19,9 @@
 
 .noUi-horizontal .noUi-handle, 
 .noUi-handle.-ghost {
-  width: var(--sp-6);
+  width: var(--sp-4);
   right: calc(-1 * var(--sp-3));
-  top: -8px;
+  top: -4px;
   
   &::before,
   &::after {
@@ -38,7 +38,7 @@
 
 .noUi-handle.-ghost {
   position: absolute;
-  top: 32px;
+  top: -4px;
   background-color: var(--purple);
   opacity: 0.5;
 }
@@ -48,7 +48,7 @@
   box-shadow: none;
   border: none;
   border-radius: var(--dialogue-radius);
-  background: var(--grey-light);
+  background: linear-gradient(90deg, var(--grey-light) 0%, var(--grey-dark));
 
   .slider-track-color-white & {
     background: var(--white);
@@ -68,6 +68,6 @@
 
 .noUi-horizontal .noUi-tooltip {
   transform: translate(-50%, 100%);
-  top: 0;
+  top: -10px;
   bottom: auto;
 }

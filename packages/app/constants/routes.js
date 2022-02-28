@@ -30,6 +30,7 @@ export const CONTROLS_INTEGRATIONS = '/controls/integrations'
 export const CONTROLS_ADS = '/controls/ads'
 export const CONTROLS_CONVERSIONS = '/controls/conversions'
 export const BILLING = '/billing'
+export const GET_STARTED = '/get-started'
 
 export const HOME = POSTS
 
@@ -48,6 +49,7 @@ export const restrictedPages = [
   RESULTS,
   NOTIFICATIONS,
   TARGETING,
+  GET_STARTED,
 ]
 
 // Array of pages that you can access without being signed in

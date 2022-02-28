@@ -23,12 +23,12 @@ const RadioButtons = ({
   selectedValue,
   onChange,
   trackGroupLabel,
+  labelPosition,
   className,
 }) => {
-  const classNames = ['radio--buttons', className].join(' ')
   return (
     <div
-      className={classNames}
+      className="radio--buttons"
       htmlrole="radiogroup"
     >
       {options.map(({ value, name, label }, index) => {
@@ -39,11 +39,13 @@ const RadioButtons = ({
           <RadioButton
             key={value}
             value={value}
+            className={className}
             name={name}
             label={label}
             trackGroupLabel={trackGroupLabel}
             checked={checked}
             onChange={onChange}
+            labelPosition={labelPosition}
           />
         )
       })}
@@ -62,12 +64,14 @@ RadioButtons.propTypes = {
     PropTypes.number,
     PropTypes.bool,
   ]),
+  labelPosition: PropTypes.string,
 }
 
 RadioButtons.defaultProps = {
   className: '',
   selectedValue: null,
   trackGroupLabel: '',
+  labelPosition: 'right',
 }
 
 

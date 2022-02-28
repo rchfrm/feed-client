@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 
 import ThePageButtonsIcon from '@/app/ThePageButtonsIcon'
 import ActiveLink from '@/elements/ActiveLink'
@@ -56,6 +57,9 @@ const ThePageButtons = () => {
   const { user } = React.useContext(UserContext)
   const { device = {} } = useBrowserStore()
   const { isMobile, isIOS } = device
+
+  const { pathname } = useRouter()
+  const isGetStartedPage = pathname === ROUTES.GET_STARTED
   // Get currency from artist
   const {
     artistLoading,
@@ -63,7 +67,7 @@ const ThePageButtons = () => {
     artist: { missingDefaultLink, isSpendingPaused },
   } = React.useContext(ArtistContext)
   // Don't show buttons if no logged in
-  if (!isLoggedIn || user.is_email_verification_needed) return null
+  if (!isLoggedIn || user.is_email_verification_needed || isGetStartedPage) return null
 
   return (
     <div
