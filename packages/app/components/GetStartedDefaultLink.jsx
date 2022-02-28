@@ -113,6 +113,12 @@ const GetStartedDefaultLink = () => {
   const handleNext = async () => {
     // If there's no connected account yet validate the link and store the data in local storage
     if (!artistId) {
+      // If the link hasn't change there's no need to validate it
+      if (link.href === storedDefaultLink?.href) {
+        next()
+        return
+      }
+
       const { res, error } = await validateLink(link.href)
 
       if (error) {

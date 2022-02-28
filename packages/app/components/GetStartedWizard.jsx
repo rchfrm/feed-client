@@ -217,7 +217,6 @@ const GetStartedWizard = ({
         goBackToPath={ROUTES.HOME}
         isLoading={isLoading}
         navigation={<GetStartedSummarySentence />}
-        hasBackButton
       >
         {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
       </WizardContextProvider>

@@ -48,7 +48,6 @@ const WizardContextProvider = ({
 }) => {
   const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, {})
   const [currentStep, setCurrentStep] = React.useState(0)
-  const [stepsHistory, setStepsHistory] = React.useState([0])
 
   const totalSteps = steps.length - 1
   const isFirstStep = currentStep === 0
@@ -58,20 +57,16 @@ const WizardContextProvider = ({
     if (currentStep === totalSteps) return
 
     setCurrentStep(currentStep + 1)
-    setStepsHistory([...stepsHistory, currentStep + 1])
-  }, [currentStep, totalSteps, stepsHistory])
+  }, [currentStep, totalSteps])
 
   const back = () => {
     if (currentStep === 0) return
-    const filteredSteps = stepsHistory.filter((step) => step !== currentStep)
 
-    setStepsHistory(filteredSteps)
-    setCurrentStep(filteredSteps[filteredSteps.length - 1])
+    setCurrentStep(currentStep - 1)
   }
 
   const goToStep = (step) => {
     setCurrentStep(step)
-    setStepsHistory([...stepsHistory, step])
   }
 
   const goToPage = () => {
@@ -85,10 +80,6 @@ const WizardContextProvider = ({
     if (isLoading) return
 
     const firstIncompleteStep = steps.findIndex((step) => {
-      if (!step.shouldSkip && step.id !== 0) {
-        setStepsHistory((steps) => [...steps, step.id])
-      }
-
       if (wizardState[step.id]?.forceShow) {
         return step
       }
@@ -138,7 +129,7 @@ const WizardContextProvider = ({
             <a
               role="button"
               onClick={goToPage}
-              className="flex items-center ml-auto py-1 px-3 text-sm border border-dashed border-black rounded-full no-underline"
+              className="flex items-center py-1 px-3 text-sm border border-dashed border-black rounded-full no-underline"
             >
               Let me see the app first
               <ChevronIcon
