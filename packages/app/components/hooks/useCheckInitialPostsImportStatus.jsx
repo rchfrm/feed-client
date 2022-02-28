@@ -34,7 +34,7 @@ const useCheckInitialPostsImportStatus = (artistId, canLoadPosts, setCanLoadPost
       setIntervalId(setInterval(checkInitialPostsImportStatus, 2000))
     }
     // eslint-disable-next-line
-  }, [initialLoading])
+  }, [initialLoading, canLoadPosts])
 
   React.useEffect(() => {
     if (!intervalId) {

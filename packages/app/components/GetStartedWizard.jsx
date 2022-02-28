@@ -49,6 +49,7 @@ const GetStartedWizard = ({
   budget,
 }) => {
   const [steps, setSteps] = React.useState([])
+
   const { user } = React.useContext(UserContext)
   const { artistId, artist } = React.useContext(ArtistContext)
   const hasLocation = Object.keys(locations).length > 0 || Boolean(artist?.country_code)
@@ -70,6 +71,7 @@ const GetStartedWizard = ({
       section: getStartedSections.objective,
       component: <GetStartedObjective />,
       isComplete: Boolean(objective || wizardState?.objective),
+      isApplicable: true,
     },
     {
       id: 1,
@@ -93,6 +95,7 @@ const GetStartedWizard = ({
       section: getStartedSections.postPromotion,
       component: <GetStartedConnectFacebook />,
       isComplete: Boolean(user.artists.length),
+      isApplicable: true,
     },
     {
       id: 4,
@@ -100,6 +103,7 @@ const GetStartedWizard = ({
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsSelection activePosts={posts} />,
       isComplete: posts.length > 0,
+      isApplicable: true,
     },
     {
       id: 5,
@@ -107,6 +111,7 @@ const GetStartedWizard = ({
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsDefaultSelection />,
       isComplete: defaultPromotionEnabled !== null,
+      isApplicable: true,
     },
     {
       id: 6,
@@ -114,6 +119,7 @@ const GetStartedWizard = ({
       section: getStartedSections.adAccount,
       component: <GetStartedAdAccount />,
       isComplete: Boolean(adAccountId),
+      isApplicable: true,
     },
     {
       id: 7,
@@ -130,6 +136,7 @@ const GetStartedWizard = ({
       component: <GetStartedLocation />,
       isComplete: hasLocation,
       shouldSkip: hasLocation,
+      isApplicable: true,
     },
     {
       id: 9,
@@ -137,18 +144,20 @@ const GetStartedWizard = ({
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
       isComplete: Boolean(budget),
+      isApplicable: true,
     },
     {
       id: 10,
       title: '',
       component: <GetStartedSummary />,
       isComplete: false,
+      isApplicable: true,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [])
+  ], [posts])
 
   React.useEffect(() => {
-    // Filter out the steps that should be skipped completely
+    // Filter out the steps that should be skipped
     setSteps(initialSteps.filter((step) => !step.shouldSkip))
   }, [initialSteps])
 
