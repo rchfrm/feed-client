@@ -23,7 +23,7 @@ const GetStartedPostsSelectionCard = ({ post, postsState, setPostsState }) => {
       role="button"
       onClick={() => handleOnchange(id)}
       className="relative self-center rounded-dialogue"
-      style={{ width: isDesktopLayout ? 'calc(20% - 12px)' : 'calc(33% - 6px)' }}
+      style={{ width: isDesktopLayout ? 'calc(20% - 13px)' : 'calc(33% - 6px)' }}
     >
       <PostImage
         mediaSrc={post.media}

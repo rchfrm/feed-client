@@ -43,7 +43,7 @@ const GetStartedSummarySentenceSection = ({
       onClick={goToSection}
       className={[
         'flex items-center',
-        isInActive ? 'text-grey-2' : 'text-black',
+        isInActive ? 'text-grey-2 pointer-events-none' : 'text-black',
       ].join(' ')}
     >
       {text && <span className="whitespace-pre mb-2">{text}</span>}

@@ -229,14 +229,16 @@ const GetStartedWizard = ({
 
   return (
     <div className="flex flex-column flex-1">
-      <WizardContextProvider
-        steps={steps}
-        goBackToPath={ROUTES.HOME}
-        isLoading={isLoading}
-        navigation={<GetStartedSummarySentence />}
-      >
-        {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
-      </WizardContextProvider>
+      {steps.length && (
+        <WizardContextProvider
+          steps={steps}
+          goBackToPath={ROUTES.HOME}
+          isLoading={isLoading}
+          navigation={<GetStartedSummarySentence />}
+        >
+          {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
+        </WizardContextProvider>
+      )}
     </div>
   )
 }
