@@ -30,10 +30,10 @@ const GetStartedPostsSelection = () => {
 
   const fetchPosts = async () => {
     const res = await server.getPosts({
-      limit: 5,
       artistId,
       sortBy: ['normalized_score'],
       cursor: cursor.current,
+      limit: 5,
     })
 
     const postsFormatted = formatRecentPosts(res)

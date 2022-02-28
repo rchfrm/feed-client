@@ -30,7 +30,7 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, postsState }) => {
     await Promise.all(postPromises)
 
     const enabledPostIds = Object.keys(postsState).filter(id => postsState[id])
-    const enabledPosts = posts.filter(post => [enabledPostIds[0], enabledPostIds[1]].includes(post.id))
+    const enabledPosts = posts.filter(post => enabledPostIds.includes(post.id))
 
     setWizardState({
       type: 'set-state',

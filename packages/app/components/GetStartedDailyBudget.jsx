@@ -19,6 +19,7 @@ import copy from '@/app/copy/getStartedCopy'
 
 const GetStartedDailyBudget = () => {
   const {
+    minReccBudget,
     targetingState,
     initialTargetingState,
     updateTargetingBudget,
@@ -83,6 +84,7 @@ const GetStartedDailyBudget = () => {
             onChange={(budget) => {
               setBudget(budget)
             }}
+            minReccBudget={minReccBudget}
             currency={currencyCode}
             currencyOffset={currencyOffset}
             mobileVersion

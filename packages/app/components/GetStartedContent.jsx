@@ -11,6 +11,7 @@ const GetStartedContent = () => {
     platform,
     defaultLink,
     posts,
+    defaultPromotionEnabled,
     adAccountId,
     facebookPixelId,
     locations,
@@ -24,6 +25,7 @@ const GetStartedContent = () => {
       platform={platform}
       defaultLink={defaultLink}
       posts={posts}
+      defaultPromotionEnabled={defaultPromotionEnabled}
       adAccountId={adAccountId}
       facebookPixelId={facebookPixelId}
       locations={locations}

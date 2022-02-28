@@ -25,7 +25,8 @@ import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
 import { getLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
-import { updateArtist } from '@/app/helpers/artistHelpers'
+import { getStartedSections, updateArtist } from '@/app/helpers/artistHelpers'
+
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -65,14 +66,14 @@ const GetStartedWizard = ({
     {
       id: 0,
       title: 'Your objective',
-      section: 'objective',
+      section: getStartedSections.objective,
       component: <GetStartedObjective />,
       isComplete: Boolean(objective || wizardState?.objective),
     },
     {
       id: 1,
       title: 'Your objective',
-      section: 'objective',
+      section: getStartedSections.objective,
       component: <GetStartedPlatform />,
       isComplete: Boolean(platform || wizardState?.platform),
       shouldSkip: objective !== 'growth',
@@ -80,7 +81,7 @@ const GetStartedWizard = ({
     {
       id: 2,
       title: 'Your objective',
-      section: 'objective',
+      section: getStartedSections.objective,
       component: <GetStartedDefaultLink defaultLink={defaultLink || wizardState?.defaultLink} />,
       isComplete: Boolean(defaultLink || wizardState?.defaultLink),
       shouldSkip: objective === 'growth' && (platform === 'facebook' || platform === 'instagram'),
@@ -88,35 +89,35 @@ const GetStartedWizard = ({
     {
       id: 3,
       title: 'Promoting your posts',
-      section: 'post-promotion',
+      section: getStartedSections.postPromotion,
       component: <GetStartedConnectFacebook />,
       isComplete: Boolean(user.artists.length),
     },
     {
       id: 4,
       title: 'Promoting your posts',
-      section: 'post-promotion',
+      section: getStartedSections.postPromotion,
       component: <GetStartedPostsSelection activePosts={posts} />,
       isComplete: posts.length > 0,
     },
     {
       id: 5,
       title: 'Promoting your posts',
-      section: 'post-promotion',
+      section: getStartedSections.postPromotion,
       component: <GetStartedPostsDefaultSelection />,
       isComplete: defaultPromotionEnabled !== null,
     },
     {
       id: 6,
       title: 'Your ad account',
-      section: 'ad-account',
+      section: getStartedSections.adAccount,
       component: <GetStartedAdAccount />,
       isComplete: Boolean(adAccountId),
     },
     {
       id: 7,
       title: 'Your ad account',
-      section: 'ad-account',
+      section: getStartedSections.adAccount,
       component: <GetStartedFacebookPixel />,
       isComplete: Boolean(facebookPixelId),
       shouldSkip: objective === 'growth',
@@ -124,7 +125,7 @@ const GetStartedWizard = ({
     {
       id: 8,
       title: 'Your ad account',
-      section: 'ad-account',
+      section: getStartedSections.adAccount,
       component: <GetStartedLocation />,
       isComplete: hasLocation,
       shouldSkip: hasLocation,
@@ -132,7 +133,7 @@ const GetStartedWizard = ({
     {
       id: 9,
       title: 'Targeting',
-      section: 'targeting',
+      section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
       isComplete: Boolean(budget),
     },

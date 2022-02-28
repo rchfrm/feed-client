@@ -10,6 +10,8 @@ import PostImage from '@/PostImage'
 import BrokenImageIcon from '@/icons/BrokenImageIcon'
 
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
+import { getStartedSections } from '@/app/helpers/artistHelpers'
+
 import * as server from '@/app/helpers/appServer'
 import brandColors from '@/constants/brandColors'
 
@@ -19,7 +21,7 @@ const GetStartedSummarySentencePosts = () => {
   const { artistId } = React.useContext(ArtistContext)
   const { steps, currentStep, wizardState } = React.useContext(WizardContext)
 
-  const section = 'post-promotion'
+  const section = getStartedSections.postPromotion
   const isActive = steps[currentStep].section === section
   const isComplete = posts.length > 0
   const isInActive = !isActive && !isComplete
@@ -29,10 +31,11 @@ const GetStartedSummarySentencePosts = () => {
 
     const res = await server.getPosts({
       artistId,
+      sortBy: ['normalized_score'],
       filterBy: {
         promotion_enabled: [true],
       },
-      limit: 2,
+      limit: 3,
     })
 
     const formattedRecentPosts = formatRecentPosts(res)
@@ -50,28 +53,39 @@ const GetStartedSummarySentencePosts = () => {
 
   return (
     <GetStartedSummarySentenceSection
-      section="post-promotion"
+      section={getStartedSections.postPromotion}
       text="using these posts:"
-      isComplete={posts.length > 0}
+      isComplete={isComplete}
       hasBorder={false}
     >
       <div className="flex items-center mb-2">
         {posts.length ? (
-          posts.map(({ id, media, thumbnails }) => (
-            <div key={id} className="relative w-10 h-10 mx-2 rounded-full overflow-hidden">
-              <PostImage
-                mediaSrc={media}
-                mediaType="image"
-                thumbnailOptions={thumbnails}
-                className="absolute pointer-events-none"
-              />
-            </div>
-          ))
+          <>
+            {posts.map(({ id, media, thumbnails }, index) => {
+              if (index === 2) return
+
+              return (
+                <div key={id} className="relative w-10 h-10 mx-1 rounded-full overflow-hidden">
+                  <PostImage
+                    mediaSrc={media}
+                    mediaType="image"
+                    thumbnailOptions={thumbnails}
+                    className="absolute pointer-events-none"
+                  />
+                </div>
+              )
+            })}
+            {posts.length > 2 && (
+              <div className="flex justify-center items-center w-10 h-10 mx-1 border-2 border-solid border-black rounded-full text-xs">
+                &bull;&bull;&bull;
+              </div>
+            )}
+          </>
         ) : (
           Array.from([1, 2]).map((index) => (
             <BrokenImageIcon
               key={index}
-              className="relative w-10 h-10 mx-2 rounded-full"
+              className="relative w-10 h-10 mx-1 rounded-full"
               circleFill={isInActive ? brandColors.grey : brandColors.black}
             />
           ))

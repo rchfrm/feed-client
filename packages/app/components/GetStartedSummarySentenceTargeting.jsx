@@ -7,6 +7,7 @@ import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSec
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { formatCurrency } from '@/helpers/utils'
+import { getStartedSections } from '@/app/helpers/artistHelpers'
 
 const getControlsStoreState = (state) => ({
   budget: state.budget,
@@ -20,7 +21,7 @@ const GetStartedSummarySentenceTargeting = () => {
 
   return (
     <GetStartedSummarySentenceSection
-      section="targeting"
+      section={getStartedSections.targeting}
       text="with a daily budget of"
       isComplete={Boolean(budget)}
       color="green"

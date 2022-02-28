@@ -6,7 +6,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
 
-import { getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { getStartedSections, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
 const GetStartedSummarySentenceAdAccount = ({ setError }) => {
   const [adAccountName, setAdAccountName] = React.useState('')
@@ -32,7 +32,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
 
   return (
     <GetStartedSummarySentenceSection
-      section="ad-account"
+      section={getStartedSections.adAccount}
       text=", in"
       isComplete={adAccountId}
       color="yellow"

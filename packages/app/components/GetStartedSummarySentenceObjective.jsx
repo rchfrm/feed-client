@@ -4,7 +4,8 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
 
-import { objectives } from '@/app/helpers/artistHelpers'
+import { getStartedSections, objectives } from '@/app/helpers/artistHelpers'
+import { getLocalStorage } from '@/helpers/utils'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -16,12 +17,16 @@ const GetStartedSummarySentenceObjective = () => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
 
-  const { color } = objectives.find(({ value }) => value === objective) || {}
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  const { objective: storedObjective, platform: storedPlatform } = wizardState || {}
+  const isComplete = Boolean((objective || storedObjective) && (platform || storedPlatform))
+
+  const { color } = objectives.find(({ value }) => value === objective || storedObjective) || {}
 
   return (
     <GetStartedSummarySentenceSection
-      section="objective"
-      isComplete={objective && platform}
+      section={getStartedSections.objective}
+      isComplete={isComplete}
       color={color}
     >
       {copy.objectiveSummary(objective, platform)}

@@ -30,7 +30,7 @@ const SliderMarker = ({
         ].join(' ')}
         style={{
           ...style,
-          bottom: '9px',
+          bottom: '0px',
           left,
           opacity: 0,
         }}

@@ -499,6 +499,18 @@ export const objectives = [
 
 export const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
 
+const objective = 'objective'
+const postPromotion = 'post-promotion'
+const adAccount = 'ad-account'
+const targeting = 'targeting'
+
+export const getStartedSections = {
+  objective,
+  postPromotion,
+  adAccount,
+  targeting,
+}
+
 // Update artist
 /**
 * @param {string} artistId
