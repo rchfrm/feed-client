@@ -370,21 +370,36 @@ export const getDataSourceValues = async (artistId) => {
   }
 }
 
-const getFollowerCount = (platform, data) => {
-  return data.followers[platform].number_of_followers.value
+const getGrowthAndFollowersCount = (platform, data) => {
+  return {
+    followers: data.followers[platform].number_of_followers.value,
+    growth: data.followers[platform].growth_rate.value,
+  }
+}
+
+const getBestPerformingPlatform = (igData, fbData) => {
+  const { growth: igGrowth, followers: igFollowers } = igData
+  const { growth: fbGrowth, followers: fbFollowers } = fbData
+
+  if (Math.sign(igGrowth) !== Math.sign(fbGrowth)) {
+    return igGrowth >= fbGrowth ? 'instagram' : 'facebook'
+  }
+
+  return igFollowers >= fbFollowers ? 'instagram' : 'facebook'
 }
 
 export const getOrganicBenchmarkData = ({ data }) => {
-  const igFollowers = getFollowerCount('instagram', data)
-  const fbFollowers = getFollowerCount('facebook', data)
-  const largestPlatform = igFollowers >= fbFollowers ? 'instagram' : 'facebook'
+  const igData = getGrowthAndFollowersCount('instagram', data)
+  const fbData = getGrowthAndFollowersCount('facebook', data)
+  const bestPerformingPlatform = getBestPerformingPlatform(igData, fbData)
+
   const {
     aggregated: {
       reach_rate,
       engagement_rate,
     },
     followers: {
-      [largestPlatform]: {
+      [bestPerformingPlatform]: {
         growth_absolute,
         growth_rate,
         number_of_followers,
@@ -423,14 +438,14 @@ export const getOrganicBenchmarkData = ({ data }) => {
       value: followersGrowthAbsoluteMedianValue,
       percentile: followersGrowthRateMedianPercentile,
       quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
-      platform: largestPlatform,
-      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, largestPlatform, followersGrowthRateValue),
+      platform: bestPerformingPlatform,
+      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, bestPerformingPlatform, followersGrowthRateValue),
       hasGrowth: true,
     }
   } else {
     growthData = {
       value: number_of_followers.value || 0,
-      platform: largestPlatform,
+      platform: bestPerformingPlatform,
       copy: resultsCopy.noSpendTotalFollowersDescription,
       hasGrowth: false,
     }

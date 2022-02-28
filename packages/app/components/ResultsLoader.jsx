@@ -3,12 +3,10 @@ import useAsyncEffect from 'use-async-effect'
 
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
-import MarkdownText from '@/elements/MarkdownText'
 
 import ResultsHeader from '@/app/ResultsHeader'
 import ResultsContent from '@/app/ResultsContent'
 import ResultsNoSpendContent from '@/app/ResultsNoSpendContent'
-import copy from '@/app/copy/ResultsPageCopy'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -23,15 +21,13 @@ const ResultsLoader = () => {
   const { artistId, artist: { start_spending_at } } = React.useContext(ArtistContext)
   const hasStartedSpending = Boolean(start_spending_at)
 
+  const { isSpendingPaused } = useControlsStore(getControlsStoreState)
+
   const [noSpendResultsData, setNoSpendResultsData] = React.useState(null)
   const [adResultsData, setAdResultsData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
-  const [resultsType, setResultsType] = React.useState(hasStartedSpending ? 'paid' : 'organic')
-
-  const { isSpendingPaused } = useControlsStore(getControlsStoreState)
-
-  const resultsData = noSpendResultsData || adResultsData
+  const [resultsType, setResultsType] = React.useState((hasStartedSpending && !isSpendingPaused) ? 'paid' : 'organic')
 
   const handleDataRequest = async (getData, data, setData) => {
     if (data) {
@@ -66,23 +62,18 @@ const ResultsLoader = () => {
   if (error) return <Error error={error} />
 
   return (
-    resultsData ? (
-      <>
-        <ResultsHeader
-          hasStartedSpending={hasStartedSpending}
-          dateRange={adResultsData?.dateRange}
-          resultsType={resultsType}
-          setResultsType={setResultsType}
-          setIsLoading={setIsLoading}
-        />
-        {resultsType === 'organic' && noSpendResultsData && <ResultsNoSpendContent data={noSpendResultsData} />}
-        {resultsType === 'paid' && adResultsData && <ResultsContent data={adResultsData} />}
-      </>
-    ) : (
-      !isLoading && (
-        <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
-      )
-    )
+    <>
+      <ResultsHeader
+        hasStartedSpending={hasStartedSpending}
+        isSpendingPaused={isSpendingPaused}
+        dateRange={adResultsData?.dateRange}
+        resultsType={resultsType}
+        setResultsType={setResultsType}
+        setIsLoading={setIsLoading}
+      />
+      {resultsType === 'organic' && noSpendResultsData && <ResultsNoSpendContent data={noSpendResultsData} />}
+      {resultsType === 'paid' && <ResultsContent data={adResultsData} isSpendingPaused={isSpendingPaused} />}
+    </>
   )
 }
 
