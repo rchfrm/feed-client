@@ -7,6 +7,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
 import useCheckInitialPostsImportStatus from '@/app/hooks/useCheckInitialPostsImportStatus'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import GetStartedPostsSelectionCard from '@/app/GetStartedPostsSelectionCard'
 import GetStartedPostsSelectionAnalysePosts from '@/app/GetStartedPostsSelectionAnalysePosts'
@@ -53,6 +54,8 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
   const { wizardState } = React.useContext(WizardContext)
 
   const { initialLoading } = useCheckInitialPostsImportStatus(artistId, canLoadPosts, setCanLoadPosts)
+  const isDesktopLayout = useBreakpointTest('sm')
+  const shouldAdjustLayout = isDesktopLayout && posts.length > 5
 
   const cursor = React.useRef('')
 
@@ -111,19 +114,25 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
   if (initialLoading) return null
 
   return (
-    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
+    <div className="flex flex-1 flex-column mb-6">
       {!canLoadPosts ? (
         <GetStartedPostsSelectionAnalysePosts canLoadPosts={canLoadPosts} />
       ) : (
         <>
           <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle(canLoadPosts)}</h3>
           <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
-          <div className="flex flex-1 flex-column">
+          <div className={[
+            'flex flex-1',
+            shouldAdjustLayout ? 'flex-row' : 'flex-column',
+          ].join(' ')}
+          >
             <div
               className={[
                 'flex flex-1 flex-wrap justify-center gap-2 sm:gap-4',
                 'mb-12',
+                shouldAdjustLayout ? 'overflow-y-scroll' : null,
               ].join(' ')}
+              style={{ maxHeight: shouldAdjustLayout ? '300px' : null }}
             >
               {posts.map((post, index) => (
                 <GetStartedPostsSelectionCard
@@ -137,6 +146,7 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
             <GetStartedPostsSelectionButtons
               fetchPosts={fetchPosts}
               posts={posts}
+              shouldAdjustLayout={shouldAdjustLayout}
             />
           </div>
         </>

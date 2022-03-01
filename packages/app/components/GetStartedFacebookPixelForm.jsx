@@ -27,7 +27,7 @@ const GetStartedFacebookPixelForm = ({
 }
 
 GetStartedFacebookPixelForm.propTypes = {
-  pixels: PropTypes.func.isRequired,
+  pixels: PropTypes.array.isRequired,
   setPixels: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setIsLoading: PropTypes.func.isRequired,

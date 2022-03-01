@@ -4,16 +4,22 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
+import GetStartedPostsSelectionButtonsMobile from '@/app/GetStartedPostsSelectionButtonsMobile'
+
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { updatePost } from '@/app/helpers/postsHelpers'
 
 
-const GetStartedPostsSelectionButtons = ({ fetchPosts, posts }) => {
+const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
   const { next, setWizardState } = React.useContext(WizardContext)
+
+  const isDesktopLayout = useBreakpointTest('sm')
 
   const loadMore = async () => {
     await fetchPosts()
@@ -43,13 +49,31 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts }) => {
     next()
   }
 
+  if (!isDesktopLayout) {
+    return (
+      <GetStartedPostsSelectionButtonsMobile
+        loadMore={loadMore}
+        handleNext={handleNext}
+      />
+    )
+  }
+
   return (
-    <div className="flex flex-column justify-center sm:flex-row w-full sm:w-auto">
+    <div
+      className={[
+        'flex flex-column w-full',
+        shouldAdjustLayout ? 'sm:flex-column' : 'sm:flex-row justify-center',
+        'sm:w-auto',
+      ].join(' ')}
+    >
       <Button
         version="outline-black"
         onClick={loadMore}
-        className="w-full sm:w-56 mx-0 sm:mx-4 mb-6 sm:mb-0"
-        trackComponentName="GetStartedPostsSelection"
+        className={[
+          'w-full sm:w-56 mx-0 sm:mx-4 mb-6',
+          shouldAdjustLayout ? 'sm:mb-4' : 'sm:mb-0',
+        ].join(' ')}
+        trackComponentName="GetStartedPostsSelectionButtons"
       >
         Load more...
       </Button>
@@ -58,7 +82,7 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts }) => {
         onClick={handleNext}
         loading={isLoading}
         className="w-full sm:w-56 mx-0 sm:mx-4"
-        trackComponentName="GetStartedPostsSelection"
+        trackComponentName="GetStartedPostsSelectionButtons"
       >
         Save
         <ArrowAltIcon
@@ -74,6 +98,7 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts }) => {
 GetStartedPostsSelectionButtons.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
+  shouldAdjustLayout: PropTypes.bool.isRequired,
 }
 
 GetStartedPostsSelectionButtons.defaultProps = {

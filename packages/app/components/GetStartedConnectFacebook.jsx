@@ -35,7 +35,7 @@ const GetStartedConnectFacebook = () => {
   useAsyncEffect(async (isMounted) => {
     if (!isMounted() || isConnecting) return
 
-    if (missingScopes.length || error) {
+    if (missingScopes.length || error || connectedArtists.length) {
       setIsLoading(false)
       return
     }
