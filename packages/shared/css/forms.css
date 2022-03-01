@@ -347,6 +347,17 @@ select {
     height: 1.25em;
   }
 
+  &.radio--button_label-left {
+    padding-left: 0;
+    padding-right: 2.2em;
+
+    &::before,
+    &::after {
+      left: auto;
+      right: 0;
+    }
+  }
+
   &::before {
     border: 1px solid var(--text-color);
 

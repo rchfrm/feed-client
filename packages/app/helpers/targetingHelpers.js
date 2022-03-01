@@ -232,7 +232,7 @@ const formatSettings = (settings, currencyOffset) => {
   // Format settings
   return produce(settings, draftSettings => {
     const { cities, countries } = draftSettings.geo_locations
-    draftSettings.budget = Math.round(draftSettings.budget * currencyOffset)
+    draftSettings.budget = currencyOffset ? Math.round(draftSettings.budget * currencyOffset) : 0
     draftSettings.cities = cities
     draftSettings.countries = countries
     draftSettings.cityKeys = cities.map(({ key }) => key)
@@ -280,7 +280,7 @@ export const saveCampaign = async ({
 
   const payload = {
     ...newSettings,
-    budget: newSettings.budget / currencyOffset,
+    ...(currencyOffset && { budget: newSettings.budget / currencyOffset }),
     geo_locations: {
       cities: selectedCities,
       countries: selectedCountries,

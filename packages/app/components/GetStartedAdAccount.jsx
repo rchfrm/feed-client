@@ -4,54 +4,63 @@ import useAsyncEffect from 'use-async-effect'
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import Select from '@/elements/Select'
 import Button from '@/elements/Button'
-import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
-import EditBlock from '@/app/EditBlock'
-
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
-import copy from '@/app/copy/controlsPageCopy'
-import brandColors from '@/constants/brandColors'
+import copy from '@/app/copy/getStartedCopy'
 
-const ControlsWizardAdAccountStep = () => {
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+  budget: state.budget,
+})
+
+const GetStartedAdAccount = () => {
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
 
   const [adAccountOptions, setAdAccountOptions] = React.useState([])
   const [adAccounts, setAdAccounts] = React.useState([])
   const [adAccountId, setAdAccountId] = React.useState(facebookIntegration?.adaccount_id || '')
-  const [adAccountName, setAdAccountName] = React.useState('')
-  const [isEditMode, setIsEditMode] = React.useState(!adAccountId)
   const [isLoadingAdAccountOptions, setIsLoadingAdAccountOptions] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const { next, setWizardState } = React.useContext(WizardContext)
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
+  const { goToStep, setWizardState } = React.useContext(WizardContext)
+  const nextStep = objective === 'growth' ? 7 : 8
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
     if (!isMounted()) return
 
     setIsLoadingAdAccountOptions(true)
-    const { res: { adaccounts: adAccounts } } = await getAdAccounts(artistId)
+
+    const { res, error } = await getAdAccounts(artistId)
+
+    if (error) {
+      setError(error)
+      setIsLoadingAdAccountOptions(false)
+      return
+    }
+    const { adaccounts: adAccounts } = res
     const options = adAccounts.map(({ id, name }) => ({ name, value: id }))
+
     setAdAccounts(adAccounts)
     setAdAccountOptions(options)
     setIsLoadingAdAccountOptions(false)
   }, [])
 
-  React.useEffect(() => {
-    if (!adAccountId || !adAccountOptions.length) return
-
-    setAdAccountName(adAccountOptions.find((adAccount) => adAccount.value === adAccountId).name)
-  }, [adAccountId, adAccountOptions])
-
   const handleChange = (e) => {
     const { target: { value } } = e
+    if (value === adAccountId) return
+
     setAdAccountId(value)
   }
 
@@ -59,6 +68,7 @@ const ControlsWizardAdAccountStep = () => {
     setIsLoading(true)
 
     const { res: artist, error } = await updateAdAccount(artistId, adAccountId)
+
     if (error) {
       setError(error)
       setIsLoading(false)
@@ -77,14 +87,17 @@ const ControlsWizardAdAccountStep = () => {
     // Update artist context
     updateArtist(artist)
     setIsLoading(false)
-    next()
+
+    goToStep(nextStep)
   }
 
   const handleNext = () => {
     if (!adAccountId) return
+
     // Skip API request if ad account hasn't changed
     if (adAccountId === facebookIntegration?.adaccount_id) {
-      next()
+      goToStep(nextStep)
+
       return
     }
     saveAdAccount(adAccountId)
@@ -97,46 +110,41 @@ const ControlsWizardAdAccountStep = () => {
   }, [adAccountId, setAdAccountId, adAccountOptions])
 
   return (
-    <>
-      <MarkdownText markdown={copy.controlsWizardAdAccountStepIntro} />
-      {isEditMode
-        ? (
-          <Select
-            loading={isLoadingAdAccountOptions}
-            options={adAccountOptions}
-            selectedValue={adAccountId}
-            name="ad_account"
-            handleChange={handleChange}
-          />
-        ) : (
-          <EditBlock
-            value={adAccountName}
-            isEditMode={isEditMode}
-            setIsEditMode={setIsEditMode}
-            trackComponentName="ControlsWizardAdAccountStep"
-            className="mb-8"
-          />
-        )}
+    <div className="flex flex-1 flex-column">
+      <h3 className="mb-6 font-medium text-xl">{copy.adAccountSubtitle}</h3>
       <Error error={error} />
-      <Button
-        version="outline-green"
-        onClick={handleNext}
-        className="w-1/3 ml-auto mb-12"
-        loading={isLoading}
-        spinnerFill={brandColors.black}
-        trackComponentName="ControlsWizardAdAccountStep"
-      >
-        Next
-        <ArrowAltIcon
-          className="ml-3"
-          direction="right"
+      <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
+        <Select
+          options={adAccountOptions}
+          selectedValue={adAccountId}
+          loading={isLoadingAdAccountOptions}
+          name="ad_account"
+          handleChange={handleChange}
+          className="w-full mb-12"
         />
-      </Button>
-    </>
+        <Button
+          version="green"
+          onClick={handleNext}
+          loading={isLoading}
+          className="w-full sm:w-48 mb-5 sm:mb-0"
+          trackComponentName="GetStartedAdAccount"
+        >
+          Save
+          <ArrowAltIcon
+            className="ml-3"
+            direction="right"
+            fill="white"
+          />
+        </Button>
+      </div>
+    </div>
   )
 }
 
-ControlsWizardAdAccountStep.propTypes = {
+GetStartedAdAccount.propTypes = {
 }
 
-export default ControlsWizardAdAccountStep
+GetStartedAdAccount.defaultProps = {
+}
+
+export default GetStartedAdAccount

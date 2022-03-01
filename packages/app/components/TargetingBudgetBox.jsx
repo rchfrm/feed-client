@@ -59,7 +59,7 @@ const TargetingBudgetBox = ({
         <Spinner width={36} />
       ) : (
         <>
-          <div className="flex justify-between mb-6">
+          <div className="flex justify-between">
             {/* PAUSE OR RESUME SPENDING */}
             <TargetingBudgetPauseButton
               togglePauseCampaign={togglePauseCampaign}

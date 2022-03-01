@@ -67,6 +67,7 @@ function TheHeaderContents({
 
   // FETCH NOTIFICATIONS
   const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
+  const isGetStartedPage = pathname === ROUTES.GET_STARTED
 
   return (
     <header className={[
@@ -95,7 +96,7 @@ function TheHeaderContents({
       {/* Page Header */}
       {showPageTitle && <PageHeader className={styles.pageTitle} />}
       {/* Subnav button */}
-      {isLoggedIn && user?.id && !user.is_email_verification_needed && (
+      {isLoggedIn && user?.id && !user.is_email_verification_needed && !isGetStartedPage && (
         <TheSubNavButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}

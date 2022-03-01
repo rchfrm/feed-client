@@ -73,7 +73,7 @@ const TargetingBudgetSlider = ({
   }, [sliderValueRange, sliderStep])
 
   return (
-    <div className={['pl-0'].join(' ')} ref={containerRef}>
+    <div className={['pl-0 mt-10'].join(' ')} ref={containerRef}>
       <Slider
         valueRange={valueRange}
         startValue={[startValue.current]}
@@ -91,7 +91,6 @@ const TargetingBudgetSlider = ({
         }}
         forceInitialResize
         hasMarkers
-        trackColor={!mobileVersion ? 'white' : null}
         formatValue={{
           to: (value) => Math.round(value),
           from: (value) => Math.round(value),
