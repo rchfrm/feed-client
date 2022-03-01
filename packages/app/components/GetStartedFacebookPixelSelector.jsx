@@ -16,10 +16,10 @@ const GetStartedFacebookPixelSelector = ({ isLoading, setIsLoading, setError }) 
   const { next } = React.useContext(WizardContext)
   const { artistId } = React.useContext(ArtistContext)
 
-  const saveFacebookPixel = async () => {
+  const saveFacebookPixel = async (pixelId) => {
     setIsLoading(true)
 
-    const { error } = await setPixel(artistId, facebookPixel)
+    const { error } = await setPixel(artistId, pixelId)
 
     if (error) {
       setError(error)
@@ -38,11 +38,12 @@ const GetStartedFacebookPixelSelector = ({ isLoading, setIsLoading, setError }) 
         trackLocation="Conversions settings"
         shouldSaveOnChange={false}
         hasNoPixelOption={false}
+        shouldShowPixelCopier={false}
         className="w-full mb-4"
       />
       <Button
         version="green"
-        onClick={saveFacebookPixel}
+        onClick={() => saveFacebookPixel(facebookPixel)}
         loading={isLoading}
         className="w-full sm:w-48"
         trackComponentName="GetStartedFacebookPixel"

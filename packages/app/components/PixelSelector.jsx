@@ -36,6 +36,7 @@ const PixelSelector = ({
   updateParentPixel,
   shouldSaveOnChange,
   hasNoPixelOption,
+  shouldShowPixelCopier,
 }) => {
   const { artist, artistId, setArtist } = React.useContext(ArtistContext)
 
@@ -209,7 +210,7 @@ const PixelSelector = ({
           version="box"
         />
       )}
-      {activePixelId && activePixelId !== disabledPixelId && (
+      {activePixelId && activePixelId !== disabledPixelId && shouldShowPixelCopier && (
         <PixelCopier
           pixelId={activePixelId}
           pixelEmbed={activePixelEmbed}
@@ -234,6 +235,7 @@ PixelSelector.propTypes = {
   updateParentPixel: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
   hasNoPixelOption: PropTypes.bool,
+  shouldShowPixelCopier: PropTypes.bool,
 }
 
 PixelSelector.defaultProps = {
@@ -248,6 +250,7 @@ PixelSelector.defaultProps = {
   updateParentPixel: () => {},
   shouldSaveOnChange: true,
   hasNoPixelOption: true,
+  shouldShowPixelCopier: true,
 }
 
 export default PixelSelector

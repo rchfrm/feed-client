@@ -44,9 +44,12 @@ export default {
   },
   postsDefaultSelectionSubtitle: 'Are you happy for Feed to continue selecting the best posts on your behalf?',
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
-  facebookPixelSubtitle: (shouldShowPixelSelector) => {
+  facebookPixelSubtitle: (pixels, shouldShowPixelSelector) => {
     if (shouldShowPixelSelector) {
-      return 'Which Facebook Pixel would you like Feed to use?'
+      if (pixels.length) {
+        return 'Which Facebook Pixel would you like Feed to use?'
+      }
+      return 'Fill in a name to create your Facebook Pixel.'
     }
 
     return "Looks like you don't have a Facebook Pixel! Happy for us to create one?"
