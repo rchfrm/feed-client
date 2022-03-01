@@ -121,7 +121,7 @@ const SignupEmailForm = ({ initialEmail }) => {
       }
 
       trackSignUp({ authProvider: 'password', userId: user.id })
-      Router.push(ROUTES.POSTS)
+      Router.push(ROUTES.GET_STARTED)
     })
   }
 
