@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
-import { getMissingPermissionsList } from '@/app/copy/integrationErrorsCopy'
 
 export default {
   // CONTROLS OPTIONS
@@ -32,6 +31,7 @@ export default {
       description: 'Default link, pixel event, CTA',
     },
   ],
+  finishSetup: `It looks like you haven't finished setting up your profile yet. Please finish the set up process [here](${ROUTES.GET_STARTED}).`,
 
   // CONVERSION DEFAULTS
   // ----------------
@@ -54,43 +54,4 @@ export default {
   defaultCallToActionIntro: `By default, which call to action should appear on your ads?`,
   facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-
-  // CONTROLS WIZARD
-  // ----------------
-  controlsWizardAdAccountStepIntro: 'Let us know which Facebook Ad Account we should use to set-up your ads.',
-  controlsWizardLinkStepIntro: `Set-up will only take a minute. First off, where do you want people to go when they click on your ads?
-
-  You will be able to set different links on specific posts later on.`,
-  controlsWizardPostsStepIntro: `You never know what is going to catch someone's attention! That's why Feed makes recent posts (made in the last 28 days) promotable by default.
-
-  You can disable specific posts you don't want Feed to promote later on.`,
-  controlsWizardFbPermissionsStepIntro: (scopes) => {
-    const permissionList = getMissingPermissionsList(scopes)
-
-    return `We need permission to create ad campaigns on your behalf, the ability to:
-
-${permissionList}
-
-Click 'Continue with Facebook' to grant these:`
-  },
-  controlsWizardLocationStepIntro: `We'll use the country you're based in as a starting point for our targeting.`,
-  controlsWizardBudgetStepIntro: 'This amount includes our 10% service fee. We recommend you set an amount that you can sustain over longer periods.',
-  controlsWizardPaymentStepIntro: `Almost there!
-
-  Feed charges a 10% service fee on the budget you spend through the platform. The fee is included in the budget you set in the last step, not in addition to it.`,
-  controlsWizardReviewStepIntro: `Feed will soon begin creating your ads, starting with your most popular posts. Once approved by Facebook they'll start running and you'll see results coming through.
-
-  After an initial testing period, Feed will try out more posts. It automatically allocates budget to posts that get the best response and switches off those that don't do as well.`,
-
-  // CONVERSIONS WIZARD
-  // ----------------
-  startingStepDescription: 'Looks like you haven\'t set up conversions yet. Start running conversions by clicking the button below.',
-  budgetStepDescription: (minBudget) => `To run conversions you must have a budget of at least ${minBudget}.`,
-  linkStepDescription: 'By default, where should people go when they click a conversion ad? You can set different links for specific posts later on.',
-  pixelStepDescription: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).
-
-  Having trouble? [Email us](mailto:help@tryfeed.co)`,
-  pixelEventStepDescription: 'What action do you want people to take on your website? To create conversion ads, this event must have been triggered at least once before.',
-  callToActionStepDescription: 'What CTA should be shown next to the link in your ads (or the swipe up button for stories)?',
-  postOptInStepDescription: `All set! Only thing left is to select which posts you'd like to use for conversion campaigns from the posts page. Once opted-in Feed will create ads straight away.`,
 }

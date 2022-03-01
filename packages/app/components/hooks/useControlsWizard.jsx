@@ -78,13 +78,6 @@ const useControlsWizard = () => {
   return {
     isLoading: billingLoading || artistLoading || controlsLoading || !settingsReady,
     hasSetUpControls,
-    missingScopes,
-    adAccountId,
-    locations,
-    defaultLinkId,
-    budget,
-    defaultPaymentMethod,
-    isProfilePartOfOrganisation,
   }
 }
 
