@@ -31,7 +31,7 @@ const GetStartedConnectFacebookNoProfiles = ({ auth, error }) => {
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">
         <ConnectFacebookButton
-          redirectPath={ROUTES.CONTROLS}
+          redirectPath={ROUTES.GET_STARTED}
           buttonText="Continue with Facebook"
           className="w-full sm:w-96 mb-16"
           trackComponentName="GetStartedConnectFacebookNoProfiles"

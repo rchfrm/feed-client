@@ -59,7 +59,7 @@ const ThePageButtons = () => {
   const { isMobile, isIOS } = device
 
   const { pathname } = useRouter()
-  const isGetStartedPage = pathname === ROUTES.CONTROLS
+  const isGetStartedPage = pathname === ROUTES.GET_STARTED
   // Get currency from artist
   const {
     artistLoading,
