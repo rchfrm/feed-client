@@ -17,7 +17,7 @@ import AdDefaults from '@/app/AdDefaults'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-import useControlsWizard from '@/app/hooks/useControlsWizard'
+import useGetStartedWizard from '@/app/hooks/useGetStartedWizard'
 import copy from '@/app/copy/controlsPageCopy'
 
 // One of these components will be shown based on the activeSlug
@@ -31,9 +31,9 @@ const controlsComponents = {
 
 const ControlsContent = ({ activeSlug }) => {
   const {
-    hasSetUpControls,
+    hasSetUpProfile,
     isLoading,
-  } = useControlsWizard()
+  } = useGetStartedWizard()
 
   // Destructure context
   const { globalLoading } = React.useContext(InterfaceContext)
@@ -58,7 +58,7 @@ const ControlsContent = ({ activeSlug }) => {
   if (!Object.keys(targetingState).length > 0) return null
   if (globalLoading || isLoading) return <Spinner />
 
-  if (!hasSetUpControls) return <MarkdownText markdown={copy.finishSetup} />
+  if (!hasSetUpProfile) return <MarkdownText markdown={copy.finishSetup} />
 
   return (
     <div className="md:grid grid-cols-12 gap-8">

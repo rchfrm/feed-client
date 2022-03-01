@@ -3,6 +3,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
+import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -36,6 +37,7 @@ const useGetStartedWizard = () => {
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId)
   const { defaultPromotionEnabled } = postsPreferences
   const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
+  const { user } = React.useContext(UserContext)
   const {
     targetingState,
     initPage,
@@ -77,7 +79,19 @@ const useGetStartedWizard = () => {
     setPostsLoading(false)
   }, [artistId])
 
+  const hasSetUpProfile = Boolean(objective
+    && platform
+    && defaultLink
+    && user.artists.length
+    && posts.length > 0
+    && defaultPromotionEnabled !== null
+    && adAccountId
+    && facebookPixelId
+    && (Object.keys(locations).length || artist.country_code)
+    && budget)
+
   return {
+    hasSetUpProfile,
     isLoading: artistLoading || controlsLoading || (artistId && !settingsReady) || postsLoading,
     objective,
     platform,
