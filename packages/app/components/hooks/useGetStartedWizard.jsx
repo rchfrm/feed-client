@@ -65,6 +65,7 @@ const useGetStartedWizard = () => {
 
     const res = await server.getPosts({
       artistId,
+      // sortBy: ['normalized_score'],
       filterBy: {
         promotion_enabled: [true],
       },

@@ -31,7 +31,7 @@ const GetStartedSummarySentencePosts = () => {
 
     const res = await server.getPosts({
       artistId,
-      sortBy: ['normalized_score'],
+      // sortBy: ['normalized_score'],
       filterBy: {
         promotion_enabled: [true],
       },
@@ -62,7 +62,7 @@ const GetStartedSummarySentencePosts = () => {
         {posts.length ? (
           <>
             {posts.map(({ id, media, thumbnails }, index) => {
-              if (index === 2) return
+              if (index > 1) return
 
               return (
                 <div key={id} className="relative w-10 h-10 mx-1 rounded-full overflow-hidden">

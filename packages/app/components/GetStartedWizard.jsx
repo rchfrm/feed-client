@@ -101,7 +101,7 @@ const GetStartedWizard = ({
       id: 4,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
-      component: <GetStartedPostsSelection activePosts={posts} />,
+      component: <GetStartedPostsSelection initialPosts={posts} />,
       isComplete: posts.length > 0,
       isApplicable: true,
     },

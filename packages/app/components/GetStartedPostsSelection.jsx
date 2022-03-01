@@ -1,7 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
+import { useImmerReducer } from 'use-immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { WizardContext } from '@/app/contexts/WizardContext'
 
 import useCheckInitialPostsImportStatus from '@/app/hooks/useCheckInitialPostsImportStatus'
 
@@ -17,12 +20,37 @@ import { getCursor } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
-const GetStartedPostsSelection = () => {
+const postsInitialState = []
+
+const postsReducer = (draftState, postsAction) => {
+  const { type: actionType, payload = {} } = postsAction
+
+  const {
+    posts,
+    postIndex,
+    promotionEnabled,
+  } = payload
+
+  switch (actionType) {
+    case 'set-posts':
+      return posts
+    case 'add-posts':
+      draftState.push(...posts)
+      break
+    case 'toggle-promotion':
+      draftState[postIndex].promotionEnabled = promotionEnabled
+      break
+    default:
+      return draftState
+  }
+}
+
+const GetStartedPostsSelection = ({ initialPosts }) => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
-  const [posts, setPosts] = React.useState([])
-  const [postsState, setPostsState] = React.useState({})
+  const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
 
   const { artistId } = React.useContext(ArtistContext)
+  const { wizardState } = React.useContext(WizardContext)
 
   const { initialLoading } = useCheckInitialPostsImportStatus(artistId, canLoadPosts, setCanLoadPosts)
 
@@ -44,19 +72,41 @@ const GetStartedPostsSelection = () => {
       cursor.current = nextCursor
     }
 
-    postsFormatted.forEach(({ id, promotionEnabled }) => {
-      setPostsState((prevState) => ({ ...prevState, [id]: promotionEnabled }))
-    })
+    const postsFiltered = postsFormatted.filter((formattedPost) => posts.every((post) => post.id !== formattedPost.id))
 
-    setPosts([...posts, ...postsFormatted])
+    setPosts({
+      type: 'add-posts',
+      payload: { posts: postsFiltered },
+    })
   }
 
   useAsyncEffect(async (isMounted) => {
     if (!isMounted() || !canLoadPosts) return
 
+    if (posts.length) {
+      return
+    }
+
+    if (wizardState?.enabledPosts?.length) {
+      setPosts({
+        type: 'set-posts',
+        payload: { posts: wizardState?.enabledPosts },
+      })
+
+      return
+    }
+
+    if (!wizardState?.enabledPosts && initialPosts.length) {
+      setPosts({
+        type: 'set-posts',
+        payload: { posts: initialPosts },
+      })
+
+      return
+    }
+
     await fetchPosts()
   }, [canLoadPosts])
-
 
   if (initialLoading) return null
 
@@ -75,19 +125,18 @@ const GetStartedPostsSelection = () => {
                 'mb-12',
               ].join(' ')}
             >
-              {posts.map((post) => (
+              {posts.map((post, index) => (
                 <GetStartedPostsSelectionCard
                   key={post.id}
                   post={post}
-                  postsState={postsState}
-                  setPostsState={setPostsState}
+                  postIndex={index}
+                  setPosts={setPosts}
                 />
               ))}
             </div>
             <GetStartedPostsSelectionButtons
               fetchPosts={fetchPosts}
               posts={posts}
-              postsState={postsState}
             />
           </div>
         </>
@@ -97,6 +146,7 @@ const GetStartedPostsSelection = () => {
 }
 
 GetStartedPostsSelection.propTypes = {
+  initialPosts: PropTypes.array.isRequired,
 }
 
 GetStartedPostsSelection.defaultProps = {

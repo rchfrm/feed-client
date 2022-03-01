@@ -8,14 +8,22 @@ import TickCircleIcon from '@/icons/TickCircleIcon'
 import brandColors from '@/constants/brandColors'
 
 
-const GetStartedPostsSelectionCard = ({ post, postsState, setPostsState }) => {
-  const isDesktopLayout = useBreakpointTest('sm')
+const GetStartedPostsSelectionCard = ({ post, postIndex, setPosts }) => {
   const { id, promotionEnabled } = post
   const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
 
+  const isDesktopLayout = useBreakpointTest('sm')
+
   const handleOnchange = () => {
     setIsEnabled(!isEnabled)
-    setPostsState({ ...postsState, [post.id]: !isEnabled })
+
+    setPosts({
+      type: 'toggle-promotion',
+      payload: {
+        postIndex,
+        promotionEnabled: !isEnabled,
+      },
+    })
   }
 
   return (
@@ -43,8 +51,8 @@ const GetStartedPostsSelectionCard = ({ post, postsState, setPostsState }) => {
 
 GetStartedPostsSelectionCard.propTypes = {
   post: PropTypes.object.isRequired,
-  postsState: PropTypes.object.isRequired,
-  setPostsState: PropTypes.func.isRequired,
+  postIndex: PropTypes.number.isRequired,
+  setPosts: PropTypes.func.isRequired,
 }
 
 GetStartedPostsSelectionCard.defaultProps = {

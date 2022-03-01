@@ -10,7 +10,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import { updatePost } from '@/app/helpers/postsHelpers'
 
 
-const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, postsState }) => {
+const GetStartedPostsSelectionButtons = ({ fetchPosts, posts }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
   const { next, setWizardState } = React.useContext(WizardContext)
@@ -22,15 +22,14 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, postsState }) => {
   const handleNext = async () => {
     setIsLoading(true)
 
-    const postPromises = Object.entries(postsState).map(([key, value]) => {
-      return updatePost({ artistId, postId: key, promotionEnabled: value, campaignType: 'all' })
+    const postPromises = posts.map(({ id, promotionEnabled }) => {
+      return updatePost({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
     })
 
 
     await Promise.all(postPromises)
 
-    const enabledPostIds = Object.keys(postsState).filter(id => postsState[id])
-    const enabledPosts = posts.filter(post => enabledPostIds.includes(post.id))
+    const enabledPosts = posts.filter((post) => post.promotionEnabled)
 
     setWizardState({
       type: 'set-state',
@@ -75,7 +74,6 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, postsState }) => {
 GetStartedPostsSelectionButtons.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
-  postsState: PropTypes.object.isRequired,
 }
 
 GetStartedPostsSelectionButtons.defaultProps = {

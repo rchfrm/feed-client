@@ -39,7 +39,8 @@ const GetStartedSummarySentenceSection = ({
   }
 
   return (
-    <button
+    <div
+      role="button"
       onClick={goToSection}
       className={[
         'flex items-center',
@@ -53,7 +54,7 @@ const GetStartedSummarySentenceSection = ({
       >
         {children}
       </span>
-    </button>
+    </div>
   )
 }
 
