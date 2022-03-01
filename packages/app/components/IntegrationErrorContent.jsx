@@ -37,6 +37,8 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       buttonType,
       ctaText,
       ctaLink,
+      isDismissible,
+      onAction,
     } = integrationError
     // Link button
     if (ctaType === 'link_ext') {
@@ -89,6 +91,20 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         {
           text: 'Resend link',
           onClick: resendConfirmationLink,
+          color: 'black',
+        },
+      ]
+    }
+    if (ctaType === 'link_int' && isDismissible) {
+      return [
+        {
+          text: ctaText,
+          onClick: onAction,
+          color: 'green',
+        },
+        {
+          text: 'Dismiss',
+          onClick: () => {},
           color: 'black',
         },
       ]
