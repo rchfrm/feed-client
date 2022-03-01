@@ -19,11 +19,8 @@ export default {
   failedInvoiceIntro: (date, hasPaymentMethod) => `There was a problem with the payment method on your invoice from **${date}** ${hasPaymentMethod ? 'using the payment method below:' : ''}`,
   failedInvoiceAction: 'Please, **retry making the payment**:',
 
-  // REFERALLS
-  referralsTitle: (totalReferrals, totalCredits) => `🤝 You have earnt ${totalCredits} in credits by referring ${totalReferrals} people to Feed💰! Great work 👍 These will be applied to future invoices.`,
-  noReferralsTitle: `🤝 Refer people to Feed to earn credits💰!`,
-  noReferralsDescription: `Share your unique link with someone  
-  who could use **Feed**!`,
+  // REFERRALS
+  noReferralsTitle: `🤝 See more on the [referrals page](/my-referral-code) 💰!`,
 
   // PROFILES
   profilesIntro: 'The following profiles are part of this billing account, and appear on the same invoice.',
