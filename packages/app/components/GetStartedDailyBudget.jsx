@@ -1,17 +1,18 @@
 import React from 'react'
+import useAsyncEffect from 'use-async-effect'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
-
 import useControlsStore from '@/app/stores/controlsStore'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import Spinner from '@/elements/Spinner'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
@@ -19,6 +20,7 @@ import copy from '@/app/copy/getStartedCopy'
 
 const GetStartedDailyBudget = () => {
   const {
+    initPage,
     minReccBudget,
     targetingState,
     initialTargetingState,
@@ -38,6 +40,7 @@ const GetStartedDailyBudget = () => {
         },
       },
     },
+    artistId,
   } = React.useContext(ArtistContext)
 
   const getControlsStoreState = (state) => ({
@@ -59,6 +62,16 @@ const GetStartedDailyBudget = () => {
     updateTargetingBudget(budget)
   }, [budget, updateTargetingBudget])
 
+  // If minReccBudget isn't set yet reinitialise targeting context state
+  useAsyncEffect(async (isMounted) => {
+    if (minReccBudget || !isMounted()) return
+
+    const state = await targetingHelpers.fetchTargetingState(artistId, currencyOffset)
+    const { error } = state
+
+    initPage(state, error)
+  }, [minReccBudget])
+
   const saveBudget = async () => {
     await saveTargeting('settings')
     next()
@@ -71,6 +84,8 @@ const GetStartedDailyBudget = () => {
     }
     saveBudget()
   }
+
+  if (!minReccBudget) return <Spinner />
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
