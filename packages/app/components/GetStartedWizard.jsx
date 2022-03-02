@@ -64,6 +64,7 @@ const GetStartedWizard = ({
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
 
+  // Define wizard steps
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
@@ -161,6 +162,7 @@ const GetStartedWizard = ({
     setSteps(initialSteps.filter((step) => !step.shouldSkip))
   }, [initialSteps])
 
+  // Once a profile has been created we use the data in localstorage to patch the newly created profile with these values
   useAsyncEffect(async (isMounted) => {
     if (
       !isMounted()
@@ -189,6 +191,7 @@ const GetStartedWizard = ({
       link = savedLink
     }
 
+    // Patch the profile
     const { res: artist, error } = await updateArtist(artistId, { ...wizardState, defaultLink: link.id })
 
     if (error) {
@@ -219,11 +222,13 @@ const GetStartedWizard = ({
 
     const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
 
+    // Update targeting values
     saveTargetingSettings({
       ...targetingState,
       platforms: isFacebookOrInstagram ? [storedPlatform] : [],
     })
 
+    // Remove stored data from localstorage
     localStorage.removeItem('getStartedWizard')
   }, [artistId, isLoading, objective, platform, defaultLink])
 

@@ -16,6 +16,7 @@ const GetStartedConnectFacebookConnectButton = ({ selectedProfile, setIsConnecti
   const { setWizardState, currentStep } = React.useContext(WizardContext)
 
   const accountsToConnect = React.useMemo(() => {
+    // Turn selectedProfile object into an array
     if (selectedProfile) {
       return Object.values(selectedProfile).map((profile) => profile)
     }
@@ -24,6 +25,7 @@ const GetStartedConnectFacebookConnectButton = ({ selectedProfile, setIsConnecti
   const createArtist = async () => {
     setIsConnecting(true)
 
+    // Force the wizard to return this step even though it is considered as complete after connecting a profile
     setWizardState({
       type: 'set-state',
       payload: {

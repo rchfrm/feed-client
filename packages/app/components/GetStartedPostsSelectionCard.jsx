@@ -18,6 +18,7 @@ const GetStartedPostsSelectionCard = ({ post, postIndex, setPosts, setError }) =
     setError(null)
     setIsEnabled(!isEnabled)
 
+    // Update single post state
     setPosts({
       type: 'toggle-promotion',
       payload: {

@@ -29,6 +29,7 @@ const GetStartedSummarySentencePosts = () => {
   useAsyncEffect(async (isMounted) => {
     if (!artistId) return
 
+    // Fetch posts which are opted in for promotion
     const res = await server.getPosts({
       artistId,
       sortBy: ['normalized_score'],
@@ -64,6 +65,7 @@ const GetStartedSummarySentencePosts = () => {
         {posts.length ? (
           <>
             {posts.map(({ id, media, thumbnails }, index) => {
+              // Only show the first two posts
               if (index > 1) return
 
               return (
@@ -84,6 +86,7 @@ const GetStartedSummarySentencePosts = () => {
             )}
           </>
         ) : (
+          // If there aren't any posts yet show 'placeholder' posts
           Array.from([1, 2]).map((index) => (
             <BrokenImageIcon
               key={index}

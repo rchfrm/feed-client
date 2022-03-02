@@ -62,9 +62,13 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
   const cursor = React.useRef('')
 
   const fetchPosts = async () => {
+    // Fetch eligible posts sorted by normalized score
     const res = await server.getPosts({
       artistId,
       sortBy: ['normalized_score'],
+      filterBy: {
+        is_promotable: [true],
+      },
       cursor: cursor.current,
       limit: 5,
     })
@@ -72,13 +76,16 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
     const postsFormatted = formatRecentPosts(res)
     const lastPost = res[res.length - 1]
 
+    // Store the cursor of the last post
     if (lastPost?._links.after) {
       const nextCursor = getCursor(lastPost)
       cursor.current = nextCursor
     }
 
+    // Filter out the posts that were already fetched earlier
     const postsFiltered = postsFormatted.filter((formattedPost) => posts.every((post) => post.id !== formattedPost.id))
 
+    // Update local posts state
     setPosts({
       type: 'add-posts',
       payload: { posts: postsFiltered },
@@ -88,10 +95,12 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
   useAsyncEffect(async (isMounted) => {
     if (!canLoadPosts) return
 
+    // If there are already posts no need to do anything
     if (posts.length) {
       return
     }
 
+    // If there are enabled posts in the local wizard state we show these
     if (wizardState?.enabledPosts?.length) {
       setPosts({
         type: 'set-posts',
@@ -101,6 +110,7 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
       return
     }
 
+    // If there are enabled posts that were initially fetched when we mounted the wizard we show these
     if (!wizardState?.enabledPosts && initialPosts.length) {
       setPosts({
         type: 'set-posts',
@@ -112,6 +122,7 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
 
     if (!isMounted()) return
 
+    // Otherwise there are no enabled posts yet and we fetch eligible posts sorted by normalized score
     await fetchPosts()
   }, [canLoadPosts])
 

@@ -58,7 +58,7 @@ const useGetStartedWizard = () => {
     initPage(state, error)
   }, [artistId, controlsLoading])
 
-  // Fetch posts with a status of active or in review
+  // Fetch posts which are opted in for promotion
   useAsyncEffect(async (isMounted) => {
     if (!isMounted() || !artistId) {
       setPostsLoading(false)
@@ -79,6 +79,7 @@ const useGetStartedWizard = () => {
     setPostsLoading(false)
   }, [artistId])
 
+  // Boolean value which determines if a profile has been set up completely
   const hasSetUpProfile = Boolean(objective
     && platform
     && defaultLink

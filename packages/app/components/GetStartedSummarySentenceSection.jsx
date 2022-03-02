@@ -29,6 +29,7 @@ const GetStartedSummarySentenceSection = ({
   }
 
   const goToSection = () => {
+    // We can't navigate to a section that isn't completed yet
     if (!isComplete) {
       return
     }

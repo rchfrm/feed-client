@@ -93,6 +93,7 @@ const GetStartedAdAccount = () => {
   }
 
   React.useEffect(() => {
+    // Set initial ad account id value if it doesn't exist yet
     if (!adAccountId) {
       setAdAccountId(adAccountOptions[0]?.value)
     }

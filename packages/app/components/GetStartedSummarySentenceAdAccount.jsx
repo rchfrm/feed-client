@@ -27,6 +27,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
       setError(error)
       return
     }
+    // Get the selected ad account name from the ad accounts array
     const { name } = res.adaccounts.find(({ id }) => id === adAccountId)
 
     setAdAccountName(name)

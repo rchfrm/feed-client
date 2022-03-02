@@ -24,6 +24,7 @@ const GetStartedConnectFacebookProfilesList = ({
   }
 
   React.useEffect(() => {
+    // Grab the right profile object based on the selected radiobutton value
     const filteredSelectedProfile = Object.entries(profiles).reduce((result, [key, value]) => {
       if (key === facebookPageId) {
         result[key] = value

@@ -35,6 +35,7 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
 
     const enabledPosts = posts.filter((post) => post.promotionEnabled)
 
+    // Show error if there isn't any post opted in
     if (enabledPosts.length < 1) {
       setError({ message: 'Please opt in at least one post to continue' })
       setIsLoading(false)
@@ -46,8 +47,10 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
       return updatePost({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
     })
 
+    // Patch promotion enabled value in the db
     await Promise.all(postPromises)
 
+    // Update local wizard state
     setWizardState({
       type: 'set-state',
       payload: {
@@ -60,6 +63,7 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
     next()
   }
 
+  // Show fixed buttons if on mobile
   if (!isDesktopLayout) {
     return (
       <GetStartedPostsSelectionButtonsMobile
