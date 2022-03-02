@@ -40,5 +40,4 @@ ChevronIcon.defaultProps = {
   style: null,
 }
 
-
 export default ChevronIcon

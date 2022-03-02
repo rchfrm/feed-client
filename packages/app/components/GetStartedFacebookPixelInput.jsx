@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Input from '@/elements/Input'
+import Error from '@/elements/Error'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -11,6 +12,8 @@ import { createNewPixel } from '@/app/helpers/settingsHelpers'
 
 const GetStartedFacebookPixelInput = ({ setPixels }) => {
   const [pixelName, setPixelName] = React.useState('')
+  const [error, setError] = React.useState(null)
+
   const { artistId } = React.useContext(ArtistContext)
 
   const handleChange = (e) => {
@@ -21,6 +24,7 @@ const GetStartedFacebookPixelInput = ({ setPixels }) => {
     const { res: newPixel, error } = await createNewPixel(artistId, pixelName)
 
     if (error) {
+      setError(error)
       return
     }
 
@@ -29,6 +33,7 @@ const GetStartedFacebookPixelInput = ({ setPixels }) => {
 
   return (
     <>
+      <Error error={error} />
       <Input
         name="pixel-name"
         version="box"
