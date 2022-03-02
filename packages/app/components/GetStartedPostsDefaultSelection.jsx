@@ -83,7 +83,7 @@ const GetStartedPostsDefaultSelection = () => {
           loading={isLoading && isEnabled}
           spinnerFill={brandColors.black}
           className="w-full sm:w-56 mx-4"
-          trackComponentName="GetStartedPostsDefaultSelectionStep"
+          trackComponentName="GetStartedPostsDefaultSelection"
         >
           <TickCircleIcon
             className="w-6 h-6 mr-2"

@@ -35,7 +35,7 @@ const GetStartedFacebookPixelSelector = ({ isLoading, setIsLoading, setError }) 
     <>
       <PixelSelector
         updateParentPixel={setFacebookPixel}
-        trackLocation="Conversions settings"
+        trackLocation="GetStartedFacebookPixelSelector"
         shouldSaveOnChange={false}
         hasNoPixelOption={false}
         shouldShowPixelCopier={false}
@@ -46,7 +46,7 @@ const GetStartedFacebookPixelSelector = ({ isLoading, setIsLoading, setError }) 
         onClick={() => saveFacebookPixel(facebookPixel)}
         loading={isLoading}
         className="w-full sm:w-48"
-        trackComponentName="GetStartedFacebookPixel"
+        trackComponentName="GetStartedFacebookPixelSelector"
       >
         Save
         <ArrowAltIcon

@@ -27,7 +27,7 @@ const GetStartedSummary = () => {
         version="outline-green"
         onClick={goToPostsPage}
         className="w-full sm:w-48"
-        trackComponentName="GetStartedAdPreview"
+        trackComponentName="GetStartedSummary"
       >
         <span className="text-2xl" role="img" aria-label="raising hands">🙌</span>
       </Button>

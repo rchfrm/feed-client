@@ -13,7 +13,7 @@ const GetStartedObjectiveButton = ({ objective, setSelectedObjective }) => {
       version={color}
       onClick={() => setSelectedObjective(value)}
       className="w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0"
-      trackComponentName="GetStartedObjective"
+      trackComponentName="GetStartedObjectiveButton"
     >
       {title}
       <ArrowAltIcon

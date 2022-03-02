@@ -18,7 +18,7 @@ const GetStartedPlatformButton = ({ platform, setSelectedPlatform, isLoading }) 
         border: `2px solid ${brandColors.textColor}`,
       }}
       hasIcon
-      trackComponentName="GetStartedPlatform"
+      trackComponentName="GetStartedPlatformButton"
     >
       <PlatformIcon
         platform={platform}
