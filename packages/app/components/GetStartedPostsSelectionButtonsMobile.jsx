@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import Spinner from '@/elements/Spinner'
+import brandColors from '../../shared/constants/brandColors'
 
-const GetStartedPostsSelectionButtonsMobile = ({ loadMore, handleNext }) => {
+const GetStartedPostsSelectionButtonsMobile = ({ loadMore, isLoading, isLoadingMorePosts, handleNext }) => {
   return (
     <div
       className={[
@@ -19,18 +21,30 @@ const GetStartedPostsSelectionButtonsMobile = ({ loadMore, handleNext }) => {
           'w-30 p-2 bg-white border-r-2 border-solid border-black text-black',
         ].join(' ')}
       >
-        More...
+        {isLoadingMorePosts ? (
+          <Spinner width={20} fill={brandColors.black} />
+        ) : (
+          <>
+            More ...
+          </>
+        )}
       </button>
       <button
         onClick={handleNext}
         className="flex justify-center p-2 w-30 bg-green text-white"
       >
-        Save
-        <ArrowAltIcon
-          className="ml-3"
-          direction="right"
-          fill="white"
-        />
+        {isLoading ? (
+          <Spinner width={20} fill={brandColors.white} />
+        ) : (
+          <>
+            Save
+            <ArrowAltIcon
+              className="ml-3"
+              direction="right"
+              fill="white"
+            />
+          </>
+        )}
       </button>
     </div>
   )

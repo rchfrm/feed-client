@@ -64,6 +64,8 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
     return (
       <GetStartedPostsSelectionButtonsMobile
         loadMore={loadMore}
+        isLoading={isLoading}
+        isLoadingMorePosts={isLoadingMorePosts}
         handleNext={handleNext}
       />
     )

@@ -175,8 +175,11 @@ const GetStartedWizard = ({
     const { platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState
     let link = ''
 
-    // If user has provided a link then save it to the linkbank
-    if (storedDefaultLink) {
+    // If the chosen platform is either Facebook or Instagram we get the link from the linkbank
+    if (storedPlatform === 'facebook' || storedPlatform === 'instagram') {
+      link = getLinkByPlatform(nestedLinks, storedPlatform)
+    } else {
+      // Otherwise user has provided a custom link and we save it to the linkbank
       const { savedLink, error } = await saveLinkToLinkBank(storedDefaultLink)
 
       if (error) {
@@ -184,9 +187,6 @@ const GetStartedWizard = ({
       }
 
       link = savedLink
-    } else {
-      // Otherwise get the link from the linkbank based on previously chosen platform (either Facebook or Instagram)
-      link = getLinkByPlatform(nestedLinks, storedPlatform)
     }
 
     const { res: artist, error } = await updateArtist(artistId, { ...wizardState, defaultLink: link.id })
