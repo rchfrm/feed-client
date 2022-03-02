@@ -24,7 +24,7 @@ const SliderMarker = ({
       <div
         className={[
           'absolute',
-          'w-6 -ml-3',
+          'w-8 -ml-3',
           'mb-2',
           className,
         ].join(' ')}
@@ -39,7 +39,7 @@ const SliderMarker = ({
         <div className="h-10 bg-green mx-auto" style={{ width }} />
         {/* TEXT */}
         <p
-          className="absolute top-0 left-0 mb-0 -mt-1 pl-5 text-sm whitespace-no-wrap"
+          className="absolute top-0 left-0 mb-0 -mt-1 pl-6 text-sm whitespace-no-wrap"
           style={hideText ? { opacity: 0 } : null}
         >
           {markerLabel}
