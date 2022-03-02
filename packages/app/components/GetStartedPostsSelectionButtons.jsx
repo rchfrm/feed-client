@@ -30,8 +30,8 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
 
     const enabledPosts = posts.filter((post) => post.promotionEnabled)
 
-    if (enabledPosts.length < 2) {
-      setError({ message: 'Please opt in at least two posts.' })
+    if (enabledPosts.length < 1) {
+      setError({ message: 'Please opt in at least one post to continue' })
       setIsLoading(false)
 
       return
