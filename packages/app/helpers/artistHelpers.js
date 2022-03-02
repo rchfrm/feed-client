@@ -463,18 +463,13 @@ export const getArtistPayload = ({
       posts: {
         ...(defaultLink && { default_link_id: defaultLink }),
         ...(objective && platform && { call_to_action: getCallToAction(objective, platform) }),
-        promotion_enabled_default: false,
+        promotion_enabled_default: true,
       },
       conversions: {
         ...(objective === 'sales' && { call_to_action: 'SHOP_NOW', facebook_pixel_event: 'Purchase' }),
         ...(objective === 'traffic' && { facebook_pixel_event: 'LandingPageViews' }),
       },
     },
-    ...(objective === 'sales' && {
-      feature_flags: {
-        conversions_enabled: true,
-      },
-    }),
   }
 }
 
@@ -488,7 +483,6 @@ export const objectives = [
     title: 'Website sales',
     value: 'sales',
     color: 'insta',
-
   },
   {
     title: 'Website visits',
