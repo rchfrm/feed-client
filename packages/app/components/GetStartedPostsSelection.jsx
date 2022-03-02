@@ -86,7 +86,7 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
   }
 
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted() || !canLoadPosts) return
+    if (!canLoadPosts) return
 
     if (posts.length) {
       return
@@ -109,6 +109,8 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
 
       return
     }
+
+    if (!isMounted()) return
 
     await fetchPosts()
   }, [canLoadPosts])

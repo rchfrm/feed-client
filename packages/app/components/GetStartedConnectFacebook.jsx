@@ -33,7 +33,7 @@ const GetStartedConnectFacebook = () => {
 
   // Get available accounts
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted() || isConnecting) return
+    if (isConnecting) return
 
     if (missingScopes.length || error || connectedArtists.length) {
       setIsLoading(false)
@@ -41,6 +41,8 @@ const GetStartedConnectFacebook = () => {
     }
 
     const { res, error: getArtistError } = await artistHelpers.getArtistOnSignUp()
+
+    if (!isMounted()) return
 
     if (getArtistError) {
       setError(getArtistError.message)
@@ -83,6 +85,8 @@ const GetStartedConnectFacebook = () => {
       })
 
       const { error } = await connectArtists(artistAccountsSanitised, user) || {}
+
+      if (!isMounted()) return
 
       if (error) {
         setIsConnecting(false)

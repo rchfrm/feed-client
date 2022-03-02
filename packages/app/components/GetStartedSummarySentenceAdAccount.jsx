@@ -17,9 +17,11 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
   const adAccountId = facebookIntegration?.adaccount_id
 
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted() || !artistId || !adAccountId) return
+    if (!artistId || !adAccountId) return
 
     const { res, error } = await getAdAccounts(artistId)
+
+    if (!isMounted()) return
 
     if (error) {
       setError(error)

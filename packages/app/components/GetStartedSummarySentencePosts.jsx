@@ -27,7 +27,7 @@ const GetStartedSummarySentencePosts = () => {
   const isInActive = !isActive && !isComplete
 
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted() || !artistId) return
+    if (!artistId) return
 
     const res = await server.getPosts({
       artistId,
@@ -37,6 +37,8 @@ const GetStartedSummarySentencePosts = () => {
       },
       limit: 3,
     })
+
+    if (!isMounted()) return
 
     const formattedRecentPosts = formatRecentPosts(res)
 
