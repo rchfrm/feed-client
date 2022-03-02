@@ -67,6 +67,14 @@ const PixelSelector = ({
     setAvailablePixels(availablePixels)
   }, [artistId])
 
+  React.useEffect(() => {
+    if (!availablePixels.length) return
+
+    if (!activePixelId || activePixelId === '-1') {
+      setActivePixelId(availablePixels[0].value)
+    }
+  }, [activePixelId, setActivePixelId, availablePixels])
+
   // ON PIXEL UPDATE
   React.useEffect(() => {
     // Update pixel on parent state

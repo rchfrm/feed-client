@@ -32,7 +32,7 @@ const GetStartedLocation = () => {
   const [error, setError] = React.useState(null)
 
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { target: { value } } = e
     if (value === countryCode) return
 
@@ -52,10 +52,9 @@ const GetStartedLocation = () => {
     // Update artist context
     updateArtist(artist)
     setIsLoading(false)
-    next()
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!countryCode) return
 
     // Skip API request if country code hasn't changed
@@ -63,7 +62,8 @@ const GetStartedLocation = () => {
       next()
       return
     }
-    saveLocation(countryCode)
+    await saveLocation(countryCode)
+    next()
   }
 
   return (

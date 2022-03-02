@@ -87,11 +87,9 @@ const GetStartedAdAccount = () => {
     // Update artist context
     updateArtist(artist)
     setIsLoading(false)
-
-    goToStep(nextStep)
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!adAccountId) return
 
     // Skip API request if ad account hasn't changed
@@ -100,7 +98,8 @@ const GetStartedAdAccount = () => {
 
       return
     }
-    saveAdAccount(adAccountId)
+    await saveAdAccount(adAccountId)
+    goToStep(nextStep)
   }
 
   React.useEffect(() => {

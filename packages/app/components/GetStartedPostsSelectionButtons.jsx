@@ -12,17 +12,22 @@ import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { updatePost } from '@/app/helpers/postsHelpers'
-
+import brandColors from '@/constants/brandColors'
 
 const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout, setError }) => {
   const [isLoading, setIsLoading] = React.useState(false)
+  const [isLoadingMorePosts, setIsLoadingMorePosts] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
   const { next, setWizardState } = React.useContext(WizardContext)
 
   const isDesktopLayout = useBreakpointTest('sm')
 
   const loadMore = async () => {
+    setIsLoadingMorePosts(true)
+
     await fetchPosts()
+
+    setIsLoadingMorePosts(false)
   }
 
   const handleNext = async () => {
@@ -75,6 +80,8 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
       <Button
         version="outline-black"
         onClick={loadMore}
+        loading={isLoadingMorePosts}
+        spinnerFill={brandColors.black}
         className={[
           'w-full sm:w-56 mx-0 sm:mx-4 mb-6',
           shouldAdjustLayout ? 'sm:mb-4' : 'sm:mb-0',

@@ -6,7 +6,6 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
-import useControlsStore from '@/app/stores/controlsStore'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 
@@ -43,12 +42,7 @@ const GetStartedDailyBudget = () => {
     artistId,
   } = React.useContext(ArtistContext)
 
-  const getControlsStoreState = (state) => ({
-    minConversionsBudget: state.minConversionsBudget,
-  })
-
   const [budget, setBudget] = React.useState(targetingState.budget)
-  const { minConversionsBudget } = useControlsStore(getControlsStoreState)
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
 
@@ -60,7 +54,7 @@ const GetStartedDailyBudget = () => {
   React.useEffect(() => {
     if (typeof budget !== 'number') return
     updateTargetingBudget(budget)
-  }, [budget, updateTargetingBudget])
+  }, [budget, updateTargetingBudget, minReccBudget])
 
   // If minReccBudget isn't set yet reinitialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -69,11 +63,11 @@ const GetStartedDailyBudget = () => {
     const state = await targetingHelpers.fetchTargetingState(artistId, currencyOffset)
     const { error } = state
 
-    initPage(state, error)
+    await initPage(state, error)
   }, [minReccBudget])
 
   const saveBudget = async () => {
-    await saveTargeting('settings')
+    await saveTargeting('settings', { ...targetingState, budget })
     next()
   }
 
@@ -95,7 +89,7 @@ const GetStartedDailyBudget = () => {
           <TargetingBudgetSlider
             sliderStep={sliderStep}
             sliderValueRange={sliderValueRange}
-            initialBudget={initialTargetingState.budget || (minConversionsBudget * currencyOffset)}
+            initialBudget={initialTargetingState.budget}
             onChange={(budget) => {
               setBudget(budget)
             }}
