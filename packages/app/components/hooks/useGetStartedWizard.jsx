@@ -86,7 +86,7 @@ const useGetStartedWizard = () => {
     && posts.length > 0
     && defaultPromotionEnabled !== null
     && adAccountId
-    && facebookPixelId
+    && (objective === 'growth' || facebookPixelId)
     && (Object.keys(locations).length || artist.country_code)
     && budget)
 

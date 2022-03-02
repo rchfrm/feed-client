@@ -8,13 +8,14 @@ import TickCircleIcon from '@/icons/TickCircleIcon'
 import brandColors from '@/constants/brandColors'
 
 
-const GetStartedPostsSelectionCard = ({ post, postIndex, setPosts }) => {
+const GetStartedPostsSelectionCard = ({ post, postIndex, setPosts, setError }) => {
   const { id, promotionEnabled } = post
   const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
 
   const isDesktopLayout = useBreakpointTest('sm')
 
   const handleOnchange = () => {
+    setError(null)
     setIsEnabled(!isEnabled)
 
     setPosts({

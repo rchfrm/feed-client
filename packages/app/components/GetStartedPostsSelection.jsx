@@ -14,6 +14,7 @@ import GetStartedPostsSelectionAnalysePosts from '@/app/GetStartedPostsSelection
 import GetStartedPostsSelectionButtons from '@/app/GetStartedPostsSelectionButtons'
 
 import MarkdownText from '@/elements/MarkdownText'
+import Error from '@/elements/Error'
 
 import * as server from '@/app/helpers/appServer'
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
@@ -49,6 +50,7 @@ const postsReducer = (draftState, postsAction) => {
 const GetStartedPostsSelection = ({ initialPosts }) => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
+  const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
   const { wizardState } = React.useContext(WizardContext)
@@ -121,6 +123,7 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
         <>
           <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle(canLoadPosts)}</h3>
           <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
+          <Error error={error} />
           <div className={[
             'flex flex-1',
             shouldAdjustLayout ? 'flex-row' : 'flex-column',
@@ -140,6 +143,7 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
                   post={post}
                   postIndex={index}
                   setPosts={setPosts}
+                  setError={setError}
                 />
               ))}
             </div>
@@ -147,6 +151,7 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
               fetchPosts={fetchPosts}
               posts={posts}
               shouldAdjustLayout={shouldAdjustLayout}
+              setError={setError}
             />
           </div>
         </>

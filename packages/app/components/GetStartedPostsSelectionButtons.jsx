@@ -14,7 +14,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import { updatePost } from '@/app/helpers/postsHelpers'
 
 
-const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout }) => {
+const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout, setError }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
   const { next, setWizardState } = React.useContext(WizardContext)
@@ -28,14 +28,20 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
   const handleNext = async () => {
     setIsLoading(true)
 
+    const enabledPosts = posts.filter((post) => post.promotionEnabled)
+
+    if (enabledPosts.length < 2) {
+      setError({ message: 'Please opt in at least two posts.' })
+      setIsLoading(false)
+
+      return
+    }
+
     const postPromises = posts.map(({ id, promotionEnabled }) => {
       return updatePost({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
     })
 
-
     await Promise.all(postPromises)
-
-    const enabledPosts = posts.filter((post) => post.promotionEnabled)
 
     setWizardState({
       type: 'set-state',
@@ -99,6 +105,7 @@ GetStartedPostsSelectionButtons.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
   shouldAdjustLayout: PropTypes.bool.isRequired,
+  setError: PropTypes.func.isRequired,
 }
 
 GetStartedPostsSelectionButtons.defaultProps = {
