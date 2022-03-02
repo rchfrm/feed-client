@@ -217,11 +217,11 @@ const GetStartedWizard = ({
       },
     })
 
-    const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
+    const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
 
     saveTargetingSettings({
       ...targetingState,
-      platforms: isFacebookOrInstagram ? [platform] : [],
+      platforms: isFacebookOrInstagram ? [storedPlatform] : [],
     })
 
     localStorage.removeItem('getStartedWizard')

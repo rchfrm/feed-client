@@ -49,7 +49,10 @@ const GetStartedConnectFacebookNoProfiles = ({ auth, error }) => {
 
 GetStartedConnectFacebookNoProfiles.propTypes = {
   auth: PropTypes.object.isRequired,
-  error: PropTypes.object,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
 }
 
 GetStartedConnectFacebookNoProfiles.defaultProps = {

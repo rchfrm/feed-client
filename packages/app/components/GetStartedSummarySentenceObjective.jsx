@@ -29,7 +29,7 @@ const GetStartedSummarySentenceObjective = () => {
       isComplete={isComplete}
       color={color}
     >
-      {copy.objectiveSummary(objective, platform)}
+      {copy.objectiveSummary((objective || storedObjective), (platform || storedPlatform))}
     </GetStartedSummarySentenceSection>
   )
 }
