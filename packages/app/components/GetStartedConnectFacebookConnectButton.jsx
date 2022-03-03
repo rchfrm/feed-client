@@ -25,7 +25,7 @@ const GetStartedConnectFacebookConnectButton = ({ selectedProfile, setIsConnecti
   const createArtist = async () => {
     setIsConnecting(true)
 
-    // Force the wizard to return this step even though it is considered as complete after connecting a profile
+    // Force the wizard to return to the connect facebook step even though it is considered as complete after connecting a profile
     setWizardState({
       type: 'set-state',
       payload: {
