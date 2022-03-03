@@ -26,12 +26,12 @@ const ResultsLoader = ({ dummyPostsImages }) => {
   const { artistId, artist: { start_spending_at } } = React.useContext(ArtistContext)
 
   const hasStartedSpending = Boolean(start_spending_at)
-  const hasArtists = user.artists.length
+  const hasNoProfiles = !user.artists.length
 
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
 
   const getResultsType = () => {
-    if (!hasArtists) {
+    if (hasNoProfiles) {
       return 'no-profiles'
     }
 
@@ -72,7 +72,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
     if (!isMounted()) return
     setIsLoading(true)
 
-    if (resultsType === 'no-profiles') {
+    if (hasNoProfiles) {
       handleDataRequest(getAggregatedOrganicBenchmark, aggregatedOrganicData, setAggregatedOrganicData)
       return
     }
@@ -90,7 +90,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
 
   return (
     <>
-      {resultsType !== 'no-profiles' ? (
+      {!hasNoProfiles ? (
         <ResultsHeader
           hasStartedSpending={hasStartedSpending}
           isSpendingPaused={isSpendingPaused}
@@ -107,9 +107,19 @@ const ResultsLoader = ({ dummyPostsImages }) => {
           />
         </div>
       )}
-      {resultsType === 'no-profiles' && aggregatedOrganicData && <ResultsNoSpendContent data={aggregatedOrganicData} resultsType={resultsType} dummyPostsImages={dummyPostsImages} />}
-      {resultsType === 'organic' && organicData && <ResultsNoSpendContent data={organicData} resultsType={resultsType} />}
-      {resultsType === 'paid' && <ResultsContent data={adResultsData} isSpendingPaused={isSpendingPaused} />}
+      {((hasNoProfiles && aggregatedOrganicData) || (resultsType === 'organic' && organicData)) && (
+        <ResultsNoSpendContent
+          data={hasNoProfiles ? aggregatedOrganicData : organicData}
+          hasNoProfiles={hasNoProfiles}
+          dummyPostsImages={dummyPostsImages}
+        />
+      )}
+      {resultsType === 'paid' && (
+        <ResultsContent
+          data={adResultsData}
+          isSpendingPaused={isSpendingPaused}
+        />
+      )}
     </>
   )
 }

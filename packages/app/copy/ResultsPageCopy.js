@@ -151,8 +151,8 @@ We’ll be in touch shortly after with more information.`,
     }
     return 'Your results will appear here soon (within 24 hours of starting ads).'
   },
-  noSpendReachDescription: (value, resultsType, isMobile) => {
-    if (resultsType === 'no-profiles') {
+  noSpendReachDescription: (value, hasNoProfiles, isMobile) => {
+    if (hasNoProfiles) {
       return `On average, a post on Facebook or Instagram will reach **${value}%** of the total audience.`
     }
 
@@ -162,15 +162,15 @@ We’ll be in touch shortly after with more information.`,
 
     return `Your posts reach **${value}%** of your addressable audience.`
   },
-  noSpendEngageDescription: (value, resultsType) => {
-    if (resultsType === 'no-profiles') {
+  noSpendEngageDescription: (value, hasNoProfiles) => {
+    if (hasNoProfiles) {
       return `**${value}%** of followers engage with the average post.`
     }
 
     return `**${value}%** of your followers engage with each post on average.`
   },
-  noSpendGrowthDescription: (value, platform, rate, resultsType) => {
-    if (resultsType === 'no-profiles') {
+  noSpendGrowthDescription: (value, platform, rate, hasNoProfiles) => {
+    if (hasNoProfiles) {
       return `On average Instagram grows **${rate}%** a week. With 5,000 followers, that's 20 added each week..`
     }
     if (value === 0) {
@@ -198,14 +198,22 @@ We’ll be in touch shortly after with more information.`,
       return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
     }
   },
-  postsChartTitle: (metricType) => {
+  postsChartTitle: (metricType, hasNoProfiles) => {
+    if (hasNoProfiles) {
+      return 'Recent post performance'
+    }
+
     if (metricType === 'reach') {
       return 'Reach of your recent posts'
     }
 
     return 'Engagement rate of your recent posts'
   },
-  postsChartDescription: (metricType) => {
+  postsChartDescription: (metricType, hasNoProfiles) => {
+    if (hasNoProfiles) {
+      return 'Connect your Facebook and Instagram pages, to see how your recent posts compare to each other, and how you compare to other similar profiles.'
+    }
+
     if (metricType === 'reach') {
       return "See the estimated percentage of your audience your posts have reached in the last 30 days. Your audience isn't just followers, it’s also people who have engaged with you before but haven’t followed you yet."
     }

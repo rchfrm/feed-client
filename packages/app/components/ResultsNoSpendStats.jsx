@@ -9,7 +9,6 @@ import { noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendStats = ({
   data,
-  resultsType,
   metricType,
   isDesktopLayout,
   className,
@@ -23,7 +22,7 @@ const ResultsNoSpendStats = ({
   return (
     data && (
       Object.keys(noSpendMetricTypes).map((type) => {
-        if ((isDesktopLayout && data[type]) || (!isDesktopLayout && metricType === type) || resultsType === 'no-profiles') {
+        if ((isDesktopLayout && data[type]) || (!isDesktopLayout && metricType === type)) {
           const ResultsStats = components[type]
 
           return (
@@ -40,7 +39,6 @@ const ResultsNoSpendStats = ({
 
 ResultsNoSpendStats.propTypes = {
   data: PropTypes.object,
-  resultsType: PropTypes.string.isRequired,
   metricType: PropTypes.string.isRequired,
   isDesktopLayout: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,

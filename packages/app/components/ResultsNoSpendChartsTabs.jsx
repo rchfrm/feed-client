@@ -10,6 +10,7 @@ const ResultsNoSpendChartsTabs = ({
   metricType,
   setMetricType,
   hasGrowth,
+  hasNoProfiles,
   className,
 }) => {
   const isDesktopLayout = useBreakpointTest('sm')
@@ -22,7 +23,7 @@ const ResultsNoSpendChartsTabs = ({
     ].join(' ')}
     >
       {Object.keys(noSpendMetricTypes).map((type) => {
-        if (!hasGrowth && isDesktopLayout && type === 'growth') return
+        if ((!hasGrowth && isDesktopLayout && type === 'growth') || (isDesktopLayout && hasNoProfiles)) return
 
         return (
           <ResultsNoSpendChartsTab

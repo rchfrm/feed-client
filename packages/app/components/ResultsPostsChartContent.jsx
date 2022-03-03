@@ -14,7 +14,7 @@ import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsPostsChartContent = ({
-  resultsType,
+  hasNoProfiles,
   dummyPostsImages,
   posts,
   setPosts,
@@ -27,7 +27,7 @@ const ResultsPostsChartContent = ({
   const [globalAverage, setGlobalAverage] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
-  const { platform } = organicBenchmarkData.growth
+  const { platform } = organicBenchmarkData?.growth || {}
 
   const { artistId } = React.useContext(ArtistContext)
 
@@ -38,7 +38,7 @@ const ResultsPostsChartContent = ({
 
     setIsLoading(true)
 
-    const data = resultsType === 'no-profiles' ? getDummyPosts(dummyPostsImages) : await getRecentPosts(artistId, platform)
+    const data = hasNoProfiles ? getDummyPosts(dummyPostsImages) : await getRecentPosts(artistId, platform)
 
     setPosts(data)
     setIsLoading(false)
@@ -60,10 +60,13 @@ const ResultsPostsChartContent = ({
   }, [metricType])
 
   React.useEffect(() => {
-    if (!organicBenchmarkData || !aggregatedOrganicBenckmarkData) return
+    if (organicBenchmarkData) {
+      setYourAverage(organicBenchmarkData[metricType].value)
+    }
 
-    setYourAverage(organicBenchmarkData[metricType].value)
-    setGlobalAverage(aggregatedOrganicBenckmarkData[metricType].value)
+    if (aggregatedOrganicBenckmarkData) {
+      setGlobalAverage(aggregatedOrganicBenckmarkData[metricType].value)
+    }
   }, [metricType, organicBenchmarkData, aggregatedOrganicBenckmarkData])
 
   const legendItems = [
@@ -83,15 +86,15 @@ const ResultsPostsChartContent = ({
 
   return (
     <div>
-      <p className="font-bold text-xl">{copy.postsChartTitle(metricType)}</p>
+      <p className="font-bold text-xl">{copy.postsChartTitle(metricType, hasNoProfiles)}</p>
       <ResultsChartHeader
-        description={copy.postsChartDescription(metricType)}
+        description={copy.postsChartDescription(metricType, hasNoProfiles)}
         legendItems={legendItems}
       />
       {error && <Error error={error} />}
       <ResultsPostsChart
         posts={posts}
-        yourAverage={yourAverage}
+        yourAverage={yourAverage || '0'}
         globalAverage={globalAverage}
         metricType={metricType}
         isLoading={isLoading}
@@ -101,13 +104,13 @@ const ResultsPostsChartContent = ({
 }
 
 ResultsPostsChartContent.propTypes = {
-  resultsType: PropTypes.string.isRequired,
+  hasNoProfiles: PropTypes.bool.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
   aggregatedOrganicBenckmarkData: PropTypes.object,
   setAggregatedOrganicBenchmarkData: PropTypes.func.isRequired,
   metricType: PropTypes.string.isRequired,
-  organicBenchmarkData: PropTypes.object.isRequired,
+  organicBenchmarkData: PropTypes.object,
   dummyPostsImages: PropTypes.arrayOf(
     PropTypes.object.isRequired,
   ).isRequired,
@@ -115,6 +118,7 @@ ResultsPostsChartContent.propTypes = {
 
 ResultsPostsChartContent.defaultProps = {
   aggregatedOrganicBenckmarkData: null,
+  organicBenchmarkData: null,
 }
 
 export default ResultsPostsChartContent

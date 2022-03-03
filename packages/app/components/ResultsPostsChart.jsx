@@ -89,13 +89,14 @@ const ResultsPostsChart = ({
 
 ResultsPostsChart.propTypes = {
   posts: PropTypes.array.isRequired,
-  yourAverage: PropTypes.string.isRequired,
+  yourAverage: PropTypes.string,
   globalAverage: PropTypes.string.isRequired,
   metricType: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 
 ResultsPostsChart.defaultProps = {
+  yourAverage: '0',
 }
 
 export default ResultsPostsChart
