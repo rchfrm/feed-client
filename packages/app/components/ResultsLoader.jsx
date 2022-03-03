@@ -10,24 +10,42 @@ import ResultsNoSpendContent from '@/app/ResultsNoSpendContent'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
-import { getAdResultsSummary, getOrganicBenchmark } from '@/app/helpers/resultsHelpers'
+import { getAdResultsSummary, getOrganicBenchmark, getAggregatedOrganicBenchmark } from '@/app/helpers/resultsHelpers'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
 })
 
 const ResultsLoader = () => {
+  const { user } = React.useContext(UserContext)
   const { artistId, artist: { start_spending_at } } = React.useContext(ArtistContext)
+
   const hasStartedSpending = Boolean(start_spending_at)
+  const hasArtists = user.artists.length
 
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
 
-  const [noSpendResultsData, setNoSpendResultsData] = React.useState(null)
+  const getResultsType = () => {
+    if (!hasArtists) {
+      return 'no-profiles'
+    }
+
+    if (hasStartedSpending && !isSpendingPaused) {
+      return 'paid'
+    }
+
+    return 'organic'
+  }
+
+  const [aggregatedOrganicData, setAggregatedOrganicData] = React.useState(null)
+  const [organicData, setOrganicData] = React.useState(null)
   const [adResultsData, setAdResultsData] = React.useState(null)
+
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
-  const [resultsType, setResultsType] = React.useState((hasStartedSpending && !isSpendingPaused) ? 'paid' : 'organic')
+  const [resultsType, setResultsType] = React.useState(getResultsType())
 
   const handleDataRequest = async (getData, data, setData) => {
     if (data) {
@@ -51,11 +69,17 @@ const ResultsLoader = () => {
     if (!isMounted()) return
     setIsLoading(true)
 
-    if (resultsType === 'organic') {
-      handleDataRequest(getOrganicBenchmark, noSpendResultsData, setNoSpendResultsData)
-    } else {
-      handleDataRequest(getAdResultsSummary, adResultsData, setAdResultsData)
+    if (resultsType === 'no-profiles') {
+      handleDataRequest(getAggregatedOrganicBenchmark, aggregatedOrganicData, setAggregatedOrganicData)
+      return
     }
+
+    if (resultsType === 'organic') {
+      handleDataRequest(getOrganicBenchmark, organicData, setOrganicData)
+      return
+    }
+
+    handleDataRequest(getAdResultsSummary, adResultsData, setAdResultsData)
   }, [resultsType])
 
   if (isLoading) return <Spinner />
@@ -63,15 +87,18 @@ const ResultsLoader = () => {
 
   return (
     <>
-      <ResultsHeader
-        hasStartedSpending={hasStartedSpending}
-        isSpendingPaused={isSpendingPaused}
-        dateRange={adResultsData?.dateRange}
-        resultsType={resultsType}
-        setResultsType={setResultsType}
-        setIsLoading={setIsLoading}
-      />
-      {resultsType === 'organic' && noSpendResultsData && <ResultsNoSpendContent data={noSpendResultsData} />}
+      {resultsType !== 'no-profiles' && (
+        <ResultsHeader
+          hasStartedSpending={hasStartedSpending}
+          isSpendingPaused={isSpendingPaused}
+          dateRange={adResultsData?.dateRange}
+          resultsType={resultsType}
+          setResultsType={setResultsType}
+          setIsLoading={setIsLoading}
+        />
+      )}
+      {resultsType === 'no-profiles' && aggregatedOrganicData && <ResultsNoSpendContent data={aggregatedOrganicData} resultsType={resultsType} />}
+      {resultsType === 'organic' && organicData && <ResultsNoSpendContent data={organicData} resultsType={resultsType} />}
       {resultsType === 'paid' && <ResultsContent data={adResultsData} isSpendingPaused={isSpendingPaused} />}
     </>
   )

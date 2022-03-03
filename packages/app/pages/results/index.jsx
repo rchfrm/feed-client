@@ -16,6 +16,7 @@ const Page = () => {
       noArtistHeader={headerConfig}
       artistRequired
       controlsRequired
+      hasNoProfilesPage
     >
       <ResultsPage />
     </BasePage>

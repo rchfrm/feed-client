@@ -8,7 +8,7 @@ import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { getOrganicBenchmarkData } from '@/app/helpers/resultsHelpers'
 
-const ResultsNoSpendContent = ({ data }) => {
+const ResultsNoSpendContent = ({ data, resultsType }) => {
   const [resultsData, setResultsData] = React.useState(null)
   const [metricType, setMetricType] = React.useState('reach')
   const [hasGrowth, setHasGrowth] = React.useState(true)
@@ -38,12 +38,14 @@ const ResultsNoSpendContent = ({ data }) => {
             isDesktopLayout={isDesktopLayout}
             className={isDesktopLayout ? 'order-1' : 'order-2'}
           />
-          <ResultsNoSpendChartsTabs
-            metricType={metricType}
-            setMetricType={setMetricType}
-            hasGrowth={hasGrowth}
-            className={isDesktopLayout ? 'order-2' : 'order-1'}
-          />
+          {resultsType === 'organic' && (
+            <ResultsNoSpendChartsTabs
+              metricType={metricType}
+              setMetricType={setMetricType}
+              hasGrowth={hasGrowth}
+              className={isDesktopLayout ? 'order-2' : 'order-1'}
+            />
+          )}
           {resultsData && (
             <ResultsNoSpendCharts
               data={resultsData}
@@ -60,6 +62,7 @@ const ResultsNoSpendContent = ({ data }) => {
 
 ResultsNoSpendContent.propTypes = {
   data: PropTypes.object.isRequired,
+  resultsType: PropTypes.string.isRequired,
 }
 
 ResultsNoSpendContent.defaultProps = {
