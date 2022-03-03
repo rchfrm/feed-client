@@ -171,7 +171,7 @@ We’ll be in touch shortly after with more information.`,
   },
   noSpendGrowthDescription: (value, platform, rate, hasNoProfiles) => {
     if (hasNoProfiles) {
-      return `On average Instagram grows **${rate}%** a week. With 5,000 followers, that's **${value}** added each week..`
+      return `On average Instagram grows **${rate}%** a week. With 5,000 followers, that's **${value}** added each week.`
     }
     if (value === 0) {
       return `You're ${capitalise(platform)} following is steady.`
