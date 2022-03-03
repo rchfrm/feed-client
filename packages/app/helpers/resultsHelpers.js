@@ -391,7 +391,7 @@ const getBestPerformingPlatform = (igData, fbData) => {
 export const getOrganicBenchmarkData = ({ data }, hasNoProfiles) => {
   const igData = getGrowthAndFollowersCount('instagram', data)
   const fbData = getGrowthAndFollowersCount('facebook', data)
-  const bestPerformingPlatform = getBestPerformingPlatform(igData, fbData)
+  const bestPerformingPlatform = hasNoProfiles ? 'instagram' : getBestPerformingPlatform(igData, fbData)
 
   const {
     aggregated: {
@@ -434,12 +434,15 @@ export const getOrganicBenchmarkData = ({ data }, hasNoProfiles) => {
     const followersGrowthRateValue = (growth_rate.value * 100).toFixed(1)
     const followersGrowthRateMedianPercentile = (growth_rate.percentile * 100).toFixed(1)
 
+    const globalAverageInstagramGrowth = (followersGrowthRateValue / 100) * 5000
+    const followersGrowthAbsolute = hasNoProfiles ? globalAverageInstagramGrowth : followersGrowthAbsoluteMedianValue
+
     growthData = {
-      value: followersGrowthAbsoluteMedianValue,
+      value: followersGrowthAbsolute,
       percentile: followersGrowthRateMedianPercentile,
       quartile: hasNoProfiles ? null : getQuartile(followersGrowthRateMedianPercentile, 'growth'),
       platform: bestPerformingPlatform,
-      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, bestPerformingPlatform, followersGrowthRateValue, hasNoProfiles),
+      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsolute, bestPerformingPlatform, followersGrowthRateValue, hasNoProfiles),
       hasGrowth: true,
     }
   } else {
