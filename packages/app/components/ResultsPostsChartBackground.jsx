@@ -38,7 +38,7 @@ const ResultsPostsChartBackground = ({
         {children}
       </div>
       <ResultsPostsChartAverageLine value={globalAverage} maxValue={maxValue} color={brandColors.black} />
-      {yourAverage && <ResultsPostsChartAverageLine value={yourAverage} maxValue={maxValue} color={noSpendMetricTypes[metricType].color} />}
+      <ResultsPostsChartAverageLine value={yourAverage} maxValue={maxValue} color={noSpendMetricTypes[metricType].color} />
     </>
   )
 }

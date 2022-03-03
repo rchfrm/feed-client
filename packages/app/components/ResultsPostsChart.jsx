@@ -96,7 +96,7 @@ ResultsPostsChart.propTypes = {
 }
 
 ResultsPostsChart.defaultProps = {
-  yourAverage: '0',
+  yourAverage: '',
 }
 
 export default ResultsPostsChart
