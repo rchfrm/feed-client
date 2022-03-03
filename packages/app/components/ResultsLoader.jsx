@@ -7,6 +7,8 @@ import Spinner from '@/elements/Spinner'
 import ResultsHeader from '@/app/ResultsHeader'
 import ResultsContent from '@/app/ResultsContent'
 import ResultsNoSpendContent from '@/app/ResultsNoSpendContent'
+import NoArtistsConnectAccountsBlock from '@/app/NoArtistsConnectAccountsBlock'
+
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -87,7 +89,7 @@ const ResultsLoader = () => {
 
   return (
     <>
-      {resultsType !== 'no-profiles' && (
+      {resultsType !== 'no-profiles' ? (
         <ResultsHeader
           hasStartedSpending={hasStartedSpending}
           isSpendingPaused={isSpendingPaused}
@@ -96,6 +98,13 @@ const ResultsLoader = () => {
           setResultsType={setResultsType}
           setIsLoading={setIsLoading}
         />
+      ) : (
+        <div className="grid grid-cols-12 col-gap-6 mb-12">
+          <NoArtistsConnectAccountsBlock
+            page="results"
+            className="col-span-12 sm:col-span-6 lg:col-span-4 p-6 bg-grey-1"
+          />
+        </div>
       )}
       {resultsType === 'no-profiles' && aggregatedOrganicData && <ResultsNoSpendContent data={aggregatedOrganicData} resultsType={resultsType} />}
       {resultsType === 'organic' && organicData && <ResultsNoSpendContent data={organicData} resultsType={resultsType} />}

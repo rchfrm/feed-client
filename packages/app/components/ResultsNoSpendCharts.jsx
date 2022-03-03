@@ -4,14 +4,20 @@ import PropTypes from 'prop-types'
 import ResultsPostsChartContent from '@/app/ResultsPostsChartContent'
 import ResultsGrowthChartContent from '@/app/ResultsGrowthChartContent'
 
-const ResultsNoSpendCharts = ({ data, metricType, hasGrowth, className }) => {
+const ResultsNoSpendCharts = ({
+  data,
+  resultsType,
+  metricType,
+  hasGrowth,
+  className,
+}) => {
   const [posts, setPosts] = React.useState([])
   const [aggregatedOrganicBenchmarkData, setAggregatedOrganicBenchmarkData] = React.useState(null)
   const [dailyGrowthData, setDailyGrowthData] = React.useState(null)
 
   return (
     <div className={[className, 'col-span-12'].join(' ')}>
-      {metricType !== 'growth' && (
+      {resultsType === 'organic' && metricType !== 'growth' && (
         <ResultsPostsChartContent
           posts={posts}
           setPosts={setPosts}
@@ -33,6 +39,7 @@ const ResultsNoSpendCharts = ({ data, metricType, hasGrowth, className }) => {
 
 ResultsNoSpendCharts.propTypes = {
   data: PropTypes.object.isRequired,
+  resultsType: PropTypes.string.isRequired,
   metricType: PropTypes.string.isRequired,
   hasGrowth: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
