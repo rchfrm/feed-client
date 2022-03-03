@@ -15,7 +15,7 @@ const ResultsReachStats = ({ data }) => {
 
   return (
     <>
-      <p className="font-bold text-xl sm:text-center">{quartile.copy} reach</p>
+      <p className="font-bold text-xl sm:text-center">{quartile ? `${quartile.copy} reach` : 'Reach'}</p>
       <div className="flex sm:flex-col items-center justify-between mb-6 sm:mb-0">
         <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
           <MarkdownText

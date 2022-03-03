@@ -388,7 +388,7 @@ const getBestPerformingPlatform = (igData, fbData) => {
   return igFollowers >= fbFollowers ? 'instagram' : 'facebook'
 }
 
-export const getOrganicBenchmarkData = ({ data }) => {
+export const getOrganicBenchmarkData = ({ data }, resultsType) => {
   const igData = getGrowthAndFollowersCount('instagram', data)
   const fbData = getGrowthAndFollowersCount('facebook', data)
   const bestPerformingPlatform = getBestPerformingPlatform(igData, fbData)
@@ -413,8 +413,8 @@ export const getOrganicBenchmarkData = ({ data }) => {
   const reachData = {
     value: reachRateMedianValue,
     percentile: reachRateMedianPercentile,
-    quartile: getQuartile(reachRateMedianPercentile, 'reach'),
-    copy: resultsCopy.noSpendReachDescription(reachRateMedianValue),
+    quartile: resultsType === 'no-profile' ? getQuartile(reachRateMedianPercentile, 'reach') : null,
+    copy: resultsCopy.noSpendReachDescription(reachRateMedianValue, resultsType, false),
   }
 
   const engagementRateMedianValue = (engagement_rate.median.value * 100).toFixed(1)
@@ -423,13 +423,13 @@ export const getOrganicBenchmarkData = ({ data }) => {
   const engageData = {
     value: engagementRateMedianValue,
     percentile: engagementRateMedianPercentile,
-    quartile: getQuartile(engagementRateMedianPercentile, 'engagement'),
-    copy: resultsCopy.noSpendEngageDescription(engagementRateMedianValue),
+    quartile: resultsType === 'no-profile' ? getQuartile(engagementRateMedianPercentile, 'engagement') : null,
+    copy: resultsCopy.noSpendEngageDescription(engagementRateMedianValue, resultsType),
   }
 
   let growthData = {}
 
-  if (growth_absolute.value) {
+  if (growth_absolute.value || resultsType === 'no-profiles') {
     const followersGrowthAbsoluteMedianValue = growth_absolute.value
     const followersGrowthRateValue = (growth_rate.value * 100).toFixed(1)
     const followersGrowthRateMedianPercentile = (growth_rate.percentile * 100).toFixed(1)
@@ -437,9 +437,9 @@ export const getOrganicBenchmarkData = ({ data }) => {
     growthData = {
       value: followersGrowthAbsoluteMedianValue,
       percentile: followersGrowthRateMedianPercentile,
-      quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
+      quartile: resultsType === 'no-profile' ? getQuartile(followersGrowthRateMedianPercentile, 'growth') : null,
       platform: bestPerformingPlatform,
-      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, bestPerformingPlatform, followersGrowthRateValue),
+      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, bestPerformingPlatform, followersGrowthRateValue, resultsType),
       hasGrowth: true,
     }
   } else {

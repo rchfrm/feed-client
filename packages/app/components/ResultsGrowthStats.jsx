@@ -15,9 +15,21 @@ const ResultsGrowthStats = ({ data }) => {
   const isDesktopLayout = useBreakpointTest('sm')
   const { value, percentile, quartile, copy, hasGrowth } = data
 
+  const getCopy = () => {
+    if (!quartile) {
+      return 'Followers'
+    }
+
+    if (hasGrowth) {
+      return `${quartile.copy} growth`
+    }
+
+    return 'Tracking...'
+  }
+
   return (
     <>
-      <p className="font-bold text-xl sm:text-center">{hasGrowth ? `${quartile.copy} growth` : 'Tracking...'}</p>
+      <p className="font-bold text-xl sm:text-center">{getCopy()}</p>
       <div className="flex sm:flex-col items-center justify-between mb-6 sm:mb-0">
         <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
           <MarkdownText

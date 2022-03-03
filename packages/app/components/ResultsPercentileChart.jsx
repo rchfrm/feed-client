@@ -8,7 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsPercentileChart = ({ percentile, quartile, color }) => {
-  const { value: quartileValue, position: quartilePosition } = quartile
+  const { value: quartileValue, position: quartilePosition } = quartile || {}
 
   return (
     <>
@@ -23,24 +23,31 @@ const ResultsPercentileChart = ({ percentile, quartile, color }) => {
           />
         ))}
       </div>
-      <div className="relative mx-auto mb-4" style={{ width: '96%' }}>
-        <span
-          className="w-0 h-0 block mx-auto border-4 border-solid border-transparent absolute"
-          style={{ borderBottom: '6px solid black', left: `${percentile}%` }}
-        />
-      </div>
-      <MarkdownText className="w-full text-xs" style={{ textAlign: quartilePosition }} markdown={copy.quartileDescription(quartileValue, percentile)} />
+      {quartileValue ? (
+        <>
+          <div className="relative mx-auto mb-4" style={{ width: '96%' }}>
+            <span
+              className="w-0 h-0 block mx-auto border-4 border-solid border-transparent absolute"
+              style={{ borderBottom: '6px solid black', left: `${percentile}%` }}
+            />
+          </div>
+          <MarkdownText className="w-full text-xs" style={{ textAlign: quartilePosition }} markdown={copy.quartileDescription(quartileValue, percentile)} />
+        </>
+      ) : (
+        <MarkdownText className="mt-10 mx-auto text-center" markdown={copy.connectAccounts} />
+      )}
     </>
   )
 }
 
 ResultsPercentileChart.propTypes = {
   percentile: PropTypes.string.isRequired,
-  quartile: PropTypes.object.isRequired,
+  quartile: PropTypes.object,
   color: PropTypes.string.isRequired,
 }
 
 ResultsPercentileChart.defaultProps = {
+  quartile: null,
 }
 
 export default ResultsPercentileChart

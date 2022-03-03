@@ -15,7 +15,7 @@ const ResultsEngageStats = ({ data }) => {
 
   return (
     <>
-      <p className="font-bold text-xl sm:text-center">{quartile.copy} engagement</p>
+      <p className="font-bold text-xl sm:text-center">{quartile ? `${quartile.copy} engagement` : 'Engagement'}</p>
       <div className="flex sm:flex-col items-center justify-between mb-6 sm:mb-0">
         <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
           <MarkdownText

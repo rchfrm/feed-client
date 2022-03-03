@@ -151,15 +151,28 @@ We’ll be in touch shortly after with more information.`,
     }
     return 'Your results will appear here soon (within 24 hours of starting ads).'
   },
-  noSpendReachDescription: (value, isMobile) => {
+  noSpendReachDescription: (value, resultsType, isMobile) => {
+    if (resultsType === 'no-profiles') {
+      return `On average, a post on Facebook or Instagram will reach **${value}%** of the total audience.`
+    }
+
     if (isMobile) {
       return 'The percentage of your audience reached by a typical post.'
     }
 
     return `Your posts reach **${value}%** of your addressable audience.`
   },
-  noSpendEngageDescription: (value) => `**${value}%** of your followers engage with each post on average.`,
-  noSpendGrowthDescription: (value, platform, rate) => {
+  noSpendEngageDescription: (value, resultsType) => {
+    if (resultsType === 'no-profiles') {
+      return `**${value}%** of followers engage with the average post.`
+    }
+
+    return `**${value}%** of your followers engage with each post on average.`
+  },
+  noSpendGrowthDescription: (value, platform, rate, resultsType) => {
+    if (resultsType === 'no-profiles') {
+      return "On average Instagram grows 0.4% a week. With 5,000 followers, that's 20 added each week.."
+    }
     if (value === 0) {
       return `You're ${capitalise(platform)} following is steady.`
     }
@@ -215,4 +228,5 @@ We’ll be in touch shortly after with more information.`,
 
     return `${resultsTypeString} from **${dateFrom}** to **${dateTo}**`
   },
+  connectAccounts: `[Connect your accounts](${ROUTES.CONNECT_ACCOUNTS}) to see how you compare!`,
 }

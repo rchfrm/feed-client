@@ -16,11 +16,11 @@ const ResultsNoSpendContent = ({ data, resultsType }) => {
   const isDesktopLayout = useBreakpointTest('sm')
 
   React.useEffect(() => {
-    const organicBenchmarkData = getOrganicBenchmarkData(data)
+    const organicBenchmarkData = getOrganicBenchmarkData(data, resultsType)
 
     setResultsData(organicBenchmarkData)
     setHasGrowth(organicBenchmarkData.growth.hasGrowth)
-  }, [data, setHasGrowth])
+  }, [data, setHasGrowth, resultsType])
 
   return (
     <div className="grid grid-cols-12 sm:col-gap-12 mb-8">
@@ -33,6 +33,7 @@ const ResultsNoSpendContent = ({ data, resultsType }) => {
         >
           <ResultsNoSpendStats
             data={resultsData}
+            resultsType={resultsType}
             metricType={metricType}
             setHasGrowth={setHasGrowth}
             isDesktopLayout={isDesktopLayout}
