@@ -54,7 +54,7 @@ const ResultsNoSpendContent = ({
             <ResultsNoSpendCharts
               data={resultsData}
               hasNoProfiles={hasNoProfiles}
-              metricType={hasNoProfiles ? 'reach' : metricType}
+              metricType={hasNoProfiles ? 'engagement' : metricType}
               hasGrowth={hasGrowth}
               dummyPostsImages={dummyPostsImages}
               className="order-3"
