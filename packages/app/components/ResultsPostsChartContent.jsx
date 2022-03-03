@@ -8,12 +8,14 @@ import ResultsChartHeader from '@/app/ResultsChartHeader'
 import ResultsPostsChart from '@/app/ResultsPostsChart'
 import Error from '@/elements/Error'
 
-import { getRecentPosts, getAverages, noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
+import { getRecentPosts, getAverages, noSpendMetricTypes, getDummyPosts } from '@/app/helpers/resultsHelpers'
 
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsPostsChartContent = ({
+  resultsType,
+  dummyPostsImages,
   posts,
   setPosts,
   aggregatedOrganicBenckmarkData,
@@ -36,7 +38,7 @@ const ResultsPostsChartContent = ({
 
     setIsLoading(true)
 
-    const data = await getRecentPosts(artistId, platform)
+    const data = resultsType === 'no-profiles' ? getDummyPosts(dummyPostsImages) : await getRecentPosts(artistId, platform)
 
     setPosts(data)
     setIsLoading(false)
@@ -99,12 +101,16 @@ const ResultsPostsChartContent = ({
 }
 
 ResultsPostsChartContent.propTypes = {
+  resultsType: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
   aggregatedOrganicBenckmarkData: PropTypes.object,
   setAggregatedOrganicBenchmarkData: PropTypes.func.isRequired,
   metricType: PropTypes.string.isRequired,
   organicBenchmarkData: PropTypes.object.isRequired,
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 }
 
 ResultsPostsChartContent.defaultProps = {

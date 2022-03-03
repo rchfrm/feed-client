@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import Error from '@/elements/Error'
@@ -20,7 +21,7 @@ const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
 })
 
-const ResultsLoader = () => {
+const ResultsLoader = ({ dummyPostsImages }) => {
   const { user } = React.useContext(UserContext)
   const { artistId, artist: { start_spending_at } } = React.useContext(ArtistContext)
 
@@ -106,7 +107,7 @@ const ResultsLoader = () => {
           />
         </div>
       )}
-      {resultsType === 'no-profiles' && aggregatedOrganicData && <ResultsNoSpendContent data={aggregatedOrganicData} resultsType={resultsType} />}
+      {resultsType === 'no-profiles' && aggregatedOrganicData && <ResultsNoSpendContent data={aggregatedOrganicData} resultsType={resultsType} dummyPostsImages={dummyPostsImages} />}
       {resultsType === 'organic' && organicData && <ResultsNoSpendContent data={organicData} resultsType={resultsType} />}
       {resultsType === 'paid' && <ResultsContent data={adResultsData} isSpendingPaused={isSpendingPaused} />}
     </>
@@ -114,6 +115,9 @@ const ResultsLoader = () => {
 }
 
 ResultsLoader.propTypes = {
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 }
 
 export default ResultsLoader

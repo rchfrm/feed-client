@@ -6,6 +6,7 @@ import ResultsGrowthChartContent from '@/app/ResultsGrowthChartContent'
 
 const ResultsNoSpendCharts = ({
   data,
+  dummyPostsImages,
   resultsType,
   metricType,
   hasGrowth,
@@ -17,8 +18,10 @@ const ResultsNoSpendCharts = ({
 
   return (
     <div className={[className, 'col-span-12'].join(' ')}>
-      {resultsType === 'organic' && metricType !== 'growth' && (
+      {metricType !== 'growth' && (
         <ResultsPostsChartContent
+          resultsType={resultsType}
+          dummyPostsImages={dummyPostsImages}
           posts={posts}
           setPosts={setPosts}
           aggregatedOrganicBenckmarkData={aggregatedOrganicBenchmarkData}
@@ -43,6 +46,9 @@ ResultsNoSpendCharts.propTypes = {
   metricType: PropTypes.string.isRequired,
   hasGrowth: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 }
 
 export default ResultsNoSpendCharts

@@ -8,7 +8,7 @@ import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { getOrganicBenchmarkData } from '@/app/helpers/resultsHelpers'
 
-const ResultsNoSpendContent = ({ data, resultsType }) => {
+const ResultsNoSpendContent = ({ data, resultsType, dummyPostsImages }) => {
   const [resultsData, setResultsData] = React.useState(null)
   const [metricType, setMetricType] = React.useState('reach')
   const [hasGrowth, setHasGrowth] = React.useState(true)
@@ -53,6 +53,7 @@ const ResultsNoSpendContent = ({ data, resultsType }) => {
               resultsType={resultsType}
               metricType={metricType}
               hasGrowth={hasGrowth}
+              dummyPostsImages={dummyPostsImages}
               className="order-3"
             />
           )}
@@ -65,6 +66,9 @@ const ResultsNoSpendContent = ({ data, resultsType }) => {
 ResultsNoSpendContent.propTypes = {
   data: PropTypes.object.isRequired,
   resultsType: PropTypes.string.isRequired,
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 }
 
 ResultsNoSpendContent.defaultProps = {

@@ -515,6 +515,25 @@ export const getRecentPosts = async (artistId, platform) => {
   return formattedRecentPosts
 }
 
+export const getDummyPosts = (dummyPostsImages) => {
+  const rates = [2.6, 9.8, 7.1, 2.8, 4.9]
+  const daysToSubstract = [3, 13, 17, 25, 29]
+
+  const dummyPosts = rates.map((rate, index) => {
+    return {
+      id: index,
+      publishedTime: moment().subtract(daysToSubstract[index], 'days').format('YYYY-MM-DD'),
+      reach: rate.toString(),
+      engagement: rate.toString(),
+      media: dummyPostsImages[index].image.url,
+      thumbnails: [dummyPostsImages[index].image.url],
+      postType: 'image',
+    }
+  })
+
+  return dummyPosts
+}
+
 export const getFollowerGrowth = async (artistId) => {
   const {
     dailyFacebookData,
