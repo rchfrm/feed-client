@@ -19,6 +19,7 @@ const ResultsPostsChart = ({
   globalAverage,
   metricType,
   isLoading,
+  hasNoProfiles,
 }) => {
   const [maxValue, setMaxValue] = React.useState(0)
   const [hasScrolledLeft, setHasScrolledLeft] = React.useState(false)
@@ -69,6 +70,7 @@ const ResultsPostsChart = ({
           yourAverage={yourAverage}
           globalAverage={globalAverage}
           metricType={metricType}
+          hasNoProfiles={hasNoProfiles}
         >
           {posts.map((post) => (
             <ResultsPostsChartPost
@@ -93,6 +95,7 @@ ResultsPostsChart.propTypes = {
   globalAverage: PropTypes.number.isRequired,
   metricType: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  hasNoProfiles: PropTypes.bool.isRequired,
 }
 
 ResultsPostsChart.defaultProps = {

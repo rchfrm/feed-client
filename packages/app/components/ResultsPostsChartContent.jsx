@@ -98,6 +98,7 @@ const ResultsPostsChartContent = ({
         globalAverage={globalAverage}
         metricType={metricType}
         isLoading={isLoading}
+        hasNoProfiles={hasNoProfiles}
       />
     </div>
   )

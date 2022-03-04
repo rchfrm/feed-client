@@ -14,6 +14,7 @@ const ResultsPostsChartBackground = ({
   yourAverage,
   globalAverage,
   metricType,
+  hasNoProfiles,
 }) => {
   const isDesktopLayout = useBreakpointTest('sm')
 
@@ -38,7 +39,7 @@ const ResultsPostsChartBackground = ({
         {children}
       </div>
       <ResultsPostsChartAverageLine value={globalAverage} maxValue={maxValue} color={brandColors.black} />
-      {yourAverage > 0 && <ResultsPostsChartAverageLine value={yourAverage} maxValue={maxValue} color={noSpendMetricTypes[metricType].color} />}
+      {!hasNoProfiles && <ResultsPostsChartAverageLine value={yourAverage} maxValue={maxValue} color={noSpendMetricTypes[metricType].color} />}
     </>
   )
 }
@@ -49,6 +50,7 @@ ResultsPostsChartBackground.propTypes = {
   yourAverage: PropTypes.number,
   globalAverage: PropTypes.number,
   metricType: PropTypes.string.isRequired,
+  hasNoProfiles: PropTypes.bool.isRequired,
 }
 
 ResultsPostsChartBackground.defaultProps = {
