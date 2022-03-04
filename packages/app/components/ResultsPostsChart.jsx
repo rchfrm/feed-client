@@ -34,7 +34,7 @@ const ResultsPostsChart = ({
 
     const highestValue = Math.max(...posts.map((post) => post[metricType]), yourAverage, globalAverage)
 
-    setMaxValue(hasNoProfiles ? highestValue : highestValue - 1)
+    setMaxValue(hasNoProfiles ? highestValue : highestValue + 1)
   }, [yourAverage, globalAverage, metricType, posts, hasNoProfiles])
 
   const postsChartRef = React.useCallback(node => {
