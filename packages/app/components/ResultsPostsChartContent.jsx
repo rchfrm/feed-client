@@ -23,8 +23,8 @@ const ResultsPostsChartContent = ({
   metricType,
   organicBenchmarkData,
 }) => {
-  const [yourAverage, setYourAverage] = React.useState('')
-  const [globalAverage, setGlobalAverage] = React.useState('')
+  const [yourAverage, setYourAverage] = React.useState(0)
+  const [globalAverage, setGlobalAverage] = React.useState(0)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { platform } = organicBenchmarkData?.growth || {}
@@ -94,7 +94,7 @@ const ResultsPostsChartContent = ({
       {error && <Error error={error} />}
       <ResultsPostsChart
         posts={posts}
-        yourAverage={yourAverage || '0'}
+        yourAverage={yourAverage || 0}
         globalAverage={globalAverage}
         metricType={metricType}
         isLoading={isLoading}

@@ -407,7 +407,7 @@ export const getOrganicBenchmarkData = ({ data }, hasNoProfiles) => {
     },
   } = data
 
-  const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
+  const reachRateMedianValue = reach_rate.median.value * 100
   const reachRateMedianPercentile = (reach_rate.median.percentile * 100).toFixed(1)
 
   const reachData = {
@@ -417,7 +417,7 @@ export const getOrganicBenchmarkData = ({ data }, hasNoProfiles) => {
     copy: resultsCopy.noSpendReachDescription(reachRateMedianValue, hasNoProfiles, false),
   }
 
-  const engagementRateMedianValue = (engagement_rate.median.value * 100).toFixed(1)
+  const engagementRateMedianValue = engagement_rate.median.value * 100
   const engagementRateMedianPercentile = (engagement_rate.median.percentile * 100).toFixed(1)
 
   const engageData = {
@@ -465,12 +465,12 @@ export const formatAggregatedOrganicBenchmarkData = ({ data }) => {
     },
   } = data
 
-  const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
+  const reachRateMedianValue = reach_rate.median.value * 100
   const reachData = {
     value: reachRateMedianValue,
   }
 
-  const engagementRateMedianValue = (engagement_rate.median.value * 100).toFixed(1)
+  const engagementRateMedianValue = engagement_rate.median.value * 100
   const engageData = {
     value: engagementRateMedianValue,
   }
@@ -491,8 +491,8 @@ export const formatRecentPosts = (posts) => {
     return {
       id: post.id,
       publishedTime: moment(post.published_time).format('YYYY-MM-DD'),
-      reach: (post.reach_rate * 100).toFixed(1),
-      engagement: (post.engagement_rate * 100).toFixed(1),
+      reach: post.reach_rate * 100,
+      engagement: post.engagement_rate * 100,
       media,
       thumbnails,
       postType: post.subtype || post.type,
@@ -526,8 +526,8 @@ export const getDummyPosts = (dummyPostsImages) => {
     return {
       id: index,
       publishedTime: moment().subtract(daysToSubstract[index], 'days').format('YYYY-MM-DD'),
-      reach: rate.toString(),
-      engagement: rate.toString(),
+      reach: rate,
+      engagement: rate,
       media: dummyPostsImages[index].image.url,
       thumbnails: [dummyPostsImages[index].image.url],
       postType: 'image',

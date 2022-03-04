@@ -29,7 +29,7 @@ const ResultsPostsChart = ({
   const lastThirtyDays = [...new Array(30)].map((_, index) => moment().startOf('day').subtract(index, 'days').format('YYYY-MM-DD')).reverse()
 
   React.useEffect(() => {
-    if (!posts.length || !yourAverage || !globalAverage) return
+    if (!posts.length) return
 
     const highestValue = Math.max(...posts.map((post) => post[metricType]), yourAverage, globalAverage) + 1
     setMaxValue(highestValue)
@@ -89,14 +89,14 @@ const ResultsPostsChart = ({
 
 ResultsPostsChart.propTypes = {
   posts: PropTypes.array.isRequired,
-  yourAverage: PropTypes.string,
-  globalAverage: PropTypes.string.isRequired,
+  yourAverage: PropTypes.number,
+  globalAverage: PropTypes.number.isRequired,
   metricType: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 
 ResultsPostsChart.defaultProps = {
-  yourAverage: '',
+  yourAverage: 0,
 }
 
 export default ResultsPostsChart

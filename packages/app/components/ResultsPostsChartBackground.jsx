@@ -38,7 +38,7 @@ const ResultsPostsChartBackground = ({
         {children}
       </div>
       <ResultsPostsChartAverageLine value={globalAverage} maxValue={maxValue} color={brandColors.black} />
-      <ResultsPostsChartAverageLine value={yourAverage} maxValue={maxValue} color={noSpendMetricTypes[metricType].color} />
+      {yourAverage > 0 && <ResultsPostsChartAverageLine value={yourAverage} maxValue={maxValue} color={noSpendMetricTypes[metricType].color} />}
     </>
   )
 }
@@ -46,14 +46,14 @@ const ResultsPostsChartBackground = ({
 ResultsPostsChartBackground.propTypes = {
   children: PropTypes.node.isRequired,
   maxValue: PropTypes.number.isRequired,
-  yourAverage: PropTypes.string,
-  globalAverage: PropTypes.string,
+  yourAverage: PropTypes.number,
+  globalAverage: PropTypes.number,
   metricType: PropTypes.string.isRequired,
 }
 
 ResultsPostsChartBackground.defaultProps = {
-  yourAverage: '',
-  globalAverage: '',
+  yourAverage: 0,
+  globalAverage: 0,
 }
 
 export default ResultsPostsChartBackground

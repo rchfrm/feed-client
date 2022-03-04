@@ -27,7 +27,7 @@ const ResultsEngageStats = ({ data }) => {
           className="text-3xl ml-2 mb-0 sm:text-6xl sm:ml-0 sm:mb-5 text-center font-bold"
           style={{ color: brandColors.green }}
         >
-          {value}%
+          {value.toFixed(1)}%
         </p>
       </div>
       <ResultsPercentileChart

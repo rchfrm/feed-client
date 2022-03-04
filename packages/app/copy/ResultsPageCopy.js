@@ -153,31 +153,42 @@ We’ll be in touch shortly after with more information.`,
   },
   noSpendReachDescription: (value, hasNoProfiles, isMobile) => {
     if (hasNoProfiles) {
-      return `On average, a post on Facebook or Instagram will reach **${value}%** of the total audience.`
+      return `On average, a post on Facebook or Instagram will reach **${value.toFixed(1)}%** of the total audience.`
     }
 
     if (isMobile) {
       return 'The percentage of your audience reached by a typical post.'
     }
 
-    return `Your posts reach **${value}%** of your addressable audience.`
+    return `Your posts reach **${value.toFixed(1)}%** of your addressable audience.`
   },
   noSpendEngageDescription: (value, hasNoProfiles) => {
     if (hasNoProfiles) {
-      return `**${value}%** of followers engage with the average post.`
+      return `**${value.toFixed(1)}%** of followers engage with the average post.`
     }
 
-    return `**${value}%** of your followers engage with each post on average.`
+    return `**${value.toFixed(1)}%** of your followers engage with each post on average.`
   },
   noSpendGrowthDescription: (value, platform, rate, hasNoProfiles) => {
     if (hasNoProfiles) {
+      if (rate < 0) {
+        return 'Did you know the average Instagram profile is actually shrinking'
+      }
+
+      if (rate === 0) {
+        return "Did you know the average Instagram profile actually doesn't grow?"
+      }
+
       return `On average Instagram grows **${rate}%** a week. With 5,000 followers, that's **${value}** added each week.`
     }
+
     if (value === 0) {
-      return `You're ${capitalise(platform)} following is steady.`
+      return `Your ${capitalise(platform)} following is steady.`
     }
+
     const rateString = `_(${rate >= 0 ? '+' : ''}${rate}%)_`
     const changeDescription = value > 0 ? 'adding' : 'losing'
+
     return `You're ${changeDescription} **${value}** ${capitalise(platform)} followers a month on average ${rateString}.`
   },
   noSpendTotalFollowersDescription: "We don't have enough historical information yet, so check back later to see growth insights.",

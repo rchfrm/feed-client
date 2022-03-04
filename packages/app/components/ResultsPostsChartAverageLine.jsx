@@ -40,7 +40,7 @@ const ResultsPostsChartAverageLine = ({ value, maxValue, color }) => {
 }
 
 ResultsPostsChartAverageLine.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   maxValue: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
 }
