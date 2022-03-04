@@ -34,15 +34,15 @@ const ResultsPostsChartContent = ({
   // Get recents posts
   useAsyncEffect(async (isMounted) => {
     // Make sure to fetch the data only once
-    if (!isMounted() || posts.length) return
+    if (!isMounted() || posts.length || !globalAverage) return
 
     setIsLoading(true)
 
-    const data = hasNoProfiles ? getDummyPosts(dummyPostsImages) : await getRecentPosts(artistId, platform)
+    const data = hasNoProfiles ? getDummyPosts(dummyPostsImages, globalAverage) : await getRecentPosts(artistId, platform)
 
     setPosts(data)
     setIsLoading(false)
-  }, [metricType])
+  }, [metricType, globalAverage])
 
   // Get aggregated organic benchmark data to set global average for recent posts chart
   useAsyncEffect(async (isMounted) => {

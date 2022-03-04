@@ -518,9 +518,13 @@ export const getRecentPosts = async (artistId, platform) => {
   return formattedRecentPosts
 }
 
-export const getDummyPosts = (dummyPostsImages) => {
-  const rates = [2.6, 9.8, 7.1, 2.8, 4.9]
+export const getDummyPosts = (dummyPostsImages, globalAverage) => {
   const daysToSubstract = [3, 13, 17, 25, 29]
+  const maxRate = globalAverage * 1.77
+  const rates = [
+    ...[...new Array(4)].map(() => (Math.random() * (maxRate - 0) + 0)),
+    maxRate,
+  ]
 
   const dummyPosts = rates.map((rate, index) => {
     return {

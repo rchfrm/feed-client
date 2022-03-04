@@ -32,9 +32,10 @@ const ResultsPostsChart = ({
   React.useEffect(() => {
     if (!posts.length) return
 
-    const highestValue = Math.max(...posts.map((post) => post[metricType]), yourAverage, globalAverage) + 1
-    setMaxValue(highestValue)
-  }, [yourAverage, globalAverage, metricType, posts])
+    const highestValue = Math.max(...posts.map((post) => post[metricType]), yourAverage, globalAverage)
+
+    setMaxValue(hasNoProfiles ? highestValue : highestValue - 1)
+  }, [yourAverage, globalAverage, metricType, posts, hasNoProfiles])
 
   const postsChartRef = React.useCallback(node => {
     const isMobile = width < 800

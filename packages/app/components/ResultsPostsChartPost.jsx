@@ -67,7 +67,7 @@ const ResultsPostsChartPost = ({
           fontSize: isDesktopLayout ? '12px' : '9px',
         }}
       >
-        {value}%
+        {value.toFixed(1)}%
       </div>
     </div>
   )
