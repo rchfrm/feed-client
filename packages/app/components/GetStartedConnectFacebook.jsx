@@ -105,8 +105,8 @@ const GetStartedConnectFacebook = () => {
     setIsLoading(false)
   }, [])
 
-  if (isConnecting && Object.keys(selectedProfile).length > 0) {
-    return <ConnectProfilesIsConnecting artistAccounts={selectedProfile} />
+  if (!isConnecting && Object.keys(selectedProfile).length > 0) {
+    return <ConnectProfilesIsConnecting artistAccounts={selectedProfile} className="my-6 sm:my-0" />
   }
 
   if (isLoading || isConnecting) return <Spinner />
