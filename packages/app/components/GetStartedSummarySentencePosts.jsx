@@ -93,6 +93,8 @@ const GetStartedSummarySentencePosts = () => {
               key={index}
               className="relative w-10 h-10 mx-1 rounded-full"
               circleFill={isInActive ? brandColors.grey : brandColors.black}
+              dotFill={isInActive ? brandColors.textColor : brandColors.white}
+              strokeFill={isInActive ? brandColors.white : brandColors.grey}
             />
           ))
         )}
