@@ -59,6 +59,7 @@ const GetStartedSummarySentencePosts = () => {
       section={getStartedSections.postPromotion}
       text="using these posts:"
       isComplete={isComplete}
+      className="mx-2"
       hasBorder={false}
     >
       <div className="flex items-center mb-2">

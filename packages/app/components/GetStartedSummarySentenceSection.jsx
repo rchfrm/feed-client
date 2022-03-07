@@ -9,6 +9,7 @@ const GetStartedSummarySentenceSection = ({
   isComplete,
   color,
   hasBorder,
+  className,
   children,
 }) => {
   const { steps, currentStep, goToStep } = React.useContext(WizardContext)
@@ -50,7 +51,8 @@ const GetStartedSummarySentenceSection = ({
     >
       {text && <span className="whitespace-pre mb-2">{text}</span>}
       <span className={[
-        hasBorder ? `${getBorderColorClassName()} mb-2 mx-2 py-1 px-3 border-2 border-solid rounded-full` : null,
+        hasBorder ? `${getBorderColorClassName()} mb-2 py-1 px-3 border-2 border-solid rounded-full` : null,
+        className,
       ].join(' ')}
       >
         {children}
@@ -64,6 +66,7 @@ GetStartedSummarySentenceSection.propTypes = {
   text: PropTypes.string,
   isComplete: PropTypes.bool.isRequired,
   color: PropTypes.string,
+  className: PropTypes.string,
   hasBorder: PropTypes.bool,
   children: PropTypes.node.isRequired,
 }
@@ -71,6 +74,7 @@ GetStartedSummarySentenceSection.propTypes = {
 GetStartedSummarySentenceSection.defaultProps = {
   text: '',
   color: '',
+  className: '',
   hasBorder: true,
 }
 

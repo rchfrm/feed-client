@@ -39,6 +39,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
       text=", in"
       isComplete={Boolean(adAccountId)}
       color="yellow"
+      className="mx-2"
     >
       {adAccountName ? `the ${adAccountName} ad account` : 'your ad account'}
     </GetStartedSummarySentenceSection>
