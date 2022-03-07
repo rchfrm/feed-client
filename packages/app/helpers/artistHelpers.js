@@ -6,6 +6,8 @@ import * as utils from '@/helpers/utils'
 import * as api from '@/helpers/api'
 import { requiredScopesSignup, requiredScopesAccount, requiredScopesAds } from '@/helpers/firebaseHelpers'
 
+import brandColors from '@/constants/brandColors'
+
 /**
  * @param {string} artist
  * @param {string} [token]
@@ -467,7 +469,6 @@ export const getArtistPayload = ({
       },
       conversions: {
         ...(objective === 'sales' && { call_to_action: 'SHOP_NOW', facebook_pixel_event: 'Purchase' }),
-        ...(objective === 'traffic' && { facebook_pixel_event: 'LandingPageViews' }),
       },
     },
   }
@@ -492,6 +493,40 @@ export const objectives = [
 ]
 
 export const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
+
+const getObjectiveColor = (objective, platform) => {
+  if (objective === 'growth' && platform) {
+    return brandColors[platform]?.bg
+  }
+
+  if (objective === 'sales') {
+    return brandColors.instagram.bg
+  }
+
+  if (objective === 'traffic') {
+    return brandColors.green
+  }
+}
+
+const getOneOfRemainingSectionColors = (sectionColors) => {
+  const allColors = platforms.map((platform) => brandColors[platform].bg)
+  const filteredColors = allColors.filter((color) => !Object.values(sectionColors).includes(color))
+  const color = filteredColors[Math.floor(Math.random() * filteredColors.length)]
+
+  return color
+}
+
+export const getSectionColor = (objective, platform, section, sectionColors = {}) => {
+  const objectiveColor = getObjectiveColor(objective, platform)
+
+  if (section === 'objective') {
+    return objectiveColor
+  }
+
+  const color = getOneOfRemainingSectionColors(sectionColors)
+
+  return color
+}
 
 const objective = 'objective'
 const postPromotion = 'post-promotion'

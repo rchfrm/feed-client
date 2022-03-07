@@ -29,7 +29,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
     }
     // Get the selected ad account name from the ad accounts array
     const { name } = res.adaccounts.find(({ id }) => id === adAccountId)
-    const nameContainsAdAccountString = name.toLowerCase().contains('ad account')
+    const nameContainsAdAccountString = name.toLowerCase().includes('ad account')
 
     setAdAccountName(nameContainsAdAccountString ? name : `${name} ad account`)
   }, [adAccountId])
@@ -39,7 +39,6 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
       section={getStartedSections.adAccount}
       text=", in"
       isComplete={Boolean(adAccountId)}
-      color="yellow"
       className="mx-2"
     >
       {adAccountName ? `the ${adAccountName}` : 'your ad account'}
