@@ -21,7 +21,7 @@ const PostsSorter = ({
       useSetQuery
       useSetLocalStorage
       useSlug
-      querySlug="sortBy"
+      querySlug="sort_by"
       trackProps={{
         action: 'adjust_sort',
         page: 'posts',

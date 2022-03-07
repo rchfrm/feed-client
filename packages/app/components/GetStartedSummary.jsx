@@ -12,7 +12,10 @@ const GetStartedSummary = () => {
   const goToPostsPage = () => {
     Router.push({
       pathname: ROUTES.HOME,
-      query: { postStatus: 'not-run' },
+      query: {
+        promotion_status: ['in_review'],
+        sort_by: 'published_time',
+      },
     })
   }
 
