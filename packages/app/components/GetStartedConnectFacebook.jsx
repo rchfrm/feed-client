@@ -45,7 +45,10 @@ const GetStartedConnectFacebook = () => {
     if (!isMounted()) return
 
     if (getArtistError) {
-      setError(getArtistError.message)
+      if (getArtistError.message !== 'user cache is not available') {
+        setError(getArtistError.message)
+      }
+
       setIsLoading(false)
       return
     }
