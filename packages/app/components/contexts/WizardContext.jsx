@@ -80,10 +80,6 @@ const WizardContextProvider = ({
     if (isLoading) return
 
     const firstIncompleteStep = steps.findIndex((step) => {
-      if (wizardState[step.id]?.forceShow) {
-        return step
-      }
-
       return !step.isComplete && step.isApplicable
     })
 

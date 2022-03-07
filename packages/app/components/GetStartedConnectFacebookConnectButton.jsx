@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-import { WizardContext } from '@/app/contexts/WizardContext'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -13,7 +12,6 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 const GetStartedConnectFacebookConnectButton = ({ selectedProfile, setIsConnecting }) => {
   const { user } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
-  const { setWizardState, currentStep } = React.useContext(WizardContext)
 
   const accountsToConnect = React.useMemo(() => {
     // Turn selectedProfile object into an array
@@ -24,16 +22,6 @@ const GetStartedConnectFacebookConnectButton = ({ selectedProfile, setIsConnecti
 
   const createArtist = async () => {
     setIsConnecting(true)
-
-    // Force the wizard to return to the connect facebook step even though it is considered as complete after connecting a profile
-    setWizardState({
-      type: 'set-state',
-      payload: {
-        [currentStep]: {
-          forceShow: true,
-        },
-      },
-    })
 
     // Santise URLs
     const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(accountsToConnect)

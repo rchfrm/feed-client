@@ -134,7 +134,7 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
         <GetStartedPostsSelectionAnalysePosts canLoadPosts={canLoadPosts} />
       ) : (
         <>
-          <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle(canLoadPosts)}</h3>
+          <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle}</h3>
           <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
           <Error error={error} />
           <div className={[

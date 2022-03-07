@@ -28,12 +28,7 @@ export default {
   facebookConnectDescription: 'This gives Feed permission to analyse your posts to see which would work best as ads, and set-up campaigns on your behalf.',
   facebookConnectMultipleProfilesSubtitle: "You've connected multiple profiles, which would you like to set-up first?",
   facebookConnectMultipleProfilesDescription: "The settings you've selected so far will be applied to the profile you select below. You'll be able to set-up other profiles separately later on!",
-  postsSelectionSubtitle: (canLoadPosts) => {
-    if (!canLoadPosts) {
-      return 'Analysing your posts...'
-    }
-    return 'These are the posts we recommend promoting first...'
-  },
+  postsSelectionSubtitle: 'These are the posts we recommend promoting first...',
   postsSelectionDescription: (canLoadPosts) => {
     if (!canLoadPosts) {
       return `Feed's algorithm predicts which of your existing social media posts will be most effective as ads to grow your audience on Instagram.

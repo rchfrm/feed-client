@@ -3,7 +3,6 @@ import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-import { WizardContext } from '@/app/contexts/WizardContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import GetStartedConnectFacebookConnectedProfile from '@/app/GetStartedConnectFacebookConnectedProfile'
@@ -23,7 +22,6 @@ const GetStartedConnectFacebook = () => {
   const [error, setError] = React.useState(null)
 
   const { artistId, connectArtists } = React.useContext(ArtistContext)
-  const { setWizardState, currentStep } = React.useContext(WizardContext)
 
   const { auth } = React.useContext(AuthContext)
   const { missingScopes: { ads: missingScopes } } = auth
@@ -46,7 +44,7 @@ const GetStartedConnectFacebook = () => {
 
     if (getArtistError) {
       if (getArtistError.message !== 'user cache is not available') {
-        setError(getArtistError.message)
+        setError(getArtistError?.message?.previous || getArtistError)
       }
 
       setIsLoading(false)
@@ -78,15 +76,6 @@ const GetStartedConnectFacebook = () => {
       const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
       const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
 
-      setWizardState({
-        type: 'set-state',
-        payload: {
-          [currentStep]: {
-            forceShow: true,
-          },
-        },
-      })
-
       const { error } = await connectArtists(artistAccountsSanitised, user) || {}
 
       if (!isMounted()) return
@@ -105,7 +94,7 @@ const GetStartedConnectFacebook = () => {
     setIsLoading(false)
   }, [])
 
-  if (!isConnecting && Object.keys(selectedProfile).length > 0) {
+  if (isConnecting && Object.keys(selectedProfile).length > 0) {
     return <ConnectProfilesIsConnecting artistAccounts={selectedProfile} className="my-6 sm:my-0" />
   }
 
@@ -118,7 +107,7 @@ const GetStartedConnectFacebook = () => {
   }
 
   return (
-    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
+    <div className="flex flex-1 flex-column mb-6">
       {Object.keys(artistAccounts).length === 0 ? (
         <GetStartedConnectFacebookNoProfiles
           auth={auth}
