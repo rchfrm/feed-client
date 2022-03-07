@@ -167,7 +167,7 @@ const GetStartedDefaultLink = () => {
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-4 font-medium text-xl">{copy.defaultLinkSubtitle(objective, platform)}</h3>
-      <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.defaultLinkDescription(objective)} />
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.defaultLinkDescription(objective)} />
       <Error error={error} />
       <div className="flex flex-1 flex-column w-full sm:w-1/3 mx-auto justify-center items-center">
         <Input

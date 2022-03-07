@@ -16,7 +16,7 @@ const GetStartedConnectFacebookProfiles = ({
   return (
     <>
       <h3 className="mb-4 font-medium text-xl mb-4">{copy.facebookConnectMultipleProfilesSubtitle}</h3>
-      <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectMultipleProfilesDescription} />
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectMultipleProfilesDescription} />
       <div className="flex flex-1 flex-column justify-center items-center">
         <GetStartedConnectFacebookProfilesList
           profiles={artistAccounts}

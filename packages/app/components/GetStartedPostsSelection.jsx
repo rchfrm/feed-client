@@ -135,7 +135,7 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
       ) : (
         <>
           <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle(canLoadPosts)}</h3>
-          <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
+          <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
           <Error error={error} />
           <div className={[
             'flex flex-1',

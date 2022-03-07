@@ -26,7 +26,7 @@ const GetStartedConnectFacebookNoProfiles = ({ auth, error }) => {
           className="text-grey-3 italic mb-4"
         />
       ) : (
-        <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectDescription} />
+        <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectDescription} />
       )}
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">

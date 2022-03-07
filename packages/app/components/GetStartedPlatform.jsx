@@ -116,7 +116,7 @@ const GetStartedPlatform = () => {
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-4 font-medium text-xl">{copy.platformSubtitle}</h3>
-      <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.platformDescription} />
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.platformDescription} />
       <Error error={error} />
       <div className="flex flex-1 flex-wrap">
         <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mx-auto">
