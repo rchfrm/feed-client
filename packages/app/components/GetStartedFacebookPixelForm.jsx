@@ -7,16 +7,18 @@ import GetStartedFacebookPixelInput from '@/app/GetStartedFacebookPixelInput'
 const GetStartedFacebookPixelForm = ({
   pixels,
   setPixels,
+  facebookPixel,
+  setFacebookPixel,
+  saveFacebookPixel,
   isLoading,
-  setIsLoading,
-  setError,
 }) => {
   return (
     pixels.length ? (
       <GetStartedFacebookPixelSelector
         isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        setError={setError}
+        facebookPixel={facebookPixel}
+        setFacebookPixel={setFacebookPixel}
+        saveFacebookPixel={saveFacebookPixel}
       />
     ) : (
       <GetStartedFacebookPixelInput
@@ -29,9 +31,10 @@ const GetStartedFacebookPixelForm = ({
 GetStartedFacebookPixelForm.propTypes = {
   pixels: PropTypes.array.isRequired,
   setPixels: PropTypes.func.isRequired,
+  facebookPixel: PropTypes.string.isRequired,
+  setFacebookPixel: PropTypes.func.isRequired,
+  saveFacebookPixel: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  setIsLoading: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
 }
 
 GetStartedFacebookPixelForm.defaultProps = {

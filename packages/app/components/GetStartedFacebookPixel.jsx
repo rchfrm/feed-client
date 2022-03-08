@@ -5,25 +5,44 @@ import GetStartedFacebookPixelQuestion from '@/app/GetStartedFacebookPixelQuesti
 import GetStartedFacebookPixelForm from '@/app/GetStartedFacebookPixelForm'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { WizardContext } from '@/app/contexts/WizardContext'
 
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
-import { getArtistPixels } from '@/app/helpers/settingsHelpers'
+import { getArtistPixels, setPixel, getCurrentPixelId } from '@/app/helpers/settingsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
 const GetStartedFacebookPixel = () => {
-  const [pixels, setPixels] = React.useState([])
+  const [pixels, setPixels] = React.useState(null)
+  const [facebookPixel, setFacebookPixel] = React.useState(null)
   const [shouldShowPixelSelector, setShouldShowPixelSelector] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
-  const { artistId } = React.useContext(ArtistContext)
+
+  const { artistId, artist } = React.useContext(ArtistContext)
+  const { next } = React.useContext(WizardContext)
+
+
+  const saveFacebookPixel = async (pixelId) => {
+    setIsLoading(true)
+
+    const { error } = await setPixel(artistId, pixelId)
+
+    if (error) {
+      setError(error)
+      setIsLoading(false)
+      return
+    }
+
+    setIsLoading(false)
+    next()
+  }
 
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
-
     const { res: pixels = [], error } = await getArtistPixels(artistId)
+    if (!isMounted()) return
 
     if (error) {
       setError(error)
@@ -32,9 +51,23 @@ const GetStartedFacebookPixel = () => {
     }
 
     setPixels(pixels)
+  }, [artistId])
+
+  useAsyncEffect(async (isMounted) => {
+    if (!pixels) return
+
+    if (!getCurrentPixelId(artist)) {
+      if (pixels.length === 1) {
+        await saveFacebookPixel(pixels[0].id)
+        if (!isMounted()) return
+
+        return
+      }
+    }
+
     setShouldShowPixelSelector(pixels.length > 0)
     setIsLoading(false)
-  }, [artistId])
+  }, [pixels])
 
   if (isLoading) return <Spinner />
 
@@ -53,9 +86,10 @@ const GetStartedFacebookPixel = () => {
           <GetStartedFacebookPixelForm
             pixels={pixels}
             setPixels={setPixels}
+            facebookPixel={facebookPixel}
+            setFacebookPixel={setFacebookPixel}
+            saveFacebookPixel={saveFacebookPixel}
             isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            setError={setError}
           />
         ) : (
           <GetStartedFacebookPixelQuestion setShouldShowPixelSelector={setShouldShowPixelSelector} />
