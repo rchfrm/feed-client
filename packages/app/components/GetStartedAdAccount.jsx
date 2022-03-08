@@ -8,6 +8,7 @@ import Select from '@/elements/Select'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import Spinner from '@/elements/Spinner'
 
 import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
@@ -21,7 +22,7 @@ const GetStartedAdAccount = () => {
   const [adAccounts, setAdAccounts] = React.useState([])
   const [adAccountId, setAdAccountId] = React.useState(facebookIntegration?.adaccount_id || '')
   const [isLoadingAdAccountOptions, setIsLoadingAdAccountOptions] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
   const { next, setWizardState } = React.useContext(WizardContext)
@@ -93,12 +94,23 @@ const GetStartedAdAccount = () => {
     next()
   }
 
-  React.useEffect(() => {
+  useAsyncEffect(async () => {
+    if (!adAccountOptions.length) return
+
     // Set initial ad account id value if it doesn't exist yet
     if (!adAccountId) {
+      // If there's only one ad account save and go to next step
+      if (adAccountOptions.length === 1) {
+        await saveAdAccount(adAccountOptions[0]?.value)
+
+        next()
+      }
       setAdAccountId(adAccountOptions[0]?.value)
     }
+    setIsLoading(false)
   }, [adAccountId, setAdAccountId, adAccountOptions])
+
+  if (isLoading) return <Spinner />
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">

@@ -68,7 +68,7 @@ const GetStartedSummarySentenceSection = ({
   }, [hasBorder, isActive, objective, platform, isComplete, section])
 
   React.useEffect(() => {
-    if (section !== 'objective') {
+    if (section !== 'objective' && isComplete) {
       // Make sure that the section color isn't equal to the changeable objective section color
       if (borderColor === objectiveSectionColor) {
         setSectionColor(brandColors.instagram.bg)
