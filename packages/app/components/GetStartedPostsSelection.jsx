@@ -138,15 +138,19 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
           <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
           <Error error={error} />
           <div className={[
-            'flex flex-1',
-            shouldAdjustLayout ? 'flex-row' : 'flex-column',
+            shouldAdjustLayout ? 'grid grid-cols-12' : null,
           ].join(' ')}
           >
             <div
               className={[
-                'flex flex-1 flex-wrap justify-center gap-2 sm:gap-4',
-                'mb-12',
-                shouldAdjustLayout ? 'overflow-y-scroll' : null,
+                shouldAdjustLayout ? (
+                  `grid col-span-8 md:col-span-9 lg:col-span-10 gap-4
+                  grid-cols-12 lg:grid-cols-10
+                  mb-12 pr-4
+                  overflow-y-scroll`
+                ) : (
+                  'flex flex-1 flex-wrap justify-center gap-2 sm:gap-4 mb-12'
+                ),
               ].join(' ')}
               style={{ maxHeight: shouldAdjustLayout ? '300px' : null }}
             >
@@ -157,14 +161,17 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
                   postIndex={index}
                   setPosts={setPosts}
                   setError={setError}
+                  shouldAdjustLayout={shouldAdjustLayout}
+                  className="col-span-6 md:col-span-4 lg:col-span-2"
                 />
               ))}
             </div>
             <GetStartedPostsSelectionButtons
               fetchPosts={fetchPosts}
               posts={posts}
-              shouldAdjustLayout={shouldAdjustLayout}
               setError={setError}
+              shouldAdjustLayout={shouldAdjustLayout}
+              className={[shouldAdjustLayout ? 'col-span-4 md:col-span-3 lg:col-span-2 ml-4' : null].join(' ')}
             />
           </div>
         </>

@@ -14,7 +14,13 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import { updatePost } from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 
-const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout, setError }) => {
+const GetStartedPostsSelectionButtons = ({
+  fetchPosts,
+  posts,
+  setError,
+  shouldAdjustLayout,
+  className,
+}) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMorePosts, setIsLoadingMorePosts] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
@@ -79,9 +85,9 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
   return (
     <div
       className={[
-        'flex flex-column w-full',
+        'flex flex-column',
         shouldAdjustLayout ? 'sm:flex-column' : 'sm:flex-row justify-center',
-        'sm:w-auto',
+        className,
       ].join(' ')}
     >
       <Button
@@ -89,10 +95,7 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
         onClick={loadMore}
         loading={isLoadingMorePosts}
         spinnerFill={brandColors.black}
-        className={[
-          'w-full sm:w-56 mx-0 sm:mx-4 mb-6',
-          shouldAdjustLayout ? 'sm:mb-4' : 'sm:mb-0',
-        ].join(' ')}
+        className={[shouldAdjustLayout ? 'w-full' : 'w-56 mx-2', 'mb-4'].join(' ')}
         trackComponentName="GetStartedPostsSelectionButtons"
       >
         Load more...
@@ -101,7 +104,7 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
         version="green"
         onClick={handleNext}
         loading={isLoading}
-        className="w-full sm:w-56 mx-0 sm:mx-4"
+        className={[shouldAdjustLayout ? 'w-full' : 'w-56 mx-2'].join(' ')}
         trackComponentName="GetStartedPostsSelectionButtons"
       >
         Save
@@ -118,11 +121,13 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
 GetStartedPostsSelectionButtons.propTypes = {
   fetchPosts: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
-  shouldAdjustLayout: PropTypes.bool.isRequired,
   setError: PropTypes.func.isRequired,
+  shouldAdjustLayout: PropTypes.bool.isRequired,
+  className: PropTypes.string,
 }
 
 GetStartedPostsSelectionButtons.defaultProps = {
+  className: null,
 }
 
 export default GetStartedPostsSelectionButtons
