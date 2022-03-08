@@ -31,13 +31,14 @@ const GetStartedFacebookPixelForm = ({
 GetStartedFacebookPixelForm.propTypes = {
   pixels: PropTypes.array.isRequired,
   setPixels: PropTypes.func.isRequired,
-  facebookPixel: PropTypes.string.isRequired,
+  facebookPixel: PropTypes.string,
   setFacebookPixel: PropTypes.func.isRequired,
   saveFacebookPixel: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 
 GetStartedFacebookPixelForm.defaultProps = {
+  facebookPixel: '',
 }
 
 export default GetStartedFacebookPixelForm
