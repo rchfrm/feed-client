@@ -54,7 +54,8 @@ const GetStartedPostsSelectionButtons = ({ fetchPosts, posts, shouldAdjustLayout
     setWizardState({
       type: 'set-state',
       payload: {
-        enabledPosts,
+        key: 'enabledPosts',
+        value: enabledPosts,
       },
     })
 

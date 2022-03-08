@@ -11,6 +11,7 @@ import ChevronIcon from '@/icons/ChevronIcon'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import brandColors from '@/constants/brandColors'
+import { isObject } from '@/helpers/utils'
 
 const initialContext = {
   next: () => {},
@@ -22,14 +23,17 @@ const initialContext = {
 }
 
 const wizardStateReducer = (draftState, action) => {
+  const { type: actionType, payload = {} } = action
+
   const {
-    type: actionType,
-    payload,
-  } = action
+    key,
+    value,
+  } = payload
 
   switch (actionType) {
     case 'set-state': {
-      return { ...draftState, ...payload }
+      draftState[key] = isObject(value) ? { ...draftState[key], ...value } : value
+      break
     }
     default:
       throw new Error(`Unable to find ${action.type} in wizardReducer`)
@@ -46,7 +50,7 @@ const WizardContextProvider = ({
   navigation,
   hasBackButton,
 }) => {
-  const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, {})
+  const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, { sectionColors: {} })
   const [currentStep, setCurrentStep] = React.useState(0)
 
   const totalSteps = steps.length - 1

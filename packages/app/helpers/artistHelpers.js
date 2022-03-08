@@ -494,7 +494,7 @@ export const objectives = [
 
 export const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
 
-const getObjectiveColor = (objective, platform) => {
+export const getObjectiveColor = (objective, platform) => {
   if (objective === 'growth' && platform) {
     return brandColors[platform]?.bg
   }
@@ -506,26 +506,6 @@ const getObjectiveColor = (objective, platform) => {
   if (objective === 'traffic') {
     return brandColors.green
   }
-}
-
-const getOneOfRemainingSectionColors = (sectionColors) => {
-  const allColors = platforms.map((platform) => brandColors[platform].bg)
-  const filteredColors = allColors.filter((color) => !Object.values(sectionColors).includes(color))
-  const color = filteredColors[Math.floor(Math.random() * filteredColors.length)]
-
-  return color
-}
-
-export const getSectionColor = (objective, platform, section, sectionColors = {}) => {
-  const objectiveColor = getObjectiveColor(objective, platform)
-
-  if (section === 'objective') {
-    return objectiveColor
-  }
-
-  const color = getOneOfRemainingSectionColors(sectionColors)
-
-  return color
 }
 
 const objective = 'objective'

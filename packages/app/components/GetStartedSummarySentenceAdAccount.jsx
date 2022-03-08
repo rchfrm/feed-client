@@ -7,6 +7,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
 
 import { getStartedSections, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import brandColors from '@/constants/brandColors'
 
 const GetStartedSummarySentenceAdAccount = ({ setError }) => {
   const [adAccountName, setAdAccountName] = React.useState('')
@@ -38,6 +39,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
     <GetStartedSummarySentenceSection
       section={getStartedSections.adAccount}
       text=", in"
+      color={brandColors.yellow}
       isComplete={Boolean(adAccountId)}
       className="mx-2"
     >

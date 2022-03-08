@@ -70,7 +70,8 @@ const GetStartedAdAccount = () => {
       setWizardState({
         type: 'set-state',
         payload: {
-          adAccountCountry: country,
+          key: 'adAccountCountry',
+          value: country,
         },
       })
     }

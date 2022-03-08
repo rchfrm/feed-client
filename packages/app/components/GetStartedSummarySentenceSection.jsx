@@ -5,7 +5,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 
-import { getSectionColor } from '@/app/helpers/artistHelpers'
+import { getObjectiveColor } from '@/app/helpers/artistHelpers'
 import { getLocalStorage } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
@@ -16,6 +16,7 @@ const getControlsStoreState = (state) => ({
 const GetStartedSummarySentenceSection = ({
   section,
   text,
+  color,
   isComplete,
   hasBorder,
   className,
@@ -23,64 +24,63 @@ const GetStartedSummarySentenceSection = ({
 }) => {
   const { steps, currentStep, goToStep, wizardState, setWizardState } = React.useContext(WizardContext)
   const { sectionColors } = wizardState
-  const sectionColor = sectionColors?.[section]
+  const objectiveSectionColor = sectionColors?.objective
+
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective: storedObjective, platform: storedPlatform } = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
   const objective = optimizationPreferences?.objective || storedObjective
   const platform = optimizationPreferences?.platform || storedPlatform
 
-  const [color, setColor] = React.useState('')
+  const [borderColor, setBorderColor] = React.useState('')
 
   const isActive = steps[currentStep].section === section
   const isInActive = !isActive && !isComplete
 
-  const setSectionColor = () => {
-    const color = getSectionColor(objective, platform, section, sectionColors)
+  const setSectionColor = (color) => {
+    const newColor = color || getObjectiveColor(objective, platform, section, sectionColors)
 
     setWizardState({
       type: 'set-state',
       payload: {
-        sectionColors: {
-          ...sectionColors,
-          [section]: color,
-        },
+        key: 'sectionColors',
+        value: { [section]: newColor },
       },
     })
-    setColor(color)
+    setBorderColor(newColor)
   }
 
   React.useEffect(() => {
-    if (!hasBorder || (sectionColor && section !== 'objective')) return
+    if (!hasBorder) return
 
     if (isComplete) {
-      setSectionColor()
+      setSectionColor(color)
       return
     }
 
     if (isActive) {
-      setColor(brandColors.textColor)
+      setBorderColor(brandColors.textColor)
       return
     }
 
-    setColor(brandColors.greyLight)
+    setBorderColor(brandColors.greyLight)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasBorder, isActive, objective, platform, isComplete, section, sectionColor])
+  }, [hasBorder, isActive, objective, platform, isComplete, section])
 
   React.useEffect(() => {
-    // If there is a color set in the wizard state, update local color state
-    if (sectionColor) {
-      setColor(sectionColor)
-    }
-  }, [sectionColor])
+    if (section !== 'objective') {
+      // Make sure that the section color isn't equal to the changeable objective section color
+      if (borderColor === objectiveSectionColor) {
+        setSectionColor(brandColors.instagram.bg)
+      }
 
-  React.useEffect(() => {
-    // Make sure that the section color isn't equal to the changeable objective section color
-    if (sectionColor && section !== 'objective' && sectionColor === sectionColors.objective) {
-      setSectionColor()
+      // Restore original color if color no longer is equal to the objective color
+      if (borderColor !== color && color !== objectiveSectionColor) {
+        setSectionColor(color)
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sectionColors, section, sectionColor])
+  }, [borderColor, objectiveSectionColor])
 
   const goToSection = () => {
     // We can't navigate to a section that isn't completed yet
@@ -108,7 +108,7 @@ const GetStartedSummarySentenceSection = ({
           hasBorder ? 'mb-2 py-1 px-3 border-2 border-solid rounded-full' : null,
           className,
         ].join(' ')}
-        style={{ borderColor: color }}
+        style={{ borderColor }}
       >
         {children}
       </span>
@@ -119,6 +119,7 @@ const GetStartedSummarySentenceSection = ({
 GetStartedSummarySentenceSection.propTypes = {
   section: PropTypes.string.isRequired,
   text: PropTypes.string,
+  color: PropTypes.string,
   isComplete: PropTypes.bool.isRequired,
   className: PropTypes.string,
   hasBorder: PropTypes.bool,
@@ -127,6 +128,7 @@ GetStartedSummarySentenceSection.propTypes = {
 
 GetStartedSummarySentenceSection.defaultProps = {
   text: '',
+  color: '',
   className: '',
   hasBorder: true,
 }
