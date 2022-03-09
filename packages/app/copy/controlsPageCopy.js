@@ -61,4 +61,5 @@ export default {
   facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
   facebookPixelEventIntro: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
+  objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
 }

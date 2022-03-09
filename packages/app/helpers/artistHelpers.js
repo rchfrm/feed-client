@@ -476,23 +476,44 @@ export const getArtistPayload = ({
 
 export const objectives = [
   {
-    title: 'Audience growth',
+    name: 'Audience growth',
     value: 'growth',
     color: 'green',
   },
   {
-    title: 'Website sales',
+    name: 'Website sales',
     value: 'sales',
     color: 'insta',
   },
   {
-    title: 'Website visits',
+    name: 'Website visits',
     value: 'traffic',
     color: 'blue',
   },
 ]
 
-export const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
+export const platforms = [
+  {
+    name: 'Spotify',
+    value: 'spotify',
+  },
+  {
+    name: 'Youtube',
+    value: 'youtube',
+  },
+  {
+    name: 'SoundCloud',
+    value: 'soundcloud',
+  },
+  {
+    name: 'Instagram',
+    value: 'instagram',
+  },
+  {
+    name: 'Facebook',
+    value: 'facebook',
+  },
+]
 
 export const getObjectiveColor = (objective, platform) => {
   if (objective === 'growth' && platform) {

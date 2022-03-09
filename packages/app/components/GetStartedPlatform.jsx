@@ -123,7 +123,7 @@ const GetStartedPlatform = () => {
           {platforms.map((platform) => {
             return (
               <GetStartedPlatformButton
-                key={platform}
+                key={platform.value}
                 platform={platform}
                 isLoading={isLoading}
                 setSelectedPlatform={setSelectedPlatform}

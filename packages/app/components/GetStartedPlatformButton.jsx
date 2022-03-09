@@ -4,15 +4,15 @@ import PropTypes from 'prop-types'
 import PlatformIcon from '@/icons/PlatformIcon'
 import ButtonPill from '@/elements/ButtonPill'
 
-import { capitalise } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 const GetStartedPlatformButton = ({ platform, setSelectedPlatform, isLoading }) => {
+  const { name, value } = platform
+
   return (
     <ButtonPill
-      key={platform}
       className="w-32 sm:w-48 mx-3 mb-5"
-      onClick={() => setSelectedPlatform(platform)}
+      onClick={() => setSelectedPlatform(value)}
       loading={isLoading}
       style={{
         border: `2px solid ${brandColors.textColor}`,
@@ -21,12 +21,12 @@ const GetStartedPlatformButton = ({ platform, setSelectedPlatform, isLoading }) 
       trackComponentName="GetStartedPlatformButton"
     >
       <PlatformIcon
-        platform={platform}
+        platform={value}
         className="mr-5"
-        title={platform}
-        fill={brandColors[platform].bg}
+        title={value}
+        fill={brandColors[value].bg}
       />
-      {capitalise(platform)}
+      {name}
     </ButtonPill>
   )
 }
