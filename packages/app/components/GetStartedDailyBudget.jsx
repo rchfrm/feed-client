@@ -95,7 +95,6 @@ const GetStartedDailyBudget = () => {
             onChange={(budget) => {
               setBudget(budget)
             }}
-            minReccBudget={minReccBudget}
             currency={currencyCode}
             currencyOffset={currencyOffset}
             mobileVersion

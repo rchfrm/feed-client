@@ -88,7 +88,7 @@ const GetStartedSummarySentenceSection = ({
       return
     }
 
-    const firstStepOfSection = steps.find((step) => step.section === section).id
+    const firstStepOfSection = steps.findIndex((step) => step.section === section)
 
     goToStep(firstStepOfSection)
   }

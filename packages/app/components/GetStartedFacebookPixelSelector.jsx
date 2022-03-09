@@ -42,13 +42,14 @@ const GetStartedFacebookPixelSelector = ({
 
 GetStartedFacebookPixelSelector.propTypes = {
   isLoading: PropTypes.bool.isRequired,
-  facebookPixel: PropTypes.string.isRequired,
+  facebookPixel: PropTypes.string,
   setFacebookPixel: PropTypes.func.isRequired,
   saveFacebookPixel: PropTypes.func.isRequired,
 
 }
 
 GetStartedFacebookPixelSelector.defaultProps = {
+  facebookPixel: null,
 }
 
 export default GetStartedFacebookPixelSelector
