@@ -6,6 +6,8 @@ import Spinner from '@/elements/Spinner'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
@@ -26,6 +28,8 @@ const TargetingBudgetBox = ({
     budgetSlider,
     setBudgetSlider,
   } = React.useContext(TargetingContext)
+
+  const isDesktopLayout = useBreakpointTest('md')
 
   // ARTIST context
   const {
@@ -62,6 +66,7 @@ const TargetingBudgetBox = ({
             <TargetingBudgetPauseButton
               togglePauseCampaign={togglePauseCampaign}
               isPaused={!targetingState.status}
+              className={!isDesktopLayout ? 'mr-12' : null}
             />
           </div>
           {/* BUDGET SETTER */}

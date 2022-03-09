@@ -41,7 +41,6 @@ const ControlsContentOptionsItem = ({
 }
 
 ControlsContentOptionsItem.propTypes = {
-  key: PropTypes.string.isRequired,
   option: PropTypes.object.isRequired,
   isActive: PropTypes.bool.isRequired,
   isLast: PropTypes.bool.isRequired,

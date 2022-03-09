@@ -15,6 +15,7 @@ import * as utils from '@/helpers/utils'
 const TargetingBudgetSpendingButton = ({
   togglePauseCampaign,
   isPaused,
+  className,
 }) => {
   const { targetingState } = React.useContext(TargetingContext)
   // GOT TOGGLE FUNCTION
@@ -34,6 +35,7 @@ const TargetingBudgetSpendingButton = ({
         'text-white',
         'rounded-full',
         isPaused ? 'bg-green button--green' : 'bg-red button--red',
+        className,
       ].join(' ')}
       style={{ paddingBottom: '0.3rem' }}
       role="button"

@@ -9,7 +9,9 @@ import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
 import AdDefaultsLink from '@/app/AdDefaultsLink'
 import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
+import AdDefaultsAdAccount from '@/app/AdDefaultsAdAccount'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
+import AdDefaultsPixelEvent from '@/app/AdDefaultsPixelEvent'
 // IMPORT COPY
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -20,6 +22,7 @@ const getTogglePromotionGlobal = state => state.togglePromotionGlobal
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
   postsPreferences: state.postsPreferences,
+  conversionsPreferences: state.conversionsPreferences,
   updatePreferences: state.updatePreferences,
 })
 
@@ -28,8 +31,9 @@ const AdDefaults = () => {
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   // Get store values
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
-  const { defaultLink, postsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
+  const { defaultLink, postsPreferences, conversionsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultCallToAction, defaultPromotionEnabled } = postsPreferences
+  const { facebookPixelEvent } = conversionsPreferences
 
   return (
     <div>
@@ -70,12 +74,32 @@ const AdDefaults = () => {
             updatePreferences={updatePreferences}
           />
         </AdSettingsSection>
+        {/* FB AD ACCOUNT */}
+        <AdSettingsSection
+          header="Facebook Ad Account"
+          copy={copy.facebookAdAccountIntro}
+        >
+          <AdDefaultsAdAccount
+            className="mb-8"
+          />
+        </AdSettingsSection>
         {/* FB PIXEL */}
         <AdSettingsSection
           header="Facebook Pixel"
           copy={copy.facebookPixelIntro}
         >
           <AdDefaultsPixelSelector />
+        </AdSettingsSection>
+        {/* FB PIXEL EVENT */}
+        <AdSettingsSection
+          header="Facebook Pixel Event"
+          copy={copy.facebookPixelEventIntro}
+        >
+          <AdDefaultsPixelEvent
+            facebookPixelEvent={facebookPixelEvent}
+            updatePreferences={updatePreferences}
+            className="mb-8"
+          />
         </AdSettingsSection>
       </div>
     </div>

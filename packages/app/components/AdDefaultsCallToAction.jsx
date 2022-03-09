@@ -17,10 +17,11 @@ const AdDefaultsCallToAction = ({
     const { posts: { call_to_action: callToAction } } = preferences
     setCallToAction(callToAction)
     // Update store value
-    updatePreferences(
-      'postsPreferences',
-      { callToAction },
-    )
+    updatePreferences({
+      postsPreferences: {
+        callToAction,
+      },
+    })
   }
 
   return (

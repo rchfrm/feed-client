@@ -28,10 +28,11 @@ const AdDefaultsLink = ({
     const { preferences: { posts: { default_link_id } } } = newArtist
     // Update controls store
     const newDefaultLink = updateLinks('chooseNewDefaultLink', { newArtist })
-    updatePreferences(
-      'postsPreferences',
-      { defaultLinkId: default_link_id },
-    )
+    updatePreferences({
+      postsPreferences: {
+        defaultLinkId: default_link_id,
+      },
+    })
     // Update artist status
     setPostPreferences('default_link_id', default_link_id)
     // TRACK
