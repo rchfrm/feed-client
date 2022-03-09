@@ -16,7 +16,7 @@ const ControlsContentOptionsItem = ({
         'flex items-center no-underline',
         'p-4',
         !isLast && !isActive ? 'border-solid border-grey-1 border-b-2' : null,
-        isActive ? 'bg-insta' : null,
+        isActive ? 'bg-insta text-white' : null,
       ].join(' ')}
       onClick={() => goToSpecificSetting(key)}
     >

@@ -16,7 +16,6 @@ const TargetingBudgetBox = ({
 }) => {
   // GET TARGETING CONTEXT
   const {
-    minReccBudget,
     targetingState,
     initialTargetingState,
     updateTargetingBudget,
@@ -49,21 +48,45 @@ const TargetingBudgetBox = ({
     <section
       className={[
         'flex flex-column justify-between',
-        'rounded-dialogue',
-        'p-6 bg-grey-1',
         className,
       ].join(' ')}
-      style={{ height: '240px' }}
+      style={{ height: '180px' }}
     >
       {targetingLoading ? (
         <Spinner width={36} />
       ) : (
         <>
           <div className="flex justify-between">
+            <h2 className="mb-0">Daily Budget <span className={['text-green', !targetingState.status ? 'hidden' : null].join(' ')}>Active</span></h2>
             {/* PAUSE OR RESUME SPENDING */}
             <TargetingBudgetPauseButton
               togglePauseCampaign={togglePauseCampaign}
               isPaused={!targetingState.status}
+            />
+          </div>
+          {/* BUDGET SETTER */}
+          <div>
+            <TargetingBudgetSetter
+              currency={currencyCode}
+              currencyOffset={currencyOffset}
+              minBase={minBase}
+              minHardBudget={minHardBudget}
+              initialBudget={initialTargetingState.budget}
+              targetingState={targetingState}
+              updateTargetingBudget={updateTargetingBudget}
+              showCustomBudget={showCustomBudget}
+              setBudgetSlider={setBudgetSlider}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <TargetingBudgetButtons
+              targetingState={targetingState}
+              initialTargetingState={initialTargetingState}
+              updateTargetingBudget={updateTargetingBudget}
+              saveTargetingSettings={saveTargetingSettings}
+              disableSaving={disableSaving}
+              budgetSlider={budgetSlider}
+              showCustomBudget={showCustomBudget}
             />
             {/* TOGGLE CUSTOM BUDGET */}
             <TargetingCustomBudgetButton
@@ -75,30 +98,6 @@ const TargetingBudgetBox = ({
               minHardBudget={minHardBudget}
             />
           </div>
-          {/* BUDGET SETTER */}
-          <div className="px-2">
-            <TargetingBudgetSetter
-              currency={currencyCode}
-              currencyOffset={currencyOffset}
-              minBase={minBase}
-              minReccBudget={minReccBudget}
-              minHardBudget={minHardBudget}
-              initialBudget={initialTargetingState.budget}
-              targetingState={targetingState}
-              updateTargetingBudget={updateTargetingBudget}
-              showCustomBudget={showCustomBudget}
-              setBudgetSlider={setBudgetSlider}
-            />
-          </div>
-          <TargetingBudgetButtons
-            targetingState={targetingState}
-            initialTargetingState={initialTargetingState}
-            updateTargetingBudget={updateTargetingBudget}
-            saveTargetingSettings={saveTargetingSettings}
-            disableSaving={disableSaving}
-            budgetSlider={budgetSlider}
-            showCustomBudget={showCustomBudget}
-          />
         </>
       )}
     </section>

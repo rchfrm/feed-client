@@ -7,7 +7,6 @@ import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 import InputCurrency from '@/elements/InputCurrency'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
-import { formatCurrency } from '@/helpers/utils'
 
 const TargetingBudgetSetter = ({
   currency,
@@ -35,9 +34,6 @@ const TargetingBudgetSetter = ({
     return targetingHelpers.calcBudgetSliderConfig(minBase, minHardBudget, initialBudget)
   }, [minBase, minHardBudget, initialBudget])
 
-  // CUSTOM INPUT
-  const inputPlaceholder = `Suggested min: ${formatCurrency((minReccBudget / currencyOffset), currency)}`
-
   return (
     <>
       <div>
@@ -57,11 +53,10 @@ const TargetingBudgetSetter = ({
                   const budget = value ? value * currencyOffset : minReccBudget
                   setBudget(budget)
                 }}
-                placeholder={inputPlaceholder}
                 name="Budget"
                 label={mobileVersion ? 'Custom Budget' : null}
                 className={[
-                  'mb-0 w-full',
+                  'mt-3 mb-5 w-full',
                   mobileVersion ? null : 'pt-5',
                 ].join(' ')}
                 currency={currency}

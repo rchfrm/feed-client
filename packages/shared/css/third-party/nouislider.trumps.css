@@ -8,8 +8,9 @@
   outline: 0;
   border: none;
   background-color: var(--green);
+  border: 2px solid var(--white);
   box-shadow: none;
-  height: var(--sp-4) !important;
+  height: var(--sp-5) !important;
   cursor: grab;
 
   &.noUi-active {
@@ -19,9 +20,9 @@
 
 .noUi-horizontal .noUi-handle, 
 .noUi-handle.-ghost {
-  width: var(--sp-4);
-  right: calc(-1 * var(--sp-3));
-  top: -4px;
+  width: var(--sp-5);
+  right: calc(-1 * 10px);
+  top: -6px;
   
   &::before,
   &::after {
@@ -38,7 +39,7 @@
 
 .noUi-handle.-ghost {
   position: absolute;
-  top: -4px;
+  top: -6px;
   background-color: var(--purple);
   opacity: 0.5;
 }
