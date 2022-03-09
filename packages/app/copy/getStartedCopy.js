@@ -38,7 +38,9 @@ export default {
     return 'Based on how your existing audience is engaging with your content, these are the posts we recommend to start promoting first.'
   },
   postsDefaultSelectionSubtitle: 'Are you happy for Feed to continue selecting the best posts on your behalf?',
+  postsDefaultSelectionDescription: 'This means Feed will identify which of your recent posts (last 28 days) are likely to perform best, and prioritise those posts.',
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
+  adAccountDescription: "Feed's ads for this profile will run from this ad account. You can set different ad accounts for your other profiles later.",
   facebookPixelSubtitle: (pixels, shouldShowPixelSelector) => {
     if (shouldShowPixelSelector) {
       if (pixels.length) {
@@ -49,8 +51,16 @@ export default {
 
     return "Looks like you don't have a Facebook Pixel! Happy for us to create one?"
   },
+  facebookPixelDescription: (shouldShowPixelSelector) => {
+    if (shouldShowPixelSelector) {
+      return "This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway."
+    }
+    return "You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway."
+  },
   locationSubtitle: 'Where are you based?',
-  budgetSubtitle: 'Finally, how much would you like to spend?',
+  locationDescription: 'This location will be set as your home country.',
+  budgetSubtitle: 'What is your daily budget for advertising?',
+  budgetDescription: 'You can change this at any time. We recommend spreading budget out over a longer period of time as consistency boosts ad performance. ',
   reviewDescription: 'Feed has submitted your ads for approval!',
   objectiveSummary: (objective, platform) => {
     if (!objective) {

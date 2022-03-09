@@ -11,6 +11,7 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
 
 import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
@@ -125,7 +126,8 @@ const GetStartedAdAccount = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="mb-6 font-medium text-xl">{copy.adAccountSubtitle}</h3>
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.adAccountSubtitle}</h3>
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.adAccountDescription} />
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
         <Select

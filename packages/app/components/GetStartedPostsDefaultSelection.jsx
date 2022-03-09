@@ -6,6 +6,7 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import Button from '@/elements/Button'
+import MarkdownText from '@/elements/MarkdownText'
 
 import CloseCircle from '@/icons/CloseCircle'
 import TickCircleIcon from '@/icons/TickCircleIcon'
@@ -61,7 +62,8 @@ const GetStartedPostsDefaultSelection = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="w-full mb-6 font-medium text-xl">{copy.postsDefaultSelectionSubtitle}</h3>
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.postsDefaultSelectionSubtitle}</h3>
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.postsDefaultSelectionDescription} />
       <div className="flex flex-1 flex-column sm:flex-row justify-center items-center">
         <Button
           version="outline-black"

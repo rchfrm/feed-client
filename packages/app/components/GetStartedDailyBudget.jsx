@@ -12,6 +12,7 @@ import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
@@ -83,7 +84,8 @@ const GetStartedDailyBudget = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="mb-0 font-medium text-xl">{copy.budgetSubtitle}</h3>
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.budgetSubtitle}</h3>
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.budgetDescription} />
       <div className="flex flex-1 flex-column justify-center items-center">
         <div className="w-full sm:w-1/2 h-26 mb-4 px-6">
           <TargetingBudgetSlider
