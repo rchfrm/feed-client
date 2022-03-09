@@ -46,14 +46,17 @@ export default {
       if (pixels.length) {
         return 'Which Facebook Pixel would you like Feed to use?'
       }
-      return 'Fill in a name to create your Facebook Pixel.'
+      return 'How should your Facebook Pixel be named?'
     }
 
     return "Looks like you don't have a Facebook Pixel! Happy for us to create one?"
   },
-  facebookPixelDescription: (shouldShowPixelSelector) => {
+  facebookPixelDescription: (pixels, shouldShowPixelSelector) => {
     if (shouldShowPixelSelector) {
-      return "This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway."
+      if (pixels.length) {
+        return "This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway."
+      }
+      return ''
     }
     return "You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway."
   },

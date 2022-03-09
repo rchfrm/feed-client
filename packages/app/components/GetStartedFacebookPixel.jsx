@@ -43,6 +43,7 @@ const GetStartedFacebookPixel = () => {
 
   useAsyncEffect(async (isMounted) => {
     const { res: pixels = [], error } = await getArtistPixels(artistId)
+
     if (!isMounted()) return
 
     if (error) {
@@ -75,7 +76,7 @@ const GetStartedFacebookPixel = () => {
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.facebookPixelSubtitle(pixels, shouldShowPixelSelector)}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.facebookPixelDescription(shouldShowPixelSelector)} />
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.facebookPixelDescription(pixels, shouldShowPixelSelector)} />
       <Error error={error} />
       <div className={[
         'flex flex-1 flex-column',
