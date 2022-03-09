@@ -52,7 +52,6 @@ const GetStartedPostsSelectionCard = ({
         tickFill={isEnabled ? brandColors.white : brandColors.grey}
         className="absolute bottom-0 w-6 h-6 m-2"
       />
-      {!isEnabled && <div className="absolute w-full h-full top-0 left-0 bg-grey-2 opacity-75 rounded-dialogue" />}
     </div>
   )
 }
