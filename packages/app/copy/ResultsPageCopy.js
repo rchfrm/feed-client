@@ -170,16 +170,17 @@ We’ll be in touch shortly after with more information.`,
     return `**${value.toFixed(1)}%** of your followers engage with each post on average.`
   },
   noSpendGrowthDescription: (value, platform, rate, hasNoProfiles) => {
+    const numberRate = Number(rate)
     if (hasNoProfiles) {
-      if (rate < 0) {
-        return 'Did you know the average Instagram profile is actually shrinking'
+      if (numberRate < 0) {
+        return 'Did you know the average Instagram profile is actually shrinking?'
       }
 
-      if (rate === 0) {
+      if (numberRate === 0) {
         return "Did you know the average Instagram profile actually doesn't grow?"
       }
 
-      return `On average Instagram grows **${rate}%** a week. With 5,000 followers, that's **${value}** added each week.`
+      return `The average Instagram grows **${rate}%** a month. With 5,000 followers, that's an extra **${value}**.`
     }
 
     if (value === 0) {
