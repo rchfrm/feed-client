@@ -24,6 +24,8 @@ export const RESULTS = '/results'
 export const NOTIFICATIONS = '/notifications'
 export const TARGETING = '/targeting'
 export const CONTROLS = '/controls'
+export const CONTROLS_OBJECTIVE = '/controls/objective'
+export const CONTROLS_BUDGET = '/controls/budget'
 export const CONTROLS_TARGETING = '/controls/targeting'
 export const CONTROLS_LINKS = '/controls/links'
 export const CONTROLS_INTEGRATIONS = '/controls/integrations'
@@ -65,6 +67,8 @@ export const signedOutPages = [
 
 // Array of controls sub-pages
 export const controlsPages = [
+  CONTROLS_OBJECTIVE,
+  CONTROLS_BUDGET,
   CONTROLS_TARGETING,
   CONTROLS_LINKS,
   CONTROLS_INTEGRATIONS,

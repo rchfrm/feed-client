@@ -6,29 +6,34 @@ export default {
   // ----------------
   controlsOptions: [
     {
+      key: 'objective',
+      title: 'Objective',
+      description: 'Feed is set-up for Instagram growth',
+    },
+    {
+      key: 'budget',
+      title: 'Budget',
+      description: 'Promotion is active and set to £3 a day',
+    },
+    {
+      key: 'ads',
+      title: 'Promotion Settings',
+      description: 'Default links, calls to action and Facebook settings',
+    },
+    {
       key: 'targeting',
       title: 'Targeting',
-      description: 'Set age range, locations, platforms.',
+      description: 'Control who sees your ads',
     },
     {
       key: 'links',
-      title: 'Link Bank',
-      description: 'Add and edit the links used in your ads.',
+      title: 'Links',
+      description: 'Add and edit the links that are used in your ads',
     },
     {
       key: 'integrations',
       title: 'Integrations',
-      description: 'Connect Feed to other platforms.',
-    },
-    {
-      key: 'ads',
-      title: 'Grow & Nurture Defaults',
-      description: 'Default link, CTA, FB Pixel, promotion settings',
-    },
-    {
-      key: 'conversions',
-      title: 'Conversion Defaults',
-      description: 'Default link, pixel event, CTA',
+      description: 'Connect Feed to other platforms',
     },
   ],
   finishSetup: `It looks like you haven't finished setting up your profile yet. Please finish the set up process [here](${ROUTES.GET_STARTED}).`,
