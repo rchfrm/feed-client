@@ -1,13 +1,45 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
+
+import { getObjectiveString } from '@/app/helpers/artistHelpers'
+import { formatCurrency } from '@/helpers/utils'
+
+import copy from '@/app/copy/controlsPageCopy'
+
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+  isSpendingPaused: state.isSpendingPaused,
+})
+
 const ControlsContentOptionsItem = ({
   option,
   isActive,
   isLast,
   goToSpecificSetting,
 }) => {
-  const { title, description, key } = option
+  const { title, key } = option
+
+  const {
+    artist: {
+      feedMinBudgetInfo: {
+        currencyCode,
+        currencyOffset,
+      },
+    },
+  } = React.useContext(ArtistContext)
+
+  const { initialTargetingState } = React.useContext(TargetingContext)
+  const formattedBudget = formatCurrency(initialTargetingState.budget / currencyOffset, currencyCode)
+
+  const { optimizationPreferences, isSpendingPaused } = useControlsStore(getControlsStoreState)
+  const { objective, platform } = optimizationPreferences
+  const objectiveString = getObjectiveString(objective, platform)
+
 
   return (
     <a
@@ -34,7 +66,7 @@ const ControlsContentOptionsItem = ({
       </div>
       <div>
         <p className="font-bold mb-2">{title}</p>
-        <p className="mb-0">{description}</p>
+        <p className="mb-0">{copy.optionsDescription(key, objectiveString, isSpendingPaused, formattedBudget)}</p>
       </div>
     </a>
   )

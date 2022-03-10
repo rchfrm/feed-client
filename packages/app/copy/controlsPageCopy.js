@@ -3,43 +3,43 @@ import * as ROUTES from '@/app/constants/routes'
 
 export default {
   // CONTROLS OPTIONS
-  // ----------------
   controlsOptions: [
     {
       key: 'objective',
       title: 'Objective',
-      description: 'Feed is set-up for Instagram growth',
     },
     {
       key: 'budget',
       title: 'Budget',
-      description: 'Promotion is active and set to £3 a day',
     },
     {
       key: 'ads',
       title: 'Promotion Settings',
-      description: 'Default links, calls to action and Facebook settings',
     },
     {
       key: 'targeting',
       title: 'Targeting',
-      description: 'Control who sees your ads',
     },
     {
       key: 'links',
       title: 'Links',
-      description: 'Add and edit the links that are used in your ads',
     },
     {
       key: 'integrations',
       title: 'Integrations',
-      description: 'Connect Feed to other platforms',
     },
   ],
   finishSetup: `It looks like you haven't finished setting up your profile yet. Please finish the set up process [here](${ROUTES.GET_STARTED}).`,
+  optionsDescription: (key, objectiveString, isSpendingPaused, budget) => {
+    if (key === 'objective') return `Feed is set-up for ${objectiveString}`
+    if (key === 'budget') return `Promotion is ${isSpendingPaused ? 'inactive' : `active and set to ${budget} a day`}`
+    if (key === 'ads') return 'Default links, calls to action and Facebook settings'
+    if (key === 'targeting') return 'Control who sees your ads'
+    if (key === 'links') return 'Add and edit the links that are used in your ads'
+    if (key === 'integrations') return 'Connect Feed to other platforms'
+  },
 
   // CONVERSION DEFAULTS
-  // ----------------
   conversionsTitle: '## Conversions Defaults',
   conversionsDescription: `These are the settings used as defaults for Conversion campaigns.
 
@@ -51,7 +51,6 @@ export default {
   N.B. Ads that are currently running will not be updated. To edit active ads, head to the [Running section of posts page](${ROUTES.HOME}?postStatus=running).`,
 
   // AD DEFAULTS
-  // ----------------
   globalToggleIntro: `Can Feed automatically select which recent posts (last 28 days) are promoted? You can still opt out specific posts from the posts page.
 
   If you choose “No”, you'll need to manually select posts for Feed to test.`,

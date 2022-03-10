@@ -515,6 +515,18 @@ export const platforms = [
   },
 ]
 
+export const getObjectiveString = (objective, platform) => {
+  const objectiveString = objectives.find(({ value }) => objective === value).name
+
+  if (platform !== 'website') {
+    const platformString = platforms.find(({ value }) => platform === value).name
+
+    return `${platformString} growth`
+  }
+
+  return objectiveString
+}
+
 export const getObjectiveColor = (objective, platform) => {
   if (objective === 'growth' && platform) {
     return brandColors[platform]?.bg
