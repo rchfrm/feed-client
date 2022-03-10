@@ -15,9 +15,7 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
-
-  const [objective, setObjective] = React.useState(optimizationPreferences?.objective)
-  const [platform, setPlatform] = React.useState(optimizationPreferences?.platform)
+  const { objective, platform } = optimizationPreferences
 
   return (
     <div>
@@ -30,20 +28,16 @@ const ObjectiveSettings = () => {
       />
       <ObjectiveSettingsSelector
         name="objective"
-        label="Objective"
-        setValue={setObjective}
-        values={objectives}
-        objective={objective}
-        platform={platform}
+        label="Primary"
+        optionValues={objectives}
+        currentObjective={{ objective, platform }}
       />
       {objective === 'growth' && (
         <ObjectiveSettingsSelector
           name="platform"
           label="Platform"
-          setValue={setPlatform}
-          objective={objective}
-          platform={platform}
-          values={platforms}
+          optionValues={platforms}
+          currentObjective={{ objective, platform }}
         />
       )}
     </div>

@@ -88,7 +88,7 @@ const GetStartedWizard = ({
       section: getStartedSections.objective,
       component: <GetStartedDefaultLink defaultLink={defaultLink || wizardState?.defaultLink} />,
       isComplete: Boolean(defaultLink || wizardState?.defaultLink),
-      isApplicable: objective !== 'growth' && (platform !== 'facebook' || platform !== 'instagram'),
+      isApplicable: true,
     },
     {
       id: 3,

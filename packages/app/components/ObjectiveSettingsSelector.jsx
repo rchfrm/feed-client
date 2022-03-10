@@ -17,34 +17,33 @@ const getControlsStoreState = (state) => ({
 const ObjectiveSettingsSelector = ({
   name,
   label,
-  setValue,
-  objective,
-  platform,
-  values,
+  optionValues,
+  currentObjective,
 }) => {
   const [selectOptions, setSelectOptions] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
-  const [selectedValue, setSelectedValue] = React.useState(name === 'objective' ? objective : platform)
+  const [objective, setObjective] = React.useState(currentObjective)
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
   const { updatePreferences } = useControlsStore(getControlsStoreState)
 
   React.useEffect(() => {
-    const options = values.map(({ name, value }) => ({
+    const options = optionValues.map(({ name, value }) => ({
       name,
       value,
     }))
 
     setSelectOptions(options)
-  }, [values])
+  }, [optionValues])
 
-  const save = async (value) => {
+  const save = async ({ objective, platform }) => {
     setIsLoading(true)
 
     const { res: artist, error } = await updateArtist(artistId, {
-      [name]: value,
-      ...(name === 'objective' ? { platform } : { objective }),
+      objective,
+      platform,
+      ...(objective !== 'growth' && { platform: 'website' }),
     })
 
     if (error) {
@@ -55,7 +54,8 @@ const ObjectiveSettingsSelector = ({
 
     updatePreferences({
       optimizationPreferences: {
-        [name]: artist.preferences.optimization[name],
+        objective: artist.preferences.optimization.objective,
+        platform: artist.preferences.optimization.platform,
       },
     })
 
@@ -65,14 +65,17 @@ const ObjectiveSettingsSelector = ({
   const handleChange = (e) => {
     const { target: { value } } = e
 
-    if (value === selectedValue) return
+    if (value === objective[name]) return
 
-    // Update parent component state
-    setValue(value)
+    const updatedObjective = {
+      ...objective,
+      [name]: value,
+    }
 
     // Update local state
-    setSelectedValue(value)
-    save(value)
+    setObjective(updatedObjective)
+
+    save(updatedObjective)
   }
 
   return (
@@ -85,7 +88,7 @@ const ObjectiveSettingsSelector = ({
         handleChange={handleChange}
         name={name}
         label={label}
-        selectedValue={selectedValue}
+        selectedValue={objective[name]}
         options={selectOptions}
       />
     </div>
@@ -95,10 +98,11 @@ const ObjectiveSettingsSelector = ({
 ObjectiveSettingsSelector.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  setValue: PropTypes.func.isRequired,
-  objective: PropTypes.string.isRequired,
-  platform: PropTypes.string.isRequired,
-  values: PropTypes.array.isRequired,
+  optionValues: PropTypes.array.isRequired,
+  currentObjective: PropTypes.shape({
+    objective: PropTypes.string,
+    platform: PropTypes.string,
+  }).isRequired,
 }
 
 ObjectiveSettingsSelector.defaultProps = {
