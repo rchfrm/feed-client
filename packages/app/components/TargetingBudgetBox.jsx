@@ -61,7 +61,14 @@ const TargetingBudgetBox = ({
       ) : (
         <>
           <div className="flex justify-between">
-            <h2 className="mb-0">Daily Budget <span className={['text-green', !targetingState.status ? 'hidden' : null].join(' ')}>Active</span></h2>
+            <h2 className="mb-0">
+              Daily Budget
+              {!targetingState.status ? (
+                <span className="text-red"> Paused</span>
+              ) : (
+                <span className="text-green"> Active</span>
+              )}
+            </h2>
             {/* PAUSE OR RESUME SPENDING */}
             <TargetingBudgetPauseButton
               togglePauseCampaign={togglePauseCampaign}

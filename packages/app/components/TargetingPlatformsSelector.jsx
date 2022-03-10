@@ -5,6 +5,7 @@ import PillOptions from '@/elements/PillOptions'
 import Error from '@/elements/Error'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
+import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import copy from '@/app/copy/targetingPageCopy'
 
@@ -64,11 +65,16 @@ const TargetingPlatformsSelector = ({
   }, [initialState, activeOption])
 
   return (
-    <section className={[className].join(' ')}>
+    <section className={[className, 'relative'].join(' ')}>
       <TargetingSectionHeader
         header="Platforms"
         description={copy.platformSelectDescription}
-        className="mb-6"
+        className="relative mb-12"
+      />
+      <ControlsSettingsSectionFooter
+        copy={copy.platformSelectFooter}
+        className="text-insta"
+        positionTop={28}
       />
       <PillOptions
         color="green"

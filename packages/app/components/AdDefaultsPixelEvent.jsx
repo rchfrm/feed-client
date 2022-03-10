@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PixelEventSelector from '@/app/PixelEventSelector'
+import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 const AdDefaultsPixelSelector = ({
   facebookPixelEvent,
@@ -35,7 +38,9 @@ const AdDefaultsPixelSelector = ({
         setPixelEvent={setPixelEvent}
         onSuccess={handleSuccess}
         shouldSaveOnChange
+        className="mb-14"
       />
+      <ControlsSettingsSectionFooter copy={copy.facebookPixelEventFooter} className="text-insta" />
     </div>
   )
 }

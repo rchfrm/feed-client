@@ -433,21 +433,33 @@ export const updatePlatform = (artistId, platform) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
-const getCallToAction = (objective, platform) => {
+export const getCallToAction = (objective, platform) => {
   if (platform === 'facebook' || platform === 'instagram' || objective === 'traffic') {
-    return 'LEARN_MORE'
+    return {
+      name: 'Learn More',
+      value: 'LEARN_MORE',
+    }
   }
 
   if (platform === 'spotify' || platform === 'soundcloud') {
-    return 'LISTEN_NOW'
+    return {
+      name: 'Listen Now',
+      value: 'LISTEN_NOW',
+    }
   }
 
   if (platform === 'youtube') {
-    return 'WATCH_MORE'
+    return {
+      name: 'Watch More',
+      value: 'WATCH_MORE',
+    }
   }
 
   if (objective === 'sales') {
-    return 'SHOP_NOW'
+    return {
+      name: 'Shop Now',
+      value: 'SHOP_NOW',
+    }
   }
 }
 
@@ -464,7 +476,7 @@ export const getArtistPayload = ({
       },
       posts: {
         ...(defaultLink && { default_link_id: defaultLink }),
-        ...(objective && platform && { call_to_action: getCallToAction(objective, platform) }),
+        ...(objective && platform && { call_to_action: getCallToAction(objective, platform).value }),
         promotion_enabled_default: true,
       },
       conversions: {

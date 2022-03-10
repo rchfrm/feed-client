@@ -4,8 +4,13 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import AdAccountSelector from '@/app/AdAccountSelector'
+import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+
+import brandColors from '@/constants/brandColors'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 const AdDefaultsAdAccount = ({ className }) => {
   const { artist } = React.useContext(ArtistContext)
@@ -24,6 +29,13 @@ const AdDefaultsAdAccount = ({ className }) => {
         adAccountId={adAccountId}
         setAdAccountId={setAdAccountId}
         shouldSaveOnChange
+        className="mb-14"
+      />
+      <ControlsSettingsSectionFooter
+        icon="email"
+        color={brandColors.green}
+        copy={copy.facebookAdAccountFooter}
+        className="text-green"
       />
     </div>
   )

@@ -53,6 +53,7 @@ We are working on adding custom locations, but it would be really helpful if you
 
   // PLATFORM SELECT DESCRIPTION
   platformSelectDescription: `Select the platform(s) your ads will appear on. This does not affect which posts can be used as ads.`,
+  platformSelectFooter: `"Instagram" is recommended based on your objective`,
 
   // PLATFORMS WARNING
   getPlatformWarningCopy: (initialPlatform, chosenPlatform) => {
