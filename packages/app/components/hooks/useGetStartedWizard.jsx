@@ -36,7 +36,7 @@ const useGetStartedWizard = () => {
   const { objective, platform } = optimizationPreferences
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId)
   const { defaultPromotionEnabled } = postsPreferences
-  const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
+  const { artistId, artistLoading, artist, updateHasSetUpProfile } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
   const {
     targetingState,
@@ -90,6 +90,8 @@ const useGetStartedWizard = () => {
     && (objective === 'growth' || facebookPixelId)
     && (Object.keys(locations).length || artist.country_code)
     && budget)
+
+  updateHasSetUpProfile(hasSetUpProfile)
 
   return {
     hasSetUpProfile,

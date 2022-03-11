@@ -29,7 +29,6 @@ export default {
       title: 'Integrations',
     },
   ],
-  finishSetup: `It looks like you haven't finished setting up your profile yet. Please finish the set up process [here](${ROUTES.GET_STARTED}).`,
   optionsDescription: (key, objectiveString, isSpendingPaused, budget) => {
     if (key === 'objective') return `Feed is set-up for ${objectiveString}`
     if (key === 'budget') return `Promotion is ${isSpendingPaused ? 'paused' : `active and set to ${budget} a day`}`

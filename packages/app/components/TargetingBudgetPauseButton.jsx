@@ -15,12 +15,14 @@ import * as utils from '@/helpers/utils'
 const TargetingBudgetSpendingButton = ({
   togglePauseCampaign,
   isPaused,
+  isDisabled,
   className,
 }) => {
   const { targetingState } = React.useContext(TargetingContext)
   // GOT TOGGLE FUNCTION
   const togglePause = useSaveTargeting({ spendingPaused: isPaused, togglePauseCampaign, targetingState })
   const action = isPaused ? 'resume' : 'pause'
+  const backgroundClasses = isPaused ? 'bg-green button--green' : 'bg-red button--red'
   const icons = {
     pause: <PauseIcon color={brandColors.white} className="w-3 h-auto mr-2" />,
     resume: <PlayIcon color={brandColors.white} className="w-3 h-auto mr-2" />,
@@ -34,7 +36,7 @@ const TargetingBudgetSpendingButton = ({
         'px-3 py-1',
         'text-white',
         'rounded-full',
-        isPaused ? 'bg-green button--green' : 'bg-red button--red',
+        isDisabled ? 'bg-grey-1' : backgroundClasses,
         className,
       ].join(' ')}
       style={{ paddingBottom: '0.3rem' }}

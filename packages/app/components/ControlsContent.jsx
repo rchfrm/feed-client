@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
-import MarkdownText from '@/elements/MarkdownText'
 
 import ControlsContentOptions from '@/app/ControlsContentOptions'
 import ControlsContentView from '@/app/ControlsContentView'
@@ -18,7 +17,6 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import useGetStartedWizard from '@/app/hooks/useGetStartedWizard'
-import copy from '@/app/copy/controlsPageCopy'
 
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
@@ -32,7 +30,6 @@ const controlsComponents = {
 
 const ControlsContent = ({ activeSlug }) => {
   const {
-    hasSetUpProfile,
     isLoading,
   } = useGetStartedWizard()
 
@@ -58,8 +55,6 @@ const ControlsContent = ({ activeSlug }) => {
 
   if (!Object.keys(targetingState).length > 0) return null
   if (globalLoading || isLoading) return <Spinner />
-
-  if (!hasSetUpProfile) return <MarkdownText markdown={copy.finishSetup} />
 
   return (
     <div className="md:grid grid-cols-12 gap-8">

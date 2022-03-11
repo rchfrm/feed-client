@@ -8,8 +8,8 @@ import MarkdownText from '@/elements/MarkdownText'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 import IntegrationsPanelIntegration from '@/app/IntegrationsPanelIntegration'
+import ControlsContentSection from '@/app/ControlsContentSection'
 
-import sidePanelStyles from '@/app/SidePanel.module.css'
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/integrationsCopy'
 
@@ -21,47 +21,51 @@ const IntegrationsPanel = ({
     artistId,
     artist: {
       integrations,
+      hasSetupProfile,
     },
     setArtist,
   } = React.useContext(ArtistContext)
 
   return (
     <section>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Integrations</h2>
-      <MarkdownText markdown={copy.sidepanelIntro} className="mb-8" />
-      <ul className="sm:grid grid-cols-2 gap-8">
-        {integrations.map((integration) => {
-          const { hidden } = integration
-          if (hidden) return null
-          return (
-            <IntegrationsPanelIntegration
-              key={integration.platform}
-              artistId={artistId}
-              integration={integration}
-              setArtist={setArtist}
-              location={location}
-              className="mb-8 mr-8 sm:mb-0 sm:mr-0 last:mb-0"
-            />
-          )
-        })}
-      </ul>
-      {goBack && (
-        <div className="mt-10">
-          <Button
-            version="x-small black icon"
-            className="mr-5"
-            onClick={goBack}
-            trackComponentName="IntegrationsPanel"
-          >
-            <ArrowIcon
-              fill={brandColors.bgColor}
-              direction="left"
-              style={{ width: '0.5rem' }}
-            />
-            Back
-          </Button>
-        </div>
-      )}
+      <h2>Integrations</h2>
+      <ControlsContentSection action="integrate other platforms">
+        <MarkdownText markdown={copy.sidepanelIntro} className="mb-8" />
+        <ul className="sm:grid grid-cols-2 gap-8">
+          {integrations.map((integration) => {
+            const { hidden } = integration
+            if (hidden) return null
+            return (
+              <IntegrationsPanelIntegration
+                key={integration.platform}
+                artistId={artistId}
+                integration={integration}
+                setArtist={setArtist}
+                location={location}
+                isDisabled={!hasSetupProfile}
+                className="mb-8 mr-8 sm:mb-0 sm:mr-0 last:mb-0"
+              />
+            )
+          })}
+        </ul>
+        {goBack && (
+          <div className="mt-10">
+            <Button
+              version="x-small black icon"
+              className="mr-5"
+              onClick={goBack}
+              trackComponentName="IntegrationsPanel"
+            >
+              <ArrowIcon
+                fill={brandColors.bgColor}
+                direction="left"
+                style={{ width: '0.5rem' }}
+              />
+              Back
+            </Button>
+          </div>
+        )}
+      </ControlsContentSection>
     </section>
   )
 }

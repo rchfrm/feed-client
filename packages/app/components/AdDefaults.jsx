@@ -12,10 +12,9 @@ import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
 import AdDefaultsAdAccount from '@/app/AdDefaultsAdAccount'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
 import AdDefaultsPixelEvent from '@/app/AdDefaultsPixelEvent'
+import ControlsContentSection from '@/app/ControlsContentSection'
 // IMPORT COPY
 import copy from '@/app/copy/controlsPageCopy'
-
-import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const getTogglePromotionGlobal = state => state.togglePromotionGlobal
 
@@ -37,8 +36,8 @@ const AdDefaults = () => {
 
   return (
     <div>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Grow &amp; Nurture Defaults</h2>
-      <div className="content">
+      <h2>Grow &amp; Nurture Defaults</h2>
+      <ControlsContentSection action="fill in these fields">
         {/* GLOBAL POST STATUS */}
         <AdSettingsSection
           header="Automated post selection"
@@ -101,7 +100,7 @@ const AdDefaults = () => {
             className="mb-8"
           />
         </AdSettingsSection>
-      </div>
+      </ControlsContentSection>
     </div>
   )
 }

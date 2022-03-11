@@ -15,6 +15,7 @@ const LinkBankListButtons = ({
   setEditModeOn,
   totalLinks,
   className,
+  isDisabled,
 }) => {
   // FUNCTION FOR EDITING LINKS
   const addLink = useCreateEditLinkBankLink({
@@ -30,7 +31,7 @@ const LinkBankListButtons = ({
       {/* ADD */}
       <Button
         version="x-small black icon"
-        className="mr-5"
+        className={[isDisabled ? 'bg-grey-2' : null, 'mr-5'].join(' ')}
         onClick={() => addLink()}
         trackComponentName="LinkBankListButtons"
       >
@@ -41,6 +42,7 @@ const LinkBankListButtons = ({
       {totalLinks > 0 && (
         <Button
           version="x-small green icon"
+          className={[isDisabled ? 'bg-grey-2' : null].join(' ')}
           onClick={() => {
             setEditModeOn((isOn) => {
               return !isOn
