@@ -476,10 +476,10 @@ export const getArtistPayload = ({
       },
       posts: {
         ...(defaultLink && { default_link_id: defaultLink }),
-        ...(objective && platform && { call_to_action: getCallToAction(objective, platform).value }),
-        promotion_enabled_default: true,
+        ...(objective && platform && { call_to_action: getCallToAction(objective, platform)?.value }),
       },
       conversions: {
+        ...(defaultLink && { default_link_id: defaultLink }),
         ...(objective === 'sales' && { call_to_action: 'SHOP_NOW', facebook_pixel_event: 'Purchase' }),
       },
     },
