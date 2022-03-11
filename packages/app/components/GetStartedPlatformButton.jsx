@@ -32,7 +32,7 @@ const GetStartedPlatformButton = ({ platform, setSelectedPlatform, isLoading }) 
 }
 
 GetStartedPlatformButton.propTypes = {
-  platform: PropTypes.string.isRequired,
+  platform: PropTypes.object.isRequired,
   setSelectedPlatform: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }

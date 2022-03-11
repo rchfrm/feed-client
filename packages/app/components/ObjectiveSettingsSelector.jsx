@@ -8,7 +8,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
-import { updateArtist } from '@/app/helpers/artistHelpers'
+import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
@@ -25,7 +25,7 @@ const ObjectiveSettingsSelector = ({
   const [objective, setObjective] = React.useState(currentObjective)
   const [error, setError] = React.useState(null)
 
-  const { artistId } = React.useContext(ArtistContext)
+  const { artist } = React.useContext(ArtistContext)
   const { updatePreferences } = useControlsStore(getControlsStoreState)
 
   React.useEffect(() => {
@@ -40,7 +40,7 @@ const ObjectiveSettingsSelector = ({
   const save = async ({ objective, platform }) => {
     setIsLoading(true)
 
-    const { res: artist, error } = await updateArtist(artistId, {
+    const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       platform,
       ...(objective !== 'growth' && { platform: 'website' }),
@@ -52,11 +52,12 @@ const ObjectiveSettingsSelector = ({
       return
     }
 
-    updatePreferences({
-      optimizationPreferences: {
-        objective: artist.preferences.optimization.objective,
-        platform: artist.preferences.optimization.platform,
-      },
+    updatePreferences(getPreferencesObject(updatedArtist))
+
+    // Update local state
+    setObjective({
+      objective: updatedArtist.preferences.optimization.objective,
+      platform: updatedArtist.preferences.optimization.platform,
     })
 
     setIsLoading(false)
@@ -71,9 +72,6 @@ const ObjectiveSettingsSelector = ({
       ...objective,
       [name]: value,
     }
-
-    // Update local state
-    setObjective(updatedObjective)
 
     save(updatedObjective)
   }

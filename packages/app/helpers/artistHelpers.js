@@ -366,10 +366,10 @@ export const getPreferences = (artist, type) => {
   return formattedPreferencesResponse
 }
 
-export const hasSetFacebookAdAccount = (artist) => {
-  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
+export const hasConnectedIntegration = (artist, platform) => {
+  const integration = getArtistIntegrationByPlatform(artist, platform)
 
-  return Boolean(facebookIntegration?.accountId)
+  return Boolean(integration?.accountId)
 }
 
 export const getMissingScopes = ({ grantedScopes, artist }) => {
@@ -463,16 +463,17 @@ export const getCallToAction = (objective, platform) => {
   }
 }
 
-export const getArtistPayload = ({
-  objective,
-  platform,
-  defaultLink,
-}) => {
+export const getArtistPayload = (data, artist) => {
+  const hasConnectedInstagram = hasConnectedIntegration(artist, 'instagram')
+  const defaultPlatform = hasConnectedInstagram ? 'instagram' : 'facebook'
+  const { objective, defaultLink } = data
+  const platform = (objective === 'growth' && data.platform === 'website') ? defaultPlatform : data.platform
+
   return {
     preferences: {
       optimization: {
         ...(objective && { objective }),
-        ...(platform && { platform }),
+        ...(platform && { platform: (objective === 'growth' && platform === 'website') ? 'facebook' : platform }),
       },
       posts: {
         ...(defaultLink && { default_link_id: defaultLink }),
@@ -480,7 +481,8 @@ export const getArtistPayload = ({
       },
       conversions: {
         ...(defaultLink && { default_link_id: defaultLink }),
-        ...(objective === 'sales' && { call_to_action: 'SHOP_NOW', facebook_pixel_event: 'Purchase' }),
+        ...(objective && platform && { call_to_action: getCallToAction(objective, platform)?.value }),
+        ...(objective === 'sales' && { facebook_pixel_event: 'Purchase' }),
       },
     },
   }
@@ -553,6 +555,28 @@ export const getObjectiveColor = (objective, platform) => {
   }
 }
 
+export const getPreferencesObject = (updatedArtist) => {
+  const { preferences } = updatedArtist
+  const { objective, platform } = preferences.optimization
+
+  return {
+    postsPreferences: {
+      callToAction: preferences.posts.call_to_action,
+      defaultLinkId: preferences.posts.default_link_id,
+      promotionEnabled: preferences.posts.promotion_enabled_default,
+    },
+    optimizationPreferences: {
+      objective,
+      platform,
+    },
+    conversionsPreferences: {
+      callToAction: preferences.conversions.call_to_action,
+      defaultLinkId: preferences.conversions.default_link_id,
+      facebookPixelEvent: preferences.conversions.facebook_pixel_event,
+    },
+  }
+}
+
 const objective = 'objective'
 const postPromotion = 'post-promotion'
 const adAccount = 'ad-account'
@@ -571,9 +595,10 @@ export const getStartedSections = {
 * @param {object} data
 * @returns {Promise<object>} { res, error }
 */
-export const updateArtist = (artistId, data) => {
-  const requestUrl = `/artists/${artistId}`
-  const payload = getArtistPayload(data)
+export const updateArtist = (artist, data) => {
+  const { id } = artist
+  const requestUrl = `/artists/${id}`
+  const payload = getArtistPayload(data, artist)
 
   const errorTracking = {
     category: 'Artist',
