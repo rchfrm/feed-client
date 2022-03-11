@@ -11,7 +11,7 @@ const AdDefaultsPixelSelector = ({
   updatePreferences,
   className,
 }) => {
-  const [pixelEvent, setPixelEvent] = React.useState(facebookPixelEvent)
+  const [pixelEvent, setPixelEvent] = React.useState(facebookPixelEvent || '')
 
   const handleSuccess = ({ preferences }) => {
     const { conversions: { facebook_pixel_event: facebookPixelEvent } } = preferences
