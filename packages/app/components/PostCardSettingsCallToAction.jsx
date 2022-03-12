@@ -12,7 +12,6 @@ import { getPostCallToActions, setPostCallToAction } from '@/app/helpers/postsHe
 
 const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
-  conversionsPreferences: state.conversionsPreferences,
 })
 
 const PostCardSettingsCallToAction = ({
@@ -21,19 +20,18 @@ const PostCardSettingsCallToAction = ({
   postCallToActions,
   artistId,
   updatePost,
-  campaignType,
   postPromotionStatus,
   isDisabled,
 }) => {
+  // Get call to action from store
+  const { postsPreferences } = useControlsStore(getControlsStoreState)
+  const { callToAction } = postsPreferences
+
   // Manage local state
   const [callToActions, setCallToActions] = React.useState(postCallToActions)
   const [selectedCallToAction, setSelectedCallToAction] = React.useState('')
   const [callToActionId, setCallToActionId] = React.useState('')
   const [error, setError] = React.useState(null)
-  // Get global default call to actions for both campaign types from store
-  const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
-  const { callToAction: defaultPostsCallToAction } = postsPreferences
-  const { callToAction: defaultConversionsCallToAction } = conversionsPreferences
 
   const isPostActive = postPromotionStatus === 'active'
 
@@ -57,12 +55,11 @@ const PostCardSettingsCallToAction = ({
 
   const handleSuccess = (callToAction) => {
     // Check if call to action already exists for the selected campaign type
-    const index = callToActions.findIndex(({ campaignType }) => campaignType === callToAction.campaignType)
     // Update local state
     const updatedCallToActions = produce(callToActions, draftState => {
       // If the call to action exists, only update it's value
-      if (index !== -1) {
-        draftState[index].value = callToAction.value
+      if (callToActions.length) {
+        draftState[0].value = callToAction.value
         return
       }
       // Otherwise push the new call to action object to the array
@@ -80,13 +77,11 @@ const PostCardSettingsCallToAction = ({
   }
 
   React.useEffect(() => {
-    // When the campaign type view changes .. set the selected call to action value and id again
-    const { id = '', value = '' } = callToActions?.find((callToAction) => callToAction.campaignType === campaignType) || {}
-    const defaultCallToAction = campaignType === 'all' ? defaultPostsCallToAction : defaultConversionsCallToAction || defaultPostsCallToAction
+    const { id = '', value = '' } = callToActions[0] || {}
     // Use post level call to action value, if it doesnt exist use default call to action value, otherwise set empty string
-    setSelectedCallToAction(value || defaultCallToAction || '')
+    setSelectedCallToAction(value || callToAction || '')
     setCallToActionId(id)
-  }, [campaignType, callToActions, defaultPostsCallToAction, defaultConversionsCallToAction])
+  }, [callToActions, callToAction])
 
   return (
     <>
@@ -98,7 +93,6 @@ const PostCardSettingsCallToAction = ({
         callToActionId={callToActionId}
         postId={postId}
         isPostActive={isPostActive}
-        campaignType={campaignType}
         shouldSaveOnChange
         disabled={isDisabled}
       />
@@ -112,7 +106,6 @@ PostCardSettingsCallToAction.propTypes = {
   postIndex: PropTypes.number.isRequired,
   postCallToActions: PropTypes.arrayOf(PropTypes.object),
   updatePost: PropTypes.func.isRequired,
-  campaignType: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool.isRequired,
 }
 

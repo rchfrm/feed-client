@@ -19,7 +19,6 @@ const CallToActionSelector = ({
   callToActionId,
   postId,
   isPostActive,
-  campaignType,
   className,
   label,
   disabled,
@@ -60,7 +59,7 @@ const CallToActionSelector = ({
       return
     }
     // Make API request
-    const { res, error } = await onSelect(artistId, selectedOptionValue, postId, campaignType, callToActionId)
+    const { res, error } = await onSelect(artistId, selectedOptionValue, postId, callToActionId)
     setShowAlert(false)
     // Handle error
     if (error) {
@@ -72,7 +71,7 @@ const CallToActionSelector = ({
     onSuccess(res)
     setError(null)
     setLoading(false)
-  }, [setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess, postId, campaignType, callToActionId, isPostActive, loading])
+  }, [setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess, postId, callToActionId, isPostActive, loading])
 
   const handleChange = (e) => {
     const { target: { value } } = e
@@ -131,7 +130,6 @@ CallToActionSelector.propTypes = {
   callToActionId: PropTypes.string,
   postId: PropTypes.string,
   isPostActive: PropTypes.bool,
-  campaignType: PropTypes.string,
   className: PropTypes.string,
   label: PropTypes.string,
   disabled: PropTypes.bool,
@@ -145,7 +143,6 @@ CallToActionSelector.defaultProps = {
   callToActionId: '',
   postId: '',
   isPostActive: false,
-  campaignType: '',
   className: '',
   label: '',
   disabled: false,

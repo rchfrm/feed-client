@@ -43,7 +43,7 @@ Do you want to continue?`,
   linkTrackingIntro: `Should UTM parameters be added automatically to the end of links?`,
 
   // Warning when turning off active post
-  postStatusConfirmation: (campaignType) => `Ads created from this post will soon stop running to ${campaignType === 'all' ? 'Grow & Nurture' : 'Convert'} audiences.`,
+  postStatusConfirmation: 'Ads created from this post will soon stop running to your audiences.',
 
   // FILTER TOOLTIPS
   // ----------------
@@ -101,7 +101,6 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   },
 
   // SETTINGS SIDEPANEL
-  postSettingsIntro: (campaignType) => `Settings for the ${campaignType === 'all' ? '"Grow & Nurture"' : '"Convert"'} part of the funnel. Here you can decide whether to enable this post for ${campaignType === 'all' ? 'grow & nurture' : 'conversions'} campaigns, and which link, call to action and caption to use.`,
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   postCallToActionSetting: 'Which call to action should be used when this post is made into an ad?',
   editCaption: `Edit the caption used in this ad.`,

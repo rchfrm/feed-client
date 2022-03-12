@@ -21,12 +21,10 @@ const PostCardDisableHandler = ({
   toggleCampaign,
   isEnabled,
   setIsEnabled,
-  campaignType,
 }) => {
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const [reverseStatus, setReverseStatus] = React.useState(false)
   const [cachedPromotableStatus, setCachedPromotableStatus] = React.useState()
-  const isConversionsCampaign = campaignType === 'conversions'
   // Extract some variables from the post object
   const {
     id: postId,
@@ -52,7 +50,6 @@ const PostCardDisableHandler = ({
     postId,
     promotionEnabled: getPromotionStatus(cachedPromotableStatus),
     disabled: !reverseStatus,
-    campaignType,
     onResolve: ({ res: postUpdated, error }) => {
       setShouldShowAlert(false)
       // Reset reversed status
@@ -60,10 +57,10 @@ const PostCardDisableHandler = ({
       // Hide warning
       if (error) return
       // Update post list state
-      const { promotion_enabled, conversions_enabled, promotable_status } = postUpdated
-      toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
+      const { promotion_enabled, promotable_status } = postUpdated
+      toggleCampaign(postId, promotion_enabled, promotable_status)
       // Update local toggle state
-      setIsEnabled(isConversionsCampaign ? conversions_enabled : promotion_enabled)
+      setIsEnabled(promotion_enabled)
     },
   })
 
@@ -83,7 +80,6 @@ const PostCardDisableHandler = ({
       show={shouldShowAlert}
       onConfirm={onConfirm}
       onCancel={onCancel}
-      campaignType={campaignType}
     />
   )
 }
@@ -95,7 +91,6 @@ PostCardDisableHandler.propTypes = {
   toggleCampaign: PropTypes.func.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
-  campaignType: PropTypes.string.isRequired,
 }
 
 PostCardDisableHandler.defaultProps = {

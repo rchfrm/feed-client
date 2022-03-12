@@ -224,11 +224,17 @@ export const updateAccessToken = async (artistIds, accessToken) => {
 * @param {string} linkId
 * @returns {Promise<object>} { res, error }
 */
-export const setPostLink = (artistId, assetId, linkId, campaignType) => {
+export const setPostLink = (artistId, assetId, linkId) => {
   const requestUrl = `/artists/${artistId}/assets/${assetId}`
   const payload = {
     link_specs: {
-      [campaignType]: linkId ? {
+      all: linkId ? {
+        type: 'linkbank',
+        data: {
+          id: linkId,
+        },
+      } : null,
+      conversions: linkId ? {
         type: 'linkbank',
         data: {
           id: linkId,

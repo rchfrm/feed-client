@@ -24,7 +24,6 @@ const PostCardEditCaption = ({
   postAdMessages,
   updatePost,
   isEditable,
-  campaignType,
   isDisabled,
 }) => {
   // Internal state
@@ -72,16 +71,15 @@ const PostCardEditCaption = ({
     setSavedNewCaption(newCaption)
     setVisibleCaption('ad')
     // Check if caption already exists for the selected campaign type
-    const index = adMessages.findIndex(({ campaignType }) => campaignType === newAdMessages.campaignType)
     const updatedCaptions = produce(adMessages, draftState => {
       // If the caption exists, only update it's value
-      if (index !== -1) {
-        draftState[index].message = newCaption
+      if (adMessages.lenght) {
+        draftState[0].message = newCaption
         return
       }
       // An empty caption means we did a reset to the original, so remove it from the array
       if (!newCaption) {
-        draftState.splice(index, 1)
+        draftState.splice(0, 1)
         return
       }
       // Otherwise push the new caption object to the array
@@ -119,7 +117,6 @@ const PostCardEditCaption = ({
       artistId,
       assetId: post.id,
       adMessageId,
-      campaignType,
       caption: newCaption,
     })
     // Handle response...
@@ -138,7 +135,7 @@ const PostCardEditCaption = ({
     // Reset component state
     setUseEditMode(false)
     setIsLoading(false)
-  }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, updateState, setError, campaignType, adMessageId])
+  }, [isLoading, artistId, originalCaption, post.id, post.promotionStatus, updateState, setError, adMessageId])
 
   // RESET CAPTION TO ORIGINAL
   const resetToOriginal = React.useCallback(async () => {
@@ -146,11 +143,11 @@ const PostCardEditCaption = ({
   }, [updatePostDb])
 
   React.useEffect(() => {
-    const { id = '', message = '' } = adMessages?.find((caption) => caption.campaignType === campaignType) || {}
+    const { id = '', message = '' } = adMessages[0] || {}
     setNewCaption(message)
     setAdMessageId(id)
     setSavedNewCaption(message)
-  }, [campaignType, adMessages])
+  }, [adMessages])
 
   return (
     <div>
@@ -294,7 +291,6 @@ PostCardEditCaption.propTypes = {
   postAdMessages: PropTypes.arrayOf(PropTypes.object),
   updatePost: PropTypes.func.isRequired,
   isEditable: PropTypes.bool.isRequired,
-  campaignType: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool.isRequired,
 }
 

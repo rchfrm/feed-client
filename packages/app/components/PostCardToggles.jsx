@@ -42,7 +42,6 @@ const PostCardToggles = ({
         post={post}
         postToggleSetterType={postToggleSetterType}
         postIndex={postIndex}
-        campaignType="all"
         artistId={artistId}
         isEnabled={promotionEnabled}
         toggleCampaign={toggleCampaign}

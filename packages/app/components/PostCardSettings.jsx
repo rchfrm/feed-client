@@ -4,10 +4,8 @@ import Router from 'next/router'
 
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
-import MarkdownText from '@/elements/MarkdownText'
 
 import AdSettingsSection from '@/app/AdSettingsSection'
-import PostCardSettingsTabs from '@/app/PostCardSettingsTabs'
 import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
 import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
@@ -17,16 +15,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
-import useControlsStore from '@/app/stores/controlsStore'
-
 import copy from '@/app/copy/PostsPageCopy'
-
-const getControlsStoreState = (state) => ({
-  canRunConversions: state.canRunConversions,
-  conversionsEnabled: state.conversionsEnabled,
-})
 
 const getCaptionNotEditableExcuse = (post) => {
   const base = 'The caption is not editable because'
@@ -47,7 +36,6 @@ const PostCardSettings = ({
 }) => {
   const {
     promotionEnabled,
-    conversionsEnabled,
     promotionStatus,
     promotionEligibility,
     linkSpecs,
@@ -56,17 +44,10 @@ const PostCardSettings = ({
     id: postId,
     priorityEnabled,
   } = post
-  // Get conversions feature flag value
-  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
   // HANDLE ERROR
+  console.log(linkSpecs)
   const [error, setError] = React.useState(null)
-  const [campaignType, setCampaignType] = React.useState('all')
-
-  const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
-  const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
-
-  const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
-  const isConversionsCampaign = campaignType === 'conversions'
+  const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
 
   const {
     enticeEngage,
@@ -79,10 +60,8 @@ const PostCardSettings = ({
   const isEligibleForGrowAndNurture = [enticeEngage, remindTraffic, enticeTraffic].some(Boolean)
   const isEligibleForConversions = [offPlatformConversions, remindConversions].some(Boolean)
 
-  const isToggleDisabled = campaignType === 'all'
-    ? !isEligibleForGrowAndNurture && !priorityEnabled
-    : (!isEligibleForConversions && !priorityEnabled)
-  const isSectionDisabled = campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled
+  const isToggleDisabled = (!isEligibleForGrowAndNurture && isEligibleForConversions) && !priorityEnabled
+  const isSectionDisabled = !isEnabled
 
   const noCaptionEditExcuse = getCaptionNotEditableExcuse(post)
 
@@ -112,28 +91,18 @@ const PostCardSettings = ({
         </div>
       ) : (
         <>
-          {/* CAMPAIGN TYPE TABS */}
-          {conversionsFeatureEnabled && (
-            <PostCardSettingsTabs
-              campaignType={campaignType}
-              setCampaignType={setCampaignType}
-            />
-          )}
           {/* ERROR */}
           <Error error={error} />
           {/* SETTINGS SECTION */}
-          <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />
           <PostCardSettingsToggle
             post={post}
             postId={postId}
             postToggleSetterType={postToggleSetterType}
-            campaignType={campaignType}
             artistId={artistId}
             toggleCampaign={toggleCampaign}
-            isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
-            setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
+            isEnabled={isEnabled}
+            setIsEnabled={setIsEnabled}
             isDisabled={isToggleDisabled}
-            showAlertModal={isConversionsCampaign && (!globalConversionsEnabled || !canRunConversions)}
           />
           <AdSettingsSection
             header="Link"
@@ -147,7 +116,6 @@ const PostCardSettings = ({
               postPromotionStatus={promotionStatus}
               setError={setError}
               linkSpecs={linkSpecs}
-              campaignType={campaignType}
               isDisabled={isSectionDisabled}
             />
           </AdSettingsSection>
@@ -162,7 +130,6 @@ const PostCardSettings = ({
               postCallToActions={callToActions}
               artistId={artistId}
               updatePost={updatePost}
-              campaignType={campaignType}
               postPromotionStatus={promotionStatus}
               isDisabled={isSectionDisabled}
             />
@@ -180,7 +147,6 @@ const PostCardSettings = ({
               postAdMessages={adMessages}
               updatePost={updatePost}
               isEditable={!noCaptionEditExcuse}
-              campaignType={campaignType}
               isDisabled={isSectionDisabled}
             />
           </AdSettingsSection>

@@ -181,12 +181,12 @@ export const setDefaultLink = async (artistId, linkId) => {
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setPostLink = async (artistId, linkId, assetId, campaignType) => {
+export const setPostLink = async (artistId, linkId, assetId) => {
   // Handle choosing "Use default" from post link
   if (linkId === '_default') {
     linkId = null
   }
-  const { res: newPost, error } = await server.setPostLink(artistId, assetId, linkId, campaignType)
+  const { res: newPost, error } = await server.setPostLink(artistId, assetId, linkId)
   if (error) return { error }
   // Get new link spec data from response
   const linkData = getPostLinkSpecData(newPost)

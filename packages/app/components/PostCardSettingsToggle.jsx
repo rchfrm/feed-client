@@ -11,13 +11,11 @@ const PostCardSettingsToggle = ({
   post,
   postId,
   postToggleSetterType,
-  campaignType,
   toggleCampaign,
   artistId,
   isEnabled,
   setIsEnabled,
   isDisabled,
-  showAlertModal,
 }) => {
   const { postPromotable, promotionStatus } = post
   const [isLoading, setIsLoading] = React.useState(false)
@@ -29,7 +27,7 @@ const PostCardSettingsToggle = ({
     setHasChanged(true)
     // Update state passed to toggle component
     setIsEnabled(newState)
-    const { res: updatedPost, error } = await updatePost({ artistId, postId, promotionEnabled: newState, campaignType })
+    const { res: updatedPost, error } = await updatePost({ artistId, postId, promotionEnabled: newState })
     setIsLoading(false)
     // Return to previous value if erroring
     if (error) {
@@ -38,12 +36,8 @@ const PostCardSettingsToggle = ({
     }
     // Update post list state
     const { promotion_enabled, promotable_status } = updatedPost
-    toggleCampaign(postId, promotion_enabled, promotable_status, campaignType)
-  }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled])
-
-  React.useEffect(() => {
-    setHasChanged(false)
-  }, [campaignType])
+    toggleCampaign(postId, promotion_enabled, promotable_status)
+  }, [artistId, postId, toggleCampaign, setIsEnabled])
 
   return (
     <div
@@ -51,7 +45,6 @@ const PostCardSettingsToggle = ({
         'flex items-center',
         'rounded-dialogue bg-grey-1',
         'mb-10 p-3',
-        showAlertModal ? 'border-2 border-solid border-red' : null,
       ].join(' ')}
     >
       <ToggleSwitch
@@ -70,7 +63,6 @@ const PostCardSettingsToggle = ({
           toggleCampaign={toggleCampaign}
           isEnabled={isEnabled}
           setIsEnabled={setIsEnabled}
-          campaignType={campaignType}
         />
       )}
     </div>
@@ -81,17 +73,14 @@ PostCardSettingsToggle.propTypes = {
   post: PropTypes.object.isRequired,
   postId: PropTypes.string.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
-  campaignType: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
   artistId: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-  showAlertModal: PropTypes.bool,
 }
 
 PostCardSettingsToggle.defaultProps = {
-  showAlertModal: false,
 }
 
 export default PostCardSettingsToggle

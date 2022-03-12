@@ -11,7 +11,7 @@ import PostCardEditAlert from '@/app/PostCardEditAlert'
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
-import { splitLinks, defaultPostLinkId, getLinkById } from '@/app/helpers/linksHelpers'
+import { splitLinks, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 
 const getControlsStoreState = (state) => ({
   artistId: state.artistId,
@@ -37,16 +37,13 @@ const PostLinksSelect = ({
   className,
   disabled,
   isPostActive,
-  campaignType,
 }) => {
   // READ FROM LINKS STORE
   const {
     artistId,
     defaultLink,
     nestedLinks,
-    conversionsPreferences,
   } = useControlsStore(getControlsStoreState, shallow)
-  const { defaultLinkId: defaultConversionsLinkId } = conversionsPreferences
   const [showAlert, setShowAlert] = React.useState(false)
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const [loading, setLoading] = React.useState(true)
@@ -127,10 +124,7 @@ const PostLinksSelect = ({
     }
     // Add DEFAULT link if needed
     if (includeDefaultLink && defaultLink.name) {
-      let { name } = defaultLink
-      if (campaignType === 'conversions' && defaultConversionsLinkId && defaultConversionsLinkId !== '_default') {
-        name = getLinkById(nestedLinks, defaultConversionsLinkId)?.name
-      }
+      const { name } = defaultLink
       // const defaultLinkOption
       otherOptionsGroup.options.push({ name: `Use Default Link (${name})`, value: defaultPostLinkId })
     }
@@ -142,7 +136,7 @@ const PostLinksSelect = ({
     baseOptions.push(otherOptionsGroup)
     setLoading(false)
     return baseOptions
-  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType, campaignType, defaultConversionsLinkId])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType])
 
   // HANDLE SETTING SELECTED LINK
   const updatePostLink = React.useCallback(async (selectedOptionValue, forceRun = false) => {
@@ -162,7 +156,7 @@ const PostLinksSelect = ({
       return
     }
     // Run server
-    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId, campaignType)
+    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId)
     if (!isMounted) return
     // Handle error
     setShowAlert(false)
@@ -182,7 +176,7 @@ const PostLinksSelect = ({
     setLoading(false)
     // Reset deleted link state
     setIsDeletedLink(false)
-  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink, campaignType])
+  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditLinkBankLink({
@@ -276,7 +270,6 @@ PostLinksSelect.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   isPostActive: PropTypes.bool,
-  campaignType: PropTypes.string,
 }
 
 PostLinksSelect.defaultProps = {
@@ -295,7 +288,6 @@ PostLinksSelect.defaultProps = {
   className: '',
   disabled: false,
   isPostActive: false,
-  campaignType: '',
 }
 
 export default PostLinksSelect

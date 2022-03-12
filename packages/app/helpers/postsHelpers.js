@@ -137,18 +137,6 @@ export const filterTypes = [
   },
 ]
 
-// CAMPAIGN TYPES
-export const campaignTypes = [
-  {
-    title: 'Grow & Nurture',
-    slug: 'all',
-  },
-  {
-    title: 'Convert',
-    slug: 'conversions',
-  },
-]
-
 // DUMMY POST DATA
 export const dummyPosts = [
   {
@@ -269,9 +257,8 @@ export const getPostCallToActionData = (post) => {
   const {
     id,
     call_to_action: value,
-    options: { campaign_type: campaignType },
   } = post || {}
-  return { id, value, campaignType }
+  return { id, value }
 }
 
 // Get post ad message data
@@ -279,9 +266,8 @@ export const getPostAdMessageData = (post) => {
   const {
     id,
     message,
-    options: { campaign_type: campaignType },
   } = post || {}
-  return { id, message, campaignType }
+  return { id, message }
 }
 
 // FORMAT POST RESPONSES
@@ -420,7 +406,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
 }
 
 // UPDATE CAPTION
-export const updatePostCaption = async ({ artistId, assetId, adMessageId, campaignType, caption }) => {
+export const updatePostCaption = async ({ artistId, assetId, adMessageId, caption }) => {
   const isUpdating = !!adMessageId
   const endpointBase = `/artists/${artistId}/assets/${assetId}/ad_messages`
   const requestType = isUpdating ? 'patch' : 'post'
@@ -428,7 +414,7 @@ export const updatePostCaption = async ({ artistId, assetId, adMessageId, campai
   const payload = {
     message: caption,
     options: {
-      campaign_type: campaignType,
+      campaign_type: 'all',
     },
   }
   const errorTracking = {
@@ -442,11 +428,11 @@ export const updatePostCaption = async ({ artistId, assetId, adMessageId, campai
 }
 
 // RESET CAPTION
-export const resetPostCaption = ({ artistId, assetId, adMessageId, campaignType }) => {
+export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
   const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages/${adMessageId}`
   const payload = {
     options: {
-      campaign_type: campaignType,
+      campaign_type: 'all',
     },
   }
   const errorTracking = {
@@ -469,7 +455,7 @@ export const setPostPriority = ({ artistId, assetId, priorityEnabled }) => {
 }
 
 // UPDATE POST CALL TO ACTION
-export const setPostCallToAction = async (artistId, callToAction, assetId, campaignType, callToActionId) => {
+export const setPostCallToAction = async (artistId, callToAction, assetId, callToActionId) => {
   const isUpdating = !!callToActionId
   const endpointBase = `/artists/${artistId}/assets/${assetId}/call_to_actions`
   const requestType = isUpdating ? 'patch' : 'post'
@@ -477,7 +463,7 @@ export const setPostCallToAction = async (artistId, callToAction, assetId, campa
   const payload = {
     call_to_action: callToAction,
     options: {
-      campaign_type: campaignType,
+      campaign_type: 'all',
     },
   }
   const errorTracking = {
@@ -526,7 +512,6 @@ export const getPostCallToActions = async (artistId, assetId) => {
   const callToActions = res.map((callToAction) => ({
     id: callToAction.id,
     value: callToAction.call_to_action,
-    campaignType: callToAction.options.campaign_type,
   }))
 
   return { res: callToActions, error }
@@ -550,7 +535,6 @@ export const getPostAddMessages = async (artistId, assetId) => {
   const adMessages = res.map((adMessage) => ({
     id: adMessage.id,
     message: adMessage.message,
-    campaignType: adMessage.options.campaign_type,
   }))
 
   return { res: adMessages, error }

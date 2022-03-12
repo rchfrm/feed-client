@@ -50,7 +50,7 @@ const GetStartedPostsSelectionButtons = ({
     }
 
     const postPromises = posts.map(({ id, promotionEnabled }) => {
-      return updatePost({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
+      return updatePost({ artistId, postId: id, promotionEnabled })
     })
 
     // Patch promotion enabled value in the db

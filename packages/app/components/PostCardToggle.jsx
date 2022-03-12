@@ -25,7 +25,6 @@ const PostCardToggle = ({
   updatePost: updatePostsState,
   isActive,
   disabled,
-  showAlertModal,
   className,
 }) => {
   // Store INTERNAL STATE based on promotionEnabled
@@ -80,7 +79,6 @@ const PostCardToggle = ({
         'relative w-full',
         'flex justify-between items-center',
         'rounded-dialogue bg-grey-1',
-        showAlertModal ? 'border-2 border-solid border-red' : null,
         className,
       ].join(' ')}
     >
@@ -142,7 +140,6 @@ PostCardToggle.propTypes = {
   updatePost: PropTypes.func.isRequired,
   isActive: PropTypes.bool,
   disabled: PropTypes.bool,
-  showAlertModal: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -151,7 +148,6 @@ PostCardToggle.defaultProps = {
   className: null,
   isEnabled: false,
   isActive: false,
-  showAlertModal: false,
 }
 
 export default PostCardToggle

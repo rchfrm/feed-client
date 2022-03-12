@@ -11,12 +11,11 @@ const PostCardDisableAlert = ({
   show,
   onConfirm,
   onCancel,
-  campaignType,
 }) => {
   // Define alert contents
   const alertContents = React.useMemo(() => {
-    return <MarkdownText markdown={copy.postStatusConfirmation(campaignType)} className="mb-0" />
-  }, [campaignType])
+    return <MarkdownText markdown={copy.postStatusConfirmation} className="mb-0" />
+  }, [])
 
   // SHOW ALERT
   const { showAlert, closeAlert } = useAlertModal()
@@ -58,7 +57,6 @@ PostCardDisableAlert.propTypes = {
   show: PropTypes.bool.isRequired,
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  campaignType: PropTypes.string.isRequired,
 }
 
 PostCardDisableAlert.defaultProps = {

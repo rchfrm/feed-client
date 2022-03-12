@@ -20,11 +20,10 @@ const PostCardSettingsLink = ({
   postPromotionStatus,
   updatePost,
   setError,
-  campaignType,
   isDisabled,
   className,
 }) => {
-  const { linkId, linkHref, linkType } = linkSpecs[campaignType] || {}
+  const { linkId, linkHref, linkType } = linkSpecs.all || {}
   const defaultLink = useControlsStore(getDefaultLink)
   const [previewUrl, setPreviewUrl] = React.useState(linkHref || defaultLink.href)
   const [currentLinkId, setCurrentLinkId] = React.useState(linkId || defaultPostLinkId)
@@ -40,7 +39,7 @@ const PostCardSettingsLink = ({
   }, [updatePost])
 
   const handleSuccess = (newLinkSpecs) => {
-    const { linkId, linkHref } = newLinkSpecs[campaignType] || {}
+    const { linkId, linkHref } = newLinkSpecs.all || {}
     const isDefaultLink = !linkId
     const newLinkId = linkId || defaultPostLinkId
     const newLinkHref = linkHref || defaultLink.href
@@ -61,11 +60,11 @@ const PostCardSettingsLink = ({
   }
 
   React.useEffect(() => {
-    const { linkId, linkHref, linkType } = linkSpecs[campaignType] || {}
+    const { linkId, linkHref, linkType } = linkSpecs.all || {}
     setCurrentLinkId(linkId)
     setPreviewUrl(linkHref)
     setCurrentLinkType(linkType)
-  }, [campaignType, linkSpecs])
+  }, [linkSpecs])
 
   return (
     <div
@@ -85,7 +84,6 @@ const PostCardSettingsLink = ({
         componentLocation="post"
         selectClassName="mb-0"
         isPostActive={isPostActive}
-        campaignType={campaignType}
         disabled={isDisabled}
       />
       {/* LINK PREVIEW */}
@@ -119,7 +117,6 @@ PostCardSettingsLink.propTypes = {
   postPromotionStatus: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
-  campaignType: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
