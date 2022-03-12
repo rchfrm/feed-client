@@ -1,16 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
-import useControlsStore from '@/app/stores/controlsStore'
-
 import PostCardToggle from '@/app/PostCardToggle'
-
-const getControlsStoreState = (state) => ({
-  canRunConversions: state.canRunConversions,
-  conversionsEnabled: state.conversionsEnabled,
-})
 
 const PostCardToggles = ({
   artistId,
@@ -23,16 +14,10 @@ const PostCardToggles = ({
   togglesClassName,
   className,
 }) => {
-  // Get conversions feature flag value
-  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
-  // Get conversions store values
-  const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
   const {
     promotionStatus,
     promotionEnabled,
     promotionEligibility,
-    conversionsEnabled,
-    isRunningInConversions,
   } = post
 
   const {
@@ -62,25 +47,9 @@ const PostCardToggles = ({
         isEnabled={promotionEnabled}
         toggleCampaign={toggleCampaign}
         updatePost={updatePost}
-        disabled={!isEligibleForGrowAndNurture && !priorityEnabled}
+        disabled={(!isEligibleForGrowAndNurture && !isEligibleForConversions) && !priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
-      />
-      {/* CONVERT TOGGLE */}
-      <PostCardToggle
-        post={post}
-        postToggleSetterType={postToggleSetterType}
-        postIndex={postIndex}
-        campaignType="conversions"
-        artistId={artistId}
-        isEnabled={conversionsEnabled}
-        toggleCampaign={toggleCampaign}
-        disabled={!isEligibleForConversions && !priorityEnabled}
-        updatePost={updatePost}
-        isActive={isRunningInConversions}
-        className={togglesClassName}
-        showAlertModal={conversionsFeatureEnabled && (!globalConversionsEnabled || !canRunConversions)}
-        isFeatureEnabled={conversionsFeatureEnabled}
       />
     </div>
   )

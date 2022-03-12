@@ -189,9 +189,9 @@ export const getPostTypesTitle = (id) => {
 }
 
 // TOGGLE POST STATUS ON SERVER
-export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false, campaignType }) => {
+export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false }) => {
   if (disabled) return
-  return server.togglePromotionEnabled(artistId, postId, promotionEnabled, campaignType)
+  return server.togglePromotionEnabled(artistId, postId, promotionEnabled)
 }
 
 const getPaidClicks = (adsSummaryMetrics) => {

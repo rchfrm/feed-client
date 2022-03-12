@@ -45,9 +45,6 @@ const postsReducer = (draftState, postsAction) => {
       break
     case 'toggle-promotion':
       draftState[postIndex].promotionEnabled = promotionEnabled
-      draftState[postIndex].promotableStatus = promotableStatus
-      break
-    case 'toggle-conversion':
       draftState[postIndex].conversionsEnabled = promotionEnabled
       draftState[postIndex].promotableStatus = promotableStatus
       break
@@ -193,12 +190,12 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
   const [postToggleSetterType, setPostToggleSetterType] = React.useState('single')
 
   // Define function for toggling SINGLE promotion campaign or conversions campaign
-  const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus, campaignType = 'all') => {
+  const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus) => {
     const postIndex = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
     setPostToggleSetterType('single')
     setPosts({
-      type: campaignType === 'all' ? 'toggle-promotion' : 'toggle-conversion',
+      type: 'toggle-promotion',
       payload: {
         promotionEnabled,
         promotableStatus,
@@ -211,7 +208,6 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
       status: newPromotionState ? 'eligible' : 'ineligible',
       postType,
       platform,
-      campaignType,
       es: paidMetrics.engagementScore ?? organicMetrics.engagementScore,
     })
     return newPromotionState

@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
+import { growthGradient } from '@/app/helpers/postsHelpers'
 
 const PostCardLabel = ({
   copy,
-  campaignType,
   className,
   style,
 }) => {
@@ -17,7 +16,7 @@ const PostCardLabel = ({
       ].join(' ')}
       style={{
         ...style,
-        background: campaignType !== 'conversions' ? growthGradient : conversionsGradient,
+        background: growthGradient,
         padding: '0.1rem 0.4rem',
       }}
     >
@@ -27,13 +26,11 @@ const PostCardLabel = ({
 }
 
 PostCardLabel.propTypes = {
-  campaignType: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
 PostCardLabel.defaultProps = {
-  campaignType: 'all',
   className: null,
   style: {},
 }

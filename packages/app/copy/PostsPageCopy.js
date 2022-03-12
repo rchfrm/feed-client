@@ -187,15 +187,6 @@ Would you like to continue?`
     'By marking this post as a priority post, you can start it running straight away (unless two priority posts are already running).',
     'You can remove priority status from the post or stop it running at any time.',
   ],
-  conversionsToggleAlert: (canRunConversions, globalConversionsEnabled) => {
-    if (!canRunConversions) {
-      return 'Would you like to set-up conversion campaigns now?'
-    }
-
-    if (!globalConversionsEnabled) {
-      return 'Would you like to enable conversion campaigns now?'
-    }
-  },
   connectWithFacebookCard: "See your most engaging Facebook and Instagram posts and start running ads.",
   connectWithFacebookBlock: "Connect to Facebook & Instagram to see your most engaging posts and start running ads.",
 }

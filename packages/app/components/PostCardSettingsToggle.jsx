@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
-
-import * as ROUTES from '@/app/constants/routes'
 
 import PostCardDisableHandler from '@/app/PostCardDisableHandler'
-import PostCardToggleAlert from '@/app/PostCardToggleAlert'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
 
@@ -26,14 +22,8 @@ const PostCardSettingsToggle = ({
   const { postPromotable, promotionStatus } = post
   const [isLoading, setIsLoading] = React.useState(false)
   const [hasChanged, setHasChanged] = React.useState(false)
-  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
-  const isConversionsCampaign = campaignType === 'conversions'
 
   const onChange = React.useCallback(async (newState) => {
-    if (showAlertModal) {
-      setShouldShowAlert(true)
-      return
-    }
     // Start loading
     setIsLoading(true)
     setHasChanged(true)
@@ -47,15 +37,9 @@ const PostCardSettingsToggle = ({
       return
     }
     // Update post list state
-    const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
-    toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
-  }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled, isConversionsCampaign, showAlertModal])
-
-  const goToControlsConversionsPage = () => {
-    Router.push({
-      pathname: ROUTES.CONTROLS_CONVERSIONS,
-    })
-  }
+    const { promotion_enabled, promotable_status } = updatedPost
+    toggleCampaign(postId, promotion_enabled, promotable_status, campaignType)
+  }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled])
 
   React.useEffect(() => {
     setHasChanged(false)
@@ -87,16 +71,6 @@ const PostCardSettingsToggle = ({
           isEnabled={isEnabled}
           setIsEnabled={setIsEnabled}
           campaignType={campaignType}
-        />
-      )}
-      {/* TOGGLE ALERT */}
-      {shouldShowAlert && (
-        <PostCardToggleAlert
-          show={shouldShowAlert}
-          onAlertConfirm={goToControlsConversionsPage}
-          onCancel={() => {
-            setShouldShowAlert(false)
-          }}
         />
       )}
     </div>
