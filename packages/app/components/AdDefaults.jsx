@@ -22,6 +22,7 @@ const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
   postsPreferences: state.postsPreferences,
   conversionsPreferences: state.conversionsPreferences,
+  optimizationPreferences: state.optimizationPreferences,
   updatePreferences: state.updatePreferences,
 })
 
@@ -30,9 +31,16 @@ const AdDefaults = () => {
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   // Get store values
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
-  const { defaultLink, postsPreferences, conversionsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
+  const {
+    defaultLink,
+    postsPreferences,
+    optimizationPreferences,
+    conversionsPreferences,
+    updatePreferences,
+  } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultCallToAction, defaultPromotionEnabled } = postsPreferences
   const { facebookPixelEvent } = conversionsPreferences
+  const { objective } = optimizationPreferences
 
   return (
     <div>
@@ -90,16 +98,18 @@ const AdDefaults = () => {
           <AdDefaultsPixelSelector />
         </AdSettingsSection>
         {/* FB PIXEL EVENT */}
-        <AdSettingsSection
-          header="Facebook Pixel Event"
-          copy={copy.facebookPixelEventIntro}
-        >
-          <AdDefaultsPixelEvent
-            facebookPixelEvent={facebookPixelEvent}
-            updatePreferences={updatePreferences}
-            className="mb-8"
-          />
-        </AdSettingsSection>
+        {objective === 'sales' && (
+          <AdSettingsSection
+            header="Facebook Pixel Event"
+            copy={copy.facebookPixelEventIntro}
+          >
+            <AdDefaultsPixelEvent
+              facebookPixelEvent={facebookPixelEvent}
+              updatePreferences={updatePreferences}
+              className="mb-8"
+            />
+          </AdSettingsSection>
+        )}
       </ControlsContentSection>
     </div>
   )
