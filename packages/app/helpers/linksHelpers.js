@@ -16,6 +16,45 @@ export const usedLinkErrorCode = 'link_reference_error'
 
 export const folderStatesStorageKey = 'linkFolderStates'
 
+export const dummyLinks = [
+  {
+    id: '0',
+    name: 'Folder 1',
+    isDefaultLink: false,
+    links: [
+      {
+        id: '1',
+        folder_id: '_default',
+        href: 'https://www.website.com/',
+        name: 'Link 1',
+        isDefaultLink: false,
+      },
+      {
+        id: '2',
+        folder_id: '_default',
+        href: 'https://www.website.com/',
+        name: 'Link 2',
+        isDefaultLink: false,
+      },
+    ],
+    type: 'folder',
+  },
+  {
+    id: '3',
+    folder_id: '_default',
+    href: 'https://www.website.com/',
+    name: 'Link 3',
+    isDefaultLink: false,
+  },
+  {
+    id: '4',
+    folder_id: '_default',
+    href: 'https://www.website.com/',
+    name: 'Link 4',
+    isDefaultLink: false,
+  },
+]
+
 // Split links into loose and folders
 export const splitLinks = (nestedLinks = []) => {
   return nestedLinks.reduce((obj, folder) => {

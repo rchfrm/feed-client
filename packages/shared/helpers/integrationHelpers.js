@@ -127,6 +127,72 @@ const integrationPlaceholders = {
   youtube: null,
 }
 
+export const dummyIntegrations = [
+  {
+    platform: 'facebook',
+    title: 'Facebook',
+    color: '',
+  },
+  {
+    platform: 'instagram',
+    title: 'Instagram',
+    color: '',
+  },
+  {
+    platform: 'soundcloud',
+    title: 'SoundCloud',
+    color: '',
+  },
+  {
+    platform: 'spotify',
+    title: 'Spotify',
+    color: '',
+  },
+  {
+    platform: 'twitter',
+    title: 'Twitter',
+    color: '',
+  },
+  {
+    platform: 'youtube',
+    title: 'Youtube',
+    color: '',
+  },
+]
+
+export const dummyIntegrationLinks = [
+  {
+    platform: 'facebook',
+    href: 'not connected',
+    titleVerbose: 'Facebook page',
+  },
+  {
+    platform: 'instagram',
+    href: 'not connected',
+    titleVerbose: 'Instagram profile',
+  },
+  {
+    platform: 'soundcloud',
+    href: 'not connected',
+    titleVerbose: 'SoundCloud profile',
+  },
+  {
+    platform: 'spotify',
+    href: 'not connected',
+    titleVerbose: 'Spotify profile',
+  },
+  {
+    platform: 'twitter',
+    href: 'not connected',
+    titleVerbose: 'Twitter account',
+  },
+  {
+    platform: 'youtube',
+    href: 'not connected',
+    titleVerbose: 'Youtube account',
+  },
+]
+
 // Remove non-musician INTs and add more info
 export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpty = false) => {
   // Fill in missing server Ints with placeholders

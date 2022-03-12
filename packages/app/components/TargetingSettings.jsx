@@ -13,11 +13,9 @@ import TargetingLocationsHelper from '@/app/TargetingLocationsHelper'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
 import TargetingPlatformsSelector from '@/app/TargetingPlatformsSelector'
-import TargetingNoDefaultLink from '@/app/TargetingNoDefaultLink'
 import ControlsContentSection from '@/app/ControlsContentSection'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import copy from '@/app/copy/targetingPageCopy'
 
@@ -27,7 +25,6 @@ const TargetingSettings = () => {
     targetingState,
     initialTargetingState,
     setTargetingState,
-    settingsReady,
     disableSaving,
     saveTargetingSettings,
     targetingLoading,
@@ -35,19 +32,13 @@ const TargetingSettings = () => {
     errorUpdatingSettings,
   } = React.useContext(TargetingContext)
 
-  // Fetch locations options
-  const { artist: { missingDefaultLink } } = React.useContext(ArtistContext)
-
   React.useEffect(() => {
     return () => cancelUpdateSettings()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Handle missing default link
-  if (missingDefaultLink) return <TargetingNoDefaultLink />
-
   // Show spinner while loading
-  if (!settingsReady || targetingLoading) return <div className="h-full flex"><Spinner width={36} /></div>
+  if (targetingLoading) return <div className="h-full flex"><Spinner width={36} /></div>
 
   return (
     <div>

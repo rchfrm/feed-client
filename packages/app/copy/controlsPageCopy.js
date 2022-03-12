@@ -29,9 +29,19 @@ export default {
       title: 'Integrations',
     },
   ],
-  optionsDescription: (key, objectiveString, isSpendingPaused, budget) => {
-    if (key === 'objective') return `Feed is set-up for ${objectiveString}`
-    if (key === 'budget') return `Promotion is ${isSpendingPaused ? 'paused' : `active and set to ${budget} a day`}`
+  optionsDescription: (key, hasSetupProfile, objectiveString, isSpendingPaused, budget) => {
+    if (key === 'objective') {
+      if (hasSetupProfile) {
+        return `Feed is set-up for ${objectiveString}`
+      }
+      return 'Set your objective'
+    }
+    if (key === 'budget') {
+      if (hasSetupProfile) {
+        return `Promotion is ${isSpendingPaused ? 'paused' : `active and set to ${budget} a day`}`
+      }
+      return 'Set your budget'
+    }
     if (key === 'ads') return 'Default links, calls to action and Facebook settings'
     if (key === 'targeting') return 'Control who sees your ads'
     if (key === 'links') return 'Add and edit the links that are used in your ads'

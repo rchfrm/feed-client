@@ -99,13 +99,15 @@ const TargetingPlatformsSelector = ({
 }
 
 TargetingPlatformsSelector.propTypes = {
-  options: PropTypes.array.isRequired,
-  initialStateRaw: PropTypes.array.isRequired,
+  options: PropTypes.array,
+  initialStateRaw: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 TargetingPlatformsSelector.defaultProps = {
+  options: [],
+  initialStateRaw: [],
   className: null,
 }
 

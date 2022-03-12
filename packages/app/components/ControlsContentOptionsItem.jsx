@@ -30,6 +30,7 @@ const ControlsContentOptionsItem = ({
         currencyCode,
         currencyOffset,
       },
+      hasSetupProfile,
     },
   } = React.useContext(ArtistContext)
 
@@ -39,7 +40,6 @@ const ControlsContentOptionsItem = ({
   const { optimizationPreferences, isSpendingPaused } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
   const objectiveString = getObjectiveString(objective, platform)
-
 
   return (
     <a
@@ -66,7 +66,7 @@ const ControlsContentOptionsItem = ({
       </div>
       <div>
         <p className="font-bold mb-2">{title}</p>
-        <p className="mb-0">{copy.optionsDescription(key, objectiveString, isSpendingPaused, formattedBudget)}</p>
+        <p className="mb-0">{copy.optionsDescription(key, hasSetupProfile, objectiveString, isSpendingPaused, formattedBudget)}</p>
       </div>
     </a>
   )

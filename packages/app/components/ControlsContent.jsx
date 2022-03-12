@@ -38,7 +38,6 @@ const ControlsContent = ({ activeSlug }) => {
 
   // Fetch from targeting context
   const {
-    targetingState,
     isDesktopLayout,
     errorFetchingSettings,
   } = React.useContext(TargetingContext)
@@ -53,7 +52,6 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
-  if (!Object.keys(targetingState).length > 0) return null
   if (globalLoading || isLoading) return <Spinner />
 
   return (

@@ -14,7 +14,8 @@ import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
-import { splitLinks } from '@/app/helpers/linksHelpers'
+import { splitLinks, dummyLinks } from '@/app/helpers/linksHelpers'
+import { dummyIntegrationLinks } from '@/helpers/integrationHelpers'
 
 const getControlsStoreState = (state) => ({
   fetchData: state.fetchData,
@@ -53,25 +54,21 @@ const LinkBank = () => {
       {linkBankError && (
         <Error error={linkBankError} className="mb-8" />
       )}
-      {!!nestedLinks.length && (
-        <ControlsContentSection action="add to the link bank">
-          <section className="mb-10">
-            <LinkBankList
-              looseLinks={looseLinks}
-              linkFolders={linkFolders}
-              isDisabled={!hasSetupProfile}
-            />
-          </section>
-          {!!integrationLinks.length && (
-            <section>
-              <h3>Integration Links</h3>
-              <LinkBankIntegrations
-                integrationLinks={integrationLinks}
-              />
-            </section>
-          )}
-        </ControlsContentSection>
-      )}
+      <ControlsContentSection action="add to the link bank">
+        <section className="mb-10">
+          <LinkBankList
+            looseLinks={hasSetupProfile ? looseLinks : dummyLinks}
+            linkFolders={linkFolders}
+            isDisabled={!hasSetupProfile}
+          />
+        </section>
+        <section>
+          <h3>Integration Links</h3>
+          <LinkBankIntegrations
+            integrationLinks={hasSetupProfile ? integrationLinks : dummyIntegrationLinks}
+          />
+        </section>
+      </ControlsContentSection>
     </section>
   )
 }

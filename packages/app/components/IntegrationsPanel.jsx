@@ -10,6 +10,8 @@ import ArrowIcon from '@/icons/ArrowIcon'
 import IntegrationsPanelIntegration from '@/app/IntegrationsPanelIntegration'
 import ControlsContentSection from '@/app/ControlsContentSection'
 
+import { dummyIntegrations } from '@/helpers/integrationHelpers'
+
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/integrationsCopy'
 
@@ -20,11 +22,13 @@ const IntegrationsPanel = ({
   const {
     artistId,
     artist: {
-      integrations,
+      integrations: artistIntegrations,
       hasSetupProfile,
     },
     setArtist,
   } = React.useContext(ArtistContext)
+
+  const integrations = hasSetupProfile ? artistIntegrations : dummyIntegrations
 
   return (
     <section>

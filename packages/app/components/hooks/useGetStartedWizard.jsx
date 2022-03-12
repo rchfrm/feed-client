@@ -91,7 +91,11 @@ const useGetStartedWizard = () => {
     && (Object.keys(locations).length || artist.country_code)
     && budget)
 
-  updateHasSetUpProfile(hasSetUpProfile)
+  React.useEffect(() => {
+    if (controlsLoading) return
+
+    updateHasSetUpProfile(hasSetUpProfile)
+  }, [controlsLoading, hasSetUpProfile, updateHasSetUpProfile])
 
   return {
     hasSetUpProfile,

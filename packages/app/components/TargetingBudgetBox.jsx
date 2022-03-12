@@ -34,6 +34,7 @@ const TargetingBudgetBox = ({
 
   // ARTIST context
   const {
+    artistId,
     artist: {
       feedMinBudgetInfo: {
         currencyCode,
@@ -41,8 +42,8 @@ const TargetingBudgetBox = ({
         minorUnit: {
           minBase,
           minHard: minHardBudget,
-        },
-      },
+        } = {},
+      } = {},
       hasSetupProfile,
     },
   } = React.useContext(ArtistContext)
@@ -66,9 +67,9 @@ const TargetingBudgetBox = ({
             <h2 className="mb-0">
               Daily Budget
               {!targetingState.status ? (
-                !hasSetupProfile && <span className="text-red"> Paused</span>
+                hasSetupProfile && <span className="text-red"> Paused</span>
               ) : (
-                !hasSetupProfile && <span className="text-green"> Active</span>
+                hasSetupProfile && <span className="text-green"> Active</span>
               )}
             </h2>
             {/* PAUSE OR RESUME SPENDING */}
@@ -87,7 +88,7 @@ const TargetingBudgetBox = ({
                 currencyOffset={currencyOffset}
                 minBase={minBase}
                 minHardBudget={minHardBudget}
-                initialBudget={initialTargetingState.budget}
+                initialBudget={hasSetupProfile ? initialTargetingState.budget : 5}
                 targetingState={targetingState}
                 updateTargetingBudget={updateTargetingBudget}
                 showCustomBudget={showCustomBudget}
