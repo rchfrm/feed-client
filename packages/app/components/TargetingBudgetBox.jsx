@@ -34,7 +34,6 @@ const TargetingBudgetBox = ({
 
   // ARTIST context
   const {
-    artistId,
     artist: {
       feedMinBudgetInfo: {
         currencyCode,
