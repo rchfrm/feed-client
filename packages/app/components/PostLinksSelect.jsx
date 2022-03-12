@@ -17,7 +17,6 @@ const getControlsStoreState = (state) => ({
   artistId: state.artistId,
   defaultLink: state.defaultLink,
   nestedLinks: state.nestedLinks,
-  conversionsPreferences: state.conversionsPreferences,
 })
 
 const PostLinksSelect = ({

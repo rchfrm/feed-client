@@ -16,7 +16,7 @@ import brandColors from '@/constants/brandColors'
 const ResultsConversionTeaser = ({ className }) => {
   const goToControlsConversionsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS_CONVERSIONS,
+      pathname: ROUTES.CONTROLS,
     })
   }
 

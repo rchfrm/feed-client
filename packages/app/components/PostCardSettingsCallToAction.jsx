@@ -77,7 +77,8 @@ const PostCardSettingsCallToAction = ({
   }
 
   React.useEffect(() => {
-    const { id = '', value = '' } = callToActions[0] || {}
+    const { id = '', value = '' } = callToActions?.[0] || {}
+    console.log(id)
     // Use post level call to action value, if it doesnt exist use default call to action value, otherwise set empty string
     setSelectedCallToAction(value || callToAction || '')
     setCallToActionId(id)

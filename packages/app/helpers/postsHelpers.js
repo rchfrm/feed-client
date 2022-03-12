@@ -169,7 +169,6 @@ export const dummyPosts = [
 // CAMPAIGN TYPE GRADIENTS
 const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
 export const growthGradient = createGradient(brandColors.blue)
-export const conversionsGradient = createGradient(brandColors.red)
 
 export const getPostTypesTitle = (id) => {
   const { title } = postTypes.find(({ id: typeId }) => id === typeId) || {}
@@ -413,9 +412,8 @@ export const updatePostCaption = async ({ artistId, assetId, adMessageId, captio
   const endpoint = isUpdating ? `${endpointBase}/${adMessageId}` : endpointBase
   const payload = {
     message: caption,
-    options: {
-      campaign_type: 'all',
-    },
+    // TODO: Set for 'all' and 'conversions
+    options: {},
   }
   const errorTracking = {
     category: 'Post caption',
@@ -431,9 +429,8 @@ export const updatePostCaption = async ({ artistId, assetId, adMessageId, captio
 export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
   const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages/${adMessageId}`
   const payload = {
-    options: {
-      campaign_type: 'all',
-    },
+    // TODO: Set for 'all' and 'conversions
+    options: {},
   }
   const errorTracking = {
     category: 'Post message',
@@ -462,9 +459,8 @@ export const setPostCallToAction = async (artistId, callToAction, assetId, callT
   const endpoint = isUpdating ? `${endpointBase}/${callToActionId}` : endpointBase
   const payload = {
     call_to_action: callToAction,
-    options: {
-      campaign_type: 'all',
-    },
+    // TODO: Set for 'all' and 'conversions
+    options: {},
   }
   const errorTracking = {
     category: 'Post call to action',

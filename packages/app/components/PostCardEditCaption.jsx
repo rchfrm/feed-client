@@ -143,7 +143,7 @@ const PostCardEditCaption = ({
   }, [updatePostDb])
 
   React.useEffect(() => {
-    const { id = '', message = '' } = adMessages[0] || {}
+    const { id = '', message = '' } = adMessages?.[0] || {}
     setNewCaption(message)
     setAdMessageId(id)
     setSavedNewCaption(message)

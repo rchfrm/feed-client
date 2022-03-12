@@ -22,10 +22,45 @@ export const getCallToActions = async () => {
  */
 export const setDefaultCallToAction = async (artistId, callToAction) => {
   const endpoint = `/artists/${artistId}`
-  const payload = { preferences: { posts: { call_to_action: callToAction } } }
+  const payload = {
+    preferences: {
+      posts: { call_to_action: callToAction },
+      conversions: { call_to_action: callToAction },
+    },
+  }
   const errorTracking = {
     category: 'Ad Defaults',
     action: 'Set global call to action',
+  }
+  return api.requestWithCatch('patch', endpoint, payload, errorTracking)
+}
+
+// GET FACEBOOK PIXEL EVENTS
+/**
+ * @returns {Promise<any>}
+ */
+export const getFacebookPixelEvents = async (artistId, pixelId) => {
+  const endpoint = `/artists/${artistId}/pixels/${pixelId}/stats`
+  const payload = {}
+  const errorTracking = {
+    category: 'Conversions',
+    action: 'Get Facebook Pixel Events',
+  }
+  return api.requestWithCatch('get', endpoint, payload, errorTracking)
+}
+
+// UPDATE FACEBOOK PIXEL EVENT
+/**
+ * @param {string} artistId
+ * @param {string} event
+ * @returns {Promise<any>}
+ */
+export const updateFacebookPixelEvent = async (artistId, event) => {
+  const endpoint = `/artists/${artistId}`
+  const payload = { preferences: { conversions: { facebook_pixel_event: event } } }
+  const errorTracking = {
+    category: 'Conversions',
+    action: 'Save Facebook Pixel Event',
   }
   return api.requestWithCatch('patch', endpoint, payload, errorTracking)
 }
