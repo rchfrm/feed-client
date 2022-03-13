@@ -5,7 +5,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
-import GetStartedConnectFacebookConnectedProfile from '@/app/GetStartedConnectFacebookConnectedProfile'
 import GetStartedConnectFacebookNoProfiles from '@/app/GetStartedConnectFacebookNoProfiles'
 import GetStartedConnectFacebookProfiles from '@/app/GetStartedConnectFacebookProfiles'
 import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
@@ -27,13 +26,12 @@ const GetStartedConnectFacebook = () => {
   const { missingScopes: { ads: missingScopes } } = auth
 
   const { user } = React.useContext(UserContext)
-  const { artists: connectedArtists } = user
 
   // Get available accounts
   useAsyncEffect(async (isMounted) => {
     if (isConnecting) return
 
-    if (missingScopes.length || error || connectedArtists.length) {
+    if (missingScopes.length || error) {
       setIsLoading(false)
       return
     }
@@ -100,12 +98,6 @@ const GetStartedConnectFacebook = () => {
 
   if (isLoading || isConnecting) return <Spinner />
 
-  if (connectedArtists.length && !isConnecting) {
-    return (
-      <GetStartedConnectFacebookConnectedProfile connectedArtists={connectedArtists} />
-    )
-  }
-
   return (
     <div className="flex flex-1 flex-column mb-6">
       {Object.keys(artistAccounts).length === 0 ? (
@@ -117,7 +109,6 @@ const GetStartedConnectFacebook = () => {
         <GetStartedConnectFacebookProfiles
           artistAccounts={artistAccounts}
           setIsConnecting={setIsConnecting}
-          selectedProfile={selectedProfile}
           setSelectedProfile={setSelectedProfile}
         />
       )}
