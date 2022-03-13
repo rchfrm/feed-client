@@ -33,7 +33,7 @@ export default {
   optionsDescription: (key, objectiveString, isSpendingPaused, budget) => {
     if (key === 'objective') return `Feed is set-up for ${objectiveString}`
     if (key === 'budget') return `Promotion is ${isSpendingPaused ? 'paused' : `active and set to ${budget} a day`}`
-    if (key === 'ads') return 'Default links, calls to action and Facebook settings'
+    if (key === 'ads') return 'Post selection, calls to action and ad settings'
     if (key === 'targeting') return 'Control who sees your ads'
     if (key === 'links') return 'Add and edit the links that are used in your ads'
     if (key === 'integrations') return 'Connect Feed to other platforms'
