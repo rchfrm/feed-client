@@ -52,6 +52,7 @@ const GetStartedWizard = ({
 
   const { user } = React.useContext(UserContext)
   const { artistId, artist } = React.useContext(ArtistContext)
+  const { start_spending_at: startSpendingAt } = artist
   const hasLocation = Object.keys(locations).length > 0 || Boolean(artist?.country_code)
 
   const {
@@ -95,6 +96,7 @@ const GetStartedWizard = ({
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedConnectFacebook />,
+      shouldSkip: Boolean(user.artists.length),
       isComplete: Boolean(user.artists.length),
       isApplicable: true,
     },
@@ -103,7 +105,7 @@ const GetStartedWizard = ({
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsSelection initialPosts={posts} />,
-      isComplete: posts.length > 0,
+      isComplete: posts.length > 0 || Boolean(startSpendingAt),
       isApplicable: true,
     },
     {

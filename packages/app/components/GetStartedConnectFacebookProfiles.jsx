@@ -10,7 +10,6 @@ import copy from '@/app/copy/getStartedCopy'
 const GetStartedConnectFacebookProfiles = ({
   artistAccounts,
   setIsConnecting,
-  selectedProfile,
   setSelectedProfile,
 }) => {
   return (
@@ -21,7 +20,6 @@ const GetStartedConnectFacebookProfiles = ({
         <GetStartedConnectFacebookProfilesList
           profiles={artistAccounts}
           setIsConnecting={setIsConnecting}
-          selectedProfile={selectedProfile}
           setSelectedProfile={setSelectedProfile}
         />
       </div>
@@ -32,12 +30,10 @@ const GetStartedConnectFacebookProfiles = ({
 GetStartedConnectFacebookProfiles.propTypes = {
   artistAccounts: PropTypes.object.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
-  selectedProfile: PropTypes.object,
   setSelectedProfile: PropTypes.func.isRequired,
 }
 
 GetStartedConnectFacebookProfiles.defaultProps = {
-  selectedProfile: null,
 }
 
 export default GetStartedConnectFacebookProfiles
