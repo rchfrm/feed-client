@@ -17,7 +17,7 @@ const GetStartedConnectFacebookProfilesList = ({
       >
         {Object.values(profiles).map((profile) => (
           <GetStartedConnectFacebookProfilesItem
-            key={profile.id}
+            key={profile.page_id}
             profile={profile}
             profiles={profiles}
             setSelectedProfile={setSelectedProfile}
