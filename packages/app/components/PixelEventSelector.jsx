@@ -7,7 +7,7 @@ import Error from '@/elements/Error'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { getFacebookPixelEvents, updateFacebookPixelEvent } from '@/app/helpers/conversionsHelpers'
+import { getFacebookPixelEvents, updateFacebookPixelEvent } from '@/app/helpers/adDefaultsHelpers'
 import { getCurrentPixelId } from '@/app/helpers/settingsHelpers'
 
 const PixelEventSelector = ({
