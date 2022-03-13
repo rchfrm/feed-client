@@ -8,7 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import brandColors from '@/constants/brandColors'
 
 const ControlsSettingsSectionFooter = ({
-  positionTop,
+  positionBottom,
   icon,
   color,
   copy,
@@ -22,7 +22,7 @@ const ControlsSettingsSectionFooter = ({
   const Icon = icons[icon]
 
   return (
-    <div className="absolute mb-0" style={{ top: `${positionTop}px` }}>
+    <div className="absolute mb-0" style={{ bottom: `${positionBottom}px` }}>
       <Icon
         fill={color}
         color={color}
@@ -31,13 +31,13 @@ const ControlsSettingsSectionFooter = ({
           icon === 'email' ? 'w-4' : 'w-3',
         ].join(' ')}
       />
-      <MarkdownText markdown={copy} className={[className, 'text-xs inline-block'].join(' ')} />
+      <MarkdownText markdown={copy} className={[className, 'text-xs italic inline-block'].join(' ')} />
     </div>
   )
 }
 
 ControlsSettingsSectionFooter.propTypes = {
-  positionTop: PropTypes.number,
+  positionBottom: PropTypes.number,
   icon: PropTypes.string,
   color: PropTypes.string,
   copy: PropTypes.string,
@@ -45,7 +45,7 @@ ControlsSettingsSectionFooter.propTypes = {
 }
 
 ControlsSettingsSectionFooter.defaultProps = {
-  positionTop: 64,
+  positionBottom: -50,
   icon: 'lightBulb',
   color: brandColors.instagram.bg,
   copy: 'This is a footer',
