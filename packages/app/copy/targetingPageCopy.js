@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
+import { capitalise } from '@/helpers/utils'
 
 const getListOfSources = (isMusician, hasSpotify) => {
   if (!hasSpotify || !isMusician) return 'Facebook and Instagram followers'
@@ -53,8 +54,11 @@ We are working on adding custom locations, but it would be really helpful if you
 
   // PLATFORM SELECT DESCRIPTION
   platformSelectDescription: `Select the platform(s) your ads will appear on. This does not affect which posts can be used as ads.`,
-  platformSelectFooter: `"Instagram" is recommended based on your objective`,
+  platformSelectFooter: (platform) => {
+    const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
 
+    return `"${isFacebookOrInstagram ? capitalise(platform) : 'Both'}" is recommended based on your objective`
+  },
   // PLATFORMS WARNING
   getPlatformWarningCopy: (initialPlatform, chosenPlatform) => {
     if (chosenPlatform === 'both') return
