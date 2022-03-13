@@ -6,6 +6,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Select from '@/elements/Select'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
+import Spinner from '@/elements/Spinner'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -25,13 +26,11 @@ const locationOptions = countries.map(({ id, name }) => {
 const GetStartedLocation = () => {
   const { next, wizardState } = React.useContext(WizardContext)
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
-
   const adAccountCountryCode = locationOptions.find((location) => location.name === wizardState.adAccountCountry)?.value
 
   const [isLoading, setIsLoading] = React.useState(false)
   const [countryCode, setCountryCode] = React.useState(artist.country_code || adAccountCountryCode || locationOptions[0].value)
   const [error, setError] = React.useState(null)
-
 
   const handleChange = async (e) => {
     const { target: { value } } = e
@@ -66,6 +65,17 @@ const GetStartedLocation = () => {
     await saveLocation(countryCode)
     next()
   }
+
+  React.useEffect(() => {
+    if (artist.country_code || adAccountCountryCode) {
+      handleNext()
+      return
+    }
+    setIsLoading(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [adAccountCountryCode])
+
+  if (isLoading) return <Spinner />
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">

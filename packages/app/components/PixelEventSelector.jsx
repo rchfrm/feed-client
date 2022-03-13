@@ -8,6 +8,7 @@ import Error from '@/elements/Error'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import { getFacebookPixelEvents, updateConversionsPreferences } from '@/app/helpers/conversionsHelpers'
+import { getCurrentPixelId } from '@/app/helpers/settingsHelpers'
 
 const PixelEventSelector = ({
   pixelEvent,
@@ -23,17 +24,21 @@ const PixelEventSelector = ({
   const [error, setError] = React.useState(null)
 
   const { artist, artistId } = React.useContext(ArtistContext)
-  const pixelId = artistId ? artist.integrations.find(integration => integration.platform === 'facebook').pixel_id : ''
+  const pixelId = getCurrentPixelId(artist)
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
-    if (!artistId || !pixelId || pixelId === '-1') {
+    if (!artistId) {
+      setIsLoading(false)
+      return
+    }
+    const { res: { event_total_counts: events } } = await getFacebookPixelEvents(artistId, pixelId)
+
+    if (!isMounted()) {
       setIsLoading(false)
       return
     }
 
-    const { res: { event_total_counts: events } } = await getFacebookPixelEvents(artistId, pixelId)
-    if (!isMounted()) return
     const sortedEvents = events.sort((a, b) => b.count - a.count)
 
     const options = sortedEvents.map(({ value, count }) => ({
