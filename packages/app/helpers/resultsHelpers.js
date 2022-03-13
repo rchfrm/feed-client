@@ -388,10 +388,10 @@ const getBestPerformingPlatform = (igData, fbData) => {
   return igFollowers >= fbFollowers ? 'instagram' : 'facebook'
 }
 
-export const getOrganicBenchmarkData = ({ data }) => {
+export const getOrganicBenchmarkData = ({ data }, hasNoProfiles) => {
   const igData = getGrowthAndFollowersCount('instagram', data)
   const fbData = getGrowthAndFollowersCount('facebook', data)
-  const bestPerformingPlatform = getBestPerformingPlatform(igData, fbData)
+  const bestPerformingPlatform = hasNoProfiles ? 'instagram' : getBestPerformingPlatform(igData, fbData)
 
   const {
     aggregated: {
@@ -407,39 +407,42 @@ export const getOrganicBenchmarkData = ({ data }) => {
     },
   } = data
 
-  const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
+  const reachRateMedianValue = reach_rate.median.value * 100
   const reachRateMedianPercentile = (reach_rate.median.percentile * 100).toFixed(1)
 
   const reachData = {
     value: reachRateMedianValue,
     percentile: reachRateMedianPercentile,
-    quartile: getQuartile(reachRateMedianPercentile, 'reach'),
-    copy: resultsCopy.noSpendReachDescription(reachRateMedianValue),
+    quartile: hasNoProfiles ? null : getQuartile(reachRateMedianPercentile, 'reach'),
+    copy: resultsCopy.noSpendReachDescription(reachRateMedianValue, hasNoProfiles, false),
   }
 
-  const engagementRateMedianValue = (engagement_rate.median.value * 100).toFixed(1)
+  const engagementRateMedianValue = engagement_rate.median.value * 100
   const engagementRateMedianPercentile = (engagement_rate.median.percentile * 100).toFixed(1)
 
   const engageData = {
     value: engagementRateMedianValue,
     percentile: engagementRateMedianPercentile,
-    quartile: getQuartile(engagementRateMedianPercentile, 'engagement'),
-    copy: resultsCopy.noSpendEngageDescription(engagementRateMedianValue),
+    quartile: hasNoProfiles ? null : getQuartile(engagementRateMedianPercentile, 'engagement'),
+    copy: resultsCopy.noSpendEngageDescription(engagementRateMedianValue, hasNoProfiles),
   }
 
   let growthData = {}
 
-  if (growth_absolute.value) {
+  if (growth_absolute.value || hasNoProfiles) {
     const followersGrowthAbsoluteMedianValue = growth_absolute.value
     const followersGrowthRateValue = (growth_rate.value * 100).toFixed(1)
     const followersGrowthRateMedianPercentile = (growth_rate.percentile * 100).toFixed(1)
 
+    const globalAverageInstagramGrowth = (followersGrowthRateValue / 100) * 5000
+    const followersGrowthAbsolute = hasNoProfiles ? globalAverageInstagramGrowth : followersGrowthAbsoluteMedianValue
+
     growthData = {
-      value: followersGrowthAbsoluteMedianValue,
+      value: followersGrowthAbsolute,
       percentile: followersGrowthRateMedianPercentile,
-      quartile: getQuartile(followersGrowthRateMedianPercentile, 'growth'),
+      quartile: hasNoProfiles ? null : getQuartile(followersGrowthRateMedianPercentile, 'growth'),
       platform: bestPerformingPlatform,
-      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsoluteMedianValue, bestPerformingPlatform, followersGrowthRateValue),
+      copy: resultsCopy.noSpendGrowthDescription(followersGrowthAbsolute, bestPerformingPlatform, followersGrowthRateValue, hasNoProfiles),
       hasGrowth: true,
     }
   } else {
@@ -462,12 +465,12 @@ export const formatAggregatedOrganicBenchmarkData = ({ data }) => {
     },
   } = data
 
-  const reachRateMedianValue = (reach_rate.median.value * 100).toFixed(1)
+  const reachRateMedianValue = reach_rate.median.value * 100
   const reachData = {
     value: reachRateMedianValue,
   }
 
-  const engagementRateMedianValue = (engagement_rate.median.value * 100).toFixed(1)
+  const engagementRateMedianValue = engagement_rate.median.value * 100
   const engageData = {
     value: engagementRateMedianValue,
   }
@@ -488,8 +491,8 @@ export const formatRecentPosts = (posts) => {
     return {
       id: post.id,
       publishedTime: moment(post.published_time).format('YYYY-MM-DD'),
-      reach: (post.reach_rate * 100).toFixed(1),
-      engagement: (post.engagement_rate * 100).toFixed(1),
+      reach: post.reach_rate * 100,
+      engagement: post.engagement_rate * 100,
       media,
       thumbnails,
       postType: post.subtype || post.type,
@@ -513,6 +516,29 @@ export const getRecentPosts = async (artistId, platform) => {
   const formattedRecentPosts = formatRecentPosts(res)
 
   return formattedRecentPosts
+}
+
+export const getDummyPosts = (dummyPostsImages, globalAverage) => {
+  const daysToSubstract = [3, 13, 17, 25, 29]
+  const maxRate = globalAverage * 1.77
+  const rates = [
+    ...[...new Array(4)].map(() => (Math.random() * (maxRate - 0) + 0)),
+    maxRate,
+  ]
+
+  const dummyPosts = rates.map((rate, index) => {
+    return {
+      id: index,
+      publishedTime: moment().subtract(daysToSubstract[index], 'days').format('YYYY-MM-DD'),
+      reach: rate,
+      engagement: rate,
+      media: dummyPostsImages[index].image.url,
+      thumbnails: [dummyPostsImages[index].image.url],
+      postType: 'image',
+    }
+  })
+
+  return dummyPosts
 }
 
 export const getFollowerGrowth = async (artistId) => {

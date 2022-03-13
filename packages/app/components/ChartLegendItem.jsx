@@ -11,12 +11,10 @@ const ChartLegendItem = ({ label, value, color, lineStyle }) => {
           borderStyle: lineStyle,
         }}
       />
-      {label}
-      {value && (
-      <span className="ml-1 font-bold">{value}
-        <span>%</span>
+      {label},
+      <span className="ml-1 font-bold">
+        {value > 0 ? `${value.toFixed(1)}%` : '??'}
       </span>
-      )}
     </li>
   )
 }
@@ -25,11 +23,11 @@ export default ChartLegendItem
 
 ChartLegendItem.propTypes = {
   label: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.number,
   color: PropTypes.string.isRequired,
   lineStyle: PropTypes.string.isRequired,
 }
 
 ChartLegendItem.defaultProps = {
-  value: '',
+  value: 0,
 }

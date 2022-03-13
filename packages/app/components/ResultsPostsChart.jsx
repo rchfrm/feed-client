@@ -19,6 +19,7 @@ const ResultsPostsChart = ({
   globalAverage,
   metricType,
   isLoading,
+  hasNoProfiles,
 }) => {
   const [maxValue, setMaxValue] = React.useState(0)
   const [hasScrolledLeft, setHasScrolledLeft] = React.useState(false)
@@ -29,11 +30,12 @@ const ResultsPostsChart = ({
   const lastThirtyDays = [...new Array(30)].map((_, index) => moment().startOf('day').subtract(index, 'days').format('YYYY-MM-DD')).reverse()
 
   React.useEffect(() => {
-    if (!posts.length || !yourAverage || !globalAverage) return
+    if (!posts.length) return
 
-    const highestValue = Math.max(...posts.map((post) => post[metricType]), yourAverage, globalAverage) + 1
-    setMaxValue(highestValue)
-  }, [yourAverage, globalAverage, metricType, posts])
+    const highestValue = Math.max(...posts.map((post) => post[metricType]), yourAverage, globalAverage)
+
+    setMaxValue(hasNoProfiles ? highestValue : highestValue + 1)
+  }, [yourAverage, globalAverage, metricType, posts, hasNoProfiles])
 
   const postsChartRef = React.useCallback(node => {
     const isMobile = width < 800
@@ -69,6 +71,7 @@ const ResultsPostsChart = ({
           yourAverage={yourAverage}
           globalAverage={globalAverage}
           metricType={metricType}
+          hasNoProfiles={hasNoProfiles}
         >
           {posts.map((post) => (
             <ResultsPostsChartPost
@@ -89,13 +92,15 @@ const ResultsPostsChart = ({
 
 ResultsPostsChart.propTypes = {
   posts: PropTypes.array.isRequired,
-  yourAverage: PropTypes.string.isRequired,
-  globalAverage: PropTypes.string.isRequired,
+  yourAverage: PropTypes.number,
+  globalAverage: PropTypes.number.isRequired,
   metricType: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  hasNoProfiles: PropTypes.bool.isRequired,
 }
 
 ResultsPostsChart.defaultProps = {
+  yourAverage: 0,
 }
 
 export default ResultsPostsChart

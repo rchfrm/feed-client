@@ -67,7 +67,7 @@ const ResultsPostsChartPost = ({
           fontSize: isDesktopLayout ? '12px' : '9px',
         }}
       >
-        {value}%
+        {value.toFixed(1)}%
       </div>
     </div>
   )
@@ -75,7 +75,7 @@ const ResultsPostsChartPost = ({
 
 ResultsPostsChartPost.propTypes = {
   post: PropTypes.object.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   lastThirtyDays: PropTypes.array.isRequired,
   maxValue: PropTypes.number.isRequired,
 }

@@ -8,7 +8,11 @@ import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { getOrganicBenchmarkData } from '@/app/helpers/resultsHelpers'
 
-const ResultsNoSpendContent = ({ data }) => {
+const ResultsNoSpendContent = ({
+  data,
+  hasNoProfiles,
+  dummyPostsImages,
+}) => {
   const [resultsData, setResultsData] = React.useState(null)
   const [metricType, setMetricType] = React.useState('reach')
   const [hasGrowth, setHasGrowth] = React.useState(true)
@@ -16,19 +20,20 @@ const ResultsNoSpendContent = ({ data }) => {
   const isDesktopLayout = useBreakpointTest('sm')
 
   React.useEffect(() => {
-    const organicBenchmarkData = getOrganicBenchmarkData(data)
+    const organicBenchmarkData = getOrganicBenchmarkData(data, hasNoProfiles)
 
     setResultsData(organicBenchmarkData)
     setHasGrowth(organicBenchmarkData.growth.hasGrowth)
-  }, [data, setHasGrowth])
+  }, [data, setHasGrowth, hasNoProfiles])
 
   return (
     <div className="grid grid-cols-12 sm:col-gap-12 mb-8">
       <div className="col-span-12">
         <div className={[
           'grid grid-cols-12 sm:col-gap-12',
-          'row-gap-8 sm:row-gap-16',
+          'row-gap-8',
           'sm:mb-0',
+          hasNoProfiles ? null : 'sm:row-gap-16',
         ].join(' ')}
         >
           <ResultsNoSpendStats
@@ -42,13 +47,16 @@ const ResultsNoSpendContent = ({ data }) => {
             metricType={metricType}
             setMetricType={setMetricType}
             hasGrowth={hasGrowth}
+            hasNoProfiles={hasNoProfiles}
             className={isDesktopLayout ? 'order-2' : 'order-1'}
           />
           {resultsData && (
             <ResultsNoSpendCharts
               data={resultsData}
-              metricType={metricType}
+              hasNoProfiles={hasNoProfiles}
+              metricType={hasNoProfiles ? 'engagement' : metricType}
               hasGrowth={hasGrowth}
+              dummyPostsImages={dummyPostsImages}
               className="order-3"
             />
           )}
@@ -60,6 +68,10 @@ const ResultsNoSpendContent = ({ data }) => {
 
 ResultsNoSpendContent.propTypes = {
   data: PropTypes.object.isRequired,
+  hasNoProfiles: PropTypes.bool.isRequired,
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 }
 
 ResultsNoSpendContent.defaultProps = {

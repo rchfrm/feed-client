@@ -197,5 +197,13 @@ Would you like to continue?`
     }
   },
   connectWithFacebookCard: "See your most engaging Facebook and Instagram posts and start running ads.",
-  connectWithFacebookBlock: "Connect to Facebook & Instagram to see your most engaging posts and start running ads.",
+  connectWithFacebookBlock: (page) => {
+    const connectToString = 'Connect to Facebook & Instagram to see your'
+
+    if (page === 'posts') {
+      return `${connectToString} most engaging posts and start running ads.`
+    }
+
+    return `${connectToString} insights about your pages.`
+  },
 }
