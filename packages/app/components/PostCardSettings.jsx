@@ -45,7 +45,6 @@ const PostCardSettings = ({
     priorityEnabled,
   } = post
   // HANDLE ERROR
-  console.log(linkSpecs)
   const [error, setError] = React.useState(null)
   const [isEnabled, setIsEnabled] = React.useState(promotionEnabled)
 

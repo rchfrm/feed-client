@@ -412,8 +412,6 @@ export const updatePostCaption = async ({ artistId, assetId, adMessageId, captio
   const endpoint = isUpdating ? `${endpointBase}/${adMessageId}` : endpointBase
   const payload = {
     message: caption,
-    // TODO: Set for 'all' and 'conversions
-    options: {},
   }
   const errorTracking = {
     category: 'Post caption',
@@ -428,10 +426,7 @@ export const updatePostCaption = async ({ artistId, assetId, adMessageId, captio
 // RESET CAPTION
 export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
   const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages/${adMessageId}`
-  const payload = {
-    // TODO: Set for 'all' and 'conversions
-    options: {},
-  }
+  const payload = {}
   const errorTracking = {
     category: 'Post message',
     action: 'Reset post caption',
@@ -459,8 +454,6 @@ export const setPostCallToAction = async (artistId, callToAction, assetId, callT
   const endpoint = isUpdating ? `${endpointBase}/${callToActionId}` : endpointBase
   const payload = {
     call_to_action: callToAction,
-    // TODO: Set for 'all' and 'conversions
-    options: {},
   }
   const errorTracking = {
     category: 'Post call to action',
