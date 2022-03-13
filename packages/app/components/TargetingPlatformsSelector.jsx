@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import PillOptions from '@/elements/PillOptions'
 import Error from '@/elements/Error'
 
@@ -19,12 +21,19 @@ const translateKeyToArray = (key) => {
   return [key]
 }
 
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
+
 const TargetingPlatformsSelector = ({
   options,
   initialStateRaw,
   onChange,
   className,
 }) => {
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { platform } = optimizationPreferences
+
   const initialState = React.useMemo(() => {
     return translateArrayToKey(initialStateRaw)
   }, [initialStateRaw])
@@ -72,7 +81,7 @@ const TargetingPlatformsSelector = ({
         className="relative mb-12"
       />
       <ControlsSettingsSectionFooter
-        copy={copy.platformSelectFooter}
+        copy={copy.platformSelectFooter(platform)}
         className="text-insta"
         positionBottom={100}
       />

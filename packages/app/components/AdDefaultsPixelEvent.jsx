@@ -46,10 +46,13 @@ const AdDefaultsPixelSelector = ({
 }
 
 AdDefaultsPixelSelector.propTypes = {
+  facebookPixelEvent: PropTypes.string,
+  updatePreferences: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 AdDefaultsPixelSelector.defaultProps = {
+  facebookPixelEvent: '',
   className: null,
 }
 
