@@ -37,6 +37,7 @@ const GetStartedDailyBudget = () => {
         minorUnit: {
           minBase,
           minHard: minHardBudget,
+          minReccomendedStories,
         },
       },
     },
@@ -91,7 +92,7 @@ const GetStartedDailyBudget = () => {
           <TargetingBudgetSlider
             sliderStep={sliderStep}
             sliderValueRange={sliderValueRange}
-            initialBudget={initialTargetingState.budget}
+            initialBudget={initialTargetingState.budget || minReccomendedStories}
             onChange={(budget) => {
               setBudget(budget)
             }}
