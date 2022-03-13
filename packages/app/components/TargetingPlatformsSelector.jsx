@@ -74,7 +74,7 @@ const TargetingPlatformsSelector = ({
       <ControlsSettingsSectionFooter
         copy={copy.platformSelectFooter}
         className="text-insta"
-        positionTop={28}
+        positionBottom={100}
       />
       <PillOptions
         color="green"
