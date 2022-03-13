@@ -34,16 +34,26 @@ export default {
       if (hasSetupProfile) {
         return `Feed is set-up for ${objectiveString}`
       }
-      return 'Set your objective'
+      return 'Continue set-up to choose your objective'
     }
     if (key === 'budget') {
       if (hasSetupProfile) {
         return `Promotion is ${isSpendingPaused ? 'paused' : `active and set to ${budget} a day`}`
       }
-      return 'Set your budget'
+      return 'Continue set-up to set your budget'
     }
-    if (key === 'ads') return 'Default links, calls to action and Facebook settings'
-    if (key === 'targeting') return 'Control who sees your ads'
+    if (key === 'ads') {
+      if (hasSetupProfile) {
+        return 'Post selection, calls to action and ad settingss'
+      }
+      return 'Continue set-up to manage post selection, calls to action and more'
+    }
+    if (key === 'targeting') {
+      if (hasSetupProfile) {
+        return 'Control who sees your ads'
+      }
+      return 'Continue set-up to choose age, gender and location targeting'
+    }
     if (key === 'links') return 'Add and edit the links that are used in your ads'
     if (key === 'integrations') return 'Connect Feed to other platforms'
   },
