@@ -12,8 +12,8 @@ const TargetingAgeSlider = ({ ageMin, ageMax, setTargetingState, className }) =>
   const highestAge = 65
 
   const getLabel = (age) => {
-    if (age === highestAge) return `${age}+`
-    return age
+    if (age === highestAge) return `${Math.round(age)}+`
+    return Math.round(age)
   }
 
   // DEFINE START VALUE
@@ -47,6 +47,10 @@ const TargetingAgeSlider = ({ ageMin, ageMax, setTargetingState, className }) =>
             to: getLabel,
           },
         ]}
+        formatValue={{
+          to: (value) => Math.round(value),
+          from: (value) => Math.round(value),
+        }}
       />
     </section>
   )
