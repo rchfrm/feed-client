@@ -25,7 +25,7 @@ import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
 import { getLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
-import { getStartedSections, updateArtist } from '@/app/helpers/artistHelpers'
+import { getStartedSections, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 
 import * as ROUTES from '@/app/constants/routes'
@@ -89,7 +89,7 @@ const GetStartedWizard = ({
       section: getStartedSections.objective,
       component: <GetStartedDefaultLink defaultLink={defaultLink || wizardState?.defaultLink} />,
       isComplete: Boolean(defaultLink || wizardState?.defaultLink),
-      isApplicable: objective !== 'growth' && (platform !== 'facebook' || platform !== 'instagram'),
+      isApplicable: true,
     },
     {
       id: 3,
@@ -194,33 +194,17 @@ const GetStartedWizard = ({
     }
 
     // Patch the profile
-    const { res: artist, error } = await updateArtist(artistId, { ...wizardState, defaultLink: link.id })
+    const { res: updatedArtist, error } = await updateArtist(artist, { ...wizardState, defaultLink: link.id })
 
     if (error) {
       return
     }
 
     // Set the new link as the default link
-    updateLinks('chooseNewDefaultLink', { newArtist: artist })
-
-    const currentObjective = artist.preferences.optimization.objective
+    updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist })
 
     // Update preferences in controls store
-    updatePreferences({
-      postsPreferences: {
-        callToAction: artist.preferences.posts.call_to_action,
-        defaultLinkId: artist.preferences.posts.default_link_id,
-        promotionEnabled: artist.preferences.posts.promotion_enabled_default,
-      },
-      optimizationPreferences: {
-        objective: artist.preferences.optimization.objective,
-        platform: artist.preferences.optimization.platform,
-      },
-      conversionsPreferences: {
-        ...(currentObjective === 'sales' && { callToAction: artist.preferences.conversions.call_to_action }),
-        ...((currentObjective === 'sales' || currentObjective === 'traffic') && { facebookPixelEvent: artist.preferences.conversions.facebook_pixel_event }),
-      },
-    })
+    updatePreferences(getPreferencesObject(updatedArtist))
 
     const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
 

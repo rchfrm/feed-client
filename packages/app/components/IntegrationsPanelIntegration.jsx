@@ -14,6 +14,7 @@ const IntegrationsPanelIntegration = ({
   artistId,
   setArtist,
   location,
+  isDisabled,
   className,
 }) => {
   const { title, platform, accountId, color } = integration
@@ -53,9 +54,9 @@ const IntegrationsPanelIntegration = ({
           updateIntegration(integration, action)
         }}
         style={{
-          backgroundColor,
+          backgroundColor: isPopulated && isDisabled ? brandColors.grey : backgroundColor,
           color: textColor,
-          border: `2px solid ${borderColor}`,
+          border: `2px solid ${isDisabled ? brandColors.grey : borderColor}`,
         }}
         hasIcon
         active={isPopulated}
@@ -78,6 +79,7 @@ IntegrationsPanelIntegration.propTypes = {
   artistId: PropTypes.string.isRequired,
   setArtist: PropTypes.func.isRequired,
   location: PropTypes.string,
+  isDisabled: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

@@ -57,7 +57,7 @@ const useCreateEditLinkBankLink = ({
     const { links } = folder
     const linkIds = links.map(({ id }) => id)
     return linkIds.includes(defaultLink.id)
-  }, [defaultLink.id])
+  }, [defaultLink?.id])
 
   // GET FUNCTION TO FORCE DELETE
   const showForceDeleteModal = useForceDeleteLink()
@@ -249,7 +249,7 @@ const useCreateEditLinkBankLink = ({
       />
     )
     showAlert({ children, buttons })
-  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink.id, testFolderContainsDefault, location, onCancel])
+  }, [showAlert, closeAlert, action, itemType, runSaveLink, runSaveFolder, defaultLink?.id, testFolderContainsDefault, location, onCancel])
 
   return openLink
 }

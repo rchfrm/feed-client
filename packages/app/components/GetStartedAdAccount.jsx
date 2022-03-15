@@ -6,14 +6,15 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import Select from '@/elements/Select'
+import AdAccountSelector from '@/app/AdAccountSelector'
+
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { updateAdAccount, getArtistIntegrationByPlatform, getAdAccounts } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -25,10 +26,8 @@ const GetStartedAdAccount = () => {
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
 
-  const [adAccountOptions, setAdAccountOptions] = React.useState([])
   const [adAccounts, setAdAccounts] = React.useState([])
   const [adAccountId, setAdAccountId] = React.useState(facebookIntegration?.adaccount_id || '')
-  const [isLoadingAdAccountOptions, setIsLoadingAdAccountOptions] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
@@ -40,31 +39,17 @@ const GetStartedAdAccount = () => {
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
-
-    setIsLoadingAdAccountOptions(true)
-
     const { res, error } = await getAdAccounts(artistId)
+    if (!isMounted()) return
 
     if (error) {
       setError(error)
-      setIsLoadingAdAccountOptions(false)
       return
     }
     const { adaccounts: adAccounts } = res
-    const options = adAccounts.map(({ id, name }) => ({ name, value: id }))
 
     setAdAccounts(adAccounts)
-    setAdAccountOptions(options)
-    setIsLoadingAdAccountOptions(false)
   }, [])
-
-  const handleChange = (e) => {
-    const { target: { value } } = e
-    if (value === adAccountId) return
-
-    setAdAccountId(value)
-  }
 
   const saveAdAccount = async (adAccountId) => {
     setIsLoading(true)
@@ -106,20 +91,18 @@ const GetStartedAdAccount = () => {
   }
 
   useAsyncEffect(async () => {
-    if (!adAccountOptions.length) return
+    if (!adAccounts.length) return
 
-    // Set initial ad account id value if it doesn't exist yet
     if (!adAccountId) {
       // If there's only one ad account save and go to next step
-      if (adAccountOptions.length === 1) {
-        await saveAdAccount(adAccountOptions[0]?.value)
+      if (adAccounts.length === 1) {
+        await saveAdAccount(adAccounts[0]?.id)
 
         goToStep(nextStep)
       }
-      setAdAccountId(adAccountOptions[0]?.value)
     }
     setIsLoading(false)
-  }, [adAccountId, setAdAccountId, adAccountOptions])
+  }, [adAccountId, adAccounts])
 
   if (isLoading) return <Spinner />
 
@@ -129,12 +112,10 @@ const GetStartedAdAccount = () => {
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.adAccountDescription} />
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
-        <Select
-          options={adAccountOptions}
-          selectedValue={adAccountId}
-          loading={isLoadingAdAccountOptions}
-          name="ad_account"
-          handleChange={handleChange}
+        <AdAccountSelector
+          adAccountId={adAccountId}
+          setAdAccountId={setAdAccountId}
+          adAccounts={adAccounts}
           className="w-full mb-12"
         />
         <Button

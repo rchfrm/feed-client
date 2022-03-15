@@ -366,10 +366,10 @@ export const getPreferences = (artist, type) => {
   return formattedPreferencesResponse
 }
 
-export const hasSetFacebookAdAccount = (artist) => {
-  const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
+export const hasConnectedIntegration = (artist, platform) => {
+  const integration = getArtistIntegrationByPlatform(artist, platform)
 
-  return Boolean(facebookIntegration?.accountId)
+  return Boolean(integration?.accountId)
 }
 
 export const getMissingScopes = ({ grantedScopes, artist }) => {
@@ -433,42 +433,56 @@ export const updatePlatform = (artistId, platform) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
-const getCallToAction = (objective, platform) => {
+export const getCallToAction = (objective, platform) => {
   if (platform === 'facebook' || platform === 'instagram' || objective === 'traffic') {
-    return 'LEARN_MORE'
+    return {
+      name: 'Learn More',
+      value: 'LEARN_MORE',
+    }
   }
 
   if (platform === 'spotify' || platform === 'soundcloud') {
-    return 'LISTEN_NOW'
+    return {
+      name: 'Listen Now',
+      value: 'LISTEN_NOW',
+    }
   }
 
   if (platform === 'youtube') {
-    return 'WATCH_MORE'
+    return {
+      name: 'Watch More',
+      value: 'WATCH_MORE',
+    }
   }
 
   if (objective === 'sales') {
-    return 'SHOP_NOW'
+    return {
+      name: 'Shop Now',
+      value: 'SHOP_NOW',
+    }
   }
 }
 
-export const getArtistPayload = ({
-  objective,
-  platform,
-  defaultLink,
-}) => {
+export const getArtistPayload = (data, artist) => {
+  const hasConnectedInstagram = hasConnectedIntegration(artist, 'instagram')
+  const defaultPlatform = hasConnectedInstagram ? 'instagram' : 'facebook'
+  const { objective, defaultLink } = data
+  const platform = (objective === 'growth' && data.platform === 'website') ? defaultPlatform : data.platform
+
   return {
     preferences: {
       optimization: {
         ...(objective && { objective }),
-        ...(platform && { platform }),
+        ...(platform && { platform: (objective === 'growth' && platform === 'website') ? 'facebook' : platform }),
       },
       posts: {
         ...(defaultLink && { default_link_id: defaultLink }),
-        ...(objective && platform && { call_to_action: getCallToAction(objective, platform) }),
-        promotion_enabled_default: true,
+        ...(objective && platform && { call_to_action: getCallToAction(objective, platform)?.value }),
       },
       conversions: {
-        ...(objective === 'sales' && { call_to_action: 'SHOP_NOW', facebook_pixel_event: 'Purchase' }),
+        ...(defaultLink && { default_link_id: defaultLink }),
+        ...(objective && platform && { call_to_action: getCallToAction(objective, platform)?.value }),
+        ...(objective === 'sales' && { facebook_pixel_event: 'Purchase' }),
       },
     },
   }
@@ -476,23 +490,58 @@ export const getArtistPayload = ({
 
 export const objectives = [
   {
-    title: 'Audience growth',
+    name: 'Audience growth',
     value: 'growth',
     color: 'green',
   },
   {
-    title: 'Website sales',
+    name: 'Website sales',
     value: 'sales',
     color: 'insta',
   },
   {
-    title: 'Website visits',
+    name: 'Website visits',
     value: 'traffic',
     color: 'blue',
   },
 ]
 
-export const platforms = ['spotify', 'youtube', 'soundcloud', 'instagram', 'facebook']
+export const platforms = [
+  {
+    name: 'Spotify',
+    value: 'spotify',
+  },
+  {
+    name: 'Youtube',
+    value: 'youtube',
+  },
+  {
+    name: 'SoundCloud',
+    value: 'soundcloud',
+  },
+  {
+    name: 'Instagram',
+    value: 'instagram',
+  },
+  {
+    name: 'Facebook',
+    value: 'facebook',
+  },
+]
+
+export const getObjectiveString = (objective, platform) => {
+  if (!objective || !platform) return null
+
+  const objectiveString = objectives.find(({ value }) => objective === value).name
+
+  if (platform !== 'website') {
+    const platformString = platforms.find(({ value }) => platform === value).name
+
+    return `${platformString} growth`
+  }
+
+  return objectiveString
+}
 
 export const getObjectiveColor = (objective, platform) => {
   if (objective === 'growth' && platform) {
@@ -505,6 +554,28 @@ export const getObjectiveColor = (objective, platform) => {
 
   if (objective === 'traffic') {
     return brandColors.green
+  }
+}
+
+export const getPreferencesObject = (updatedArtist) => {
+  const { preferences } = updatedArtist
+  const { objective, platform } = preferences.optimization
+
+  return {
+    postsPreferences: {
+      callToAction: preferences.posts.call_to_action,
+      defaultLinkId: preferences.posts.default_link_id,
+      promotionEnabled: preferences.posts.promotion_enabled_default,
+    },
+    optimizationPreferences: {
+      objective,
+      platform,
+    },
+    conversionsPreferences: {
+      callToAction: preferences.conversions.call_to_action,
+      defaultLinkId: preferences.conversions.default_link_id,
+      facebookPixelEvent: preferences.conversions.facebook_pixel_event,
+    },
   }
 }
 
@@ -526,9 +597,10 @@ export const getStartedSections = {
 * @param {object} data
 * @returns {Promise<object>} { res, error }
 */
-export const updateArtist = (artistId, data) => {
-  const requestUrl = `/artists/${artistId}`
-  const payload = getArtistPayload(data)
+export const updateArtist = (artist, data) => {
+  const { id } = artist
+  const requestUrl = `/artists/${id}`
+  const payload = getArtistPayload(data, artist)
 
   const errorTracking = {
     category: 'Artist',

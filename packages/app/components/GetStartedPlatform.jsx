@@ -11,7 +11,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import { updateArtist, platforms } from '@/app/helpers/artistHelpers'
+import { updateArtist, platforms, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
@@ -32,7 +32,7 @@ const GetStartedPlatform = () => {
   const [error, setError] = React.useState(null)
 
   const { goToStep } = React.useContext(WizardContext)
-  const { artistId } = React.useContext(ArtistContext)
+  const { artist, artistId } = React.useContext(ArtistContext)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
   const {
     updatePreferences,
@@ -70,7 +70,7 @@ const GetStartedPlatform = () => {
     setIsLoading(true)
 
     // Otherwise save the data in the db
-    const { res: artist, error } = await updateArtist(artistId, {
+    const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       platform,
       defaultLink: isFacebookOrInstagram ? getLinkByPlatform(nestedLinks, platform).id : defaultLinkId,
@@ -83,19 +83,11 @@ const GetStartedPlatform = () => {
     }
 
     if (isFacebookOrInstagram) {
-      updateLinks('chooseNewDefaultLink', { newArtist: artist })
+      updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist })
     }
 
     // Update preferences in controls store
-    updatePreferences({
-      postsPreferences: {
-        callToAction: artist.preferences.posts.call_to_action,
-        ...(isFacebookOrInstagram && { defaultLinkId: artist.preferences.posts.default_link_id }),
-      },
-      optimizationPreferences: {
-        platform: artist.preferences.optimization.platform,
-      },
-    })
+    updatePreferences(getPreferencesObject(updatedArtist))
 
     saveTargetingSettings({
       ...targetingState,
@@ -123,7 +115,7 @@ const GetStartedPlatform = () => {
           {platforms.map((platform) => {
             return (
               <GetStartedPlatformButton
-                key={platform}
+                key={platform.value}
                 platform={platform}
                 isLoading={isLoading}
                 setSelectedPlatform={setSelectedPlatform}

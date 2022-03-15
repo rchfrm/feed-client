@@ -11,7 +11,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
-import { objectives, updateArtist } from '@/app/helpers/artistHelpers'
+import { objectives, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -25,7 +25,7 @@ const GetStartedObjective = () => {
 
   const { goToStep } = React.useContext(WizardContext)
   const { updatePreferences } = useControlsStore(getControlsStoreState)
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
@@ -53,7 +53,7 @@ const GetStartedObjective = () => {
     }
 
     // Otherwise save the data in the db
-    const { res: artist, error } = await updateArtist(artistId, {
+    const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       ...(!isGrowth && { platform: 'website' }),
     })
@@ -64,19 +64,7 @@ const GetStartedObjective = () => {
     }
 
     // Update preferences in controls store
-    updatePreferences({
-      postsPreferences: {
-        callToAction: artist.preferences.posts.call_to_action,
-      },
-      optimizationPreferences: {
-        objective: artist.preferences.optimization.objective,
-        platform: artist.preferences.optimization.platform,
-      },
-      conversionsPreferences: {
-        ...(objective === 'sales' && { callToAction: artist.preferences.conversions.call_to_action }),
-        ...((objective === 'sales' || objective === 'traffic') && { facebookPixelEvent: artist.preferences.conversions.facebook_pixel_event }),
-      },
-    })
+    updatePreferences(getPreferencesObject(updatedArtist))
 
     goToStep(nextStep)
   }

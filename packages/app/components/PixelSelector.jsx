@@ -47,7 +47,10 @@ const PixelSelector = ({
   // LOAD AVAILABLE PIXELS
   const [availablePixels, setAvailablePixels] = React.useState([])
   useAsyncEffect(async (isMounted) => {
-    if (!artistId) return
+    if (!artistId) {
+      setLoading(false)
+      return
+    }
     const { res: pixels = [], error } = await getArtistPixels(artistId)
     if (!isMounted()) return
     setLoading(false)

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
+import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import { track } from '@/helpers/trackingHelpers'
 
@@ -9,6 +10,8 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 import { parseUrl } from '@/helpers/utils'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 const getControlsStoreState = (state) => ({
   updateLinks: state.updateLinks,
@@ -21,17 +24,18 @@ const AdDefaultsLink = ({
   className,
 }) => {
   const { updateLinks, updatePreferences } = useControlsStore(getControlsStoreState)
-  const { id: defaultLinkId } = defaultLink
+  const { id: defaultLinkId } = defaultLink || {}
   const hasDefaultLink = !!defaultLinkId
 
   const onSuccess = React.useCallback((newArtist) => {
     const { preferences: { posts: { default_link_id } } } = newArtist
     // Update controls store
     const newDefaultLink = updateLinks('chooseNewDefaultLink', { newArtist })
-    updatePreferences(
-      'postsPreferences',
-      { defaultLinkId: default_link_id },
-    )
+    updatePreferences({
+      postsPreferences: {
+        defaultLinkId: default_link_id,
+      },
+    })
     // Update artist status
     setPostPreferences('default_link_id', default_link_id)
     // TRACK
@@ -53,7 +57,9 @@ const AdDefaultsLink = ({
         onSuccess={onSuccess}
         includeAddLinkOption
         componentLocation="defaultLink"
+        className="mb-14"
       />
+      <ControlsSettingsSectionFooter copy={copy.defaultLinkFooter} className="text-insta" />
       {!hasDefaultLink && (
         <div
           className={[
@@ -69,12 +75,13 @@ const AdDefaultsLink = ({
 }
 
 AdDefaultsLink.propTypes = {
-  defaultLink: PropTypes.object.isRequired,
+  defaultLink: PropTypes.object,
   setPostPreferences: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 AdDefaultsLink.defaultProps = {
+  defaultLink: null,
   className: null,
 }
 

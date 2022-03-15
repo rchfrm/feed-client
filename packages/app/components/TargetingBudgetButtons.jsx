@@ -32,13 +32,12 @@ const TargetingBudgetButtons = ({
   const isDisabled = !!disableSaving || !showBudgetSave
 
   return (
-    <div className="flex justify-between items-end w-full">
+    <div className="flex">
       {!showCustomBudget && (
         <Button
           version="small"
           className={[
-            'w-8 h-8 p-0',
-            'flex-shrink-0',
+            'w-8 h-8 p-0 mr-6',
             'bg-black',
             'rounded-full',
             isDisabled ? 'bg-grey-2 focus:bg-grey-2 pointer-events-none' : '',
@@ -56,7 +55,7 @@ const TargetingBudgetButtons = ({
       <Button
         version="green small"
         className={[
-          'h-8 ml-auto',
+          'h-8',
           'rounded-full',
           isDisabled ? 'bg-grey-2 pointer-events-none' : '',
         ].join(' ')}

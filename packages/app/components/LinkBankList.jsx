@@ -8,6 +8,7 @@ import LinkBankLink from '@/app/LinkBankLink'
 const LinkBankList = ({
   looseLinks,
   linkFolders,
+  isDisabled,
 }) => {
   const [editModeOn, setEditModeOn] = React.useState(false)
   const mergedLinks = React.useMemo(() => {
@@ -19,10 +20,11 @@ const LinkBankList = ({
         <p className="pb-2 text-lg">You don't have any links saved yet.</p>
       )}
       <LinkBankListButtons
-        className="mb-8"
+        className="grey-2 mb-8"
         editModeOn={editModeOn}
         setEditModeOn={setEditModeOn}
         totalLinks={mergedLinks.length}
+        isDisabled={isDisabled}
       />
       {!!mergedLinks.length && (
         <ul>

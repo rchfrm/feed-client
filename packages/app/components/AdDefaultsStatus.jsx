@@ -75,7 +75,11 @@ const AdDefaultsStatus = ({
         // Update artist status
         setPostPreferences('promotion_enabled_default', newDefaultPostStatus)
         // Update controls store
-        updatePreferences('postsPreferences', { defaultPromotionEnabled: newDefaultPostStatus })
+        updatePreferences({
+          postsPreferences: {
+            defaultPromotionEnabled: newDefaultPostStatus,
+          },
+        })
         // Update status on all posts
         togglePromotionGlobal(newDefaultPostStatus)
       }

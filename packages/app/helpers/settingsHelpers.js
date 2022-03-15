@@ -13,7 +13,7 @@ import { requestWithCatch } from '@/helpers/api'
 */
 export const getCurrentPixelId = (artist) => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
-  return facebookIntegration.pixel_id
+  return facebookIntegration?.pixel_id
 }
 
 // Get artist pixel (SERVER)
