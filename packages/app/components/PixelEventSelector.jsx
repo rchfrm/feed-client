@@ -28,6 +28,10 @@ const PixelEventSelector = ({
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
+    if (!artistId) {
+      setIsLoading(false)
+      return
+    }
     const { res: { event_total_counts: events } } = await getFacebookPixelEvents(artistId, pixelId)
 
     if (!isMounted()) {
@@ -96,6 +100,7 @@ const PixelEventSelector = ({
         name="facebook_pixel_event"
         loading={isLoading}
         label={label}
+        placeholder="Pixel Event"
         selectedValue={pixelEvent}
         options={facebookPixelEventOptions}
         disabled={disabled}

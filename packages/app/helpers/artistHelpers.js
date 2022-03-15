@@ -530,6 +530,8 @@ export const platforms = [
 ]
 
 export const getObjectiveString = (objective, platform) => {
+  if (!objective || !platform) return null
+
   const objectiveString = objectives.find(({ value }) => objective === value).name
 
   if (platform !== 'website') {

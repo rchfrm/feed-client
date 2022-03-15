@@ -88,9 +88,9 @@ const TargetingBudgetSetter = ({
 TargetingBudgetSetter.propTypes = {
   currency: PropTypes.string,
   currencyOffset: PropTypes.number,
-  minBase: PropTypes.number.isRequired,
+  minBase: PropTypes.number,
   minReccBudget: PropTypes.number,
-  minHardBudget: PropTypes.number.isRequired,
+  minHardBudget: PropTypes.number,
   initialBudget: PropTypes.number.isRequired,
   targetingState: PropTypes.object.isRequired,
   updateTargetingBudget: PropTypes.func.isRequired,
@@ -101,9 +101,11 @@ TargetingBudgetSetter.propTypes = {
 }
 
 TargetingBudgetSetter.defaultProps = {
-  currency: '',
-  currencyOffset: 0,
+  currency: 'GBP',
+  currencyOffset: 1,
   minReccBudget: 0,
+  minBase: 1,
+  minHardBudget: 0,
   isSummaryVersion: false,
   mobileVersion: false,
 }

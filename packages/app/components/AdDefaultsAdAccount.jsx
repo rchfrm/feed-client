@@ -30,7 +30,7 @@ const AdDefaultsAdAccount = ({ className }) => {
         setAdAccountId={setAdAccountId}
         shouldSaveOnChange
         className="mb-14"
-        disabled
+        disabled={artist?.hasSetupProfile}
       />
       <ControlsSettingsSectionFooter
         icon="email"

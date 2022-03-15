@@ -38,13 +38,16 @@ const TargetingCustomBudgetButton = ({
 TargetingCustomBudgetButton.propTypes = {
   showCustomBudget: PropTypes.bool.isRequired,
   setShowCustomBudget: PropTypes.func.isRequired,
-  initialBudget: PropTypes.number.isRequired,
-  minBase: PropTypes.number.isRequired,
-  minHardBudget: PropTypes.number.isRequired,
+  initialBudget: PropTypes.number,
+  minBase: PropTypes.number,
+  minHardBudget: PropTypes.number,
   className: PropTypes.string,
 }
 
 TargetingCustomBudgetButton.defaultProps = {
+  initialBudget: 0,
+  minBase: 0,
+  minHardBudget: 0,
   className: null,
 }
 

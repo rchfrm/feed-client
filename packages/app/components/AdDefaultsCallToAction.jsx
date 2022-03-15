@@ -59,12 +59,13 @@ const AdDefaultsCallToAction = ({
 }
 
 AdDefaultsCallToAction.propTypes = {
-  defaultCallToAction: PropTypes.string.isRequired,
+  defaultCallToAction: PropTypes.string,
   updatePreferences: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 AdDefaultsCallToAction.defaultProps = {
+  defaultCallToAction: '',
   className: null,
 }
 

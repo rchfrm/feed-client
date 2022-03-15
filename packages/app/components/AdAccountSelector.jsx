@@ -27,7 +27,10 @@ const AdAccountSelector = ({
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
+    if (!artistId) {
+      setIsLoading(false)
+      return
+    }
 
     if (adAccounts.length) {
       const options = adAccounts.map(({ id, name }) => ({ name, value: id }))
@@ -40,6 +43,7 @@ const AdAccountSelector = ({
     setIsLoading(true)
 
     const { res, error } = await getAdAccounts(artistId)
+    if (!isMounted()) return
 
     if (error) {
       setError(error)
@@ -103,6 +107,7 @@ const AdAccountSelector = ({
         handleChange={handleChange}
         name="ad_account"
         label={label}
+        placeholder="Facebook Ad Account Name"
         selectedValue={adAccountId}
         options={adAccountOptions}
         disabled={disabled}

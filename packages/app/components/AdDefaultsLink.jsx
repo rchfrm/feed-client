@@ -24,7 +24,7 @@ const AdDefaultsLink = ({
   className,
 }) => {
   const { updateLinks, updatePreferences } = useControlsStore(getControlsStoreState)
-  const { id: defaultLinkId } = defaultLink
+  const { id: defaultLinkId } = defaultLink || {}
   const hasDefaultLink = !!defaultLinkId
 
   const onSuccess = React.useCallback((newArtist) => {
@@ -75,12 +75,13 @@ const AdDefaultsLink = ({
 }
 
 AdDefaultsLink.propTypes = {
-  defaultLink: PropTypes.object.isRequired,
+  defaultLink: PropTypes.object,
   setPostPreferences: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 AdDefaultsLink.defaultProps = {
+  defaultLink: null,
   className: null,
 }
 

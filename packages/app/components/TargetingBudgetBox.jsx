@@ -12,6 +12,7 @@ import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
+import ControlsContentSection from '@/app/ControlsContentSection'
 
 const TargetingBudgetBox = ({
   className,
@@ -40,8 +41,9 @@ const TargetingBudgetBox = ({
         minorUnit: {
           minBase,
           minHard: minHardBudget,
-        },
-      },
+        } = {},
+      } = {},
+      hasSetupProfile,
     },
   } = React.useContext(ArtistContext)
 
@@ -64,52 +66,55 @@ const TargetingBudgetBox = ({
             <h2 className="mb-0">
               Daily Budget
               {!targetingState.status ? (
-                <span className="text-red"> Paused</span>
+                hasSetupProfile && <span className="text-red"> Paused</span>
               ) : (
-                <span className="text-green"> Active</span>
+                hasSetupProfile && <span className="text-green"> Active</span>
               )}
             </h2>
             {/* PAUSE OR RESUME SPENDING */}
             <TargetingBudgetPauseButton
               togglePauseCampaign={togglePauseCampaign}
               isPaused={!targetingState.status}
+              isDisabled={!hasSetupProfile}
               className={!isDesktopLayout ? 'mr-12' : null}
             />
           </div>
-          {/* BUDGET SETTER */}
-          <div>
-            <TargetingBudgetSetter
-              currency={currencyCode}
-              currencyOffset={currencyOffset}
-              minBase={minBase}
-              minHardBudget={minHardBudget}
-              initialBudget={initialTargetingState.budget}
-              targetingState={targetingState}
-              updateTargetingBudget={updateTargetingBudget}
-              showCustomBudget={showCustomBudget}
-              setBudgetSlider={setBudgetSlider}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <TargetingBudgetButtons
-              targetingState={targetingState}
-              initialTargetingState={initialTargetingState}
-              updateTargetingBudget={updateTargetingBudget}
-              saveTargetingSettings={saveTargetingSettings}
-              disableSaving={disableSaving}
-              budgetSlider={budgetSlider}
-              showCustomBudget={showCustomBudget}
-            />
-            {/* TOGGLE CUSTOM BUDGET */}
-            <TargetingCustomBudgetButton
-              style={{ zIndex: 2 }}
-              showCustomBudget={showCustomBudget}
-              setShowCustomBudget={setShowCustomBudget}
-              initialBudget={initialTargetingState.budget}
-              minBase={minBase}
-              minHardBudget={minHardBudget}
-            />
-          </div>
+          <ControlsContentSection action="choose your budget" className="mt-5">
+            {/* BUDGET SETTER */}
+            <div>
+              <TargetingBudgetSetter
+                currency={currencyCode}
+                currencyOffset={currencyOffset}
+                minBase={minBase}
+                minHardBudget={minHardBudget}
+                initialBudget={hasSetupProfile ? initialTargetingState.budget : 5}
+                targetingState={targetingState}
+                updateTargetingBudget={updateTargetingBudget}
+                showCustomBudget={showCustomBudget}
+                setBudgetSlider={setBudgetSlider}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <TargetingBudgetButtons
+                targetingState={targetingState}
+                initialTargetingState={initialTargetingState}
+                updateTargetingBudget={updateTargetingBudget}
+                saveTargetingSettings={saveTargetingSettings}
+                disableSaving={disableSaving}
+                budgetSlider={budgetSlider}
+                showCustomBudget={showCustomBudget}
+              />
+              {/* TOGGLE CUSTOM BUDGET */}
+              <TargetingCustomBudgetButton
+                style={{ zIndex: 2 }}
+                showCustomBudget={showCustomBudget}
+                setShowCustomBudget={setShowCustomBudget}
+                initialBudget={initialTargetingState.budget}
+                minBase={minBase}
+                minHardBudget={minHardBudget}
+              />
+            </div>
+          </ControlsContentSection>
         </>
       )}
     </section>
