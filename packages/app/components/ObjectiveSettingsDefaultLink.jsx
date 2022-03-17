@@ -21,6 +21,7 @@ const getControlsStoreState = (state) => ({
 const ObjectiveSettingsDefaultLink = ({
   defaultLink,
   setPostPreferences,
+  objective,
   label,
   className,
 }) => {
@@ -57,6 +58,8 @@ const ObjectiveSettingsDefaultLink = ({
         onSelect={setDefaultLink}
         onSuccess={onSuccess}
         includeAddLinkOption
+        includeIntegrationLinks={objective === 'growth'}
+        includeLooseLinks={objective !== 'growth'}
         componentLocation="defaultLink"
         label={label}
         className="mb-14"
@@ -79,6 +82,7 @@ const ObjectiveSettingsDefaultLink = ({
 ObjectiveSettingsDefaultLink.propTypes = {
   defaultLink: PropTypes.object,
   setPostPreferences: PropTypes.func.isRequired,
+  objective: PropTypes.string.isRequired,
   label: PropTypes.string,
   className: PropTypes.string,
 }

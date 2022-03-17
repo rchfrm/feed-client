@@ -47,6 +47,7 @@ const ObjectiveSettings = () => {
         <ObjectiveSettingsDefaultLink
           defaultLink={defaultLink}
           setPostPreferences={setPostPreferences}
+          objective={objective}
           label="Default Link"
           className="mb-8"
         />
