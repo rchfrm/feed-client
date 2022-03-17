@@ -14,7 +14,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { updateArtist, platforms, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
-import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
+import { getLinkByPlatform, setDefaultLink } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -32,7 +32,7 @@ const GetStartedPlatform = () => {
   const [error, setError] = React.useState(null)
 
   const { goToStep } = React.useContext(WizardContext)
-  const { artist, artistId } = React.useContext(ArtistContext)
+  const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
   const {
     updatePreferences,
@@ -41,20 +41,43 @@ const GetStartedPlatform = () => {
     nestedLinks,
     updateLinks,
   } = useControlsStore(getControlsStoreState)
-  const { objective } = optimizationPreferences
+  const { objective, platform: currentPlatform } = optimizationPreferences
   const { defaultLinkId } = postsPreferences
+
+  const unsetDefaultLink = async () => {
+    const { res: newArtist } = await setDefaultLink(artistId, null)
+
+    // Unset the link in the controls store
+    updateLinks('chooseNewDefaultLink', { newArtist, newLink: null })
+
+    // Update the post preferences object
+    updatePreferences({
+      postsPreferences: {
+        defaultLinkId: null,
+      },
+    })
+
+    // Update artist context
+    setPostPreferences('default_link_id', null)
+  }
 
   const handleNextStep = async (platform) => {
     const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
     const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
     const nextStep = isFacebookOrInstagram ? 3 : 2
 
+    // If the platform hasn't changed just go to the next step
+    if (platform === currentPlatform) {
+      goToStep(nextStep)
+      return
+    }
+
     // If there's no connected account yet store the data in local storage
     if (!artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({
         ...wizardState,
         platform,
-        ...(isFacebookOrInstagram && { defaultLink: platform }),
+        defaultLink: isFacebookOrInstagram ? platform : null,
       }))
 
       updatePreferences({
@@ -84,6 +107,9 @@ const GetStartedPlatform = () => {
 
     if (isFacebookOrInstagram) {
       updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist })
+    } else {
+      // Unset the default link
+      await unsetDefaultLink()
     }
 
     // Update preferences in controls store

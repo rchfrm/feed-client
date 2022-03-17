@@ -67,7 +67,7 @@ export const getIntegrationInfo = (integration) => {
         title: 'YouTube',
         titleVerbose: 'YouTube channel',
         baseUrl: 'https://youtube.com/',
-        placeholderUrl: 'https://youtube.com/channel/<channel ID>',
+        placeholderUrl: 'https://youtube.com/<channel ID>',
         channelIdKey: 'channel_id',
         userIdKey: 'user_id',
         customIdKey: 'custom_id',
