@@ -1,7 +1,7 @@
 import React from 'react'
 import brandColors from '@/constants/brandColors'
 
-export default function PricingPageAdSpendCircle({
+export default function PricingPageSpendCircle({
   amount,
   color,
   className,
@@ -10,6 +10,7 @@ export default function PricingPageAdSpendCircle({
 }) {
   const circle = React.useRef(null)
   React.useEffect(() => {
+    if (!setDiameter) return
     setDiameter(circle.current.clientHeight)
   })
   return (
@@ -17,6 +18,7 @@ export default function PricingPageAdSpendCircle({
       className={className}
       style={{
         height: `${diameter}px`,
+        width: `${diameter}px`,
       }}
     >
       <svg ref={circle} fill={brandColors[color]} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
