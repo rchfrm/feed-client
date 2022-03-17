@@ -1,12 +1,13 @@
 import React from 'react'
 import brandColors from '@/constants/brandColors'
 
-export default function PricingPageSpendCircle({
+export default function PricingPageAdSpendCircle({
   amount,
   color,
   className,
+  diameter,
+  setDiameter,
 }) {
-  const [diameter, setDiameter] = React.useState(0)
   const circle = React.useRef(null)
   React.useEffect(() => {
     setDiameter(circle.current.clientHeight)
