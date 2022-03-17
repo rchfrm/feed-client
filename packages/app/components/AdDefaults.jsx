@@ -7,7 +7,6 @@ import usePostsStore from '@/app/stores/postsStore'
 // IMPORT COMPONENTS
 import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
-import AdDefaultsLink from '@/app/AdDefaultsLink'
 import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
 import AdDefaultsAdAccount from '@/app/AdDefaultsAdAccount'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
@@ -19,7 +18,6 @@ import copy from '@/app/copy/controlsPageCopy'
 const getTogglePromotionGlobal = state => state.togglePromotionGlobal
 
 const getControlsStoreState = (state) => ({
-  defaultLink: state.defaultLink,
   postsPreferences: state.postsPreferences,
   conversionsPreferences: state.conversionsPreferences,
   updatePreferences: state.updatePreferences,
@@ -30,7 +28,7 @@ const AdDefaults = () => {
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   // Get store values
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
-  const { defaultLink, postsPreferences, conversionsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
+  const { postsPreferences, conversionsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultCallToAction, defaultPromotionEnabled } = postsPreferences
   const { facebookPixelEvent } = conversionsPreferences
 
@@ -49,17 +47,6 @@ const AdDefaults = () => {
             togglePromotionGlobal={togglePromotionGlobal}
             defaultPromotionEnabled={defaultPromotionEnabled}
             updatePreferences={updatePreferences}
-          />
-        </AdSettingsSection>
-        {/* DEFAULT LINK */}
-        <AdSettingsSection
-          header="Default Link"
-          copy={copy.defaultLinkIntro}
-        >
-          <AdDefaultsLink
-            className="mb-8"
-            defaultLink={defaultLink}
-            setPostPreferences={setPostPreferences}
           />
         </AdSettingsSection>
         {/* DEFAULT CALL TO ACTION */}

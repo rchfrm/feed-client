@@ -18,9 +18,10 @@ const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
 })
 
-const AdDefaultsLink = ({
+const ObjectiveSettingsDefaultLink = ({
   defaultLink,
   setPostPreferences,
+  label,
   className,
 }) => {
   const { updateLinks, updatePreferences } = useControlsStore(getControlsStoreState)
@@ -57,6 +58,7 @@ const AdDefaultsLink = ({
         onSuccess={onSuccess}
         includeAddLinkOption
         componentLocation="defaultLink"
+        label={label}
         className="mb-14"
       />
       <ControlsSettingsSectionFooter copy={copy.defaultLinkFooter} className="text-insta" />
@@ -74,16 +76,17 @@ const AdDefaultsLink = ({
   )
 }
 
-AdDefaultsLink.propTypes = {
+ObjectiveSettingsDefaultLink.propTypes = {
   defaultLink: PropTypes.object,
   setPostPreferences: PropTypes.func.isRequired,
+  label: PropTypes.string,
   className: PropTypes.string,
 }
 
-AdDefaultsLink.defaultProps = {
+ObjectiveSettingsDefaultLink.defaultProps = {
   defaultLink: null,
+  label: '',
   className: null,
 }
 
-
-export default AdDefaultsLink
+export default ObjectiveSettingsDefaultLink
