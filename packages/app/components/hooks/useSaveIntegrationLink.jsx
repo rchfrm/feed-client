@@ -5,19 +5,18 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { updateIntegration } from '@/helpers/integrationHelpers'
-import { fetchSavedLinks } from '@/app/helpers/linksHelpers'
+import { updateIntegration, formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
+import { splitLinks } from '@/app/helpers/linksHelpers'
 
 const getControlsStoreState = (state) => ({
+  fetchAndUpdateLinks: state.fetchAndUpdateLinks,
   updateLinks: state.updateLinks,
-  formatIntegrationLinks: state.formatIntegrationLinks,
 })
 
 const useSaveIntegrationLink = () => {
   const { artistId, setArtist, artist } = React.useContext(ArtistContext)
 
-  const { updateLinks, formatIntegrationLinks } = useControlsStore(getControlsStoreState, shallow)
-
+  const { fetchAndUpdateLinks, updateLinks } = useControlsStore(getControlsStoreState, shallow)
   const saveIntegrationLink = async (integration, link) => {
     const { res: updatedArtist, error } = await updateIntegration(artistId, integration, link, 'add')
 
@@ -36,15 +35,12 @@ const useSaveIntegrationLink = () => {
     })
 
     // Fetch the links again otherwise we don't have a link id to work with
-    const { res, error: fetchLinksError } = await fetchSavedLinks(artistId)
+    const updatedIntegrations = formatAndFilterIntegrations(integrations)
+    const artistWithFormattedIntegrations = { ...artist, integrations: updatedIntegrations }
+    const nestedLinks = await fetchAndUpdateLinks(artistWithFormattedIntegrations)
 
-    if (error) {
-      return { error: fetchLinksError }
-    }
-
-    const { folders } = res
-    const formatedIntegrationLinks = formatIntegrationLinks({ artist, folders })
-    const integrationLink = formatedIntegrationLinks.find((link) => link.platform === integration.platform)
+    const { integrationLinks = [] } = splitLinks(nestedLinks)
+    const integrationLink = integrationLinks.find((link) => link.platform === integration.platform)
 
     // Update controls store links with the new integration link
     updateLinks('add', { newLink: integrationLink })

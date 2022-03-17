@@ -216,7 +216,7 @@ const GetStartedWizard = ({
     }
 
     // Set the new link as the default link
-    updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist })
+    updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: link })
 
     // Update preferences in controls store
     updatePreferences(getPreferencesObject(updatedArtist))

@@ -162,7 +162,7 @@ const GetStartedDefaultLink = () => {
       savedLink = integrationLink
     } else {
       // Save the link in the linkbank or edit the linkbank link based on the action parameter
-      const { savedLink: linkBankLink, error } = await saveLinkToLinkBank(action)
+      const { savedLink: linkBankLink, error } = await saveLinkToLinkBank(link, action)
 
       if (error) {
         setError(error)
