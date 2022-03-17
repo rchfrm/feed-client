@@ -45,7 +45,7 @@ const GetStartedPlatform = () => {
     // Unset the link in the controls store
     updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
 
-    // Update the post preferences object
+    // Update the posts and conversions preferences objects
     updatePreferences({
       postsPreferences: {
         defaultLinkId: null,

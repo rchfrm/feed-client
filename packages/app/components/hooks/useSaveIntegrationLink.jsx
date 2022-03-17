@@ -10,13 +10,12 @@ import { splitLinks } from '@/app/helpers/linksHelpers'
 
 const getControlsStoreState = (state) => ({
   fetchAndUpdateLinks: state.fetchAndUpdateLinks,
-  updateLinks: state.updateLinks,
 })
 
 const useSaveIntegrationLink = () => {
   const { artistId, setArtist, artist } = React.useContext(ArtistContext)
 
-  const { fetchAndUpdateLinks, updateLinks } = useControlsStore(getControlsStoreState, shallow)
+  const { fetchAndUpdateLinks } = useControlsStore(getControlsStoreState, shallow)
   const saveIntegrationLink = async (integration, link) => {
     const { res: updatedArtist, error } = await updateIntegration(artistId, integration, link, 'add')
 
@@ -34,16 +33,14 @@ const useSaveIntegrationLink = () => {
       },
     })
 
-    // Fetch the links again otherwise we don't have a link id to work with
     const updatedIntegrations = formatAndFilterIntegrations(integrations)
     const artistWithFormattedIntegrations = { ...artist, integrations: updatedIntegrations }
+
+    // Fetch the linkbank links again and update the controls store with the new integration link
     const nestedLinks = await fetchAndUpdateLinks(artistWithFormattedIntegrations)
 
     const { integrationLinks = [] } = splitLinks(nestedLinks)
     const integrationLink = integrationLinks.find((link) => link.platform === integration.platform)
-
-    // Update controls store links with the new integration link
-    updateLinks('add', { newLink: integrationLink })
 
     return { savedLink: integrationLink }
   }
