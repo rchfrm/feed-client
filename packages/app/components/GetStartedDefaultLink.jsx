@@ -126,10 +126,10 @@ const GetStartedDefaultLink = () => {
         return
       }
 
-      const { isValid } = res
+      const { isValid, reason } = res
 
       if (!isValid) {
-        setError({ message: 'Error saving link, link not valid' })
+        setError({ message: copy.invalidLinkReason(reason) })
         return
       }
 
