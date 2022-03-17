@@ -47,7 +47,7 @@ export default function PricingPage() {
       <MarkdownText className={['h2', 'font-normal', 'col-start-4', 'col-span-6'].join(' ')} markdown={`Each month you will spend <strong>£${dailyBudget * 30}</strong> in total:`} />
       <PricingPageSpendCircle
         amount={dailyBudget}
-        color="insta"
+        color="redLight"
         className={['col-start-5', 'col-span-4'].join(' ')}
       />
     </Section>
