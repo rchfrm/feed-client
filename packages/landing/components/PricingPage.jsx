@@ -4,6 +4,7 @@ import HeroStrapLine from '@/landing/HeroStrapLine'
 import MarkdownText from '@/elements/MarkdownText'
 import pricingPageCopy from '@/landing/copy/PricingPageCopy'
 import Input from '@/elements/Input'
+import PricingPageSpendCircle from '@/landing/PricingPageSpendCircle'
 
 export default function PricingPage() {
   const [dailyBudget, setDailyBudget] = React.useState(5)
@@ -44,6 +45,11 @@ export default function PricingPage() {
         prefix="£"
       />
       <MarkdownText className={['h2', 'font-normal', 'col-start-4', 'col-span-6'].join(' ')} markdown={`Each month you will spend <strong>£${dailyBudget * 30}</strong> in total:`} />
+      <PricingPageSpendCircle
+        amount={dailyBudget}
+        color="insta"
+        className={['col-start-5', 'col-span-4'].join(' ')}
+      />
     </Section>
   )
 }
