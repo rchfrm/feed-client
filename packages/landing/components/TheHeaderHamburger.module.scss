@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@use "sass:math";
 /*!
  * Hamburgers
  * @description Tasty CSS-animated hamburgers
@@ -91,7 +92,7 @@ $hamburger-active-hover-filter: $hamburger-hover-filter !default;
 .hamburger-inner {
   display: block;
   top: 50%;
-  margin-top: $hamburger-layer-height / -2;
+  margin-top: math.div($hamburger-layer-height, -2);
 
   &,
   &::before,
@@ -127,7 +128,7 @@ $hamburger-active-hover-filter: $hamburger-hover-filter !default;
   */
 .hamburger--slider {
   .hamburger-inner {
-    top: $hamburger-layer-height / 2;
+    top: math.div($hamburger-layer-height, 2);
 
     &::before {
       top: $hamburger-layer-height + $hamburger-layer-spacing;
@@ -148,7 +149,7 @@ $hamburger-active-hover-filter: $hamburger-hover-filter !default;
       transform: translate3d(0, $y-offset, 0) rotate(45deg);
 
       &::before {
-        transform: rotate(-45deg) translate3d($hamburger-layer-width / -7, $hamburger-layer-spacing * -1, 0);
+        transform: rotate(-45deg) translate3d(math.div($hamburger-layer-width, -7), $hamburger-layer-spacing * -1, 0);
         opacity: 0;
       }
 
