@@ -22,20 +22,28 @@ const GetStartedFacebookPixel = () => {
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
-  const { artistId, artist } = React.useContext(ArtistContext)
+  const { artistId, artist, setArtist } = React.useContext(ArtistContext)
   const { next } = React.useContext(WizardContext)
 
 
   const saveFacebookPixel = async (pixelId) => {
     setIsLoading(true)
 
-    const { error } = await setPixel(artistId, pixelId)
+    const { newIntegrations, error } = await setPixel(artistId, pixelId)
 
     if (error) {
       setError(error)
       setIsLoading(false)
       return
     }
+
+    // Update artist context
+    setArtist({
+      type: 'update-integrations',
+      payload: {
+        integrations: newIntegrations,
+      },
+    })
 
     setIsLoading(false)
     next()
