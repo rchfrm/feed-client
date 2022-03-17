@@ -9,7 +9,7 @@ const triggerBudgetError = ({ errorMessage, value, currencyCode }) => {
   fireSentryError({ description: errorDescription })
 }
 
-// This checks that the rounding has produced a reasonable budget amount
+// This checks that the rounding has produced a reasonable budget monthlyBudget
 const checkBudgetError = ({
   minBaseUnrounded,
   minHard,

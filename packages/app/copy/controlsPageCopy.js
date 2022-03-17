@@ -74,7 +74,7 @@ ${permissionList}
 Click 'Continue with Facebook' to grant these:`
   },
   controlsWizardLocationStepIntro: `We'll use the country you're based in as a starting point for our targeting.`,
-  controlsWizardBudgetStepIntro: 'This amount includes our 10% service fee. We recommend you set an amount that you can sustain over longer periods.',
+  controlsWizardBudgetStepIntro: 'This monthlyBudget includes our 10% service fee. We recommend you set an monthlyBudget that you can sustain over longer periods.',
   controlsWizardPaymentStepIntro: `Almost there!
 
   Feed charges a 10% service fee on the budget you spend through the platform. The fee is included in the budget you set in the last step, not in addition to it.`,

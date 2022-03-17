@@ -46,7 +46,7 @@ export default function PricingPage() {
       />
       <MarkdownText className={['h2', 'font-normal', 'col-start-4', 'col-span-6'].join(' ')} markdown={`Each month you will spend <strong>£${dailyBudget * 30}</strong> in total:`} />
       <PricingPageSpendCircles
-        amount={dailyBudget}
+        monthlyBudget={dailyBudget * 30}
         className={['col-start-5', 'col-span-4'].join(' ')}
       />
     </Section>

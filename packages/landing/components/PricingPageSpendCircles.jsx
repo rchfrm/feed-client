@@ -2,7 +2,7 @@ import React from 'react'
 import PricingPageSpendCircle from '@/landing/PricingPageSpendCircle'
 
 export default function PricingPageSpendCircles({
-  amount,
+  monthlyBudget,
   className,
 }) {
   const [diameter, setDiameter] = React.useState(0)
@@ -15,19 +15,21 @@ export default function PricingPageSpendCircles({
     setSmallDiameter(smallDiameter)
   }, [diameter])
   return (
-    <>
+    <div
+      className={className}
+    >
       <PricingPageSpendCircle
-        amount={amount * 0.9 * 30}
+        amount={monthlyBudget * 0.9}
         color="redLight"
         className={className}
         diameter={diameter}
         setDiameter={setDiameter}
       />
       <PricingPageSpendCircle
-        amount={amount * 0.1 * 30}
+        amount={monthlyBudget * 0.1}
         color="green"
         diameter={smallDiameter}
       />
-    </>
+    </div>
   )
 }
