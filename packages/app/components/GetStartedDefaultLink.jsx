@@ -12,9 +12,11 @@ import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
+import { getLocalStorage, setLocalStorage, enforceUrlProtocol } from '@/helpers/utils'
+import { testValidIntegration, getIntegrationInfo } from '@/helpers/integrationHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
+import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   savedFolders: state.savedFolders,
@@ -39,6 +41,8 @@ const GetStartedDefaultLink = () => {
   const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
 
   const [link, setLink] = React.useState(defaultLink || storedDefaultLink || {})
+  const [placeholder, setPlaceholder] = React.useState('https://')
+  const [isSaveEnabled, setIsSaveEnabled] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { next } = React.useContext(WizardContext)
@@ -164,6 +168,26 @@ const GetStartedDefaultLink = () => {
     next()
   }
 
+  React.useEffect(() => {
+    if (objective === 'growth') {
+      const { placeholderUrl } = getIntegrationInfo({ platform })
+
+      setPlaceholder(placeholderUrl)
+    }
+  }, [objective, platform])
+
+  React.useEffect(() => {
+    if (objective !== 'growth') {
+      setIsSaveEnabled(!!link.href)
+      return
+    }
+
+    const sanitisedLink = enforceUrlProtocol(link.href, true)
+    const hasError = !testValidIntegration(sanitisedLink, platform)
+
+    setIsSaveEnabled(!!link.href && !hasError)
+  }, [objective, platform, link])
+
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-4 font-medium text-xl">{copy.defaultLinkSubtitle(objective, platform)}</h3>
@@ -176,7 +200,7 @@ const GetStartedDefaultLink = () => {
           type="url"
           value={link.href}
           handleChange={handleChange}
-          placeholder="https://"
+          placeholder={placeholder}
           className="w-full mb-12"
         />
         <Button
@@ -184,12 +208,13 @@ const GetStartedDefaultLink = () => {
           onClick={handleNext}
           className="w-full sm:w-48"
           trackComponentName="GetStartedDefaultLink"
+          disabled={!isSaveEnabled}
         >
           Save
           <ArrowAltIcon
             className="ml-3"
             direction="right"
-            fill="white"
+            fill={isSaveEnabled ? brandColors.white : brandColors.greyDark}
           />
         </Button>
       </div>
