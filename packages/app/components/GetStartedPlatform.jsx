@@ -14,7 +14,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { updateArtist, platforms, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
-import { getLinkByPlatform, setDefaultLink } from '@/app/helpers/linksHelpers'
+import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -22,7 +22,6 @@ const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
   optimizationPreferences: state.optimizationPreferences,
   updatePreferences: state.updatePreferences,
-  postsPreferences: state.postsPreferences,
   updateLinks: state.updateLinks,
 })
 
@@ -37,22 +36,21 @@ const GetStartedPlatform = () => {
   const {
     updatePreferences,
     optimizationPreferences,
-    postsPreferences,
     nestedLinks,
     updateLinks,
   } = useControlsStore(getControlsStoreState)
   const { objective, platform: currentPlatform } = optimizationPreferences
-  const { defaultLinkId } = postsPreferences
 
-  const unsetDefaultLink = async () => {
-    const { res: newArtist } = await setDefaultLink(artistId, null)
-
+  const unsetDefaultLink = (artist) => {
     // Unset the link in the controls store
-    updateLinks('chooseNewDefaultLink', { newArtist, newLink: null })
+    updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
 
     // Update the post preferences object
     updatePreferences({
       postsPreferences: {
+        defaultLinkId: null,
+      },
+      conversionsPreferences: {
         defaultLinkId: null,
       },
     })
@@ -96,7 +94,7 @@ const GetStartedPlatform = () => {
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       platform,
-      defaultLink: isFacebookOrInstagram ? getLinkByPlatform(nestedLinks, platform).id : defaultLinkId,
+      defaultLink: isFacebookOrInstagram ? getLinkByPlatform(nestedLinks, platform).id : null,
     })
 
     if (error) {
@@ -109,7 +107,7 @@ const GetStartedPlatform = () => {
       updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist })
     } else {
       // Unset the default link
-      await unsetDefaultLink()
+      unsetDefaultLink(updatedArtist)
     }
 
     // Update preferences in controls store

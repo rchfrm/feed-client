@@ -476,11 +476,11 @@ export const getArtistPayload = (data, artist) => {
         ...(platform && { platform: (objective === 'growth' && platform === 'website') ? 'facebook' : platform }),
       },
       posts: {
-        ...(defaultLink && { default_link_id: defaultLink }),
+        default_link_id: defaultLink,
         ...(objective && platform && { call_to_action: getCallToAction(objective, platform)?.value }),
       },
       conversions: {
-        ...(defaultLink && { default_link_id: defaultLink }),
+        default_link_id: defaultLink,
         ...(objective && platform && { call_to_action: getCallToAction(objective, platform)?.value }),
         ...(objective === 'sales' && { facebook_pixel_event: 'Purchase' }),
       },

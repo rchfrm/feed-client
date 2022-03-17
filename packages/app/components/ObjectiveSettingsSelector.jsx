@@ -11,6 +11,7 @@ import Error from '@/elements/Error'
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 const getControlsStoreState = (state) => ({
+  postsPreferences: state.postsPreferences,
   updatePreferences: state.updatePreferences,
 })
 
@@ -26,7 +27,8 @@ const ObjectiveSettingsSelector = ({
   const [error, setError] = React.useState(null)
 
   const { artist } = React.useContext(ArtistContext)
-  const { updatePreferences } = useControlsStore(getControlsStoreState)
+  const { postsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
+  const { defaultLinkId } = postsPreferences
 
   React.useEffect(() => {
     const options = optionValues.map(({ name, value }) => ({
@@ -44,6 +46,7 @@ const ObjectiveSettingsSelector = ({
       objective,
       platform,
       ...(objective !== 'growth' && { platform: 'website' }),
+      defaultLink: defaultLinkId,
     })
 
     if (error) {

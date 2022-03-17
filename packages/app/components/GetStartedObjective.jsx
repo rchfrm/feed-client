@@ -12,7 +12,6 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { objectives, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
-import { setDefaultLink } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -33,15 +32,16 @@ const GetStartedObjective = () => {
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
-  const unsetDefaultLink = async () => {
-    const { res: newArtist } = await setDefaultLink(artistId, null)
-
+  const unsetDefaultLink = (artist) => {
     // Unset the link in the controls store
-    updateLinks('chooseNewDefaultLink', { newArtist, newLink: null })
+    updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
 
     // Update the post preferences object
     updatePreferences({
       postsPreferences: {
+        defaultLinkId: null,
+      },
+      conversionsPreferences: {
         defaultLinkId: null,
       },
     })
@@ -66,7 +66,7 @@ const GetStartedObjective = () => {
         ...wizardState,
         objective,
         ...(!isGrowth && { platform: 'website' }),
-        defaultLink: '',
+        defaultLink: null,
       }))
 
       updatePreferences({
@@ -75,7 +75,7 @@ const GetStartedObjective = () => {
           ...(!isGrowth && { platform: 'website' }),
         },
         postsPreferences: {
-          defaultLinkId: '',
+          defaultLinkId: null,
         },
       })
       goToStep(nextStep)
@@ -87,6 +87,7 @@ const GetStartedObjective = () => {
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       ...(!isGrowth && { platform: 'website' }),
+      defaultLinkId: null,
     })
 
     if (error) {
@@ -95,7 +96,7 @@ const GetStartedObjective = () => {
     }
 
     // Unset the default link
-    await unsetDefaultLink()
+    unsetDefaultLink(updatedArtist)
 
     // Update preferences in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
