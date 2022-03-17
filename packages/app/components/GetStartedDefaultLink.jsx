@@ -2,9 +2,12 @@ import React from 'react'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import useControlsStore from '@/app/stores/controlsStore'
 
-import { saveLink, setDefaultLink, getLinkById, validateLink } from '@/app/helpers/linksHelpers'
+import useControlsStore from '@/app/stores/controlsStore'
+import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
+import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
+
+import { setDefaultLink, getLinkById, validateLink } from '@/app/helpers/linksHelpers'
 
 import Button from '@/elements/Button'
 import Input from '@/elements/Input'
@@ -19,7 +22,6 @@ import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
-  savedFolders: state.savedFolders,
   nestedLinks: state.nestedLinks,
   updateLinks: state.updateLinks,
   optimizationPreferences: state.optimizationPreferences,
@@ -29,7 +31,6 @@ const getControlsStoreState = (state) => ({
 
 const GetStartedDefaultLink = () => {
   const {
-    savedFolders,
     nestedLinks,
     updateLinks,
     optimizationPreferences,
@@ -48,8 +49,13 @@ const GetStartedDefaultLink = () => {
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
 
+  const saveLinkToLinkBank = useSaveLinkToLinkBank()
+  const saveIntegrationLink = useSaveIntegrationLink()
+
   const objective = optimizationPreferences?.objective || storedObjective
   const platform = optimizationPreferences?.platform || storedPlatform
+  const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
+  const hasGrowthObjective = objective === 'growth'
 
   // On text input change update the link object with a name and href
   const handleChange = (e) => {
@@ -58,7 +64,6 @@ const GetStartedDefaultLink = () => {
     setLink({ ...link, name: 'default link', href: e.target.value })
   }
 
-  // On select change update the link object
   const updateLink = (linkId, link) => {
     if (link) {
       setLink(link)
@@ -95,50 +100,36 @@ const GetStartedDefaultLink = () => {
     }
   }
 
-  const saveLinkToLinkBank = async (action) => {
-    const { res: savedLink, error } = await saveLink(artistId, link, savedFolders, action)
-
-    if (error) {
-      const saveLinkError = `Error saving link: ${error.message}`
-      setError({ message: saveLinkError })
-
+  const validateAndStoreLink = async () => {
+    // If the link hasn't change there's no need to validate it
+    if (link.href === storedDefaultLink?.href) {
+      next()
       return
     }
 
-    // Add the new link to the controls store
-    updateLinks(action, { newLink: savedLink, oldLink: link })
+    // Validate the link
+    const { res, error } = await validateLink(link.href)
 
-    // Update local state
-    updateLink(savedLink.id, savedLink)
+    if (error) {
+      setError(error)
+      return
+    }
 
-    return savedLink
+    const { isValid, reason } = res
+
+    if (!isValid) {
+      setError({ message: copy.invalidLinkReason(reason) })
+      return
+    }
+
+    setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: link }))
+    next()
   }
 
   const handleNext = async () => {
-    // If there's no connected account yet validate the link and store the data in local storage
+    // If there's no connected profile yet validate the link and store the data in local storage
     if (!artistId) {
-      // If the link hasn't change there's no need to validate it
-      if (link.href === storedDefaultLink?.href) {
-        next()
-        return
-      }
-
-      const { res, error } = await validateLink(link.href)
-
-      if (error) {
-        setError(error)
-        return
-      }
-
-      const { isValid, reason } = res
-
-      if (!isValid) {
-        setError({ message: copy.invalidLinkReason(reason) })
-        return
-      }
-
-      setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: link }))
-      next()
+      await validateAndStoreLink()
 
       return
     }
@@ -146,8 +137,8 @@ const GetStartedDefaultLink = () => {
     // Otherwise save the data in the db
     let action = 'add'
 
-    // Edit the link if the link already exists in the linkbank, unless it's a facebook or instagram link since these are read-only
-    if (link.id && (link.platform !== 'facebook' && link.platform !== 'instagram')) {
+    // Edit the link if the link already exists in the linkbank and it's not an integration link
+    if (link.id && !hasGrowthObjective) {
       action = 'edit'
     }
 
@@ -157,14 +148,39 @@ const GetStartedDefaultLink = () => {
       return
     }
 
-    // Add the link to the linkbank or edit the linkbank link based on the action parameter
-    const savedLink = await saveLinkToLinkBank(action)
+    let savedLink = ''
+
+    if (hasGrowthObjective && !isFacebookOrInstagram) {
+      // Save the link in the linkbank as integration link
+      const { savedLink: integrationLink, error } = await saveIntegrationLink({ platform }, link.href)
+
+      if (error) {
+        setError(error)
+        return
+      }
+
+      savedLink = integrationLink
+    } else {
+      // Save the link in the linkbank or edit the linkbank link based on the action parameter
+      const { savedLink: linkBankLink, error } = await saveLinkToLinkBank(action)
+
+      if (error) {
+        setError(error)
+        return
+      }
+
+      savedLink = linkBankLink
+    }
 
     if (!savedLink) return
+
+    // Update local state
+    updateLink(savedLink.id, savedLink)
 
     if (action === 'add') {
       await saveAsDefaultLink(savedLink.id, savedLink)
     }
+
     next()
   }
 

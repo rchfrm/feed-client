@@ -106,7 +106,7 @@ const createIntegrationLinks = (folders) => {
   })
 }
 
-const fetchIntegrations = ({ artist, folders }) => {
+const formatIntegrationLinks = ({ artist, folders }) => {
   const { integrations } = artist
   // Remove empty integrations
   const filteredArtistIntegrations = integrations.reduce((arr, integration) => {
@@ -148,7 +148,7 @@ const getDefaultLink = ({ linkFolders, artist, linkId }) => {
 
 const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
   // Update links in integration folder
-  const integrationLinks = fetchIntegrations({ artist, folders })
+  const integrationLinks = formatIntegrationLinks({ artist, folders })
   const integrationsFolderIndex = folders.findIndex(({ id }) => id === integrationsFolderId)
   const foldersUpdatedIntegrations = produce(folders, draftFolders => {
     // Replace integration links with formatted integration links
@@ -374,6 +374,7 @@ const useControlsStore = create((set, get) => ({
   setLinkBankError: (error) => set({ linkBankError: error }),
   setIsControlsLoading: (isControlsLoading) => set({ isControlsLoading }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
+  formatIntegrationLinks,
   initControlsStore: async (artist, action = 'clearLinks') => {
     // Set artist details
     set({

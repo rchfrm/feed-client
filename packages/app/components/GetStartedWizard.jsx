@@ -9,6 +9,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
 import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
+import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
 import GetStartedObjective from '@/app/GetStartedObjective'
 import GetStartedPlatform from '@/app/GetStartedPlatform'
@@ -62,6 +63,8 @@ const GetStartedWizard = ({
   } = useControlsStore(getControlsStoreState)
 
   const saveLinkToLinkBank = useSaveLinkToLinkBank()
+  const saveIntegrationLink = useSaveIntegrationLink()
+
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
 
@@ -176,12 +179,24 @@ const GetStartedWizard = ({
       return
     }
 
-    const { platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState
+    const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState
+
+    const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
+
     let link = ''
 
     // If the chosen platform is either Facebook or Instagram we get the link from the linkbank
-    if (storedPlatform === 'facebook' || storedPlatform === 'instagram') {
+    if (isFacebookOrInstagram) {
       link = getLinkByPlatform(nestedLinks, storedPlatform)
+    } else if (storedObjective === 'growth') {
+      // If the objective is growth but the platform is not Facebook or Instagram we save the link as new integration link
+      const { savedLink, error } = await saveIntegrationLink({ platform: storedPlatform }, storedDefaultLink.href)
+
+      if (error) {
+        return
+      }
+
+      link = savedLink
     } else {
       // Otherwise user has provided a custom link and we save it to the linkbank
       const { savedLink, error } = await saveLinkToLinkBank(storedDefaultLink)
@@ -205,8 +220,6 @@ const GetStartedWizard = ({
 
     // Update preferences in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
-
-    const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
 
     // Update targeting values
     saveTargetingSettings({
