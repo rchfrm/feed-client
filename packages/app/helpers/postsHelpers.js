@@ -144,7 +144,7 @@ export const campaignTypes = [
     slug: 'all',
   },
   {
-    title: 'Convert',
+    title: 'Sales',
     slug: 'conversions',
   },
 ]
