@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import GetStartedSummarySentenceObjective from '@/app/GetStartedSummarySentenceObjective'
 import GetStartedSummarySentencePosts from '@/app/GetStartedSummarySentencePosts'
@@ -7,12 +8,17 @@ import GetStartedSummarySentenceTargeting from '@/app/GetStartedSummarySentenceT
 
 import Error from '@/elements/Error'
 
-const GetStartedSummarySentence = () => {
+const GetStartedSummarySentence = ({ className }) => {
   const [error, setError] = React.useState(null)
 
   return (
     <>
-      <div className="flex flex-wrap items-center mr-auto sm:mr-0 mb-10">
+      <div className={[
+        'flex flex-wrap items-center',
+        'mr-auto sm:mr-0 mb-10',
+        className,
+      ].join(' ')}
+      >
         <GetStartedSummarySentenceObjective />
         <GetStartedSummarySentencePosts />
         <GetStartedSummarySentenceAdAccount setError={setError} />
@@ -24,9 +30,11 @@ const GetStartedSummarySentence = () => {
 }
 
 GetStartedSummarySentence.propTypes = {
+  className: PropTypes.string,
 }
 
 GetStartedSummarySentence.defaultProps = {
+  className: null,
 }
 
 export default GetStartedSummarySentence

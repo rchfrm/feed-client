@@ -12,19 +12,25 @@ const GetStartedSummary = () => {
   const goToPostsPage = () => {
     Router.push({
       pathname: ROUTES.HOME,
-      query: { postStatus: 'not-run' },
+      query: {
+        promotion_status: ['in_review'],
+        sort_by: 'published_time',
+      },
     })
   }
 
   return (
-    <div className="flex flex-1 flex-column justify-center items-center">
+    <div className="flex flex-1 flex-column justify-center items-center mb-6 sm:mb-0">
+      <h2><span role="img" aria-label="party face">🥳</span> Congrats!</h2>
       <h3 className="mr-auto sm:mr-0 mb-10 font-medium text-xl">{copy.reviewDescription}</h3>
-      <GetStartedSummarySentence />
+      <GetStartedSummarySentence
+        className="sm:justify-center"
+      />
       <Button
         version="outline-green"
         onClick={goToPostsPage}
-        className="w-full sm:w-48 mb-5 sm:mb-0"
-        trackComponentName="GetStartedAdPreview"
+        className="w-full sm:w-48"
+        trackComponentName="GetStartedSummary"
       >
         <span className="text-2xl" role="img" aria-label="raising hands">🙌</span>
       </Button>

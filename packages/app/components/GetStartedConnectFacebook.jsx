@@ -3,10 +3,8 @@ import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-import { WizardContext } from '@/app/contexts/WizardContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
-import GetStartedConnectFacebookConnectedProfile from '@/app/GetStartedConnectFacebookConnectedProfile'
 import GetStartedConnectFacebookNoProfiles from '@/app/GetStartedConnectFacebookNoProfiles'
 import GetStartedConnectFacebookProfiles from '@/app/GetStartedConnectFacebookProfiles'
 import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
@@ -23,17 +21,15 @@ const GetStartedConnectFacebook = () => {
   const [error, setError] = React.useState(null)
 
   const { artistId, connectArtists } = React.useContext(ArtistContext)
-  const { setWizardState, currentStep } = React.useContext(WizardContext)
 
   const { auth } = React.useContext(AuthContext)
   const { missingScopes: { ads: missingScopes } } = auth
 
   const { user } = React.useContext(UserContext)
-  const { artists: connectedArtists } = user
 
   // Get available accounts
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted() || isConnecting) return
+    if (isConnecting) return
 
     if (missingScopes.length || error) {
       setIsLoading(false)
@@ -42,8 +38,13 @@ const GetStartedConnectFacebook = () => {
 
     const { res, error: getArtistError } = await artistHelpers.getArtistOnSignUp()
 
+    if (!isMounted()) return
+
     if (getArtistError) {
-      setError(getArtistError.message)
+      if (getArtistError.message !== 'user cache is not available') {
+        setError(getArtistError?.message?.previous || getArtistError)
+      }
+
       setIsLoading(false)
       return
     }
@@ -73,16 +74,9 @@ const GetStartedConnectFacebook = () => {
       const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
       const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
 
-      setWizardState({
-        type: 'set-state',
-        payload: {
-          [currentStep]: {
-            forceShow: true,
-          },
-        },
-      })
-
       const { error } = await connectArtists(artistAccountsSanitised, user) || {}
+
+      if (!isMounted()) return
 
       if (error) {
         setIsConnecting(false)
@@ -99,19 +93,13 @@ const GetStartedConnectFacebook = () => {
   }, [])
 
   if (isConnecting && Object.keys(selectedProfile).length > 0) {
-    return <ConnectProfilesIsConnecting artistAccounts={selectedProfile} />
+    return <ConnectProfilesIsConnecting artistAccounts={selectedProfile} className="my-6 sm:my-0" />
   }
 
   if (isLoading || isConnecting) return <Spinner />
 
-  if (connectedArtists.length && !isConnecting) {
-    return (
-      <GetStartedConnectFacebookConnectedProfile connectedArtists={connectedArtists} />
-    )
-  }
-
   return (
-    <div className="flex flex-1 flex-column">
+    <div className="flex flex-1 flex-column mb-6">
       {Object.keys(artistAccounts).length === 0 ? (
         <GetStartedConnectFacebookNoProfiles
           auth={auth}
@@ -121,7 +109,6 @@ const GetStartedConnectFacebook = () => {
         <GetStartedConnectFacebookProfiles
           artistAccounts={artistAccounts}
           setIsConnecting={setIsConnecting}
-          selectedProfile={selectedProfile}
           setSelectedProfile={setSelectedProfile}
         />
       )}

@@ -6,63 +6,50 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import Select from '@/elements/Select'
+import AdAccountSelector from '@/app/AdAccountSelector'
+
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
 
-import { updateAdAccount, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { updateAdAccount, getArtistIntegrationByPlatform, getAdAccounts } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
-  budget: state.budget,
 })
 
 const GetStartedAdAccount = () => {
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
 
-  const [adAccountOptions, setAdAccountOptions] = React.useState([])
   const [adAccounts, setAdAccounts] = React.useState([])
   const [adAccountId, setAdAccountId] = React.useState(facebookIntegration?.adaccount_id || '')
-  const [isLoadingAdAccountOptions, setIsLoadingAdAccountOptions] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
-  const { goToStep, setWizardState } = React.useContext(WizardContext)
-  const nextStep = objective === 'growth' ? 7 : 8
+
+  const { goToStep, setWizardState, currentStep } = React.useContext(WizardContext)
+  const nextStep = objective === 'growth' ? currentStep + 2 : currentStep + 1
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
-
-    setIsLoadingAdAccountOptions(true)
-
     const { res, error } = await getAdAccounts(artistId)
+    if (!isMounted()) return
 
     if (error) {
       setError(error)
-      setIsLoadingAdAccountOptions(false)
       return
     }
     const { adaccounts: adAccounts } = res
-    const options = adAccounts.map(({ id, name }) => ({ name, value: id }))
 
     setAdAccounts(adAccounts)
-    setAdAccountOptions(options)
-    setIsLoadingAdAccountOptions(false)
   }, [])
-
-  const handleChange = (e) => {
-    const { target: { value } } = e
-    if (value === adAccountId) return
-
-    setAdAccountId(value)
-  }
 
   const saveAdAccount = async (adAccountId) => {
     setIsLoading(true)
@@ -80,18 +67,17 @@ const GetStartedAdAccount = () => {
       setWizardState({
         type: 'set-state',
         payload: {
-          adAccountCountry: country,
+          key: 'adAccountCountry',
+          value: country,
         },
       })
     }
     // Update artist context
     updateArtist(artist)
     setIsLoading(false)
-
-    goToStep(nextStep)
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!adAccountId) return
 
     // Skip API request if ad account hasn't changed
@@ -100,33 +86,43 @@ const GetStartedAdAccount = () => {
 
       return
     }
-    saveAdAccount(adAccountId)
+    await saveAdAccount(adAccountId)
+    goToStep(nextStep)
   }
 
-  React.useEffect(() => {
+  useAsyncEffect(async () => {
+    if (!adAccounts.length) return
+
     if (!adAccountId) {
-      setAdAccountId(adAccountOptions[0]?.value)
+      // If there's only one ad account save and go to next step
+      if (adAccounts.length === 1) {
+        await saveAdAccount(adAccounts[0]?.id)
+
+        goToStep(nextStep)
+      }
     }
-  }, [adAccountId, setAdAccountId, adAccountOptions])
+    setIsLoading(false)
+  }, [adAccountId, adAccounts])
+
+  if (isLoading) return <Spinner />
 
   return (
-    <div className="flex flex-1 flex-column">
-      <h3 className="mb-6 font-medium text-xl">{copy.adAccountSubtitle}</h3>
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.adAccountSubtitle}</h3>
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.adAccountDescription} />
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
-        <Select
-          options={adAccountOptions}
-          selectedValue={adAccountId}
-          loading={isLoadingAdAccountOptions}
-          name="ad_account"
-          handleChange={handleChange}
+        <AdAccountSelector
+          adAccountId={adAccountId}
+          setAdAccountId={setAdAccountId}
+          adAccounts={adAccounts}
           className="w-full mb-12"
         />
         <Button
           version="green"
           onClick={handleNext}
           loading={isLoading}
-          className="w-full sm:w-48 mb-5 sm:mb-0"
+          className="w-full sm:w-48"
           trackComponentName="GetStartedAdAccount"
         >
           Save

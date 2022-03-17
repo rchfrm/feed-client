@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import PillOptions from '@/elements/PillOptions'
 import Error from '@/elements/Error'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
+import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import copy from '@/app/copy/targetingPageCopy'
 
@@ -18,12 +21,19 @@ const translateKeyToArray = (key) => {
   return [key]
 }
 
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
+
 const TargetingPlatformsSelector = ({
   options,
   initialStateRaw,
   onChange,
   className,
 }) => {
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { platform } = optimizationPreferences
+
   const initialState = React.useMemo(() => {
     return translateArrayToKey(initialStateRaw)
   }, [initialStateRaw])
@@ -64,11 +74,16 @@ const TargetingPlatformsSelector = ({
   }, [initialState, activeOption])
 
   return (
-    <section className={[className].join(' ')}>
+    <section className={[className, 'relative'].join(' ')}>
       <TargetingSectionHeader
         header="Platforms"
         description={copy.platformSelectDescription}
-        className="mb-6"
+        className="relative mb-12"
+      />
+      <ControlsSettingsSectionFooter
+        copy={copy.platformSelectFooter(platform)}
+        className="text-insta"
+        top={28}
       />
       <PillOptions
         color="green"
@@ -93,13 +108,15 @@ const TargetingPlatformsSelector = ({
 }
 
 TargetingPlatformsSelector.propTypes = {
-  options: PropTypes.array.isRequired,
-  initialStateRaw: PropTypes.array.isRequired,
+  options: PropTypes.array,
+  initialStateRaw: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 TargetingPlatformsSelector.defaultProps = {
+  options: [],
+  initialStateRaw: [],
   className: null,
 }
 

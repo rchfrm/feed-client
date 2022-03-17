@@ -39,12 +39,14 @@ const TargetingLocations = ({
 }
 
 TargetingLocations.propTypes = {
-  initialCityKeys: PropTypes.array.isRequired,
-  initialCountryCodes: PropTypes.array.isRequired,
+  initialCityKeys: PropTypes.array,
+  initialCountryCodes: PropTypes.array,
   className: PropTypes.string,
 }
 
 TargetingLocations.defaultProps = {
+  initialCityKeys: [],
+  initialCountryCodes: [],
   className: null,
 }
 

@@ -6,10 +6,12 @@ import { useImmerReducer } from 'use-immer'
 
 import ProgressBar from '@/app/ProgressBar'
 import Spinner from '@/elements/Spinner'
+import ChevronIcon from '@/icons/ChevronIcon'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import brandColors from '@/constants/brandColors'
+import { isObject } from '@/helpers/utils'
 
 const initialContext = {
   next: () => {},
@@ -21,14 +23,17 @@ const initialContext = {
 }
 
 const wizardStateReducer = (draftState, action) => {
+  const { type: actionType, payload = {} } = action
+
   const {
-    type: actionType,
-    payload,
-  } = action
+    key,
+    value,
+  } = payload
 
   switch (actionType) {
     case 'set-state': {
-      return { ...draftState, ...payload }
+      draftState[key] = isObject(value) ? { ...draftState[key], ...value } : value
+      break
     }
     default:
       throw new Error(`Unable to find ${action.type} in wizardReducer`)
@@ -42,33 +47,30 @@ const WizardContextProvider = ({
   children,
   goBackToPath,
   isLoading,
+  navigation,
   hasBackButton,
 }) => {
-  const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, {})
+  const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, { sectionColors: {} })
   const [currentStep, setCurrentStep] = React.useState(0)
-  const [stepsHistory, setStepsHistory] = React.useState([0])
 
   const totalSteps = steps.length - 1
   const isFirstStep = currentStep === 0
+  const isLastStep = currentStep === totalSteps
 
   const next = React.useCallback(() => {
     if (currentStep === totalSteps) return
 
     setCurrentStep(currentStep + 1)
-    setStepsHistory([...stepsHistory, currentStep + 1])
-  }, [currentStep, totalSteps, stepsHistory])
+  }, [currentStep, totalSteps])
 
   const back = () => {
     if (currentStep === 0) return
-    const filteredSteps = stepsHistory.filter((step) => step !== currentStep)
 
-    setStepsHistory(filteredSteps)
-    setCurrentStep(filteredSteps[filteredSteps.length - 1])
+    setCurrentStep(currentStep - 1)
   }
 
   const goToStep = (step) => {
     setCurrentStep(step)
-    setStepsHistory([...stepsHistory, step])
   }
 
   const goToPage = () => {
@@ -82,15 +84,7 @@ const WizardContextProvider = ({
     if (isLoading) return
 
     const firstIncompleteStep = steps.findIndex((step) => {
-      if (!step.shouldSkip && step.id !== 0) {
-        setStepsHistory((steps) => [...steps, step.id])
-      }
-
-      if (wizardState[step.id]?.forceShow) {
-        return step
-      }
-
-      return !step.isComplete && !step.shouldSkip
+      return !step.isComplete && step.isApplicable
     })
 
     setCurrentStep(firstIncompleteStep)
@@ -103,6 +97,7 @@ const WizardContextProvider = ({
         next,
         back,
         currentStep,
+        steps,
         goToStep,
         wizardState,
         setWizardState,
@@ -112,6 +107,7 @@ const WizardContextProvider = ({
         <Spinner />
       ) : (
         <>
+          {!isLastStep && navigation}
           <h2>{steps[currentStep].title}</h2>
           <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-8" />
           {children[currentStep]}
@@ -133,9 +129,12 @@ const WizardContextProvider = ({
             <a
               role="button"
               onClick={goToPage}
-              className="flex ml-auto text-grey-2 no-underline"
+              className="flex items-center py-1 px-3 text-sm border border-dashed border-black rounded-full no-underline"
             >
               Let me see the app first
+              <ChevronIcon
+                className="h-3 ml-2"
+              />
             </a>
           </div>
         </>

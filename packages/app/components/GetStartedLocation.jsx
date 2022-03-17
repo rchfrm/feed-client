@@ -6,7 +6,9 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Select from '@/elements/Select'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
+import Spinner from '@/elements/Spinner'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import MarkdownText from '@/elements/MarkdownText'
 
 import countries from '@/constants/countries'
 
@@ -24,15 +26,13 @@ const locationOptions = countries.map(({ id, name }) => {
 const GetStartedLocation = () => {
   const { next, wizardState } = React.useContext(WizardContext)
   const { artist, artistId, updateArtist } = React.useContext(ArtistContext)
-
   const adAccountCountryCode = locationOptions.find((location) => location.name === wizardState.adAccountCountry)?.value
 
   const [isLoading, setIsLoading] = React.useState(false)
   const [countryCode, setCountryCode] = React.useState(artist.country_code || adAccountCountryCode || locationOptions[0].value)
   const [error, setError] = React.useState(null)
 
-
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { target: { value } } = e
     if (value === countryCode) return
 
@@ -52,10 +52,9 @@ const GetStartedLocation = () => {
     // Update artist context
     updateArtist(artist)
     setIsLoading(false)
-    next()
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!countryCode) return
 
     // Skip API request if country code hasn't changed
@@ -63,12 +62,25 @@ const GetStartedLocation = () => {
       next()
       return
     }
-    saveLocation(countryCode)
+    await saveLocation(countryCode)
+    next()
   }
 
+  React.useEffect(() => {
+    if (artist.country_code || adAccountCountryCode) {
+      handleNext()
+      return
+    }
+    setIsLoading(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [adAccountCountryCode])
+
+  if (isLoading) return <Spinner />
+
   return (
-    <div className="flex flex-1 flex-column">
-      <h3 className="mb-6 font-medium text-xl">{copy.locationSubtitle}</h3>
+    <div className="flex flex-1 flex-column mb-6 sm:mb-0">
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.locationSubtitle}</h3>
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.locationDescription} />
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
         <Select
@@ -83,7 +95,7 @@ const GetStartedLocation = () => {
           version="green"
           onClick={handleNext}
           loading={isLoading}
-          className="w-full sm:w-48 mb-5 sm:mb-0"
+          className="w-full sm:w-48"
           trackComponentName="GetStartedLocation"
         >
           Save

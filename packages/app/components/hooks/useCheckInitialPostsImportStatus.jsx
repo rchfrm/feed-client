@@ -6,7 +6,7 @@ import { getInitialPostsImportStatus } from '@/app/helpers/postsHelpers'
 
 const useCheckInitialPostsImportStatus = (artistId, canLoadPosts, setCanLoadPosts) => {
   const [initialLoading, setInitialLoading] = React.useState(true)
-  const [intervalId, setIntervalId] = React.useState(null)
+  const intervalRef = React.useRef()
   const isMounted = useIsMounted()
 
   const checkInitialPostsImportStatus = async () => {
@@ -15,12 +15,12 @@ const useCheckInitialPostsImportStatus = (artistId, canLoadPosts, setCanLoadPost
     const { res, error } = await getInitialPostsImportStatus(artistId)
 
     if (error) {
-      clearInterval(intervalId)
+      clearInterval(intervalRef.current)
       return
     }
 
     if (res.last_update_completed_at) {
-      clearInterval(intervalId)
+      clearInterval(intervalRef.current)
       setCanLoadPosts(true)
       setInitialLoading(false)
       return
@@ -30,20 +30,21 @@ const useCheckInitialPostsImportStatus = (artistId, canLoadPosts, setCanLoadPost
   }
 
   React.useEffect(() => {
-    if (!initialLoading && !intervalId && !canLoadPosts) {
-      setIntervalId(setInterval(checkInitialPostsImportStatus, 2000))
+    if (!initialLoading && !intervalRef.current && !canLoadPosts) {
+      const intervalId = setInterval(checkInitialPostsImportStatus, 2000)
+      intervalRef.current = intervalId
     }
-    // eslint-disable-next-line
-  }, [initialLoading])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialLoading, canLoadPosts])
 
   React.useEffect(() => {
-    if (!intervalId) {
+    if (!intervalRef.current) {
       checkInitialPostsImportStatus()
     }
 
-    return () => clearInterval(intervalId)
-    // eslint-disable-next-line
-  }, [intervalId])
+    return () => clearInterval(intervalRef.current)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return { initialLoading }
 }

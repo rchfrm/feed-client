@@ -9,17 +9,19 @@ import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
 import AdDefaultsLink from '@/app/AdDefaultsLink'
 import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
+import AdDefaultsAdAccount from '@/app/AdDefaultsAdAccount'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
+import AdDefaultsPixelEvent from '@/app/AdDefaultsPixelEvent'
+import ControlsContentSection from '@/app/ControlsContentSection'
 // IMPORT COPY
 import copy from '@/app/copy/controlsPageCopy'
-
-import sidePanelStyles from '@/app/SidePanel.module.css'
 
 const getTogglePromotionGlobal = state => state.togglePromotionGlobal
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
   postsPreferences: state.postsPreferences,
+  conversionsPreferences: state.conversionsPreferences,
   updatePreferences: state.updatePreferences,
 })
 
@@ -28,13 +30,14 @@ const AdDefaults = () => {
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   // Get store values
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
-  const { defaultLink, postsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
+  const { defaultLink, postsPreferences, conversionsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultCallToAction, defaultPromotionEnabled } = postsPreferences
+  const { facebookPixelEvent } = conversionsPreferences
 
   return (
     <div>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Grow &amp; Nurture Defaults</h2>
-      <div className="content">
+      <h2>Grow &amp; Nurture Defaults</h2>
+      <ControlsContentSection action="fill in these fields">
         {/* GLOBAL POST STATUS */}
         <AdSettingsSection
           header="Automated post selection"
@@ -70,6 +73,15 @@ const AdDefaults = () => {
             updatePreferences={updatePreferences}
           />
         </AdSettingsSection>
+        {/* FB AD ACCOUNT */}
+        <AdSettingsSection
+          header="Facebook Ad Account"
+          copy={copy.facebookAdAccountIntro}
+        >
+          <AdDefaultsAdAccount
+            className="mb-8"
+          />
+        </AdSettingsSection>
         {/* FB PIXEL */}
         <AdSettingsSection
           header="Facebook Pixel"
@@ -77,7 +89,18 @@ const AdDefaults = () => {
         >
           <AdDefaultsPixelSelector />
         </AdSettingsSection>
-      </div>
+        {/* FB PIXEL EVENT */}
+        <AdSettingsSection
+          header="Facebook Pixel Event"
+          copy={copy.facebookPixelEventIntro}
+        >
+          <AdDefaultsPixelEvent
+            facebookPixelEvent={facebookPixelEvent}
+            updatePreferences={updatePreferences}
+            className="mb-8"
+          />
+        </AdSettingsSection>
+      </ControlsContentSection>
     </div>
   )
 }

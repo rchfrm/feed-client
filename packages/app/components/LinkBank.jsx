@@ -7,15 +7,15 @@ import useAsyncEffect from 'use-async-effect'
 import Error from '@/elements/Error'
 
 import LinkBankList from '@/app/LinkBankList'
-// eslint-disable-next-line
 import LinkBankIntegrations from '@/app/LinkBankIntegrations'
+import ControlsContentSection from '@/app/ControlsContentSection'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
-import { splitLinks } from '@/app/helpers/linksHelpers'
-
-import sidePanelStyles from '@/app/SidePanel.module.css'
+import { splitLinks, dummyLinks } from '@/app/helpers/linksHelpers'
+import { dummyIntegrationLinks } from '@/helpers/integrationHelpers'
 
 const getControlsStoreState = (state) => ({
   fetchData: state.fetchData,
@@ -26,6 +26,8 @@ const getControlsStoreState = (state) => ({
 
 const LinkBank = () => {
   const { fetchData, nestedLinks, isControlsLoading, linkBankError } = useControlsStore(getControlsStoreState, shallow)
+  const { artist: { hasSetupProfile } } = React.useContext(ArtistContext)
+
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
   }, [nestedLinks])
@@ -48,28 +50,25 @@ const LinkBank = () => {
 
   return (
     <section>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Link Bank</h2>
+      <h2>Link Bank</h2>
       {linkBankError && (
         <Error error={linkBankError} className="mb-8" />
       )}
-      {!!nestedLinks.length && (
-        <div>
-          <section className="mb-10">
-            <LinkBankList
-              looseLinks={looseLinks}
-              linkFolders={linkFolders}
-            />
-          </section>
-          {!!integrationLinks.length && (
-            <section>
-              <h3>Integration Links</h3>
-              <LinkBankIntegrations
-                integrationLinks={integrationLinks}
-              />
-            </section>
-          )}
-        </div>
-      )}
+      <ControlsContentSection action="add to the link bank">
+        <section className="mb-10">
+          <LinkBankList
+            looseLinks={hasSetupProfile ? looseLinks : dummyLinks}
+            linkFolders={linkFolders}
+            isDisabled={!hasSetupProfile}
+          />
+        </section>
+        <section>
+          <h3>Integration Links</h3>
+          <LinkBankIntegrations
+            integrationLinks={hasSetupProfile ? integrationLinks : dummyIntegrationLinks}
+          />
+        </section>
+      </ControlsContentSection>
     </section>
   )
 }

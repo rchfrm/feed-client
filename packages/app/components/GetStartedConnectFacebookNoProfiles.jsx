@@ -26,12 +26,12 @@ const GetStartedConnectFacebookNoProfiles = ({ auth, error }) => {
           className="text-grey-3 italic mb-4"
         />
       ) : (
-        <MarkdownText className="sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectDescription} />
+        <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectDescription} />
       )}
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">
         <ConnectFacebookButton
-          redirectPath={ROUTES.CONTROLS}
+          redirectPath={ROUTES.GET_STARTED}
           buttonText="Continue with Facebook"
           className="w-full sm:w-96 mb-16"
           trackComponentName="GetStartedConnectFacebookNoProfiles"
@@ -41,7 +41,6 @@ const GetStartedConnectFacebookNoProfiles = ({ auth, error }) => {
           text="The permissions we ask for"
           label="Permissions help"
           trackComponentName="GetStartedConnectFacebookNoProfiles"
-          className="mb-5 sm:mb-0"
         />
       </div>
     </div>
@@ -50,7 +49,10 @@ const GetStartedConnectFacebookNoProfiles = ({ auth, error }) => {
 
 GetStartedConnectFacebookNoProfiles.propTypes = {
   auth: PropTypes.object.isRequired,
-  error: PropTypes.object,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
 }
 
 GetStartedConnectFacebookNoProfiles.defaultProps = {

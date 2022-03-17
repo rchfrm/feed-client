@@ -19,7 +19,7 @@ const GetStartedFacebookPixelQuestion = ({ setShouldShowPixelSelector }) => {
         onClick={next}
         spinnerFill={brandColors.black}
         className="w-full sm:w-56 mx-4 mb-5 sm:mb-0"
-        trackComponentName="GetStartedFacebookPixel"
+        trackComponentName="GetStartedFacebookPixelQuestion"
       >
         <CloseCircle
           fill={brandColors.greyDark}
@@ -31,8 +31,8 @@ const GetStartedFacebookPixelQuestion = ({ setShouldShowPixelSelector }) => {
         version="outline-black"
         onClick={() => setShouldShowPixelSelector(true)}
         spinnerFill={brandColors.black}
-        className="w-full sm:w-56 mx-4 mb-5 sm:mb-0"
-        trackComponentName="GetStartedFacebookPixel"
+        className="w-full sm:w-56 mx-4"
+        trackComponentName="GetStartedFacebookPixelQuestion"
       >
         <TickCircleIcon
           className="w-6 h-6 mr-2"

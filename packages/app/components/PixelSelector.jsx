@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import useAsyncEffect from 'use-async-effect'
 
-import useIsMounted from '@/hooks/useIsMounted'
-
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
@@ -36,6 +34,7 @@ const PixelSelector = ({
   updateParentPixel,
   shouldSaveOnChange,
   hasNoPixelOption,
+  shouldShowPixelCopier,
 }) => {
   const { artist, artistId, setArtist } = React.useContext(ArtistContext)
 
@@ -47,11 +46,13 @@ const PixelSelector = ({
 
   // LOAD AVAILABLE PIXELS
   const [availablePixels, setAvailablePixels] = React.useState([])
-  const isMounted = useIsMounted()
-  useAsyncEffect(async () => {
-    if (!artistId) return
+  useAsyncEffect(async (isMounted) => {
+    if (!artistId) {
+      setLoading(false)
+      return
+    }
     const { res: pixels = [], error } = await getArtistPixels(artistId)
-    if (!isMounted) return
+    if (!isMounted()) return
     setLoading(false)
     if (error) {
       const errorUpdated = { message: `Failed to fetch pixels: ${error.message}` }
@@ -65,6 +66,14 @@ const PixelSelector = ({
     setErrorFetching(false)
     setAvailablePixels(availablePixels)
   }, [artistId])
+
+  React.useEffect(() => {
+    if (!availablePixels.length) return
+
+    if (!activePixelId || activePixelId === '-1') {
+      setActivePixelId(availablePixels[0].value)
+    }
+  }, [activePixelId, setActivePixelId, availablePixels])
 
   // ON PIXEL UPDATE
   React.useEffect(() => {
@@ -209,7 +218,7 @@ const PixelSelector = ({
           version="box"
         />
       )}
-      {activePixelId && activePixelId !== disabledPixelId && (
+      {activePixelId && activePixelId !== disabledPixelId && shouldShowPixelCopier && (
         <PixelCopier
           pixelId={activePixelId}
           pixelEmbed={activePixelEmbed}
@@ -234,6 +243,7 @@ PixelSelector.propTypes = {
   updateParentPixel: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
   hasNoPixelOption: PropTypes.bool,
+  shouldShowPixelCopier: PropTypes.bool,
 }
 
 PixelSelector.defaultProps = {
@@ -248,6 +258,7 @@ PixelSelector.defaultProps = {
   updateParentPixel: () => {},
   shouldSaveOnChange: true,
   hasNoPixelOption: true,
+  shouldShowPixelCopier: true,
 }
 
 export default PixelSelector

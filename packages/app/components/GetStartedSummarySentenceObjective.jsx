@@ -2,30 +2,33 @@ import React from 'react'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import { objectives } from '@/app/helpers/artistHelpers'
-import { capitalise } from '@/helpers/utils'
+import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
+
+import { getStartedSections } from '@/app/helpers/artistHelpers'
+import { getLocalStorage } from '@/helpers/utils'
+
+import copy from '@/app/copy/getStartedCopy'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
-  budget: state.budget,
 })
 
 const GetStartedSummarySentenceObjective = () => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
 
-  const { color } = objectives.find(({ value }) => value === objective)
-  const borderClasses = `border-2 border-solid border-${color}`
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  const { objective: storedObjective, platform: storedPlatform } = wizardState || {}
+  const isComplete = Boolean((objective || storedObjective) && (platform || storedPlatform))
 
   return (
-    <span className={[
-      'rounded-full',
-      'py-1 px-3 mr-1 mb-2',
-      'whitespace-pre',
-      borderClasses,
-    ].join(' ')}
-    >{capitalise(platform)} {objective}
-    </span>
+    <GetStartedSummarySentenceSection
+      section={getStartedSections.objective}
+      isComplete={isComplete}
+      className="mr-2"
+    >
+      {copy.objectiveSummary((objective || storedObjective), (platform || storedPlatform))}
+    </GetStartedSummarySentenceSection>
   )
 }
 

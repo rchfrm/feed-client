@@ -73,7 +73,7 @@ const TargetingBudgetSlider = ({
   }, [sliderValueRange, sliderStep])
 
   return (
-    <div className={['pl-0 mt-10'].join(' ')} ref={containerRef}>
+    <div className={['pl-0 py-8'].join(' ')} ref={containerRef}>
       <Slider
         valueRange={valueRange}
         startValue={[startValue.current]}

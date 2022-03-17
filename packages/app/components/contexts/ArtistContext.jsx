@@ -37,6 +37,7 @@ const initialArtistState = {
   missingDefaultLink: true,
   isMusician: false,
   featureFlags: {},
+  hasSetUpProfile: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -91,6 +92,10 @@ const artistReducer = (draftState, action) => {
     }
     case 'update-facebook-integration-scopes': {
       draftState.integrations.find(integration => integration.platform === 'facebook').authorization.scopes = payload.scopes
+      break
+    }
+    case 'set-has-setup-profile': {
+      draftState.hasSetupProfile = payload.hasSetupProfile
       break
     }
     default:
@@ -290,6 +295,15 @@ function ArtistProvider({ children }) {
     })
   }
 
+  const updateHasSetUpProfile = React.useCallback((hasSetupProfile) => {
+    setArtist({
+      type: 'set-has-setup-profile',
+      payload: {
+        hasSetupProfile,
+      },
+    })
+  }, [setArtist])
+
   // Update artist ID
   React.useEffect(() => {
     if (!artist || !artist.id) return
@@ -328,6 +342,7 @@ function ArtistProvider({ children }) {
     updateBudget,
     updateArtist,
     updateSpendingPaused,
+    updateHasSetUpProfile,
     hasBudget,
     featureFlags,
   }

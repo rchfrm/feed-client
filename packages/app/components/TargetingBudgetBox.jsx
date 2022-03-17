@@ -6,17 +6,19 @@ import Spinner from '@/elements/Spinner'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
+import ControlsContentSection from '@/app/ControlsContentSection'
 
 const TargetingBudgetBox = ({
   className,
 }) => {
   // GET TARGETING CONTEXT
   const {
-    minReccBudget,
     targetingState,
     initialTargetingState,
     updateTargetingBudget,
@@ -28,6 +30,8 @@ const TargetingBudgetBox = ({
     setBudgetSlider,
   } = React.useContext(TargetingContext)
 
+  const isDesktopLayout = useBreakpointTest('md')
+
   // ARTIST context
   const {
     artist: {
@@ -37,8 +41,9 @@ const TargetingBudgetBox = ({
         minorUnit: {
           minBase,
           minHard: minHardBudget,
-        },
-      },
+        } = {},
+      } = {},
+      hasSetupProfile,
     },
   } = React.useContext(ArtistContext)
 
@@ -49,56 +54,67 @@ const TargetingBudgetBox = ({
     <section
       className={[
         'flex flex-column justify-between',
-        'rounded-dialogue',
-        'p-6 bg-grey-1',
         className,
       ].join(' ')}
-      style={{ height: '240px' }}
+      style={{ height: '180px' }}
     >
       {targetingLoading ? (
         <Spinner width={36} />
       ) : (
         <>
           <div className="flex justify-between">
+            <h2 className="mb-0">
+              Daily Budget
+              {!targetingState.status ? (
+                hasSetupProfile && <span className="text-red"> Paused</span>
+              ) : (
+                hasSetupProfile && <span className="text-green"> Active</span>
+              )}
+            </h2>
             {/* PAUSE OR RESUME SPENDING */}
             <TargetingBudgetPauseButton
               togglePauseCampaign={togglePauseCampaign}
               isPaused={!targetingState.status}
-            />
-            {/* TOGGLE CUSTOM BUDGET */}
-            <TargetingCustomBudgetButton
-              style={{ zIndex: 2 }}
-              showCustomBudget={showCustomBudget}
-              setShowCustomBudget={setShowCustomBudget}
-              initialBudget={initialTargetingState.budget}
-              minBase={minBase}
-              minHardBudget={minHardBudget}
+              isDisabled={!hasSetupProfile}
+              className={!isDesktopLayout ? 'mr-12' : null}
             />
           </div>
-          {/* BUDGET SETTER */}
-          <div className="px-2">
-            <TargetingBudgetSetter
-              currency={currencyCode}
-              currencyOffset={currencyOffset}
-              minBase={minBase}
-              minReccBudget={minReccBudget}
-              minHardBudget={minHardBudget}
-              initialBudget={initialTargetingState.budget}
-              targetingState={targetingState}
-              updateTargetingBudget={updateTargetingBudget}
-              showCustomBudget={showCustomBudget}
-              setBudgetSlider={setBudgetSlider}
-            />
-          </div>
-          <TargetingBudgetButtons
-            targetingState={targetingState}
-            initialTargetingState={initialTargetingState}
-            updateTargetingBudget={updateTargetingBudget}
-            saveTargetingSettings={saveTargetingSettings}
-            disableSaving={disableSaving}
-            budgetSlider={budgetSlider}
-            showCustomBudget={showCustomBudget}
-          />
+          <ControlsContentSection action="choose your budget" className="mt-5">
+            {/* BUDGET SETTER */}
+            <div>
+              <TargetingBudgetSetter
+                currency={currencyCode}
+                currencyOffset={currencyOffset}
+                minBase={minBase}
+                minHardBudget={minHardBudget}
+                initialBudget={hasSetupProfile ? initialTargetingState.budget : 5}
+                targetingState={targetingState}
+                updateTargetingBudget={updateTargetingBudget}
+                showCustomBudget={showCustomBudget}
+                setBudgetSlider={setBudgetSlider}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <TargetingBudgetButtons
+                targetingState={targetingState}
+                initialTargetingState={initialTargetingState}
+                updateTargetingBudget={updateTargetingBudget}
+                saveTargetingSettings={saveTargetingSettings}
+                disableSaving={disableSaving}
+                budgetSlider={budgetSlider}
+                showCustomBudget={showCustomBudget}
+              />
+              {/* TOGGLE CUSTOM BUDGET */}
+              <TargetingCustomBudgetButton
+                style={{ zIndex: 2 }}
+                showCustomBudget={showCustomBudget}
+                setShowCustomBudget={setShowCustomBudget}
+                initialBudget={initialTargetingState.budget}
+                minBase={minBase}
+                minHardBudget={minHardBudget}
+              />
+            </div>
+          </ControlsContentSection>
         </>
       )}
     </section>

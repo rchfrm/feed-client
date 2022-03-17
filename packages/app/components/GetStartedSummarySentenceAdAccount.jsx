@@ -4,7 +4,10 @@ import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
+
+import { getStartedSections, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import brandColors from '@/constants/brandColors'
 
 const GetStartedSummarySentenceAdAccount = ({ setError }) => {
   const [adAccountName, setAdAccountName] = React.useState('')
@@ -15,24 +18,33 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
   const adAccountId = facebookIntegration?.adaccount_id
 
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
+    if (!artistId || !adAccountId) return
 
     const { res, error } = await getAdAccounts(artistId)
+
+    if (!isMounted()) return
 
     if (error) {
       setError(error)
       return
     }
+    // Get the selected ad account name from the ad accounts array
     const { name } = res.adaccounts.find(({ id }) => id === adAccountId)
+    const nameContainsAdAccountString = name.toLowerCase().includes('ad account')
 
-    setAdAccountName(name)
-  }, [])
+    setAdAccountName(nameContainsAdAccountString ? name : `${name} ad account`)
+  }, [adAccountId])
 
   return (
-    <>
-      <span className="whitespace-pre mb-2">, in</span>
-      <span className="border-2 border-solid border-yellow rounded-full py-1 px-3 mx-1 mb-2">the {adAccountName} ad account</span>
-    </>
+    <GetStartedSummarySentenceSection
+      section={getStartedSections.adAccount}
+      text=", in"
+      color={brandColors.yellow}
+      isComplete={Boolean(adAccountId)}
+      className="mx-2"
+    >
+      {adAccountName ? `the ${adAccountName}` : 'your ad account'}
+    </GetStartedSummarySentenceSection>
   )
 }
 

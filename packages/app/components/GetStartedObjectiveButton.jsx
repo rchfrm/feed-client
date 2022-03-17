@@ -5,7 +5,7 @@ import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 const GetStartedObjectiveButton = ({ objective, setSelectedObjective }) => {
-  const { title, value, color } = objective
+  const { name, value, color } = objective
 
   return (
     <Button
@@ -13,9 +13,9 @@ const GetStartedObjectiveButton = ({ objective, setSelectedObjective }) => {
       version={color}
       onClick={() => setSelectedObjective(value)}
       className="w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0"
-      trackComponentName="GetStartedObjective"
+      trackComponentName="GetStartedObjectiveButton"
     >
-      {title}
+      {name}
       <ArrowAltIcon
         className="ml-3"
         direction="right"

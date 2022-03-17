@@ -41,11 +41,12 @@ const TargetingLocationsSentence = ({
 
 TargetingLocationsSentence.propTypes = {
   artistIsMusician: PropTypes.bool.isRequired,
-  spotifyConnected: PropTypes.bool.isRequired,
+  spotifyConnected: PropTypes.bool,
   className: PropTypes.string,
 }
 
 TargetingLocationsSentence.defaultProps = {
+  spotifyConnected: false,
   className: null,
 }
 

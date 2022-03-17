@@ -3,6 +3,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
+import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -35,7 +36,8 @@ const useGetStartedWizard = () => {
   const { objective, platform } = optimizationPreferences
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId)
   const { defaultPromotionEnabled } = postsPreferences
-  const { artistId, artistLoading, artist } = React.useContext(ArtistContext)
+  const { artistId, artistLoading, artist, updateHasSetUpProfile } = React.useContext(ArtistContext)
+  const { user } = React.useContext(UserContext)
   const {
     targetingState,
     initPage,
@@ -56,7 +58,7 @@ const useGetStartedWizard = () => {
     initPage(state, error)
   }, [artistId, controlsLoading])
 
-  // Fetch posts with a status of active or in review
+  // Fetch posts which are opted in for promotion
   useAsyncEffect(async (isMounted) => {
     if (!isMounted() || !artistId) {
       setPostsLoading(false)
@@ -65,8 +67,9 @@ const useGetStartedWizard = () => {
 
     const res = await server.getPosts({
       artistId,
+      sortBy: ['normalized_score'],
       filterBy: {
-        promotion_status: ['in_review', 'active'],
+        promotion_enabled: [true],
       },
     })
 
@@ -76,7 +79,26 @@ const useGetStartedWizard = () => {
     setPostsLoading(false)
   }, [artistId])
 
+  // Boolean value which determines if a profile has been set up completely
+  const hasSetUpProfile = Boolean(objective
+    && platform
+    && defaultLink
+    && user.artists.length
+    && posts.length > 0
+    && defaultPromotionEnabled !== null
+    && adAccountId
+    && (objective === 'growth' || facebookPixelId)
+    && (Object.keys(locations).length || artist.country_code)
+    && budget)
+
+  React.useEffect(() => {
+    if (controlsLoading) return
+
+    updateHasSetUpProfile(hasSetUpProfile)
+  }, [controlsLoading, hasSetUpProfile, updateHasSetUpProfile])
+
   return {
+    hasSetUpProfile,
     isLoading: artistLoading || controlsLoading || (artistId && !settingsReady) || postsLoading,
     objective,
     platform,
