@@ -6,11 +6,12 @@ import pricingPageCopy from '@/landing/copy/PricingPageCopy'
 import Input from '@/elements/Input'
 
 export default function PricingPage() {
-  const [budget, setBudget] = React.useState(5)
+  const [dailyBudget, setDailyBudget] = React.useState(5)
   const handleChange = e => {
     const { target: { value } } = e
     if (value < 0) return
-    setBudget(e.target.value)
+    const numberValue = Math.round(Number(value))
+    setDailyBudget(numberValue)
   }
 
   const {
@@ -37,11 +38,12 @@ export default function PricingPage() {
       <Input
         className={['col-start-4', 'col-span-6'].join(' ')}
         name="budget"
-        value={budget}
+        value={dailyBudget}
         handleChange={handleChange}
         type="number"
         prefix="£"
       />
+      <MarkdownText className={['h2', 'font-normal', 'col-start-4', 'col-span-6'].join(' ')} markdown={`Each month you will spend <strong>£${dailyBudget * 30}</strong> in total:`} />
     </Section>
   )
 }
