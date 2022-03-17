@@ -5,5 +5,5 @@ export default {
   bullets: '* <strong>No commitments</strong>: <em>start and stop whenever you like</em>'
     + '\n' + '* <strong>No mimimum budget</strong>: <em>well, there is but it’s just £2 a day</em>'
     + '\n' + '* 5% if you’re consistently spending more than £30',
-  budgetInput: 'Select your daily budget to see a breakdown of your spend over a month.',
+  budgetInput: 'Enter your daily budget to see a breakdown of your spend over a month.',
 }
