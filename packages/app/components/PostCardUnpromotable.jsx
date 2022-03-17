@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PostCardUnpromotable = ({ className }) => {
+const PostCardUnpromotable = ({ hasSalesObjective, className }) => {
   return (
     <div
       className={[
         'rounded-dialogue',
-        'h-26',
+        hasSalesObjective ? 'h-26' : 'h-12',
         'bg-grey-1 text-grey-3',
         'relative text-center',
         className,
@@ -18,6 +18,7 @@ const PostCardUnpromotable = ({ className }) => {
 }
 
 PostCardUnpromotable.propTypes = {
+  hasSalesObjective: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

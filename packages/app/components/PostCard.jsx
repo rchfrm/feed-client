@@ -1,12 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import PostCardHeader from '@/app/PostCardHeader'
 import PostCardMedia from '@/app/PostCardMedia'
 import PostCardScore from '@/app/PostCardScore'
 import PostCardToggles from '@/app/PostCardToggles'
 import PostCardUnpromotable from '@/app/PostCardUnpromotable'
 import PostCardActionButtons from '@/app/PostCardActionButtons'
+
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
 
 const PostCard = ({
   post,
@@ -22,6 +28,10 @@ const PostCard = ({
   // Extract some variables
   const { postPromotable, promotionStatus, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
+
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
+  const hasSalesObjective = objective === 'sales'
 
   return (
     <div
@@ -68,9 +78,11 @@ const PostCard = ({
             priorityEnabled={post.priorityEnabled}
             togglesClassName="py-2 px-4 mb-2 last:mb-0"
             className="mb-2"
+            hasSalesObjective={hasSalesObjective}
           />
         ) : (
           <PostCardUnpromotable
+            hasSalesObjective={hasSalesObjective}
             className="py-3 px-4 mb-2"
           />
         )}
