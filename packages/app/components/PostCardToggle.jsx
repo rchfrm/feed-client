@@ -86,9 +86,9 @@ const PostCardToggle = ({
     checkAndDeprioritize(updatedPost)
   }, [artistId, postId, toggleCampaign, campaignType, isConversionsCampaign, showAlertModal, checkAndDeprioritize])
 
-  const goToControlsConversionsPage = () => {
+  const goToControlsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS_CONVERSIONS,
+      pathname: ROUTES.CONTROLS,
     })
   }
 
@@ -153,7 +153,7 @@ const PostCardToggle = ({
       {shouldShowAlert && (
         <PostCardToggleAlert
           show={shouldShowAlert}
-          onAlertConfirm={goToControlsConversionsPage}
+          onAlertConfirm={goToControlsPage}
           onCancel={() => {
             setShouldShowAlert(false)
           }}

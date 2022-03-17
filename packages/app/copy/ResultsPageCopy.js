@@ -141,10 +141,6 @@ export default {
   },
   conversionsActivatorTitle: 'Use Feed to generate sales or sign-ups outside Facebook & Instagram.',
   conversionsActivatorDescription: 'Get started with generating sales or sign-ups!',
-  conversionsTeaserTitle: 'Request access now',
-  conversionsTeaserDescription: `Click to request access to conversion ads!
-
-We’ll be in touch shortly after with more information.`,
   noResultsData: (isSpendingPaused) => {
     if (isSpendingPaused) {
       return `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS})!`

@@ -14,9 +14,9 @@ import JoystickIcon from '@/icons/JoystickIcon'
 import brandColors from '@/constants/brandColors'
 
 const ResultsConversionTeaser = ({ className }) => {
-  const goToControlsConversionsPage = () => {
+  const goToControlsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS_CONVERSIONS,
+      pathname: ROUTES.CONTROLS,
     })
   }
 
@@ -31,7 +31,7 @@ const ResultsConversionTeaser = ({ className }) => {
       </div>
       <button
         className="flex-1 w-full"
-        onClick={goToControlsConversionsPage}
+        onClick={goToControlsPage}
       >
         <NoDataBlock>
           <div

@@ -17,8 +17,6 @@ import * as ROUTES from '@/app/constants/routes'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useControlsStore from '@/app/stores/controlsStore'
 
 import copy from '@/app/copy/PostsPageCopy'
