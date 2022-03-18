@@ -37,7 +37,7 @@ const ResultsConversionTeaser = ({ className }) => {
           <div
             className={[
               'flex justify-center items-center',
-              'w-14 h-14 rounded-full mb-2',
+              'w-14 h-14 rounded-full mb-6',
             ].join(' ')}
             style={{ backgroundColor: brandColors.instagram.bg }}
           >
