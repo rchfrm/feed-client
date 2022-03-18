@@ -4,7 +4,6 @@ import PricingPageFeedSpendCircle from '@/landing/PricingPageFeedSpendCircle'
 
 export default function PricingPageSpendCircles({
   monthlyBudget,
-  className,
 }) {
   const [diameter, setDiameter] = React.useState(0)
   const [smallDiameter, setSmallDiameter] = React.useState(0)
@@ -21,8 +20,14 @@ export default function PricingPageSpendCircles({
         amount={monthlyBudget * 0.9}
         color="redLight"
         className={[
-          'col-start-5',
-          'col-end-9',
+          'col-start-1',
+          'col-end-13',
+          'xs:col-start-2',
+          'xs:col-end-12',
+          'sm:col-start-4',
+          'sm:col-end-10',
+          'lg:col-start-5',
+          'lg:col-end-9',
           'row-start-6',
           'row-end-7',
         ].join(' ')}
@@ -33,12 +38,15 @@ export default function PricingPageSpendCircles({
         amount={monthlyBudget * 0.1}
         color="green"
         className={[
-          'col-start-8',
-          'col-end-12',
+          'items-end',
+          'col-start-1',
+          'col-end-13',
+          'sm:col-start-8',
+          'sm:col-end-13',
           'row-start-6',
           'row-end-7',
           'flex',
-          'items-center',
+          'sm:items-start',
         ].join(' ')}
         diameter={smallDiameter}
       />

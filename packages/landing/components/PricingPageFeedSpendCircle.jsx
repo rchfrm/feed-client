@@ -10,9 +10,6 @@ export default function PricingPageFeedSpendCircle({
   return (
     <div
       className={className}
-      style={{
-        height: `${diameter}px`,
-      }}
     >
       <svg
         fill={brandColors[color]}
@@ -25,7 +22,17 @@ export default function PricingPageFeedSpendCircle({
       >
         <circle cx="50" cy="50" r="50" />
       </svg>
-      <div className="ml-2">
+      <div
+        className={[
+          'ml-2',
+          'flex',
+          'flex-col',
+          'justify-center',
+        ].join(' ')}
+        style={{
+          height: `${diameter}px`,
+        }}
+      >
         <h2 className="mb-0">{`£${amount}`}</h2>
         <p className="mb-0">Feed’s service fee</p>
       </div>

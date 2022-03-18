@@ -34,17 +34,58 @@ export default function PricingPage() {
   return (
     <Section>
       <HeroStrapLine partA={pageTitle} />
-      <MarkdownText className={['col-start-3', 'col-span-10', 'h4', 'pb-10'].join(' ')} markdown={bullets} />
-      <MarkdownText className={['col-start-4', 'col-span-6'].join(' ')} markdown={budgetInput} />
+      <MarkdownText
+        className={[
+          'col-start-1',
+          'col-span-12',
+          'sm:col-start-2',
+          'sm:col-span-11',
+          'lg:col-start-3',
+          'lg:col-span-10',
+          'h4',
+          'pb-10',
+        ].join(' ')}
+        markdown={bullets}
+      />
+      <MarkdownText
+        className={[
+          'col-start-1',
+          'col-span-12',
+          'sm:col-start-3',
+          'sm:col-span-8',
+          'lg:col-start-4',
+          'lg:col-span-6',
+        ].join(' ')}
+        markdown={budgetInput}
+      />
       <Input
-        className={['col-start-4', 'col-span-6'].join(' ')}
+        className={[
+          'col-start-1',
+          'col-span-12',
+          'sm:col-start-3',
+          'sm:col-span-8',
+          'lg:col-start-4',
+          'lg:col-span-6',
+        ].join(' ')}
         name="budget"
         value={dailyBudget}
         handleChange={handleChange}
         type="number"
         prefix="£"
       />
-      <MarkdownText className={['h2', 'font-normal', 'col-start-4', 'col-span-6'].join(' ')} markdown={`Each month you will spend <strong>£${dailyBudget * 30}</strong> in total:`} />
+      <MarkdownText
+        className={[
+          'h2',
+          'font-normal',
+          'col-start-1',
+          'col-span-12',
+          'sm:col-start-3',
+          'sm:col-span-8',
+          'lg:col-start-4',
+          'lg:col-span-6',
+        ].join(' ')}
+        markdown={`Each month you will spend <strong>£${dailyBudget * 30}</strong> in total:`}
+      />
       <PricingPageSpendCircles
         monthlyBudget={dailyBudget * 30}
       />
