@@ -7,7 +7,7 @@ const ResultsSpendingPausedWarning = () => {
   return (
     <div className="px-4 py-2 rounded-dialogue border-solid border-red border-2 text-red">
       <span>Spending paused, </span>
-      <Link href={ROUTES.CONTROLS}>
+      <Link href={ROUTES.CONTROLS_BUDGET}>
         <a className="no--hover">resume?</a>
       </Link>
     </div>

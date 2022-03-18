@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
-import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import { track } from '@/helpers/trackingHelpers'
 
@@ -10,8 +9,6 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 import { parseUrl } from '@/helpers/utils'
-
-import copy from '@/app/copy/controlsPageCopy'
 
 const getControlsStoreState = (state) => ({
   updateLinks: state.updateLinks,

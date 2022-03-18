@@ -13,10 +13,10 @@ import JoystickIcon from '@/icons/JoystickIcon'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsConversionTeaser = ({ className }) => {
+const ResultsConversionsActivator = ({ className }) => {
   const goToControlsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS,
+      pathname: ROUTES.CONTROLS_OBJECTIVE,
     })
   }
 
@@ -50,12 +50,12 @@ const ResultsConversionTeaser = ({ className }) => {
   )
 }
 
-ResultsConversionTeaser.propTypes = {
+ResultsConversionsActivator.propTypes = {
   className: PropTypes.string,
 }
 
-ResultsConversionTeaser.defaultProps = {
+ResultsConversionsActivator.defaultProps = {
   className: null,
 }
 
-export default ResultsConversionTeaser
+export default ResultsConversionsActivator
