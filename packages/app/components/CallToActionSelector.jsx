@@ -24,6 +24,7 @@ const CallToActionSelector = ({
   label,
   disabled,
   shouldSaveOnChange,
+  hasSalesObjective,
 }) => {
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
   const [loading, setLoading] = React.useState(true)
@@ -60,7 +61,15 @@ const CallToActionSelector = ({
       return
     }
     // Make API request
-    const { res, error } = await onSelect(artistId, selectedOptionValue, postId, campaignType, callToActionId)
+    const { res, error } = await onSelect({
+      artistId,
+      callToAction: selectedOptionValue,
+      hasSalesObjective,
+      assetId: postId,
+      campaignType,
+      callToActionId,
+    })
+
     setShowAlert(false)
     // Handle error
     if (error) {
@@ -72,7 +81,7 @@ const CallToActionSelector = ({
     onSuccess(res)
     setError(null)
     setLoading(false)
-  }, [setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess, postId, campaignType, callToActionId, isPostActive, loading])
+  }, [setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess, postId, campaignType, callToActionId, isPostActive, loading, hasSalesObjective])
 
   const handleChange = (e) => {
     const { target: { value } } = e
@@ -136,6 +145,7 @@ CallToActionSelector.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   shouldSaveOnChange: PropTypes.bool,
+  hasSalesObjective: PropTypes.bool,
 }
 
 CallToActionSelector.defaultProps = {
@@ -150,6 +160,7 @@ CallToActionSelector.defaultProps = {
   label: '',
   disabled: false,
   shouldSaveOnChange: false,
+  hasSalesObjective: false,
 }
 
 export default CallToActionSelector

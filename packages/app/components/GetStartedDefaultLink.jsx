@@ -56,6 +56,7 @@ const GetStartedDefaultLink = () => {
   const platform = optimizationPreferences?.platform || storedPlatform
   const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
   const hasGrowthObjective = objective === 'growth'
+  const hasSalesObjective = objective === 'sales'
 
   // On text input change update the link object with a name and href
   const handleChange = (e) => {
@@ -74,7 +75,7 @@ const GetStartedDefaultLink = () => {
 
   const saveAsDefaultLink = async (newLinkId, newLink) => {
     if (newLinkId) {
-      const { res: newArtist, error } = await setDefaultLink(artistId, newLinkId)
+      const { res: newArtist, error } = await setDefaultLink({ artistId, linkId: newLinkId, hasSalesObjective })
 
       if (error) {
         const setDefaultLinkError = `Error setting link as default: ${error.message}`
@@ -93,6 +94,11 @@ const GetStartedDefaultLink = () => {
         postsPreferences: {
           defaultLinkId: default_link_id,
         },
+        ...(hasSalesObjective && {
+          conversionsPreferences: {
+            defaultLinkId: default_link_id,
+          },
+        }),
       })
 
       // Update artist status

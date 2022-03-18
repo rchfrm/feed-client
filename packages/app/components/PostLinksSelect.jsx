@@ -32,6 +32,7 @@ const PostLinksSelect = ({
   includeAddLinkOption,
   includeIntegrationLinks,
   includeLooseLinks,
+  hasSalesObjective,
   componentLocation,
   updateParentLink,
   shouldSaveOnChange,
@@ -168,7 +169,13 @@ const PostLinksSelect = ({
       return
     }
     // Run server
-    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId, campaignType)
+    const { res: postLink, error } = await onSelect({
+      artistId,
+      linkId: selectedOptionValue,
+      hasSalesObjective,
+      assetId: postItemId,
+      campaignType,
+    })
     if (!isMounted) return
     // Handle error
     setShowAlert(false)
@@ -188,7 +195,7 @@ const PostLinksSelect = ({
     setLoading(false)
     // Reset deleted link state
     setIsDeletedLink(false)
-  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink, campaignType])
+  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink, campaignType, hasSalesObjective])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditLinkBankLink({
@@ -277,6 +284,7 @@ PostLinksSelect.propTypes = {
   includeIntegrationLinks: PropTypes.bool,
   includeLooseLinks: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
+  hasSalesObjective: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
   updateParentLink: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
@@ -299,6 +307,7 @@ PostLinksSelect.defaultProps = {
   includeIntegrationLinks: true,
   includeLooseLinks: true,
   includeAddLinkOption: false,
+  hasSalesObjective: false,
   updateParentLink: () => {},
   shouldSaveOnChange: true,
   label: '',
