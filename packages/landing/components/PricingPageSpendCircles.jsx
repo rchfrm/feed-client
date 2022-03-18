@@ -1,5 +1,6 @@
 import React from 'react'
-import PricingPageSpendCircle from '@/landing/PricingPageSpendCircle'
+import PricingPageAdSpendCircle from '@/landing/PricingPageAdSpendCircle'
+import PricingPageFeedSpendCircle from '@/landing/PricingPageFeedSpendCircle'
 
 export default function PricingPageSpendCircles({
   monthlyBudget,
@@ -15,21 +16,32 @@ export default function PricingPageSpendCircles({
     setSmallDiameter(smallDiameter)
   }, [diameter])
   return (
-    <div
-      className={className}
-    >
-      <PricingPageSpendCircle
+    <>
+      <PricingPageAdSpendCircle
         amount={monthlyBudget * 0.9}
         color="redLight"
-        className={className}
+        className={[
+          'col-start-5',
+          'col-end-9',
+          'row-start-6',
+          'row-end-7',
+        ].join(' ')}
         diameter={diameter}
         setDiameter={setDiameter}
       />
-      <PricingPageSpendCircle
+      <PricingPageFeedSpendCircle
         amount={monthlyBudget * 0.1}
         color="green"
+        className={[
+          'col-start-8',
+          'col-end-12',
+          'row-start-6',
+          'row-end-7',
+          'flex',
+          'items-center',
+        ].join(' ')}
         diameter={smallDiameter}
       />
-    </div>
+    </>
   )
 }

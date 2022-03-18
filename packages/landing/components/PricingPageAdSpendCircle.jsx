@@ -1,7 +1,7 @@
 import React from 'react'
 import brandColors from '@/constants/brandColors'
 
-export default function PricingPageSpendCircle({
+export default function PricingPageAdSpendCircle({
   amount,
   color,
   className,
@@ -36,12 +36,16 @@ export default function PricingPageSpendCircle({
           'flex',
           'justify-center',
           'items-center',
+          'text-white',
+          'flex-col',
+          'text-center',
         ].join(' ')}
         style={{
           top: '-100%',
         }}
       >
-        {amount}
+        <h1 className="mb-0">{`£${amount}`}</h1>
+        <h4 className="mb-0">Facebook & Instagram<br />promotion</h4>
       </div>
     </div>
   )
