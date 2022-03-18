@@ -139,8 +139,8 @@ export default {
   your most effective ads, and a month to month
   comparison will appear here.`
   },
-  conversionsActivatorTitle: 'Use Feed to generate sales or sign-ups outside Facebook & Instagram.',
-  conversionsActivatorDescription: 'Get started with generating sales or sign-ups!',
+  conversionsActivatorTitle: 'Use the “sales” objective to get purchases on your website.',
+  conversionsActivatorDescription: 'Change your objective to “sales” to see results in this section!',
   noResultsData: (isSpendingPaused) => {
     if (isSpendingPaused) {
       return `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS})!`
