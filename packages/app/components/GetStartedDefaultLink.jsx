@@ -101,7 +101,7 @@ const GetStartedDefaultLink = () => {
   }
 
   const validateAndStoreLink = async () => {
-    // If the link hasn't change there's no need to validate it
+    // If the link hasn't changed there's no need to validate it
     if (link.href === storedDefaultLink?.href) {
       next()
       return
@@ -185,7 +185,7 @@ const GetStartedDefaultLink = () => {
   }
 
   React.useEffect(() => {
-    if (objective === 'growth') {
+    if (hasGrowthObjective) {
       const { placeholderUrl } = getIntegrationInfo({ platform })
 
       setPlaceholder(placeholderUrl)
@@ -193,7 +193,7 @@ const GetStartedDefaultLink = () => {
   }, [objective, platform])
 
   React.useEffect(() => {
-    if (objective !== 'growth') {
+    if (!hasGrowthObjective) {
       setIsSaveEnabled(!!link.href)
       return
     }

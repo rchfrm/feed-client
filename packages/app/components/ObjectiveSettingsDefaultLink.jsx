@@ -28,6 +28,7 @@ const ObjectiveSettingsDefaultLink = ({
   const { updateLinks, updatePreferences } = useControlsStore(getControlsStoreState)
   const { id: defaultLinkId } = defaultLink || {}
   const hasDefaultLink = !!defaultLinkId
+  const hasGrowthObjective = objective === 'growth'
 
   const onSuccess = React.useCallback((newArtist) => {
     const { preferences: { posts: { default_link_id } } } = newArtist
@@ -58,8 +59,8 @@ const ObjectiveSettingsDefaultLink = ({
         onSelect={setDefaultLink}
         onSuccess={onSuccess}
         includeAddLinkOption
-        includeIntegrationLinks={objective === 'growth'}
-        includeLooseLinks={objective !== 'growth'}
+        includeIntegrationLinks={hasGrowthObjective}
+        includeLooseLinks={!hasGrowthObjective}
         componentLocation="defaultLink"
         label={label}
         className="mb-14"
