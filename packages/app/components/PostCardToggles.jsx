@@ -62,6 +62,7 @@ const PostCardToggles = ({
         disabled={!isEligibleForGrowAndNurture && !priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
+        hasSalesObjective={hasSalesObjective}
       />
       {/* CONVERT TOGGLE */}
       {hasSalesObjective && (

@@ -67,7 +67,6 @@ const ObjectiveSettingsDefaultLink = ({
         label={label}
         className="mb-14"
       />
-      <ControlsSettingsSectionFooter copy={copy.defaultLinkFooter} className="text-insta" />
       {!hasDefaultLink && (
         <div
           className={[

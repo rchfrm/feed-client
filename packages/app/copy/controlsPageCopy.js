@@ -62,7 +62,6 @@ export default {
 
   If you choose “No”, you'll need to manually select posts for Feed to test.`,
   defaultLinkIntro: `By default, which link should be used in ads? This determines where people go when they click one of your ads.`,
-  defaultLinkFooter: `To change this, [update your objective](${ROUTES.CONTROLS_OBJECTIVE})`,
   defaultCallToActionIntro: `By default, which call to action should appear on your ads?`,
   defaultCallToActionFooter: (recommendedCallToAction) => `"${recommendedCallToAction}" is recommended based on your objective`,
   facebookAdAccountIntro: 'This is the ad account Feed will use to set-up and run your ad campaigns.',
