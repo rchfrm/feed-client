@@ -1,5 +1,6 @@
 import React from 'react'
 import brandColors from '@/constants/brandColors'
+import useOnResize from '@/hooks/useOnResize'
 
 export default function PricingPageAdSpendCircle({
   amount,
@@ -9,10 +10,11 @@ export default function PricingPageAdSpendCircle({
   setDiameter,
 }) {
   const circle = React.useRef(null)
+  const { width } = useOnResize()
   React.useEffect(() => {
     if (!setDiameter) return
     setDiameter(circle.current.clientHeight)
-  })
+  }, [width, setDiameter])
   return (
     <div
       className={className}
