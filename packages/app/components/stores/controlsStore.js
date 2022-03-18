@@ -22,7 +22,6 @@ const initialState = {
   formattedMinConversionsBudget: '',
   isSpendingPaused: false,
   canRunConversions: false,
-  conversionsEnabled: false,
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
@@ -372,7 +371,6 @@ const useControlsStore = create((set, get) => ({
   formattedMinConversionsBudget: initialState.formattedMinConversionsBudget,
   isSpendingPaused: initialState.isSpendingPaused,
   canRunConversions: initialState.canRunConversions,
-  conversionsEnabled: initialState.conversionsEnabled,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
@@ -389,7 +387,6 @@ const useControlsStore = create((set, get) => ({
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
   updateSpending: updateSpending(set, get),
-  setConversionsEnabled: (conversionsEnabled) => set({ conversionsEnabled }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   setIsControlsLoading: (isControlsLoading) => set({ isControlsLoading }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
@@ -399,7 +396,6 @@ const useControlsStore = create((set, get) => ({
       artistId: artist.id,
       currency: artist.currency,
       isControlsLoading: false,
-      conversionsEnabled: artist.conversions_enabled,
     })
     // Fetch data
     if (action === 'fetchData') {

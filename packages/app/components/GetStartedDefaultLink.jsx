@@ -196,7 +196,7 @@ const GetStartedDefaultLink = () => {
 
       setPlaceholder(placeholderUrl)
     }
-  }, [objective, platform])
+  }, [objective, platform, hasGrowthObjective])
 
   React.useEffect(() => {
     if (!hasGrowthObjective) {
@@ -208,7 +208,7 @@ const GetStartedDefaultLink = () => {
     const hasError = !testValidIntegration(sanitisedLink, platform)
 
     setIsSaveEnabled(!!link.href && !hasError)
-  }, [objective, platform, link])
+  }, [objective, platform, link, hasGrowthObjective])
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">

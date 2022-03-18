@@ -57,18 +57,6 @@ export default {
     if (key === 'links') return 'Add and edit the links that are used in your ads'
     if (key === 'integrations') return 'Connect Feed to other platforms'
   },
-
-  // CONVERSION DEFAULTS
-  conversionsTitle: '## Conversions Defaults',
-  conversionsDescription: `These are the settings used as defaults for Conversion campaigns.
-
-  You can override these settings for specific posts on the posts page.`,
-  conversionsPixelEventDescription: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
-  toggleWarning: (minConversionsBudget) => `Budget must be at least ${minConversionsBudget} to enable conversions.`,
-  settingsSaved: `Default settings saved! You can override these defaults for specific posts on the posts page.
-
-  N.B. Ads that are currently running will not be updated. To edit active ads, head to the [Running section of posts page](${ROUTES.HOME}?postStatus=running).`,
-
   // AD DEFAULTS
   globalToggleIntro: `Can Feed automatically select which recent posts (last 28 days) are promoted? You can still opt out specific posts from the posts page.
 

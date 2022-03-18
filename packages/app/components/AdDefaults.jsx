@@ -21,7 +21,7 @@ const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
   conversionsPreferences: state.conversionsPreferences,
   updatePreferences: state.updatePreferences,
-  optimizationPreferences: state.optimizationPreferences
+  optimizationPreferences: state.optimizationPreferences,
 })
 
 const AdDefaults = () => {
