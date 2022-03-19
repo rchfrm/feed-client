@@ -41,7 +41,7 @@ const Slider = ({
     <div className={[
       'mb-5',
       trackColor ? `slider-track-color-${trackColor}` : null,
-      hasError ? 'border-red' : 'border-grey-3',
+      hasError ? 'has-error border-red' : 'border-grey-3',
       'border border-solid rounded-full',
       'px-3 py-2',
       className,
