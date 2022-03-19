@@ -30,6 +30,7 @@ const Slider = ({
   children,
   // Slider instance setter
   setSliderInstance,
+  hasError,
 }) => {
   const sliderRef = React.useRef(null)
   const hasGhosts = !!ghosts.length
@@ -40,7 +41,8 @@ const Slider = ({
     <div className={[
       'mb-5',
       trackColor ? `slider-track-color-${trackColor}` : null,
-      'border border-solid border-grey-3 rounded-full',
+      hasError ? 'border-red' : 'border-grey-3',
+      'border border-solid rounded-full',
       'px-3 py-2',
       className,
     ].join(' ')}
@@ -117,6 +119,7 @@ Slider.propTypes = {
   setSliderInstance: PropTypes.func,
   className: PropTypes.string,
   children: PropTypes.node,
+  hasError: PropTypes.bool,
 }
 
 Slider.defaultProps = {
@@ -135,6 +138,7 @@ Slider.defaultProps = {
   setSliderInstance: null,
   className: null,
   children: null,
+  hasError: false,
 }
 
 

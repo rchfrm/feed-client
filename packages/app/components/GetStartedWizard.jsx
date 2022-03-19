@@ -47,7 +47,7 @@ const GetStartedWizard = ({
   adAccountId,
   facebookPixelId,
   locations,
-  budget,
+  hasSufficientBudget,
 }) => {
   const [steps, setSteps] = React.useState([])
 
@@ -149,7 +149,7 @@ const GetStartedWizard = ({
       title: 'Targeting',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
-      isComplete: Boolean(budget),
+      isComplete: hasSufficientBudget,
       isApplicable: true,
     },
     {
@@ -257,7 +257,7 @@ GetStartedWizard.propTypes = {
   adAccountId: PropTypes.string,
   facebookPixelId: PropTypes.string,
   locations: PropTypes.object.isRequired,
-  budget: PropTypes.number.isRequired,
+  hasSufficientBudget: PropTypes.bool.isRequired,
 }
 
 GetStartedWizard.defaultProps = {
