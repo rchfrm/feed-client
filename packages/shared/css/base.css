@@ -67,6 +67,12 @@ body {
   }
 }
 
+#page--container {
+  @media (--md) {
+    padding: 0 var(--sp-33) 0 var(--sp-13)
+  }
+}
+
 #page--container-admin {
   margin-left: 0 !important;
   padding: 0!important;

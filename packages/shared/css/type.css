@@ -33,6 +33,7 @@ strong,
 .display {
   font-family: var(--font-display);
   font-feature-settings: "ss01";
+  line-height: 1;
 }
 
 /* Header styles */
@@ -42,7 +43,6 @@ h1,
   font-size: 2.5em;
   font-weight: var(--bold-display);
 }
-
 
 h2,
 .h2 {
@@ -55,12 +55,14 @@ h3,
 .h3 {
   font-size: 1.25em;
   font-feature-settings: "ss01";
+  line-height: 1;
 }
 
 h4,
 .h4 {
   font-size: 1.25rem;
   font-feature-settings: "ss01";
+  line-height: 1;
 }
 
 h5,
