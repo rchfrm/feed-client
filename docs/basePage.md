@@ -14,7 +14,7 @@ The `<BasePage />` component accepts several (optional) props:
 
 - **headerConfig** `PropTypes.object`
 
-  The text and punctuation of the page header
+  The text of the page header
 
 - **artistRequired** `PropTypes.bool`
 

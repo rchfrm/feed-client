@@ -23,7 +23,7 @@ const PostsNone = ({ filterBy }) => {
   const copyMarkdown = getCopy(filterBy)
 
   React.useEffect(() => {
-    setHeader({ text: 'your posts', punctuation: ',' })
+    setHeader({ text: 'your posts' })
   }, [setHeader])
 
   return (
