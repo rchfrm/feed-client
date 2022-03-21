@@ -135,6 +135,18 @@
   }
 }
 
+.logoContainer.hasNoPageButtons {
+  top: var(--sp-5);
+
+  @media (--min-content) {
+    top: var(--sp-9);
+  }
+
+  @media (--md) {
+    left: var(--sp-7);
+    top: var(--sp-7);
+  }
+}
 
 .pageTitle {
   z-index: 19;

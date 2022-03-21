@@ -25,7 +25,7 @@ const SignupPageContent = ({ email }) => {
       <div className="flex-1 pb-5 sm:pb-0 pt-10 sm:order-2">
         <div className="sm:ml-16">
           <Error error={authError} />
-          <h1 className="mb-2 text-2xl">Enter {!email ? 'an email and' : 'a'} password to create your account</h1>
+          <h2 className="mb-2 text-2xl">Enter {!email ? 'an email and' : 'a'} password to create your account</h2>
           <MarkdownText className={['small--text'].join(' ')} markdown={copy.tcText('clicking next')} />
           <SignupEmailForm initialEmail={email} />
         </div>
