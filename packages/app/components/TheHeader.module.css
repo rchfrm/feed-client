@@ -135,7 +135,7 @@
   }
 }
 
-.logoContainer.hasNoPageButtons {
+.logoContainer.hasNoSideNav {
   top: var(--sp-5);
 
   @media (--min-content) {

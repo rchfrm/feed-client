@@ -68,7 +68,7 @@ function TheHeaderContents({
   // FETCH NOTIFICATIONS
   const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
   const isGetStartedPage = pathname === ROUTES.GET_STARTED
-  const hasPageButtons = isLoggedIn && user?.id && !user.is_email_verification_needed && !isGetStartedPage
+  const hasSideNav = isLoggedIn && user?.id && !user.is_email_verification_needed && !isGetStartedPage
 
   return (
     <header className={[
@@ -88,7 +88,7 @@ function TheHeaderContents({
         title="home"
         className={[
           styles.logoContainer,
-          !hasPageButtons ? styles.hasNoPageButtons : '',
+          !hasSideNav ? styles.hasNoSideNav : '',
         ].join(' ')}
       >
         <FeedLogo
@@ -100,7 +100,7 @@ function TheHeaderContents({
       {/* Page Header */}
       {showPageTitle && <PageHeader className={styles.pageTitle} />}
       {/* Subnav button */}
-      {hasPageButtons && (
+      {hasSideNav && (
         <TheSubNavButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}
