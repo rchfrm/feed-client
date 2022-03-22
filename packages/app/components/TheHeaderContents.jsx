@@ -24,7 +24,6 @@ function TheHeaderContents({
   subNavOpen,
   toggleSubNav,
   isLoggedIn,
-  inlinePageTitle,
 }) {
   // GET USER
   const { user } = React.useContext(UserContext)
@@ -52,18 +51,14 @@ function TheHeaderContents({
 
   // TOGGLE HEADER FOR NARROW
   // & Resize background
-  const [showPageTitle, setShowPageTitle] = React.useState(false)
   const [backgroundStyle, setBackgroundStyle] = React.useState({})
   React.useEffect(() => {
-    // Set header or not
-    const showPageTitle = !inlinePageTitle
-    setShowPageTitle(showPageTitle)
     // Resize header bg
     setBackgroundStyle({
       width: windowWidth,
       marginLeft: windowWidth / -2,
     })
-  }, [windowWidth, inlinePageTitle])
+  }, [windowWidth])
 
   // FETCH NOTIFICATIONS
   const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
@@ -98,7 +93,7 @@ function TheHeaderContents({
         />
       </a>
       {/* Page Header */}
-      {showPageTitle && <PageHeader className={styles.pageTitle} />}
+      <PageHeader className={styles.pageTitle} />
       {/* Subnav button */}
       {hasSideNav && (
         <TheSubNavButton
