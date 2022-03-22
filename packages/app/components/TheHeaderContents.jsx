@@ -11,6 +11,7 @@ import useNotificationsStore from '@/app/stores/notificationsStore'
 import FeedLogo from '@/icons/FeedLogo'
 import TheSubNavButton from '@/app/TheSubNavButton'
 import PageHeader from '@/app/PageHeader'
+import ProfileStatus from '@/app/ProfileStatus'
 // IMPORT CONSTANTS
 import brandColors from '@/constants/brandColors'
 import * as ROUTES from '@/app/constants/routes'
@@ -94,6 +95,8 @@ function TheHeaderContents({
       </a>
       {/* Page Header */}
       <PageHeader className={styles.pageTitle} />
+      {/* Page Header */}
+      <ProfileStatus />
       {/* Subnav button */}
       {hasSideNav && (
         <TheSubNavButton

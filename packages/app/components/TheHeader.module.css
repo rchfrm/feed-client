@@ -1,17 +1,16 @@
 .TheHeader {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-
-  padding-top: var(--sp-6);
-  padding-bottom: calc(var(--sp-20) + var(--sp-1));
+  width: 100%;
+  padding-bottom: 5rem;
 
   @media (--md) {
-    position: static;
-    padding-top: 0;
-    padding-bottom: calc(var(--sp-10) + var(--sp-6));
-    margin-top: calc(-2 * var(--sp-6));
+    margin-top: -1rem;
+    margin-bottom: 4rem;
+    margin-left: 2.5rem;
+    padding: 0 8.25rem 0 3.5rem;
   }
 }
 
@@ -159,7 +158,7 @@
   }
 
   @media (--min-content) {
-    top: 1.2em;
+    top: 0.8em;
 
     h1 {
       font-size: 2.5em;
@@ -168,9 +167,6 @@
 
   @media (--md) {
     position: static;
-    padding-top: var(--sp-8);
-    padding-left: calc(var(--sp-10) + var(--sp-10) + var(--sp-3));
-    padding-right: var(--sp-16);
     text-align: left;
     transform: none;
   }
