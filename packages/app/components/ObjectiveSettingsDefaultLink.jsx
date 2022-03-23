@@ -81,13 +81,14 @@ const ObjectiveSettingsDefaultLink = ({
 ObjectiveSettingsDefaultLink.propTypes = {
   defaultLink: PropTypes.object,
   setPostPreferences: PropTypes.func.isRequired,
-  objective: PropTypes.string.isRequired,
+  objective: PropTypes.string,
   label: PropTypes.string,
   className: PropTypes.string,
 }
 
 ObjectiveSettingsDefaultLink.defaultProps = {
   defaultLink: null,
+  objective: '',
   label: '',
   className: null,
 }

@@ -41,7 +41,7 @@ const useGetStartedWizard = () => {
     feedMinBudgetInfo: {
       majorUnit: {
         minReccomendedStories,
-      },
+      } = {},
     },
   } = artist
   const { user } = React.useContext(UserContext)

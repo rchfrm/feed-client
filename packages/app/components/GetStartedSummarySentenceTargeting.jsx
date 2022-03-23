@@ -23,7 +23,7 @@ const GetStartedSummarySentenceTargeting = () => {
       currencyCode,
       majorUnit: {
         minReccomendedStories,
-      },
+      } = {},
     },
   } = artist
 
