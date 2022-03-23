@@ -146,20 +146,37 @@
 }
 
 .pageTitle {
-  position: absolute;
-  z-index: 30;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 1.2em;
-  margin-bottom: 0;
-  text-align: center;
+  z-index: 19;
+  margin-bottom: var(--sp-10);
 
   h1 {
-    font-size: 1.75em;
+    font-size: 2em;
+    margin-bottom: 0;
+  }
+
+  @media (--xxs) {
+    position: absolute;
+    top: 1.4em;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0;
+    text-align: center;
+
+    h1 {
+      font-size: 1.5em;
+    }
   }
 
   @media (--min-content) {
-    top: 1.2em;
+    top: 1em;
+
+    h1 {
+      font-size: 2em;
+    }
+  }
+
+  @media (--sm) {
+    top: 0.8em;
 
     h1 {
       font-size: 2.5em;
@@ -173,10 +190,6 @@
     padding-right: var(--sp-16);
     text-align: left;
     transform: none;
-  }
-
-  h1 {
-    margin-bottom: 0;
   }
 
   transition: opacity var(--trans);

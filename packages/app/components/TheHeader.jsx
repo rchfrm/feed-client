@@ -11,11 +11,15 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT COMPONENTS
 import TheHeaderContents from '@/app/TheHeaderContents'
 import TheSubNav from '@/app/TheSubNav'
+import PageHeader from '@/app/PageHeader'
+// IMPORT STYLES
+import styles from '@/app/TheHeader.module.css'
 
 function TheHeader() {
   // Toggle mobile header
   const { width: windowWidth } = useBrowserStore()
   const [mobileHeader, setMobileHeader] = React.useState(null)
+  const inlinePageTitle = !useBreakpointTest('xxs')
   const isDesktopLayout = useBreakpointTest('md')
   React.useEffect(() => {
     // Show peek header or not
@@ -39,6 +43,7 @@ function TheHeader() {
         windowWidth={windowWidth}
         subNavOpen={subNavOpen}
         toggleSubNav={toggleSubNav}
+        inlinePageTitle={inlinePageTitle}
         isLoggedIn={isLoggedIn}
       />
       {/* THE SUBNAV */}
@@ -62,6 +67,7 @@ function TheHeader() {
           >
             {headerContents}
           </PeekElement>
+          {inlinePageTitle && <PageHeader className={styles.pageTitle} />}
         </>
       ) : (
         headerContents
