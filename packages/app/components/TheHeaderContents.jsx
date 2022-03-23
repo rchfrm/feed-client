@@ -87,10 +87,7 @@ function TheHeaderContents({
         onClick={goHome}
         role="button"
         title="home"
-        className={[
-          styles.logoContainer,
-          !hasSideNav ? styles.hasNoSideNav : '',
-        ].join(' ')}
+        className={[styles.logoContainer].join(' ')}
       >
         <FeedLogo
           className={styles.logo}
