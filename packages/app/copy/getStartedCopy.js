@@ -21,7 +21,7 @@ export default {
     if (status === 'location') return 'Where are you based?'
     if (status === 'budget') return 'How much would you like to spend?'
 
-    return 'Completed'
+    return ''
   },
   objectiveSubtitle: 'What are you trying to achieve?',
   objectiveDescription: 'Choose audience growth if your focus is growing on a platform like Instagram, YouTube or Spotify; website sales for sales on your online store or website visits to get your audience to a website or landing page.',

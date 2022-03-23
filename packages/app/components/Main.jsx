@@ -6,6 +6,7 @@ import InitUser from '@/app/InitUser'
 
 import { SidePanelContextProvider } from '@/app/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
 
@@ -20,18 +21,21 @@ const getControlsStoreState = (state) => ({
   updateLinksWithIntegrations: state.updateLinksWithIntegrations,
   clearAll: state.clearAll,
   updateProfileSetUpStatus: state.updateProfileSetUpStatus,
+  controlsLoading: state.isControlsLoading,
 })
 
 function Main({ children }) {
+  const { user } = React.useContext(UserContext)
   const { artistId, artist } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
-  const profileSetupStatus = useCheckProfileSetupStatus()
+  const getProfileSetupStatus = useCheckProfileSetupStatus()
 
   // SETUP CONTROLS STORE WHEN ARTIST CHANGES
   const {
     initControlsStore,
     updateLinksWithIntegrations,
     clearAll,
+    controlsLoading,
     updateProfileSetUpStatus,
   } = useControlsStore(getControlsStoreState)
 
@@ -53,10 +57,19 @@ function Main({ children }) {
   }, [artist.integrations])
 
   // Update profile setup status in controls store
-  React.useEffect(() => {
+  useAsyncEffect(async () => {
+    if (!user.id || controlsLoading) return
+
+    const { setup_completed_at: setupCompletedAt } = artist
+
+    if (setupCompletedAt) {
+      return
+    }
+
+    const profileSetupStatus = await getProfileSetupStatus()
+
     updateProfileSetUpStatus(profileSetupStatus)
-  // eslint-disable-next-line
-  }, [profileSetupStatus])
+  }, [controlsLoading])
 
   return (
     <main id="page--container" className="md:ml-10">
