@@ -28,27 +28,27 @@ export default {
       title: 'Integrations',
     },
   ],
-  optionsDescription: (key, hasSetupProfile, objectiveString, isSpendingPaused, budget) => {
+  optionsDescription: (key, hasSetUpProfile, objectiveString, isSpendingPaused, budget) => {
     if (key === 'objective') {
-      if (hasSetupProfile) {
+      if (hasSetUpProfile) {
         return `Feed is set-up for ${objectiveString}`
       }
       return 'Continue set-up to choose your objective'
     }
     if (key === 'budget') {
-      if (hasSetupProfile) {
+      if (hasSetUpProfile) {
         return `Promotion is ${isSpendingPaused ? 'paused' : `active and set to ${budget} a day`}`
       }
       return 'Continue set-up to set your budget'
     }
     if (key === 'ads') {
-      if (hasSetupProfile) {
+      if (hasSetUpProfile) {
         return 'Post selection, calls to action and ad settingss'
       }
       return 'Continue set-up to manage post selection, calls to action and more'
     }
     if (key === 'targeting') {
-      if (hasSetupProfile) {
+      if (hasSetUpProfile) {
         return 'Control who sees your ads'
       }
       return 'Continue set-up to choose age, gender and location targeting'

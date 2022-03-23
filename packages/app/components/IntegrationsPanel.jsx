@@ -23,12 +23,12 @@ const IntegrationsPanel = ({
     artistId,
     artist: {
       integrations: artistIntegrations,
-      hasSetupProfile,
+      hasSetUpProfile,
     },
     setArtist,
   } = React.useContext(ArtistContext)
 
-  const integrations = hasSetupProfile ? artistIntegrations : dummyIntegrations
+  const integrations = hasSetUpProfile ? artistIntegrations : dummyIntegrations
 
   return (
     <section>
@@ -46,7 +46,7 @@ const IntegrationsPanel = ({
                 integration={integration}
                 setArtist={setArtist}
                 location={location}
-                isDisabled={!hasSetupProfile}
+                isDisabled={!hasSetUpProfile}
                 className="mb-8 mr-8 sm:mb-0 sm:mr-0 last:mb-0"
               />
             )

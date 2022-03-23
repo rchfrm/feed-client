@@ -30,7 +30,7 @@ const ControlsContentOptionsItem = ({
         currencyCode,
         currencyOffset,
       },
-      hasSetupProfile,
+      hasSetUpProfile,
     },
   } = React.useContext(ArtistContext)
 
@@ -66,7 +66,7 @@ const ControlsContentOptionsItem = ({
       </div>
       <div>
         <p className="font-bold mb-2">{title}</p>
-        <p className="mb-0">{copy.optionsDescription(key, hasSetupProfile, objectiveString, isSpendingPaused, formattedBudget)}</p>
+        <p className="mb-0">{copy.optionsDescription(key, hasSetUpProfile, objectiveString, isSpendingPaused, formattedBudget)}</p>
       </div>
     </a>
   )

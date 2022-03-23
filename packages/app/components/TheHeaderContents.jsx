@@ -25,6 +25,7 @@ function TheHeaderContents({
   subNavOpen,
   toggleSubNav,
   isLoggedIn,
+  mobileHeader,
 }) {
   // GET USER
   const { user } = React.useContext(UserContext)
@@ -97,7 +98,7 @@ function TheHeaderContents({
       <PageHeader className={styles.pageTitle} />
       {hasSideNav && (
         <>
-          <ProfileStatus />
+          {!mobileHeader && <ProfileStatus />}
           <TheSubNavButton
             toggleSubNav={toggleSubNav}
             navOpen={subNavOpen}

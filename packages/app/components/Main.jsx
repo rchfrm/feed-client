@@ -60,9 +60,9 @@ function Main({ children }) {
   useAsyncEffect(async () => {
     if (!user.id || (user.artists.length && !artistId) || controlsLoading) return
 
-    const { setup_completed_at: setupCompletedAt } = artist
+    const { hasSetUpProfile } = artist
 
-    if (setupCompletedAt) {
+    if (hasSetUpProfile) {
       return
     }
 

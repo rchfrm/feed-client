@@ -43,7 +43,7 @@ const TargetingBudgetBox = ({
           minHard: minHardBudget,
         } = {},
       } = {},
-      hasSetupProfile,
+      hasSetUpProfile,
     },
   } = React.useContext(ArtistContext)
 
@@ -66,16 +66,16 @@ const TargetingBudgetBox = ({
             <h2 className="mb-0">
               Daily Budget
               {!targetingState.status ? (
-                hasSetupProfile && <span className="text-red"> Paused</span>
+                hasSetUpProfile && <span className="text-red"> Paused</span>
               ) : (
-                hasSetupProfile && <span className="text-green"> Active</span>
+                hasSetUpProfile && <span className="text-green"> Active</span>
               )}
             </h2>
             {/* PAUSE OR RESUME SPENDING */}
             <TargetingBudgetPauseButton
               togglePauseCampaign={togglePauseCampaign}
               isPaused={!targetingState.status}
-              isDisabled={!hasSetupProfile}
+              isDisabled={!hasSetUpProfile}
               className={!isDesktopLayout ? 'mr-12' : null}
             />
           </div>
@@ -87,7 +87,7 @@ const TargetingBudgetBox = ({
                 currencyOffset={currencyOffset}
                 minBase={minBase}
                 minHardBudget={minHardBudget}
-                initialBudget={hasSetupProfile ? initialTargetingState.budget : 5}
+                initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
                 targetingState={targetingState}
                 updateTargetingBudget={updateTargetingBudget}
                 showCustomBudget={showCustomBudget}

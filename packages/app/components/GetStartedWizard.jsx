@@ -190,7 +190,7 @@ const GetStartedWizard = () => {
     }
 
     // Patch the profile
-    const { res: updatedArtist, error } = await updateArtist(artist, { ...wizardState, defaultLink: link.id })
+    const { res: updatedArtist, error } = await updateArtist(artist, { ...wizardState, defaultLink: link?.id })
 
     if (error) {
       return
