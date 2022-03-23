@@ -118,8 +118,10 @@
   z-index: 30;
 
   .TheHeader._subNavOpen & {
-    @media (--mdMax) {
-      right: var(--sp-6);
+    right: var(--sp-5);
+
+    @media (--sm) {
+      right: var(--sp-8);
     }
   }
 
