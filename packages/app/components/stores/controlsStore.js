@@ -16,6 +16,7 @@ const initialState = {
   postsPreferences: {},
   conversionsPreferences: {},
   optimizationPreferences: {},
+  profileSetUpStatus: '',
   currency: '',
   budget: 0,
   minConversionsBudget: 0,
@@ -193,8 +194,6 @@ const fetchData = (set, get) => async (action, artist) => {
   set({ isControlsLoading: true })
   // If there already are links and we not force, no need to reset data
   if (savedLinks.length && action !== 'force') return
-  // Set data as loading
-  set({ isControlsLoading: true })
 
   // Get posts, conversions and optimization preferences
   const posts = getPreferences(artist, 'posts')
@@ -309,6 +308,11 @@ const updatePreferences = (set, get) => (preferences) => {
   set(newState)
 }
 
+// UPDATE PROFILE STATUS
+const updateProfileSetUpStatus = (set) => (status) => {
+  set({ profileSetupStatus: status })
+}
+
 const updateSpending = (set, get) => (budget, status) => {
   const { canRunConversionCampaigns } = get()
   set({ budget })
@@ -386,6 +390,7 @@ const useControlsStore = create((set, get) => ({
   updateLinks: updateLinks(set, get),
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
+  updateProfileSetUpStatus: updateProfileSetUpStatus(set),
   updateSpending: updateSpending(set, get),
   setLinkBankError: (error) => set({ linkBankError: error }),
   setIsControlsLoading: (isControlsLoading) => set({ isControlsLoading }),

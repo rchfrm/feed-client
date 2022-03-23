@@ -16,8 +16,6 @@ import IntegrationsPanel from '@/app/IntegrationsPanel'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-import useGetStartedWizard from '@/app/hooks/useGetStartedWizard'
-
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
   objective: <ObjectiveSettings />,
@@ -29,10 +27,6 @@ const controlsComponents = {
 }
 
 const ControlsContent = ({ activeSlug }) => {
-  const {
-    isLoading,
-  } = useGetStartedWizard()
-
   // Destructure context
   const { globalLoading } = React.useContext(InterfaceContext)
 
@@ -52,7 +46,7 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
-  if (globalLoading || isLoading) return <Spinner />
+  if (globalLoading) return <Spinner />
 
   return (
     <div className="md:grid grid-cols-12 gap-8">

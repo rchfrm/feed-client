@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { useImmerReducer } from 'use-immer'
 
@@ -47,7 +46,7 @@ const postsReducer = (draftState, postsAction) => {
   }
 }
 
-const GetStartedPostsSelection = ({ initialPosts }) => {
+const GetStartedPostsSelection = () => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [error, setError] = React.useState(null)
@@ -105,16 +104,6 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
       setPosts({
         type: 'set-posts',
         payload: { posts: wizardState?.enabledPosts },
-      })
-
-      return
-    }
-
-    // If there are enabled posts that were initially fetched when we mounted the wizard we show these
-    if (!wizardState?.enabledPosts && initialPosts.length) {
-      setPosts({
-        type: 'set-posts',
-        payload: { posts: initialPosts },
       })
 
       return
@@ -181,7 +170,6 @@ const GetStartedPostsSelection = ({ initialPosts }) => {
 }
 
 GetStartedPostsSelection.propTypes = {
-  initialPosts: PropTypes.array.isRequired,
 }
 
 GetStartedPostsSelection.defaultProps = {

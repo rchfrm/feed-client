@@ -5,7 +5,6 @@ import Router from 'next/router'
 import { useImmerReducer } from 'use-immer'
 
 import ProgressBar from '@/app/ProgressBar'
-import Spinner from '@/elements/Spinner'
 import ChevronIcon from '@/icons/ChevronIcon'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -46,22 +45,22 @@ const WizardContextProvider = ({
   steps,
   children,
   goBackToPath,
-  isLoading,
   navigation,
   hasBackButton,
+  profileSetupStatus,
 }) => {
   const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, { sectionColors: {} })
   const [currentStep, setCurrentStep] = React.useState(0)
 
-  const totalSteps = steps.length - 1
   const isFirstStep = currentStep === 0
-  const isLastStep = currentStep === totalSteps
+  const lastStep = steps.length - 1
+  const isLastStep = currentStep === lastStep
 
   const next = React.useCallback(() => {
-    if (currentStep === totalSteps) return
+    if (currentStep === lastStep) return
 
     setCurrentStep(currentStep + 1)
-  }, [currentStep, totalSteps])
+  }, [currentStep, lastStep])
 
   const back = () => {
     if (currentStep === 0) return
@@ -81,15 +80,15 @@ const WizardContextProvider = ({
   }
 
   React.useEffect(() => {
-    if (isLoading) return
+    if (!profileSetupStatus) return
 
-    const firstIncompleteStep = steps.findIndex((step) => {
-      return !step.isComplete && step.isApplicable
+    const firstIncompleteStepIndex = steps.findIndex((step) => {
+      return step.name === profileSetupStatus
     })
 
-    setCurrentStep(firstIncompleteStep)
+    setCurrentStep(firstIncompleteStepIndex >= 0 ? firstIncompleteStepIndex : lastStep)
     // eslint-disable-next-line
-  }, [isLoading])
+  }, [profileSetupStatus])
 
   return (
     <WizardContext.Provider
@@ -103,42 +102,36 @@ const WizardContextProvider = ({
         setWizardState,
       }}
     >
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <>
-          {!isLastStep && navigation}
-          <h2>{steps[currentStep].title}</h2>
-          <ProgressBar percentage={((currentStep + 1) / (totalSteps + 1)) * 100} className="mb-8" />
-          {children[currentStep]}
-          <div className="w-full mt-auto flex justify-between">
-            {(hasBackButton && !isFirstStep) ? (
-              <a
-                role="button"
-                onClick={back}
-                className="flex text-grey-2 no-underline"
-              >
-                <ArrowAltIcon
-                  className="w-3 mr-3"
-                  direction="left"
-                  fill={brandColors.grey}
-                />
-                Back
-              </a>
-            ) : null}
-            <a
-              role="button"
-              onClick={goToPage}
-              className="flex items-center py-1 px-3 text-sm border border-dashed border-black rounded-full no-underline"
-            >
-              Let me see the app first
-              <ChevronIcon
-                className="h-3 ml-2"
-              />
-            </a>
-          </div>
-        </>
-      )}
+      {!isLastStep && navigation}
+      <h2>{steps[currentStep].title}</h2>
+      <ProgressBar percentage={((currentStep + 1) / (lastStep + 1)) * 100} className="mb-8" />
+      {children[currentStep]}
+      <div className="w-full mt-auto flex justify-between">
+        {(hasBackButton && !isFirstStep) ? (
+          <a
+            role="button"
+            onClick={back}
+            className="flex text-grey-2 no-underline"
+          >
+            <ArrowAltIcon
+              className="w-3 mr-3"
+              direction="left"
+              fill={brandColors.grey}
+            />
+            Back
+          </a>
+        ) : null}
+        <a
+          role="button"
+          onClick={goToPage}
+          className="flex items-center py-1 px-3 text-sm border border-dashed border-black rounded-full no-underline"
+        >
+          Let me see the app first
+          <ChevronIcon
+            className="h-3 ml-2"
+          />
+        </a>
+      </div>
     </WizardContext.Provider>
   )
 }
@@ -151,8 +144,8 @@ WizardContextProvider.propTypes = {
   ).isRequired,
   children: PropTypes.node.isRequired,
   goBackToPath: PropTypes.string,
-  isLoading: PropTypes.bool.isRequired,
   hasBackButton: PropTypes.bool,
+  profileSetupStatus: PropTypes.string.isRequired,
 }
 
 WizardContextProvider.defaultProps = {
