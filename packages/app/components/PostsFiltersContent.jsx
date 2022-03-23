@@ -53,7 +53,7 @@ const PostsFiltersContent = ({
   React.useEffect(() => {
     setSidePanelButton(CLOSE_BUTTON)
     // eslint-disable-next-line
-  }, [hasMultipleFiltersApplied, setSidePanelButton])
+  }, [hasMultipleFiltersApplied, CLOSE_BUTTON, setSidePanelButton])
 
   return (
     <div>
