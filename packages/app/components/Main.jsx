@@ -58,7 +58,7 @@ function Main({ children }) {
 
   // Update profile setup status in controls store
   useAsyncEffect(async () => {
-    if (!user.id || controlsLoading) return
+    if (!user.id || (user.artists.length && !artistId) || controlsLoading) return
 
     const { setup_completed_at: setupCompletedAt } = artist
 
@@ -66,10 +66,10 @@ function Main({ children }) {
       return
     }
 
-    const profileSetupStatus = await getProfileSetupStatus()
+    const profileSetupStatus = getProfileSetupStatus()
 
     updateProfileSetUpStatus(profileSetupStatus)
-  }, [controlsLoading])
+  }, [controlsLoading, user, artistId])
 
   return (
     <main id="page--container" className="md:ml-10">

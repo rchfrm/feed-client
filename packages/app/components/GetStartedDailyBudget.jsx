@@ -78,7 +78,7 @@ const GetStartedDailyBudget = () => {
     const state = await targetingHelpers.fetchTargetingState(artistId, currencyOffset)
     const { error } = state
 
-    await initPage(state, error)
+    initPage(state, error)
   }, [minReccBudget])
 
   const saveBudget = async () => {

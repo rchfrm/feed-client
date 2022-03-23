@@ -95,16 +95,16 @@ function TheHeaderContents({
       </a>
       {/* Page Header */}
       <PageHeader className={styles.pageTitle} />
-      {/* Page Header */}
-      <ProfileStatus />
-      {/* Subnav button */}
       {hasSideNav && (
-        <TheSubNavButton
-          toggleSubNav={toggleSubNav}
-          navOpen={subNavOpen}
-          hasNotifactions={!!totalNotificationsUnread}
-          className={[styles.subNavButton].join(' ')}
-        />
+        <>
+          <ProfileStatus />
+          <TheSubNavButton
+            toggleSubNav={toggleSubNav}
+            navOpen={subNavOpen}
+            hasNotifactions={!!totalNotificationsUnread}
+            className={[styles.subNavButton].join(' ')}
+          />
+        </>
       )}
     </header>
   )

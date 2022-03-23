@@ -1,13 +1,12 @@
 import React from 'react'
+import useAsyncEffect from 'use-async-effect'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
-import { fetchTargetingState } from '@/app/helpers/targetingHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
 import { getLocalStorage } from '@/helpers/utils'
@@ -20,10 +19,10 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
   updateProfileSetUpStatus: state.updateProfileSetUpStatus,
   budget: state.budget,
-  controlsLoading: state.isControlsLoading,
 })
 
 const useCheckProfileSetupStatus = () => {
+  const [posts, setPosts] = React.useState([])
   // Get local storage state
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
@@ -34,6 +33,7 @@ const useCheckProfileSetupStatus = () => {
     postsPreferences,
     optimizationPreferences,
     budget,
+    updateProfileSetUpStatus,
   } = useControlsStore(getControlsStoreState)
 
   const { defaultPromotionEnabled } = postsPreferences
@@ -65,83 +65,83 @@ const useCheckProfileSetupStatus = () => {
   // Get user context value
   const { user } = React.useContext(UserContext)
 
-  // Get targeting context values
-  const {
-    initPage,
-    currencyOffset,
-    locationOptions: locations,
-  } = React.useContext(TargetingContext)
+  const fetchEnabledPosts = React.useCallback(async () => {
+    const res = await server.getPosts({
+      artistId,
+      sortBy: ['normalized_score'],
+      filterBy: {
+        // promotion_enabled: [true],
+      },
+    })
 
-  const getProfileSetupStatus = async () => {
-    let formattedRecentPosts = []
+    return formatRecentPosts(res)
+  }, [artistId])
 
-    if (artistId) {
-      // Initialise targeting state
-      const state = await fetchTargetingState(artistId, currencyOffset)
-      const { error } = state
+  // Define profile setup conditions
+  const profileSetupConditions = React.useMemo(() => [
+    {
+      name: 'objective',
+      isComplete: Boolean(objective || wizardState?.objective),
+    },
+    {
+      name: 'platform',
+      isComplete: objective !== 'growth' || Boolean(platform || wizardState?.platform),
+    },
+    {
+      name: 'default-link',
+      isComplete: Boolean(defaultLink || wizardState?.defaultLink),
+    },
+    {
+      name: 'connect-profile',
+      isComplete: Boolean(user.artists.length),
+    },
+    {
+      name: 'posts',
+      isComplete: async () => {
+        let enabledPosts = posts
 
-      initPage(state, error)
+        if (!enabledPosts.length) {
+          enabledPosts = await fetchEnabledPosts()
 
-      // Fetch posts which have promotion enabled
-      const res = await server.getPosts({
-        artistId,
-        sortBy: ['normalized_score'],
-        filterBy: {
-          // promotion_enabled: [true],
-        },
-      })
+          setPosts(enabledPosts)
+        }
 
-      formattedRecentPosts = formatRecentPosts(res)
-    }
+        return enabledPosts.length > 0
+      },
+    },
+    {
+      name: 'default-post-promotion',
+      isComplete: defaultPromotionEnabled !== null,
+    },
+    {
+      name: 'ad-account',
+      isComplete: Boolean(adAccountId),
+    },
+    {
+      name: 'facebook-pixel',
+      isComplete: objective === 'growth' || Boolean(facebookPixelId),
+    },
+    {
+      name: 'location',
+      isComplete: artist.country_code,
+    },
+    {
+      name: 'budget',
+      isComplete: hasSufficientBudget,
+    },
+  ], [adAccountId, artist.country_code, defaultLink, defaultPromotionEnabled, facebookPixelId, fetchEnabledPosts, hasSufficientBudget, objective, platform, posts, user.artists.length, wizardState?.defaultLink, wizardState?.objective, wizardState?.platform])
 
-    // Define profile setup conditions
-    const profileSetupConditions = [
-      {
-        name: 'objective',
-        isComplete: Boolean(objective || wizardState?.objective),
-      },
-      {
-        name: 'platform',
-        isComplete: objective !== 'growth' || Boolean(platform || wizardState?.platform),
-      },
-      {
-        name: 'default-link',
-        isComplete: Boolean(defaultLink || wizardState?.defaultLink),
-      },
-      {
-        name: 'connect-profile',
-        isComplete: Boolean(user.artists.length),
-      },
-      {
-        name: 'posts',
-        isComplete: formattedRecentPosts.length > 0,
-      },
-      {
-        name: 'default-post-promotion',
-        isComplete: defaultPromotionEnabled !== null,
-      },
-      {
-        name: 'ad-account',
-        isComplete: Boolean(adAccountId),
-      },
-      {
-        name: 'facebook-pixel',
-        isComplete: objective === 'growth' || Boolean(facebookPixelId),
-      },
-      {
-        name: 'location',
-        isComplete: (Object.keys(locations).length || artist.country_code),
-      },
-      {
-        name: 'budget',
-        isComplete: hasSufficientBudget,
-      },
-    ]
-
+  const getProfileSetupStatus = () => {
     const profileStatus = profileSetupConditions.find((condition) => !condition.isComplete)?.name
 
     return profileStatus
   }
+
+  useAsyncEffect(async () => {
+    const profileStatus = getProfileSetupStatus()
+
+    updateProfileSetUpStatus(profileStatus)
+  }, [profileSetupConditions])
 
   return getProfileSetupStatus
 }
