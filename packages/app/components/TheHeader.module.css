@@ -136,7 +136,12 @@
 
 .pageTitle {
   z-index: 19;
+  position: absolute;
+  top: 1em;
+  left: 50%;
+  transform: translateX(-50%);
   margin-bottom: var(--sp-10);
+  text-align: center;
 
   h1 {
     font-size: 2em;
@@ -144,28 +149,7 @@
   }
 
   @media (--xxs) {
-    position: absolute;
-    top: 1.4em;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 0;
-    text-align: center;
-
-    h1 {
-      font-size: 1.5em;
-    }
-  }
-
-  @media (--min-content) {
     top: 1em;
-
-    h1 {
-      font-size: 2em;
-    }
-  }
-
-  @media (--sm) {
-    top: 0.8em;
 
     h1 {
       font-size: 2.5em;
