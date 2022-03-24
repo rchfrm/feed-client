@@ -22,10 +22,14 @@ const ProfileStatusSetupState = () => {
 
   return (
     <button
-      className="mb-0 border-2 border-solid border-black rounded-full py-2 px-3"
       onClick={goToGetStartedPage}
     >
-      {copy.profileStatus(profileSetupStatus)}
+      {profileSetupStatus === 'objective' ? 'Start' : 'Continue'} profile set-up:
+      <span
+        className="mb-0 border-2 border-solid border-black rounded-full ml-1 py-2 px-3"
+      >
+        {copy.profileStatus(profileSetupStatus)}
+      </span>
     </button>
   )
 }
