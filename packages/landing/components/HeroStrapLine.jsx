@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import * as styles from '@/landing/Hero.module.css'
 
 export default function HeroStrapLine({ partA, partB }) {
@@ -13,4 +14,19 @@ export default function HeroStrapLine({ partA, partB }) {
       {partB && <h2 className={['border-b-3', 'border-green', 'border-solid', 'inline-block'].join(' ')}><strong>{partB}</strong></h2>}
     </div>
   )
+}
+
+HeroStrapLine.propTypes = {
+  partA: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
+  partB: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
+}
+
+HeroStrapLine.defaultProps = {
+  partB: null,
 }
