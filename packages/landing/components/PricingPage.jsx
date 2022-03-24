@@ -68,7 +68,7 @@ export default function PricingPage() {
           'lg:col-span-6',
         ].join(' ')}
         name="budget"
-        value={dailyBudget}
+        value={dailyBudget.toString()}
         handleChange={handleChange}
         type="number"
         prefix="£"
