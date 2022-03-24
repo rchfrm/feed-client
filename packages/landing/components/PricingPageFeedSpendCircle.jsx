@@ -33,7 +33,7 @@ export default function PricingPageFeedSpendCircle({
           height: `${diameter}px`,
         }}
       >
-        <h2 className="mb-0">{`£${amount}`}</h2>
+        <h2 className="mb-0">£{amount}</h2>
         <p className="mb-0">Feed’s service fee</p>
       </div>
     </div>
