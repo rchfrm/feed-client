@@ -47,7 +47,7 @@ export default function PricingPageAdSpendCircle({
         }}
       >
         <h1 className="mb-0">£{amount}</h1>
-        <h4 className="mb-0">Facebook & Instagram<br />promotion</h4>
+        <h4 className="mb-0">Facebook &amp; Instagram<br />promotion</h4>
       </div>
     </div>
   )
