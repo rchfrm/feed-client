@@ -35,7 +35,7 @@ const optimisationsEventsDictionary = {
   omni_view_content: {
     name: 'Content Views',
     fbEventName: 'ViewContent',
-    event: 'content views',
+    event: 'content view',
     detail: 'an ad about viewing more content',
   },
 }
