@@ -7,7 +7,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
-import { setDefaultLink, getLinkById, validateLink } from '@/app/helpers/linksHelpers'
+import { setDefaultLink, getLinkById, getLinkByHref, validateLink } from '@/app/helpers/linksHelpers'
 
 import Button from '@/elements/Button'
 import Input from '@/elements/Input'
@@ -137,13 +137,17 @@ const GetStartedDefaultLink = () => {
     // Otherwise save the data in the db
     let action = 'add'
 
+    // Check if the link already exists in the linkbank
+    const existingLink = getLinkByHref(nestedLinks, link.href)
+    const currentLink = existingLink || link
+
     // Edit the link if the link already exists in the linkbank and it's not an integration link
-    if (link.id && !hasGrowthObjective) {
+    if (currentLink.id && !hasGrowthObjective) {
       action = 'edit'
     }
 
     // Skip api request if the link hasn't changed
-    if (link.href && (link.href === defaultLink.href)) {
+    if (currentLink.href && (currentLink.href === defaultLink.href)) {
       next()
       return
     }
@@ -152,7 +156,7 @@ const GetStartedDefaultLink = () => {
 
     if (hasGrowthObjective && !isFacebookOrInstagram) {
       // Save the link in the linkbank as integration link
-      const { savedLink: integrationLink, error } = await saveIntegrationLink({ platform }, link.href)
+      const { savedLink: integrationLink, error } = await saveIntegrationLink({ platform }, currentLink.href)
 
       if (error) {
         setError(error)
@@ -162,7 +166,7 @@ const GetStartedDefaultLink = () => {
       savedLink = integrationLink
     } else {
       // Save the link in the linkbank or edit the linkbank link based on the action parameter
-      const { savedLink: linkBankLink, error } = await saveLinkToLinkBank(link, action)
+      const { savedLink: linkBankLink, error } = await saveLinkToLinkBank(currentLink, action)
 
       if (error) {
         setError(error)
@@ -177,7 +181,7 @@ const GetStartedDefaultLink = () => {
     // Update local state
     updateLink(savedLink.id, savedLink)
 
-    if (action === 'add') {
+    if (savedLink.id !== defaultLink.href) {
       await saveAsDefaultLink(savedLink.id, savedLink)
     }
 
