@@ -22,7 +22,7 @@ const ReferralCodeProgress = ({
   totalCompleteReferrals,
   className,
 }) => {
-  // Get referral credit monthlyBudget
+  // Get referral credit amount
   const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
 
   // Get tiers
