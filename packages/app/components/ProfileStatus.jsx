@@ -24,7 +24,7 @@ const ProfileStatus = ({ className }) => {
 
   return (
     <div className={[className].join(' ')}>
-      {!isSpendingPaused ? (
+      {isSpendingPaused ? (
         <ProfileStatusSpendingPaused />
       ) : (
         <ProfileStatusObjective />

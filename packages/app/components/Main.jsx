@@ -8,7 +8,6 @@ import { SidePanelContextProvider } from '@/app/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
 
 import IntegrationErrorHandler from '@/app/IntegrationErrorHandler'
 import NotificationsHandler from '@/app/NotificationsHandler'
@@ -73,15 +72,13 @@ function Main({ children }) {
 
   return (
     <main id="page--container" className="md:ml-10">
-      <TargetingContextProvider>
-        <SidePanelContextProvider>
-          <InitUser>
-            {children}
-            <IntegrationErrorHandler />
-            <NotificationsHandler />
-          </InitUser>
-        </SidePanelContextProvider>
-      </TargetingContextProvider>
+      <SidePanelContextProvider>
+        <InitUser>
+          {children}
+          <IntegrationErrorHandler />
+          <NotificationsHandler />
+        </InitUser>
+      </SidePanelContextProvider>
     </main>
   )
 }

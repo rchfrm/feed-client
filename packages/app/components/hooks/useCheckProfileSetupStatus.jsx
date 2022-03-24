@@ -5,6 +5,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
@@ -65,6 +66,9 @@ const useCheckProfileSetupStatus = () => {
   // Get user context value
   const { user } = React.useContext(UserContext)
 
+  // Get targeting context values
+  const { locations } = React.useContext(TargetingContext)
+
   const fetchEnabledPosts = React.useCallback(async () => {
     const res = await server.getPosts({
       artistId,
@@ -123,13 +127,13 @@ const useCheckProfileSetupStatus = () => {
     },
     {
       name: 'location',
-      isComplete: artist.country_code,
+      isComplete: (Object.keys(locations || {}).length || artist.country_code),
     },
     {
       name: 'budget',
       isComplete: hasSufficientBudget,
     },
-  ], [adAccountId, artist.country_code, defaultLink, defaultPromotionEnabled, facebookPixelId, fetchEnabledPosts, hasSufficientBudget, objective, platform, posts, user.artists.length, wizardState?.defaultLink, wizardState?.objective, wizardState?.platform])
+  ], [adAccountId, artist.country_code, locations, defaultLink, defaultPromotionEnabled, facebookPixelId, fetchEnabledPosts, hasSufficientBudget, objective, platform, posts, user.artists.length, wizardState?.defaultLink, wizardState?.objective, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
     const profileStatus = profileSetupConditions.find((condition) => !condition.isComplete)?.name
