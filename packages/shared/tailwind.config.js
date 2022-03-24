@@ -26,6 +26,9 @@ module.exports = (purgeFiles) => ({
       lg: '0.5rem',
       full: '9999px',
     },
+    borderWidth: {
+      3: '3px',
+    },
     extend: {
       colors: {
         white: '#F4F4F4',
