@@ -1,6 +1,7 @@
 import React from 'react'
 import brandColors from '@/constants/brandColors'
 import useOnResize from '@/hooks/useOnResize'
+import PropTypes from 'prop-types'
 
 export default function PricingPageAdSpendCircle({
   amount,
@@ -51,4 +52,15 @@ export default function PricingPageAdSpendCircle({
       </div>
     </div>
   )
+}
+
+PricingPageAdSpendCircle.propTypes = {
+  amount: PropTypes.number.isRequired,
+  color: PropTypes.string,
+  diameter: PropTypes.number.isRequired,
+  setDiameter: PropTypes.func.isRequired,
+}
+
+PricingPageAdSpendCircle.defaultProps = {
+  color: 'redLight',
 }

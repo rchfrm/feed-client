@@ -1,5 +1,6 @@
 import React from 'react'
 import brandColors from '@/constants/brandColors'
+import PropTypes from 'prop-types'
 
 export default function PricingPageFeedSpendCircle({
   amount,
@@ -38,4 +39,14 @@ export default function PricingPageFeedSpendCircle({
       </div>
     </div>
   )
+}
+
+PricingPageFeedSpendCircle.propTypes = {
+  amount: PropTypes.number.isRequired,
+  color: PropTypes.string,
+  diameter: PropTypes.number.isRequired,
+}
+
+PricingPageFeedSpendCircle.defaultProps = {
+  color: 'green',
 }

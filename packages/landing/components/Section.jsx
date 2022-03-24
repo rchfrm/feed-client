@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const Section = ({ children }) => {
   return (
     <section className="section--padding lg">
@@ -6,6 +8,10 @@ const Section = ({ children }) => {
       </div>
     </section>
   )
+}
+
+Section.propTypes = {
+  children: PropTypes.element.isRequired,
 }
 
 export default Section

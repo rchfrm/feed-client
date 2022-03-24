@@ -1,6 +1,7 @@
 import React from 'react'
 import PricingPageAdSpendCircle from '@/landing/PricingPageAdSpendCircle'
 import PricingPageFeedSpendCircle from '@/landing/PricingPageFeedSpendCircle'
+import PropTypes from 'prop-types'
 
 export default function PricingPageSpendCircles({
   monthlyBudget,
@@ -52,4 +53,8 @@ export default function PricingPageSpendCircles({
       />
     </>
   )
+}
+
+PricingPageSpendCircles.propTypes = {
+  monthlyBudget: PropTypes.number.isRequired,
 }
