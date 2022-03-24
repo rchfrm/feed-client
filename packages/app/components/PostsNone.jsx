@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { InterfaceContext } from '@/contexts/InterfaceContext'
-
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -19,12 +17,7 @@ const getCopy = (filterBy) => {
 }
 
 const PostsNone = ({ filterBy }) => {
-  const { setHeader } = React.useContext(InterfaceContext)
   const copyMarkdown = getCopy(filterBy)
-
-  React.useEffect(() => {
-    setHeader({ text: 'your posts' })
-  }, [setHeader])
 
   return (
     <div className={[styles.noPosts, 'pt-4'].join(' ')}>

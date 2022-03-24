@@ -74,6 +74,7 @@ function TheHeaderContents({
       <header className={[
         styles.TheHeader,
         subNavOpen ? styles._subNavOpen : '',
+        !hasSideNav ? styles.hasNoSideNav : '',
         mobileHeader ? 'relative' : null,
       ].join(' ')}
       >

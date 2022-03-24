@@ -6,7 +6,7 @@ import testPageReady from '@/hoc/testPageReady'
 import ConnectProfilesLoader from '@/app/ConnectProfilesLoader'
 
 const headerConfig = {
-  text: 'connect accounts',
+  text: 'connect',
 }
 
 const Page = () => {

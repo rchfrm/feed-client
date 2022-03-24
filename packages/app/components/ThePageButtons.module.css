@@ -28,7 +28,7 @@
     padding: var(--sp-2);
     border-top: none;
     border-right: 2px solid var(--green);
-    padding-top: 8.25rem;
+    padding-top: var(--sp-33);
     will-change: transform, opacity;
   }
 }
