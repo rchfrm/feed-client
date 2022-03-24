@@ -87,7 +87,7 @@ const GetStartedObjective = () => {
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       ...(!isGrowth && { platform: 'website' }),
-      defaultLinkId: null,
+      defaultLink: null,
     })
 
     if (error) {
