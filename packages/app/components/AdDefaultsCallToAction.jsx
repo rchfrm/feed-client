@@ -25,16 +25,24 @@ const AdDefaultsCallToAction = ({
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
+  const hasSalesObjective = objective === 'sales'
   const recommendedCallToAction = getCallToAction(objective, platform)?.name
 
   const handleSuccess = ({ preferences }) => {
     const { posts: { call_to_action: callToAction } } = preferences
+
     setCallToAction(callToAction)
+
     // Update store value
     updatePreferences({
       postsPreferences: {
         callToAction,
       },
+      ...(hasSalesObjective && {
+        conversionsPreferences: {
+          callToAction,
+        },
+      }),
     })
   }
 
@@ -51,6 +59,7 @@ const AdDefaultsCallToAction = ({
         callToAction={callToAction}
         setCallToAction={setCallToAction}
         shouldSaveOnChange
+        hasSalesObjective={hasSalesObjective}
         className="mb-14"
       />
       {recommendedCallToAction && <ControlsSettingsSectionFooter copy={copy.defaultCallToActionFooter(recommendedCallToAction)} className="text-insta" />}

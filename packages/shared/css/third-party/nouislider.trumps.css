@@ -18,6 +18,12 @@
   }
 }
 
+.has-error {
+  .noUi-handle {
+    background-color: var(--red);
+  }
+}
+
 .noUi-horizontal .noUi-handle, 
 .noUi-handle.-ghost {
   width: var(--sp-5);

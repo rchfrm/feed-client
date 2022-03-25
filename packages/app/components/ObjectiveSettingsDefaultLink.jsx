@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
-import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import { track } from '@/helpers/trackingHelpers'
 
@@ -10,8 +9,6 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 import { parseUrl } from '@/helpers/utils'
-
-import copy from '@/app/copy/controlsPageCopy'
 
 const getControlsStoreState = (state) => ({
   updateLinks: state.updateLinks,
@@ -29,6 +26,7 @@ const ObjectiveSettingsDefaultLink = ({
   const { id: defaultLinkId } = defaultLink || {}
   const hasDefaultLink = !!defaultLinkId
   const hasGrowthObjective = objective === 'growth'
+  const hasSalesObjective = objective === 'sales'
 
   const onSuccess = React.useCallback((newArtist) => {
     const { preferences: { posts: { default_link_id } } } = newArtist
@@ -61,11 +59,11 @@ const ObjectiveSettingsDefaultLink = ({
         includeAddLinkOption
         includeIntegrationLinks={hasGrowthObjective}
         includeLooseLinks={!hasGrowthObjective}
+        hasSalesObjective={hasSalesObjective}
         componentLocation="defaultLink"
         label={label}
         className="mb-14"
       />
-      <ControlsSettingsSectionFooter copy={copy.defaultLinkFooter} className="text-insta" />
       {!hasDefaultLink && (
         <div
           className={[
@@ -83,13 +81,14 @@ const ObjectiveSettingsDefaultLink = ({
 ObjectiveSettingsDefaultLink.propTypes = {
   defaultLink: PropTypes.object,
   setPostPreferences: PropTypes.func.isRequired,
-  objective: PropTypes.string.isRequired,
+  objective: PropTypes.string,
   label: PropTypes.string,
   className: PropTypes.string,
 }
 
 ObjectiveSettingsDefaultLink.defaultProps = {
   defaultLink: null,
+  objective: '',
   label: '',
   className: null,
 }

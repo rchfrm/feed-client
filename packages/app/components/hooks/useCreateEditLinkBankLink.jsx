@@ -83,7 +83,7 @@ const useCreateEditLinkBankLink = ({
     updateLinks(action, { newLink: savedLink, oldLink })
     // If created from default link selector, set as default
     if (location === 'defaultLink') {
-      const { res: newArtist, error } = await setDefaultLink(artistId, savedLink.id)
+      const { res: newArtist, error } = await setDefaultLink({ artistId, linkId: savedLink.id })
       if (error) {
         const linkBankError = `Error setting link as default: ${error.message}`
         setLinkBankError(linkBankError)

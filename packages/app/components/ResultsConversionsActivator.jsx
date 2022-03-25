@@ -13,10 +13,10 @@ import JoystickIcon from '@/icons/JoystickIcon'
 
 import brandColors from '@/constants/brandColors'
 
-const ResultsConversionTeaser = ({ className }) => {
-  const goToControlsConversionsPage = () => {
+const ResultsConversionsActivator = ({ className }) => {
+  const goToControlsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS_CONVERSIONS,
+      pathname: ROUTES.CONTROLS_OBJECTIVE,
     })
   }
 
@@ -31,13 +31,13 @@ const ResultsConversionTeaser = ({ className }) => {
       </div>
       <button
         className="flex-1 w-full"
-        onClick={goToControlsConversionsPage}
+        onClick={goToControlsPage}
       >
         <NoDataBlock>
           <div
             className={[
               'flex justify-center items-center',
-              'w-14 h-14 rounded-full mb-2',
+              'w-14 h-14 rounded-full mb-6',
             ].join(' ')}
             style={{ backgroundColor: brandColors.instagram.bg }}
           >
@@ -50,12 +50,12 @@ const ResultsConversionTeaser = ({ className }) => {
   )
 }
 
-ResultsConversionTeaser.propTypes = {
+ResultsConversionsActivator.propTypes = {
   className: PropTypes.string,
 }
 
-ResultsConversionTeaser.defaultProps = {
+ResultsConversionsActivator.defaultProps = {
   className: null,
 }
 
-export default ResultsConversionTeaser
+export default ResultsConversionsActivator

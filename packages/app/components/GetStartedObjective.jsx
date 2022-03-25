@@ -33,9 +33,6 @@ const GetStartedObjective = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
   const unsetDefaultLink = (artist) => {
-    // Unset the link in the controls store
-    updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
-
     // Update the posts and conversions preferences objects
     updatePreferences({
       postsPreferences: {
@@ -45,6 +42,9 @@ const GetStartedObjective = () => {
         defaultLinkId: null,
       },
     })
+
+    // Unset the link in the controls store
+    updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
 
     // Update artist context
     setPostPreferences('default_link_id', null)

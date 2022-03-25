@@ -7,12 +7,9 @@
   padding-top: var(--sp-6);
   padding-bottom: calc(var(--sp-20) + var(--sp-1));
 
-  @media (--min-content) {
-    padding-top: 0;
-  }
-
   @media (--md) {
     position: static;
+    padding-top: 0;
     padding-bottom: calc(var(--sp-10) + var(--sp-6));
     margin-top: calc(-2 * var(--sp-6));
   }
@@ -72,13 +69,13 @@
     }
 
     @media (--smMax) {
-      left: var(--sp-6);
+      left: var(--sp-5);
     }
   }
 
   @media (--md) {
-    left: var(--sp-5);
-    top: var(--sp-5);
+    left: var(--sp-3);
+    top: var(--sp-3);
   }
 }
 
@@ -118,61 +115,54 @@
 .subNavButton {
   right: 0;
   width: var(--sp-10);
-  z-index: 28;
+  z-index: 30;
 
   .TheHeader._subNavOpen & {
-    @media (--mdMax) {
-      right: var(--sp-6);
+    right: var(--sp-5);
+
+    @media (--sm) {
+      right: var(--sp-8);
     }
   }
 
   @media (--md) {
     right: auto;
-    left: var(--sp-5);
+    left: var(--sp-3);
     top: auto;
     bottom: var(--sp-5);
     width: var(--sp-10);
   }
 }
 
-
 .pageTitle {
   z-index: 19;
+  position: absolute;
+  top: 1em;
+  left: 50%;
+  transform: translateX(-50%);
   margin-bottom: var(--sp-10);
-
-  @media (--xxs) {
-    position: absolute;
-    left: 0;
-    top: 1.6em;
-    width: 100%;
-    padding: 0 calc(var(--sp-10) + var(--sp-4));
-    margin-bottom: 0;
-    text-align: center;
-
-    h1 {
-      font-size: 1.5em;
-    }
-  }
-
-  @media (--min-content) {
-    position: static;
-    padding-top: var(--sp-5);
-    padding-left: calc(var(--sp-10) + var(--sp-10) + var(--sp-6));
-    padding-right: var(--sp-16);
-    text-align: left;
-
-    h1 {
-      font-size: 2em;
-    }
-  }
-
-
-  @media (--md) {
-    transform: translateY(0.2em);
-  }
+  text-align: center;
 
   h1 {
+    font-size: 2em;
     margin-bottom: 0;
+  }
+
+  @media (--xxs) {
+    top: 1em;
+
+    h1 {
+      font-size: 2.5em;
+    }
+  }
+
+  @media (--md) {
+    position: static;
+    padding-top: var(--sp-8);
+    padding-left: calc(var(--sp-10) + var(--sp-10) + var(--sp-3));
+    padding-right: var(--sp-16);
+    text-align: left;
+    transform: none;
   }
 
   transition: opacity var(--trans);
@@ -180,5 +170,31 @@
   &._hidden {
     opacity: 0;
     transition: none;
+  }
+}
+
+.hasNoSideNav {
+  .logoContainer {
+    top: var(--sp-5);
+
+    @media (--xxs) {
+      top: var(--sp-9);
+    }
+
+    @media (--md) {
+      left: var(--sp-7);
+      top: var(--sp-7);
+    }
+  }
+
+  .pageTitle {
+    top: 2.2em;
+    left: 6rem;
+    text-align: left;
+    transform: none;
+
+    h1 {
+      font-size: 2.5rem;
+    }
   }
 }

@@ -7,7 +7,7 @@ import Error from '@/elements/Error'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { getFacebookPixelEvents, updateConversionsPreferences } from '@/app/helpers/conversionsHelpers'
+import { getFacebookPixelEvents, updateFacebookPixelEvent } from '@/app/helpers/adDefaultsHelpers'
 import { getCurrentPixelId } from '@/app/helpers/settingsHelpers'
 
 const PixelEventSelector = ({
@@ -61,7 +61,7 @@ const PixelEventSelector = ({
     }
 
     // Make API request
-    const { res, error } = await updateConversionsPreferences(artistId, { facebookPixelEvent: selectedOptionValue })
+    const { res, error } = await updateFacebookPixelEvent(artistId, selectedOptionValue)
 
     // Handle error
     if (error) {

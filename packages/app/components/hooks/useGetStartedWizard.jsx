@@ -37,6 +37,13 @@ const useGetStartedWizard = () => {
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId)
   const { defaultPromotionEnabled } = postsPreferences
   const { artistId, artistLoading, artist, updateHasSetUpProfile } = React.useContext(ArtistContext)
+  const {
+    feedMinBudgetInfo: {
+      majorUnit: {
+        minReccomendedStories,
+      } = {},
+    },
+  } = artist
   const { user } = React.useContext(UserContext)
   const {
     targetingState,
@@ -48,6 +55,8 @@ const useGetStartedWizard = () => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
   const facebookPixelId = facebookIntegration?.pixel_id
+  const hasSalesObjective = objective === 'sales'
+  const hasSufficientBudget = (!hasSalesObjective && Boolean(budget)) || (hasSalesObjective && budget >= minReccomendedStories)
 
   // Initialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -89,7 +98,7 @@ const useGetStartedWizard = () => {
     && adAccountId
     && (objective === 'growth' || facebookPixelId)
     && (Object.keys(locations).length || artist.country_code)
-    && budget)
+    && hasSufficientBudget)
 
   React.useEffect(() => {
     if (controlsLoading) return
@@ -108,7 +117,7 @@ const useGetStartedWizard = () => {
     adAccountId,
     facebookPixelId,
     locations,
-    budget,
+    hasSufficientBudget,
   }
 }
 

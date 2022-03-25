@@ -1,15 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useControlsStore from '@/app/stores/controlsStore'
 
 import PostCardToggle from '@/app/PostCardToggle'
 
 const getControlsStoreState = (state) => ({
   canRunConversions: state.canRunConversions,
-  conversionsEnabled: state.conversionsEnabled,
 })
 
 const PostCardToggles = ({
@@ -22,11 +19,11 @@ const PostCardToggles = ({
   priorityEnabled,
   togglesClassName,
   className,
+  hasSalesObjective,
 }) => {
-  // Get conversions feature flag value
-  const { featureFlags: { conversionsEnabled: conversionsFeatureEnabled } } = React.useContext(ArtistContext)
   // Get conversions store values
-  const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
+  const { canRunConversions } = useControlsStore(getControlsStoreState)
+
   const {
     promotionStatus,
     promotionEnabled,
@@ -65,23 +62,26 @@ const PostCardToggles = ({
         disabled={!isEligibleForGrowAndNurture && !priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
+        hasSalesObjective={hasSalesObjective}
       />
       {/* CONVERT TOGGLE */}
-      <PostCardToggle
-        post={post}
-        postToggleSetterType={postToggleSetterType}
-        postIndex={postIndex}
-        campaignType="conversions"
-        artistId={artistId}
-        isEnabled={conversionsEnabled}
-        toggleCampaign={toggleCampaign}
-        disabled={!isEligibleForConversions && !priorityEnabled}
-        updatePost={updatePost}
-        isActive={isRunningInConversions}
-        className={togglesClassName}
-        showAlertModal={conversionsFeatureEnabled && (!globalConversionsEnabled || !canRunConversions)}
-        isFeatureEnabled={conversionsFeatureEnabled}
-      />
+      {hasSalesObjective && (
+        <PostCardToggle
+          post={post}
+          postToggleSetterType={postToggleSetterType}
+          postIndex={postIndex}
+          campaignType="conversions"
+          artistId={artistId}
+          isEnabled={conversionsEnabled}
+          toggleCampaign={toggleCampaign}
+          disabled={!isEligibleForConversions && !priorityEnabled}
+          updatePost={updatePost}
+          isActive={isRunningInConversions}
+          className={togglesClassName}
+          showAlertModal={!canRunConversions}
+          hasSalesObjective={hasSalesObjective}
+        />
+      )}
     </div>
   )
 }
@@ -96,6 +96,7 @@ PostCardToggles.propTypes = {
   priorityEnabled: PropTypes.bool.isRequired,
   togglesClassName: PropTypes.string,
   className: PropTypes.string,
+  hasSalesObjective: PropTypes.bool.isRequired,
 }
 
 PostCardToggles.defaultProps = {

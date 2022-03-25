@@ -10,7 +10,6 @@ import copy from '@/app/copy/PostsPageCopy'
 
 const getControlsStoreState = (state) => ({
   canRunConversions: state.canRunConversions,
-  conversionsEnabled: state.conversionsEnabled,
 })
 
 const PostCardToggleAlert = ({
@@ -18,11 +17,11 @@ const PostCardToggleAlert = ({
   onAlertConfirm,
   onCancel,
 }) => {
-  const { canRunConversions, conversionsEnabled: globalConversionsEnabled } = useControlsStore(getControlsStoreState)
+  const { canRunConversions } = useControlsStore(getControlsStoreState)
   // Define alert contents
   const alertContents = React.useMemo(() => {
-    return <MarkdownText markdown={copy.conversionsToggleAlert(canRunConversions, globalConversionsEnabled)} />
-  }, [canRunConversions, globalConversionsEnabled])
+    return <MarkdownText markdown={copy.conversionsToggleAlert(canRunConversions)} />
+  }, [canRunConversions])
 
   // SHOW ALERT
   const { showAlert, closeAlert } = useAlertModal()

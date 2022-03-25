@@ -36,8 +36,8 @@ const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) =
     }
     // Open content in side-panel if mobile
     const content = controlsComponents[key]
-    // Don't set a sidepanel button for the targeting and conversions settings
-    const excludedSlugs = ['conversions', 'targeting']
+    // Don't set a sidepanel button for the targeting settings
+    const excludedSlugs = ['targeting']
     const button = excludedSlugs.includes(key) ? null : <Button version="green" onClick={() => toggleSidePanel(false)} trackComponentName="ControlsContentOptions">Done</Button>
 
     setSidePanelContent(content)

@@ -70,6 +70,7 @@ export default {
   locationDescription: 'This location will be set as your home country.',
   budgetSubtitle: 'What is your daily budget for advertising?',
   budgetDescription: 'You can change this at any time. We recommend spreading budget out over a longer period of time as consistency boosts ad performance. ',
+  inSufficientBudget: (minBudget) => `Budget must be at least ${minBudget} to set your objective to sales.`,
   reviewDescription: 'Feed has submitted your ads for approval!',
   objectiveSummary: (objective, platform) => {
     if (!objective) {

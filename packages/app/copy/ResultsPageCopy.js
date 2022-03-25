@@ -132,22 +132,18 @@ export default {
   statsNoData: 'Feed is setting up your ads',
   postsStatsNoData: (isSpendingPaused) => {
     if (isSpendingPaused) {
-      return `Your spending is currently paused. [Resume](${ROUTES.CONTROLS}) in order to see your most effective posts here.`
+      return `Your spending is currently paused. [Resume](${ROUTES.CONTROLS_BUDGET}) in order to see your most effective posts here.`
     }
 
     return `Once you’ve been using Feed for a few weeks,
   your most effective ads, and a month to month
   comparison will appear here.`
   },
-  conversionsActivatorTitle: 'Use Feed to generate sales or sign-ups outside Facebook & Instagram.',
-  conversionsActivatorDescription: 'Get started with generating sales or sign-ups!',
-  conversionsTeaserTitle: 'Request access now',
-  conversionsTeaserDescription: `Click to request access to conversion ads!
-
-We’ll be in touch shortly after with more information.`,
+  conversionsActivatorTitle: 'Use the “sales” objective to get purchases on your website.',
+  conversionsActivatorDescription: 'Change your objective to “sales” to see results in this section!',
   noResultsData: (isSpendingPaused) => {
     if (isSpendingPaused) {
-      return `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS})!`
+      return `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS_BUDGET})!`
     }
     return 'Your results will appear here soon (within 24 hours of starting ads).'
   },

@@ -17,7 +17,7 @@ import copy from '@/app/copy/global'
 const getControlsLoading = state => state.isControlsLoading
 
 const BasePage = ({
-  headerConfig, // heading and punctuation
+  headerConfig, // heading
   artistRequired,
   controlsRequired,
   hasNoProfilesPage,
