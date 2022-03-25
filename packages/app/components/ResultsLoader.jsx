@@ -65,7 +65,6 @@ const ResultsLoader = () => {
     <>
       <ResultsHeader
         hasStartedSpending={hasStartedSpending}
-        isSpendingPaused={isSpendingPaused}
         dateRange={adResultsData?.dateRange}
         resultsType={resultsType}
         setResultsType={setResultsType}

@@ -46,7 +46,7 @@ const AdAccountSelector = ({
     if (!isMounted()) return
 
     if (error) {
-      setError(error)
+      setError(error?.message?.previous || error)
       setIsLoading(false)
       return
     }

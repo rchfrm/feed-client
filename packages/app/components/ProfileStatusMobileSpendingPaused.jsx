@@ -24,7 +24,7 @@ const ProfileStatusMobileSpendingPaused = ({ backgroundStyle }) => {
       className="bg-red"
     >
       <PauseIcon color={brandColors.white} className="w-3 h-auto mr-2" />
-      Spending paused, resume?
+      Spending paused,<span className="ml-1 underline">resume?</span>
     </ProfileStatusMobileBar>
   )
 }
