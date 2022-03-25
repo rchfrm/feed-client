@@ -4,6 +4,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-bottom: 2rem;
   padding-bottom: 5rem;
 
   @media (--md) {
@@ -13,7 +14,6 @@
     padding: 0 8.25rem 0 3.5rem;
   }
 }
-
 
 .dropShadow,
 .background,
@@ -140,7 +140,6 @@
   top: 1em;
   left: 50%;
   transform: translateX(-50%);
-  margin-bottom: var(--sp-10);
   text-align: center;
 
   h1 {
@@ -167,6 +166,32 @@
   &._hidden {
     opacity: 0;
     transition: none;
+  }
+}
+
+.hasNoSideNav {
+  .logoContainer {
+    top: var(--sp-5);
+
+    @media (--xxs) {
+      top: var(--sp-9);
+    }
+
+    @media (--md) {
+      left: var(--sp-7);
+      top: var(--sp-7);
+    }
+  }
+
+  .pageTitle {
+    top: 2.2em;
+    left: 6rem;
+    text-align: left;
+    transform: none;
+
+    h1 {
+      font-size: 2.5rem;
+    }
   }
 }
 

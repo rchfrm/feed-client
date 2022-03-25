@@ -74,6 +74,15 @@ export const splitLinks = (nestedLinks = []) => {
   }, { looseLinks: [], integrationLinks: [], linkFolders: [] })
 }
 
+const formatLinkForComparison = (link) => {
+  if (!link) return
+
+  return link
+    .replace(/\/?(\?.*)?$/, '') // remove utm tags & query params
+    .replace(/\/?(#.*)?$/, '') // remove page anchors
+    .replace(/^((http|https):\/\/)(www\.)?(.+)/, '$4') // remove protocol and www subdomain
+}
+
 // Get link by ID
 export const getLinkById = (linkFolders, linkId) => {
   if (!linkId) return null
@@ -90,6 +99,18 @@ export const getLinkByPlatform = (linkFolders, linkPlatform) => {
     return [...arr, ...links]
   }, [])
   return allLinks.find(({ platform }) => platform === linkPlatform)
+}
+
+// Get link by href
+export const getLinkByHref = (linkFolders, linkHref) => {
+  const allLinks = linkFolders.reduce((arr, { links }) => {
+    return [...arr, ...links]
+  }, [])
+  return allLinks.find(({ href }) => {
+    if (!href) return null
+
+    return formatLinkForComparison(href) === formatLinkForComparison(linkHref)
+  })
 }
 
 // * SERVER

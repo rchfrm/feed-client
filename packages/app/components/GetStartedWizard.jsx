@@ -24,7 +24,7 @@ import GetStartedSummary from '@/app/GetStartedSummary'
 import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
 import { getLocalStorage } from '@/helpers/utils'
-import { getLinkByPlatform, getLinkById } from '@/app/helpers/linksHelpers'
+import { getLinkByPlatform, getLinkById, getLinkByHref } from '@/app/helpers/linksHelpers'
 import { getStartedSections, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
@@ -169,7 +169,9 @@ const GetStartedWizard = () => {
     // If the chosen platform is either Facebook or Instagram we get the link from the linkbank
     if (isFacebookOrInstagram) {
       link = getLinkByPlatform(nestedLinks, storedPlatform)
-    } else if (storedObjective === 'growth') {
+    }
+
+    if (storedObjective === 'growth') {
       // If the objective is growth but the platform is not Facebook or Instagram we save the link as new integration link
       const { savedLink, error } = await saveIntegrationLink({ platform: storedPlatform }, storedDefaultLink.href)
 
@@ -179,8 +181,18 @@ const GetStartedWizard = () => {
 
       link = savedLink
     } else {
+      let action = 'add'
+
+      // Check if the link already exists in the linkbank
+      const existingLink = getLinkByHref(nestedLinks, storedDefaultLink.href)
+      const currentLink = existingLink || storedDefaultLink
+
+      if (existingLink) {
+        action = 'edit'
+      }
+
       // Otherwise user has provided a custom link and we save it to the linkbank
-      const { savedLink, error } = await saveLinkToLinkBank(storedDefaultLink)
+      const { savedLink, error } = await saveLinkToLinkBank(currentLink, action)
 
       if (error) {
         return

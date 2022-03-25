@@ -18,7 +18,7 @@ const ProfileStatusSetupState = () => {
   const { profileSetupStatus, optimizationPreferences } = useControlsStore(getControlsStoreState)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
-  const { objective: storedObjective, platform: storedPlatform } = wizardState
+  const { objective: storedObjective, platform: storedPlatform } = wizardState || {}
 
   const objective = optimizationPreferences.objective || storedObjective
   const platform = optimizationPreferences.platform || storedPlatform
