@@ -25,7 +25,7 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
     if (!isMounted()) return
 
     if (error) {
-      setError(error)
+      setError(error?.message?.previous || error)
       return
     }
     // Get the selected ad account name from the ad accounts array

@@ -19,12 +19,12 @@ const GetStartedSummarySentence = ({ className }) => {
         className,
       ].join(' ')}
       >
+        <Error error={error} />
         <GetStartedSummarySentenceObjective />
         <GetStartedSummarySentencePosts />
         <GetStartedSummarySentenceAdAccount setError={setError} />
         <GetStartedSummarySentenceTargeting />
       </div>
-      <Error error={error} />
     </>
   )
 }

@@ -28,7 +28,7 @@ const ProfileStatusObjective = () => {
     >
       Feed is working on:
       <span
-        className="mb-0 border-2 border-solid rounded-full ml-1 py-2 px-3"
+        className="mb-0 border-2 border-solid rounded-full ml-2 py-2 px-3"
         style={{ borderColor: getObjectiveColor(objective, platform) }}
       >
         {objectiveString}

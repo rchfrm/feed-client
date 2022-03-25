@@ -86,26 +86,34 @@ const GetStartedDailyBudget = () => {
     initPage(state, error)
   }, [minReccBudget])
 
-  const saveBudget = async () => {
-    await saveTargeting('settings', { ...targetingState, budget })
-
+  const checkAndUpdateCompletedSetupAt = async () => {
     if (!hasSetUpProfile) {
       const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
 
       if (error) {
         setError(error)
+
+        return
       }
 
       const { completed_setup_at: completedSetupAt } = artistUpdated
 
       updatehasSetUpProfile(completedSetupAt)
     }
+  }
+
+  const saveBudget = async () => {
+    await saveTargeting('settings', { ...targetingState, budget })
+    await checkAndUpdateCompletedSetupAt()
+
     next()
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (budget === initialTargetingState.budget) {
+      await checkAndUpdateCompletedSetupAt()
       next()
+
       return
     }
     saveBudget()

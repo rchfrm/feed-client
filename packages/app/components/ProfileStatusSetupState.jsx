@@ -23,7 +23,6 @@ const ProfileStatusSetupState = () => {
   const objective = optimizationPreferences.objective || storedObjective
   const platform = optimizationPreferences.platform || storedPlatform
 
-
   const goToGetStartedPage = () => {
     Router.push({
       pathname: ROUTES.GET_STARTED,
@@ -31,16 +30,24 @@ const ProfileStatusSetupState = () => {
   }
 
   return (
-    <button
-      onClick={goToGetStartedPage}
-    >
-      {profileSetupStatus === 'objective' ? 'Start' : 'Continue'} profile set-up:
-      <span
-        className="mb-0 border-2 border-solid border-black rounded-full ml-1 py-2 px-3"
-      >
-        {copy.profileStatus(profileSetupStatus, objective, platform)}
-      </span>
-    </button>
+    profileSetupStatus ? (
+      <button onClick={goToGetStartedPage}>
+        {profileSetupStatus === 'objective' ? 'Start' : 'Continue'} profile set-up:
+        <span
+          className="mb-0 border-2 border-solid border-black rounded-full ml-2 py-2 px-3"
+        >
+          {copy.profileStatus(profileSetupStatus, objective, platform)}
+        </span>
+      </button>
+    ) : (
+      <button onClick={goToGetStartedPage}>
+        <span
+          className="mb-0 border-2 border-solid border-black rounded-full py-2 px-3"
+        >
+          Finish profile set-up
+        </span>
+      </button>
+    )
   )
 }
 

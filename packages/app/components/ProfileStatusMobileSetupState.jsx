@@ -41,7 +41,7 @@ const ProfileStatusMobileSetupState = ({ backgroundStyle }) => {
       backgroundStyle={backgroundStyle}
       className="bg-insta"
     >
-      {copy.profileStatus(profileSetupStatus, objective, platform)}
+      {profileSetupStatus ? copy.profileStatus(profileSetupStatus, objective, platform) : 'Finish profile setup'}
       <ArrowAltIcon
         className="ml-2 w-3"
         fill={brandColors.white}
