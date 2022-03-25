@@ -11,7 +11,6 @@ const initialState = {
   header: {
     visible: true,
     text: '',
-    punctuation: '',
   },
   globalLoading: true,
   showSpinner: false,
@@ -54,7 +53,6 @@ const reducer = (draftState, action) => {
     case 'setHeader':
       draftState.header.visible = typeof payload.visible === 'boolean' ? payload.visible : draftState.header.visible
       draftState.header.text = payload.text ? payload.text : draftState.header.text
-      draftState.header.punctuation = payload.punctuation ? payload.punctuation : draftState.header.punctuation
       break
     case 'toggleRouteChanging':
       draftState.routeChanging = typeof payload.state === 'boolean' ? payload.state : !draftState.routeChanging
@@ -72,8 +70,8 @@ const InterfaceContextProvider = ({ children }) => {
     setInterfaceState({ type: 'toggleSubNav', payload: { state } })
   }, [setInterfaceState])
 
-  const setHeader = React.useCallback(({ visible, text, punctuation = '.' }) => {
-    setInterfaceState({ type: 'setHeader', payload: { visible, text, punctuation } })
+  const setHeader = React.useCallback(({ visible, text }) => {
+    setInterfaceState({ type: 'setHeader', payload: { visible, text } })
   }, [setInterfaceState])
 
   const toggleGlobalLoading = React.useCallback((state) => {

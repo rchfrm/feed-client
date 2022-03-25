@@ -3,7 +3,7 @@ import testPageReady from '@/hoc/testPageReady'
 import ReferralCodeContent from '@/app/ReferralCodeContent'
 
 const headerConfig = {
-  text: 'my referral code',
+  text: 'referrals',
 }
 
 const Page = () => (

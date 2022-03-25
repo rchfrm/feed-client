@@ -120,7 +120,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
     >
 
       <Error error={userError || error} />
-      <h1 className="mb-4 text-xl">Enter your {!initialEmail ? 'email &' : ''} password</h1>
+      <h2 className="mb-4 text-xl">Enter your {!initialEmail ? 'email &' : ''} password</h2>
       <MarkdownText className={[styles.tcText, 'small--text', 'mb-4'].join(' ')} markdown={copy.tcText('logging in')} />
       {isEmailEdit ? (
         <Input

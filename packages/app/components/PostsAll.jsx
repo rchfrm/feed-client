@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import produce from 'immer'
 
-import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PostCard from '@/app/PostCard'
@@ -39,11 +38,6 @@ function PostsAll({
   loadedAll,
   isMissingDefaultLink,
 }) {
-  // Set header
-  const { setHeader } = React.useContext(InterfaceContext)
-  React.useEffect(() => {
-    setHeader({ text: 'your posts' })
-  }, [setHeader])
   // Reset the scroll position when this component first mounts
   React.useEffect(resetScroll, [])
 

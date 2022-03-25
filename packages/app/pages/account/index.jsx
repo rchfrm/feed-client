@@ -3,7 +3,7 @@ import testPageReady from '@/hoc/testPageReady'
 import AccountPageLoader from '@/app/AccountPageLoader'
 
 const headerConfig = {
-  text: 'account details',
+  text: 'account',
 }
 
 const Page = () => (
