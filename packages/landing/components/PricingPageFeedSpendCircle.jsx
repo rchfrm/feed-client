@@ -1,6 +1,7 @@
 import React from 'react'
 import brandColors from '@/constants/brandColors'
 import PropTypes from 'prop-types'
+import { formatCurrency } from '@/helpers/utils'
 
 export default function PricingPageFeedSpendCircle({
   amount,
@@ -34,8 +35,8 @@ export default function PricingPageFeedSpendCircle({
           height: `${diameter}px`,
         }}
       >
-        <h2 className="mb-0">£{amount}</h2>
-        <p className="mb-0">Feed’s service fee</p>
+        <h2 className="mb-0">{formatCurrency(amount, 'GBP', true)}</h2>
+        <p className="mb-0">Feed's service fee</p>
       </div>
     </div>
   )

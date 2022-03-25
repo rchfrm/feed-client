@@ -2,6 +2,7 @@ import React from 'react'
 import brandColors from '@/constants/brandColors'
 import useOnResize from '@/hooks/useOnResize'
 import PropTypes from 'prop-types'
+import { formatCurrency } from '@/helpers/utils'
 
 export default function PricingPageAdSpendCircle({
   amount,
@@ -47,7 +48,7 @@ export default function PricingPageAdSpendCircle({
           top: '-100%',
         }}
       >
-        <h1 className="mb-0">£{amount}</h1>
+        <h1 className="mb-0">{formatCurrency(amount, 'GBP', true)}</h1>
         <h4 className="mb-0">Facebook &amp; Instagram<br />promotion</h4>
       </div>
     </div>

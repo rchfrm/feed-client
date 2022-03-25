@@ -5,6 +5,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import pricingPageCopy from '@/landing/copy/PricingPageCopy'
 import Input from '@/elements/Input'
 import PricingPageSpendCircles from '@/landing/PricingPageSpendCircles'
+import { formatCurrency } from '@/helpers/utils'
 
 export default function PricingPage() {
   const [dailyBudget, setDailyBudget] = React.useState(5)
@@ -17,7 +18,7 @@ export default function PricingPage() {
 
   const {
     title,
-    bullets,
+    description,
     budgetInput,
   } = pricingPageCopy
   const pageTitle = (
@@ -41,11 +42,11 @@ export default function PricingPage() {
           'sm:col-start-2',
           'sm:col-span-11',
           'lg:col-start-3',
-          'lg:col-span-10',
+          'lg:col-span-9',
           'h4',
           'pb-10',
         ].join(' ')}
-        markdown={bullets}
+        markdown={description}
       />
       <MarkdownText
         className={[
@@ -84,7 +85,7 @@ export default function PricingPage() {
           'lg:col-start-4',
           'lg:col-span-6',
         ].join(' ')}
-        markdown={`Each month you will spend <strong>£${dailyBudget * 30}</strong> in total:`}
+        markdown={`Each month you will spend <strong>${formatCurrency(dailyBudget * 30, 'GBP', true)}</strong> in total:`}
       />
       <PricingPageSpendCircles
         monthlyBudget={dailyBudget * 30}
