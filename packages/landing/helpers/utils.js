@@ -38,10 +38,9 @@ export const minArrayValue = (array) => {
 
 export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
   if (value === null || typeof value === 'undefined' || Number.isNaN(value)) return
-  const locale = navigator.language
   const currencyToUse = currency === null ? 'GBP' : currency
   const valueFloat = parseFloat(value)
-  return valueFloat.toLocaleString(locale, {
+  return valueFloat.toLocaleString('en-GB', {
     style: 'currency',
     currency: currencyToUse,
     ...(hideMinorUnits && { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
