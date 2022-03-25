@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import { platforms } from '@/app/helpers/artistHelpers'
 import { capitalise } from '@/helpers/utils'
 
 const getPlatform = (platform) => {
@@ -9,10 +10,18 @@ const getPlatform = (platform) => {
 
 
 export default {
-  profileStatus: (status) => {
+  profileStatus: (status, objective, platform) => {
     if (status === 'objective') return `What's your objective?`
     if (status === 'platform') return 'Select the platform to grow'
-    if (status === 'default-link') return 'Enter your website link'
+    if (status === 'default-link') {
+      if (objective === 'growth' && (platform !== 'facebook' && platform !== 'instagram')) {
+        const platformName = platforms.find(({ value }) => value === platform)?.name
+
+        return `Connect to ${platformName}`
+      }
+
+      return 'Enter your website link'
+    }
     if (status === 'connect-profile') return 'Connect to Facebook'
     if (status === 'posts') return 'Select the posts to promote'
     if (status === 'default-post-promotion') return 'Automate post selection?'

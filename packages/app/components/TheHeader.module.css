@@ -25,6 +25,7 @@
   .TheHeader._subNavOpen & {
     @media (--mdMax) {
       position: fixed;
+      top: var(--sp-9);
     }
   }
 

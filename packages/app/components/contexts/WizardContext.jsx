@@ -145,12 +145,13 @@ WizardContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
   goBackToPath: PropTypes.string,
   hasBackButton: PropTypes.bool,
-  profileSetupStatus: PropTypes.string.isRequired,
+  profileSetupStatus: PropTypes.string,
 }
 
 WizardContextProvider.defaultProps = {
   goBackToPath: '',
   hasBackButton: false,
+  profileSetupStatus: '',
 }
 
 export { WizardContext, WizardContextProvider }

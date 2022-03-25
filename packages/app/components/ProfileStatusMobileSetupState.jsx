@@ -10,15 +10,24 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import ProfileStatusMobileBar from '@/app/ProfileStatusMobileBar'
 
+import { getLocalStorage } from '@/helpers/utils'
+
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   profileSetupStatus: state.profileSetupStatus,
+  optimizationPreferences: state.optimizationPreferences,
 })
 
 const ProfileStatusMobileSetupState = ({ backgroundStyle }) => {
-  const { profileSetupStatus } = useControlsStore(getControlsStoreState)
+  const { profileSetupStatus, optimizationPreferences } = useControlsStore(getControlsStoreState)
+
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  const { objective: storedObjective, platform: storedPlatform } = wizardState
+
+  const objective = optimizationPreferences.objective || storedObjective
+  const platform = optimizationPreferences.platform || storedPlatform
 
   const goToGetStartedPage = () => {
     Router.push({
@@ -32,7 +41,7 @@ const ProfileStatusMobileSetupState = ({ backgroundStyle }) => {
       backgroundStyle={backgroundStyle}
       className="bg-insta"
     >
-      {copy.profileStatus(profileSetupStatus)}
+      {copy.profileStatus(profileSetupStatus, objective, platform)}
       <ArrowAltIcon
         className="ml-2 w-3"
         fill={brandColors.white}
