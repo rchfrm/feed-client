@@ -62,7 +62,7 @@ const TargetingBudgetBox = ({
         <Spinner width={36} />
       ) : (
         <>
-          <div className="flex justify-between">
+          <div className="flex justify-between items-start">
             <h2 className="mb-0">
               Daily Budget
               {!targetingState.status ? (
