@@ -93,7 +93,7 @@ const useCheckProfileSetupStatus = () => {
     },
     {
       name: 'default-link',
-      isComplete: Boolean(defaultLink || wizardState?.defaultLink),
+      isComplete: Boolean(defaultLink?.href || wizardState?.defaultLink?.href),
     },
     {
       name: 'connect-profile',
@@ -133,7 +133,7 @@ const useCheckProfileSetupStatus = () => {
       name: 'budget',
       isComplete: hasSufficientBudget,
     },
-  ], [adAccountId, artist.country_code, locations, defaultLink, defaultPromotionEnabled, facebookPixelId, fetchEnabledPosts, hasSufficientBudget, objective, platform, posts, user.artists.length, wizardState?.defaultLink, wizardState?.objective, wizardState?.platform])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, fetchEnabledPosts, hasSufficientBudget, objective, platform, posts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
     const profileStatus = profileSetupConditions.find((condition) => !condition.isComplete)?.name

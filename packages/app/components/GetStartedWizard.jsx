@@ -42,7 +42,7 @@ const GetStartedWizard = () => {
   const [steps, setSteps] = React.useState([])
 
   const { user } = React.useContext(UserContext)
-  const { artistId, artist } = React.useContext(ArtistContext)
+  const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
 
   const {
     nestedLinks,
@@ -198,6 +198,9 @@ const GetStartedWizard = () => {
 
     // Set the new link as the default link
     updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: link })
+
+    // Update artist status
+    setPostPreferences('default_link_id', link.id)
 
     // Update preferences in controls store
     updatePreferences(getPreferencesObject(updatedArtist))

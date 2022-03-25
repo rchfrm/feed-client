@@ -434,7 +434,7 @@ export const updatePlatform = (artistId, platform) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
-// Update optimization platform
+// Update completed setup at
 /**
 * @param {string} artistId
 * @param {string} platform
