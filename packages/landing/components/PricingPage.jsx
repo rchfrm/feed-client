@@ -5,7 +5,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import pricingPageCopy from '@/landing/copy/PricingPageCopy'
 import Input from '@/elements/Input'
 import PricingPageSpendCircles from '@/landing/PricingPageSpendCircles'
-import { formatCurrency } from '@/helpers/utils'
+import { formatCurrency } from '@/landing/helpers/utils'
 
 export default function PricingPage() {
   const [dailyBudget, setDailyBudget] = React.useState(5)

@@ -2,7 +2,7 @@ import React from 'react'
 import brandColors from '@/constants/brandColors'
 import useOnResize from '@/hooks/useOnResize'
 import PropTypes from 'prop-types'
-import { formatCurrency } from '@/helpers/utils'
+import { formatCurrency } from '@/landing/helpers/utils'
 
 export default function PricingPageAdSpendCircle({
   amount,

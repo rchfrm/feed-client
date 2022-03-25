@@ -1,7 +1,7 @@
 import React from 'react'
 import brandColors from '@/constants/brandColors'
 import PropTypes from 'prop-types'
-import { formatCurrency } from '@/helpers/utils'
+import { formatCurrency } from '@/landing/helpers/utils'
 
 export default function PricingPageFeedSpendCircle({
   amount,
