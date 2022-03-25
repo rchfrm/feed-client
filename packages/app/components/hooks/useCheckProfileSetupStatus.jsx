@@ -74,7 +74,7 @@ const useCheckProfileSetupStatus = () => {
       artistId,
       sortBy: ['normalized_score'],
       filterBy: {
-        // promotion_enabled: [true],
+        promotion_enabled: [true],
       },
     })
 

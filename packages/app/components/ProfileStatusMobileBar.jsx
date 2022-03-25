@@ -20,10 +20,12 @@ ProfileStatusMobileBar.propTypes = {
   children: PropTypes.node.isRequired,
   backgroundStyle: PropTypes.object,
   onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
 }
 
 ProfileStatusMobileBar.defaultProps = {
   backgroundStyle: null,
+  className: '',
 }
 
 export default ProfileStatusMobileBar
