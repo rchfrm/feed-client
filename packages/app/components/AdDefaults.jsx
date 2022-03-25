@@ -7,7 +7,6 @@ import usePostsStore from '@/app/stores/postsStore'
 // IMPORT COMPONENTS
 import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
-import AdDefaultsLink from '@/app/AdDefaultsLink'
 import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
 import AdDefaultsAdAccount from '@/app/AdDefaultsAdAccount'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
@@ -19,10 +18,10 @@ import copy from '@/app/copy/controlsPageCopy'
 const getTogglePromotionGlobal = state => state.togglePromotionGlobal
 
 const getControlsStoreState = (state) => ({
-  defaultLink: state.defaultLink,
   postsPreferences: state.postsPreferences,
   conversionsPreferences: state.conversionsPreferences,
   updatePreferences: state.updatePreferences,
+  optimizationPreferences: state.optimizationPreferences,
 })
 
 const AdDefaults = () => {
@@ -30,9 +29,11 @@ const AdDefaults = () => {
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
   // Get store values
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
-  const { defaultLink, postsPreferences, conversionsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
+  const { postsPreferences, conversionsPreferences, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultCallToAction, defaultPromotionEnabled } = postsPreferences
   const { facebookPixelEvent } = conversionsPreferences
+  const { objective } = optimizationPreferences
+  const hasSalesObjective = objective === 'sales'
 
   return (
     <div>
@@ -49,17 +50,6 @@ const AdDefaults = () => {
             togglePromotionGlobal={togglePromotionGlobal}
             defaultPromotionEnabled={defaultPromotionEnabled}
             updatePreferences={updatePreferences}
-          />
-        </AdSettingsSection>
-        {/* DEFAULT LINK */}
-        <AdSettingsSection
-          header="Default Link"
-          copy={copy.defaultLinkIntro}
-        >
-          <AdDefaultsLink
-            className="mb-8"
-            defaultLink={defaultLink}
-            setPostPreferences={setPostPreferences}
           />
         </AdSettingsSection>
         {/* DEFAULT CALL TO ACTION */}
@@ -90,16 +80,18 @@ const AdDefaults = () => {
           <AdDefaultsPixelSelector />
         </AdSettingsSection>
         {/* FB PIXEL EVENT */}
-        <AdSettingsSection
-          header="Facebook Pixel Event"
-          copy={copy.facebookPixelEventIntro}
-        >
-          <AdDefaultsPixelEvent
-            facebookPixelEvent={facebookPixelEvent}
-            updatePreferences={updatePreferences}
-            className="mb-8"
-          />
-        </AdSettingsSection>
+        {hasSalesObjective && (
+          <AdSettingsSection
+            header="Facebook Pixel Event"
+            copy={copy.facebookPixelEventIntro}
+          >
+            <AdDefaultsPixelEvent
+              facebookPixelEvent={facebookPixelEvent}
+              updatePreferences={updatePreferences}
+              className="mb-8"
+            />
+          </AdSettingsSection>
+        )}
       </ControlsContentSection>
     </div>
   )

@@ -7,13 +7,10 @@ import * as ROUTES from '@/app/constants/routes'
 import PostCardLabel from '@/app/PostCardLabel'
 
 import ToggleSwitch from '@/elements/ToggleSwitch'
-import PostCardToggleTeaser from '@/app/PostCardToggleTeaser'
 import PostCardDisableHandler from '@/app/PostCardDisableHandler'
 import PostCardToggleAlert from '@/app/PostCardToggleAlert'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
-
-import useShowConversionsInterest from '@/app/hooks/useShowConversionsInterest'
 
 import { updatePost, setPostPriority, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
@@ -33,9 +30,9 @@ const PostCardToggle = ({
   updatePost: updatePostsState,
   isActive,
   disabled,
-  isFeatureEnabled,
   showAlertModal,
   className,
+  hasSalesObjective,
 }) => {
   // Store INTERNAL STATE based on promotionEnabled
   const [currentState, setCurrentState] = React.useState(isEnabled)
@@ -89,31 +86,21 @@ const PostCardToggle = ({
     checkAndDeprioritize(updatedPost)
   }, [artistId, postId, toggleCampaign, campaignType, isConversionsCampaign, showAlertModal, checkAndDeprioritize])
 
-  const goToControlsConversionsPage = () => {
+  const goToControlsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS_CONVERSIONS,
+      pathname: ROUTES.CONTROLS,
     })
   }
 
-  // HANDLE HOVER FOR TEASER
-  const isTeaserActive = isConversionsCampaign && !isFeatureEnabled
-
-  // HANDLE CLICK TO SHOW TEASER
-  const WrapperTag = isTeaserActive ? 'button' : 'div'
-  const openConversionsInterestPanel = useShowConversionsInterest()
-
   return (
-    <WrapperTag
+    <div
       className={[
         'relative w-full',
         'flex justify-between items-center',
         'rounded-dialogue bg-grey-1',
-        isTeaserActive ? 'cursor-pointer' : null,
         showAlertModal ? 'border-2 border-solid border-red' : null,
         className,
       ].join(' ')}
-      aria-label={isTeaserActive ? 'What is this?' : null}
-      onClick={isTeaserActive ? openConversionsInterestPanel : null}
     >
       <div className="mb-0 flex items-center">
         {/* DOT */}
@@ -131,7 +118,7 @@ const PostCardToggle = ({
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
-          {!isConversionsCampaign ? 'Grow & Nurture' : 'Convert'}
+          {!isConversionsCampaign ? hasSalesObjective ? 'Grow & Nurture' : 'Promotable' : 'Sales'}
         </strong>
         {/* RUNNING LABEL */}
         {isActive && (
@@ -143,16 +130,12 @@ const PostCardToggle = ({
       </div>
       {/* TOGGLE SWITCH or LIGHTBULB ICON */}
       <div>
-        {isTeaserActive ? (
-          <PostCardToggleTeaser />
-        ) : (
-          <ToggleSwitch
-            state={currentState}
-            onChange={onChange}
-            isLoading={isLoading}
-            disabled={disabled}
-          />
-        )}
+        <ToggleSwitch
+          state={currentState}
+          onChange={onChange}
+          isLoading={isLoading}
+          disabled={disabled}
+        />
       </div>
       {/* DISABLE ALERT */}
       {!sidePanelOpen && postPromotable && promotionStatus === 'active' && (
@@ -170,13 +153,13 @@ const PostCardToggle = ({
       {shouldShowAlert && (
         <PostCardToggleAlert
           show={shouldShowAlert}
-          onAlertConfirm={goToControlsConversionsPage}
+          onAlertConfirm={goToControlsPage}
           onCancel={() => {
             setShouldShowAlert(false)
           }}
         />
       )}
-    </WrapperTag>
+    </div>
   )
 }
 
@@ -191,15 +174,14 @@ PostCardToggle.propTypes = {
   updatePost: PropTypes.func.isRequired,
   isActive: PropTypes.bool,
   disabled: PropTypes.bool,
-  isFeatureEnabled: PropTypes.bool,
   showAlertModal: PropTypes.bool,
   className: PropTypes.string,
+  hasSalesObjective: PropTypes.bool.isRequired,
 }
 
 PostCardToggle.defaultProps = {
   disabled: false,
   className: null,
-  isFeatureEnabled: false,
   isEnabled: false,
   isActive: false,
   showAlertModal: false,

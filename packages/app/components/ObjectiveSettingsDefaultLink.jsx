@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostLinksSelect from '@/app/PostLinksSelect'
-import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import { track } from '@/helpers/trackingHelpers'
 
@@ -11,21 +10,23 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { setDefaultLink } from '@/app/helpers/linksHelpers'
 import { parseUrl } from '@/helpers/utils'
 
-import copy from '@/app/copy/controlsPageCopy'
-
 const getControlsStoreState = (state) => ({
   updateLinks: state.updateLinks,
   updatePreferences: state.updatePreferences,
 })
 
-const AdDefaultsLink = ({
+const ObjectiveSettingsDefaultLink = ({
   defaultLink,
   setPostPreferences,
+  objective,
+  label,
   className,
 }) => {
   const { updateLinks, updatePreferences } = useControlsStore(getControlsStoreState)
   const { id: defaultLinkId } = defaultLink || {}
   const hasDefaultLink = !!defaultLinkId
+  const hasGrowthObjective = objective === 'growth'
+  const hasSalesObjective = objective === 'sales'
 
   const onSuccess = React.useCallback((newArtist) => {
     const { preferences: { posts: { default_link_id } } } = newArtist
@@ -56,10 +57,13 @@ const AdDefaultsLink = ({
         onSelect={setDefaultLink}
         onSuccess={onSuccess}
         includeAddLinkOption
+        includeIntegrationLinks={hasGrowthObjective}
+        includeLooseLinks={!hasGrowthObjective}
+        hasSalesObjective={hasSalesObjective}
         componentLocation="defaultLink"
+        label={label}
         className="mb-14"
       />
-      <ControlsSettingsSectionFooter copy={copy.defaultLinkFooter} className="text-insta" />
       {!hasDefaultLink && (
         <div
           className={[
@@ -74,16 +78,19 @@ const AdDefaultsLink = ({
   )
 }
 
-AdDefaultsLink.propTypes = {
+ObjectiveSettingsDefaultLink.propTypes = {
   defaultLink: PropTypes.object,
   setPostPreferences: PropTypes.func.isRequired,
+  objective: PropTypes.string,
+  label: PropTypes.string,
   className: PropTypes.string,
 }
 
-AdDefaultsLink.defaultProps = {
+ObjectiveSettingsDefaultLink.defaultProps = {
   defaultLink: null,
+  objective: '',
+  label: '',
   className: null,
 }
 
-
-export default AdDefaultsLink
+export default ObjectiveSettingsDefaultLink

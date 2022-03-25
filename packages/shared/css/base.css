@@ -67,6 +67,12 @@ body {
   }
 }
 
+#page--container {
+  @media (--md) {
+    padding: 0 var(--sp-33) 0 var(--sp-13)
+  }
+}
+
 #page--container-admin {
   margin-left: 0 !important;
   padding: 0!important;
@@ -104,7 +110,7 @@ body {
 
 .page--content {
   max-width: var(--bmw);
-  padding: var(--sp-6);
+  padding: var(--sp-5);
   margin: 0 auto;
 
   @media (--sm) {

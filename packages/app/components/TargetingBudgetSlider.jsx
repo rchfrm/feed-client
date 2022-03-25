@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import Slider from '@/elements/Slider'
 import SliderMarker from '@/elements/SliderMarker'
 
@@ -19,15 +21,14 @@ const TargetingBudgetSlider = ({
   onChange,
   mobileVersion,
   setBudgetSlider,
+  shouldShowError,
+  errorMessage,
 }) => {
-  // SHOW BUDGET FEATURES
-  // const budgetUpgrade = React.useMemo(() => {
-  //   return targetingHelpers.getNextBudgetUpgrade(budget)
-  // }, [budget])
-
   // DISABLE SIDEPANEL DRAG
   const containerRef = React.useRef(null)
   const { setDisableDrag } = React.useContext(SidePanelContext)
+  const isDesktopLayout = useBreakpointTest('xs')
+
   React.useEffect(() => {
     if (!mobileVersion) return
     const disableDrag = () => setDisableDrag(true)
@@ -73,7 +74,10 @@ const TargetingBudgetSlider = ({
   }, [sliderValueRange, sliderStep])
 
   return (
-    <div className={['pl-0 py-8'].join(' ')} ref={containerRef}>
+    <div className={['relative pl-0', isDesktopLayout ? 'py-8' : 'py-11'].join(' ')} ref={containerRef}>
+      {shouldShowError && (
+        <p className={['absolute top-0 w-full text-center text-red text-sm'].join(' ')}>{errorMessage}</p>
+      )}
       <Slider
         valueRange={valueRange}
         startValue={[startValue.current]}
@@ -102,6 +106,7 @@ const TargetingBudgetSlider = ({
         ]}
         ghosts={startValue.current ? [initialMarkerPosition.current] : []}
         setSliderInstance={setBudgetSlider}
+        hasError={shouldShowError}
       >
         {/* Only show marker if min recc is greater than min slider range */}
         {sliderValueRange[0] < minReccBudget && (
@@ -126,6 +131,8 @@ TargetingBudgetSlider.propTypes = {
   onChange: PropTypes.func.isRequired,
   mobileVersion: PropTypes.bool,
   setBudgetSlider: PropTypes.func,
+  shouldShowError: PropTypes.bool,
+  errorMessage: PropTypes.string,
 }
 
 TargetingBudgetSlider.defaultProps = {
@@ -135,6 +142,8 @@ TargetingBudgetSlider.defaultProps = {
   currencyOffset: 0,
   mobileVersion: false,
   setBudgetSlider: () => {},
+  shouldShowError: false,
+  errorMessage: '',
 }
 
 

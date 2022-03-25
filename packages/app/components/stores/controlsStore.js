@@ -22,7 +22,6 @@ const initialState = {
   formattedMinConversionsBudget: '',
   isSpendingPaused: false,
   canRunConversions: false,
-  conversionsEnabled: false,
   savedLinks: [],
   savedFolders: [],
   nestedLinks: [],
@@ -106,7 +105,7 @@ const createIntegrationLinks = (folders) => {
   })
 }
 
-const fetchIntegrations = ({ artist, folders }) => {
+const formatIntegrationLinks = ({ artist, folders }) => {
   const { integrations } = artist
   // Remove empty integrations
   const filteredArtistIntegrations = integrations.reduce((arr, integration) => {
@@ -148,7 +147,7 @@ const getDefaultLink = ({ linkFolders, artist, linkId }) => {
 
 const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
   // Update links in integration folder
-  const integrationLinks = fetchIntegrations({ artist, folders })
+  const integrationLinks = formatIntegrationLinks({ artist, folders })
   const integrationsFolderIndex = folders.findIndex(({ id }) => id === integrationsFolderId)
   const foldersUpdatedIntegrations = produce(folders, draftFolders => {
     // Replace integration links with formatted integration links
@@ -164,11 +163,31 @@ const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
   return tidyFolders(foldersUpdatedIntegrations, defaultLinkId)
 }
 
+const fetchAndUpdateLinks = (set) => async (artist) => {
+  const { defaultLinkId } = getPreferences(artist, 'posts')
+
+  //  Fetch links from server
+  const { res, error } = await linksHelpers.fetchSavedLinks(artist.id)
+
+  // Handle error
+  if (error) {
+    const linkBankError = { message: `Error fetching links. ${error.message}` }
+
+    set({ linkBankError, isControlsLoading: false })
+  }
+
+  const { folders } = res
+  const nestedLinks = formatServerLinks({ folders, defaultLinkId, artist })
+
+  set({ nestedLinks })
+  return nestedLinks
+}
+
 // Fetch data from server and update store (or return cached data)
 const fetchData = (set, get) => async (action, artist) => {
   let minConversionsBudget = 0
   let formattedMinConversionsBudget = ''
-  const { savedLinks, isControlsLoading, artistId, currency } = get()
+  const { savedLinks, isControlsLoading, currency } = get()
   // Stop here if data is already loading
   if (isControlsLoading) return
   set({ isControlsLoading: true })
@@ -176,15 +195,16 @@ const fetchData = (set, get) => async (action, artist) => {
   if (savedLinks.length && action !== 'force') return
   // Set data as loading
   set({ isControlsLoading: true })
+
+  // Get posts, conversions and optimization preferences
+  const posts = getPreferences(artist, 'posts')
+  const conversions = getPreferences(artist, 'conversions')
+  const optimization = getPreferences(artist, 'optimization')
+  const { defaultLinkId } = posts
+
   // Else fetch links from server
-  const { res, error } = await linksHelpers.fetchSavedLinks(artistId)
-  // Handle error
-  if (error) {
-    const linkBankError = { message: `Error fetching links. ${error.message}` }
-    set({ linkBankError, isControlsLoading: false })
-    return { error }
-  }
-  const { folders } = res
+  const nestedLinks = await get().fetchAndUpdateLinks(artist)
+
   // Get minimium conversions budget
   if (Object.keys(artist.feedMinBudgetInfo).length) {
     const { res: { min_recommended_stories_rounded } } = await getMinBudgets(artist.id)
@@ -192,19 +212,16 @@ const fetchData = (set, get) => async (action, artist) => {
     minConversionsBudget = min_recommended_stories_rounded
     formattedMinConversionsBudget = formatCurrency(minConversionsBudget, currency)
   }
-  // Get posts, conversions and optimization preferences
-  const posts = getPreferences(artist, 'posts')
-  const conversions = getPreferences(artist, 'conversions')
-  const optimization = getPreferences(artist, 'optimization')
-  // Create array of links in folders for display
-  const { defaultLinkId } = posts
-  const nestedLinks = formatServerLinks({ folders, defaultLinkId, artist })
+
   // Get default link
   const defaultLink = getDefaultLink({ artist, linkFolders: nestedLinks, linkId: defaultLinkId })
+
   // Create an array of folder IDs
   const savedFolders = getSavedFolders(nestedLinks)
+
   // Get folder states
   const folderStates = getInitialFolderState(savedFolders, artist.id)
+
   // Cache links and folders
   set({
     savedFolders,
@@ -354,7 +371,6 @@ const useControlsStore = create((set, get) => ({
   formattedMinConversionsBudget: initialState.formattedMinConversionsBudget,
   isSpendingPaused: initialState.isSpendingPaused,
   canRunConversions: initialState.canRunConversions,
-  conversionsEnabled: initialState.conversionsEnabled,
   savedLinks: initialState.savedLinks,
   savedFolders: initialState.savedFolders,
   nestedLinks: initialState.nestedLinks,
@@ -363,6 +379,7 @@ const useControlsStore = create((set, get) => ({
   linkBankError: initialState.linkBankError,
   // GETTERS
   fetchData: fetchData(set, get),
+  fetchAndUpdateLinks: fetchAndUpdateLinks(set),
   canRunConversionCampaigns: canRunConversionCampaigns(set, get),
   // SETTERS
   updateLinksWithIntegrations: (artist) => updateLinksWithIntegrations(set, get)(artist),
@@ -370,7 +387,6 @@ const useControlsStore = create((set, get) => ({
   updateFolderStates: updateFolderStates(set, get),
   updatePreferences: updatePreferences(set, get),
   updateSpending: updateSpending(set, get),
-  setConversionsEnabled: (conversionsEnabled) => set({ conversionsEnabled }),
   setLinkBankError: (error) => set({ linkBankError: error }),
   setIsControlsLoading: (isControlsLoading) => set({ isControlsLoading }),
   clearLinks: () => set({ savedLinks: initialState.savedLinks }),
@@ -380,7 +396,6 @@ const useControlsStore = create((set, get) => ({
       artistId: artist.id,
       currency: artist.currency,
       isControlsLoading: false,
-      conversionsEnabled: artist.conversions_enabled,
     })
     // Fetch data
     if (action === 'fetchData') {

@@ -51,9 +51,9 @@ const PostCardSettingsToggle = ({
     toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
   }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled, isConversionsCampaign, showAlertModal])
 
-  const goToControlsConversionsPage = () => {
+  const goToControlsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS_CONVERSIONS,
+      pathname: ROUTES.CONTROLS,
     })
   }
 
@@ -93,7 +93,7 @@ const PostCardSettingsToggle = ({
       {shouldShowAlert && (
         <PostCardToggleAlert
           show={shouldShowAlert}
-          onAlertConfirm={goToControlsConversionsPage}
+          onAlertConfirm={goToControlsPage}
           onCancel={() => {
             setShouldShowAlert(false)
           }}

@@ -30,6 +30,9 @@ const PostLinksSelect = ({
   postItemId,
   includeDefaultLink,
   includeAddLinkOption,
+  includeIntegrationLinks,
+  includeLooseLinks,
+  hasSalesObjective,
   componentLocation,
   updateParentLink,
   shouldSaveOnChange,
@@ -79,11 +82,13 @@ const PostLinksSelect = ({
       return [...options, optionGroup]
     }, [])
     // Add LOOSE links
-    const looseLinkOptions = looseLinks.map(({ name, id }) => {
-      return { name, value: id }
-    })
-    if (looseLinkOptions.length) {
-      baseOptions.unshift(...looseLinkOptions)
+    if (includeLooseLinks) {
+      const looseLinkOptions = looseLinks.map(({ name, id }) => {
+        return { name, value: id }
+      })
+      if (looseLinkOptions.length) {
+        baseOptions.unshift(...looseLinkOptions)
+      }
     }
     // Add 'Deleted from link bank' select option if a post is an adcreative and the link id doesn't exist in the linkbank anymore
     if (linkType === 'adcreative') {
@@ -102,17 +107,19 @@ const PostLinksSelect = ({
       }
     }
     // Add INTEGRATIONS as group
-    const integrationsGroup = {
-      type: 'group',
-      name: 'Integrations',
-      value: '_integrations',
-      options: integrationLinks.reduce((arr, { href, titleVerbose, id }) => {
-        if (!href) return arr
-        const option = { name: titleVerbose, value: id }
-        return [...arr, option]
-      }, []),
+    if (includeIntegrationLinks) {
+      const integrationsGroup = {
+        type: 'group',
+        name: 'Integrations',
+        value: '_integrations',
+        options: integrationLinks.reduce((arr, { href, titleVerbose, id }) => {
+          if (!href) return arr
+          const option = { name: titleVerbose, value: id }
+          return [...arr, option]
+        }, []),
+      }
+      baseOptions.push(integrationsGroup)
     }
-    baseOptions.push(integrationsGroup)
     // If no DEFAULT or no NEW LINK, stop here
     if (!includeDefaultLink && !includeAddLinkOption) {
       setLoading(false)
@@ -142,7 +149,7 @@ const PostLinksSelect = ({
     baseOptions.push(otherOptionsGroup)
     setLoading(false)
     return baseOptions
-  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, currentLinkId, linkType, campaignType, defaultConversionsLinkId])
+  }, [nestedLinks, includeDefaultLink, defaultLink, includeAddLinkOption, includeIntegrationLinks, includeLooseLinks, currentLinkId, linkType, campaignType, defaultConversionsLinkId])
 
   // HANDLE SETTING SELECTED LINK
   const updatePostLink = React.useCallback(async (selectedOptionValue, forceRun = false) => {
@@ -162,7 +169,13 @@ const PostLinksSelect = ({
       return
     }
     // Run server
-    const { res: postLink, error } = await onSelect(artistId, selectedOptionValue, postItemId, campaignType)
+    const { res: postLink, error } = await onSelect({
+      artistId,
+      linkId: selectedOptionValue,
+      hasSalesObjective,
+      assetId: postItemId,
+      campaignType,
+    })
     if (!isMounted) return
     // Handle error
     setShowAlert(false)
@@ -182,7 +195,7 @@ const PostLinksSelect = ({
     setLoading(false)
     // Reset deleted link state
     setIsDeletedLink(false)
-  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink, campaignType])
+  }, [artistId, currentLinkId, loading, isMounted, isPostActive, onError, onSelect, onSuccess, postItemId, shouldSaveOnChange, updateParentLink, campaignType, hasSalesObjective])
 
   // SHOW ADD LINK MODAL
   const showAddLinkModal = useCreateEditLinkBankLink({
@@ -268,7 +281,10 @@ PostLinksSelect.propTypes = {
   onError: PropTypes.func,
   postItemId: PropTypes.string,
   includeDefaultLink: PropTypes.bool,
+  includeIntegrationLinks: PropTypes.bool,
+  includeLooseLinks: PropTypes.bool,
   includeAddLinkOption: PropTypes.bool,
+  hasSalesObjective: PropTypes.bool,
   componentLocation: PropTypes.string.isRequired,
   updateParentLink: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
@@ -288,7 +304,10 @@ PostLinksSelect.defaultProps = {
   postItemId: '',
   selectClassName: null,
   includeDefaultLink: false,
+  includeIntegrationLinks: true,
+  includeLooseLinks: true,
   includeAddLinkOption: false,
+  hasSalesObjective: false,
   updateParentLink: () => {},
   shouldSaveOnChange: true,
   label: '',

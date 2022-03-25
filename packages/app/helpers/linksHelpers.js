@@ -74,6 +74,15 @@ export const splitLinks = (nestedLinks = []) => {
   }, { looseLinks: [], integrationLinks: [], linkFolders: [] })
 }
 
+const formatLinkForComparison = (link) => {
+  if (!link) return
+
+  return link
+    .replace(/\/?(\?.*)?$/, '') // remove utm tags & query params
+    .replace(/\/?(#.*)?$/, '') // remove page anchors
+    .replace(/^((http|https):\/\/)(www\.)?(.+)/, '$4') // remove protocol and www subdomain
+}
+
 // Get link by ID
 export const getLinkById = (linkFolders, linkId) => {
   if (!linkId) return null
@@ -90,6 +99,18 @@ export const getLinkByPlatform = (linkFolders, linkPlatform) => {
     return [...arr, ...links]
   }, [])
   return allLinks.find(({ platform }) => platform === linkPlatform)
+}
+
+// Get link by href
+export const getLinkByHref = (linkFolders, linkHref) => {
+  const allLinks = linkFolders.reduce((arr, { links }) => {
+    return [...arr, ...links]
+  }, [])
+  return allLinks.find(({ href }) => {
+    if (!href) return null
+
+    return formatLinkForComparison(href) === formatLinkForComparison(linkHref)
+  })
 }
 
 // * SERVER
@@ -172,8 +193,8 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add', for
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setDefaultLink = async (artistId, linkId) => {
-  return server.setLinkAsDefault(artistId, linkId)
+export const setDefaultLink = async ({ artistId, linkId, hasSalesObjective }) => {
+  return server.setLinkAsDefault(artistId, linkId, hasSalesObjective)
 }
 
 // LINKS ON A POST
@@ -181,7 +202,7 @@ export const setDefaultLink = async (artistId, linkId) => {
  * @param {string} linkId
  * @returns {Promise<any>}
  */
-export const setPostLink = async (artistId, linkId, assetId, campaignType) => {
+export const setPostLink = async ({ artistId, linkId, assetId, campaignType }) => {
   // Handle choosing "Use default" from post link
   if (linkId === '_default') {
     linkId = null

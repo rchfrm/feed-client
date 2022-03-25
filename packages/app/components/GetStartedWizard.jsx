@@ -9,6 +9,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
 import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
+import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
 import GetStartedObjective from '@/app/GetStartedObjective'
 import GetStartedPlatform from '@/app/GetStartedPlatform'
@@ -24,7 +25,7 @@ import GetStartedSummary from '@/app/GetStartedSummary'
 import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
 import { getLocalStorage } from '@/helpers/utils'
-import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
+import { getLinkByPlatform, getLinkByHref } from '@/app/helpers/linksHelpers'
 import { getStartedSections, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 
@@ -46,7 +47,7 @@ const GetStartedWizard = ({
   adAccountId,
   facebookPixelId,
   locations,
-  budget,
+  hasSufficientBudget,
 }) => {
   const [steps, setSteps] = React.useState([])
 
@@ -62,6 +63,8 @@ const GetStartedWizard = ({
   } = useControlsStore(getControlsStoreState)
 
   const saveLinkToLinkBank = useSaveLinkToLinkBank()
+  const saveIntegrationLink = useSaveIntegrationLink()
+
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
 
@@ -146,7 +149,7 @@ const GetStartedWizard = ({
       title: 'Targeting',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
-      isComplete: Boolean(budget),
+      isComplete: hasSufficientBudget,
       isApplicable: true,
     },
     {
@@ -176,15 +179,39 @@ const GetStartedWizard = ({
       return
     }
 
-    const { platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState
+    const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState
+
+    const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
+
     let link = ''
 
     // If the chosen platform is either Facebook or Instagram we get the link from the linkbank
-    if (storedPlatform === 'facebook' || storedPlatform === 'instagram') {
+    if (isFacebookOrInstagram) {
       link = getLinkByPlatform(nestedLinks, storedPlatform)
+    }
+
+    if (storedObjective === 'growth') {
+      // If the objective is growth but the platform is not Facebook or Instagram we save the link as new integration link
+      const { savedLink, error } = await saveIntegrationLink({ platform: storedPlatform }, storedDefaultLink.href)
+
+      if (error) {
+        return
+      }
+
+      link = savedLink
     } else {
+      let action = 'add'
+
+      // Check if the link already exists in the linkbank
+      const existingLink = getLinkByHref(nestedLinks, storedDefaultLink.href)
+      const currentLink = existingLink || storedDefaultLink
+
+      if (existingLink) {
+        action = 'edit'
+      }
+
       // Otherwise user has provided a custom link and we save it to the linkbank
-      const { savedLink, error } = await saveLinkToLinkBank(storedDefaultLink)
+      const { savedLink, error } = await saveLinkToLinkBank(currentLink, action)
 
       if (error) {
         return
@@ -201,12 +228,10 @@ const GetStartedWizard = ({
     }
 
     // Set the new link as the default link
-    updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist })
+    updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: link })
 
     // Update preferences in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
-
-    const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
 
     // Update targeting values
     saveTargetingSettings({
@@ -244,7 +269,7 @@ GetStartedWizard.propTypes = {
   adAccountId: PropTypes.string,
   facebookPixelId: PropTypes.string,
   locations: PropTypes.object.isRequired,
-  budget: PropTypes.number.isRequired,
+  hasSufficientBudget: PropTypes.bool.isRequired,
 }
 
 GetStartedWizard.defaultProps = {

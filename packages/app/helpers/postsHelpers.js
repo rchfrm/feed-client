@@ -144,7 +144,7 @@ export const campaignTypes = [
     slug: 'all',
   },
   {
-    title: 'Convert',
+    title: 'Sales',
     slug: 'conversions',
   },
 ]
@@ -469,7 +469,7 @@ export const setPostPriority = ({ artistId, assetId, priorityEnabled }) => {
 }
 
 // UPDATE POST CALL TO ACTION
-export const setPostCallToAction = async (artistId, callToAction, assetId, campaignType, callToActionId) => {
+export const setPostCallToAction = async ({ artistId, callToAction, assetId, campaignType, callToActionId }) => {
   const isUpdating = !!callToActionId
   const endpointBase = `/artists/${artistId}/assets/${assetId}/call_to_actions`
   const requestType = isUpdating ? 'patch' : 'post'

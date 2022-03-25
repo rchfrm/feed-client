@@ -12,20 +12,32 @@ import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   budget: state.budget,
+  optimizationPreferences: state.optimizationPreferences,
 })
 
 const GetStartedSummarySentenceTargeting = () => {
   const { artist } = React.useContext(ArtistContext)
-  const { budget } = useControlsStore(getControlsStoreState)
 
-  const { feedMinBudgetInfo: { currencyCode } } = artist
+  const {
+    feedMinBudgetInfo: {
+      currencyCode,
+      majorUnit: {
+        minReccomendedStories,
+      } = {},
+    },
+  } = artist
+
+  const { budget, optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
+  const hasSalesObjective = objective === 'sales'
+  const isComplete = (!hasSalesObjective && Boolean(budget)) || (hasSalesObjective && budget >= minReccomendedStories)
 
   return (
     <GetStartedSummarySentenceSection
       section={getStartedSections.targeting}
       text="with a daily budget of"
       color={brandColors.green}
-      isComplete={Boolean(budget)}
+      isComplete={isComplete}
       className="ml-2"
     >
       {formatCurrency(budget || 5, currencyCode)}

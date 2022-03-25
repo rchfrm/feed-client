@@ -6,6 +6,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 
@@ -17,6 +18,11 @@ import MarkdownText from '@/elements/MarkdownText'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
+import brandColors from '@/constants/brandColors'
+
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
 
 const GetStartedDailyBudget = () => {
   const {
@@ -39,6 +45,9 @@ const GetStartedDailyBudget = () => {
           minHard: minHardBudget,
           minReccomendedStories,
         },
+        string: {
+          minReccomendedStories: minReccomendedStoriesString,
+        },
       },
     },
     artistId,
@@ -47,6 +56,10 @@ const GetStartedDailyBudget = () => {
   const [budget, setBudget] = React.useState(targetingState.budget)
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
+  const hasSalesObjective = objective === 'sales'
+  const hasInsufficientBudget = hasSalesObjective && budget < minReccomendedStories
 
   // Get slider settings based on min budget
   const { sliderStep, sliderValueRange } = React.useMemo(() => {
@@ -88,7 +101,7 @@ const GetStartedDailyBudget = () => {
       <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.budgetSubtitle}</h3>
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.budgetDescription} />
       <div className="flex flex-1 flex-column justify-center items-center">
-        <div className="w-full sm:w-1/2 h-26 mb-4 px-6">
+        <div className="w-full sm:w-2/3 h-26 mb-4 px-6">
           <TargetingBudgetSlider
             sliderStep={sliderStep}
             sliderValueRange={sliderValueRange}
@@ -98,6 +111,8 @@ const GetStartedDailyBudget = () => {
             }}
             currency={currencyCode}
             currencyOffset={currencyOffset}
+            shouldShowError={hasInsufficientBudget}
+            errorMessage={copy.inSufficientBudget(minReccomendedStoriesString)}
             mobileVersion
           />
         </div>
@@ -107,12 +122,13 @@ const GetStartedDailyBudget = () => {
           loading={targetingLoading}
           className="w-full sm:w-48"
           trackComponentName="GetStartedDailyBudget"
+          disabled={hasInsufficientBudget}
         >
           Save
           <ArrowAltIcon
             className="ml-3"
             direction="right"
-            fill="white"
+            fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.white}
           />
         </Button>
       </div>

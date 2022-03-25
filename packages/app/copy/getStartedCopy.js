@@ -24,6 +24,12 @@ export default {
     }
     return "This should be the home page of your channel, you'll be able to link to specific videos or playlists later on."
   },
+  invalidLinkReason: (reason) => {
+    const errorString = 'Error saving the link, the provided link'
+    if (reason === 1) return `${errorString} contains a redirect`
+    if (reason === 2) return `${errorString} returns an error. Double check the link or [contact us](mailto:team@tryfeed.co) in case you think the link is correct`
+    if (reason === 3) return `${errorString} is inaccessible`
+  },
   facebookConnectSubtitle: 'Connect to Facebook and Instagram',
   facebookConnectDescription: 'This gives Feed permission to analyse your posts to see which would work best as ads, and set-up campaigns on your behalf.',
   facebookConnectMultipleProfilesSubtitle: "You've connected multiple profiles, which would you like to set-up first?",
@@ -64,6 +70,7 @@ export default {
   locationDescription: 'This location will be set as your home country.',
   budgetSubtitle: 'What is your daily budget for advertising?',
   budgetDescription: 'You can change this at any time. We recommend spreading budget out over a longer period of time as consistency boosts ad performance. ',
+  inSufficientBudget: (minBudget) => `Budget must be at least ${minBudget} to set your objective to sales.`,
   reviewDescription: 'Feed has submitted your ads for approval!',
   objectiveSummary: (objective, platform) => {
     if (!objective) {

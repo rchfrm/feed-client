@@ -88,7 +88,7 @@ const TheSubNavLinks = ({ className }) => {
                           {titleText}
                           {/* PENDING EMAIL WARNING */}
                           {showDot && (
-                            <NotificationDot size="small" style={{ left: '-1.25rem', top: '0.55rem' }} />
+                            <NotificationDot size="small" style={{ left: '-1rem', top: '0.55rem' }} />
                           )}
                         </a>
                       </ActiveLink>

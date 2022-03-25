@@ -155,11 +155,6 @@ Do you want to add **${platformTitle}** as an integration instead?
 This way you can use the link in your ads and track follower and listener data on the Insights page?`
   },
 
-  // CONVERSIONS INTEREST
-  conversionsInterestCopy: `Are you looking for to use ads to increase sales of products or tickets on your website, or to generate mailing list signups?
-
-  If so, request access to conversion ads by emailing [help@tryfeed.co](mailto:help@tryfeed.co)`,
-
   confirmPrioritizePost: (isPrioritized, isArchived) => {
     if (isPrioritized) {
       return `**Remove priority status from this post?**
@@ -187,13 +182,9 @@ Would you like to continue?`
     'By marking this post as a priority post, you can start it running straight away (unless two priority posts are already running).',
     'You can remove priority status from the post or stop it running at any time.',
   ],
-  conversionsToggleAlert: (canRunConversions, globalConversionsEnabled) => {
+  conversionsToggleAlert: (canRunConversions) => {
     if (!canRunConversions) {
       return 'Would you like to set-up conversion campaigns now?'
-    }
-
-    if (!globalConversionsEnabled) {
-      return 'Would you like to enable conversion campaigns now?'
     }
   },
   connectWithFacebookCard: "See your most engaging Facebook and Instagram posts and start running ads.",

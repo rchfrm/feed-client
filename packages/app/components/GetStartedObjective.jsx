@@ -17,6 +17,8 @@ import copy from '@/app/copy/getStartedCopy'
 
 const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
+  updateLinks: state.updateLinks,
+  optimizationPreferences: state.optimizationPreferences,
 })
 
 const GetStartedObjective = () => {
@@ -24,14 +26,39 @@ const GetStartedObjective = () => {
   const [error, setError] = React.useState(null)
 
   const { goToStep } = React.useContext(WizardContext)
-  const { updatePreferences } = useControlsStore(getControlsStoreState)
-  const { artistId, artist } = React.useContext(ArtistContext)
+  const { updatePreferences, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective: currentObjective } = optimizationPreferences
+  const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
+
+  const unsetDefaultLink = (artist) => {
+    // Update the posts and conversions preferences objects
+    updatePreferences({
+      postsPreferences: {
+        defaultLinkId: null,
+      },
+      conversionsPreferences: {
+        defaultLinkId: null,
+      },
+    })
+
+    // Unset the link in the controls store
+    updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
+
+    // Update artist context
+    setPostPreferences('default_link_id', null)
+  }
 
   const handleNextStep = async (objective) => {
     const isGrowth = objective === 'growth'
     const nextStep = isGrowth ? 1 : 2
+
+    // If the objective hasn't changed just go to the next step
+    if (objective === currentObjective) {
+      goToStep(nextStep)
+      return
+    }
 
     // If there's no connected account yet store the data in local storage
     if (!artistId) {
@@ -39,12 +66,16 @@ const GetStartedObjective = () => {
         ...wizardState,
         objective,
         ...(!isGrowth && { platform: 'website' }),
+        defaultLink: null,
       }))
 
       updatePreferences({
         optimizationPreferences: {
           objective,
           ...(!isGrowth && { platform: 'website' }),
+        },
+        postsPreferences: {
+          defaultLinkId: null,
         },
       })
       goToStep(nextStep)
@@ -56,12 +87,16 @@ const GetStartedObjective = () => {
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       ...(!isGrowth && { platform: 'website' }),
+      defaultLink: null,
     })
 
     if (error) {
       setError(error)
       return
     }
+
+    // Unset the default link
+    unsetDefaultLink(updatedArtist)
 
     // Update preferences in controls store
     updatePreferences(getPreferencesObject(updatedArtist))

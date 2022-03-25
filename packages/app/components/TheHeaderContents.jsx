@@ -24,7 +24,6 @@ function TheHeaderContents({
   subNavOpen,
   toggleSubNav,
   isLoggedIn,
-  inlinePageTitle,
 }) {
   // GET USER
   const { user } = React.useContext(UserContext)
@@ -52,27 +51,25 @@ function TheHeaderContents({
 
   // TOGGLE HEADER FOR NARROW
   // & Resize background
-  const [showPageTitle, setShowPageTitle] = React.useState(false)
   const [backgroundStyle, setBackgroundStyle] = React.useState({})
   React.useEffect(() => {
-    // Set header or not
-    const showPageTitle = !inlinePageTitle
-    setShowPageTitle(showPageTitle)
     // Resize header bg
     setBackgroundStyle({
       width: windowWidth,
       marginLeft: windowWidth / -2,
     })
-  }, [windowWidth, inlinePageTitle])
+  }, [windowWidth])
 
   // FETCH NOTIFICATIONS
   const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
   const isGetStartedPage = pathname === ROUTES.GET_STARTED
+  const hasSideNav = isLoggedIn && user?.id && !user.is_email_verification_needed && !isGetStartedPage
 
   return (
     <header className={[
       styles.TheHeader,
       subNavOpen ? styles._subNavOpen : '',
+      !hasSideNav ? styles.hasNoSideNav : '',
     ].join(' ')}
     >
       {/* BG */}
@@ -94,9 +91,9 @@ function TheHeaderContents({
         />
       </a>
       {/* Page Header */}
-      {showPageTitle && <PageHeader className={styles.pageTitle} />}
+      <PageHeader className={styles.pageTitle} />
       {/* Subnav button */}
-      {isLoggedIn && user?.id && !user.is_email_verification_needed && !isGetStartedPage && (
+      {hasSideNav && (
         <TheSubNavButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}

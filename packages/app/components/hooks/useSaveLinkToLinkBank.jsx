@@ -20,18 +20,19 @@ const useSaveLinkToLinkBank = () => {
 
   const { artistId } = React.useContext(ArtistContext)
 
-  const saveLinkToLinkBank = async (link) => {
-    const action = 'add'
-    const { res: savedLink, error } = await saveLink(artistId, link, savedFolders, action)
+  const saveLinkToLinkBank = async (link, action = 'add') => {
+    const { res, error } = await saveLink(artistId, link, savedFolders, action)
 
-    // Add the new link to the controls store
     if (error) {
-      return { error }
+      const saveLinkError = `Error saving link: ${error.message}`
+
+      return { error: { message: saveLinkError } }
     }
 
-    updateLinks(action, { newLink: savedLink, oldLink: link })
+    // Update controls store links with the new integration link
+    updateLinks(action, { newLink: res, oldLink: link })
 
-    return { savedLink }
+    return { savedLink: res }
   }
 
   return saveLinkToLinkBank

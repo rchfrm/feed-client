@@ -15,7 +15,7 @@ const GetStartedContent = () => {
     adAccountId,
     facebookPixelId,
     locations,
-    budget,
+    hasSufficientBudget,
   } = useGetStartedWizard()
 
   return (
@@ -29,7 +29,7 @@ const GetStartedContent = () => {
       adAccountId={adAccountId}
       facebookPixelId={facebookPixelId}
       locations={locations}
-      budget={budget}
+      hasSufficientBudget={hasSufficientBudget}
     />
   )
 }

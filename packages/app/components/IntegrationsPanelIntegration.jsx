@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import PlatformIcon from '@/icons/PlatformIcon'
 import ButtonPill from '@/elements/ButtonPill'
 
@@ -8,6 +10,13 @@ import brandColors from '@/constants/brandColors'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useEditIntegration from '@/app/hooks/useEditIntegration'
+import useControlsStore from '@/app/stores/controlsStore'
+
+import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
+
+const getControlsStoreState = (state) => ({
+  fetchAndUpdateLinks: state.fetchAndUpdateLinks,
+})
 
 const IntegrationsPanelIntegration = ({
   integration,
@@ -24,19 +33,29 @@ const IntegrationsPanelIntegration = ({
   const textColor = isPopulated ? color.text : brandColors.textColor
   const iconFill = isPopulated ? color.text : color.bg
   const buttonText = isPopulated ? `${title} connected` : `Connect ${title}`
+
+  const { fetchAndUpdateLinks } = useControlsStore(getControlsStoreState)
+
+  const { artist } = React.useContext(ArtistContext)
+
   // EDIT FUNCTION
   const action = isPopulated ? 'delete' : 'add'
   const updateIntegration = useEditIntegration({
     artistId,
     location,
-    onSuccess: (updatedArtist) => {
+    onSuccess: async (updatedArtist) => {
       const { integrations } = updatedArtist
+
       setArtist({
         type: 'update-integrations',
         payload: {
           integrations,
         },
       })
+
+      const updatedIntegrations = formatAndFilterIntegrations(integrations)
+      const artistWithFormattedIntegrations = { ...artist, integrations: updatedIntegrations }
+      await fetchAndUpdateLinks(artistWithFormattedIntegrations)
     },
   })
   // GET BUTTON SIZE

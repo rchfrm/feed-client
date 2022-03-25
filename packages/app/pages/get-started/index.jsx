@@ -3,7 +3,7 @@ import testPageReady from '@/hoc/testPageReady'
 import GetStartedContent from '@/app/GetStartedContent'
 
 const headerConfig = {
-  text: 'get started..',
+  text: 'set-up',
 }
 
 const Page = () => (

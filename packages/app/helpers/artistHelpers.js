@@ -464,25 +464,29 @@ export const getCallToAction = (objective, platform) => {
 }
 
 export const getArtistPayload = (data, artist) => {
+  const { objective, defaultLink } = data
+
+  const hasSalesObjective = objective === 'sales'
+  const hasGrowthObjective = objective === 'growth'
+
   const hasConnectedInstagram = hasConnectedIntegration(artist, 'instagram')
   const defaultPlatform = hasConnectedInstagram ? 'instagram' : 'facebook'
-  const { objective, defaultLink } = data
-  const platform = (objective === 'growth' && data.platform === 'website') ? defaultPlatform : data.platform
+  const platform = (hasGrowthObjective && data.platform === 'website') ? defaultPlatform : data.platform
 
   return {
     preferences: {
       optimization: {
         ...(objective && { objective }),
-        ...(platform && { platform: (objective === 'growth' && platform === 'website') ? 'facebook' : platform }),
+        ...(platform && { platform: (hasGrowthObjective && platform === 'website') ? 'facebook' : platform }),
       },
       posts: {
-        ...(defaultLink && { default_link_id: defaultLink }),
+        default_link_id: defaultLink,
         ...(objective && platform && { call_to_action: getCallToAction(objective, platform)?.value }),
       },
       conversions: {
-        ...(defaultLink && { default_link_id: defaultLink }),
-        ...(objective && platform && { call_to_action: getCallToAction(objective, platform)?.value }),
-        ...(objective === 'sales' && { facebook_pixel_event: 'Purchase' }),
+        ...(hasSalesObjective && { default_link_id: defaultLink }),
+        ...(hasSalesObjective && objective && platform && { call_to_action: getCallToAction(objective, platform)?.value }),
+        ...(hasSalesObjective && { facebook_pixel_event: 'Purchase' }),
       },
     },
   }
