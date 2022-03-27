@@ -20,7 +20,7 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const ProfileStatusMobileSetupState = ({ backgroundStyle }) => {
+const ProfileStatusMobileIncomplete = ({ backgroundStyle }) => {
   const { profileSetupStatus, optimizationPreferences } = useControlsStore(getControlsStoreState)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
@@ -41,7 +41,7 @@ const ProfileStatusMobileSetupState = ({ backgroundStyle }) => {
       backgroundStyle={backgroundStyle}
       className="bg-insta"
     >
-      {profileSetupStatus ? copy.profileStatus(profileSetupStatus, objective, platform) : 'Finish profile setup'}
+      {profileSetupStatus ? copy.profileStatus(profileSetupStatus, objective, platform) : 'Confirm profile setup'}
       <ArrowAltIcon
         className="ml-2 w-3"
         fill={brandColors.white}
@@ -51,12 +51,12 @@ const ProfileStatusMobileSetupState = ({ backgroundStyle }) => {
   )
 }
 
-ProfileStatusMobileSetupState.propTypes = {
+ProfileStatusMobileIncomplete.propTypes = {
   backgroundStyle: PropTypes.object,
 }
 
-ProfileStatusMobileSetupState.defaultProps = {
+ProfileStatusMobileIncomplete.defaultProps = {
   backgroundStyle: null,
 }
 
-export default ProfileStatusMobileSetupState
+export default ProfileStatusMobileIncomplete

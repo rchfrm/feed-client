@@ -6,7 +6,7 @@ const ProfileStatusMobileBar = ({ children, backgroundStyle, onClick, className 
     <button
       onClick={onClick}
       className={[
-        'relative h-5 flex items-center justify-center w-full text-white text-xs',
+        'relative h-7 flex items-center justify-center w-full text-white text-xs',
         className,
       ].join(' ')}
       style={{ ...backgroundStyle, left: '50%' }}
@@ -19,12 +19,13 @@ const ProfileStatusMobileBar = ({ children, backgroundStyle, onClick, className 
 ProfileStatusMobileBar.propTypes = {
   children: PropTypes.node.isRequired,
   backgroundStyle: PropTypes.object,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   className: PropTypes.string,
 }
 
 ProfileStatusMobileBar.defaultProps = {
   backgroundStyle: null,
+  onClick: () => {},
   className: '',
 }
 

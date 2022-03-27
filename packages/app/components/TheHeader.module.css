@@ -22,13 +22,6 @@
   position: absolute;
   top: var(--sp-4);
 
-  .TheHeader._subNavOpen & {
-    @media (--mdMax) {
-      position: fixed;
-      top: var(--sp-9);
-    }
-  }
-
   @media (--md) {
     position: fixed;
     top: var(--sp-10);
@@ -36,6 +29,16 @@
 
   @media (--bmw) {
     top: var(--sp-10);
+  }
+}
+
+.subNavButton,
+.logoContainer {
+  .TheHeader._subNavOpen & {
+    @media (--mdMax) {
+      position: fixed;
+      top: var(--sp-11);
+    }
   }
 }
 
@@ -166,32 +169,6 @@
   &._hidden {
     opacity: 0;
     transition: none;
-  }
-}
-
-.hasNoSideNav {
-  .logoContainer {
-    top: var(--sp-5);
-
-    @media (--xxs) {
-      top: var(--sp-9);
-    }
-
-    @media (--md) {
-      left: var(--sp-7);
-      top: var(--sp-7);
-    }
-  }
-
-  .pageTitle {
-    top: 2.2em;
-    left: 6rem;
-    text-align: left;
-    transform: none;
-
-    h1 {
-      font-size: 2.5rem;
-    }
   }
 }
 

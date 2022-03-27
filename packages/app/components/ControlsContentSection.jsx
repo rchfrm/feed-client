@@ -16,7 +16,7 @@ const ControlsContentSection = ({ children, action, className }) => {
     <div className={[className].join(' ')}>
       {!hasSetUpProfile && (
         <Link href={ROUTES.GET_STARTED}>
-          <a className="text-insta no-underline inline-block mb-4">
+          <a className="text-insta -hover--insta no-underline inline-block mb-4">
             <span role="img" aria-label="lock">🔒</span>
             <span className="mx-2 underline">Continue set up to {action}</span>
             <ArrowAltIcon

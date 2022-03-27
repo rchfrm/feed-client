@@ -5,30 +5,36 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import ProfileStatusMobileSetupState from '@/app/ProfileStatusMobileSetupState'
-import ProfileStatusMobileSpendingPaused from '@/app/ProfileStatusMobileSpendingPaused'
-import ProfileStatusMobileObjective from '@/app/ProfileStatusMobileObjective'
+import ProfileStatusMobileIncomplete from '@/app/ProfileStatusMobileIncomplete'
+import ProfileStatusMobileCompleted from '@/app/ProfileStatusMobileCompleted'
+import ProfileStatusMobileBar from '@/app/ProfileStatusMobileBar'
+
+import Spinner from '@/elements/Spinner'
+import brandColors from '../../shared/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
+  isControlsLoading: state.isControlsLoading,
 })
 
 const ProfileStatusMobile = ({ backgroundStyle }) => {
-  const { isSpendingPaused } = useControlsStore(getControlsStoreState)
+  const { isControlsLoading } = useControlsStore(getControlsStoreState)
 
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
 
-  if (!hasSetUpProfile) {
+  if (isControlsLoading) {
     return (
-      <ProfileStatusMobileSetupState backgroundStyle={backgroundStyle} />
+      <ProfileStatusMobileBar backgroundStyle={backgroundStyle} className="bg-green">
+        <Spinner width={16} fill={brandColors.white} />
+      </ProfileStatusMobileBar>
     )
   }
 
   return (
-    isSpendingPaused ? (
-      <ProfileStatusMobileSpendingPaused backgroundStyle={backgroundStyle} />
+    !hasSetUpProfile ? (
+      <ProfileStatusMobileIncomplete backgroundStyle={backgroundStyle} />
     ) : (
-      <ProfileStatusMobileObjective backgroundStyle={backgroundStyle} />
+      <ProfileStatusMobileCompleted backgroundStyle={backgroundStyle} />
     )
   )
 }

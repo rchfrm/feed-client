@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -9,7 +8,7 @@ import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSec
 import { getStartedSections, getAdAccounts, getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import brandColors from '@/constants/brandColors'
 
-const GetStartedSummarySentenceAdAccount = ({ setError }) => {
+const GetStartedSummarySentenceAdAccount = () => {
   const [adAccountName, setAdAccountName] = React.useState('')
 
   const { artistId, artist } = React.useContext(ArtistContext)
@@ -25,7 +24,6 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
     if (!isMounted()) return
 
     if (error) {
-      setError(error?.message?.previous || error)
       return
     }
     // Get the selected ad account name from the ad accounts array
@@ -49,7 +47,6 @@ const GetStartedSummarySentenceAdAccount = ({ setError }) => {
 }
 
 GetStartedSummarySentenceAdAccount.propTypes = {
-  setError: PropTypes.func.isRequired,
 }
 
 GetStartedSummarySentenceAdAccount.defaultProps = {

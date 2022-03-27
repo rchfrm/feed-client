@@ -6,11 +6,7 @@ import GetStartedSummarySentencePosts from '@/app/GetStartedSummarySentencePosts
 import GetStartedSummarySentenceAdAccount from '@/app/GetStartedSummarySentenceAdAccount'
 import GetStartedSummarySentenceTargeting from '@/app/GetStartedSummarySentenceTargeting'
 
-import Error from '@/elements/Error'
-
 const GetStartedSummarySentence = ({ className }) => {
-  const [error, setError] = React.useState(null)
-
   return (
     <>
       <div className={[
@@ -19,10 +15,9 @@ const GetStartedSummarySentence = ({ className }) => {
         className,
       ].join(' ')}
       >
-        <Error error={error} />
         <GetStartedSummarySentenceObjective />
         <GetStartedSummarySentencePosts />
-        <GetStartedSummarySentenceAdAccount setError={setError} />
+        <GetStartedSummarySentenceAdAccount />
         <GetStartedSummarySentenceTargeting />
       </div>
     </>

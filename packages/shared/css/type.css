@@ -10,11 +10,19 @@ body {
 a {
   color: inherit;
 
-  &[href],
+  &[href]:not(.-hover--insta),
   &.-hover--green {
     @mixin canHover {
       &:not(.button):hover {
         color: var(--green);
+      }
+    }
+  }
+
+  &.-hover--insta {
+    @mixin canHover {
+      &:hover {
+        color: var(--pink-hover)
       }
     }
   }

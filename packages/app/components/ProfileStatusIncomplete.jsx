@@ -14,7 +14,7 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const ProfileStatusSetupState = () => {
+const ProfileStatusIncomplete = () => {
   const { profileSetupStatus, optimizationPreferences } = useControlsStore(getControlsStoreState)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
@@ -44,17 +44,17 @@ const ProfileStatusSetupState = () => {
         <span
           className="mb-0 border-2 border-solid border-black rounded-full py-2 px-3"
         >
-          Finish profile set-up
+          Confirm profile set-up
         </span>
       </button>
     )
   )
 }
 
-ProfileStatusSetupState.propTypes = {
+ProfileStatusIncomplete.propTypes = {
 }
 
-ProfileStatusSetupState.defaultProps = {
+ProfileStatusIncomplete.defaultProps = {
 }
 
-export default ProfileStatusSetupState
+export default ProfileStatusIncomplete
