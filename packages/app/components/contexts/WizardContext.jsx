@@ -82,7 +82,7 @@ const WizardContextProvider = ({
   }
 
   React.useEffect(() => {
-    if (!profileSetupStatus) return
+    if (!profileSetupStatus || currentStep) return
 
     const firstIncompleteStepIndex = steps.findIndex((step) => {
       return step.name === profileSetupStatus

@@ -22,7 +22,7 @@ const getControlsStoreState = (state) => ({
 })
 
 const useCheckProfileSetupStatus = () => {
-  const [posts, setPosts] = React.useState([])
+  const [enabledPosts, setEnabledPosts] = React.useState([])
   // Get local storage state
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
@@ -88,7 +88,7 @@ const useCheckProfileSetupStatus = () => {
     },
     {
       name: 'posts',
-      isComplete: Boolean(posts.length),
+      isComplete: Boolean(enabledPosts.length),
     },
     {
       name: 'default-post-promotion',
@@ -110,7 +110,7 @@ const useCheckProfileSetupStatus = () => {
       name: 'budget',
       isComplete: hasSufficientBudget,
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, posts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
     const profileStatus = profileSetupConditions.find((condition) => !condition.isComplete)?.name
@@ -129,7 +129,7 @@ const useCheckProfileSetupStatus = () => {
       },
     })
 
-    setPosts(res)
+    setEnabledPosts(res)
   }, [artistId])
 
   useAsyncEffect(async () => {
@@ -138,7 +138,7 @@ const useCheckProfileSetupStatus = () => {
     updateProfileSetUpStatus(profileStatus)
   }, [profileSetupConditions])
 
-  return getProfileSetupStatus
+  return { getProfileSetupStatus, setEnabledPosts }
 }
 
 export default useCheckProfileSetupStatus

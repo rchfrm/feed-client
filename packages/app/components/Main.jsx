@@ -27,7 +27,7 @@ function Main({ children }) {
   const { user } = React.useContext(UserContext)
   const { artistId, artist } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
-  const getProfileSetupStatus = useCheckProfileSetupStatus()
+  const { getProfileSetupStatus } = useCheckProfileSetupStatus()
 
   // SETUP CONTROLS STORE WHEN ARTIST CHANGES
   const {

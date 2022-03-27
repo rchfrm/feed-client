@@ -5,6 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
 
 import GetStartedPostsSelectionButtonsMobile from '@/app/GetStartedPostsSelectionButtonsMobile'
 
@@ -27,6 +28,7 @@ const GetStartedPostsSelectionButtons = ({
   const { next, setWizardState } = React.useContext(WizardContext)
 
   const isDesktopLayout = useBreakpointTest('sm')
+  const { setEnabledPosts } = useCheckProfileSetupStatus()
 
   const loadMore = async () => {
     setIsLoadingMorePosts(true)
@@ -64,6 +66,8 @@ const GetStartedPostsSelectionButtons = ({
         value: enabledPosts,
       },
     })
+
+    setEnabledPosts(enabledPosts)
 
     setIsLoading(false)
 
