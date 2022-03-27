@@ -38,7 +38,7 @@ const GetStartedSummarySentenceSection = ({
   const isInActive = !isActive && !isComplete
 
   const setSectionColor = (color) => {
-    const newColor = color || getObjectiveColor(objective, platform, section, sectionColors)
+    const newColor = color || getObjectiveColor(objective, platform)
 
     setWizardState({
       type: 'set-state',

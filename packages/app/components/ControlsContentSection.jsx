@@ -10,13 +10,13 @@ import brandColors from '@/constants/brandColors'
 import * as ROUTES from '@/app/constants/routes'
 
 const ControlsContentSection = ({ children, action, className }) => {
-  const { artist: { hasSetupProfile } } = React.useContext(ArtistContext)
+  const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
 
   return (
     <div className={[className].join(' ')}>
-      {!hasSetupProfile && (
+      {!hasSetUpProfile && (
         <Link href={ROUTES.GET_STARTED}>
-          <a className="text-insta no-underline inline-block mb-4">
+          <a className="text-insta -hover--insta no-underline inline-block mb-4">
             <span role="img" aria-label="lock">🔒</span>
             <span className="mx-2 underline">Continue set up to {action}</span>
             <ArrowAltIcon
@@ -28,8 +28,8 @@ const ControlsContentSection = ({ children, action, className }) => {
         </Link>
       )}
       <div
-        className={[!hasSetupProfile ? 'pointer-events-none' : null].join(' ')}
-        style={{ ...(!hasSetupProfile && { filter: 'grayscale(100%)', opacity: '20%' }) }}
+        className={[!hasSetUpProfile ? 'pointer-events-none' : null].join(' ')}
+        style={{ ...(!hasSetUpProfile && { filter: 'grayscale(100%)', opacity: '20%' }) }}
       >
         {children}
       </div>

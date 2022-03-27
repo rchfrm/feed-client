@@ -1,5 +1,6 @@
 import React from 'react'
 import produce from 'immer'
+import useAsyncEffect from 'use-async-effect'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
@@ -294,22 +295,34 @@ const TargetingContextProvider = ({ children }) => {
     updateLocationsArrays({ cityKeys, countryCodes })
   }, [targetingState, initialTargetingState])
 
-  // RESET EVERYTHING WHEN ARTIST ID CHANGES
-  React.useEffect(() => {
+  // Reset and initialise on mount or when artist id changes
+  useAsyncEffect(async (isMounted) => {
     setErrorFetchingSettings(null)
     setSettingsReady(false)
     setLocationOptions({})
     setSelectedCampaignRecc(null)
-    // RESET locations
+
+    // Reset locations
     setSelectedCities(initialState.selectedCities)
     setSelectedCountries(initialState.selectedCountries)
-    // RESET Targeting state
+
+    // Reset targeting state
     setInitialTargetingState(initialState.targetingState)
     setTargetingState(initialState.targetingState)
+
     // Reset budget slider instance
     setBudgetSlider(initialState.budgetSlider)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // Fetch and initialise targeting state
+    if (artistId) {
+      const state = await targetingHelpers.fetchTargetingState(artistId, currencyOffset)
+      if (!isMounted()) return
+
+      const { error } = state
+      initPage(state, error)
+    }
   }, [artistId])
+
 
   return (
     <TargetingContext.Provider

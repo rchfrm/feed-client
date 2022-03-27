@@ -11,6 +11,8 @@ import useNotificationsStore from '@/app/stores/notificationsStore'
 import FeedLogo from '@/icons/FeedLogo'
 import TheSubNavButton from '@/app/TheSubNavButton'
 import PageHeader from '@/app/PageHeader'
+import ProfileStatus from '@/app/ProfileStatus'
+import ProfileStatusMobile from '@/app/ProfileStatusMobile'
 // IMPORT CONSTANTS
 import brandColors from '@/constants/brandColors'
 import * as ROUTES from '@/app/constants/routes'
@@ -24,6 +26,7 @@ function TheHeaderContents({
   subNavOpen,
   toggleSubNav,
   isLoggedIn,
+  mobileHeader,
 }) {
   // GET USER
   const { user } = React.useContext(UserContext)
@@ -66,42 +69,52 @@ function TheHeaderContents({
   const hasSideNav = isLoggedIn && user?.id && !user.is_email_verification_needed && !isGetStartedPage
 
   return (
-    <header className={[
-      styles.TheHeader,
-      subNavOpen ? styles._subNavOpen : '',
-      !hasSideNav ? styles.hasNoSideNav : '',
-    ].join(' ')}
-    >
-      {/* BG */}
-      <div className={[styles.background].join(' ')} style={backgroundStyle} />
-      <div className={[styles.dropShadow].join(' ')} style={backgroundStyle} />
-
-      {/* LOGO */}
-      <a
-        id="TheLogo"
-        onClick={goHome}
-        role="button"
-        title="home"
-        className={[styles.logoContainer].join(' ')}
+    <>
+      {mobileHeader && hasSideNav && <ProfileStatusMobile backgroundStyle={backgroundStyle} />}
+      <header className={[
+        styles.TheHeader,
+        subNavOpen ? styles._subNavOpen : '',
+        !hasSideNav ? styles.hasNoSideNav : '',
+        mobileHeader ? 'relative' : null,
+      ].join(' ')}
       >
-        <FeedLogo
-          className={styles.logo}
-          style={{ opacity: logoOpacity }}
-          textColor={logoTextColor}
-        />
-      </a>
-      {/* Page Header */}
-      <PageHeader className={styles.pageTitle} />
-      {/* Subnav button */}
-      {hasSideNav && (
-        <TheSubNavButton
-          toggleSubNav={toggleSubNav}
-          navOpen={subNavOpen}
-          hasNotifactions={!!totalNotificationsUnread}
-          className={[styles.subNavButton].join(' ')}
-        />
-      )}
-    </header>
+
+        {/* BG */}
+        <div className={[styles.background].join(' ')} style={backgroundStyle} />
+        <div className={[styles.dropShadow].join(' ')} style={backgroundStyle} />
+
+        {/* LOGO */}
+        <a
+          id="TheLogo"
+          onClick={goHome}
+          role="button"
+          title="home"
+          className={[
+            styles.logoContainer,
+            !hasSideNav ? styles.hasNoSideNav : '',
+          ].join(' ')}
+        >
+          <FeedLogo
+            className={styles.logo}
+            style={{ opacity: logoOpacity }}
+            textColor={logoTextColor}
+          />
+        </a>
+        {/* Page Header */}
+        <PageHeader className={styles.pageTitle} />
+        {hasSideNav && (
+          <>
+            {!mobileHeader && <ProfileStatus />}
+            <TheSubNavButton
+              toggleSubNav={toggleSubNav}
+              navOpen={subNavOpen}
+              hasNotifactions={!!totalNotificationsUnread}
+              className={[styles.subNavButton].join(' ')}
+            />
+          </>
+        )}
+      </header>
+    </>
   )
 }
 

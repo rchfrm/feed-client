@@ -14,8 +14,10 @@ import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
+import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
+import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -49,11 +51,14 @@ const GetStartedDailyBudget = () => {
           minReccomendedStories: minReccomendedStoriesString,
         },
       },
+      hasSetUpProfile,
     },
     artistId,
+    updatehasSetUpProfile,
   } = React.useContext(ArtistContext)
 
   const [budget, setBudget] = React.useState(targetingState.budget)
+  const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
@@ -78,17 +83,37 @@ const GetStartedDailyBudget = () => {
     const state = await targetingHelpers.fetchTargetingState(artistId, currencyOffset)
     const { error } = state
 
-    await initPage(state, error)
+    initPage(state, error)
   }, [minReccBudget])
+
+  const checkAndUpdateCompletedSetupAt = async () => {
+    if (!hasSetUpProfile) {
+      const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
+
+      if (error) {
+        setError(error)
+
+        return
+      }
+
+      const { completed_setup_at: completedSetupAt } = artistUpdated
+
+      updatehasSetUpProfile(completedSetupAt)
+    }
+  }
 
   const saveBudget = async () => {
     await saveTargeting('settings', { ...targetingState, budget })
+    await checkAndUpdateCompletedSetupAt()
+
     next()
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (budget === initialTargetingState.budget) {
+      await checkAndUpdateCompletedSetupAt()
       next()
+
       return
     }
     saveBudget()
@@ -100,6 +125,7 @@ const GetStartedDailyBudget = () => {
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.budgetSubtitle}</h3>
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.budgetDescription} />
+      <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">
         <div className="w-full sm:w-2/3 h-26 mb-4 px-6">
           <TargetingBudgetSlider

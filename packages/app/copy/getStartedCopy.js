@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import { platforms } from '@/app/helpers/artistHelpers'
 import { capitalise } from '@/helpers/utils'
 
 const getPlatform = (platform) => {
@@ -7,7 +8,30 @@ const getPlatform = (platform) => {
   if (platform === 'soundcloud') return 'SoundCloud account'
 }
 
+
 export default {
+  profileStatus: (status, objective, platform) => {
+    if (status === 'objective') return `What's your objective?`
+    if (status === 'platform') return 'Select the platform to grow'
+    if (status === 'default-link') {
+      if (objective === 'growth' && (platform !== 'facebook' && platform !== 'instagram')) {
+        const platformName = platforms.find(({ value }) => value === platform)?.name
+
+        return `Connect to ${platformName}`
+      }
+
+      return 'Enter your website link'
+    }
+    if (status === 'connect-profile') return 'Connect to Facebook'
+    if (status === 'posts') return 'Select the posts to promote'
+    if (status === 'default-post-promotion') return 'Automate post selection?'
+    if (status === 'ad-account') return 'Select your ad account'
+    if (status === 'facebook-pixel') return 'Select your Facebook pixel'
+    if (status === 'location') return 'Where are you based?'
+    if (status === 'budget') return 'How much would you like to spend?'
+
+    return ''
+  },
   objectiveSubtitle: 'What are you trying to achieve?',
   objectiveDescription: 'Choose audience growth if your focus is growing on a platform like Instagram, YouTube or Spotify; website sales for sales on your online store or website visits to get your audience to a website or landing page.',
   platformSubtitle: 'Which platform would you like to focus on initially?',

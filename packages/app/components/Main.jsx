@@ -1,56 +1,84 @@
-// IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-// IMPORT COMPONENTS
+
 import InitUser from '@/app/InitUser'
-// IMPORT CONTEXTS
+
 import { SidePanelContextProvider } from '@/app/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
-// IMPORT ELEMENTS
+
 import IntegrationErrorHandler from '@/app/IntegrationErrorHandler'
 import NotificationsHandler from '@/app/NotificationsHandler'
-// // IMPORT STORES
-import useControlsStore from '@/app/stores/controlsStore'
 
-const controlsStoreInit = state => state.initControlsStore
-const getUpdateLinksWithIntegrations = state => state.updateLinksWithIntegrations
-const controlsStoreClearAll = state => state.clearAll
+import useControlsStore from '@/app/stores/controlsStore'
+import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
+
+const getControlsStoreState = (state) => ({
+  initControlsStore: state.initControlsStore,
+  updateLinksWithIntegrations: state.updateLinksWithIntegrations,
+  clearAll: state.clearAll,
+  updateProfileSetUpStatus: state.updateProfileSetUpStatus,
+  controlsLoading: state.isControlsLoading,
+})
 
 function Main({ children }) {
+  const { user } = React.useContext(UserContext)
   const { artistId, artist } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const getProfileSetupStatus = useCheckProfileSetupStatus()
 
   // SETUP CONTROLS STORE WHEN ARTIST CHANGES
-  const setupControlsStore = useControlsStore(controlsStoreInit)
-  const clearControlsStore = useControlsStore(controlsStoreClearAll)
+  const {
+    initControlsStore,
+    updateLinksWithIntegrations,
+    clearAll,
+    controlsLoading,
+    updateProfileSetUpStatus,
+  } = useControlsStore(getControlsStoreState)
+
   useAsyncEffect(async () => {
     if (!artistId) return
-    clearControlsStore()
-    await setupControlsStore(artist, 'fetchData')
+
+    clearAll()
+
+    await initControlsStore(artist, 'fetchData')
     toggleGlobalLoading(false)
   }, [artistId])
 
   // UPDATE INTEGRATIONS when they change on artist
-  const updateLinksWithIntegrations = useControlsStore(getUpdateLinksWithIntegrations)
   React.useEffect(() => {
-    if (Array.isArray(artist.integrations)) updateLinksWithIntegrations(artist)
+    if (Array.isArray(artist.integrations)) {
+      updateLinksWithIntegrations(artist)
+    }
   // eslint-disable-next-line
   }, [artist.integrations])
 
+  // Update profile setup status in controls store
+  useAsyncEffect(async () => {
+    if (!user.id || (user.artists.length && !artistId) || controlsLoading) return
+
+    const { hasSetUpProfile } = artist
+
+    if (hasSetUpProfile) {
+      return
+    }
+
+    const profileSetupStatus = getProfileSetupStatus()
+
+    updateProfileSetUpStatus(profileSetupStatus)
+  }, [controlsLoading, user, artistId])
+
   return (
     <main id="page--container" className="md:ml-10">
-      <TargetingContextProvider>
-        <SidePanelContextProvider>
-          <InitUser>
-            {children}
-            <IntegrationErrorHandler />
-            <NotificationsHandler />
-          </InitUser>
-        </SidePanelContextProvider>
-      </TargetingContextProvider>
+      <SidePanelContextProvider>
+        <InitUser>
+          {children}
+          <IntegrationErrorHandler />
+          <NotificationsHandler />
+        </InitUser>
+      </SidePanelContextProvider>
     </main>
   )
 }

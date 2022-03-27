@@ -9,7 +9,7 @@
   background: var(--text-color);
   color: var(--bg-color);
 
-  padding-top: calc(var(--sp-5) + var(--sp-10) + var(--sp-10));
+  padding-top: calc(var(--sp-5) + var(--sp-12) + var(--sp-12));
   padding-bottom: var(--sp-10);
   overflow: auto;
 

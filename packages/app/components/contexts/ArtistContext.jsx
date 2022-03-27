@@ -93,8 +93,8 @@ const artistReducer = (draftState, action) => {
       draftState.integrations.find(integration => integration.platform === 'facebook').authorization.scopes = payload.scopes
       break
     }
-    case 'set-has-setup-profile': {
-      draftState.hasSetupProfile = payload.hasSetupProfile
+    case 'set-has-set-up-profile': {
+      draftState.hasSetUpProfile = payload.hasSetUpProfile
       break
     }
     default:
@@ -143,6 +143,9 @@ function ArtistProvider({ children }) {
     // Get spending paused status
     const isSpendingPaused = preferences?.targeting?.status === 0
 
+    // Get completed setup at
+    const hasSetUpProfile = Boolean(artist.completed_setup_at)
+
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
@@ -151,6 +154,7 @@ function ArtistProvider({ children }) {
       artistDraft.integrations = integrationsFormatted
       artistDraft.feedMinBudgetInfo = feedMinBudgetInfo || {}
       artistDraft.isSpendingPaused = isSpendingPaused
+      artistDraft.hasSetUpProfile = hasSetUpProfile
     })
 
     // Set hasBudget state
@@ -293,14 +297,14 @@ function ArtistProvider({ children }) {
     })
   }
 
-  const updateHasSetUpProfile = React.useCallback((hasSetupProfile) => {
+  const updatehasSetUpProfile = (completedSetupAt) => {
     setArtist({
-      type: 'set-has-setup-profile',
+      type: 'set-has-set-up-profile',
       payload: {
-        hasSetupProfile,
+        hasSetUpProfile: Boolean(completedSetupAt),
       },
     })
-  }, [setArtist])
+  }
 
   // Update artist ID
   React.useEffect(() => {
@@ -336,7 +340,7 @@ function ArtistProvider({ children }) {
     updateBudget,
     updateArtist,
     updateSpendingPaused,
-    updateHasSetUpProfile,
+    updatehasSetUpProfile,
     hasBudget,
   }
 

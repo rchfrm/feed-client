@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
@@ -25,9 +24,8 @@ import GetStartedSummary from '@/app/GetStartedSummary'
 import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
 import { getLocalStorage } from '@/helpers/utils'
-import { getLinkByPlatform, getLinkByHref } from '@/app/helpers/linksHelpers'
+import { getLinkByPlatform, getLinkById, getLinkByHref } from '@/app/helpers/linksHelpers'
 import { getStartedSections, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
-
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -35,132 +33,116 @@ const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
   updateLinks: state.updateLinks,
   updatePreferences: state.updatePreferences,
+  optimizationPreferences: state.optimizationPreferences,
+  postsPreferences: state.postsPreferences,
+  profileSetupStatus: state.profileSetupStatus,
 })
 
-const GetStartedWizard = ({
-  isLoading,
-  objective,
-  platform,
-  defaultLink,
-  posts,
-  defaultPromotionEnabled,
-  adAccountId,
-  facebookPixelId,
-  locations,
-  hasSufficientBudget,
-}) => {
+const GetStartedWizard = () => {
   const [steps, setSteps] = React.useState([])
 
   const { user } = React.useContext(UserContext)
-  const { artistId, artist } = React.useContext(ArtistContext)
-  const { start_spending_at: startSpendingAt } = artist
-  const hasLocation = Object.keys(locations).length > 0 || Boolean(artist?.country_code)
+  const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
 
   const {
     nestedLinks,
     updateLinks,
     updatePreferences,
+    optimizationPreferences,
+    postsPreferences,
+    profileSetupStatus,
   } = useControlsStore(getControlsStoreState)
+
+  const { objective, platform } = optimizationPreferences
+  const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId)
 
   const saveLinkToLinkBank = useSaveLinkToLinkBank()
   const saveIntegrationLink = useSaveIntegrationLink()
 
-  const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
+  const { targetingState, saveTargetingSettings, locations } = React.useContext(TargetingContext)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
 
   // Define wizard steps
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
+      name: 'objective',
       title: 'Your objective',
       section: getStartedSections.objective,
       component: <GetStartedObjective />,
-      isComplete: Boolean(objective || wizardState?.objective),
-      isApplicable: true,
     },
     {
       id: 1,
+      name: 'platform',
       title: 'Your objective',
       section: getStartedSections.objective,
       component: <GetStartedPlatform />,
-      isComplete: Boolean(platform || wizardState?.platform),
-      isApplicable: objective === 'growth',
     },
     {
       id: 2,
+      name: 'default-link',
       title: 'Your objective',
       section: getStartedSections.objective,
-      component: <GetStartedDefaultLink defaultLink={defaultLink || wizardState?.defaultLink} />,
-      isComplete: Boolean(defaultLink || wizardState?.defaultLink),
-      isApplicable: true,
+      component: <GetStartedDefaultLink />,
     },
     {
       id: 3,
+      name: 'connect-profile',
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedConnectFacebook />,
       shouldSkip: Boolean(user.artists.length),
-      isComplete: Boolean(user.artists.length),
-      isApplicable: true,
     },
     {
       id: 4,
+      name: 'posts',
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
-      component: <GetStartedPostsSelection initialPosts={posts} />,
-      isComplete: posts.length > 0 || Boolean(startSpendingAt),
-      isApplicable: true,
+      component: <GetStartedPostsSelection />,
     },
     {
       id: 5,
+      name: 'default-post-promotion',
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsDefaultSelection />,
-      isComplete: defaultPromotionEnabled !== null,
-      isApplicable: true,
     },
     {
       id: 6,
+      name: 'ad-account',
       title: 'Your ad account',
       section: getStartedSections.adAccount,
       component: <GetStartedAdAccount />,
-      isComplete: Boolean(adAccountId),
-      isApplicable: true,
     },
     {
       id: 7,
+      name: 'facebook-pixel',
       title: 'Your ad account',
       section: getStartedSections.adAccount,
       component: <GetStartedFacebookPixel />,
-      isComplete: Boolean(facebookPixelId),
-      isApplicable: objective !== 'growth',
     },
     {
       id: 8,
+      name: 'location',
       title: 'Your ad account',
       section: getStartedSections.adAccount,
       component: <GetStartedLocation />,
-      isComplete: hasLocation,
-      shouldSkip: hasLocation,
-      isApplicable: true,
+      shouldSkip: (Object.keys(locations || {}).length || artist.country_code),
     },
     {
       id: 9,
+      name: 'budget',
       title: 'Targeting',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
-      isComplete: hasSufficientBudget,
-      isApplicable: true,
     },
     {
       id: 10,
       title: '',
       component: <GetStartedSummary />,
-      isComplete: false,
-      isApplicable: true,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [posts])
+  ], [])
 
   React.useEffect(() => {
     // Filter out the steps that should be skipped
@@ -173,7 +155,6 @@ const GetStartedWizard = ({
       !isMounted()
       || !artistId
       || [objective, platform, defaultLink].every(Boolean)
-      || isLoading
       || !wizardState
     ) {
       return
@@ -221,7 +202,7 @@ const GetStartedWizard = ({
     }
 
     // Patch the profile
-    const { res: updatedArtist, error } = await updateArtist(artist, { ...wizardState, defaultLink: link.id })
+    const { res: updatedArtist, error } = await updateArtist(artist, { ...wizardState, defaultLink: link?.id })
 
     if (error) {
       return
@@ -229,6 +210,9 @@ const GetStartedWizard = ({
 
     // Set the new link as the default link
     updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: link })
+
+    // Update artist status
+    setPostPreferences('default_link_id', link.id)
 
     // Update preferences in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
@@ -241,7 +225,7 @@ const GetStartedWizard = ({
 
     // Remove stored data from localstorage
     localStorage.removeItem('getStartedWizard')
-  }, [artistId, isLoading, objective, platform, defaultLink])
+  }, [artistId, objective, platform, defaultLink])
 
   return (
     <div className="flex flex-column flex-1">
@@ -249,8 +233,8 @@ const GetStartedWizard = ({
         <WizardContextProvider
           steps={steps}
           goBackToPath={ROUTES.HOME}
-          isLoading={isLoading}
           navigation={<GetStartedSummarySentence />}
+          profileSetupStatus={profileSetupStatus}
         >
           {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
         </WizardContextProvider>
@@ -260,25 +244,9 @@ const GetStartedWizard = ({
 }
 
 GetStartedWizard.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  objective: PropTypes.string,
-  platform: PropTypes.string,
-  defaultLink: PropTypes.object,
-  posts: PropTypes.array.isRequired,
-  defaultPromotionEnabled: PropTypes.bool,
-  adAccountId: PropTypes.string,
-  facebookPixelId: PropTypes.string,
-  locations: PropTypes.object.isRequired,
-  hasSufficientBudget: PropTypes.bool.isRequired,
 }
 
 GetStartedWizard.defaultProps = {
-  objective: '',
-  platform: '',
-  defaultLink: null,
-  defaultPromotionEnabled: null,
-  adAccountId: '',
-  facebookPixelId: '',
 }
 
 export default GetStartedWizard

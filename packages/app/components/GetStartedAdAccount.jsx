@@ -43,7 +43,8 @@ const GetStartedAdAccount = () => {
     if (!isMounted()) return
 
     if (error) {
-      setError(error)
+      setIsLoading(false)
+
       return
     }
     const { adaccounts: adAccounts } = res

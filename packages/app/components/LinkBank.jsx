@@ -26,7 +26,7 @@ const getControlsStoreState = (state) => ({
 
 const LinkBank = () => {
   const { fetchData, nestedLinks, isControlsLoading, linkBankError } = useControlsStore(getControlsStoreState, shallow)
-  const { artist: { hasSetupProfile } } = React.useContext(ArtistContext)
+  const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
 
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
@@ -57,15 +57,15 @@ const LinkBank = () => {
       <ControlsContentSection action="add to the link bank">
         <section className="mb-10">
           <LinkBankList
-            looseLinks={hasSetupProfile ? looseLinks : dummyLinks}
+            looseLinks={hasSetUpProfile ? looseLinks : dummyLinks}
             linkFolders={linkFolders}
-            isDisabled={!hasSetupProfile}
+            isDisabled={!hasSetUpProfile}
           />
         </section>
         <section>
           <h3>Integration Links</h3>
           <LinkBankIntegrations
-            integrationLinks={hasSetupProfile ? integrationLinks : dummyIntegrationLinks}
+            integrationLinks={hasSetUpProfile ? integrationLinks : dummyIntegrationLinks}
           />
         </section>
       </ControlsContentSection>
