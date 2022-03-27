@@ -9,7 +9,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { setPostLink, defaultPostLinkId } from '@/app/helpers/linksHelpers'
 import { removeProtocolFromUrl, enforceUrlProtocol, parseUrl } from '@/helpers/utils'
 import { track } from '@/helpers/trackingHelpers'
-import brandColors from '../../shared/constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 const getDefaultLink = state => state.defaultLink
 

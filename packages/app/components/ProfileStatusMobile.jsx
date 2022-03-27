@@ -10,7 +10,7 @@ import ProfileStatusMobileCompleted from '@/app/ProfileStatusMobileCompleted'
 import ProfileStatusMobileBar from '@/app/ProfileStatusMobileBar'
 
 import Spinner from '@/elements/Spinner'
-import brandColors from '../../shared/constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,

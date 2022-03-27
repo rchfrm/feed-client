@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
-import brandColors from '../../shared/constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 const GetStartedPostsSelectionButtonsMobile = ({ loadMore, isLoading, isLoadingMorePosts, handleNext }) => {
   return (
