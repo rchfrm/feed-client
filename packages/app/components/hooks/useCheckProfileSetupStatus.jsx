@@ -9,7 +9,6 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
-import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
 import { getLocalStorage } from '@/helpers/utils'
 
 import * as server from '@/app/helpers/appServer'
@@ -69,18 +68,6 @@ const useCheckProfileSetupStatus = () => {
   // Get targeting context values
   const { locations } = React.useContext(TargetingContext)
 
-  const fetchEnabledPosts = React.useCallback(async () => {
-    const res = await server.getPosts({
-      artistId,
-      sortBy: ['normalized_score'],
-      filterBy: {
-        promotion_enabled: [true],
-      },
-    })
-
-    return formatRecentPosts(res)
-  }, [artistId])
-
   // Define profile setup conditions
   const profileSetupConditions = React.useMemo(() => [
     {
@@ -101,17 +88,7 @@ const useCheckProfileSetupStatus = () => {
     },
     {
       name: 'posts',
-      isComplete: async () => {
-        let enabledPosts = posts
-
-        if (!enabledPosts.length) {
-          enabledPosts = await fetchEnabledPosts()
-
-          setPosts(enabledPosts)
-        }
-
-        return enabledPosts.length > 0
-      },
+      isComplete: Boolean(posts.length),
     },
     {
       name: 'default-post-promotion',
@@ -133,13 +110,27 @@ const useCheckProfileSetupStatus = () => {
       name: 'budget',
       isComplete: hasSufficientBudget,
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, fetchEnabledPosts, hasSufficientBudget, objective, platform, posts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, posts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
     const profileStatus = profileSetupConditions.find((condition) => !condition.isComplete)?.name
 
     return profileStatus
   }
+
+  useAsyncEffect(async () => {
+    if (!artistId) return
+
+    const res = await server.getPosts({
+      artistId,
+      sortBy: ['normalized_score'],
+      filterBy: {
+        promotion_enabled: [true],
+      },
+    })
+
+    setPosts(res)
+  }, [artistId])
 
   useAsyncEffect(async () => {
     const profileStatus = getProfileSetupStatus()
