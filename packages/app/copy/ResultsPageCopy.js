@@ -35,7 +35,7 @@ const optimisationsEventsDictionary = {
   omni_view_content: {
     name: 'Content Views',
     fbEventName: 'ViewContent',
-    event: 'content views',
+    event: 'content view',
     detail: 'an ad about viewing more content',
   },
 }
@@ -147,20 +147,45 @@ export default {
     }
     return 'Your results will appear here soon (within 24 hours of starting ads).'
   },
-  noSpendReachDescription: (value, isMobile) => {
+  noSpendReachDescription: (value, hasNoProfiles, isMobile) => {
+    if (hasNoProfiles) {
+      return `On average, a post on Facebook or Instagram will reach **${value.toFixed(1)}%** of the total audience.`
+    }
+
     if (isMobile) {
       return 'The percentage of your audience reached by a typical post.'
     }
 
-    return `Your posts reach **${value}%** of your addressable audience.`
+    return `Your posts reach **${value.toFixed(1)}%** of your addressable audience.`
   },
-  noSpendEngageDescription: (value) => `**${value}%** of your followers engage with each post on average.`,
-  noSpendGrowthDescription: (value, platform, rate) => {
-    if (value === 0) {
-      return `You're ${capitalise(platform)} following is steady.`
+  noSpendEngageDescription: (value, hasNoProfiles) => {
+    if (hasNoProfiles) {
+      return `**${value.toFixed(1)}%** of followers engage with the average post.`
     }
+
+    return `**${value.toFixed(1)}%** of your followers engage with each post on average.`
+  },
+  noSpendGrowthDescription: (value, platform, rate, hasNoProfiles) => {
+    const numberRate = Number(rate)
+    if (hasNoProfiles) {
+      if (numberRate < 0) {
+        return 'Did you know the average Instagram profile is actually shrinking?'
+      }
+
+      if (numberRate === 0) {
+        return "Did you know the average Instagram profile actually doesn't grow?"
+      }
+
+      return `The average Instagram grows **${rate}%** a month. With 5,000 followers, that's an extra **${value}**.`
+    }
+
+    if (value === 0) {
+      return `Your ${capitalise(platform)} following is steady.`
+    }
+
     const rateString = `_(${rate >= 0 ? '+' : ''}${rate}%)_`
     const changeDescription = value > 0 ? 'adding' : 'losing'
+
     return `You're ${changeDescription} **${value}** ${capitalise(platform)} followers a month on average ${rateString}.`
   },
   noSpendTotalFollowersDescription: "We don't have enough historical information yet, so check back later to see growth insights.",
@@ -181,14 +206,22 @@ export default {
       return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
     }
   },
-  postsChartTitle: (metricType) => {
+  postsChartTitle: (metricType, hasNoProfiles) => {
+    if (hasNoProfiles) {
+      return 'Recent post performance'
+    }
+
     if (metricType === 'reach') {
       return 'Reach of your recent posts'
     }
 
     return 'Engagement rate of your recent posts'
   },
-  postsChartDescription: (metricType) => {
+  postsChartDescription: (metricType, hasNoProfiles) => {
+    if (hasNoProfiles) {
+      return 'Connect your Facebook and Instagram pages, to see how your recent posts compare to each other, and how you compare to other similar profiles.'
+    }
+
     if (metricType === 'reach') {
       return "See the estimated percentage of your audience your posts have reached in the last 30 days. Your audience isn't just followers, it’s also people who have engaged with you before but haven’t followed you yet."
     }
@@ -211,4 +244,5 @@ export default {
 
     return `${resultsTypeString} from **${dateFrom}** to **${dateTo}**`
   },
+  connectAccounts: `[Connect your accounts](${ROUTES.CONNECT_ACCOUNTS}) to see how you compare!`,
 }

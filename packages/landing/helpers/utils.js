@@ -36,6 +36,17 @@ export const minArrayValue = (array) => {
   return min
 }
 
+export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
+  if (value === null || typeof value === 'undefined' || Number.isNaN(value)) return
+  const currencyToUse = currency === null ? 'GBP' : currency
+  const valueFloat = parseFloat(value)
+  return valueFloat.toLocaleString('en-GB', {
+    style: 'currency',
+    currency: currencyToUse,
+    ...(hideMinorUnits && { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+  })
+}
+
 // Use this to parse local URLs to get path and queries
 /**
  * @param {array} arr the array to sort

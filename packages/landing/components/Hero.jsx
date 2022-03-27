@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types'
 
 import HeroImage from '@/landing/HeroImage'
-import HeroStrapline from '@/landing/HeroStrapline'
+import HeroStrapLine from '@/landing/HeroStrapLine'
 import HeroDescription from '@/landing/HeroDescription'
 import HeroSignUp from '@/landing/HeroSignUp'
+import Section from '@/landing/Section'
 
 const Hero = ({
   heroStraplineA,
@@ -13,14 +14,12 @@ const Hero = ({
   heroImageDesktop,
 }) => {
   return (
-    <section className="section--padding lg">
-      <div className={['grid', 'grid-cols-12', 'xs:gap-4'].join(' ')}>
-        <HeroStrapline partA={heroStraplineA} partB={heroStraplineB} />
-        <HeroSignUp />
-        <HeroDescription description={heroCopy} />
-        <HeroImage mobile={heroImageMobile} desktop={heroImageDesktop} />
-      </div>
-    </section>
+    <Section>
+      <HeroStrapLine partA={heroStraplineA} partB={heroStraplineB} />
+      <HeroSignUp />
+      <HeroDescription description={heroCopy} />
+      <HeroImage mobile={heroImageMobile} desktop={heroImageDesktop} />
+    </Section>
   )
 }
 

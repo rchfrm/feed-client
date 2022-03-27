@@ -1,4 +1,4 @@
-.strapline {
+.strapLine {
   * {
     font-size: 8vw;
 
@@ -9,10 +9,6 @@
     @media (--bmw) {
       font-size: 48px;
     }
-  }
-
-  strong {
-    border-bottom: 3px solid var(--green);
   }
 }
 

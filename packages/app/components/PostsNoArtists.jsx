@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
-import PostsNoArtistsConnectAccountsBlock from '@/app/PostsNoArtistsConnectAccountsBlock'
+import NoArtistsConnectAccountsBlock from '@/app/NoArtistsConnectAccountsBlock'
 import PostsSorter from '@/app/PostsSorter'
 import PostsFiltersHandler from '@/app/PostsFiltersHandler'
 import PostsNoArtistsDummyAll from '@/app/PostsNoArtistsDummyAll'
@@ -34,7 +34,8 @@ const PostsNoArtists = ({ dummyPostsImages }) => {
         return <Error error={error} key={index} />
       })}
       <div className="grid grid-cols-12 col-gap-6 mb-12">
-        <PostsNoArtistsConnectAccountsBlock
+        <NoArtistsConnectAccountsBlock
+          page="posts"
           errors={errors}
           setErrors={setErrors}
           className="col-span-12 sm:col-span-6 lg:col-span-4 p-6 bg-grey-1"

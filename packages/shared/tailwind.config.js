@@ -79,6 +79,9 @@ module.exports = (purgeFiles) => ({
       transitionProperty: {
         height: 'height',
       },
+      borderWidth: {
+        3: '3px',
+      },
     },
   },
   variants: {
