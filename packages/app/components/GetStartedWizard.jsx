@@ -36,6 +36,7 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
   postsPreferences: state.postsPreferences,
   profileSetupStatus: state.profileSetupStatus,
+  isControlsLoading: state.isControlsLoading,
 })
 
 const GetStartedWizard = () => {
@@ -51,6 +52,7 @@ const GetStartedWizard = () => {
     optimizationPreferences,
     postsPreferences,
     profileSetupStatus,
+    isControlsLoading,
   } = useControlsStore(getControlsStoreState)
 
   const { objective, platform } = optimizationPreferences
@@ -142,7 +144,7 @@ const GetStartedWizard = () => {
       component: <GetStartedSummary />,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [])
+  ], [isControlsLoading])
 
   React.useEffect(() => {
     // Filter out the steps that should be skipped
@@ -233,6 +235,7 @@ const GetStartedWizard = () => {
         <WizardContextProvider
           steps={steps}
           goBackToPath={ROUTES.HOME}
+          isLoading={isControlsLoading}
           navigation={<GetStartedSummarySentence />}
           profileSetupStatus={profileSetupStatus}
         >

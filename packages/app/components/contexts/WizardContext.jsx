@@ -5,6 +5,7 @@ import Router from 'next/router'
 import { useImmerReducer } from 'use-immer'
 
 import ProgressBar from '@/app/ProgressBar'
+import Spinner from '@/elements/Spinner'
 import ChevronIcon from '@/icons/ChevronIcon'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -45,6 +46,7 @@ const WizardContextProvider = ({
   steps,
   children,
   goBackToPath,
+  isLoading,
   navigation,
   hasBackButton,
   profileSetupStatus,
@@ -102,36 +104,42 @@ const WizardContextProvider = ({
         setWizardState,
       }}
     >
-      {!isLastStep && navigation}
-      <h2>{steps[currentStep].title}</h2>
-      <ProgressBar percentage={((currentStep + 1) / (lastStep + 1)) * 100} className="mb-8" />
-      {children[currentStep]}
-      <div className="w-full mt-auto flex justify-between">
-        {(hasBackButton && !isFirstStep) ? (
-          <a
-            role="button"
-            onClick={back}
-            className="flex text-grey-2 no-underline"
-          >
-            <ArrowAltIcon
-              className="w-3 mr-3"
-              direction="left"
-              fill={brandColors.grey}
-            />
-            Back
-          </a>
-        ) : null}
-        <a
-          role="button"
-          onClick={goToPage}
-          className="flex items-center py-1 px-3 text-sm border border-dashed border-black rounded-full no-underline"
-        >
-          Let me see the app first
-          <ChevronIcon
-            className="h-3 ml-2"
-          />
-        </a>
-      </div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          {!isLastStep && navigation}
+          <h2>{steps[currentStep].title}</h2>
+          <ProgressBar percentage={((currentStep + 1) / (lastStep + 1)) * 100} className="mb-8" />
+          {children[currentStep]}
+          <div className="w-full mt-auto flex justify-between">
+            {(hasBackButton && !isFirstStep) ? (
+              <a
+                role="button"
+                onClick={back}
+                className="flex text-grey-2 no-underline"
+              >
+                <ArrowAltIcon
+                  className="w-3 mr-3"
+                  direction="left"
+                  fill={brandColors.grey}
+                />
+                Back
+              </a>
+            ) : null}
+            <a
+              role="button"
+              onClick={goToPage}
+              className="flex items-center py-1 px-3 text-sm border border-dashed border-black rounded-full no-underline"
+            >
+              Let me see the app first
+              <ChevronIcon
+                className="h-3 ml-2"
+              />
+            </a>
+          </div>
+        </>
+      )}
     </WizardContext.Provider>
   )
 }

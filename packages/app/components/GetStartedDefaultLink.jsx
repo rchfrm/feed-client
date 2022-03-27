@@ -132,7 +132,9 @@ const GetStartedDefaultLink = () => {
     next()
   }
 
-  const handleNext = async () => {
+  const onSubmit = async (e) => {
+    if (e) e.preventDefault()
+
     // If there's no connected profile yet validate the link and store the data in local storage
     if (!artistId) {
       await validateAndStoreLink()
@@ -219,7 +221,10 @@ const GetStartedDefaultLink = () => {
       <h3 className="mb-4 font-medium text-xl">{copy.defaultLinkSubtitle(objective, platform)}</h3>
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.defaultLinkDescription(objective)} />
       <Error error={error} />
-      <div className="flex flex-1 flex-column w-full sm:w-1/3 mx-auto justify-center items-center">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-1 flex-column w-full sm:w-1/3 mx-auto justify-center items-center"
+      >
         <Input
           name="link-url"
           version="box"
@@ -230,8 +235,8 @@ const GetStartedDefaultLink = () => {
           className="w-full mb-12"
         />
         <Button
+          type="submit"
           version="green"
-          onClick={handleNext}
           className="w-full sm:w-48"
           trackComponentName="GetStartedDefaultLink"
           disabled={!isSaveEnabled}
@@ -243,7 +248,7 @@ const GetStartedDefaultLink = () => {
             fill={isSaveEnabled ? brandColors.white : brandColors.greyDark}
           />
         </Button>
-      </div>
+      </form>
     </div>
   )
 }
