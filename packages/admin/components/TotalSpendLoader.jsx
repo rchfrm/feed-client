@@ -3,7 +3,7 @@ import React from 'react'
 import { get } from '@/helpers/api'
 import Error from '@/elements/Error'
 
-export default function TotalSpendLoader({ artistId }) {
+export default function TotalSpendLoader({ artistId, artistCurrency }) {
   const [dataRequested, setDataRequested] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [data, setData] = React.useState(0)
@@ -34,25 +34,36 @@ export default function TotalSpendLoader({ artistId }) {
   return (
     <>
       <h4><strong>Total Spend</strong></h4>
-      <TotalSpend isLoading={isLoading} error={error} spend={data} />
+      <TotalSpend
+        isLoading={isLoading}
+        error={error}
+        spend={data}
+        currency={artistCurrency}
+      />
     </>
   )
 }
 
-function TotalSpend({ isLoading, error, spend }) {
+function TotalSpend({ isLoading, error, spend, currency }) {
   if (isLoading) return <p>Loading...</p>
   if (error) return <Error error={error} />
-  return <p>{spend.toFixed(2)}</p>
+  return <p>{spend.toFixed(2)} {currency}</p>
 }
 
 TotalSpendLoader.propTypes = {
   artistId: PropTypes.string.isRequired,
+  artistCurrency: PropTypes.string,
+}
+
+TotalSpendLoader.defaultProps = {
+  artistCurrency: 'GBP',
 }
 
 TotalSpend.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.object,
   spend: PropTypes.number,
+  currency: PropTypes.string.isRequired,
 }
 
 TotalSpend.defaultProps = {

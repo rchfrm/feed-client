@@ -169,7 +169,10 @@ const Entity = ({ entity, propsToDisplay }) => {
         />
 
         {/* TOTAL SPEND */}
-        <TotalSpendLoader artistId={entity.id} />
+        <TotalSpendLoader
+          artistId={entity.id}
+          artistCurrency={entity.currency}
+        />
       </>
       )}
     </>
