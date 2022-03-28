@@ -11,6 +11,8 @@ import useGetPaginated from '@/admin/hooks/useGetPaginated'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import Entity from '@/admin/Entity'
+import { getFacebookAdSpend } from '@/admin/helpers/adminServer'
+import { useAsync } from 'react-async'
 
 const ArtistsLoader = ({ id }) => {
   const isSingleArtist = !!id

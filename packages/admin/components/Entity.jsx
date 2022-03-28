@@ -9,7 +9,7 @@ import Select from '@/elements/Select'
 import { capitalise } from '@/helpers/utils'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import TotalSpend from '@/admin/TotalSpend'
+import TotalSpendLoader from '@/admin/TotalSpendLoader'
 
 const CategoryWrapper = ({ entityType, children }) => {
   return (
@@ -169,7 +169,7 @@ const Entity = ({ entity, propsToDisplay }) => {
         />
 
         {/* TOTAL SPEND */}
-        <TotalSpend artistId={entity.id} />
+        <TotalSpendLoader artistId={entity.id} />
       </>
       )}
     </>
