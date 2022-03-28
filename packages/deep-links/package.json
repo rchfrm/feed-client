@@ -1,0 +1,13 @@
+{
+  "name": "deep-links",
+  "version": "1.0.0",
+  "description": "Redirect links for iOS and Android",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "RELEASE_VERSION=$(git rev-parse --short HEAD) next build",
+    "export:staging": "rm -rf dist/ && BUILD_ENV=staging yarn build && next export -o dist/",
+    "export:production": "rm -rf dist/ && BUILD_ENV=production yarn build && next export -o dist/",
+    "analyze-bundle": "ANALYZE=true yarn build"
+  }
+}

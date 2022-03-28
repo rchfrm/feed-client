@@ -8,6 +8,7 @@
     "dev:ssl": "run-p dev ssl",
     "dev:admin": "yarn workspace admin dev",
     "dev:landing": "yarn workspace landing dev",
+    "dev:deep-links": "yarn workspace deep-links dev",
     "ssl": "dev-proxy --proxy 3000:3001 --key ./certificates/localhost.key --cert ./certificates/localhost.crt",
     "lint": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/app",
     "lint:shared": "eslint -c ./.eslintrc.js --ignore-pattern node_modules --ext .js,.jsx ./packages/shared",
