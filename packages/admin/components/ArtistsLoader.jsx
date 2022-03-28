@@ -1,18 +1,13 @@
 // import useSWR, { useSWRPages } from 'swr'
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Error from '@/elements/Error'
 import ArtistsFilters from '@/admin/ArtistsFilters'
 import ListSearch from '@/admin/elements/ListSearch'
 import EntityList from '@/admin/EntityList'
-
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
-
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import Entity from '@/admin/Entity'
-import { getFacebookAdSpend } from '@/admin/helpers/adminServer'
-import { useAsync } from 'react-async'
 
 const ArtistsLoader = ({ id }) => {
   const isSingleArtist = !!id
