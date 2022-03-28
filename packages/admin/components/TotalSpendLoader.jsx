@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import { get } from '@/helpers/api'
-import Error from '@/elements/Error'
+import TotalSpend from '@/admin/TotalSpend'
 
 export default function TotalSpendLoader({ artistId, artistCurrency }) {
   const [dataRequested, setDataRequested] = React.useState(false)
@@ -15,7 +15,7 @@ export default function TotalSpendLoader({ artistId, artistCurrency }) {
       setDataRequested(true)
       setIsLoading(true)
       const res = await get(`artists/${artistId}/data_sources?name=facebook_ad_spend_feed`)
-      if (!res || !res[0].daily_data) {
+      if (!res || !res[0] || !res[0].daily_data) {
         setData(0)
         setIsLoading(false)
       }
@@ -44,12 +44,6 @@ export default function TotalSpendLoader({ artistId, artistCurrency }) {
   )
 }
 
-function TotalSpend({ isLoading, error, spend, currency }) {
-  if (isLoading) return <p>Loading...</p>
-  if (error) return <Error error={error} />
-  return <p>{spend.toFixed(2)} {currency}</p>
-}
-
 TotalSpendLoader.propTypes = {
   artistId: PropTypes.string.isRequired,
   artistCurrency: PropTypes.string,
@@ -57,16 +51,4 @@ TotalSpendLoader.propTypes = {
 
 TotalSpendLoader.defaultProps = {
   artistCurrency: 'GBP',
-}
-
-TotalSpend.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  error: PropTypes.object,
-  spend: PropTypes.number,
-  currency: PropTypes.string.isRequired,
-}
-
-TotalSpend.defaultProps = {
-  error: null,
-  spend: 0,
 }
