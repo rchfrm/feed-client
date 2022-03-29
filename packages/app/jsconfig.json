@@ -21,6 +21,8 @@
       "@/landing/helpers/*": ["landing/helpers/*"],
       "@/landing/graphQl/*": ["landing/graphQl/*"],
       "@/landing/*": ["landing/components/*"],
+      // Deep link pages
+      "@/deep-links/helpers/*": ["deep-links/helpers/*"],
       // Shared
       "@/elements/*": ["shared/components/elements/*"],
       "@/icons/*": ["shared/components/icons/*"],

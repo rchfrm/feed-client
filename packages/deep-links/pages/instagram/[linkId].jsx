@@ -1,4 +1,4 @@
-import UserAgent from '../../helpers/userAgent'
+import UserAgent from '@/deep-links/helpers/userAgent'
 
 export default function LinkPage() {
   return null

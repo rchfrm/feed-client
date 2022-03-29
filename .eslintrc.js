@@ -91,6 +91,8 @@ module.exports = {
           ['@/landing/tasks', './packages/landing/tasks'],
           ['@/landing/tempData', './packages/landing/tempData'],
           ['@/landing', './packages/landing/components'],
+          // Deep link pages
+          ['@/deep-links/helpers', './packages/deep-links/helpers'],
           // Shared
           ['@/elements', './packages/shared/components/elements'],
           ['@/icons', './packages/shared/components/icons'],
