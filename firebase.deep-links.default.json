@@ -1,0 +1,47 @@
+{
+  "hosting": {
+    "site": "{{ site_name }}",
+    "public": "packages/deep-links/dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png)",
+        "headers": [{
+          "key": "Cache-Control",
+          "value": "max-age=7200"
+        }]
+      },
+      {
+        "source": "_next/**",
+        "headers": [{
+          "key": "Cache-Control",
+          "value": "max-age=31536000, immutable"
+        }]
+      }
+    ]
+  }
+}

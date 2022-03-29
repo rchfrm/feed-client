@@ -6,6 +6,7 @@ packages/app/node_modules
 packages/shared/node_modules
 packages/admin/node_modules
 packages/landing/node_modules
+packages/deep-links/node_modules
 /.pnp
 .pnp.js
 
