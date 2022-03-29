@@ -1,7 +1,7 @@
-import UserAgent from '../helpers/userAgent'
+import UserAgent from '../../helpers/userAgent'
 
-export default function LinkPage({ linkId }) {
-  return <p>Link : {linkId}</p>
+export default function LinkPage() {
+  return null
 }
 
 export async function getServerSideProps(context) {
