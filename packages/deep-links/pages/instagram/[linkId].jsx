@@ -30,7 +30,7 @@ export async function getServerSideProps(context) {
   return {
     redirect: {
       destination: `https://instagram.com/${linkId}`,
-      permanent: false,
+      permanent: true,
     },
   }
 }
