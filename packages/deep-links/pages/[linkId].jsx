@@ -9,4 +9,10 @@ export async function getServerSideProps(context) {
       linkId,
     },
   }
+  // return {
+  //   redirect: {
+  //     destination: `https://instagram.com/${linkId}`,
+  //     permanent: false,
+  //   },
+  // }
 }
