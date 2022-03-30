@@ -17,7 +17,6 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettingsSelector = ({
   name,
-  label,
   optionValues,
   currentObjective,
 }) => {
@@ -88,7 +87,6 @@ const ObjectiveSettingsSelector = ({
         loading={isLoading}
         handleChange={handleChange}
         name={name}
-        label={label}
         selectedValue={objective[name]}
         options={selectOptions}
       />
@@ -98,7 +96,6 @@ const ObjectiveSettingsSelector = ({
 
 ObjectiveSettingsSelector.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
   optionValues: PropTypes.array.isRequired,
   currentObjective: PropTypes.shape({
     objective: PropTypes.string,

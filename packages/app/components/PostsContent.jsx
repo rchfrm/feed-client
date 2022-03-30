@@ -32,8 +32,7 @@ const PostsContent = ({ dummyPostsImages }) => {
     const createdAtMoment = moment(created_at)
     const now = moment()
     const minuteDiff = now.diff(createdAtMoment, 'minutes')
-    if (minuteDiff <= 30) return true
-    return false
+    return minuteDiff <= 30
   }
 
   const isNewUser = React.useMemo(() => {
