@@ -1,5 +1,4 @@
 module.exports = (userAgentString) => {
-  console.log(userAgentString)
   return {
     userAgent: userAgentString,
 
