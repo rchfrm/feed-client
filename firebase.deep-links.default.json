@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "deep-links-staging",
+    "site": "{{ site_name }}",
     "public": "packages/deep-links/",
     "ignore": [
       "firebase.json",
@@ -21,6 +21,9 @@
   "emulators": {
     "functions": {
       "port": 5001
+    },
+    "ui": {
+      "enabled": false
     }
   }
 }

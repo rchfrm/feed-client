@@ -4,14 +4,14 @@
   "description": "Redirect links for iOS and Android",
   "private": true,
   "scripts": {
-    "serve": "firebase emulators:start --only functions",
+    "create-firebase-json-dev":"sed -e \"s/{{ site_name }}/deep-links-staging/g\" ../../firebase.deep-links.default.json > ../../firebase.json",
+    "create-firebase-json-prod":"sed -e \"s/{{ site_name }}/deep-links-prod/g\" ../../firebase.deep-links.default.json > ../../firebase.json",
+    "serve": "yarn create-firebase-json-dev && firebase emulators:start --only functions,hosting",
     "shell": "firebase functions:shell",
     "start": "yarn shell",
-    "deploy": "firebase deploy --only functions",
+    "stage": "yarn create-firebase-json-dev && firebase use archform-1-dev && firebase deploy --only functions,hosting",
+    "deploy-production": "yarn create-firebase-json-prod && firebase use archform-1 firebase deploy --only functions,hosting",
     "logs": "firebase functions:log"
-  },
-  "engines": {
-    "node": "12"
   },
   "main": "index.js",
   "dependencies": {
@@ -19,10 +19,5 @@
     "firebase-functions": "^3.14.1",
     "express": "^4.17.1",
     "serve-favicon": "^2.5.0"
-  },
-  "devDependencies": {
-    "eslint": "^7.6.0",
-    "eslint-config-google": "^0.14.0",
-    "firebase-functions-test": "^0.2.0"
   }
 }
