@@ -72,7 +72,6 @@ packages/landing/tempData/*
 .firebase/
 firebase.json
 firebase-debug.log
-packages/*/firebase.json
 
 # next.js
 /.next/

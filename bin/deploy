@@ -7,7 +7,7 @@ product="${1:-}"
 environment="${2:-}"
 
 # Stop if not the right product is defined
-if [[ "$product" != "app" ]] && [[ "$product" != "admin" ]] && [[ "$product" != "landing" ]] && [[ "$product" != "deep-links" ]]; then
+if [[ "$product" != "app" ]] && [[ "$product" != "admin" ]] && [[ "$product" != "landing" ]]; then
     echo "Usage: ./$(basename "$0") <product>" >&2
     echo "product $product was not understood" >&2
     exit 1
@@ -46,20 +46,6 @@ elif [[ "$product" == "admin" ]]; then
   else
     project="archform-1-dev"
     site_name="feed-admin-staging-v2"
-  fi
-# DEEP LNKS PAGES
-elif [[ "$product" == "deep-links" ]]; then
-  product_path="./packages/deep-links"
-  workspace="deep-links"
-  firebaseConfigFile="firebase.deep-links.default.json"
-  # DEEP LNKS PAGES production
-  if [[ "$environment" == "production" ]]; then
-    project="archform-1"
-    site_name="deep-links-prod"
-  # DEEP LNKS PAGES staging
-  else
-    project="archform-1-dev"
-    site_name="deep-links-staging"
   fi
 # LANDING
 else
