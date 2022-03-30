@@ -9,18 +9,14 @@ import PostsRefreshButton from '@/app/PostsRefreshButton'
 import PostsNoArtists from '@/app/PostsNoArtists'
 import PostsInitialImport from '@/app/PostsInitialImport'
 
-import MarkdownText from '@/elements/MarkdownText'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
 import { sortTypes } from '@/app/helpers/postsHelpers'
-import styles from '@/app/PostsPage.module.css'
-import copy from '@/app/copy/PostsPageCopy'
 
 const PostsContent = ({ dummyPostsImages }) => {
   // Has default link been set
-  const { artistId, artist: { missingDefaultLink } } = React.useContext(ArtistContext)
+  const { artistId } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
 
   const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
@@ -55,13 +51,6 @@ const PostsContent = ({ dummyPostsImages }) => {
     hasArtists ? (
       canLoadPosts ? (
         <div className="relative">
-          {/* NO DEFAULT LINK WARNING */}
-          {missingDefaultLink && hasArtists && (
-            <MarkdownText
-              className={['pb-5', styles.noDefaultLinkWarning].join(' ')}
-              markdown={copy.noDefaultLinkWarning}
-            />
-          )}
           {/* BUTTONS */}
           <div className="relative iphone8:flex justify-start">
             {/* REFRESH BUTTON (desktop) */}

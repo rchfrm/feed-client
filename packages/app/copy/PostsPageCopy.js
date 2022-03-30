@@ -15,10 +15,6 @@ export default {
 
   importingPosts: 'Gathering your recent posts from Facebook & Instagram...',
 
-  noDefaultLinkWarning: `**You need to set the default link used in your ads before they can run.**
-
-You can _**set a default link**_ and _**add links**_ on the [Controls](${ROUTES.CONTROLS}) page`,
-
   // POST SETTINGS
   // --------------
   globalConnectionsIntro: `Add the links that you'd like to use in your ads.
@@ -134,7 +130,7 @@ If you delete it, the post will revert to using the default link. Are you sure y
     return `**This link is currently selected on at least one post.**
 
     If you delete it, Running and Inactive posts with this link will continue to use it. Not Run posts using this link will revert to the default link.
-    
+
     Are you sure you want to continue?`
   },
 
