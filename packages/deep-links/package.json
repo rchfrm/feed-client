@@ -4,10 +4,25 @@
   "description": "Redirect links for iOS and Android",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "RELEASE_VERSION=$(git rev-parse --short HEAD) next build",
-    "export:staging": "rm -rf dist/ && BUILD_ENV=staging yarn build && next export -o dist/",
-    "export:production": "rm -rf dist/ && BUILD_ENV=production yarn build && next export -o dist/",
-    "analyze-bundle": "ANALYZE=true yarn build"
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "yarn shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "14"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^9.8.0",
+    "firebase-functions": "^3.14.1",
+    "express": "^4.17.1",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^0.2.0"
   }
 }

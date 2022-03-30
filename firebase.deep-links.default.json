@@ -1,7 +1,7 @@
 {
   "hosting": {
-    "site": "{{ site_name }}",
-    "public": "packages/deep-links/dist",
+    "site": "deep-links-staging",
+    "public": "packages/deep-links/",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -11,37 +11,16 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
-      }
-    ],
-    "headers": [
-      {
-        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
-        "headers": [
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "*"
-          },
-          {
-            "key": "Cache-Control",
-            "value": "max-age=31536000"
-          }
-        ]
-      },
-      {
-        "source": "**/*.@(jpg|jpeg|gif|png)",
-        "headers": [{
-          "key": "Cache-Control",
-          "value": "max-age=7200"
-        }]
-      },
-      {
-        "source": "_next/**",
-        "headers": [{
-          "key": "Cache-Control",
-          "value": "max-age=31536000, immutable"
-        }]
+        "function": "instagramRedirect"
       }
     ]
+  },
+  "functions": {
+    "source": "packages/deep-links"
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    }
   }
 }
