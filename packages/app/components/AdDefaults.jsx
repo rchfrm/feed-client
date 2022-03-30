@@ -37,7 +37,7 @@ const AdDefaults = () => {
 
   return (
     <div>
-      <h2>Grow &amp; Nurture Defaults</h2>
+      <h2>Promotion Settings</h2>
       <ControlsContentSection action="fill in these fields">
         {/* GLOBAL POST STATUS */}
         <AdSettingsSection
