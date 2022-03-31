@@ -16,6 +16,7 @@
     ]
   },
   "functions": {
+    "runtime": "nodejs14",
     "source": "packages/deep-links"
   },
   "emulators": {

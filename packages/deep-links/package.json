@@ -10,7 +10,7 @@
     "shell": "firebase functions:shell",
     "start": "yarn shell",
     "stage": "yarn create-firebase-json-dev && firebase use archform-1-dev && firebase deploy --only functions,hosting",
-    "deploy-production": "yarn create-firebase-json-prod && firebase use archform-1 firebase deploy --only functions,hosting",
+    "deploy-production": "yarn create-firebase-json-prod && firebase use archform-1 && firebase deploy --only functions,hosting",
     "logs": "firebase functions:log"
   },
   "main": "index.js",
