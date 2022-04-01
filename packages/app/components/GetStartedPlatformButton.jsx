@@ -5,6 +5,7 @@ import PlatformIcon from '@/icons/PlatformIcon'
 import ButtonPill from '@/elements/ButtonPill'
 
 import brandColors from '@/constants/brandColors'
+import Spinner from '@/elements/Spinner'
 
 const GetStartedPlatformButton = ({ platform, setSelectedPlatform, isLoading }) => {
   const { name, value } = platform
@@ -13,7 +14,6 @@ const GetStartedPlatformButton = ({ platform, setSelectedPlatform, isLoading }) 
     <ButtonPill
       className="w-32 sm:w-48 mx-3 mb-5"
       onClick={() => setSelectedPlatform(value)}
-      loading={isLoading}
       style={{
         border: `2px solid ${brandColors.textColor}`,
       }}
@@ -34,7 +34,6 @@ const GetStartedPlatformButton = ({ platform, setSelectedPlatform, isLoading }) 
 GetStartedPlatformButton.propTypes = {
   platform: PropTypes.object.isRequired,
   setSelectedPlatform: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
 }
 
 GetStartedPlatformButton.defaultProps = {

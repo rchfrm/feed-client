@@ -17,6 +17,7 @@ import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
+import Spinner from '@/elements/Spinner'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -136,16 +137,17 @@ const GetStartedPlatform = () => {
       <Error error={error} />
       <div className="flex flex-1 flex-wrap">
         <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mx-auto">
-          {platforms.map((platform) => {
-            return (
-              <GetStartedPlatformButton
-                key={platform.value}
-                platform={platform}
-                isLoading={isLoading}
-                setSelectedPlatform={setSelectedPlatform}
-              />
-            )
-          })}
+          {isLoading
+            ? <Spinner />
+            : platforms.map((platform) => {
+              return (
+                <GetStartedPlatformButton
+                  key={platform.value}
+                  platform={platform}
+                  setSelectedPlatform={setSelectedPlatform}
+                />
+              )
+            })}
         </div>
       </div>
     </div>
