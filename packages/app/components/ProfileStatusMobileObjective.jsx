@@ -25,7 +25,7 @@ const ProfileStatusMobileObjective = ({ backgroundStyle }) => {
 
   const goToControlsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS_OBJECTIVE,
+      pathname: ROUTES.RESULTS,
     })
   }
 
@@ -36,7 +36,7 @@ const ProfileStatusMobileObjective = ({ backgroundStyle }) => {
       className="bg-green"
     >
       <PlayIcon color={brandColors.white} className="w-2 h-auto mr-2" />
-      {objectiveString}
+      Driving {objectiveString}
     </ProfileStatusMobileBar>
   )
 }

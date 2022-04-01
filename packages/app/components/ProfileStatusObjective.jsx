@@ -6,6 +6,7 @@ import * as ROUTES from '@/app/constants/routes'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { getObjectiveString, getObjectiveColor } from '@/app/helpers/artistHelpers'
+import PlayIcon from '@/icons/PlayIcon'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -26,12 +27,22 @@ const ProfileStatusObjective = () => {
     <button
       onClick={goToControlsObjectivePage}
     >
-      Feed is working on:
       <span
-        className="mb-0 border-2 border-solid rounded-full ml-2 py-2 px-3"
-        style={{ borderColor: getObjectiveColor(objective, platform) }}
+        className={[
+          'mb-0',
+          'border-3',
+          'border-green',
+          'border-solid',
+          'rounded-full',
+          'inline-flex',
+          'items-center',
+          'ml-2',
+          'py-2',
+          'px-3',
+        ].join(' ')}
       >
-        {objectiveString}
+        <span className="pr-2"><PlayIcon className={['h-4', 'w-auto'].join(' ')} /></span>
+        Driving {objectiveString}
       </span>
     </button>
   )
