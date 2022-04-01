@@ -186,8 +186,10 @@ const GetStartedWizard = () => {
       let action = 'add'
 
       // Check if the link already exists in the linkbank
-      const existingLink = getLinkByHref(nestedLinks, storedDefaultLink.href)
+      const existingLink = getLinkByHref(nestedLinks, storedDefaultLink?.href)
       const currentLink = existingLink || storedDefaultLink
+
+      if (!currentLink) return
 
       if (existingLink) {
         action = 'edit'
