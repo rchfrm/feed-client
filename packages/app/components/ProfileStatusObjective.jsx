@@ -5,7 +5,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import { getObjectiveString, getObjectiveColor } from '@/app/helpers/artistHelpers'
+import { getObjectiveString } from '@/app/helpers/artistHelpers'
 import PlayIcon from '@/icons/PlayIcon'
 
 const getControlsStoreState = (state) => ({

@@ -5,9 +5,8 @@ import PlatformIcon from '@/icons/PlatformIcon'
 import ButtonPill from '@/elements/ButtonPill'
 
 import brandColors from '@/constants/brandColors'
-import Spinner from '@/elements/Spinner'
 
-const GetStartedPlatformButton = ({ platform, setSelectedPlatform, isLoading }) => {
+const GetStartedPlatformButton = ({ platform, setSelectedPlatform }) => {
   const { name, value } = platform
 
   return (

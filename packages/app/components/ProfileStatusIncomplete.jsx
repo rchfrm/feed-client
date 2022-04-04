@@ -8,7 +8,6 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { getLocalStorage } from '@/helpers/utils'
 
 import copy from '@/app/copy/getStartedCopy'
-import ArrowIcon from '@/icons/ArrowIcon'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 const getControlsStoreState = (state) => ({
