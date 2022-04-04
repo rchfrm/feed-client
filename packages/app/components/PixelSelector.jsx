@@ -70,7 +70,7 @@ const PixelSelector = ({
   React.useEffect(() => {
     if (!availablePixels.length) return
 
-    if (!activePixelId || activePixelId === '-1') {
+    if (!activePixelId) {
       setActivePixelId(availablePixels[0].value)
     }
   }, [activePixelId, setActivePixelId, availablePixels])
