@@ -7,6 +7,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import ProfileStatusIncomplete from '@/app/ProfileStatusIncomplete'
 import ProfileStatusCompleted from '@/app/ProfileStatusCompleted'
+import FadeInOut from '@/elements/FadeInOut'
 
 const getControlsStoreState = (state) => ({
   isControlsLoading: state.isControlsLoading,
@@ -20,13 +21,15 @@ const ProfileStatus = ({ className }) => {
   if (isControlsLoading) return null
 
   return (
-    <div className={[className].join(' ')}>
-      {!hasSetUpProfile ? (
-        <ProfileStatusIncomplete />
-      ) : (
-        <ProfileStatusCompleted />
-      )}
-    </div>
+    <FadeInOut show unmountOnExit>
+      <div className={[className, 'opacity-0'].join(' ')}>
+        {!hasSetUpProfile ? (
+          <ProfileStatusIncomplete />
+        ) : (
+          <ProfileStatusCompleted />
+        )}
+      </div>
+    </FadeInOut>
   )
 }
 

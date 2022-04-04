@@ -7,6 +7,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import ProfileStatusMobileIncomplete from '@/app/ProfileStatusMobileIncomplete'
 import ProfileStatusMobileCompleted from '@/app/ProfileStatusMobileCompleted'
+import FadeInOut from '@/elements/FadeInOut'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
@@ -18,14 +19,18 @@ const ProfileStatusMobile = ({ backgroundStyle }) => {
 
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
 
-  if (isControlsLoading) return null
+  if (isControlsLoading) return <div className="h-7 w-full" />
 
   return (
-    !hasSetUpProfile ? (
-      <ProfileStatusMobileIncomplete backgroundStyle={backgroundStyle} />
-    ) : (
-      <ProfileStatusMobileCompleted backgroundStyle={backgroundStyle} />
-    )
+    <FadeInOut show unmountOnExit>
+      <div className="opacity-0">
+        {!hasSetUpProfile ? (
+          <ProfileStatusMobileIncomplete backgroundStyle={backgroundStyle} />
+        ) : (
+          <ProfileStatusMobileCompleted backgroundStyle={backgroundStyle} />
+        )}
+      </div>
+    </FadeInOut>
   )
 }
 
