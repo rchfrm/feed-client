@@ -8,9 +8,11 @@ In both all of `packages/admin/`, `packages/app/` and `packages/landing`, duplic
 
 In order to stage the site you will need a `.env.staging` file. In order to deploy the site to production you will need a `.env.live` file. Ignore the `.env.production` file, this is auto-generated during deployment.
 
+There is currently no `.env` file required for `packages/deep-links/`.
+
 ### Packages
 
-Run `yarn` to install all the packages for both the App and Admin Panel.
+Run `yarn` to install all the packages.
 
 ## Running things locally
 
@@ -53,31 +55,35 @@ Before running either app in SSL mode you will first need to generate local cert
 
 In the root of this directory, run `yarn dev:admin` and browse to: [http://localhost:3000](http://localhost:3000).
 
+### Developing the Landing Page
+
+In the root of this directory, run `yarn dev:landing` and browse to: [http://localhost:4000](http://localhost:4000).
+
+### Developing the deep link redirect pages
+
+In the root of this directory, run `yarn dev:deep-links` and browse to: [http://localhost:5000/instagram/feed.hq](http://localhost:5000/instagram/feed.hq).
 
 ## The Monorepo
 
-There are two different Next.js setups exist within this one monorepo. The App's version is in `packages/app/` and the Admin panel is in `packages/admin/`. There is also a third directory - `packages/shared/` - that includes assets (Components, CSS, helpers etc) that are shared between the App and the Admin panel.
+There are different Next.js setups for each of the packages within this one monorepo. There is also a third directory - `packages/shared/` - that includes assets (Components, CSS, helpers etc) that are shared between all packages.
+
+`packages/deep-links` does not currently use Next.js.
 
 ### Adding new packages
 
-To add packages that will be used across all parts of the monorepo run
+To add NPM modules that will be used across all parts of the monorepo run
 ```
-yarn add [package-name] -W
-```
-
-To add packages that will only be used on the App, run:
-```
-yarn workspace app add [package-name]
+yarn add [module-name] -W
 ```
 
-To add packages for the Admin panel run:
+To add NPM modules that will only be used in one package, run:
 ```
-yarn workspace admin add [package-name]
+yarn workspace [package-name] add [module-name]
 ```
 
 ## CSS: PostCSS and Tailwind
 
-Both the App and the Admin panel use PostCSS and Tailwind to handle the CSS. The config files for both of these are in `shared/postcss.config.json` and `shared/tailwind.config.js`. The shared global CSS files are stored in `shared/css/` and loaded in the `_app.jsx` files of both Next.js apps.
+The App, Admin panel and Landing page use PostCSS and Tailwind to handle the CSS. The config files for both of these are in `shared/postcss.config.json` and `shared/tailwind.config.js`. The shared global CSS files are stored in `shared/css/` and loaded in the `_app.jsx` files of both Next.js apps.
 
 ### CSS Variables
 
@@ -89,28 +95,23 @@ If you want to add a variable, remember to add it both the Tailwind config and `
 
 There's a useful Tailwind cheatsheet at [https://nerdcave.com/tailwind-cheat-sheet](https://nerdcave.com/tailwind-cheat-sheet). This monorepo is currently using version `1.4.6`.
 
-
 ## Conventions and Styleguides
 
 For notes about conventions and coding styleguides, please read the [Conventions and Styleguides document](/docs/conventions.md).
-
 
 ## ESLint
 
 The whole repo is linted by ESLint and the config file lives at the root in `.eslintrc.js`.
 
-
 ## Testing static builds locally
 
 You can test the static build of the App (the version of the App that gets uploaded to Firebase). To do this, [connect to the API](#connecting-to-the-api), then run `yarn export && yarn serve`.
-
 
 ## Bundle analysis
 
 To analyze the bundle size using [Next's bundle analyzer](https://github.com/zeit/next.js/tree/canary/packages/next-bundle-analyzer), run:
 
 `yarn analyze-bundle` or `yarn analyze-bundle:admin`
-
 
 ## Deploying
 
@@ -122,7 +123,11 @@ To deploy _The App_ to the **staging** environment run `yarn stage`
 
 To deploy _The Admin Panel_ to the **staging** environment run `yarn stage:admin`
 
-To deploy _both_ to the **staging** environment run `yarn stage:both`
+To deploy _The Landing Page_ to the **staging** environment run `yarn stage:landing`
+
+To deploy _The Deep Links_ to the **staging** environment run `yarn stage:deep-links`
+
+To deploy _all_ to the **staging** environment run `yarn stage:all`
 
 ### Production
 
@@ -132,7 +137,11 @@ To deploy _The App_ to the **production** environment run `yarn deploy-productio
 
 To deploy _The Admin Panel_ to the **production** environment run `yarn deploy-production:admin`
 
-To deploy _both_ to the **production** environment run `yarn deploy-production:both`
+To deploy _The Landing Page_ to the **production** environment run `yarn deploy-production:landing`
+
+To deploy _The Deep Links_ to the **production** environment run `yarn deploy-production:deep-links`
+
+To deploy _all_ to the **production** environment run `yarn deploy-production:all`
 
 ## URLs
 
@@ -148,6 +157,18 @@ To deploy _both_ to the **production** environment run `yarn deploy-production:b
 - **Staging:** [https://feed-admin-staging-v2.firebaseapp.com](https://feed-admin-staging-v2.firebaseapp.com)
 - **Live:** [https://feed-admin-v2.firebaseapp.com](https://feed-admin-v2.firebaseapp.com)
 
+#### The Landing Page
+
+- **Local:** [http://localhost:4000](http://localhost:4000)
+- **Staging:** [feed-landing--staging.web.app](feed-landing--staging.web.app)
+- **Live:** [feed-landing.web.app](feed-landing.web.app)
+
+#### The Deep Links
+
+- **Local:** [http://localhost:5000](http://localhost:5000)
+- **Staging:** [deep-links-staging.web.app](deep-links-staging.web.app)
+- **Live:** [deep-links-prod.web.app](deep-links-prod.web.app)
+
 ## Feature descriptions
 
 Some features have more in-depth descriptions. There is currently documentation for:
@@ -156,48 +177,3 @@ Some features have more in-depth descriptions. There is currently documentation 
 - [Global state](/docs/globalState.md)
 - [The BasePage component](/docs/basePage.md)
 - [Notifications](/docs/notifications.md)
-
-# Landing Page
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-yarn dev:landing
-```
-
-Open [http://localhost:4000](http://localhost:4000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-## Deploying
-
-To **stage** the app at [feed-landing--staging.web.app](https://feed-landing--staging.web.app), run:
-
-```bash
-yarn stage:landing
-```
-
-To **deploy** the app at [feed-landing.web.app](https://feed-landing.web.app), run:
-
-```bash
-yarn deploy-production:landing
-```
-
-## Icons
-
-To build the icons, run:
-
-```bash
-yarn pwa
-```
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
