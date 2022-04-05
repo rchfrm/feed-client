@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { get } from '@/helpers/api'
 import TotalSpend from '@/admin/TotalSpend'
 import useAsyncEffect from 'use-async-effect'
-import { getAdAccounts } from '@/app/helpers/artistHelpers'
 import { getArtistDataSource } from '@/admin/helpers/adminServer'
 
 export default function TotalSpendLoader({ artistId, artistCurrency }) {

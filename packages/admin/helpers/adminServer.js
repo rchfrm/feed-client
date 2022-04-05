@@ -81,6 +81,11 @@ export const getArtist = async (cursor, id, requestProps = {}) => {
 }
 
 // Artist data source
+/**
+ * @param {string} [id]
+ * @param {string} [dataSourceName]
+ * @returns {Promise<Object>}
+ */
 export const getArtistDataSource = async (id, dataSourceName) => {
   const endpoint = `artists/${id}/data_sources`
   const payload = {
