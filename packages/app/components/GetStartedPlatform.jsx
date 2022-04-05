@@ -31,6 +31,8 @@ const GetStartedPlatform = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
+
   const { goToStep } = React.useContext(WizardContext)
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
@@ -58,6 +60,9 @@ const GetStartedPlatform = () => {
 
     // Update artist context
     setPostPreferences('default_link_id', null)
+
+    // Update local storage default link value
+    setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: null }))
   }
 
   const handleNextStep = async (platform) => {
@@ -66,7 +71,7 @@ const GetStartedPlatform = () => {
     const nextStep = isFacebookOrInstagram ? 3 : 2
 
     // If the platform hasn't changed just go to the next step
-    if (platform === currentPlatform) {
+    if (platform === currentPlatform || platform === wizardState?.platform) {
       goToStep(nextStep)
       return
     }
@@ -76,7 +81,7 @@ const GetStartedPlatform = () => {
       setLocalStorage('getStartedWizard', JSON.stringify({
         ...wizardState,
         platform,
-        defaultLink: isFacebookOrInstagram ? platform : null,
+        defaultLink: isFacebookOrInstagram ? { href: platform } : null,
       }))
 
       updatePreferences({

@@ -17,15 +17,15 @@ const ProfileStatusObjective = () => {
   const { objective, platform } = optimizationPreferences
   const objectiveString = getObjectiveString(objective, platform)
 
-  const goToControlsObjectivePage = () => {
+  const goToResultsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS_OBJECTIVE,
+      pathname: ROUTES.RESULTS,
     })
   }
 
   return (
     <button
-      onClick={goToControlsObjectivePage}
+      onClick={goToResultsPage}
     >
       <span
         className={[

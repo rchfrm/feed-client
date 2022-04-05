@@ -35,6 +35,9 @@ const GetStartedObjective = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
   const unsetDefaultLink = (artist) => {
+    // Unset the link in the controls store
+    updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
+
     // Update the posts and conversions preferences objects
     updatePreferences({
       postsPreferences: {
@@ -45,11 +48,11 @@ const GetStartedObjective = () => {
       },
     })
 
-    // Unset the link in the controls store
-    updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
-
     // Update artist context
     setPostPreferences('default_link_id', null)
+
+    // Update local storage default link value
+    setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: null }))
   }
 
   const handleNextStep = async (objective) => {
@@ -57,7 +60,7 @@ const GetStartedObjective = () => {
     const nextStep = isGrowth ? 1 : 2
 
     // If the objective hasn't changed just go to the next step
-    if (objective === currentObjective) {
+    if (objective === currentObjective || objective === wizardState?.objective) {
       goToStep(nextStep)
       return
     }

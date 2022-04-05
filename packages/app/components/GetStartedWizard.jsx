@@ -158,6 +158,7 @@ const GetStartedWizard = () => {
       || !artistId
       || [objective, platform, defaultLink].every(Boolean)
       || !wizardState
+      || isControlsLoading
     ) {
       return
     }
@@ -171,11 +172,9 @@ const GetStartedWizard = () => {
     // If the chosen platform is either Facebook or Instagram we get the link from the linkbank
     if (isFacebookOrInstagram) {
       link = getLinkByPlatform(nestedLinks, storedPlatform)
-    }
-
-    if (storedObjective === 'growth') {
+    } else if (storedObjective === 'growth') {
       // If the objective is growth but the platform is not Facebook or Instagram we save the link as new integration link
-      const { savedLink, error } = await saveIntegrationLink({ platform: storedPlatform }, storedDefaultLink.href)
+      const { savedLink, error } = await saveIntegrationLink({ platform: storedPlatform }, storedDefaultLink?.href)
 
       if (error) {
         return

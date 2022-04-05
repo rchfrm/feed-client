@@ -201,7 +201,9 @@ const GetStartedDefaultLink = () => {
       const { placeholderUrl } = getIntegrationInfo({ platform })
 
       setPlaceholder(placeholderUrl)
+      return
     }
+    setPlaceholder('https://')
   }, [hasGrowthObjective, objective, platform])
 
   React.useEffect(() => {
