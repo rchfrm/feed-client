@@ -12,6 +12,9 @@
     "packages/landing/node_modules",
     "packages/landing/dist",
     "packages/landing/.next",
+    "packages/deep-links/node_modules",
+    "packages/deep-links/dist",
+    "packages/deep-links/.next",
     "packages/shared/node_modules",
     "packages/shared/dist",
     "packages/shared/.next",
@@ -19,5 +22,5 @@
     ".vscode",
     ".firebase",
     ".git"
-  ],
+  ]
 }

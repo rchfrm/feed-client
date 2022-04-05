@@ -1,0 +1,30 @@
+{
+  "hosting": {
+    "site": "{{ site_name }}",
+    "public": "packages/deep-links/",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "instagramRedirect"
+      }
+    ]
+  },
+  "functions": {
+    "runtime": "nodejs14",
+    "source": "packages/deep-links"
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "ui": {
+      "enabled": false
+    }
+  }
+}
