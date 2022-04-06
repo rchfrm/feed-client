@@ -50,21 +50,23 @@ const ResultsAbsoluteChart = ({
   }, [animateChart, nextPeriodChartRef])
 
   return (
-    <div className="flex w-full h-7 items-center text-white">
-      <div
-        ref={prevPeriodChartRef}
-        className="flex items-center justify-center h-full text-xs bg-blue opacity-50 rounded-full"
-        style={{ backgroundColor: color, width: `${prevPeriodProportion}%`, transform: 'scale(0)' }}
-      >
-        {isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}
+    <div className="flex w-full">
+      <div style={{ width: `${prevPeriodProportion}%` }}>
+        <div
+          ref={prevPeriodChartRef}
+          className="flex h-7 bg-blue opacity-50 rounded-full mb-1"
+          style={{ backgroundColor: color, transform: 'scale(0)' }}
+        />
+        <p className="text-center text-xs">{isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}</p>
       </div>
       <ChartIcon className="h-6 w-6 -mx-2 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
-      <div
-        ref={nextPeriodChartRef}
-        className="flex items-center justify-center h-full text-xs font-bold rounded-full"
-        style={{ backgroundColor: color, width: `${currentPeriodProportion}%`, transform: 'scale(0)' }}
-      >
-        {isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}
+      <div style={{ width: `${currentPeriodProportion}%` }}>
+        <div
+          ref={nextPeriodChartRef}
+          className="flex h-7 bg-blue rounded-full mb-1"
+          style={{ backgroundColor: color, transform: 'scale(0)' }}
+        />
+        <p className="text-center text-xs font-bold">{isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}</p>
       </div>
     </div>
   )
