@@ -46,15 +46,12 @@ const ResultsFallbackChart = ({
         <div
           key={value}
           ref={chartRefs[index]}
-          className={[
-            index === 0 ? 'opacity-50' : null,
-          ].join(' ')}
         >
           <div
             className={[
               'flex h-7 mb-1',
               index === 0
-                ? !currPeriod ? 'rounded-full' : 'rounded-l-full'
+                ? !currPeriod ? 'rounded-full opacity-50' : 'rounded-l-full opacity-50'
                 : !prevPeriod ? 'rounded-full' : 'rounded-r-full',
             ].join(' ')}
             style={{ backgroundColor: color }}

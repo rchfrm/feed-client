@@ -24,7 +24,7 @@ const ResultsExistingAudienceStats = ({ data }) => {
     <>
       <div className="flex sm:flex-col items-center justify-between">
         <div>
-          <p className="font-bold text-xl sm:text-center">Existing audiences</p>
+          <p className="text-xl sm:text-center">Step 2: <strong>Nurture</strong></p>
           <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
             <MarkdownText
               markdown={data.copy || ''}

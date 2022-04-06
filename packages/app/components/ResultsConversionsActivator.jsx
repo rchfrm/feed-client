@@ -25,7 +25,7 @@ const ResultsConversionsActivator = ({ className }) => {
       className,
     ].join('')}
     >
-      <p className="hidden sm:block font-bold text-xl text-left mr-auto sm:mr-0">Sales &amp; Sign-ups</p>
+      <p className="hidden sm:block text-xl text-left mr-auto sm:mr-0">Step 3: <strong>Sales</strong></p>
       <div className="hidden sm:block flex items-center sm:mb-5" style={{ minHeight: '88px' }}>
         <MarkdownText className="mb-0 mr-auto sm:mr-0 sm:text-center" markdown={copy.conversionsActivatorTitle} />
       </div>
