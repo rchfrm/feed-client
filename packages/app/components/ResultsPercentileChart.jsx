@@ -12,7 +12,7 @@ const ResultsPercentileChart = ({ percentile, quartile, color }) => {
 
   return (
     <>
-      <div className="relative flex w-full h-4 mb-1">
+      <div className="relative flex w-full h-7 mb-1">
         {[...Array(4)].map((_, index) => (
           <ResultsPercentileChartQuartile
             key={index}

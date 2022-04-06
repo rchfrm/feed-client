@@ -50,7 +50,7 @@ const ResultsAbsoluteChart = ({
   }, [animateChart, nextPeriodChartRef])
 
   return (
-    <div className="flex w-full h-12 items-center text-white">
+    <div className="flex w-full h-7 items-center text-white">
       <div
         ref={prevPeriodChartRef}
         className="flex items-center justify-center h-full text-xs bg-blue opacity-50 rounded-full"

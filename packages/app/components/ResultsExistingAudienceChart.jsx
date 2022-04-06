@@ -44,7 +44,7 @@ const ResultsExistingAudienceChart = ({ data }) => {
 
   return (
     chartValues && (
-      <div className="relative h-12 w-full">
+      <div className="relative h-7 w-full">
         <div
           className={[
             'absolute h-full w-full',
@@ -57,7 +57,7 @@ const ResultsExistingAudienceChart = ({ data }) => {
           <div
             ref={adsReachRef}
             className="absolute h-12 left-0 bg-green"
-            style={{ top: '-2px' }}
+            style={{ top: '-9px' }}
           >
             <div
               className="absolute transform -translate-y-1/2 z-10 ml-2 text-green text-xs"

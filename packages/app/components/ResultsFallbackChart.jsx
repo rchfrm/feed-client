@@ -41,7 +41,7 @@ const ResultsFallbackChart = ({
   }, [animateChart, chartRefs])
 
   return (
-    <div className="relative flex w-full h-12 items-center text-white rounded-full overflow-hidden">
+    <div className="relative flex w-full h-7 items-center text-white rounded-full overflow-hidden">
       {data.map(({ value }, index) => value && (
         <div
           key={value}
