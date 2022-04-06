@@ -58,21 +58,20 @@ const ResultsExistingAudienceChart = ({ data }) => {
             ref={adsReachRef}
             className="absolute h-12 left-0 bg-green"
             style={{ top: '-9px' }}
-          >
-            <div
-              className="absolute transform -translate-y-1/2 z-10 ml-2 text-green text-xs"
-              style={{
-                ...(adsReachWidth > 85 ? { right: '10px', color: brandColors.white } : { left: '100%' }),
-                top: '50%',
-              }}
-            >
-              {adsReachProportion}%
-            </div>
-          </div>
+          />
           <div
             ref={organicReachRef}
             className="absolute h-12 w-1 top-0 bg-grey-3"
           />
+        </div>
+        <div
+          className="absolute text-green text-xs"
+          style={{
+            left: `calc(${adsReachWidth}% - 32px)`,
+            top: '30px',
+          }}
+        >
+          {adsReachProportion}%
         </div>
         <span className="absolute left-0 text-grey-3 text-xs" style={{ bottom: '100%' }}>
           {organicReachProportion}%

@@ -53,7 +53,9 @@ const ResultsFallbackChart = ({
           <div
             className={[
               'flex h-7 mb-1',
-              index === 0 ? 'rounded-l-full' : 'rounded-r-full',
+              index === 0
+                ? !currPeriod ? 'rounded-full' : 'rounded-l-full'
+                : !prevPeriod ? 'rounded-full' : 'rounded-r-full',
             ].join(' ')}
             style={{ backgroundColor: color }}
           />

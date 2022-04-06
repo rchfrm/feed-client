@@ -25,8 +25,8 @@ const ResultsPercentileChart = ({ percentile, quartile, color }) => {
       </div>
       {quartileValue ? (
         <>
-          <div className="relative mx-auto mb-1" style={{ width: '96%' }}>
-            <div className="relative" style={{ left: `${percentile}%` }}>
+          <div className="relative mx-auto mb-1" style={{ width: '98%' }}>
+            <div className="relative w-full" style={{ left: `calc(${percentile}% - 10px)` }}>
               <span
                 className="w-0 h-0 block mx-auto border-8 border-solid border-transparent absolute"
                 style={{ borderBottom: '10px solid #F4F4F4', left: '2px', bottom: '-4px' }}
