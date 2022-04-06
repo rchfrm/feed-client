@@ -94,6 +94,15 @@ export default {
       description: `**${currValue} people** saw ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
     }
   },
+  platformGrowth: (platform) => {
+    const isTrue = true
+
+    if (isTrue) {
+      return `Your ${platform} following is growing **1.65%** a month, that's **11.8x** faster than your organic growth of **0.14%**.`
+    }
+
+    return `Your ${platform} following is growing **1.65%** a month, that means **~35** new followers.`
+  },
   postDescription: (type, isPurchase) => {
     if (type === 'unaware') {
       return `The post that engaged the

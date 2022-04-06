@@ -318,42 +318,69 @@ export const noSpendDataSources = [
   },
 ]
 
-export const getStatsData = (data) => {
-  return {
-    newAudienceData: getNewAudienceData(data),
-    existingAudienceData: getExistingAudienceData(data),
-    conversionData: getConversionData(data),
-  }
-}
-
 const getQuartile = (percentile, audience) => {
   if (percentile <= 25) {
     return {
       value: 1,
       position: 'left',
-      copy: audience === 'growth' ? 'Slow' : 'Low',
+      ...(audience && { copy: audience === 'growth' ? 'Slow' : 'Low' }),
     }
   }
   if (percentile > 25 && percentile <= 50) {
     return {
       value: 2,
       position: 'center',
-      copy: 'Average',
+      ...(audience && { copy: 'Average' }),
     }
   }
   if (percentile > 50 && percentile <= 75) {
     return {
       value: 3,
       position: 'center',
-      copy: audience === 'growth' ? 'Solid' : 'Good',
+      ...(audience && { copy: audience === 'growth' ? 'Solid' : 'Good' }),
     }
   }
   if (percentile > 75) {
     return {
       value: 4,
       position: 'right',
-      copy: audience === 'growth' ? 'Fast' : 'High',
+      ...(audience && { copy: audience === 'growth' ? 'Fast' : 'High' }),
     }
+  }
+}
+
+export const getPlatformData = (data) => {
+  const adGrowth = 100
+  const organicGrowth = 50
+
+  console.log(data)
+
+  if (adGrowth > organicGrowth) {
+    return makeStatsObject({
+      prevPeriod: 20,
+      currPeriod: 50,
+      copy: resultsCopy.platformGrowth('Instagram'),
+      chartType: 'main',
+    })
+  }
+
+  return {
+    chartType: 'fallback',
+    chartData: {
+      currValue: 50,
+      percentile: 45,
+      quartile: getQuartile(45),
+    },
+    copy: resultsCopy.platformGrowth('Instagram'),
+  }
+}
+
+export const getStatsData = (data) => {
+  return {
+    newAudienceData: getNewAudienceData(data),
+    existingAudienceData: getExistingAudienceData(data),
+    conversionData: getConversionData(data),
+    platformData: getPlatformData(data),
   }
 }
 
