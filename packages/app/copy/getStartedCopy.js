@@ -102,7 +102,7 @@ export default {
     }
 
     if (objective && objective === 'growth') {
-      return `${capitalise(platform) || `{{ Platform }}`} growth`
+      return `${capitalise(platform) || `Audience`} growth`
     }
 
     return `${capitalise(platform)} ${objective}`
