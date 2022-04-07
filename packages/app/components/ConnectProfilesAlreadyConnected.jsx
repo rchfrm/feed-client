@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { UserContext } from '@/app/contexts/UserContext'
 
-import ArtistImage from '@/elements/ArtistImage'
+import ConnectProfilesItem from '@/app/ConnectProfilesItem'
 
 const ConnectProfilesAlreadyConnected = ({ className }) => {
   const { user, userLoading } = React.useContext(UserContext)
@@ -11,28 +11,24 @@ const ConnectProfilesAlreadyConnected = ({ className }) => {
 
   if (userLoading || !connectedArtists.length) return null
 
+  console.log(connectedArtists)
+
   return (
     <div className={[className].join(' ')}>
       <h2>Your profiles</h2>
-      <ul>
+      <ul className="pl-16">
         {connectedArtists.map((artist) => {
-          const { id, name, role, facebook_page_id } = artist
+          const { id, name, facebook_page_id, role } = artist
 
           return (
-            <li
+            <ConnectProfilesItem
               key={id}
-              className="flex items-center mb-6 last:mb-0"
-            >
-              <ArtistImage
-                className="h-16 w-auto rounded-full"
-                pageId={facebook_page_id}
-                name={name}
-              />
-              <div className="ml-6">
-                <p className="mb-1 font-bold">{name}</p>
-                <p className="text-sm mb-0">{role}</p>
-              </div>
-            </li>
+              name={name}
+              pageId={facebook_page_id}
+              role={role}
+              className="mb-6"
+              isConnected
+            />
           )
         })}
       </ul>

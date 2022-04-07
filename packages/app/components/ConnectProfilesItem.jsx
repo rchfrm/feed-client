@@ -1,25 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ToggleSwitch from '@/elements/ToggleSwitch'
+import ArtistImage from '@/elements/ArtistImage'
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 const ConnectProfilesItem = ({
-  artist,
-  updateArtists,
+  name,
+  pageId,
+  instagramUsername,
+  role,
+  isConnected,
+  onClick,
   className,
 }) => {
-  const {
-    name,
-    instagram_username,
-    page_id: artistId,
-    connect,
-  } = artist
-
-  // HANDLE CONNECT BUTTON
-  const onConnectClick = () => {
-    const payload = { id: artistId }
-    updateArtists('toggle-connect', payload)
-  }
+  const Wrapper = isConnected ? 'div' : 'button'
 
   return (
     <li
@@ -28,40 +22,36 @@ const ConnectProfilesItem = ({
         className,
       ].join(' ')}
     >
-      <div className="flex items-center">
-        {/* IMAGE */}
-        <div className="w-16 h-16 mr-8">
-          <div className="media media--square mb-4">
-            <img
-              className={['center--image rounded-full'].join(' ')}
-              src={artist.picture}
-              alt={`${artist.name} Facebook profile photo`}
-            />
-          </div>
+      <Wrapper onClick={onClick} className="flex items-center">
+        <ArtistImage
+          name={name}
+          pageId={pageId}
+          className="h-16 w-auto rounded-full"
+        />
+        <div className="ml-4 font-bold font-body text-md">{name}
+          {instagramUsername && <p className="mb-0 font-normal"> (@{instagramUsername})</p>}
+          {role && <p className="mb-0 font-normal">({role})</p>}
         </div>
-        {/* NAME */}
-        <div className="font-bold font-body text-md">{name}
-          {instagram_username && <p className="mb-0 font-normal"> (@{instagram_username})</p>}
-        </div>
-        {/* CONNECT BUTTON */}
-        <div className="ml-auto">
-          <ToggleSwitch
-            state={connect}
-            onChange={onConnectClick}
-          />
-        </div>
-      </div>
+        {!isConnected && <ArrowAltIcon direction="right" className="ml-4" />}
+      </Wrapper>
     </li>
   )
 }
 
 ConnectProfilesItem.propTypes = {
-  artist: PropTypes.object.isRequired,
-  updateArtists: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
+  instagramUsername: PropTypes.string,
+  role: PropTypes.string,
+  isConnected: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
   className: PropTypes.string,
 }
 
 ConnectProfilesItem.defaultProps = {
+  instagramUsername: '',
+  role: '',
+  onClick: () => null,
   className: null,
 }
 

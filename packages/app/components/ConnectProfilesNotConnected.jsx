@@ -23,21 +23,29 @@ const ConnectProfilesNotConnected = ({ artistAccounts, className }) => {
       <h2>Connect more</h2>
       <ul
         className={[
-          'grid-cols-12',
+          'pl-16',
         ].join(' ')}
       >
-        <ConnectProfilesNoArtists className="max-w-xl mb-8" />
-        <div className="col-span-12 sm:col-span-5 mb-12 xs:mb-0">
-          {artistAccountsArray.map((artistAccount, index) => {
+        {!artistAccountsArray.length > 0 && (
+          <ConnectProfilesNoArtists className="max-w-xl mb-8" />
+        )}
+        <ul>
+          {artistAccountsArray.map((artistAccount) => {
+            const { name, page_id, instagram_username } = artistAccount
+
             return (
               <ConnectProfilesItem
-                key={index}
-                artist={artistAccount}
+                key={page_id}
+                name={name}
+                pageId={page_id}
+                instagramUserName={instagram_username}
+                isConnected={false}
+                onClick={() => console.log('click')}
                 className="mb-6"
               />
             )
           })}
-        </div>
+        </ul>
       </ul>
     </div>
   )

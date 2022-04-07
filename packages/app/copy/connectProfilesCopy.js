@@ -3,9 +3,9 @@
 export default {
   connectMoreTitle: "Can't find the page you're looking for?",
   connectMoreInstructions: `1. Click 'Connect more' below
-  2. Select **<span className="text-insta">'Edit Settings'</span>** when Facebook opens
-  3. Tick the boxes next to the Instagram accounts you'd like to add
-  4. Tick the boxes next to the Facebook pages you'd like to add`,
+2. Select **<span className="text-insta">'Edit Settings'</span>** when Facebook opens
+3. Tick the boxes next to the Instagram accounts you'd like to add
+4. Tick the boxes next to the Facebook pages you'd like to add`,
   helpText: `## Facebook and Instagram
 
   ### Permissions

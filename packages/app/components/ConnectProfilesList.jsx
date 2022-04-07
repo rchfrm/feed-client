@@ -8,10 +8,10 @@ const ConnectProfilesList = ({
   artistAccounts,
 }) => {
   return (
-    <>
+    <div className="mb-4">
       <ConnectProfilesAlreadyConnected className="mb-10" />
       <ConnectProfilesNotConnected artistAccounts={artistAccounts} className="mb-10" />
-    </>
+    </div>
   )
 }
 
