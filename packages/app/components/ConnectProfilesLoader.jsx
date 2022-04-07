@@ -112,7 +112,10 @@ const ConnectProfilesLoader = ({
 
     // Handle connecting a single artist
     if (Object.keys(processedArtists).length === 1 && isFacebookRedirect) {
+      setArtistAccounts(processedArtists)
+      setSelectedProfile(processedArtists)
       setPageLoading(false)
+
       const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
 
       // Santise URLs
@@ -128,7 +131,7 @@ const ConnectProfilesLoader = ({
         return
       }
 
-      Router.push(ROUTES.HOME)
+      Router.push(ROUTES.GET_STARTED)
       return
     }
     setPageLoading(false)
@@ -153,14 +156,20 @@ const ConnectProfilesLoader = ({
             content={copy.helpText}
             text="More info on permissions!"
             label="Connect accounts help"
-            className="font-bold"
           />
         ) : (
           <ButtonHelp
-            content="none"
+            content={(
+              <ConnectProfilesConnectMore
+                auth={auth}
+                errors={errors}
+                setErrors={setErrors}
+                isConnecting={isConnecting}
+                isSidePanel
+              />
+            )}
             text="Can't see the page you're looking for?"
             label="Connect accounts help"
-            className="font-bold"
           />
         )}
       </div>
