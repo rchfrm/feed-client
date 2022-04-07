@@ -12,15 +12,12 @@ const ConnectProfilesAlreadyConnected = ({ className }) => {
   if (userLoading || !connectedArtists.length) return null
 
   return (
-    <div
-      className={[
-        className,
-      ].join(' ')}
-    >
-      <h2>Already Connected</h2>
+    <div className={[className].join(' ')}>
+      <h2>Your profiles</h2>
       <ul>
         {connectedArtists.map((artist) => {
           const { id, name, role, facebook_page_id } = artist
+
           return (
             <li
               key={id}
@@ -45,10 +42,11 @@ const ConnectProfilesAlreadyConnected = ({ className }) => {
 
 ConnectProfilesAlreadyConnected.propTypes = {
   className: PropTypes.string,
+
 }
 
 ConnectProfilesAlreadyConnected.defaultProps = {
-  className: null,
+  className: '',
 }
 
 export default ConnectProfilesAlreadyConnected
