@@ -29,17 +29,15 @@ const ObjectiveSettings = () => {
     <div>
       <h2>Objective</h2>
       <ControlsContentSection action="choose your objective">
-        <MarkdownText markdown={copy.objectiveIntro} className="mb-12" />
+        <MarkdownText markdown={copy.objectiveIntro} className="mb-10" />
         <ObjectiveSettingsSelector
           name="objective"
-          label="Primary"
           optionValues={objectives}
           currentObjective={{ objective, platform }}
         />
         {objective === 'growth' && (
           <ObjectiveSettingsSelector
             name="platform"
-            label="Platform"
             optionValues={platforms}
             currentObjective={{ objective, platform }}
           />

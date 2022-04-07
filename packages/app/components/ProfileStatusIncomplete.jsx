@@ -8,6 +8,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { getLocalStorage } from '@/helpers/utils'
 
 import copy from '@/app/copy/getStartedCopy'
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 const getControlsStoreState = (state) => ({
   profileSetupStatus: state.profileSetupStatus,
@@ -34,15 +35,28 @@ const ProfileStatusIncomplete = () => {
       <button onClick={goToGetStartedPage}>
         {profileSetupStatus === 'objective' ? 'Start' : 'Continue'} profile set-up:
         <span
-          className="mb-0 border-2 border-solid border-black rounded-full ml-2 py-2 px-3"
+          className={[
+            'mb-0',
+            'border-3',
+            'border-solid',
+            'border-redLight',
+            'rounded-full',
+            'inline-flex',
+            'ml-2',
+            'py-2',
+            'px-3',
+          ].join(' ')}
         >
           {copy.profileStatus(profileSetupStatus, objective, platform)}
+          <span className="pl-2">
+            <ArrowAltIcon direction="right" />
+          </span>
         </span>
       </button>
     ) : (
       <button onClick={goToGetStartedPage}>
         <span
-          className="mb-0 border-2 border-solid border-black rounded-full py-2 px-3"
+          className="mb-0 border-3 border-solid border-redLight rounded-full py-2 px-3"
         >
           Confirm profile set-up
         </span>

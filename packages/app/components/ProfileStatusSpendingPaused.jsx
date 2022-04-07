@@ -2,6 +2,7 @@ import React from 'react'
 import Router from 'next/router'
 
 import * as ROUTES from '@/app/constants/routes'
+import PauseIcon from '@/icons/PauseIcon'
 
 const ProfileStatusSpendingPaused = () => {
   const goToControlsBudgetPage = () => {
@@ -14,11 +15,22 @@ const ProfileStatusSpendingPaused = () => {
     <button
       onClick={goToControlsBudgetPage}
     >
-      Spending is:
       <span
-        className="mb-0 border-2 border-red border-solid rounded-full ml-2 py-2 px-3"
+        className={[
+          'mb-0',
+          'border-3',
+          'border-red',
+          'border-solid',
+          'rounded-full',
+          'inline-flex',
+          'items-center',
+          'ml-2',
+          'py-2',
+          'px-3',
+        ].join(' ')}
       >
-        paused
+        <span className="pr-2"><PauseIcon /></span>
+        Spending paused,&nbsp;<span className="underline">resume</span>?
       </span>
     </button>
   )

@@ -18,7 +18,6 @@ const GetStartedFacebookPixelSelector = ({
         updateParentPixel={setFacebookPixel}
         trackLocation="GetStartedFacebookPixelSelector"
         shouldSaveOnChange={false}
-        hasNoPixelOption={false}
         shouldShowPixelCopier={false}
         className="w-full mb-4"
       />

@@ -119,14 +119,14 @@ const GetStartedWizard = () => {
     {
       id: 7,
       name: 'facebook-pixel',
-      title: 'Your ad account',
+      title: 'Your pixel',
       section: getStartedSections.adAccount,
       component: <GetStartedFacebookPixel />,
     },
     {
       id: 8,
       name: 'location',
-      title: 'Your ad account',
+      title: 'Your location',
       section: getStartedSections.adAccount,
       component: <GetStartedLocation />,
       shouldSkip: (Object.keys(locations || {}).length || artist.country_code),
@@ -134,7 +134,7 @@ const GetStartedWizard = () => {
     {
       id: 9,
       name: 'budget',
-      title: 'Targeting',
+      title: 'Budget',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
     },
@@ -158,6 +158,7 @@ const GetStartedWizard = () => {
       || !artistId
       || [objective, platform, defaultLink].every(Boolean)
       || !wizardState
+      || isControlsLoading
     ) {
       return
     }
@@ -171,11 +172,9 @@ const GetStartedWizard = () => {
     // If the chosen platform is either Facebook or Instagram we get the link from the linkbank
     if (isFacebookOrInstagram) {
       link = getLinkByPlatform(nestedLinks, storedPlatform)
-    }
-
-    if (storedObjective === 'growth') {
+    } else if (storedObjective === 'growth') {
       // If the objective is growth but the platform is not Facebook or Instagram we save the link as new integration link
-      const { savedLink, error } = await saveIntegrationLink({ platform: storedPlatform }, storedDefaultLink.href)
+      const { savedLink, error } = await saveIntegrationLink({ platform: storedPlatform }, storedDefaultLink?.href)
 
       if (error) {
         return
@@ -186,8 +185,10 @@ const GetStartedWizard = () => {
       let action = 'add'
 
       // Check if the link already exists in the linkbank
-      const existingLink = getLinkByHref(nestedLinks, storedDefaultLink.href)
+      const existingLink = getLinkByHref(nestedLinks, storedDefaultLink?.href)
       const currentLink = existingLink || storedDefaultLink
+
+      if (!currentLink) return
 
       if (existingLink) {
         action = 'edit'

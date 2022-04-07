@@ -14,6 +14,7 @@ import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { objectives, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
+import Spinner from '@/elements/Spinner'
 
 const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
@@ -23,6 +24,7 @@ const getControlsStoreState = (state) => ({
 
 const GetStartedObjective = () => {
   const [selectedObjective, setSelectedObjective] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { goToStep } = React.useContext(WizardContext)
@@ -33,6 +35,9 @@ const GetStartedObjective = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
   const unsetDefaultLink = (artist) => {
+    // Unset the link in the controls store
+    updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
+
     // Update the posts and conversions preferences objects
     updatePreferences({
       postsPreferences: {
@@ -43,11 +48,11 @@ const GetStartedObjective = () => {
       },
     })
 
-    // Unset the link in the controls store
-    updateLinks('chooseNewDefaultLink', { newArtist: artist, newLink: null })
-
     // Update artist context
     setPostPreferences('default_link_id', null)
+
+    // Update local storage default link value
+    setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: null }))
   }
 
   const handleNextStep = async (objective) => {
@@ -55,7 +60,7 @@ const GetStartedObjective = () => {
     const nextStep = isGrowth ? 1 : 2
 
     // If the objective hasn't changed just go to the next step
-    if (objective === currentObjective) {
+    if (objective === currentObjective || objective === wizardState?.objective) {
       goToStep(nextStep)
       return
     }
@@ -83,6 +88,8 @@ const GetStartedObjective = () => {
       return
     }
 
+    setIsLoading(true)
+
     // Otherwise save the data in the db
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
@@ -92,6 +99,7 @@ const GetStartedObjective = () => {
 
     if (error) {
       setError(error)
+      setIsLoading(false)
       return
     }
 
@@ -101,6 +109,7 @@ const GetStartedObjective = () => {
     // Update preferences in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
 
+    setIsLoading(false)
     goToStep(nextStep)
   }
 
@@ -118,13 +127,15 @@ const GetStartedObjective = () => {
       <div className="flex flex-1 flex-column justify-center">
         <Error error={error} />
         <div className="xs:flex justify-between xs:-mx-4 mb-10 xs:mb-20">
-          {objectives.map((objective) => (
-            <GetStartedObjectiveButton
-              key={objective.value}
-              objective={objective}
-              setSelectedObjective={setSelectedObjective}
-            />
-          ))}
+          {isLoading
+            ? <Spinner />
+            : objectives.map((objective) => (
+              <GetStartedObjectiveButton
+                key={objective.value}
+                objective={objective}
+                setSelectedObjective={setSelectedObjective}
+              />
+            ))}
         </div>
         <a className="xs:self-center" href="mailto:help@tryfeed.co">Something else?</a>
       </div>

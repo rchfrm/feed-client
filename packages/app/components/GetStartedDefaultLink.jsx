@@ -41,8 +41,9 @@ const GetStartedDefaultLink = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
 
+  const defaultPlaceholder = 'https://'
   const [link, setLink] = React.useState(defaultLink || storedDefaultLink || {})
-  const [placeholder, setPlaceholder] = React.useState('https://')
+  const [placeholder, setPlaceholder] = React.useState(defaultPlaceholder)
   const [isSaveEnabled, setIsSaveEnabled] = React.useState(false)
   const [error, setError] = React.useState(null)
 
@@ -201,7 +202,9 @@ const GetStartedDefaultLink = () => {
       const { placeholderUrl } = getIntegrationInfo({ platform })
 
       setPlaceholder(placeholderUrl)
+      return
     }
+    setPlaceholder(defaultPlaceholder)
   }, [hasGrowthObjective, objective, platform])
 
   React.useEffect(() => {

@@ -17,6 +17,7 @@ import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
+import Spinner from '@/elements/Spinner'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -29,6 +30,8 @@ const GetStartedPlatform = () => {
   const [selectedPlatform, setSelectedPlatform] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
   const { goToStep } = React.useContext(WizardContext)
   const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
@@ -57,6 +60,9 @@ const GetStartedPlatform = () => {
 
     // Update artist context
     setPostPreferences('default_link_id', null)
+
+    // Update local storage default link value
+    setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: null }))
   }
 
   const handleNextStep = async (platform) => {
@@ -65,7 +71,7 @@ const GetStartedPlatform = () => {
     const nextStep = isFacebookOrInstagram ? 3 : 2
 
     // If the platform hasn't changed just go to the next step
-    if (platform === currentPlatform) {
+    if (platform === currentPlatform || platform === wizardState?.platform) {
       goToStep(nextStep)
       return
     }
@@ -75,7 +81,7 @@ const GetStartedPlatform = () => {
       setLocalStorage('getStartedWizard', JSON.stringify({
         ...wizardState,
         platform,
-        defaultLink: isFacebookOrInstagram ? platform : null,
+        defaultLink: isFacebookOrInstagram ? { href: platform } : null,
       }))
 
       updatePreferences({
@@ -136,16 +142,17 @@ const GetStartedPlatform = () => {
       <Error error={error} />
       <div className="flex flex-1 flex-wrap">
         <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mx-auto">
-          {platforms.map((platform) => {
-            return (
-              <GetStartedPlatformButton
-                key={platform.value}
-                platform={platform}
-                isLoading={isLoading}
-                setSelectedPlatform={setSelectedPlatform}
-              />
-            )
-          })}
+          {isLoading
+            ? <Spinner />
+            : platforms.map((platform) => {
+              return (
+                <GetStartedPlatformButton
+                  key={platform.value}
+                  platform={platform}
+                  setSelectedPlatform={setSelectedPlatform}
+                />
+              )
+            })}
         </div>
       </div>
     </div>

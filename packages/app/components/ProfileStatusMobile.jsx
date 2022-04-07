@@ -7,10 +7,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import ProfileStatusMobileIncomplete from '@/app/ProfileStatusMobileIncomplete'
 import ProfileStatusMobileCompleted from '@/app/ProfileStatusMobileCompleted'
-import ProfileStatusMobileBar from '@/app/ProfileStatusMobileBar'
-
-import Spinner from '@/elements/Spinner'
-import brandColors from '@/constants/brandColors'
+import FadeInOut from '@/elements/FadeInOut'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
@@ -22,20 +19,18 @@ const ProfileStatusMobile = ({ backgroundStyle }) => {
 
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
 
-  if (isControlsLoading) {
-    return (
-      <ProfileStatusMobileBar backgroundStyle={backgroundStyle} className="bg-green">
-        <Spinner width={16} fill={brandColors.white} />
-      </ProfileStatusMobileBar>
-    )
-  }
+  if (isControlsLoading) return <div className="h-7 w-full" />
 
   return (
-    !hasSetUpProfile ? (
-      <ProfileStatusMobileIncomplete backgroundStyle={backgroundStyle} />
-    ) : (
-      <ProfileStatusMobileCompleted backgroundStyle={backgroundStyle} />
-    )
+    <FadeInOut show unmountOnExit>
+      <div className="opacity-0">
+        {!hasSetUpProfile ? (
+          <ProfileStatusMobileIncomplete backgroundStyle={backgroundStyle} />
+        ) : (
+          <ProfileStatusMobileCompleted backgroundStyle={backgroundStyle} />
+        )}
+      </div>
+    </FadeInOut>
   )
 }
 

@@ -23,20 +23,20 @@ const ProfileStatusMobileObjective = ({ backgroundStyle }) => {
   const { objective, platform } = optimizationPreferences
   const objectiveString = getObjectiveString(objective, platform)
 
-  const goToControlsPage = () => {
+  const goToResultsPage = () => {
     Router.push({
-      pathname: ROUTES.CONTROLS_OBJECTIVE,
+      pathname: ROUTES.RESULTS,
     })
   }
 
   return (
     <ProfileStatusMobileBar
-      onClick={goToControlsPage}
+      onClick={goToResultsPage}
       backgroundStyle={backgroundStyle}
       className="bg-green"
     >
       <PlayIcon color={brandColors.white} className="w-2 h-auto mr-2" />
-      {objectiveString}
+      Driving {objectiveString}
     </ProfileStatusMobileBar>
   )
 }
