@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -8,6 +9,7 @@ import ArtistImage from '@/elements/ArtistImage'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+import * as ROUTES from '@/app/constants/routes'
 
 const ConnectProfilesItem = ({
   profile,
@@ -41,7 +43,7 @@ const ConnectProfilesItem = ({
       setIsConnecting(false)
     }
 
-    setIsConnecting(false)
+    Router.push(ROUTES.GET_STARTED)
   }
 
   const Wrapper = isConnected ? 'div' : 'button'

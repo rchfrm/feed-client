@@ -244,7 +244,8 @@ function ArtistProvider({ children }) {
       })
       return
     }
-    const selectedArtist = updatedUser.artists[0]
+    const pageId = artistAccounts[0]?.page_id
+    const selectedArtist = updatedUser.artists.find((artist) => artist.facebook_page_id === pageId)
     const hasSwitchedBetweenArtists = oldUser?.artists[0]?.id !== selectedArtist.id
 
     await storeArtist(selectedArtist.id, hasSwitchedBetweenArtists)
