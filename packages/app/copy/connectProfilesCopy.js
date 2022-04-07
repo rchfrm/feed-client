@@ -27,5 +27,17 @@ You can revoke these from at any time from Facebook. Feed will never post anythi
 <span className="text-xs">To show you insights about your Instagram posts and engagement.<span>
 
 **Access your Page and App insights**  
-<span className="text-xs">To show you insights about your Facebook posts and engagement.<span>`,
+<span className="text-xs">To show you insights about your Facebook posts and engagement.<span>
+
+**Manage ads for ad accounts that you have access to**  
+<span className="text-xs">To create and run ads on your behalf.<span>
+
+**Manage accounts, settings and webhooks for a Page**  
+<span className="text-xs">This goes with the previous permission, to allow Feed to show your Facebook posts and stories within Feed.<span>
+
+**Read user content on your Page**  
+<span className="text-xs">This refers to things like comments on your posts, and helps Feed analyse the most engaging posts in order to better predict which will be most effective as ads.<span>
+
+**Create and manage ads for your Page**  
+<span className="text-xs">The final one, to allow Feed to turn your most effective Facebook posts and stories into ads.<span>`,
 }

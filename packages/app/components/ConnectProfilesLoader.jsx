@@ -46,7 +46,7 @@ const ConnectProfilesLoader = ({
   const { user, userLoading } = React.useContext(UserContext)
   const { connectArtists } = React.useContext(ArtistContext)
 
-  const { missingScopes: { account: missingScopes } } = auth
+  const { missingScopes: { ads: missingScopes } } = auth
 
   React.useEffect(() => {
     if (authError) {

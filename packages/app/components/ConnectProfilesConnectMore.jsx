@@ -18,7 +18,7 @@ const ConnectProfilesConnectMore = ({
   setErrors,
   isSidePanel,
 }) => {
-  const { missingScopes: { account: missingScopes } } = auth
+  const { missingScopes: { ads: missingScopes } } = auth
   const { setSidePanelButton, sidePanelOpen } = React.useContext(SidePanelContext)
   const isDesktopLayout = useBreakpointTest('sm')
 
