@@ -1,18 +1,49 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { UserContext } from '@/app/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import ArtistImage from '@/elements/ArtistImage'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
+import * as artistHelpers from '@/app/helpers/artistHelpers'
+
 const ConnectProfilesItem = ({
-  name,
-  pageId,
-  instagramUsername,
-  role,
+  profile,
+  profiles,
+  setSelectedProfile,
+  setIsConnecting,
   isConnected,
-  onClick,
   className,
 }) => {
+  const { name, page_id, instagram_username, role } = profile
+  const { user } = React.useContext(UserContext)
+  const { connectArtists } = React.useContext(ArtistContext)
+
+  const createArtist = async () => {
+    setIsConnecting(true)
+
+    const filteredSelectedProfile = Object.entries(profiles).reduce((result, [key, value]) => {
+      if (key === profile.page_id) {
+        result[key] = value
+      }
+      return result
+    }, {})
+
+    setSelectedProfile(filteredSelectedProfile)
+
+    // Santise URLs
+    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls([profile])
+    const { error } = await connectArtists(artistAccountsSanitised, user) || {}
+
+    if (error) {
+      setIsConnecting(false)
+    }
+
+    setIsConnecting(false)
+  }
+
   const Wrapper = isConnected ? 'div' : 'button'
 
   return (
@@ -20,16 +51,17 @@ const ConnectProfilesItem = ({
       className={[
         'relative',
         className,
+        isConnected ? 'pointer-events-none' : null,
       ].join(' ')}
     >
-      <Wrapper onClick={onClick} className="flex items-center">
+      <Wrapper onClick={createArtist} className="flex items-center">
         <ArtistImage
           name={name}
-          pageId={pageId}
+          pageId={page_id}
           className="h-16 w-auto rounded-full"
         />
         <div className="ml-4 font-bold font-body text-md">{name}
-          {instagramUsername && <p className="mb-0 font-normal"> (@{instagramUsername})</p>}
+          {instagram_username && <p className="mb-0 font-normal"> (@{instagram_username})</p>}
           {role && <p className="mb-0 font-normal">({role})</p>}
         </div>
         {!isConnected && <ArrowAltIcon direction="right" className="ml-4" />}
@@ -39,19 +71,18 @@ const ConnectProfilesItem = ({
 }
 
 ConnectProfilesItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  pageId: PropTypes.string.isRequired,
-  instagramUsername: PropTypes.string,
-  role: PropTypes.string,
+  profile: PropTypes.object.isRequired,
+  profiles: PropTypes.object,
+  setSelectedProfile: PropTypes.func,
+  setIsConnecting: PropTypes.func,
   isConnected: PropTypes.bool.isRequired,
-  onClick: PropTypes.func,
   className: PropTypes.string,
 }
 
 ConnectProfilesItem.defaultProps = {
-  instagramUsername: '',
-  role: '',
-  onClick: () => null,
+  profiles: null,
+  setSelectedProfile: () => {},
+  setIsConnecting: () => {},
   className: null,
 }
 

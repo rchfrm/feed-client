@@ -8,7 +8,12 @@ import ConnectProfilesItem from '@/app/ConnectProfilesItem'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
-const ConnectProfilesNotConnected = ({ artistAccounts, className }) => {
+const ConnectProfilesNotConnected = ({
+  artistAccounts,
+  setSelectedProfile,
+  setIsConnecting,
+  className,
+}) => {
   const { user, userLoading } = React.useContext(UserContext)
   const { artists: connectedArtists } = user
 
@@ -33,14 +38,20 @@ const ConnectProfilesNotConnected = ({ artistAccounts, className }) => {
           {artistAccountsArray.map((artistAccount) => {
             const { name, page_id, instagram_username } = artistAccount
 
+            const profile = {
+              name,
+              page_id,
+              instagram_username,
+            }
+
             return (
               <ConnectProfilesItem
                 key={page_id}
-                name={name}
-                pageId={page_id}
-                instagramUserName={instagram_username}
+                profile={profile}
+                profiles={artistAccounts}
+                setSelectedProfile={setSelectedProfile}
+                setIsConnecting={setIsConnecting}
                 isConnected={false}
-                onClick={() => console.log('click')}
                 className="mb-6"
               />
             )

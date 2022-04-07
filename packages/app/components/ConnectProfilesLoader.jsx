@@ -137,11 +137,9 @@ const ConnectProfilesLoader = ({
     <div className={className}>
       <div className="col-span-12 sm:col-span-6">
         <ConnectProfilesList
-          auth={auth}
           artistAccounts={artistAccounts}
           setSelectedProfile={setSelectedProfile}
-          errors={errors}
-          setErrors={setErrors}
+          setIsConnecting={setIsConnecting}
         />
         <ButtonHelp
           content={copy.helpText}

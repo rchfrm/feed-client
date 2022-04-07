@@ -11,8 +11,6 @@ const ConnectProfilesAlreadyConnected = ({ className }) => {
 
   if (userLoading || !connectedArtists.length) return null
 
-  console.log(connectedArtists)
-
   return (
     <div className={[className].join(' ')}>
       <h2>Your profiles</h2>
@@ -20,12 +18,16 @@ const ConnectProfilesAlreadyConnected = ({ className }) => {
         {connectedArtists.map((artist) => {
           const { id, name, facebook_page_id, role } = artist
 
+          const profile = {
+            name,
+            page_id: facebook_page_id,
+            role,
+          }
+
           return (
             <ConnectProfilesItem
               key={id}
-              name={name}
-              pageId={facebook_page_id}
-              role={role}
+              profile={profile}
               className="mb-6"
               isConnected
             />
