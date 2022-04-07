@@ -120,13 +120,17 @@ const TheSubNavArtists = ({ className }) => {
             </li>
           )
         })}
-        <li className="md:hidden pt-3">
-          <TheSubNavConnectProfiles />
-        </li>
+        {sortedArtists.length > 0 && (
+          <li className="md:hidden pt-3">
+            <TheSubNavConnectProfiles />
+          </li>
+        )}
       </ul>
-      <div className="hidden md:block pt-5 pb-3">
-        <TheSubNavConnectProfiles />
-      </div>
+      {sortedArtists.length > 0 && (
+        <div className="hidden md:block pt-5 pb-3">
+          <TheSubNavConnectProfiles />
+        </div>
+      )}
     </div>
   )
 }

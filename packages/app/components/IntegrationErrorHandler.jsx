@@ -35,6 +35,7 @@ const IntegrationErrorHandler = () => {
 
   const { notifications, loading: notificationsLoading } = useNotificationStore(getNotificationsStoreState, shallow)
   const { artist, artistId } = React.useContext(ArtistContext)
+  const { hasSetUpProfile } = artist
   const { user, hasPendingEmail } = React.useContext(UserContext)
   const { accessToken, redirectType } = React.useContext(AuthContext)
   const { globalLoading } = React.useContext(InterfaceContext)
@@ -72,7 +73,7 @@ const IntegrationErrorHandler = () => {
   }, [notifications, checkError, notificationsLoading])
 
   const checkAndShowUserError = () => {
-    if (!user.artists || !user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL) return
+    if (!user.artists || !user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL || !hasSetUpProfile) return
 
     // Handle email not confirmed
     if (!integrationError && hasPendingEmail && unconfirmedEmails.length) {

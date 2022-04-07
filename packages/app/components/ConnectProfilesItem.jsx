@@ -60,7 +60,7 @@ const ConnectProfilesItem = ({
           pageId={page_id}
           className="h-16 w-auto rounded-full"
         />
-        <div className="ml-4 font-bold font-body text-md">{name}
+        <div className="ml-4 font-bold font-body text-md text-left">{name}
           {instagram_username && <p className="mb-0 font-normal"> (@{instagram_username})</p>}
           {role && <p className="mb-0 font-normal">({role})</p>}
         </div>

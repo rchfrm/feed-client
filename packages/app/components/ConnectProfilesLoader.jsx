@@ -7,6 +7,8 @@ import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import Spinner from '@/elements/Spinner'
 import ButtonHelp from '@/elements/ButtonHelp'
 
@@ -30,6 +32,8 @@ const ConnectProfilesLoader = ({
   const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [pageLoading, setPageLoading] = React.useState(true)
   const [errors, setErrors] = React.useState([])
+
+  const isDesktopLayout = useBreakpointTest('sm')
 
   const {
     auth,
@@ -74,8 +78,11 @@ const ConnectProfilesLoader = ({
     const { res, error } = await artistHelpers.getArtistOnSignUp()
     if (error) {
       if (!isMounted()) return
-      setErrors([...errors, error])
-      setPageLoading(false)
+
+      if (error.message !== 'user cache is not available') {
+        setErrors([...errors, error?.message?.previous || error])
+        setPageLoading(false)
+      }
       return
     }
 
@@ -141,12 +148,21 @@ const ConnectProfilesLoader = ({
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
         />
-        <ButtonHelp
-          content={copy.helpText}
-          text="More info on permissions!"
-          label="Connect accounts help"
-          className="font-bold"
-        />
+        {isDesktopLayout ? (
+          <ButtonHelp
+            content={copy.helpText}
+            text="More info on permissions!"
+            label="Connect accounts help"
+            className="font-bold"
+          />
+        ) : (
+          <ButtonHelp
+            content="none"
+            text="Can't see the page you're looking for?"
+            label="Connect accounts help"
+            className="font-bold"
+          />
+        )}
       </div>
       <div className="hidden sm:block col-span-6">
         <ConnectProfilesConnectMore

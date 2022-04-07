@@ -9,7 +9,7 @@ const ConnectProfilesAlreadyConnected = ({ className }) => {
   const { user, userLoading } = React.useContext(UserContext)
   const { artists: connectedArtists } = user
 
-  if (userLoading || !connectedArtists.length) return null
+  if (userLoading) return null
 
   return (
     <div className={[className].join(' ')}>
