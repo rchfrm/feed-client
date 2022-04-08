@@ -14,7 +14,7 @@ const ConnectProfilesList = ({
       <ConnectProfilesAlreadyConnected
         className="mb-10"
       />
-      {Object.keys(artistAccounts).length > 0 && (
+      {artistAccounts.length > 0 && (
         <ConnectProfilesNotConnected
           artistAccounts={artistAccounts}
           setSelectedProfile={setSelectedProfile}
@@ -27,7 +27,7 @@ const ConnectProfilesList = ({
 }
 
 ConnectProfilesList.propTypes = {
-  artistAccounts: PropTypes.object.isRequired,
+  artistAccounts: PropTypes.array.isRequired,
   setSelectedProfile: PropTypes.func.isRequired,
 }
 

@@ -200,28 +200,22 @@ function ArtistProvider({ children }) {
   }, [toggleGlobalLoading, setIsControlsLoading, updateArtist])
 
   /**
-   * @param {array} artistAccounts
+   * @param {array} artistAccount
    * @param {object} oldUser
    * @returns {Promise<any>}
   */
-  const connectArtists = React.useCallback(async (artistAccounts, oldUser) => {
+  const connectArtists = React.useCallback(async (artistAccount, oldUser) => {
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
-    // Filter out non-connected artist accounts
-    const unconnectedArtistAccounts = artistAccounts.filter(({ page_id: facebookPageId }) => {
-      return !alreadyConnectFacebookPages.includes(facebookPageId)
-    })
-    // * STOP HERE if there are no new artist accounts
-    if (!unconnectedArtistAccounts.length) {
+
+    // * STOP HERE if there the artist account has already been connected
+    if (alreadyConnectFacebookPages.includes(artistAccount.page_id)) {
       setArtistLoading(false)
       return {}
     }
-    // Create all artists
-    const createAllArtists = unconnectedArtistAccounts.map(async (artist) => {
-      return artistHelpers.createArtist(artist)
-    })
-    // Wait to connect all artists
-    await Promise.all(createAllArtists)
+
+    // Wait to connect the artist
+    await artistHelpers.createArtist(artistAccount)
       .catch((error) => {
         // Sentry error
         fireSentryError({
@@ -232,8 +226,10 @@ function ArtistProvider({ children }) {
         setArtistLoading(false)
         throw (error)
       })
+
     // Update user
     const { user: updatedUser, error } = await storeUser()
+
     if (error) {
       setArtistLoading(false)
       // Sentry error
@@ -244,14 +240,15 @@ function ArtistProvider({ children }) {
       })
       return
     }
-    const pageId = artistAccounts[0]?.page_id
-    const selectedArtist = updatedUser.artists.find((artist) => artist.facebook_page_id === pageId)
+    const selectedArtist = updatedUser.artists.find((artist) => artist.facebook_page_id === artistAccount.page_id)
     const hasSwitchedBetweenArtists = oldUser?.artists[0]?.id !== selectedArtist.id
 
     await storeArtist(selectedArtist.id, hasSwitchedBetweenArtists)
     setArtistLoading(false)
+
     // TRACK
     const newUser = !oldUser.artists.length
+
     if (newUser) {
       track('create_profile')
       trackGoogleProfileCreated()

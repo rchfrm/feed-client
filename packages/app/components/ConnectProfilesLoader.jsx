@@ -106,18 +106,17 @@ const ConnectProfilesLoader = ({
     setArtistAccounts(processedArtists)
 
     // Handle connecting a single artist
-    if (Object.keys(processedArtists).length === 1 && isFacebookRedirect) {
+    if (processedArtists.length === 1 && isFacebookRedirect) {
       setArtistAccounts(processedArtists)
-      setSelectedProfile(processedArtists)
+      setSelectedProfile(processedArtists[0])
+
       setPageLoading(false)
 
-      const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
-
       // Santise URLs
-      const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
+      const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(processedArtists[0])
 
       setIsConnecting(true)
-      const { error } = await connectArtists(artistAccountsSanitised, user) || {}
+      const { error } = await connectArtists(artistAccountSanitised, user) || {}
 
       if (error) {
         setIsConnecting(false)
@@ -133,7 +132,7 @@ const ConnectProfilesLoader = ({
   }, [userLoading, isConnecting])
 
   if (isConnecting && Object.keys(artistAccounts).length > 0) {
-    return <ConnectProfilesIsConnecting artistAccounts={selectedProfile} />
+    return <ConnectProfilesIsConnecting profile={selectedProfile} />
   }
 
   if (pageLoading || isConnecting) return <Spinner />

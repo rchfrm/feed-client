@@ -13,7 +13,6 @@ import * as ROUTES from '@/app/constants/routes'
 
 const ConnectProfilesItem = ({
   profile,
-  profiles,
   setSelectedProfile,
   setIsConnecting,
   isConnected,
@@ -25,19 +24,11 @@ const ConnectProfilesItem = ({
 
   const createArtist = async () => {
     setIsConnecting(true)
-
-    const filteredSelectedProfile = Object.entries(profiles).reduce((result, [key, value]) => {
-      if (key === profile.page_id) {
-        result[key] = value
-      }
-      return result
-    }, {})
-
-    setSelectedProfile(filteredSelectedProfile)
+    setSelectedProfile(profile)
 
     // Santise URLs
-    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls([profile])
-    const { error } = await connectArtists(artistAccountsSanitised, user) || {}
+    const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(profile)
+    const { error } = await connectArtists(artistAccountSanitised, user) || {}
 
     if (error) {
       setIsConnecting(false)
@@ -74,7 +65,6 @@ const ConnectProfilesItem = ({
 
 ConnectProfilesItem.propTypes = {
   profile: PropTypes.object.isRequired,
-  profiles: PropTypes.object,
   setSelectedProfile: PropTypes.func,
   setIsConnecting: PropTypes.func,
   isConnected: PropTypes.bool.isRequired,
@@ -82,7 +72,6 @@ ConnectProfilesItem.propTypes = {
 }
 
 ConnectProfilesItem.defaultProps = {
-  profiles: null,
   setSelectedProfile: () => {},
   setIsConnecting: () => {},
   className: null,

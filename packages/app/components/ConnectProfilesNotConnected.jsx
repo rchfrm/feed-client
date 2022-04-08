@@ -15,7 +15,7 @@ const ConnectProfilesNotConnected = ({
 }) => {
   const { userLoading } = React.useContext(UserContext)
 
-  const artistAccountsArray = React.useMemo(() => {
+  const sortedArtistAccounts = React.useMemo(() => {
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
   }, [artistAccounts])
 
@@ -29,20 +29,11 @@ const ConnectProfilesNotConnected = ({
           'pl-16',
         ].join(' ')}
       >
-        {artistAccountsArray.map((artistAccount) => {
-          const { name, page_id, instagram_username } = artistAccount
-
-          const profile = {
-            name,
-            page_id,
-            instagram_username,
-          }
-
+        {sortedArtistAccounts.map((artistAccount) => {
           return (
             <ConnectProfilesItem
-              key={page_id}
-              profile={profile}
-              profiles={artistAccounts}
+              key={artistAccount.page_id}
+              profile={artistAccount}
               setSelectedProfile={setSelectedProfile}
               setIsConnecting={setIsConnecting}
               isConnected={false}
@@ -56,7 +47,7 @@ const ConnectProfilesNotConnected = ({
 }
 
 ConnectProfilesNotConnected.propTypes = {
-  artistAccounts: PropTypes.object.isRequired,
+  artistAccounts: PropTypes.array.isRequired,
 }
 
 ConnectProfilesNotConnected.defaultProps = {
