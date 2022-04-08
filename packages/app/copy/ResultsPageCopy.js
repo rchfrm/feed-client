@@ -94,14 +94,52 @@ export default {
       description: `**${currValue} people** saw ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
     }
   },
-  platformGrowth: (platform) => {
-    const isTrue = true
-
-    if (isTrue) {
-      return `Your ${platform} following is growing **1.65%** a month, that's **11.8x** faster than your organic growth of **0.14%**.`
+  platformGrowth: ({
+    platform,
+    paidGrowthRate,
+    organicGrowthRate,
+    growthIncrease,
+    spendingDaysCount,
+  }) => {
+    if (organicGrowthRate > 0) {
+      return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's **${growthIncrease}x** faster than your organic growth of **${formatNumber(organicGrowthRate)}%**.`
     }
 
-    return `Your ${platform} following is growing **1.65%** a month, that means **~35** new followers.`
+    if (organicGrowthRate === 0) {
+      if (spendingDaysCount === 30) {
+        return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, this compares to no growth without spending.`
+      }
+
+      if (spendingDaysCount < 30) {
+        return `Your ${platform} is now projected to grow **${formatNumber(paidGrowthRate)}%** a month, this compares to no growth without spending.`
+      }
+    }
+
+    if (organicGrowthRate < 0) {
+      if (spendingDaysCount === 30) {
+        return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, without spending it was actually shrinking **${formatNumber(organicGrowthRate)}%**.`
+      }
+
+      if (spendingDaysCount < 30) {
+        return `Your ${platform} is now projected to grow **${formatNumber(paidGrowthRate)}%** a month, without spending it was actually shrinking **${formatNumber(organicGrowthRate)}%**.`
+      }
+    }
+  },
+  platformGrowthFallback: ({
+    platform,
+    paidGrowthRate,
+    totalGrowthAbsolute,
+    spendingDaysCount,
+  }) => {
+    if (spendingDaysCount === 30) {
+      return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's ${formatNumber(totalGrowthAbsolute)} new followers`
+    }
+    if (spendingDaysCount < 30) {
+      return `Your ${platform} is set to ${formatNumber(paidGrowthRate) >= 0 ? 'grow' : 'shrink'} 1.65% a month, that means ~${formatNumber(totalGrowthAbsolute)} new followers.`
+    }
+    if (paidGrowthRate === 0) {
+      return `Your ${platform} is set to stay the same from month to month.`
+    }
   },
   postDescription: (type, isPurchase) => {
     if (type === 'unaware') {

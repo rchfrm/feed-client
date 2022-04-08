@@ -349,17 +349,45 @@ const getQuartile = (percentile, audience) => {
   }
 }
 
-export const getPlatformData = (data) => {
-  const adGrowth = 100
-  const organicGrowth = 50
+export const getPlatformData = (data, platform = 'instagram') => {
+  const {
+    instagram_growth: {
+      '30d': {
+        organic,
+        paid,
+      },
+    },
+    spend: {
+      daily_data,
+    },
+  } = data
 
-  console.log(data)
+  const paidGrowthRate = paid.rate.value
+  const organicGrowthRate = organic.rate.value
+  const totalGrowthAbsolute = paid.absolute.value
+  const growthIncrease = paidGrowthRate / organicGrowthRate
 
-  if (adGrowth > organicGrowth) {
+  const paidGrowthEstimate = totalGrowthAbsolute * ((paidGrowthRate - organicGrowthRate) / paidGrowthRate)
+  const organicGrowthEstimate = totalGrowthAbsolute - paidGrowthEstimate
+  const paidGrowthPercentile = paid.absolute.percentile
+
+  const daysWithSpend = Object.entries(daily_data).filter(([, spend]) => spend > 0)
+  const spendingDaysCount = daysWithSpend.length
+
+  const copyData = {
+    platform,
+    paidGrowthRate,
+    organicGrowthRate,
+    growthIncrease,
+    totalGrowthAbsolute,
+    spendingDaysCount,
+  }
+
+  if (paidGrowthEstimate >= organicGrowthEstimate && paidGrowthEstimate > 0) {
     return makeStatsObject({
-      prevPeriod: 20,
-      currPeriod: 50,
-      copy: resultsCopy.platformGrowth('Instagram'),
+      prevPeriod: organicGrowthEstimate,
+      currPeriod: paidGrowthEstimate,
+      copy: resultsCopy.platformGrowth(copyData),
       chartType: 'main',
     })
   }
@@ -367,11 +395,11 @@ export const getPlatformData = (data) => {
   return {
     chartType: 'fallback',
     chartData: {
-      currValue: 50,
-      percentile: 45,
-      quartile: getQuartile(45),
+      currValue: totalGrowthAbsolute,
+      percentile: paidGrowthPercentile,
+      quartile: getQuartile(paidGrowthPercentile),
     },
-    copy: resultsCopy.platformGrowth('Instagram'),
+    copy: resultsCopy.platformGrowthFallback(copyData),
   }
 }
 
@@ -601,8 +629,8 @@ export const getFollowerGrowth = async (artistId) => {
  * @param {string} artistId
  * @returns {Promise<any>}
  */
-export const getAdResultsSummary = async (artistId) => {
-  const endpoint = `/artists/${artistId}/ad_results_summary`
+export const getAdBenchmark = async (artistId) => {
+  const endpoint = `/artists/${artistId}/ad_benchmark`
   const payload = {}
   const errorTracking = {
     category: 'Results',
@@ -612,7 +640,7 @@ export const getAdResultsSummary = async (artistId) => {
 
   if (error) return { error }
 
-  const formattedData = res.summary ? formatResultsData(res.summary) : null
+  const formattedData = res.data ? formatResultsData(res.data) : null
   if (formattedData) {
     formattedData.dateRange = {
       from: res.date_from,

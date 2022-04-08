@@ -15,7 +15,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
-import { getAdResultsSummary, getOrganicBenchmark, getAggregatedOrganicBenchmark } from '@/app/helpers/resultsHelpers'
+import { getAdBenchmark, getOrganicBenchmark, getAggregatedOrganicBenchmark } from '@/app/helpers/resultsHelpers'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
@@ -82,7 +82,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
       return
     }
 
-    handleDataRequest(getAdResultsSummary, adResultsData, setAdResultsData)
+    handleDataRequest(getAdBenchmark, adResultsData, setAdResultsData)
   }, [resultsType])
 
   if (isLoading) return <Spinner />
