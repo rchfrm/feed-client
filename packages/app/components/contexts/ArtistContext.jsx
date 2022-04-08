@@ -204,7 +204,7 @@ function ArtistProvider({ children }) {
    * @param {object} oldUser
    * @returns {Promise<any>}
   */
-  const connectArtists = React.useCallback(async (artistAccount, oldUser) => {
+  const connectArtist = React.useCallback(async (artistAccount, oldUser) => {
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
 
@@ -328,7 +328,7 @@ function ArtistProvider({ children }) {
     artistId,
     artistCurrency,
     artistLoading,
-    connectArtists,
+    connectArtist,
     setNoArtist,
     setArtist,
     setArtistLoading,

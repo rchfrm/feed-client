@@ -20,9 +20,13 @@ const GetStartedConnectFacebook = () => {
   const [isConnecting, setIsConnecting] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const { artistId, connectArtists } = React.useContext(ArtistContext)
+  const { artistId, connectArtist } = React.useContext(ArtistContext)
 
-  const { auth } = React.useContext(AuthContext)
+  const {
+    auth,
+    isFacebookRedirect,
+    setIsFacebookRedirect,
+  } = React.useContext(AuthContext)
   const { missingScopes: { ads: missingScopes } } = auth
 
   const { user } = React.useContext(UserContext)
@@ -63,18 +67,17 @@ const GetStartedConnectFacebook = () => {
     const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
 
     // Handle connecting a single artist
-    if (Object.keys(processedArtists).length === 1 && !artistId) {
+    if (processedArtists.length === 1 && isFacebookRedirect && !artistId) {
       setArtistAccounts(processedArtists)
-      setSelectedProfile(processedArtists)
+      setSelectedProfile(processedArtists[0])
 
       setIsLoading(false)
       setIsConnecting(true)
 
       // Santise URLs
-      const artistToConnect = Object.values(artistsFiltered).map((artistFiltered) => artistFiltered)
-      const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls(artistToConnect)
+      const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(processedArtists[0])
 
-      const { error } = await connectArtists(artistAccountsSanitised, user) || {}
+      const { error } = await connectArtist(artistAccountSanitised, user) || {}
 
       if (!isMounted()) return
 
@@ -92,8 +95,15 @@ const GetStartedConnectFacebook = () => {
     setIsLoading(false)
   }, [])
 
-  if (isConnecting && Object.keys(selectedProfile).length > 0) {
-    return <ConnectProfilesIsConnecting artistAccounts={selectedProfile} className="my-6 sm:my-0" />
+  // Reset isFacebookRedirect boolean when leaving page
+  React.useEffect(() => {
+    return () => {
+      setIsFacebookRedirect(false)
+    }
+  }, [setIsFacebookRedirect])
+
+  if (isConnecting && artistAccounts.length > 0) {
+    return <ConnectProfilesIsConnecting profile={selectedProfile} className="my-6 sm:my-0" />
   }
 
   if (isLoading || isConnecting) return <Spinner />

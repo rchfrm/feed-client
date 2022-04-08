@@ -28,7 +28,7 @@ const GetStartedConnectFacebookProfiles = ({
 }
 
 GetStartedConnectFacebookProfiles.propTypes = {
-  artistAccounts: PropTypes.object.isRequired,
+  artistAccounts: PropTypes.array.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
   setSelectedProfile: PropTypes.func.isRequired,
 }

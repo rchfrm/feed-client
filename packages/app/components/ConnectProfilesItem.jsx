@@ -20,7 +20,7 @@ const ConnectProfilesItem = ({
 }) => {
   const { name, page_id, instagram_username, role } = profile
   const { user } = React.useContext(UserContext)
-  const { connectArtists } = React.useContext(ArtistContext)
+  const { connectArtist } = React.useContext(ArtistContext)
 
   const createArtist = async () => {
     setIsConnecting(true)
@@ -28,7 +28,7 @@ const ConnectProfilesItem = ({
 
     // Santise URLs
     const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(profile)
-    const { error } = await connectArtists(artistAccountSanitised, user) || {}
+    const { error } = await connectArtist(artistAccountSanitised, user) || {}
 
     if (error) {
       setIsConnecting(false)

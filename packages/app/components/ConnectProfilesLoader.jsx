@@ -39,7 +39,7 @@ const ConnectProfilesLoader = ({
   } = React.useContext(AuthContext)
 
   const { user, userLoading } = React.useContext(UserContext)
-  const { connectArtists } = React.useContext(ArtistContext)
+  const { connectArtist } = React.useContext(ArtistContext)
 
   const { missingScopes: { ads: missingScopes } } = auth
 
@@ -116,7 +116,7 @@ const ConnectProfilesLoader = ({
       const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(processedArtists[0])
 
       setIsConnecting(true)
-      const { error } = await connectArtists(artistAccountSanitised, user) || {}
+      const { error } = await connectArtist(artistAccountSanitised, user) || {}
 
       if (error) {
         setIsConnecting(false)
@@ -131,7 +131,7 @@ const ConnectProfilesLoader = ({
     setPageLoading(false)
   }, [userLoading, isConnecting])
 
-  if (isConnecting && Object.keys(artistAccounts).length > 0) {
+  if (isConnecting && artistAccounts.length > 0) {
     return <ConnectProfilesIsConnecting profile={selectedProfile} />
   }
 

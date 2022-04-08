@@ -12,14 +12,13 @@ const GetStartedConnectFacebookProfilesList = ({
     <>
       <div className={[
         'flex',
-        Object.keys(profiles).length > 3 ? 'flex-row flex-wrap' : 'flex-column',
+        profiles.length > 3 ? 'flex-row flex-wrap' : 'flex-column',
       ].join(' ')}
       >
-        {Object.values(profiles).map((profile) => (
+        {profiles.map((profile) => (
           <GetStartedConnectFacebookProfilesItem
             key={profile.page_id}
             profile={profile}
-            profiles={profiles}
             setSelectedProfile={setSelectedProfile}
             setIsConnecting={setIsConnecting}
           />
@@ -30,7 +29,7 @@ const GetStartedConnectFacebookProfilesList = ({
 }
 
 GetStartedConnectFacebookProfilesList.propTypes = {
-  profiles: PropTypes.object.isRequired,
+  profiles: PropTypes.array.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
   setSelectedProfile: PropTypes.func.isRequired,
 }
