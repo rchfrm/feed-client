@@ -152,7 +152,7 @@ const ConnectProfilesLoader = ({
           isConnecting={isConnecting}
         />
       </div>
-      <div className="hidden sm:block col-span-6">
+      <div className="hidden sm:block col-span-6 lg:col-span-4">
         <ConnectProfilesConnectMore
           auth={auth}
           errors={errors}

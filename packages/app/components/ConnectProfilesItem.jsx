@@ -51,13 +51,17 @@ const ConnectProfilesItem = ({
         <ArtistImage
           name={name}
           pageId={page_id}
-          className="h-16 w-auto rounded-full"
+          className="h-16 w-auto rounded-full mr-4"
         />
-        <div className="ml-4 font-bold font-body text-md text-left">{name}
-          {instagram_username && <p className="mb-0 font-normal"> (@{instagram_username})</p>}
-          {role && <p className="mb-0 font-normal">({role})</p>}
+        <div className="font-bold font-body text-md text-left">{name}
+          {instagram_username && <span className="block mb-0 font-normal"> (@{instagram_username})</span>}
+          {role && <span className="block mb-0 font-normal">({role})</span>}
         </div>
-        {!isConnected && <ArrowAltIcon direction="right" className="ml-4" />}
+        {!isConnected && (
+          <div className="flex-1">
+            <ArrowAltIcon direction="right" className="ml-4" />
+          </div>
+        )}
       </Wrapper>
     </li>
   )

@@ -26,7 +26,7 @@ const ConnectProfilesNotConnected = ({
       <h2>Connect more</h2>
       <ul
         className={[
-          'pl-16',
+          'xs:pl-16',
         ].join(' ')}
       >
         {sortedArtistAccounts.map((artistAccount) => {

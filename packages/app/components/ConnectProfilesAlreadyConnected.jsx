@@ -14,7 +14,7 @@ const ConnectProfilesAlreadyConnected = ({ className }) => {
   return (
     <div className={[className].join(' ')}>
       <h2>Your profiles</h2>
-      <ul className="pl-16">
+      <ul className="xs:pl-16">
         {connectedArtists.map((artist) => {
           const { id, name, facebook_page_id, role } = artist
 
@@ -40,11 +40,10 @@ const ConnectProfilesAlreadyConnected = ({ className }) => {
 
 ConnectProfilesAlreadyConnected.propTypes = {
   className: PropTypes.string,
-
 }
 
 ConnectProfilesAlreadyConnected.defaultProps = {
-  className: '',
+  className: null,
 }
 
 export default ConnectProfilesAlreadyConnected

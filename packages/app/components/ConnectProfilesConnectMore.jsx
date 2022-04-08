@@ -63,7 +63,7 @@ const ConnectProfilesConnectMore = ({
           setErrors={setErrors}
           buttonText="Connect more"
           trackComponentName="ConnectProfilesConnectMore"
-          className="w-full xs:w-1/2"
+          className="w-full xs:w-2/3"
         />
       )}
     </div>
