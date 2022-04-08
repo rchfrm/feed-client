@@ -7,21 +7,18 @@ import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import useBreakpointTest from '@/hooks/useBreakpointTest'
-
 import Spinner from '@/elements/Spinner'
-import ButtonHelp from '@/elements/ButtonHelp'
 
 import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
+import ConnectProfilesButtonHelp from '@/app/ConnectProfilesButtonHelp'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
-import copy from '@/app/copy/connectProfilesCopy'
 
 const ConnectProfilesLoader = ({
   isConnecting,
@@ -32,8 +29,6 @@ const ConnectProfilesLoader = ({
   const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [pageLoading, setPageLoading] = React.useState(true)
   const [errors, setErrors] = React.useState([])
-
-  const isDesktopLayout = useBreakpointTest('sm')
 
   const {
     auth,
@@ -151,27 +146,12 @@ const ConnectProfilesLoader = ({
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
         />
-        {isDesktopLayout ? (
-          <ButtonHelp
-            content={copy.helpText}
-            text="More info on permissions!"
-            label="Connect accounts help"
-          />
-        ) : (
-          <ButtonHelp
-            content={(
-              <ConnectProfilesConnectMore
-                auth={auth}
-                errors={errors}
-                setErrors={setErrors}
-                isConnecting={isConnecting}
-                isSidePanel
-              />
-            )}
-            text="Can't see the page you're looking for?"
-            label="Connect accounts help"
-          />
-        )}
+        <ConnectProfilesButtonHelp
+          auth={auth}
+          errors={errors}
+          setErrors={setErrors}
+          isConnecting={isConnecting}
+        />
       </div>
       <div className="hidden sm:block col-span-6">
         <ConnectProfilesConnectMore
