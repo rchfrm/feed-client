@@ -51,7 +51,7 @@ const ResultsPlatformGrowthStats = ({ data }) => {
           data={chartData}
           color={brandColors.instagram.bg}
           icon="plus"
-          tooltips={['Organic', 'Paid']}
+          tooltipTitles={['Organic', 'Paid']}
           tooltipMessage="This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift."
         />
       )}

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { gsap, Power2 } from 'gsap'
 
 const ResultsPercentileChartQuartile = ({
   isActive,
@@ -7,6 +8,23 @@ const ResultsPercentileChartQuartile = ({
   isLastQuartile,
   color,
 }) => {
+  const quartileRef = React.useRef(null)
+
+  const animateChart = React.useCallback((ref) => {
+    if (ref) {
+      const ease = Power2.easeOut
+      const duration = 0.5
+
+      gsap.to(ref, { backgroundColor: color, ease, duration, delay: 0.2 })
+    }
+  }, [color])
+
+  React.useEffect(() => {
+    if (isActive) {
+      animateChart(quartileRef.current)
+    }
+  }, [animateChart, quartileRef, isActive])
+
   return (
     <div
       className="w-1/4 h-full"
@@ -24,8 +42,8 @@ const ResultsPercentileChartQuartile = ({
         ].join(' ')}
         style={{
           borderColor: color,
-          backgroundColor: isActive ? color : 'none',
         }}
+        ref={quartileRef}
       />
     </div>
   )
