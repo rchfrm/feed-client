@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import { gsap, Power2 } from 'gsap'
 
+import ResultsAbsoluteChartTooltip from '@/app/ResultsAbsoluteChartTooltip'
+
 import PlusIcon from '@/icons/PlusIcon'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
@@ -14,6 +16,8 @@ const ResultsAbsoluteChart = ({
   isPurchase,
   icon,
   currency,
+  tooltipTitles,
+  tooltipMessage,
 }) => {
   const icons = {
     plus: PlusIcon,
@@ -54,19 +58,37 @@ const ResultsAbsoluteChart = ({
       <div style={{ width: `${prevPeriodProportion}%` }}>
         <div
           ref={prevPeriodChartRef}
-          className="flex h-7 bg-blue opacity-50 rounded-full mb-1"
+          className="flex justify-center items-center h-7 bg-blue opacity-50 rounded-full mb-1"
           style={{ backgroundColor: color, transform: 'scale(0)' }}
-        />
-        <p className="text-center text-xs">{isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}</p>
+        >
+          {tooltipMessage && (
+            <p className="mb-0 text-white text-xs">{formatNumber(prevPeriod)}</p>
+          )}
+        </div>
+        {tooltipMessage ? (
+          <ResultsAbsoluteChartTooltip title={tooltipTitles[0]} message={tooltipMessage} />
+        ) : (
+          <p className="text-center text-xs">{isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}</p>
+        )}
       </div>
-      <ChartIcon className="h-6 w-6 -mx-2 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
+      <ChartIcon className="h-6 w-6 -mx-1 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
       <div style={{ width: `${currentPeriodProportion}%` }}>
         <div
           ref={nextPeriodChartRef}
-          className="flex h-7 bg-blue rounded-full mb-1"
+          className="flex justify-center items-center h-7 bg-blue rounded-full mb-1"
           style={{ backgroundColor: color, transform: 'scale(0)' }}
-        />
-        <p className="text-center text-xs font-bold">{isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}</p>
+        >
+          {tooltipMessage && (
+            <p className="mb-0 text-white text-xs">{formatNumber(absoluteGrowth)}</p>
+          )}
+        </div>
+        <p className="text-center text-xs font-bold">
+          {tooltipMessage ? (
+            <ResultsAbsoluteChartTooltip title={tooltipTitles[1]} message={tooltipMessage} />
+          ) : (
+            <p className="text-center text-xs">{isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}</p>
+          )}
+        </p>
       </div>
     </div>
   )
@@ -78,11 +100,15 @@ ResultsAbsoluteChart.propTypes = {
   isPurchase: PropTypes.bool,
   icon: PropTypes.string.isRequired,
   currency: PropTypes.string,
+  tooltipTitles: PropTypes.array,
+  tooltipMessage: PropTypes.string,
 }
 
 ResultsAbsoluteChart.defaultProps = {
   currency: '',
   isPurchase: false,
+  tooltipTitles: [],
+  tooltipMessage: '',
 }
 
 export default ResultsAbsoluteChart

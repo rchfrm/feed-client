@@ -43,14 +43,16 @@ const ResultsPlatformGrowthStats = ({ data }) => {
               {abbreviateNumber(currValue)}
             </p>
           </div>
-          <p className="hidden sm:block text-xs mb-0 sm:mb-8">New people engaged with your posts</p>
+          <p className="hidden sm:block text-xs text-center mb-0 sm:mb-8">New followers</p>
         </div>
       </div>
       {isAbsoluteGrowthChart && (
         <ResultsAbsoluteChart
           data={chartData}
           color={brandColors.instagram.bg}
-          icon="arrow"
+          icon="plus"
+          tooltips={['Organic', 'Paid']}
+          tooltipMessage="This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift."
         />
       )}
       {isPercentileChart && (
