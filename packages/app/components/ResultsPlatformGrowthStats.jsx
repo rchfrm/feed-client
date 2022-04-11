@@ -26,7 +26,7 @@ const ResultsPlatformGrowthStats = ({ data }) => {
     <>
       <div className="flex sm:flex-col items-center justify-between">
         <div>
-          <p className="text-xl sm:text-center">Step 3: <strong>Growth</strong></p>
+          <p className="text-xl sm:text-center">Step 3: <strong>Grow</strong></p>
           <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
             <MarkdownText
               markdown={copy || ''}
@@ -36,7 +36,13 @@ const ResultsPlatformGrowthStats = ({ data }) => {
         </div>
         <div className="flex flex-column">
           <div className="flex justify-center items-center">
-            <PlusIcon className="h-4 w-4 sm:h-8 sm:w-8 mr-1" fill={brandColors.instagram.bg} />
+            {currValue > 0 && (
+              <PlusIcon
+                className="h-4 w-4 sm:h-8 sm:w-8 mr-1"
+                fill={brandColors.instagram.bg}
+                style={{ filter: 'brightness(75%)' }}
+              />
+            )}
             <p
               className="text-3xl mb-1 sm:text-6xl text-center font-bold"
               style={{ color: brandColors.instagram.bg }}
