@@ -634,7 +634,7 @@ export const getAdBenchmark = async (artistId) => {
   const payload = {}
   const errorTracking = {
     category: 'Results',
-    action: 'Get ad results summary',
+    action: 'Get ad benchmark',
   }
   const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
 
