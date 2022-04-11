@@ -6,6 +6,7 @@ import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
 import { formatCurrency } from '@/helpers/utils'
 import { getDataSourceValue } from '@/app/helpers/appServer'
+import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 
 import * as server from '@/app/helpers/appServer'
 import { formatServerData } from '@/app/helpers/insightsHelpers'
@@ -375,7 +376,7 @@ export const getPlatformData = (data, platform = 'instagram') => {
   const spendingDaysCount = daysWithSpend.length
 
   const copyData = {
-    platform,
+    platform: getPlatformNameByValue(platform),
     paidGrowthRate,
     organicGrowthRate,
     growthIncrease,

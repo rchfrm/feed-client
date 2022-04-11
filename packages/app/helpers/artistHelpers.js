@@ -553,13 +553,19 @@ export const platforms = [
   },
 ]
 
+export const getPlatformNameByValue = (platform) => {
+  if (!platform) return null
+
+  return platforms.find(({ value }) => platform === value).name
+}
+
 export const getObjectiveString = (objective, platform) => {
   if (!objective || !platform) return null
 
   const objectiveString = objectives.find(({ value }) => objective === value).name
 
   if (platform !== 'website') {
-    const platformString = platforms.find(({ value }) => platform === value).name
+    const platformString = getPlatformNameByValue(platform)
 
     return `${platformString} growth`
   }

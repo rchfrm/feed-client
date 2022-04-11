@@ -132,10 +132,10 @@ export default {
     spendingDaysCount,
   }) => {
     if (spendingDaysCount === 30) {
-      return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's ${formatNumber(totalGrowthAbsolute)} new followers`
+      return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's **${formatNumber(totalGrowthAbsolute)}** new followers.`
     }
     if (spendingDaysCount < 30) {
-      return `Your ${platform} is set to ${formatNumber(paidGrowthRate) >= 0 ? 'grow' : 'shrink'} 1.65% a month, that means ~${formatNumber(totalGrowthAbsolute)} new followers.`
+      return `Your ${platform} is set to ${formatNumber(paidGrowthRate) >= 0 ? 'grow' : 'shrink'} 1.65% a month, that means **~${formatNumber(totalGrowthAbsolute)}** new followers.`
     }
     if (paidGrowthRate === 0) {
       return `Your ${platform} is set to stay the same from month to month.`
