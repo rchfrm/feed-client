@@ -141,6 +141,7 @@ export default {
       return `Your ${platform} is set to stay the same from month to month.`
     }
   },
+  platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
   postDescription: (type, isPurchase) => {
     if (type === 'unaware') {
       return `The post that engaged the

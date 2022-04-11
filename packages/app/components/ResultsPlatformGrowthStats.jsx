@@ -12,6 +12,7 @@ import { abbreviateNumber } from '@/helpers/utils'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import brandColors from '@/constants/brandColors'
+import resultsCopy from '@/app/copy/ResultsPageCopy'
 
 const ResultsPlatformGrowthStats = ({ data }) => {
   const isDesktopLayout = useBreakpointTest('sm')
@@ -52,7 +53,7 @@ const ResultsPlatformGrowthStats = ({ data }) => {
           color={brandColors.instagram.bg}
           icon="plus"
           tooltipTitles={['Organic', 'Paid']}
-          tooltipMessage="This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift."
+          tooltipMessage={resultsCopy.platformGrowthTooltip}
         />
       )}
       {isPercentileChart && (
