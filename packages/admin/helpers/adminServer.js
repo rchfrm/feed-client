@@ -80,6 +80,24 @@ export const getArtist = async (cursor, id, requestProps = {}) => {
   return [artist]
 }
 
+// Artist data source
+/**
+ * @param {string} [id]
+ * @param {string} [dataSourceName]
+ * @returns {Promise<Object>}
+ */
+export const getArtistDataSource = async (id, dataSourceName) => {
+  const endpoint = `artists/${id}/data_sources`
+  const payload = {
+    name: dataSourceName,
+  }
+  const errorTracking = {
+    category: 'Artist',
+    action: `Get ${dataSourceName} for artist ${id}`,
+  }
+  return api.requestWithCatch('get', endpoint, payload, errorTracking)
+}
+
 // Update artist status
 /**
  * @param {string} [id]

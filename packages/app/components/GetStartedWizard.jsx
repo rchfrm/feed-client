@@ -120,14 +120,14 @@ const GetStartedWizard = () => {
     {
       id: 7,
       name: 'facebook-pixel',
-      title: 'Your ad account',
+      title: 'Your pixel',
       section: getStartedSections.adAccount,
       component: <GetStartedFacebookPixel />,
     },
     {
       id: 8,
       name: 'location',
-      title: 'Your ad account',
+      title: 'Your location',
       section: getStartedSections.adAccount,
       component: <GetStartedLocation />,
       shouldSkip: (Object.keys(locations || {}).length || artist.country_code),
@@ -135,7 +135,7 @@ const GetStartedWizard = () => {
     {
       id: 9,
       name: 'budget',
-      title: 'Targeting',
+      title: 'Budget',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
     },
