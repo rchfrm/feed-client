@@ -2,6 +2,7 @@ import produce from 'immer'
 
 import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
+import * as api from '@/helpers/api'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 
@@ -298,4 +299,16 @@ export const saveCampaign = async ({
     return { error }
   }
   return formatSettings(settings, currencyOffset)
+}
+
+// Fetch geo locations
+export const getGeoLocations = (query) => {
+  const requestUrl = `/actions/search/geolocations?q=${query}`
+  const payload = null
+  const errorTracking = {
+    category: 'Targeting',
+    action: 'Fetch geo locations',
+  }
+
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }

@@ -9,7 +9,6 @@ import Error from '@/elements/Error'
 import TargetingSettingsHelp from '@/app/TargetingSettingsHelp'
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingLocations from '@/app/TargetingLocations'
-import TargetingLocationsHelper from '@/app/TargetingLocationsHelper'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
 import TargetingPlatformsSelector from '@/app/TargetingPlatformsSelector'
@@ -100,7 +99,6 @@ const TargetingSettings = () => {
               initialCountryCodes={initialTargetingState.countryCodes}
               className="mb-3"
             />
-            <TargetingLocationsHelper className="mb-10" />
           </div>
           {/* DESKTOP BUDGET SETTER */}
           <TargetingSettingsSaveContainer
