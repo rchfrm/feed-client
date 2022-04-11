@@ -1,5 +1,6 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
+import Router from 'next/router'
 
 import { WizardContextProvider } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -150,6 +151,18 @@ const GetStartedWizard = () => {
     // Filter out the steps that should be skipped
     setSteps(initialSteps.filter((step) => !step.shouldSkip))
   }, [initialSteps])
+
+  React.useEffect(() => {
+    if (!artistId) return
+
+    const { hasSetUpProfile } = artist
+
+    // If set-up already has been completed send the user to the posts page
+    if (hasSetUpProfile) {
+      Router.push(ROUTES.HOME)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [artistId])
 
   // Once a profile has been created we use the data in localstorage to patch the newly created profile with these values
   useAsyncEffect(async (isMounted) => {
