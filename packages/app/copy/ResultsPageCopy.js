@@ -102,7 +102,7 @@ export default {
     spendingDaysCount,
   }) => {
     if (organicGrowthRate > 0) {
-      return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's **${growthIncrease}x** faster than your organic growth of **${formatNumber(organicGrowthRate)}%**.`
+      return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's **${growthIncrease.toFixed(1)}x** faster than your organic growth of **${formatNumber(organicGrowthRate)}%**.`
     }
 
     if (organicGrowthRate === 0) {

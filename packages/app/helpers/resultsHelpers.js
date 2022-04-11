@@ -386,7 +386,7 @@ export const getPlatformData = (data, platform = 'instagram') => {
   if (paidGrowthEstimate >= organicGrowthEstimate && paidGrowthEstimate > 0) {
     return makeStatsObject({
       prevPeriod: organicGrowthEstimate,
-      currPeriod: paidGrowthEstimate,
+      currPeriod: totalGrowthAbsolute,
       copy: resultsCopy.platformGrowth(copyData),
       chartType: 'main',
     })
