@@ -22,7 +22,7 @@ const ResultsContent = ({ data, isSpendingPaused }) => {
   const { objective, platform } = optimizationPreferences
 
   const hasSalesObjective = objective === 'sales'
-  const hasInstagramGrowthObjective = objective !== 'growth' && platform !== 'instagram'
+  const hasInstagramGrowthObjective = objective === 'growth' && platform === 'instagram'
   const hasThirdColumn = hasSalesObjective || hasInstagramGrowthObjective
 
   if (!data) return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
