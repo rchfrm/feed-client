@@ -6,6 +6,8 @@ import * as ROUTES from '@/app/constants/routes'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { getLocalStorage } from '@/helpers/utils'
+import { profileStatus } from '@/app/helpers/artistHelpers'
+
 
 import copy from '@/app/copy/getStartedCopy'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -31,7 +33,15 @@ const ProfileStatusIncomplete = () => {
   }
 
   return (
-    profileSetupStatus ? (
+    profileSetupStatus === profileStatus.confirmSetup ? (
+      <button onClick={goToGetStartedPage}>
+        <span
+          className="mb-0 border-3 border-solid border-redLight rounded-full py-2 px-3"
+        >
+          Confirm profile set-up
+        </span>
+      </button>
+    ) : (
       <button onClick={goToGetStartedPage}>
         {profileSetupStatus === 'objective' ? 'Start' : 'Continue'} profile set-up:
         <span
@@ -51,14 +61,6 @@ const ProfileStatusIncomplete = () => {
           <span className="pl-2">
             <ArrowAltIcon direction="right" />
           </span>
-        </span>
-      </button>
-    ) : (
-      <button onClick={goToGetStartedPage}>
-        <span
-          className="mb-0 border-3 border-solid border-redLight rounded-full py-2 px-3"
-        >
-          Confirm profile set-up
         </span>
       </button>
     )

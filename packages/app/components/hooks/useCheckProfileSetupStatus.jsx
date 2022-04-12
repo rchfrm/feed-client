@@ -1,5 +1,4 @@
 import React from 'react'
-import useAsyncEffect from 'use-async-effect'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -7,7 +6,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
-import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import { getArtistIntegrationByPlatform, profileStatus } from '@/app/helpers/artistHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
 import { getLocalStorage } from '@/helpers/utils'
 
@@ -19,8 +18,8 @@ const getControlsStoreState = (state) => ({
   budget: state.budget,
 })
 
-const useCheckProfileSetupStatus = (posts) => {
-  const [enabledPosts, setEnabledPosts] = React.useState([posts])
+const useCheckProfileSetupStatus = () => {
+  const [enabledPosts, setEnabledPosts] = React.useState([])
   // Get local storage state
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
@@ -30,7 +29,6 @@ const useCheckProfileSetupStatus = (posts) => {
     nestedLinks,
     postsPreferences,
     optimizationPreferences,
-    updateProfileSetUpStatus,
   } = useControlsStore(getControlsStoreState)
 
   const { defaultPromotionEnabled } = postsPreferences
@@ -66,60 +64,52 @@ const useCheckProfileSetupStatus = (posts) => {
   // Define profile setup conditions
   const profileSetupConditions = React.useMemo(() => [
     {
-      name: 'objective',
+      name: profileStatus.objective,
       isComplete: Boolean(objective || wizardState?.objective),
     },
     {
-      name: 'platform',
+      name: profileStatus.platform,
       isComplete: objective !== 'growth' || Boolean(platform || wizardState?.platform),
     },
     {
-      name: 'default-link',
+      name: profileStatus.defaultLink,
       isComplete: Boolean(defaultLink?.href || wizardState?.defaultLink?.href),
     },
     {
-      name: 'connect-profile',
+      name: profileStatus.connectProfile,
       isComplete: Boolean(user.artists.length),
     },
     {
-      name: 'posts',
+      name: profileStatus.posts,
       isComplete: Boolean(enabledPosts.length),
     },
     {
-      name: 'default-post-promotion',
+      name: profileStatus.defaultPostPromotion,
       isComplete: defaultPromotionEnabled !== null,
     },
     {
-      name: 'ad-account',
+      name: profileStatus.adAccount,
       isComplete: Boolean(adAccountId),
     },
     {
-      name: 'facebook-pixel',
+      name: profileStatus.facebookPixel,
       isComplete: objective === 'growth' || Boolean(facebookPixelId),
     },
     {
-      name: 'location',
+      name: profileStatus.location,
       isComplete: (Object.keys(locations || {}).length || artist.country_code),
     },
     {
-      name: 'budget',
+      name: profileStatus.budget,
       isComplete: hasSufficientBudget,
     },
   ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
-    const profileStatus = profileSetupConditions.find((condition) => !condition.isComplete)?.name
-
-    return profileStatus
+    return profileSetupConditions.find((condition) => !condition.isComplete)?.name
   }
 
-  useAsyncEffect(async () => {
-    const profileStatus = getProfileSetupStatus()
-
-    updateProfileSetUpStatus(profileStatus)
-  }, [profileSetupConditions])
-
-  return { getProfileSetupStatus, setEnabledPosts }
+  return { getProfileSetupStatus, profileSetupConditions, setEnabledPosts }
 }
 
 export default useCheckProfileSetupStatus

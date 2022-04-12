@@ -11,6 +11,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import ProfileStatusMobileBar from '@/app/ProfileStatusMobileBar'
 
 import { getLocalStorage } from '@/helpers/utils'
+import { profileStatus } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -41,7 +42,7 @@ const ProfileStatusMobileIncomplete = ({ backgroundStyle }) => {
       backgroundStyle={backgroundStyle}
       className="bg-insta"
     >
-      {profileSetupStatus ? copy.profileStatus(profileSetupStatus, objective, platform) : 'Confirm profile setup'}
+      {profileSetupStatus === profileStatus.confirmSetup ? 'Confirm profile setup' : copy.profileStatus(profileSetupStatus, objective, platform)}
       <ArrowAltIcon
         className="ml-2 w-3"
         fill={brandColors.white}

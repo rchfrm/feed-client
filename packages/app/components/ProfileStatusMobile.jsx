@@ -11,15 +11,15 @@ import FadeInOut from '@/elements/FadeInOut'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
-  isControlsLoading: state.isControlsLoading,
+  profileSetupStatus: state.profileSetupStatus,
 })
 
 const ProfileStatusMobile = ({ backgroundStyle }) => {
-  const { isControlsLoading } = useControlsStore(getControlsStoreState)
+  const { profileSetupStatus } = useControlsStore(getControlsStoreState)
 
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
 
-  if (isControlsLoading) return <div className="h-7 w-full" />
+  if (!profileSetupStatus) return <div className="h-7 w-full" />
 
   return (
     <FadeInOut show unmountOnExit>
