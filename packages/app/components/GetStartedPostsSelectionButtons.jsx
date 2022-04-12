@@ -16,7 +16,8 @@ import { updatePost } from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 
 const GetStartedPostsSelectionButtons = ({
-  fetchPosts,
+  handlePosts,
+  postType,
   posts,
   setError,
   shouldAdjustLayout,
@@ -33,7 +34,7 @@ const GetStartedPostsSelectionButtons = ({
   const loadMore = async () => {
     setIsLoadingMorePosts(true)
 
-    await fetchPosts()
+    await handlePosts(postType, 1)
 
     setIsLoadingMorePosts(false)
   }
@@ -123,7 +124,8 @@ const GetStartedPostsSelectionButtons = ({
 }
 
 GetStartedPostsSelectionButtons.propTypes = {
-  fetchPosts: PropTypes.func.isRequired,
+  handlePosts: PropTypes.func.isRequired,
+  postType: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   setError: PropTypes.func.isRequired,
   shouldAdjustLayout: PropTypes.bool.isRequired,

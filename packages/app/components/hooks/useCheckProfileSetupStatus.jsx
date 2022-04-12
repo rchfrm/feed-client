@@ -11,8 +11,6 @@ import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
 import { getLocalStorage } from '@/helpers/utils'
 
-import * as server from '@/app/helpers/appServer'
-
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
   postsPreferences: state.postsPreferences,
@@ -21,8 +19,8 @@ const getControlsStoreState = (state) => ({
   budget: state.budget,
 })
 
-const useCheckProfileSetupStatus = () => {
-  const [enabledPosts, setEnabledPosts] = React.useState([])
+const useCheckProfileSetupStatus = (posts) => {
+  const [enabledPosts, setEnabledPosts] = React.useState([posts])
   // Get local storage state
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
@@ -32,7 +30,6 @@ const useCheckProfileSetupStatus = () => {
     nestedLinks,
     postsPreferences,
     optimizationPreferences,
-    budget,
     updateProfileSetUpStatus,
   } = useControlsStore(getControlsStoreState)
 
@@ -44,10 +41,7 @@ const useCheckProfileSetupStatus = () => {
   const hasSalesObjective = objective === 'sales'
 
   // Get artist context values
-  const {
-    artistId,
-    artist,
-  } = React.useContext(ArtistContext)
+  const { artist } = React.useContext(ArtistContext)
 
   const {
     feedMinBudgetInfo: {
@@ -55,12 +49,13 @@ const useCheckProfileSetupStatus = () => {
         minReccomendedStories,
       } = {},
     },
+    daily_budget: dailyBudget,
   } = artist
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
   const facebookPixelId = facebookIntegration?.pixel_id
-  const hasSufficientBudget = (!hasSalesObjective && Boolean(budget)) || (hasSalesObjective && budget >= minReccomendedStories)
+  const hasSufficientBudget = (!hasSalesObjective && Boolean(dailyBudget)) || (hasSalesObjective && dailyBudget >= minReccomendedStories)
 
   // Get user context value
   const { user } = React.useContext(UserContext)
@@ -117,20 +112,6 @@ const useCheckProfileSetupStatus = () => {
 
     return profileStatus
   }
-
-  useAsyncEffect(async () => {
-    if (!artistId) return
-
-    const res = await server.getPosts({
-      artistId,
-      sortBy: ['normalized_score'],
-      filterBy: {
-        promotion_enabled: [true],
-      },
-    })
-
-    setEnabledPosts(res)
-  }, [artistId])
 
   useAsyncEffect(async () => {
     const profileStatus = getProfileSetupStatus()

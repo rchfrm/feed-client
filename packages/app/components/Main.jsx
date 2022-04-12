@@ -15,6 +15,8 @@ import NotificationsHandler from '@/app/NotificationsHandler'
 import useControlsStore from '@/app/stores/controlsStore'
 import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
 
+import * as server from '@/app/helpers/appServer'
+
 const getControlsStoreState = (state) => ({
   initControlsStore: state.initControlsStore,
   updateLinksWithIntegrations: state.updateLinksWithIntegrations,
@@ -37,6 +39,16 @@ function Main({ children }) {
     controlsLoading,
     updateProfileSetUpStatus,
   } = useControlsStore(getControlsStoreState)
+
+  const fetchEnabledPosts = async () => {
+    return server.getPosts({
+      artistId,
+      sortBy: ['normalized_score'],
+      filterBy: {
+        promotion_enabled: [true],
+      },
+    })
+  }
 
   useAsyncEffect(async () => {
     if (!artistId) return
@@ -65,7 +77,8 @@ function Main({ children }) {
       return
     }
 
-    const profileSetupStatus = getProfileSetupStatus()
+    const enabledPosts = await fetchEnabledPosts()
+    const profileSetupStatus = getProfileSetupStatus(enabledPosts)
 
     updateProfileSetUpStatus(profileSetupStatus)
   }, [controlsLoading, user, artistId])

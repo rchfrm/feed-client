@@ -49,6 +49,7 @@ const postsReducer = (draftState, postsAction) => {
 const GetStartedPostsSelection = () => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
+  const [postType, setPostType] = React.useState('promotion_enabled')
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
@@ -60,17 +61,29 @@ const GetStartedPostsSelection = () => {
 
   const cursor = React.useRef('')
 
-  const fetchPosts = async () => {
-    // Fetch eligible posts sorted by normalized score
-    const res = await server.getPosts({
+  const fetchPosts = async (postType, limit) => {
+    console.log(postType)
+
+    return server.getPosts({
       artistId,
       sortBy: ['normalized_score'],
-      filterBy: {
-        is_promotable: [true],
-      },
+      filterBy: { [postType]: [true] },
+      limit,
       cursor: cursor.current,
-      limit: 5,
     })
+  }
+
+  const handlePosts = async (postType, limit) => {
+    let res = []
+    // Fetch posts sorted by normalized score
+    res = await fetchPosts(postType, limit)
+
+    // If the response is empty and post type is 'promotion_enabled' try fetching promotable posts
+    if (res.length === 0 && postType === 'promotion_enabled') {
+      setPostType('is_promotable')
+
+      res = await fetchPosts('is_promotable', 1)
+    }
 
     const postsFormatted = formatRecentPosts(res)
     const lastPost = res[res.length - 1]
@@ -111,8 +124,8 @@ const GetStartedPostsSelection = () => {
 
     if (!isMounted()) return
 
-    // Otherwise there are no enabled posts yet and we fetch eligible posts sorted by normalized score
-    await fetchPosts()
+    // Otherwise there are no enabled posts yet and we try to fetch the first 10 enabled posts sorted by normalized score
+    await handlePosts(postType, 1)
   }, [canLoadPosts])
 
   if (initialLoading) return null
@@ -156,7 +169,8 @@ const GetStartedPostsSelection = () => {
               ))}
             </div>
             <GetStartedPostsSelectionButtons
-              fetchPosts={fetchPosts}
+              handlePosts={handlePosts}
+              postType={postType}
               posts={posts}
               setError={setError}
               shouldAdjustLayout={shouldAdjustLayout}
