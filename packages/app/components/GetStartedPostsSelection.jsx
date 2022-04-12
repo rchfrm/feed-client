@@ -61,9 +61,16 @@ const GetStartedPostsSelection = () => {
 
   const cursor = React.useRef('')
 
-  const fetchPosts = async (postType, limit) => {
-    console.log(postType)
+  const setNextCursor = (posts) => {
+    const lastPost = posts[posts.length - 1]
 
+    if (lastPost?._links.after) {
+      const nextCursor = getCursor(lastPost)
+      cursor.current = nextCursor
+    }
+  }
+
+  const fetchPosts = async (postType, limit) => {
     return server.getPosts({
       artistId,
       sortBy: ['normalized_score'],
@@ -82,17 +89,13 @@ const GetStartedPostsSelection = () => {
     if (res.length === 0 && postType === 'promotion_enabled') {
       setPostType('is_promotable')
 
-      res = await fetchPosts('is_promotable', 1)
+      res = await fetchPosts('is_promotable', 5)
     }
 
     const postsFormatted = formatRecentPosts(res)
-    const lastPost = res[res.length - 1]
 
     // Store the cursor of the last post
-    if (lastPost?._links.after) {
-      const nextCursor = getCursor(lastPost)
-      cursor.current = nextCursor
-    }
+    setNextCursor(postsFormatted)
 
     // Filter out the posts that were already fetched earlier
     const postsFiltered = postsFormatted.filter((formattedPost) => posts.every((post) => post.id !== formattedPost.id))
@@ -114,6 +117,8 @@ const GetStartedPostsSelection = () => {
 
     // If there are enabled posts in the local wizard state we show these
     if (wizardState?.enabledPosts?.length) {
+      setNextCursor(wizardState.enabledPosts)
+
       setPosts({
         type: 'set-posts',
         payload: { posts: wizardState?.enabledPosts },
@@ -125,7 +130,7 @@ const GetStartedPostsSelection = () => {
     if (!isMounted()) return
 
     // Otherwise there are no enabled posts yet and we try to fetch the first 10 enabled posts sorted by normalized score
-    await handlePosts(postType, 1)
+    await handlePosts(postType, 10)
   }, [canLoadPosts])
 
   if (initialLoading) return null

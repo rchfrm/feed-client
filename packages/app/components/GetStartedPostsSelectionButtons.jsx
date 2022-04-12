@@ -34,7 +34,7 @@ const GetStartedPostsSelectionButtons = ({
   const loadMore = async () => {
     setIsLoadingMorePosts(true)
 
-    await handlePosts(postType, 1)
+    await handlePosts(postType, 5)
 
     setIsLoadingMorePosts(false)
   }
