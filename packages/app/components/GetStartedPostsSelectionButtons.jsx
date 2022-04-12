@@ -21,6 +21,7 @@ const GetStartedPostsSelectionButtons = ({
   posts,
   setError,
   shouldAdjustLayout,
+  shouldShowLoadMoreButton,
   className,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
@@ -82,6 +83,7 @@ const GetStartedPostsSelectionButtons = ({
         loadMore={loadMore}
         isLoading={isLoading}
         isLoadingMorePosts={isLoadingMorePosts}
+        shouldShowLoadMoreButton={shouldShowLoadMoreButton}
         handleNext={handleNext}
       />
     )
@@ -95,16 +97,18 @@ const GetStartedPostsSelectionButtons = ({
         className,
       ].join(' ')}
     >
-      <Button
-        version="outline-black"
-        onClick={loadMore}
-        loading={isLoadingMorePosts}
-        spinnerFill={brandColors.black}
-        className={[shouldAdjustLayout ? 'w-full' : 'w-56 mx-2', 'mb-4'].join(' ')}
-        trackComponentName="GetStartedPostsSelectionButtons"
-      >
-        Load more...
-      </Button>
+      {shouldShowLoadMoreButton && (
+        <Button
+          version="outline-black"
+          onClick={loadMore}
+          loading={isLoadingMorePosts}
+          spinnerFill={brandColors.black}
+          className={[shouldAdjustLayout ? 'w-full' : 'w-56 mx-2', 'mb-4'].join(' ')}
+          trackComponentName="GetStartedPostsSelectionButtons"
+        >
+          Load more...
+        </Button>
+      )}
       <Button
         version="green"
         onClick={handleNext}
@@ -129,6 +133,7 @@ GetStartedPostsSelectionButtons.propTypes = {
   posts: PropTypes.array.isRequired,
   setError: PropTypes.func.isRequired,
   shouldAdjustLayout: PropTypes.bool.isRequired,
+  shouldShowLoadMoreButton: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

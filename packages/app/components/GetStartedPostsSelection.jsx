@@ -3,7 +3,6 @@ import useAsyncEffect from 'use-async-effect'
 import { useImmerReducer } from 'use-immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { WizardContext } from '@/app/contexts/WizardContext'
 
 import useCheckInitialPostsImportStatus from '@/app/hooks/useCheckInitialPostsImportStatus'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
@@ -50,10 +49,10 @@ const GetStartedPostsSelection = () => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [postType, setPostType] = React.useState('promotion_enabled')
+  const [shouldShowLoadMoreButton, setShouldShowLoadMoreButton] = React.useState(true)
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
-  const { wizardState } = React.useContext(WizardContext)
 
   const { initialLoading } = useCheckInitialPostsImportStatus(artistId, canLoadPosts, setCanLoadPosts)
   const isDesktopLayout = useBreakpointTest('sm')
@@ -74,7 +73,10 @@ const GetStartedPostsSelection = () => {
     return server.getPosts({
       artistId,
       sortBy: ['normalized_score'],
-      filterBy: { [postType]: [true] },
+      filterBy: {
+        [postType]: [true],
+        ...(postType === 'is_promotable' && { promotion_enabled: [false] }),
+      },
       limit,
       cursor: cursor.current,
     })
@@ -87,9 +89,15 @@ const GetStartedPostsSelection = () => {
 
     // If the response is empty and post type is 'promotion_enabled' try fetching promotable posts
     if (res.length === 0 && postType === 'promotion_enabled') {
+      cursor.current = ''
       setPostType('is_promotable')
 
       res = await fetchPosts('is_promotable', 5)
+    }
+
+    // If the response is empty and post type is 'is_promotable' hide load more button
+    if (res.length === 0 && postType === 'is_promotable') {
+      setShouldShowLoadMoreButton(false)
     }
 
     const postsFormatted = formatRecentPosts(res)
@@ -112,18 +120,6 @@ const GetStartedPostsSelection = () => {
 
     // If there are already posts no need to do anything
     if (posts.length) {
-      return
-    }
-
-    // If there are enabled posts in the local wizard state we show these
-    if (wizardState?.enabledPosts?.length) {
-      setNextCursor(wizardState.enabledPosts)
-
-      setPosts({
-        type: 'set-posts',
-        payload: { posts: wizardState?.enabledPosts },
-      })
-
       return
     }
 
@@ -179,6 +175,7 @@ const GetStartedPostsSelection = () => {
               posts={posts}
               setError={setError}
               shouldAdjustLayout={shouldAdjustLayout}
+              shouldShowLoadMoreButton={shouldShowLoadMoreButton}
               className={[shouldAdjustLayout ? 'col-span-4 md:col-span-3 lg:col-span-2 ml-4' : null].join(' ')}
             />
           </div>
