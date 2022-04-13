@@ -23,6 +23,10 @@ const getControlsStoreState = (state) => ({
 })
 
 const ObjectiveSettings = () => {
+  const [platformsWithIntegrationLink, setPlatformsWithIntegrationLink] = React.useState([])
+  const [platformsWithoutIntegrationLink, setPlatformsWithoutIntegrationLink] = React.useState([])
+  const platformsString = platformsWithoutIntegrationLink.join(', ').replace(/,(?!.*,)/gmi, ' or')
+
   const { defaultLink, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
   const hasGrowthObjective = objective === 'growth'
@@ -34,15 +38,23 @@ const ObjectiveSettings = () => {
     setPostPreferences,
   } = React.useContext(ArtistContext)
 
-  // Get platforms which have an integration link
-  const platformsWithIntegrationLink = integrations.reduce((result, { accountId, platform, title }) => {
-    return accountId ? [...result, { name: title, value: platform }] : result
-  }, [])
+  React.useEffect(() => {
+    const platformsWithLink = []
+    const platformsWithoutLink = []
 
-  // Get platforms without an integration link
-  const platformsWithoutIntegrationLink = platforms.filter((platform) => platformsWithIntegrationLink.every((platformWithIntegrationLink) => platform.value !== platformWithIntegrationLink.value))
-  const missingIntegrations = platformsWithoutIntegrationLink.map(({ name }) => name)
-  const platformsString = missingIntegrations.join(', ').replace(/,(?!.*,)/gmi, ' or')
+    integrations.forEach(({ accountId, platform, title }) => {
+      if (platform === 'twitter') return
+
+      if (accountId) {
+        platformsWithLink.push({ name: title, value: platform })
+      } else {
+        platformsWithoutLink.push(title)
+      }
+    })
+
+    setPlatformsWithIntegrationLink(platformsWithLink)
+    setPlatformsWithoutIntegrationLink(platformsWithoutLink)
+  }, [integrations])
 
   return (
     <div>
