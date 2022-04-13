@@ -7,7 +7,6 @@ import * as api from '@/helpers/api'
 import { requiredScopesSignup, requiredScopesAccount, requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 import brandColors from '@/constants/brandColors'
-import moment from 'moment'
 
 /**
  * @param {string} artist
@@ -440,17 +439,14 @@ export const updatePlatform = (artistId, platform) => {
 * @param {string} platform
 * @returns {Promise<object>} { res, error }
 */
-export const updateCompletedSetupAt = (artistId) => {
-  const requestUrl = `/artists/${artistId}`
-  const payload = {
-    completed_setup_at: moment(),
-  }
+export const completedSetupFlow = (artistId) => {
+  const requestUrl = `/artists/${artistId}/complete_setup_flow`
 
   const errorTracking = {
     category: 'Artist',
-    action: 'Update setup complated date',
+    action: 'Complete setup flow',
   }
-  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('post', requestUrl, null, errorTracking)
 }
 
 export const getCallToAction = (objective, platform) => {
