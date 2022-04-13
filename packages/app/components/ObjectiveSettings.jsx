@@ -12,7 +12,7 @@ import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import ObjectiveSettingsSelector from '@/app/ObjectiveSettingsSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 
-import { objectives, platforms } from '@/app/helpers/artistHelpers'
+import { objectives } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/controlsPageCopy'
 import * as ROUTES from '@/app/constants/routes'
