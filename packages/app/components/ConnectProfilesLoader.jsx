@@ -25,6 +25,7 @@ const ConnectProfilesLoader = ({
   setIsConnecting,
   className,
 }) => {
+  const [allArtistAccounts, setAllArtistAccounts] = React.useState([])
   const [artistAccounts, setArtistAccounts] = React.useState([])
   const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [pageLoading, setPageLoading] = React.useState(true)
@@ -95,6 +96,8 @@ const ConnectProfilesLoader = ({
       })
     }
 
+    setAllArtistAccounts(Object.values(artistAccounts).map((artist) => artist))
+
     // Remove profiles that have already been connected
     const userArtists = user?.artists || []
     const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
@@ -141,6 +144,7 @@ const ConnectProfilesLoader = ({
     <div className={className}>
       <div className="col-span-12 sm:col-span-6">
         <ConnectProfilesList
+          allArtistAccounts={allArtistAccounts}
           artistAccounts={artistAccounts}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}

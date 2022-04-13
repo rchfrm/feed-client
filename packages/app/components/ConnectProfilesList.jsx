@@ -5,6 +5,7 @@ import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnect
 import ConnectProfilesNotConnected from '@/app/ConnectProfilesNotConnected'
 
 const ConnectProfilesList = ({
+  allArtistAccounts,
   artistAccounts,
   setSelectedProfile,
   setIsConnecting,
@@ -12,6 +13,7 @@ const ConnectProfilesList = ({
   return (
     <div className="mb-4">
       <ConnectProfilesAlreadyConnected
+        allArtistAccounts={allArtistAccounts}
         className="mb-10"
       />
       {artistAccounts.length > 0 && (
@@ -27,8 +29,10 @@ const ConnectProfilesList = ({
 }
 
 ConnectProfilesList.propTypes = {
+  allArtistAccounts: PropTypes.array.isRequired,
   artistAccounts: PropTypes.array.isRequired,
   setSelectedProfile: PropTypes.func.isRequired,
+  setIsConnecting: PropTypes.func.isRequired,
 }
 
 ConnectProfilesList.defaultProps = {

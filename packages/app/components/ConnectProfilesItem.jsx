@@ -18,7 +18,7 @@ const ConnectProfilesItem = ({
   isConnected,
   className,
 }) => {
-  const { name, page_id, instagram_username, role } = profile
+  const { name, page_id, instagram_username } = profile
   const { user } = React.useContext(UserContext)
   const { connectArtist } = React.useContext(ArtistContext)
 
@@ -55,7 +55,6 @@ const ConnectProfilesItem = ({
         />
         <div className="font-bold font-body text-md text-left">{name}
           {instagram_username && <span className="block mb-0 font-normal"> (@{instagram_username})</span>}
-          {role && <span className="block mb-0 font-normal">({role})</span>}
         </div>
         {!isConnected && (
           <div className="flex-1">
