@@ -22,6 +22,7 @@ const getControlsStoreState = (state) => ({
 const ObjectiveSettings = () => {
   const { defaultLink, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
+  const hasGrowthObjective = objective === 'growth'
 
   const { setPostPreferences } = React.useContext(ArtistContext)
 
@@ -35,20 +36,21 @@ const ObjectiveSettings = () => {
           optionValues={objectives}
           currentObjective={{ objective, platform }}
         />
-        {objective === 'growth' && (
+        {hasGrowthObjective ? (
           <ObjectiveSettingsSelector
             name="platform"
             optionValues={platforms}
             currentObjective={{ objective, platform }}
           />
+        ) : (
+          <ObjectiveSettingsDefaultLink
+            defaultLink={defaultLink}
+            setPostPreferences={setPostPreferences}
+            objective={objective}
+            label="Default Link"
+            className="mb-8"
+          />
         )}
-        <ObjectiveSettingsDefaultLink
-          defaultLink={defaultLink}
-          setPostPreferences={setPostPreferences}
-          objective={objective}
-          label="Default Link"
-          className="mb-8"
-        />
       </ControlsContentSection>
     </div>
   )
