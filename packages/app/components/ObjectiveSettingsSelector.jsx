@@ -9,10 +9,12 @@ import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
+import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 const getControlsStoreState = (state) => ({
-  postsPreferences: state.postsPreferences,
   updatePreferences: state.updatePreferences,
+  nestedLinks: state.nestedLinks,
+  updateLinks: state.updateLinks,
 })
 
 const ObjectiveSettingsSelector = ({
@@ -25,9 +27,8 @@ const ObjectiveSettingsSelector = ({
   const [objective, setObjective] = React.useState(currentObjective)
   const [error, setError] = React.useState(null)
 
-  const { artist } = React.useContext(ArtistContext)
-  const { postsPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
-  const { defaultLinkId } = postsPreferences
+  const { artist, setPostPreferences } = React.useContext(ArtistContext)
+  const { updatePreferences, nestedLinks, updateLinks } = useControlsStore(getControlsStoreState)
 
   React.useEffect(() => {
     const options = optionValues.map(({ name, value }) => ({
@@ -41,11 +42,13 @@ const ObjectiveSettingsSelector = ({
   const save = async ({ objective, platform }) => {
     setIsLoading(true)
 
+    const integrationLink = getLinkByPlatform(nestedLinks, platform)
+
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       platform,
       ...(objective !== 'growth' && { platform: 'website' }),
-      defaultLink: defaultLinkId,
+      defaultLink: integrationLink.id,
     })
 
     if (error) {
@@ -54,6 +57,13 @@ const ObjectiveSettingsSelector = ({
       return
     }
 
+    // Set the new link as the default link
+    updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: integrationLink })
+
+    // Update artist status
+    setPostPreferences('default_link_id', integrationLink.id)
+
+    // Update preferences object in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
 
     // Update local state
