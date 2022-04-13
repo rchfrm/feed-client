@@ -9,9 +9,10 @@ import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
-import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
+import { getLinkByPlatform, splitLinks } from '@/app/helpers/linksHelpers'
 
 const getControlsStoreState = (state) => ({
+  postsPreferences: state.postsPreferences,
   updatePreferences: state.updatePreferences,
   nestedLinks: state.nestedLinks,
   updateLinks: state.updateLinks,
@@ -28,7 +29,8 @@ const ObjectiveSettingsSelector = ({
   const [error, setError] = React.useState(null)
 
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { updatePreferences, nestedLinks, updateLinks } = useControlsStore(getControlsStoreState)
+  const { postsPreferences, updatePreferences, nestedLinks, updateLinks } = useControlsStore(getControlsStoreState)
+  const { defaultLinkId } = postsPreferences
 
   React.useEffect(() => {
     const options = optionValues.map(({ name, value }) => ({
@@ -40,23 +42,32 @@ const ObjectiveSettingsSelector = ({
   }, [optionValues])
 
   const save = async ({ objective, platform }) => {
+    const hasGrowthObjective = objective === 'growth'
+    let link = null
     let currentPlatform = platform
 
     // If we switched from a non-growth objective to a growth objective reset platform to 'facebook'
-    if (name === 'objective' && platform === 'website') {
+    if (hasGrowthObjective && platform === 'website') {
       currentPlatform = 'facebook'
     }
 
     setIsLoading(true)
 
-    // Get integration link based on the selected platform
-    const integrationLink = getLinkByPlatform(nestedLinks, currentPlatform)
+    // Get integration link based on the selected platform if objective is growth, otherwise grab the first loose link
+    if (hasGrowthObjective) {
+      link = getLinkByPlatform(nestedLinks, currentPlatform)
+    } else {
+      const { looseLinks } = splitLinks(nestedLinks)
+      const firstLooseLink = looseLinks[0]
+
+      link = firstLooseLink
+    }
 
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       platform: currentPlatform,
       ...(objective !== 'growth' && { platform: 'website' }),
-      defaultLink: integrationLink.id,
+      defaultLink: link?.id || defaultLinkId,
     })
 
     if (error) {
@@ -65,11 +76,13 @@ const ObjectiveSettingsSelector = ({
       return
     }
 
-    // Set the new link as the default link
-    updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: integrationLink })
+    if (link) {
+      // Set the new link as the default link
+      updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: link })
 
-    // Update artist status
-    setPostPreferences('default_link_id', integrationLink.id)
+      // Update artist status
+      setPostPreferences('default_link_id', link.id)
+    }
 
     // Update preferences object in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
