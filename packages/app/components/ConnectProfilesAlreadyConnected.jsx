@@ -12,12 +12,12 @@ const ConnectProfilesAlreadyConnected = ({ allArtistAccounts, className }) => {
 
   React.useEffect(() => {
     const artistsWithInstagramHandle = artists.map((artist) => {
-      const { instagram_username, page_id } = allArtistAccounts.find((artistAccount) => artistAccount.page_id === artist.facebook_page_id) || {}
+      const { instagram_username } = allArtistAccounts.find((artistAccount) => artistAccount.page_id === artist.facebook_page_id) || {}
 
       return {
         ...artist,
+        page_id: artist.facebook_page_id,
         instagram_username,
-        page_id,
       }
     })
     setConnectedArtists(artistsWithInstagramHandle)
