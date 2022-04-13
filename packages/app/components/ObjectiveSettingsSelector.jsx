@@ -40,13 +40,20 @@ const ObjectiveSettingsSelector = ({
   }, [optionValues])
 
   const save = async ({ objective, platform }) => {
+    let currentPlatform = platform
+
+    // If we switched from a non-growth objective to a growth objective reset platform to 'facebook'
+    if (name === 'objective' && platform === 'website') {
+      currentPlatform = 'facebook'
+    }
+
     setIsLoading(true)
 
-    const integrationLink = getLinkByPlatform(nestedLinks, platform)
+    const integrationLink = getLinkByPlatform(nestedLinks, currentPlatform)
 
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
-      platform,
+      platform: currentPlatform,
       ...(objective !== 'growth' && { platform: 'website' }),
       defaultLink: integrationLink.id,
     })
