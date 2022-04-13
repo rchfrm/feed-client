@@ -23,16 +23,16 @@ const ControlsSettingsSectionFooter = ({
   const Icon = icons[icon]
 
   return (
-    <div className="absolute mb-0" style={{ ...(top ? { top: `${top}px` } : { bottom: `${bottom}px` }) }}>
+    <div className="absolute flex items-center mb-0" style={{ ...(top ? { top: `${top}px` } : { bottom: `${bottom}px` }) }}>
       <Icon
         fill={color}
         color={color}
         className={[
-          'inline-block h-auto mr-2',
+          'flex-none h-auto mr-2',
           icon === 'email' ? 'w-4' : 'w-3',
         ].join(' ')}
       />
-      <MarkdownText markdown={copy} className={[className, 'text-xs italic inline-block'].join(' ')} />
+      <MarkdownText markdown={copy} className={[className, 'text-xs italic mb-0'].join(' ')} />
     </div>
   )
 }
@@ -48,7 +48,7 @@ ControlsSettingsSectionFooter.propTypes = {
 
 ControlsSettingsSectionFooter.defaultProps = {
   top: 0,
-  bottom: -50,
+  bottom: -26,
   icon: 'lightBulb',
   color: brandColors.instagram.bg,
   copy: 'This is a footer',

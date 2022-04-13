@@ -56,7 +56,7 @@ const ObjectiveSettings = () => {
               optionValues={platformsWithIntegrationLink}
               currentObjective={{ objective, platform }}
             />
-            <ControlsSettingsSectionFooter copy={copy.platformFooter(missingIntegrations)} className="text-insta" />
+            <ControlsSettingsSectionFooter top={64} copy={copy.platformFooter(missingIntegrations)} className="text-insta" />
           </div>
         ) : (
           <ObjectiveSettingsDefaultLink
