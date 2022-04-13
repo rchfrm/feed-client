@@ -7,6 +7,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import MarkdownText from '@/elements/MarkdownText'
 
 import ControlsContentSection from '@/app/ControlsContentSection'
+import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import ObjectiveSettingsSelector from '@/app/ObjectiveSettingsSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 
@@ -24,7 +25,19 @@ const ObjectiveSettings = () => {
   const { objective, platform } = optimizationPreferences
   const hasGrowthObjective = objective === 'growth'
 
-  const { setPostPreferences } = React.useContext(ArtistContext)
+  const {
+    artist: {
+      integrations,
+    },
+    setPostPreferences,
+  } = React.useContext(ArtistContext)
+
+  const platformsWithIntegrationLink = integrations.reduce((result, { accountId, platform, title }) => {
+    return accountId ? [...result, { name: title, value: platform }] : result
+  }, [])
+
+  const platformsWithoutIntegrationLink = platforms.filter((platform) => platformsWithIntegrationLink.every((platformWithIntegrationLink) => platform.name !== platformWithIntegrationLink.name))
+  const missingIntegrations = platformsWithoutIntegrationLink.map(({ name }) => name)
 
   return (
     <div>
@@ -37,11 +50,14 @@ const ObjectiveSettings = () => {
           currentObjective={{ objective, platform }}
         />
         {hasGrowthObjective ? (
-          <ObjectiveSettingsSelector
-            name="platform"
-            optionValues={platforms}
-            currentObjective={{ objective, platform }}
-          />
+          <div className="relative">
+            <ObjectiveSettingsSelector
+              name="platform"
+              optionValues={platformsWithIntegrationLink}
+              currentObjective={{ objective, platform }}
+            />
+            <ControlsSettingsSectionFooter copy={copy.platformFooter(missingIntegrations)} className="text-insta" />
+          </div>
         ) : (
           <ObjectiveSettingsDefaultLink
             defaultLink={defaultLink}

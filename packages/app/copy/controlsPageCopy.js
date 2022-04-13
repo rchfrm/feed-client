@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import * as ROUTES from '@/app/constants/routes'
 
 export default {
   // CONTROLS OPTIONS
@@ -60,6 +61,11 @@ export default {
   globalToggleIntro: `Can Feed automatically select which recent posts (last 28 days) are promoted? You can still opt out specific posts from the posts page.
 
   If you choose “No”, you'll need to manually select posts for Feed to test.`,
+  platformFooter: (missingIntegrations) => {
+    const platformsString = missingIntegrations.join(', ').replace(/,(?!.*,)/gmi, ' or')
+
+    return `To grow ${platformsString}, first connect your profiles on the [integrations page](${ROUTES.CONTROLS_INTEGRATIONS}).`
+  },
   defaultLinkIntro: `By default, which link should be used in ads? This determines where people go when they click one of your ads.`,
   defaultCallToActionIntro: `By default, which call to action should appear on your ads?`,
   defaultCallToActionFooter: (recommendedCallToAction) => `"${recommendedCallToAction}" is recommended based on your objective`,
