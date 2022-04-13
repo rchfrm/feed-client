@@ -46,6 +46,10 @@ const ControlsContentOptions = ({ className, activeSlug, controlsComponents }) =
     setSidePanelButton(button)
   }
 
+  React.useEffect(() => {
+    setActiveOptionKey(activeSlug)
+  }, [activeSlug])
+
   return (
     <div
       className={[

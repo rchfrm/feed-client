@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -14,6 +15,7 @@ import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 import { objectives, platforms } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/controlsPageCopy'
+import * as ROUTES from '@/app/constants/routes'
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
@@ -40,6 +42,7 @@ const ObjectiveSettings = () => {
   // Get platforms without an integration link
   const platformsWithoutIntegrationLink = platforms.filter((platform) => platformsWithIntegrationLink.every((platformWithIntegrationLink) => platform.value !== platformWithIntegrationLink.value))
   const missingIntegrations = platformsWithoutIntegrationLink.map(({ name }) => name)
+  const platformsString = missingIntegrations.join(', ').replace(/,(?!.*,)/gmi, ' or')
 
   return (
     <div>
@@ -58,7 +61,14 @@ const ObjectiveSettings = () => {
               optionValues={platformsWithIntegrationLink}
               currentObjective={{ objective, platform }}
             />
-            <ControlsSettingsSectionFooter top={64} copy={copy.platformFooter(missingIntegrations)} className="text-insta" />
+            <ControlsSettingsSectionFooter top={64}>
+              <p className="text-insta text-xs italic mb-0">
+                To grow {platformsString}, first connect your profiles on the
+                <Link href={{ pathname: ROUTES.CONTROLS_INTEGRATIONS }}>
+                  <a className="-hover--insta ml-1">integrations page</a>
+                </Link>
+              </p>
+            </ControlsSettingsSectionFooter>
           </div>
         ) : (
           <ObjectiveSettingsDefaultLink
