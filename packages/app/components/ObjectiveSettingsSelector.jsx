@@ -49,6 +49,7 @@ const ObjectiveSettingsSelector = ({
 
     setIsLoading(true)
 
+    // Get integration link based on the selected platform
     const integrationLink = getLinkByPlatform(nestedLinks, currentPlatform)
 
     const { res: updatedArtist, error } = await updateArtist(artist, {

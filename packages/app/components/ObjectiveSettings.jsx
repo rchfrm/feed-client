@@ -32,10 +32,12 @@ const ObjectiveSettings = () => {
     setPostPreferences,
   } = React.useContext(ArtistContext)
 
+  // Get platforms which have an integration link
   const platformsWithIntegrationLink = integrations.reduce((result, { accountId, platform, title }) => {
     return accountId ? [...result, { name: title, value: platform }] : result
   }, [])
 
+  // Get platforms without an integration link
   const platformsWithoutIntegrationLink = platforms.filter((platform) => platformsWithIntegrationLink.every((platformWithIntegrationLink) => platform.name !== platformWithIntegrationLink.name))
   const missingIntegrations = platformsWithoutIntegrationLink.map(({ name }) => name)
 
