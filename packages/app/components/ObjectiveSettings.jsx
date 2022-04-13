@@ -38,7 +38,7 @@ const ObjectiveSettings = () => {
   }, [])
 
   // Get platforms without an integration link
-  const platformsWithoutIntegrationLink = platforms.filter((platform) => platformsWithIntegrationLink.every((platformWithIntegrationLink) => platform.name !== platformWithIntegrationLink.name))
+  const platformsWithoutIntegrationLink = platforms.filter((platform) => platformsWithIntegrationLink.every((platformWithIntegrationLink) => platform.value !== platformWithIntegrationLink.value))
   const missingIntegrations = platformsWithoutIntegrationLink.map(({ name }) => name)
 
   return (
