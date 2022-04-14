@@ -20,7 +20,7 @@ export const getCallToActions = async () => {
  * @param {string} callToAction
  * @returns {Promise<any>}
  */
-export const setDefaultCallToAction = async (artistId, callToAction) => {
+export const setDefaultCallToAction = async ({ artistId, callToAction }) => {
   const endpoint = `/artists/${artistId}`
   const payload = { preferences: { posts: { call_to_action: callToAction } } }
   const errorTracking = {

@@ -58,12 +58,22 @@ export default {
   facebookConnectDescription: 'This gives Feed permission to analyse your posts to see which would work best as ads, and set-up campaigns on your behalf.',
   facebookConnectMultipleProfilesSubtitle: "You've connected multiple profiles, which would you like to set-up first?",
   facebookConnectMultipleProfilesDescription: "The settings you've selected so far will be applied to the profile you select below. You'll be able to set-up other profiles separately later on!",
-  postsSelectionSubtitle: 'These are the posts we recommend promoting first...',
-  postsSelectionDescription: (canLoadPosts) => {
+  postsSelectionSubtitle: (hasEnabledPosts) => {
+    if (hasEnabledPosts) {
+      return "The posts you've selected for promotion..."
+    }
+
+    return 'These are the posts we recommend promoting first...'
+  },
+  postsSelectionDescription: (canLoadPosts, hasEnabledPosts) => {
     if (!canLoadPosts) {
       return `Feed's algorithm predicts which of your existing social media posts will be most effective as ads to grow your audience on Instagram.
 
       This process may take a couple of minutes...`
+    }
+
+    if (hasEnabledPosts) {
+      return 'To enable more posts, click Load more.. and see the ones we recommend based on how your existing audience is engaging with your content.'
     }
     return 'Based on how your existing audience is engaging with your content, these are the posts we recommend to start promoting first.'
   },

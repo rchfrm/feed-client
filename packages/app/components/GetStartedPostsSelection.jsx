@@ -13,6 +13,7 @@ import GetStartedPostsSelectionButtons from '@/app/GetStartedPostsSelectionButto
 
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
+import Spinner from '@/elements/Spinner'
 
 import * as server from '@/app/helpers/appServer'
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
@@ -49,6 +50,7 @@ const GetStartedPostsSelection = () => {
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [postType, setPostType] = React.useState('promotion_enabled')
+  const [hasEnabledPosts, setHasEnabledPosts] = React.useState(false)
   const [shouldShowLoadMoreButton, setShouldShowLoadMoreButton] = React.useState(true)
   const [error, setError] = React.useState(null)
 
@@ -86,6 +88,10 @@ const GetStartedPostsSelection = () => {
     let res = []
     // Fetch posts sorted by normalized score
     res = await fetchPosts(postType, limit)
+
+    if (res.length > 0 && postType === 'promotion_enabled') {
+      setHasEnabledPosts(true)
+    }
 
     // If the response is empty and post type is 'promotion_enabled' try fetching promotable posts
     if (res.length === 0 && postType === 'promotion_enabled') {
@@ -136,50 +142,52 @@ const GetStartedPostsSelection = () => {
       {!canLoadPosts ? (
         <GetStartedPostsSelectionAnalysePosts canLoadPosts={canLoadPosts} />
       ) : (
-        <>
-          <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle}</h3>
-          <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts)} />
-          <Error error={error} />
-          <div className={[
-            shouldAdjustLayout ? 'grid grid-cols-12' : null,
-          ].join(' ')}
-          >
-            <div
-              className={[
-                shouldAdjustLayout ? (
-                  `grid col-span-8 md:col-span-9 lg:col-span-10 gap-4
-                  grid-cols-12 lg:grid-cols-10
-                  mb-12 pr-4
-                  overflow-y-scroll`
-                ) : (
-                  'flex flex-1 flex-wrap justify-center gap-2 sm:gap-4 mb-12'
-                ),
-              ].join(' ')}
-              style={{ maxHeight: shouldAdjustLayout ? '300px' : null }}
+        posts.length > 0 ? (
+          <>
+            <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle(hasEnabledPosts)}</h3>
+            <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts, hasEnabledPosts)} />
+            <Error error={error} />
+            <div className={[
+              shouldAdjustLayout ? 'grid grid-cols-12' : null,
+            ].join(' ')}
             >
-              {posts.map((post, index) => (
-                <GetStartedPostsSelectionCard
-                  key={post.id}
-                  post={post}
-                  postIndex={index}
-                  setPosts={setPosts}
-                  setError={setError}
-                  shouldAdjustLayout={shouldAdjustLayout}
-                  className="col-span-6 md:col-span-4 lg:col-span-2"
-                />
-              ))}
+              <div
+                className={[
+                  shouldAdjustLayout ? (
+                    `grid col-span-8 md:col-span-9 lg:col-span-10 gap-4
+                    grid-cols-12 lg:grid-cols-10
+                    mb-12 pr-4
+                    overflow-y-scroll`
+                  ) : (
+                    'flex flex-1 flex-wrap justify-center gap-2 sm:gap-4 mb-12'
+                  ),
+                ].join(' ')}
+                style={{ maxHeight: shouldAdjustLayout ? '300px' : null }}
+              >
+                {posts.map((post, index) => (
+                  <GetStartedPostsSelectionCard
+                    key={post.id}
+                    post={post}
+                    postIndex={index}
+                    setPosts={setPosts}
+                    setError={setError}
+                    shouldAdjustLayout={shouldAdjustLayout}
+                    className="col-span-6 md:col-span-4 lg:col-span-2"
+                  />
+                ))}
+              </div>
+              <GetStartedPostsSelectionButtons
+                handlePosts={handlePosts}
+                postType={postType}
+                posts={posts}
+                setError={setError}
+                shouldAdjustLayout={shouldAdjustLayout}
+                shouldShowLoadMoreButton={shouldShowLoadMoreButton}
+                className={[shouldAdjustLayout ? 'col-span-4 md:col-span-3 lg:col-span-2 ml-4' : null].join(' ')}
+              />
             </div>
-            <GetStartedPostsSelectionButtons
-              handlePosts={handlePosts}
-              postType={postType}
-              posts={posts}
-              setError={setError}
-              shouldAdjustLayout={shouldAdjustLayout}
-              shouldShowLoadMoreButton={shouldShowLoadMoreButton}
-              className={[shouldAdjustLayout ? 'col-span-4 md:col-span-3 lg:col-span-2 ml-4' : null].join(' ')}
-            />
-          </div>
-        </>
+          </>
+        ) : <Spinner />
       )}
     </div>
   )
