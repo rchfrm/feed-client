@@ -26,7 +26,7 @@ import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
 import { getLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform, getLinkById, getLinkByHref } from '@/app/helpers/linksHelpers'
-import { getStartedSections, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
+import { getStartedSections, updateArtist, getPreferencesObject, profileStatus } from '@/app/helpers/artistHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -69,28 +69,28 @@ const GetStartedWizard = () => {
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      name: 'objective',
+      name: profileStatus.objective,
       title: 'Your objective',
       section: getStartedSections.objective,
       component: <GetStartedObjective />,
     },
     {
       id: 1,
-      name: 'platform',
+      name: profileStatus.platform,
       title: 'Your objective',
       section: getStartedSections.objective,
       component: <GetStartedPlatform />,
     },
     {
       id: 2,
-      name: 'default-link',
+      name: profileStatus.defaultLink,
       title: 'Your objective',
       section: getStartedSections.objective,
       component: <GetStartedDefaultLink />,
     },
     {
       id: 3,
-      name: 'connect-profile',
+      name: profileStatus.connectProfile,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedConnectFacebook />,
@@ -98,35 +98,35 @@ const GetStartedWizard = () => {
     },
     {
       id: 4,
-      name: 'posts',
+      name: profileStatus.posts,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsSelection />,
     },
     {
       id: 5,
-      name: 'default-post-promotion',
+      name: profileStatus.defaultPostPromotion,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsDefaultSelection />,
     },
     {
       id: 6,
-      name: 'ad-account',
+      name: profileStatus.adAccount,
       title: 'Your ad account',
       section: getStartedSections.adAccount,
       component: <GetStartedAdAccount />,
     },
     {
       id: 7,
-      name: 'facebook-pixel',
+      name: profileStatus.facebookPixel,
       title: 'Your pixel',
       section: getStartedSections.adAccount,
       component: <GetStartedFacebookPixel />,
     },
     {
       id: 8,
-      name: 'location',
+      name: profileStatus.location,
       title: 'Your location',
       section: getStartedSections.adAccount,
       component: <GetStartedLocation />,
@@ -134,7 +134,7 @@ const GetStartedWizard = () => {
     },
     {
       id: 9,
-      name: 'budget',
+      name: profileStatus.budget,
       title: 'Budget',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
