@@ -586,7 +586,7 @@ export const getAdResultsSummary = async (artistId) => {
 
   if (error) return { error }
 
-  const formattedData = res.summary ? formatResultsData(res.summary) : null
+  const formattedData = res.data ? formatResultsData(res.data) : null
   if (formattedData) {
     formattedData.dateRange = {
       from: res.date_from,
