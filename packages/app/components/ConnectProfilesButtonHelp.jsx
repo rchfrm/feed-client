@@ -35,6 +35,7 @@ const ConnectProfilesLoader = ({
             isSidePanel
           />
         )}
+        className="text-left"
         text="Can't see the page you're looking for?"
         label="Connect accounts help"
       />
