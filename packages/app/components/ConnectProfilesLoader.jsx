@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
 import useAsyncEffect from 'use-async-effect'
 
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import Spinner from '@/elements/Spinner'
 
@@ -17,8 +15,6 @@ import ConnectProfilesButtonHelp from '@/app/ConnectProfilesButtonHelp'
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-
-import * as ROUTES from '@/app/constants/routes'
 
 const ConnectProfilesLoader = ({
   isConnecting,
@@ -35,12 +31,10 @@ const ConnectProfilesLoader = ({
     auth,
     authError,
     setAuthError,
-    isFacebookRedirect,
     setIsFacebookRedirect,
   } = React.useContext(AuthContext)
 
   const { user, userLoading } = React.useContext(UserContext)
-  const { connectArtist } = React.useContext(ArtistContext)
 
   const { missingScopes: { ads: missingScopes } } = auth
 
@@ -106,31 +100,9 @@ const ConnectProfilesLoader = ({
     const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
 
     if (!isMounted()) return
+
     setArtistAccounts(processedArtists)
 
-    // Handle connecting a single artist
-    if (processedArtists.length === 1 && isFacebookRedirect) {
-      setArtistAccounts(processedArtists)
-      setSelectedProfile(processedArtists[0])
-
-      setPageLoading(false)
-
-      // Santise URLs
-      const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(processedArtists[0])
-
-      setIsConnecting(true)
-      const { error } = await connectArtist(artistAccountSanitised, user) || {}
-
-      if (error) {
-        setIsConnecting(false)
-        setErrors(errors => [...errors, error])
-        setIsConnecting(false)
-        return
-      }
-
-      Router.push(ROUTES.GET_STARTED)
-      return
-    }
     setPageLoading(false)
   }, [userLoading, isConnecting])
 
