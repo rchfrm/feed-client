@@ -553,6 +553,7 @@ export const formatRecentPosts = (posts) => {
       thumbnails,
       postType: post.subtype || post.type,
       promotionEnabled: post.promotion_enabled,
+      _links: post._links,
     }
   })
 

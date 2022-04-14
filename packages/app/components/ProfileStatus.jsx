@@ -10,15 +10,15 @@ import ProfileStatusCompleted from '@/app/ProfileStatusCompleted'
 import FadeInOut from '@/elements/FadeInOut'
 
 const getControlsStoreState = (state) => ({
-  isControlsLoading: state.isControlsLoading,
+  profileSetupStatus: state.profileSetupStatus,
 })
 
 const ProfileStatus = ({ className }) => {
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
 
-  const { isControlsLoading } = useControlsStore(getControlsStoreState)
+  const { profileSetupStatus } = useControlsStore(getControlsStoreState)
 
-  if (isControlsLoading) return null
+  if (!profileSetupStatus) return null
 
   return (
     <FadeInOut show unmountOnExit>

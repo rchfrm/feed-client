@@ -5,7 +5,13 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
 import brandColors from '@/constants/brandColors'
 
-const GetStartedPostsSelectionButtonsMobile = ({ loadMore, isLoading, isLoadingMorePosts, handleNext }) => {
+const GetStartedPostsSelectionButtonsMobile = ({
+  loadMore,
+  isLoading,
+  isLoadingMorePosts,
+  handleNext,
+  shouldShowLoadMoreButton,
+}) => {
   return (
     <div
       className={[
@@ -15,20 +21,22 @@ const GetStartedPostsSelectionButtonsMobile = ({ loadMore, isLoading, isLoadingM
       ].join(' ')}
       style={{ bottom: '40px', left: '50%' }}
     >
-      <button
-        onClick={loadMore}
-        className={[
-          'w-30 p-2 bg-white border-r-2 border-solid border-black text-black',
-        ].join(' ')}
-      >
-        {isLoadingMorePosts ? (
-          <Spinner width={20} fill={brandColors.black} />
-        ) : (
-          <>
-            More ...
-          </>
-        )}
-      </button>
+      {shouldShowLoadMoreButton && (
+        <button
+          onClick={loadMore}
+          className={[
+            'w-30 p-2 bg-white border-r-2 border-solid border-black text-black',
+          ].join(' ')}
+        >
+          {isLoadingMorePosts ? (
+            <Spinner width={20} fill={brandColors.black} />
+          ) : (
+            <>
+              More ...
+            </>
+          )}
+        </button>
+      )}
       <button
         onClick={handleNext}
         className="flex justify-center p-2 w-30 bg-green text-white"
@@ -52,7 +60,10 @@ const GetStartedPostsSelectionButtonsMobile = ({ loadMore, isLoading, isLoadingM
 
 GetStartedPostsSelectionButtonsMobile.propTypes = {
   loadMore: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  isLoadingMorePosts: PropTypes.bool.isRequired,
   handleNext: PropTypes.func.isRequired,
+  shouldShowLoadMoreButton: PropTypes.bool.isRequired,
 }
 
 GetStartedPostsSelectionButtonsMobile.defaultProps = {

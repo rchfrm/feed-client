@@ -559,6 +559,20 @@ export const getPlatformNameByValue = (platform) => {
   return platforms.find(({ value }) => platform === value).name
 }
 
+export const profileStatus = {
+  objective: 'objective',
+  platform: 'platform',
+  defaultLink: 'default-link',
+  connectProfile: 'connect-profile',
+  posts: 'posts',
+  defaultPostPromotion: 'default-post-promotion',
+  adAccount: 'ad-account',
+  facebookPixel: 'facebook-pixel',
+  location: 'location',
+  budget: 'budget',
+  confirmSetup: 'confirm-setup',
+}
+
 export const getObjectiveString = (objective, platform) => {
   if (!objective || !platform) return null
 

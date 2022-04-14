@@ -15,6 +15,9 @@ import NotificationsHandler from '@/app/NotificationsHandler'
 import useControlsStore from '@/app/stores/controlsStore'
 import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
 
+import * as server from '@/app/helpers/appServer'
+import { profileStatus } from '@/app/helpers/artistHelpers'
+
 const getControlsStoreState = (state) => ({
   initControlsStore: state.initControlsStore,
   updateLinksWithIntegrations: state.updateLinksWithIntegrations,
@@ -27,7 +30,13 @@ function Main({ children }) {
   const { user } = React.useContext(UserContext)
   const { artistId, artist } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
-  const { getProfileSetupStatus } = useCheckProfileSetupStatus()
+  const isFirstRender = React.useRef(true)
+
+  const {
+    getProfileSetupStatus,
+    profileSetupConditions,
+    setEnabledPosts,
+  } = useCheckProfileSetupStatus()
 
   // SETUP CONTROLS STORE WHEN ARTIST CHANGES
   const {
@@ -37,6 +46,17 @@ function Main({ children }) {
     controlsLoading,
     updateProfileSetUpStatus,
   } = useControlsStore(getControlsStoreState)
+
+  const fetchEnabledPosts = async () => {
+    const enabledPosts = await server.getPosts({
+      artistId,
+      sortBy: ['normalized_score'],
+      filterBy: {
+        promotion_enabled: [true],
+      },
+    })
+    setEnabledPosts(enabledPosts)
+  }
 
   useAsyncEffect(async () => {
     if (!artistId) return
@@ -59,16 +79,15 @@ function Main({ children }) {
   useAsyncEffect(async () => {
     if (!user.id || (user.artists.length && !artistId) || controlsLoading) return
 
-    const { hasSetUpProfile } = artist
-
-    if (hasSetUpProfile) {
+    // Fetch enabled posts only once
+    if (isFirstRender.current && artistId) {
+      await fetchEnabledPosts()
+      isFirstRender.current = false
       return
     }
 
-    const profileSetupStatus = getProfileSetupStatus()
-
-    updateProfileSetUpStatus(profileSetupStatus)
-  }, [controlsLoading, user, artistId])
+    updateProfileSetUpStatus(getProfileSetupStatus() || profileStatus.confirmSetup)
+  }, [profileSetupConditions, artistId, user, controlsLoading])
 
   return (
     <main id="page--container" className="md:ml-10">

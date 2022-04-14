@@ -12,6 +12,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import brandColors from '@/constants/brandColors'
 import { isObject } from '@/helpers/utils'
+import { profileStatus } from '@/app/helpers/artistHelpers'
 
 const initialContext = {
   next: () => {},
@@ -82,7 +83,7 @@ const WizardContextProvider = ({
   }
 
   React.useEffect(() => {
-    if (!profileSetupStatus || currentStep) return
+    if (!profileSetupStatus || profileSetupStatus === profileStatus.confirmSetup || currentStep) return
 
     const firstIncompleteStepIndex = steps.findIndex((step) => {
       return step.name === profileSetupStatus
