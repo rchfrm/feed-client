@@ -217,7 +217,7 @@ const GetStartedDefaultLink = () => {
     // Update local state
     updateLink(savedLink.id, savedLink)
 
-    if (savedLink.id !== defaultLink.href) {
+    if (savedLink.id !== defaultLink.id) {
       await saveAsDefaultLink(savedLink.id, savedLink)
     }
 
