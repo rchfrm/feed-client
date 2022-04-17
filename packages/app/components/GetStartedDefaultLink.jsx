@@ -69,7 +69,9 @@ const GetStartedDefaultLink = () => {
 
     // Render either a select element or text input field based on this boolean
     setShouldShowSelect(!hasGrowthObjective && looseLinks.length > 0)
-  }, [isLoading, nestedLinks, hasGrowthObjective])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Hide select element and show text input field
   const hideSelect = () => {
