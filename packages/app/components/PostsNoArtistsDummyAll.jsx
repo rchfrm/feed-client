@@ -12,8 +12,8 @@ const PostsNoArtistsDummyAll = ({ dummyPostsImages, errors, setErrors }) => {
       className={[
         'sm:grid',
         'grid-cols-12',
-        'row-gap-10',
-        'col-gap-6',
+        'gap-y-10',
+        'gap-x-6',
         'grid-flow-row-dense',
         'pt-6',
       ].join(' ')}

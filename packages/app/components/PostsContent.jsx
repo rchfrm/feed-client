@@ -65,7 +65,7 @@ const PostsContent = ({ dummyPostsImages }) => {
               />
             )}
           </div>
-          <div className="grid grid-cols-12 col-gap-6">
+          <div className="grid grid-cols-12 gap-x-6">
             {/* SORT */}
             <PostsSorter
               sortTypes={sortTypes}

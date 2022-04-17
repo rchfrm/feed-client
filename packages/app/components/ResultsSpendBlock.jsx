@@ -17,7 +17,7 @@ const ResultsSpendBlock = ({ value, date, currency }) => {
   return (
     <div
       className={[
-        'relative flex-shrink-0 cursor-pointer',
+        'relative shrink-0 cursor-pointer',
         'mr-1 mb-1 rounded-dialogue',
         value ? 'bg-green' : 'bg-grey-1',
       ].join(' ')}
@@ -35,7 +35,7 @@ const ResultsSpendBlock = ({ value, date, currency }) => {
             style={{ bottom: '100%', left: '50%', width: '2px' }}
           />
           {valueString}
-          <div className="whitespace-no-wrap font-bold">{moment(date).format('D MMM \'YY')}</div>
+          <div className="whitespace-nowrap font-bold">{moment(date).format('D MMM \'YY')}</div>
         </div>
       )}
     </div>

@@ -26,15 +26,15 @@ const ResultsContent = ({ data, isSpendingPaused }) => {
 
   return (
     <div>
-      <div className="grid grid-cols-12 sm:col-gap-12 mb-8">
+      <div className="grid grid-cols-12 sm:gap-x-12 mb-8">
         <div className={[
           'col-span-12',
           hasSalesObjective ? null : 'sm:col-span-8',
         ].join(' ')}
         >
           <div className={[
-            'grid grid-cols-12 sm:col-gap-12',
-            'row-gap-8 sm:row-gap-16',
+            'grid grid-cols-12 sm:gap-x-12',
+            'gap-y-8 sm:gap-y-16',
             hasSalesObjective ? 'mb-8' : null,
             'sm:mb-0',
           ].join(' ')}

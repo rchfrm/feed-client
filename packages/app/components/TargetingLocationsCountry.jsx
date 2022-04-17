@@ -65,7 +65,7 @@ const TargetingLocationsCountry = ({
                 {!expanded && hasCities && !!totalCitiesSelected && (
                   <div
                     className={[
-                      'absolute top-0 left-0 whitespace-no-wrap mt-6 pt-1 text-xs',
+                      'absolute top-0 left-0 whitespace-nowrap mt-6 pt-1 text-xs',
                       totalCitiesSelected > 0 ? 'text-black' : 'text-grey-3',
                     ].join(' ')}
                   >

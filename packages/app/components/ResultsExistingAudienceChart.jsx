@@ -60,7 +60,7 @@ const ResultsExistingAudienceChart = ({ data }) => {
             style={{ top: '-2px' }}
           >
             <div
-              className="absolute transform -translate-y-1/2 z-10 ml-2 text-green text-xs"
+              className="absolute -translate-y-1/2 z-10 ml-2 text-green text-xs"
               style={{
                 ...(adsReachWidth > 85 ? { right: '10px', color: brandColors.white } : { left: '100%' }),
                 top: '50%',

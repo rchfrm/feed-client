@@ -49,7 +49,7 @@ const Testimonies = ({
         ref={swiperPagination}
         className={[
           'swiper-pagination',
-          'absolute bottom-4 transform -translate-x-1/2',
+          'absolute bottom-4 -translate-x-1/2',
           !isSwiperActive ? 'hidden' : null,
         ].join(' ')}
         style={{ left: '50%' }}
