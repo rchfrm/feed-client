@@ -22,6 +22,7 @@ module.exports = (path) => ({
         `${path}/css/vars.css`,
       ],
     }],
+    'tailwindcss/nesting',
     'tailwindcss',
     'autoprefixer',
     'postcss-nested',
