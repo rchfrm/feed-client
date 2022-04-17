@@ -232,7 +232,7 @@ export default {
   growthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
   growthChartNoData: 'There is currently no follower growth data available.',
   headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
-    const resultsTypeString = `**<span className="underline">${capitalise(resultsType)}</span>** insights`
+    const resultsTypeString = `**<span className="green--underline">${capitalise(resultsType)}</span>** insights`
 
     if (!isLast30Days && (!dateFrom || !dateTo)) {
       return resultsTypeString
