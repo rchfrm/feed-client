@@ -279,7 +279,7 @@ export const getPostAdMessageData = (post) => {
   const {
     id,
     message,
-    options: { campaign_type: campaignType },
+    campaignType,
   } = post || {}
   return { id, message, campaignType }
 }
@@ -425,12 +425,7 @@ export const updatePostCaption = async ({ artistId, assetId, adMessageId, campai
   const endpointBase = `/artists/${artistId}/assets/${assetId}/ad_messages`
   const requestType = isUpdating ? 'patch' : 'post'
   const endpoint = isUpdating ? `${endpointBase}/${adMessageId}` : endpointBase
-  const payload = {
-    message: caption,
-    options: {
-      campaign_type: campaignType,
-    },
-  }
+  const payload = isUpdating ? { message: caption } : { message: caption, assetId, campaignType }
   const errorTracking = {
     category: 'Post caption',
     action: isUpdating ? 'Update post caption' : 'Set new post caption',
@@ -442,18 +437,13 @@ export const updatePostCaption = async ({ artistId, assetId, adMessageId, campai
 }
 
 // RESET CAPTION
-export const resetPostCaption = ({ artistId, assetId, adMessageId, campaignType }) => {
+export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
   const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages/${adMessageId}`
-  const payload = {
-    options: {
-      campaign_type: campaignType,
-    },
-  }
   const errorTracking = {
     category: 'Post message',
     action: 'Reset post caption',
   }
-  return requestWithCatch('delete', endpoint, payload, errorTracking)
+  return requestWithCatch('delete', endpoint, null, errorTracking)
 }
 
 // UPDATE POST PRIORITY
@@ -550,7 +540,7 @@ export const getPostAddMessages = async (artistId, assetId) => {
   const adMessages = res.map((adMessage) => ({
     id: adMessage.id,
     message: adMessage.message,
-    campaignType: adMessage.options.campaign_type,
+    campaignType: adMessage.campaignType,
   }))
 
   return { res: adMessages, error }
