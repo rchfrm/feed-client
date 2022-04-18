@@ -1,48 +1,32 @@
 import React from 'react'
 
-import TargetingLocationsSearchResults from '@/app/TargetingLocationsSearchResults'
+import TargetingLocationsSearchResultsItem from '@/app/TargetingLocationsSearchResultsItem'
 
-import SearchInput from '@/elements/SearchInput'
-import Error from '@/elements/Error'
+import Search from '@/elements/Search'
 import TickCircleIcon from '@/icons/TickCircleIcon'
 
 import { getGeoLocations } from '@/app/helpers/targetingHelpers'
 import brandColors from '@/constants/brandColors'
 
 const TargetingLocationsSearch = () => {
-  const [locations, setLocations] = React.useState([])
   const [savedLocation, setSavedLocation] = React.useState(null)
-  const [hasFetchedLocations, setHasFetchedLocations] = React.useState(false)
-  const [error, setError] = React.useState(null)
   const { name } = savedLocation || {}
 
   const resetSavedLocation = () => {
     setSavedLocation(null)
-    setHasFetchedLocations(false)
-  }
-
-  const onSuccess = () => {
-    setHasFetchedLocations(true)
   }
 
   return (
     !savedLocation ? (
       <>
         <p className="text-lg">Search for another location</p>
-        <SearchInput
+        <Search
           name="location"
-          placeholder="Start typing to search"
           onChange={getGeoLocations}
-          setValue={setLocations}
-          setError={setError}
-          onSuccess={onSuccess}
+          onClick={setSavedLocation}
+          listItem={TargetingLocationsSearchResultsItem}
+          placeholder="Start typing to search"
           className="mb-4"
-        />
-        <Error error={error} />
-        <TargetingLocationsSearchResults
-          locations={locations}
-          setSavedLocation={setSavedLocation}
-          hasFetchedLocations={hasFetchedLocations}
         />
       </>
     ) : (

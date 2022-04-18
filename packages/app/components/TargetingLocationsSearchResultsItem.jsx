@@ -5,7 +5,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
-const TargetingLocationsSearchResultsItem = ({ location, setSavedLocation }) => {
+const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setSavedLocation }) => {
   const {
     name,
     type,
@@ -17,12 +17,16 @@ const TargetingLocationsSearchResultsItem = ({ location, setSavedLocation }) => 
     targetingState,
     popularLocations,
     setLocationOptions,
+    selectedCountries,
+    selectedCities,
+    setSelectedCountries,
+    setSelectedCities,
   } = React.useContext(TargetingContext)
 
   const isCity = type === 'city'
   const isCountry = type === 'country'
 
-  const saveCustomLocation = async () => {
+  const updateLocationOptions = () => {
     const formattedLocation = {
       ...location,
       code: location.key,
@@ -36,6 +40,22 @@ const TargetingLocationsSearchResultsItem = ({ location, setSavedLocation }) => 
     const updatedLocationOptions = targetingHelpers.formatPopularLocations(currentLocations, popularLocations)
 
     setLocationOptions(updatedLocationOptions)
+  }
+
+  const updateSelectedLocations = () => {
+    if (isCountry) {
+      setSelectedCountries([...selectedCountries, location.key])
+    }
+
+    if (isCity) {
+      setSelectedCities([...selectedCities, location.key])
+    }
+  }
+
+  const saveCustomLocation = async () => {
+    updateLocationOptions()
+    updateSelectedLocations()
+
     setSavedLocation(location)
   }
 
@@ -49,8 +69,8 @@ const TargetingLocationsSearchResultsItem = ({ location, setSavedLocation }) => 
 }
 
 TargetingLocationsSearchResultsItem.propTypes = {
-  location: PropTypes.object.isRequired,
-  setSavedLocation: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 }
 
 TargetingLocationsSearchResultsItem.defaultProps = {
