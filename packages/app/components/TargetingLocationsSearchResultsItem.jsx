@@ -6,7 +6,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
-const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setSavedLocation }) => {
+const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setLocation }) => {
   const {
     name,
     type,
@@ -69,7 +69,7 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setSaved
     updateLocationOptions(customLocation)
     updateSelectedLocations()
 
-    setSavedLocation(location)
+    setLocation(location)
   }
 
   return (

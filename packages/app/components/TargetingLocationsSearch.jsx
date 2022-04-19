@@ -9,21 +9,21 @@ import { getGeoLocations } from '@/app/helpers/targetingHelpers'
 import brandColors from '@/constants/brandColors'
 
 const TargetingLocationsSearch = () => {
-  const [savedLocation, setSavedLocation] = React.useState(null)
-  const { name } = savedLocation || {}
+  const [location, setLocation] = React.useState(null)
+  const { name } = location || {}
 
   const resetSavedLocation = () => {
-    setSavedLocation(null)
+    setLocation(null)
   }
 
   return (
-    !savedLocation ? (
+    !location ? (
       <>
         <p className="text-lg">Search for another location</p>
         <Search
           name="location"
           onChange={getGeoLocations}
-          onClick={setSavedLocation}
+          onClick={setLocation}
           listItem={TargetingLocationsSearchResultsItem}
           placeholder="Start typing to search"
           className="mb-4"
@@ -35,7 +35,7 @@ const TargetingLocationsSearch = () => {
           fill={brandColors.green}
           className="mr-2"
         />
-        <button onClick={resetSavedLocation}>{name} saved! <span className="underline">Add another location?</span></button>
+        <button onClick={resetSavedLocation}>{name} added! <span className="underline">Add another location?</span></button>
       </div>
     )
   )

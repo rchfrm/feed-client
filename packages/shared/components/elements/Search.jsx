@@ -57,7 +57,7 @@ const SearchInput = ({
   }, [debouncedQuery])
 
   return (
-    <>
+    <form>
       <Input
         name={name}
         label={label}
@@ -79,7 +79,7 @@ const SearchInput = ({
           hasFetchedData={hasFetchedData}
         />
       )}
-    </>
+    </form>
   )
 }
 
@@ -88,7 +88,7 @@ SearchInput.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
-  listItem: PropTypes.node.isRequired,
+  listItem: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   limit: PropTypes.number,
   className: PropTypes.string,

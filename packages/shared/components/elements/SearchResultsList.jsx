@@ -29,9 +29,9 @@ const SearchResultsList = ({
 }
 
 SearchResultsList.propTypes = {
-  query: PropTypes.array,
+  query: PropTypes.string,
   searchResults: PropTypes.array.isRequired,
-  listItem: PropTypes.node.isRequired,
+  listItem: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasFetchedData: PropTypes.bool.isRequired,
