@@ -25,7 +25,7 @@ const TargetingLocationsSearch = () => {
           onChange={getGeoLocations}
           onClick={setLocation}
           listItem={TargetingLocationsSearchResultsItem}
-          placeholder="Start typing to search"
+          placeholder="Start typing to search..."
           className="mb-4"
         />
       </>
