@@ -53,17 +53,17 @@ const Dropdown = ({
         ].join(' ')}
       >
         {!disabled && (
-        <div className={[
-          'mr-1',
-          'transition-transform duration-100 transform origin-center',
-          isOpen ? 'rotate-90' : null,
-        ].join(' ')}
-        >
-          <ArrowIcon
-            direction="right"
-            className="w-3 h-3"
-          />
-        </div>
+          <div className={[
+            'mr-1',
+            'transition-transform duration-100 transform origin-center',
+            isOpen ? 'rotate-90' : null,
+          ].join(' ')}
+          >
+            <ArrowIcon
+              direction="right"
+              className="w-3 h-3"
+            />
+          </div>
         )}
         {children}
       </button>
