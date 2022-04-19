@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import produce from 'immer'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -15,6 +16,7 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setSaved
 
   const {
     targetingState,
+    setTargetingState,
     popularLocations,
     setLocationOptions,
     selectedCountries,
@@ -26,15 +28,20 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setSaved
   const isCity = type === 'city'
   const isCountry = type === 'country'
 
-  const updateLocationOptions = () => {
-    const formattedLocation = {
-      ...location,
-      code: location.key,
-    }
+  const updateTargetingState = (customLocation) => {
+    const key = isCountry ? 'countries' : 'cities'
 
+    setTargetingState((targetingState) => {
+      return produce(targetingState, draftState => {
+        draftState[key].push(customLocation)
+      })
+    })
+  }
+
+  const updateLocationOptions = (customLocation) => {
     const currentLocations = {
-      cities: [...targetingState.cities, ...(isCity ? [formattedLocation] : [])],
-      countries: [...targetingState.countries, ...(isCountry ? [formattedLocation] : [])],
+      cities: [...targetingState.cities, ...(isCity ? [customLocation] : [])],
+      countries: [...targetingState.countries, ...(isCountry ? [customLocation] : [])],
     }
 
     const updatedLocationOptions = targetingHelpers.formatPopularLocations(currentLocations, popularLocations)
@@ -53,7 +60,13 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setSaved
   }
 
   const saveCustomLocation = async () => {
-    updateLocationOptions()
+    const customLocation = {
+      ...location,
+      code: location.key,
+    }
+
+    updateTargetingState(customLocation)
+    updateLocationOptions(customLocation)
     updateSelectedLocations()
 
     setSavedLocation(location)
