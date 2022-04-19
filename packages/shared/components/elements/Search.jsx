@@ -33,6 +33,10 @@ const SearchInput = ({
     setQuery(value)
   }
 
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
+
   useAsyncEffect(async () => {
     if (!debouncedQuery) {
       setSearchResults([])
@@ -57,7 +61,7 @@ const SearchInput = ({
   }, [debouncedQuery])
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <Input
         name={name}
         label={label}

@@ -7,6 +7,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setLocation }) => {
+  const [locationAlreadyExists, setLocationAlreadyExists] = React.useState(false)
   const {
     name,
     type,
@@ -18,6 +19,7 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setLocat
     targetingState,
     setTargetingState,
     popularLocations,
+    locationOptions,
     setLocationOptions,
     selectedCountries,
     selectedCities,
@@ -59,10 +61,30 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setLocat
     }
   }
 
+  const checkIfLocationAlreadyExists = (customLocation) => {
+    const flattenedLocations = Object.values(locationOptions).reduce((result, locationOption) => {
+      if (!locationOption.cities) {
+        return locationOption
+      }
+
+      return [...result, locationOption, ...locationOption.cities]
+    }, [])
+
+    return flattenedLocations.some((location) => location.key === customLocation.key || location.code === customLocation.key)
+  }
+
   const saveCustomLocation = async () => {
     const customLocation = {
       ...location,
       code: location.key,
+    }
+
+    const locationExists = checkIfLocationAlreadyExists(customLocation)
+
+    // If location already exists return early
+    if (locationExists) {
+      setLocationAlreadyExists(true)
+      return
     }
 
     updateTargetingState(customLocation)
@@ -74,8 +96,9 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setLocat
 
   return (
     <li className="mb-3 pl-12">
-      <button onClick={saveCustomLocation} className="align-left">
+      <button onClick={saveCustomLocation} className="flex items-center text-left">
         <span className="font-bold underline">{name}</span>, {isCity ? `${region}, ` : null} {countryCode}
+        {locationAlreadyExists && <span className="ml-3 text-xs text-green">Already exists!</span>}
       </button>
     </li>
   )
