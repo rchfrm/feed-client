@@ -30,6 +30,7 @@ const Search = ({
   const handleChange = (e) => {
     const { target: { value } } = e
 
+    setError(null)
     setQuery(value)
   }
 

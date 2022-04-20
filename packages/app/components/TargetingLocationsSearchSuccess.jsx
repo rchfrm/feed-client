@@ -16,7 +16,9 @@ const TargetingLocationsSearchSuccess = ({ name, setLocation }) => {
         fill={brandColors.green}
         className="mr-2"
       />
-      <button onClick={resetSavedLocation} className="text-left">{name} added!<span className="ml-1 underline">Add another location?</span></button>
+      <button onClick={resetSavedLocation} className="text-left">{name} added!
+        <span className="ml-1 underline">Add another location?</span>
+      </button>
     </div>
   )
 }
