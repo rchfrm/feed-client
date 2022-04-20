@@ -9,7 +9,7 @@ import Input from '@/elements/Input'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
-const SearchInput = ({
+const Search = ({
   name,
   label,
   onChange,
@@ -87,7 +87,7 @@ const SearchInput = ({
   )
 }
 
-SearchInput.propTypes = {
+Search.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   onChange: PropTypes.func.isRequired,
@@ -98,11 +98,11 @@ SearchInput.propTypes = {
   className: PropTypes.string,
 }
 
-SearchInput.defaultProps = {
+Search.defaultProps = {
   label: '',
   placeholder: '',
   limit: 5,
   className: '',
 }
 
-export default SearchInput
+export default Search

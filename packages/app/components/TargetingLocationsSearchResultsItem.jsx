@@ -112,5 +112,4 @@ TargetingLocationsSearchResultsItem.propTypes = {
 TargetingLocationsSearchResultsItem.defaultProps = {
 }
 
-
 export default TargetingLocationsSearchResultsItem
