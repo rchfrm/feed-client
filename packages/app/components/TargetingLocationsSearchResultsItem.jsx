@@ -73,7 +73,7 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setLocat
     return flattenedLocations.some((location) => location.key === customLocation.key || location.code === customLocation.key)
   }
 
-  const saveCustomLocation = async () => {
+  const saveCustomLocation = () => {
     const customLocation = {
       ...location,
       code: location.key,
