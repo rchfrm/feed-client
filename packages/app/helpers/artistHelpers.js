@@ -520,7 +520,7 @@ export const platforms = [
     value: 'spotify',
   },
   {
-    name: 'Youtube',
+    name: 'YouTube',
     value: 'youtube',
   },
   {
