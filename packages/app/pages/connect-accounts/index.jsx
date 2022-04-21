@@ -18,7 +18,7 @@ const Page = () => {
       <ConnectProfilesLoader
         isConnecting={isConnecting}
         setIsConnecting={setIsConnecting}
-        className="grid grid-cols-12"
+        className="grid grid-cols-12 sm:col-gap-8"
       />
     </BasePage>
   )

@@ -3,13 +3,7 @@ import PropTypes from 'prop-types'
 
 import Spinner from '@/elements/Spinner'
 
-import ConnectProfilesAccountsToConnectList from '@/app/ConnectProfilesAccountsToConnectList'
-
-const ConnectProfilesIsConnecting = ({ artistAccounts, className }) => {
-  const accountsToConnect = React.useMemo(() => {
-    return Object.values(artistAccounts).filter(({ connect }) => connect)
-  }, [artistAccounts])
-
+const ConnectProfilesIsConnecting = ({ profile, className }) => {
   return (
     <div className={[
       'flex flex-1 flex-column justify-center items-center',
@@ -20,7 +14,9 @@ const ConnectProfilesIsConnecting = ({ artistAccounts, className }) => {
       <div className="max-w-sm text-center">
         Setting up
         {' '}
-        <ConnectProfilesAccountsToConnectList accountsToConnect={accountsToConnect} />
+        <div className="inline">
+          <span className="font-bold">{profile.name}</span>
+        </div>
         ...
       </div>
     </div>
@@ -28,12 +24,12 @@ const ConnectProfilesIsConnecting = ({ artistAccounts, className }) => {
 }
 
 ConnectProfilesIsConnecting.propTypes = {
-  artistAccounts: PropTypes.object,
+  profile: PropTypes.object,
   className: PropTypes.string,
 }
 
 ConnectProfilesIsConnecting.defaultProps = {
-  artistAccounts: {},
+  profile: {},
   className: null,
 }
 

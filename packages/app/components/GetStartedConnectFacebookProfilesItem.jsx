@@ -10,29 +10,20 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 const GetStartedConnectFacebookProfilesItem = ({
   profile,
-  profiles,
   setSelectedProfile,
   setIsConnecting,
 }) => {
   const { picture, name, instagram_username } = profile
   const { user } = React.useContext(UserContext)
-  const { connectArtists } = React.useContext(ArtistContext)
+  const { connectArtist } = React.useContext(ArtistContext)
 
   const createArtist = async () => {
     setIsConnecting(true)
-
-    const filteredSelectedProfile = Object.entries(profiles).reduce((result, [key, value]) => {
-      if (key === profile.page_id) {
-        result[key] = value
-      }
-      return result
-    }, {})
-
-    setSelectedProfile(filteredSelectedProfile)
+    setSelectedProfile(profile)
 
     // Santise URLs
-    const artistAccountsSanitised = artistHelpers.sanitiseArtistAccountUrls([profile])
-    const { error } = await connectArtists(artistAccountsSanitised, user) || {}
+    const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(profile)
+    const { error } = await connectArtist(artistAccountSanitised, user) || {}
 
     if (error) {
       setIsConnecting(false)
@@ -75,7 +66,6 @@ const GetStartedConnectFacebookProfilesItem = ({
 
 GetStartedConnectFacebookProfilesItem.propTypes = {
   profile: PropTypes.object.isRequired,
-  profiles: PropTypes.object.isRequired,
   setSelectedProfile: PropTypes.func.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
 }
