@@ -43,7 +43,7 @@ export default {
     }
     if (key === 'ads') {
       if (hasSetUpProfile) {
-        return 'Post selection, calls to action and ad settingss'
+        return 'Post selection, calls to action and ad settings'
       }
       return 'Continue set-up to manage post selection, calls to action and more'
     }
