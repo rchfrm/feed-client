@@ -57,6 +57,10 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setLocat
     }
 
     if (isCity) {
+      // If the city belongs to an already selected country, don't select the city
+      if (selectedCountries.includes(location.country_code)) {
+        return
+      }
       setSelectedCities([...selectedCities, location.key])
     }
   }
