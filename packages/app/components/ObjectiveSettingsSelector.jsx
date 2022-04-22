@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useCheckObjectiveChangeStatus from '@/app/hooks/useCheckObjectiveChangeStatus'
 
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
@@ -14,6 +15,7 @@ import { getLinkByPlatform, splitLinks } from '@/app/helpers/linksHelpers'
 const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
   updatePreferences: state.updatePreferences,
+  optimizationPreferences: state.optimizationPreferences,
   nestedLinks: state.nestedLinks,
   updateLinks: state.updateLinks,
 })
@@ -22,6 +24,10 @@ const ObjectiveSettingsSelector = ({
   name,
   optionValues,
   currentObjective,
+  setShouldShowAlert,
+  setObjectiveChangeSteps,
+  shouldRestoreObjective,
+  setShouldRestoreObjective,
 }) => {
   const [selectOptions, setSelectOptions] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
@@ -29,7 +35,8 @@ const ObjectiveSettingsSelector = ({
   const [error, setError] = React.useState(null)
 
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { postsPreferences, updatePreferences, nestedLinks, updateLinks } = useControlsStore(getControlsStoreState)
+  const { getObjectiveChangeSteps } = useCheckObjectiveChangeStatus(objective)
+  const { postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
   React.useEffect(() => {
@@ -87,12 +94,6 @@ const ObjectiveSettingsSelector = ({
     // Update preferences object in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
 
-    // Update local state
-    setObjective({
-      objective: updatedArtist.preferences.optimization.objective,
-      platform: updatedArtist.preferences.optimization.platform,
-    })
-
     setIsLoading(false)
   }
 
@@ -101,13 +102,32 @@ const ObjectiveSettingsSelector = ({
 
     if (value === objective[name]) return
 
-    const updatedObjective = {
-      ...objective,
-      [name]: value,
-    }
-
-    save(updatedObjective)
+    setObjective({ ...objective, [name]: value })
   }
+
+  React.useEffect(() => {
+    const objectiveChangeSteps = getObjectiveChangeSteps()
+
+    if (objectiveChangeSteps.length > 0) {
+      setObjectiveChangeSteps(objectiveChangeSteps)
+      setShouldShowAlert(true)
+
+      return
+    }
+    save(objective)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [objective])
+
+  React.useEffect(() => {
+    if (shouldRestoreObjective) {
+      setObjective({
+        objective: optimizationPreferences.objective,
+        platform: optimizationPreferences.platform,
+      })
+
+      setShouldRestoreObjective(false)
+    }
+  }, [shouldRestoreObjective, optimizationPreferences.objective, optimizationPreferences.platform, setShouldRestoreObjective])
 
   return (
     <div>
@@ -132,9 +152,11 @@ ObjectiveSettingsSelector.propTypes = {
     objective: PropTypes.string,
     platform: PropTypes.string,
   }).isRequired,
+  setShouldShowAlert: PropTypes.func,
 }
 
 ObjectiveSettingsSelector.defaultProps = {
+  setShouldShowAlert: () => {},
 }
 
 export default ObjectiveSettingsSelector

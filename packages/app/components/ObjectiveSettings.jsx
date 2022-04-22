@@ -11,6 +11,7 @@ import ControlsContentSection from '@/app/ControlsContentSection'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import ObjectiveSettingsSelector from '@/app/ObjectiveSettingsSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
+import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
 
 import { objectives } from '@/app/helpers/artistHelpers'
 
@@ -23,6 +24,9 @@ const getControlsStoreState = (state) => ({
 })
 
 const ObjectiveSettings = () => {
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+  const [objectiveChangeSteps, setObjectiveChangeSteps] = React.useState([])
+  const [shouldRestoreObjective, setShouldRestoreObjective] = React.useState(false)
   const [platformsWithIntegrationLink, setPlatformsWithIntegrationLink] = React.useState([])
   const [platformsWithoutIntegrationLink, setPlatformsWithoutIntegrationLink] = React.useState([])
   const platformsString = platformsWithoutIntegrationLink.join(', ').replace(/,(?!.*,)/gmi, ' or')
@@ -65,6 +69,10 @@ const ObjectiveSettings = () => {
           name="objective"
           optionValues={objectives}
           currentObjective={{ objective, platform }}
+          setShouldShowAlert={setShouldShowAlert}
+          setObjectiveChangeSteps={setObjectiveChangeSteps}
+          shouldRestoreObjective={shouldRestoreObjective}
+          setShouldRestoreObjective={setShouldRestoreObjective}
         />
         {hasGrowthObjective ? (
           <div className="relative">
@@ -72,6 +80,10 @@ const ObjectiveSettings = () => {
               name="platform"
               optionValues={platformsWithIntegrationLink}
               currentObjective={{ objective, platform }}
+              setShouldShowAlert={setShouldShowAlert}
+              setObjectiveChangeSteps={setObjectiveChangeSteps}
+              shouldRestoreObjective={shouldRestoreObjective}
+              setShouldRestoreObjective={setShouldRestoreObjective}
             />
             <ControlsSettingsSectionFooter top={64}>
               <p className="text-insta text-xs italic mb-0">
@@ -89,6 +101,17 @@ const ObjectiveSettings = () => {
             objective={objective}
             label="Default Link"
             className="mb-8"
+          />
+        )}
+        {shouldShowAlert && (
+          <ObjectiveSettingsChangeAlert
+            objectiveChangeSteps={objectiveChangeSteps}
+            show={shouldShowAlert}
+            onCancel={() => {
+              setShouldShowAlert(false)
+              setShouldRestoreObjective(true)
+            }}
+            setShouldRestoreObjective={setShouldRestoreObjective}
           />
         )}
       </ControlsContentSection>
