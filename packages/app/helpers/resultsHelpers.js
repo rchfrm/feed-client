@@ -354,8 +354,10 @@ export const getPlatformData = (data, platform = 'instagram') => {
   const {
     instagram_growth: {
       '30d': {
-        organic,
         paid,
+      },
+      '180d': {
+        organic,
       },
     },
     spend: {
@@ -372,13 +374,12 @@ export const getPlatformData = (data, platform = 'instagram') => {
   const organicGrowthEstimate = totalGrowthAbsolute - paidGrowthEstimate
   const paidGrowthPercentile = paid.absolute.percentile
 
-  const daysWithSpend = Object.entries(daily_data).filter(([, spend]) => spend > 0)
-  const spendingDaysCount = daysWithSpend.length
+  const spendingDaysCount = paid.number_of_days.value
 
   const copyData = {
     platform: getPlatformNameByValue(platform),
-    paidGrowthRate,
-    organicGrowthRate,
+    paidGrowthRate: paidGrowthRate * 100,
+    organicGrowthRate: organicGrowthRate * 100,
     growthIncrease,
     totalGrowthAbsolute,
     spendingDaysCount,
