@@ -99,7 +99,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
           setIsLoading={setIsLoading}
         />
       ) : (
-        <div className="grid grid-cols-12 col-gap-6 mb-12">
+        <div className="grid grid-cols-12 gap-x-6 mb-12">
           <NoArtistsConnectAccountsBlock
             page="results"
             className="col-span-12 sm:col-span-6 lg:col-span-4 p-6 bg-grey-1"

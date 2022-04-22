@@ -17,7 +17,7 @@ const TargetingCampaignReccs = ({
       <ul
         className={[
           'sm:grid',
-          'grid-cols-6 col-gap-5',
+          'grid-cols-6 gap-x-5',
         ].join(' ')}
       >
         {/* PREDEFINED RECCS */}

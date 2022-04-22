@@ -44,7 +44,7 @@ const PostCardConnectAccounts = ({ errors, setErrors }) => {
         content={copy.helpText}
         text="More info on permissions!"
         label="Facebook permissions"
-        className="transform scale-75 text-md font-normal"
+        className="scale-75 text-md font-normal"
       />
     </div>
   )

@@ -43,7 +43,7 @@ const TournamentOverview = ({
     <>
       <div data-name="TournamentOverview" className={['mb-2', className].join(' ')}>
         <h3><strong>{tournament.id}</strong></h3>
-        <div className={singleTournament ? 'grid grid-cols-12 row-gap-8 sm:col-gap-4' : ''}>
+        <div className={singleTournament ? 'grid grid-cols-12 gap-y-8 sm:gap-x-4' : ''}>
           <DataDetails
             className="col-span-12 sm:col-span-6"
             propsToDisplay={propsToDisplay}

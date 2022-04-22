@@ -15,7 +15,7 @@ const GetStartedPostsSelectionButtonsMobile = ({
   return (
     <div
       className={[
-        'fixed flex flex-row transform -translate-x-1/2',
+        'fixed flex flex-row -translate-x-1/2',
         'rounded-full overflow-hidden',
         'border-2 border-solid border-black bg-white',
       ].join(' ')}
