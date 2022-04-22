@@ -61,11 +61,10 @@ const GetStartedDefaultLink = () => {
   const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
   const hasGrowthObjective = objective === 'growth'
   const hasSalesObjective = objective === 'sales'
+  const { looseLinks } = splitLinks(nestedLinks)
 
   React.useEffect(() => {
     if (isLoading) return
-
-    const { looseLinks } = splitLinks(nestedLinks)
 
     // Render either a select element or text input field based on this boolean
     setShouldShowSelect(!hasGrowthObjective && looseLinks.length > 0)
@@ -74,9 +73,12 @@ const GetStartedDefaultLink = () => {
   }, [])
 
   // Hide select element and show text input field
-  const hideSelect = () => {
-    setLink({})
-    setShouldShowSelect(false)
+  const toggleSelect = () => {
+    if (shouldShowSelect) {
+      setLink({})
+    }
+
+    setShouldShowSelect((shouldShowSelect) => !shouldShowSelect)
   }
 
   // On text input change update the link object with a name and href
@@ -264,22 +266,33 @@ const GetStartedDefaultLink = () => {
             updateParentLink={updateLink}
             shouldSaveOnChange={false}
             shouldShowAddLinkModal={false}
-            onAddNewLink={hideSelect}
+            onAddNewLink={toggleSelect}
             componentLocation="defaultLink"
             includeIntegrationLinks={false}
             includeAddLinkOption
-            className="w-full mb-4"
+            className="w-full mb-6"
           />
         ) : (
-          <Input
-            name="link-url"
-            version="box"
-            type="url"
-            value={link.href}
-            handleChange={handleChange}
-            placeholder={placeholder}
-            className="w-full mb-12"
-          />
+          <>
+            <Input
+              name="link-url"
+              version="box"
+              type="url"
+              value={link.href}
+              handleChange={handleChange}
+              placeholder={placeholder}
+              className="w-full mb-2"
+            />
+            {(!hasGrowthObjective && looseLinks.length > 0) && (
+              <Button
+                version="text"
+                onClick={toggleSelect}
+                className="h-auto text-xs mr-auto mb-8"
+              >
+                Choose from your existing links
+              </Button>
+            )}
+          </>
         )}
         <Button
           type="submit"
