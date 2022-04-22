@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Input from '@/elements/Input'
 
@@ -39,6 +40,14 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({ objective, platform }) => {
       />
     </>
   )
+}
+
+ObjectiveSettingsChangeAlertDefaultLink.propTypes = {
+  objective: PropTypes.string.isRequired,
+  platform: PropTypes.string.isRequired,
+}
+
+ObjectiveSettingsChangeAlertDefaultLink.defaultProps = {
 }
 
 export default ObjectiveSettingsChangeAlertDefaultLink

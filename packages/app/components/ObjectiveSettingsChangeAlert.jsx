@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
@@ -56,6 +57,15 @@ const ObjectiveSettingsChangeAlert = ({
 
   // No render
   return null
+}
+
+ObjectiveSettingsChangeAlert.propTypes = {
+  objectiveChangeSteps: PropTypes.array.isRequired,
+  show: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
+}
+
+ObjectiveSettingsChangeAlert.defaultProps = {
 }
 
 export default ObjectiveSettingsChangeAlert

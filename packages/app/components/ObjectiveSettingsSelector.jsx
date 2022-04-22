@@ -153,6 +153,9 @@ ObjectiveSettingsSelector.propTypes = {
     platform: PropTypes.string,
   }).isRequired,
   setShouldShowAlert: PropTypes.func,
+  setObjectiveChangeSteps: PropTypes.func.isRequired,
+  shouldRestoreObjective: PropTypes.bool.isRequired,
+  setShouldRestoreObjective: PropTypes.func.isRequired,
 }
 
 ObjectiveSettingsSelector.defaultProps = {
