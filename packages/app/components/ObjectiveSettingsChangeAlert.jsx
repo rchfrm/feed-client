@@ -12,7 +12,7 @@ const ObjectiveSettingsChangeAlert = ({
 
   const alertContents = React.useMemo(() => {
     if (objectiveChangeSteps.length) {
-      return [objectiveChangeSteps[currentStep].component]
+      return objectiveChangeSteps[currentStep].component
     }
   }, [objectiveChangeSteps, currentStep])
 

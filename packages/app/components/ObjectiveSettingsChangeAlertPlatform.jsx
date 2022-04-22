@@ -1,8 +1,10 @@
 import React from 'react'
 
 import Select from '@/elements/Select'
+import MarkdownText from '@/elements/MarkdownText'
 
 import { platforms } from '@/app/helpers/artistHelpers'
+import copy from '@/app/copy/controlsPageCopy'
 
 const ObjectiveSettingsChangeAlertPlatform = () => {
   const [platform, setPlatform] = React.useState('')
@@ -27,8 +29,8 @@ const ObjectiveSettingsChangeAlertPlatform = () => {
 
   return (
     <>
-      <h3>Where would you like to grow?</h3>
-      <p>You can always change this later on. You'll also have the option to send people to multiple platforms using different posts.</p>
+      <h3>{copy.alertPlatformTitle}</h3>
+      <MarkdownText markdown={copy.alertPlatformDescription} />
       <Select
         handleChange={handleChange}
         name="platform"

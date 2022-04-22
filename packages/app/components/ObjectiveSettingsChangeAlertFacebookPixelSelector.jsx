@@ -2,6 +2,10 @@ import React from 'react'
 
 import PixelSelector from '@/app/PixelSelector'
 
+import MarkdownText from '@/elements/MarkdownText'
+
+import copy from '@/app/copy/controlsPageCopy'
+
 const ObjectiveSettingsChangeAlertFacebookPixel = () => {
   const [facebookPixel, setFacebookPixel] = React.useState(null)
 
@@ -11,8 +15,8 @@ const ObjectiveSettingsChangeAlertFacebookPixel = () => {
 
   return (
     <>
-      <h3>Select your Facebook Pixel</h3>
-      <p>This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway.</p>
+      <h3>{copy.alertSelectPixelTitle}</h3>
+      <MarkdownText markdown={copy.alertSelectPixelDescription} />
       <PixelSelector
         updateParentPixel={setFacebookPixel}
         trackLocation="GetStartedFacebookPixelSelector"

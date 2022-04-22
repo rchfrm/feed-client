@@ -4,6 +4,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
+import MarkdownText from '@/elements/MarkdownText'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import copy from '@/app/copy/getStartedCopy'
@@ -49,8 +50,8 @@ const ObjectiveSettingsChangeAlertBudget = () => {
 
   return (
     <>
-      <h3>Adjust your daily budget</h3>
-      <p>You can change this at any time. We recommend spreading budget out over a longer period of time as consistency boosts ad performance.</p>
+      <h3>{copy.alertBudgetTitle}</h3>
+      <MarkdownText markdown={copy.alertBudgetDescription} />
       <TargetingBudgetSlider
         sliderStep={sliderStep}
         sliderValueRange={sliderValueRange}

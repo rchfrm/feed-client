@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Input from '@/elements/Input'
+import MarkdownText from '@/elements/MarkdownText'
 
 import { getIntegrationInfo } from '@/helpers/integrationHelpers'
+import copy from '@/app/copy/controlsPageCopy'
 
 const ObjectiveSettingsChangeAlertDefaultLink = ({ objective, platform }) => {
   const hasGrowthObjective = objective === 'growth'
@@ -28,8 +30,8 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({ objective, platform }) => {
 
   return (
     <>
-      <h3>Enter the link to your store</h3>
-      <p>Set the homepage for now, you can choose to send people to specific product pages later on.</p>
+      <h3>{copy.alertLinkTitle}</h3>
+      <MarkdownText markdown={copy.alertLinkDescription} />
       <Input
         name="link-url"
         version="box"

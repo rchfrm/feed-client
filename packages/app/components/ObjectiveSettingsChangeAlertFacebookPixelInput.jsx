@@ -2,10 +2,13 @@ import React from 'react'
 
 import Input from '@/elements/Input'
 import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import { createNewPixel } from '@/app/helpers/settingsHelpers'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 const ObjectiveSettingsChangeAlertFacebookPixelInput = () => {
   const [pixelName, setPixelName] = React.useState('')
@@ -31,8 +34,9 @@ const ObjectiveSettingsChangeAlertFacebookPixelInput = () => {
 
   return (
     <>
-      <h3>Create your Facebook Pixel</h3>
-      <p>You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway.</p>      <Error error={error} />
+      <h3>{copy.alertNewPixelTitle}</h3>
+      <MarkdownText markdown={copy.alertNewPixelDescription} />
+      <Error error={error} />
       <Input
         name="pixel-name"
         version="box"
