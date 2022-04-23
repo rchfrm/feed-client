@@ -9,8 +9,9 @@ const ObjectiveSettingsChangeAlert = ({
   shouldShowAlert,
   onCancel,
   save,
-  currentObjective,
-  setCurrentObjective,
+  objective,
+  platform,
+  setPlatform,
 }) => {
   const [shouldSave, setShouldSave] = React.useState(false)
   const [isDisabled, setIsDisabled] = React.useState(false)
@@ -29,14 +30,15 @@ const ObjectiveSettingsChangeAlert = ({
           shouldSave,
           setShouldSave,
           setIsDisabled,
-          currentObjective,
-          setCurrentObjective,
+          objective,
+          platform,
+          setPlatform,
           setForceSave,
         },
       )
       return StepComponent
     }
-  }, [objectiveChangeSteps, currentStep, shouldSave, currentObjective, setCurrentObjective])
+  }, [objectiveChangeSteps, currentStep, shouldSave, platform, setPlatform, objective])
 
   const { showAlert, closeAlert } = useAlertModal()
 
@@ -77,7 +79,7 @@ const ObjectiveSettingsChangeAlert = ({
     }
 
     if ((isLastStep && !shouldSave) || forceSave) {
-      await save(currentObjective, [], true)
+      await save({ objective, platform }, [], true)
       closeAlert()
       return
     }

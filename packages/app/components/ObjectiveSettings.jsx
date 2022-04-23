@@ -7,11 +7,12 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import MarkdownText from '@/elements/MarkdownText'
 
 import ControlsContentSection from '@/app/ControlsContentSection'
-import ObjectiveSettingsSelector from '@/app/ObjectiveSettingsSelector'
+import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjectiveSelector'
+import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
 
-import { objectives, platforms, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
+import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform, splitLinks } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/controlsPageCopy'
@@ -29,15 +30,17 @@ const ObjectiveSettings = () => {
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
   const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
-  const { objective, platform } = optimizationPreferences
-  const hasGrowthObjective = objective === 'growth'
 
-  const [currentObjective, setCurrentObjective] = React.useState({ objective, platform })
+  const [objective, setObjective] = React.useState(optimizationPreferences.objective)
+  const [platform, setPlatform] = React.useState(optimizationPreferences.platform)
+  const [type, setType] = React.useState('')
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const [objectiveChangeSteps, setObjectiveChangeSteps] = React.useState([])
   const [shouldRestoreObjective, setShouldRestoreObjective] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+
+  const hasGrowthObjective = objective === 'growth'
 
   const save = async ({ objective, platform }, objectiveChangeSteps, forceRun = false) => {
     if (objectiveChangeSteps.length > 0 && !forceRun) {
@@ -93,34 +96,35 @@ const ObjectiveSettings = () => {
       <h2>Objective</h2>
       <ControlsContentSection action="choose your objective">
         <MarkdownText markdown={copy.objectiveIntro} className="mb-10" />
-        <ObjectiveSettingsSelector
-          name="objective"
-          optionValues={objectives}
-          currentObjective={currentObjective}
-          setCurrentObjective={setCurrentObjective}
+        <ObjectiveSettingsObjectiveSelector
+          objective={objective}
+          setObjective={setObjective}
+          platform={platform}
+          setPlatform={setPlatform}
+          setType={setType}
           shouldShowAlert={shouldShowAlert}
           setShouldShowAlert={setShouldShowAlert}
           setObjectiveChangeSteps={setObjectiveChangeSteps}
           shouldRestoreObjective={shouldRestoreObjective}
           setShouldRestoreObjective={setShouldRestoreObjective}
           save={save}
-          isLoading={isLoading}
+          isLoading={isLoading && type === 'objective'}
           error={error}
         />
         {hasGrowthObjective ? (
           <div className="relative">
-            <ObjectiveSettingsSelector
-              name="platform"
-              optionValues={platforms}
-              currentObjective={currentObjective}
-              setCurrentObjective={setCurrentObjective}
+            <ObjectiveSettingsPlatformSelector
+              objective={objective}
+              platform={platform}
+              setPlatform={setPlatform}
+              setType={setType}
               shouldShowAlert={shouldShowAlert}
               setShouldShowAlert={setShouldShowAlert}
               setObjectiveChangeSteps={setObjectiveChangeSteps}
               shouldRestoreObjective={shouldRestoreObjective}
               setShouldRestoreObjective={setShouldRestoreObjective}
               save={save}
-              isLoading={isLoading}
+              isLoading={isLoading && type === 'platform'}
               error={error}
             />
           </div>
@@ -142,8 +146,9 @@ const ObjectiveSettings = () => {
               // setShouldRestoreObjective(true)
             }}
             save={save}
-            setCurrentObjective={setCurrentObjective}
-            currentObjective={currentObjective}
+            objective={objective}
+            platform={platform}
+            setPlatform={setPlatform}
           />
         )}
       </ControlsContentSection>

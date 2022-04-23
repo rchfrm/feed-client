@@ -9,10 +9,10 @@ import copy from '@/app/copy/controlsPageCopy'
 const ObjectiveSettingsChangeAlertPlatform = ({
   shouldSave,
   setShouldSave,
-  currentObjective,
-  setCurrentObjective,
+  platform,
+  setPlatform,
 }) => {
-  const [platform, setPlatform] = React.useState(currentObjective.platform || platforms[0].value)
+  const [currentPlatform, setCurrentPlatform] = React.useState(platform || platforms[0].value)
   const [selectOptions, setSelectOptions] = React.useState([])
 
   React.useEffect(() => {
@@ -29,16 +29,16 @@ const ObjectiveSettingsChangeAlertPlatform = ({
 
     if (value === platform) return
 
-    setPlatform(value)
+    setCurrentPlatform(value)
   }
 
   React.useEffect(() => {
     if (shouldSave) {
-      setCurrentObjective({ ...currentObjective, platform })
+      setPlatform(currentPlatform)
 
       setShouldSave(false)
     }
-  }, [shouldSave, setShouldSave, platform, currentObjective, setCurrentObjective])
+  }, [shouldSave, setShouldSave, currentPlatform, setCurrentPlatform, setPlatform])
 
   return (
     <>
@@ -47,7 +47,7 @@ const ObjectiveSettingsChangeAlertPlatform = ({
       <Select
         handleChange={handleChange}
         name="platform"
-        selectedValue={platform}
+        selectedValue={currentPlatform}
         options={selectOptions}
       />
     </>

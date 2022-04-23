@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import useControlsStore from '@/app/stores/controlsStore'
@@ -28,10 +27,10 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
   shouldSave,
   setShouldSave,
   setIsDisabled,
-  currentObjective,
+  objective,
+  platform,
   setForceSave,
 }) => {
-  const { objective, platform } = currentObjective
   const hasGrowthObjective = objective === 'growth'
   const defaultPlaceholder = 'https://'
 
@@ -202,7 +201,6 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 }
 
 ObjectiveSettingsChangeAlertDefaultLink.propTypes = {
-  currentObjective: PropTypes.object.isRequired,
 }
 
 ObjectiveSettingsChangeAlertDefaultLink.defaultProps = {

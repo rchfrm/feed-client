@@ -16,9 +16,8 @@ const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
 })
 
-const useCheckObjectiveChangeStatus = (currentObjective) => {
+const useCheckObjectiveChangeStatus = (objective, platform) => {
   const { nestedLinks } = useControlsStore(getControlsStoreState)
-  const { objective, platform } = currentObjective
   const integrationLink = getLinkByPlatform(nestedLinks, platform)
   const hasSalesObjective = objective === 'sales'
 
