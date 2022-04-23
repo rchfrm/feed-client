@@ -27,6 +27,7 @@ const PostLinksSelect = ({
   onSelect,
   onSuccess,
   onError,
+  onAddNewLink,
   postItemId,
   includeDefaultLink,
   includeAddLinkOption,
@@ -36,6 +37,7 @@ const PostLinksSelect = ({
   componentLocation,
   updateParentLink,
   shouldSaveOnChange,
+  shouldShowAddLinkModal,
   label,
   className,
   disabled,
@@ -221,7 +223,11 @@ const PostLinksSelect = ({
     // Handle adding new link
     if (value === '_new') {
       setLoading(true)
-      showAddLinkModal()
+      if (shouldShowAddLinkModal) {
+        showAddLinkModal()
+        return
+      }
+      onAddNewLink()
       return
     }
     setSelectedOptionValue(value)
@@ -279,6 +285,7 @@ PostLinksSelect.propTypes = {
   onSelect: PropTypes.func,
   onSuccess: PropTypes.func,
   onError: PropTypes.func,
+  onAddNewLink: PropTypes.func,
   postItemId: PropTypes.string,
   includeDefaultLink: PropTypes.bool,
   includeIntegrationLinks: PropTypes.bool,
@@ -288,6 +295,7 @@ PostLinksSelect.propTypes = {
   componentLocation: PropTypes.string.isRequired,
   updateParentLink: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
+  shouldShowAddLinkModal: PropTypes.bool,
   label: PropTypes.string,
   className: PropTypes.string,
   disabled: PropTypes.bool,
@@ -301,6 +309,7 @@ PostLinksSelect.defaultProps = {
   linkType: '',
   onSuccess: () => {},
   onError: null,
+  onAddNewLink: () => {},
   postItemId: '',
   selectClassName: null,
   includeDefaultLink: false,
@@ -310,6 +319,7 @@ PostLinksSelect.defaultProps = {
   hasSalesObjective: false,
   updateParentLink: () => {},
   shouldSaveOnChange: true,
+  shouldShowAddLinkModal: true,
   label: '',
   className: '',
   disabled: false,

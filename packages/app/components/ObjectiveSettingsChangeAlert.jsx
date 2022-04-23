@@ -2,77 +2,53 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
-import { TargetingContext } from '@/app/contexts/TargetingContext'
-
 import useAlertModal from '@/hooks/useAlertModal'
-import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 const ObjectiveSettingsChangeAlert = ({
   objectiveChangeSteps,
-  show,
+  shouldShowAlert,
   onCancel,
+  save,
   currentObjective,
   setCurrentObjective,
 }) => {
-  const [data, setData] = React.useState(null)
-  const [shouldStoreData, setShouldStoreData] = React.useState(false)
+  const [shouldSave, setShouldSave] = React.useState(false)
   const [isDisabled, setIsDisabled] = React.useState(false)
   const [currentStep, setCurrentStep] = React.useState(0)
-  const isLastStep = currentStep + 1 === objectiveChangeSteps.length
+  const [forceSave, setForceSave] = React.useState(false)
 
-  const { initialTargetingState, targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
-  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
+  const isLastStep = currentStep + 1 === objectiveChangeSteps.length
+  const isFirstRender = React.useRef(true)
 
   const alertContents = React.useMemo(() => {
-    // Add additional props to the alert content component
-    const StepComponent = React.cloneElement(
-      objectiveChangeSteps[currentStep].component,
-      {
-        data,
-        setData,
-        shouldStoreData,
-        setShouldStoreData,
-        setIsDisabled,
-      },
-    )
-
     if (objectiveChangeSteps.length) {
+      // Add additional props to the alert content component
+      const StepComponent = React.cloneElement(
+        objectiveChangeSteps[currentStep].component,
+        {
+          shouldSave,
+          setShouldSave,
+          setIsDisabled,
+          currentObjective,
+          setCurrentObjective,
+          setForceSave,
+        },
+      )
       return StepComponent
     }
-  }, [objectiveChangeSteps, currentStep, data, shouldStoreData])
+  }, [objectiveChangeSteps, currentStep, shouldSave, currentObjective, setCurrentObjective])
 
   const { showAlert, closeAlert } = useAlertModal()
 
-  const saveData = React.useCallback(async () => {
-    const { platform, link, budget } = data || {}
-
-    if (platform) {
-      // Set new platform
-      setCurrentObjective({ ...currentObjective, platform })
-    }
-
-    if (link) {
-      // Save new link
-      console.log('save link')
-    }
-
-    if (budget) {
-      // Save new budget
-      await saveTargeting('budget', { ...targetingState, budget })
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentObjective, setCurrentObjective, data])
-
   // Set alert content and buttons
   React.useEffect(() => {
-    if (!show) return closeAlert()
+    if (!shouldShowAlert) return closeAlert()
 
     const buttons = [
       {
         text: 'Save',
         onClick: () => {
-          setShouldStoreData(true)
+          setShouldSave(true)
         },
         color: 'green',
         shouldCloseOnConfirm: false,
@@ -91,21 +67,25 @@ const ObjectiveSettingsChangeAlert = ({
       buttons,
       onClose: onCancel,
     })
-  }, [show, onCancel, alertContents, showAlert, closeAlert, currentStep, objectiveChangeSteps.length, isDisabled, isLastStep])
+  }, [shouldShowAlert, onCancel, alertContents, showAlert, closeAlert, currentStep, objectiveChangeSteps.length, isDisabled, isLastStep])
 
-  // Either go to next step or save all data if we're at the last step
+  // Either go to next step or close the modal if we're at the last step
   useAsyncEffect(async () => {
-    if (data) {
-      if (isLastStep && !shouldStoreData) {
-        await saveData()
-        return
-      }
-
-      if (!shouldStoreData && !isLastStep) {
-        setCurrentStep((currentStep) => currentStep + 1)
-      }
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
     }
-  }, [shouldStoreData, saveData])
+
+    if ((isLastStep && !shouldSave) || forceSave) {
+      await save(currentObjective, [], true)
+      closeAlert()
+      return
+    }
+
+    if (!shouldSave && !isLastStep) {
+      setCurrentStep((currentStep) => currentStep + 1)
+    }
+  }, [shouldSave, forceSave])
 
   // Hide alert when unmounting
   React.useEffect(() => {
@@ -120,7 +100,7 @@ const ObjectiveSettingsChangeAlert = ({
 
 ObjectiveSettingsChangeAlert.propTypes = {
   objectiveChangeSteps: PropTypes.array.isRequired,
-  show: PropTypes.bool.isRequired,
+  shouldShowAlert: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
 }
 

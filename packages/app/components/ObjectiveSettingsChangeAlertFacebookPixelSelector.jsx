@@ -13,10 +13,8 @@ import { setPixel } from '@/app/helpers/settingsHelpers'
 import copy from '@/app/copy/controlsPageCopy'
 
 const ObjectiveSettingsChangeAlertFacebookPixel = ({
-  data,
-  setData,
-  shouldStoreData,
-  setShouldStoreData,
+  shouldSave,
+  setShouldSave,
 }) => {
   const [facebookPixel, setFacebookPixel] = React.useState(null)
   const [error, setError] = React.useState(null)
@@ -41,13 +39,12 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
   }
 
   useAsyncEffect(async () => {
-    if (shouldStoreData) {
+    if (shouldSave) {
       await saveFacebookPixel(facebookPixel)
 
-      setData({ ...data, facebookPixel })
-      setShouldStoreData(false)
+      setShouldSave(false)
     }
-  }, [shouldStoreData, setShouldStoreData, data, setData, facebookPixel])
+  }, [shouldSave, setShouldSave, facebookPixel])
 
   return (
     <>

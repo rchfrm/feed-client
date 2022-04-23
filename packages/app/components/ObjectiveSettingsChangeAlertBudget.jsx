@@ -1,4 +1,7 @@
 import React from 'react'
+import useAsyncEffect from 'use-async-effect'
+
+import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -12,17 +15,18 @@ import controlsPageCopy from '@/app/copy/controlsPageCopy'
 
 
 const ObjectiveSettingsChangeAlertBudget = ({
-  data,
-  setData,
-  shouldStoreData,
-  setShouldStoreData,
+  shouldSave,
+  setShouldSave,
   setIsDisabled,
 }) => {
   const {
     initialTargetingState,
     targetingState,
     updateTargetingBudget,
+    saveTargetingSettings,
   } = React.useContext(TargetingContext)
+
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
   const [budget, setBudget] = React.useState(targetingState.budget)
 
@@ -58,12 +62,13 @@ const ObjectiveSettingsChangeAlertBudget = ({
     updateTargetingBudget(budget)
   }, [budget, updateTargetingBudget, hasInsufficientBudget, setIsDisabled])
 
-  React.useEffect(() => {
-    if (shouldStoreData) {
-      setData({ ...data, budget })
-      setShouldStoreData(false)
+  useAsyncEffect(async () => {
+    if (shouldSave) {
+      await saveTargeting('budget', { ...targetingState, budget })
+
+      setShouldSave(false)
     }
-  }, [shouldStoreData, setShouldStoreData, data, setData, budget])
+  }, [shouldSave, setShouldSave, budget])
 
   return (
     <>

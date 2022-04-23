@@ -7,12 +7,12 @@ import { platforms } from '@/app/helpers/artistHelpers'
 import copy from '@/app/copy/controlsPageCopy'
 
 const ObjectiveSettingsChangeAlertPlatform = ({
-  data,
-  setData,
-  shouldStoreData,
-  setShouldStoreData,
+  shouldSave,
+  setShouldSave,
+  currentObjective,
+  setCurrentObjective,
 }) => {
-  const [platform, setPlatform] = React.useState('')
+  const [platform, setPlatform] = React.useState(currentObjective.platform || platforms[0].value)
   const [selectOptions, setSelectOptions] = React.useState([])
 
   React.useEffect(() => {
@@ -33,11 +33,12 @@ const ObjectiveSettingsChangeAlertPlatform = ({
   }
 
   React.useEffect(() => {
-    if (shouldStoreData) {
-      setData({ ...data, platform })
-      setShouldStoreData(false)
+    if (shouldSave) {
+      setCurrentObjective({ ...currentObjective, platform })
+
+      setShouldSave(false)
     }
-  }, [shouldStoreData, setShouldStoreData, data, setData, platform])
+  }, [shouldSave, setShouldSave, platform, currentObjective, setCurrentObjective])
 
   return (
     <>

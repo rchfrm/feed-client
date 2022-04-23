@@ -16,8 +16,9 @@ const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
 })
 
-const useCheckObjectiveChangeStatus = ({ objective, platform }) => {
+const useCheckObjectiveChangeStatus = (currentObjective) => {
   const { nestedLinks } = useControlsStore(getControlsStoreState)
+  const { objective, platform } = currentObjective
   const integrationLink = getLinkByPlatform(nestedLinks, platform)
   const hasSalesObjective = objective === 'sales'
 
@@ -48,7 +49,7 @@ const useCheckObjectiveChangeStatus = ({ objective, platform }) => {
     {
       id: 1,
       name: profileStatus.defaultLink,
-      component: <ObjectiveSettingsChangeAlertDefaultLink objective={objective} platform={platform} />,
+      component: <ObjectiveSettingsChangeAlertDefaultLink />,
       isComplete: objective === 'growth' && Boolean(integrationLink?.accountId),
     },
     {
@@ -63,7 +64,7 @@ const useCheckObjectiveChangeStatus = ({ objective, platform }) => {
       component: <ObjectiveSettingsChangeAlertBudget />,
       isComplete: hasSufficientBudget,
     },
-  ], [objective, platform, integrationLink, facebookPixelId, hasSufficientBudget])
+  ], [facebookPixelId, hasSufficientBudget, integrationLink?.accountId, objective, platform])
 
   const getObjectiveChangeSteps = () => {
     return objectiveChangeSteps.filter(({ isComplete }) => !isComplete)

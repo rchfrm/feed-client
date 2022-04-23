@@ -32,13 +32,7 @@ const ObjectiveSettingsChangeAlertFacebookPixel = () => {
     setIsLoading(false)
   }, [artistId])
 
-  if (isLoading) {
-    return (
-      <div className="h-48 flex items-center">
-        <Spinner width={28} />
-      </div>
-    )
-  }
+  if (isLoading) return <Spinner className="h-48 flex items-center" width={28} />
 
   return (
     <>

@@ -7,7 +7,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
-import { setDefaultLink, getLinkById, getLinkByHref, validateLink } from '@/app/helpers/linksHelpers'
+import PostLinksSelect from '@/app/PostLinksSelect'
 
 import Button from '@/elements/Button'
 import Input from '@/elements/Input'
@@ -15,6 +15,7 @@ import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import MarkdownText from '@/elements/MarkdownText'
 
+import { setDefaultLink, getLinkById, getLinkByHref, validateLink, splitLinks } from '@/app/helpers/linksHelpers'
 import { getLocalStorage, setLocalStorage, enforceUrlProtocol } from '@/helpers/utils'
 import { testValidIntegration, getIntegrationInfo } from '@/helpers/integrationHelpers'
 
@@ -45,7 +46,9 @@ const GetStartedDefaultLink = () => {
   const [link, setLink] = React.useState(defaultLink || storedDefaultLink || {})
   const [placeholder, setPlaceholder] = React.useState(defaultPlaceholder)
   const [isSaveEnabled, setIsSaveEnabled] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const [shouldShowSelect, setShouldShowSelect] = React.useState(false)
 
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
@@ -58,6 +61,25 @@ const GetStartedDefaultLink = () => {
   const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
   const hasGrowthObjective = objective === 'growth'
   const hasSalesObjective = objective === 'sales'
+  const { looseLinks } = splitLinks(nestedLinks)
+
+  React.useEffect(() => {
+    if (isLoading) return
+
+    // Render either a select element or text input field based on this boolean
+    setShouldShowSelect(!hasGrowthObjective && looseLinks.length > 0)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Hide select element and show text input field
+  const toggleSelect = () => {
+    if (shouldShowSelect) {
+      setLink({})
+    }
+
+    setShouldShowSelect((shouldShowSelect) => !shouldShowSelect)
+  }
 
   // On text input change update the link object with a name and href
   const handleChange = (e) => {
@@ -145,6 +167,7 @@ const GetStartedDefaultLink = () => {
 
     // Otherwise save the data in the db
     let action = 'add'
+    setIsLoading(true)
 
     // Check if the link already exists in the linkbank
     const existingLink = getLinkByHref(nestedLinks, link.href)
@@ -157,6 +180,7 @@ const GetStartedDefaultLink = () => {
 
     // Skip api request if the link hasn't changed
     if (currentLink.href && (currentLink.href === defaultLink.href)) {
+      setIsLoading(false)
       next()
       return
     }
@@ -169,6 +193,8 @@ const GetStartedDefaultLink = () => {
 
       if (error) {
         setError(error)
+        setIsLoading(false)
+
         return
       }
 
@@ -179,21 +205,27 @@ const GetStartedDefaultLink = () => {
 
       if (error) {
         setError(error)
+        setIsLoading(false)
+
         return
       }
 
       savedLink = linkBankLink
     }
 
-    if (!savedLink) return
+    if (!savedLink) {
+      setIsLoading(false)
+      return
+    }
 
     // Update local state
     updateLink(savedLink.id, savedLink)
 
-    if (savedLink.id !== defaultLink.href) {
+    if (savedLink.id !== defaultLink.id) {
       await saveAsDefaultLink(savedLink.id, savedLink)
     }
 
+    setIsLoading(false)
     next()
   }
 
@@ -228,21 +260,48 @@ const GetStartedDefaultLink = () => {
         onSubmit={onSubmit}
         className="flex flex-1 flex-column w-full sm:w-1/3 mx-auto justify-center items-center"
       >
-        <Input
-          name="link-url"
-          version="box"
-          type="url"
-          value={link.href}
-          handleChange={handleChange}
-          placeholder={placeholder}
-          className="w-full mb-12"
-        />
+        {shouldShowSelect ? (
+          <PostLinksSelect
+            currentLinkId={link.id}
+            updateParentLink={updateLink}
+            shouldSaveOnChange={false}
+            shouldShowAddLinkModal={false}
+            onAddNewLink={toggleSelect}
+            componentLocation="defaultLink"
+            includeIntegrationLinks={false}
+            includeAddLinkOption
+            className="w-full mb-6"
+          />
+        ) : (
+          <>
+            <Input
+              name="link-url"
+              version="box"
+              type="url"
+              value={link.href}
+              handleChange={handleChange}
+              placeholder={placeholder}
+              className="w-full mb-2"
+            />
+            {(!hasGrowthObjective && looseLinks.length > 0) && (
+              <Button
+                version="text"
+                onClick={toggleSelect}
+                className="h-auto text-xs mr-auto mb-8"
+              >
+                Choose from your existing links
+              </Button>
+            )}
+          </>
+        )}
         <Button
           type="submit"
           version="green"
           className="w-full sm:w-48"
           trackComponentName="GetStartedDefaultLink"
           disabled={!isSaveEnabled}
+          loading={isLoading}
+          spinnerFill={brandColors.white}
         >
           Save
           <ArrowAltIcon
