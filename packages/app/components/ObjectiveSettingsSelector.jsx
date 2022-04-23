@@ -24,6 +24,7 @@ const ObjectiveSettingsSelector = ({
   name,
   optionValues,
   currentObjective,
+  setCurrentObjective,
   setShouldShowAlert,
   setObjectiveChangeSteps,
   shouldRestoreObjective,
@@ -31,11 +32,10 @@ const ObjectiveSettingsSelector = ({
 }) => {
   const [selectOptions, setSelectOptions] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
-  const [objective, setObjective] = React.useState(currentObjective)
   const [error, setError] = React.useState(null)
 
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { getObjectiveChangeSteps } = useCheckObjectiveChangeStatus(objective)
+  const { getObjectiveChangeSteps } = useCheckObjectiveChangeStatus(currentObjective)
   const { postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
@@ -100,9 +100,9 @@ const ObjectiveSettingsSelector = ({
   const handleChange = (e) => {
     const { target: { value } } = e
 
-    if (value === objective[name]) return
+    if (value === currentObjective[name]) return
 
-    setObjective({ ...objective, [name]: value })
+    setCurrentObjective({ ...currentObjective, [name]: value })
   }
 
   React.useEffect(() => {
@@ -114,20 +114,20 @@ const ObjectiveSettingsSelector = ({
 
       return
     }
-    save(objective)
+    save(currentObjective)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [objective])
+  }, [currentObjective])
 
   React.useEffect(() => {
     if (shouldRestoreObjective) {
-      setObjective({
+      setCurrentObjective({
         objective: optimizationPreferences.objective,
         platform: optimizationPreferences.platform,
       })
 
       setShouldRestoreObjective(false)
     }
-  }, [shouldRestoreObjective, optimizationPreferences.objective, optimizationPreferences.platform, setShouldRestoreObjective])
+  }, [shouldRestoreObjective, optimizationPreferences.objective, optimizationPreferences.platform, setShouldRestoreObjective, setCurrentObjective])
 
   return (
     <div>
@@ -138,7 +138,7 @@ const ObjectiveSettingsSelector = ({
         loading={isLoading}
         handleChange={handleChange}
         name={name}
-        selectedValue={objective[name]}
+        selectedValue={currentObjective[name]}
         options={selectOptions}
       />
     </div>

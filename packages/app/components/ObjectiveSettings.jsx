@@ -21,13 +21,14 @@ const getControlsStoreState = (state) => ({
 })
 
 const ObjectiveSettings = () => {
-  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
-  const [objectiveChangeSteps, setObjectiveChangeSteps] = React.useState([])
-  const [shouldRestoreObjective, setShouldRestoreObjective] = React.useState(false)
-
   const { defaultLink, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
   const hasGrowthObjective = objective === 'growth'
+
+  const [currentObjective, setCurrentObjective] = React.useState({ objective, platform })
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+  const [objectiveChangeSteps, setObjectiveChangeSteps] = React.useState([])
+  const [shouldRestoreObjective, setShouldRestoreObjective] = React.useState(false)
 
   const {
     setPostPreferences,
@@ -41,7 +42,8 @@ const ObjectiveSettings = () => {
         <ObjectiveSettingsSelector
           name="objective"
           optionValues={objectives}
-          currentObjective={{ objective, platform }}
+          currentObjective={currentObjective}
+          setCurrentObjective={setCurrentObjective}
           setShouldShowAlert={setShouldShowAlert}
           setObjectiveChangeSteps={setObjectiveChangeSteps}
           shouldRestoreObjective={shouldRestoreObjective}
@@ -52,7 +54,8 @@ const ObjectiveSettings = () => {
             <ObjectiveSettingsSelector
               name="platform"
               optionValues={platforms}
-              currentObjective={{ objective, platform }}
+              currentObjective={currentObjective}
+              setCurrentObjective={setCurrentObjective}
               setShouldShowAlert={setShouldShowAlert}
               setObjectiveChangeSteps={setObjectiveChangeSteps}
               shouldRestoreObjective={shouldRestoreObjective}
@@ -76,7 +79,8 @@ const ObjectiveSettings = () => {
               setShouldShowAlert(false)
               setShouldRestoreObjective(true)
             }}
-            setShouldRestoreObjective={setShouldRestoreObjective}
+            currentObjective={currentObjective}
+            setCurrentObjective={setCurrentObjective}
           />
         )}
       </ControlsContentSection>

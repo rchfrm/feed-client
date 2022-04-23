@@ -8,6 +8,8 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import copy from '@/app/copy/getStartedCopy'
+import controlsPageCopy from '@/app/copy/controlsPageCopy'
+
 
 const ObjectiveSettingsChangeAlertBudget = ({
   data,
@@ -65,8 +67,8 @@ const ObjectiveSettingsChangeAlertBudget = ({
 
   return (
     <>
-      <h3>{copy.alertBudgetTitle}</h3>
-      <MarkdownText markdown={copy.alertBudgetDescription} />
+      <h3>{controlsPageCopy.alertBudgetTitle}</h3>
+      <MarkdownText markdown={controlsPageCopy.alertBudgetDescription} />
       <TargetingBudgetSlider
         sliderStep={sliderStep}
         sliderValueRange={sliderValueRange}
