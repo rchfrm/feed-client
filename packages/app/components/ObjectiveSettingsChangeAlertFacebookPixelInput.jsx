@@ -1,4 +1,5 @@
 import React from 'react'
+import useAsyncEffect from 'use-async-effect'
 
 import Input from '@/elements/Input'
 import Error from '@/elements/Error'
@@ -10,7 +11,12 @@ import { createNewPixel } from '@/app/helpers/settingsHelpers'
 
 import copy from '@/app/copy/controlsPageCopy'
 
-const ObjectiveSettingsChangeAlertFacebookPixelInput = () => {
+const ObjectiveSettingsChangeAlertFacebookPixelInput = ({
+  data,
+  setData,
+  shouldStoreData,
+  setShouldStoreData,
+}) => {
   const [pixelName, setPixelName] = React.useState('')
   const [error, setError] = React.useState(null)
 
@@ -27,10 +33,17 @@ const ObjectiveSettingsChangeAlertFacebookPixelInput = () => {
       setError(error)
     }
 
-    console.log(newPixel)
+    return newPixel
   }, [artistId, pixelName])
 
-  console.log(createPixel)
+  useAsyncEffect(async () => {
+    if (shouldStoreData) {
+      const newPixel = await createPixel()
+
+      setData({ ...data, facebookPixel: newPixel })
+      setShouldStoreData(false)
+    }
+  }, [shouldStoreData, setShouldStoreData, data, setData])
 
   return (
     <>

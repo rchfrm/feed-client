@@ -6,12 +6,20 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/controlsPageCopy'
 
-const ObjectiveSettingsChangeAlertFacebookPixel = () => {
+const ObjectiveSettingsChangeAlertFacebookPixel = ({
+  data,
+  setData,
+  shouldStoreData,
+  setShouldStoreData,
+}) => {
   const [facebookPixel, setFacebookPixel] = React.useState(null)
 
   React.useEffect(() => {
-    console.log(facebookPixel)
-  }, [facebookPixel])
+    if (shouldStoreData) {
+      setData({ ...data, facebookPixel })
+      setShouldStoreData(false)
+    }
+  }, [shouldStoreData, setShouldStoreData, data, setData, facebookPixel])
 
   return (
     <>

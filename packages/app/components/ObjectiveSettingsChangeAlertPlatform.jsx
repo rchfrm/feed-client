@@ -6,7 +6,12 @@ import MarkdownText from '@/elements/MarkdownText'
 import { platforms } from '@/app/helpers/artistHelpers'
 import copy from '@/app/copy/controlsPageCopy'
 
-const ObjectiveSettingsChangeAlertPlatform = () => {
+const ObjectiveSettingsChangeAlertPlatform = ({
+  data,
+  setData,
+  shouldStoreData,
+  setShouldStoreData,
+}) => {
   const [platform, setPlatform] = React.useState('')
   const [selectOptions, setSelectOptions] = React.useState([])
 
@@ -26,6 +31,13 @@ const ObjectiveSettingsChangeAlertPlatform = () => {
 
     setPlatform(value)
   }
+
+  React.useEffect(() => {
+    if (shouldStoreData) {
+      setData({ ...data, platform })
+      setShouldStoreData(false)
+    }
+  }, [shouldStoreData, setShouldStoreData, data, setData, platform])
 
   return (
     <>

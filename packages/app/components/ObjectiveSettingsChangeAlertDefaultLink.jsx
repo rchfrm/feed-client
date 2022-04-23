@@ -7,7 +7,14 @@ import MarkdownText from '@/elements/MarkdownText'
 import { getIntegrationInfo } from '@/helpers/integrationHelpers'
 import copy from '@/app/copy/controlsPageCopy'
 
-const ObjectiveSettingsChangeAlertDefaultLink = ({ objective, platform }) => {
+const ObjectiveSettingsChangeAlertDefaultLink = ({
+  objective,
+  platform,
+  data,
+  setData,
+  shouldStoreData,
+  setShouldStoreData,
+}) => {
   const hasGrowthObjective = objective === 'growth'
   const defaultPlaceholder = 'https://'
 
@@ -27,6 +34,13 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({ objective, platform }) => {
     }
     setPlaceholder(defaultPlaceholder)
   }, [hasGrowthObjective, objective, platform])
+
+  React.useEffect(() => {
+    if (shouldStoreData) {
+      setData({ ...data, link })
+      setShouldStoreData(false)
+    }
+  }, [shouldStoreData, setShouldStoreData, data, setData, link])
 
   return (
     <>

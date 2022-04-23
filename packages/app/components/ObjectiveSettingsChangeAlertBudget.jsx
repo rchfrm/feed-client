@@ -9,7 +9,13 @@ import MarkdownText from '@/elements/MarkdownText'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import copy from '@/app/copy/getStartedCopy'
 
-const ObjectiveSettingsChangeAlertBudget = () => {
+const ObjectiveSettingsChangeAlertBudget = ({
+  data,
+  setData,
+  shouldStoreData,
+  setShouldStoreData,
+  setIsDisabled,
+}) => {
   const {
     initialTargetingState,
     targetingState,
@@ -45,8 +51,17 @@ const ObjectiveSettingsChangeAlertBudget = () => {
   React.useEffect(() => {
     if (typeof budget !== 'number') return
 
+    setIsDisabled(hasInsufficientBudget)
+
     updateTargetingBudget(budget)
-  }, [budget, updateTargetingBudget])
+  }, [budget, updateTargetingBudget, hasInsufficientBudget, setIsDisabled])
+
+  React.useEffect(() => {
+    if (shouldStoreData) {
+      setData({ ...data, budget })
+      setShouldStoreData(false)
+    }
+  }, [shouldStoreData, setShouldStoreData, data, setData, budget])
 
   return (
     <>

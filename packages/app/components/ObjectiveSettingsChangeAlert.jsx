@@ -8,13 +8,28 @@ const ObjectiveSettingsChangeAlert = ({
   show,
   onCancel,
 }) => {
+  const [data, setData] = React.useState(null)
+  const [shouldStoreData, setShouldStoreData] = React.useState(false)
+  const [isDisabled, setIsDisabled] = React.useState(false)
   const [currentStep, setCurrentStep] = React.useState(0)
 
   const alertContents = React.useMemo(() => {
+    // Add additional props to the alert content component
+    const StepComponent = React.cloneElement(
+      objectiveChangeSteps[currentStep].component,
+      {
+        data,
+        setData,
+        shouldStoreData,
+        setShouldStoreData,
+        setIsDisabled,
+      },
+    )
+
     if (objectiveChangeSteps.length) {
-      return objectiveChangeSteps[currentStep].component
+      return StepComponent
     }
-  }, [objectiveChangeSteps, currentStep])
+  }, [objectiveChangeSteps, currentStep, data, shouldStoreData])
 
   const { showAlert, closeAlert } = useAlertModal()
 
@@ -25,13 +40,11 @@ const ObjectiveSettingsChangeAlert = ({
       {
         text: 'Save',
         onClick: () => {
-          if (currentStep + 1 === objectiveChangeSteps.length) {
-            return
-          }
-          setCurrentStep((currentStep) => currentStep + 1)
+          setShouldStoreData(true)
         },
         color: 'green',
         shouldCloseOnConfirm: false,
+        disabled: isDisabled,
       },
       {
         text: 'Cancel',
@@ -46,7 +59,16 @@ const ObjectiveSettingsChangeAlert = ({
       buttons,
       onClose: onCancel,
     })
-  }, [show, onCancel, alertContents, showAlert, closeAlert, currentStep, objectiveChangeSteps.length])
+  }, [show, onCancel, alertContents, showAlert, closeAlert, currentStep, objectiveChangeSteps.length, isDisabled])
+
+  React.useEffect(() => {
+    // Check if is last step
+    if (currentStep + 1 === objectiveChangeSteps.length) return
+
+    if (!shouldStoreData && data) {
+      setCurrentStep((currentStep) => currentStep + 1)
+    }
+  }, [data, shouldStoreData, currentStep, objectiveChangeSteps.length])
 
   // Clear store and hide alert when unmounting
   React.useEffect(() => {
