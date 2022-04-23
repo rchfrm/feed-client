@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import Input from '@/elements/Input'
@@ -58,6 +59,14 @@ const ObjectiveSettingsChangeAlertFacebookPixelInput = ({
       />
     </>
   )
+}
+
+ObjectiveSettingsChangeAlertFacebookPixelInput.propTypes = {
+  shouldSave: PropTypes.bool.isRequired,
+  setShouldSave: PropTypes.func.isRequired,
+}
+
+ObjectiveSettingsChangeAlertFacebookPixelInput.defaultProps = {
 }
 
 export default ObjectiveSettingsChangeAlertFacebookPixelInput

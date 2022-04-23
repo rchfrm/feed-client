@@ -8,7 +8,7 @@ import Error from '@/elements/Error'
 
 import { platforms } from '@/app/helpers/artistHelpers'
 
-const ObjectiveSettingsSelector = ({
+const ObjectiveSettingsPlatformSelector = ({
   objective,
   platform,
   setPlatform,
@@ -25,6 +25,7 @@ const ObjectiveSettingsSelector = ({
 
   const { getObjectiveChangeSteps } = useCheckObjectiveChangeStatus(objective, platform)
   const name = 'platform'
+  const isFirstRender = React.useRef(true)
 
   React.useEffect(() => {
     const options = platforms.map(({ name, value }) => ({
@@ -44,7 +45,9 @@ const ObjectiveSettingsSelector = ({
   }
 
   React.useEffect(() => {
-    if (shouldShowAlert) {
+    if (shouldShowAlert || isFirstRender.current) {
+      isFirstRender.current = false
+
       return
     }
 
@@ -79,14 +82,21 @@ const ObjectiveSettingsSelector = ({
   )
 }
 
-ObjectiveSettingsSelector.propTypes = {
+ObjectiveSettingsPlatformSelector.propTypes = {
+  objective: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
+  setPlatform: PropTypes.func.isRequired,
+  setType: PropTypes.func.isRequired,
   setObjectiveChangeSteps: PropTypes.func.isRequired,
   shouldRestoreObjective: PropTypes.bool.isRequired,
   setShouldRestoreObjective: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.object,
 }
 
-ObjectiveSettingsSelector.defaultProps = {
+ObjectiveSettingsPlatformSelector.defaultProps = {
+  error: null,
 }
 
-export default ObjectiveSettingsSelector
+export default ObjectiveSettingsPlatformSelector

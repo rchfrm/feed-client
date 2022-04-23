@@ -8,7 +8,7 @@ import Error from '@/elements/Error'
 
 import { objectives } from '@/app/helpers/artistHelpers'
 
-const ObjectiveSettingsSelector = ({
+const ObjectiveSettingsObjectiveSelector = ({
   objective,
   setObjective,
   platform,
@@ -26,6 +26,7 @@ const ObjectiveSettingsSelector = ({
 
   const { getObjectiveChangeSteps } = useCheckObjectiveChangeStatus(objective, platform)
   const name = 'objective'
+  const isFirstRender = React.useRef(true)
 
   React.useEffect(() => {
     const options = objectives.map(({ name, value }) => ({
@@ -48,7 +49,9 @@ const ObjectiveSettingsSelector = ({
   }
 
   React.useEffect(() => {
-    if (shouldShowAlert) {
+    if (shouldShowAlert || isFirstRender.current) {
+      isFirstRender.current = false
+
       return
     }
 
@@ -83,15 +86,22 @@ const ObjectiveSettingsSelector = ({
   )
 }
 
-ObjectiveSettingsSelector.propTypes = {
+ObjectiveSettingsObjectiveSelector.propTypes = {
   objective: PropTypes.string.isRequired,
+  setObjective: PropTypes.func.isRequired,
   platform: PropTypes.string.isRequired,
+  setPlatform: PropTypes.func.isRequired,
+  setType: PropTypes.func.isRequired,
   setObjectiveChangeSteps: PropTypes.func.isRequired,
   shouldRestoreObjective: PropTypes.bool.isRequired,
   setShouldRestoreObjective: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.object,
 }
 
-ObjectiveSettingsSelector.defaultProps = {
+ObjectiveSettingsObjectiveSelector.defaultProps = {
+  error: null,
 }
 
-export default ObjectiveSettingsSelector
+export default ObjectiveSettingsObjectiveSelector

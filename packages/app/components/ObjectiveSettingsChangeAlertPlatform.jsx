@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Select from '@/elements/Select'
 import MarkdownText from '@/elements/MarkdownText'
@@ -52,6 +53,16 @@ const ObjectiveSettingsChangeAlertPlatform = ({
       />
     </>
   )
+}
+
+ObjectiveSettingsChangeAlertPlatform.propTypes = {
+  shouldSave: PropTypes.bool.isRequired,
+  setShouldSave: PropTypes.func.isRequired,
+  platform: PropTypes.func.isRequired,
+  setPlatform: PropTypes.func.isRequired,
+}
+
+ObjectiveSettingsChangeAlertPlatform.defaultProps = {
 }
 
 export default ObjectiveSettingsChangeAlertPlatform

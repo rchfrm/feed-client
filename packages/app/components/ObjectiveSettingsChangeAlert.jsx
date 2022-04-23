@@ -104,6 +104,10 @@ ObjectiveSettingsChangeAlert.propTypes = {
   objectiveChangeSteps: PropTypes.array.isRequired,
   shouldShowAlert: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
+  objective: PropTypes.string.isRequired,
+  platform: PropTypes.string.isRequired,
+  setPlatform: PropTypes.func.isRequired,
 }
 
 ObjectiveSettingsChangeAlert.defaultProps = {

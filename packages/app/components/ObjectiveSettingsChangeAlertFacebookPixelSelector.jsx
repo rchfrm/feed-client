@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -61,6 +62,14 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
       />
     </>
   )
+}
+
+ObjectiveSettingsChangeAlertFacebookPixel.propTypes = {
+  shouldSave: PropTypes.bool.isRequired,
+  setShouldSave: PropTypes.func.isRequired,
+}
+
+ObjectiveSettingsChangeAlertFacebookPixel.defaultProps = {
 }
 
 export default ObjectiveSettingsChangeAlertFacebookPixel

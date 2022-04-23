@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import useControlsStore from '@/app/stores/controlsStore'
@@ -60,6 +61,10 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
   }, [])
 
   const handleChange = (e) => {
+    if (error) {
+      setError(null)
+    }
+
     setLink({ ...link, name: 'default link', href: e.target.value })
   }
 
@@ -96,21 +101,11 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 
     if (hasGrowthObjective && !isFacebookOrInstagram) {
       // Save the link in the linkbank as integration link
-      const { error } = await saveIntegrationLink({ platform }, currentLink.href)
-
-      if (error) {
-        setError(error)
-        setIsLoading(false)
-      }
-    } else {
-      // Save the link in the linkbank or edit the linkbank link based on the action parameter
-      const { error } = await saveLinkToLinkBank(currentLink, action)
-
-      if (error) {
-        setError(error)
-        setIsLoading(false)
-      }
+      return saveIntegrationLink({ platform }, currentLink.href)
     }
+
+    // Save the link in the linkbank or edit the linkbank link based on the action parameter
+    return saveLinkToLinkBank(currentLink, action)
   }
 
   React.useEffect(() => {
@@ -137,7 +132,14 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 
   useAsyncEffect(async () => {
     if (shouldSave) {
-      await saveLink()
+      const { error } = await saveLink()
+
+      setIsLoading(false)
+
+      if (error) {
+        setError(error)
+        return
+      }
 
       setShouldSave(false)
     }
@@ -201,6 +203,12 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 }
 
 ObjectiveSettingsChangeAlertDefaultLink.propTypes = {
+  shouldSave: PropTypes.bool.isRequired,
+  setShouldSave: PropTypes.func.isRequired,
+  setIsDisabled: PropTypes.func.isRequired,
+  objective: PropTypes.string.isRequired,
+  platform: PropTypes.string.isRequired,
+  setForceSave: PropTypes.func.isRequired,
 }
 
 ObjectiveSettingsChangeAlertDefaultLink.defaultProps = {

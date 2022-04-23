@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
@@ -89,6 +90,15 @@ const ObjectiveSettingsChangeAlertBudget = ({
       />
     </>
   )
+}
+
+ObjectiveSettingsChangeAlertBudget.propTypes = {
+  shouldSave: PropTypes.bool.isRequired,
+  setShouldSave: PropTypes.func.isRequired,
+  setIsDisabled: PropTypes.func.isRequired,
+}
+
+ObjectiveSettingsChangeAlertBudget.defaultProps = {
 }
 
 export default ObjectiveSettingsChangeAlertBudget

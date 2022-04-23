@@ -3,6 +3,7 @@ import React from 'react'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -41,6 +42,8 @@ const ObjectiveSettings = () => {
   const [error, setError] = React.useState(null)
 
   const hasGrowthObjective = objective === 'growth'
+
+  const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
 
   const save = async ({ objective, platform }, objectiveChangeSteps, forceRun = false) => {
     if (objectiveChangeSteps.length > 0 && !forceRun) {
@@ -84,6 +87,14 @@ const ObjectiveSettings = () => {
       // Update artist status
       setPostPreferences('default_link_id', link.id)
     }
+
+    // Update targeting values
+    const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
+
+    saveTargetingSettings({
+      ...targetingState,
+      platforms: isFacebookOrInstagram ? [platform] : [],
+    })
 
     // Update preferences object in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
