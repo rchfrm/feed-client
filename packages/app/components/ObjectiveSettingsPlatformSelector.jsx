@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useControlsStore from '@/app/stores/controlsStore'
 import useCheckObjectiveChangeStatus from '@/app/hooks/useCheckObjectiveChangeStatus'
 
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
 import { platforms } from '@/app/helpers/artistHelpers'
+
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
 
 const ObjectiveSettingsPlatformSelector = ({
   objective,
@@ -23,6 +28,7 @@ const ObjectiveSettingsPlatformSelector = ({
 }) => {
   const [selectOptions, setSelectOptions] = React.useState([])
 
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { getObjectiveChangeSteps } = useCheckObjectiveChangeStatus(objective, platform)
   const name = 'platform'
   const isFirstRender = React.useRef(true)
@@ -45,9 +51,10 @@ const ObjectiveSettingsPlatformSelector = ({
   }
 
   React.useEffect(() => {
-    if (shouldShowAlert || isFirstRender.current) {
-      isFirstRender.current = false
+    if (shouldShowAlert) return
 
+    if (isFirstRender.current) {
+      isFirstRender.current = false
       return
     }
 
@@ -61,10 +68,9 @@ const ObjectiveSettingsPlatformSelector = ({
 
   React.useEffect(() => {
     if (shouldRestoreObjective) {
-      // Restore previous platform
-      setShouldRestoreObjective(false)
+      setPlatform(optimizationPreferences.platform)
     }
-  }, [shouldRestoreObjective, setShouldRestoreObjective])
+  }, [shouldRestoreObjective, setShouldRestoreObjective, optimizationPreferences.platform, setPlatform])
 
   return (
     <div>
@@ -87,6 +93,7 @@ ObjectiveSettingsPlatformSelector.propTypes = {
   platform: PropTypes.string.isRequired,
   setPlatform: PropTypes.func.isRequired,
   setType: PropTypes.func.isRequired,
+  shouldShowAlert: PropTypes.bool.isRequired,
   setObjectiveChangeSteps: PropTypes.func.isRequired,
   shouldRestoreObjective: PropTypes.bool.isRequired,
   setShouldRestoreObjective: PropTypes.func.isRequired,

@@ -7,6 +7,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 const ObjectiveSettingsChangeAlert = ({
   objectiveChangeSteps,
   shouldShowAlert,
+  setShouldShowAlert,
   onCancel,
   save,
   objective,
@@ -86,7 +87,8 @@ const ObjectiveSettingsChangeAlert = ({
     if ((isLastStep && !shouldSave && !hasError) || forceSave) {
       await save({ objective, platform, savedLink }, [], true)
 
-      closeAlert()
+      closeAlert(false)
+      setShouldShowAlert(false)
       return
     }
 
@@ -99,7 +101,7 @@ const ObjectiveSettingsChangeAlert = ({
   // Hide alert when unmounting
   React.useEffect(() => {
     return () => {
-      closeAlert()
+      closeAlert(false)
     }
   }, [closeAlert])
 

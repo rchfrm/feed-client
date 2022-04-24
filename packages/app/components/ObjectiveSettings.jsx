@@ -42,13 +42,19 @@ const ObjectiveSettings = () => {
   const [error, setError] = React.useState(null)
 
   const hasGrowthObjective = objective === 'growth'
+  const isObjectiveChange = type === 'objective'
+  const isPlatformChange = type === 'platform'
 
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
 
   const save = async ({ objective, platform, savedLink }, objectiveChangeSteps, forceRun = false) => {
+    if (shouldRestoreObjective) {
+      setShouldRestoreObjective(false)
+      return
+    }
+
     if (objectiveChangeSteps.length > 0 && !forceRun) {
       setShouldShowAlert(true)
-
       return
     }
 
@@ -109,10 +115,10 @@ const ObjectiveSettings = () => {
           setType={setType}
           shouldShowAlert={shouldShowAlert}
           setObjectiveChangeSteps={setObjectiveChangeSteps}
-          shouldRestoreObjective={shouldRestoreObjective}
+          shouldRestoreObjective={shouldRestoreObjective && isObjectiveChange}
           setShouldRestoreObjective={setShouldRestoreObjective}
           save={save}
-          isLoading={isLoading && type === 'objective'}
+          isLoading={isLoading && isObjectiveChange}
           error={error}
         />
         {hasGrowthObjective ? (
@@ -124,10 +130,10 @@ const ObjectiveSettings = () => {
               setType={setType}
               shouldShowAlert={shouldShowAlert}
               setObjectiveChangeSteps={setObjectiveChangeSteps}
-              shouldRestoreObjective={shouldRestoreObjective}
+              shouldRestoreObjective={shouldRestoreObjective && isPlatformChange}
               setShouldRestoreObjective={setShouldRestoreObjective}
               save={save}
-              isLoading={isLoading && type === 'platform'}
+              isLoading={isLoading && isPlatformChange}
               error={error}
             />
           </div>
@@ -144,9 +150,10 @@ const ObjectiveSettings = () => {
           <ObjectiveSettingsChangeAlert
             objectiveChangeSteps={objectiveChangeSteps}
             shouldShowAlert={shouldShowAlert}
+            setShouldShowAlert={setShouldShowAlert}
             onCancel={() => {
+              setShouldRestoreObjective(true)
               setShouldShowAlert(false)
-              // setShouldRestoreObjective(true)
             }}
             save={save}
             objective={objective}
