@@ -25,6 +25,8 @@ const ObjectiveSettingsChangeAlertBudget = ({
     targetingState,
     updateTargetingBudget,
     saveTargetingSettings,
+    budgetSlider,
+    setBudgetSlider,
   } = React.useContext(TargetingContext)
 
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
@@ -71,6 +73,13 @@ const ObjectiveSettingsChangeAlertBudget = ({
     }
   }, [shouldSave, setShouldSave, budget])
 
+  // Set budget equal to min recommended stories value on mount
+  React.useEffect(() => {
+    if (budgetSlider.noUiSlider) {
+      budgetSlider.noUiSlider.set(minReccomendedStories)
+    }
+  }, [budgetSlider.noUiSlider, minReccomendedStories])
+
   return (
     <>
       <h2>{controlsPageCopy.alertBudgetTitle}</h2>
@@ -86,6 +95,7 @@ const ObjectiveSettingsChangeAlertBudget = ({
         currencyOffset={currencyOffset}
         shouldShowError={hasInsufficientBudget}
         errorMessage={copy.inSufficientBudget(minReccomendedStoriesString)}
+        setBudgetSlider={setBudgetSlider}
         mobileVersion
       />
     </>
