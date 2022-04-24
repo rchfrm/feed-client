@@ -161,8 +161,8 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 
   return (
     <>
-      <h3>{copy.alertLinkTitle}</h3>
-      <MarkdownText markdown={copy.alertLinkDescription} />
+      <h2>{copy.alertLinkTitle(objective, platform)}</h2>
+      <MarkdownText markdown={copy.alertLinkDescription(objective, platform)} className="text-grey-3 italic" />
       <Error error={error} />
       {shouldShowSelect ? (
         <PostLinksSelect

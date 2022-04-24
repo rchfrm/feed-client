@@ -73,8 +73,8 @@ const ObjectiveSettingsChangeAlertBudget = ({
 
   return (
     <>
-      <h3>{controlsPageCopy.alertBudgetTitle}</h3>
-      <MarkdownText markdown={controlsPageCopy.alertBudgetDescription} />
+      <h2>{controlsPageCopy.alertBudgetTitle}</h2>
+      <MarkdownText markdown={controlsPageCopy.alertBudgetDescription} className="text-grey-3 italic" />
       <TargetingBudgetSlider
         sliderStep={sliderStep}
         sliderValueRange={sliderValueRange}

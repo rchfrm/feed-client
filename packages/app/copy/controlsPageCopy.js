@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
 
 export default {
   // CONTROLS OPTIONS
@@ -74,8 +75,30 @@ export default {
   alertPlatformDescription: `You can always change this later on. You'll also have the option to send people to multiple platforms using different posts.`,
   alertBudgetTitle: 'Adjust your daily budget',
   alertBudgetDescription: `You can change this at any time. We recommend spreading budget out over a longer period of time as consistency boosts ad performance.`,
-  alertLinkTitle: 'Enter the link to your store',
-  alertLinkDescription: 'Set the homepage for now, you can choose to send people to specific product pages later on.',
+  alertLinkTitle: (objective, platform) => {
+    if (objective === 'sales') {
+      return 'Enter the link to your store'
+    }
+
+    if (objective === 'traffic') {
+      return 'Enter the link to your website'
+    }
+
+    const platformName = platforms.find(({ value }) => value === platform)?.name
+
+    return `Connect to ${platformName}`
+  },
+  alertLinkDescription: (objective, platform) => {
+    if (objective === 'sales') {
+      return 'Set the homepage for now, you can choose to send people to specific product pages later on.'
+    }
+
+    if (objective === 'traffic') {
+      return 'If you have multiple pages, set the homepage for now. You can choose to send people to different pages and/or change this setting later on.'
+    }
+
+    return `Enter your ${getPlatform(platform)} URL.`
+  },
   alertNewPixelTitle: 'Create your Facebook Pixel',
   alertNewPixelDescription: `You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway.`,
   alertSelectPixelTitle: 'Select your Facebook Pixel',

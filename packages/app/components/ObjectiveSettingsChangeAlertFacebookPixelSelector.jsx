@@ -49,8 +49,8 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
 
   return (
     <>
-      <h3>{copy.alertSelectPixelTitle}</h3>
-      <MarkdownText markdown={copy.alertSelectPixelDescription} />
+      <h2>{copy.alertSelectPixelTitle}</h2>
+      <MarkdownText markdown={copy.alertSelectPixelDescription} className="text-grey-3 italic" />
       <Error error={error} />
       <PixelSelector
         updateParentPixel={setFacebookPixel}

@@ -43,8 +43,8 @@ const ObjectiveSettingsChangeAlertPlatform = ({
 
   return (
     <>
-      <h3>{copy.alertPlatformTitle}</h3>
-      <MarkdownText markdown={copy.alertPlatformDescription} />
+      <h2>{copy.alertPlatformTitle}</h2>
+      <MarkdownText markdown={copy.alertPlatformDescription} className="text-grey-3 italic" />
       <Select
         handleChange={handleChange}
         name="platform"

@@ -45,8 +45,8 @@ const ObjectiveSettingsChangeAlertFacebookPixelInput = ({
 
   return (
     <>
-      <h3>{copy.alertNewPixelTitle}</h3>
-      <MarkdownText markdown={copy.alertNewPixelDescription} />
+      <h2>{copy.alertNewPixelTitle}</h2>
+      <MarkdownText markdown={copy.alertNewPixelDescription} className="text-grey-3 italic" />
       <Error error={error} />
       <Input
         name="pixel-name"
