@@ -31,6 +31,7 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
   setIsDisabled,
   objective,
   platform,
+  setSavedLink,
   setForceSave,
 }) => {
   const hasGrowthObjective = objective === 'growth'
@@ -133,8 +134,9 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 
   useAsyncEffect(async () => {
     if (shouldSave) {
-      const { error } = await saveLink()
+      const { savedLink, error } = await saveLink()
 
+      setSavedLink(savedLink)
       setIsLoading(false)
 
       if (error) {
@@ -150,6 +152,7 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
     const integrationLink = getLinkByPlatform(nestedLinks, platform)
 
     if (hasGrowthObjective && Boolean(integrationLink.accountId)) {
+      setSavedLink(integrationLink)
       setForceSave(true)
       return
     }

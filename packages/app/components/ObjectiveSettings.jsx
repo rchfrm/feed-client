@@ -14,7 +14,7 @@ import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
 
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
-import { getLinkByPlatform, splitLinks } from '@/app/helpers/linksHelpers'
+import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -45,7 +45,7 @@ const ObjectiveSettings = () => {
 
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
 
-  const save = async ({ objective, platform }, objectiveChangeSteps, forceRun = false) => {
+  const save = async ({ objective, platform, savedLink }, objectiveChangeSteps, forceRun = false) => {
     if (objectiveChangeSteps.length > 0 && !forceRun) {
       setShouldShowAlert(true)
 
@@ -53,18 +53,12 @@ const ObjectiveSettings = () => {
     }
 
     const hasGrowthObjective = objective === 'growth'
-    let link = null
+    let link = savedLink
 
     setIsLoading(true)
 
-    // Get integration link based on the selected platform if objective is growth, otherwise grab the first loose link
-    if (hasGrowthObjective) {
+    if (hasGrowthObjective && !link) {
       link = getLinkByPlatform(nestedLinks, platform)
-    } else {
-      const { looseLinks } = splitLinks(nestedLinks)
-      const firstLooseLink = looseLinks[0]
-
-      link = firstLooseLink
     }
 
     const { res: updatedArtist, error } = await updateArtist(artist, {
