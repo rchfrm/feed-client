@@ -108,7 +108,6 @@ const ObjectiveSettings = () => {
           setPlatform={setPlatform}
           setType={setType}
           shouldShowAlert={shouldShowAlert}
-          setShouldShowAlert={setShouldShowAlert}
           setObjectiveChangeSteps={setObjectiveChangeSteps}
           shouldRestoreObjective={shouldRestoreObjective}
           setShouldRestoreObjective={setShouldRestoreObjective}
@@ -124,7 +123,6 @@ const ObjectiveSettings = () => {
               setPlatform={setPlatform}
               setType={setType}
               shouldShowAlert={shouldShowAlert}
-              setShouldShowAlert={setShouldShowAlert}
               setObjectiveChangeSteps={setObjectiveChangeSteps}
               shouldRestoreObjective={shouldRestoreObjective}
               setShouldRestoreObjective={setShouldRestoreObjective}

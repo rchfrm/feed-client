@@ -151,7 +151,7 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
   React.useEffect(() => {
     const integrationLink = getLinkByPlatform(nestedLinks, platform)
 
-    if (hasGrowthObjective && Boolean(integrationLink.accountId)) {
+    if (hasGrowthObjective && Boolean(integrationLink?.accountId)) {
       setSavedLink(integrationLink)
       setForceSave(true)
       return
