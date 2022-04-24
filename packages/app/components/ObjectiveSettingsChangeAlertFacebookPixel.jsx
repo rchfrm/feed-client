@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -9,14 +10,17 @@ import ObjectiveSettingsChangeAlertFacebookPixelInput from '@/app/ObjectiveSetti
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
-import { getArtistPixels } from '@/app/helpers/settingsHelpers'
+import { getArtistPixels, setPixel, getCurrentPixelId } from '@/app/helpers/settingsHelpers'
 
-const ObjectiveSettingsChangeAlertFacebookPixel = () => {
+const ObjectiveSettingsChangeAlertFacebookPixel = ({
+  shouldSave,
+  setShouldSave,
+}) => {
   const [pixels, setPixels] = React.useState([])
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
 
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist, setArtist } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
     const { res: pixels = [], error } = await getArtistPixels(artistId)
@@ -32,18 +36,68 @@ const ObjectiveSettingsChangeAlertFacebookPixel = () => {
     setIsLoading(false)
   }, [artistId])
 
+  const saveFacebookPixel = async (pixelId) => {
+    const { newIntegrations, error } = await setPixel(artistId, pixelId)
+
+    if (error) {
+      setError(error)
+      return
+    }
+
+    // Update artist context
+    setArtist({
+      type: 'update-integrations',
+      payload: {
+        integrations: newIntegrations,
+      },
+    })
+  }
+
+  useAsyncEffect(async (isMounted) => {
+    if (!pixels) return
+
+    if (!getCurrentPixelId(artist)) {
+      if (pixels.length === 1) {
+        await saveFacebookPixel(pixels[0].id)
+        if (!isMounted()) return
+
+        setShouldSave(false)
+
+        return
+      }
+    }
+
+    setIsLoading(false)
+  }, [pixels])
+
   if (isLoading) return <Spinner className="h-48 flex items-center" width={28} />
 
   return (
     <>
       <Error error={error} />
       {pixels.length > 0 ? (
-        <ObjectiveSettingsChangeAlertFacebookPixelSelector />
+        <ObjectiveSettingsChangeAlertFacebookPixelSelector
+          saveFacebookPixel={saveFacebookPixel}
+          error={error}
+          shouldSave={shouldSave}
+          setShouldSave={setShouldSave}
+        />
       ) : (
-        <ObjectiveSettingsChangeAlertFacebookPixelInput />
+        <ObjectiveSettingsChangeAlertFacebookPixelInput
+          shouldSave={shouldSave}
+          setShouldSave={setShouldSave}
+        />
       )}
     </>
   )
+}
+
+ObjectiveSettingsChangeAlertFacebookPixel.propTypes = {
+  shouldSave: PropTypes.bool.isRequired,
+  setShouldSave: PropTypes.func.isRequired,
+}
+
+ObjectiveSettingsChangeAlertFacebookPixel.defaultProps = {
 }
 
 export default ObjectiveSettingsChangeAlertFacebookPixel

@@ -2,42 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import PixelSelector from '@/app/PixelSelector'
 
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
-import { setPixel } from '@/app/helpers/settingsHelpers'
-
 import copy from '@/app/copy/controlsPageCopy'
 
-const ObjectiveSettingsChangeAlertFacebookPixel = ({
+const ObjectiveSettingsChangeAlertFacebookPixelSelector = ({
+  saveFacebookPixel,
+  error,
   shouldSave,
   setShouldSave,
 }) => {
   const [facebookPixel, setFacebookPixel] = React.useState(null)
-  const [error, setError] = React.useState(null)
-
-  const { artistId, setArtist } = React.useContext(ArtistContext)
-
-  const saveFacebookPixel = async (pixelId) => {
-    const { newIntegrations, error } = await setPixel(artistId, pixelId)
-
-    if (error) {
-      setError(error)
-      return
-    }
-
-    // Update artist context
-    setArtist({
-      type: 'update-integrations',
-      payload: {
-        integrations: newIntegrations,
-      },
-    })
-  }
 
   useAsyncEffect(async () => {
     if (shouldSave) {
@@ -64,12 +42,15 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
   )
 }
 
-ObjectiveSettingsChangeAlertFacebookPixel.propTypes = {
+ObjectiveSettingsChangeAlertFacebookPixelSelector.propTypes = {
+  saveFacebookPixel: PropTypes.func.isRequired,
+  error: PropTypes.object,
   shouldSave: PropTypes.bool.isRequired,
   setShouldSave: PropTypes.func.isRequired,
 }
 
-ObjectiveSettingsChangeAlertFacebookPixel.defaultProps = {
+ObjectiveSettingsChangeAlertFacebookPixelSelector.defaultProps = {
+  error: null,
 }
 
-export default ObjectiveSettingsChangeAlertFacebookPixel
+export default ObjectiveSettingsChangeAlertFacebookPixelSelector

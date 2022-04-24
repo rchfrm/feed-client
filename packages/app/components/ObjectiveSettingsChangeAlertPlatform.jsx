@@ -58,7 +58,7 @@ const ObjectiveSettingsChangeAlertPlatform = ({
 ObjectiveSettingsChangeAlertPlatform.propTypes = {
   shouldSave: PropTypes.bool.isRequired,
   setShouldSave: PropTypes.func.isRequired,
-  platform: PropTypes.func.isRequired,
+  platform: PropTypes.string.isRequired,
   setPlatform: PropTypes.func.isRequired,
 }
 
