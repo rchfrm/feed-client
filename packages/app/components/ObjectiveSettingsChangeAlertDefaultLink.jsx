@@ -27,6 +27,7 @@ const getControlsStoreState = (state) => ({
 const ObjectiveSettingsChangeAlertDefaultLink = ({
   shouldSave,
   setShouldSave,
+  setHasError,
   setIsDisabled,
   objective,
   platform,
@@ -138,7 +139,7 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 
       if (error) {
         setError(error)
-        return
+        setHasError(true)
       }
 
       setShouldSave(false)
@@ -205,6 +206,7 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 ObjectiveSettingsChangeAlertDefaultLink.propTypes = {
   shouldSave: PropTypes.bool.isRequired,
   setShouldSave: PropTypes.func.isRequired,
+  setHasError: PropTypes.func.isRequired,
   setIsDisabled: PropTypes.func.isRequired,
   objective: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,

@@ -15,6 +15,7 @@ import { getArtistPixels, setPixel, getCurrentPixelId } from '@/app/helpers/sett
 const ObjectiveSettingsChangeAlertFacebookPixel = ({
   shouldSave,
   setShouldSave,
+  setHasError,
 }) => {
   const [pixels, setPixels] = React.useState([])
   const [error, setError] = React.useState(null)
@@ -40,6 +41,7 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
     const { newIntegrations, error } = await setPixel(artistId, pixelId)
 
     if (error) {
+      setHasError(true)
       setError(error)
       return
     }
@@ -86,6 +88,7 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
         <ObjectiveSettingsChangeAlertFacebookPixelInput
           shouldSave={shouldSave}
           setShouldSave={setShouldSave}
+          setHasError={setHasError}
         />
       )}
     </>
@@ -95,6 +98,7 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
 ObjectiveSettingsChangeAlertFacebookPixel.propTypes = {
   shouldSave: PropTypes.bool.isRequired,
   setShouldSave: PropTypes.func.isRequired,
+  setHasError: PropTypes.func.isRequired,
 }
 
 ObjectiveSettingsChangeAlertFacebookPixel.defaultProps = {

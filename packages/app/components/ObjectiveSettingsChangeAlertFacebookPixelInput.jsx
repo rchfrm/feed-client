@@ -15,6 +15,7 @@ import copy from '@/app/copy/controlsPageCopy'
 const ObjectiveSettingsChangeAlertFacebookPixelInput = ({
   shouldSave,
   setShouldSave,
+  setHasError,
 }) => {
   const [pixelName, setPixelName] = React.useState('')
   const [error, setError] = React.useState(null)
@@ -29,11 +30,12 @@ const ObjectiveSettingsChangeAlertFacebookPixelInput = ({
     const { res: newPixel, error } = await createNewPixel(artistId, pixelName)
 
     if (error) {
+      setHasError(true)
       setError(error)
     }
 
     return newPixel
-  }, [artistId, pixelName])
+  }, [artistId, pixelName, setHasError])
 
   useAsyncEffect(async () => {
     if (shouldSave) {
@@ -64,6 +66,7 @@ const ObjectiveSettingsChangeAlertFacebookPixelInput = ({
 ObjectiveSettingsChangeAlertFacebookPixelInput.propTypes = {
   shouldSave: PropTypes.bool.isRequired,
   setShouldSave: PropTypes.func.isRequired,
+  setHasError: PropTypes.func.isRequired,
 }
 
 ObjectiveSettingsChangeAlertFacebookPixelInput.defaultProps = {

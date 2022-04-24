@@ -14,6 +14,7 @@ const ObjectiveSettingsChangeAlert = ({
   setPlatform,
 }) => {
   const [shouldSave, setShouldSave] = React.useState(false)
+  const [hasError, setHasError] = React.useState(false)
   const [isDisabled, setIsDisabled] = React.useState(false)
   const [currentStep, setCurrentStep] = React.useState(0)
   const [forceSave, setForceSave] = React.useState(false)
@@ -29,6 +30,7 @@ const ObjectiveSettingsChangeAlert = ({
         {
           shouldSave,
           setShouldSave,
+          setHasError,
           setIsDisabled,
           objective,
           platform,
@@ -78,12 +80,15 @@ const ObjectiveSettingsChangeAlert = ({
       return
     }
 
-    if ((isLastStep && !shouldSave) || forceSave) {
+    // Save objective changes and close alert if us last step, the step data is saved and there were no errors
+    if ((isLastStep && !shouldSave && !hasError) || forceSave) {
       await save({ objective, platform }, [], true)
+
       closeAlert()
       return
     }
 
+    // Go to next step
     if (!shouldSave && !isLastStep) {
       setCurrentStep((currentStep) => currentStep + 1)
     }
