@@ -73,16 +73,16 @@ const ResultsLoader = ({ dummyPostsImages }) => {
     setIsLoading(true)
 
     if (hasNoProfiles) {
-      handleDataRequest(getAggregatedOrganicBenchmark, aggregatedOrganicData, setAggregatedOrganicData)
+      await handleDataRequest(getAggregatedOrganicBenchmark, aggregatedOrganicData, setAggregatedOrganicData)
       return
     }
 
     if (resultsType === 'organic') {
-      handleDataRequest(getOrganicBenchmark, organicData, setOrganicData)
+      await handleDataRequest(getOrganicBenchmark, organicData, setOrganicData)
       return
     }
 
-    handleDataRequest(getAdBenchmark, adResultsData, setAdResultsData)
+    await handleDataRequest(getAdBenchmark, adResultsData, setAdResultsData)
   }, [resultsType])
 
   if (isLoading) return <Spinner />
