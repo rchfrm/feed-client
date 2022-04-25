@@ -350,7 +350,7 @@ const getQuartile = (percentile, audience) => {
   }
 }
 
-export const getPlatformData = (data, platform = 'instagram') => {
+export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram') => {
   const {
     instagram_growth: {
       '30d': {
@@ -360,10 +360,18 @@ export const getPlatformData = (data, platform = 'instagram') => {
         organic,
       },
     },
-  } = data
+  } = adData
+
+  const {
+    instagram_growth: {
+      '180d': {
+        organic: aggregatedOrganic,
+      },
+    },
+  } = aggregatedAdData
 
   const paidGrowthRate = paid.rate.value
-  const organicGrowthRate = organic.rate.value
+  const organicGrowthRate = organic.number_of_days.value < 7 ? aggregatedOrganic.rate.value : organic.rate.value
   const totalGrowthAbsolute = paid.absolute.value
   const growthIncrease = paidGrowthRate / organicGrowthRate
 
@@ -402,12 +410,12 @@ export const getPlatformData = (data, platform = 'instagram') => {
   }
 }
 
-export const getStatsData = (data) => {
+export const getStatsData = (adData, aggregatedAdData) => {
   return {
-    newAudienceData: getNewAudienceData(data),
-    existingAudienceData: getExistingAudienceData(data),
-    conversionData: getConversionData(data),
-    platformData: getPlatformData(data),
+    newAudienceData: getNewAudienceData(adData),
+    existingAudienceData: getExistingAudienceData(adData),
+    conversionData: getConversionData(adData),
+    platformData: getPlatformData(adData, aggregatedAdData),
   }
 }
 
@@ -605,7 +613,7 @@ export const getFollowerGrowth = async (artistId) => {
   return formattedData
 }
 
-// GET AD RESULTS SUMMARY
+// GET AD BENCHMARK
 /**
  * @param {string} artistId
  * @returns {Promise<any>}
@@ -631,6 +639,22 @@ export const getAdBenchmark = async (artistId) => {
   return { res: formattedData }
 }
 
+// GET AGGREGATED AD BENCHMARK
+/**
+ * @returns {Promise<any>}
+ */
+export const getAggregatedAdBenchmark = async () => {
+  const endpoint = '/ad_benchmarks/aggregated'
+  const payload = {}
+  const errorTracking = {
+    category: 'Results',
+    action: 'Get aggregated ad benchmark',
+  }
+  const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+
+  return { res: res.data, error }
+}
+
 // GET ORGANIC BENCHMARK
 /**
  * @param {string} artistId
@@ -650,7 +674,6 @@ export const getOrganicBenchmark = async (artistId) => {
 
 // GET AGGREGATED ORGANIC BENCHMARK
 /**
- * @param {string} artistId
  * @returns {Promise<any>}
  */
 export const getAggregatedOrganicBenchmark = async () => {

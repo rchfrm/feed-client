@@ -15,7 +15,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
-import { getAdBenchmark, getOrganicBenchmark, getAggregatedOrganicBenchmark } from '@/app/helpers/resultsHelpers'
+import { getAdBenchmark, getAggregatedAdBenchmark, getOrganicBenchmark, getAggregatedOrganicBenchmark } from '@/app/helpers/resultsHelpers'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
@@ -42,9 +42,10 @@ const ResultsLoader = ({ dummyPostsImages }) => {
     return 'organic'
   }
 
-  const [aggregatedOrganicData, setAggregatedOrganicData] = React.useState(null)
   const [organicData, setOrganicData] = React.useState(null)
-  const [adResultsData, setAdResultsData] = React.useState(null)
+  const [aggregatedOrganicData, setAggregatedOrganicData] = React.useState(null)
+  const [adData, setAdData] = React.useState(null)
+  const [aggregatedAdData, setAggregatedAdData] = React.useState(null)
 
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
@@ -55,6 +56,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
       setIsLoading(false)
       return
     }
+    setIsLoading(true)
 
     const { res, error } = await getData(artistId)
 
@@ -81,7 +83,10 @@ const ResultsLoader = ({ dummyPostsImages }) => {
       return
     }
 
-    await handleDataRequest(getAdBenchmark, adResultsData, setAdResultsData)
+    await Promise.all([
+      handleDataRequest(getAdBenchmark, adData, setAdData),
+      handleDataRequest(getAggregatedAdBenchmark, aggregatedAdData, setAggregatedAdData),
+    ])
   }, [resultsType])
 
   if (isLoading) return <Spinner />
@@ -92,7 +97,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
       {!hasNoProfiles ? (
         <ResultsHeader
           hasStartedSpending={hasStartedSpending}
-          dateRange={adResultsData?.dateRange}
+          dateRange={adData?.dateRange}
           resultsType={resultsType}
           setResultsType={setResultsType}
           setIsLoading={setIsLoading}
@@ -113,9 +118,10 @@ const ResultsLoader = ({ dummyPostsImages }) => {
           dummyPostsImages={dummyPostsImages}
         />
       )}
-      {resultsType === 'paid' && (
+      {resultsType === 'paid' && adData && aggregatedAdData && (
         <ResultsContent
-          data={adResultsData}
+          adData={adData}
+          aggregatedAdData={aggregatedAdData}
           isSpendingPaused={isSpendingPaused}
         />
       )}

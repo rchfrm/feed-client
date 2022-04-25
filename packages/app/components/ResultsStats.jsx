@@ -18,7 +18,8 @@ import copy from '@/app/copy/ResultsPageCopy'
 const getConversionsPreferences = state => state.conversionsPreferences
 
 const ResultsStats = ({
-  data,
+  adData,
+  aggregatedAdData,
   hasSalesObjective,
   hasInstagramGrowthObjective,
   className,
@@ -38,17 +39,13 @@ const ResultsStats = ({
       existingAudienceData,
       conversionData,
       platformData,
-    } = getStatsData({
-      ...data,
-      facebookPixelEvent,
-      currency,
-    })
+    } = getStatsData({ ...adData, facebookPixelEvent, currency }, aggregatedAdData)
 
     setNewAudienceData(newAudienceData)
     setExistingAudienceData(existingAudienceData)
     setConversionData(conversionData)
     setPlatformData(platformData)
-  }, [data, facebookPixelEvent, currency])
+  }, [adData, aggregatedAdData, facebookPixelEvent, currency])
 
   return (
     <>
@@ -114,7 +111,8 @@ const ResultsStats = ({
 }
 
 ResultsStats.propTypes = {
-  data: PropTypes.object.isRequired,
+  adData: PropTypes.object.isRequired,
+  aggregatedAdData: PropTypes.object.isRequired,
   hasSalesObjective: PropTypes.bool.isRequired,
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,
   className: PropTypes.string,

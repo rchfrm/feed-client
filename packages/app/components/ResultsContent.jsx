@@ -17,7 +17,7 @@ const getControlsStoreState = (state) => ({
   conversionsPreferences: state.conversionsPreferences,
 })
 
-const ResultsContent = ({ data, isSpendingPaused }) => {
+const ResultsContent = ({ adData, aggregatedAdData, isSpendingPaused }) => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
 
@@ -25,7 +25,7 @@ const ResultsContent = ({ data, isSpendingPaused }) => {
   const hasInstagramGrowthObjective = objective === 'growth' && platform === 'instagram'
   const hasThirdColumn = hasSalesObjective || hasInstagramGrowthObjective
 
-  if (!data) return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
+  if (!adData) return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
 
   return (
     <div>
@@ -43,13 +43,14 @@ const ResultsContent = ({ data, isSpendingPaused }) => {
           ].join(' ')}
           >
             <ResultsStats
-              data={data}
+              adData={adData}
+              aggregatedAdData={aggregatedAdData}
               hasSalesObjective={hasSalesObjective}
               hasInstagramGrowthObjective={hasInstagramGrowthObjective}
               className={hasThirdColumn ? 'sm:col-span-4' : 'sm:col-span-6'}
             />
             <ResultsPostsStats
-              data={data}
+              adData={adData}
               className={hasThirdColumn ? 'sm:col-span-4' : 'sm:col-span-6'}
             />
           </div>
@@ -60,18 +61,20 @@ const ResultsContent = ({ data, isSpendingPaused }) => {
           />
         )}
       </div>
-      <ResultsSpendOverview spending={data.spend} />
+      <ResultsSpendOverview spending={adData.spend} />
     </div>
   )
 }
 
 ResultsContent.propTypes = {
-  data: PropTypes.object,
+  adData: PropTypes.object,
+  aggregatedAdData: PropTypes.object,
   isSpendingPaused: PropTypes.bool.isRequired,
 }
 
 ResultsContent.defaultProps = {
-  data: null,
+  adData: null,
+  aggregatedAdData: null,
 }
 
 export default ResultsContent
