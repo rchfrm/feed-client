@@ -6,25 +6,29 @@ import ResultsNoSpendChartsTabs from '@/app/ResultsNoSpendChartsTabs'
 import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-import { getOrganicBenchmarkData } from '@/app/helpers/resultsHelpers'
+import { formatBenchmarkData } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendContent = ({
-  data,
+  organicData,
+  aggregatedOrganicData,
   hasNoProfiles,
   dummyPostsImages,
 }) => {
-  const [resultsData, setResultsData] = React.useState(null)
+  const [formattedOrganicData, setFormattedOrganicData] = React.useState(null)
+  const [formattedAggregatedOrganicData, setFormattedAggregatedOrganicData] = React.useState(null)
   const [metricType, setMetricType] = React.useState('reach')
   const [hasGrowth, setHasGrowth] = React.useState(true)
 
   const isDesktopLayout = useBreakpointTest('sm')
 
   React.useEffect(() => {
-    const organicBenchmarkData = getOrganicBenchmarkData(data, hasNoProfiles)
+    const formattedOrganicBenchmarkData = formatBenchmarkData(organicData, hasNoProfiles)
+    const formattedAggregatedOrganicBenchmarkData = formatBenchmarkData(aggregatedOrganicData, hasNoProfiles)
 
-    setResultsData(organicBenchmarkData)
-    setHasGrowth(organicBenchmarkData.growth.hasGrowth)
-  }, [data, setHasGrowth, hasNoProfiles])
+    setFormattedOrganicData(formattedOrganicBenchmarkData)
+    setFormattedAggregatedOrganicData(formattedAggregatedOrganicBenchmarkData)
+    setHasGrowth(formattedOrganicBenchmarkData.growth.hasGrowth)
+  }, [organicData, aggregatedOrganicData, setHasGrowth, hasNoProfiles])
 
   return (
     <div className="grid grid-cols-12 sm:gap-x-12 mb-8">
@@ -37,7 +41,9 @@ const ResultsNoSpendContent = ({
         ].join(' ')}
         >
           <ResultsNoSpendStats
-            data={resultsData}
+            organicData={formattedOrganicData}
+            aggregatedOrganicData={formattedAggregatedOrganicData}
+            hasNoProfiles={hasNoProfiles}
             metricType={metricType}
             setHasGrowth={setHasGrowth}
             isDesktopLayout={isDesktopLayout}
@@ -50,9 +56,10 @@ const ResultsNoSpendContent = ({
             hasNoProfiles={hasNoProfiles}
             className={isDesktopLayout ? 'order-2' : 'order-1'}
           />
-          {resultsData && (
+          {formattedOrganicData && (
             <ResultsNoSpendCharts
-              data={resultsData}
+              organicData={formattedOrganicData}
+              aggregatedOrganicData={formattedAggregatedOrganicData}
               hasNoProfiles={hasNoProfiles}
               metricType={hasNoProfiles ? 'engagement' : metricType}
               hasGrowth={hasGrowth}
@@ -67,7 +74,8 @@ const ResultsNoSpendContent = ({
 }
 
 ResultsNoSpendContent.propTypes = {
-  data: PropTypes.object.isRequired,
+  organicData: PropTypes.object.isRequired,
+  aggregatedOrganicData: PropTypes.object.isRequired,
   hasNoProfiles: PropTypes.bool.isRequired,
   dummyPostsImages: PropTypes.arrayOf(
     PropTypes.object.isRequired,

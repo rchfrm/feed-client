@@ -442,7 +442,9 @@ const getBestPerformingPlatform = (igData, fbData) => {
   return igFollowers >= fbFollowers ? 'instagram' : 'facebook'
 }
 
-export const getOrganicBenchmarkData = ({ data }, hasNoProfiles) => {
+export const formatBenchmarkData = ({ data }, hasNoProfiles) => {
+  if (!data) return null
+
   const igData = getGrowthAndFollowersCount('instagram', data)
   const fbData = getGrowthAndFollowersCount('facebook', data)
   const bestPerformingPlatform = hasNoProfiles ? 'instagram' : getBestPerformingPlatform(igData, fbData)
@@ -509,27 +511,6 @@ export const getOrganicBenchmarkData = ({ data }, hasNoProfiles) => {
   }
 
   return { reach: reachData, engagement: engageData, growth: growthData }
-}
-
-export const formatAggregatedOrganicBenchmarkData = ({ data }) => {
-  const {
-    aggregated: {
-      reach_rate,
-      engagement_rate,
-    },
-  } = data
-
-  const reachRateMedianValue = reach_rate.median.value * 100
-  const reachData = {
-    value: reachRateMedianValue,
-  }
-
-  const engagementRateMedianValue = engagement_rate.median.value * 100
-  const engageData = {
-    value: engagementRateMedianValue,
-  }
-
-  return { reach: reachData, engagement: engageData }
 }
 
 export const formatRecentPosts = (posts) => {
@@ -682,14 +663,4 @@ export const getAggregatedOrganicBenchmark = async () => {
   const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
 
   return { res, error }
-}
-
-export const getAverages = async () => {
-  const { res, error } = await getAggregatedOrganicBenchmark()
-
-  if (error) return { error }
-
-  const aggregatedOrganicBenchmarkData = formatAggregatedOrganicBenchmarkData(res)
-
-  return { res: aggregatedOrganicBenchmarkData }
 }

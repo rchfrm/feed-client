@@ -72,13 +72,12 @@ const ResultsLoader = ({ dummyPostsImages }) => {
     if (!isMounted()) return
     setIsLoading(true)
 
-    if (hasNoProfiles) {
+    if (resultsType !== 'paid') {
       await handleDataRequest(getAggregatedOrganicBenchmark, aggregatedOrganicData, setAggregatedOrganicData)
-      return
-    }
 
-    if (resultsType === 'organic') {
-      await handleDataRequest(getOrganicBenchmark, organicData, setOrganicData)
+      if (resultsType === 'organic') {
+        await handleDataRequest(getOrganicBenchmark, organicData, setOrganicData)
+      }
       return
     }
 
@@ -108,7 +107,8 @@ const ResultsLoader = ({ dummyPostsImages }) => {
       )}
       {((hasNoProfiles && aggregatedOrganicData) || (resultsType === 'organic' && organicData)) && (
         <ResultsNoSpendContent
-          data={hasNoProfiles ? aggregatedOrganicData : organicData}
+          organicData={organicData}
+          aggregatedOrganicData={aggregatedOrganicData}
           hasNoProfiles={hasNoProfiles}
           dummyPostsImages={dummyPostsImages}
         />
