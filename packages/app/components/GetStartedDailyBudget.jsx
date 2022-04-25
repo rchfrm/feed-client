@@ -17,7 +17,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
-import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
+import { completedSetupFlow } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -88,15 +88,14 @@ const GetStartedDailyBudget = () => {
 
   const checkAndUpdateCompletedSetupAt = async () => {
     if (!hasSetUpProfile) {
-      const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
+      const { res, error } = await completedSetupFlow(artistId)
 
       if (error) {
         setError(error)
-
         return
       }
 
-      const { completed_setup_at: completedSetupAt } = artistUpdated
+      const { completedSetupAt } = res
 
       updatehasSetUpProfile(completedSetupAt)
     }

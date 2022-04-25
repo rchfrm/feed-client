@@ -33,7 +33,7 @@ const PostsNoArtists = ({ dummyPostsImages }) => {
       {errors.map((error, index) => {
         return <Error error={error} key={index} />
       })}
-      <div className="grid grid-cols-12 col-gap-6 mb-12">
+      <div className="grid grid-cols-12 gap-x-6 mb-12">
         <NoArtistsConnectAccountsBlock
           page="posts"
           errors={errors}
@@ -42,7 +42,7 @@ const PostsNoArtists = ({ dummyPostsImages }) => {
         />
       </div>
       <div className="relative mb-20">
-        <div className="grid grid-cols-12 col-gap-6">
+        <div className="grid grid-cols-12 gap-x-6">
           {/* SORT */}
           <PostsSorter
             sortTypes={sortTypes}
@@ -69,7 +69,7 @@ const PostsNoArtists = ({ dummyPostsImages }) => {
           style={{ top: '-25px', left: '-25px', right: '-25px', bottom: '-25px' }}
         />
       </div>
-      <div className="grid grid-cols-12 col-gap-6">
+      <div className="grid grid-cols-12 gap-x-6">
         <ConnectFacebookButton
           errors={errors}
           setErrors={setErrors}

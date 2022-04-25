@@ -1,32 +1,11 @@
 /* eslint-disable quotes */
 
 export default {
-  // Text at top of page when adding additional accounts
-  connectProfilesIntro: `Connect your Facebook and Instagram pages to Feed.`,
-
-  // If profiles have already been loaded but need more
-  findMoreProfiles: `Want to connect more Facebook and Instagram pages to Feed? Click the button below to update your permissions.`,
-
-  connectProfilesDescription: (isFindMore) => {
-    if (isFindMore) {
-      return `**Make sure to choose <span className="text-insta">'Edit Settings'</span> when you get to Facebook, and tick the boxes next to the relevant pages.**`
-    }
-
-    return `This links Feed to Facebook and Instagram so you can:
-
-  * analyse your posts to understand what works
-  * view insights on engagement, reach and other metrics
-
-  Please opt in to all permissions shown, as Feed needs them to work properly.
-
-  **You’ll remain fully in control, and Feed will never post anything on your behalf.**`
-  },
-  confirmAccounts: 'Confirm the Facebook and Instagram accounts that should be connected to Feed.',
-  connectCardTitle: 'Can’t find the page you’re looking for?',
-  connectCardDescription: 'Click “Connect more” and make sure to choose <span className="text-insta font-bold">"Edit Settings"</span>, then tick the boxes next to the relevant pages.',
-  noAdAccountsError: `No ad accounts were found, and one is needed to use Feed. Please log in to Facebook to create one.
-
-  There's more information about how to do this [here](https://www.facebook.com/business/help/910137316041095?id=420299598837059).`,
+  connectMoreTitle: "Can't find the page you're looking for?",
+  connectMoreInstructions: `1. Click 'Connect more' below
+2. Select **<span className="text-insta">'Edit Settings'</span>** when Facebook opens
+3. Tick the boxes next to the Facebook pages you'd like to add
+4. Tick the boxes next to the Instagram accounts you'd like to add`,
   helpText: `## Facebook and Instagram
 
   ### Permissions
@@ -48,5 +27,17 @@ You can revoke these from at any time from Facebook. Feed will never post anythi
 <span className="text-xs">To show you insights about your Instagram posts and engagement.<span>
 
 **Access your Page and App insights**  
-<span className="text-xs">To show you insights about your Facebook posts and engagement.<span>`,
+<span className="text-xs">To show you insights about your Facebook posts and engagement.<span>
+
+**Manage ads for ad accounts that you have access to**  
+<span className="text-xs">To create and run ads on your behalf.<span>
+
+**Manage accounts, settings and webhooks for a Page**  
+<span className="text-xs">This goes with the previous permission, to allow Feed to show your Facebook posts and stories within Feed.<span>
+
+**Read user content on your Page**  
+<span className="text-xs">This refers to things like comments on your posts, and helps Feed analyse the most engaging posts in order to better predict which will be most effective as ads.<span>
+
+**Create and manage ads for your Page**  
+<span className="text-xs">The final one, to allow Feed to turn your most effective Facebook posts and stories into ads.<span>`,
 }

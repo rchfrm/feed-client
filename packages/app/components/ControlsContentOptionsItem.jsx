@@ -56,7 +56,7 @@ const ControlsContentOptionsItem = ({
       <div className={[
         'relative w-8 h-8',
         'flex justify-center items-center mr-4',
-        'flex-shrink-0',
+        'shrink-0',
         'rounded-full',
         'border border-solid border-black bg-white',
         // isActive && 'bg-green',

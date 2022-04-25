@@ -27,13 +27,13 @@ const ResultsNoSpendContent = ({
   }, [data, setHasGrowth, hasNoProfiles])
 
   return (
-    <div className="grid grid-cols-12 sm:col-gap-12 mb-8">
+    <div className="grid grid-cols-12 sm:gap-x-12 mb-8">
       <div className="col-span-12">
         <div className={[
-          'grid grid-cols-12 sm:col-gap-12',
-          'row-gap-8',
+          'grid grid-cols-12 sm:gap-x-12',
+          'gap-y-8',
           'sm:mb-0',
-          hasNoProfiles ? null : 'sm:row-gap-16',
+          hasNoProfiles ? null : 'sm:gap-y-16',
         ].join(' ')}
         >
           <ResultsNoSpendStats

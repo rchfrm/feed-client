@@ -76,7 +76,7 @@ export default function TheHeader() {
           'items-center',
           'justify-end',
           'pl-8',
-          'flex-grow',
+          'grow',
           'sm:justify-start',
           'sm:pl-12',
         ].join(' ')}

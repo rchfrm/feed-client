@@ -1,5 +1,5 @@
-module.exports = (purgeFiles) => ({
-  purge: purgeFiles,
+module.exports = (contentFiles) => ({
+  content: contentFiles,
   theme: {
     screens: {
       iphone8: '375px',

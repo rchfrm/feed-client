@@ -7,7 +7,6 @@ import * as api from '@/helpers/api'
 import { requiredScopesSignup, requiredScopesAccount, requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 import brandColors from '@/constants/brandColors'
-import moment from 'moment'
 
 /**
  * @param {string} artist
@@ -127,7 +126,7 @@ export const updateAccessToken = (artistId) => {
  * @returns {array}
  */
 export const getSortedArtistAccountsArray = (artistAccounts) => {
-  return Object.values(artistAccounts).sort((a, b) => {
+  return artistAccounts.sort((a, b) => {
     return ((a.exists === b.exists) ? 0 : a.exists ? 1 : -1) || a.name.localeCompare(b.name)
   })
 }
@@ -174,45 +173,33 @@ export const processArtists = async ({ artists }) => {
     const facebookPageUrl = `https://www.facebook.com/${page_token || page_id}`
     // Get the Insta page url
     const instaPageUrl = instagram_username ? `https://www.instagram.com/${instagram_username}/` : ''
+
     // Return processed account
     return {
       ...artist,
       facebook_page_url: facebookPageUrl,
       instagram_url: instaPageUrl,
-      connect: true,
       picture: `${picture}?width=500`,
     }
   })
 
-  // Convert array of accounts back into and object with IDs as keys
-  const keyedAccounts = artistsProcessed.reduce((accountObj, account) => {
-    const { page_id } = account
-    return {
-      ...accountObj,
-      [page_id]: account,
-    }
-  }, {})
-
-  return keyedAccounts
+  return artistsProcessed
 }
 
 /**
- * Receives object of keyed artist accounts by ID
+ * Receives object of keyed artist account by ID
  * Converts empty strings to null
  * Returns newly formed artist account
  * @param {array} artistAccounts
  * @returns {object}
  */
-export const sanitiseArtistAccountUrls = (artistAccounts) => {
-  return produce(artistAccounts, draftState => {
-    // Loop over artists
-    draftState.forEach((artist) => {
-      // Loop over artist props
-      Object.entries(artist).forEach(([key, value]) => {
-        if (value === '') {
-          artist[key] = null
-        }
-      })
+export const sanitiseArtistAccountUrls = (artistAccount) => {
+  return produce(artistAccount, draftState => {
+    // Loop over artist props
+    Object.entries(artistAccount).forEach(([key, value]) => {
+      if (value === '') {
+        artistAccount[key] = null
+      }
     })
     return draftState
   })
@@ -440,17 +427,14 @@ export const updatePlatform = (artistId, platform) => {
 * @param {string} platform
 * @returns {Promise<object>} { res, error }
 */
-export const updateCompletedSetupAt = (artistId) => {
-  const requestUrl = `/artists/${artistId}`
-  const payload = {
-    completed_setup_at: moment(),
-  }
+export const completedSetupFlow = (artistId) => {
+  const requestUrl = `/artists/${artistId}/complete_setup_flow`
 
   const errorTracking = {
     category: 'Artist',
-    action: 'Update setup complated date',
+    action: 'Complete setup flow',
   }
-  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+  return api.requestWithCatch('post', requestUrl, null, errorTracking)
 }
 
 export const getCallToAction = (objective, platform) => {
@@ -536,7 +520,7 @@ export const platforms = [
     value: 'spotify',
   },
   {
-    name: 'Youtube',
+    name: 'YouTube',
     value: 'youtube',
   },
   {

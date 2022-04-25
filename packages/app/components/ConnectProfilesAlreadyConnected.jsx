@@ -3,47 +3,47 @@ import PropTypes from 'prop-types'
 
 import { UserContext } from '@/app/contexts/UserContext'
 
-import ArtistImage from '@/elements/ArtistImage'
+import ConnectProfilesItem from '@/app/ConnectProfilesItem'
 
-const ConnectProfilesAlreadyConnected = ({ className }) => {
+const ConnectProfilesAlreadyConnected = ({ allArtistAccounts, className }) => {
+  const [connectedArtists, setConnectedArtists] = React.useState([])
   const { user, userLoading } = React.useContext(UserContext)
-  const { artists: connectedArtists } = user
+  const { artists } = user
 
-  if (userLoading || !connectedArtists.length) return null
+  React.useEffect(() => {
+    const artistsWithInstagramHandle = artists.map((artist) => {
+      const { instagram_username } = allArtistAccounts.find((artistAccount) => artistAccount.page_id === artist.facebook_page_id) || {}
+
+      return {
+        ...artist,
+        page_id: artist.facebook_page_id,
+        instagram_username,
+      }
+    })
+    setConnectedArtists(artistsWithInstagramHandle)
+  }, [artists, allArtistAccounts])
+
+  if (userLoading) return null
 
   return (
-    <div
-      className={[
-        className,
-      ].join(' ')}
-    >
-      <h2>Already Connected</h2>
-      <ul>
-        {connectedArtists.map((artist) => {
-          const { id, name, role, facebook_page_id } = artist
-          return (
-            <li
-              key={id}
-              className="flex items-center mb-6 last:mb-0"
-            >
-              <ArtistImage
-                className="h-16 w-auto rounded-full"
-                pageId={facebook_page_id}
-                name={name}
-              />
-              <div className="ml-6">
-                <p className="mb-1 font-bold">{name}</p>
-                <p className="text-sm mb-0">{role}</p>
-              </div>
-            </li>
-          )
-        })}
+    <div className={[className].join(' ')}>
+      <h2>Your profiles</h2>
+      <ul className="xs:pl-16">
+        {connectedArtists.map((artist) => (
+          <ConnectProfilesItem
+            key={artist.id}
+            profile={artist}
+            className="mb-6"
+            isConnected
+          />
+        ))}
       </ul>
     </div>
   )
 }
 
 ConnectProfilesAlreadyConnected.propTypes = {
+  allArtistAccounts: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 

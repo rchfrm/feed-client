@@ -78,7 +78,7 @@ const ReferralCodeProgress = ({
               >
                 <p
                   className={[
-                    'flex-shrink-0',
+                    'shrink-0',
                     'mb-0 w-12 xxs:w-16 text-2xl font-bold',
                     isAchieved ? 'text-green' : null,
                   ].join(' ')}
@@ -110,7 +110,7 @@ const ReferralCodeProgress = ({
         {Object.values(footnotes).map(({ symbol, footnote }) => {
           return (
             <li key={symbol} className="flex pl-4">
-              <p className="mb-0 w-6 flex-shrink-0">{symbol}</p>
+              <p className="mb-0 w-6 shrink-0">{symbol}</p>
               <p className="mb-0">{footnote}</p>
             </li>
           )

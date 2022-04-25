@@ -18,7 +18,7 @@ const ResultsNoSpendChartsTabs = ({
   return (
     <ul className={[
       className,
-      'col-span-12 grid grid-cols-12 sm:col-gap-12',
+      'col-span-12 grid grid-cols-12 sm:gap-x-12',
       'justify-around mb-0',
     ].join(' ')}
     >

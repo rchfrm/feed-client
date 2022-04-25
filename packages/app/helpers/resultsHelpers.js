@@ -360,9 +360,6 @@ export const getPlatformData = (data, platform = 'instagram') => {
         organic,
       },
     },
-    spend: {
-      daily_data,
-    },
   } = data
 
   const paidGrowthRate = paid.rate.value

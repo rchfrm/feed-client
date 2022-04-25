@@ -53,7 +53,10 @@ const nextConfig = {
     config.plugins.push(
       // Ignore all locale files of moment.js
       // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
     )
     // Fixes npm packages that depend on `fs` module
     config.resolve.fallback = {

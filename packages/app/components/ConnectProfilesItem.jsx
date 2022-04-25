@@ -1,67 +1,82 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 
-import ToggleSwitch from '@/elements/ToggleSwitch'
+import { UserContext } from '@/app/contexts/UserContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import ArtistImage from '@/elements/ArtistImage'
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
+
+import * as artistHelpers from '@/app/helpers/artistHelpers'
+import * as ROUTES from '@/app/constants/routes'
 
 const ConnectProfilesItem = ({
-  artist,
-  updateArtists,
+  profile,
+  setSelectedProfile,
+  setIsConnecting,
+  isConnected,
   className,
 }) => {
-  const {
-    name,
-    instagram_username,
-    page_id: artistId,
-    connect,
-  } = artist
+  const { name, page_id, instagram_username } = profile
+  const { user } = React.useContext(UserContext)
+  const { connectArtist } = React.useContext(ArtistContext)
 
-  // HANDLE CONNECT BUTTON
-  const onConnectClick = () => {
-    const payload = { id: artistId }
-    updateArtists('toggle-connect', payload)
+  const createArtist = async () => {
+    setIsConnecting(true)
+    setSelectedProfile(profile)
+
+    // Santise URLs
+    const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(profile)
+    const { error } = await connectArtist(artistAccountSanitised, user) || {}
+
+    if (error) {
+      setIsConnecting(false)
+    }
+
+    Router.push(ROUTES.GET_STARTED)
   }
+
+  const Wrapper = isConnected ? 'div' : 'button'
 
   return (
     <li
       className={[
         'relative',
         className,
+        isConnected ? 'pointer-events-none' : null,
       ].join(' ')}
     >
-      <div className="flex items-center">
-        {/* IMAGE */}
-        <div className="w-16 h-16 mr-8">
-          <div className="media media--square mb-4">
-            <img
-              className={['center--image rounded-full'].join(' ')}
-              src={artist.picture}
-              alt={`${artist.name} Facebook profile photo`}
-            />
+      <Wrapper onClick={createArtist} className="flex items-center">
+        <ArtistImage
+          name={name}
+          pageId={page_id}
+          className="h-16 w-auto rounded-full mr-4"
+        />
+        <div className="font-bold font-body text-md text-left">{name}
+          {instagram_username && <span className="block mb-0 font-normal"> (@{instagram_username})</span>}
+        </div>
+        {!isConnected && (
+          <div className="flex-1">
+            <ArrowAltIcon direction="right" className="ml-4" />
           </div>
-        </div>
-        {/* NAME */}
-        <div className="font-bold font-body text-md">{name}
-          {instagram_username && <p className="mb-0 font-normal"> (@{instagram_username})</p>}
-        </div>
-        {/* CONNECT BUTTON */}
-        <div className="ml-auto">
-          <ToggleSwitch
-            state={connect}
-            onChange={onConnectClick}
-          />
-        </div>
-      </div>
+        )}
+      </Wrapper>
     </li>
   )
 }
 
 ConnectProfilesItem.propTypes = {
-  artist: PropTypes.object.isRequired,
-  updateArtists: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+  setSelectedProfile: PropTypes.func,
+  setIsConnecting: PropTypes.func,
+  isConnected: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
 ConnectProfilesItem.defaultProps = {
+  setSelectedProfile: () => {},
+  setIsConnecting: () => {},
   className: null,
 }
 
