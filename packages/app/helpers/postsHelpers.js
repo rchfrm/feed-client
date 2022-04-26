@@ -135,6 +135,20 @@ export const filterTypes = [
       },
     ],
   },
+  {
+    slug: 'promotion_enabled',
+    title: 'Promotable',
+    options: [
+      {
+        slug: true,
+        title: 'Yes',
+      },
+      {
+        slug: false,
+        title: 'No',
+      },
+    ],
+  },
 ]
 
 // CAMPAIGN TYPES

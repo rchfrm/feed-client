@@ -12,6 +12,7 @@ const filtersInitialState = {
   promotion_status: [],
   platform: [],
   internal_type: [],
+  promotion_enabled: [],
 }
 
 const filtersReducer = (draftState, filtersAction) => {
