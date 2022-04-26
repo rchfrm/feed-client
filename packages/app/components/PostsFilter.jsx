@@ -8,7 +8,7 @@ import PostsFilterClearButton from '@/app/PostsFilterClearButton'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 const PostsFilter = ({ title, filterType, initialFilters, setFiltersState }) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(initialFilters.length > 0)
   const [filters, setFilters] = React.useState(initialFilters)
 
   const addFilter = (value) => {
