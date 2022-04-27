@@ -213,6 +213,7 @@ ObjectiveSettingsChangeAlertDefaultLink.propTypes = {
   setIsDisabled: PropTypes.func.isRequired,
   objective: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
+  setSavedLink: PropTypes.func.isRequired,
   setForceSave: PropTypes.func.isRequired,
 }
 

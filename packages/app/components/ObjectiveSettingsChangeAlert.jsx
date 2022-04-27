@@ -76,14 +76,13 @@ const ObjectiveSettingsChangeAlert = ({
     })
   }, [shouldShowAlert, onCancel, alertContents, showAlert, closeAlert, currentStep, objectiveChangeSteps.length, isDisabled, isLastStep])
 
-  // Either go to next step or close the modal if we're at the last step
   useAsyncEffect(async () => {
     if (isFirstRender.current) {
       isFirstRender.current = false
       return
     }
 
-    // Save objective changes and close alert if us last step, the step data is saved and there were no errors
+    // Save objective changes and close alert if it's the last step, the step data is saved and there were no errors
     if ((isLastStep && !shouldSave && !hasError) || forceSave) {
       await save({ objective, platform, savedLink }, [], true)
 

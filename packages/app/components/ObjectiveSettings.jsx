@@ -102,6 +102,11 @@ const ObjectiveSettings = () => {
     setIsLoading(false)
   }
 
+  const onCancel = () => {
+    setShouldRestoreObjective(true)
+    setShouldShowAlert(false)
+  }
+
   return (
     <div>
       <h2>Objective</h2>
@@ -151,10 +156,7 @@ const ObjectiveSettings = () => {
             objectiveChangeSteps={objectiveChangeSteps}
             shouldShowAlert={shouldShowAlert}
             setShouldShowAlert={setShouldShowAlert}
-            onCancel={() => {
-              setShouldRestoreObjective(true)
-              setShouldShowAlert(false)
-            }}
+            onCancel={onCancel}
             save={save}
             objective={objective}
             platform={platform}

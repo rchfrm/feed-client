@@ -37,7 +37,7 @@ const useCheckObjectiveChangeStatus = (objective, platform) => {
   const facebookPixelId = facebookIntegration?.pixel_id
   const hasSufficientBudget = !hasSalesObjective || (hasSalesObjective && dailyBudget >= minReccomendedStories)
 
-  // Define objective change conditions
+  // Define objective change steps
   const objectiveChangeSteps = React.useMemo(() => [
     {
       id: 0,
