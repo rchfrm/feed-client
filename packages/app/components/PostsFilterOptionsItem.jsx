@@ -51,7 +51,10 @@ const PostsFilterOptionsItem = ({
 
 PostsFilterOptionsItem.propTypes = {
   title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]).isRequired,
   filters: PropTypes.array.isRequired,
   filterType: PropTypes.object.isRequired,
   addFilter: PropTypes.func.isRequired,
