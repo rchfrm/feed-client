@@ -2,7 +2,6 @@
 import { formatCurrency } from '@/helpers/utils'
 
 const referralAmount = 50
-const referralAmountString = formatCurrency(referralAmount, 'GBP', true)
 
 export default {
   signupClosedIntro: `**There is currently a waiting list to join the Feed beta.**`,
@@ -25,6 +24,7 @@ export default {
   introToProgress: (totalReferrals, totalCompleteReferrals, upcomingBenefit) => {
     const totalReferredText = totalReferrals === 1 ? 'someone' : `${totalReferrals} people`
     const totalPendingReferrals = totalReferrals - totalCompleteReferrals
+    const referralAmountString = formatCurrency(referralAmount, 'GBP', true)
     // No referrals of any kind
     if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend through the platform, you’ll get ${referralAmountString} in credit!`
     // Only incomplete referrals

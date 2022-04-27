@@ -5,6 +5,7 @@ import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
 import TargetingLocationsSettings from '@/app/TargetingLocationsSettings'
 import TargetingLocationsPicker from '@/app/TargetingLocationsPicker'
+import TargetingLocationsSearch from '@/app/TargetingLocationsSearch'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -34,6 +35,7 @@ const TargetingLocations = ({
         initialCityKeys={initialCityKeys}
         initialCountryCodes={initialCountryCodes}
       />
+      <TargetingLocationsSearch />
     </section>
   )
 }

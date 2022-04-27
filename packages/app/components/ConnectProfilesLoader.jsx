@@ -66,13 +66,14 @@ const ConnectProfilesLoader = ({
 
     // Start fetching artists
     const { res, error } = await artistHelpers.getArtistOnSignUp()
+
     if (error) {
       if (!isMounted()) return
 
       if (error.message !== 'user cache is not available') {
         setErrors([...errors, error?.message?.previous || error])
-        setPageLoading(false)
       }
+      setPageLoading(false)
       return
     }
 

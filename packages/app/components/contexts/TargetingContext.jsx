@@ -47,6 +47,9 @@ const initialState = {
   setSettingsReady: () => {},
   createLocationOptions: () => {},
   locationOptions: {},
+  setLocationOptions: () => {},
+  popularLocations: {},
+  setPopularLocations: () => {},
   selectedCities: [],
   setSelectedCities: () => {},
   selectedCountries: [],
@@ -146,6 +149,7 @@ const TargetingContextProvider = ({ children }) => {
 
   // LOCATION SETTINGS
   const [locationOptions, setLocationOptions] = React.useState(initialState.locationOptions)
+  const [popularLocations, setPopularLocations] = React.useState(initialState.popularLocations)
   // * Selected cities and countries
   const [selectedCities, setSelectedCities] = React.useState(initialState.selectedCities)
   const [selectedCountries, setSelectedCountries] = React.useState(initialState.selectedCountries)
@@ -194,6 +198,7 @@ const TargetingContextProvider = ({ children }) => {
     setErrorFetchingSettings(null)
     // Fetch popular locations and create location options object
     const { popularLocations } = await targetingHelpers.fetchPopularLocations(artistId)
+    setPopularLocations(popularLocations)
     const locationOptions = createLocationOptions(targetingState, popularLocations)
     // Set inital countries (to trigger min budget)
     const { cityKeys, countryCodes } = targetingState
@@ -357,6 +362,8 @@ const TargetingContextProvider = ({ children }) => {
         setSettingsReady,
         createLocationOptions,
         locationOptions,
+        setLocationOptions,
+        popularLocations,
         selectedCities,
         setSelectedCities,
         selectedCountries,

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import PillOptions from '@/elements/PillOptions'
-import Error from '@/elements/Error'
 
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
@@ -57,7 +56,6 @@ const TargetingPlatformsSelector = ({
     },
   ]
 
-
   // CONVERT GENDERS ARRAY TO KEY
   const activeOption = React.useMemo(() => {
     return translateArrayToKey(options)
@@ -68,10 +66,6 @@ const TargetingPlatformsSelector = ({
     const optionsArray = translateKeyToArray(key)
     onChange(optionsArray)
   }, [onChange])
-
-  const warningCopy = React.useMemo(() => {
-    return copy.getPlatformWarningCopy(initialState, activeOption)
-  }, [initialState, activeOption])
 
   return (
     <section className={[className, 'relative'].join(' ')}>
@@ -97,12 +91,6 @@ const TargetingPlatformsSelector = ({
         }}
         trackComponentName="TargetingPlatformsSelector"
       />
-      {/* WARNING */}
-      {warningCopy && (
-        <div className="pt-5 -mb-4">
-          <Error error={{ message: warningCopy }} />
-        </div>
-      )}
     </section>
   )
 }
