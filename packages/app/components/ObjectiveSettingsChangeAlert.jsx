@@ -4,6 +4,8 @@ import useAsyncEffect from 'use-async-effect'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
+import Spinner from '@/elements/Spinner'
+
 const ObjectiveSettingsChangeAlert = ({
   objectiveChangeSteps,
   shouldShowAlert,
@@ -13,6 +15,7 @@ const ObjectiveSettingsChangeAlert = ({
   objective,
   platform,
   setPlatform,
+  isLoading,
 }) => {
   const [shouldSave, setShouldSave] = React.useState(false)
   const [hasError, setHasError] = React.useState(false)
@@ -41,9 +44,13 @@ const ObjectiveSettingsChangeAlert = ({
           setForceSave,
         },
       )
-      return StepComponent
+      return isLoading ? (
+        <Spinner className="h-48 flex items-center" width={28} />
+      ) : (
+        StepComponent
+      )
     }
-  }, [objectiveChangeSteps, currentStep, shouldSave, platform, setPlatform, objective])
+  }, [objectiveChangeSteps, currentStep, shouldSave, platform, setPlatform, objective, isLoading])
 
   const { showAlert, closeAlert } = useAlertModal()
 
@@ -116,6 +123,7 @@ ObjectiveSettingsChangeAlert.propTypes = {
   objective: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
   setPlatform: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 }
 
 ObjectiveSettingsChangeAlert.defaultProps = {

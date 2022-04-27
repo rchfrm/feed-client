@@ -161,6 +161,7 @@ const ObjectiveSettings = () => {
             objective={objective}
             platform={platform}
             setPlatform={setPlatform}
+            isLoading={isLoading}
           />
         )}
       </ControlsContentSection>
