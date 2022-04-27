@@ -137,10 +137,10 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
       const { savedLink, error } = await saveLink()
 
       setSavedLink(savedLink)
-      setIsLoading(false)
 
       if (error) {
         setError(error)
+        setIsLoading(false)
         setHasError(true)
       }
 

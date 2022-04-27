@@ -17,7 +17,7 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
   setShouldSave,
   setHasError,
 }) => {
-  const [pixels, setPixels] = React.useState([])
+  const [pixels, setPixels] = React.useState(null)
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
 
@@ -34,7 +34,6 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
     }
 
     setPixels(pixels)
-    setIsLoading(false)
   }, [artistId])
 
   const saveFacebookPixel = async (pixelId) => {
@@ -60,6 +59,8 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
 
     if (!getCurrentPixelId(artist)) {
       if (pixels.length === 1) {
+        setShouldSave(true)
+
         await saveFacebookPixel(pixels[0].id)
         if (!isMounted()) return
 
@@ -72,12 +73,12 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
     setIsLoading(false)
   }, [pixels])
 
-  if (isLoading) return <Spinner className="h-48 flex items-center" width={28} />
+  if (isLoading || pixels.length === 1) return <Spinner className="h-48 flex items-center" width={28} />
 
   return (
     <>
       <Error error={error} />
-      {pixels.length > 0 ? (
+      {pixels.length > 1 ? (
         <ObjectiveSettingsChangeAlertFacebookPixelSelector
           saveFacebookPixel={saveFacebookPixel}
           error={error}
