@@ -78,7 +78,7 @@ export const sortTypes = [
   },
 ]
 
-export const filters = ['promotion_status', 'platform', 'internal_type']
+export const filters = ['promotion_status', 'platform', 'internal_type', 'promotion_enabled']
 
 export const filterTypes = [
   {
