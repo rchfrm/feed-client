@@ -14,11 +14,13 @@ const ObjectiveSettingsChangeAlertFacebookPixelSelector = ({
   error,
   shouldSave,
   setShouldSave,
+  setIsLoading,
 }) => {
   const [facebookPixel, setFacebookPixel] = React.useState(null)
 
   useAsyncEffect(async () => {
     if (shouldSave) {
+      setIsLoading(true)
       await saveFacebookPixel(facebookPixel)
 
       setShouldSave(false)
@@ -47,6 +49,7 @@ ObjectiveSettingsChangeAlertFacebookPixelSelector.propTypes = {
   error: PropTypes.object,
   shouldSave: PropTypes.bool.isRequired,
   setShouldSave: PropTypes.func.isRequired,
+  setIsLoading: PropTypes.func.isRequired,
 }
 
 ObjectiveSettingsChangeAlertFacebookPixelSelector.defaultProps = {

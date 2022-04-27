@@ -16,6 +16,7 @@ const ObjectiveSettingsChangeAlertFacebookPixelInput = ({
   shouldSave,
   setShouldSave,
   setHasError,
+  setIsLoading,
 }) => {
   const [pixelName, setPixelName] = React.useState('')
   const [error, setError] = React.useState(null)
@@ -39,6 +40,7 @@ const ObjectiveSettingsChangeAlertFacebookPixelInput = ({
 
   useAsyncEffect(async () => {
     if (shouldSave) {
+      setIsLoading(true)
       await createPixel()
 
       setShouldSave(false)
@@ -67,6 +69,7 @@ ObjectiveSettingsChangeAlertFacebookPixelInput.propTypes = {
   shouldSave: PropTypes.bool.isRequired,
   setShouldSave: PropTypes.func.isRequired,
   setHasError: PropTypes.func.isRequired,
+  setIsLoading: PropTypes.func.isRequired,
 }
 
 ObjectiveSettingsChangeAlertFacebookPixelInput.defaultProps = {

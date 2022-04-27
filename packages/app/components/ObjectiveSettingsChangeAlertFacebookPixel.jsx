@@ -84,12 +84,14 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
           error={error}
           shouldSave={shouldSave}
           setShouldSave={setShouldSave}
+          setIsLoading={setIsLoading}
         />
       ) : (
         <ObjectiveSettingsChangeAlertFacebookPixelInput
           shouldSave={shouldSave}
           setShouldSave={setShouldSave}
           setHasError={setHasError}
+          setIsLoading={setIsLoading}
         />
       )}
     </>
