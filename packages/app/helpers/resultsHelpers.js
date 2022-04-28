@@ -371,11 +371,12 @@ export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram'
   } = aggregatedAdData
 
   const paidGrowthRate = paid.rate.value
-  const organicGrowthRate = organic.number_of_days.value < 7 ? aggregatedOrganic.rate.value : organic.rate.value
+  const shouldUseAggregateGrowthRate = organic.number_of_days.value < 7
+  const organicGrowthRate = shouldUseAggregateGrowthRate ? aggregatedOrganic.rate.value : organic.rate.value
   const totalGrowthAbsolute = paid.absolute.value
   const growthIncrease = paidGrowthRate / organicGrowthRate
 
-  const paidGrowthEstimate = totalGrowthAbsolute * ((paidGrowthRate - organicGrowthRate) / paidGrowthRate)
+  const paidGrowthEstimate = Math.round(totalGrowthAbsolute * ((paidGrowthRate - organicGrowthRate) / paidGrowthRate))
   const organicGrowthEstimate = totalGrowthAbsolute - paidGrowthEstimate
   const paidGrowthPercentile = paid.absolute.percentile
 
@@ -385,6 +386,7 @@ export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram'
     platform: getPlatformNameByValue(platform),
     paidGrowthRate: paidGrowthRate * 100,
     organicGrowthRate: organicGrowthRate * 100,
+    shouldUseAggregateGrowthRate,
     growthIncrease,
     totalGrowthAbsolute,
     spendingDaysCount,
