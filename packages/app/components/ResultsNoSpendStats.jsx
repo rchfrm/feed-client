@@ -8,11 +8,15 @@ import ResultsGrowthStats from '@/app/ResultsGrowthStats'
 import { noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendStats = ({
-  data,
+  organicData,
+  aggregatedOrganicData,
+  hasNoProfiles,
   metricType,
   isDesktopLayout,
   className,
 }) => {
+  const data = hasNoProfiles ? aggregatedOrganicData : organicData
+
   const components = {
     reach: ResultsReachStats,
     engagement: ResultsEngageStats,

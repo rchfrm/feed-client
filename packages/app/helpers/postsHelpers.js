@@ -78,7 +78,7 @@ export const sortTypes = [
   },
 ]
 
-export const filters = ['promotion_status', 'platform', 'internal_type']
+export const filters = ['promotion_status', 'platform', 'internal_type', 'promotion_enabled']
 
 export const filterTypes = [
   {
@@ -132,6 +132,20 @@ export const filterTypes = [
       {
         slug: 'story',
         title: 'Story',
+      },
+    ],
+  },
+  {
+    slug: 'promotion_enabled',
+    title: 'Promotable',
+    options: [
+      {
+        slug: true,
+        title: 'Yes',
+      },
+      {
+        slug: false,
+        title: 'No',
       },
     ],
   },

@@ -12,6 +12,7 @@ const filtersInitialState = {
   promotion_status: [],
   platform: [],
   internal_type: [],
+  promotion_enabled: [],
 }
 
 const filtersReducer = (draftState, filtersAction) => {
@@ -71,10 +72,13 @@ const PostsFiltersHandler = ({ setFilterBy, disabled, className }) => {
     if (!storedFilter) return
 
     const formattedFilters = Object.entries(storedFilter).reduce((result, [key, value]) => {
+      // If filter value is not an array yet, push the value into an array
+      const filterValues = Array.isArray(value) ? value : [value]
+
       return {
         ...result,
-        // If filter value is not an array yet, push the value into an array
-        [key]: Array.isArray(value) ? value : [value],
+        // Check and convert boolean string values to boolean values if needed
+        [key]: filterValues.map((filterValue) => utils.checkAndConvertBooleanString(filterValue)),
       }
     }, {})
 

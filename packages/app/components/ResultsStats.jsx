@@ -7,6 +7,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ResultsNewAudienceStats from '@/app/ResultsNewAudienceStats'
 import ResultsExistingAudienceStats from '@/app/ResultsExistingAudienceStats'
 import ResultsConversionStats from '@/app/ResultsConversionStats'
+import ResultsPlatformGrowthStats from '@/app/ResultsPlatformGrowthStats'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -16,13 +17,20 @@ import copy from '@/app/copy/ResultsPageCopy'
 
 const getConversionsPreferences = state => state.conversionsPreferences
 
-const ResultsStats = ({ data, hasConversionColumn, className }) => {
+const ResultsStats = ({
+  adData,
+  aggregatedAdData,
+  hasSalesObjective,
+  hasInstagramGrowthObjective,
+  className,
+}) => {
   const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
   const { currency: { code: currency } } = min_daily_budget_info || {}
 
   const [newAudienceData, setNewAudienceData] = React.useState(null)
   const [existingAudienceData, setExistingAudienceData] = React.useState(null)
   const [conversionData, setConversionData] = React.useState(null)
+  const [platformData, setPlatformData] = React.useState(null)
   const { facebookPixelEvent } = useControlsStore(getConversionsPreferences)
 
   React.useEffect(() => {
@@ -30,16 +38,14 @@ const ResultsStats = ({ data, hasConversionColumn, className }) => {
       newAudienceData,
       existingAudienceData,
       conversionData,
-    } = getStatsData({
-      ...data,
-      facebookPixelEvent,
-      currency,
-    })
+      platformData,
+    } = getStatsData({ ...adData, facebookPixelEvent, currency }, aggregatedAdData)
 
     setNewAudienceData(newAudienceData)
     setExistingAudienceData(existingAudienceData)
     setConversionData(conversionData)
-  }, [data, facebookPixelEvent, currency])
+    setPlatformData(platformData)
+  }, [adData, aggregatedAdData, facebookPixelEvent, currency])
 
   return (
     <>
@@ -69,7 +75,7 @@ const ResultsStats = ({ data, hasConversionColumn, className }) => {
           <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-green" />
         )}
       </div>
-      {hasConversionColumn && (
+      {hasSalesObjective && (
         <div
           className={[
             'col-span-12',
@@ -84,13 +90,31 @@ const ResultsStats = ({ data, hasConversionColumn, className }) => {
           )}
         </div>
       )}
+      {hasInstagramGrowthObjective && (
+        <div
+          className={[
+            'col-span-12',
+            'order-3',
+            className,
+          ].join(' ')}
+        >
+          {platformData ? (
+            <ResultsPlatformGrowthStats data={platformData} />
+          ) : (
+            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-insta" />
+          )}
+        </div>
+      )}
+
     </>
   )
 }
 
 ResultsStats.propTypes = {
-  data: PropTypes.object.isRequired,
-  hasConversionColumn: PropTypes.bool.isRequired,
+  adData: PropTypes.object.isRequired,
+  aggregatedAdData: PropTypes.object.isRequired,
+  hasSalesObjective: PropTypes.bool.isRequired,
+  hasInstagramGrowthObjective: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

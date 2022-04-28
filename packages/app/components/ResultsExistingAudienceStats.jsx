@@ -24,7 +24,7 @@ const ResultsExistingAudienceStats = ({ data }) => {
     <>
       <div className="flex sm:flex-col items-center justify-between">
         <div>
-          <p className="font-bold text-xl sm:text-center">Existing audiences</p>
+          <p className="text-xl sm:text-center">Step 2: <strong>Nurture</strong></p>
           <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
             <MarkdownText
               markdown={data.copy || ''}
@@ -32,13 +32,14 @@ const ResultsExistingAudienceStats = ({ data }) => {
             />
           </div>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-column items-center justify-center">
           <p
-            className="text-3xl mb-0 sm:text-6xl sm:mb-5 text-center font-bold"
+            className="text-3xl mb-1 sm:text-6xl text-center font-bold"
             style={{ color: brandColors.green }}
           >
             {mainValue}
           </p>
+          <p className="hidden sm:block text-xs mb-0 sm:mb-8">of your audience reached</p>
         </div>
       </div>
       {isMainChart ? (

@@ -6,6 +6,7 @@ import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
 import { formatCurrency } from '@/helpers/utils'
 import { getDataSourceValue } from '@/app/helpers/appServer'
+import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 
 import * as server from '@/app/helpers/appServer'
 import { formatServerData } from '@/app/helpers/insightsHelpers'
@@ -318,42 +319,105 @@ export const noSpendDataSources = [
   },
 ]
 
-export const getStatsData = (data) => {
-  return {
-    newAudienceData: getNewAudienceData(data),
-    existingAudienceData: getExistingAudienceData(data),
-    conversionData: getConversionData(data),
-  }
-}
-
 const getQuartile = (percentile, audience) => {
   if (percentile <= 25) {
     return {
       value: 1,
       position: 'left',
-      copy: audience === 'growth' ? 'Slow' : 'Low',
+      ...(audience && { copy: audience === 'growth' ? 'Slow' : 'Low' }),
     }
   }
   if (percentile > 25 && percentile <= 50) {
     return {
       value: 2,
       position: 'center',
-      copy: 'Average',
+      ...(audience && { copy: 'Average' }),
     }
   }
   if (percentile > 50 && percentile <= 75) {
     return {
       value: 3,
       position: 'center',
-      copy: audience === 'growth' ? 'Solid' : 'Good',
+      ...(audience && { copy: audience === 'growth' ? 'Solid' : 'Good' }),
     }
   }
   if (percentile > 75) {
     return {
       value: 4,
       position: 'right',
-      copy: audience === 'growth' ? 'Fast' : 'High',
+      ...(audience && { copy: audience === 'growth' ? 'Fast' : 'High' }),
     }
+  }
+}
+
+export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram') => {
+  const {
+    instagram_growth: {
+      '30d': {
+        paid,
+      },
+      '180d': {
+        organic,
+      },
+    },
+  } = adData
+
+  const {
+    instagram_growth: {
+      '180d': {
+        organic: aggregatedOrganic,
+      },
+    },
+  } = aggregatedAdData
+
+  const paidGrowthRate = paid.rate.value
+  const shouldUseAggregateGrowthRate = organic.number_of_days.value < 7
+  const organicGrowthRate = shouldUseAggregateGrowthRate ? aggregatedOrganic.rate.value : organic.rate.value
+  const totalGrowthAbsolute = paid.absolute.value
+  const growthIncrease = paidGrowthRate / organicGrowthRate
+
+  const paidGrowthEstimate = Math.round(totalGrowthAbsolute * ((paidGrowthRate - organicGrowthRate) / paidGrowthRate))
+  const organicGrowthEstimate = totalGrowthAbsolute - paidGrowthEstimate
+  const paidGrowthPercentile = paid.absolute.percentile
+
+  const spendingDaysCount = paid.number_of_days.value
+
+  const copyData = {
+    platform: getPlatformNameByValue(platform),
+    paidGrowthRate: paidGrowthRate * 100,
+    organicGrowthRate: organicGrowthRate * 100,
+    shouldUseAggregateGrowthRate,
+    growthIncrease,
+    totalGrowthAbsolute,
+    spendingDaysCount,
+  }
+
+  if (paidGrowthEstimate >= organicGrowthEstimate && paidGrowthEstimate > 0) {
+    return makeStatsObject({
+      prevPeriod: organicGrowthEstimate,
+      currPeriod: totalGrowthAbsolute,
+      copy: resultsCopy.platformGrowth(copyData),
+      chartType: 'main',
+    })
+  }
+
+  return {
+    chartType: 'fallback',
+    chartData: {
+      currValue: totalGrowthAbsolute,
+      percentile: paidGrowthPercentile,
+      quartile: getQuartile(paidGrowthPercentile),
+    },
+    copy: resultsCopy.platformGrowthFallback(copyData),
+  }
+}
+
+export const getStatsData = (adData, aggregatedAdData) => {
+  return {
+    newAudienceData: getNewAudienceData(adData),
+    existingAudienceData: getExistingAudienceData(adData),
+    conversionData: getConversionData(adData),
+    platformData: getPlatformData(adData, aggregatedAdData),
   }
 }
 
@@ -388,7 +452,9 @@ const getBestPerformingPlatform = (igData, fbData) => {
   return igFollowers >= fbFollowers ? 'instagram' : 'facebook'
 }
 
-export const getOrganicBenchmarkData = ({ data }, hasNoProfiles) => {
+export const formatBenchmarkData = ({ data }, hasNoProfiles) => {
+  if (!data) return null
+
   const igData = getGrowthAndFollowersCount('instagram', data)
   const fbData = getGrowthAndFollowersCount('facebook', data)
   const bestPerformingPlatform = hasNoProfiles ? 'instagram' : getBestPerformingPlatform(igData, fbData)
@@ -455,27 +521,6 @@ export const getOrganicBenchmarkData = ({ data }, hasNoProfiles) => {
   }
 
   return { reach: reachData, engagement: engageData, growth: growthData }
-}
-
-export const formatAggregatedOrganicBenchmarkData = ({ data }) => {
-  const {
-    aggregated: {
-      reach_rate,
-      engagement_rate,
-    },
-  } = data
-
-  const reachRateMedianValue = reach_rate.median.value * 100
-  const reachData = {
-    value: reachRateMedianValue,
-  }
-
-  const engagementRateMedianValue = engagement_rate.median.value * 100
-  const engageData = {
-    value: engagementRateMedianValue,
-  }
-
-  return { reach: reachData, engagement: engageData }
 }
 
 export const formatRecentPosts = (posts) => {
@@ -570,17 +615,17 @@ export const getFollowerGrowth = async (artistId) => {
   return formattedData
 }
 
-// GET AD RESULTS SUMMARY
+// GET AD BENCHMARK
 /**
  * @param {string} artistId
  * @returns {Promise<any>}
  */
-export const getAdResultsSummary = async (artistId) => {
-  const endpoint = `/artists/${artistId}/ad_results_summary`
+export const getAdBenchmark = async (artistId) => {
+  const endpoint = `/artists/${artistId}/ad_benchmark`
   const payload = {}
   const errorTracking = {
     category: 'Results',
-    action: 'Get ad results summary',
+    action: 'Get ad benchmark',
   }
   const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
 
@@ -594,6 +639,22 @@ export const getAdResultsSummary = async (artistId) => {
     }
   }
   return { res: formattedData }
+}
+
+// GET AGGREGATED AD BENCHMARK
+/**
+ * @returns {Promise<any>}
+ */
+export const getAggregatedAdBenchmark = async () => {
+  const endpoint = '/ad_benchmarks/aggregated'
+  const payload = {}
+  const errorTracking = {
+    category: 'Results',
+    action: 'Get aggregated ad benchmark',
+  }
+  const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
+
+  return { res: res.data, error }
 }
 
 // GET ORGANIC BENCHMARK
@@ -615,7 +676,6 @@ export const getOrganicBenchmark = async (artistId) => {
 
 // GET AGGREGATED ORGANIC BENCHMARK
 /**
- * @param {string} artistId
  * @returns {Promise<any>}
  */
 export const getAggregatedOrganicBenchmark = async () => {
@@ -628,14 +688,4 @@ export const getAggregatedOrganicBenchmark = async () => {
   const { res, error } = await api.requestWithCatch('get', endpoint, payload, errorTracking)
 
   return { res, error }
-}
-
-export const getAverages = async () => {
-  const { res, error } = await getAggregatedOrganicBenchmark()
-
-  if (error) return { error }
-
-  const aggregatedOrganicBenchmarkData = formatAggregatedOrganicBenchmarkData(res)
-
-  return { res: aggregatedOrganicBenchmarkData }
 }

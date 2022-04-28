@@ -543,6 +543,12 @@ export const getPlatform = (platform) => {
   if (platform === 'soundcloud') return 'SoundCloud account'
 }
 
+export const getPlatformNameByValue = (platform) => {
+  if (!platform) return null
+
+  return platforms.find(({ value }) => platform === value).name
+}
+
 export const profileStatus = {
   objective: 'objective',
   platform: 'platform',
@@ -563,7 +569,7 @@ export const getObjectiveString = (objective, platform) => {
   const objectiveString = objectives.find(({ value }) => objective === value).name
 
   if (platform !== 'website') {
-    const platformString = platforms.find(({ value }) => platform === value).name
+    const platformString = getPlatformNameByValue(platform)
 
     return `${platformString} growth`
   }

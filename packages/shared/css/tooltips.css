@@ -17,7 +17,6 @@
 }
 
 .button--tooltip-icon {
-  width: var(--sp-4);
   height: auto;
   padding: var(--sp-2);
   box-sizing: content-box;
