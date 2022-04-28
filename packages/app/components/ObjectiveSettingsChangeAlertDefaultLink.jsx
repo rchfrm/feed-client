@@ -6,17 +6,13 @@ import useControlsStore from '@/app/stores/controlsStore'
 import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
-import PostLinksSelect from '@/app/PostLinksSelect'
+import DefaultLinkForm from '@/app/DefaultLinkForm'
 
-import Button from '@/elements/Button'
-import Input from '@/elements/Input'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 import Spinner from '@/elements/Spinner'
 
-import { getIntegrationInfo, testValidIntegration } from '@/helpers/integrationHelpers'
-import { getLinkById, getLinkByPlatform, getLinkByHref, splitLinks } from '@/app/helpers/linksHelpers'
-import { enforceUrlProtocol } from '@/helpers/utils'
+import { getLinkById, getLinkByPlatform, getLinkByHref } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -35,7 +31,6 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
   setForceSave,
 }) => {
   const hasGrowthObjective = objective === 'growth'
-  const defaultPlaceholder = 'https://'
 
   const {
     nestedLinks,
@@ -46,29 +41,9 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 
   const [link, setLink] = React.useState({})
   const [error, setError] = React.useState(null)
-  const [placeholder, setPlaceholder] = React.useState(defaultPlaceholder)
-  const [shouldShowSelect, setShouldShowSelect] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
 
-  const { looseLinks } = splitLinks(nestedLinks)
   const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
-
-  React.useEffect(() => {
-    // if (isLoading) return
-
-    // Render either a select element or text input field based on this boolean
-    setShouldShowSelect(!hasGrowthObjective && looseLinks.length > 0)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const handleChange = (e) => {
-    if (error) {
-      setError(null)
-    }
-
-    setLink({ ...link, name: 'default link', href: e.target.value })
-  }
 
   const updateLink = (linkId, link) => {
     if (link) {
@@ -76,15 +51,6 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
       return
     }
     setLink(getLinkById(nestedLinks, linkId))
-  }
-
-  // Hide select element and show text input field
-  const toggleSelect = () => {
-    if (shouldShowSelect) {
-      setLink({})
-    }
-
-    setShouldShowSelect((shouldShowSelect) => !shouldShowSelect)
   }
 
   const saveLink = async () => {
@@ -109,28 +75,6 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
     // Save the link in the linkbank or edit the linkbank link based on the action parameter
     return saveLinkToLinkBank(currentLink, action)
   }
-
-  React.useEffect(() => {
-    if (hasGrowthObjective) {
-      const { placeholderUrl } = getIntegrationInfo({ platform })
-
-      setPlaceholder(placeholderUrl)
-      return
-    }
-    setPlaceholder(defaultPlaceholder)
-  }, [hasGrowthObjective, objective, platform])
-
-  React.useEffect(() => {
-    if (!hasGrowthObjective) {
-      setIsDisabled(!link.href)
-      return
-    }
-
-    const sanitisedLink = enforceUrlProtocol(link.href, true)
-    const hasError = !testValidIntegration(sanitisedLink, platform)
-
-    setIsDisabled(!link.href || hasError)
-  }, [hasGrowthObjective, objective, platform, link, setIsDisabled])
 
   useAsyncEffect(async () => {
     if (shouldSave) {
@@ -168,40 +112,16 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
       <h2>{copy.alertLinkTitle(objective, platform)}</h2>
       <MarkdownText markdown={copy.alertLinkDescription(objective, platform)} className="text-grey-3 italic" />
       <Error error={error} />
-      {shouldShowSelect ? (
-        <PostLinksSelect
-          currentLinkId={link.id}
-          updateParentLink={updateLink}
-          shouldSaveOnChange={false}
-          shouldShowAddLinkModal={false}
-          onAddNewLink={toggleSelect}
-          componentLocation="defaultLink"
-          includeIntegrationLinks={false}
-          includeAddLinkOption
-          className="w-full mb-6"
-        />
-      ) : (
-        <>
-          <Input
-            name="link-url"
-            version="box"
-            type="url"
-            value={link.href}
-            handleChange={handleChange}
-            placeholder={placeholder}
-            className="w-full mb-2"
-          />
-          {(!hasGrowthObjective && looseLinks.length > 0) && (
-            <Button
-              version="text"
-              onClick={toggleSelect}
-              className="h-auto text-xs mr-auto mb-8"
-            >
-              Choose from your existing links
-            </Button>
-          )}
-        </>
-      )}
+      <DefaultLinkForm
+        link={link}
+        setLink={setLink}
+        updateLink={updateLink}
+        objective={objective}
+        platform={platform}
+        error={error}
+        setError={setError}
+        setIsDisabled={setIsDisabled}
+      />
     </>
   )
 }
