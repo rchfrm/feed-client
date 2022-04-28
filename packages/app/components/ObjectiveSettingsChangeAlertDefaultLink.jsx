@@ -128,17 +128,26 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 }
 
 ObjectiveSettingsChangeAlertDefaultLink.propTypes = {
-  shouldSave: PropTypes.bool.isRequired,
-  setShouldSave: PropTypes.func.isRequired,
-  setHasError: PropTypes.func.isRequired,
-  setIsDisabled: PropTypes.func.isRequired,
-  objective: PropTypes.string.isRequired,
-  platform: PropTypes.string.isRequired,
-  setSavedLink: PropTypes.func.isRequired,
-  setForceSave: PropTypes.func.isRequired,
+  shouldSave: PropTypes.bool,
+  setShouldSave: PropTypes.func,
+  setHasError: PropTypes.func,
+  setIsDisabled: PropTypes.func,
+  objective: PropTypes.string,
+  platform: PropTypes.string,
+  setSavedLink: PropTypes.func,
+  setForceSave: PropTypes.func,
 }
 
 ObjectiveSettingsChangeAlertDefaultLink.defaultProps = {
+  shouldSave: false,
+  setShouldSave: () => {},
+  setHasError: () => {},
+  setIsDisabled: () => {},
+  objective: '',
+  platform: '',
+  setSavedLink: () => {},
+  setForceSave: () => {},
+
 }
 
 export default ObjectiveSettingsChangeAlertDefaultLink

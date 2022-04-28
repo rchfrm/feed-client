@@ -9,6 +9,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
 import MarkdownText from '@/elements/MarkdownText'
+import Spinner from '@/elements/Spinner'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import copy from '@/app/copy/getStartedCopy'
@@ -32,6 +33,7 @@ const ObjectiveSettingsChangeAlertBudget = ({
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
   const [budget, setBudget] = React.useState(targetingState.budget)
+  const [isLoading, setIsLoading] = React.useState(true)
 
   const {
     artist: {
@@ -77,8 +79,11 @@ const ObjectiveSettingsChangeAlertBudget = ({
   React.useEffect(() => {
     if (budgetSlider.noUiSlider) {
       budgetSlider.noUiSlider.set(minReccomendedStories)
+      setIsLoading(false)
     }
   }, [budgetSlider.noUiSlider, minReccomendedStories])
+
+  if (isLoading) return <Spinner className="h-48 flex items-center" width={28} />
 
   return (
     <>
@@ -103,12 +108,15 @@ const ObjectiveSettingsChangeAlertBudget = ({
 }
 
 ObjectiveSettingsChangeAlertBudget.propTypes = {
-  shouldSave: PropTypes.bool.isRequired,
-  setShouldSave: PropTypes.func.isRequired,
-  setIsDisabled: PropTypes.func.isRequired,
+  shouldSave: PropTypes.bool,
+  setShouldSave: PropTypes.func,
+  setIsDisabled: PropTypes.func,
 }
 
 ObjectiveSettingsChangeAlertBudget.defaultProps = {
+  shouldSave: false,
+  setShouldSave: () => {},
+  setIsDisabled: () => {},
 }
 
 export default ObjectiveSettingsChangeAlertBudget

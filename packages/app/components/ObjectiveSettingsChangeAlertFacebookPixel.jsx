@@ -99,12 +99,15 @@ const ObjectiveSettingsChangeAlertFacebookPixel = ({
 }
 
 ObjectiveSettingsChangeAlertFacebookPixel.propTypes = {
-  shouldSave: PropTypes.bool.isRequired,
-  setShouldSave: PropTypes.func.isRequired,
-  setHasError: PropTypes.func.isRequired,
+  shouldSave: PropTypes.bool,
+  setShouldSave: PropTypes.func,
+  setHasError: PropTypes.func,
 }
 
 ObjectiveSettingsChangeAlertFacebookPixel.defaultProps = {
+  shouldSave: false,
+  setShouldSave: () => {},
+  setHasError: () => {},
 }
 
 export default ObjectiveSettingsChangeAlertFacebookPixel

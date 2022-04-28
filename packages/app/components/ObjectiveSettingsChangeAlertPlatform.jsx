@@ -56,13 +56,17 @@ const ObjectiveSettingsChangeAlertPlatform = ({
 }
 
 ObjectiveSettingsChangeAlertPlatform.propTypes = {
-  shouldSave: PropTypes.bool.isRequired,
-  setShouldSave: PropTypes.func.isRequired,
-  platform: PropTypes.string.isRequired,
-  setPlatform: PropTypes.func.isRequired,
+  shouldSave: PropTypes.bool,
+  setShouldSave: PropTypes.func,
+  platform: PropTypes.string,
+  setPlatform: PropTypes.func,
 }
 
 ObjectiveSettingsChangeAlertPlatform.defaultProps = {
+  shouldSave: false,
+  setShouldSave: () => {},
+  platform: '',
+  setPlatform: () => {},
 }
 
 export default ObjectiveSettingsChangeAlertPlatform
