@@ -690,3 +690,13 @@ export const isObject = (value) => {
     && value !== null
   )
 }
+
+export const isBooleanString = (value) => {
+  if (typeof value !== 'string') return false
+
+  return value === 'true' || value === 'false'
+}
+
+export const checkAndConvertBooleanString = (value) => {
+  return isBooleanString(value) ? JSON.parse(value) : value
+}
