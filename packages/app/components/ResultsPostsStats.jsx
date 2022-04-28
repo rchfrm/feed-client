@@ -14,10 +14,10 @@ const getControlsStoreState = (state) => ({
 })
 
 const ResultsPostsStats = ({
-  data,
+  adData,
   className,
 }) => {
-  const sortedPosts = postResultsConfig.map((x) => data.posts.find((post) => {
+  const sortedPosts = postResultsConfig.map((x) => adData.posts.find((post) => {
     return post.type === x.type
   })).filter(Boolean)
 
@@ -47,7 +47,7 @@ const ResultsPostsStats = ({
 }
 
 ResultsPostsStats.propTypes = {
-  data: PropTypes.object.isRequired,
+  adData: PropTypes.object.isRequired,
 }
 
 export default ResultsPostsStats

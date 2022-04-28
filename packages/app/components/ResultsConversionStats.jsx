@@ -25,7 +25,7 @@ const ResultsConversionStats = ({ data, currency }) => {
     <>
       <div className="flex sm:flex-col items-center justify-between">
         <div>
-          <p className="font-bold text-xl sm:text-center">{copy?.title || 'Sales'}</p>
+          <p className="text-xl sm:text-center">Step 3: <strong>{copy?.title || 'Sales'}</strong></p>
           <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
             <MarkdownText
               markdown={copy.description || ''}
@@ -33,13 +33,14 @@ const ResultsConversionStats = ({ data, currency }) => {
             />
           </div>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-column items-center justify-center">
           <p
-            className="text-3xl mb-0 sm:text-6xl sm:mb-5 text-center font-bold"
+            className="text-3xl mb-1 sm:text-6xl text-center font-bold"
             style={{ color: brandColors.instagram.bg }}
           >
             {isPurchase ? formatCurrency(currValue, currency) : abbreviateNumber(currValue)}
           </p>
+          <p className="hidden sm:block text-xs mb-0 sm:mb-8">in sales</p>
         </div>
       </div>
       {isMainChart && (

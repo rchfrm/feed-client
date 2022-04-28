@@ -41,20 +41,28 @@ const ResultsFallbackChart = ({
   }, [animateChart, chartRefs])
 
   return (
-    <div className="relative flex w-full h-12 items-center text-white rounded-full overflow-hidden">
+    <div className="flex">
       {data.map(({ value }, index) => value && (
         <div
           key={value}
           ref={chartRefs[index]}
-          className={[
-            'flex items-center justify-center',
-            'h-full',
-            'text-xs',
-            index === 0 ? 'opacity-50' : 'font-bold',
-          ].join(' ')}
-          style={{ backgroundColor: color }}
         >
-          {isPurchase ? formatCurrency(value, currency) : formatNumber(value)}
+          <div
+            className={[
+              'flex h-7 mb-1',
+              index === 0
+                ? !currPeriod ? 'rounded-full opacity-50' : 'rounded-l-full opacity-50'
+                : !prevPeriod ? 'rounded-full' : 'rounded-r-full',
+            ].join(' ')}
+            style={{ backgroundColor: color }}
+          />
+          <p className={[
+            'mb-0 text-center text-xs',
+            index === 0 ? 'opacity-100' : 'font-bold',
+          ].join(' ')}
+          >
+            {isPurchase ? formatCurrency(value, currency) : formatNumber(value)}
+          </p>
         </div>
       ))}
     </div>

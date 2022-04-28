@@ -28,7 +28,7 @@ const ResultsNewAudienceStats = ({ data }) => {
     <>
       <div className="flex sm:flex-col items-center justify-between">
         <div>
-          <p className="font-bold text-xl sm:text-center">New people</p>
+          <p className="text-xl sm:text-center">Step 1: <strong>Engage</strong></p>
           <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
             <MarkdownText
               markdown={data.copy || ''}
@@ -36,18 +36,21 @@ const ResultsNewAudienceStats = ({ data }) => {
             />
           </div>
         </div>
-        <div className="flex items-center justify-center">
-          {isMainChart ? (
-            <PlusIcon className="h-4 w-4 sm:h-8 sm:w-8 mr-1 sm:mb-4" fill={brandColors.facebook.bg} />
-          ) : (
-            currValue > prevValue && <ArrowAltIcon className="h-8 w-8 mb-4" fill={brandColors.facebook.bg} direction="up" />
-          )}
-          <p
-            className="text-3xl mb-0 sm:text-6xl sm:mb-5 text-center font-bold"
-            style={{ color: brandColors.blue }}
-          >
-            {abbreviateNumber(mainValue)}
-          </p>
+        <div className="flex flex-column">
+          <div className="flex items-center justify-center">
+            {isMainChart ? (
+              <PlusIcon className="h-4 w-4 sm:h-8 sm:w-8 mr-1" fill={brandColors.facebook.bg} />
+            ) : (
+              currValue > prevValue && <ArrowAltIcon className="h-4 w-4 sm:h-8 sm:w-8 mr-1" fill={brandColors.facebook.bg} direction="up" />
+            )}
+            <p
+              className="text-3xl mb-1 sm:text-6xl text-center font-bold"
+              style={{ color: brandColors.blue }}
+            >
+              {abbreviateNumber(mainValue)}
+            </p>
+          </div>
+          <p className="hidden sm:block text-xs mb-0 sm:mb-8">New people engaged with your posts</p>
         </div>
       </div>
       {isMainChart ? (

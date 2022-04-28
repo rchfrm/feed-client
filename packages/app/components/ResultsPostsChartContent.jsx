@@ -6,28 +6,25 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ResultsChartHeader from '@/app/ResultsChartHeader'
 import ResultsPostsChart from '@/app/ResultsPostsChart'
-import Error from '@/elements/Error'
 
-import { getRecentPosts, getAverages, noSpendMetricTypes, getDummyPosts } from '@/app/helpers/resultsHelpers'
+import { getRecentPosts, noSpendMetricTypes, getDummyPosts } from '@/app/helpers/resultsHelpers'
 
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsPostsChartContent = ({
+  organicData,
+  aggregatedOrganicData,
   hasNoProfiles,
   dummyPostsImages,
   posts,
   setPosts,
-  aggregatedOrganicBenckmarkData,
-  setAggregatedOrganicBenchmarkData,
   metricType,
-  organicBenchmarkData,
 }) => {
   const [yourAverage, setYourAverage] = React.useState(0)
   const [globalAverage, setGlobalAverage] = React.useState(0)
   const [isLoading, setIsLoading] = React.useState(false)
-  const [error, setError] = React.useState(null)
-  const { platform } = organicBenchmarkData?.growth || {}
+  const { platform } = organicData?.growth || {}
 
   const { artistId } = React.useContext(ArtistContext)
 
@@ -44,30 +41,15 @@ const ResultsPostsChartContent = ({
     setIsLoading(false)
   }, [metricType, globalAverage])
 
-  // Get aggregated organic benchmark data to set global average for recent posts chart
-  useAsyncEffect(async (isMounted) => {
-    // Make sure to fetch the data only once
-    if (!isMounted() || aggregatedOrganicBenckmarkData) return
-
-    const { res, error } = await getAverages()
-
-    if (error) {
-      setError(error)
-      return
-    }
-
-    setAggregatedOrganicBenchmarkData(res)
-  }, [metricType])
-
   React.useEffect(() => {
-    if (organicBenchmarkData) {
-      setYourAverage(organicBenchmarkData[metricType].value)
+    if (organicData) {
+      setYourAverage(organicData[metricType].value)
     }
 
-    if (aggregatedOrganicBenckmarkData) {
-      setGlobalAverage(aggregatedOrganicBenckmarkData[metricType].value)
+    if (aggregatedOrganicData) {
+      setGlobalAverage(aggregatedOrganicData[metricType].value)
     }
-  }, [metricType, organicBenchmarkData, aggregatedOrganicBenckmarkData])
+  }, [metricType, organicData, aggregatedOrganicData])
 
   const legendItems = [
     {
@@ -91,7 +73,6 @@ const ResultsPostsChartContent = ({
         description={copy.postsChartDescription(metricType, hasNoProfiles)}
         legendItems={legendItems}
       />
-      {error && <Error error={error} />}
       <ResultsPostsChart
         posts={posts}
         yourAverage={yourAverage || 0}
@@ -105,21 +86,20 @@ const ResultsPostsChartContent = ({
 }
 
 ResultsPostsChartContent.propTypes = {
+  organicData: PropTypes.object,
+  aggregatedOrganicData: PropTypes.object,
   hasNoProfiles: PropTypes.bool.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
-  aggregatedOrganicBenckmarkData: PropTypes.object,
-  setAggregatedOrganicBenchmarkData: PropTypes.func.isRequired,
   metricType: PropTypes.string.isRequired,
-  organicBenchmarkData: PropTypes.object,
   dummyPostsImages: PropTypes.arrayOf(
     PropTypes.object.isRequired,
   ).isRequired,
 }
 
 ResultsPostsChartContent.defaultProps = {
-  aggregatedOrganicBenckmarkData: null,
-  organicBenchmarkData: null,
+  organicData: null,
+  aggregatedOrganicData: null,
 }
 
 export default ResultsPostsChartContent
