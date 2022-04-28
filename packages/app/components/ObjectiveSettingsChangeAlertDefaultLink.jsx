@@ -121,6 +121,7 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
         error={error}
         setError={setError}
         setIsDisabled={setIsDisabled}
+        isLoading={isLoading}
       />
     </>
   )

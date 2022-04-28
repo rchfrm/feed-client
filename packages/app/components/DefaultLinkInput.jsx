@@ -33,6 +33,7 @@ const DefaultLinkInput = ({
 
   const [placeholder, setPlaceholder] = React.useState(defaultPlaceholder)
   const { looseLinks } = splitLinks(nestedLinks)
+  const shouldShowButton = !hasGrowthObjective && looseLinks.length > 0
 
   const handleChange = (e) => {
     if (error) {
@@ -69,7 +70,11 @@ const DefaultLinkInput = ({
   }, [setIsDisabled])
 
   return (
-    <>
+    <div className={[
+      'w-full',
+      shouldShowButton ? 'mb-2' : 'mb-4',
+    ].join(' ')}
+    >
       <Input
         name="link-url"
         version="box"
@@ -77,18 +82,19 @@ const DefaultLinkInput = ({
         value={link.href}
         handleChange={handleChange}
         placeholder={placeholder}
-        className="w-full mb-2"
+        className="mb-0"
       />
-      {(!hasGrowthObjective && looseLinks.length > 0) && (
+      {shouldShowButton && (
         <Button
           version="text"
           onClick={toggleSelect}
-          className="h-auto text-xs mr-auto mb-8"
+          className="h-auto text-xs mr-auto"
+          trackComponentName="DefaultLinkInput"
         >
           Choose from your existing links
         </Button>
       )}
-    </>
+    </div>
   )
 }
 

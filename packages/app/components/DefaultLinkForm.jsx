@@ -61,7 +61,7 @@ const DefaultLinkForm = ({
         componentLocation="defaultLink"
         includeIntegrationLinks={false}
         includeAddLinkOption
-        className="w-full mb-6"
+        className="w-full"
       />
     ) : (
       <DefaultLinkInput

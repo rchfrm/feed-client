@@ -7,17 +7,15 @@ import useControlsStore from '@/app/stores/controlsStore'
 import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
-import PostLinksSelect from '@/app/PostLinksSelect'
+import DefaultLinkForm from '@/app/DefaultLinkForm'
 
 import Button from '@/elements/Button'
-import Input from '@/elements/Input'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { setDefaultLink, getLinkById, getLinkByHref, validateLink, splitLinks } from '@/app/helpers/linksHelpers'
-import { getLocalStorage, setLocalStorage, enforceUrlProtocol } from '@/helpers/utils'
-import { testValidIntegration, getIntegrationInfo } from '@/helpers/integrationHelpers'
+import { setDefaultLink, getLinkById, getLinkByHref, validateLink } from '@/app/helpers/linksHelpers'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -42,13 +40,10 @@ const GetStartedDefaultLink = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
 
-  const defaultPlaceholder = 'https://'
   const [link, setLink] = React.useState(defaultLink || storedDefaultLink || {})
-  const [placeholder, setPlaceholder] = React.useState(defaultPlaceholder)
-  const [isSaveEnabled, setIsSaveEnabled] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
-  const [shouldShowSelect, setShouldShowSelect] = React.useState(false)
+  const [isDisabled, setIsDisabled] = React.useState(false)
 
   const { next } = React.useContext(WizardContext)
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
@@ -61,32 +56,6 @@ const GetStartedDefaultLink = () => {
   const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
   const hasGrowthObjective = objective === 'growth'
   const hasSalesObjective = objective === 'sales'
-  const { looseLinks } = splitLinks(nestedLinks)
-
-  React.useEffect(() => {
-    if (isLoading) return
-
-    // Render either a select element or text input field based on this boolean
-    setShouldShowSelect(!hasGrowthObjective && looseLinks.length > 0)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // Hide select element and show text input field
-  const toggleSelect = () => {
-    if (shouldShowSelect) {
-      setLink({})
-    }
-
-    setShouldShowSelect((shouldShowSelect) => !shouldShowSelect)
-  }
-
-  // On text input change update the link object with a name and href
-  const handleChange = (e) => {
-    setError(null)
-
-    setLink({ ...link, name: 'default link', href: e.target.value })
-  }
 
   const updateLink = (linkId, link) => {
     if (link) {
@@ -229,28 +198,6 @@ const GetStartedDefaultLink = () => {
     next()
   }
 
-  React.useEffect(() => {
-    if (hasGrowthObjective) {
-      const { placeholderUrl } = getIntegrationInfo({ platform })
-
-      setPlaceholder(placeholderUrl)
-      return
-    }
-    setPlaceholder(defaultPlaceholder)
-  }, [hasGrowthObjective, objective, platform])
-
-  React.useEffect(() => {
-    if (!hasGrowthObjective) {
-      setIsSaveEnabled(!!link.href)
-      return
-    }
-
-    const sanitisedLink = enforceUrlProtocol(link.href, true)
-    const hasError = !testValidIntegration(sanitisedLink, platform)
-
-    setIsSaveEnabled(!!link.href && !hasError)
-  }, [hasGrowthObjective, objective, platform, link])
-
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-4 font-medium text-xl">{copy.defaultLinkSubtitle(objective, platform)}</h3>
@@ -260,46 +207,24 @@ const GetStartedDefaultLink = () => {
         onSubmit={onSubmit}
         className="flex flex-1 flex-column w-full sm:w-1/3 mx-auto justify-center items-center"
       >
-        {shouldShowSelect ? (
-          <PostLinksSelect
-            currentLinkId={link.id}
-            updateParentLink={updateLink}
-            shouldSaveOnChange={false}
-            shouldShowAddLinkModal={false}
-            onAddNewLink={toggleSelect}
-            componentLocation="defaultLink"
-            includeIntegrationLinks={false}
-            includeAddLinkOption
-            className="w-full mb-6"
-          />
-        ) : (
-          <>
-            <Input
-              name="link-url"
-              version="box"
-              type="url"
-              value={link.href}
-              handleChange={handleChange}
-              placeholder={placeholder}
-              className="w-full mb-2"
-            />
-            {(!hasGrowthObjective && looseLinks.length > 0) && (
-              <Button
-                version="text"
-                onClick={toggleSelect}
-                className="h-auto text-xs mr-auto mb-8"
-              >
-                Choose from your existing links
-              </Button>
-            )}
-          </>
-        )}
+        <DefaultLinkForm
+          link={link}
+          setLink={setLink}
+          updateLink={updateLink}
+          objective={objective}
+          platform={platform}
+          error={error}
+          setError={setError}
+          setIsDisabled={setIsDisabled}
+          isLoading={isLoading}
+          className="w-full"
+        />
         <Button
           type="submit"
           version="green"
-          className="w-full sm:w-48"
+          className="w-full sm:w-48 mt-8"
           trackComponentName="GetStartedDefaultLink"
-          disabled={!isSaveEnabled}
+          disabled={isDisabled}
           loading={isLoading}
           spinnerFill={brandColors.white}
         >
@@ -307,7 +232,7 @@ const GetStartedDefaultLink = () => {
           <ArrowAltIcon
             className="ml-3"
             direction="right"
-            fill={isSaveEnabled ? brandColors.white : brandColors.greyDark}
+            fill={isDisabled ? brandColors.greyDark : brandColors.white}
           />
         </Button>
       </form>
