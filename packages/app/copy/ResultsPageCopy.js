@@ -189,7 +189,7 @@ export default {
   comparison will appear here.`
   },
   conversionsActivatorTitle: 'Use the “sales” objective to get purchases on your website.',
-  conversionsActivatorDescription: 'Change your objective to “sales” to see results in this section!',
+  conversionsActivatorDescription: 'Use the "sales" objective to see results in this section!',
   noResultsData: (isSpendingPaused) => {
     if (isSpendingPaused) {
       return `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS_BUDGET})!`

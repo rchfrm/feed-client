@@ -8,6 +8,7 @@ import ResultsNewAudienceStats from '@/app/ResultsNewAudienceStats'
 import ResultsExistingAudienceStats from '@/app/ResultsExistingAudienceStats'
 import ResultsConversionStats from '@/app/ResultsConversionStats'
 import ResultsPlatformGrowthStats from '@/app/ResultsPlatformGrowthStats'
+import ResultsConversionsActivator from '@/app/ResultsConversionsActivator'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -15,15 +16,20 @@ import { getStatsData } from '@/app/helpers/resultsHelpers'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-const getConversionsPreferences = state => state.conversionsPreferences
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+  conversionsPreferences: state.conversionsPreferences,
+})
 
 const ResultsStats = ({
   adData,
   aggregatedAdData,
-  hasSalesObjective,
-  hasInstagramGrowthObjective,
   className,
 }) => {
+  const { optimizationPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
+  const { objective, platform } = optimizationPreferences
+  const { facebookPixelEvent } = conversionsPreferences
+
   const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
   const { currency: { code: currency } } = min_daily_budget_info || {}
 
@@ -31,7 +37,9 @@ const ResultsStats = ({
   const [existingAudienceData, setExistingAudienceData] = React.useState(null)
   const [conversionData, setConversionData] = React.useState(null)
   const [platformData, setPlatformData] = React.useState(null)
-  const { facebookPixelEvent } = useControlsStore(getConversionsPreferences)
+
+  const hasSalesObjective = objective === 'sales'
+  const hasInstagramGrowthObjective = objective === 'growth' && platform === 'instagram'
 
   React.useEffect(() => {
     const {
@@ -105,7 +113,11 @@ const ResultsStats = ({
           )}
         </div>
       )}
-
+      {!hasInstagramGrowthObjective && !hasSalesObjective && (
+        <ResultsConversionsActivator
+          className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
+        />
+      )}
     </>
   )
 }
@@ -113,8 +125,6 @@ const ResultsStats = ({
 ResultsStats.propTypes = {
   adData: PropTypes.object.isRequired,
   aggregatedAdData: PropTypes.object.isRequired,
-  hasSalesObjective: PropTypes.bool.isRequired,
-  hasInstagramGrowthObjective: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
