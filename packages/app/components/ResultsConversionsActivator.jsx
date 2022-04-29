@@ -7,8 +7,6 @@ import * as ROUTES from '@/app/constants/routes'
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/ResultsPageCopy'
 
-import NoDataBlock from '@/app/NoDataBlock'
-
 import JoystickIcon from '@/icons/JoystickIcon'
 
 import brandColors from '@/constants/brandColors'
@@ -30,10 +28,10 @@ const ResultsConversionsActivator = ({ className }) => {
         <MarkdownText className="mb-0 mr-auto sm:mr-0 sm:text-center" markdown={copy.conversionsActivatorTitle} />
       </div>
       <button
-        className="flex-1 w-full"
+        className="w-full"
         onClick={goToControlsPage}
       >
-        <NoDataBlock>
+        <div className="flex flex-column items-center">
           <div
             className={[
               'flex justify-center items-center',
@@ -44,7 +42,7 @@ const ResultsConversionsActivator = ({ className }) => {
             <JoystickIcon className="w-5 h-auto" fill="white" />
           </div>
           <MarkdownText className="text-center px-8 mb-0" markdown={copy.conversionsActivatorDescription} />
-        </NoDataBlock>
+        </div>
       </button>
     </div>
   )
