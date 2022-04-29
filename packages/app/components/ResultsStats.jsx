@@ -17,17 +17,16 @@ import { getStatsData } from '@/app/helpers/resultsHelpers'
 import copy from '@/app/copy/ResultsPageCopy'
 
 const getControlsStoreState = (state) => ({
-  optimizationPreferences: state.optimizationPreferences,
   conversionsPreferences: state.conversionsPreferences,
 })
 
 const ResultsStats = ({
   adData,
   aggregatedAdData,
-  className,
+  hasSalesObjective,
+  hasInstagramGrowthObjective,
 }) => {
-  const { optimizationPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
-  const { objective, platform } = optimizationPreferences
+  const { conversionsPreferences } = useControlsStore(getControlsStoreState)
   const { facebookPixelEvent } = conversionsPreferences
 
   const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
@@ -37,9 +36,6 @@ const ResultsStats = ({
   const [existingAudienceData, setExistingAudienceData] = React.useState(null)
   const [conversionData, setConversionData] = React.useState(null)
   const [platformData, setPlatformData] = React.useState(null)
-
-  const hasSalesObjective = objective === 'sales'
-  const hasInstagramGrowthObjective = objective === 'growth' && platform === 'instagram'
 
   React.useEffect(() => {
     const {
@@ -59,9 +55,7 @@ const ResultsStats = ({
     <>
       <div
         className={[
-          'col-span-12',
-          'order-1',
-          className,
+          'col-span-12 sm:col-span-4',
         ].join(' ')}
       >
         {newAudienceData ? (
@@ -72,9 +66,7 @@ const ResultsStats = ({
       </div>
       <div
         className={[
-          'col-span-12',
-          'order-2',
-          className,
+          'col-span-12 sm:col-span-4',
         ].join(' ')}
       >
         {existingAudienceData ? (
@@ -86,9 +78,7 @@ const ResultsStats = ({
       {hasSalesObjective && (
         <div
           className={[
-            'col-span-12',
-            'order-3',
-            className,
+            'col-span-12 sm:col-span-4',
           ].join(' ')}
         >
           {conversionData ? (
@@ -101,9 +91,7 @@ const ResultsStats = ({
       {hasInstagramGrowthObjective && (
         <div
           className={[
-            'col-span-12',
-            'order-3',
-            className,
+            'col-span-12 sm:col-span-4',
           ].join(' ')}
         >
           {platformData ? (
@@ -125,11 +113,9 @@ const ResultsStats = ({
 ResultsStats.propTypes = {
   adData: PropTypes.object.isRequired,
   aggregatedAdData: PropTypes.object.isRequired,
-  className: PropTypes.string,
 }
 
 ResultsStats.defaultProps = {
-  className: '',
 }
 
 export default ResultsStats

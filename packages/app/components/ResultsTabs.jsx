@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import ResultsNoSpendChartsTab from '@/app/ResultsNoSpendChartsTab'
-import { noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
+import ResultsTab from '@/app/ResultsTab'
 
-const ResultsNoSpendChartsTabs = ({
+const ResultsTabs = ({
+  metricTypes,
   metricType,
   setMetricType,
-  hasGrowth,
   hasNoProfiles,
+  shouldHideTab,
   className,
 }) => {
   const isDesktopLayout = useBreakpointTest('sm')
@@ -22,13 +22,14 @@ const ResultsNoSpendChartsTabs = ({
       'justify-around mb-0',
     ].join(' ')}
     >
-      {Object.keys(noSpendMetricTypes).map((type) => {
-        if ((!hasGrowth && isDesktopLayout && type === 'growth') || (isDesktopLayout && hasNoProfiles)) return
+      {metricTypes.map(({ type }, index) => {
+        if ((shouldHideTab && index === 2) || (isDesktopLayout && hasNoProfiles)) return
 
         return (
-          <ResultsNoSpendChartsTab
+          <ResultsTab
             key={type}
             type={type}
+            index={index}
             setMetricType={setMetricType}
             metricType={metricType}
           />
@@ -38,11 +39,17 @@ const ResultsNoSpendChartsTabs = ({
   )
 }
 
-ResultsNoSpendChartsTabs.propTypes = {
+ResultsTabs.propTypes = {
+  metricTypes: PropTypes.array.isRequired,
   metricType: PropTypes.string.isRequired,
   setMetricType: PropTypes.func.isRequired,
-  hasGrowth: PropTypes.bool.isRequired,
-  className: PropTypes.string.isRequired,
+  hasNoProfiles: PropTypes.bool.isRequired,
+  shouldHideTab: PropTypes.bool.isRequired,
+  className: PropTypes.string,
 }
 
-export default ResultsNoSpendChartsTabs
+ResultsTabs.defaultProps = {
+  className: '',
+}
+
+export default ResultsTabs

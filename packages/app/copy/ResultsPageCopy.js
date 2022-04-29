@@ -144,11 +144,11 @@ export default {
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
   postDescription: (type, isPurchase) => {
-    if (type === 'unaware') {
+    if (type === 'engagement') {
       return `The post that engaged the
       most new people:`
     }
-    if (type === 'on_platform') {
+    if (type === 'nurture') {
       return `The post that reached the most people
       from your existing audience:`
     }
@@ -161,19 +161,19 @@ export default {
     )
   },
   postLabelText: (type, isPurchase) => {
-    if (type === 'unaware') {
+    if (type === 'engagement') {
       return 'engaged'
     }
-    if (type === 'on_platform') {
+    if (type === 'nurture') {
       return 'reached'
     }
     return isPurchase ? 'in sales' : 'events'
   },
   postDescriptionMobile: (type, value, isPurchase) => {
-    if (type === 'unaware') {
+    if (type === 'engagement') {
       return `**${value}** new people engaged`
     }
-    if (type === 'on_platform') {
+    if (type === 'nurture') {
       return `**${value}** people reached`
     }
     return `**${value}** ${isPurchase ? 'in sales' : 'pixel events triggered'}`
@@ -184,9 +184,7 @@ export default {
       return `Your spending is currently paused. [Resume](${ROUTES.CONTROLS_BUDGET}) in order to see your most effective posts here.`
     }
 
-    return `Once you’ve been using Feed for a few weeks,
-  your most effective ads, and a month to month
-  comparison will appear here.`
+    return "Your most effective post isn't available yet, once you've been using Feed for a bit longer it will appear here."
   },
   conversionsActivatorTitle: 'Use the “sales” objective to get purchases on your website.',
   conversionsActivatorDescription: 'Use the "sales" objective to see results in this section!',

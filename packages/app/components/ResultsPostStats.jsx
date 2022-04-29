@@ -11,6 +11,7 @@ import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
+import Spinner from '@/elements/Spinner'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
@@ -19,13 +20,14 @@ import { getPostById } from '@/app/helpers/postsHelpers'
 
 const ResultsPostStats = ({
   post,
-  config,
   className,
 }) => {
-  const { type, key, color } = config
+  const { type, valueKey: key, color } = post
   const [postData, setPostsData] = React.useState(null)
   const [isPurchase, setIsPurchase] = React.useState(false)
   const [value, setValue] = React.useState(Array.isArray(key) ? post[key[0]] : post[key])
+  const [isLoading, setIsLoading] = React.useState(false)
+
   const { artistId, artist: { min_daily_budget_info: { currency: { code: currency } } } } = React.useContext(ArtistContext)
 
   const isDesktopLayout = useBreakpointTest('sm')
@@ -51,67 +53,76 @@ const ResultsPostStats = ({
   }
 
   useAsyncEffect(async (isMounted) => {
+    setIsLoading(true)
+
     const { res, error } = await getPostById(artistId, post.id)
     if (!isMounted()) return
+
     if (error) {
+      setIsLoading(false)
       return
     }
+
     setPostsData(res)
+    setIsLoading(false)
   }, [])
 
   return (
-    postData && (
-      <div
-        className={[className].join(' ')}
-      >
-        <p className="w-full text-bold text-lg sm:hidden">Most effective post</p>
-        <div className="flex flex-row sm:flex-col items-center">
-          <div className="flex items-center" style={{ minHeight: '108px' }}>
-            <MarkdownText markdown={copy.postDescription(type, isPurchase)} className="hidden sm:block text-center sm:px-9" />
-          </div>
-          <PostCardMedia
-            media={postData?.media}
-            thumbnails={postData?.thumbnails}
-            postType={postData?.postType}
-            className="mb-2 mr-4 sm:mr-0"
-            style={{ height: imageHeight, width: imageHeight }}
-          />
-          <div
-            className={[
-              'hidden',
-              'sm:flex flex-column items-center',
-              '-mt-5 mb-6 px-6 py-1 z-10',
-              'text-white rounded-full',
-            ].join(' ')}
-            style={{ backgroundColor: color }}
-          >
-            {isPurchase ? value : abbreviateNumber(value)}
-            <MarkdownText markdown={copy.postLabelText(type, isPurchase)} className="text-xs -mt-1 mb-0" />
-          </div>
-          <div className="flex flex-col items-start justify-center sm:items-center">
-            <MarkdownText markdown={copy.postDescriptionMobile(type, value, isPurchase)} className="sm:hidden" />
-            <Button
-              version="small outline"
-              className={[
-                'h-8',
-                'rounded-full',
-                'border-solid border-black border-2 text-black',
-              ].join(' ')}
-              onClick={openPostMetricsSidePanel}
-              trackComponentName="ResultsPostStats"
-            >
-              View more
-            </Button>
-          </div>
+    <div
+      className={[className].join(' ')}
+    >
+      <p className="w-full font-bold text-xl">Top performing post</p>
+      <div className="flex flex-row sm:flex-col items-center">
+        <div className="flex items-center" style={{ minHeight: '108px' }}>
+          <MarkdownText markdown={copy.postDescription(type, isPurchase)} className="hidden sm:block text-center sm:px-9" />
         </div>
+        {isLoading ? (
+          <Spinner className="h-64 flex items-center" width={28} />
+        ) : (
+          <>
+            <PostCardMedia
+              media={postData?.media}
+              thumbnails={postData?.thumbnails}
+              postType={postData?.postType}
+              className="mb-2 mr-4 sm:mr-0"
+              style={{ height: imageHeight, width: imageHeight }}
+            />
+            <div
+              className={[
+                'hidden',
+                'sm:flex flex-column items-center',
+                '-mt-5 mb-6 px-6 py-1 z-10',
+                'text-white rounded-full',
+              ].join(' ')}
+              style={{ backgroundColor: color }}
+            >
+              {isPurchase ? value : abbreviateNumber(value)}
+              <MarkdownText markdown={copy.postLabelText(type, isPurchase)} className="text-xs -mt-1 mb-0" />
+            </div>
+            <div className="flex flex-col items-start justify-center sm:items-center">
+              <MarkdownText markdown={copy.postDescriptionMobile(type, value, isPurchase)} className="sm:hidden" />
+              <Button
+                version="small outline"
+                className={[
+                  'h-8',
+                  'rounded-full',
+                  'border-solid border-black border-2 text-black',
+                ].join(' ')}
+                onClick={openPostMetricsSidePanel}
+                trackComponentName="ResultsPostStats"
+              >
+                View more
+              </Button>
+            </div>
+          </>
+        )}
       </div>
-    )
+    </div>
   )
 }
 
 ResultsPostStats.propTypes = {
   post: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 

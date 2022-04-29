@@ -1,15 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import ResultsStats from '@/app/ResultsStats'
+import ResultsTabs from '@/app/ResultsTabs'
 import ResultsPostsStats from '@/app/ResultsPostsStats'
 import ResultsSpendOverview from '@/app/ResultsSpendOverview'
 
 import MarkdownText from '@/elements/MarkdownText'
 
+import { adMetricTypes } from '@/app/helpers/resultsHelpers'
+
 import copy from '@/app/copy/ResultsPageCopy'
 
-const ResultsContent = ({ adData, aggregatedAdData, isSpendingPaused }) => {
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
+
+const ResultsContent = ({
+  adData,
+  aggregatedAdData,
+  isSpendingPaused,
+  hasNoProfiles,
+}) => {
+  const [metricType, setMetricType] = React.useState('engagement')
+
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective, platform } = optimizationPreferences
+  const hasSalesObjective = objective === 'sales'
+  const hasInstagramGrowthObjective = objective === 'growth' && platform === 'instagram'
+
   if (!adData) return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
 
   return (
@@ -28,11 +49,19 @@ const ResultsContent = ({ adData, aggregatedAdData, isSpendingPaused }) => {
             <ResultsStats
               adData={adData}
               aggregatedAdData={aggregatedAdData}
-              className="sm:col-span-4"
+              hasSalesObjective={hasSalesObjective}
+              hasInstagramGrowthObjective={hasInstagramGrowthObjective}
+            />
+            <ResultsTabs
+              metricTypes={adMetricTypes}
+              metricType={metricType}
+              setMetricType={setMetricType}
+              shouldHideTab={!hasSalesObjective && !hasInstagramGrowthObjective}
+              hasNoProfiles={hasNoProfiles}
             />
             <ResultsPostsStats
               adData={adData}
-              className="sm:col-span-4"
+              metricType={metricType}
             />
           </div>
         </div>
@@ -46,6 +75,7 @@ ResultsContent.propTypes = {
   adData: PropTypes.object,
   aggregatedAdData: PropTypes.object,
   isSpendingPaused: PropTypes.bool.isRequired,
+  hasNoProfiles: PropTypes.bool.isRequired,
 }
 
 ResultsContent.defaultProps = {

@@ -11,20 +11,38 @@ import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 import * as server from '@/app/helpers/appServer'
 import { formatServerData } from '@/app/helpers/insightsHelpers'
 
-export const postResultsConfig = [
+export const adMetricTypes = [
   {
-    type: 'unaware',
-    key: 'engaged',
+    type: 'engagement',
+    key: 'unaware',
+    valueKey: 'engaged',
     color: brandColors.blue,
   },
   {
-    type: 'on_platform',
-    key: 'reach',
+    type: 'nurture',
+    key: 'on_platform',
+    valueKey: 'reach',
     color: brandColors.green,
   },
   {
-    type: 'conversions',
-    key: ['sales_value', 'events_count'],
+    type: 'growth',
+    key: 'conversions',
+    valueKey: ['sales_value', 'events_count'],
+    color: brandColors.redLight,
+  },
+]
+
+export const organicMetricTypes = [
+  {
+    type: 'reach',
+    color: brandColors.blue,
+  },
+  {
+    type: 'engagement',
+    color: brandColors.green,
+  },
+  {
+    type: 'growth',
     color: brandColors.redLight,
   },
 ]
@@ -32,14 +50,17 @@ export const postResultsConfig = [
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
     const { asset, ...stats } = value
+    const metricType = adMetricTypes.find((type) => type.key === key)
 
     newObject[key] = stats
+
     if (value?.asset && (key !== 'spend')) {
       newObject.posts.push({
         ...value.asset,
-        type: key,
+        ...metricType,
       })
     }
+
     return newObject
   }, { posts: [] })
 
@@ -291,21 +312,6 @@ export const getConversionData = (data) => {
   }
 
   return null
-}
-
-export const noSpendMetricTypes = {
-  reach: {
-    type: 'reach',
-    color: brandColors.blue,
-  },
-  engagement: {
-    type: 'engagement',
-    color: brandColors.green,
-  },
-  growth: {
-    type: 'growth',
-    color: brandColors.instagram.bg,
-  },
 }
 
 export const noSpendDataSources = [
