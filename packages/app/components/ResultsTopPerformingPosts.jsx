@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsPostStats from '@/app/ResultsPostStats'
+import ResultsTopPerformingPost from '@/app/ResultsTopPerformingPost'
 import ResultsPostsNoData from '@/app/ResultsPostsNoData'
 
 import useControlsStore from '@/app/stores/controlsStore'
@@ -10,7 +10,7 @@ const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
 })
 
-const ResultsPostsStats = ({
+const ResultsTopPerformingPosts = ({
   adData,
   metricType,
   className,
@@ -21,12 +21,13 @@ const ResultsPostsStats = ({
   if (!post) return <ResultsPostsNoData isSpendingPaused={isSpendingPaused} />
 
   return (
-    <ResultsPostStats
+    <ResultsTopPerformingPost
       key={post.id}
       post={post}
+      metricType={metricType}
       className={[
-        'col-span-12 sm:col-span-4',
-        'flex flex-col sm:items-center',
+        'col-span-12 sm:col-span-6',
+        'flex flex-col',
         className,
         'order-4',
         'mb-6 sm:mb-0',
@@ -35,14 +36,14 @@ const ResultsPostsStats = ({
   )
 }
 
-ResultsPostsStats.propTypes = {
+ResultsTopPerformingPosts.propTypes = {
   adData: PropTypes.object.isRequired,
   metricType: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
-ResultsPostsStats.defaultProps = {
+ResultsTopPerformingPosts.defaultProps = {
   className: '',
 }
 
-export default ResultsPostsStats
+export default ResultsTopPerformingPosts

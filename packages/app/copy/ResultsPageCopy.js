@@ -143,40 +143,18 @@ export default {
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
-  postDescription: (type, isPurchase) => {
+  postDescription: (type, value, isPurchase) => {
     if (type === 'engagement') {
-      return `The post that engaged the
-      most new people:`
+      return `This post was the most effective at growing your Instagram audience, engaging **${value}** new people.`
     }
     if (type === 'nurture') {
-      return `The post that reached the most people
-      from your existing audience:`
+      return `This post was the most effective at growing your Instagram audience, with **${value}** people reached.`
     }
     return isPurchase ? (
-      `The post that generated the
-      most sales:`
+      `This post was the most effective at generating sales with a total value of **${value}**.`
     ) : (
-      `The post that triggered the
-      most pixel events:`
+      `The post was the most effective at triggering your pixel events, ${value} events were triggered`
     )
-  },
-  postLabelText: (type, isPurchase) => {
-    if (type === 'engagement') {
-      return 'engaged'
-    }
-    if (type === 'nurture') {
-      return 'reached'
-    }
-    return isPurchase ? 'in sales' : 'events'
-  },
-  postDescriptionMobile: (type, value, isPurchase) => {
-    if (type === 'engagement') {
-      return `**${value}** new people engaged`
-    }
-    if (type === 'nurture') {
-      return `**${value}** people reached`
-    }
-    return `**${value}** ${isPurchase ? 'in sales' : 'pixel events triggered'}`
   },
   statsNoData: 'Feed is setting up your ads',
   postsStatsNoData: (isSpendingPaused) => {

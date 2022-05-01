@@ -5,7 +5,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import ResultsStats from '@/app/ResultsStats'
 import ResultsTabs from '@/app/ResultsTabs'
-import ResultsPostsStats from '@/app/ResultsPostsStats'
+import ResultsTopPerformingPosts from '@/app/ResultsTopPerformingPosts'
 import ResultsSpendOverview from '@/app/ResultsSpendOverview'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -59,7 +59,7 @@ const ResultsContent = ({
               shouldHideTab={!hasSalesObjective && !hasInstagramGrowthObjective}
               hasNoProfiles={hasNoProfiles}
             />
-            <ResultsPostsStats
+            <ResultsTopPerformingPosts
               adData={adData}
               metricType={metricType}
             />
