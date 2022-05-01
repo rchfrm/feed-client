@@ -64,7 +64,7 @@ const ResultsTopPerformingPost = ({
     >
       <p className="w-full font-bold text-xl">Top performing post</p>
       <div className="flex flex-col">
-        <MarkdownText markdown={copy.postDescription(type, value, isPurchase)} className="mb-12 text-left" />
+        <MarkdownText markdown={copy.postDescription(type, value, isPurchase)} className="xs:mb-12 text-left" />
         {isLoading ? (
           <Spinner className="h-64 flex items-center" width={28} />
         ) : (

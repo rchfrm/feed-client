@@ -29,8 +29,6 @@ const ResultsTopPerformingPosts = ({
         'col-span-12 sm:col-span-6',
         'flex flex-col',
         className,
-        'order-4',
-        'mb-6 sm:mb-0',
       ].join(' ')}
     />
   )

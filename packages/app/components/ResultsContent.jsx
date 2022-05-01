@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import ResultsStats from '@/app/ResultsStats'
 import ResultsTabs from '@/app/ResultsTabs'
@@ -31,6 +32,8 @@ const ResultsContent = ({
   const hasSalesObjective = objective === 'sales'
   const hasInstagramGrowthObjective = objective === 'growth' && platform === 'instagram'
 
+  const isDesktopLayout = useBreakpointTest('sm')
+
   if (!adData) return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
 
   return (
@@ -49,8 +52,11 @@ const ResultsContent = ({
             <ResultsStats
               adData={adData}
               aggregatedAdData={aggregatedAdData}
+              metricType={metricType}
               hasSalesObjective={hasSalesObjective}
               hasInstagramGrowthObjective={hasInstagramGrowthObjective}
+              isDesktopLayout={isDesktopLayout}
+              className={isDesktopLayout ? 'order-1' : 'order-2'}
             />
             <ResultsTabs
               metricTypes={adMetricTypes}
@@ -58,10 +64,12 @@ const ResultsContent = ({
               setMetricType={setMetricType}
               shouldHideTab={!hasSalesObjective && !hasInstagramGrowthObjective}
               hasNoProfiles={hasNoProfiles}
+              className={isDesktopLayout ? 'order-2' : 'order-1'}
             />
             <ResultsTopPerformingPosts
               adData={adData}
               metricType={metricType}
+              className="order-3"
             />
           </div>
         </div>
