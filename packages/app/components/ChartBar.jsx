@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 import tinycolor from 'tinycolor2'
 import moment from 'moment'
-import { Bar } from 'react-chartjs-2'
+import Chart from 'react-chartjs-2'
 // IMPORT COMPONENTS
 import Spinner from '@/elements/Spinner'
 import ChartBarOverlay from '@/app/ChartBarOverlay'
@@ -38,6 +38,14 @@ const baseChartConfig = {
   },
   legend: {
     display: false,
+  },
+  elements: {
+    point: {
+      pointStyle: 'line',
+    },
+    line: {
+      tension: 0,
+    },
   },
   scales: {
     xAxes: [{
@@ -89,6 +97,7 @@ const baseChartConfig = {
 function ChartBar({
   className,
   data,
+  lineData,
   artistId,
   loading,
   artistCurrency,
@@ -204,16 +213,31 @@ function ChartBar({
     const chartData = [
       {
         ...baseBarConfig,
+        type: 'bar',
         label: currentDataSource,
         data: cumulative ? carriedArr : periodValues,
         backgroundColor: cumulative ? lightColor : chartColor,
       },
     ]
 
+    if (lineData) {
+      const lineChartData = {
+        ...baseBarConfig,
+        type: 'line',
+        borderColor: 'black',
+        backgroundColor: 'transparent',
+        label: 'Spending',
+        data: periodValues,
+      }
+
+      chartData.unshift(lineChartData)
+    }
+
     // If data is cumulative, show increase
     if (cumulative) {
       const increaseData = {
         ...baseBarConfig,
+        type: 'bar',
         label: `new_${currentDataSource}`,
         data: increaseArr,
         backgroundColor: chartColor,
@@ -295,7 +319,7 @@ function ChartBar({
       {error && <p className={styles.chartError}>Insufficent Data</p>}
       {/* CHART */}
       <div className={heightClasses || styles.chartContainer__inner}>
-        <Bar
+        <Chart
           data={{
             labels: dateLabels,
             datasets: chartDataSets,
@@ -323,6 +347,7 @@ export default ChartBar
 ChartBar.propTypes = {
   className: PropTypes.string,
   data: PropTypes.object,
+  lineData: PropTypes.object,
   artistId: PropTypes.string,
   loading: PropTypes.bool,
   artistCurrency: PropTypes.string,
@@ -333,6 +358,7 @@ ChartBar.propTypes = {
 ChartBar.defaultProps = {
   className: '',
   data: {},
+  lineData: null,
   artistId: '',
   loading: false,
   artistCurrency: '',

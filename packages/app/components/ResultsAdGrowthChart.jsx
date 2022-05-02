@@ -13,15 +13,14 @@ import copy from '@/app/copy/ResultsPageCopy'
 const ResultsAdGrowthChart = ({ dailyData, dailySpendData, isLoading }) => {
   const { artistId, artistCurrency } = React.useContext(ArtistContext)
 
-  console.log(dailySpendData)
-
   if (isLoading) return <Spinner />
 
   return (
-    dailyData ? (
+    dailyData && Object.keys(dailySpendData).length > 0 ? (
       <div className="relative w-full">
         <ChartBar
           data={dailyData}
+          lineData={{ dailyData: dailySpendData }}
           artistId={artistId}
           artistCurrency={artistCurrency}
           loading={isLoading}
