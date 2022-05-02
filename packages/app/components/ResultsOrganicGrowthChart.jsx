@@ -13,9 +13,12 @@ const ResultsOrganicGrowthChart = ({ dailyData, isLoading }) => {
 
   return (
     dailyData ? (
-      <div className="relative w-full" style={{ paddingTop: '50%' }}>
-        <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
-          <ChartLine data={dailyData} />
+      <div className="relative w-full">
+        <div className="h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96">
+          <ChartLine
+            data={dailyData}
+            maintainAspectRatio={false}
+          />
         </div>
       </div>
     ) : (

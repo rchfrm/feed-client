@@ -32,7 +32,6 @@ const baseBarConfig = {
 
 const baseChartConfig = {
   maintainAspectRatio: true,
-  responsive: true,
   backgroundColor: 'transparent',
   layout: {
     padding: 0,
@@ -94,6 +93,7 @@ function ChartBar({
   loading,
   artistCurrency,
   error,
+  heightClasses,
 }) {
   // DEFINE STATES
   const [dateLabels, setDateLabels] = React.useState([])
@@ -246,6 +246,10 @@ function ChartBar({
           return tickValue
         }
       }
+      // Edit aspect ratio
+      if (heightClasses) {
+        draftConfig.maintainAspectRatio = false
+      }
       // Edit callbacks
       draftConfig.tooltips.callbacks = {
         beforeBody(tooltipItem, chart) {
@@ -290,7 +294,7 @@ function ChartBar({
       {/* No data warning */}
       {error && <p className={styles.chartError}>Insufficent Data</p>}
       {/* CHART */}
-      <div className={styles.chartContainer__inner}>
+      <div className={heightClasses || styles.chartContainer__inner}>
         <Bar
           data={{
             labels: dateLabels,
@@ -323,6 +327,7 @@ ChartBar.propTypes = {
   loading: PropTypes.bool,
   artistCurrency: PropTypes.string,
   error: PropTypes.bool,
+  heightClasses: PropTypes.string,
 }
 
 ChartBar.defaultProps = {
@@ -332,4 +337,5 @@ ChartBar.defaultProps = {
   loading: false,
   artistCurrency: '',
   error: false,
+  heightClasses: '',
 }

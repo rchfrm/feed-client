@@ -6,7 +6,7 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import ResultsStats from '@/app/ResultsStats'
 import ResultsTabs from '@/app/ResultsTabs'
-import ResultsTopPerformingPosts from '@/app/ResultsTopPerformingPosts'
+import ResultsTabContent from '@/app/ResultsTabContent'
 import ResultsSpendOverview from '@/app/ResultsSpendOverview'
 
 import MarkdownText from '@/elements/MarkdownText'
@@ -66,7 +66,7 @@ const ResultsContent = ({
               hasNoProfiles={hasNoProfiles}
               className={isDesktopLayout ? 'order-2' : 'order-1'}
             />
-            <ResultsTopPerformingPosts
+            <ResultsTabContent
               adData={adData}
               metricType={metricType}
               className="order-3"

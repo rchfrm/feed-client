@@ -47,15 +47,18 @@ export const organicMetricTypes = [
   },
 ]
 
-export const organicDataSources = [
-  'facebook_likes',
-  'instagram_follower_count',
-]
+export const followerGrowthDataSources = {
+  facebook: 'facebook_likes',
+  instagram: 'instagram_follower_count',
+  soundcloud: 'soundcloud_follower_count',
+  spotify: 'spotify_follower_count',
+  youtube: 'youtube_subscriber_count',
+}
 
-export const adDataSources = [
-  'facebook_engaged_1y',
-  'instagram_engaged_1y',
-]
+export const engagementDataSources = {
+  facebook: 'facebook_engaged_1y',
+  instagram: 'instagram_engaged_1y',
+}
 
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
@@ -581,7 +584,7 @@ export const getDummyPosts = (dummyPostsImages, globalAverage) => {
 }
 
 export const getDataSources = async (dataSources, artistId) => {
-  const data = await getDataSourceValue(dataSources, artistId)
+  const data = await getDataSourceValue(Object.values(dataSources), artistId)
 
   const formattedData = Object.values(data).map(({ name, platform, daily_data }) => {
     return formatServerData({

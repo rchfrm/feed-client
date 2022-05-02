@@ -18,16 +18,20 @@ const ResultsEngagedAudienceChart = ({ dailyData, chartType, isLoading }) => {
 
   return (
     dailyData ? (
-      <div className="relative w-full">
+      <div className="relative w-full h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96">
         {chartType === 'bar' ? (
           <ChartBar
             data={dailyData}
             artistId={artistId}
             artistCurrency={artistCurrency}
             loading={isLoading}
+            heightClasses="h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96"
           />
         ) : (
-          <ChartLine data={dailyData} />
+          <ChartLine
+            data={dailyData}
+            maintainAspectRatio={false}
+          />
         )}
       </div>
     ) : (
@@ -37,7 +41,7 @@ const ResultsEngagedAudienceChart = ({ dailyData, chartType, isLoading }) => {
 }
 
 ResultsEngagedAudienceChart.propTypes = {
-  dailyData: PropTypes.array,
+  dailyData: PropTypes.object,
   chartType: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }

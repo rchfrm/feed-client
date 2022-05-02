@@ -5,22 +5,20 @@ import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ResultsChartHeader from '@/app/ResultsChartHeader'
-import ResultsEngagedAudienceChart from '@/app/ResultsEngagedAudienceChart'
+import ResultsAdGrowthChart from '@/app/ResultsAdGrowthChart'
 
-import { getDataSources, engagementDataSources } from '@/app/helpers/resultsHelpers'
+import { getDataSources, followerGrowthDataSources } from '@/app/helpers/resultsHelpers'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-const ResultsEngagedAudienceChartLoader = ({
+const ResultsAdGrowthChartLoader = ({
   dailyData,
   setDailyData,
-  hasGrowthObjective,
   platform,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
 
   const { artistId } = React.useContext(ArtistContext)
-  const chartType = hasGrowthObjective && (platform === 'instagram' || platform === 'facebook') ? 'bar' : 'line'
 
   // Get follower growth data
   useAsyncEffect(async (isMounted) => {
@@ -29,37 +27,34 @@ const ResultsEngagedAudienceChartLoader = ({
 
     setIsLoading(true)
 
-    const dataSources = chartType === 'line' ? engagementDataSources : { [platform]: engagementDataSources[platform] }
-    const data = await getDataSources(dataSources, artistId)
+    const data = await getDataSources({ [platform]: followerGrowthDataSources[platform] }, artistId)
 
     setDailyData(data[0])
     setIsLoading(false)
   }, [])
 
   return (
-    <div className="order-3 col-span-12 mb-12 sm:mb-6">
-      <p className="font-bold text-xl">Your engaged audience</p>
+    <div className="order-3 col-span-12">
+      <p className="font-bold text-xl">{copy.adGrowthChartTitle(platform)}</p>
       <ResultsChartHeader
-        description={copy.engageChartDescription}
+        description={copy.adGrowthChartDescription}
       />
-      <ResultsEngagedAudienceChart
+      <ResultsAdGrowthChart
         dailyData={dailyData}
-        chartType={chartType}
         isLoading={isLoading}
       />
     </div>
   )
 }
 
-ResultsEngagedAudienceChartLoader.propTypes = {
+ResultsAdGrowthChartLoader.propTypes = {
   dailyData: PropTypes.array,
   setDailyData: PropTypes.func.isRequired,
-  hasGrowthObjective: PropTypes.bool.isRequired,
   platform: PropTypes.string.isRequired,
 }
 
-ResultsEngagedAudienceChartLoader.defaultProps = {
+ResultsAdGrowthChartLoader.defaultProps = {
   dailyData: null,
 }
 
-export default ResultsEngagedAudienceChartLoader
+export default ResultsAdGrowthChartLoader

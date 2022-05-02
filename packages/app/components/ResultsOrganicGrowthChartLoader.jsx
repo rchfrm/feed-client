@@ -9,7 +9,7 @@ import ResultsOrganicGrowthChart from '@/app/ResultsOrganicGrowthChart'
 
 import brandColors from '@/constants/brandColors'
 
-import { getDataSources, organicDataSources } from '@/app/helpers/resultsHelpers'
+import { getDataSources, followerGrowthDataSources } from '@/app/helpers/resultsHelpers'
 import { capitalise } from '@/helpers/utils'
 
 import copy from '@/app/copy/ResultsPageCopy'
@@ -27,7 +27,12 @@ const ResultsOrganicGrowthChartLoader = ({ dailyData, setDailyData }) => {
 
     setIsLoading(true)
 
-    const data = await getDataSources(organicDataSources, artistId)
+    const { facebook, instagram } = followerGrowthDataSources
+
+    const data = await getDataSources({
+      facebook,
+      instagram,
+    }, artistId)
 
     setLegendItems(data.map(({ platform }) => ({
       label: capitalise(platform),
@@ -44,8 +49,7 @@ const ResultsOrganicGrowthChartLoader = ({ dailyData, setDailyData }) => {
     <>
       <p className="font-bold text-xl">Follower growth</p>
       <ResultsChartHeader
-        title="Follower growth"
-        description={copy.growthChartDescription}
+        description={copy.organicGrowthChartDescription}
         legendItems={legendItems}
       />
       <ResultsOrganicGrowthChart
