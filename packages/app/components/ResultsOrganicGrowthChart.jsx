@@ -8,7 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-const ResultsGrowthChart = ({ dailyData, isLoading }) => {
+const ResultsOrganicGrowthChart = ({ dailyData, isLoading }) => {
   if (isLoading) return <Spinner />
 
   return (
@@ -24,13 +24,13 @@ const ResultsGrowthChart = ({ dailyData, isLoading }) => {
   )
 }
 
-ResultsGrowthChart.propTypes = {
+ResultsOrganicGrowthChart.propTypes = {
   dailyData: PropTypes.array,
   isLoading: PropTypes.bool.isRequired,
 }
 
-ResultsGrowthChart.defaultProps = {
+ResultsOrganicGrowthChart.defaultProps = {
   dailyData: null,
 }
 
-export default ResultsGrowthChart
+export default ResultsOrganicGrowthChart

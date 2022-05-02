@@ -78,7 +78,7 @@ export default {
     title: 'engagement',
     subtitle: '',
     period: 'yearly',
-    dataType: 'yearly',
+    dataType: 'cumulative',
   },
 
   facebook_engaged_28d: {
@@ -204,7 +204,7 @@ export default {
     title: 'engagement',
     subtitle: '',
     period: 'yearly',
-    dataType: 'yearly',
+    dataType: 'cumulative',
   },
 
   instagram_engaged_28d: {

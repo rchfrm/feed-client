@@ -255,6 +255,7 @@ export default {
   },
   postsChartNoData: 'No posts found within the last 30 days.',
   growthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
+  engageChartDescription: "Your audience on Instagram is everyone who has engaged with your posts in the last year. This is often a much larger group than the number who follow you! Step 1: Reach is all about growing that audience, here's how it's developing.",
   growthChartNoData: 'There is currently no follower growth data available.',
   headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
     const resultsTypeString = `**<span className="green--underline">${capitalise(resultsType)}</span>** insights`

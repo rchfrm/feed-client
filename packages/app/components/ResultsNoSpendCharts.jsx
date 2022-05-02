@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ResultsPostsChartContent from '@/app/ResultsPostsChartContent'
-import ResultsGrowthChartContent from '@/app/ResultsGrowthChartContent'
+import ResultsOrganicGrowthChartLoader from '@/app/ResultsOrganicGrowthChartLoader'
 
 const ResultsNoSpendCharts = ({
   organicData,
@@ -30,7 +30,7 @@ const ResultsNoSpendCharts = ({
         />
       )}
       {metricType === 'growth' && hasGrowth && (
-        <ResultsGrowthChartContent
+        <ResultsOrganicGrowthChartLoader
           dailyData={dailyGrowthData}
           setDailyData={setDailyGrowthData}
         />

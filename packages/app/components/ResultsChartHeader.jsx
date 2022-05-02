@@ -16,10 +16,11 @@ const ResultsChartHeader = ({ description, legendItems }) => {
 
 ResultsChartHeader.propTypes = {
   description: PropTypes.string.isRequired,
-  legendItems: PropTypes.array.isRequired,
+  legendItems: PropTypes.array,
 }
 
 ResultsChartHeader.defaultProps = {
+  legendItems: [],
 }
 
 export default ResultsChartHeader

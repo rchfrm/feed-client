@@ -47,6 +47,16 @@ export const organicMetricTypes = [
   },
 ]
 
+export const organicDataSources = [
+  'facebook_likes',
+  'instagram_follower_count',
+]
+
+export const adDataSources = [
+  'facebook_engaged_1y',
+  'instagram_engaged_1y',
+]
+
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
     const { asset, ...stats } = value
@@ -314,17 +324,6 @@ export const getConversionData = (data) => {
   return null
 }
 
-export const noSpendDataSources = [
-  {
-    platform: 'facebook',
-    source: 'facebook_likes',
-  },
-  {
-    platform: 'instagram',
-    source: 'instagram_follower_count',
-  },
-]
-
 const getQuartile = (percentile, audience) => {
   if (percentile <= 25) {
     return {
@@ -424,19 +423,6 @@ export const getStatsData = (adData, aggregatedAdData) => {
     existingAudienceData: getExistingAudienceData(adData),
     conversionData: getConversionData(adData),
     platformData: getPlatformData(adData, aggregatedAdData),
-  }
-}
-
-export const getDataSourceValues = async (artistId) => {
-  const dataSources = noSpendDataSources.map(({ source }) => source)
-  const {
-    facebook_likes,
-    instagram_follower_count,
-  } = await getDataSourceValue(dataSources, artistId)
-
-  return {
-    dailyFacebookData: facebook_likes?.daily_data,
-    dailyInstagramData: instagram_follower_count?.daily_data,
   }
 }
 
@@ -594,29 +580,16 @@ export const getDummyPosts = (dummyPostsImages, globalAverage) => {
   return dummyPosts
 }
 
-export const getFollowerGrowth = async (artistId) => {
-  const {
-    dailyFacebookData,
-    dailyInstagramData,
-  } = await getDataSourceValues(artistId)
+export const getDataSources = async (dataSources, artistId) => {
+  const data = await getDataSourceValue(dataSources, artistId)
 
-  const formattedData = [dailyFacebookData, dailyInstagramData].map((dailyData, index) => {
-    if (!dailyData || !Object.keys(dailyData).length) {
-      return
-    }
-
-    const { source, platform } = noSpendDataSources[index]
-
+  const formattedData = Object.values(data).map(({ name, platform, daily_data }) => {
     return formatServerData({
-      dailyData,
-      currentDataSource: source,
+      currentDataSource: name,
       currentPlatform: platform,
+      dailyData: daily_data,
     })
   })
-
-  if (!formattedData.filter(data => data).length) {
-    return
-  }
 
   return formattedData
 }
