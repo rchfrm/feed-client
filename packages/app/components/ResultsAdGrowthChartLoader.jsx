@@ -14,6 +14,7 @@ import copy from '@/app/copy/ResultsPageCopy'
 const ResultsAdGrowthChartLoader = ({
   dailyData,
   setDailyData,
+  dailySpendData,
   platform,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
@@ -41,6 +42,7 @@ const ResultsAdGrowthChartLoader = ({
       />
       <ResultsAdGrowthChart
         dailyData={dailyData}
+        dailySpendData={dailySpendData}
         isLoading={isLoading}
       />
     </div>
@@ -50,6 +52,7 @@ const ResultsAdGrowthChartLoader = ({
 ResultsAdGrowthChartLoader.propTypes = {
   dailyData: PropTypes.array,
   setDailyData: PropTypes.func.isRequired,
+  dailySpendData: PropTypes.object.isRequired,
   platform: PropTypes.string.isRequired,
 }
 

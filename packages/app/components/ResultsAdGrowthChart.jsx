@@ -10,8 +10,10 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-const ResultsAdGrowthChart = ({ dailyData, isLoading }) => {
+const ResultsAdGrowthChart = ({ dailyData, dailySpendData, isLoading }) => {
   const { artistId, artistCurrency } = React.useContext(ArtistContext)
+
+  console.log(dailySpendData)
 
   if (isLoading) return <Spinner />
 
@@ -34,6 +36,7 @@ const ResultsAdGrowthChart = ({ dailyData, isLoading }) => {
 
 ResultsAdGrowthChart.propTypes = {
   dailyData: PropTypes.array,
+  dailySpendData: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 

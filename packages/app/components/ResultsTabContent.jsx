@@ -16,12 +16,14 @@ const getControlsStoreState = (state) => ({
 const ResultsTabContent = ({
   adData,
   metricType,
+  spend,
   className,
 }) => {
   const [dailyEngageData, setDailyEngageData] = React.useState(null)
   const [dailyGrowthData, setDailyGrowthData] = React.useState(null)
 
   const post = adData.posts.find(({ type }) => type === metricType)
+  const { daily_data: dailySpendData } = spend
 
   const { optimizationPreferences, isSpendingPaused } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
@@ -41,6 +43,7 @@ const ResultsTabContent = ({
         <ResultsAdGrowthChartLoader
           dailyData={dailyGrowthData}
           setDailyData={setDailyGrowthData}
+          dailySpendData={dailySpendData}
           platform={platform}
         />
       )}
@@ -65,6 +68,7 @@ const ResultsTabContent = ({
 ResultsTabContent.propTypes = {
   adData: PropTypes.object.isRequired,
   metricType: PropTypes.string.isRequired,
+  spend: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 

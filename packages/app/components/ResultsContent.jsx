@@ -69,12 +69,13 @@ const ResultsContent = ({
             <ResultsTabContent
               adData={adData}
               metricType={metricType}
+              spend={adData.spend}
               className="order-3"
             />
           </div>
         </div>
       </div>
-      <ResultsSpendOverview spending={adData.spend} />
+      <ResultsSpendOverview spend={adData.spend} />
     </div>
   )
 }
