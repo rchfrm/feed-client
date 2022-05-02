@@ -6,17 +6,39 @@ import * as utils from '@/helpers/utils'
 // IMPORT STYLES
 import styles from '@/app/InsightsPage.module.css'
 
-const ChartBarOverlay = ({ max: maxValue, min: minValue, currency, labels, granularity }) => {
-  const midValue = ((maxValue - minValue) / 2) + minValue
-  const max = currency
-    ? utils.formatCurrency(Math.round(maxValue), currency).replace('.00', '')
-    : utils.abbreviateNumber(maxValue)
-  const min = currency
-    ? utils.formatCurrency(Math.round(minValue), currency).replace('.00', '')
-    : utils.abbreviateNumber(minValue)
-  const mid = currency
-    ? utils.formatCurrency(Math.round(midValue), currency).replace('.00', '')
-    : utils.abbreviateNumber(midValue)
+const ChartBarOverlay = ({
+  leftMax: leftMaxValue,
+  leftMin: leftMinValue,
+  leftCurrency,
+  rightMax: rightMaxValue,
+  rightMin: rightMinValue,
+  rightCurrency,
+  isMixedChart,
+  labels,
+  granularity,
+}) => {
+  const leftMidValue = ((leftMaxValue - leftMinValue) / 2) + leftMinValue
+  const rightMidValue = ((rightMaxValue - rightMinValue) / 2) + rightMinValue
+
+  const leftMax = leftCurrency
+    ? utils.formatCurrency(Math.round(leftMaxValue), leftCurrency).replace('.00', '')
+    : utils.abbreviateNumber(leftMaxValue)
+  const leftMin = leftCurrency
+    ? utils.formatCurrency(Math.round(leftMinValue), leftCurrency).replace('.00', '')
+    : utils.abbreviateNumber(leftMinValue)
+  const leftMid = leftCurrency
+    ? utils.formatCurrency(Math.round(leftMidValue), leftCurrency).replace('.00', '')
+    : utils.abbreviateNumber(leftMidValue)
+
+  const rightMax = rightCurrency
+    ? utils.formatCurrency(Math.round(rightMaxValue), rightCurrency).replace('.00', '')
+    : utils.abbreviateNumber(rightMaxValue)
+  const rightMin = rightCurrency
+    ? utils.formatCurrency(Math.round(rightMinValue), rightCurrency).replace('.00', '')
+    : utils.abbreviateNumber(rightMinValue)
+  const rightMid = rightCurrency
+    ? utils.formatCurrency(Math.round(rightMidValue), rightCurrency).replace('.00', '')
+    : utils.abbreviateNumber(rightMidValue)
 
   const labelList = []
 
@@ -37,10 +59,17 @@ const ChartBarOverlay = ({ max: maxValue, min: minValue, currency, labels, granu
   return (
     <>
       <div className={styles.chartOverlay}>
-        <div className={styles.chartMax}>{max}</div>
-        <div className={styles.chartMid}>{mid}</div>
-        <div className={styles.chartMin}>{min}</div>
+        <div className={styles.chartLeftMax}>{leftMax}</div>
+        <div className={styles.chartLeftMid}>{leftMid}</div>
+        <div className={styles.chartLeftMin}>{leftMin}</div>
         <ul className={styles.xAxisLabels}>{labelList}</ul>
+        {isMixedChart && (
+          <>
+            <div className={styles.chartRightMax}>{rightMax}</div>
+            <div className={styles.chartRightMid}>{rightMid}</div>
+            <div className={styles.chartRightMin}>{rightMin}</div>
+          </>
+        )}
       </div>
       <div className={styles.chartBackground}>
         <div className={styles.chartMidline} />

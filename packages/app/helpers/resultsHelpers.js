@@ -587,10 +587,12 @@ export const getDataSources = async (dataSources, artistId) => {
   const data = await getDataSourceValue(Object.values(dataSources), artistId)
 
   const formattedData = Object.values(data).map(({ name, platform, daily_data }) => {
+    const dataFromLast4Months = Object.fromEntries(Object.entries(daily_data).slice(-120))
+
     return formatServerData({
       currentDataSource: name,
       currentPlatform: platform,
-      dailyData: daily_data,
+      dailyData: dataFromLast4Months,
     })
   })
 
