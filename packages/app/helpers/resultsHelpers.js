@@ -359,6 +359,10 @@ const getQuartile = (percentile, audience) => {
 }
 
 export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram') => {
+  const { instagram_growth } = adData
+
+  if (!instagram_growth) return null
+
   const {
     instagram_growth: {
       '30d': {

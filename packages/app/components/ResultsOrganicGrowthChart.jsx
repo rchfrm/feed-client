@@ -22,7 +22,7 @@ const ResultsOrganicGrowthChart = ({ dailyData, isLoading }) => {
         </div>
       </div>
     ) : (
-      <MarkdownText markdown={copy.growthChartNoData} className="w-full mb-auto" />
+      <MarkdownText markdown={copy.chartNoData('follower growth')} className="w-full mb-auto" />
     )
   )
 }

@@ -39,10 +39,10 @@ const ResultsTopPerformingPostStats = ({
         {metricType === 'growth' && hasSalesObjective && (
           <>
             <li className="mb-4">
-              <span className="font-bold underline underline-offset-2 decoration-2 decoration-green">{post.landing_page_views}</span> website visits
+              <span className="font-bold underline underline-offset-2 decoration-2 decoration-green">{post.landing_page_views}</span> website visit(s)
             </li>
             <li className="mb-4">
-              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{post.events_count}</span> sales
+              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{post.events_count}</span> sale(s)
               {post.sales_value > 0 && <span> worth <strong>{formatCurrency(post.sales_value, currency)}</strong></span>}
             </li>
             <li>

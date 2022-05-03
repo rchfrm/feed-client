@@ -9,6 +9,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostCardMedia from '@/app/PostCardMedia'
 import ResultsTopPerformingPostStats from '@/app/ResultsTopPerformingPostStats'
 import ResultsTopPerformingPostButton from '@/app/ResultsTopPerformingPostButton'
+import ResultsPostsNoData from '@/app/ResultsPostsNoData'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
@@ -27,6 +28,7 @@ const getControlsStoreState = (state) => ({
 const ResultsTopPerformingPost = ({
   post,
   metricType,
+  isSpendingPaused,
   className,
 }) => {
   const { type, valueKey: key } = post
@@ -69,7 +71,11 @@ const ResultsTopPerformingPost = ({
     setIsLoading(false)
   }, [])
 
-  if (metricType === 'growth' && type === 'growth' && (post[key[1]] === 0 || !hasSalesObjective)) return
+  if (metricType === 'growth' && type === 'growth' && (post[key[1]] === 0 || !hasSalesObjective)) {
+    return (
+      <ResultsPostsNoData isSpendingPaused={isSpendingPaused} />
+    )
+  }
 
   return (
     <div
@@ -110,6 +116,7 @@ const ResultsTopPerformingPost = ({
 ResultsTopPerformingPost.propTypes = {
   post: PropTypes.object.isRequired,
   metricType: PropTypes.string.isRequired,
+  isSpendingPaused: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

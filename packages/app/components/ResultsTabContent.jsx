@@ -52,6 +52,7 @@ const ResultsTabContent = ({
           key={post.id}
           post={post}
           metricType={metricType}
+          isSpendingPaused={isSpendingPaused}
           className={[
             'col-span-12 sm:col-span-6',
             'flex flex-col',

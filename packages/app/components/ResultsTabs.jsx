@@ -44,11 +44,12 @@ ResultsTabs.propTypes = {
   metricType: PropTypes.string.isRequired,
   setMetricType: PropTypes.func.isRequired,
   hasNoProfiles: PropTypes.bool.isRequired,
-  shouldHideTab: PropTypes.bool.isRequired,
+  shouldHideTab: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ResultsTabs.defaultProps = {
+  shouldHideTab: false,
   className: '',
 }
 

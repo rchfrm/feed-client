@@ -160,7 +160,7 @@ export default {
     return isPurchase ? (
       `This post was the most effective at generating sales with a total value of **${value}**.`
     ) : (
-      `This post was the most effective by generating **${value}** sale(s)`
+      `This post was the most effective by generating **${value}** sale(s).`
     )
   },
   statsNoData: 'Feed is setting up your ads',
@@ -262,7 +262,7 @@ export default {
   },
   postsChartNoData: 'No posts found within the last 30 days.',
   organicGrowthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
-  engageChartDescription: "Your audience on Instagram is everyone who has engaged with your posts in the last year. This is often a much larger group than the number who follow you! Step 1: **Reach** is all about growing that audience, here's how it's developing.",
+  engageChartDescription: (platform, isChartBar) => `Your audience on ${isChartBar ? getPlatformNameByValue(platform) : 'Instagram and Facebook'} is everyone who has engaged with your posts in the last year. This is often a much larger group than the number who follow you! Step 1: **Reach** is all about growing that audience, here's how it's developing.`,
   adGrowthChartTitle: (platform) => {
     if (platform === 'instagram') return 'Your Instagram following'
     if (platform === 'facebook') return 'Your Facebook likes'
@@ -270,8 +270,8 @@ export default {
     if (platform === 'spotify') return 'Your Spotify followers'
     if (platform === 'soundcloud') return 'Your SoundCloud followers'
   },
-  adGrowthChartDescription: "Step 3: **Grow** is about growing your followers on Instagram. Here's how it's been going, the black line shows how much you spent through Feed, so you can see when you were spending and when you weren't.",
-  growthChartNoData: 'There is currently no follower growth data available.',
+  adGrowthChartDescription: (platform) => `Step 3: **Grow** is about growing your followers on ${getPlatformNameByValue(platform)}. Here's how it's been going, the black line shows how much you spent through Feed, so you can see when you were spending and when you weren't.`,
+  chartNoData: (subject) => `There is currently no ${subject} data available.`,
   headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
     const resultsTypeString = `**<span className="green--underline">${capitalise(resultsType)}</span>** insights`
 

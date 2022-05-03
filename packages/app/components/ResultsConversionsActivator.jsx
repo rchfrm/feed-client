@@ -35,11 +35,11 @@ const ResultsConversionsActivator = ({ className }) => {
           <div
             className={[
               'flex justify-center items-center',
-              'w-12 h-12 rounded-full mb-6',
+              'w-10 h-10 rounded-full mb-3',
             ].join(' ')}
             style={{ backgroundColor: brandColors.instagram.bg }}
           >
-            <JoystickIcon className="w-5 h-auto" fill="white" />
+            <JoystickIcon className="w-4 h-auto" fill="white" />
           </div>
           <MarkdownText className="text-center px-8 mb-0" markdown={copy.conversionsActivatorDescription} />
         </div>

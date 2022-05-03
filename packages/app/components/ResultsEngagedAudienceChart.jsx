@@ -5,44 +5,59 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import Chart from '@/app/Chart'
 import ChartLine from '@/app/ChartLine'
+import ResultsChartHeader from '@/app/ResultsChartHeader'
 
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-const ResultsEngagedAudienceChart = ({ dailyData, chartType, isLoading }) => {
+const ResultsEngagedAudienceChart = ({
+  dailyData,
+  platform,
+  isChartBar,
+  isLoading,
+}) => {
   const { artistId, artistCurrency } = React.useContext(ArtistContext)
 
   if (isLoading) return <Spinner />
 
   return (
     dailyData ? (
-      <div className="relative w-full h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96">
-        {chartType === 'bar' ? (
-          <Chart
-            chartBarData={dailyData}
-            artistId={artistId}
-            artistCurrency={artistCurrency}
-            loading={isLoading}
-            heightClasses="h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96"
-          />
-        ) : (
-          <ChartLine
-            data={dailyData}
-            maintainAspectRatio={false}
-          />
-        )}
-      </div>
+      <>
+        <ResultsChartHeader
+          description={copy.engageChartDescription(platform, isChartBar)}
+        />
+        <div className="relative w-full h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96">
+          {isChartBar ? (
+            <Chart
+              chartBarData={dailyData}
+              artistId={artistId}
+              artistCurrency={artistCurrency}
+              loading={isLoading}
+              heightClasses="h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96"
+            />
+          ) : (
+            <ChartLine
+              data={Object.values(dailyData)}
+              maintainAspectRatio={false}
+            />
+          )}
+        </div>
+      </>
     ) : (
-      <MarkdownText markdown={copy.growthChartNoData} className="w-full mb-auto" />
+      <MarkdownText markdown={copy.chartNoData('engaged audience')} className="w-full mb-auto" />
     )
   )
 }
 
 ResultsEngagedAudienceChart.propTypes = {
-  dailyData: PropTypes.object,
-  chartType: PropTypes.string.isRequired,
+  dailyData: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+  ]),
+  platform: PropTypes.string.isRequired,
+  isChartBar: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 

@@ -4,31 +4,41 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import Chart from '@/app/Chart'
+import ResultsChartHeader from '@/app/ResultsChartHeader'
 
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-const ResultsAdGrowthChart = ({ chartBarData, chartLineData, isLoading }) => {
+const ResultsAdGrowthChart = ({
+  chartBarData,
+  chartLineData,
+  platform,
+  isLoading }) => {
   const { artistId, artistCurrency } = React.useContext(ArtistContext)
 
   if (isLoading) return <Spinner />
 
   return (
     chartBarData && chartLineData ? (
-      <div className="relative w-full">
-        <Chart
-          chartBarData={chartBarData}
-          chartLineData={chartLineData}
-          artistId={artistId}
-          artistCurrency={artistCurrency}
-          loading={isLoading}
-          heightClasses="h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96"
+      <>
+        <ResultsChartHeader
+          description={copy.adGrowthChartDescription(platform)}
         />
-      </div>
+        <div className="relative w-full">
+          <Chart
+            chartBarData={chartBarData}
+            chartLineData={chartLineData}
+            artistId={artistId}
+            artistCurrency={artistCurrency}
+            loading={isLoading}
+            heightClasses="h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96"
+          />
+        </div>
+      </>
     ) : (
-      <MarkdownText markdown={copy.growthChartNoData} className="w-full mb-auto" />
+      <MarkdownText markdown={copy.chartNoData('follower growth')} className="w-full mb-auto" />
     )
   )
 }
@@ -36,6 +46,7 @@ const ResultsAdGrowthChart = ({ chartBarData, chartLineData, isLoading }) => {
 ResultsAdGrowthChart.propTypes = {
   chartBarData: PropTypes.object,
   chartLineData: PropTypes.object,
+  platform: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 

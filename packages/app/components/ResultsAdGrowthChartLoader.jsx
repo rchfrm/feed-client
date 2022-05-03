@@ -4,7 +4,6 @@ import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import ResultsChartHeader from '@/app/ResultsChartHeader'
 import ResultsAdGrowthChart from '@/app/ResultsAdGrowthChart'
 
 import { getDataSources, followerGrowthDataSources, formatChartDailyData } from '@/app/helpers/resultsHelpers'
@@ -44,12 +43,10 @@ const ResultsAdGrowthChartLoader = ({
   return (
     <div className="order-3 col-span-12">
       <p className="font-bold text-xl">{copy.adGrowthChartTitle(platform)}</p>
-      <ResultsChartHeader
-        description={copy.adGrowthChartDescription}
-      />
       <ResultsAdGrowthChart
         chartBarData={dailyGrowthData}
         chartLineData={dailySpendData}
+        platform={platform}
         isLoading={isLoading}
       />
     </div>

@@ -62,7 +62,6 @@ const ResultsContent = ({
               metricTypes={adMetricTypes}
               metricType={metricType}
               setMetricType={setMetricType}
-              shouldHideTab={!hasSalesObjective && !hasInstagramGrowthObjective}
               hasNoProfiles={hasNoProfiles}
               className={isDesktopLayout ? 'order-2' : 'order-1'}
             />
