@@ -347,7 +347,7 @@ const Chart = ({
           }
 
           if (chart.datasets[datasetIndex].type === 'line') {
-            return ` ${chartLineData.currency ? utils.formatCurrency(tooltipItem.value, artistCurrency) : utils.formatNumber(tooltipItem.value)}: ${chartLineData.title}`
+            return ` ${chartLineData.currency ? utils.formatCurrency(tooltipItem.value, artistCurrency) : utils.formatNumber(tooltipItem.value)}: ${utils.capitalise(chartLineData.title)}`
           }
         },
       }

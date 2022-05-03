@@ -586,17 +586,60 @@ export const getDummyPosts = (dummyPostsImages, globalAverage) => {
 export const getDataSources = async (dataSources, artistId) => {
   const data = await getDataSourceValue(Object.values(dataSources), artistId)
 
-  const formattedData = Object.values(data).map(({ name, platform, daily_data }) => {
-    const dataFromLast4Months = Object.fromEntries(Object.entries(daily_data).slice(-120))
-
-    return formatServerData({
-      currentDataSource: name,
-      currentPlatform: platform,
-      dailyData: dataFromLast4Months,
-    })
-  })
+  const formattedData = Object.entries(data).reduce((result, [key, dataSource]) => {
+    return {
+      ...result,
+      [key]: formatServerData({
+        currentDataSource: dataSource.name,
+        currentPlatform: dataSource.platform,
+        dailyData: dataSource.daily_data,
+      }),
+    }
+  }, {})
 
   return formattedData
+}
+
+export const formatChartDailyData = (data, platform) => {
+  const adSpendData = data.facebook_ad_spend_feed
+  const growthData = data[followerGrowthDataSources[platform]]
+  const adSpendDateKeys = Object.keys(adSpendData.dailyData)
+  const platformDateKeys = Object.keys(growthData.dailyData)
+
+  const sixMonthsFromMostRecentDate = moment(adSpendData.mostRecent.date).subtract(6, 'months').format('YYYY-MM-DD')
+
+  const adSpendSixMonthsFromMostRecentDateIndex = adSpendDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
+  const platformSixMonthsFromMostRecentDateIndex = platformDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
+
+  const reduceDailyDataPeriod = (dailyData, index, lastIndex) => {
+    return Object.fromEntries(Object.entries(dailyData).slice(index, lastIndex))
+  }
+
+  // If we have data from the last 6 months reduce ad spend and platform daily data to 6 months
+  if (adSpendSixMonthsFromMostRecentDateIndex) {
+    return {
+      adSpendData: {
+        ...adSpendData,
+        dailyData: reduceDailyDataPeriod(adSpendData.dailyData, adSpendSixMonthsFromMostRecentDateIndex, adSpendDateKeys.length),
+      },
+      growthData: {
+        ...growthData,
+        dailyData: reduceDailyDataPeriod(growthData.dailyData, platformSixMonthsFromMostRecentDateIndex, platformDateKeys.length),
+      },
+    }
+  }
+
+  // Otherwise keep ad spend daily data as is and reduce platform daily to match the ad spend daily data date range
+  const earliestAdSpendDate = adSpendData.earliest.date
+  const platformEarliestAdSpendDateIndex = platformDateKeys.findIndex((dateKey) => dateKey === earliestAdSpendDate)
+
+  return {
+    adSpendData,
+    growthData: {
+      ...growthData,
+      dailyData: reduceDailyDataPeriod(growthData.dailyData, platformEarliestAdSpendDateIndex, platformDateKeys.length),
+    },
+  }
 }
 
 // GET AD BENCHMARK

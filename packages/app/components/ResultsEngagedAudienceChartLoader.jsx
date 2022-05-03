@@ -32,7 +32,7 @@ const ResultsEngagedAudienceChartLoader = ({
     const dataSources = chartType === 'line' ? engagementDataSources : { [platform]: engagementDataSources[platform] }
     const data = await getDataSources(dataSources, artistId)
 
-    setDailyEngageData(data[0])
+    setDailyEngageData(data[engagementDataSources[platform]])
     setIsLoading(false)
   }, [])
 

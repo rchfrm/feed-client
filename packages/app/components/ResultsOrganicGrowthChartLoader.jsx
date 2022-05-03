@@ -34,14 +34,15 @@ const ResultsOrganicGrowthChartLoader = ({ dailyData, setDailyData }) => {
       instagram,
     }, artistId)
 
-    setLegendItems(data.map(({ platform }) => ({
+    const dataArray = Object.values(data)
+
+    setLegendItems(dataArray.map(({ platform }) => ({
       label: capitalise(platform),
       color: brandColors[platform].bg,
       lineStyle: 'solid',
     })))
 
-    setDailyData(data)
-
+    setDailyData(dataArray)
     setIsLoading(false)
   }, [])
 

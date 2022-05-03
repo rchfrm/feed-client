@@ -7,7 +7,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ResultsChartHeader from '@/app/ResultsChartHeader'
 import ResultsAdGrowthChart from '@/app/ResultsAdGrowthChart'
 
-import { getDataSources, followerGrowthDataSources } from '@/app/helpers/resultsHelpers'
+import { getDataSources, followerGrowthDataSources, formatChartDailyData } from '@/app/helpers/resultsHelpers'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
@@ -15,6 +15,7 @@ const ResultsAdGrowthChartLoader = ({
   dailyGrowthData,
   setDailyGrowthData,
   dailySpendData,
+  setDailySpendData,
   platform,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
@@ -27,9 +28,16 @@ const ResultsAdGrowthChartLoader = ({
 
     setIsLoading(true)
 
-    const data = await getDataSources({ [platform]: followerGrowthDataSources[platform] }, artistId)
+    const data = await getDataSources({
+      [platform]: followerGrowthDataSources[platform],
+      facebook: 'facebook_ad_spend_feed',
+    }, artistId)
 
-    setDailyGrowthData(data[0])
+    // Format daily data to make sure that ad spend and growth data periods match
+    const { adSpendData, growthData } = formatChartDailyData(data, platform)
+
+    setDailySpendData(adSpendData)
+    setDailyGrowthData(growthData)
     setIsLoading(false)
   }, [])
 

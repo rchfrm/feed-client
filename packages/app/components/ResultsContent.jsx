@@ -69,7 +69,6 @@ const ResultsContent = ({
             <ResultsTabContent
               adData={adData}
               metricType={metricType}
-              spend={adData.spend}
               className="order-3"
             />
           </div>
