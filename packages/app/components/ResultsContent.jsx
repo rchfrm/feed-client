@@ -30,7 +30,8 @@ const ResultsContent = ({
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
-  const hasInstagramGrowthObjective = objective === 'growth' && platform === 'instagram'
+  const hasGrowthObjective = objective === 'growth'
+  const hasInstagramGrowthObjective = hasGrowthObjective && platform === 'instagram'
 
   const isDesktopLayout = useBreakpointTest('sm')
 
@@ -62,6 +63,7 @@ const ResultsContent = ({
               metricTypes={adMetricTypes}
               metricType={metricType}
               setMetricType={setMetricType}
+              shouldHideTab={!hasSalesObjective && !hasGrowthObjective}
               hasNoProfiles={hasNoProfiles}
               className={isDesktopLayout ? 'order-2' : 'order-1'}
             />
