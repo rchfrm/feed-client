@@ -604,19 +604,19 @@ export const formatChartDailyData = (data, platform) => {
   const adSpendData = data.facebook_ad_spend_feed
   const growthData = data[followerGrowthDataSources[platform]]
   const adSpendDateKeys = Object.keys(adSpendData.dailyData)
-  const platformDateKeys = Object.keys(growthData.dailyData)
+  const growthDateKeys = Object.keys(growthData.dailyData)
 
   const sixMonthsFromMostRecentDate = moment(adSpendData.mostRecent.date).subtract(6, 'months').format('YYYY-MM-DD')
 
   const adSpendSixMonthsFromMostRecentDateIndex = adSpendDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
-  const platformSixMonthsFromMostRecentDateIndex = platformDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
+  const growthSixMonthsFromMostRecentDateIndex = growthDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
 
   const reduceDailyDataPeriod = (dailyData, index, lastIndex) => {
     return Object.fromEntries(Object.entries(dailyData).slice(index, lastIndex))
   }
 
-  // If we have data from the last 6 months reduce ad spend and platform daily data to 6 months
-  if (adSpendSixMonthsFromMostRecentDateIndex) {
+  // If we have data from the last 6 months reduce ad spend and growth daily data to 6 months
+  if (adSpendSixMonthsFromMostRecentDateIndex > 0) {
     return {
       adSpendData: {
         ...adSpendData,
@@ -624,20 +624,20 @@ export const formatChartDailyData = (data, platform) => {
       },
       growthData: {
         ...growthData,
-        dailyData: reduceDailyDataPeriod(growthData.dailyData, platformSixMonthsFromMostRecentDateIndex, platformDateKeys.length),
+        dailyData: reduceDailyDataPeriod(growthData.dailyData, growthSixMonthsFromMostRecentDateIndex, growthDateKeys.length),
       },
     }
   }
 
-  // Otherwise keep ad spend daily data as is and reduce platform daily to match the ad spend daily data date range
+  // Otherwise keep ad spend daily data as is and reduce growth daily data to match the ad spend daily data date range
   const earliestAdSpendDate = adSpendData.earliest.date
-  const platformEarliestAdSpendDateIndex = platformDateKeys.findIndex((dateKey) => dateKey === earliestAdSpendDate)
+  const growthEarliestAdSpendDateIndex = growthDateKeys.findIndex((dateKey) => dateKey === earliestAdSpendDate)
 
   return {
     adSpendData,
     growthData: {
       ...growthData,
-      dailyData: reduceDailyDataPeriod(growthData.dailyData, platformEarliestAdSpendDateIndex, platformDateKeys.length),
+      dailyData: reduceDailyDataPeriod(growthData.dailyData, growthEarliestAdSpendDateIndex, growthDateKeys.length),
     },
   }
 }
