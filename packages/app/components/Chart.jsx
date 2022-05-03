@@ -107,8 +107,8 @@ const Chart = ({
 }) => {
   // DEFINE STATES
   const [dateLabels, setDateLabels] = React.useState([])
-  const [chartBarLimit, setChartBarLimit] = React.useState({ max: '', min: '' })
-  const [chartLineLimit, setChartLineLimit] = React.useState({ max: '', min: '' })
+  const [chartBarLimit, setChartBarLimit] = React.useState({ max: 0, min: 0 })
+  const [chartLineLimit, setChartLineLimit] = React.useState({ max: 0, min: 0 })
   const [chartDataSets, setChartDataSets] = React.useState([])
   const [chartOptions, setChartOptions] = React.useState({})
   const [granularity, setGranularity] = React.useState('')
@@ -222,13 +222,7 @@ const Chart = ({
     ]
 
     if (chartLineData) {
-      const periodValues = periodDates.map((date) => {
-        if (chartLineData.dailyData[date]) {
-          return chartLineData.dailyData[date]
-        }
-        return 0
-      })
-
+      const lineDataPeriodValues = Object.values(chartLineData.dailyData)
       const data = {
         ...baseBarConfig,
         type: 'line',
@@ -237,7 +231,7 @@ const Chart = ({
         borderColor: 'black',
         backgroundColor: 'transparent',
         label: 'Spending',
-        data: periodValues,
+        data: lineDataPeriodValues,
       }
 
       chartData.push(data)
@@ -316,14 +310,16 @@ const Chart = ({
           if (loading) return
           const dataIndex = tooltipItem[0].index
           const { datasetIndex } = tooltipItem[0]
-          if (datasetIndex === 0) {
+          if (chart.datasets[datasetIndex].type === 'bar') {
             const datasetName = chart.datasets[datasetIndex].label
             // If the visible tooltip relates to value added since last period,
             // display the total value on the relevant date in 'beforeBody'
             if (datasetName.indexOf('new_') > -1) {
-              const total = sumPreviousAndNewValues(chartData, dataIndex)
+              const barData = chartData.filter((data) => data.type === 'bar')
+              const total = sumPreviousAndNewValues(barData, dataIndex)
               const totalFormatted = chartBarData.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
               const platform = utils.capitalise(currentPlatform)
+
               return `${totalFormatted}: ${platform} ${chartBarData.title}`
             }
           }
@@ -340,7 +336,8 @@ const Chart = ({
               const previousDate = chart.labels[dataIndex - 1]
               return ` ${utils.formatNumber(tooltipItem.value)} more than ${previousDate}`
             }
-            const total = sumPreviousAndNewValues(chartData, dataIndex)
+            const barData = chartData.filter((data) => data.type === 'bar')
+            const total = sumPreviousAndNewValues(barData, dataIndex)
             const totalFormatted = chartBarData.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
             const platform = utils.capitalise(currentPlatform)
             return ` ${totalFormatted}: ${platform} ${chartBarData.title}`
@@ -382,7 +379,7 @@ const Chart = ({
         chartLineMax={chartLineLimit.max}
         chartLineMin={chartLineLimit.min}
         chartLineCurrency={chartLineData?.currency ? artistCurrency : ''}
-        isMixedChart={chartLineData}
+        isMixedChart={Boolean(chartLineData)}
         labels={dateLabels}
         loading={loading}
         granularity={granularity}

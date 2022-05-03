@@ -34,13 +34,14 @@ const ResultsAdGrowthChart = ({ chartBarData, chartLineData, isLoading }) => {
 }
 
 ResultsAdGrowthChart.propTypes = {
-  chartBarData: PropTypes.array,
-  chartLineData: PropTypes.object.isRequired,
+  chartBarData: PropTypes.object,
+  chartLineData: PropTypes.object,
   isLoading: PropTypes.bool.isRequired,
 }
 
 ResultsAdGrowthChart.defaultProps = {
   chartBarData: null,
+  chartLineData: null,
 }
 
 export default ResultsAdGrowthChart

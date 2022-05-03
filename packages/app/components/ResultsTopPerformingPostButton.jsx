@@ -37,10 +37,11 @@ const ResultsTopPerformingPostButton = ({
 }
 
 ResultsTopPerformingPostButton.propTypes = {
-  postData: PropTypes.object.isRequired,
+  postData: PropTypes.object,
 }
 
 ResultsTopPerformingPostButton.defaultProps = {
+  postData: null,
 }
 
 export default ResultsTopPerformingPostButton

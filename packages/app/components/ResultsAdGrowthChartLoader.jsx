@@ -57,14 +57,17 @@ const ResultsAdGrowthChartLoader = ({
 }
 
 ResultsAdGrowthChartLoader.propTypes = {
-  dailyGrowthData: PropTypes.array,
+  dailyGrowthData: PropTypes.object,
   setDailyGrowthData: PropTypes.func.isRequired,
-  dailySpendData: PropTypes.object.isRequired,
+  dailySpendData: PropTypes.object,
+  setDailySpendData: PropTypes.func.isRequired,
   platform: PropTypes.string.isRequired,
 }
 
 ResultsAdGrowthChartLoader.defaultProps = {
   dailyGrowthData: null,
+  dailySpendData: null,
+
 }
 
 export default ResultsAdGrowthChartLoader

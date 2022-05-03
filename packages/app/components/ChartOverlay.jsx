@@ -1,9 +1,8 @@
-// IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT HELPERS
+import PropTypes from 'prop-types'
+
 import * as utils from '@/helpers/utils'
-// IMPORT STYLES
+
 import styles from '@/app/InsightsPage.module.css'
 
 const ChartOverlay = ({
@@ -76,6 +75,25 @@ const ChartOverlay = ({
       </div>
     </>
   )
+}
+
+ChartOverlay.propTypes = {
+  chartBarMax: PropTypes.number.isRequired,
+  chartBarMin: PropTypes.number.isRequired,
+  chartBarCurrency: PropTypes.string.isRequired,
+  chartLineMax: PropTypes.number,
+  chartLineMin: PropTypes.number,
+  chartLineCurrency: PropTypes.string,
+  isMixedChart: PropTypes.bool,
+  labels: PropTypes.array.isRequired,
+  granularity: PropTypes.string.isRequired,
+}
+
+ChartOverlay.defaultProps = {
+  chartLineMax: '',
+  chartLineMin: '',
+  chartLineCurrency: '',
+  isMixedChart: false,
 }
 
 export default ChartOverlay

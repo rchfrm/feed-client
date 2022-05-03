@@ -52,7 +52,7 @@ const ResultsEngagedAudienceChartLoader = ({
 }
 
 ResultsEngagedAudienceChartLoader.propTypes = {
-  dailyEngageData: PropTypes.array,
+  dailyEngageData: PropTypes.object,
   setDailyEngageData: PropTypes.func.isRequired,
   hasGrowthObjective: PropTypes.bool.isRequired,
   platform: PropTypes.string.isRequired,

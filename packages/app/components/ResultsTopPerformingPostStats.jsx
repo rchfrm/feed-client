@@ -7,7 +7,7 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const ResultsTopPerformingPost = ({
+const ResultsTopPerformingPostStats = ({
   post,
   postData,
   metricType,
@@ -51,13 +51,14 @@ const ResultsTopPerformingPost = ({
   )
 }
 
-ResultsTopPerformingPost.propTypes = {
+ResultsTopPerformingPostStats.propTypes = {
   post: PropTypes.object.isRequired,
-  postData: PropTypes.object.isRequired,
+  postData: PropTypes.object,
   metricType: PropTypes.string.isRequired,
 }
 
-ResultsTopPerformingPost.defaultProps = {
+ResultsTopPerformingPostStats.defaultProps = {
+  postData: null,
 }
 
-export default ResultsTopPerformingPost
+export default ResultsTopPerformingPostStats
