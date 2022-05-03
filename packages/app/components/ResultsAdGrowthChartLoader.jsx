@@ -12,25 +12,24 @@ import { getDataSources, followerGrowthDataSources } from '@/app/helpers/results
 import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsAdGrowthChartLoader = ({
-  dailyData,
-  setDailyData,
+  dailyGrowthData,
+  setDailyGrowthData,
   dailySpendData,
   platform,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
-
   const { artistId } = React.useContext(ArtistContext)
 
   // Get follower growth data
   useAsyncEffect(async (isMounted) => {
     // Make sure to fetch the data only once
-    if (!isMounted() || dailyData) return
+    if (!isMounted() || dailyGrowthData) return
 
     setIsLoading(true)
 
     const data = await getDataSources({ [platform]: followerGrowthDataSources[platform] }, artistId)
 
-    setDailyData(data[0])
+    setDailyGrowthData(data[0])
     setIsLoading(false)
   }, [])
 
@@ -41,8 +40,8 @@ const ResultsAdGrowthChartLoader = ({
         description={copy.adGrowthChartDescription}
       />
       <ResultsAdGrowthChart
-        dailyData={dailyData}
-        dailySpendData={dailySpendData}
+        chartBarData={dailyGrowthData}
+        chartLineData={dailySpendData}
         isLoading={isLoading}
       />
     </div>
@@ -50,14 +49,14 @@ const ResultsAdGrowthChartLoader = ({
 }
 
 ResultsAdGrowthChartLoader.propTypes = {
-  dailyData: PropTypes.array,
-  setDailyData: PropTypes.func.isRequired,
+  dailyGrowthData: PropTypes.array,
+  setDailyGrowthData: PropTypes.func.isRequired,
   dailySpendData: PropTypes.object.isRequired,
   platform: PropTypes.string.isRequired,
 }
 
 ResultsAdGrowthChartLoader.defaultProps = {
-  dailyData: null,
+  dailyGrowthData: null,
 }
 
 export default ResultsAdGrowthChartLoader

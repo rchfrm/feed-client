@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import ChartBar from '@/app/ChartBar'
+import Chart from '@/app/Chart'
 import ChartLine from '@/app/ChartLine'
 
 import Spinner from '@/elements/Spinner'
@@ -20,8 +20,8 @@ const ResultsEngagedAudienceChart = ({ dailyData, chartType, isLoading }) => {
     dailyData ? (
       <div className="relative w-full h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96">
         {chartType === 'bar' ? (
-          <ChartBar
-            data={dailyData}
+          <Chart
+            chartBarData={dailyData}
             artistId={artistId}
             artistCurrency={artistCurrency}
             loading={isLoading}

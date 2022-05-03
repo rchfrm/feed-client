@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 import tinycolor from 'tinycolor2'
 import moment from 'moment'
-import Chart from 'react-chartjs-2'
+import MixedChart from 'react-chartjs-2'
 // IMPORT COMPONENTS
 import Spinner from '@/elements/Spinner'
-import ChartBarOverlay from '@/app/ChartBarOverlay'
+import ChartOverlay from '@/app/ChartOverlay'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import * as insightsHelpers from '@/app/helpers/insightsHelpers'
@@ -95,16 +95,16 @@ const baseChartConfig = {
     yPadding: 15,
   },
 }
-function ChartBar({
-  className,
-  data,
-  lineData,
+const Chart = ({
+  chartBarData,
+  chartLineData,
   artistId,
   loading,
   artistCurrency,
   error,
+  className,
   heightClasses,
-}) {
+}) => {
   // DEFINE STATES
   const [dateLabels, setDateLabels] = React.useState([])
   const [chartBarLimit, setChartBarLimit] = React.useState({ max: '', min: '' })
@@ -159,17 +159,17 @@ function ChartBar({
       showPlaceholder(loading)
       return
     }
-    const { source: currentDataSource, platform: currentPlatform } = data
+    const { source: currentDataSource, platform: currentPlatform } = chartBarData
     // Stop if no data source
-    if (!data.source) return
+    if (!chartBarData.source) return
     // Define relevant moments
-    const earliestMoment = moment(data.earliest.date, 'YYYY-MM-DD')
-    const latestMoment = moment(data.mostRecent.date, 'YYYY-MM-DD')
+    const earliestMoment = moment(chartBarData.earliest.date, 'YYYY-MM-DD')
+    const latestMoment = moment(chartBarData.mostRecent.date, 'YYYY-MM-DD')
     // Calculate granularity
     const granularity = insightsHelpers.calcGranularity(earliestMoment, latestMoment)
     setGranularity(granularity)
     // Get period dates and values from the data, based on the granularity
-    const [periodDates, periodValues] = insightsHelpers.getChartData(data, granularity)
+    const [periodDates, periodValues] = insightsHelpers.getChartData(chartBarData, granularity)
     // Cycle through the dates and add the relevant labels
     const periodLabels = insightsHelpers.getPeriodLabels(periodDates)
     setDateLabels(periodLabels)
@@ -205,7 +205,7 @@ function ChartBar({
     })
 
     // DEFINE CHART DATA
-    const { cumulative } = data
+    const { cumulative } = chartBarData
     const { bg: chartColor } = brandColors[currentPlatform]
     const lightColor = tinycolor(chartColor).lighten('12').toString()
 
@@ -221,15 +221,15 @@ function ChartBar({
       },
     ]
 
-    if (lineData) {
+    if (chartLineData) {
       const periodValues = periodDates.map((date) => {
-        if (lineData.dailyData[date]) {
-          return lineData.dailyData[date]
+        if (chartLineData.dailyData[date]) {
+          return chartLineData.dailyData[date]
         }
         return 0
       })
 
-      const lineChartData = {
+      const data = {
         ...baseBarConfig,
         type: 'line',
         order: 0,
@@ -240,7 +240,7 @@ function ChartBar({
         data: periodValues,
       }
 
-      chartData.push(lineChartData)
+      chartData.push(data)
     }
 
     // If data is cumulative, show increase
@@ -281,8 +281,8 @@ function ChartBar({
           return tickValue
         }
       }
-      if (lineData) {
-        const lineDataPeriodValues = Object.values(lineData.dailyData)
+      if (chartLineData) {
+        const lineDataPeriodValues = Object.values(chartLineData.dailyData)
         const max = utils.maxArrayValue(lineDataPeriodValues)
         const min = utils.minArrayValue(lineDataPeriodValues)
 
@@ -322,9 +322,9 @@ function ChartBar({
             // display the total value on the relevant date in 'beforeBody'
             if (datasetName.indexOf('new_') > -1) {
               const total = sumPreviousAndNewValues(chartData, dataIndex)
-              const totalFormatted = data.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
+              const totalFormatted = chartBarData.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
               const platform = utils.capitalise(currentPlatform)
-              return `${totalFormatted}: ${platform} ${data.title}`
+              return `${totalFormatted}: ${platform} ${chartBarData.title}`
             }
           }
         },
@@ -341,19 +341,20 @@ function ChartBar({
               return ` ${utils.formatNumber(tooltipItem.value)} more than ${previousDate}`
             }
             const total = sumPreviousAndNewValues(chartData, dataIndex)
-            const totalFormatted = data.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
+            const totalFormatted = chartBarData.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
             const platform = utils.capitalise(currentPlatform)
-            return ` ${totalFormatted}: ${platform} ${data.title}`
+            return ` ${totalFormatted}: ${platform} ${chartBarData.title}`
           }
 
           if (chart.datasets[datasetIndex].type === 'line') {
-            return ` Daily spend: ${utils.formatCurrency(tooltipItem.value, artistCurrency)}`
+            return ` ${chartLineData.currency ? utils.formatCurrency(tooltipItem.value, artistCurrency) : utils.formatNumber(tooltipItem.value)}: ${chartLineData.title}`
           }
         },
       }
     })
     setChartOptions(newChartOptions)
-  }, [data.source, artistId, loading, error])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chartBarData.source, artistId, loading, error])
 
   return (
     <div className={chartClasses.join(' ')}>
@@ -363,7 +364,7 @@ function ChartBar({
       {error && <p className={styles.chartError}>Insufficent Data</p>}
       {/* CHART */}
       <div className={heightClasses || styles.chartContainer__inner}>
-        <Chart
+        <MixedChart
           data={{
             labels: dateLabels,
             datasets: chartDataSets,
@@ -374,14 +375,14 @@ function ChartBar({
         />
       </div>
       {/* THE OVERLAY */}
-      <ChartBarOverlay
-        leftMax={chartBarLimit.max}
-        leftMin={chartBarLimit.min}
-        leftCurrency={data.currency ? artistCurrency : ''}
-        rightMax={chartLineLimit.max}
-        rightMin={chartLineLimit.min}
-        rightCurrency={artistCurrency}
-        isMixedChart={lineData}
+      <ChartOverlay
+        chartBarMax={chartBarLimit.max}
+        chartBarMin={chartBarLimit.min}
+        chartBarCurrency={chartBarData.currency ? artistCurrency : ''}
+        chartLineMax={chartLineLimit.max}
+        chartLineMin={chartLineLimit.min}
+        chartLineCurrency={chartLineData?.currency ? artistCurrency : ''}
+        isMixedChart={chartLineData}
         labels={dateLabels}
         loading={loading}
         granularity={granularity}
@@ -390,12 +391,12 @@ function ChartBar({
   )
 }
 
-export default ChartBar
+export default Chart
 
-ChartBar.propTypes = {
+Chart.propTypes = {
   className: PropTypes.string,
-  data: PropTypes.object,
-  lineData: PropTypes.object,
+  chartBarData: PropTypes.object,
+  chartLineData: PropTypes.object,
   artistId: PropTypes.string,
   loading: PropTypes.bool,
   artistCurrency: PropTypes.string,
@@ -403,10 +404,10 @@ ChartBar.propTypes = {
   heightClasses: PropTypes.string,
 }
 
-ChartBar.defaultProps = {
+Chart.defaultProps = {
   className: '',
-  data: {},
-  lineData: null,
+  chartBarData: {},
+  chartLineData: null,
   artistId: '',
   loading: false,
   artistCurrency: '',

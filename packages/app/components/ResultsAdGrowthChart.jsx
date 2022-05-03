@@ -3,24 +3,24 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import ChartBar from '@/app/ChartBar'
+import Chart from '@/app/Chart'
 
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-const ResultsAdGrowthChart = ({ dailyData, dailySpendData, isLoading }) => {
+const ResultsAdGrowthChart = ({ chartBarData, chartLineData, isLoading }) => {
   const { artistId, artistCurrency } = React.useContext(ArtistContext)
 
   if (isLoading) return <Spinner />
 
   return (
-    dailyData && Object.keys(dailySpendData).length > 0 ? (
+    chartBarData && chartLineData ? (
       <div className="relative w-full">
-        <ChartBar
-          data={dailyData}
-          lineData={{ dailyData: dailySpendData }}
+        <Chart
+          chartBarData={chartBarData}
+          chartLineData={chartLineData}
           artistId={artistId}
           artistCurrency={artistCurrency}
           loading={isLoading}
@@ -34,13 +34,13 @@ const ResultsAdGrowthChart = ({ dailyData, dailySpendData, isLoading }) => {
 }
 
 ResultsAdGrowthChart.propTypes = {
-  dailyData: PropTypes.array,
-  dailySpendData: PropTypes.object.isRequired,
+  chartBarData: PropTypes.array,
+  chartLineData: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 
 ResultsAdGrowthChart.defaultProps = {
-  dailyData: null,
+  chartBarData: null,
 }
 
 export default ResultsAdGrowthChart

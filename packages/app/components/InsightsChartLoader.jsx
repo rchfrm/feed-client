@@ -11,7 +11,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import Error from '@/elements/Error'
 // IMPORT PAGES
 import ChartContainer from '@/app/ChartContainer'
-import ChartBar from '@/app/ChartBar'
+import Chart from '@/app/Chart'
 // IMPORT ASSETS
 // IMPORT HELPERS
 import { formatServerData, formatProjection } from '@/app/helpers/insightsHelpers'
@@ -108,7 +108,7 @@ function InsightsChartLoader({
         ].join(' ')}
       >
         <Error error={error} />
-        <ChartBar
+        <Chart
           className={['col-span-12'].join(' ')}
           currentPlatform={currentPlatform}
           currentDataSource={currentDataSource}

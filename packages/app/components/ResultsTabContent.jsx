@@ -23,7 +23,14 @@ const ResultsTabContent = ({
   const [dailyGrowthData, setDailyGrowthData] = React.useState(null)
 
   const post = adData.posts.find(({ type }) => type === metricType)
-  const { daily_data: dailySpendData } = spend
+
+  const { daily_data } = spend
+
+  const dailySpendData = {
+    title: 'Daily spend',
+    dailyData: daily_data,
+    currency: true,
+  }
 
   const { optimizationPreferences, isSpendingPaused } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
@@ -33,16 +40,16 @@ const ResultsTabContent = ({
     <>
       {metricType === 'engagement' && (
         <ResultsEngagedAudienceChartLoader
-          dailyData={dailyEngageData}
-          setDailyData={setDailyEngageData}
+          dailyEngageData={dailyEngageData}
+          setDailyEngageData={setDailyEngageData}
           hasGrowthObjective={hasGrowthObjective}
           platform={platform}
         />
       )}
       {hasGrowthObjective && metricType === 'growth' && (
         <ResultsAdGrowthChartLoader
-          dailyData={dailyGrowthData}
-          setDailyData={setDailyGrowthData}
+          dailyGrowthData={dailyGrowthData}
+          setDailyGrowthData={setDailyGrowthData}
           dailySpendData={dailySpendData}
           platform={platform}
         />

@@ -12,8 +12,8 @@ import { getDataSources, engagementDataSources } from '@/app/helpers/resultsHelp
 import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsEngagedAudienceChartLoader = ({
-  dailyData,
-  setDailyData,
+  dailyEngageData,
+  setDailyEngageData,
   hasGrowthObjective,
   platform,
 }) => {
@@ -25,14 +25,14 @@ const ResultsEngagedAudienceChartLoader = ({
   // Get follower growth data
   useAsyncEffect(async (isMounted) => {
     // Make sure to fetch the data only once
-    if (!isMounted() || dailyData) return
+    if (!isMounted() || dailyEngageData) return
 
     setIsLoading(true)
 
     const dataSources = chartType === 'line' ? engagementDataSources : { [platform]: engagementDataSources[platform] }
     const data = await getDataSources(dataSources, artistId)
 
-    setDailyData(data[0])
+    setDailyEngageData(data[0])
     setIsLoading(false)
   }, [])
 
@@ -43,7 +43,7 @@ const ResultsEngagedAudienceChartLoader = ({
         description={copy.engageChartDescription}
       />
       <ResultsEngagedAudienceChart
-        dailyData={dailyData}
+        dailyData={dailyEngageData}
         chartType={chartType}
         isLoading={isLoading}
       />
@@ -52,14 +52,14 @@ const ResultsEngagedAudienceChartLoader = ({
 }
 
 ResultsEngagedAudienceChartLoader.propTypes = {
-  dailyData: PropTypes.array,
-  setDailyData: PropTypes.func.isRequired,
+  dailyEngageData: PropTypes.array,
+  setDailyEngageData: PropTypes.func.isRequired,
   hasGrowthObjective: PropTypes.bool.isRequired,
   platform: PropTypes.string.isRequired,
 }
 
 ResultsEngagedAudienceChartLoader.defaultProps = {
-  dailyData: null,
+  dailyEngageData: null,
 }
 
 export default ResultsEngagedAudienceChartLoader
