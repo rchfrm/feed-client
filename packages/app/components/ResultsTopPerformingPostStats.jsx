@@ -42,10 +42,11 @@ const ResultsTopPerformingPostStats = ({
               <span className="font-bold underline underline-offset-2 decoration-2 decoration-green">{post.landing_page_views}</span> website visits
             </li>
             <li className="mb-4">
-              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{post?.sales_count || 0}</span> sales worth <span className="font-bold">{formatCurrency(post.sales_value, currency)}</span>
+              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{post.events_count}</span> sales
+              {post.sales_value > 0 && <span> worth <strong>{formatCurrency(post.sales_value, currency)}</strong></span>}
             </li>
             <li>
-              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{Math.round((post?.sales_count || 0 / post.landing_page_views) * 100)}%</span> conversions rate
+              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{Math.round((post.events_count / post.landing_page_views) * 100)}%</span> conversions rate
             </li>
           </>
         )}

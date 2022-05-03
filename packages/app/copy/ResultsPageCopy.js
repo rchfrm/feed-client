@@ -160,7 +160,7 @@ export default {
     return isPurchase ? (
       `This post was the most effective at generating sales with a total value of **${value}**.`
     ) : (
-      `This post was the most effective at triggering pixel events with a total of **${value}** event(s)`
+      `This post was the most effective by generating **${value}** sale(s)`
     )
   },
   statsNoData: 'Feed is setting up your ads',

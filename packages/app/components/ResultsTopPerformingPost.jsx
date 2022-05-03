@@ -69,7 +69,7 @@ const ResultsTopPerformingPost = ({
     setIsLoading(false)
   }, [])
 
-  if (metricType === 'growth' && type === 'growth' && !hasSalesObjective) return
+  if (metricType === 'growth' && type === 'growth' && (post[key[1]] === 0 || !hasSalesObjective)) return
 
   return (
     <div
