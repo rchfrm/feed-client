@@ -1,5 +1,6 @@
 import * as ROUTES from '@/app/constants/routes'
 import { capitalise, formatNumber, getNestedObjectByValue } from '@/helpers/utils'
+import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 
 const optimisationsEventsDictionary = {
   omni_purchase: {
@@ -41,6 +42,12 @@ const optimisationsEventsDictionary = {
 }
 
 const versusLastMonth = (prevValue) => `, versus ${prevValue} last month`
+
+const getObjectiveString = (objective, platform) => {
+  if (objective === 'sales') return 'driving your website sales'
+  if (objective === 'traffic') return 'driving your website visits'
+  if (objective === 'growth') return `growing your ${getPlatformNameByValue(platform)} audience`
+}
 
 export default {
   newAudienceOnPlatformMainDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
@@ -143,17 +150,17 @@ export default {
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
-  postDescription: (type, value, isPurchase) => {
+  postDescription: (type, value, isPurchase, objective, platform) => {
     if (type === 'engagement') {
-      return `This post was the most effective at growing your Instagram audience, engaging **${value}** new people.`
+      return `This post was the most effective at ${getObjectiveString(objective, platform)}, engaging **${value}** new people.`
     }
     if (type === 'nurture') {
-      return `This post was the most effective at growing your Instagram audience, with **${value}** people reached.`
+      return `This post was the most effective at ${getObjectiveString(objective, platform)}, with **${value}** people reached.`
     }
     return isPurchase ? (
       `This post was the most effective at generating sales with a total value of **${value}**.`
     ) : (
-      `This post was the most effective at triggering your pixel events, with ${value} events fired.`
+      `This post was the most effective at triggering pixel events with a total of **${value}** event(s)`
     )
   },
   statsNoData: 'Feed is setting up your ads',

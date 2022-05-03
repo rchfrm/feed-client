@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
+import { formatCurrency } from '@/helpers/utils'
+
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
@@ -11,10 +13,11 @@ const ResultsTopPerformingPostStats = ({
   post,
   postData,
   metricType,
+  currency,
 }) => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
-  const hasSalesObjecive = objective === 'sales'
+  const hasSalesObjective = objective === 'sales'
 
   return (
     <div>
@@ -33,16 +36,16 @@ const ResultsTopPerformingPostStats = ({
             </li>
           </>
         )}
-        {metricType === 'growth' && hasSalesObjecive && (
+        {metricType === 'growth' && hasSalesObjective && (
           <>
-            <li>
+            <li className="mb-4">
               <span className="font-bold underline underline-offset-2 decoration-2 decoration-green">{post.landing_page_views}</span> website visits
             </li>
-            <li>
-              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{post.events_count}</span> sales worth <span className="font-bold">{post.sales_value}</span>
+            <li className="mb-4">
+              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{post?.sales_count || 0}</span> sales worth <span className="font-bold">{formatCurrency(post.sales_value, currency)}</span>
             </li>
             <li>
-              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{Math.round((post.events_count / post.landing_page_views) * 100)}%</span> conversions rate
+              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{Math.round((post?.sales_count || 0 / post.landing_page_views) * 100)}%</span> conversions rate
             </li>
           </>
         )}
@@ -55,6 +58,7 @@ ResultsTopPerformingPostStats.propTypes = {
   post: PropTypes.object.isRequired,
   postData: PropTypes.object,
   metricType: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
 }
 
 ResultsTopPerformingPostStats.defaultProps = {
