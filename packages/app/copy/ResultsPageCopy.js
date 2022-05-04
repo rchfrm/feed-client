@@ -262,7 +262,7 @@ export default {
   },
   postsChartNoData: 'No posts found within the last 30 days.',
   organicGrowthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
-  engageChartDescription: (platform, isChartBar) => `Your audience on ${isChartBar ? getPlatformNameByValue(platform) : 'Instagram and Facebook'} is everyone who has engaged with your posts in the last year. This is often a much larger group than the number who follow you! Step 1: **Reach** is all about growing that audience, here's how it's developing.`,
+  engageChartDescription: (platform, isChartBar) => `Your audience ${isChartBar ? `on ${getPlatformNameByValue(platform)}` : 'across Instagram and Facebook'} is everyone who has engaged with your posts in the last year. This is often a much larger group than the number who follow you! Step 1: **Reach** is all about growing that audience, here's how it's developing.`,
   adGrowthChartTitle: (platform) => {
     if (platform === 'instagram') return 'Your Instagram following'
     if (platform === 'facebook') return 'Your Facebook likes'
