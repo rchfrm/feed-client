@@ -245,7 +245,7 @@ export default {
   instagram_historical_follower_count: {
     name: 'instagram_historical_follower_count',
     platform: 'instagram',
-    visible: true,
+    visible: false,
     breakdown: false,
     title: 'followers',
     subtitle: 'total',
