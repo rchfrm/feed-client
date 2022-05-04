@@ -39,6 +39,8 @@ const ObjectiveSettings = () => {
   } = React.useContext(ArtistContext)
 
   React.useEffect(() => {
+    if (Object.keys(integrations).length === 0) return
+
     const platformsWithLink = []
     const platformsWithoutLink = []
 
