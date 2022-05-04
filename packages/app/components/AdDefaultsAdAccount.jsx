@@ -3,20 +3,35 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import useCheckBackgroundTaskStatus from '@/app/hooks/useCheckBackgroundTaskStatus'
+
 import AdAccountSelector from '@/app/AdAccountSelector'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
-import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
+import Spinner from '@/elements/Spinner'
+
+import { getArtistIntegrationByPlatform, getBackgroundTasks } from '@/app/helpers/artistHelpers'
 
 import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/controlsPageCopy'
 
-const AdDefaultsAdAccount = ({ className }) => {
-  const { artist } = React.useContext(ArtistContext)
+const AdDefaultsAdAccount = ({
+  hasCompletedAdAccountChange,
+  setHasCompletedAdAccountChange,
+  className,
+}) => {
+  const { artistId, artist } = React.useContext(ArtistContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
 
   const [adAccountId, setAdAccountId] = React.useState(facebookIntegration?.adaccount_id || '')
+
+  const { initialLoading } = useCheckBackgroundTaskStatus({
+    artistId,
+    action: getBackgroundTasks,
+    hasCompleted: hasCompletedAdAccountChange,
+    setHasCompleted: setHasCompletedAdAccountChange,
+  })
 
   return (
     <div
@@ -28,6 +43,7 @@ const AdDefaultsAdAccount = ({ className }) => {
       <AdAccountSelector
         adAccountId={adAccountId}
         setAdAccountId={setAdAccountId}
+        setHasCompletedAdAccountChange={setHasCompletedAdAccountChange}
         shouldSaveOnChange
         className="mb-14"
       />
@@ -42,6 +58,8 @@ const AdDefaultsAdAccount = ({ className }) => {
 }
 
 AdDefaultsAdAccount.propTypes = {
+  hasCompletedAdAccountChange: PropTypes.bool.isRequired,
+  setHasCompletedAdAccountChange: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

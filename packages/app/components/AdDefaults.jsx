@@ -1,10 +1,10 @@
 import React from 'react'
 
-// IMPORT CONTEXTS
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import useControlsStore from '@/app/stores/controlsStore'
 import usePostsStore from '@/app/stores/postsStore'
-// IMPORT COMPONENTS
+
 import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
 import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
@@ -12,7 +12,9 @@ import AdDefaultsAdAccount from '@/app/AdDefaultsAdAccount'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
 import AdDefaultsPixelEvent from '@/app/AdDefaultsPixelEvent'
 import ControlsContentSection from '@/app/ControlsContentSection'
-// IMPORT COPY
+
+import Spinner from '@/elements/Spinner'
+
 import copy from '@/app/copy/controlsPageCopy'
 
 const getTogglePromotionGlobal = state => state.togglePromotionGlobal
@@ -25,15 +27,18 @@ const getControlsStoreState = (state) => ({
 })
 
 const AdDefaults = () => {
-  // Get context values
+  const [hasCompletedAdAccountChange, setHasCompletedAdAccountChange] = React.useState(true)
+
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
-  // Get store values
+
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   const { postsPreferences, conversionsPreferences, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultCallToAction, defaultPromotionEnabled } = postsPreferences
   const { facebookPixelEvent } = conversionsPreferences
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
+
+  if (!hasCompletedAdAccountChange) return <Spinner width={32} className="h-full flex" />
 
   return (
     <div>
@@ -69,6 +74,8 @@ const AdDefaults = () => {
           copy={copy.facebookAdAccountIntro}
         >
           <AdDefaultsAdAccount
+            hasCompletedAdAccountChange={hasCompletedAdAccountChange}
+            setHasCompletedAdAccountChange={setHasCompletedAdAccountChange}
             className="mb-8"
           />
         </AdSettingsSection>

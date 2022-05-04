@@ -106,6 +106,21 @@ export const updateAdAccount = (artistId, adAccountId) => {
   return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
+// Get background tasks
+/**
+* @param {string} artistId
+* @returns {Promise<object>} { res, error }
+*/
+export const getBackgroundTasks = (artistId) => {
+  const requestUrl = `/artists/${artistId}/background_tasks`
+  const payload = null
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Get background tasks',
+  }
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
 // Update country code
 /**
 * @param {string} artistId
