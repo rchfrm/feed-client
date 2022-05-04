@@ -7,7 +7,7 @@ const useCheckBackgroundTaskStatus = ({ artistId, action, completionKey, hasComp
   const intervalRef = React.useRef()
   const isMounted = useIsMounted()
 
-  const checkInitialPostsImportStatus = async () => {
+  const checkBackgroundTaskStatus = async () => {
     if (!isMounted) return
 
     const { res, error } = await action(artistId)
@@ -29,7 +29,7 @@ const useCheckBackgroundTaskStatus = ({ artistId, action, completionKey, hasComp
 
   React.useEffect(() => {
     if (!initialLoading && !intervalRef.current && !hasCompleted) {
-      const intervalId = setInterval(checkInitialPostsImportStatus, 2000)
+      const intervalId = setInterval(checkBackgroundTaskStatus, 2000)
       intervalRef.current = intervalId
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +37,7 @@ const useCheckBackgroundTaskStatus = ({ artistId, action, completionKey, hasComp
 
   React.useEffect(() => {
     if (!intervalRef.current) {
-      checkInitialPostsImportStatus()
+      checkBackgroundTaskStatus()
     }
 
     return () => clearInterval(intervalRef.current)

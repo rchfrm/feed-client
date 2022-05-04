@@ -1,10 +1,8 @@
 import React from 'react'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useControlsStore from '@/app/stores/controlsStore'
 import usePostsStore from '@/app/stores/postsStore'
-
 import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
 import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
@@ -12,8 +10,6 @@ import AdDefaultsAdAccount from '@/app/AdDefaultsAdAccount'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
 import AdDefaultsPixelEvent from '@/app/AdDefaultsPixelEvent'
 import ControlsContentSection from '@/app/ControlsContentSection'
-
-import Spinner from '@/elements/Spinner'
 
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -27,8 +23,6 @@ const getControlsStoreState = (state) => ({
 })
 
 const AdDefaults = () => {
-  const [hasCompletedAdAccountChange, setHasCompletedAdAccountChange] = React.useState(true)
-
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
 
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
@@ -37,8 +31,6 @@ const AdDefaults = () => {
   const { facebookPixelEvent } = conversionsPreferences
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
-
-  if (!hasCompletedAdAccountChange) return <Spinner width={32} className="h-full flex" />
 
   return (
     <div>
@@ -74,8 +66,6 @@ const AdDefaults = () => {
           copy={copy.facebookAdAccountIntro}
         >
           <AdDefaultsAdAccount
-            hasCompletedAdAccountChange={hasCompletedAdAccountChange}
-            setHasCompletedAdAccountChange={setHasCompletedAdAccountChange}
             className="mb-8"
           />
         </AdSettingsSection>

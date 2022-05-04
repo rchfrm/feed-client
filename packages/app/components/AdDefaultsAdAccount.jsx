@@ -8,8 +8,6 @@ import useCheckBackgroundTaskStatus from '@/app/hooks/useCheckBackgroundTaskStat
 import AdAccountSelector from '@/app/AdAccountSelector'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
-import Spinner from '@/elements/Spinner'
-
 import { getArtistIntegrationByPlatform, getBackgroundTasks } from '@/app/helpers/artistHelpers'
 
 import brandColors from '@/constants/brandColors'
@@ -17,16 +15,15 @@ import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/controlsPageCopy'
 
 const AdDefaultsAdAccount = ({
-  hasCompletedAdAccountChange,
-  setHasCompletedAdAccountChange,
   className,
 }) => {
   const { artistId, artist } = React.useContext(ArtistContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
 
   const [adAccountId, setAdAccountId] = React.useState(facebookIntegration?.adaccount_id || '')
+  const [hasCompletedAdAccountChange, setHasCompletedAdAccountChange] = React.useState(true)
 
-  const { initialLoading } = useCheckBackgroundTaskStatus({
+  useCheckBackgroundTaskStatus({
     artistId,
     action: getBackgroundTasks,
     hasCompleted: hasCompletedAdAccountChange,
@@ -43,6 +40,7 @@ const AdDefaultsAdAccount = ({
       <AdAccountSelector
         adAccountId={adAccountId}
         setAdAccountId={setAdAccountId}
+        hasCompletedAdAccountChange={hasCompletedAdAccountChange}
         setHasCompletedAdAccountChange={setHasCompletedAdAccountChange}
         shouldSaveOnChange
         className="mb-14"
@@ -58,8 +56,6 @@ const AdDefaultsAdAccount = ({
 }
 
 AdDefaultsAdAccount.propTypes = {
-  hasCompletedAdAccountChange: PropTypes.bool.isRequired,
-  setHasCompletedAdAccountChange: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

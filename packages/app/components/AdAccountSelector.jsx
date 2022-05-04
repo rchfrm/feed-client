@@ -12,6 +12,7 @@ import { getAdAccounts, updateAdAccount } from '@/app/helpers/artistHelpers'
 const AdAccountSelector = ({
   adAccountId,
   setAdAccountId,
+  hasCompletedAdAccountChange,
   setHasCompletedAdAccountChange,
   adAccounts,
   onSuccess,
@@ -105,7 +106,7 @@ const AdAccountSelector = ({
         <Error error={error} />
       )}
       <Select
-        loading={isLoading}
+        loading={isLoading || !hasCompletedAdAccountChange}
         handleChange={handleChange}
         name="ad_account"
         label={label}
