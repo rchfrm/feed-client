@@ -27,7 +27,7 @@ const ResultsNoSpendContent = ({
 
     setFormattedOrganicData(formattedOrganicBenchmarkData)
     setFormattedAggregatedOrganicData(formattedAggregatedOrganicBenchmarkData)
-    setHasGrowth(formattedOrganicBenchmarkData.growth.hasGrowth)
+    setHasGrowth(formattedOrganicBenchmarkData?.growth?.hasGrowth)
   }, [organicData, aggregatedOrganicData, setHasGrowth, hasNoProfiles])
 
   return (

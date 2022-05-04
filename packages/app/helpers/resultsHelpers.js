@@ -452,9 +452,10 @@ const getBestPerformingPlatform = (igData, fbData) => {
   return igFollowers >= fbFollowers ? 'instagram' : 'facebook'
 }
 
-export const formatBenchmarkData = ({ data }, hasNoProfiles) => {
-  if (!data) return null
+export const formatBenchmarkData = (organicData, hasNoProfiles) => {
+  if (!organicData) return null
 
+  const { data } = organicData
   const igData = getGrowthAndFollowersCount('instagram', data)
   const fbData = getGrowthAndFollowersCount('facebook', data)
   const bestPerformingPlatform = hasNoProfiles ? 'instagram' : getBestPerformingPlatform(igData, fbData)
