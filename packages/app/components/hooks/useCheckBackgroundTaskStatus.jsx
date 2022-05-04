@@ -2,9 +2,7 @@ import React from 'react'
 
 import useIsMounted from '@/hooks/useIsMounted'
 
-import { getInitialPostsImportStatus } from '@/app/helpers/postsHelpers'
-
-const useCheckInitialPostsImportStatus = (artistId, canLoadPosts, setCanLoadPosts) => {
+const useCheckBackgroundTaskStatus = ({ artistId, action, completionKey, hasCompleted, setHasCompleted }) => {
   const [initialLoading, setInitialLoading] = React.useState(true)
   const intervalRef = React.useRef()
   const isMounted = useIsMounted()
@@ -12,16 +10,16 @@ const useCheckInitialPostsImportStatus = (artistId, canLoadPosts, setCanLoadPost
   const checkInitialPostsImportStatus = async () => {
     if (!isMounted) return
 
-    const { res, error } = await getInitialPostsImportStatus(artistId)
+    const { res, error } = await action(artistId)
 
     if (error) {
       clearInterval(intervalRef.current)
       return
     }
 
-    if (res.last_update_completed_at) {
+    if ((completionKey && res[completionKey]) || (!completionKey && res.length === 0)) {
       clearInterval(intervalRef.current)
-      setCanLoadPosts(true)
+      setHasCompleted(true)
       setInitialLoading(false)
       return
     }
@@ -30,12 +28,12 @@ const useCheckInitialPostsImportStatus = (artistId, canLoadPosts, setCanLoadPost
   }
 
   React.useEffect(() => {
-    if (!initialLoading && !intervalRef.current && !canLoadPosts) {
+    if (!initialLoading && !intervalRef.current && !hasCompleted) {
       const intervalId = setInterval(checkInitialPostsImportStatus, 2000)
       intervalRef.current = intervalId
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialLoading, canLoadPosts])
+  }, [initialLoading, hasCompleted])
 
   React.useEffect(() => {
     if (!intervalRef.current) {
@@ -49,4 +47,4 @@ const useCheckInitialPostsImportStatus = (artistId, canLoadPosts, setCanLoadPost
   return { initialLoading }
 }
 
-export default useCheckInitialPostsImportStatus
+export default useCheckBackgroundTaskStatus
