@@ -14,7 +14,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { updateAdAccount, getArtistIntegrationByPlatform, getAdAccounts } from '@/app/helpers/artistHelpers'
+import { setAdAccount, getArtistIntegrationByPlatform, getAdAccounts } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -55,7 +55,7 @@ const GetStartedAdAccount = () => {
   const saveAdAccount = async (adAccountId) => {
     setIsLoading(true)
 
-    const { res: artist, error } = await updateAdAccount(artistId, adAccountId)
+    const { res: artist, error } = await setAdAccount(artistId, adAccountId)
 
     if (error) {
       setError(error)
