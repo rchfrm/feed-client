@@ -27,6 +27,7 @@ const ResultsEngagedAudienceChart = ({
       <>
         <ResultsChartHeader
           description={copy.engageChartDescription(platform, isChartBar)}
+          className="px-6 sm:px-0"
         />
         <div className="relative w-full h-40 xxs:h-48 xs:h-60 sm:h-72 lg:h-96">
           {isChartBar ? (

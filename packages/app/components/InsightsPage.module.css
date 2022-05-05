@@ -130,13 +130,21 @@
 .chartRightMax,
 .chartRightMid,
 .chartRightMin {
-  right: -1.5em;
+  right: 0.25em;
+
+  @media (--sm) {
+    right: -1.5em;
+  }
 }
 
 .chartLeftMax,
 .chartLeftMid,
 .chartLeftMin {
-  left: -1.5em;
+  left: 0.25em;
+
+  @media (--sm) {
+    left: -1.5em;
+  }
 }
 
 .chartLeftMax,

@@ -25,6 +25,7 @@ const ResultsAdGrowthChart = ({
       <>
         <ResultsChartHeader
           description={copy.adGrowthChartDescription(platform)}
+          className="px-6 sm:px-0"
         />
         <div className="relative w-full">
           <Chart

@@ -34,8 +34,8 @@ const ResultsEngagedAudienceChartLoader = ({
   }, [])
 
   return (
-    <div className="order-3 col-span-12 mb-12 sm:mb-6">
-      <p className="font-bold text-xl">Your engaged audience</p>
+    <div className="order-3 col-span-12 mb-12 sm:mb-6 breakout--width">
+      <p className="font-bold text-xl px-6 sm:px-0">Your engaged audience</p>
       <ResultsEngagedAudienceChart
         dailyData={dailyEngageData}
         platform={platform}

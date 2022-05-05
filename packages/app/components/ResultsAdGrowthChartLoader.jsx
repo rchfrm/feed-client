@@ -41,8 +41,8 @@ const ResultsAdGrowthChartLoader = ({
   }, [])
 
   return (
-    <div className="order-3 col-span-12">
-      <p className="font-bold text-xl">{copy.adGrowthChartTitle(platform)}</p>
+    <div className="order-3 col-span-12 breakout--width">
+      <p className="font-bold text-xl px-6 sm:px-0">{copy.adGrowthChartTitle(platform)}</p>
       <ResultsAdGrowthChart
         chartBarData={dailyGrowthData}
         chartLineData={dailySpendData}
