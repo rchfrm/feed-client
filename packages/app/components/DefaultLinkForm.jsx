@@ -51,30 +51,32 @@ const DefaultLinkForm = ({
   }
 
   return (
-    shouldShowSelect ? (
-      <PostLinksSelect
-        currentLinkId={link.id}
-        updateParentLink={updateLink}
-        shouldSaveOnChange={false}
-        shouldShowAddLinkModal={false}
-        onAddNewLink={toggleSelect}
-        componentLocation="defaultLink"
-        includeIntegrationLinks={false}
-        includeAddLinkOption
-        className="w-full"
-      />
-    ) : (
-      <DefaultLinkInput
-        link={link}
-        setLink={setLink}
-        error={error}
-        setError={setError}
-        objective={objective}
-        platform={platform}
-        setIsDisabled={setIsDisabled}
-        toggleSelect={toggleSelect}
-      />
-    )
+    <div className="flex">
+      {shouldShowSelect ? (
+        <PostLinksSelect
+          currentLinkId={link.id}
+          updateParentLink={updateLink}
+          shouldSaveOnChange={false}
+          shouldShowAddLinkModal={false}
+          onAddNewLink={toggleSelect}
+          componentLocation="defaultLink"
+          includeIntegrationLinks={false}
+          includeAddLinkOption
+          className="w-full"
+        />
+      ) : (
+        <DefaultLinkInput
+          link={link}
+          setLink={setLink}
+          error={error}
+          setError={setError}
+          objective={objective}
+          platform={platform}
+          setIsDisabled={setIsDisabled}
+          toggleSelect={toggleSelect}
+        />
+      )}
+    </div>
   )
 }
 

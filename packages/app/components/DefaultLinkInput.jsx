@@ -71,8 +71,7 @@ const DefaultLinkInput = ({
 
   return (
     <div className={[
-      'w-full',
-      shouldShowButton ? 'mb-2' : 'mb-4',
+      'w-full relative',
     ].join(' ')}
     >
       <Input
@@ -82,13 +81,13 @@ const DefaultLinkInput = ({
         value={link.href}
         handleChange={handleChange}
         placeholder={placeholder}
-        className="mb-0"
+        className="mb-8"
       />
       {shouldShowButton && (
         <Button
           version="text"
           onClick={toggleSelect}
-          className="h-auto text-xs mr-auto"
+          className="h-auto absolute bottom-2 text-xs"
           trackComponentName="DefaultLinkInput"
         >
           Choose from your existing links
