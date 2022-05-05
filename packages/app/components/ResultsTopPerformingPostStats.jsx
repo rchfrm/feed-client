@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import { formatCurrency } from '@/helpers/utils'
+import { formatCurrency, formatNumber } from '@/helpers/utils'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -24,12 +24,12 @@ const ResultsTopPerformingPostStats = ({
       <p className="text-xs italic line-clamp-2">{postData?.message}</p>
       <ul className="xs:pl-4">
         <li className="mb-4">
-          <span className="font-bold underline underline-offset-4 decoration-2 decoration-blue">{post.reach}</span> people reached
+          <span className="font-bold underline underline-offset-4 decoration-2 decoration-blue">{formatNumber(post.reach)}</span> people reached
         </li>
         {metricType === 'engagement' && (
           <>
             <li className="mb-4">
-              <span className="font-bold underline underline-offset-4 decoration-2 decoration-green">{post.engaged}</span> people engaged
+              <span className="font-bold underline underline-offset-4 decoration-2 decoration-green">{formatNumber(post.engaged)}</span> people engaged
             </li>
             <li>
               <span className="font-bold underline underline-offset-4 decoration-2 decoration-insta">{Math.round((post.engaged / post.reach) * 100)}%</span> engagement rate
@@ -39,10 +39,10 @@ const ResultsTopPerformingPostStats = ({
         {metricType === 'growth' && hasSalesObjective && (
           <>
             <li className="mb-4">
-              <span className="font-bold underline underline-offset-2 decoration-2 decoration-green">{post.landing_page_views}</span> website visit(s)
+              <span className="font-bold underline underline-offset-2 decoration-2 decoration-green">{formatNumber(post.landing_page_views)}</span> website visit(s)
             </li>
             <li className="mb-4">
-              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{post.events_count}</span> sale(s)
+              <span className="font-bold underline underline-offset-2 decoration-2 decoration-insta">{formatNumber(post.events_count)}</span> sale(s)
               {post.sales_value > 0 && <span> worth <strong>{formatCurrency(post.sales_value, currency)}</strong></span>}
             </li>
             <li>

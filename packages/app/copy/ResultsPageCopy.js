@@ -152,15 +152,15 @@ export default {
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
   postDescription: (type, value, isPurchase, objective, platform) => {
     if (type === 'engagement') {
-      return `This post was the most effective at ${getObjectiveString(objective, platform)}, engaging **${value}** new people.`
+      return `This post was the most effective at ${getObjectiveString(objective, platform)}, engaging **${formatNumber(value)}** new people.`
     }
     if (type === 'nurture') {
-      return `This post was the most effective at ${getObjectiveString(objective, platform)}, with **${value}** people reached.`
+      return `This post was the most effective at ${getObjectiveString(objective, platform)}, with **${formatNumber(value)}** people reached.`
     }
     return isPurchase ? (
       `This post was the most effective at generating sales with a total value of **${value}**.`
     ) : (
-      `This post was the most effective by generating **${value}** sale(s).`
+      `This post was the most effective by generating **${formatNumber(value)}** sale(s).`
     )
   },
   statsNoData: 'Feed is setting up your ads',
