@@ -390,7 +390,7 @@ export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram'
 
   const paidGrowthEstimate = Math.round(totalGrowthAbsolute * ((paidGrowthRate - organicGrowthRate) / paidGrowthRate))
   const organicGrowthEstimate = totalGrowthAbsolute - paidGrowthEstimate
-  const paidGrowthPercentile = paid.absolute.percentile
+  const paidGrowthPercentile = (paid.absolute.percentile * 100).toFixed(1)
 
   const spendingDaysCount = paid.number_of_days.value
 
