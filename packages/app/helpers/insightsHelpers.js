@@ -283,8 +283,15 @@ const getCumulativeData = (dailyData, granularity) => {
     }
     return results
   }, {})
-  // Convert to array and sort by date
-  return utils.sortArrayByKey(Object.values(cumulativeDataObject), 'date')
+  // Convert to array and turn values of 0 to null
+  const formattedCumulativeDataObject = Object.values(cumulativeDataObject).map((periodObject) => {
+    return {
+      ...periodObject,
+      value: periodObject.value === 0 ? null : periodObject.value,
+    }
+  })
+  // Sort by date
+  return utils.sortArrayByKey(formattedCumulativeDataObject, 'date')
 }
 
 

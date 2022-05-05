@@ -222,7 +222,8 @@ const Chart = ({
     ]
 
     if (chartLineData) {
-      const lineDataPeriodValues = Object.values(chartLineData.dailyData)
+      const [, periodValues] = insightsHelpers.getChartData(chartLineData, granularity)
+
       const data = {
         ...baseBarConfig,
         type: 'line',
@@ -231,7 +232,7 @@ const Chart = ({
         borderColor: 'black',
         backgroundColor: 'transparent',
         label: 'Spending',
-        data: lineDataPeriodValues,
+        data: periodValues,
         spanGaps: false,
       }
 
@@ -277,9 +278,10 @@ const Chart = ({
         }
       }
       if (chartLineData) {
-        const lineDataPeriodValues = Object.values(chartLineData.dailyData)
-        const max = utils.maxArrayValue(lineDataPeriodValues)
-        const min = utils.minArrayValue(lineDataPeriodValues)
+        const [, periodValues] = insightsHelpers.getChartData(chartLineData, granularity)
+
+        const max = utils.maxArrayValue(periodValues)
+        const min = utils.minArrayValue(periodValues)
 
         const newChartLineLimit = {
           max: Math.round(max * 1.01) + maxLimitModifier,
