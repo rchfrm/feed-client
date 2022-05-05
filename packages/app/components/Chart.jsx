@@ -85,7 +85,7 @@ const baseChartConfig = {
     backgroundColor: utils.hexToRGBA(brandColors.bgColor, 0.9),
     titleFontFamily: "'Inter', 'sans-serif'",
     bodyFontFamily: "'Inter', 'sans-serif'",
-    titleFontSize: 18,
+    titleFontSize: 15,
     bodyFontSize: 15,
     titleMarginBottom: 9,
     titleFontColor: brandColors.textColor,
@@ -309,45 +309,54 @@ const Chart = ({
       }
       // Edit callbacks
       draftConfig.tooltips.callbacks = {
-        beforeBody(tooltipItem, chart) {
+        title(tooltipItem, chart) {
           if (loading) return
-          const dataIndex = tooltipItem[0].index
           const { datasetIndex } = tooltipItem[0]
           if (chart.datasets[datasetIndex].type === 'bar') {
-            const datasetName = chart.datasets[datasetIndex].label
-            // If the visible tooltip relates to value added since last period,
-            // display the total value on the relevant date in 'beforeBody'
-            if (datasetName.indexOf('new_') > -1) {
-              const barData = chartData.filter((data) => data.type === 'bar')
-              const total = sumPreviousAndNewValues(barData, dataIndex)
-              const totalFormatted = chartBarData.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
-              const platform = utils.capitalise(currentPlatform)
+            const platform = utils.capitalise(currentPlatform)
 
-              return `${totalFormatted}: ${platform} ${chartBarData.title}`
-            }
+            return `${platform} ${chartBarData.title}`
+          }
+          if (chart.datasets[datasetIndex].type === 'line') {
+            return `${utils.capitalise(chartLineData.title)}`
           }
         },
         label(tooltipItem, chart) {
           if (loading) return
+
+          const dataIndex = tooltipItem.index
           const { datasetIndex } = tooltipItem
+          const currentDate = chart.labels[dataIndex]
+
           if (chart.datasets[datasetIndex].type === 'bar') {
-            const datasetName = chart.datasets[datasetIndex].label
-            // If there is just one data source displayed, and the tooltip relates to value added since last period,
-            // display the positive change in 'label'
-            const dataIndex = tooltipItem.index
-            if (datasetName.indexOf('new_') > -1) {
-              const previousDate = chart.labels[dataIndex - 1]
-              return ` ${utils.formatNumber(tooltipItem.value)} more than ${previousDate}`
-            }
+            // If the visible tooltip relates to value added since last period,
+            // display the total value on the relevant date in 'beforeBody'
             const barData = chartData.filter((data) => data.type === 'bar')
             const total = sumPreviousAndNewValues(barData, dataIndex)
             const totalFormatted = chartBarData.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
-            const platform = utils.capitalise(currentPlatform)
-            return ` ${totalFormatted}: ${platform} ${chartBarData.title}`
+
+            return ` ${currentDate}: ${totalFormatted}`
           }
 
           if (chart.datasets[datasetIndex].type === 'line') {
-            return ` ${chartLineData.currency ? utils.formatCurrency(tooltipItem.value, artistCurrency) : utils.formatNumber(tooltipItem.value)}: ${utils.capitalise(chartLineData.title)}`
+            return ` ${currentDate}: ${chartLineData.currency ? utils.formatCurrency(tooltipItem.value, artistCurrency) : utils.formatNumber(tooltipItem[0].value)}`
+          }
+        },
+        afterBody(tooltipItem, chart) {
+          if (loading) return
+
+          const dataIndex = tooltipItem[0].index
+          const { datasetIndex } = tooltipItem[0]
+
+          if (chart.datasets[datasetIndex].type === 'bar') {
+            const datasetName = chart.datasets[datasetIndex].label
+
+            // If there is just one data source displayed, and the tooltip relates to value added since last period,
+            // display the positive change in 'label'
+            if (datasetName.indexOf('new_') > -1) {
+              const previousDate = chart.labels[dataIndex - 1]
+              return `(${utils.formatNumber(tooltipItem[0].value)} more than ${previousDate})`
+            }
           }
         },
       }
