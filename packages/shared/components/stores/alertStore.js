@@ -26,10 +26,12 @@ const useAlertStore = create((set) => ({
   setButtons: (buttons) => set({ buttons }),
   setOnClose: (onClose) => set({ onClose }),
   open: () => set({ isOpen: true }),
-  close: () => {
+  close: (shouldCallOnClose = true) => {
     set((state) => {
       const { onClose = defaultState.onClose } = state
-      onClose()
+      if (shouldCallOnClose) {
+        onClose()
+      }
       return { isOpen: false }
     })
   },
