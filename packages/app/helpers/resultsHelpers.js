@@ -619,16 +619,39 @@ export const formatChartDailyData = (data, platform) => {
     return Object.fromEntries(Object.entries(dailyData).slice(index, lastIndex))
   }
 
+  const getEarliestAndMostRecentData = (data) => {
+    const dataArray = Object.entries(data)
+
+    const earliestData = dataArray[0]
+    const mostRecentData = dataArray[dataArray.length - 1]
+
+    return {
+      earliest: {
+        date: earliestData[0],
+        value: earliestData[1],
+      },
+      mostRecent: {
+        date: mostRecentData[0],
+        value: mostRecentData[1],
+      },
+    }
+  }
+
   // If we have data from the last 6 months reduce ad spend and growth daily data to 6 months
   if (adSpendSixMonthsFromMostRecentDateIndex > 0) {
+    const reducedAdSpendDailyData = reduceDailyDataPeriod(adSpendData.dailyData, adSpendSixMonthsFromMostRecentDateIndex, adSpendDateKeys.length)
+    const reducedGrowthDailyData = reduceDailyDataPeriod(growthData.dailyData, growthSixMonthsFromMostRecentDateIndex, growthDateKeys.length)
+
     return {
       adSpendData: {
         ...adSpendData,
-        dailyData: reduceDailyDataPeriod(adSpendData.dailyData, adSpendSixMonthsFromMostRecentDateIndex, adSpendDateKeys.length),
+        dailyData: reducedAdSpendDailyData,
+        ...getEarliestAndMostRecentData(reducedAdSpendDailyData),
       },
       growthData: {
         ...growthData,
-        dailyData: reduceDailyDataPeriod(growthData.dailyData, growthSixMonthsFromMostRecentDateIndex, growthDateKeys.length),
+        dailyData: reducedGrowthDailyData,
+        ...getEarliestAndMostRecentData(reducedGrowthDailyData),
       },
     }
   }
@@ -636,12 +659,14 @@ export const formatChartDailyData = (data, platform) => {
   // Otherwise keep ad spend daily data as is and reduce growth daily data to match the ad spend daily data date range
   const earliestAdSpendDate = adSpendData.earliest.date
   const growthEarliestAdSpendDateIndex = growthDateKeys.findIndex((dateKey) => dateKey === earliestAdSpendDate)
+  const reducedGrowthDailyData = reduceDailyDataPeriod(growthData.dailyData, growthEarliestAdSpendDateIndex, growthDateKeys.length)
 
   return {
     adSpendData,
     growthData: {
       ...growthData,
-      dailyData: reduceDailyDataPeriod(growthData.dailyData, growthEarliestAdSpendDateIndex, growthDateKeys.length),
+      dailyData: reducedGrowthDailyData,
+      ...getEarliestAndMostRecentData(reducedGrowthDailyData),
     },
   }
 }

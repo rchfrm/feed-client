@@ -232,6 +232,7 @@ const Chart = ({
         backgroundColor: 'transparent',
         label: 'Spending',
         data: lineDataPeriodValues,
+        spanGaps: false,
       }
 
       chartData.push(data)
