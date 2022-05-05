@@ -27,6 +27,7 @@ const ResultsTabContent = ({
   const { optimizationPreferences, isSpendingPaused } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
   const hasGrowthObjective = objective === 'growth'
+  const hasSalesObjective = objective === 'sales'
 
   return (
     <>
@@ -47,20 +48,21 @@ const ResultsTabContent = ({
           platform={platform}
         />
       )}
-      {post ? (
-        <ResultsTopPerformingPost
-          key={post.id}
-          post={post}
-          metricType={metricType}
-          isSpendingPaused={isSpendingPaused}
-          className={[
-            'col-span-12 sm:col-span-6',
-            'flex flex-col',
-            className,
-          ].join(' ')}
-        />
-      ) : (
-        <ResultsPostsNoData isSpendingPaused={isSpendingPaused} />
+      {(metricType !== 'growth' || hasSalesObjective) && (
+        post ? (
+          <ResultsTopPerformingPost
+            key={post?.id}
+            post={post}
+            metricType={metricType}
+            className={[
+              'col-span-12 sm:col-span-6',
+              'flex flex-col',
+              className,
+            ].join(' ')}
+          />
+        ) : (
+          <ResultsPostsNoData isSpendingPaused={isSpendingPaused} />
+        )
       )}
     </>
   )

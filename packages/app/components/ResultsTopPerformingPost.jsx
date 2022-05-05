@@ -9,7 +9,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostCardMedia from '@/app/PostCardMedia'
 import ResultsTopPerformingPostStats from '@/app/ResultsTopPerformingPostStats'
 import ResultsTopPerformingPostButton from '@/app/ResultsTopPerformingPostButton'
-import ResultsPostsNoData from '@/app/ResultsPostsNoData'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
@@ -28,7 +27,6 @@ const getControlsStoreState = (state) => ({
 const ResultsTopPerformingPost = ({
   post,
   metricType,
-  isSpendingPaused,
   className,
 }) => {
   const { type, valueKey: key } = post
@@ -41,7 +39,6 @@ const ResultsTopPerformingPost = ({
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
-  const hasSalesObjective = objective === 'sales'
 
   const isDesktopLayout = useBreakpointTest('sm')
   const imageHeight = isDesktopLayout ? '176px' : '100px'
@@ -71,11 +68,7 @@ const ResultsTopPerformingPost = ({
     setIsLoading(false)
   }, [])
 
-  if (metricType === 'growth' && type === 'growth' && (post[key[1]] === 0 || !hasSalesObjective)) {
-    return (
-      <ResultsPostsNoData isSpendingPaused={isSpendingPaused} />
-    )
-  }
+  if (metricType === 'growth' && (post[key[1]] === 0)) return null
 
   return (
     <div
@@ -116,7 +109,6 @@ const ResultsTopPerformingPost = ({
 ResultsTopPerformingPost.propTypes = {
   post: PropTypes.object.isRequired,
   metricType: PropTypes.string.isRequired,
-  isSpendingPaused: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
