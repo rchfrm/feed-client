@@ -171,7 +171,7 @@ const Chart = ({
     // Get period dates and values from the data, based on the granularity
     const [periodDates, periodValues] = insightsHelpers.getChartData(chartBarData, granularity)
     // Cycle through the dates and add the relevant labels
-    const periodLabels = insightsHelpers.getPeriodLabels(periodDates)
+    const periodLabels = insightsHelpers.getPeriodLabels(periodDates, granularity)
     setDateLabels(periodLabels)
 
     // DEFINE THE DATASET(S) TO DISPLAY

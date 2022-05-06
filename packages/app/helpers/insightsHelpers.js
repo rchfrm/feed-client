@@ -306,13 +306,19 @@ export const getChartData = (data, granularity) => {
 }
 
 // CREATE ARRAY OF PERIOD LABELS
-export const getPeriodLabels = (periodDates) => {
+export const getPeriodLabels = (periodDates, granularity) => {
   const [earliestDate] = periodDates
   const lastDate = periodDates[periodDates.length - 1]
   const earliestYear = moment(earliestDate, 'YYYY-MM-DD').year()
   const lastYear = moment(lastDate, 'YYYY-MM-DD').year()
   return periodDates.map((date) => {
-    const labelFormat = earliestYear !== lastYear ? 'MMM YY' : 'DD MMM'
+    const periodSpansMultipleYears = earliestYear !== lastYear
+    if (granularity === 'months') {
+      const labelFormat = periodSpansMultipleYears ? 'MMM YY' : 'MMMM'
+      const dateMoment = moment(date, 'YYYY-MM-DD')
+      return dateMoment.format(labelFormat)
+    }
+    const labelFormat = periodSpansMultipleYears ? 'DD MMM YY' : 'DD MMM'
     const dateMoment = moment(date, 'YYYY-MM-DD')
     return dateMoment.format(labelFormat)
   })
