@@ -109,44 +109,34 @@ export default {
     growthIncrease,
     spendingDaysCount,
   }) => {
+    const growString = spendingDaysCount < 30 ? 'set to grow' : 'growing'
     if (organicGrowthRate > 0) {
-      return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's **${growthIncrease.toFixed(1)}x** faster than ${shouldUseAggregateGrowthRate ? 'average' : 'your'} organic growth of **${formatNumber(organicGrowthRate)}%**.`
+      return `Your ${platform} following is ${growString} **${formatNumber(paidGrowthRate)}%** a month. **${growthIncrease.toFixed(1)}x** faster than ${shouldUseAggregateGrowthRate ? 'average' : 'your'} organic growth of ${formatNumber(organicGrowthRate)}%.`
     }
 
     if (organicGrowthRate === 0) {
-      if (spendingDaysCount === 30) {
-        return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, this compares to no growth without spending.`
-      }
-
-      if (spendingDaysCount < 30) {
-        return `Your ${platform} is now projected to grow **${formatNumber(paidGrowthRate)}%** a month, this compares to no growth without spending.`
-      }
+      return `Your ${platform} following is ${growString} **${formatNumber(paidGrowthRate)}%** a month, this compares to no growth without spending.`
     }
 
     if (organicGrowthRate < 0) {
-      if (spendingDaysCount === 30) {
-        return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, without spending it was actually shrinking **${formatNumber(organicGrowthRate)}%**.`
-      }
-
-      if (spendingDaysCount < 30) {
-        return `Your ${platform} is now projected to grow **${formatNumber(paidGrowthRate)}%** a month, without spending it was actually shrinking **${formatNumber(organicGrowthRate)}%**.`
-      }
+      return `Your ${platform} following is ${growString} **${formatNumber(paidGrowthRate)}%** a month, without spending it was shrinking **${formatNumber(organicGrowthRate)}%**.`
     }
   },
   platformGrowthFallback: ({
     platform,
     paidGrowthRate,
     totalGrowthAbsolute,
+    estimatedMonthlyGrowthAbsolute,
     spendingDaysCount,
   }) => {
     if (spendingDaysCount === 30) {
       return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's **${formatNumber(totalGrowthAbsolute)}** new followers.`
     }
     if (spendingDaysCount < 30) {
-      return `Your ${platform} is set to ${formatNumber(paidGrowthRate) >= 0 ? 'grow' : 'shrink'} 1.65% a month, that means **~${formatNumber(totalGrowthAbsolute)}** new followers.`
+      return `Your ${platform} is set to ${paidGrowthRate >= 0 ? 'grow' : 'shrink'} **${formatNumber(paidGrowthRate)}%** (${estimatedMonthlyGrowthAbsolute}) a month. After ${spendingDaysCount} days, you've gained ${totalGrowthAbsolute}. `
     }
     if (paidGrowthRate === 0) {
-      return `Your ${platform} is set to stay the same from month to month.`
+      return `Your ${platform} following is set to stay the same from month to month.`
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',

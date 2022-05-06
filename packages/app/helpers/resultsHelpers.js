@@ -390,9 +390,10 @@ export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram'
 
   const paidGrowthEstimate = Math.round(totalGrowthAbsolute * ((paidGrowthRate - organicGrowthRate) / paidGrowthRate))
   const organicGrowthEstimate = totalGrowthAbsolute - paidGrowthEstimate
-  const paidGrowthPercentile = (paid.absolute.percentile * 100).toFixed(1)
+  const paidGrowthPercentile = (paid.rate.percentile * 100).toFixed(1)
 
   const spendingDaysCount = paid.number_of_days.value
+  const estimatedMonthlyGrowthAbsolute = Math.round(totalGrowthAbsolute / (spendingDaysCount / 30))
 
   const copyData = {
     platform: getPlatformNameByValue(platform),
@@ -401,10 +402,11 @@ export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram'
     shouldUseAggregateGrowthRate,
     growthIncrease,
     totalGrowthAbsolute,
+    estimatedMonthlyGrowthAbsolute,
     spendingDaysCount,
   }
 
-  if (paidGrowthEstimate >= organicGrowthEstimate && paidGrowthEstimate > 0) {
+  if (paidGrowthRate >= organicGrowthRate && paidGrowthEstimate > 0) {
     return makeStatsObject({
       prevPeriod: organicGrowthEstimate,
       currPeriod: totalGrowthAbsolute,
