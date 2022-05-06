@@ -318,7 +318,7 @@ export const getPeriodLabels = (periodDates, granularity) => {
       const dateMoment = moment(date, 'YYYY-MM-DD')
       return dateMoment.format(labelFormat)
     }
-    const labelFormat = periodSpansMultipleYears ? 'DD MMM YY' : 'DD MMM'
+    const labelFormat = periodSpansMultipleYears ? 'D MMM YY' : 'D MMM'
     const dateMoment = moment(date, 'YYYY-MM-DD')
     return dateMoment.format(labelFormat)
   })

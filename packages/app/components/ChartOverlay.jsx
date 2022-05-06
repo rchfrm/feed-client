@@ -47,10 +47,8 @@ const ChartOverlay = ({
       || index === labels.length - 1
       || index === Math.round((labels.length - 1) / 2)
     ) {
-      const [day, month] = label.split(' ')
-      const labelString = granularity === 'months' ? month : `${day} ${month}`
       labelList.push(
-        <li key={label}>{labelString}</li>,
+        <li key={label}>{label}</li>,
       )
     }
   })
