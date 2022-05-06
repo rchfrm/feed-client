@@ -281,11 +281,10 @@ const Chart = ({
         const [, periodValues] = insightsHelpers.getChartData(chartLineData, granularity)
 
         const max = utils.maxArrayValue(periodValues)
-        const min = utils.minArrayValue(periodValues)
 
         const newChartLineLimit = {
           max: Math.round(max * 1.01) + maxLimitModifier,
-          min: min - 0.03,
+          min: 0,
         }
         setChartLineLimit(newChartLineLimit)
 
