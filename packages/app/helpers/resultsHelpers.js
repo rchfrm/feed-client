@@ -612,7 +612,10 @@ export const formatChartDailyData = (data, platform) => {
   const adSpendDateKeys = Object.keys(adSpendData.dailyData)
   const growthDateKeys = Object.keys(growthData.dailyData)
 
-  const sixMonthsFromMostRecentDate = moment(adSpendData.mostRecent.date).subtract(6, 'months').format('YYYY-MM-DD')
+  const sixMonthsFromMostRecentDate = moment(adSpendData.mostRecent.date)
+    .subtract(6, 'months')
+    .startOf('isoWeek')
+    .format('YYYY-MM-DD')
 
   const adSpendSixMonthsFromMostRecentDateIndex = adSpendDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
   const growthSixMonthsFromMostRecentDateIndex = growthDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)

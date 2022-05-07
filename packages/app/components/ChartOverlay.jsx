@@ -14,7 +14,6 @@ const ChartOverlay = ({
   chartLineCurrency,
   isMixedChart,
   labels,
-  granularity,
 }) => {
   const leftMidValue = ((chartBarMaxValue - chartBarMinValue) / 2) + chartBarMinValue
   const rightMidValue = ((chartLineMaxValue - chartLineMinValue) / 2) + chartLineMinValue
