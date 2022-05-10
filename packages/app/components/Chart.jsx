@@ -317,7 +317,11 @@ const Chart = ({
             return `${platform} ${chartBarData.title}`
           }
           if (chart.datasets[datasetIndex].type === 'line') {
-            return `${utils.capitalise(chartLineData.title)}`
+            let { title } = chartLineData
+            if (chartLineData.source === 'facebook_ad_spend_feed') {
+              title = 'Feed spend'
+            }
+            return `${utils.capitalise(title)}`
           }
         },
         label(tooltipItem, chart) {
