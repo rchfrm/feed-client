@@ -406,7 +406,7 @@ export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram'
     spendingDaysCount,
   }
 
-  if (paidGrowthRate >= organicGrowthRate && paidGrowthEstimate > 0) {
+  if (paidGrowthRate >= organicGrowthRate && paidGrowthEstimate > 0 && paidGrowthRate > 0) {
     return makeStatsObject({
       prevPeriod: organicGrowthEstimate,
       currPeriod: totalGrowthAbsolute,
