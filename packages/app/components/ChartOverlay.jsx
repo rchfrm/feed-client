@@ -38,19 +38,14 @@ const ChartOverlay = ({
     ? utils.formatCurrency(Math.round(rightMidValue), chartLineCurrency).replace('.00', '')
     : utils.abbreviateNumber(rightMidValue)
 
-  const labelList = []
+  const middleIdx = Math.round((labels.length - 1) / 2)
+  const lastIdx = labels.length - 1
 
-  labels.forEach((label, index) => {
-    if (
-      index === 0
-      || index === labels.length - 1
-      || index === Math.round((labels.length - 1) / 2)
-    ) {
-      labelList.push(
-        <li key={label}>{label}</li>,
-      )
-    }
-  })
+  const labelList = [
+    labels[0],
+    labels[middleIdx],
+    labels[lastIdx],
+  ].map(label => <li key={label}>{label}</li>)
 
   return (
     <>
