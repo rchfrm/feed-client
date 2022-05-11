@@ -280,6 +280,18 @@ export const getChartData = (data, granularity) => {
   const periodData = isCumulative ? getCumulativeData(dailyData, granularity) : getPeriodData(dailyData, granularity)
   const dates = periodData.map(({ date }) => date)
   const values = periodData.map(({ value }) => value)
+  const mostRecentData = Object.keys(dailyData).pop()
+  // Add the latest date / value to end of array so today's data
+  // is shown even if part way through the week or month
+  if (
+    !isCumulative
+    && granularity !== 'days'
+    && mostRecentData !== dates[dates.length - 1]
+    && dailyData[mostRecentData] !== values[values.length - 1]
+  ) {
+    dates.push(mostRecentData)
+    values.push(dailyData[mostRecentData])
+  }
   return [dates, values]
 }
 
