@@ -222,7 +222,8 @@ const Chart = ({
     ]
 
     if (chartLineData) {
-      const [, periodValues] = insightsHelpers.getChartData(chartLineData, granularity)
+      const [lineChartPeriodDates, periodValues] = insightsHelpers.getChartData(chartLineData, granularity)
+      const startingIndex = lineChartPeriodDates.findIndex(date => date === periodDates[0])
 
       const data = {
         ...baseBarConfig,
@@ -233,7 +234,7 @@ const Chart = ({
         backgroundColor: brandColors.black,
         fill: false,
         label: 'Spending',
-        data: periodValues,
+        data: periodValues.slice(startingIndex),
         spanGaps: false,
         pointStyle: 'circle',
       }
@@ -367,7 +368,6 @@ const Chart = ({
         },
       }
     })
-    console.log('newChartOptions', newChartOptions)
     setChartOptions(newChartOptions)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartBarData.source, artistId, loading, error])
