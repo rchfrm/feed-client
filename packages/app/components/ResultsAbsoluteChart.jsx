@@ -82,13 +82,13 @@ const ResultsAbsoluteChart = ({
             <p className="mb-0 text-white text-xs">{formatNumber(absoluteGrowth)}</p>
           )}
         </div>
-        <p className="text-center text-xs font-bold">
+        <div className="text-center text-xs font-bold">
           {tooltipMessage ? (
             <ResultsAbsoluteChartTooltip title={tooltipTitles[1]} message={tooltipMessage} />
           ) : (
             <p className="text-center text-xs">{isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}</p>
           )}
-        </p>
+        </div>
       </div>
     </div>
   )

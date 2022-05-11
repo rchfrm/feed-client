@@ -1,3 +1,5 @@
+const lineClampPlugin = require('@tailwindcss/line-clamp')
+
 module.exports = (contentFiles) => ({
   content: contentFiles,
   theme: {
@@ -90,5 +92,7 @@ module.exports = (contentFiles) => ({
     borderStyle: ['responsive', 'last', 'first'],
     flexDirection: ['responsive', 'even'],
   },
-  plugins: [],
+  plugins: [
+    lineClampPlugin,
+  ],
 })

@@ -7,7 +7,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ResultsChartHeader from '@/app/ResultsChartHeader'
 import ResultsPostsChart from '@/app/ResultsPostsChart'
 
-import { getRecentPosts, noSpendMetricTypes, getDummyPosts } from '@/app/helpers/resultsHelpers'
+import { getRecentPosts, organicMetricTypes, getDummyPosts } from '@/app/helpers/resultsHelpers'
 
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/ResultsPageCopy'
@@ -24,7 +24,9 @@ const ResultsPostsChartContent = ({
   const [yourAverage, setYourAverage] = React.useState(0)
   const [globalAverage, setGlobalAverage] = React.useState(0)
   const [isLoading, setIsLoading] = React.useState(false)
+
   const { platform } = organicData?.growth || {}
+  const color = organicMetricTypes.find(({ type }) => type === metricType)?.color
 
   const { artistId } = React.useContext(ArtistContext)
 
@@ -55,7 +57,7 @@ const ResultsPostsChartContent = ({
     {
       label: 'Your average',
       value: yourAverage,
-      color: noSpendMetricTypes[metricType].color,
+      color,
       lineStyle: 'dashed',
     },
     {
@@ -78,6 +80,7 @@ const ResultsPostsChartContent = ({
         yourAverage={yourAverage || 0}
         globalAverage={globalAverage}
         metricType={metricType}
+        color={color}
         isLoading={isLoading}
         hasNoProfiles={hasNoProfiles}
       />
