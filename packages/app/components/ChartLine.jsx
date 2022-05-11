@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import produce from 'immer'
 
 import { Line } from 'react-chartjs-2'
 
@@ -76,9 +77,10 @@ const baseChartConfig = {
   },
 }
 
-const ChartLine = ({ data }) => {
+const ChartLine = ({ data, maintainAspectRatio }) => {
   const [dateLabels, setDateLabels] = React.useState([])
   const [chartDataSets, setChartDataSets] = React.useState([])
+  const [chartOptions, setChartOptions] = React.useState({})
 
   const createChartData = (data) => {
     const { source: currentDataSource, platform: currentPlatform } = data
@@ -113,8 +115,16 @@ const ChartLine = ({ data }) => {
       return createChartData(dataSource)
     })
 
+    const newChartOptions = produce(baseChartConfig, draftConfig => {
+      // Edit aspect ratio
+      if (!maintainAspectRatio) {
+        draftConfig.maintainAspectRatio = false
+      }
+    })
+    setChartOptions(newChartOptions)
+
     setChartDataSets(chartData)
-  }, [data])
+  }, [data, maintainAspectRatio])
 
   return (
     <Line
@@ -122,7 +132,7 @@ const ChartLine = ({ data }) => {
         labels: dateLabels,
         datasets: chartDataSets,
       }}
-      options={baseChartConfig}
+      options={chartOptions}
     />
   )
 }
@@ -131,7 +141,9 @@ export default ChartLine
 
 ChartLine.propTypes = {
   data: PropTypes.array.isRequired,
+  maintainAspectRatio: PropTypes.bool,
 }
 
 ChartLine.defaultProps = {
+  maintainAspectRatio: false,
 }

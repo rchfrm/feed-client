@@ -34,6 +34,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.0",
     "axios": "^0.19.2",
     "clipboard": "^2.0.6",
     "currency-symbol-map": "^4.0.4",

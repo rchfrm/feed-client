@@ -8,6 +8,7 @@ import ResultsNewAudienceStats from '@/app/ResultsNewAudienceStats'
 import ResultsExistingAudienceStats from '@/app/ResultsExistingAudienceStats'
 import ResultsConversionStats from '@/app/ResultsConversionStats'
 import ResultsPlatformGrowthStats from '@/app/ResultsPlatformGrowthStats'
+import ResultsConversionsActivator from '@/app/ResultsConversionsActivator'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -15,15 +16,22 @@ import { getStatsData } from '@/app/helpers/resultsHelpers'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-const getConversionsPreferences = state => state.conversionsPreferences
+const getControlsStoreState = (state) => ({
+  conversionsPreferences: state.conversionsPreferences,
+})
 
 const ResultsStats = ({
   adData,
   aggregatedAdData,
+  metricType,
   hasSalesObjective,
   hasInstagramGrowthObjective,
+  isDesktopLayout,
   className,
 }) => {
+  const { conversionsPreferences } = useControlsStore(getControlsStoreState)
+  const { facebookPixelEvent } = conversionsPreferences
+
   const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
   const { currency: { code: currency } } = min_daily_budget_info || {}
 
@@ -31,7 +39,6 @@ const ResultsStats = ({
   const [existingAudienceData, setExistingAudienceData] = React.useState(null)
   const [conversionData, setConversionData] = React.useState(null)
   const [platformData, setPlatformData] = React.useState(null)
-  const { facebookPixelEvent } = useControlsStore(getConversionsPreferences)
 
   React.useEffect(() => {
     const {
@@ -48,41 +55,33 @@ const ResultsStats = ({
   }, [adData, aggregatedAdData, facebookPixelEvent, currency])
 
   return (
-    <>
-      <div
-        className={[
-          'col-span-12',
-          'order-1',
-          className,
-        ].join(' ')}
-      >
-        {newAudienceData ? (
-          <ResultsNewAudienceStats data={newAudienceData} />
-        ) : (
-          <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-blue" />
-        )}
-      </div>
-      <div
-        className={[
-          'col-span-12',
-          'order-2',
-          className,
-        ].join(' ')}
-      >
-        {existingAudienceData ? (
-          <ResultsExistingAudienceStats data={existingAudienceData} />
-        ) : (
-          <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-green" />
-        )}
-      </div>
-      {hasSalesObjective && (
-        <div
-          className={[
-            'col-span-12',
-            'order-3',
-            className,
-          ].join(' ')}
-        >
+    <div className={[
+      'col-span-12 grid grid-cols-12 sm:gap-x-12',
+      className,
+    ].join(' ')}
+    >
+      {(isDesktopLayout || metricType === 'engagement') && (
+        <div className="col-span-12 sm:col-span-4">
+          {newAudienceData ? (
+            <ResultsNewAudienceStats data={newAudienceData} />
+          ) : (
+            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-blue" />
+          )}
+        </div>
+      )}
+
+      {(isDesktopLayout || metricType === 'nurture') && (
+        <div className="col-span-12 sm:col-span-4">
+          {existingAudienceData ? (
+            <ResultsExistingAudienceStats data={existingAudienceData} />
+          ) : (
+            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-green" />
+          )}
+        </div>
+      )}
+
+      {hasSalesObjective && (isDesktopLayout || metricType === 'growth') && (
+        <div className="col-span-12 sm:col-span-4">
           {conversionData ? (
             <ResultsConversionStats data={conversionData} currency={currency} />
           ) : (
@@ -90,14 +89,9 @@ const ResultsStats = ({
           )}
         </div>
       )}
-      {hasInstagramGrowthObjective && (
-        <div
-          className={[
-            'col-span-12',
-            'order-3',
-            className,
-          ].join(' ')}
-        >
+
+      {hasInstagramGrowthObjective && (isDesktopLayout || metricType === 'growth') && (
+        <div className="col-span-12 sm:col-span-4">
           {platformData ? (
             <ResultsPlatformGrowthStats data={platformData} />
           ) : (
@@ -106,20 +100,27 @@ const ResultsStats = ({
         </div>
       )}
 
-    </>
+      {!hasInstagramGrowthObjective && !hasSalesObjective && (isDesktopLayout || metricType === 'growth') && (
+        <ResultsConversionsActivator
+          className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
+        />
+      )}
+
+    </div>
   )
 }
 
 ResultsStats.propTypes = {
   adData: PropTypes.object.isRequired,
   aggregatedAdData: PropTypes.object.isRequired,
+  metricType: PropTypes.string.isRequired,
   hasSalesObjective: PropTypes.bool.isRequired,
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,
-  className: PropTypes.string,
+  isDesktopLayout: PropTypes.bool.isRequired,
+  className: PropTypes.string.isRequired,
 }
 
 ResultsStats.defaultProps = {
-  className: '',
 }
 
 export default ResultsStats

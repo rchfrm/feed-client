@@ -1,11 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { formatCurrency } from '@/helpers/utils'
 
 import ResultsSpendBlock from '@/app/ResultsSpendBlock'
 
-const ResultsSpendOverview = ({ spending }) => {
-  const { daily_data: dailyData, value, currency } = spending
+const ResultsSpendOverview = ({ spend }) => {
+  const { daily_data: dailyData, value, currency } = spend
   const valueString = formatCurrency(value, currency)
 
   return (
@@ -29,7 +30,7 @@ const ResultsSpendOverview = ({ spending }) => {
 }
 
 ResultsSpendOverview.propTypes = {
-
+  spend: PropTypes.object.isRequired,
 }
 
 export default ResultsSpendOverview

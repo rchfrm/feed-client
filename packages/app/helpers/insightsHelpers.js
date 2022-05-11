@@ -156,11 +156,11 @@ export const formatServerData = ({ dailyData, dates = {}, currentDataSource, cur
 
 export const calcGranularity = (earliestMoment, latestMoment) => {
   // Find out number of weeks between earliest and latest dates
-  const weeks = latestMoment.diff(earliestMoment, 'weeks', true)
+  const months = latestMoment.diff(earliestMoment, 'months', true)
   // If there is less than 4 weeks of data, set granularity to 'days'
-  if (weeks < 4) return 'days'
+  if (months < 1) return 'days'
   // If there is less than 26 weeks (0.5 year) of data, set granularity to 'weeks'
-  if (weeks < 26) return 'weeks'
+  if (months < 6) return 'weeks'
   // Otherwise set granularity to 'months'
   return 'months'
 }
@@ -221,6 +221,7 @@ const getDateInfo = (date, granularity) => {
   dateInfo.period = granularity === 'months' ? dateInfo.month
     : granularity === 'weeks' ? dateInfo.week
       : dateInfo.day
+  dateInfo.startOfPeriod = dateMoment.clone().startOf(granularity === 'weeks' ? 'isoWeek' : granularity)
   // Return info
   return dateInfo
 }
@@ -232,33 +233,11 @@ const getPeriodData = (dailyData, granularity) => {
   const periodData = Object.entries(dailyData).reduce((results, [date, value]) => {
     const dateInfo = getDateInfo(date, granularity)
     const payload = { ...dateInfo, value }
-    // Is there already data for this period and year?
-    const storedDatumIndex = results.findIndex(({
-      period: storedPeriod,
-      week: storedWeek,
-      month: storedMonth,
-      year: storedYear,
-    }) => {
-      // Define test for whether date is in the same period
-      const testForOverlappingPeriod = granularity === 'months' ? dateInfo.month === storedMonth && dateInfo.year === storedYear
-        : dateInfo.week === storedWeek && dateInfo.month === storedMonth && dateInfo.year === storedYear
-      // Run same period test
-      return dateInfo.period === storedPeriod && testForOverlappingPeriod
-    })
-    if (storedDatumIndex > -1) {
-      const { date: storedDate } = results[storedDatumIndex]
-      const storedDateMoment = moment(storedDate, 'YYYY-MM-DD')
-      // Check if date is more later in time
-      const isNewDateLater = dateInfo.dateMoment.isAfter(storedDateMoment)
-      // If new date is later, replace
-      if (isNewDateLater) {
-        results[storedDatumIndex] = payload
-      }
-      // Else just return the saved value
-      return results
+    const isStartOfPeriod = dateInfo.dateMoment.isSame(dateInfo.startOfPeriod, 'day')
+    if (isStartOfPeriod) {
+      return [...results, payload]
     }
-    // If no date already exists for this period, add it
-    return [...results, payload]
+    return results
   }, [])
   // Add in missing data with blanks
   return fillInMissingData(periodData, granularity)
@@ -269,8 +248,7 @@ const getPeriodData = (dailyData, granularity) => {
 const getCumulativeData = (dailyData, granularity) => {
   const cumulativeDataObject = Object.entries(dailyData).reduce((results, [date, value]) => {
     const dateInfo = getDateInfo(date, granularity)
-    const { period, year } = dateInfo
-    const periodKey = `${period}-${year}`
+    const periodKey = dateInfo.startOfPeriod.format('YYYY-MM-DD')
     // If data for this period already exists, update the total
     if (results[periodKey]) {
       results[periodKey].value += value
@@ -283,8 +261,15 @@ const getCumulativeData = (dailyData, granularity) => {
     }
     return results
   }, {})
-  // Convert to array and sort by date
-  return utils.sortArrayByKey(Object.values(cumulativeDataObject), 'date')
+  // Convert to array and turn values of 0 to null
+  const formattedCumulativeDataObject = Object.values(cumulativeDataObject).map((periodObject) => {
+    return {
+      ...periodObject,
+      value: periodObject.value === 0 ? null : periodObject.value,
+    }
+  })
+  // Sort by date
+  return utils.sortArrayByKey(formattedCumulativeDataObject, 'date')
 }
 
 
@@ -295,17 +280,35 @@ export const getChartData = (data, granularity) => {
   const periodData = isCumulative ? getCumulativeData(dailyData, granularity) : getPeriodData(dailyData, granularity)
   const dates = periodData.map(({ date }) => date)
   const values = periodData.map(({ value }) => value)
+  const mostRecentData = Object.keys(dailyData).pop()
+  // Add the latest date / value to end of array so today's data
+  // is shown even if part way through the week or month
+  if (
+    !isCumulative
+    && granularity !== 'days'
+    && mostRecentData !== dates[dates.length - 1]
+    && dailyData[mostRecentData] !== values[values.length - 1]
+  ) {
+    dates.push(mostRecentData)
+    values.push(dailyData[mostRecentData])
+  }
   return [dates, values]
 }
 
 // CREATE ARRAY OF PERIOD LABELS
-export const getPeriodLabels = (periodDates) => {
+export const getPeriodLabels = (periodDates, granularity) => {
   const [earliestDate] = periodDates
   const lastDate = periodDates[periodDates.length - 1]
   const earliestYear = moment(earliestDate, 'YYYY-MM-DD').year()
   const lastYear = moment(lastDate, 'YYYY-MM-DD').year()
   return periodDates.map((date) => {
-    const labelFormat = earliestYear !== lastYear ? 'MMM YY' : 'DD MMM'
+    const periodSpansMultipleYears = earliestYear !== lastYear
+    if (granularity === 'months') {
+      const labelFormat = periodSpansMultipleYears ? 'MMM YY' : 'MMMM'
+      const dateMoment = moment(date, 'YYYY-MM-DD')
+      return dateMoment.format(labelFormat)
+    }
+    const labelFormat = periodSpansMultipleYears ? 'D MMM YY' : 'D MMM'
     const dateMoment = moment(date, 'YYYY-MM-DD')
     return dateMoment.format(labelFormat)
   })
