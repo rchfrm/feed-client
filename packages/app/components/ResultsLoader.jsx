@@ -123,6 +123,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
           adData={adData}
           aggregatedAdData={aggregatedAdData}
           isSpendingPaused={isSpendingPaused}
+          hasNoProfiles={hasNoProfiles}
         />
       )}
     </>

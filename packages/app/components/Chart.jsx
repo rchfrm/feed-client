@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 import tinycolor from 'tinycolor2'
 import moment from 'moment'
-import { Bar } from 'react-chartjs-2'
+import MixedChart from 'react-chartjs-2'
 // IMPORT COMPONENTS
 import Spinner from '@/elements/Spinner'
-import ChartBarOverlay from '@/app/ChartBarOverlay'
+import ChartOverlay from '@/app/ChartOverlay'
 // IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import * as insightsHelpers from '@/app/helpers/insightsHelpers'
@@ -32,13 +32,20 @@ const baseBarConfig = {
 
 const baseChartConfig = {
   maintainAspectRatio: true,
-  responsive: true,
   backgroundColor: 'transparent',
   layout: {
     padding: 0,
   },
   legend: {
     display: false,
+  },
+  elements: {
+    point: {
+      pointStyle: 'line',
+    },
+    line: {
+      tension: 0,
+    },
   },
   scales: {
     xAxes: [{
@@ -54,6 +61,7 @@ const baseChartConfig = {
       },
     }],
     yAxes: [{
+      id: 'A',
       stacked: true,
       gridLines: {
         drawBorder: false,
@@ -77,7 +85,7 @@ const baseChartConfig = {
     backgroundColor: utils.hexToRGBA(brandColors.bgColor, 0.9),
     titleFontFamily: "'Inter', 'sans-serif'",
     bodyFontFamily: "'Inter', 'sans-serif'",
-    titleFontSize: 18,
+    titleFontSize: 15,
     bodyFontSize: 15,
     titleMarginBottom: 9,
     titleFontColor: brandColors.textColor,
@@ -87,20 +95,20 @@ const baseChartConfig = {
     yPadding: 15,
   },
 }
-function ChartBar({
-  className,
-  data,
+const Chart = ({
+  chartBarData,
+  chartLineData,
   artistId,
   loading,
   artistCurrency,
   error,
-}) {
+  className,
+  heightClasses,
+}) => {
   // DEFINE STATES
   const [dateLabels, setDateLabels] = React.useState([])
-  const [chartLimit, setChartLimit] = React.useState({
-    max: '',
-    min: '',
-  })
+  const [chartBarLimit, setChartBarLimit] = React.useState({ max: 0, min: 0 })
+  const [chartLineLimit, setChartLineLimit] = React.useState({ max: 0, min: 0 })
   const [chartDataSets, setChartDataSets] = React.useState([])
   const [chartOptions, setChartOptions] = React.useState({})
   const [granularity, setGranularity] = React.useState('')
@@ -115,7 +123,7 @@ function ChartBar({
     } = insightsHelpers.getDummyData()
     // Setup chart
     setDateLabels(periodLabels)
-    setChartLimit(chartLimit)
+    setChartBarLimit(chartLimit)
     // DEFINE DATA SET
     // If loading, use previous. If error show dummy
     const dataSet = !buildDummyChart ? chartDataSets[0] : {
@@ -151,19 +159,19 @@ function ChartBar({
       showPlaceholder(loading)
       return
     }
-    const { source: currentDataSource, platform: currentPlatform } = data
+    const { source: currentDataSource, platform: currentPlatform } = chartBarData
     // Stop if no data source
-    if (!data.source) return
+    if (!chartBarData.source) return
     // Define relevant moments
-    const earliestMoment = moment(data.earliest.date, 'YYYY-MM-DD')
-    const latestMoment = moment(data.mostRecent.date, 'YYYY-MM-DD')
+    const earliestMoment = moment(chartBarData.earliest.date, 'YYYY-MM-DD')
+    const latestMoment = moment(chartBarData.mostRecent.date, 'YYYY-MM-DD')
     // Calculate granularity
     const granularity = insightsHelpers.calcGranularity(earliestMoment, latestMoment)
     setGranularity(granularity)
     // Get period dates and values from the data, based on the granularity
-    const [periodDates, periodValues] = insightsHelpers.getChartData(data, granularity)
+    const [periodDates, periodValues] = insightsHelpers.getChartData(chartBarData, granularity)
     // Cycle through the dates and add the relevant labels
-    const periodLabels = insightsHelpers.getPeriodLabels(periodDates)
+    const periodLabels = insightsHelpers.getPeriodLabels(periodDates, granularity)
     setDateLabels(periodLabels)
 
     // DEFINE THE DATASET(S) TO DISPLAY
@@ -173,11 +181,11 @@ function ChartBar({
     // Ensure range is even number
     const range = max - min
     const maxLimitModifier = (range % 2) > 0 ? 1 : 2
-    const newChartLimit = {
+    const newChartBarLimit = {
       max: Math.round(max * 1.01) + maxLimitModifier,
       min: currentDataSource === 'facebook_ad_spend_feed' ? 0 : Math.max(0, Math.round(min * 0.99) - 1),
     }
-    setChartLimit(newChartLimit)
+    setChartBarLimit(newChartBarLimit)
     const increaseArr = periodValues.map((datum, index) => {
       if (index === 0) return 0
       // Get previous value, skipping gaps
@@ -197,23 +205,49 @@ function ChartBar({
     })
 
     // DEFINE CHART DATA
-    const { cumulative } = data
+    const { cumulative } = chartBarData
     const { bg: chartColor } = brandColors[currentPlatform]
     const lightColor = tinycolor(chartColor).lighten('12').toString()
 
     const chartData = [
       {
         ...baseBarConfig,
+        type: 'bar',
+        order: 1,
+        yAxisID: 'A',
         label: currentDataSource,
         data: cumulative ? carriedArr : periodValues,
         backgroundColor: cumulative ? lightColor : chartColor,
       },
     ]
 
+    if (chartLineData) {
+      const [lineChartPeriodDates, periodValues] = insightsHelpers.getChartData(chartLineData, granularity)
+      const startingIndex = lineChartPeriodDates.findIndex(date => date === periodDates[0])
+
+      const data = {
+        ...baseBarConfig,
+        type: 'line',
+        order: 0,
+        yAxisID: 'B',
+        borderColor: brandColors.black,
+        backgroundColor: brandColors.black,
+        fill: false,
+        label: 'Spending',
+        data: periodValues.slice(startingIndex),
+        spanGaps: false,
+        pointStyle: 'circle',
+      }
+
+      chartData.push(data)
+    }
+
     // If data is cumulative, show increase
     if (cumulative) {
       const increaseData = {
         ...baseBarConfig,
+        type: 'bar',
+        order: 2,
         label: `new_${currentDataSource}`,
         data: increaseArr,
         backgroundColor: chartColor,
@@ -234,54 +268,109 @@ function ChartBar({
 
     const newChartOptions = produce(baseChartConfig, draftConfig => {
       // Edit Y axes
-      draftConfig.scales.yAxes[0].ticks.max = newChartLimit.max
-      draftConfig.scales.yAxes[0].ticks.min = newChartLimit.min
+      draftConfig.scales.yAxes[0].ticks.max = newChartBarLimit.max
+      draftConfig.scales.yAxes[0].ticks.min = newChartBarLimit.min
       draftConfig.scales.yAxes[0].ticks.callback = (tickValue) => {
-        const mid = (newChartLimit.max - newChartLimit.min) / 2
+        const mid = (newChartBarLimit.max - newChartBarLimit.min) / 2
         if (
-          tickValue === newChartLimit.min + mid
-            || tickValue === newChartLimit.max
-            || tickValue === newChartLimit.min
+          tickValue === newChartBarLimit.min + mid
+            || tickValue === newChartBarLimit.max
+            || tickValue === newChartBarLimit.min
         ) {
           return tickValue
         }
       }
+      if (chartLineData) {
+        draftConfig.elements.point.backgroundColor = brandColors.black
+        const [, periodValues] = insightsHelpers.getChartData(chartLineData, granularity)
+
+        const max = utils.maxArrayValue(periodValues)
+
+        const newChartLineLimit = {
+          max: Math.round(max * 1.01) + maxLimitModifier,
+          min: 0,
+        }
+        setChartLineLimit(newChartLineLimit)
+
+        draftConfig.scales.yAxes.push({
+          id: 'B',
+          gridLines: {
+            drawBorder: false,
+            drawTicks: false,
+            display: false,
+          },
+          ticks: {
+            max: newChartLineLimit.max,
+            min: newChartLineLimit.min,
+            display: false,
+          },
+        })
+      }
+      // Edit aspect ratio
+      if (heightClasses) {
+        draftConfig.maintainAspectRatio = false
+      }
       // Edit callbacks
       draftConfig.tooltips.callbacks = {
-        beforeBody(tooltipItem, chart) {
+        title(tooltipItem, chart) {
           if (loading) return
-          const dataIndex = tooltipItem[0].index
           const { datasetIndex } = tooltipItem[0]
-          const datasetName = chart.datasets[datasetIndex].label
-          // If the visible tooltip relates to value added since last period,
-          // display the total value on the relevant date in 'beforeBody'
-          if (datasetName.indexOf('new_') > -1) {
-            const total = sumPreviousAndNewValues(chartData, dataIndex)
-            const totalFormatted = data.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
+          if (chart.datasets[datasetIndex].type === 'bar') {
             const platform = utils.capitalise(currentPlatform)
-            return `${totalFormatted}: ${platform} ${data.title}`
+
+            return `${platform} ${chartBarData.title}`
+          }
+          if (chart.datasets[datasetIndex].type === 'line') {
+            let { title } = chartLineData
+            if (chartLineData.source === 'facebook_ad_spend_feed') {
+              title = 'Feed spend'
+            }
+            return `${utils.capitalise(title)}`
           }
         },
         label(tooltipItem, chart) {
           if (loading) return
-          const { datasetIndex } = tooltipItem
-          const datasetName = chart.datasets[datasetIndex].label
-          // If there is just one data source displayed, and the tooltip relates to value added since last period,
-          // display the positive change in 'label'
+
           const dataIndex = tooltipItem.index
-          if (datasetName.indexOf('new_') > -1) {
-            const previousDate = chart.labels[dataIndex - 1]
-            return ` ${utils.formatNumber(tooltipItem.value)} more than ${previousDate}`
+          const { datasetIndex } = tooltipItem
+          const currentDate = chart.labels[dataIndex]
+
+          if (chart.datasets[datasetIndex].type === 'bar') {
+            // If the visible tooltip relates to value added since last period,
+            // display the total value on the relevant date in 'beforeBody'
+            const barData = chartData.filter((data) => data.type === 'bar')
+            const total = sumPreviousAndNewValues(barData, dataIndex)
+            const totalFormatted = chartBarData.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
+
+            return ` ${currentDate}: ${totalFormatted}`
           }
-          const total = sumPreviousAndNewValues(chartData, dataIndex)
-          const totalFormatted = data.currency ? utils.formatCurrency(total, artistCurrency) : utils.formatNumber(total)
-          const platform = utils.capitalise(currentPlatform)
-          return ` ${totalFormatted}: ${platform} ${data.title}`
+
+          if (chart.datasets[datasetIndex].type === 'line') {
+            return ` ${currentDate}: ${chartLineData.currency ? utils.formatCurrency(tooltipItem.value, artistCurrency) : utils.formatNumber(tooltipItem[0].value)}`
+          }
+        },
+        afterBody(tooltipItem, chart) {
+          if (loading) return
+
+          const dataIndex = tooltipItem[0].index
+          const { datasetIndex } = tooltipItem[0]
+
+          if (chart.datasets[datasetIndex].type === 'bar') {
+            const datasetName = chart.datasets[datasetIndex].label
+
+            // If there is just one data source displayed, and the tooltip relates to value added since last period,
+            // display the positive change in 'label'
+            if (datasetName.indexOf('new_') > -1) {
+              const previousDate = chart.labels[dataIndex - 1]
+              return `(${utils.formatNumber(tooltipItem[0].value)} more than ${previousDate})`
+            }
+          }
         },
       }
     })
     setChartOptions(newChartOptions)
-  }, [data.source, artistId, loading, error])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chartBarData.source, artistId, loading, error])
 
   return (
     <div className={chartClasses.join(' ')}>
@@ -290,8 +379,8 @@ function ChartBar({
       {/* No data warning */}
       {error && <p className={styles.chartError}>Insufficent Data</p>}
       {/* CHART */}
-      <div className={styles.chartContainer__inner}>
-        <Bar
+      <div className={heightClasses || styles.chartContainer__inner}>
+        <MixedChart
           data={{
             labels: dateLabels,
             datasets: chartDataSets,
@@ -302,10 +391,14 @@ function ChartBar({
         />
       </div>
       {/* THE OVERLAY */}
-      <ChartBarOverlay
-        max={chartLimit.max}
-        min={chartLimit.min}
-        currency={data.currency ? artistCurrency : ''}
+      <ChartOverlay
+        chartBarMax={chartBarLimit.max}
+        chartBarMin={chartBarLimit.min}
+        chartBarCurrency={chartBarData.currency ? artistCurrency : ''}
+        chartLineMax={chartLineLimit.max}
+        chartLineMin={chartLineLimit.min}
+        chartLineCurrency={chartLineData?.currency ? artistCurrency : ''}
+        isMixedChart={Boolean(chartLineData)}
         labels={dateLabels}
         loading={loading}
         granularity={granularity}
@@ -314,22 +407,26 @@ function ChartBar({
   )
 }
 
-export default ChartBar
+export default Chart
 
-ChartBar.propTypes = {
+Chart.propTypes = {
   className: PropTypes.string,
-  data: PropTypes.object,
+  chartBarData: PropTypes.object,
+  chartLineData: PropTypes.object,
   artistId: PropTypes.string,
   loading: PropTypes.bool,
   artistCurrency: PropTypes.string,
   error: PropTypes.bool,
+  heightClasses: PropTypes.string,
 }
 
-ChartBar.defaultProps = {
+Chart.defaultProps = {
   className: '',
-  data: {},
+  chartBarData: {},
+  chartLineData: null,
   artistId: '',
   loading: false,
   artistCurrency: '',
   error: false,
+  heightClasses: '',
 }

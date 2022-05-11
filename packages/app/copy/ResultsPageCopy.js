@@ -1,5 +1,6 @@
 import * as ROUTES from '@/app/constants/routes'
 import { capitalise, formatNumber, getNestedObjectByValue } from '@/helpers/utils'
+import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 
 const optimisationsEventsDictionary = {
   omni_purchase: {
@@ -41,6 +42,12 @@ const optimisationsEventsDictionary = {
 }
 
 const versusLastMonth = (prevValue) => `, versus ${prevValue} last month`
+
+const getObjectiveString = (objective, platform) => {
+  if (objective === 'sales') return 'driving your website sales'
+  if (objective === 'traffic') return 'driving your website visits'
+  if (objective === 'growth') return `growing your ${getPlatformNameByValue(platform)} audience`
+}
 
 export default {
   newAudienceOnPlatformMainDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
@@ -102,81 +109,49 @@ export default {
     growthIncrease,
     spendingDaysCount,
   }) => {
+    const growString = spendingDaysCount < 30 ? 'set to grow' : 'growing'
     if (organicGrowthRate > 0) {
-      return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's **${growthIncrease.toFixed(1)}x** faster than ${shouldUseAggregateGrowthRate ? 'average' : 'your'} organic growth of **${formatNumber(organicGrowthRate)}%**.`
+      return `Your ${platform} following is ${growString} **${formatNumber(paidGrowthRate)}%** a month. **${growthIncrease.toFixed(1)}x** faster than ${shouldUseAggregateGrowthRate ? 'average' : 'your'} organic growth of ${formatNumber(organicGrowthRate)}%.`
     }
 
     if (organicGrowthRate === 0) {
-      if (spendingDaysCount === 30) {
-        return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, this compares to no growth without spending.`
-      }
-
-      if (spendingDaysCount < 30) {
-        return `Your ${platform} is now projected to grow **${formatNumber(paidGrowthRate)}%** a month, this compares to no growth without spending.`
-      }
+      return `Your ${platform} following is ${growString} **${formatNumber(paidGrowthRate)}%** a month, this compares to no growth without spending.`
     }
 
     if (organicGrowthRate < 0) {
-      if (spendingDaysCount === 30) {
-        return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, without spending it was actually shrinking **${formatNumber(organicGrowthRate)}%**.`
-      }
-
-      if (spendingDaysCount < 30) {
-        return `Your ${platform} is now projected to grow **${formatNumber(paidGrowthRate)}%** a month, without spending it was actually shrinking **${formatNumber(organicGrowthRate)}%**.`
-      }
+      return `Your ${platform} following is ${growString} **${formatNumber(paidGrowthRate)}%** a month, without spending it was shrinking **${formatNumber(organicGrowthRate)}%**.`
     }
   },
   platformGrowthFallback: ({
     platform,
     paidGrowthRate,
     totalGrowthAbsolute,
+    estimatedMonthlyGrowthAbsolute,
     spendingDaysCount,
   }) => {
     if (spendingDaysCount === 30) {
       return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's **${formatNumber(totalGrowthAbsolute)}** new followers.`
     }
     if (spendingDaysCount < 30) {
-      return `Your ${platform} is set to ${formatNumber(paidGrowthRate) >= 0 ? 'grow' : 'shrink'} 1.65% a month, that means **~${formatNumber(totalGrowthAbsolute)}** new followers.`
+      return `Your ${platform} is set to ${paidGrowthRate >= 0 ? 'grow' : 'shrink'} **${formatNumber(paidGrowthRate)}%** (${estimatedMonthlyGrowthAbsolute}) a month. After ${spendingDaysCount} days, you've gained ${totalGrowthAbsolute}. `
     }
     if (paidGrowthRate === 0) {
-      return `Your ${platform} is set to stay the same from month to month.`
+      return `Your ${platform} following is set to stay the same from month to month.`
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
-  postDescription: (type, isPurchase) => {
-    if (type === 'unaware') {
-      return `The post that engaged the
-      most new people:`
+  postDescription: (type, value, isPurchase, objective, platform) => {
+    if (type === 'engagement') {
+      return `This post was the most effective at ${getObjectiveString(objective, platform)}, engaging **${formatNumber(value)}** new people.`
     }
-    if (type === 'on_platform') {
-      return `The post that reached the most people
-      from your existing audience:`
+    if (type === 'nurture') {
+      return `This post was the most effective at ${getObjectiveString(objective, platform)}, with **${formatNumber(value)}** people reached.`
     }
     return isPurchase ? (
-      `The post that generated the
-      most sales:`
+      `This post was the most effective at generating sales with a total value of **${value}**.`
     ) : (
-      `The post that triggered the
-      most pixel events:`
+      `This post was the most effective by generating **${formatNumber(value)}** sale(s).`
     )
-  },
-  postLabelText: (type, isPurchase) => {
-    if (type === 'unaware') {
-      return 'engaged'
-    }
-    if (type === 'on_platform') {
-      return 'reached'
-    }
-    return isPurchase ? 'in sales' : 'events'
-  },
-  postDescriptionMobile: (type, value, isPurchase) => {
-    if (type === 'unaware') {
-      return `**${value}** new people engaged`
-    }
-    if (type === 'on_platform') {
-      return `**${value}** people reached`
-    }
-    return `**${value}** ${isPurchase ? 'in sales' : 'pixel events triggered'}`
   },
   statsNoData: 'Feed is setting up your ads',
   postsStatsNoData: (isSpendingPaused) => {
@@ -184,12 +159,10 @@ export default {
       return `Your spending is currently paused. [Resume](${ROUTES.CONTROLS_BUDGET}) in order to see your most effective posts here.`
     }
 
-    return `Once you’ve been using Feed for a few weeks,
-  your most effective ads, and a month to month
-  comparison will appear here.`
+    return "Your most effective post isn't available yet, once you've been using Feed for a bit longer it will appear here."
   },
   conversionsActivatorTitle: 'Use the “sales” objective to get purchases on your website.',
-  conversionsActivatorDescription: 'Change your objective to “sales” to see results in this section!',
+  conversionsActivatorDescription: 'Use the "sales" objective to see results in this section!',
   noResultsData: (isSpendingPaused) => {
     if (isSpendingPaused) {
       return `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS_BUDGET})!`
@@ -278,8 +251,17 @@ export default {
     return 'See the percentage of your followers that engaged with your posts from the last 30 days.'
   },
   postsChartNoData: 'No posts found within the last 30 days.',
-  growthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
-  growthChartNoData: 'There is currently no follower growth data available.',
+  organicGrowthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
+  engageChartDescription: (platform, isChartBar) => `Your audience ${isChartBar ? `on ${getPlatformNameByValue(platform)}` : 'across Instagram and Facebook'} is everyone who has engaged with your posts in the last year. This is often a much larger group than the number who follow you! Step 1: **Reach** is all about growing that audience, here's how it's developing.`,
+  adGrowthChartTitle: (platform) => {
+    if (platform === 'instagram') return 'Your Instagram following'
+    if (platform === 'facebook') return 'Your Facebook likes'
+    if (platform === 'youtube') return 'Your Youtube subscribers'
+    if (platform === 'spotify') return 'Your Spotify followers'
+    if (platform === 'soundcloud') return 'Your SoundCloud followers'
+  },
+  adGrowthChartDescription: (platform) => `Step 3: **Grow** is about growing your followers on ${getPlatformNameByValue(platform)}. Here's how it's been going, the black line shows how much you spent through Feed, so you can see when you were spending and when you weren't.`,
+  chartNoData: (subject) => `There is currently no ${subject} data available.`,
   headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
     const resultsTypeString = `**<span className="green--underline">${capitalise(resultsType)}</span>** insights`
 

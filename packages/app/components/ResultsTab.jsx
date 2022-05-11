@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsNoSpendChartsTabLine from '@/app/ResultsNoSpendChartsTabLine'
+import ResultsTabLine from '@/app/ResultsTabLine'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { capitalise } from '@/helpers/utils'
 
-const ResultsNoSpendChartsTab = ({
+const ResultsTab = ({
   type,
+  index,
   metricType,
   setMetricType,
 }) => {
@@ -37,8 +38,8 @@ const ResultsNoSpendChartsTab = ({
         </div>
       </button>
       {isDesktopLayout && (
-        <ResultsNoSpendChartsTabLine
-          metricType={metricType}
+        <ResultsTabLine
+          index={index}
           isActive={isActive}
         />
       )}
@@ -46,10 +47,11 @@ const ResultsNoSpendChartsTab = ({
   )
 }
 
-ResultsNoSpendChartsTab.propTypes = {
+ResultsTab.propTypes = {
   type: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
   metricType: PropTypes.string.isRequired,
   setMetricType: PropTypes.func.isRequired,
 }
 
-export default ResultsNoSpendChartsTab
+export default ResultsTab

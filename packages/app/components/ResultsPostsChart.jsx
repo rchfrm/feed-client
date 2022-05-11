@@ -18,6 +18,7 @@ const ResultsPostsChart = ({
   yourAverage,
   globalAverage,
   metricType,
+  color,
   isLoading,
   hasNoProfiles,
 }) => {
@@ -70,7 +71,7 @@ const ResultsPostsChart = ({
           maxValue={maxValue}
           yourAverage={yourAverage}
           globalAverage={globalAverage}
-          metricType={metricType}
+          color={color}
           hasNoProfiles={hasNoProfiles}
         >
           {posts.map((post) => (
@@ -95,6 +96,7 @@ ResultsPostsChart.propTypes = {
   yourAverage: PropTypes.number,
   globalAverage: PropTypes.number.isRequired,
   metricType: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasNoProfiles: PropTypes.bool.isRequired,
 }

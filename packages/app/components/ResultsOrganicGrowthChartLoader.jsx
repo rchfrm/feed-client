@@ -5,17 +5,19 @@ import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ResultsChartHeader from '@/app/ResultsChartHeader'
-import ResultsGrowthChart from '@/app/ResultsGrowthChart'
+import ResultsOrganicGrowthChart from '@/app/ResultsOrganicGrowthChart'
 
 import brandColors from '@/constants/brandColors'
 
-import { getFollowerGrowth, noSpendDataSources } from '@/app/helpers/resultsHelpers'
+import { getDataSources, followerGrowthDataSources } from '@/app/helpers/resultsHelpers'
 import { capitalise } from '@/helpers/utils'
 
 import copy from '@/app/copy/ResultsPageCopy'
 
-const ResultsGrowthChartContent = ({ dailyData, setDailyData }) => {
+const ResultsOrganicGrowthChartLoader = ({ dailyData, setDailyData }) => {
+  const [legendItems, setLegendItems] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
+
   const { artistId } = React.useContext(ArtistContext)
 
   // Get follower growth data
@@ -25,27 +27,33 @@ const ResultsGrowthChartContent = ({ dailyData, setDailyData }) => {
 
     setIsLoading(true)
 
-    const data = await getFollowerGrowth(artistId)
+    const { facebook, instagram } = followerGrowthDataSources
 
-    setDailyData(data)
+    const data = await getDataSources({
+      facebook,
+      instagram,
+    }, artistId)
+
+    const dataArray = Object.values(data)
+
+    setLegendItems(dataArray.map(({ platform }) => ({
+      label: capitalise(platform),
+      color: brandColors[platform].bg,
+      lineStyle: 'solid',
+    })))
+
+    setDailyData(dataArray)
     setIsLoading(false)
   }, [])
-
-  const legendItems = noSpendDataSources.map(({ platform }) => ({
-    label: capitalise(platform),
-    color: brandColors[platform].bg,
-    lineStyle: 'solid',
-  }))
 
   return (
     <>
       <p className="font-bold text-xl">Follower growth</p>
       <ResultsChartHeader
-        title="Follower growth"
-        description={copy.growthChartDescription}
+        description={copy.organicGrowthChartDescription}
         legendItems={legendItems}
       />
-      <ResultsGrowthChart
+      <ResultsOrganicGrowthChart
         dailyData={dailyData}
         isLoading={isLoading}
       />
@@ -53,13 +61,13 @@ const ResultsGrowthChartContent = ({ dailyData, setDailyData }) => {
   )
 }
 
-ResultsGrowthChartContent.propTypes = {
+ResultsOrganicGrowthChartLoader.propTypes = {
   dailyData: PropTypes.array,
   setDailyData: PropTypes.func.isRequired,
 }
 
-ResultsGrowthChartContent.defaultProps = {
+ResultsOrganicGrowthChartLoader.defaultProps = {
   dailyData: null,
 }
 
-export default ResultsGrowthChartContent
+export default ResultsOrganicGrowthChartLoader

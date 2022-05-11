@@ -1,13 +1,6 @@
 /* eslint-disable quotes */
-import { platforms } from '@/app/helpers/artistHelpers'
+import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
 import { capitalise } from '@/helpers/utils'
-
-const getPlatform = (platform) => {
-  if (platform === 'youtube') return 'Youtube channel'
-  if (platform === 'spotify') return 'Spotify Artist page'
-  if (platform === 'soundcloud') return 'SoundCloud account'
-}
-
 
 export default {
   profileStatus: (status, objective, platform) => {

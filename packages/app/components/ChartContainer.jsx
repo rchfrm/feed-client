@@ -3,7 +3,7 @@
 import React from 'react'
 import moment from 'moment'
 // IMPORT COMPONENTS
-import ChartBar from '@/app/ChartBar'
+import Chart from '@/app/Chart'
 import ChartNumber from '@/app/ChartNumber'
 import InsightsProjection from '@/app/InsightsProjection'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -58,16 +58,16 @@ const ChartContainer = ({
               'lg:grid gap-4 grid-cols-12',
             ].join(' ')}
           >
-            <ChartBar
+            <Chart
+              chartBarData={data}
+              artistId={artistId}
+              artistCurrency={artistCurrency}
+              loading={loading}
               className={[
                 'col-span-12',
                 'lg:col-span-6',
                 'bmw:col-span-7',
               ].join(' ')}
-              data={data}
-              artistId={artistId}
-              artistCurrency={artistCurrency}
-              loading={loading}
             />
             <InsightsProjection
               className={[
