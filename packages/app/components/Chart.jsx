@@ -229,11 +229,13 @@ const Chart = ({
         type: 'line',
         order: 0,
         yAxisID: 'B',
-        borderColor: 'black',
-        backgroundColor: 'transparent',
+        borderColor: brandColors.black,
+        backgroundColor: brandColors.black,
+        fill: false,
         label: 'Spending',
         data: periodValues,
         spanGaps: false,
+        pointStyle: 'circle',
       }
 
       chartData.push(data)
@@ -278,6 +280,7 @@ const Chart = ({
         }
       }
       if (chartLineData) {
+        draftConfig.elements.point.backgroundColor = brandColors.black
         const [, periodValues] = insightsHelpers.getChartData(chartLineData, granularity)
 
         const max = utils.maxArrayValue(periodValues)
@@ -364,6 +367,7 @@ const Chart = ({
         },
       }
     })
+    console.log('newChartOptions', newChartOptions)
     setChartOptions(newChartOptions)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartBarData.source, artistId, loading, error])
