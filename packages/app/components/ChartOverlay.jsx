@@ -83,7 +83,6 @@ ChartOverlay.propTypes = {
   chartLineCurrency: PropTypes.string,
   isMixedChart: PropTypes.bool,
   labels: PropTypes.array.isRequired,
-  granularity: PropTypes.string.isRequired,
 }
 
 ChartOverlay.defaultProps = {
