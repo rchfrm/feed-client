@@ -106,6 +106,11 @@ const nextConfig = {
         destination: '/blog/:slug',
         permanent: true,
       },
+      {
+        source: 'blog/21-music-marketing-strategies-for-2021',
+        destination: 'blog/music-marketing-strategies',
+        permanent: true,
+      },
     ]
   },
 }
