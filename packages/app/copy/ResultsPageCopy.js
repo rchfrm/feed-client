@@ -129,14 +129,14 @@ export default {
     estimatedMonthlyGrowthAbsolute,
     spendingDaysCount,
   }) => {
+    if (paidGrowthRate === 0) {
+      return `Your ${platform} following is set to stay the same from month to month.`
+    }
     if (spendingDaysCount === 30) {
       return `Your ${platform} following is growing **${formatNumber(paidGrowthRate)}%** a month, that's **${formatNumber(totalGrowthAbsolute)}** new followers.`
     }
     if (spendingDaysCount < 30) {
       return `Your ${platform} is set to ${paidGrowthRate >= 0 ? 'grow' : 'shrink'} **${formatNumber(paidGrowthRate)}%** (${estimatedMonthlyGrowthAbsolute}) a month. After ${spendingDaysCount} days, you've gained ${totalGrowthAbsolute}. `
-    }
-    if (paidGrowthRate === 0) {
-      return `Your ${platform} following is set to stay the same from month to month.`
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
