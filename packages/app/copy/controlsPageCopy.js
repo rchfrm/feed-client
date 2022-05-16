@@ -64,7 +64,7 @@ export default {
   defaultCallToActionIntro: `By default, which call to action should appear on your ads?`,
   defaultCallToActionFooter: (recommendedCallToAction) => `"${recommendedCallToAction}" is recommended based on your objective`,
   facebookAdAccountIntro: 'This is the ad account Feed will use to set-up and run your ad campaigns.',
-  facebookAdAccountFooter: 'Email [help@tryfeed.co](mailto:help@tryfeed.co) to change your Facebook Ad Account',
+  facebookAdAccountFooter: "Can't find the ad account you're looking for? Email [help@tryfeed.co](mailto:help@tryfeed.co)",
   facebookPixelIntro: `Your Facebook Pixel can be used to track purchases and other events on your website. Find [instructions on how to install a Pixel here](https://www.facebook.com/business/help/952192354843755?id=1205376682832142).`,
   facebookPixelEventIntro: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
   facebookPixelEventFooter: `"Purchase" is recommended based on your objective`,

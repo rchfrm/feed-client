@@ -5,9 +5,13 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useCheckBackgroundTaskStatus from '@/app/hooks/useCheckBackgroundTaskStatus'
 
+import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import AdAccountSelector from '@/app/AdAccountSelector'
 
 import { getArtistIntegrationByPlatform, getBackgroundTasks } from '@/app/helpers/artistHelpers'
+
+import brandColors from '@/constants/brandColors'
+import copy from '@/app/copy/controlsPageCopy'
 
 const AdDefaultsAdAccount = ({
   className,
@@ -38,6 +42,12 @@ const AdDefaultsAdAccount = ({
         hasCompletedAdAccountChange={hasCompletedAdAccountChange}
         setHasCompletedAdAccountChange={setHasCompletedAdAccountChange}
         shouldSaveOnChange
+      />
+      <ControlsSettingsSectionFooter
+        icon="email"
+        color={brandColors.green}
+        copy={copy.facebookAdAccountFooter}
+        className="text-green"
       />
     </div>
   )
