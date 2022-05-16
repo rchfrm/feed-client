@@ -10,6 +10,7 @@ import AdSettingsSection from '@/app/AdSettingsSection'
 import PostCardSettingsTabs from '@/app/PostCardSettingsTabs'
 import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
 import PostCardSettingsPromotionStatus from '@/app/PostCardSettingsPromotionStatus'
+import PostCardSettingsPreview from '@/app/PostCardSettingsPreview'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
 import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
@@ -140,6 +141,7 @@ const PostCardSettings = ({
               promotionStatus={promotionStatus}
             />
           </div>
+          <PostCardSettingsPreview />
           <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}
