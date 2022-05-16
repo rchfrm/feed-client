@@ -78,7 +78,7 @@ const PostCardSettingsToggle = ({
           className="mr-4"
           disabled={isDisabled}
         />
-        <p className="font-bold mb-0">{isEnabled ? 'Enabled' : 'Disabled'}</p>
+        <p className="mb-0">{isEnabled ? 'Enabled' : 'Disabled'}</p>
         {postPromotable && promotionStatus === 'active' && hasChanged && (
           <PostCardDisableHandler
             post={post}

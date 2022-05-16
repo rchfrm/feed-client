@@ -9,7 +9,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import AdSettingsSection from '@/app/AdSettingsSection'
 import PostCardSettingsTabs from '@/app/PostCardSettingsTabs'
 import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
-import PostCardSettingsStatus from '@/app/PostCardSettingsStatus'
+import PostCardSettingsPromotionStatus from '@/app/PostCardSettingsPromotionStatus'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
 import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
@@ -136,8 +136,8 @@ const PostCardSettings = ({
               isDisabled={isToggleDisabled}
               showAlertModal={isConversionsCampaign && (!canRunConversions)}
             />
-            <PostCardSettingsStatus
-              post={post}
+            <PostCardSettingsPromotionStatus
+              promotionStatus={promotionStatus}
             />
           </div>
           <AdSettingsSection
