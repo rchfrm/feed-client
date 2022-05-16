@@ -30,6 +30,7 @@ const AdDefaultsAdAccount = ({
         adAccountId={adAccountId}
         setAdAccountId={setAdAccountId}
         shouldSaveOnChange
+        className="mb-14"
       />
       <ControlsSettingsSectionFooter
         icon="email"
