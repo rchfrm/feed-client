@@ -9,6 +9,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import AdSettingsSection from '@/app/AdSettingsSection'
 import PostCardSettingsTabs from '@/app/PostCardSettingsTabs'
 import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
+import PostCardSettingsStatus from '@/app/PostCardSettingsStatus'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
 import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
@@ -122,18 +123,23 @@ const PostCardSettings = ({
           <Error error={error} />
           {/* SETTINGS SECTION */}
           {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
-          <PostCardSettingsToggle
-            post={post}
-            postId={postId}
-            postToggleSetterType={postToggleSetterType}
-            campaignType={campaignType}
-            artistId={artistId}
-            toggleCampaign={toggleCampaign}
-            isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
-            setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-            isDisabled={isToggleDisabled}
-            showAlertModal={isConversionsCampaign && (!canRunConversions)}
-          />
+          <div className="flex">
+            <PostCardSettingsToggle
+              post={post}
+              postId={postId}
+              postToggleSetterType={postToggleSetterType}
+              campaignType={campaignType}
+              artistId={artistId}
+              toggleCampaign={toggleCampaign}
+              isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
+              setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
+              isDisabled={isToggleDisabled}
+              showAlertModal={isConversionsCampaign && (!canRunConversions)}
+            />
+            <PostCardSettingsStatus
+              post={post}
+            />
+          </div>
           <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}
