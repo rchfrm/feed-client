@@ -6,9 +6,9 @@ const PostCardSettingsPreview = ({
   urls,
 }) => {
   return (
-    <div className="flex flex-column w-full">
+    <div className="flex flex-column w-full mb-10">
       <h3 className="font-bold text-lg">Preview</h3>
-      <ul>
+      <ul className="mb-0">
         {urls.map((url) => (
           <li key={url} className="flex items-center pl-6">
             <span className="inline-block mr-2 h-4 w-4 bg-red rounded-full" />
