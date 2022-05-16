@@ -16,6 +16,7 @@ import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
 
 import * as ROUTES from '@/app/constants/routes'
+import { promotionStatusSlugs } from '@/app/helpers/postsHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
@@ -91,6 +92,9 @@ const PostCardSettings = ({
     Router.push(ROUTES.CONTROLS_ADS)
   }
 
+  const { active, inReview, rejected } = promotionStatusSlugs
+  const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus)
+
   return (
     <div
       className={[
@@ -141,7 +145,11 @@ const PostCardSettings = ({
               promotionStatus={promotionStatus}
             />
           </div>
-          <PostCardSettingsPreview />
+          {shouldShowPreview && (
+            <PostCardSettingsPreview
+              urls={['https://fb.me/1OwDwjmZE0hGsiL']}
+            />
+          )}
           <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}

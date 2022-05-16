@@ -5,28 +5,29 @@ import Link from 'next/link'
 const PostCardSettingsPreview = ({
   urls,
 }) => {
-  console.log(urls)
-
   return (
     <div className="flex flex-column w-full">
       <h3 className="font-bold text-lg">Preview</h3>
       <ul>
-        <li className="flex items-center pl-6">
-          <span className="inline-block mr-2 h-4 w-4 bg-red rounded-full" />
-          Engage preview:
-          <Link href="https://fb.me/1OwDwjmZE0hGsiL"><a className="ml-1">https://fb.me/1OwDwjmZE0hGsiL</a></Link>
-        </li>
+        {urls.map((url) => (
+          <li key={url} className="flex items-center pl-6">
+            <span className="inline-block mr-2 h-4 w-4 bg-red rounded-full" />
+            Engage preview:
+            <Link href={url}>
+              <a target="_blank" className="ml-1">{url}</a>
+            </Link>
+          </li>
+        ))}
       </ul>
     </div>
   )
 }
 
 PostCardSettingsPreview.propTypes = {
-  urls: PropTypes.array,
+  urls: PropTypes.array.isRequired,
 }
 
 PostCardSettingsPreview.defaultProps = {
-  urls: [],
 }
 
 export default PostCardSettingsPreview
