@@ -122,6 +122,7 @@ const AdAccountSelector = ({
 AdAccountSelector.propTypes = {
   adAccountId: PropTypes.string,
   setAdAccountId: PropTypes.func.isRequired,
+  hasCompletedAdAccountChange: PropTypes.bool,
   setHasCompletedAdAccountChange: PropTypes.func,
   adAccounts: PropTypes.array,
   onSuccess: PropTypes.func,
@@ -134,6 +135,7 @@ AdAccountSelector.propTypes = {
 AdAccountSelector.defaultProps = {
   adAccountId: '',
   adAccounts: [],
+  hasCompletedAdAccountChange: true,
   setHasCompletedAdAccountChange: () => {},
   onSuccess: () => {},
   shouldSaveOnChange: false,
