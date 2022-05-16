@@ -17,7 +17,7 @@ const useCheckBackgroundTaskStatus = ({ artistId, action, completionKey, hasComp
       return
     }
 
-    if ((completionKey && res[completionKey]) || (!completionKey && res.length === 0)) {
+    if (completionKey && res[completionKey]) {
       clearInterval(intervalRef.current)
       setHasCompleted(true)
       setInitialLoading(false)

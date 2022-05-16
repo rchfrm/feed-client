@@ -12,8 +12,6 @@ import { getAdAccounts, updateAdAccount } from '@/app/helpers/artistHelpers'
 const AdAccountSelector = ({
   adAccountId,
   setAdAccountId,
-  hasCompletedAdAccountChange,
-  setHasCompletedAdAccountChange,
   adAccounts,
   onSuccess,
   shouldSaveOnChange,
@@ -71,7 +69,6 @@ const AdAccountSelector = ({
 
     // Make API request
     const { res, error } = await updateAdAccount(artistId, selectedOptionValue)
-    setHasCompletedAdAccountChange(false)
 
     // Handle error
     if (error) {
@@ -106,7 +103,7 @@ const AdAccountSelector = ({
         <Error error={error} />
       )}
       <Select
-        loading={isLoading || !hasCompletedAdAccountChange}
+        loading={isLoading}
         handleChange={handleChange}
         name="ad_account"
         label={label}
@@ -122,8 +119,6 @@ const AdAccountSelector = ({
 AdAccountSelector.propTypes = {
   adAccountId: PropTypes.string,
   setAdAccountId: PropTypes.func.isRequired,
-  hasCompletedAdAccountChange: PropTypes.bool,
-  setHasCompletedAdAccountChange: PropTypes.func,
   adAccounts: PropTypes.array,
   onSuccess: PropTypes.func,
   shouldSaveOnChange: PropTypes.bool,
@@ -135,8 +130,6 @@ AdAccountSelector.propTypes = {
 AdAccountSelector.defaultProps = {
   adAccountId: '',
   adAccounts: [],
-  hasCompletedAdAccountChange: true,
-  setHasCompletedAdAccountChange: () => {},
   onSuccess: () => {},
   shouldSaveOnChange: false,
   disabled: false,
