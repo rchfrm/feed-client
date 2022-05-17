@@ -57,6 +57,7 @@ const PostCardSettings = ({
     callToActions,
     id: postId,
     priorityEnabled,
+    adPreviewLinks,
   } = post
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
@@ -93,7 +94,7 @@ const PostCardSettings = ({
   }
 
   const { active, inReview, rejected } = promotionStatusSlugs
-  const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus)
+  const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus) && Object.keys(adPreviewLinks).length > 0
 
   return (
     <div
@@ -147,7 +148,7 @@ const PostCardSettings = ({
           </div>
           {shouldShowPreview && (
             <PostCardSettingsPreview
-              urls={['https://fb.me/1OwDwjmZE0hGsiL']}
+              links={adPreviewLinks}
             />
           )}
           <AdSettingsSection
