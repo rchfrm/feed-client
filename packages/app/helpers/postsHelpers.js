@@ -308,6 +308,20 @@ export const getPostAdMessageData = (post) => {
   return { id, message, campaignType }
 }
 
+// Get ad preview links
+const getAdPreviewLinks = (post) => {
+  if (!post?.ads) return null
+
+  return Object.values(post.ads).reduce((result, ad) => {
+    return {
+      ...result,
+      ...(ad.adset_identifier.includes('engage') ? { engage: ad.campaign_id } : null),
+      ...(ad.adset_identifier.includes('remind') ? { nurture: ad.campaign_id } : null),
+      ...(ad.adset_identifier.includes('conversions') ? { sales: ad.campaign_id } : null),
+    }
+  }, {})
+}
+
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
@@ -369,6 +383,8 @@ export const formatPostsResponse = (posts) => {
       offPlatformConversions: post.promotion_eligibility.off_platform_conversions,
       remindConversions: post.promotion_eligibility.remind_conversions,
     }
+    // Ad preview links
+    const adPreviewLinks = getAdPreviewLinks(post)
     return {
       id: post.id,
       postType: post.subtype || post.type,
@@ -382,6 +398,7 @@ export const formatPostsResponse = (posts) => {
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
       promotionEligibility,
+      adPreviewLinks,
       linkSpecs,
       message,
       adMessageProps: post.ad_message,
