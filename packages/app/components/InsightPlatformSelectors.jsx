@@ -39,7 +39,7 @@ const InsightPlatformSelectors = ({
   // Update data source when changing platform
   React.useEffect(() => {
     if (!currentDataSource) return
-    const { platform } = availableDataSources.find(({ name }) => name === currentDataSource)
+    const { platform } = availableDataSources.find(({ name }) => name === currentDataSource) || {}
     if (platform === currentPlatform) return
     setCurrentDataSource(defaultDataSource)
   // eslint-disable-next-line
