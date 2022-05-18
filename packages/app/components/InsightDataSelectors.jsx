@@ -40,8 +40,8 @@ const InsightDataSelectors = ({
 
   React.useEffect(() => {
     if (!availableDataSources || !availableDataSources.length || !currentDataSource) return
-    const { platform } = availableDataSources.find(({ name }) => name === currentDataSource)
-    setCurrentPlatform(platform)
+    const { platform } = availableDataSources.find(({ name }) => name === currentDataSource) || {}
+    setCurrentPlatform(platform || 'facebook')
   }, [currentDataSource, availableDataSources, setCurrentPlatform])
 
   // if (!currentPlatform) return null
