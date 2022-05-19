@@ -63,7 +63,7 @@ const TargetingBudgetBox = ({
       setHasBudgetBelowMinRecommendedStories(true)
     }
 
-    if (targetingState.budget > minReccomendedStories && hasBudgetBelowMinRecommendedStories) {
+    if (targetingState.budget >= minReccomendedStories && hasBudgetBelowMinRecommendedStories) {
       setHasBudgetBelowMinRecommendedStories(false)
     }
   }, [targetingState.budget, minReccomendedStories, hasBudgetBelowMinRecommendedStories])
