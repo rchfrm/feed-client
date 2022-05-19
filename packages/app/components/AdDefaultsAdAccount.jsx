@@ -36,7 +36,7 @@ const AdDefaultsAdAccount = ({
         icon="email"
         color={brandColors.green}
         copy={copy.facebookAdAccountFooter}
-        className="text-green"
+        className="-mt-12 text-green"
       />
     </div>
   )

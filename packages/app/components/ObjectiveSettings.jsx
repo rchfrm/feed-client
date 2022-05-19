@@ -73,7 +73,7 @@ const ObjectiveSettings = () => {
               optionValues={platformsWithIntegrationLink}
               currentObjective={{ objective, platform }}
             />
-            <ControlsSettingsSectionFooter top={64}>
+            <ControlsSettingsSectionFooter className="-mt-6">
               <p className="text-insta text-xs italic mb-0">
                 To grow {platformsString}, first connect your profiles on the
                 <Link href={{ pathname: ROUTES.CONTROLS_INTEGRATIONS }}>

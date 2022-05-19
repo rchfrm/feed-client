@@ -62,7 +62,12 @@ const AdDefaultsCallToAction = ({
         hasSalesObjective={hasSalesObjective}
         className="mb-14"
       />
-      {recommendedCallToAction && <ControlsSettingsSectionFooter copy={copy.defaultCallToActionFooter(recommendedCallToAction)} className="text-insta" />}
+      {recommendedCallToAction && (
+        <ControlsSettingsSectionFooter
+          copy={copy.defaultCallToActionFooter(recommendedCallToAction)}
+          className="-mt-12 text-insta"
+        />
+      )}
     </div>
   )
 }
