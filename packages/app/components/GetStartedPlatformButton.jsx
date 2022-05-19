@@ -11,7 +11,7 @@ const GetStartedPlatformButton = ({ platform, setSelectedPlatform }) => {
 
   return (
     <ButtonPill
-      className="w-32 sm:w-48 mx-3 mb-5"
+      className="w-full xxs:w-32 sm:w-48 mx-3 mb-5"
       onClick={() => setSelectedPlatform(value)}
       style={{
         border: `2px solid ${brandColors.textColor}`,

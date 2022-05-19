@@ -146,7 +146,7 @@ const GetStartedPlatform = () => {
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.platformDescription} />
       <Error error={error} />
       <div>
-        <div className="w-3/4 lg:w-1/2 mx-auto mt-6">
+        <div className="w-full xxs:w-3/4 lg:w-1/2 mx-auto mt-6">
           {isLoading
             ? <Spinner />
             : (
