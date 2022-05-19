@@ -61,6 +61,7 @@ const TargetingBudgetBox = ({
   React.useEffect(() => {
     if (targetingState.budget < minReccomendedStories && !hasBudgetBelowMinRecommendedStories) {
       setHasBudgetBelowMinRecommendedStories(true)
+      return
     }
 
     if (targetingState.budget >= minReccomendedStories && hasBudgetBelowMinRecommendedStories) {
@@ -74,7 +75,7 @@ const TargetingBudgetBox = ({
         'flex flex-column justify-between',
         className,
       ].join(' ')}
-      style={{ height: '192px', paddingBottom: '0' }}
+      style={{ height: '194px', paddingBottom: '0' }}
     >
       {targetingLoading ? (
         <Spinner width={36} />
