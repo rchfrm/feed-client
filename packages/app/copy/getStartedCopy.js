@@ -96,7 +96,7 @@ export default {
   locationSubtitle: 'Where are you based?',
   locationDescription: 'This location will be set as your home country.',
   budgetSubtitle: 'What is your daily budget for advertising?',
-  budgetDescription: 'You can change this at any time. We recommend spreading budget out over a longer period of time as consistency boosts ad performance. ',
+  budgetDescription: 'You can change this at any time. We recommend running ads for at least 4-6 weeks to get an idea of the impact Feed can have.',
   inSufficientBudget: (minBudget) => `Budget must be at least ${minBudget} to set your objective to sales.`,
   reviewDescription: 'Feed has submitted your ads for approval!',
   objectiveSummary: (objective, platform) => {
