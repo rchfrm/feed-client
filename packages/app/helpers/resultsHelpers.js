@@ -11,35 +11,69 @@ import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 import * as server from '@/app/helpers/appServer'
 import { formatServerData } from '@/app/helpers/insightsHelpers'
 
-export const postResultsConfig = [
+export const adMetricTypes = [
   {
-    type: 'unaware',
-    key: 'engaged',
+    type: 'engagement',
+    key: 'unaware',
+    valueKey: 'engaged',
     color: brandColors.blue,
   },
   {
-    type: 'on_platform',
-    key: 'reach',
+    type: 'nurture',
+    key: 'on_platform',
+    valueKey: 'reach',
     color: brandColors.green,
   },
   {
-    type: 'conversions',
-    key: ['sales_value', 'events_count'],
+    type: 'growth',
+    key: 'conversions',
+    valueKey: ['sales_value', 'events_count'],
     color: brandColors.redLight,
   },
 ]
 
+export const organicMetricTypes = [
+  {
+    type: 'reach',
+    color: brandColors.blue,
+  },
+  {
+    type: 'engagement',
+    color: brandColors.green,
+  },
+  {
+    type: 'growth',
+    color: brandColors.redLight,
+  },
+]
+
+export const followerGrowthDataSources = {
+  facebook: 'facebook_likes',
+  instagram: 'instagram_follower_count',
+  soundcloud: 'soundcloud_follower_count',
+  spotify: 'spotify_follower_count',
+  youtube: 'youtube_subscriber_count',
+}
+
+export const engagementDataSources = {
+  facebook: 'facebook_engaged_1y',
+  instagram: 'instagram_engaged_1y',
+}
+
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
     const { asset, ...stats } = value
+    const metricType = adMetricTypes.find((type) => type.key === key)
 
     newObject[key] = stats
+
     if (value?.asset && (key !== 'spend')) {
       newObject.posts.push({
         ...value.asset,
-        type: key,
+        ...metricType,
       })
     }
+
     return newObject
   }, { posts: [] })
 
@@ -293,32 +327,6 @@ export const getConversionData = (data) => {
   return null
 }
 
-export const noSpendMetricTypes = {
-  reach: {
-    type: 'reach',
-    color: brandColors.blue,
-  },
-  engagement: {
-    type: 'engagement',
-    color: brandColors.green,
-  },
-  growth: {
-    type: 'growth',
-    color: brandColors.instagram.bg,
-  },
-}
-
-export const noSpendDataSources = [
-  {
-    platform: 'facebook',
-    source: 'facebook_likes',
-  },
-  {
-    platform: 'instagram',
-    source: 'instagram_follower_count',
-  },
-]
-
 const getQuartile = (percentile, audience) => {
   if (percentile <= 25) {
     return {
@@ -351,6 +359,10 @@ const getQuartile = (percentile, audience) => {
 }
 
 export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram') => {
+  const { instagram_growth } = adData
+
+  if (!instagram_growth) return null
+
   const {
     instagram_growth: {
       '30d': {
@@ -378,9 +390,10 @@ export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram'
 
   const paidGrowthEstimate = Math.round(totalGrowthAbsolute * ((paidGrowthRate - organicGrowthRate) / paidGrowthRate))
   const organicGrowthEstimate = totalGrowthAbsolute - paidGrowthEstimate
-  const paidGrowthPercentile = paid.absolute.percentile
+  const paidGrowthPercentile = (paid.rate.percentile * 100).toFixed(1)
 
   const spendingDaysCount = paid.number_of_days.value
+  const estimatedMonthlyGrowthAbsolute = Math.round(totalGrowthAbsolute / (spendingDaysCount / 30))
 
   const copyData = {
     platform: getPlatformNameByValue(platform),
@@ -389,10 +402,11 @@ export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram'
     shouldUseAggregateGrowthRate,
     growthIncrease,
     totalGrowthAbsolute,
+    estimatedMonthlyGrowthAbsolute,
     spendingDaysCount,
   }
 
-  if (paidGrowthEstimate >= organicGrowthEstimate && paidGrowthEstimate > 0) {
+  if (paidGrowthRate >= organicGrowthRate && paidGrowthEstimate > 0 && paidGrowthRate > 0) {
     return makeStatsObject({
       prevPeriod: organicGrowthEstimate,
       currPeriod: totalGrowthAbsolute,
@@ -421,19 +435,6 @@ export const getStatsData = (adData, aggregatedAdData) => {
   }
 }
 
-export const getDataSourceValues = async (artistId) => {
-  const dataSources = noSpendDataSources.map(({ source }) => source)
-  const {
-    facebook_likes,
-    instagram_follower_count,
-  } = await getDataSourceValue(dataSources, artistId)
-
-  return {
-    dailyFacebookData: facebook_likes?.daily_data,
-    dailyInstagramData: instagram_follower_count?.daily_data,
-  }
-}
-
 const getGrowthAndFollowersCount = (platform, data) => {
   return {
     followers: data.followers[platform].number_of_followers.value,
@@ -452,9 +453,10 @@ const getBestPerformingPlatform = (igData, fbData) => {
   return igFollowers >= fbFollowers ? 'instagram' : 'facebook'
 }
 
-export const formatBenchmarkData = ({ data }, hasNoProfiles) => {
-  if (!data) return null
+export const formatBenchmarkData = (organicData, hasNoProfiles) => {
+  if (!organicData) return null
 
+  const { data } = organicData
   const igData = getGrowthAndFollowersCount('instagram', data)
   const fbData = getGrowthAndFollowersCount('facebook', data)
   const bestPerformingPlatform = hasNoProfiles ? 'instagram' : getBestPerformingPlatform(igData, fbData)
@@ -588,31 +590,92 @@ export const getDummyPosts = (dummyPostsImages, globalAverage) => {
   return dummyPosts
 }
 
-export const getFollowerGrowth = async (artistId) => {
-  const {
-    dailyFacebookData,
-    dailyInstagramData,
-  } = await getDataSourceValues(artistId)
+export const getDataSources = async (dataSources, artistId) => {
+  const data = await getDataSourceValue(Object.values(dataSources), artistId)
 
-  const formattedData = [dailyFacebookData, dailyInstagramData].map((dailyData, index) => {
-    if (!dailyData || !Object.keys(dailyData).length) {
-      return
+  const formattedData = Object.entries(data).reduce((result, [key, dataSource]) => {
+    return {
+      ...result,
+      [key]: formatServerData({
+        currentDataSource: dataSource.name,
+        currentPlatform: dataSource.platform,
+        dailyData: dataSource.daily_data,
+      }),
     }
-
-    const { source, platform } = noSpendDataSources[index]
-
-    return formatServerData({
-      dailyData,
-      currentDataSource: source,
-      currentPlatform: platform,
-    })
-  })
-
-  if (!formattedData.filter(data => data).length) {
-    return
-  }
+  }, {})
 
   return formattedData
+}
+
+export const formatChartDailyData = (data, platform) => {
+  const adSpendData = data.facebook_ad_spend_feed
+  const growthData = data[followerGrowthDataSources[platform]]
+  const adSpendDateKeys = Object.keys(adSpendData.dailyData)
+  const growthDateKeys = Object.keys(growthData.dailyData)
+
+  const sixMonthsFromMostRecentDate = moment(adSpendData.mostRecent.date)
+    .subtract(6, 'months')
+    .startOf('isoWeek')
+    .format('YYYY-MM-DD')
+
+  const adSpendSixMonthsFromMostRecentDateIndex = adSpendDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
+  const growthSixMonthsFromMostRecentDateIndex = growthDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
+
+  const reduceDailyDataPeriod = (dailyData, index, lastIndex) => {
+    return Object.fromEntries(Object.entries(dailyData).slice(index, lastIndex))
+  }
+
+  const getEarliestAndMostRecentData = (data) => {
+    const dataArray = Object.entries(data)
+
+    const earliestData = dataArray[0]
+    const mostRecentData = dataArray[dataArray.length - 1]
+
+    return {
+      earliest: {
+        date: earliestData[0],
+        value: earliestData[1],
+      },
+      mostRecent: {
+        date: mostRecentData[0],
+        value: mostRecentData[1],
+      },
+    }
+  }
+
+  // If we have data from the last 6 months reduce ad spend and growth daily data to 6 months
+  if (adSpendSixMonthsFromMostRecentDateIndex > 0) {
+    const reducedAdSpendDailyData = reduceDailyDataPeriod(adSpendData.dailyData, adSpendSixMonthsFromMostRecentDateIndex, adSpendDateKeys.length)
+    const reducedGrowthDailyData = reduceDailyDataPeriod(growthData.dailyData, growthSixMonthsFromMostRecentDateIndex, growthDateKeys.length)
+
+    return {
+      adSpendData: {
+        ...adSpendData,
+        dailyData: reducedAdSpendDailyData,
+        ...getEarliestAndMostRecentData(reducedAdSpendDailyData),
+      },
+      growthData: {
+        ...growthData,
+        dailyData: reducedGrowthDailyData,
+        ...getEarliestAndMostRecentData(reducedGrowthDailyData),
+      },
+    }
+  }
+
+  // Otherwise keep ad spend daily data as is and reduce growth daily data to match the ad spend daily data date range
+  const earliestAdSpendDate = adSpendData.earliest.date
+  const growthDataAfterAdSpendStart = growthDateKeys.filter(dateKey => dateKey >= earliestAdSpendDate)
+  const growthEarliestAdSpendDateIndex = growthDateKeys.findIndex((dateKey) => dateKey === growthDataAfterAdSpendStart[0])
+  const reducedGrowthDailyData = reduceDailyDataPeriod(growthData.dailyData, growthEarliestAdSpendDateIndex, growthDateKeys.length)
+
+  return {
+    adSpendData,
+    growthData: {
+      ...growthData,
+      dailyData: reducedGrowthDailyData,
+      ...getEarliestAndMostRecentData(reducedGrowthDailyData),
+    },
+  }
 }
 
 // GET AD BENCHMARK

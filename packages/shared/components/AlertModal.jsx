@@ -137,7 +137,7 @@ const AlertModal = () => {
               {/* BUTTONS */}
               <div className="flex flex-wrap bg-black">
                 {buttons.map((buttonConfig, index) => {
-                  const { text, color, width, onClick, href, facebookButton, disabled } = buttonConfig
+                  const { text, color, width, onClick, href, facebookButton, disabled, shouldCloseOnConfirm = true } = buttonConfig
                   const firstButton = index === 0
                   const lastButton = index === buttons.length - 1
                   const ButtonType = facebookButton ? ButtonFacebook : Button
@@ -151,7 +151,9 @@ const AlertModal = () => {
                         facebookButton ? null : getButtonColor(color),
                       ].join(' ')}
                       onClick={() => {
-                        close()
+                        if (shouldCloseOnConfirm) {
+                          close()
+                        }
                         onClick()
                       }}
                       style={{

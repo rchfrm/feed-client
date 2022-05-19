@@ -24,6 +24,11 @@
         "source": "/aboutus",
         "destination": "/about",
         "type": 301
+      },
+      {
+        "source": "/blog/21-music-marketing-strategies-for-2021",
+        "destination": "/blog/music-marketing-strategies",
+        "type": 301
       }
     ],
     "headers": [

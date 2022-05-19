@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ResultsNoSpendStats from '@/app/ResultsNoSpendStats'
-import ResultsNoSpendChartsTabs from '@/app/ResultsNoSpendChartsTabs'
+import ResultsTabs from '@/app/ResultsTabs'
 import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-import { formatBenchmarkData } from '@/app/helpers/resultsHelpers'
+import { formatBenchmarkData, organicMetricTypes } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendContent = ({
   organicData,
@@ -27,7 +27,7 @@ const ResultsNoSpendContent = ({
 
     setFormattedOrganicData(formattedOrganicBenchmarkData)
     setFormattedAggregatedOrganicData(formattedAggregatedOrganicBenchmarkData)
-    setHasGrowth(formattedOrganicBenchmarkData.growth.hasGrowth)
+    setHasGrowth(formattedOrganicBenchmarkData?.growth?.hasGrowth)
   }, [organicData, aggregatedOrganicData, setHasGrowth, hasNoProfiles])
 
   return (
@@ -49,10 +49,11 @@ const ResultsNoSpendContent = ({
             isDesktopLayout={isDesktopLayout}
             className={isDesktopLayout ? 'order-1' : 'order-2'}
           />
-          <ResultsNoSpendChartsTabs
+          <ResultsTabs
+            metricTypes={organicMetricTypes}
             metricType={metricType}
             setMetricType={setMetricType}
-            hasGrowth={hasGrowth}
+            shouldHideTab={!hasGrowth && isDesktopLayout}
             hasNoProfiles={hasNoProfiles}
             className={isDesktopLayout ? 'order-2' : 'order-1'}
           />

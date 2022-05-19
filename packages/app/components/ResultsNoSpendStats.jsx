@@ -5,7 +5,7 @@ import ResultsReachStats from '@/app/ResultsReachStats'
 import ResultsEngageStats from '@/app/ResultsEngageStats'
 import ResultsGrowthStats from '@/app/ResultsGrowthStats'
 
-import { noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
+import { organicMetricTypes } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendStats = ({
   organicData,
@@ -25,7 +25,7 @@ const ResultsNoSpendStats = ({
 
   return (
     data && (
-      Object.keys(noSpendMetricTypes).map((type) => {
+      organicMetricTypes.map(({ type }) => {
         if ((isDesktopLayout && data[type]) || (!isDesktopLayout && metricType === type)) {
           const ResultsStats = components[type]
 
@@ -42,7 +42,9 @@ const ResultsNoSpendStats = ({
 }
 
 ResultsNoSpendStats.propTypes = {
-  data: PropTypes.object,
+  organicData: PropTypes.object,
+  aggregatedOrganicData: PropTypes.object,
+  hasNoProfiles: PropTypes.bool.isRequired,
   metricType: PropTypes.string.isRequired,
   isDesktopLayout: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,

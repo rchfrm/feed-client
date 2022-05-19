@@ -1,18 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { noSpendMetricTypes } from '@/app/helpers/resultsHelpers'
-
-const ResultsNoSpendChartsTabLine = ({ metricType, isActive }) => {
-  const { reach, engagement, growth } = noSpendMetricTypes
-
+const ResultsTabLine = ({ index, isActive }) => {
   const getWidth = () => {
-    switch (metricType) {
-      case reach.type:
+    switch (index) {
+      case 0:
         return '25%'
-      case engagement.type:
+      case 1:
         return '125%'
-      case growth.type:
+      case 2:
         return '250%'
       default:
         return '100%'
@@ -20,12 +16,12 @@ const ResultsNoSpendChartsTabLine = ({ metricType, isActive }) => {
   }
 
   const getRightOffset = () => {
-    switch (metricType) {
-      case reach.type:
+    switch (index) {
+      case 0:
         return '75%'
-      case engagement.type:
+      case 1:
         return '175%'
-      case growth.type:
+      case 2:
         return '300%'
       default:
         return '100%'
@@ -66,9 +62,9 @@ const ResultsNoSpendChartsTabLine = ({ metricType, isActive }) => {
   )
 }
 
-ResultsNoSpendChartsTabLine.propTypes = {
-  metricType: PropTypes.string.isRequired,
+ResultsTabLine.propTypes = {
+  index: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
 }
 
-export default ResultsNoSpendChartsTabLine
+export default ResultsTabLine
