@@ -34,6 +34,7 @@ const ControlsContent = ({ activeSlug }) => {
   const {
     isDesktopLayout,
     errorFetchingSettings,
+    initialTargetingState,
   } = React.useContext(TargetingContext)
 
   // Handle error
@@ -46,7 +47,7 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
-  if (globalLoading) return <Spinner />
+  if (globalLoading || !Object.keys(initialTargetingState).length > 0) return <Spinner />
 
   return (
     <div className="md:grid grid-cols-12 gap-8">
