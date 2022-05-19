@@ -20,19 +20,19 @@ const GetStartedPlatformShowMoreButton = ({ shouldShowMore, setShouldShowMore })
         className="h-5 mb-4 text-grey-3 text-sm no-underline"
       >
         {shouldShowMore ? 'Hide' : 'Show more'}
+        <span className={[
+          'inline-block ml-1',
+          'transition-transform duration-100 transform origin-center',
+          shouldShowMore ? 'rotate-90' : null,
+        ].join(' ')}
+        >
+          <ArrowIcon
+            direction="right"
+            className="w-2 h-2"
+            fill={brandColors.greyDark}
+          />
+        </span>
       </Button>
-      <div className={[
-        'inline-block ml-1',
-        'transition-transform duration-100 transform origin-center',
-        shouldShowMore ? 'rotate-90' : null,
-      ].join(' ')}
-      >
-        <ArrowIcon
-          direction="right"
-          className="w-2 h-2"
-          fill={brandColors.greyDark}
-        />
-      </div>
     </div>
   )
 }
