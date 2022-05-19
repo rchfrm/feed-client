@@ -5,11 +5,11 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import GetStartedPlatformButton from '@/app/GetStartedPlatformButton'
+import GetStartedPlatformShowMoreButton from '@/app/GetStartedPlatformShowMoreButton'
+import GetStartedPlatformShowMoreContent from '@/app/GetStartedPlatformShowMoreContent'
 
-import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
-import ArrowIcon from '@/icons/ArrowIcon'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -20,7 +20,6 @@ import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import Spinner from '@/elements/Spinner'
-import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -69,10 +68,6 @@ const GetStartedPlatform = () => {
 
     // Update local storage default link value
     setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: null }))
-  }
-
-  const toggleShowMore = () => {
-    setShouldShowMore(!shouldShowMore)
   }
 
   const handleNextStep = async (platform) => {
@@ -162,42 +157,16 @@ const GetStartedPlatform = () => {
                     platform={primaryPlatform}
                     setSelectedPlatform={setSelectedPlatform}
                   />
-                  <div>
-                    <Button
-                      version="text"
-                      onClick={toggleShowMore}
-                      trackComponentName="GetStartedPlatform"
-                      className="h-5 mb-4 text-grey-3 text-sm no-underline"
-                    >
-                      {shouldShowMore ? 'Hide' : 'Show more'}
-                    </Button>
-                    <div className={[
-                      'inline-block ml-1',
-                      'transition-transform duration-100 transform origin-center',
-                      shouldShowMore ? 'rotate-90' : null,
-                    ].join(' ')}
-                    >
-                      <ArrowIcon
-                        direction="right"
-                        className="w-2 h-2"
-                        fill={brandColors.greyDark}
-                      />
-                    </div>
-                  </div>
+                  <GetStartedPlatformShowMoreButton
+                    shouldShowMore={shouldShowMore}
+                    setShouldShowMore={setShouldShowMore}
+                  />
                 </div>
-                <div className="flex flex-wrap justify-center content-center">
-                  {shouldShowMore && (
-                    secondaryPlatforms.map((platform) => {
-                      return (
-                        <GetStartedPlatformButton
-                          key={platform.value}
-                          platform={platform}
-                          setSelectedPlatform={setSelectedPlatform}
-                        />
-                      )
-                    })
-                  )}
-                </div>
+                <GetStartedPlatformShowMoreContent
+                  platforms={secondaryPlatforms}
+                  setSelectedPlatform={setSelectedPlatform}
+                  shouldShowMore={shouldShowMore}
+                />
               </>
             )}
         </div>
