@@ -49,7 +49,7 @@ const GetStartedDailyBudget = () => {
           minReccomendedStories,
         },
         majorUnit: {
-          minBase: minBaseMajor,
+          minBaseUnrounded: minBaseUnroundedMajor,
         },
         string: {
           minReccomendedStories: minReccomendedStoriesString,
@@ -129,7 +129,7 @@ const GetStartedDailyBudget = () => {
       <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.budgetSubtitle}</h3>
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.budgetDescription} />
       <ControlsSettingsSectionFooter
-        copy={copy.budgetFooter(minBaseMajor, currencyCode)}
+        copy={copy.budgetFooter(minBaseUnroundedMajor, currencyCode)}
         className="text-insta"
       />
       <Error error={error} />
