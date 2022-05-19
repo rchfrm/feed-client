@@ -153,7 +153,6 @@ const GetStartedPlatform = () => {
               <>
                 <div className="flex flex-column items-center">
                   <GetStartedPlatformButton
-                    key={primaryPlatform.value}
                     platform={primaryPlatform}
                     setSelectedPlatform={setSelectedPlatform}
                   />
