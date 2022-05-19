@@ -315,9 +315,9 @@ const getAdPreviewLinks = (post) => {
   return Object.values(post.ads).reduce((result, ad) => {
     return {
       ...result,
-      ...(ad.adset_identifier.includes('engage') ? { engage: ad.campaign_id } : null),
-      ...(ad.adset_identifier.includes('remind') ? { nurture: ad.campaign_id } : null),
-      ...(ad.adset_identifier.includes('conversions') ? { sales: ad.campaign_id } : null),
+      ...(ad.adset_identifier.includes('engage') && ad.preview_shareable_link ? { engage: ad.preview_shareable_link } : null),
+      ...(ad.adset_identifier.includes('traffic') && ad.preview_shareable_link ? { nurture: ad.preview_shareable_link } : null),
+      ...(ad.adset_identifier.includes('conversions') && ad.preview_shareable_link ? { sales: ad.preview_shareable_link } : null),
     }
   }, {})
 }
