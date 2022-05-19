@@ -135,7 +135,7 @@ const TargetingBudgetBox = ({
             {hasBudgetBelowMinRecommendedStories && (
               <ControlsSettingsSectionFooter
                 copy={copy.budgetFooter(minReccomendedStoriesString)}
-                className="mt-3 text-insta"
+                className="mt-5 text-insta"
               />
             )}
           </ControlsContentSection>
