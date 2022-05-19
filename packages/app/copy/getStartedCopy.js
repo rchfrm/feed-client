@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
 import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
-import { capitalise } from '@/helpers/utils'
+import { capitalise, formatCurrency } from '@/helpers/utils'
 
 export default {
   profileStatus: (status, objective, platform) => {
@@ -97,7 +97,7 @@ export default {
   locationDescription: 'This location will be set as your home country.',
   budgetSubtitle: 'What is your daily budget for advertising?',
   budgetDescription: 'You can change this at any time. We recommend running ads for at least 4-6 weeks to get an idea of the impact Feed can have.',
-  budgetFooter: 'Most people start with a budget of £3.70 - £8.80 a day.',
+  budgetFooter: (minBase, currency) => `Most people start with a budget of ${formatCurrency(minBase * 3.7, currency)} - ${formatCurrency(minBase * 8.8, currency)} a day.`,
   inSufficientBudget: (minBudget) => `Budget must be at least ${minBudget} to set your objective to sales.`,
   reviewDescription: 'Feed has submitted your ads for approval!',
   objectiveSummary: (objective, platform) => {
