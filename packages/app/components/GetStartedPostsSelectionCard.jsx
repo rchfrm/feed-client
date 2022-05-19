@@ -22,7 +22,6 @@ const GetStartedPostsSelectionCard = ({
 
   const handleOnchange = () => {
     setError(null)
-    setIsEnabled(!isEnabled)
 
     // Update single post state
     setPosts({
@@ -33,6 +32,10 @@ const GetStartedPostsSelectionCard = ({
       },
     })
   }
+
+  React.useEffect(() => {
+    setIsEnabled(promotionEnabled)
+  }, [promotionEnabled])
 
   return (
     <div
