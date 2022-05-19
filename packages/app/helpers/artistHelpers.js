@@ -520,20 +520,20 @@ export const objectives = [
 
 export const platforms = [
   {
-    name: 'Spotify',
-    value: 'spotify',
+    name: 'Instagram',
+    value: 'instagram',
   },
   {
-    name: 'YouTube',
-    value: 'youtube',
+    name: 'Spotify',
+    value: 'spotify',
   },
   {
     name: 'SoundCloud',
     value: 'soundcloud',
   },
   {
-    name: 'Instagram',
-    value: 'instagram',
+    name: 'YouTube',
+    value: 'youtube',
   },
   {
     name: 'Facebook',

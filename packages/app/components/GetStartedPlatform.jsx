@@ -6,8 +6,10 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import GetStartedPlatformButton from '@/app/GetStartedPlatformButton'
 
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -18,6 +20,7 @@ import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import Spinner from '@/elements/Spinner'
+import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -29,7 +32,10 @@ const getControlsStoreState = (state) => ({
 const GetStartedPlatform = () => {
   const [selectedPlatform, setSelectedPlatform] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
+  const [shouldShowMore, setShouldShowMore] = React.useState(false)
   const [error, setError] = React.useState(null)
+
+  const [primaryPlatform, ...secondaryPlatforms] = platforms
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
@@ -63,6 +69,10 @@ const GetStartedPlatform = () => {
 
     // Update local storage default link value
     setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: null }))
+  }
+
+  const toggleShowMore = () => {
+    setShouldShowMore(!shouldShowMore)
   }
 
   const handleNextStep = async (platform) => {
@@ -140,19 +150,56 @@ const GetStartedPlatform = () => {
       <h3 className="mb-4 font-medium text-xl">{copy.platformSubtitle}</h3>
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.platformDescription} />
       <Error error={error} />
-      <div className="flex flex-1 flex-wrap">
-        <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mx-auto">
+      <div>
+        <div className="w-3/4 lg:w-1/2 mx-auto mt-6">
           {isLoading
             ? <Spinner />
-            : platforms.map((platform) => {
-              return (
-                <GetStartedPlatformButton
-                  key={platform.value}
-                  platform={platform}
-                  setSelectedPlatform={setSelectedPlatform}
-                />
-              )
-            })}
+            : (
+              <>
+                <div className="flex flex-column items-center">
+                  <GetStartedPlatformButton
+                    key={primaryPlatform.value}
+                    platform={primaryPlatform}
+                    setSelectedPlatform={setSelectedPlatform}
+                  />
+                  <div>
+                    <Button
+                      version="text"
+                      onClick={toggleShowMore}
+                      trackComponentName="GetStartedPlatform"
+                      className="h-5 mb-4 text-grey-3 text-sm no-underline"
+                    >
+                      {shouldShowMore ? 'Hide' : 'Show more'}
+                    </Button>
+                    <div className={[
+                      'inline-block ml-1',
+                      'transition-transform duration-100 transform origin-center',
+                      shouldShowMore ? 'rotate-90' : null,
+                    ].join(' ')}
+                    >
+                      <ArrowIcon
+                        direction="right"
+                        className="w-2 h-2"
+                        fill={brandColors.greyDark}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap justify-center content-center">
+                  {shouldShowMore && (
+                    secondaryPlatforms.map((platform) => {
+                      return (
+                        <GetStartedPlatformButton
+                          key={platform.value}
+                          platform={platform}
+                          setSelectedPlatform={setSelectedPlatform}
+                        />
+                      )
+                    })
+                  )}
+                </div>
+              </>
+            )}
         </div>
       </div>
     </div>
