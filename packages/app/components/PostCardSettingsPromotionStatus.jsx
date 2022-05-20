@@ -5,6 +5,7 @@ import PlayIcon from '@/icons/PlayIcon'
 import PauseIcon from '@/icons/PauseIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import QueueIcon from '@/icons/QueueIcon'
+import QueueAltIcon from '@/icons/QueueAltIcon'
 import DoubleExclamationCircleIcon from '@/icons/DoubleExclamationCircleIcon'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
@@ -15,9 +16,9 @@ const PostCardSettingsPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
 }) => {
-  const [title, setTitle] = React.useState('')
-  const [status, setStatus] = React.useState('')
   const { active, inReview, inActive, rejected, notRun } = postsHelpers.promotionStatusSlugs
+  const [title, setTitle] = React.useState('')
+  const [status, setStatus] = React.useState(active)
 
   React.useEffect(() => {
     if (!promotionEnabled) {
@@ -48,10 +49,10 @@ const PostCardSettingsPromotionStatus = ({
     [inReview]: ClockIcon,
     [inActive]: PauseIcon,
     [rejected]: DoubleExclamationCircleIcon,
-    disabled: QueueIcon,
+    disabled: QueueAltIcon,
   }
 
-  const Icon = icons[promotionStatus]
+  const Icon = icons[status]
 
   return (
     <div className="flex flex-column w-1/2">
@@ -71,7 +72,7 @@ const PostCardSettingsPromotionStatus = ({
           ].join(' ')}
           style={{ borderColor: brandColors[color] }}
         >
-          <Icon className="h-4 w-auto mr-1" color={brandColors[color]} />
+          <Icon className="h-4 w-auto mr-1" color={brandColors[color]} secondaryColor={brandColors.grey} />
           {title}
         </div>
       </div>
