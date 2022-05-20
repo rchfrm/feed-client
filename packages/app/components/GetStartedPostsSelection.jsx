@@ -4,7 +4,7 @@ import { useImmerReducer } from 'use-immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import useCheckInitialPostsImportStatus from '@/app/hooks/useCheckInitialPostsImportStatus'
+import useCheckBackgroundTaskStatus from '@/app/hooks/useCheckBackgroundTaskStatus'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import GetStartedPostsSelectionCard from '@/app/GetStartedPostsSelectionCard'
@@ -16,8 +16,9 @@ import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 
 import * as server from '@/app/helpers/appServer'
+
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
-import { getCursor } from '@/app/helpers/postsHelpers'
+import { getCursor, getInitialPostsImportStatus } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -61,7 +62,13 @@ const GetStartedPostsSelection = () => {
 
   const { artistId } = React.useContext(ArtistContext)
 
-  const { initialLoading } = useCheckInitialPostsImportStatus(artistId, canLoadPosts, setCanLoadPosts)
+  const { initialLoading } = useCheckBackgroundTaskStatus({
+    artistId,
+    action: getInitialPostsImportStatus,
+    completionKey: 'last_update_completed_at',
+    hasCompleted: canLoadPosts,
+    setHasCompleted: setCanLoadPosts,
+  })
   const isDesktopLayout = useBreakpointTest('sm')
   const shouldAdjustLayout = isDesktopLayout && posts.length > 5
 

@@ -72,12 +72,11 @@ const TargetingPlatformsSelector = ({
       <TargetingSectionHeader
         header="Platforms"
         description={copy.platformSelectDescription}
-        className="relative mb-12"
+        className="relative mb-7"
       />
       <ControlsSettingsSectionFooter
         copy={copy.platformSelectFooter(platform)}
-        className="text-insta"
-        top={28}
+        className="-mt-4 mb-6 text-insta"
       />
       <PillOptions
         color="green"

@@ -1,10 +1,8 @@
 import React from 'react'
 
-// IMPORT CONTEXTS
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 import usePostsStore from '@/app/stores/postsStore'
-// IMPORT COMPONENTS
 import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
 import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
@@ -12,7 +10,7 @@ import AdDefaultsAdAccount from '@/app/AdDefaultsAdAccount'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
 import AdDefaultsPixelEvent from '@/app/AdDefaultsPixelEvent'
 import ControlsContentSection from '@/app/ControlsContentSection'
-// IMPORT COPY
+
 import copy from '@/app/copy/controlsPageCopy'
 
 const getTogglePromotionGlobal = state => state.togglePromotionGlobal
@@ -25,9 +23,8 @@ const getControlsStoreState = (state) => ({
 })
 
 const AdDefaults = () => {
-  // Get context values
   const { artistId, setPostPreferences } = React.useContext(ArtistContext)
-  // Get store values
+
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   const { postsPreferences, conversionsPreferences, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultCallToAction, defaultPromotionEnabled } = postsPreferences
