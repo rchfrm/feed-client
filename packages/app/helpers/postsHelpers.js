@@ -312,7 +312,9 @@ export const getPostAdMessageData = (post) => {
 const getAdPreviewLinks = (post) => {
   if (!post?.ads) return null
 
-  return Object.values(post.ads).reduce((result, ad) => {
+  const sortedAds = Object.values(post.ads).sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+
+  return sortedAds.reduce((result, ad) => {
     return {
       ...result,
       ...(ad.adset_identifier.includes('engage') && ad.preview_shareable_link ? { engage: ad.preview_shareable_link } : null),
