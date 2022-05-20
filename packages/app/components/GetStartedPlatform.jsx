@@ -5,6 +5,8 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import GetStartedPlatformButton from '@/app/GetStartedPlatformButton'
+import GetStartedPlatformShowMoreButton from '@/app/GetStartedPlatformShowMoreButton'
+import GetStartedPlatformShowMoreContent from '@/app/GetStartedPlatformShowMoreContent'
 
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
@@ -29,7 +31,10 @@ const getControlsStoreState = (state) => ({
 const GetStartedPlatform = () => {
   const [selectedPlatform, setSelectedPlatform] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
+  const [shouldShowMore, setShouldShowMore] = React.useState(false)
   const [error, setError] = React.useState(null)
+
+  const [primaryPlatform, ...secondaryPlatforms] = platforms
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
@@ -140,19 +145,29 @@ const GetStartedPlatform = () => {
       <h3 className="mb-4 font-medium text-xl">{copy.platformSubtitle}</h3>
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.platformDescription} />
       <Error error={error} />
-      <div className="flex flex-1 flex-wrap">
-        <div className="flex flex-wrap justify-center content-center w-full sm:w-3/4 mx-auto">
+      <div>
+        <div className="w-full xxs:w-3/4 lg:w-1/2 mx-auto mt-6">
           {isLoading
             ? <Spinner />
-            : platforms.map((platform) => {
-              return (
-                <GetStartedPlatformButton
-                  key={platform.value}
-                  platform={platform}
+            : (
+              <>
+                <div className="flex flex-column items-center">
+                  <GetStartedPlatformButton
+                    platform={primaryPlatform}
+                    setSelectedPlatform={setSelectedPlatform}
+                  />
+                  <GetStartedPlatformShowMoreButton
+                    shouldShowMore={shouldShowMore}
+                    setShouldShowMore={setShouldShowMore}
+                  />
+                </div>
+                <GetStartedPlatformShowMoreContent
+                  platforms={secondaryPlatforms}
                   setSelectedPlatform={setSelectedPlatform}
+                  shouldShowMore={shouldShowMore}
                 />
-              )
-            })}
+              </>
+            )}
         </div>
       </div>
     </div>
