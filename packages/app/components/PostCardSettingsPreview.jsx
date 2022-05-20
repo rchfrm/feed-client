@@ -14,7 +14,7 @@ const PostCardSettingsPreview = ({
     sales: 'bg-red',
   }
 
-  const { sales: salesLink, ...growAndNurtureLinks } = previewLinks
+  const { sales: salesLink, ...growAndNurtureLinks } = previewLinks || {}
   const sortedPreviewLinks = Object.entries(previewLinks).sort((a, b) => a[0].localeCompare(b[0]))
 
   return (
