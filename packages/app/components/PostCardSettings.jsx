@@ -93,8 +93,10 @@ const PostCardSettings = ({
     Router.push(ROUTES.CONTROLS_ADS)
   }
 
+  const { sales: salesPreviewLink, ...growAndNurturePreviewLinks } = adPreviewLinks
+  const hasPreviewLinkForSelectedCampaignType = (campaignType === 'all' && Object.keys(growAndNurturePreviewLinks).length > 0) || (campaignType === 'conversions' && salesPreviewLink)
   const { active, inReview, rejected } = promotionStatusSlugs
-  const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus) && Object.keys(adPreviewLinks).length > 0
+  const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus) && hasPreviewLinkForSelectedCampaignType
 
   return (
     <div
@@ -148,7 +150,8 @@ const PostCardSettings = ({
           </div>
           {shouldShowPreview && (
             <PostCardSettingsPreview
-              links={adPreviewLinks}
+              previewLinks={adPreviewLinks}
+              campaignType={campaignType}
             />
           )}
           <AdSettingsSection
