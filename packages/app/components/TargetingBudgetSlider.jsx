@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 
 import { SidePanelContext } from '@/app/contexts/SidePanelContext'
 
-import useBreakpointTest from '@/hooks/useBreakpointTest'
-
 import Slider from '@/elements/Slider'
 import SliderMarker from '@/elements/SliderMarker'
 
@@ -27,7 +25,6 @@ const TargetingBudgetSlider = ({
   // DISABLE SIDEPANEL DRAG
   const containerRef = React.useRef(null)
   const { setDisableDrag } = React.useContext(SidePanelContext)
-  const isDesktopLayout = useBreakpointTest('xs')
 
   React.useEffect(() => {
     if (!mobileVersion) return
@@ -74,7 +71,7 @@ const TargetingBudgetSlider = ({
   }, [sliderValueRange, sliderStep])
 
   return (
-    <div className={['relative pl-0', isDesktopLayout ? 'py-8' : 'py-11'].join(' ')} ref={containerRef}>
+    <div className="relative pl-0 py-8" ref={containerRef}>
       {shouldShowError && (
         <p className={['absolute top-0 w-full text-center text-red text-sm'].join(' ')}>{errorMessage}</p>
       )}

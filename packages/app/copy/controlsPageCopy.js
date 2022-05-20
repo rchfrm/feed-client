@@ -70,6 +70,7 @@ export default {
   facebookPixelEventIntro: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
   facebookPixelEventFooter: `"Purchase" is recommended based on your objective`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
+  budgetFooter: (minRecommendedStories) => `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStories}`,
   objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
   alertPlatformTitle: 'Where would you like to grow?',
   alertPlatformDescription: `You can always change this later on. You'll also have the option to send people to multiple platforms using different posts.`,
