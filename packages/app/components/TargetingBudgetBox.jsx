@@ -75,7 +75,7 @@ const TargetingBudgetBox = ({
         'flex flex-column justify-between',
         className,
       ].join(' ')}
-      style={{ height: '194px', paddingBottom: '0' }}
+      style={{ height: '193px', paddingBottom: '0' }}
     >
       {targetingLoading ? (
         <Spinner width={36} />
