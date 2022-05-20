@@ -12,9 +12,23 @@ import * as postsHelpers from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 
 const PostCardSettingsPromotionStatus = ({
+  promotionEnabled,
   promotionStatus,
 }) => {
+  const [title, setTitle] = React.useState('')
+  const [status, setStatus] = React.useState('')
   const { active, inReview, inActive, rejected, notRun } = postsHelpers.promotionStatusSlugs
+
+  React.useEffect(() => {
+    if (!promotionEnabled) {
+      setStatus('disabled')
+      setTitle('Disabled')
+      return
+    }
+
+    setStatus(promotionStatus)
+    setTitle(postsHelpers.promotionStatus.find((status) => status.slug === promotionStatus)?.title)
+  }, [promotionEnabled, promotionStatus])
 
   const getColor = (status) => {
     if (status === active) return 'green'
@@ -26,8 +40,7 @@ const PostCardSettingsPromotionStatus = ({
     return 'greyDark'
   }
 
-  const color = getColor(promotionStatus)
-  const promotionStatusTitle = postsHelpers.promotionStatus.find((status) => status.slug === promotionStatus)?.title
+  const color = getColor(status)
 
   const icons = {
     [active]: PlayIcon,
@@ -35,6 +48,7 @@ const PostCardSettingsPromotionStatus = ({
     [inReview]: ClockIcon,
     [inActive]: PauseIcon,
     [rejected]: DoubleExclamationCircleIcon,
+    disabled: QueueIcon,
   }
 
   const Icon = icons[promotionStatus]
@@ -51,13 +65,14 @@ const PostCardSettingsPromotionStatus = ({
         <div
           className={[
             'inline-flex items-center',
-            'border-2 border-solid rounded-full',
+            'rounded-full',
             'mb-0 px-3 py-1',
+            !promotionEnabled ? 'text-grey-3 bg-grey-2' : 'border-2 border-solid',
           ].join(' ')}
           style={{ borderColor: brandColors[color] }}
         >
           <Icon className="h-4 w-auto mr-1" color={brandColors[color]} />
-          {promotionStatusTitle}
+          {title}
         </div>
       </div>
     </div>
@@ -65,6 +80,7 @@ const PostCardSettingsPromotionStatus = ({
 }
 
 PostCardSettingsPromotionStatus.propTypes = {
+  promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
 }
 

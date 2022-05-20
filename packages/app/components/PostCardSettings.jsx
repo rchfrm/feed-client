@@ -145,6 +145,7 @@ const PostCardSettings = ({
               showAlertModal={isConversionsCampaign && (!canRunConversions)}
             />
             <PostCardSettingsPromotionStatus
+              promotionEnabled={promotionEnabled}
               promotionStatus={promotionStatus}
             />
           </div>
