@@ -1,17 +1,20 @@
 import PropTypes from 'prop-types'
-import * as styles from '@/landing/Hero.module.css'
 
 export default function HeroStrapLine({ partA, partB }) {
+  const fontSizing = [
+    'text-3xl',
+    'xxs:text-4xl',
+    'xs:text-5xl',
+  ]
   return (
     <div
       className={[
-        styles.strapLine,
         'col-span-12',
         'pb-10',
       ].join(' ')}
     >
-      {partA && <h1 className={['mb-0', 'font-normal', 'leading-tight'].join(' ')}>{partA}</h1>}
-      {partB && <h2 className={['border-b-3', 'border-green', 'border-solid', 'inline', 'leading-tight'].join(' ')}><strong>{partB}</strong></h2>}
+      {partA && <h1 className={['mb-0', 'font-normal', ...fontSizing].join(' ')}>{partA}</h1>}
+      {partB && <h2 className={['border-b-3', 'border-green', 'border-solid', 'inline', ...fontSizing].join(' ')}><strong>{partB}</strong></h2>}
     </div>
   )
 }
