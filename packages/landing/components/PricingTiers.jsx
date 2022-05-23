@@ -1,4 +1,5 @@
 import PricingTier from '@/landing/PricingTier'
+import PricingTierSelector from '@/landing/PricingTierSelector'
 
 const pricingTiers = [
   {
@@ -65,6 +66,7 @@ export default function PricingTiers() {
         'col-span-12',
       ].join(' ')}
     >
+      <PricingTierSelector tiers={pricingTiers} />
       {pricingTiers.map(tier => <PricingTier key={tier.name} tier={tier} />)}
     </div>
   )
