@@ -1,11 +1,46 @@
 import PropTypes from 'prop-types'
 
-export default function PricingTierMonthlyCost({ amount }) {
+const currencySymbols = {
+  GBP: '£',
+}
+
+export default function PricingTierMonthlyCost({ amount, currency }) {
+  const currencySymbol = currencySymbols[currency]
   return (
-    <p>{amount}</p>
+    <div
+      className={[
+        'flex',
+        'items-center',
+      ].join(' ')}
+    >
+      <p
+        className={[
+          'text-2xl',
+          'pr-1',
+        ].join(' ')}
+      >
+        {currencySymbol}
+      </p>
+      <p
+        className={[
+          'text-7xl',
+          'font-display',
+          'font-bold',
+          'pr-2',
+        ].join(' ')}
+      >
+        {amount}
+      </p>
+      <p>per profile / per month</p>
+    </div>
   )
 }
 
 PricingTierMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
+  currency: PropTypes.oneOf(Object.keys(currencySymbols)),
+}
+
+PricingTierMonthlyCost.defaultProps = {
+  currency: 'GBP',
 }
