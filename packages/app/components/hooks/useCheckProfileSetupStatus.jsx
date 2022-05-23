@@ -1,6 +1,7 @@
 import React from 'react'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBillingStore from '@/app/stores/billingStore'
 
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -18,6 +19,10 @@ const getControlsStoreState = (state) => ({
   budget: state.budget,
 })
 
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
+})
+
 const useCheckProfileSetupStatus = () => {
   const [enabledPosts, setEnabledPosts] = React.useState([])
   // Get local storage state
@@ -30,6 +35,8 @@ const useCheckProfileSetupStatus = () => {
     postsPreferences,
     optimizationPreferences,
   } = useControlsStore(getControlsStoreState)
+
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
   const { defaultPromotionEnabled } = postsPreferences
   const objective = optimizationPreferences.objective || storedObjective
@@ -105,9 +112,9 @@ const useCheckProfileSetupStatus = () => {
     },
     {
       name: profileStatus.paymentMethod,
-      isComplete: false,
+      isComplete: Boolean(defaultPaymentMethod),
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => !condition.isComplete)?.name

@@ -22,6 +22,7 @@ export default {
     if (status === 'facebook-pixel') return 'Select your Facebook pixel'
     if (status === 'location') return 'Where are you based?'
     if (status === 'budget') return 'How much would you like to spend?'
+    if (status === 'payment-method') return 'Add a payment method'
 
     return ''
   },
