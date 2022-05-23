@@ -15,10 +15,8 @@ import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
-import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
-import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -46,29 +44,26 @@ const GetStartedDailyBudget = () => {
         minorUnit: {
           minBase,
           minHard: minHardBudget,
-          minReccomendedStories,
+          minRecommendedStories,
         },
         majorUnit: {
           minBaseUnrounded: minBaseUnroundedMajor,
         },
         string: {
-          minReccomendedStories: minReccomendedStoriesString,
+          minRecommendedStories: minRecommendedStoriesString,
         },
       },
-      hasSetUpProfile,
     },
     artistId,
-    updatehasSetUpProfile,
   } = React.useContext(ArtistContext)
 
   const [budget, setBudget] = React.useState(targetingState.budget)
-  const [error, setError] = React.useState(null)
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
-  const hasInsufficientBudget = hasSalesObjective && budget < minReccomendedStories
+  const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
 
   // Get slider settings based on min budget
   const { sliderStep, sliderValueRange } = React.useMemo(() => {
@@ -90,31 +85,15 @@ const GetStartedDailyBudget = () => {
     initPage(state, error)
   }, [minReccBudget])
 
-  const checkAndUpdateCompletedSetupAt = async () => {
-    if (!hasSetUpProfile) {
-      const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
-
-      if (error) {
-        setError(error)
-        return
-      }
-
-      const { completed_setup_at: completedSetupAt } = artistUpdated
-
-      updatehasSetUpProfile(completedSetupAt)
-    }
-  }
 
   const saveBudget = async () => {
     await saveTargeting('settings', { ...targetingState, budget })
-    await checkAndUpdateCompletedSetupAt()
 
     next()
   }
 
   const handleNext = async () => {
     if (budget === initialTargetingState.budget) {
-      await checkAndUpdateCompletedSetupAt()
       next()
 
       return
@@ -132,20 +111,19 @@ const GetStartedDailyBudget = () => {
         copy={copy.budgetFooter(minBaseUnroundedMajor, currencyCode)}
         className="text-insta"
       />
-      <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">
         <div className="w-full sm:w-2/3 h-26 mb-4 px-6">
           <TargetingBudgetSlider
             sliderStep={sliderStep}
             sliderValueRange={sliderValueRange}
-            initialBudget={initialTargetingState.budget || minReccomendedStories}
+            initialBudget={initialTargetingState.budget || minRecommendedStories}
             onChange={(budget) => {
               setBudget(budget)
             }}
             currency={currencyCode}
             currencyOffset={currencyOffset}
             shouldShowError={hasInsufficientBudget}
-            errorMessage={copy.inSufficientBudget(minReccomendedStoriesString)}
+            errorMessage={copy.inSufficientBudget(minRecommendedStoriesString)}
             mobileVersion
           />
         </div>
