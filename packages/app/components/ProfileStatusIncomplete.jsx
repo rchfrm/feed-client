@@ -43,7 +43,6 @@ const ProfileStatusIncomplete = () => {
       </button>
     ) : (
       <button onClick={goToGetStartedPage}>
-        {profileSetupStatus === 'objective' ? 'Start' : 'Continue'} profile set-up:
         <span
           className={[
             'mb-0',

@@ -9,6 +9,7 @@ import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
+import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -17,7 +18,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
-import { completedSetupFlow } from '@/app/helpers/artistHelpers'
+import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -46,6 +47,9 @@ const GetStartedDailyBudget = () => {
           minBase,
           minHard: minHardBudget,
           minReccomendedStories,
+        },
+        majorUnit: {
+          minBaseUnrounded: minBaseUnroundedMajor,
         },
         string: {
           minReccomendedStories: minReccomendedStoriesString,
@@ -88,14 +92,14 @@ const GetStartedDailyBudget = () => {
 
   const checkAndUpdateCompletedSetupAt = async () => {
     if (!hasSetUpProfile) {
-      const { res, error } = await completedSetupFlow(artistId)
+      const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
 
       if (error) {
         setError(error)
         return
       }
 
-      const { completedSetupAt } = res
+      const { completed_setup_at: completedSetupAt } = artistUpdated
 
       updatehasSetUpProfile(completedSetupAt)
     }
@@ -124,6 +128,10 @@ const GetStartedDailyBudget = () => {
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.budgetSubtitle}</h3>
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.budgetDescription} />
+      <ControlsSettingsSectionFooter
+        copy={copy.budgetFooter(minBaseUnroundedMajor, currencyCode)}
+        className="text-insta"
+      />
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">
         <div className="w-full sm:w-2/3 h-26 mb-4 px-6">

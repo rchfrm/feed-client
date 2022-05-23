@@ -4,7 +4,7 @@ import { useImmerReducer } from 'use-immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import useCheckInitialPostsImportStatus from '@/app/hooks/useCheckInitialPostsImportStatus'
+import useCheckBackgroundTaskStatus from '@/app/hooks/useCheckBackgroundTaskStatus'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import GetStartedPostsSelectionCard from '@/app/GetStartedPostsSelectionCard'
@@ -16,8 +16,9 @@ import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 
 import * as server from '@/app/helpers/appServer'
+
 import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
-import { getCursor } from '@/app/helpers/postsHelpers'
+import { getCursor, getInitialPostsImportStatus } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -41,6 +42,11 @@ const postsReducer = (draftState, postsAction) => {
     case 'toggle-promotion':
       draftState[postIndex].promotionEnabled = promotionEnabled
       break
+    case 'batch-toggle-promotion':
+      postIndex.forEach((index) => {
+        draftState[index].promotionEnabled = promotionEnabled
+      })
+      break
     default:
       return draftState
   }
@@ -56,7 +62,13 @@ const GetStartedPostsSelection = () => {
 
   const { artistId } = React.useContext(ArtistContext)
 
-  const { initialLoading } = useCheckInitialPostsImportStatus(artistId, canLoadPosts, setCanLoadPosts)
+  const { initialLoading } = useCheckBackgroundTaskStatus({
+    artistId,
+    action: getInitialPostsImportStatus,
+    completionKey: 'last_update_completed_at',
+    hasCompleted: canLoadPosts,
+    setHasCompleted: setCanLoadPosts,
+  })
   const isDesktopLayout = useBreakpointTest('sm')
   const shouldAdjustLayout = isDesktopLayout && posts.length > 5
 
@@ -134,6 +146,20 @@ const GetStartedPostsSelection = () => {
     // Otherwise there are no enabled posts yet and we try to fetch the first 10 enabled posts sorted by normalized score
     await handlePosts(postType, 10)
   }, [canLoadPosts])
+
+  React.useEffect(() => {
+    if (posts.length > 0 && !hasEnabledPosts) {
+      setPosts({
+        type: 'batch-toggle-promotion',
+        payload: {
+          postIndex: [0, 1],
+          promotionEnabled: true,
+        },
+      })
+
+      setHasEnabledPosts(true)
+    }
+  }, [posts, hasEnabledPosts, setPosts])
 
   if (initialLoading) return null
 

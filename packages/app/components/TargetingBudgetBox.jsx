@@ -13,6 +13,9 @@ import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
 import ControlsContentSection from '@/app/ControlsContentSection'
+import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
+
+import copy from '@/app/copy/controlsPageCopy'
 
 const TargetingBudgetBox = ({
   className,
@@ -41,7 +44,11 @@ const TargetingBudgetBox = ({
         minorUnit: {
           minBase,
           minHard: minHardBudget,
+          minReccomendedStories,
         } = {},
+        string: {
+          minReccomendedStories: minReccomendedStoriesString,
+        },
       } = {},
       hasSetUpProfile,
     },
@@ -49,6 +56,18 @@ const TargetingBudgetBox = ({
 
   // TOGGLE CUSTOM BUDGET SETTER
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
+  const [hasBudgetBelowMinRecommendedStories, setHasBudgetBelowMinRecommendedStories] = React.useState(false)
+
+  React.useEffect(() => {
+    if (targetingState.budget < minReccomendedStories && !hasBudgetBelowMinRecommendedStories) {
+      setHasBudgetBelowMinRecommendedStories(true)
+      return
+    }
+
+    if (targetingState.budget >= minReccomendedStories && hasBudgetBelowMinRecommendedStories) {
+      setHasBudgetBelowMinRecommendedStories(false)
+    }
+  }, [targetingState.budget, minReccomendedStories, hasBudgetBelowMinRecommendedStories])
 
   return (
     <section
@@ -56,7 +75,7 @@ const TargetingBudgetBox = ({
         'flex flex-column justify-between',
         className,
       ].join(' ')}
-      style={{ height: '180px' }}
+      style={{ height: '193px', paddingBottom: '0' }}
     >
       {targetingLoading ? (
         <Spinner width={36} />
@@ -114,6 +133,12 @@ const TargetingBudgetBox = ({
                 minHardBudget={minHardBudget}
               />
             </div>
+            {hasBudgetBelowMinRecommendedStories && (
+              <ControlsSettingsSectionFooter
+                copy={copy.budgetFooter(minReccomendedStoriesString)}
+                className="mt-5 text-insta"
+              />
+            )}
           </ControlsContentSection>
         </>
       )}

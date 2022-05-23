@@ -7,6 +7,7 @@ import * as api from '@/helpers/api'
 import { requiredScopesSignup, requiredScopesAccount, requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 import brandColors from '@/constants/brandColors'
+import moment from 'moment'
 
 /**
  * @param {string} artist
@@ -66,13 +67,13 @@ export const getAdAccounts = async (artistId) => {
   return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }
 
-// Update ad account
+// Set ad account
 /**
 * @param {string} artistId
 * @param {string} adAccountId
 * @returns {Promise<object>} { res, error }
 */
-export const updateAdAccount = (artistId, adAccountId) => {
+export const setAdAccount = (artistId, adAccountId) => {
   const requestUrl = `/artists/${artistId}`
   const payload = {
     integrations: {
@@ -83,9 +84,42 @@ export const updateAdAccount = (artistId, adAccountId) => {
   }
   const errorTracking = {
     category: 'Artist',
-    action: 'Update ad account',
+    action: 'Set ad account',
   }
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+// Update ad account
+/**
+* @param {string} artistId
+* @param {string} adAccountId
+* @returns {Promise<object>} { res, error }
+*/
+export const updateAdAccount = (artistId, adAccountId) => {
+  const requestUrl = `/artists/${artistId}/ad_account_update`
+  const payload = {
+    adAccountId,
+  }
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update ad account',
+  }
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+// Get background tasks
+/**
+* @param {string} artistId
+* @returns {Promise<object>} { res, error }
+*/
+export const getBackgroundTasks = (artistId) => {
+  const requestUrl = `/artists/${artistId}/background_tasks`
+  const payload = null
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Get background tasks',
+  }
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }
 
 // Update country code
@@ -424,17 +458,20 @@ export const updatePlatform = (artistId, platform) => {
 // Update completed setup at
 /**
 * @param {string} artistId
-* @param {string} platform
 * @returns {Promise<object>} { res, error }
 */
-export const completedSetupFlow = (artistId) => {
-  const requestUrl = `/artists/${artistId}/complete_setup_flow`
+export const updateCompletedSetupAt = (artistId) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    completed_setup_at: moment(),
+  }
 
   const errorTracking = {
     category: 'Artist',
-    action: 'Complete setup flow',
+    action: 'Update setup completed date',
   }
-  return api.requestWithCatch('post', requestUrl, null, errorTracking)
+
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
 export const getCallToAction = (objective, platform) => {
@@ -516,20 +553,20 @@ export const objectives = [
 
 export const platforms = [
   {
-    name: 'Spotify',
-    value: 'spotify',
+    name: 'Instagram',
+    value: 'instagram',
   },
   {
-    name: 'YouTube',
-    value: 'youtube',
+    name: 'Spotify',
+    value: 'spotify',
   },
   {
     name: 'SoundCloud',
     value: 'soundcloud',
   },
   {
-    name: 'Instagram',
-    value: 'instagram',
+    name: 'YouTube',
+    value: 'youtube',
   },
   {
     name: 'Facebook',

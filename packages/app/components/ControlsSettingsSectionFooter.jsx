@@ -9,8 +9,6 @@ import brandColors from '@/constants/brandColors'
 
 const ControlsSettingsSectionFooter = ({
   children,
-  top,
-  bottom,
   icon,
   color,
   copy,
@@ -24,7 +22,11 @@ const ControlsSettingsSectionFooter = ({
   const Icon = icons[icon]
 
   return (
-    <div className="absolute flex items-center mb-0" style={{ ...(top ? { top: `${top}px` } : { bottom: `${bottom}px` }) }}>
+    <div className={[
+      'flex items-center mb-0',
+      className,
+    ].join(' ')}
+    >
       <Icon
         fill={color}
         color={color}
@@ -33,7 +35,7 @@ const ControlsSettingsSectionFooter = ({
           icon === 'email' ? 'w-4' : 'w-3',
         ].join(' ')}
       />
-      {copy && <MarkdownText markdown={copy} className={[className, 'text-xs italic mb-0'].join(' ')} />}
+      {copy && <MarkdownText markdown={copy} className="text-xs italic mb-0" />}
       {children}
     </div>
   )
@@ -41,8 +43,6 @@ const ControlsSettingsSectionFooter = ({
 
 ControlsSettingsSectionFooter.propTypes = {
   children: PropTypes.node,
-  top: PropTypes.number,
-  bottom: PropTypes.number,
   icon: PropTypes.string,
   color: PropTypes.string,
   copy: PropTypes.string,
@@ -51,8 +51,6 @@ ControlsSettingsSectionFooter.propTypes = {
 
 ControlsSettingsSectionFooter.defaultProps = {
   children: null,
-  top: 0,
-  bottom: -26,
   icon: 'lightBulb',
   color: brandColors.instagram.bg,
   copy: '',

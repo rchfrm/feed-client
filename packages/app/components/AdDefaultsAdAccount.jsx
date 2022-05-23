@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import AdAccountSelector from '@/app/AdAccountSelector'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
+import AdAccountSelector from '@/app/AdAccountSelector'
 
 import { getArtistIntegrationByPlatform } from '@/app/helpers/artistHelpers'
 
 import brandColors from '@/constants/brandColors'
-
 import copy from '@/app/copy/controlsPageCopy'
 
-const AdDefaultsAdAccount = ({ className }) => {
+const AdDefaultsAdAccount = ({
+  className,
+}) => {
   const { artist } = React.useContext(ArtistContext)
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
 
@@ -30,13 +31,12 @@ const AdDefaultsAdAccount = ({ className }) => {
         setAdAccountId={setAdAccountId}
         shouldSaveOnChange
         className="mb-14"
-        disabled={artist?.hasSetUpProfile}
       />
       <ControlsSettingsSectionFooter
         icon="email"
         color={brandColors.green}
         copy={copy.facebookAdAccountFooter}
-        className="text-green"
+        className="-mt-12 text-green"
       />
     </div>
   )

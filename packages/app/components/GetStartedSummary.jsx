@@ -13,8 +13,8 @@ const GetStartedSummary = () => {
     Router.push({
       pathname: ROUTES.HOME,
       query: {
-        promotion_status: ['in_review'],
-        sort_by: 'published_time',
+        promotion_enabled: true,
+        sort_by: 'normalized_score',
       },
     })
   }

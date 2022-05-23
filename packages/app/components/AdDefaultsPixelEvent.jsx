@@ -40,7 +40,10 @@ const AdDefaultsPixelSelector = ({
         shouldSaveOnChange
         className="mb-14"
       />
-      <ControlsSettingsSectionFooter copy={copy.facebookPixelEventFooter} className="text-insta" />
+      <ControlsSettingsSectionFooter
+        copy={copy.facebookPixelEventFooter}
+        className="-mt-12 text-insta"
+      />
     </div>
   )
 }
