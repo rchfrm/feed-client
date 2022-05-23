@@ -11,6 +11,13 @@ const pricingTiers = [
     serviceFeePercentage: 0.1,
     features: [
       'Promote on Facebook & Instagram',
+      'Lookalikes and retargeting',
+      '100% automated campaign setup',
+      'Audience growth objectives',
+      'Promote posts and stories',
+      'Continuous A/B testing',
+      'One user and one profile*',
+      'Organic insights & benchmarks',
     ],
   },
   {
@@ -23,6 +30,13 @@ const pricingTiers = [
     serviceFeePercentage: 0,
     features: [
       'Everything in **Basic** plus...',
+      'Connect unlimited profiles*',
+      'Growth and website view objectives',
+      'Custom targeting locations',
+      'Prioritise a post for instant promotion',
+      'Edit individual ad text, links and CTA',
+      'Override automated post selection',
+      '£500 max monthly spend per profile*',
     ],
   },
   {
@@ -35,6 +49,11 @@ const pricingTiers = [
     serviceFeePercentage: 0,
     features: [
       'Everything in **Growth** plus...',
+      'Run sales ads (conversion ads)',
+      'Meta pixel based retargeting',
+      'Multiple objectives^',
+      'Clear reporting on return from ad spend',
+      '£2,000 max monthly spend per profile*',
     ],
   },
 ]

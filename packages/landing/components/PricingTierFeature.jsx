@@ -7,7 +7,7 @@ export default function PricingTierFeature({ feature, index }) {
   return (
     <div
       key={index}
-      className={['flex', 'items-center'].join(' ')}
+      className={['flex', 'items-center', 'pb-5'].join(' ')}
     >
       <TickIcon
         className={['h-4', 'w-auto', 'pr-2'].join(' ')}
