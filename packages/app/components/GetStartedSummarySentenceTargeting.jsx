@@ -22,7 +22,7 @@ const GetStartedSummarySentenceTargeting = () => {
     feedMinBudgetInfo: {
       currencyCode,
       majorUnit: {
-        minReccomendedStories,
+        minRecommendedStories,
       } = {},
     },
   } = artist
@@ -30,7 +30,7 @@ const GetStartedSummarySentenceTargeting = () => {
   const { budget, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
-  const isComplete = (!hasSalesObjective && Boolean(budget)) || (hasSalesObjective && budget >= minReccomendedStories)
+  const isComplete = (!hasSalesObjective && Boolean(budget)) || (hasSalesObjective && budget >= minRecommendedStories)
 
   return (
     <GetStartedSummarySentenceSection

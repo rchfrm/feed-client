@@ -44,7 +44,7 @@ const useCheckProfileSetupStatus = () => {
   const {
     feedMinBudgetInfo: {
       majorUnit: {
-        minReccomendedStories,
+        minRecommendedStories,
       } = {},
     },
     daily_budget: dailyBudget,
@@ -53,7 +53,7 @@ const useCheckProfileSetupStatus = () => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
   const facebookPixelId = facebookIntegration?.pixel_id
-  const hasSufficientBudget = (!hasSalesObjective && Boolean(dailyBudget)) || (hasSalesObjective && dailyBudget >= minReccomendedStories)
+  const hasSufficientBudget = (!hasSalesObjective && Boolean(dailyBudget)) || (hasSalesObjective && dailyBudget >= minRecommendedStories)
 
   // Get user context value
   const { user } = React.useContext(UserContext)

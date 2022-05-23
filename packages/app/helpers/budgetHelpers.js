@@ -13,8 +13,8 @@ const triggerBudgetError = ({ errorMessage, value, currencyCode }) => {
 const checkBudgetError = ({
   minBaseUnrounded,
   minHard,
-  minReccomendedBase,
-  minReccomendedStories,
+  minRecommendedBase,
+  minRecommendedStories,
   currencyCode,
 }) => {
   // Check minHard error
@@ -22,12 +22,12 @@ const checkBudgetError = ({
     return { errorMessage: 'minHard Error', value: minHard / minBaseUnrounded, currencyCode }
   }
   // Check minBase error
-  if (((minReccomendedBase / minBaseUnrounded) < 3) || ((minReccomendedBase / minBaseUnrounded) > 4)) {
-    return { errorMessage: 'minReccomendedBase Error', value: minReccomendedBase / minBaseUnrounded, currencyCode }
+  if (((minRecommendedBase / minBaseUnrounded) < 3) || ((minRecommendedBase / minBaseUnrounded) > 4)) {
+    return { errorMessage: 'minRecommendedBase Error', value: minRecommendedBase / minBaseUnrounded, currencyCode }
   }
   // Check minStories error
-  if (((minReccomendedStories / minBaseUnrounded) < 5) || ((minReccomendedStories / minBaseUnrounded) > 7)) {
-    return { errorMessage: 'minReccomendedStories Error', value: minReccomendedStories / minBaseUnrounded, currencyCode }
+  if (((minRecommendedStories / minBaseUnrounded) < 5) || ((minRecommendedStories / minBaseUnrounded) > 7)) {
+    return { errorMessage: 'minRecommendedStories Error', value: minRecommendedStories / minBaseUnrounded, currencyCode }
   }
   // No errors
   return null
@@ -71,8 +71,8 @@ export const calcFeedMinBudgetInfo = (artist) => {
   const minBaseUnrounded = calcFbMinMultiple(1, false)
   const minBase = calcFbMinMultiple(1)
   const minHard = Math.min(calcFbMinMultiple(2), minBase * 2)
-  const minReccomendedBase = Math.min(calcFbMinMultiple(3), minBase * 3)
-  const minReccomendedStories = Math.min(calcFbMinMultiple(5), minBase * 5)
+  const minRecommendedBase = Math.min(calcFbMinMultiple(3), minBase * 3)
+  const minRecommendedStories = Math.min(calcFbMinMultiple(5), minBase * 5)
   const extraCountryCost = minBase
   const extraCityCost = minBase / 4
   // The values in the smallest currency unit (eg pence)
@@ -80,8 +80,8 @@ export const calcFeedMinBudgetInfo = (artist) => {
     minBaseUnrounded,
     minBase,
     minHard,
-    minReccomendedBase,
-    minReccomendedStories,
+    minRecommendedBase,
+    minRecommendedStories,
     extraCountryCost,
     extraCityCost,
   }
@@ -90,8 +90,8 @@ export const calcFeedMinBudgetInfo = (artist) => {
     minBaseUnrounded: minBaseUnrounded / currencyOffset,
     minBase: minBase / currencyOffset,
     minHard: minHard / currencyOffset,
-    minReccomendedBase: minReccomendedBase / currencyOffset,
-    minReccomendedStories: minReccomendedStories / currencyOffset,
+    minRecommendedBase: minRecommendedBase / currencyOffset,
+    minRecommendedStories: minRecommendedStories / currencyOffset,
     extraCountryCost: extraCountryCost / currencyOffset,
     extraCityCost: extraCityCost / currencyOffset,
   }
@@ -100,8 +100,8 @@ export const calcFeedMinBudgetInfo = (artist) => {
     minBaseUnrounded: utils.formatCurrency(majorUnit.minBaseUnrounded, currencyCode),
     minBase: utils.formatCurrency(majorUnit.minBase, currencyCode),
     minHard: utils.formatCurrency(majorUnit.minHard, currencyCode),
-    minReccomendedBase: utils.formatCurrency(majorUnit.minReccomendedBase, currencyCode),
-    minReccomendedStories: utils.formatCurrency(majorUnit.minReccomendedStories, currencyCode),
+    minRecommendedBase: utils.formatCurrency(majorUnit.minRecommendedBase, currencyCode),
+    minRecommendedStories: utils.formatCurrency(majorUnit.minRecommendedStories, currencyCode),
     extraCountryCost: utils.formatCurrency(majorUnit.extraCountryCost, currencyCode),
     extraCityCost: utils.formatCurrency(majorUnit.extraCityCost, currencyCode),
   }
@@ -110,8 +110,8 @@ export const calcFeedMinBudgetInfo = (artist) => {
   const budgetError = checkBudgetError({
     minBaseUnrounded,
     minHard,
-    minReccomendedBase,
-    minReccomendedStories,
+    minRecommendedBase,
+    minRecommendedStories,
     currencyCode,
   })
   // Trigger error in Sentry (if there is one)
@@ -172,9 +172,9 @@ export const calcLocationsCost = (budgetInfo, locationOptions) => {
 export const calcMinReccBudget = (budgetInfo, locationOptions) => {
   if (!Object.keys(budgetInfo).length || !Object.keys(locationOptions).length) return null
 
-  const { minorUnit: { minReccomendedBase } } = budgetInfo
+  const { minorUnit: { minRecommendedBase } } = budgetInfo
   const locationCost = calcLocationsCost(budgetInfo, locationOptions)
-  const totalMinRecc = minReccomendedBase + locationCost
+  const totalMinRecc = minRecommendedBase + locationCost
   return totalMinRecc
 }
 
