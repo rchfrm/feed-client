@@ -51,6 +51,7 @@ const TargetingBudgetBox = ({
         },
       } = {},
       hasSetUpProfile,
+      dailySpendData,
     },
   } = React.useContext(ArtistContext)
 
@@ -95,6 +96,7 @@ const TargetingBudgetBox = ({
               togglePauseCampaign={togglePauseCampaign}
               isPaused={!targetingState.status}
               isDisabled={!hasSetUpProfile}
+              dailySpendData={dailySpendData}
               className={!isDesktopLayout ? 'mr-12' : null}
             />
           </div>

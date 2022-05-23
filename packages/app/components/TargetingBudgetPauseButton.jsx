@@ -11,16 +11,25 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import brandColors from '@/constants/brandColors'
 
 import * as utils from '@/helpers/utils'
+import { getSpendingData } from '@/app/helpers/targetingHelpers'
 
 const TargetingBudgetSpendingButton = ({
   togglePauseCampaign,
   isPaused,
   isDisabled,
+  dailySpendData,
   className,
 }) => {
+  const { hasSpentConsecutivelyLessThan30Days, daysOfSpending } = getSpendingData(dailySpendData)
   const { targetingState } = React.useContext(TargetingContext)
   // GOT TOGGLE FUNCTION
-  const togglePause = useSaveTargeting({ spendingPaused: isPaused, togglePauseCampaign, targetingState })
+  const togglePause = useSaveTargeting({
+    spendingPaused: isPaused,
+    togglePauseCampaign,
+    hasSpentConsecutivelyLessThan30Days,
+    daysOfSpending,
+    targetingState,
+  })
   const action = isPaused ? 'resume' : 'pause'
   const backgroundClasses = isPaused ? 'bg-green button--green' : 'bg-red button--red'
   const icons = {
@@ -52,6 +61,8 @@ const TargetingBudgetSpendingButton = ({
 TargetingBudgetSpendingButton.propTypes = {
   togglePauseCampaign: PropTypes.func.isRequired,
   isPaused: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  dailySpendData: PropTypes.object.isRequired,
 }
 
 TargetingBudgetSpendingButton.defaultProps = {

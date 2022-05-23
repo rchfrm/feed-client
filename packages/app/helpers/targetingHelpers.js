@@ -312,3 +312,26 @@ export const getGeoLocations = (query) => {
 
   return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }
+
+export const getSpendingData = (dailyData) => {
+  const daysOfSpending = Object.keys(dailyData).length
+  const data = {
+    hasSpentConsecutivelyLessThan30Days: false,
+    daysOfSpending,
+  }
+
+  if (daysOfSpending >= 30) {
+    return data
+  }
+
+  const hasSpentConsecutively = Object.values(dailyData).every(value => value)
+
+  if (!hasSpentConsecutively) {
+    return data
+  }
+
+  return {
+    ...data,
+    hasSpentConsecutivelyLessThan30Days: true,
+  }
+}

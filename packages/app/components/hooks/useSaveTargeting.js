@@ -1,12 +1,17 @@
 import React from 'react'
 
 import useAlertModal from '@/hooks/useAlertModal'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import copy from '@/app/copy/targetingPageCopy'
 import { track } from '@/helpers/trackingHelpers'
 import { trackGoogleBudgetSet } from 'shared/helpers/trackGoogleHelpers'
+
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
 
 const getWarningButtons = ({
   warningType,
@@ -27,7 +32,22 @@ const getWarningButtons = ({
       {
         text: 'Cancel',
         onClick: closeAlert,
-        color: 'balck',
+        color: 'black',
+      },
+    ]
+  }
+
+  if (warningType === 'pausedWithShortSpendingPeriod') {
+    return [
+      {
+        text: 'Pause Spending',
+        onClick: onConfirm,
+        color: 'red',
+      },
+      {
+        text: 'Cancel',
+        onClick: closeAlert,
+        color: 'black',
       },
     ]
   }
@@ -82,10 +102,24 @@ const useSaveTargeting = ({
   togglePauseCampaign = null,
   spendingPaused,
   isFirstTimeUser = false,
+  hasSpentConsecutivelyLessThan30Days = false,
+  daysOfSpending,
 }) => {
   // GET ARTIST CONTEXT
   const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
-  const { currencyCode, currencyOffset } = feedMinBudgetInfo
+  const {
+    currencyCode,
+    currencyOffset,
+    minorUnit: {
+      minHard,
+      minReccommendedStories,
+    },
+  } = feedMinBudgetInfo
+
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
+  const hasSalesObjective = objective === 'sales'
+
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
   // SAVE FUNCTION
@@ -93,6 +127,7 @@ const useSaveTargeting = ({
     const { status } = targetingState
     const isPaused = status === 0
     const savedState = newState || targetingState
+
     // If first time user, UNPAUSE and SET SETTINGS with no warning
     if (isFirstTimeUser) {
       const unpausedTargetingState = {
@@ -107,6 +142,32 @@ const useSaveTargeting = ({
       trackGoogleBudgetSet()
       return saveTargetingSettings(unpausedTargetingState)
     }
+
+    // Warn about recommended minimum period of spending
+    if (togglePauseCampaign && !isPaused && hasSpentConsecutivelyLessThan30Days) {
+      const hasMinimumBudget = (!hasSalesObjective && targetingState.budget === minHard) || (hasSalesObjective && targetingState.budget === minReccommendedStories)
+      const alertCopy = copy.shortSpendingPeriodWarning(daysOfSpending, hasMinimumBudget)
+
+      const buttons = getWarningButtons({
+        warningType: 'pausedWithShortSpendingPeriod',
+        onConfirm: () => {
+          // Toggle pause
+          togglePauseCampaign()
+
+          // Track
+          const action = 'pause_spending'
+          track(action, {
+            budget: savedState.budget,
+            currencyCode,
+          })
+        },
+        closeAlert,
+      })
+
+      showAlert({ copy: alertCopy, buttons })
+      return
+    }
+
     // Warn about toggling paused
     if (togglePauseCampaign) {
       const alertCopy = copy.togglePauseWarning(spendingPaused)
@@ -129,6 +190,7 @@ const useSaveTargeting = ({
       showAlert({ copy: alertCopy, buttons })
       return
     }
+
     // Warn about updating settings when paused
     if (isPaused && trigger === 'settings') {
       const alertCopy = copy.saveWhenPausedCopy
@@ -141,9 +203,11 @@ const useSaveTargeting = ({
       showAlert({ copy: alertCopy, buttons })
       return
     }
+
     const { budget: oldBudget } = initialTargetingState
     const { budget: newBudget } = savedState
     const budgetChangeDirection = oldBudget > newBudget ? 'decrease' : 'increase'
+
     // Confirm changing settings
     if (trigger === 'settings') {
       const alertCopy = copy.saveSettingsConfirmation
@@ -170,6 +234,7 @@ const useSaveTargeting = ({
       showAlert({ copy: alertCopy, buttons })
       return
     }
+
     // TRACK BUDGET CHANGE
     if (trigger === 'budget') {
       track('set_daily_budget', {
@@ -178,6 +243,7 @@ const useSaveTargeting = ({
         direction: budgetChangeDirection,
       })
     }
+
     // Basic save (eg when just changing budget)
     return saveTargetingSettings(savedState)
   }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser, feedMinBudgetInfo])
