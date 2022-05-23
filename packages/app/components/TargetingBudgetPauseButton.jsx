@@ -6,28 +6,31 @@ import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import PlayIcon from '@/icons/PlayIcon'
 import PauseIcon from '@/icons/PauseIcon'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import brandColors from '@/constants/brandColors'
 
-import * as utils from '@/helpers/utils'
+import { getDataSourceValue } from '@/app/helpers/appServer'
 import { getSpendingData } from '@/app/helpers/targetingHelpers'
+import * as utils from '@/helpers/utils'
 
 const TargetingBudgetSpendingButton = ({
   togglePauseCampaign,
   isPaused,
   isDisabled,
-  dailySpendData,
   className,
 }) => {
-  const { hasSpentConsecutivelyLessThan30Days, daysOfSpending } = getSpendingData(dailySpendData)
+  const [spendingData, setSpendingData] = React.useState(null)
+
   const { targetingState } = React.useContext(TargetingContext)
+  const { artistId } = React.useContext(ArtistContext)
+
   // GOT TOGGLE FUNCTION
   const togglePause = useSaveTargeting({
     spendingPaused: isPaused,
     togglePauseCampaign,
-    hasSpentConsecutivelyLessThan30Days,
-    daysOfSpending,
+    spendingData,
     targetingState,
   })
   const action = isPaused ? 'resume' : 'pause'
@@ -37,6 +40,27 @@ const TargetingBudgetSpendingButton = ({
     resume: <PlayIcon color={brandColors.white} className="w-3 h-auto mr-2" />,
   }
   const Icon = icons[action]
+
+  const onClick = async () => {
+    // Only get ad spend data if pausing daily budget
+    if (!isPaused) {
+      const dataSource = 'facebook_ad_spend_feed'
+      const response = await getDataSourceValue([dataSource], artistId)
+      const dailySpendData = response[dataSource]?.daily_data
+      const spendingData = getSpendingData(dailySpendData)
+
+      setSpendingData(spendingData)
+    }
+    togglePause()
+  }
+
+  React.useEffect(() => {
+    if (spendingData) {
+      togglePause()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spendingData])
+
   return (
     <a
       className={[
@@ -50,7 +74,7 @@ const TargetingBudgetSpendingButton = ({
       ].join(' ')}
       style={{ paddingBottom: '0.3rem' }}
       role="button"
-      onClick={togglePause}
+      onClick={onClick}
     >
       {Icon}
       {utils.capitalise(action)}
@@ -62,7 +86,6 @@ TargetingBudgetSpendingButton.propTypes = {
   togglePauseCampaign: PropTypes.func.isRequired,
   isPaused: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-  dailySpendData: PropTypes.object.isRequired,
 }
 
 TargetingBudgetSpendingButton.defaultProps = {

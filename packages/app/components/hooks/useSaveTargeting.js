@@ -102,8 +102,7 @@ const useSaveTargeting = ({
   togglePauseCampaign = null,
   spendingPaused,
   isFirstTimeUser = false,
-  hasSpentConsecutivelyLessThan30Days = false,
-  daysOfSpending,
+  spendingData = {},
 }) => {
   // GET ARTIST CONTEXT
   const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
@@ -116,6 +115,7 @@ const useSaveTargeting = ({
     },
   } = feedMinBudgetInfo
 
+  const { hasSpentConsecutivelyLessThan30Days, daysOfSpending } = spendingData || {}
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'

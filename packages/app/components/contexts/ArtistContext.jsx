@@ -15,7 +15,6 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { calcFeedMinBudgetInfo } from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
 import { trackGoogleProfileCreated } from 'shared/helpers/trackGoogleHelpers'
-import { getDataSourceValue } from '@/app/helpers/appServer'
 
 const updateIsControlsLoading = state => state.setIsControlsLoading
 
@@ -38,7 +37,6 @@ const initialArtistState = {
   missingDefaultLink: true,
   isMusician: false,
   hasSetUpProfile: false,
-  dailySpendData: {},
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -148,10 +146,6 @@ function ArtistProvider({ children }) {
     // Get completed setup at
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
-    const dataSource = 'facebook_ad_spend_feed'
-    const response = await getDataSourceValue([dataSource], artist.id)
-    const dailySpendData = response[dataSource]?.daily_data
-
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
@@ -161,7 +155,6 @@ function ArtistProvider({ children }) {
       artistDraft.feedMinBudgetInfo = feedMinBudgetInfo || {}
       artistDraft.isSpendingPaused = isSpendingPaused
       artistDraft.hasSetUpProfile = hasSetUpProfile
-      artistDraft.dailySpendData = dailySpendData
     })
 
     // Set hasBudget state
