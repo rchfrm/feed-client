@@ -80,32 +80,42 @@ export const sortTypes = [
 
 export const filters = ['promotion_status', 'platform', 'internal_type', 'promotion_enabled']
 
+export const promotionStatusSlugs = {
+  active: 'active',
+  inReview: 'in_review',
+  inActive: 'archived',
+  rejected: 'rejected',
+  notRun: 'inactive',
+}
+
+export const promotionStatus = [
+  {
+    slug: promotionStatusSlugs.active,
+    title: 'Running',
+  },
+  {
+    slug: promotionStatusSlugs.inReview,
+    title: 'In Review',
+  },
+  {
+    slug: promotionStatusSlugs.inActive,
+    title: 'Inactive',
+  },
+  {
+    slug: promotionStatusSlugs.rejected,
+    title: 'Rejected',
+  },
+  {
+    slug: promotionStatusSlugs.notRun,
+    title: 'Not Run',
+  },
+]
+
 export const filterTypes = [
   {
     slug: 'promotion_status',
     title: 'Status',
-    options: [
-      {
-        slug: 'active',
-        title: 'Running',
-      },
-      {
-        slug: 'in_review',
-        title: 'In Review',
-      },
-      {
-        slug: 'archived',
-        title: 'Inactive',
-      },
-      {
-        slug: 'rejected',
-        title: 'Rejected',
-      },
-      {
-        slug: 'inactive',
-        title: 'Not Run',
-      },
-    ],
+    options: promotionStatus,
   },
   {
     slug: 'platform',
@@ -298,6 +308,22 @@ export const getPostAdMessageData = (post) => {
   return { id, message, campaignType }
 }
 
+// Get ad preview links
+const getAdPreviewLinks = (post) => {
+  if (!post?.ads) return null
+
+  const sortedAds = Object.values(post.ads).sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+
+  return sortedAds.reduce((result, ad) => {
+    return {
+      ...result,
+      ...(ad.adset_identifier.includes('engage') && ad.preview_shareable_link ? { engage: ad.preview_shareable_link } : null),
+      ...(ad.adset_identifier.includes('traffic') && ad.preview_shareable_link ? { nurture: ad.preview_shareable_link } : null),
+      ...(ad.adset_identifier.includes('conversions') && ad.preview_shareable_link ? { sales: ad.preview_shareable_link } : null),
+    }
+  }, {})
+}
+
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
@@ -359,6 +385,8 @@ export const formatPostsResponse = (posts) => {
       offPlatformConversions: post.promotion_eligibility.off_platform_conversions,
       remindConversions: post.promotion_eligibility.remind_conversions,
     }
+    // Ad preview links
+    const adPreviewLinks = getAdPreviewLinks(post)
     return {
       id: post.id,
       postType: post.subtype || post.type,
@@ -372,6 +400,7 @@ export const formatPostsResponse = (posts) => {
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
       promotionEligibility,
+      adPreviewLinks,
       linkSpecs,
       message,
       adMessageProps: post.ad_message,

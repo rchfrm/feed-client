@@ -38,5 +38,4 @@ PauseIcon.defaultProps = {
   style: null,
 }
 
-
 export default PauseIcon

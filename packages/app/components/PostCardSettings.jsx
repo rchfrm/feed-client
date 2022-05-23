@@ -9,11 +9,14 @@ import MarkdownText from '@/elements/MarkdownText'
 import AdSettingsSection from '@/app/AdSettingsSection'
 import PostCardSettingsTabs from '@/app/PostCardSettingsTabs'
 import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
+import PostCardSettingsPromotionStatus from '@/app/PostCardSettingsPromotionStatus'
+import PostCardSettingsPreview from '@/app/PostCardSettingsPreview'
 import PostCardSettingsLink from '@/app/PostCardSettingsLink'
 import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
 
 import * as ROUTES from '@/app/constants/routes'
+import { promotionStatusSlugs } from '@/app/helpers/postsHelpers'
 
 import sidePanelStyles from '@/app/SidePanel.module.css'
 
@@ -54,6 +57,7 @@ const PostCardSettings = ({
     callToActions,
     id: postId,
     priorityEnabled,
+    adPreviewLinks,
   } = post
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
@@ -89,6 +93,11 @@ const PostCardSettings = ({
     Router.push(ROUTES.CONTROLS_ADS)
   }
 
+  const { sales: salesPreviewLink, ...growAndNurturePreviewLinks } = adPreviewLinks || {}
+  const hasPreviewLinkForSelectedCampaignType = (campaignType === 'all' && Object.keys(growAndNurturePreviewLinks).length > 0) || (campaignType === 'conversions' && salesPreviewLink)
+  const { active, inReview, rejected } = promotionStatusSlugs
+  const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus) && hasPreviewLinkForSelectedCampaignType
+
   return (
     <div
       className={[
@@ -122,18 +131,30 @@ const PostCardSettings = ({
           <Error error={error} />
           {/* SETTINGS SECTION */}
           {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
-          <PostCardSettingsToggle
-            post={post}
-            postId={postId}
-            postToggleSetterType={postToggleSetterType}
-            campaignType={campaignType}
-            artistId={artistId}
-            toggleCampaign={toggleCampaign}
-            isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
-            setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-            isDisabled={isToggleDisabled}
-            showAlertModal={isConversionsCampaign && (!canRunConversions)}
-          />
+          <div className="flex">
+            <PostCardSettingsToggle
+              post={post}
+              postId={postId}
+              postToggleSetterType={postToggleSetterType}
+              campaignType={campaignType}
+              artistId={artistId}
+              toggleCampaign={toggleCampaign}
+              isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
+              setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
+              isDisabled={isToggleDisabled}
+              showAlertModal={isConversionsCampaign && (!canRunConversions)}
+            />
+            <PostCardSettingsPromotionStatus
+              promotionEnabled={promotionEnabled}
+              promotionStatus={promotionStatus}
+            />
+          </div>
+          {shouldShowPreview && (
+            <PostCardSettingsPreview
+              previewLinks={adPreviewLinks}
+              campaignType={campaignType}
+            />
+          )}
           <AdSettingsSection
             header="Link"
             copy={copy.postLinkSetting}
