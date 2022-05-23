@@ -7,76 +7,16 @@ import Input from '@/elements/Input'
 import { formatCurrency } from '@/landing/helpers/utils'
 
 export default function PricingPage() {
-  const [dailyBudget, setDailyBudget] = React.useState(5)
-  const handleChange = e => {
-    const { target: { value } } = e
-    if (value < 0) return
-    const numberValue = Math.round(Number(value))
-    setDailyBudget(numberValue)
-  }
+  const [period, setPeriod] = React.useState('monthly')
 
   const {
     titlePartA,
     titlePartB,
-    description,
-    budgetInput,
   } = pricingPageCopy
 
   return (
     <Section>
       <HeroStrapLine partA={titlePartA} partB={titlePartB} />
-      <MarkdownText
-        className={[
-          'col-start-1',
-          'col-span-12',
-          'sm:col-start-2',
-          'sm:col-span-11',
-          'lg:col-start-3',
-          'lg:col-span-9',
-          'h4',
-          'pb-10',
-        ].join(' ')}
-        markdown={description}
-      />
-      <MarkdownText
-        className={[
-          'col-start-1',
-          'col-span-12',
-          'sm:col-start-3',
-          'sm:col-span-8',
-          'lg:col-start-4',
-          'lg:col-span-6',
-        ].join(' ')}
-        markdown={budgetInput}
-      />
-      <Input
-        className={[
-          'col-start-1',
-          'col-span-12',
-          'sm:col-start-3',
-          'sm:col-span-8',
-          'lg:col-start-4',
-          'lg:col-span-6',
-        ].join(' ')}
-        name="budget"
-        value={dailyBudget.toString()}
-        handleChange={handleChange}
-        type="number"
-        prefix="£"
-      />
-      <MarkdownText
-        className={[
-          'h2',
-          'font-normal',
-          'col-start-1',
-          'col-span-12',
-          'sm:col-start-3',
-          'sm:col-span-8',
-          'lg:col-start-4',
-          'lg:col-span-6',
-        ].join(' ')}
-        markdown={`Each month you will spend <strong>${formatCurrency(dailyBudget * 30, 'GBP', true)}</strong> in total:`}
-      />
     </Section>
   )
 }
