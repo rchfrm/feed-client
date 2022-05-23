@@ -13,7 +13,16 @@ export default function PricingTier({ tier }) {
     features,
   } = tier
   return (
-    <div key={name}>
+    <div
+      key={name}
+      className={[
+        'border-black',
+        'border-3',
+        'border-solid',
+        'rounded-dialogue',
+        'p-5',
+      ].join(' ')}
+    >
       <h2>{name}</h2>
       <MarkdownText markdown={description} />
       <PricingTierMonthlyCost amount={monthlyCost.GBP} />
