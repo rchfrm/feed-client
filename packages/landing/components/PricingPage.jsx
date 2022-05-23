@@ -4,7 +4,6 @@ import HeroStrapLine from '@/landing/HeroStrapLine'
 import MarkdownText from '@/elements/MarkdownText'
 import pricingPageCopy from '@/landing/copy/PricingPageCopy'
 import Input from '@/elements/Input'
-import PricingPageSpendCircles from '@/landing/PricingPageSpendCircles'
 import { formatCurrency } from '@/landing/helpers/utils'
 
 export default function PricingPage() {
@@ -17,24 +16,15 @@ export default function PricingPage() {
   }
 
   const {
-    title,
+    titlePartA,
+    titlePartB,
     description,
     budgetInput,
   } = pricingPageCopy
-  const pageTitle = (
-    <MarkdownText
-      className={[
-        'border-b-3',
-        'border-green',
-        'border-solid',
-        'inline-block',
-      ].join(' ')}
-      markdown={title}
-    />
-  )
+
   return (
     <Section>
-      <HeroStrapLine partA={pageTitle} />
+      <HeroStrapLine partA={titlePartA} partB={titlePartB} />
       <MarkdownText
         className={[
           'col-start-1',
@@ -86,9 +76,6 @@ export default function PricingPage() {
           'lg:col-span-6',
         ].join(' ')}
         markdown={`Each month you will spend <strong>${formatCurrency(dailyBudget * 30, 'GBP', true)}</strong> in total:`}
-      />
-      <PricingPageSpendCircles
-        monthlyBudget={dailyBudget * 30}
       />
     </Section>
   )

@@ -10,8 +10,8 @@ export default function HeroStrapLine({ partA, partB }) {
         'pb-10',
       ].join(' ')}
     >
-      {partA && <h1 className={['mb-0', 'font-normal'].join(' ')}>{partA}</h1>}
-      {partB && <h2 className={['border-b-3', 'border-green', 'border-solid', 'inline-block'].join(' ')}><strong>{partB}</strong></h2>}
+      {partA && <h1 className={['mb-0', 'font-normal', 'leading-tight'].join(' ')}>{partA}</h1>}
+      {partB && <h2 className={['border-b-3', 'border-green', 'border-solid', 'inline', 'leading-tight'].join(' ')}><strong>{partB}</strong></h2>}
     </div>
   )
 }
