@@ -3,6 +3,12 @@ import PropTypes from 'prop-types'
 import PricingTierMonthlyCost from '@/landing/PricingTierMonthlyCost'
 import PricingTierServiceFee from '@/landing/PricingTierServiceFee'
 import PricingTierFeatures from '@/landing/PricingTierFeatures'
+import PrimaryCTA from '@/landing/PrimaryCTA'
+import Button from '@/elements/Button'
+import brandColors from '@/constants/brandColors'
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import React from 'react'
+import TryFeed from '@/landing/TryFeed'
 
 export default function PricingTier({ tier }) {
   const {
@@ -27,6 +33,11 @@ export default function PricingTier({ tier }) {
       <MarkdownText markdown={description} />
       <PricingTierMonthlyCost amount={monthlyCost.GBP} />
       <PricingTierServiceFee percentage={serviceFeePercentage} />
+      <TryFeed
+        buttonText="Get Started"
+        className={['w-full', 'mb-5'].join(' ')}
+        trackLocation={`PricingTier${name}`}
+      />
       <PricingTierFeatures features={features} />
     </div>
   )
