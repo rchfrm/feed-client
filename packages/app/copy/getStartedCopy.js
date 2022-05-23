@@ -97,6 +97,8 @@ export default {
   locationDescription: 'This location will be set as your home country.',
   budgetSubtitle: 'What is your daily budget for advertising?',
   budgetDescription: 'You can change this at any time. We recommend running ads for at least 4-6 weeks to get an idea of the impact Feed can have.',
+  paymentMethodSubtitle: 'Payment method subtitle',
+  paymentMethodDescription: 'Payment method description',
   budgetFooter: (minBaseUnrounded, currency) => {
     const lowestMultiplier = 3.7
     const highestMultiplier = 8.8

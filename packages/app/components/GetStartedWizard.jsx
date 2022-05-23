@@ -21,6 +21,7 @@ import GetStartedAdAccount from '@/app/GetStartedAdAccount'
 import GetStartedFacebookPixel from '@/app/GetStartedFacebookPixel'
 import GetStartedLocation from '@/app/GetStartedLocation'
 import GetStartedDailyBudget from '@/app/GetStartedDailyBudget'
+import GetStartedPaymentMethod from '@/app/GetStartedPaymentMethod'
 import GetStartedSummary from '@/app/GetStartedSummary'
 import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
@@ -141,6 +142,13 @@ const GetStartedWizard = () => {
     },
     {
       id: 10,
+      name: profileStatus.paymentMethod,
+      title: 'Payment method',
+      section: getStartedSections.targeting,
+      component: <GetStartedPaymentMethod />,
+    },
+    {
+      id: 11,
       title: '',
       component: <GetStartedSummary />,
     },

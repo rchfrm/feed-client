@@ -103,6 +103,10 @@ const useCheckProfileSetupStatus = () => {
       name: profileStatus.budget,
       isComplete: hasSufficientBudget,
     },
+    {
+      name: profileStatus.paymentMethod,
+      isComplete: false,
+    },
   ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
