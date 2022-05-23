@@ -22,7 +22,7 @@ const pricingTiers = [
     },
     serviceFeePercentage: 0,
     features: [
-      'Everything in *Basic* plus...',
+      'Everything in **Basic** plus...',
     ],
   },
   {
@@ -34,7 +34,7 @@ const pricingTiers = [
     },
     serviceFeePercentage: 0,
     features: [
-      'Everything in *Growth* plus...',
+      'Everything in **Growth** plus...',
     ],
   },
 ]
