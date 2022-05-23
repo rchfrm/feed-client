@@ -11,6 +11,7 @@ export default function PricingTierMonthlyCost({ amount, currency }) {
       className={[
         'flex',
         'items-center',
+        amount === 0 && 'text-grey-3',
       ].join(' ')}
     >
       <p
