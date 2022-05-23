@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 // Next plugins
 const withPlugins = require('next-compose-plugins')
 const withOffline = require('next-offline')
@@ -22,7 +23,6 @@ const withTM = require('next-transpile-modules')([sharedPath])
 
 // LOAD GLOBAL DATA FROM DATO
 const globalDataDir = path.resolve(process.cwd(), 'tempGlobalData')
-const fs = require('fs')
 const getDatoData = require('../shared/helpers/getDatoData')
 const getQuery = require('./graphQl/globalDataQuery')
 
