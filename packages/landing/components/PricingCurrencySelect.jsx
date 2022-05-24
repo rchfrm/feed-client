@@ -16,7 +16,25 @@ export default function PricingCurrencySelect({ currency, setCurrency }) {
   ]
 
   return (
-    <Select selectedValue={currency} handleChange={handleChange} name="PricingCurrencySelect" options={options} />
+    <div
+      className={[
+        'flex',
+        'justify-end',
+      ].join(' ')}
+    >
+      <Select
+        selectedValue={currency}
+        handleChange={handleChange}
+        name="PricingCurrencySelect"
+        options={options}
+        version="small"
+        className={[
+          'w-full',
+          'm-w-100',
+          'mb-0',
+        ].join(' ')}
+      />
+    </div>
   )
 }
 

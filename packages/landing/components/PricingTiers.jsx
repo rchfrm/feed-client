@@ -3,6 +3,7 @@ import PricingTiersWrapper from '@/landing/PricingTiersWrapper'
 import PricingPeriodToggle from '@/landing/PricingPeriodToggle'
 import React from 'react'
 import PricingCurrencySelect from '@/landing/PricingCurrencySelect'
+import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 
 const pricingTiers = [
   {
@@ -71,8 +72,20 @@ export default function PricingTiers() {
         'col-span-12',
       ].join(' ')}
     >
-      <PricingCurrencySelect currency={currency} setCurrency={setCurrency} />
-      <PricingPeriodToggle showAnnualPricing={showAnnualPricing} setShowAnnualPricing={setShowAnnualPricing} />
+      <div
+        className={[
+          'grid',
+          'gap-x-2',
+          'mb-5',
+          'items-center',
+        ].join(' ')}
+        style={{
+          gridTemplateColumns: '80px 1fr auto 1fr 80px',
+        }}
+      >
+        <PricingCurrencySelect currency={currency} setCurrency={setCurrency} />
+        <PricingPeriodToggle showAnnualPricing={showAnnualPricing} setShowAnnualPricing={setShowAnnualPricing} />
+      </div>
       <PricingTiersWrapper tiers={pricingTiers} showAnnualPricing={showAnnualPricing} currency={currency} />
       <ManagedTier currency={currency} />
     </div>

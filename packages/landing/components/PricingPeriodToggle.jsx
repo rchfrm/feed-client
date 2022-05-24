@@ -7,19 +7,14 @@ export default function PricingPeriodToggle({ showAnnualPricing, setShowAnnualPr
   const handlePillClick = () => setShowAnnualPricing(true)
 
   return (
-    <div
-      className={[
-        'grid',
-        'gap-x-4',
-        'mb-5',
-        'items-center',
-      ].join(' ')}
-      style={{
-        gridTemplateColumns: '1fr auto 1fr',
-      }}
-    >
+    <>
       <p
         className={[
+          'row-start-2',
+          'col-span-2',
+          'xxs:row-start-1',
+          'xxs:col-span-1',
+          'xxs:col-start-2',
           !showAnnualPricing && 'bold',
           'mb-0',
           'text-right',
@@ -31,9 +26,18 @@ export default function PricingPeriodToggle({ showAnnualPricing, setShowAnnualPr
         onChange={handleToggle}
         state={showAnnualPricing}
         offColour="bg-green"
+        className={[
+          'row-start-2',
+          'col-start-3',
+          'xxs:row-start-1',
+        ].join(' ')}
       />
       <p
         className={[
+          'row-start-2',
+          'col-start-4',
+          'col-span-2',
+          'xxs:row-start-1',
           showAnnualPricing && 'bold',
           'mb-0',
         ].join(' ')}
@@ -43,7 +47,8 @@ export default function PricingPeriodToggle({ showAnnualPricing, setShowAnnualPr
       <ButtonPill
         className={[
           'small--p',
-          'col-start-3',
+          'row-start-3',
+          'col-start-4',
           'bold',
           'bg-insta',
           'border-insta',
@@ -54,7 +59,7 @@ export default function PricingPeriodToggle({ showAnnualPricing, setShowAnnualPr
       >
         -20%
       </ButtonPill>
-    </div>
+    </>
   )
 }
 
