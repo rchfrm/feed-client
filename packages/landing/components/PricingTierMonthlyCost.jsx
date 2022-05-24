@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 
 const currencySymbols = {
   GBP: '£',
+  USD: '$',
 }
 
 export default function PricingTierMonthlyCost({ amount, currency, showAnnualPricing }) {
@@ -43,10 +44,11 @@ export default function PricingTierMonthlyCost({ amount, currency, showAnnualPri
 
 PricingTierMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
-  currency: PropTypes.oneOf(Object.keys(currencySymbols)),
-  showAnnualPricing: PropTypes.bool.isRequired,
+  currency: PropTypes.string,
+  showAnnualPricing: PropTypes.bool,
 }
 
 PricingTierMonthlyCost.defaultProps = {
   currency: 'GBP',
+  showAnnualPricing: false,
 }

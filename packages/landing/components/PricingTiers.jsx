@@ -2,6 +2,7 @@ import ManagedTier from '@/landing/ManagedTier'
 import PricingTiersWrapper from '@/landing/PricingTiersWrapper'
 import PricingPeriodToggle from '@/landing/PricingPeriodToggle'
 import React from 'react'
+import PricingCurrencySelect from '@/landing/PricingCurrencySelect'
 
 const pricingTiers = [
   {
@@ -63,15 +64,17 @@ const pricingTiers = [
 
 export default function PricingTiers() {
   const [showAnnualPricing, setShowAnnualPricing] = React.useState(false)
+  const [currency, setCurrency] = React.useState('GBP')
   return (
     <div
       className={[
         'col-span-12',
       ].join(' ')}
     >
+      <PricingCurrencySelect currency={currency} setCurrency={setCurrency} />
       <PricingPeriodToggle showAnnualPricing={showAnnualPricing} setShowAnnualPricing={setShowAnnualPricing} />
-      <PricingTiersWrapper tiers={pricingTiers} showAnnualPricing={showAnnualPricing} />
-      <ManagedTier />
+      <PricingTiersWrapper tiers={pricingTiers} showAnnualPricing={showAnnualPricing} currency={currency} />
+      <ManagedTier currency={currency} />
     </div>
   )
 }

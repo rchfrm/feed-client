@@ -6,7 +6,7 @@ import PricingTierFeatures from '@/landing/PricingTierFeatures'
 import React from 'react'
 import TryFeed from '@/landing/TryFeed'
 
-export default function PricingTier({ tier, showAnnualPricing }) {
+export default function PricingTier({ tier, showAnnualPricing, currency }) {
   const {
     name,
     description,
@@ -30,7 +30,7 @@ export default function PricingTier({ tier, showAnnualPricing }) {
     >
       <h2>{name}</h2>
       <MarkdownText markdown={description} className="small--p" />
-      <PricingTierMonthlyCost amount={monthlyCost.GBP} showAnnualPricing={showAnnualPricing} />
+      <PricingTierMonthlyCost amount={monthlyCost[currency]} showAnnualPricing={showAnnualPricing} currency={currency} />
       <PricingTierServiceFee percentage={serviceFeePercentage} />
       <TryFeed
         buttonText="Get Started"
@@ -51,4 +51,5 @@ PricingTier.propTypes = {
     features: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   showAnnualPricing: PropTypes.bool.isRequired,
+  currency: PropTypes.string.isRequired,
 }

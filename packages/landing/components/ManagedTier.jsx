@@ -86,9 +86,5 @@ export default function ManagedTier({ currency }) {
 }
 
 ManagedTier.propTypes = {
-  currency: PropTypes.string,
-}
-
-ManagedTier.defaultProps = {
-  currency: 'GBP',
+  currency: PropTypes.string.isRequired,
 }
