@@ -1,5 +1,7 @@
 import ManagedTier from '@/landing/ManagedTier'
 import PricingTiersWrapper from '@/landing/PricingTiersWrapper'
+import PricingPeriodToggle from '@/landing/PricingPeriodToggle'
+import React from 'react'
 
 const pricingTiers = [
   {
@@ -60,12 +62,14 @@ const pricingTiers = [
 ]
 
 export default function PricingTiers() {
+  const [showAnnualPricing, setShowAnnualPricing] = React.useState(false)
   return (
     <div
       className={[
         'col-span-12',
       ].join(' ')}
     >
+      <PricingPeriodToggle showAnnualPricing={showAnnualPricing} setShowAnnualPricing={setShowAnnualPricing} />
       <PricingTiersWrapper tiers={pricingTiers} />
       <ManagedTier />
     </div>

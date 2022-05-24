@@ -11,6 +11,7 @@ import Spinner from '@/elements/Spinner'
 import ToggleSwitchClicker from '@/elements/ToggleSwitchClicker'
 
 import styles from '@/elements/ToggleSwitch.module.css'
+import brandColors from '@/constants/brandColors'
 
 const ToggleSwitch = ({
   state,
@@ -19,6 +20,8 @@ const ToggleSwitch = ({
   disabled,
   className,
   style,
+  onColour,
+  offColour,
 }) => {
   // Elements
   const switchEl = React.useRef(null)
@@ -154,7 +157,7 @@ const ToggleSwitch = ({
     <div
       className={[
         styles.ToggleSwitch,
-        state ? styles.on : styles.off,
+        state ? onColour : offColour,
         disabled ? styles._disabled : null,
         className,
       ].join(' ')}
@@ -191,6 +194,8 @@ ToggleSwitch.propTypes = {
   disabled: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
+  onColour: PropTypes.string,
+  offColour: PropTypes.string,
 }
 
 ToggleSwitch.defaultProps = {
@@ -198,6 +203,8 @@ ToggleSwitch.defaultProps = {
   disabled: false,
   className: null,
   style: null,
+  onColour: 'bg-green',
+  offColour: 'bg-red',
 }
 
 export default ToggleSwitch
