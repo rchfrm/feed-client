@@ -45,7 +45,7 @@ export default function ManagedTier({ currency }) {
           'sm:col-span-12',
         ].join(' ')}
       >
-        <PlusIcon fill={brandColors.green} className="w-14 h-auto z-50" />
+        <PlusIcon fill={brandColors.green} className="w-14 h-auto z-40" />
       </div>
       <div
         className={[
