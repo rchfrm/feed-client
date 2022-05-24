@@ -64,7 +64,7 @@ export default function ManagedTier({ currency }) {
           <PricingTierMonthlyCost amount={monthlyCost.GBP} currency={currency} />
           <MarkdownText markdown="covering up to 3 active profiles*" />
           <MarkdownText markdown={`### ${name} service`} />
-          <MarkdownText markdown={description} className="small--p" />
+          <MarkdownText markdown={description} className="small--p sm:text-base" />
           <Button
             trackComponentName="ManagedTier"
             version="text"
