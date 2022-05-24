@@ -23,6 +23,8 @@ export default function PricingTier({ tier }) {
         'border-solid',
         'rounded-dialogue',
         'p-5',
+        'shrink-0',
+        'w-full',
       ].join(' ')}
     >
       <h2>{name}</h2>
