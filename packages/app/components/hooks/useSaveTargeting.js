@@ -112,7 +112,7 @@ const useSaveTargeting = ({
     minorUnit: {
       minHard,
       minRecommendedStories,
-    },
+    } = {},
   } = feedMinBudgetInfo
 
   const { hasSpentConsecutivelyLessThan30Days, daysOfSpending } = spendingData || {}

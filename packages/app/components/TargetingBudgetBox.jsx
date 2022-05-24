@@ -48,7 +48,7 @@ const TargetingBudgetBox = ({
         } = {},
         string: {
           minRecommendedStories: minRecommendedStoriesString,
-        },
+        } = {},
       } = {},
       hasSetUpProfile,
     },
