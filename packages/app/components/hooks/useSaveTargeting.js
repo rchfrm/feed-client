@@ -145,7 +145,7 @@ const useSaveTargeting = ({
 
     // Warn about recommended minimum period of spending
     if (togglePauseCampaign && !isPaused && hasSpentConsecutivelyLessThan30Days) {
-      const hasMinimumBudget = (!hasSalesObjective && targetingState.budget === minHard) || (hasSalesObjective && targetingState.budget === minRecommendedStories)
+      const hasMinimumBudget = (!hasSalesObjective && targetingState.budget === minHard) || (hasSalesObjective && targetingState.budget <= minRecommendedStories)
       const alertCopy = copy.shortSpendingPeriodWarning(daysOfSpending, hasMinimumBudget)
 
       const buttons = getWarningButtons({

@@ -42,7 +42,7 @@ const TargetingBudgetSpendingButton = ({
   const Icon = icons[action]
 
   const onClick = async () => {
-    // Only get ad spend data if pausing daily budget
+    // Get ad spend data if pausing daily budget
     if (!isPaused) {
       const dataSource = 'facebook_ad_spend_feed'
       const response = await getDataSourceValue([dataSource], artistId)
@@ -51,10 +51,12 @@ const TargetingBudgetSpendingButton = ({
 
       setSpendingData(spendingData)
     }
+    // Otherwise show alert modal directly
     togglePause()
   }
 
   React.useEffect(() => {
+    // Wait for spendingData state change before showing alert modal
     if (spendingData) {
       togglePause()
     }
