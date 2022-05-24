@@ -36,7 +36,7 @@ export default function ManagedTier({ currency }) {
         className={[
           'flex',
           'justify-center',
-          'mt-10',
+          'mt-5',
         ].join(' ')}
       >
         <PlusIcon fill={brandColors.green} className="w-14 h-auto" />

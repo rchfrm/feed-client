@@ -1,5 +1,3 @@
-import PricingTier from '@/landing/PricingTier'
-import PricingTierSelector from '@/landing/PricingTierSelector'
 import ManagedTier from '@/landing/ManagedTier'
 import PricingTiersWrapper from '@/landing/PricingTiersWrapper'
 
@@ -68,7 +66,6 @@ export default function PricingTiers() {
         'col-span-12',
       ].join(' ')}
     >
-      <PricingTierSelector tiers={pricingTiers} />
       <PricingTiersWrapper tiers={pricingTiers} />
       <ManagedTier />
     </div>
