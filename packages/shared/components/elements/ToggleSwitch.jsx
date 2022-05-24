@@ -1,17 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { gsap, Power1 } from 'gsap'
 import clamp from 'lodash/clamp'
 import { useDrag } from 'react-use-gesture'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
-
 import Spinner from '@/elements/Spinner'
-
 import ToggleSwitchClicker from '@/elements/ToggleSwitchClicker'
-
 import styles from '@/elements/ToggleSwitch.module.css'
-import brandColors from '@/constants/brandColors'
 
 const ToggleSwitch = ({
   state,
