@@ -5,6 +5,11 @@ import PricingTierServiceFee from '@/landing/PricingTierServiceFee'
 import PricingTierFeatures from '@/landing/PricingTierFeatures'
 import React from 'react'
 import TryFeed from '@/landing/TryFeed'
+import copy from '@/landing/copy/PricingPageCopy'
+
+const {
+  currencyOptions,
+} = copy
 
 export default function PricingTier({ tier, showAnnualPricing, currency }) {
   const {
@@ -51,5 +56,5 @@ PricingTier.propTypes = {
     features: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   showAnnualPricing: PropTypes.bool.isRequired,
-  currency: PropTypes.string.isRequired,
+  currency: PropTypes.oneOf(currencyOptions).isRequired,
 }

@@ -1,19 +1,20 @@
 import Select from '@/elements/Select'
 import PropTypes from 'prop-types'
+import copy from '@/landing/copy/PricingPageCopy'
+
+const {
+  currencyOptions,
+} = copy
 
 export default function PricingCurrencySelect({ currency, setCurrency }) {
   const handleChange = e => setCurrency(e.target.value)
 
-  const options = [
-    {
-      name: 'GBP',
-      value: 'GBP',
-    },
-    {
-      name: 'USD',
-      value: 'USD',
-    },
-  ]
+  const options = currencyOptions.map(currency => {
+    return {
+      name: currency,
+      value: currency,
+    }
+  })
 
   return (
     <div
@@ -39,6 +40,6 @@ export default function PricingCurrencySelect({ currency, setCurrency }) {
 }
 
 PricingCurrencySelect.propTypes = {
-  currency: PropTypes.string.isRequired,
+  currency: PropTypes.oneOf(currencyOptions).isRequired,
   setCurrency: PropTypes.func.isRequired,
 }

@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types'
 
-const currencySymbols = {
-  GBP: '£',
-  USD: '$',
-}
+import copy from '@/landing/copy/PricingPageCopy'
+
+const {
+  currencies,
+  currencyOptions,
+} = copy
 
 export default function PricingTierMonthlyCost({ amount, currency, showAnnualPricing }) {
-  const currencySymbol = currencySymbols[currency]
+  const currencySymbol = currencies[currency]
   return (
     <div
       className={[
@@ -44,11 +46,10 @@ export default function PricingTierMonthlyCost({ amount, currency, showAnnualPri
 
 PricingTierMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
-  currency: PropTypes.string,
+  currency: PropTypes.oneOf(currencyOptions).isRequired,
   showAnnualPricing: PropTypes.bool,
 }
 
 PricingTierMonthlyCost.defaultProps = {
-  currency: 'GBP',
   showAnnualPricing: false,
 }

@@ -6,6 +6,11 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import PricingTierFeatures from '@/landing/PricingTierFeatures'
+import copy from '@/landing/copy/PricingPageCopy'
+
+const {
+  currencyOptions,
+} = copy
 
 const managedTier = {
   name: 'Managed',
@@ -87,5 +92,5 @@ export default function ManagedTier({ currency }) {
 }
 
 ManagedTier.propTypes = {
-  currency: PropTypes.string.isRequired,
+  currency: PropTypes.oneOf(currencyOptions).isRequired,
 }
