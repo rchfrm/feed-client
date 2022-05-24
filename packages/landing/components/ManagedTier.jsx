@@ -31,15 +31,21 @@ export default function ManagedTier({ currency }) {
     features,
   } = managedTier
   return (
-    <>
+    <div
+      className={[
+        'sm:grid',
+        'sm:grid-cols-12',
+      ].join(' ')}
+    >
       <div
         className={[
           'flex',
           'justify-center',
           'mt-5',
+          'sm:col-span-12',
         ].join(' ')}
       >
-        <PlusIcon fill={brandColors.green} className="w-14 h-auto" />
+        <PlusIcon fill={brandColors.green} className="w-14 h-auto z-50" />
       </div>
       <div
         className={[
@@ -48,6 +54,8 @@ export default function ManagedTier({ currency }) {
           'border-solid',
           'rounded-dialogue',
           '-mt-3',
+          'sm:col-span-6',
+          'sm:col-start-4',
         ].join(' ')}
       >
         <ManagedTierHeader header="Expert support" />
@@ -73,7 +81,7 @@ export default function ManagedTier({ currency }) {
           <PricingTierFeatures features={features} />
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

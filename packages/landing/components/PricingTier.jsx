@@ -15,7 +15,7 @@ export default function PricingTier({ tier }) {
     features,
   } = tier
   return (
-    <li
+    <div
       key={name}
       className={[
         'border-black',
@@ -25,8 +25,7 @@ export default function PricingTier({ tier }) {
         'p-5',
         'shrink-0',
         'w-full',
-        'swiper-slide',
-        'box-border',
+        'h-full',
       ].join(' ')}
     >
       <h2>{name}</h2>
@@ -39,7 +38,7 @@ export default function PricingTier({ tier }) {
         trackLocation={`PricingTier${name}`}
       />
       <PricingTierFeatures features={features} />
-    </li>
+    </div>
   )
 }
 
