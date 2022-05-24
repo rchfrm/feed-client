@@ -71,7 +71,7 @@ const TargetingBudgetSlider = ({
   }, [sliderValueRange, sliderStep])
 
   return (
-    <div className="relative pl-0 py-8" ref={containerRef}>
+    <div className="relative pl-0 pt-8" ref={containerRef}>
       {shouldShowError && (
         <p className={['absolute top-0 w-full text-center text-red text-sm'].join(' ')}>{errorMessage}</p>
       )}

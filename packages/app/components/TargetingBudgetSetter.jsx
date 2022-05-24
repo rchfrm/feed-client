@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
+import TargetingSuggestedBudgetButtons from '@/app/TargetingSuggestedBudgetButtons'
 import InputCurrency from '@/elements/InputCurrency'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
@@ -64,22 +65,27 @@ const TargetingBudgetSetter = ({
                 autoFocus
               />
             ) : (
-              <TargetingBudgetSlider
-                sliderStep={sliderStep}
-                sliderValueRange={sliderValueRange}
-                mobileVersion={mobileVersion}
-                isSummaryVersion={isSummaryVersion}
-                minReccBudget={minReccBudget}
-                initialBudget={initialBudget}
-                currency={currency}
-                currencyOffset={currencyOffset}
-                onChange={(budget) => {
-                  setBudget(budget)
-                }}
-                setBudgetSlider={setBudgetSlider}
-                shouldShowError={shouldShowError}
-                errorMessage={errorMessage}
-              />
+              <>
+                <TargetingBudgetSlider
+                  sliderStep={sliderStep}
+                  sliderValueRange={sliderValueRange}
+                  mobileVersion={mobileVersion}
+                  isSummaryVersion={isSummaryVersion}
+                  minReccBudget={minReccBudget}
+                  initialBudget={initialBudget}
+                  currency={currency}
+                  currencyOffset={currencyOffset}
+                  onChange={(budget) => {
+                    setBudget(budget)
+                  }}
+                  setBudgetSlider={setBudgetSlider}
+                  shouldShowError={shouldShowError}
+                  errorMessage={errorMessage}
+                />
+                <TargetingSuggestedBudgetButtons
+                  budgetSuggestions={[4, 6, 9]}
+                />
+              </>
             )}
           </CSSTransition>
         </SwitchTransition>
