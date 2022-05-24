@@ -10,7 +10,7 @@ import LinkBankList from '@/app/LinkBankList'
 import LinkBankIntegrations from '@/app/LinkBankIntegrations'
 import ControlsContentSection from '@/app/ControlsContentSection'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useControlsStore from '@/app/stores/controlsStore'

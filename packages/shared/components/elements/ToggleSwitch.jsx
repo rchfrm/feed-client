@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { gsap, Power1 } from 'gsap'
 import clamp from 'lodash/clamp'
 import { useDrag } from 'react-use-gesture'
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import Spinner from '@/elements/Spinner'
 

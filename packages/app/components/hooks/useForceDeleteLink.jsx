@@ -4,7 +4,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import usePostsStore from '@/app/stores/postsStore'
 

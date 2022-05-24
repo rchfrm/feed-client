@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { useAsync } from 'react-async'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import RadioButtons from '@/elements/RadioButtons'
 import Error from '@/elements/Error'

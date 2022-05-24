@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 import LightbulbIcon from '@/icons/LightbulbIcon'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 
 import { track } from '@/helpers/trackingHelpers'
 
-import sidePanelStyles from '@/app/SidePanel.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 const ButtonHelp = React.forwardRef(({
   content,

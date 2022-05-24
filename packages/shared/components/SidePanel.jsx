@@ -8,7 +8,7 @@ import useSwipeDismiss from '@/hooks/useSwipeDismiss'
 import Spinner from '@/elements/Spinner'
 import ButtonCloseCircle from '@/elements/ButtonCloseCircle'
 
-import styles from '@/app/SidePanel.module.css'
+import styles from '@/SidePanel.module.css'
 
 // * INSERTED via the SidePanelContext.jsx
 // * with the props passed in
