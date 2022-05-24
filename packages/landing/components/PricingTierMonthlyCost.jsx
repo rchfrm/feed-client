@@ -32,7 +32,7 @@ export default function PricingTierMonthlyCost({ amount, currency }) {
       >
         {amount}
       </p>
-      <p>per profile / per month</p>
+      <p>per month</p>
     </div>
   )
 }

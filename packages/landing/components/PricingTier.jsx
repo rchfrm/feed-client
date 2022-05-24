@@ -26,7 +26,7 @@ export default function PricingTier({ tier }) {
       ].join(' ')}
     >
       <h2>{name}</h2>
-      <MarkdownText markdown={description} />
+      <MarkdownText markdown={description} className="small--p" />
       <PricingTierMonthlyCost amount={monthlyCost.GBP} />
       <PricingTierServiceFee percentage={serviceFeePercentage} />
       <TryFeed

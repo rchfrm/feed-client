@@ -10,7 +10,7 @@ export default function PricingTierFeature({ feature, index }) {
       className={['flex', 'items-center', 'pb-5'].join(' ')}
     >
       <TickIcon
-        className={['h-4', 'w-auto', 'pr-2'].join(' ')}
+        className={['h-4', 'w-auto', 'pr-2', 'shrink-0'].join(' ')}
         fill={brandColors.twitter.bg}
       />
       <MarkdownText markdown={feature} className="mb-0" />
