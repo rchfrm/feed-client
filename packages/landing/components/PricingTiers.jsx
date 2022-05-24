@@ -70,7 +70,7 @@ export default function PricingTiers() {
       ].join(' ')}
     >
       <PricingPeriodToggle showAnnualPricing={showAnnualPricing} setShowAnnualPricing={setShowAnnualPricing} />
-      <PricingTiersWrapper tiers={pricingTiers} />
+      <PricingTiersWrapper tiers={pricingTiers} showAnnualPricing={showAnnualPricing} />
       <ManagedTier />
     </div>
   )

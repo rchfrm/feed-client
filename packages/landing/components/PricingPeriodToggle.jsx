@@ -59,10 +59,6 @@ export default function PricingPeriodToggle({ showAnnualPricing, setShowAnnualPr
 }
 
 PricingPeriodToggle.propTypes = {
-  showAnnualPricing: PropTypes.bool,
+  showAnnualPricing: PropTypes.bool.isRequired,
   setShowAnnualPricing: PropTypes.func.isRequired,
-}
-
-PricingPeriodToggle.defaultProps = {
-  showAnnualPricing: false,
 }

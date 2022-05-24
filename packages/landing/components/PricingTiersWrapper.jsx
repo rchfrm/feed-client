@@ -5,7 +5,7 @@ import React from 'react'
 import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 
 
-export default function PricingTiersWrapper({ tiers }) {
+export default function PricingTiersWrapper({ tiers, showAnnualPricing }) {
   const growthTierIndex = tiers.findIndex(tier => tier.name === 'Growth')
   const isDesktop = useBreakpointTest('sm')
 
@@ -26,7 +26,7 @@ export default function PricingTiersWrapper({ tiers }) {
                 'col-span-4',
               ].join(' ')}
             >
-              <PricingTier key={tier.name} tier={tier} />
+              <PricingTier key={tier.name} tier={tier} showAnnualPricing={showAnnualPricing} />
             </div>
           )
         })}
@@ -59,7 +59,7 @@ export default function PricingTiersWrapper({ tiers }) {
               'box-border',
             ].join(' ')}
           >
-            <PricingTier key={tier.name} tier={tier} />
+            <PricingTier key={tier.name} tier={tier} showAnnualPricing={showAnnualPricing} />
           </li>
         )
       })}
@@ -69,4 +69,5 @@ export default function PricingTiersWrapper({ tiers }) {
 
 PricingTiersWrapper.propTypes = {
   tiers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showAnnualPricing: PropTypes.bool.isRequired,
 }

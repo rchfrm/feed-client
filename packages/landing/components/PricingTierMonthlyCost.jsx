@@ -4,7 +4,7 @@ const currencySymbols = {
   GBP: '£',
 }
 
-export default function PricingTierMonthlyCost({ amount, currency }) {
+export default function PricingTierMonthlyCost({ amount, currency, showAnnualPricing }) {
   const currencySymbol = currencySymbols[currency]
   return (
     <div
@@ -22,15 +22,19 @@ export default function PricingTierMonthlyCost({ amount, currency }) {
       >
         {currencySymbol}
       </p>
+      {showAnnualPricing && amount > 0 && (
+        <p className="self-start line-through text-grey-3">{amount}</p>
+      )}
       <p
         className={[
           'text-7xl',
           'font-display',
           'font-bold',
           'pr-2',
+          showAnnualPricing && amount > 0 && 'text-green',
         ].join(' ')}
       >
-        {amount}
+        {showAnnualPricing ? amount * 0.8 : amount}
       </p>
       <p>per month</p>
     </div>
@@ -40,6 +44,7 @@ export default function PricingTierMonthlyCost({ amount, currency }) {
 PricingTierMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
   currency: PropTypes.oneOf(Object.keys(currencySymbols)),
+  showAnnualPricing: PropTypes.bool.isRequired,
 }
 
 PricingTierMonthlyCost.defaultProps = {
