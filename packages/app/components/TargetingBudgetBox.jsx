@@ -54,7 +54,7 @@ const TargetingBudgetBox = ({
     },
   } = React.useContext(ArtistContext)
 
-  // TOGGLE CUSTOM BUDGET SETTER
+  const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
   const [hasBudgetBelowMinRecommendedStories, setHasBudgetBelowMinRecommendedStories] = React.useState(false)
 
@@ -102,12 +102,13 @@ const TargetingBudgetBox = ({
             {/* BUDGET SETTER */}
             <div>
               <TargetingBudgetSetter
+                budget={budget}
+                setBudget={setBudget}
                 currency={currencyCode}
                 currencyOffset={currencyOffset}
                 minBase={minBase}
                 minHardBudget={minHardBudget}
                 initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
-                targetingState={targetingState}
                 updateTargetingBudget={updateTargetingBudget}
                 showCustomBudget={showCustomBudget}
                 setBudgetSlider={setBudgetSlider}

@@ -8,7 +8,8 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import useControlsStore from '@/app/stores/controlsStore'
 
-import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
+import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
+import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import Button from '@/elements/Button'
@@ -36,6 +37,7 @@ const GetStartedDailyBudget = () => {
     updateTargetingBudget,
     saveTargetingSettings,
     targetingLoading,
+    setBudgetSlider,
   } = React.useContext(TargetingContext)
 
   const {
@@ -62,23 +64,15 @@ const GetStartedDailyBudget = () => {
   } = React.useContext(ArtistContext)
 
   const [budget, setBudget] = React.useState(targetingState.budget)
+  const [showCustomBudget, setShowCustomBudget] = React.useState(false)
   const [error, setError] = React.useState(null)
+
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
   const hasInsufficientBudget = hasSalesObjective && budget < minReccomendedStories
-
-  // Get slider settings based on min budget
-  const { sliderStep, sliderValueRange } = React.useMemo(() => {
-    return targetingHelpers.calcBudgetSliderConfig(minBase, minHardBudget, targetingState.initialBudget)
-  }, [minBase, minHardBudget, targetingState.initialBudget])
-
-  React.useEffect(() => {
-    if (typeof budget !== 'number') return
-    updateTargetingBudget(budget)
-  }, [budget, updateTargetingBudget, minReccBudget])
 
   // If minReccBudget isn't set yet reinitialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -134,20 +128,33 @@ const GetStartedDailyBudget = () => {
       />
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">
-        <div className="w-full sm:w-2/3 h-26 mb-4 px-6">
-          <TargetingBudgetSlider
-            sliderStep={sliderStep}
-            sliderValueRange={sliderValueRange}
-            initialBudget={initialTargetingState.budget || minReccomendedStories}
-            onChange={(budget) => {
-              setBudget(budget)
-            }}
-            currency={currencyCode}
-            currencyOffset={currencyOffset}
-            shouldShowError={hasInsufficientBudget}
-            errorMessage={copy.inSufficientBudget(minReccomendedStoriesString)}
-            mobileVersion
-          />
+        <div className="w-full sm:w-2/3 h-26 mb-12 px-6">
+          <div>
+            <TargetingBudgetSetter
+              budget={budget}
+              setBudget={setBudget}
+              currency={currencyCode}
+              currencyOffset={currencyOffset}
+              minBase={minBase}
+              minHardBudget={minHardBudget}
+              initialBudget={initialTargetingState.budget || minReccomendedStories}
+              updateTargetingBudget={updateTargetingBudget}
+              showCustomBudget={showCustomBudget}
+              setBudgetSlider={setBudgetSlider}
+              shouldShowError={hasInsufficientBudget}
+              errorMessage={copy.inSufficientBudget(minReccomendedStoriesString)}
+            />
+          </div>
+          <div className="flex justify-center">
+            <TargetingCustomBudgetButton
+              style={{ zIndex: 2 }}
+              showCustomBudget={showCustomBudget}
+              setShowCustomBudget={setShowCustomBudget}
+              initialBudget={initialTargetingState.budget}
+              minBase={minBase}
+              minHardBudget={minHardBudget}
+            />
+          </div>
         </div>
         <Button
           version="green"

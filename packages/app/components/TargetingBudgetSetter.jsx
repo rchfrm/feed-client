@@ -9,21 +9,22 @@ import InputCurrency from '@/elements/InputCurrency'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const TargetingBudgetSetter = ({
+  budget,
+  setBudget,
   currency,
   currencyOffset,
   minBase,
   minReccBudget,
   minHardBudget,
   initialBudget,
-  targetingState,
   updateTargetingBudget,
   isSummaryVersion,
   mobileVersion,
   showCustomBudget,
   setBudgetSlider,
+  shouldShowError,
+  errorMessage,
 }) => {
-  // UPDATE TARGETING STATE when BUDGET changes
-  const [budget, setBudget] = React.useState(targetingState.budget)
   React.useEffect(() => {
     if (typeof budget !== 'number') return
     updateTargetingBudget(budget)
@@ -76,6 +77,8 @@ const TargetingBudgetSetter = ({
                   setBudget(budget)
                 }}
                 setBudgetSlider={setBudgetSlider}
+                shouldShowError={shouldShowError}
+                errorMessage={errorMessage}
               />
             )}
           </CSSTransition>
@@ -86,13 +89,14 @@ const TargetingBudgetSetter = ({
 }
 
 TargetingBudgetSetter.propTypes = {
+  budget: PropTypes.number,
+  setBudget: PropTypes.func,
   currency: PropTypes.string,
   currencyOffset: PropTypes.number,
   minBase: PropTypes.number,
   minReccBudget: PropTypes.number,
   minHardBudget: PropTypes.number,
   initialBudget: PropTypes.number.isRequired,
-  targetingState: PropTypes.object.isRequired,
   updateTargetingBudget: PropTypes.func.isRequired,
   isSummaryVersion: PropTypes.bool,
   mobileVersion: PropTypes.bool,
@@ -101,6 +105,8 @@ TargetingBudgetSetter.propTypes = {
 }
 
 TargetingBudgetSetter.defaultProps = {
+  budget: 0,
+  setBudget: () => {},
   currency: 'GBP',
   currencyOffset: 1,
   minReccBudget: 0,
