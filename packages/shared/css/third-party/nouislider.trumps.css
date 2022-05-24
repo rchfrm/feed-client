@@ -7,7 +7,7 @@
   border-radius: 100%;
   outline: 0;
   border: none;
-  background-color: var(--green);
+  background-color: var(--color-fb);
   border: 2px solid var(--white);
   box-shadow: none;
   height: var(--sp-5) !important;
