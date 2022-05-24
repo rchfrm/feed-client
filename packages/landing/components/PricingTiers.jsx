@@ -3,7 +3,8 @@ import PricingTiersWrapper from '@/landing/PricingTiersWrapper'
 import PricingPeriodToggle from '@/landing/PricingPeriodToggle'
 import React from 'react'
 import PricingCurrencySelect from '@/landing/PricingCurrencySelect'
-import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/landing/copy/PricingPageCopy'
 
 const pricingTiers = [
   {
@@ -35,13 +36,13 @@ const pricingTiers = [
     serviceFeePercentage: 0,
     features: [
       'Everything in **Basic** plus...',
-      'Connect unlimited profiles*',
+      'Connect unlimited profiles^',
       'Growth and website view objectives',
       'Custom targeting locations',
       'Prioritise a post for instant promotion',
       'Edit individual ad text, links and CTA',
       'Override automated post selection',
-      '£500 max monthly spend per profile*',
+      '£500 max monthly spend per profile^',
     ],
   },
   {
@@ -56,12 +57,17 @@ const pricingTiers = [
       'Everything in **Growth** plus...',
       'Run sales ads (conversion ads)',
       'Meta pixel based retargeting',
-      'Multiple objectives^',
+      'Multiple objectives°',
       'Clear reporting on return from ad spend',
-      '£2,000 max monthly spend per profile*',
+      '£2,000 max monthly spend per profile^',
     ],
   },
 ]
+
+const {
+  twoThousandPlus,
+  footnotes,
+} = copy
 
 export default function PricingTiers() {
   const [showAnnualPricing, setShowAnnualPricing] = React.useState(false)
@@ -88,6 +94,8 @@ export default function PricingTiers() {
       </div>
       <PricingTiersWrapper tiers={pricingTiers} showAnnualPricing={showAnnualPricing} currency={currency} />
       <ManagedTier currency={currency} />
+      <MarkdownText markdown={twoThousandPlus} className="text-center mb-10" />
+      <MarkdownText markdown={footnotes} className="small--p mb-0" />
     </div>
   )
 }

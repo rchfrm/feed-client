@@ -35,6 +35,7 @@ export default function ManagedTier({ currency }) {
       className={[
         'sm:grid',
         'sm:grid-cols-12',
+        'mb-10',
       ].join(' ')}
     >
       <div
@@ -45,7 +46,7 @@ export default function ManagedTier({ currency }) {
           'sm:col-span-12',
         ].join(' ')}
       >
-        <PlusIcon fill={brandColors.green} className="w-14 h-auto z-40" />
+        <PlusIcon fill={brandColors.green} className="w-14 h-14 z-40" />
       </div>
       <div
         className={[
