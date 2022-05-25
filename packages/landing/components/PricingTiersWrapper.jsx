@@ -30,7 +30,7 @@ export default function PricingTiersWrapper({ tiers, showAnnualPricing, currency
                 'col-span-4',
               ].join(' ')}
             >
-              <PricingTier key={tier.name} tier={tier} showAnnualPricing={showAnnualPricing} currency={currency} />
+              <PricingTier tier={tier} showAnnualPricing={showAnnualPricing} currency={currency} />
             </div>
           )
         })}
@@ -63,7 +63,7 @@ export default function PricingTiersWrapper({ tiers, showAnnualPricing, currency
               'box-border',
             ].join(' ')}
           >
-            <PricingTier key={tier.name} tier={tier} showAnnualPricing={showAnnualPricing} currency={currency} />
+            <PricingTier tier={tier} showAnnualPricing={showAnnualPricing} currency={currency} />
           </li>
         )
       })}

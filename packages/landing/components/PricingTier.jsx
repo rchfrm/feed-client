@@ -21,7 +21,6 @@ export default function PricingTier({ tier, showAnnualPricing, currency }) {
   } = tier
   return (
     <div
-      key={name}
       className={[
         'border-black',
         'border-3',
