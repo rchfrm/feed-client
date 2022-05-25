@@ -7,6 +7,12 @@ export default {
   currencies: {
     GBP: '£',
     USD: '$',
+    EUR: '€',
+    CAD: '$',
+    AUD: '$',
+    NOK: 'kr',
+    MXN: '$',
+    SEK: 'kr',
   },
   get currencyOptions() {
     return Object.keys(this.currencies)
