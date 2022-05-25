@@ -19,5 +19,4 @@ export default function PricingTierFeature({ feature }) {
 
 PricingTierFeature.propTypes = {
   feature: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
 }
