@@ -105,6 +105,7 @@ const GetStartedPaymentMethod = () => {
             setAddPaymentMethod={setAddPaymentMethod}
             setSuccess={setSuccess}
             shouldBeDefault
+            shouldShowLabels={false}
             isFormValid={isFormValid}
             setIsFormValid={setIsFormValid}
             isLoading={isLoading}

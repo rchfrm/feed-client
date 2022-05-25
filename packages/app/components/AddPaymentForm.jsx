@@ -26,7 +26,7 @@ const STRIPE_ELEMENT_OPTIONS = {
   style: {
     base: {
       fontSize: '16px',
-      fontFamily: 'Inter, serif',
+      fontFamily: 'Inter, sans-serif',
       color: brandColors.black,
       letterSpacing: '0.025em',
       '::placeholder': {
@@ -50,6 +50,7 @@ const FORM = ({
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
+  shouldShowLabels,
   setAddPaymentMethod,
   isFormValid,
   setIsFormValid,
@@ -177,7 +178,7 @@ const FORM = ({
 
       {/* NAME */}
       <Input
-        label="Full name"
+        label={shouldShowLabels ? 'Full name' : null}
         placeholder="Name on card"
         name="name"
         value={name}
@@ -188,7 +189,7 @@ const FORM = ({
       {/* CARD ELEMENT
           Includes: Card number, expiry date, CVC, postal/zip
       */}
-      <InputBase label="Card details" name="card-details" required>
+      <InputBase label={shouldShowLabels ? 'Card details' : null} name="card-details" required>
         <div className="border-2 border-solid border-black rounded-button px-4 py-5">
           <CardElement
             options={STRIPE_ELEMENT_OPTIONS}
@@ -212,6 +213,7 @@ const AddPaymentForm = ({
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
+  shouldShowLabels,
   setAddPaymentMethod,
   isFormValid,
   setIsFormValid,
@@ -227,6 +229,7 @@ const AddPaymentForm = ({
         setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}
         shouldBeDefault={shouldBeDefault}
+        shouldShowLabels={shouldShowLabels}
         isFormValid={isFormValid}
         setIsFormValid={setIsFormValid}
         isLoading={isLoading}
@@ -240,6 +243,7 @@ AddPaymentForm.propTypes = {
   setPaymentMethod: PropTypes.func,
   setSuccess: PropTypes.func,
   shouldBeDefault: PropTypes.bool,
+  shouldShowLabels: PropTypes.bool,
   setAddPaymentMethod: PropTypes.func.isRequired,
   isFormValid: PropTypes.bool.isRequired,
   setIsFormValid: PropTypes.func.isRequired,
@@ -249,6 +253,7 @@ AddPaymentForm.propTypes = {
 
 AddPaymentForm.defaultProps = {
   shouldBeDefault: false,
+  shouldShowLabels: true,
   setPaymentMethod: () => {},
   setSuccess: () => {},
 }
