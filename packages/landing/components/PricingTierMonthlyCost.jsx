@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
-
 import copy from '@/landing/copy/PricingPageCopy'
-import { formatNumber } from '@/helpers/utils'
 
 const {
   currencies,
@@ -10,7 +8,6 @@ const {
 
 export default function PricingTierMonthlyCost({ amount, currency, isManaged, showAnnualPricing }) {
   const currencySymbol = currencies[currency]
-  const formattedAmount = formatNumber(amount)
   return (
     <div
       className={[
@@ -28,7 +25,7 @@ export default function PricingTierMonthlyCost({ amount, currency, isManaged, sh
         {currencySymbol}
       </p>
       {showAnnualPricing && amount > 0 && (
-        <p className="self-start line-through text-grey-3">{formattedAmount}</p>
+        <p className="self-start line-through text-grey-3">{amount}</p>
       )}
       <p
         className={[
@@ -39,7 +36,7 @@ export default function PricingTierMonthlyCost({ amount, currency, isManaged, sh
           showAnnualPricing && amount > 0 ? 'text-green' : null,
         ].join(' ')}
       >
-        {showAnnualPricing ? formattedAmount * 0.8 : formattedAmount}
+        {showAnnualPricing ? amount * 0.8 : amount}
       </p>
       <p className="small--p">per month {!isManaged && 'per profile'}</p>
     </div>
