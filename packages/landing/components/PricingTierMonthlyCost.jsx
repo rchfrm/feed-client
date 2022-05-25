@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types'
 
 import copy from '@/landing/copy/PricingPageCopy'
+import { formatNumber } from '@/helpers/utils'
 
 const {
   currencies,
   currencyOptions,
 } = copy
 
-export default function PricingTierMonthlyCost({ amount, currency, showAnnualPricing }) {
+export default function PricingTierMonthlyCost({ amount, currency, isManaged, showAnnualPricing }) {
   const currencySymbol = currencies[currency]
+  const formattedAmount = formatNumber(amount)
   return (
     <div
       className={[
@@ -26,7 +28,7 @@ export default function PricingTierMonthlyCost({ amount, currency, showAnnualPri
         {currencySymbol}
       </p>
       {showAnnualPricing && amount > 0 && (
-        <p className="self-start line-through text-grey-3">{amount}</p>
+        <p className="self-start line-through text-grey-3">{formattedAmount}</p>
       )}
       <p
         className={[
@@ -37,9 +39,9 @@ export default function PricingTierMonthlyCost({ amount, currency, showAnnualPri
           showAnnualPricing && amount > 0 && 'text-green',
         ].join(' ')}
       >
-        {showAnnualPricing ? amount * 0.8 : amount}
+        {showAnnualPricing ? formattedAmount * 0.8 : formattedAmount}
       </p>
-      <p>per month</p>
+      <p className="small--p">per month {!isManaged && 'per profile'}</p>
     </div>
   )
 }
@@ -47,9 +49,11 @@ export default function PricingTierMonthlyCost({ amount, currency, showAnnualPri
 PricingTierMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
   currency: PropTypes.oneOf(currencyOptions).isRequired,
+  isManaged: PropTypes.bool,
   showAnnualPricing: PropTypes.bool,
 }
 
 PricingTierMonthlyCost.defaultProps = {
   showAnnualPricing: false,
+  isManaged: false,
 }

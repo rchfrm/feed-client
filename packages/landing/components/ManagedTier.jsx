@@ -18,6 +18,12 @@ const managedTier = {
   monthlyCost: {
     GBP: 300,
     USD: 400,
+    EUR: 400,
+    CAD: 500,
+    AUD: 500,
+    NOK: 4000,
+    MXN: 7000,
+    SEK: 4000,
   },
   serviceFeePercentage: 0,
   features: [
@@ -66,7 +72,7 @@ export default function ManagedTier({ currency }) {
       >
         <ManagedTierHeader header="Expert support" />
         <div className="p-5">
-          <PricingTierMonthlyCost amount={monthlyCost.GBP} currency={currency} />
+          <PricingTierMonthlyCost amount={monthlyCost[currency]} currency={currency} isManaged />
           <MarkdownText markdown="covering up to 3 active profiles*" />
           <MarkdownText markdown={`### ${name} service`} />
           <MarkdownText markdown={description} className="small--p sm:text-base" />
@@ -79,7 +85,7 @@ export default function ManagedTier({ currency }) {
               'w-full',
               'h-fit',
             ].join(' ')}
-            href="https://meetings.hubspot.com/feed-team/5-minute-call"
+            href="https://meetings.hubspot.com/feed/managed"
           >
             <strong>Arrange a call to hear more -></strong>
           </Button>
