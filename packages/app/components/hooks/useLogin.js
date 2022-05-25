@@ -124,7 +124,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // If they do have access set it as the selectedArtistId,
     // otherwise use the first related artist (sorted alphabetically)
     const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
-    await storeArtist(selectedArtistId)
+    await storeArtist(selectedArtistId, false)
 
     // Check whether we're coming from a manual oauth FB redirect...
     await checkAndHandleFbRedirect(selectedArtistId)
