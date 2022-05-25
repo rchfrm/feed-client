@@ -13,14 +13,14 @@ import useBillingStore from '@/app/stores/billingStore'
 
 import useBillingAddPayment from '@/app/hooks/useBillingAddPayment'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import { setPaymentAsDefault, deletePaymentMethod } from '@/app/helpers/billingHelpers'
 import { track } from '@/helpers/trackingHelpers'
 
 import copy from '@/app/copy/billingCopy'
 
-import sidePanelStyles from '@/app/SidePanel.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({

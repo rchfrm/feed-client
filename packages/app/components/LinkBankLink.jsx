@@ -6,7 +6,7 @@ import shallow from 'zustand/shallow'
 import LinkIcon from '@/icons/LinkIcon'
 import TrashIcon from '@/icons/TrashIcon'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import useCreateEditLinkBankLink from '@/app/hooks/useCreateEditLinkBankLink'

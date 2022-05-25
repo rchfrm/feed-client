@@ -8,7 +8,7 @@ import useBrowserStore from '@/hooks/useBrowserStore'
 import useAnimateOnMount from '@/hooks/useAnimateOnMount'
 import useDismissNotification from '@/app/hooks/useDismissNotification'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useNotificationStore from '@/app/stores/notificationsStore'
 
 import NotificationCurrentInfoContent from '@/app/NotificationCurrentInfoContent'

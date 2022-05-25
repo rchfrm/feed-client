@@ -22,6 +22,7 @@ export default function TryFeed({ className, buttonText, trackLocation }) {
       <Link href={joinLink}>
         <Button
           version="pink"
+          className={className}
           onClick={() => {
             mixpanelExternalLinkClick(joinLink, { location: trackLocation })
           }}

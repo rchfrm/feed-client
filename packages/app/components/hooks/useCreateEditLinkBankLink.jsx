@@ -5,7 +5,7 @@ import shallow from 'zustand/shallow'
 import useAlertModal from '@/hooks/useAlertModal'
 import useForceDeleteLink from '@/app/hooks/useForceDeleteLink'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import MarkdownText from '@/elements/MarkdownText'

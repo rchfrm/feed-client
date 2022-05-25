@@ -10,7 +10,7 @@ import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostCardDisableHandler from '@/app/PostCardDisableHandler'
 import PostCardToggleAlert from '@/app/PostCardToggleAlert'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import { updatePost, setPostPriority, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 

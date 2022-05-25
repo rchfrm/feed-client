@@ -66,6 +66,11 @@ const FeatureItem = ({
                 alt: header,
               }}
               fadeInDuration={1}
+              className={[
+                'max-w-xs',
+                'sm:w-2/4',
+                'md:max-w-sm',
+              ].join(' ')}
             />
           )}
         </>
