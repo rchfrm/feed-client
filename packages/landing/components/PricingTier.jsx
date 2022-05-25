@@ -34,7 +34,22 @@ export default function PricingTier({ tier, showAnnualPricing, currency }) {
       ].join(' ')}
     >
       <h2>{name}</h2>
-      <MarkdownText markdown={description} className="small--p sm:text-base" />
+      <MarkdownText
+        markdown={description}
+        className={[
+          'small--p',
+          'sm:text-base',
+          'xxs:min-h-2-lines',
+          'xxs:mb-0',
+          'xs:min-h-fit',
+          'xs:mb-5',
+          'sm:min-h-4-lines',
+          'sm:mb-0',
+          'md:min-h-3-lines',
+          'lg:min-h-fit',
+          'lg:mb-5',
+        ].join(' ')}
+      />
       <PricingTierMonthlyCost amount={monthlyCost[currency]} showAnnualPricing={showAnnualPricing} currency={currency} />
       <PricingTierServiceFee percentage={serviceFeePercentage} />
       <TryFeed
