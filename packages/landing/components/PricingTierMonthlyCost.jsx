@@ -16,7 +16,7 @@ export default function PricingTierMonthlyCost({ amount, currency, isManaged, sh
       className={[
         'flex',
         'items-center',
-        amount === 0 && 'text-grey-3',
+        amount === 0 ? 'text-grey-3' : null,
       ].join(' ')}
     >
       <p
@@ -36,7 +36,7 @@ export default function PricingTierMonthlyCost({ amount, currency, isManaged, sh
           'font-display',
           'font-bold',
           'pr-2',
-          showAnnualPricing && amount > 0 && 'text-green',
+          showAnnualPricing && amount > 0 ? 'text-green' : null,
         ].join(' ')}
       >
         {showAnnualPricing ? formattedAmount * 0.8 : formattedAmount}

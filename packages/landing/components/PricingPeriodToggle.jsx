@@ -15,7 +15,7 @@ export default function PricingPeriodToggle({ showAnnualPricing, setShowAnnualPr
           'xxs:row-start-1',
           'xxs:col-span-1',
           'xxs:col-start-2',
-          !showAnnualPricing && 'bold',
+          !showAnnualPricing ? 'bold' : null,
           'mb-0',
           'text-right',
         ].join(' ')}
@@ -38,7 +38,7 @@ export default function PricingPeriodToggle({ showAnnualPricing, setShowAnnualPr
           'col-start-4',
           'col-span-2',
           'xxs:row-start-1',
-          showAnnualPricing && 'bold',
+          showAnnualPricing ? 'bold' : null,
           'mb-0',
         ].join(' ')}
       >
