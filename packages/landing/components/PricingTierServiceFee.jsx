@@ -6,7 +6,7 @@ export default function PricingTierServiceFee({ percentage }) {
       className={[
         'flex',
         'items-center',
-        percentage === 0 && 'text-grey-3',
+        percentage === 0 ? 'text-grey-3' : null,
       ].join(' ')}
     >
       <p className="h2">{percentage * 100}</p>

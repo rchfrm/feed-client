@@ -6,7 +6,6 @@ import brandColors from '@/constants/brandColors'
 export default function PricingTierFeature({ feature, index }) {
   return (
     <div
-      key={index}
       className={['flex', 'items-center', 'pb-5'].join(' ')}
     >
       <TickIcon
