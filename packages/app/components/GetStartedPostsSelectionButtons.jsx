@@ -57,6 +57,8 @@ const GetStartedPostsSelectionButtons = ({
       return updatePost({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
     })
 
+    setEnabledPosts(enabledPosts)
+
     // Patch promotion enabled value in the db
     await Promise.all(postPromises)
 
@@ -69,10 +71,7 @@ const GetStartedPostsSelectionButtons = ({
       },
     })
 
-    setEnabledPosts(enabledPosts)
-
     setIsLoading(false)
-
     next()
   }
 
@@ -116,7 +115,7 @@ const GetStartedPostsSelectionButtons = ({
         className={[shouldAdjustLayout ? 'w-full' : 'w-56 mx-2'].join(' ')}
         trackComponentName="GetStartedPostsSelectionButtons"
       >
-        Save
+        Next
         <ArrowAltIcon
           className="ml-3"
           direction="right"

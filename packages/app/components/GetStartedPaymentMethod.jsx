@@ -85,7 +85,7 @@ const GetStartedPaymentMethod = () => {
   return (
     <div className="flex flex-1 flex-column mb-6">
       <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.paymentMethodSubtitle}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.paymentMethodDescription} />
+      <MarkdownText className="hidden xs:block sm:w-2/3 mb-10 text-grey-3 italic" markdown={copy.paymentMethodDescription} />
       <Error error={error} />
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
         {defaultPaymentMethod ? (
@@ -115,7 +115,7 @@ const GetStartedPaymentMethod = () => {
           version="green"
           onClick={savePaymentMethod}
           loading={isLoading}
-          className="w-full sm:w-48 mx-auto"
+          className="w-full sm:w-48 mt-12 mx-auto"
           trackComponentName="GetStartedPaymentMethod"
         >
           Save

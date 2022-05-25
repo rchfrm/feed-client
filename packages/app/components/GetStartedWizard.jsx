@@ -143,7 +143,7 @@ const GetStartedWizard = () => {
     {
       id: 10,
       name: profileStatus.paymentMethod,
-      title: 'Payment method',
+      title: 'Feed’s service fee',
       section: getStartedSections.targeting,
       component: <GetStartedPaymentMethod />,
     },
