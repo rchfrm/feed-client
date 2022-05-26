@@ -20,7 +20,6 @@ const getControlsStoreState = (state) => ({
 })
 
 const getBillingStoreState = (state) => ({
-  setupBilling: state.setupBilling,
   defaultPaymentMethod: state.defaultPaymentMethod,
 })
 
@@ -45,11 +44,7 @@ const useCheckProfileSetupStatus = () => {
   const hasSalesObjective = objective === 'sales'
 
   // Get artist context values
-  const {
-    artistId,
-    artist,
-    artistLoading,
-  } = React.useContext(ArtistContext)
+  const { artist } = React.useContext(ArtistContext)
 
   const {
     feedMinBudgetInfo: {
@@ -58,7 +53,6 @@ const useCheckProfileSetupStatus = () => {
       } = {},
     },
     daily_budget: dailyBudget,
-    min_daily_budget_info: minDailyBudgetInfo,
   } = artist
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
@@ -69,16 +63,7 @@ const useCheckProfileSetupStatus = () => {
   // Get user context value
   const { user } = React.useContext(UserContext)
 
-  // Set-up billing store
-  const { setupBilling, defaultPaymentMethod } = useBillingStore(getBillingStoreState)
-
-  React.useEffect(() => {
-    if (!artistId || artistLoading) return
-
-    const { currency: artistCurrency } = minDailyBudgetInfo || {}
-    setupBilling({ user, artistCurrency, shouldFetchOrganisationDetailsOnly: true })
-  // eslint-disable-next-line
-  }, [artistId, artistLoading, user, setupBilling])
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
   // Get targeting context values
   const { locations } = React.useContext(TargetingContext)
