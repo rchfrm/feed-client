@@ -73,7 +73,7 @@ const ReferralCodeProgress = ({
             return (
               <li
                 key={referrals}
-                className="relative flex items-center mb-6 last:mb-0 iphone8:ml-12 xxs:ml-16"
+                className="relative flex items-center mb-6 last:mb-0 iphone8:ml-16 xxs:ml-24"
               >
                 <p
                   className={[

@@ -14,7 +14,7 @@ const BAR = ({ useMask, percentComplete, style }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="none"
-      className="absolute top-0 left-0 mt-2 w-6 xxs:w-auto rounded-t-full rounded-b-button"
+      className="absolute top-0 left-0 mt-2 w-10 rounded-t-full rounded-b-button"
       style={{
         ...style,
         height: 'calc(100% - 0.9rem)',
@@ -32,7 +32,7 @@ const BAR = ({ useMask, percentComplete, style }) => {
         fillRule="evenodd"
         clipRule="evenodd"
         d={`M16.5 0H0L10.681 ${height}H16.5H22.319L32 0H16.5Z`}
-        fill="url(#paint0_linear)"
+        fill={brandColors.yellow}
       />
       <defs>
         <linearGradient id="paint0_linear" x1="29.7931" y1="0" x2="29.7931" y2={height} gradientUnits="userSpaceOnUse">
