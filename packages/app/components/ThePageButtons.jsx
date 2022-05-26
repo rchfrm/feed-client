@@ -14,30 +14,6 @@ import styles from '@/app/ThePageButtons.module.css'
 
 import * as ROUTES from '@/app/constants/routes'
 
-const links = [
-  {
-    href: ROUTES.POSTS,
-    title: 'posts',
-    icon: 'posts',
-  },
-  {
-    href: ROUTES.CONTROLS,
-    title: 'controls',
-    icon: 'controls',
-    matchingHrefs: ROUTES.controlsPages,
-  },
-  {
-    href: ROUTES.RESULTS,
-    title: 'results',
-    icon: 'results',
-  },
-  {
-    href: ROUTES.INSIGHTS,
-    title: 'insights',
-    icon: 'insights',
-  },
-]
-
 const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }) => {
   // CONTROLS PAGE
   if (icon === 'controls') {
@@ -64,8 +40,46 @@ const ThePageButtons = () => {
   const {
     artistLoading,
     hasBudget,
-    artist: { missingDefaultLink, isSpendingPaused },
+    artist: {
+      missingDefaultLink,
+      isSpendingPaused,
+      feedMinBudgetInfo: {
+        currencyCode,
+      },
+    } = {},
   } = React.useContext(ArtistContext)
+
+  console.log(currencyCode)
+
+  const links = [
+    {
+      href: ROUTES.POSTS,
+      title: 'posts',
+      icon: 'posts',
+    },
+    {
+      href: ROUTES.CONTROLS,
+      title: 'controls',
+      icon: 'controls',
+      matchingHrefs: ROUTES.controlsPages,
+    },
+    {
+      href: ROUTES.RESULTS,
+      title: 'results',
+      icon: 'results',
+    },
+    {
+      href: ROUTES.INSIGHTS,
+      title: 'insights',
+      icon: 'insights',
+    },
+    {
+      href: ROUTES.MYREFERRAL,
+      title: currencyCode === 'USD' ? '$100' : '£75',
+      icon: 'referral',
+    },
+  ]
+
   // Don't show buttons if no logged in
   if (!isLoggedIn || user.is_email_verification_needed || isGetStartedPage) return null
 
