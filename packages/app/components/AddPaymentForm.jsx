@@ -178,7 +178,7 @@ const FORM = ({
 
       {/* NAME */}
       <Input
-        label={shouldShowLabels ? 'Full name' : null}
+        label={shouldShowLabels && 'Full name'}
         placeholder="Name on card"
         name="name"
         value={name}
@@ -189,7 +189,7 @@ const FORM = ({
       {/* CARD ELEMENT
           Includes: Card number, expiry date, CVC, postal/zip
       */}
-      <InputBase label={shouldShowLabels ? 'Card details' : null} name="card-details" required>
+      <InputBase label={shouldShowLabels && 'Card details'} name="card-details" required>
         <div className="border-2 border-solid border-black rounded-button px-4 py-5">
           <CardElement
             options={STRIPE_ELEMENT_OPTIONS}
