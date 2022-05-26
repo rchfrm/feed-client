@@ -7,8 +7,6 @@ const { black } = brandColors
 
 const StarIcon = ({
   fill,
-  stroke,
-  strokeWidth,
   className,
   style,
 }) => {
@@ -38,20 +36,15 @@ const StarIcon = ({
 
 StarIcon.propTypes = {
   fill: PropTypes.string,
-  stroke: PropTypes.string,
-  strokeWidth: PropTypes.number,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
 StarIcon.defaultProps = {
   fill: black,
-  stroke: null,
-  strokeWidth: 0,
   className: '',
   style: null,
 }
-
 
 export default StarIcon
 
