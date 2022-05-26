@@ -1,12 +1,12 @@
 const referralAmounts = {
   GBP: 75,
-  USD: 100,
-  EUR: 100,
-  CAD: 100,
-  AUD: 100,
+  USD: 90,
+  EUR: 90,
+  CAD: 120,
+  AUD: 130,
   NOK: 900,
   MXN: 1900,
-  SEK: 900,
+  SEK: 930,
 }
 
 export default referralAmounts
