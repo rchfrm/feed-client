@@ -30,7 +30,7 @@ const STRIPE_ELEMENT_OPTIONS = {
       color: brandColors.black,
       letterSpacing: '0.025em',
       '::placeholder': {
-        color: brandColors.grey,
+        color: brandColors.greyDark,
       },
     },
     invalid: {

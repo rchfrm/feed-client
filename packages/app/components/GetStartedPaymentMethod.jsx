@@ -119,7 +119,7 @@ const GetStartedPaymentMethod = () => {
           className="w-full sm:w-48 mt-12 mx-auto"
           trackComponentName="GetStartedPaymentMethod"
         >
-          Save
+          Next
           <ArrowAltIcon
             className="ml-3"
             direction="right"
