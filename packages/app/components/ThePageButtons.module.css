@@ -122,6 +122,10 @@
     }
   }
 
+  .linkAnchor_referral & {
+    opacity: 1;
+  }
+
   .linkAnchor._active & {
     opacity: 1;
   }

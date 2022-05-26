@@ -10,6 +10,8 @@ import { UserContext } from '@/app/contexts/UserContext'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useBrowserStore from '@/hooks/useBrowserStore'
 
+import getReferralAmount from '@/app/helpers/referralHelpers'
+
 import styles from '@/app/ThePageButtons.module.css'
 
 import * as ROUTES from '@/app/constants/routes'
@@ -49,8 +51,6 @@ const ThePageButtons = () => {
     } = {},
   } = React.useContext(ArtistContext)
 
-  console.log(currencyCode)
-
   const links = [
     {
       href: ROUTES.POSTS,
@@ -75,7 +75,7 @@ const ThePageButtons = () => {
     },
     {
       href: ROUTES.MYREFERRAL,
-      title: currencyCode === 'USD' ? '$100' : '£75',
+      title: getReferralAmount(currencyCode),
       icon: 'referral',
     },
   ]
@@ -102,6 +102,7 @@ const ThePageButtons = () => {
                   'relative',
                   styles.linkAnchor,
                   icon === 'posts' ? styles.linkAnchor_posts : null,
+                  icon === 'referral' ? styles.linkAnchor_referral : null,
                 ].join(' ')}
                 >
                   <ThePageButtonsIcon
