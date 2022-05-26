@@ -22,6 +22,7 @@ export default {
     if (status === 'facebook-pixel') return 'Select your Facebook pixel'
     if (status === 'location') return 'Where are you based?'
     if (status === 'budget') return 'How much would you like to spend?'
+    if (status === 'payment-method') return 'Add a payment method'
 
     return ''
   },
@@ -97,6 +98,10 @@ export default {
   locationDescription: 'This location will be set as your home country.',
   budgetSubtitle: 'What is your daily budget for advertising?',
   budgetDescription: 'You can change this at any time. We recommend running ads for at least 4-6 weeks to get an idea of the impact Feed can have.',
+  paymentMethodSubtitle: 'Which card would you like to pay with?',
+  paymentMethodDescription: `Almost there!
+
+  Feed charges a 10% service fee on the budget you spend through the platform. The fee is included in the budget you set in the previous step, not in addition to it.`,
   budgetFooter: (minBaseUnrounded, currency) => {
     const lowestMultiplier = 3.7
     const highestMultiplier = 8.8
