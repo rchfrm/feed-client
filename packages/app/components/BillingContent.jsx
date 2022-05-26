@@ -83,7 +83,6 @@ const BillingContent = () => {
     upcomingInvoice,
     latestInvoice,
     organisation,
-    billingEnabled,
     allOrgs,
     organisationInvites,
     updateLatestInvoice,
@@ -121,18 +120,15 @@ const BillingContent = () => {
         />
       )}
       {/* ONLY SHOW IF BILLING IS ENABLED FOR THE ORGANISATION */}
-      {billingEnabled ? (
-        <BILLING_CONTENT_SECTIONS
-          loadingErrors={loadingErrors}
-          latestInvoice={latestInvoice}
-          upcomingInvoice={upcomingInvoice}
-          organisation={organisation}
-          updateLatestInvoice={updateLatestInvoice}
-          defaultPaymentMethod={defaultPaymentMethod}
-        />
-      ) : (
-        <em>Coming soon!</em>
-      )}
+      <BILLING_CONTENT_SECTIONS
+        loadingErrors={loadingErrors}
+        latestInvoice={latestInvoice}
+        upcomingInvoice={upcomingInvoice}
+        organisation={organisation}
+        updateLatestInvoice={updateLatestInvoice}
+        defaultPaymentMethod={defaultPaymentMethod}
+      />
+
     </div>
   )
 }

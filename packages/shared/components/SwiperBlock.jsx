@@ -7,6 +7,7 @@ const SwiperBlock = ({
   config,
   navigation,
   pagination,
+  paginationPosition,
   containerClass,
   listClass,
   navigationClass,
@@ -71,6 +72,16 @@ const SwiperBlock = ({
 
   return (
     <div className={containerClass}>
+      {/* PAGINATION */}
+      {pagination && paginationPosition === 'top' && (
+        <div
+          ref={swiperPagination}
+          className={[
+            'swiper-pagination',
+            paginationClass,
+          ].join(' ')}
+        />
+      )}
       <div ref={swiperContainer} className="swiper-container">
         <ul className={[listClass, 'swiper-wrapper'].join(' ')}>
           {children}
@@ -89,7 +100,7 @@ const SwiperBlock = ({
         </div>
       )}
       {/* PAGINATION */}
-      {pagination && (
+      {pagination && paginationPosition === 'bottom' && (
         <div
           ref={swiperPagination}
           className={[
@@ -106,6 +117,7 @@ SwiperBlock.propTypes = {
   config: PropTypes.object,
   navigation: PropTypes.bool,
   pagination: PropTypes.bool,
+  paginationPosition: PropTypes.oneOf(['top', 'bottom']),
   navigationClass: PropTypes.string,
   containerClass: PropTypes.string,
   listClass: PropTypes.string,
@@ -119,6 +131,7 @@ SwiperBlock.propTypes = {
 SwiperBlock.defaultProps = {
   navigation: false,
   pagination: false,
+  paginationPosition: 'bottom',
   navigationClass: '',
   containerClass: '',
   listClass: '',

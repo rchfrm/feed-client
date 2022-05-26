@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 import { formatCurrency } from '@/helpers/utils'
 
-const referralAmount = 50
+const referralAmount = 75
 
 export default {
   signupClosedIntro: `**There is currently a waiting list to join the Feed beta.**`,
@@ -43,7 +43,7 @@ export default {
         referrals: 1,
         award: `${basicCredit} towards your advertising budget`,
         footnoteSymbol: '*',
-        footnote: 'Applicable for every qualifying referral made from February \'22.',
+        footnote: 'Applicable for every qualifying referral made from June \'22.',
       },
       {
         referrals: 2,

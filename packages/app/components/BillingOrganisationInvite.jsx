@@ -5,7 +5,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import BillingOrganisationInviteForm from '@/app/BillingOrganisationInviteForm'
 import copy from '@/app/copy/billingCopy'
-import sidePanelStyles from '@/app/SidePanel.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'

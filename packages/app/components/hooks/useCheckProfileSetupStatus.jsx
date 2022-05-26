@@ -1,6 +1,7 @@
 import React from 'react'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBillingStore from '@/app/stores/billingStore'
 
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -16,6 +17,10 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
   updateProfileSetUpStatus: state.updateProfileSetUpStatus,
   budget: state.budget,
+})
+
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
 })
 
 const useCheckProfileSetupStatus = () => {
@@ -44,7 +49,7 @@ const useCheckProfileSetupStatus = () => {
   const {
     feedMinBudgetInfo: {
       majorUnit: {
-        minReccomendedStories,
+        minRecommendedStories,
       } = {},
     },
     daily_budget: dailyBudget,
@@ -53,10 +58,12 @@ const useCheckProfileSetupStatus = () => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
   const facebookPixelId = facebookIntegration?.pixel_id
-  const hasSufficientBudget = (!hasSalesObjective && Boolean(dailyBudget)) || (hasSalesObjective && dailyBudget >= minReccomendedStories)
+  const hasSufficientBudget = (!hasSalesObjective && Boolean(dailyBudget)) || (hasSalesObjective && dailyBudget >= minRecommendedStories)
 
   // Get user context value
   const { user } = React.useContext(UserContext)
+
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
   // Get targeting context values
   const { locations } = React.useContext(TargetingContext)
@@ -103,7 +110,11 @@ const useCheckProfileSetupStatus = () => {
       name: profileStatus.budget,
       isComplete: hasSufficientBudget,
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
+    {
+      name: profileStatus.paymentMethod,
+      isComplete: Boolean(defaultPaymentMethod),
+    },
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => !condition.isComplete)?.name

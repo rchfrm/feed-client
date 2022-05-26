@@ -8,6 +8,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBillingStore from '@/app/stores/billingStore'
 import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
@@ -21,6 +22,7 @@ import GetStartedAdAccount from '@/app/GetStartedAdAccount'
 import GetStartedFacebookPixel from '@/app/GetStartedFacebookPixel'
 import GetStartedLocation from '@/app/GetStartedLocation'
 import GetStartedDailyBudget from '@/app/GetStartedDailyBudget'
+import GetStartedPaymentMethod from '@/app/GetStartedPaymentMethod'
 import GetStartedSummary from '@/app/GetStartedSummary'
 import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
@@ -40,6 +42,10 @@ const getControlsStoreState = (state) => ({
   isControlsLoading: state.isControlsLoading,
 })
 
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
+})
+
 const GetStartedWizard = () => {
   const [steps, setSteps] = React.useState([])
 
@@ -55,6 +61,8 @@ const GetStartedWizard = () => {
     profileSetupStatus,
     isControlsLoading,
   } = useControlsStore(getControlsStoreState)
+
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
   const { objective, platform } = optimizationPreferences
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId)
@@ -141,6 +149,14 @@ const GetStartedWizard = () => {
     },
     {
       id: 10,
+      name: profileStatus.paymentMethod,
+      title: "Feed's service fee",
+      section: getStartedSections.targeting,
+      component: <GetStartedPaymentMethod />,
+      shouldSkip: Boolean(defaultPaymentMethod),
+    },
+    {
+      id: 11,
       title: '',
       component: <GetStartedSummary />,
     },

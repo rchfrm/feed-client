@@ -18,7 +18,7 @@ import PostCardEditCaption from '@/app/PostCardEditCaption'
 import * as ROUTES from '@/app/constants/routes'
 import { promotionStatusSlugs } from '@/app/helpers/postsHelpers'
 
-import sidePanelStyles from '@/app/SidePanel.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 import useControlsStore from '@/app/stores/controlsStore'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import Button from '@/elements/Button'
 

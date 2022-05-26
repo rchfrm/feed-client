@@ -27,7 +27,7 @@ const useCheckObjectiveChangeStatus = (objective, platform) => {
   const {
     feedMinBudgetInfo: {
       majorUnit: {
-        minReccomendedStories,
+        minRecommendedStories,
       } = {},
     },
     daily_budget: dailyBudget,
@@ -35,7 +35,7 @@ const useCheckObjectiveChangeStatus = (objective, platform) => {
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const facebookPixelId = facebookIntegration?.pixel_id
-  const hasSufficientBudget = !hasSalesObjective || (hasSalesObjective && dailyBudget >= minReccomendedStories)
+  const hasSufficientBudget = !hasSalesObjective || (hasSalesObjective && dailyBudget >= minRecommendedStories)
 
   // Define objective change steps
   const objectiveChangeSteps = React.useMemo(() => [

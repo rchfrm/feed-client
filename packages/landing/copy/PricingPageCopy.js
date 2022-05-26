@@ -1,7 +1,24 @@
 /* eslint-disable quotes */
 
 export default {
-  title: `We charge 10% of your budget. <strong>That's it.</strong>`,
-  description: "No commitments: start and stop whenever you like (though a consistent approach to promotion works best) with no minimum budget (well... there is, but it's just £2 per day).",
-  budgetInput: 'Enter your daily budget to see a breakdown of your spend over a month.',
+  titlePartA: 'Grow your audience, generate sales',
+  titlePartB: 'and never log in to Ads Manager again.',
+  twoThousandPlus: 'Spending more than £2,000 per month? [Get in touch](https://meetings.hubspot.com/feed/enterprise)',
+  currencies: {
+    GBP: '£',
+    USD: '$',
+    EUR: '€',
+    CAD: '$',
+    AUD: '$',
+    NOK: 'kr',
+    MXN: '$',
+    SEK: 'kr',
+  },
+  get currencyOptions() {
+    return Object.keys(this.currencies)
+  },
+  footnotes: `
+  ^ A profile is a Facebook page and Instagram account for the same person, brand or company\n
+  ° Multiple objectives coming June-July 2022
+  `,
 }
