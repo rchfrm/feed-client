@@ -9,7 +9,7 @@ import Error from '@/elements/Error'
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import sidePanelStyles from '@/app/SidePanel.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 import { fetchArchivedInvoices } from '@/app/helpers/invoiceHelpers'
 

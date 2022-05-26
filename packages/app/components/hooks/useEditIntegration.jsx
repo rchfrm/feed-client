@@ -2,7 +2,7 @@ import React from 'react'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import IntegrationsEditModal from '@/app/IntegrationsEditModal'
 

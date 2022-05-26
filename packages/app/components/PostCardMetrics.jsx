@@ -7,7 +7,7 @@ import PostCardMetricsList from '@/app/PostCardMetricsList'
 
 import { getPostMetricsContent } from '@/app/helpers/postsHelpers'
 
-import sidePanelStyles from '@/app/SidePanel.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 import copy from '@/app/copy/PostsPageCopy'
 

@@ -4,10 +4,9 @@ import useAsyncEffect from 'use-async-effect'
 
 import InitUser from '@/app/InitUser'
 
-import { SidePanelContextProvider } from '@/app/contexts/SidePanelContext'
+import { SidePanelContextProvider } from '@/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import IntegrationErrorHandler from '@/app/IntegrationErrorHandler'
 import NotificationsHandler from '@/app/NotificationsHandler'
@@ -36,7 +35,6 @@ function Main({ children }) {
   const { user } = React.useContext(UserContext)
   const { artistId, artist, artistLoading } = React.useContext(ArtistContext)
   const { min_daily_budget_info: minDailyBudgetInfo } = artist
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const isFirstRender = React.useRef(true)
 
   const {
@@ -60,7 +58,6 @@ function Main({ children }) {
     clearAll()
 
     await initControlsStore(artist, 'fetchData')
-    toggleGlobalLoading(false)
   }, [artistId])
 
   const { setupBilling, organisation } = useBillingStore(getBillingStoreState)

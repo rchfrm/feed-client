@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'

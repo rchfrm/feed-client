@@ -51,7 +51,7 @@ const DefaultLinkForm = ({
   }
 
   return (
-    <div className="flex">
+    <div className="flex w-full">
       {shouldShowSelect ? (
         <PostLinksSelect
           currentLinkId={link.id}

@@ -1,7 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
 
-import SidePanel from '@/app/SidePanel'
+import SidePanel from '@/SidePanel'
 
 import { track } from '@/helpers/trackingHelpers'
 

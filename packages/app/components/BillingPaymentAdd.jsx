@@ -11,7 +11,7 @@ import copy from '@/app/copy/billingCopy'
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import sidePanelStyles from '@/app/SidePanel.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 const getBillingStoreState = (state) => ({
   organisation: state.organisation,

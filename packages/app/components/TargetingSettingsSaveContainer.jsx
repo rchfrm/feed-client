@@ -6,7 +6,7 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import Button from '@/elements/Button'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import { getSaveDisabledReason } from '@/app/helpers/targetingHelpers'
 

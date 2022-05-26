@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import BillingTransferProfile from '@/app/BillingTransferProfile'
 
-import { SidePanelContext } from '@/app/contexts/SidePanelContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import Button from '@/elements/Button'
 
