@@ -83,7 +83,6 @@ const BillingContent = () => {
     upcomingInvoice,
     latestInvoice,
     organisation,
-    billingEnabled,
     allOrgs,
     organisationInvites,
     updateLatestInvoice,

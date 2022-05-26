@@ -11,9 +11,6 @@ const BillingInvoiceSummarySelectedInvoice = ({
   noLatestInvoiceOrIsPaid,
   upcomingInvoiceSpendAndFee,
 }) => {
-  console.log('invoice', invoice)
-  console.log('noLatestInvoiceOrIsPaid', noLatestInvoiceOrIsPaid)
-  console.log('upcomingInvoiceSpendAndFee', upcomingInvoiceSpendAndFee)
   if (noLatestInvoiceOrIsPaid && !upcomingInvoiceSpendAndFee) {
     return (
       <p className="text-center">Start reaching new audiences by setting a budget from the <Link href="/controls" target="_self">controls page</Link>!</p>
