@@ -53,8 +53,6 @@ const GetStartedPostsSelectionButtons = ({
       return
     }
 
-    setEnabledPosts(enabledPosts)
-
     const postPromises = posts.map(({ id, promotionEnabled }) => {
       return updatePost({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
     })
@@ -71,7 +69,10 @@ const GetStartedPostsSelectionButtons = ({
       },
     })
 
+    setEnabledPosts(enabledPosts)
+
     setIsLoading(false)
+
     next()
   }
 
