@@ -2,11 +2,37 @@
   "compilerOptions": {
     "baseUrl": "../",
     "paths": {
-      "~/*": ["shared/*"],
+      "@/app/copy/*": ["app/copy/*"],
+      "@/app/constants/*": ["app/constants/*"],
+      "@/app/helpers/*": ["app/helpers/*"],
+      "@/app/graphQl/*": ["app/graphQl/*"],
+      "@/app/tempGlobalData/*": ["app/tempGlobalData/*"],
+      "@/app/*": ["app/components/*"],
+
+      "@/admin/copy/*": ["admin/copy/*"],
+      "@/admin/constants/*": ["admin/constants/*"],
+      "@/admin/helpers/*": ["admin/helpers/*"],
+      "@/admin/*": ["admin/components/*"],
+
+      "@/landing/constants/*": ["landing/constants/*"],
+      "@/landing/copy/*": ["landing/copy/*"],
+      "@/landing/tempData/*": ["landing/tempData/*"],
+      "@/landing/helpers/*": ["landing/helpers/*"],
+      "@/landing/graphQl/*": ["landing/graphQl/*"],
+      "@/landing/*": ["landing/components/*"],
+
+      "@/elements/*": ["shared/components/elements/*"],
+      "@/icons/*": ["shared/components/icons/*"],
+      "@/hooks/*": ["shared/components/hooks/*"],
+      "@/constants/*": ["shared/constants/*"],
+      "@/helpers/*": ["shared/helpers/*"],
+      "@/graphQl/*": ["shared/graphQl/*"],
+      "@/*": ["shared/components/*"],
+      "~/*": ["shared/*"]
     }
   },
   "exclude": [
     "app/dist",
-    "dist",
-  ],
+    "dist"
+  ]
 }

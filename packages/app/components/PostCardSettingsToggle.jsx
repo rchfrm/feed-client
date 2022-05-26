@@ -62,43 +62,45 @@ const PostCardSettingsToggle = ({
   }, [campaignType])
 
   return (
-    <div
-      className={[
-        'flex items-center',
-        'rounded-dialogue bg-grey-1',
-        'mb-10 p-3',
-        showAlertModal ? 'border-2 border-solid border-red' : null,
-      ].join(' ')}
-    >
-      <ToggleSwitch
-        state={isEnabled}
-        onChange={onChange}
-        isLoading={isLoading}
-        className="mr-4"
-        disabled={isDisabled}
-      />
-      <p className="font-bold mb-0">{`Promotion ${isEnabled ? 'enabled' : 'disabled'}`}</p>
-      {postPromotable && promotionStatus === 'active' && hasChanged && (
-        <PostCardDisableHandler
-          post={post}
-          postToggleSetterType={postToggleSetterType}
-          artistId={artistId}
-          toggleCampaign={toggleCampaign}
-          isEnabled={isEnabled}
-          setIsEnabled={setIsEnabled}
-          campaignType={campaignType}
+    <div className="flex flex-column w-1/2">
+      <h3 className="font-bold text-lg">Promotion</h3>
+      <div
+        className={[
+          'flex items-center',
+          'mb-10',
+          showAlertModal ? 'border-2 border-solid border-red' : null,
+        ].join(' ')}
+      >
+        <ToggleSwitch
+          state={isEnabled}
+          onChange={onChange}
+          isLoading={isLoading}
+          className="mr-4"
+          disabled={isDisabled}
         />
-      )}
-      {/* TOGGLE ALERT */}
-      {shouldShowAlert && (
-        <PostCardToggleAlert
-          show={shouldShowAlert}
-          onAlertConfirm={goToControlsPage}
-          onCancel={() => {
-            setShouldShowAlert(false)
-          }}
-        />
-      )}
+        <p className="mb-0">{isEnabled ? 'Enabled' : 'Disabled'}</p>
+        {postPromotable && promotionStatus === 'active' && hasChanged && (
+          <PostCardDisableHandler
+            post={post}
+            postToggleSetterType={postToggleSetterType}
+            artistId={artistId}
+            toggleCampaign={toggleCampaign}
+            isEnabled={isEnabled}
+            setIsEnabled={setIsEnabled}
+            campaignType={campaignType}
+          />
+        )}
+        {/* TOGGLE ALERT */}
+        {shouldShowAlert && (
+          <PostCardToggleAlert
+            show={shouldShowAlert}
+            onAlertConfirm={goToControlsPage}
+            onCancel={() => {
+              setShouldShowAlert(false)
+            }}
+          />
+        )}
+      </div>
     </div>
   )
 }

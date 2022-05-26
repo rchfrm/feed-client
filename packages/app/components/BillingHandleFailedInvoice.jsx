@@ -10,7 +10,7 @@ import useBillingStore from '@/app/stores/billingStore'
 
 import copy from '@/app/copy/billingCopy'
 
-import sidePanelStyles from '@/app/SidePanel.module.css'
+import sidePanelStyles from '@/SidePanel.module.css'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({

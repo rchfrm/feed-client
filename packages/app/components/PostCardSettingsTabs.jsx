@@ -13,7 +13,7 @@ const PostCardSettingsTabs = ({ campaignType, setCampaignType }) => {
             key={slug}
             className={[
               'mr-5',
-              isActive ? 'text-black border-solid border-black border-b-2' : '',
+              isActive ? 'text-black' : null,
             ].join(' ')}
           >
             <button

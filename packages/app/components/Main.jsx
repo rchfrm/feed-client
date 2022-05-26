@@ -4,7 +4,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import InitUser from '@/app/InitUser'
 
-import { SidePanelContextProvider } from '@/app/contexts/SidePanelContext'
+import { SidePanelContextProvider } from '@/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'

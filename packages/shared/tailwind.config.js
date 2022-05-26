@@ -56,6 +56,11 @@ module.exports = (contentFiles) => ({
         22: '5.5rem',
         23: '5.75rem',
       },
+      minHeight: {
+        '2-lines': '2.4rem',
+        '3-lines': '3.6rem',
+        '4-lines': '4.8rem',
+      },
       spacing: {
         7: '1.75rem',
         9: '2.25rem',
