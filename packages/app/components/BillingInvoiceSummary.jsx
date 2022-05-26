@@ -12,8 +12,10 @@ const BillingInvoiceSummary = ({
   upcomingInvoice,
   className,
 }) => {
-  const initSelectedInvoiceName = upcomingInvoice?.paymentStatus !== 'paid' ? 'upcoming' : 'latest'
+  const initSelectedInvoiceName = upcomingInvoice.paymentStatus && upcomingInvoice.paymentStatus !== 'paid' ? 'upcoming' : 'latest'
   const [selectedInvoiceName, setSelectedInvoiceName] = React.useState(initSelectedInvoiceName)
+  console.log('latestInvoice', latestInvoice)
+  console.log('upcomingInvoice', upcomingInvoice)
   const noLatestInvoiceOrIsPaid = !latestInvoice.paymentStatus || latestInvoice.paymentStatus === 'paid'
   return (
     <div
