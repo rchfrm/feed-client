@@ -597,6 +597,7 @@ export const profileStatus = {
   facebookPixel: 'facebook-pixel',
   location: 'location',
   budget: 'budget',
+  paymentMethod: 'payment-method',
   confirmSetup: 'confirm-setup',
 }
 

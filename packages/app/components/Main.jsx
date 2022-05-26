@@ -12,6 +12,7 @@ import IntegrationErrorHandler from '@/app/IntegrationErrorHandler'
 import NotificationsHandler from '@/app/NotificationsHandler'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBillingStore from '@/app/stores/billingStore'
 import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
 
 import * as server from '@/app/helpers/appServer'
@@ -25,9 +26,15 @@ const getControlsStoreState = (state) => ({
   controlsLoading: state.isControlsLoading,
 })
 
+const getBillingStoreState = (state) => ({
+  setupBilling: state.setupBilling,
+  organisation: state.organisation,
+})
+
 function Main({ children }) {
   const { user } = React.useContext(UserContext)
-  const { artistId, artist } = React.useContext(ArtistContext)
+  const { artistId, artist, artistLoading } = React.useContext(ArtistContext)
+  const { min_daily_budget_info: minDailyBudgetInfo } = artist
   const isFirstRender = React.useRef(true)
 
   const {
@@ -36,7 +43,7 @@ function Main({ children }) {
     setEnabledPosts,
   } = useCheckProfileSetupStatus()
 
-  // SETUP CONTROLS STORE WHEN ARTIST CHANGES
+  // Setup controls store when artist changes
   const {
     initControlsStore,
     updateLinksWithIntegrations,
@@ -44,6 +51,33 @@ function Main({ children }) {
     controlsLoading,
     updateProfileSetUpStatus,
   } = useControlsStore(getControlsStoreState)
+
+  useAsyncEffect(async () => {
+    if (!artistId) return
+
+    clearAll()
+
+    await initControlsStore(artist, 'fetchData')
+  }, [artistId])
+
+  const { setupBilling, organisation } = useBillingStore(getBillingStoreState)
+
+  // Setup billing store
+  React.useEffect(() => {
+    if (!artistId || artistLoading || Object.keys(organisation).length > 0) return
+
+    const { currency: artistCurrency } = minDailyBudgetInfo || {}
+    setupBilling({ user, artistCurrency, shouldFetchOrganisationDetailsOnly: true })
+  // eslint-disable-next-line
+  }, [artistId, artistLoading, organisation])
+
+  // Update integrations when they change on artist
+  React.useEffect(() => {
+    if (Array.isArray(artist.integrations)) {
+      updateLinksWithIntegrations(artist)
+    }
+  // eslint-disable-next-line
+  }, [artist.integrations])
 
   const fetchEnabledPosts = async () => {
     const enabledPosts = await server.getPosts({
@@ -55,22 +89,6 @@ function Main({ children }) {
     })
     setEnabledPosts(enabledPosts)
   }
-
-  useAsyncEffect(async () => {
-    if (!artistId) return
-
-    clearAll()
-
-    await initControlsStore(artist, 'fetchData')
-  }, [artistId])
-
-  // UPDATE INTEGRATIONS when they change on artist
-  React.useEffect(() => {
-    if (Array.isArray(artist.integrations)) {
-      updateLinksWithIntegrations(artist)
-    }
-  // eslint-disable-next-line
-  }, [artist.integrations])
 
   // Update profile setup status in controls store
   useAsyncEffect(async () => {

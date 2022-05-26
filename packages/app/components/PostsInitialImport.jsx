@@ -38,13 +38,15 @@ const PostsInitialImport = ({
   }
 
   React.useEffect(() => {
+    if (!artistId) return
+
     if (!intervalId) {
       checkInitialPostsImportStatus()
     }
 
     return () => clearInterval(intervalId)
     // eslint-disable-next-line
-  }, [intervalId])
+  }, [intervalId, artistId])
 
   React.useEffect(() => {
     if (!initialLoading && !intervalId) {
