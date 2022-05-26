@@ -1,7 +1,5 @@
 /* eslint-disable quotes */
-import { formatCurrency } from '@/helpers/utils'
-
-const referralAmount = 50
+import getReferralAmount from '@/app/helpers/referralHelpers'
 
 export default {
   signupClosedIntro: `**There is currently a waiting list to join the Feed beta.**`,
@@ -18,13 +16,13 @@ export default {
   explanation: `This is your referral code. Share it with others to let them jump the queue and sign up to Feed.`,
 
   // Explain about sharing link
-  sharingLinkExplanation: `You can also share a direct link that will let others sign up using your referral code.`,
+  sharingLinkExplanation: (currencyCode) => `Share your referral code with others to get **${getReferralAmount(currencyCode)}!**`,
 
   // Intro progress
-  introToProgress: (totalReferrals, totalCompleteReferrals, upcomingBenefit) => {
+  introToProgress: (totalReferrals, totalCompleteReferrals, upcomingBenefit, currencyCode) => {
     const totalReferredText = totalReferrals === 1 ? 'someone' : `${totalReferrals} people`
     const totalPendingReferrals = totalReferrals - totalCompleteReferrals
-    const referralAmountString = formatCurrency(referralAmount, 'GBP', true)
+    const referralAmountString = getReferralAmount(currencyCode)
     // No referrals of any kind
     if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend through the platform, you’ll get ${referralAmountString} in credit!`
     // Only incomplete referrals
@@ -36,18 +34,18 @@ export default {
   },
 
   // TIERS
-  tiers: () => {
-    const basicCredit = formatCurrency(referralAmount, 'GBP', true)
+  tiers: (currencyCode) => {
+    const basicCredit = getReferralAmount(currencyCode)
     return [
       {
         referrals: 1,
         award: `${basicCredit} towards your advertising budget`,
         footnoteSymbol: '*',
-        footnote: 'Applicable for every qualifying referral made from February \'22.',
+        footnote: 'Applicable for every qualifying referral made from June \'22.',
       },
       {
         referrals: 2,
-        award: `Another ${basicCredit} (you get this everytime 😉)`,
+        award: `Another ${basicCredit} (you get this everytime)`,
         upcoming: `get another ${basicCredit}`,
       },
       {
@@ -57,7 +55,7 @@ export default {
       },
       {
         referrals: 5,
-        award: `30 minute marketing consultation with Feed team`,
+        award: `30 minute marketing consultation with one of the Feed team`,
         upcoming: `be closer to getting a 30 minute marketing consultation`,
       },
       {

@@ -261,6 +261,7 @@ export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
   return valueFloat.toLocaleString(locale, {
     style: 'currency',
     currency: currencyToUse,
+    currencyDisplay: 'narrowSymbol',
     ...(hideMinorUnits && { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
   })
 }
