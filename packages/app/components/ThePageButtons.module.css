@@ -126,6 +126,11 @@
     opacity: 1;
   }
 
+  .linkAnchor_referral._active & {
+    filter: grayscale(100%);
+    filter: brightness(0%);
+  }
+
   .linkAnchor._active & {
     opacity: 1;
   }
