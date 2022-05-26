@@ -7,16 +7,16 @@ const JoystickIcon = ({ fill, className }) => {
   return (
     <svg
       className={className}
-      width="334"
-      height="384"
-      viewBox="0 0 334 384"
+      width="25"
+      height="25"
+      viewBox="0 0 25 25"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect y="271" width="334" height="113" rx="30" fill={fill} />
-      <rect x="205" y="241" width="62" height="59" rx="10" fill={fill} />
-      <rect width="311" height="56" rx="28" transform="matrix(-4.37114e-08 1 1 4.37114e-08 85 18)" fill={fill} />
-      <path d="M180 78C180 114.451 150.451 144 114 144C77.5492 144 48 114.451 48 78C48 41.5492 77.5492 12 114 12C150.451 12 180 41.5492 180 78Z" fill={fill} />
+      <circle cx="8" cy="4.5" r="4.5" fill={fill} />
+      <circle cx="17.75" cy="18.75" r="3.25" fill={fill} />
+      <rect x="6" width="4" height="25" rx="2" fill={fill} />
+      <rect y="19" width="25" height="6" rx="3" fill={fill} />
     </svg>
   )
 }

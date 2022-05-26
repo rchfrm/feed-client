@@ -71,7 +71,7 @@
   }
 
   @media (--md) {
-    margin: var(--sp-5) 0;
+    margin: 10px 0;
     padding: 0;
     width: calc(var(--sp-10) * 1.2);
 
