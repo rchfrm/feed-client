@@ -57,6 +57,8 @@ const GetStartedPostsSelectionButtons = ({
       return updatePost({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
     })
 
+    setEnabledPosts(enabledPosts)
+
     // Patch promotion enabled value in the db
     await Promise.all(postPromises)
 
@@ -69,10 +71,7 @@ const GetStartedPostsSelectionButtons = ({
       },
     })
 
-    setEnabledPosts(enabledPosts)
-
     setIsLoading(false)
-
     next()
   }
 

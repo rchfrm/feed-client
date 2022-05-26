@@ -46,13 +46,13 @@ const GetStartedDailyBudget = () => {
         minorUnit: {
           minBase,
           minHard: minHardBudget,
-          minReccomendedStories,
+          minRecommendedStories,
         },
         majorUnit: {
           minBaseUnrounded: minBaseUnroundedMajor,
         },
         string: {
-          minReccomendedStories: minReccomendedStoriesString,
+          minRecommendedStories: minRecommendedStoriesString,
         },
       },
       hasSetUpProfile,
@@ -68,7 +68,7 @@ const GetStartedDailyBudget = () => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
-  const hasInsufficientBudget = hasSalesObjective && budget < minReccomendedStories
+  const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
 
   // Get slider settings based on min budget
   const { sliderStep, sliderValueRange } = React.useMemo(() => {
@@ -138,14 +138,14 @@ const GetStartedDailyBudget = () => {
           <TargetingBudgetSlider
             sliderStep={sliderStep}
             sliderValueRange={sliderValueRange}
-            initialBudget={initialTargetingState.budget || minReccomendedStories}
+            initialBudget={initialTargetingState.budget || minRecommendedStories}
             onChange={(budget) => {
               setBudget(budget)
             }}
             currency={currencyCode}
             currencyOffset={currencyOffset}
             shouldShowError={hasInsufficientBudget}
-            errorMessage={copy.inSufficientBudget(minReccomendedStoriesString)}
+            errorMessage={copy.inSufficientBudget(minRecommendedStoriesString)}
             mobileVersion
           />
         </div>

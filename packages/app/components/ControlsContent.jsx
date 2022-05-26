@@ -15,6 +15,7 @@ import IntegrationsPanel from '@/app/IntegrationsPanel'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+import { UserContext } from '@/app/contexts/UserContext'
 
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
@@ -29,6 +30,8 @@ const controlsComponents = {
 const ControlsContent = ({ activeSlug }) => {
   // Destructure context
   const { globalLoading } = React.useContext(InterfaceContext)
+  const { user } = React.useContext(UserContext)
+  const hasArtists = user.artists.length > 0
 
   // Fetch from targeting context
   const {
@@ -47,7 +50,7 @@ const ControlsContent = ({ activeSlug }) => {
     )
   }
 
-  if (globalLoading || !Object.keys(initialTargetingState).length > 0) return <Spinner />
+  if (globalLoading || (hasArtists && !Object.keys(initialTargetingState).length > 0)) return <Spinner />
 
   return (
     <div className="md:grid grid-cols-12 gap-8">
