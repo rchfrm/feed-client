@@ -14,10 +14,12 @@ const ReferralCodeShare = ({
   className,
 }) => {
   const { user: { referral_code } } = React.useContext(UserContext)
-  const baseUrl = process.env.isDev ? 'https://localhost:3001' : 'https://beta.tryfeed.co'
+  const baseUrl = process.env.isDev ? 'https://localhost:3001' : 'https://app.tryfeed.co'
   const joinUrl = `${baseUrl}/join?code=${referral_code}`
   const title = 'Get Feed'
   const text = 'Sign up to Feed'
+  const copyText = joinUrl.replace(/^https?:\/\//, '')
+
   return (
     <div
       className={[
@@ -30,7 +32,7 @@ const ReferralCodeShare = ({
           url={joinUrl}
           title={title}
           text={text}
-          copyText={joinUrl}
+          copyText={copyText}
           version="pink"
           onShare={(shareType) => {
             track('share_referral_code', {
