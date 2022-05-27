@@ -80,19 +80,19 @@ const GetStartedDailyBudget = () => {
   }, [minReccBudget])
 
 
-  const saveBudget = async () => {
+  const saveBudget = async (budget) => {
     await saveTargeting('settings', { ...targetingState, budget })
 
     next()
   }
 
-  const handleNext = async () => {
+  const handleNext = async (budget) => {
     if (budget === initialTargetingState.budget) {
       next()
 
       return
     }
-    saveBudget()
+    saveBudget(budget)
   }
 
   if (!minReccBudget) return <Spinner />
@@ -121,6 +121,7 @@ const GetStartedDailyBudget = () => {
               setBudgetSlider={setBudgetSlider}
               shouldShowError={hasInsufficientBudget}
               errorMessage={copy.inSufficientBudget(minRecommendedStoriesString)}
+              onBudgetSuggestionClick={handleNext}
             />
           </div>
           <div className="flex justify-center">
@@ -136,7 +137,7 @@ const GetStartedDailyBudget = () => {
         </div>
         <Button
           version="green"
-          onClick={handleNext}
+          onClick={() => handleNext(budget)}
           loading={targetingLoading}
           className="w-full sm:w-48"
           trackComponentName="GetStartedDailyBudget"

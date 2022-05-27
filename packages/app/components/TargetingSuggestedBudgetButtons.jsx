@@ -8,6 +8,8 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 const TargetingSuggestedBudgetButtons = ({
   budgetSuggestions,
   sliderValueRange,
+  setBudget,
+  onBudgetSuggestionClick,
 }) => {
   const {
     artist: {
@@ -35,6 +37,8 @@ const TargetingSuggestedBudgetButtons = ({
             budget={budget}
             currency={currencyCode}
             offset={offset}
+            setBudget={setBudget}
+            onBudgetSuggestionClick={onBudgetSuggestionClick}
           />
         )
       })}
@@ -45,6 +49,8 @@ const TargetingSuggestedBudgetButtons = ({
 TargetingSuggestedBudgetButtons.propTypes = {
   budgetSuggestions: PropTypes.array.isRequired,
   sliderValueRange: PropTypes.array.isRequired,
+  setBudget: PropTypes.func.isRequired,
+  onBudgetSuggestionClick: PropTypes.func.isRequired,
 }
 
 TargetingSuggestedBudgetButtons.defaultProps = {

@@ -25,6 +25,7 @@ const TargetingBudgetSetter = ({
   setBudgetSlider,
   shouldShowError,
   errorMessage,
+  onBudgetSuggestionClick,
 }) => {
   React.useEffect(() => {
     if (typeof budget !== 'number') return
@@ -85,6 +86,8 @@ const TargetingBudgetSetter = ({
                 <TargetingSuggestedBudgetButtons
                   budgetSuggestions={[3, 6, 9]}
                   sliderValueRange={sliderValueRange}
+                  setBudget={setBudget}
+                  onBudgetSuggestionClick={onBudgetSuggestionClick}
                 />
               </>
             )}
@@ -109,6 +112,7 @@ TargetingBudgetSetter.propTypes = {
   mobileVersion: PropTypes.bool,
   showCustomBudget: PropTypes.bool.isRequired,
   setBudgetSlider: PropTypes.func.isRequired,
+  onBudgetSuggestionClick: PropTypes.func,
 }
 
 TargetingBudgetSetter.defaultProps = {
@@ -121,6 +125,7 @@ TargetingBudgetSetter.defaultProps = {
   minHardBudget: 0,
   isSummaryVersion: false,
   mobileVersion: false,
+  onBudgetSuggestionClick: () => {},
 }
 
 

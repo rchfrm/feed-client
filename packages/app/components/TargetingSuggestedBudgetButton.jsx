@@ -1,17 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { TargetingContext } from '@/app/contexts/TargetingContext'
+
 import { formatCurrency } from '@/helpers/utils'
 
 const TargetingSuggestedBudgetButton = ({
   budget,
   currency,
   offset,
+  setBudget,
+  onBudgetSuggestionClick,
 }) => {
+  const { budgetSlider } = React.useContext(TargetingContext)
+
+  const onClick = () => {
+    const newBudget = budget * 100
+
+    budgetSlider.noUiSlider.set(newBudget)
+    setBudget(newBudget)
+    onBudgetSuggestionClick(newBudget)
+  }
+
   return (
     <div
       role="button"
-      onClick={() => {}}
+      onClick={onClick}
       className={[
         'absolute w-6 h-5',
         'flex items-center justify-center',
@@ -30,6 +44,8 @@ TargetingSuggestedBudgetButton.propTypes = {
   budget: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
   offset: PropTypes.number.isRequired,
+  setBudget: PropTypes.func.isRequired,
+  onBudgetSuggestionClick: PropTypes.func.isRequired,
 }
 
 TargetingSuggestedBudgetButton.defaultProps = {
