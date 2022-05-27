@@ -47,7 +47,7 @@ export default {
       },
       {
         referrals: 2,
-        award: `Another ${basicCredit} (you get this everytime)`,
+        award: `Another ${basicCredit} (you get this everytime 😉)`,
         upcoming: `get another ${basicCredit}`,
       },
       {
