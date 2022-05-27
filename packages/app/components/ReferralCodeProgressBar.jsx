@@ -32,7 +32,7 @@ const BAR = ({ useMask, percentComplete, style }) => {
         fillRule="evenodd"
         clipRule="evenodd"
         d={`M16.5 0H0L10.681 ${height}H16.5H22.319L32 0H16.5Z`}
-        fill={brandColors.yellow}
+        fill="url(#paint0_linear)"
       />
       <defs>
         <linearGradient id="paint0_linear" x1="29.7931" y1="0" x2="29.7931" y2={height} gradientUnits="userSpaceOnUse">
