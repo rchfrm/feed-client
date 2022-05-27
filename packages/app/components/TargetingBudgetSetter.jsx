@@ -83,7 +83,8 @@ const TargetingBudgetSetter = ({
                   errorMessage={errorMessage}
                 />
                 <TargetingSuggestedBudgetButtons
-                  budgetSuggestions={[4, 6, 9]}
+                  budgetSuggestions={[3, 6, 9]}
+                  sliderValueRange={sliderValueRange}
                 />
               </>
             )}

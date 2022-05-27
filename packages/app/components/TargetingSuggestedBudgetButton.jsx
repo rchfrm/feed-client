@@ -1,20 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Button from '@/elements/Button'
-
 import { formatCurrency } from '@/helpers/utils'
 
-const TargetingSuggestedBudgetButton = ({ budget, currency }) => {
+const TargetingSuggestedBudgetButton = ({
+  budget,
+  currency,
+  offset,
+}) => {
   return (
-    <Button
-      version="small outline-green"
+    <div
+      role="button"
       onClick={() => {}}
-      className="h-9 mr-2 p-2"
-      trackComponentName="LoginWithEmail"
+      className={[
+        'absolute w-6 h-5',
+        'flex items-center justify-center',
+        'border border-solid border-green rounded-dialogue',
+        'text-xs text-center text-xs rounded-dialogue',
+      ].join(' ')}
+      style={{ left: `calc(${offset}% - 12px)` }}
     >
       {formatCurrency(budget, currency, true)}
-    </Button>
+    </div>
   )
 }
 
@@ -22,6 +29,7 @@ const TargetingSuggestedBudgetButton = ({ budget, currency }) => {
 TargetingSuggestedBudgetButton.propTypes = {
   budget: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
+  offset: PropTypes.number.isRequired,
 }
 
 TargetingSuggestedBudgetButton.defaultProps = {

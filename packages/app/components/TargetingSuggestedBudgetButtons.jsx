@@ -5,7 +5,10 @@ import TargetingSuggestedBudgetButton from '@/app/TargetingSuggestedBudgetButton
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-const TargetingSuggestedBudgetButtons = ({ budgetSuggestions }) => {
+const TargetingSuggestedBudgetButtons = ({
+  budgetSuggestions,
+  sliderValueRange,
+}) => {
   const {
     artist: {
       feedMinBudgetInfo: {
@@ -14,21 +17,34 @@ const TargetingSuggestedBudgetButtons = ({ budgetSuggestions }) => {
     },
   } = React.useContext(ArtistContext)
 
+  const [minSliderValue, maxSliderValue] = sliderValueRange
+
   return (
-    <div className="flex mb-4">
-      {budgetSuggestions.map((budget) => (
-        <TargetingSuggestedBudgetButton
-          key={budget}
-          budget={budget}
-          currency={currencyCode}
-        />
-      ))}
+    <div
+      className="relative flex"
+      style={{ width: 'calc(100% - 24px)', margin: '0 auto 24px' }}
+    >
+      {budgetSuggestions.map((budget) => {
+        const min = minSliderValue / 100
+        const max = maxSliderValue / 100
+        const offset = ((budget - min) / (max - min)) * 100
+
+        return (
+          <TargetingSuggestedBudgetButton
+            key={budget}
+            budget={budget}
+            currency={currencyCode}
+            offset={offset}
+          />
+        )
+      })}
     </div>
   )
 }
 
 TargetingSuggestedBudgetButtons.propTypes = {
   budgetSuggestions: PropTypes.array.isRequired,
+  sliderValueRange: PropTypes.array.isRequired,
 }
 
 TargetingSuggestedBudgetButtons.defaultProps = {

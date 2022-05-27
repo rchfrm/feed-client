@@ -106,7 +106,7 @@ const GetStartedDailyBudget = () => {
         className="text-insta"
       />
       <div className="flex flex-1 flex-column justify-center items-center">
-        <div className="w-full sm:w-2/3 h-26 mb-12 px-6">
+        <div className="w-full sm:w-2/3 h-26 mb-12">
           <div>
             <TargetingBudgetSetter
               budget={budget}
