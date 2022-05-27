@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-import MarkdownText from '@/elements/MarkdownText'
+
 import ReferralCodeProgressBar from '@/app/ReferralCodeProgressBar'
+
+import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/referralCodeCopy'
 
 // Use this to get the next upcoming referral award
@@ -20,13 +21,11 @@ export const getUpcomingReferralAward = (tiers, totalCompleteReferrals, minSpend
 const ReferralCodeProgress = ({
   totalReferrals,
   totalCompleteReferrals,
+  currencyCode,
   className,
 }) => {
-  // Get referral credit amount
-  const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
-
   // Get tiers
-  const tiers = [...copy.tiers(feedMinBudgetInfo.currencyCode)].reverse()
+  const tiers = [...copy.tiers(currencyCode)].reverse()
 
   // Calc percent complete
   const totalTiers = tiers.length
@@ -50,7 +49,7 @@ const ReferralCodeProgress = ({
   const upcomingBenefit = getUpcomingReferralAward(tiers, totalCompleteReferrals)
 
   // Intro copy
-  const introCopy = copy.introToProgress(totalReferrals, totalCompleteReferrals, upcomingBenefit)
+  const introCopy = copy.introToProgress(totalReferrals, totalCompleteReferrals, upcomingBenefit, currencyCode)
 
   return (
     <div
@@ -59,7 +58,7 @@ const ReferralCodeProgress = ({
       ].join(' ')}
     >
       {/* INTRO */}
-      <MarkdownText markdown={introCopy} className="h3--text mb-8" />
+      <MarkdownText markdown={introCopy} className="mb-8" />
       {/* TIERS */}
       <div className="relative mb-10">
         <ReferralCodeProgressBar
@@ -74,7 +73,7 @@ const ReferralCodeProgress = ({
             return (
               <li
                 key={referrals}
-                className="relative flex items-center mb-6 last:mb-0 iphone8:ml-12 xxs:ml-16"
+                className="relative flex items-center mb-6 last:mb-0 iphone8:ml-16 xxs:ml-24"
               >
                 <p
                   className={[
@@ -96,7 +95,7 @@ const ReferralCodeProgress = ({
                     </span>
                   )}
                   <span className={isAchieved ? 'font-bold' : null}>
-                    {award}.
+                    {award}
                     {footnoteSymbol}
                   </span>
                 </p>
@@ -123,6 +122,7 @@ const ReferralCodeProgress = ({
 ReferralCodeProgress.propTypes = {
   totalReferrals: PropTypes.number,
   totalCompleteReferrals: PropTypes.number,
+  currencyCode: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

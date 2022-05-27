@@ -14,7 +14,7 @@ const BAR = ({ useMask, percentComplete, style }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="none"
-      className="absolute top-0 left-0 mt-2 w-6 xxs:w-auto rounded-t-full rounded-b-button"
+      className="absolute top-0 left-0 mt-2 w-10 rounded-t-full rounded-b-button"
       style={{
         ...style,
         height: 'calc(100% - 0.9rem)',

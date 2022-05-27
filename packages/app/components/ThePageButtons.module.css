@@ -71,7 +71,7 @@
   }
 
   @media (--md) {
-    margin: var(--sp-5) 0;
+    margin: 12.5px 0;
     padding: 0;
     width: calc(var(--sp-10) * 1.2);
 
@@ -120,6 +120,15 @@
     svg {
       width: 95%;
     }
+  }
+
+  .linkAnchor_referral & {
+    opacity: 1;
+  }
+
+  .linkAnchor_referral._active & {
+    filter: grayscale(100%);
+    filter: brightness(0%);
   }
 
   .linkAnchor._active & {

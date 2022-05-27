@@ -6,12 +6,11 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { UserContext } from '@/app/contexts/UserContext'
 
-import ReferralCodeWidget from '@/app/ReferralCodeWidget'
-
 import copy from '@/app/copy/referralCodeCopy'
 import { track } from '@/helpers/trackingHelpers'
 
 const ReferralCodeShare = ({
+  currencyCode,
   className,
 }) => {
   const { user: { referral_code } } = React.useContext(UserContext)
@@ -25,20 +24,21 @@ const ReferralCodeShare = ({
         className,
       ].join(' ')}
     >
-      <ReferralCodeWidget className="mb-5" />
-      <MarkdownText markdown={copy.sharingLinkExplanation} />
+      <MarkdownText markdown={copy.sharingLinkExplanation(currencyCode)} />
       <div>
         <ButtonShare
           url={joinUrl}
           title={title}
           text={text}
+          copyText={joinUrl}
+          version="pink"
           onShare={(shareType) => {
             track('share_referral_code', {
               shareType: shareType === 'copy' ? 'clipboard' : 'web-share',
             })
           }}
           className={[
-            'w-full xs:w-48',
+            'w-full xs:w-auto',
           ].join(' ')}
           trackComponentName="ReferralCodeShare"
         />
@@ -48,6 +48,7 @@ const ReferralCodeShare = ({
 }
 
 ReferralCodeShare.propTypes = {
+  currencyCode: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

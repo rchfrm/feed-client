@@ -1,7 +1,5 @@
 /* eslint-disable quotes */
-import { formatCurrency } from '@/helpers/utils'
-
-const referralAmount = 75
+import getReferralAmount from '@/app/helpers/referralHelpers'
 
 export default {
   signupClosedIntro: `**There is currently a waiting list to join the Feed beta.**`,
@@ -18,26 +16,28 @@ export default {
   explanation: `This is your referral code. Share it with others to let them jump the queue and sign up to Feed.`,
 
   // Explain about sharing link
-  sharingLinkExplanation: `You can also share a direct link that will let others sign up using your referral code.`,
+  sharingLinkExplanation: (currencyCode) => `Share your referral code with others to get **${getReferralAmount(currencyCode)}!**`,
 
   // Intro progress
-  introToProgress: (totalReferrals, totalCompleteReferrals, upcomingBenefit) => {
-    const totalReferredText = totalReferrals === 1 ? 'someone' : `${totalReferrals} people`
+  introToProgress: (totalReferrals, totalCompleteReferrals, upcomingBenefit, currencyCode) => {
+    const totalReferredText = totalReferrals === 1 ? 'someone' : `**${totalReferrals}** people`
     const totalPendingReferrals = totalReferrals - totalCompleteReferrals
-    const referralAmountString = formatCurrency(referralAmount, 'GBP', true)
+    const referralAmountString = getReferralAmount(currencyCode)
     // No referrals of any kind
-    if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend through the platform, you’ll get ${referralAmountString} in credit!`
+    if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend through the platform, you'll get **${referralAmountString}** in credit!`
     // Only incomplete referrals
-    if (totalReferrals && !totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent some budget through the platform, we’ll give you ${referralAmountString} in credit.`
+    if (totalReferrals && !totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent some budget through the platform, we'll give you **${referralAmountString}** in credit.`
     // Only complete referrals
-    if (totalPendingReferrals === 0) return `Thanks for referring ${totalReferredText} to Feed! Keep sharing your unique link to get ${upcomingBenefit}`
+    if (totalPendingReferrals === 0) return `Thanks for referring ${totalReferredText} to Feed! Keep sharing your unique link to ${upcomingBenefit}.`
     // Mix of complete and incomplete referrals
-    return `Thanks for referring ${totalReferredText} to Feed! ${totalPendingReferrals} ${totalPendingReferrals === 1 ? 'hasn\'t' : 'haven\'t'} yet spent anything through the platform.\n\nOnce they do, you’ll ${upcomingBenefit}.`
+    return `Thanks for referring ${totalReferredText} to Feed!
+
+**${totalPendingReferrals}** ${totalPendingReferrals === 1 ? 'hasn\'t' : 'haven\'t'} yet spent anything through the platform, once they do you'll ${upcomingBenefit}.`
   },
 
   // TIERS
-  tiers: () => {
-    const basicCredit = formatCurrency(referralAmount, 'GBP', true)
+  tiers: (currencyCode) => {
+    const basicCredit = getReferralAmount(currencyCode)
     return [
       {
         referrals: 1,
@@ -57,7 +57,7 @@ export default {
       },
       {
         referrals: 5,
-        award: `30 minute marketing consultation with Feed team`,
+        award: `30 minute marketing consultation with one of the Feed team`,
         upcoming: `be closer to getting a 30 minute marketing consultation`,
       },
       {

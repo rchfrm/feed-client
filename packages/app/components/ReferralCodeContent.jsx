@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
 import ReferralCodeShare from '@/app/ReferralCodeShare'
@@ -11,6 +12,15 @@ const ReferralCodeContent = ({ className }) => {
     referrals_number: totalReferrals,
     qualifying_referrals_number: totalCompleteReferrals,
   } } = React.useContext(UserContext)
+
+  const {
+    artist: {
+      feedMinBudgetInfo: {
+        currencyCode,
+      },
+    } = {},
+  } = React.useContext(ArtistContext)
+
   return (
     <div
       className={[
@@ -19,10 +29,14 @@ const ReferralCodeContent = ({ className }) => {
         className,
       ].join(' ')}
     >
-      <ReferralCodeShare className="mb-12 lg:mb-0 lg:col-span-1 lg:col-start-2" />
+      <ReferralCodeShare
+        className="mb-12 lg:mb-0 lg:col-span-1 lg:col-start-2"
+        currencyCode={currencyCode}
+      />
       <ReferralCodeProgress
         totalReferrals={totalReferrals}
         totalCompleteReferrals={totalCompleteReferrals}
+        currencyCode={currencyCode}
         className="lg:col-span-1 lg:col-start-1"
       />
     </div>
