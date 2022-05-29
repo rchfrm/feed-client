@@ -43,16 +43,16 @@ const ObjectiveSettingsChangeAlertBudget = ({
         minorUnit: {
           minBase,
           minHard: minHardBudget,
-          minReccomendedStories,
+          minRecommendedStories,
         },
         string: {
-          minReccomendedStories: minReccomendedStoriesString,
+          minRecommendedStories: minRecommendedStoriesString,
         },
       },
     },
   } = React.useContext(ArtistContext)
 
-  const hasInsufficientBudget = budget < minReccomendedStories
+  const hasInsufficientBudget = budget < minRecommendedStories
 
   // Get slider settings based on min budget
   const { sliderStep, sliderValueRange } = React.useMemo(() => {
@@ -78,10 +78,10 @@ const ObjectiveSettingsChangeAlertBudget = ({
   // Set budget equal to min recommended stories value on mount
   React.useEffect(() => {
     if (budgetSlider.noUiSlider) {
-      budgetSlider.noUiSlider.set(minReccomendedStories)
+      budgetSlider.noUiSlider.set(minRecommendedStories)
       setIsLoading(false)
     }
-  }, [budgetSlider.noUiSlider, minReccomendedStories])
+  }, [budgetSlider.noUiSlider, minRecommendedStories])
 
   if (isLoading) return <Spinner className="h-48 flex items-center" width={28} />
 
@@ -99,7 +99,7 @@ const ObjectiveSettingsChangeAlertBudget = ({
         currency={currencyCode}
         currencyOffset={currencyOffset}
         shouldShowError={hasInsufficientBudget}
-        errorMessage={copy.inSufficientBudget(minReccomendedStoriesString)}
+        errorMessage={copy.inSufficientBudget(minRecommendedStoriesString)}
         setBudgetSlider={setBudgetSlider}
         mobileVersion
       />

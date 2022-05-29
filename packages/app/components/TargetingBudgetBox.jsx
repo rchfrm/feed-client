@@ -44,11 +44,11 @@ const TargetingBudgetBox = ({
         minorUnit: {
           minBase,
           minHard: minHardBudget,
-          minReccomendedStories,
+          minRecommendedStories,
         } = {},
         string: {
-          minReccomendedStories: minReccomendedStoriesString,
-        },
+          minRecommendedStories: minRecommendedStoriesString,
+        } = {},
       } = {},
       hasSetUpProfile,
     },
@@ -59,15 +59,15 @@ const TargetingBudgetBox = ({
   const [hasBudgetBelowMinRecommendedStories, setHasBudgetBelowMinRecommendedStories] = React.useState(false)
 
   React.useEffect(() => {
-    if (targetingState.budget < minReccomendedStories && !hasBudgetBelowMinRecommendedStories) {
+    if (targetingState.budget < minRecommendedStories && !hasBudgetBelowMinRecommendedStories) {
       setHasBudgetBelowMinRecommendedStories(true)
       return
     }
 
-    if (targetingState.budget >= minReccomendedStories && hasBudgetBelowMinRecommendedStories) {
+    if (targetingState.budget >= minRecommendedStories && hasBudgetBelowMinRecommendedStories) {
       setHasBudgetBelowMinRecommendedStories(false)
     }
-  }, [targetingState.budget, minReccomendedStories, hasBudgetBelowMinRecommendedStories])
+  }, [targetingState.budget, minRecommendedStories, hasBudgetBelowMinRecommendedStories])
 
   return (
     <section
@@ -135,7 +135,7 @@ const TargetingBudgetBox = ({
             </div>
             {hasBudgetBelowMinRecommendedStories && (
               <ControlsSettingsSectionFooter
-                copy={copy.budgetFooter(minReccomendedStoriesString)}
+                copy={copy.budgetFooter(minRecommendedStoriesString)}
                 className="mt-5 text-insta"
               />
             )}

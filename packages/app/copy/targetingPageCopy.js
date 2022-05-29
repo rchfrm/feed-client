@@ -27,8 +27,17 @@ Do you want to continue?`,
 
   togglePauseWarning: (isPaused) => {
     if (isPaused) return `**This will resume spending on ads.** Are you sure you want to continue?`
-    return `**This will pause all spending on ads.** All ads will stop and won't continue until you unpause.`
+
+    return `#### **Are you sure?**
+
+**This will pause all spending on ads.** All ads will stop and won't continue until you unpause.`
   },
+
+  shortSpendingPeriodWarning: (daysOfSpending, hasMinimumBudget) => `#### **Are you sure?**
+
+  We recommend running Feed for at least 4-6 weeks to allow the algorithms to learn and get an idea of results!
+
+  You've been spending for just ${daysOfSpending} ${daysOfSpending > 1 ? 'days' : 'day'}. ${hasMinimumBudget ? '' : 'If budget is an issue, consider reducing your daily spend instead?'}`,
 
   locationsDescription: (isMusician, hasSpotify) => `Your audience shown includes ${getListOfSources(isMusician, hasSpotify)}.`,
 

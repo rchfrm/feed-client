@@ -4,6 +4,7 @@ import * as utils from '@/helpers/utils'
 import * as server from '@/app/helpers/appServer'
 import * as api from '@/helpers/api'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
+import moment from 'moment'
 
 
 // BUDGET FEATURES
@@ -311,4 +312,18 @@ export const getGeoLocations = (query) => {
   }
 
   return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
+export const getSpendingData = (dailyData) => {
+  const latestDayOfSpend = Object.keys(dailyData).filter(date => dailyData[date] > 0).pop()
+  const latestDayOf0Spend = Object.keys(dailyData).filter(date => date < latestDayOfSpend && dailyData[date] === 0).pop()
+  const firstDayOfData = Object.keys(dailyData)[0]
+  const startOfCurrentSpendingPeriod = latestDayOf0Spend
+    ? moment(latestDayOf0Spend, 'YYYY-MM-DD').add(1, 'day').format('YYYY-MM-DD')
+    : firstDayOfData
+  const lengthOfCurrentSpendingPeriod = Object.keys(dailyData).filter(date => date >= startOfCurrentSpendingPeriod).length
+  return {
+    hasSpentConsecutivelyLessThan30Days: lengthOfCurrentSpendingPeriod < 30,
+    daysOfSpending: lengthOfCurrentSpendingPeriod,
+  }
 }
