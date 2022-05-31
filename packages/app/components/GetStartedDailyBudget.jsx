@@ -61,6 +61,7 @@ const GetStartedDailyBudget = () => {
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
+  const [budgetSuggestions, setBudgetSuggestions] = React.useState([])
 
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
@@ -95,7 +96,14 @@ const GetStartedDailyBudget = () => {
     saveBudget(budget)
   }
 
-  if (!minReccBudget) return <Spinner />
+  React.useEffect(() => {
+    if (!minBaseUnroundedMajor || !objective) return
+
+    const suggestions = targetingHelpers.getBudgetSuggestions(objective, minBaseUnroundedMajor)
+    setBudgetSuggestions(suggestions)
+  }, [minBaseUnroundedMajor, objective])
+
+  if (!minReccBudget || !budgetSuggestions.length) return <Spinner />
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
@@ -115,7 +123,8 @@ const GetStartedDailyBudget = () => {
               currencyOffset={currencyOffset}
               minBase={minBase}
               minHardBudget={minHardBudget}
-              initialBudget={initialTargetingState.budget || minRecommendedStories}
+              initialBudget={initialTargetingState.budget || budgetSuggestions[2] * 100}
+              budgetSuggestions={budgetSuggestions}
               updateTargetingBudget={updateTargetingBudget}
               showCustomBudget={showCustomBudget}
               setBudgetSlider={setBudgetSlider}

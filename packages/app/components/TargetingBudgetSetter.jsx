@@ -18,6 +18,7 @@ const TargetingBudgetSetter = ({
   minReccBudget,
   minHardBudget,
   initialBudget,
+  budgetSuggestions,
   updateTargetingBudget,
   isSummaryVersion,
   mobileVersion,
@@ -84,7 +85,7 @@ const TargetingBudgetSetter = ({
                   errorMessage={errorMessage}
                 />
                 <TargetingSuggestedBudgetButtons
-                  budgetSuggestions={[3, 6, 9]}
+                  budgetSuggestions={budgetSuggestions}
                   sliderValueRange={sliderValueRange}
                   setBudget={setBudget}
                   onBudgetSuggestionClick={onBudgetSuggestionClick}
@@ -107,6 +108,7 @@ TargetingBudgetSetter.propTypes = {
   minReccBudget: PropTypes.number,
   minHardBudget: PropTypes.number,
   initialBudget: PropTypes.number.isRequired,
+  budgetSuggestions: PropTypes.array,
   updateTargetingBudget: PropTypes.func.isRequired,
   isSummaryVersion: PropTypes.bool,
   mobileVersion: PropTypes.bool,
@@ -123,6 +125,7 @@ TargetingBudgetSetter.defaultProps = {
   minReccBudget: 0,
   minBase: 1,
   minHardBudget: 0,
+  budgetSuggestions: null,
   isSummaryVersion: false,
   mobileVersion: false,
   onBudgetSuggestionClick: () => {},

@@ -327,3 +327,15 @@ export const getSpendingData = (dailyData) => {
     daysOfSpending: lengthOfCurrentSpendingPeriod,
   }
 }
+
+export const getBudgetSuggestions = (objective, minBaseUnrounded) => {
+  let multipliers = [4, 6, 9]
+
+  if (objective === 'sales') {
+    multipliers = [12, 15, 20]
+  }
+
+  return multipliers.map((multiplier) => {
+    return Math.round((multiplier * minBaseUnrounded))
+  })
+}
