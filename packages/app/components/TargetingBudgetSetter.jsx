@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
 import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
@@ -8,6 +10,10 @@ import TargetingSuggestedBudgetButtons from '@/app/TargetingSuggestedBudgetButto
 import InputCurrency from '@/elements/InputCurrency'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
+
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
 
 const TargetingBudgetSetter = ({
   budget,
@@ -28,6 +34,9 @@ const TargetingBudgetSetter = ({
   errorMessage,
   onBudgetSuggestionClick,
 }) => {
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
+
   React.useEffect(() => {
     if (typeof budget !== 'number') return
     updateTargetingBudget(budget)
@@ -35,8 +44,8 @@ const TargetingBudgetSetter = ({
 
   // GET SLIDER SETTINGS BASED ON MIN BUDGET
   const { sliderStep, sliderValueRange } = React.useMemo(() => {
-    return targetingHelpers.calcBudgetSliderConfig(minBase, minHardBudget, initialBudget)
-  }, [minBase, minHardBudget, initialBudget])
+    return targetingHelpers.calcBudgetSliderConfig(minBase, minHardBudget, initialBudget, objective)
+  }, [minBase, minHardBudget, initialBudget, objective])
 
   return (
     <>
