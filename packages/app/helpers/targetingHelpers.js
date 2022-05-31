@@ -70,7 +70,6 @@ export const getSaveDisabledReason = (reason) => {
   return 'Select at least one location'
 }
 
-
 // SUMMARY HELPERS
 // ---------------
 

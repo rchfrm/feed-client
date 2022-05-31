@@ -93,12 +93,14 @@ const TargetingBudgetSetter = ({
                   shouldShowError={shouldShowError}
                   errorMessage={errorMessage}
                 />
-                <TargetingSuggestedBudgetButtons
-                  budgetSuggestions={budgetSuggestions}
-                  sliderValueRange={sliderValueRange}
-                  setBudget={setBudget}
-                  onBudgetSuggestionClick={onBudgetSuggestionClick}
-                />
+                {budgetSuggestions && (
+                  <TargetingSuggestedBudgetButtons
+                    budgetSuggestions={budgetSuggestions}
+                    sliderValueRange={sliderValueRange}
+                    setBudget={setBudget}
+                    onBudgetSuggestionClick={onBudgetSuggestionClick}
+                  />
+                )}
               </>
             )}
           </CSSTransition>
