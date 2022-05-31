@@ -70,80 +70,82 @@ const TargetingBudgetBox = ({
   }, [targetingState.budget, minRecommendedStories, hasBudgetBelowMinRecommendedStories])
 
   return (
-    <section
-      className={[
-        'flex flex-column justify-between',
-        className,
-      ].join(' ')}
-      style={{ height: '193px', paddingBottom: '0' }}
-    >
-      {targetingLoading ? (
-        <Spinner width={36} />
-      ) : (
-        <>
-          <div className="flex justify-between items-start">
-            <h2 className="mb-0">
-              Daily Budget
-              {!targetingState.status ? (
-                hasSetUpProfile && <span className="text-red"> Paused</span>
-              ) : (
-                hasSetUpProfile && <span className="text-green"> Active</span>
-              )}
-            </h2>
-            {/* PAUSE OR RESUME SPENDING */}
-            <TargetingBudgetPauseButton
-              togglePauseCampaign={togglePauseCampaign}
-              isPaused={!targetingState.status}
-              isDisabled={!hasSetUpProfile}
-              className={!isDesktopLayout ? 'mr-12' : null}
-            />
-          </div>
-          <ControlsContentSection action="choose your budget" className="mt-5">
-            {/* BUDGET SETTER */}
-            <div>
-              <TargetingBudgetSetter
-                budget={budget}
-                setBudget={setBudget}
-                currency={currencyCode}
-                currencyOffset={currencyOffset}
-                minBase={minBase}
-                minHardBudget={minHardBudget}
-                initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
-                updateTargetingBudget={updateTargetingBudget}
-                showCustomBudget={showCustomBudget}
-                setBudgetSlider={setBudgetSlider}
+    <>
+      <section
+        className={[
+          'flex flex-column justify-between',
+          className,
+        ].join(' ')}
+        style={{ height: '170px', paddingBottom: '0' }}
+      >
+        {targetingLoading ? (
+          <Spinner width={36} />
+        ) : (
+          <>
+            <div className="flex justify-between items-start">
+              <h2 className="mb-0">
+                Daily Budget
+                {!targetingState.status ? (
+                  hasSetUpProfile && <span className="text-red"> Paused</span>
+                ) : (
+                  hasSetUpProfile && <span className="text-green"> Active</span>
+                )}
+              </h2>
+              {/* PAUSE OR RESUME SPENDING */}
+              <TargetingBudgetPauseButton
+                togglePauseCampaign={togglePauseCampaign}
+                isPaused={!targetingState.status}
+                isDisabled={!hasSetUpProfile}
+                className={!isDesktopLayout ? 'mr-12' : null}
               />
             </div>
-            <div className="flex items-center justify-between">
-              <TargetingBudgetButtons
-                targetingState={targetingState}
-                initialTargetingState={initialTargetingState}
-                updateTargetingBudget={updateTargetingBudget}
-                saveTargetingSettings={saveTargetingSettings}
-                disableSaving={disableSaving}
-                budgetSlider={budgetSlider}
-                showCustomBudget={showCustomBudget}
-              />
-              {/* TOGGLE CUSTOM BUDGET */}
-              <TargetingCustomBudgetButton
-                style={{ zIndex: 2 }}
-                showCustomBudget={showCustomBudget}
-                setShowCustomBudget={setShowCustomBudget}
-                initialBudget={initialTargetingState.budget}
-                minBase={minBase}
-                minHardBudget={minHardBudget}
-              />
-            </div>
-            {hasBudgetBelowMinRecommendedStories && (
-              <ControlsSettingsSectionFooter
-                copy={copy.budgetFooter(minRecommendedStoriesString)}
-                className="mt-5 text-insta"
-              />
-            )}
-          </ControlsContentSection>
-        </>
+            <ControlsContentSection action="choose your budget">
+              {/* BUDGET SETTER */}
+              <div>
+                <TargetingBudgetSetter
+                  budget={budget}
+                  setBudget={setBudget}
+                  currency={currencyCode}
+                  currencyOffset={currencyOffset}
+                  minBase={minBase}
+                  minHardBudget={minHardBudget}
+                  initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
+                  updateTargetingBudget={updateTargetingBudget}
+                  showCustomBudget={showCustomBudget}
+                  setBudgetSlider={setBudgetSlider}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <TargetingBudgetButtons
+                  targetingState={targetingState}
+                  initialTargetingState={initialTargetingState}
+                  updateTargetingBudget={updateTargetingBudget}
+                  saveTargetingSettings={saveTargetingSettings}
+                  disableSaving={disableSaving}
+                  budgetSlider={budgetSlider}
+                  showCustomBudget={showCustomBudget}
+                />
+                {/* TOGGLE CUSTOM BUDGET */}
+                <TargetingCustomBudgetButton
+                  style={{ zIndex: 2 }}
+                  showCustomBudget={showCustomBudget}
+                  setShowCustomBudget={setShowCustomBudget}
+                  initialBudget={initialTargetingState.budget}
+                  minBase={minBase}
+                  minHardBudget={minHardBudget}
+                />
+              </div>
+            </ControlsContentSection>
+          </>
+        )}
+      </section>
+      {hasBudgetBelowMinRecommendedStories && (
+        <ControlsSettingsSectionFooter
+          copy={copy.budgetFooter(minRecommendedStoriesString)}
+          className="mt-5 text-insta"
+        />
       )}
-    </section>
+    </>
   )
 }
 

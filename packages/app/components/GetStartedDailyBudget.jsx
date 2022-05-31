@@ -111,10 +111,13 @@ const GetStartedDailyBudget = () => {
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.budgetDescription} />
       <ControlsSettingsSectionFooter
         copy={copy.budgetFooter(minBaseUnroundedMajor, currencyCode)}
-        className="text-insta"
+        className="text-insta mb-6"
       />
       <div className="flex flex-1 flex-column justify-center items-center">
-        <div className="w-full sm:w-2/3 h-26 mb-12">
+        <div
+          className="w-full sm:w-2/3 flex flex-column justify-between mb-10"
+          style={{ minHeight: '120px' }}
+        >
           <div>
             <TargetingBudgetSetter
               budget={budget}
