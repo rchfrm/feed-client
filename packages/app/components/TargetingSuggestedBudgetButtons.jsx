@@ -15,6 +15,7 @@ const TargetingSuggestedBudgetButtons = ({
     artist: {
       feedMinBudgetInfo: {
         currencyCode,
+        currencyOffset,
       } = {},
     },
   } = React.useContext(ArtistContext)
@@ -27,8 +28,8 @@ const TargetingSuggestedBudgetButtons = ({
       style={{ width: 'calc(100% - 24px)', margin: '0 auto 24px' }}
     >
       {budgetSuggestions.map((budget) => {
-        const min = minSliderValue / 100
-        const max = maxSliderValue / 100
+        const min = minSliderValue / currencyOffset
+        const max = maxSliderValue / currencyOffset
         const offset = ((budget - min) / (max - min)) * 100
 
         return (
@@ -36,6 +37,7 @@ const TargetingSuggestedBudgetButtons = ({
             key={budget}
             budget={budget}
             currency={currencyCode}
+            currencyOffset={currencyOffset}
             offset={offset}
             setBudget={setBudget}
             onBudgetSuggestionClick={onBudgetSuggestionClick}

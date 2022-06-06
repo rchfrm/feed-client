@@ -8,6 +8,7 @@ import { formatCurrency } from '@/helpers/utils'
 const TargetingSuggestedBudgetButton = ({
   budget,
   currency,
+  currencyOffset,
   offset,
   setBudget,
   onBudgetSuggestionClick,
@@ -17,7 +18,7 @@ const TargetingSuggestedBudgetButton = ({
   const { budgetSlider } = React.useContext(TargetingContext)
 
   const onClick = () => {
-    const newBudget = budget * 100
+    const newBudget = budget * currencyOffset
 
     budgetSlider.noUiSlider.set(newBudget)
     setBudget(newBudget)
@@ -46,6 +47,7 @@ const TargetingSuggestedBudgetButton = ({
 TargetingSuggestedBudgetButton.propTypes = {
   budget: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
+  currencyOffset: PropTypes.number.isRequired,
   offset: PropTypes.number.isRequired,
   setBudget: PropTypes.func.isRequired,
   onBudgetSuggestionClick: PropTypes.func.isRequired,
