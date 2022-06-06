@@ -126,7 +126,7 @@ const GetStartedDailyBudget = () => {
               currencyOffset={currencyOffset}
               minBase={minBase}
               minHardBudget={minHardBudget}
-              initialBudget={initialTargetingState.budget || budgetSuggestions[2] * 100}
+              initialBudget={initialTargetingState.budget || budgetSuggestions[1] * currencyOffset}
               budgetSuggestions={budgetSuggestions}
               updateTargetingBudget={updateTargetingBudget}
               showCustomBudget={showCustomBudget}
