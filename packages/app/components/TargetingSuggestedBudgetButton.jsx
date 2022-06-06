@@ -12,6 +12,8 @@ const TargetingSuggestedBudgetButton = ({
   setBudget,
   onBudgetSuggestionClick,
 }) => {
+  const buttonRef = React.useRef(null)
+  const buttonWidth = buttonRef?.current?.offsetWidth
   const { budgetSlider } = React.useContext(TargetingContext)
 
   const onClick = () => {
@@ -25,14 +27,15 @@ const TargetingSuggestedBudgetButton = ({
   return (
     <div
       role="button"
+      ref={buttonRef}
       onClick={onClick}
       className={[
-        'absolute w-6 h-5',
+        'absolute w-7 h-6 lg:w-9 lg:h-8 xl:w-10 xl:h-9',
         'flex items-center justify-center',
-        'border border-solid border-green rounded-dialogue',
-        'text-xs text-center text-xs rounded-dialogue',
+        'border-2 border-solid border-green rounded-dialogue',
+        'text-xs lg:text-sm text-center rounded-dialogue',
       ].join(' ')}
-      style={{ left: `calc(${offset}% - 12px)` }}
+      style={{ left: `calc(${offset}% - ${buttonWidth / 2}px)` }}
     >
       {formatCurrency(budget, currency, true)}
     </div>
