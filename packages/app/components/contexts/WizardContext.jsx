@@ -51,6 +51,7 @@ const WizardContextProvider = ({
   navigation,
   hasBackButton,
   profileSetupStatus,
+  artistId,
 }) => {
   const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, { sectionColors: {} })
   const [currentStep, setCurrentStep] = React.useState(0)
@@ -107,7 +108,7 @@ const WizardContextProvider = ({
         setWizardState,
       }}
     >
-      {isControlsLoading || isLoading ? (
+      {(isControlsLoading && artistId) || isLoading ? (
         <Spinner />
       ) : (
         <>
@@ -157,12 +158,14 @@ WizardContextProvider.propTypes = {
   goBackToPath: PropTypes.string,
   hasBackButton: PropTypes.bool,
   profileSetupStatus: PropTypes.string,
+  artistId: PropTypes.string,
 }
 
 WizardContextProvider.defaultProps = {
   goBackToPath: '',
   hasBackButton: false,
   profileSetupStatus: '',
+  artistId: '',
 }
 
 export { WizardContext, WizardContextProvider }

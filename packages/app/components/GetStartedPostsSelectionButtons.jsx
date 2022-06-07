@@ -25,7 +25,7 @@ const GetStartedPostsSelectionButtons = ({
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMorePosts, setIsLoadingMorePosts] = React.useState(false)
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, setEnabledPosts } = React.useContext(ArtistContext)
   const { next, setWizardState } = React.useContext(WizardContext)
 
   const isDesktopLayout = useBreakpointTest('sm')
@@ -66,7 +66,7 @@ const GetStartedPostsSelectionButtons = ({
         value: enabledPosts,
       },
     })
-
+    setEnabledPosts(enabledPosts)
     setIsLoading(false)
     next()
   }

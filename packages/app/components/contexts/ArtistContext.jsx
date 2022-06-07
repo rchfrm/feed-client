@@ -113,6 +113,7 @@ function ArtistProvider({ children }) {
   const [artistCurrency, setArtistCurrency] = React.useState('')
   const [artistLoading, setArtistLoading] = React.useState(true)
   const [hasBudget, setHasBudget] = React.useState(false)
+  const [enabledPosts, setEnabledPosts] = React.useState([])
 
   const setNoArtist = () => {
     setArtistLoading(true)
@@ -328,12 +329,14 @@ function ArtistProvider({ children }) {
     artistId,
     artistCurrency,
     artistLoading,
+    enabledPosts,
     connectArtist,
     setNoArtist,
     setArtist,
     setArtistLoading,
     setConnection,
     setPostPreferences,
+    setEnabledPosts,
     storeArtist,
     updateBudget,
     updateArtist,
