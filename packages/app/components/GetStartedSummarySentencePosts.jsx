@@ -9,7 +9,7 @@ import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSec
 import PostImage from '@/PostImage'
 import BrokenImageIcon from '@/icons/BrokenImageIcon'
 
-import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
+import { formatPostsMinimal } from '@/app/helpers/postsHelpers'
 import { getStartedSections } from '@/app/helpers/artistHelpers'
 
 import * as server from '@/app/helpers/appServer'
@@ -18,8 +18,8 @@ import brandColors from '@/constants/brandColors'
 const GetStartedSummarySentencePosts = () => {
   const [posts, setPosts] = React.useState([])
 
-  const { artistId } = React.useContext(ArtistContext)
-  const { steps, currentStep, wizardState } = React.useContext(WizardContext)
+  const { artistId, enabledPosts } = React.useContext(ArtistContext)
+  const { steps, currentStep } = React.useContext(WizardContext)
 
   const section = getStartedSections.postPromotion
   const isActive = steps[currentStep].section === section
@@ -41,18 +41,18 @@ const GetStartedSummarySentencePosts = () => {
 
     if (!isMounted()) return
 
-    const formattedRecentPosts = formatRecentPosts(res)
+    const formattedRecentPosts = formatPostsMinimal(res)
 
     setPosts(formattedRecentPosts)
   }, [])
 
   React.useEffect(() => {
-    if (!wizardState.enabledPosts) {
+    if (!enabledPosts.length) {
       return
     }
 
-    setPosts(wizardState.enabledPosts)
-  }, [wizardState.enabledPosts])
+    setPosts(enabledPosts)
+  }, [enabledPosts])
 
   return (
     <GetStartedSummarySentenceSection

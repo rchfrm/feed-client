@@ -10,6 +10,7 @@ import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 
 import * as server from '@/app/helpers/appServer'
 import { formatServerData } from '@/app/helpers/insightsHelpers'
+import { formatPostsMinimal } from '@/app/helpers/postsHelpers'
 
 export const adMetricTypes = [
   {
@@ -525,32 +526,6 @@ export const formatBenchmarkData = (organicData, hasNoProfiles) => {
   return { reach: reachData, engagement: engageData, growth: growthData }
 }
 
-export const formatRecentPosts = (posts) => {
-  const formattedPosts = posts.map((post) => {
-    const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
-    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url) || []
-    const thumbnails = [
-      post.display?.media?.media_library?.source,
-      post.display?.thumbnail_url,
-      ...thumbnailUrls,
-    ]
-
-    return {
-      id: post.id,
-      publishedTime: moment(post.published_time).format('YYYY-MM-DD'),
-      reach: post.reach_rate * 100,
-      engagement: post.engagement_rate * 100,
-      media,
-      thumbnails,
-      postType: post.subtype || post.type,
-      promotionEnabled: post.promotion_enabled,
-      _links: post._links,
-    }
-  })
-
-  return formattedPosts
-}
-
 export const getRecentPosts = async (artistId, platform) => {
   const res = await server.getPosts({
     artistId,
@@ -562,7 +537,7 @@ export const getRecentPosts = async (artistId, platform) => {
     },
     limit: 100,
   })
-  const formattedRecentPosts = formatRecentPosts(res)
+  const formattedRecentPosts = formatPostsMinimal(res)
 
   return formattedRecentPosts
 }

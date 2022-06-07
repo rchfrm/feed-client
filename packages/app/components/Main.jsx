@@ -17,6 +17,7 @@ import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
 
 import * as server from '@/app/helpers/appServer'
 import { profileStatus } from '@/app/helpers/artistHelpers'
+import { formatPostsMinimal } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   initControlsStore: state.initControlsStore,
@@ -85,8 +86,9 @@ function Main({ children }) {
       filterBy: {
         promotion_enabled: [true],
       },
+      limit: 3,
     })
-    setEnabledPosts(enabledPosts)
+    setEnabledPosts(formatPostsMinimal(enabledPosts))
   }
 
   // Update profile setup status in controls store

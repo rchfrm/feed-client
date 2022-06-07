@@ -26,7 +26,7 @@ const GetStartedPostsSelectionButtons = ({
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMorePosts, setIsLoadingMorePosts] = React.useState(false)
   const { artistId, setEnabledPosts } = React.useContext(ArtistContext)
-  const { next, setWizardState } = React.useContext(WizardContext)
+  const { next } = React.useContext(WizardContext)
 
   const isDesktopLayout = useBreakpointTest('sm')
 
@@ -58,14 +58,6 @@ const GetStartedPostsSelectionButtons = ({
     // Patch promotion enabled value in the db
     await Promise.all(postPromises)
 
-    // Update local wizard state
-    setWizardState({
-      type: 'set-state',
-      payload: {
-        key: 'enabledPosts',
-        value: enabledPosts,
-      },
-    })
     setEnabledPosts(enabledPosts)
     setIsLoading(false)
     next()
