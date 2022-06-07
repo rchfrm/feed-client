@@ -47,13 +47,14 @@ const WizardContextProvider = ({
   steps,
   children,
   goBackToPath,
-  isLoading,
+  isControlsLoading,
   navigation,
   hasBackButton,
   profileSetupStatus,
 }) => {
   const [wizardState, setWizardState] = useImmerReducer(wizardStateReducer, { sectionColors: {} })
   const [currentStep, setCurrentStep] = React.useState(0)
+  const [isLoading, setIsLoading] = React.useState(true)
 
   const isFirstStep = currentStep === 0
   const lastStep = steps.length - 1
@@ -90,6 +91,7 @@ const WizardContextProvider = ({
     })
 
     setCurrentStep(firstIncompleteStepIndex >= 0 ? firstIncompleteStepIndex : lastStep)
+    setIsLoading(false)
     // eslint-disable-next-line
   }, [profileSetupStatus])
 
@@ -105,7 +107,7 @@ const WizardContextProvider = ({
         setWizardState,
       }}
     >
-      {isLoading ? (
+      {isControlsLoading || isLoading ? (
         <Spinner />
       ) : (
         <>

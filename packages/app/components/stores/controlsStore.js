@@ -27,7 +27,7 @@ const initialState = {
   savedFolders: [],
   nestedLinks: [],
   folderStates: [], // are folders open or not
-  isControlsLoading: false,
+  isControlsLoading: true,
   linkBankError: null,
 }
 

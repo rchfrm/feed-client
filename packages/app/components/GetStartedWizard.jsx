@@ -265,7 +265,7 @@ const GetStartedWizard = () => {
         <WizardContextProvider
           steps={steps}
           goBackToPath={ROUTES.HOME}
-          isLoading={isControlsLoading}
+          isControlsLoading={isControlsLoading}
           navigation={<GetStartedSummarySentence />}
           profileSetupStatus={profileSetupStatus}
         >

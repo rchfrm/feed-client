@@ -96,8 +96,8 @@ function Main({ children }) {
 
     // Fetch enabled posts only once
     if (isFirstRender.current && artistId) {
-      await fetchEnabledPosts()
       isFirstRender.current = false
+      await fetchEnabledPosts()
       return
     }
 

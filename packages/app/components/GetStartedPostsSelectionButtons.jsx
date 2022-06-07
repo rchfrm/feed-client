@@ -5,7 +5,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
 
 import GetStartedPostsSelectionButtonsMobile from '@/app/GetStartedPostsSelectionButtonsMobile'
 
@@ -30,7 +29,6 @@ const GetStartedPostsSelectionButtons = ({
   const { next, setWizardState } = React.useContext(WizardContext)
 
   const isDesktopLayout = useBreakpointTest('sm')
-  const { setEnabledPosts } = useCheckProfileSetupStatus()
 
   const loadMore = async () => {
     setIsLoadingMorePosts(true)
@@ -56,8 +54,6 @@ const GetStartedPostsSelectionButtons = ({
     const postPromises = posts.map(({ id, promotionEnabled }) => {
       return updatePost({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
     })
-
-    setEnabledPosts(enabledPosts)
 
     // Patch promotion enabled value in the db
     await Promise.all(postPromises)
