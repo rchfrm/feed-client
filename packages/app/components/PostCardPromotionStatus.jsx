@@ -71,7 +71,10 @@ const PostCardPromotionStatus = ({
           isSmallSize ? 'text-xs' : null,
           !promotionEnabled ? 'text-grey-3 bg-grey-2' : null,
         ].join(' ')}
-        style={{ borderColor: promotionEnabled ? brandColors[color] : brandColors.grey, padding: isSmallSize ? '2px 8px' : '4px 12px' }}
+        style={{
+          borderColor: promotionEnabled ? brandColors[color] : brandColors.grey,
+          padding: isSmallSize ? '2px 8px' : '4px 12px',
+        }}
       >
         <Icon
           className={[

@@ -63,5 +63,4 @@ ChevronDoubleUpCircleIcon.defaultProps = {
   style: null,
 }
 
-
 export default ChevronDoubleUpCircleIcon
