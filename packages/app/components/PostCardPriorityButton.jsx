@@ -3,11 +3,7 @@ import PropTypes from 'prop-types'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
-import TooltipButton from '@/elements/TooltipButton'
-
-import ChevronDoubleUpIcon from '@/icons/ChevronDoubleUpIcon'
-
-import copy from '@/app/copy/PostsPageCopy'
+import ChevronDoubleUpCircleIcon from '@/icons/ChevronDoubleUpCircleIcon'
 
 import brandColors from '@/constants/brandColors'
 import PostCardPriorityButtonAlert from '@/app/PostCardPriorityButtonAlert'
@@ -29,7 +25,6 @@ const PostCardPriorityButton = ({
   const isPostActive = promotionStatus === 'active'
   const isPostArchived = promotionStatus === 'archived'
   const isDisabled = isPostActive && !currentState
-  const slides = copy.prioritizeTooltipSlides
 
   // Update internal state when outside state changes
   React.useEffect(() => {
@@ -66,11 +61,7 @@ const PostCardPriorityButton = ({
   }
 
   return (
-    <div className="flex items-center ml-2">
-      <TooltipButton
-        buttonClasses="-my-2 -mr-1"
-        slides={slides}
-      />
+    <div className="flex items-center">
       {/* PRIORITY BUTTON */}
       <button
         type="button"
@@ -80,10 +71,10 @@ const PostCardPriorityButton = ({
         className={isDisabled ? 'opacity-25 cursor-default' : ''}
         disabled={isDisabled}
       >
-        <ChevronDoubleUpIcon
-          fill={currentState ? brandColors.red : 'none'}
-          stroke={currentState ? brandColors.red : brandColors.black}
-          className="w-5 h-5"
+        <ChevronDoubleUpCircleIcon
+          fill={currentState ? brandColors.instagram.bg : brandColors.white}
+          stroke={currentState ? brandColors.white : brandColors.greyDark}
+          className="w-6 h-6"
         />
       </button>
       {/* ALERT */}
