@@ -20,6 +20,7 @@ const ButtonShare = ({
   url,
   title,
   text,
+  version,
   shareText,
   copyText,
   useCopyFallback,
@@ -48,7 +49,7 @@ const ButtonShare = ({
   })
   return (
     <Button
-      version="black"
+      version={version}
       className={[
         success ? 'bg-green' : null,
         className,
@@ -81,6 +82,7 @@ ButtonShare.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   text: PropTypes.string,
+  version: PropTypes.string,
   shareText: PropTypes.string,
   copyText: PropTypes.string,
   useCopyFallback: PropTypes.bool,
@@ -91,6 +93,7 @@ ButtonShare.propTypes = {
 
 ButtonShare.defaultProps = {
   text: '',
+  version: 'black',
   shareText: 'Share link',
   copyText: 'Copy link',
   useCopyFallback: true,

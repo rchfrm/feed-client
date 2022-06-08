@@ -8,38 +8,23 @@ const { black } = brandColors
 const PostsIcon = ({ className, fill }) => {
   return (
     <svg
-      className={className}
-      width="282"
-      height="384"
-      viewBox="0 0 282 384"
+      width="26"
+      height="26"
+      viewBox="0 0 26 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
-      <rect
-        x="58.1504"
-        y="67.5"
-        width="165.428"
-        height="110.859"
-        rx="26.5"
-        fill={brandColors.bgColor}
-        stroke={fill}
-        strokeWidth="27"
+      <path
+        d="M18 0H8C5.79086 0 4 1.79086 4 4V6H7V4C7 3.44772 7.44772 3 8 3H18C18.5523 3 19 3.44772 19 4V6H22V4C22 1.79086 20.2091 0 18 0Z"
+        fill={fill}
       />
-      <rect
-        x="38.1523"
-        y="122.606"
-        width="205.41"
-        height="136.95"
-        rx="32"
-        fill={brandColors.bgColor}
-        stroke={fill}
-        strokeWidth="36"
+      <path
+        d="M20 5H6C3.79086 5 2 6.79086 2 9V11H5V9C5 8.44772 5.44772 8 6 8H20C20.5523 8 21 8.44772 21 9V11H24V9C24 6.79086 22.2091 5 20 5Z"
+        fill={fill}
       />
-      <rect
-        y="170.58"
-        width="281.645"
-        height="213.42"
-        rx="35"
+      <path
+        d="M0 13C0 11.3431 1.34315 10 3 10H23C24.6569 10 26 11.3431 26 13V23C26 24.6569 24.6569 26 23 26H3C1.34315 26 0 24.6569 0 23V13Z"
         fill={fill}
       />
     </svg>

@@ -10,33 +10,11 @@ import { UserContext } from '@/app/contexts/UserContext'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useBrowserStore from '@/hooks/useBrowserStore'
 
+import getReferralAmount from '@/app/helpers/referralHelpers'
+
 import styles from '@/app/ThePageButtons.module.css'
 
 import * as ROUTES from '@/app/constants/routes'
-
-const links = [
-  {
-    href: ROUTES.POSTS,
-    title: 'posts',
-    icon: 'posts',
-  },
-  {
-    href: ROUTES.CONTROLS,
-    title: 'controls',
-    icon: 'controls',
-    matchingHrefs: ROUTES.controlsPages,
-  },
-  {
-    href: ROUTES.RESULTS,
-    title: 'results',
-    icon: 'results',
-  },
-  {
-    href: ROUTES.INSIGHTS,
-    title: 'insights',
-    icon: 'insights',
-  },
-]
 
 const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }) => {
   // CONTROLS PAGE
@@ -64,8 +42,44 @@ const ThePageButtons = () => {
   const {
     artistLoading,
     hasBudget,
-    artist: { missingDefaultLink, isSpendingPaused },
+    artist: {
+      missingDefaultLink,
+      isSpendingPaused,
+      feedMinBudgetInfo: {
+        currencyCode,
+      },
+    } = {},
   } = React.useContext(ArtistContext)
+
+  const links = [
+    {
+      href: ROUTES.POSTS,
+      title: 'posts',
+      icon: 'posts',
+    },
+    {
+      href: ROUTES.CONTROLS,
+      title: 'controls',
+      icon: 'controls',
+      matchingHrefs: ROUTES.controlsPages,
+    },
+    {
+      href: ROUTES.RESULTS,
+      title: 'results',
+      icon: 'results',
+    },
+    {
+      href: ROUTES.INSIGHTS,
+      title: 'insights',
+      icon: 'insights',
+    },
+    {
+      href: ROUTES.MYREFERRAL,
+      title: getReferralAmount(currencyCode),
+      icon: 'referral',
+    },
+  ]
+
   // Don't show buttons if no logged in
   if (!isLoggedIn || user.is_email_verification_needed || isGetStartedPage) return null
 
@@ -88,6 +102,7 @@ const ThePageButtons = () => {
                   'relative',
                   styles.linkAnchor,
                   icon === 'posts' ? styles.linkAnchor_posts : null,
+                  icon === 'referral' ? styles.linkAnchor_referral : null,
                 ].join(' ')}
                 >
                   <ThePageButtonsIcon

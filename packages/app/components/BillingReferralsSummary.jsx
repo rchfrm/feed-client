@@ -11,19 +11,20 @@ import { getUpcomingReferralAward } from '@/app/ReferralCodeProgress'
 const getBillingStoreState = (state) => ({
   referralsDetails: state.referralsDetails,
   defaultPaymentMethod: state.defaultPaymentMethod,
+  artistCurrency: state.artistCurrency,
 })
 
 const BillingReferralsSummary = ({
   className,
 }) => {
-  const { referralsDetails } = useBillingStore(getBillingStoreState, shallow)
+  const { referralsDetails, artistCurrency } = useBillingStore(getBillingStoreState, shallow)
   const { referrals_number, qualifying_referrals_number } = referralsDetails
   // Get tiers
   const tiers = [...referralCopy.tiers()].reverse()
   // Get upcoming benefit
   const upcomingBenefit = getUpcomingReferralAward(tiers, qualifying_referrals_number)
   // Intro copy
-  const introCopy = referralCopy.introToProgress(referrals_number, qualifying_referrals_number, upcomingBenefit)
+  const introCopy = referralCopy.introToProgress(referrals_number, qualifying_referrals_number, upcomingBenefit, artistCurrency)
   return (
     <div
       className={[

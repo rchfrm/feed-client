@@ -254,13 +254,14 @@ export const getCurrencySymbol = (currency = 'GBP') => {
 * @returns {string}
 */
 export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
-  if (value === null || typeof value === 'undefined' || Number.isNaN(value)) return
+  if (value === null || typeof value === 'undefined' || Number.isNaN(value) || typeof window === 'undefined') return
   const locale = navigator.language
   const currencyToUse = currency === null ? 'GBP' : currency
   const valueFloat = parseFloat(value)
   return valueFloat.toLocaleString(locale, {
     style: 'currency',
     currency: currencyToUse,
+    currencyDisplay: 'narrowSymbol',
     ...(hideMinorUnits && { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
   })
 }
