@@ -26,8 +26,7 @@ const TargetingSuggestedBudgetButton = ({
   }
 
   return (
-    <div
-      role="button"
+    <button
       ref={buttonRef}
       onClick={onClick}
       className={[
@@ -39,7 +38,7 @@ const TargetingSuggestedBudgetButton = ({
       style={{ left: `calc(${offset}% - ${buttonWidth / 2}px)` }}
     >
       {formatCurrency(budget, currency, true)}
-    </div>
+    </button>
   )
 }
 
