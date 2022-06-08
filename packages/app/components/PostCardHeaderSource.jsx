@@ -10,7 +10,7 @@ const PostCardHeaderSource = ({
   postType,
 }) => {
   return (
-    <p className="mb-0 text-sm bmw:text-base">
+    <p className="flex mb-0 text-sm bmw:text-base">
       <a
         href={permalink}
         target="_blank"
