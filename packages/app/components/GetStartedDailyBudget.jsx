@@ -115,7 +115,7 @@ const GetStartedDailyBudget = () => {
       />
       <div className="flex flex-1 flex-column justify-center items-center">
         <div
-          className="w-full sm:w-2/3 flex flex-column justify-between mb-10"
+          className="w-full sm:w-3/4 flex flex-column justify-between mb-10"
           style={{ minHeight: '120px' }}
         >
           <div>
