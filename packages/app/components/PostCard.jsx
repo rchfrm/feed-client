@@ -26,7 +26,7 @@ const PostCard = ({
   children,
 }) => {
   // Extract some variables
-  const { postPromotable, promotionStatus, postType } = post
+  const { postPromotable, promotionStatus, promotionEnabled, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
@@ -47,6 +47,7 @@ const PostCard = ({
         postId={post.id}
         artistId={artistId}
         priorityEnabled={post.priorityEnabled}
+        promotionEnabled={promotionEnabled}
         updatePost={updatePost}
         toggleCampaign={toggleCampaign}
         postIndex={postIndex}
