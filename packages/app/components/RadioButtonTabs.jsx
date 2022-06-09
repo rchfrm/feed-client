@@ -5,10 +5,10 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import ResultsTab from '@/app/ResultsTab'
 
-const ResultsTabs = ({
-  metricTypes,
-  metricType,
-  setMetricType,
+const RadioButtonTabs = ({
+  tabs,
+  activeTab,
+  setActiveTab,
   hasNoProfiles,
   shouldHideTab,
   className,
@@ -22,16 +22,16 @@ const ResultsTabs = ({
       'justify-around mb-0',
     ].join(' ')}
     >
-      {metricTypes.map(({ type }, index) => {
+      {tabs.map(({ name }, index) => {
         if ((shouldHideTab && index === 2) || (isDesktopLayout && hasNoProfiles)) return
 
         return (
           <ResultsTab
-            key={type}
-            type={type}
+            key={name}
+            name={name}
             index={index}
-            setMetricType={setMetricType}
-            metricType={metricType}
+            setActiveTab={setActiveTab}
+            activeTab={activeTab}
           />
         )
       })}
@@ -39,18 +39,18 @@ const ResultsTabs = ({
   )
 }
 
-ResultsTabs.propTypes = {
-  metricTypes: PropTypes.array.isRequired,
-  metricType: PropTypes.string.isRequired,
-  setMetricType: PropTypes.func.isRequired,
+RadioButtonTabs.propTypes = {
+  tabs: PropTypes.array.isRequired,
+  activeTab: PropTypes.string.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
   hasNoProfiles: PropTypes.bool.isRequired,
   shouldHideTab: PropTypes.bool,
   className: PropTypes.string,
 }
 
-ResultsTabs.defaultProps = {
+RadioButtonTabs.defaultProps = {
   shouldHideTab: false,
   className: '',
 }
 
-export default ResultsTabs
+export default RadioButtonTabs

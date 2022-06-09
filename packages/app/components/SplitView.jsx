@@ -12,13 +12,15 @@ const SplitView = ({
   options,
   basePath,
   hasEvenColumns,
+  breakpoint,
+  className,
 }) => {
-  const isDesktopLayout = useBreakpointTest('md')
+  const isDesktopLayout = useBreakpointTest(breakpoint)
   const [activeOption, setActiveOption] = React.useState(!basePath ? options[0].key : slug)
 
   return (
-    <div className="md:grid grid-cols-12 gap-8">
-      <div className={hasEvenColumns ? 'col-span-6' : 'col-span-4'}>
+    <div className={className}>
+      <div className={hasEvenColumns ? 'col-span-6' : 'col-span-5 md:col-span-4'}>
         {/* SETTINGS MENU */}
         <SplitViewOptions
           contentComponents={contentComponents}
@@ -33,7 +35,7 @@ const SplitView = ({
         <SplitViewContent
           activeOption={activeOption}
           contentComponents={contentComponents}
-          className={hasEvenColumns ? 'col-span-6' : 'col-span-8'}
+          className={hasEvenColumns ? 'col-span-6' : 'col-span-7 md:col-span-8'}
         />
       )}
     </div>
@@ -46,6 +48,7 @@ SplitView.propTypes = {
   options: PropTypes.array,
   basePath: PropTypes.string,
   hasEvenColumns: PropTypes.bool,
+  breakpoint: PropTypes.string,
 }
 
 SplitView.defaultProps = {
@@ -54,6 +57,7 @@ SplitView.defaultProps = {
   options: [],
   basePath: '',
   hasEvenColumns: false,
+  breakpoint: 'md',
 }
 
 export default SplitView

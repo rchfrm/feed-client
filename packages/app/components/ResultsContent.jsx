@@ -5,7 +5,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import ResultsStats from '@/app/ResultsStats'
-import ResultsTabs from '@/app/ResultsTabs'
+import RadioButtonTabs from '@/app/RadioButtonTabs'
 import ResultsTabContent from '@/app/ResultsTabContent'
 import ResultsSpendOverview from '@/app/ResultsSpendOverview'
 
@@ -59,10 +59,10 @@ const ResultsContent = ({
               isDesktopLayout={isDesktopLayout}
               className={isDesktopLayout ? 'order-1' : 'order-2'}
             />
-            <ResultsTabs
-              metricTypes={adMetricTypes}
-              metricType={metricType}
-              setMetricType={setMetricType}
+            <RadioButtonTabs
+              tabs={adMetricTypes}
+              activeTab={metricType}
+              setActiveTab={setMetricType}
               shouldHideTab={!hasSalesObjective && !hasGrowthObjective}
               hasNoProfiles={hasNoProfiles}
               className={isDesktopLayout ? 'order-2' : 'order-1'}

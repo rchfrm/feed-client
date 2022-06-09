@@ -59,6 +59,7 @@ const ControlsContent = ({ slug }) => {
       options={controlsOptions}
       basePath="/controls"
       hasEvenColumns
+      className="md:grid grid-cols-12 gap-8"
     />
   )
 }

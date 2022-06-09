@@ -7,25 +7,25 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { capitalise } from '@/helpers/utils'
 
 const ResultsTab = ({
-  type,
+  name,
   index,
-  metricType,
-  setMetricType,
+  activeTab,
+  setActiveTab,
 }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const isActive = metricType === type
+  const isActive = activeTab === name
 
   const onClick = (audience) => {
-    setMetricType(audience)
+    setActiveTab(audience)
   }
 
   return (
     <li className="relative col-span-4 flex justify-center">
       <button
-        onClick={() => onClick(type)}
+        onClick={() => onClick(name)}
         className="flex flex-column justify-center items-center"
       >
-        {!isDesktopLayout && <p className="mb-2">{capitalise(type)}</p>}
+        {!isDesktopLayout && <p className="mb-2">{capitalise(name)}</p>}
         <div
           className={[
             'flex justify-center items-center',
@@ -48,10 +48,10 @@ const ResultsTab = ({
 }
 
 ResultsTab.propTypes = {
-  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  metricType: PropTypes.string.isRequired,
-  setMetricType: PropTypes.func.isRequired,
+  activeTab: PropTypes.string.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
 }
 
 export default ResultsTab
