@@ -28,6 +28,23 @@ export const postTabs = [
   },
 ]
 
+const Image = () => (
+  <div
+    className="relative mb-6"
+    style={{ paddingBottom: '100%' }}
+  >
+    <div
+      className={[
+        'absolute',
+        'top-0 left-0',
+        'w-full h-full',
+        'border-2 border-solid border-grey-2',
+        'rounded-dialogue',
+      ].join(' ')}
+    />
+  </div>
+)
+
 const PostContent = ({ postId }) => {
   const [post, setPost] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -65,11 +82,15 @@ const PostContent = ({ postId }) => {
       <SplitView
         contentComponents={postComponents}
         options={postOptions}
+        optionsHeader={<Image />}
         breakpoint={breakpoint}
         className="sm:grid grid-cols-12 gap-8"
       />
     ) : (
       <>
+        <div className="py-4 px-16">
+          <Image />
+        </div>
         <RadioButtonTabs
           tabs={postTabs}
           activeTab={activeTab}
