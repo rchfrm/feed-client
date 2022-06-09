@@ -19,6 +19,7 @@ export default {
     {
       key: 'targeting',
       title: 'Targeting',
+      hasDefaultSidePanelButton: false,
     },
     {
       key: 'links',

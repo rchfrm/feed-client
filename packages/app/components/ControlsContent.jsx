@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
-import ControlsContentOptions from '@/app/ControlsContentOptions'
-import ControlsContentView from '@/app/ControlsContentView'
+import SplitView from '@/app/SplitView'
 import ObjectiveSettings from '@/app/ObjectiveSettings'
 import TargetingBudgetBox from '@/app/TargetingBudgetBox'
 import AdDefaults from '@/app/AdDefaults'
@@ -17,6 +16,8 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
+import copy from '@/app/copy/controlsPageCopy'
+
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
   objective: <ObjectiveSettings />,
@@ -27,15 +28,14 @@ const controlsComponents = {
   integrations: <IntegrationsPanel />,
 }
 
-const ControlsContent = ({ activeSlug }) => {
-  // Destructure context
+const ControlsContent = ({ slug }) => {
   const { globalLoading } = React.useContext(InterfaceContext)
   const { user } = React.useContext(UserContext)
   const hasArtists = user.artists.length > 0
+  const { controlsOptions } = copy
 
   // Fetch from targeting context
   const {
-    isDesktopLayout,
     errorFetchingSettings,
     initialTargetingState,
   } = React.useContext(TargetingContext)
@@ -53,32 +53,22 @@ const ControlsContent = ({ activeSlug }) => {
   if (globalLoading || (hasArtists && !Object.keys(initialTargetingState).length > 0)) return <Spinner />
 
   return (
-    <div className="md:grid grid-cols-12 gap-8">
-      <div className="col-span-6 col-start-1">
-        {/* SETTINGS MENU */}
-        <ControlsContentOptions
-          activeSlug={activeSlug}
-          controlsComponents={controlsComponents}
-        />
-      </div>
-      {/* SETTINGS VIEW */}
-      {isDesktopLayout && (
-        <ControlsContentView
-          activeSlug={activeSlug}
-          className="col-span-6 col-start-7"
-          controlsComponents={controlsComponents}
-        />
-      )}
-    </div>
+    <SplitView
+      slug={slug}
+      contentComponents={controlsComponents}
+      options={controlsOptions}
+      basePath="/controls"
+      hasEvenColumns
+    />
   )
 }
 
 ControlsContent.propTypes = {
-  activeSlug: PropTypes.string,
+  slug: PropTypes.string,
 }
 
 ControlsContent.defaultProps = {
-  activeSlug: '',
+  slug: '',
 }
 
 export default ControlsContent

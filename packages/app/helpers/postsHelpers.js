@@ -202,6 +202,21 @@ export const dummyPosts = [
   },
 ]
 
+export const postOptions = [
+  {
+    key: 'details',
+    title: 'Details',
+  },
+  {
+    key: 'insights',
+    title: 'Insights',
+  },
+  {
+    key: 'settings',
+    title: 'Settings',
+  },
+]
+
 // CAMPAIGN TYPE GRADIENTS
 const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
 export const growthGradient = createGradient(brandColors.blue)

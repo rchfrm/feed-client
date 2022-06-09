@@ -20,6 +20,7 @@ const Page = () => {
       headerConfig={headerConfig}
       artistRequired
       controlsRequired
+      hasNoProfilesPage
     >
       <PostContent postId={id} />
     </BasePage>

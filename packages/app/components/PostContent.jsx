@@ -2,16 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import PostDetails from '@/app/PostDetails'
+import PostInsights from '@/app/PostInsights'
+import PostSettings from '@/app/PostSettings'
+import SplitView from '@/app/SplitView'
 
 import Spinner from '@/elements/Spinner'
 
-import { getPostById } from '@/app/helpers/postsHelpers'
+import { postOptions, getPostById } from '@/app/helpers/postsHelpers'
 
 const PostContent = ({ postId }) => {
   const [post, setPost] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
+
   const { artistId } = React.useContext(ArtistContext)
+  const isDesktopLayout = useBreakpointTest('md')
+
+  const postComponents = {
+    details: <PostDetails post={post} />,
+    insights: <PostInsights post={post} />,
+    settings: <PostSettings post={post} />,
+  }
 
   useAsyncEffect(async (isMounted) => {
     if (!artistId) return
@@ -28,18 +43,17 @@ const PostContent = ({ postId }) => {
     setIsLoading(false)
   }, [artistId])
 
-  React.useEffect(() => {
-    console.log(post)
-  }, [post])
-
   if (isLoading) return <Spinner />
 
   return (
-    <ul>
-      <li><strong>Post id:</strong> {post.id}</li>
-      <li><strong>Message:</strong> {post.message}</li>
-      <li><strong>Promotion status:</strong> {post.promotionStatus}</li>
-    </ul>
+    isDesktopLayout ? (
+      <SplitView
+        contentComponents={postComponents}
+        options={postOptions}
+      />
+    ) : (
+      <p>Here comes a mobile tabs layout ..</p>
+    )
   )
 }
 
