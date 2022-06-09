@@ -3,8 +3,10 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import useOnResize from '@/landing/hooks/useOnResize'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import PostDetails from '@/app/PostDetails'
 import PostInsights from '@/app/PostInsights'
@@ -30,7 +32,7 @@ export const postTabs = [
 
 const Image = () => (
   <div
-    className="relative mb-6"
+    className="col-span-8 col-start-3 relative mb-6"
     style={{ paddingBottom: '100%' }}
   >
     <div
@@ -51,7 +53,10 @@ const PostContent = ({ postId }) => {
   const [activeTab, setActiveTab] = React.useState(postTabs[0].name)
 
   const breakpoint = 'sm'
+  const { width } = useOnResize()
+
   const { artistId } = React.useContext(ArtistContext)
+  const { setHeader } = React.useContext(InterfaceContext)
   const isDesktopLayout = useBreakpointTest(breakpoint)
 
   const postComponents = {
@@ -75,6 +80,23 @@ const PostContent = ({ postId }) => {
     setIsLoading(false)
   }, [artistId])
 
+  React.useEffect(() => {
+    if (!post) return
+
+    const isMobile = width < 992
+    const isDesktop = width > 1220
+    const textLength = isDesktop ? 32 : 20
+
+    if (!isMobile) {
+      const text = `${post?.message.substring(0, textLength)}...`
+
+      setHeader({ text })
+      return
+    }
+
+    setHeader({ text: 'post' })
+  }, [width, post, isDesktopLayout, setHeader])
+
   if (isLoading) return <Spinner />
 
   return (
@@ -88,7 +110,7 @@ const PostContent = ({ postId }) => {
       />
     ) : (
       <>
-        <div className="py-4 px-16">
+        <div className="grid grid-cols-12">
           <Image />
         </div>
         <RadioButtonTabs

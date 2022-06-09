@@ -7,17 +7,13 @@ import PostContent from '@/app/PostContent'
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 
-const headerConfig = {
-  text: 'post',
-}
-
 const Page = () => {
   const router = useRouter()
   const { id } = router.query
 
   return (
     <BasePage
-      headerConfig={headerConfig}
+      headerConfig=""
       artistRequired
       controlsRequired
       hasNoProfilesPage
