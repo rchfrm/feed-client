@@ -30,7 +30,7 @@ const TargetingCustomBudgetButton = ({
       role="button"
       onClick={() => setShowCustomBudget(!showCustomBudget)}
     >
-      {showCustomBudget ? 'Back' : 'Enter a custom budget'}
+      {showCustomBudget ? 'Return to slider view' : 'Enter custom budget'}
     </a>
   )
 }
