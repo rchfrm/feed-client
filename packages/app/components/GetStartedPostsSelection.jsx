@@ -17,8 +17,7 @@ import Spinner from '@/elements/Spinner'
 
 import * as server from '@/app/helpers/appServer'
 
-import { formatRecentPosts } from '@/app/helpers/resultsHelpers'
-import { getCursor, getInitialPostsImportStatus } from '@/app/helpers/postsHelpers'
+import { getCursor, getInitialPostsImportStatus, formatPostsMinimal } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 
@@ -118,7 +117,7 @@ const GetStartedPostsSelection = () => {
       setShouldShowLoadMoreButton(false)
     }
 
-    const postsFormatted = formatRecentPosts(res)
+    const postsFormatted = formatPostsMinimal(res)
 
     // Store the cursor of the last post
     setNextCursor(postsFormatted)

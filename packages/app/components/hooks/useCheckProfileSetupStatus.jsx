@@ -24,7 +24,6 @@ const getBillingStoreState = (state) => ({
 })
 
 const useCheckProfileSetupStatus = () => {
-  const [enabledPosts, setEnabledPosts] = React.useState([])
   // Get local storage state
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
@@ -44,7 +43,7 @@ const useCheckProfileSetupStatus = () => {
   const hasSalesObjective = objective === 'sales'
 
   // Get artist context values
-  const { artist } = React.useContext(ArtistContext)
+  const { artist, enabledPosts } = React.useContext(ArtistContext)
 
   const {
     feedMinBudgetInfo: {
@@ -120,7 +119,7 @@ const useCheckProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => !condition.isComplete)?.name
   }
 
-  return { getProfileSetupStatus, profileSetupConditions, setEnabledPosts }
+  return { getProfileSetupStatus, profileSetupConditions }
 }
 
 export default useCheckProfileSetupStatus

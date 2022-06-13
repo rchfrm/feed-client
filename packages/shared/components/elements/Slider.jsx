@@ -39,7 +39,7 @@ const Slider = ({
 
   return (
     <div className={[
-      'mb-5',
+      'mb-3',
       trackColor ? `slider-track-color-${trackColor}` : null,
       hasError ? 'has-error border-red' : 'border-grey-3',
       'border border-solid rounded-full',

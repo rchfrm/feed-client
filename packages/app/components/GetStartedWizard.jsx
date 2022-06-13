@@ -265,9 +265,10 @@ const GetStartedWizard = () => {
         <WizardContextProvider
           steps={steps}
           goBackToPath={ROUTES.HOME}
-          isLoading={isControlsLoading}
+          isControlsLoading={isControlsLoading}
           navigation={<GetStartedSummarySentence />}
           profileSetupStatus={profileSetupStatus}
+          artistId={artistId}
         >
           {steps.map((step) => <React.Fragment key={step.id}>{step.component}</React.Fragment>)}
         </WizardContextProvider>
