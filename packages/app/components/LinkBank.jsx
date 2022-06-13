@@ -26,7 +26,7 @@ const getControlsStoreState = (state) => ({
 
 const LinkBank = () => {
   const { fetchData, nestedLinks, isControlsLoading, linkBankError } = useControlsStore(getControlsStoreState, shallow)
-  const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
+  const { artistId, artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
 
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
@@ -46,7 +46,7 @@ const LinkBank = () => {
     setSidePanelLoading(false)
   }, [isControlsLoading])
 
-  if (isControlsLoading && !linkBankError) return null
+  if (artistId && isControlsLoading && !linkBankError) return null
 
   return (
     <section>

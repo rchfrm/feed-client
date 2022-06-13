@@ -17,6 +17,7 @@ import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
 
 import * as server from '@/app/helpers/appServer'
 import { profileStatus } from '@/app/helpers/artistHelpers'
+import { formatPostsMinimal } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   initControlsStore: state.initControlsStore,
@@ -33,14 +34,13 @@ const getBillingStoreState = (state) => ({
 
 function Main({ children }) {
   const { user } = React.useContext(UserContext)
-  const { artistId, artist, artistLoading } = React.useContext(ArtistContext)
+  const { artistId, artist, artistLoading, setEnabledPosts } = React.useContext(ArtistContext)
   const { min_daily_budget_info: minDailyBudgetInfo } = artist
   const isFirstRender = React.useRef(true)
 
   const {
     getProfileSetupStatus,
     profileSetupConditions,
-    setEnabledPosts,
   } = useCheckProfileSetupStatus()
 
   // Setup controls store when artist changes
@@ -86,18 +86,19 @@ function Main({ children }) {
       filterBy: {
         promotion_enabled: [true],
       },
+      limit: 3,
     })
-    setEnabledPosts(enabledPosts)
+    setEnabledPosts(formatPostsMinimal(enabledPosts))
   }
 
   // Update profile setup status in controls store
   useAsyncEffect(async () => {
-    if (!user.id || (user.artists.length && !artistId) || controlsLoading) return
+    if (!user.id || (user.artists.length && !artistId) || (artistId && controlsLoading)) return
 
     // Fetch enabled posts only once
     if (isFirstRender.current && artistId) {
-      await fetchEnabledPosts()
       isFirstRender.current = false
+      await fetchEnabledPosts()
       return
     }
 
