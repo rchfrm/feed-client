@@ -10,16 +10,12 @@ import '../../shared/css/app.css'
 import '../../shared/css/utilities.css'
 import Head from 'next/head'
 import AppContents from '@/app/AppContents'
-import SetupFacebookChatPlugin from '@/elements/SetupFacebookChatPlugin'
 import SetupReCaptcha from '@/elements/SetupReCaptcha'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { trackPWA, setupTracking, trackPageView } from '@/helpers/trackingHelpers'
 
 // GLOBAL STORES and DATA
 import { parseUrl } from '@/helpers/utils'
-
-// Facebook page id
-const fbPageId = '110394157234637'
 
 const registerServiceWorker = () => {
   window.addEventListener('load', () => {
@@ -99,9 +95,6 @@ function Feed({ Component, pageProps }) {
       <Head>
         <title key="meta-title">Feed</title>
       </Head>
-
-      {/* FACEBOOK CHAT */}
-      <SetupFacebookChatPlugin pageId={fbPageId} />
 
       {/* RECAPTCHA */}
       <SetupReCaptcha />
