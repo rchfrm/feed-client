@@ -173,10 +173,6 @@ Feed will turn this post into an ad straight away. Once it has been approved, so
 
 Would you like to continue?`
   },
-  prioritizeTooltipSlides: [
-    'By marking this post as a priority post, you can start it running straight away (unless two priority posts are already running).',
-    'You can remove priority status from the post or stop it running at any time.',
-  ],
   conversionsToggleAlert: (canRunConversions) => {
     if (!canRunConversions) {
       return 'Would you like to set-up conversion campaigns now?'

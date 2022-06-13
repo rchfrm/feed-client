@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostCardPriorityButton from '@/app/PostCardPriorityButton'
-
-import * as utils from '@/helpers/utils'
+import PostCardPromotionStatus from '@/app/PostCardPromotionStatus'
+import PostCardHeaderSource from '@/app/PostCardHeaderSource'
 
 const PostCardHeader = ({
   platform,
@@ -13,6 +13,7 @@ const PostCardHeader = ({
   postId,
   artistId,
   priorityEnabled,
+  promotionEnabled,
   updatePost,
   toggleCampaign,
   postIndex,
@@ -26,28 +27,29 @@ const PostCardHeader = ({
         className,
       ].join(' ')}
     >
+      <div className="flex items-center">
+        <PostCardPriorityButton
+          postId={postId}
+          artistId={artistId}
+          priorityEnabled={priorityEnabled}
+          updatePost={updatePost}
+          toggleCampaign={toggleCampaign}
+          postIndex={postIndex}
+          promotionStatus={promotionStatus}
+        />
+        <span className="h-5 mx-2 border-l border-solid border-grey-2" />
+        <PostCardPromotionStatus
+          promotionEnabled={promotionEnabled}
+          promotionStatus={promotionStatus}
+          size="small"
+        />
+      </div>
       {/* LINK TO THE ORIGINAL POST */}
-      <p className="flex items-center mb-0 text-sm bmw:text-base">
-        <a
-          href={permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="no-underline no--hover"
-        >
-          Original post: <span className="font-bold">{publishedDate}</span>, <span className={`font-bold ${platform === 'facebook' ? 'text-fb' : 'text-insta'}`}>{utils.capitalise(platform)} </span>
-          {postType === 'story' && (
-            <strong className="text-insta">Story</strong>
-          )}
-        </a>
-      </p>
-      <PostCardPriorityButton
-        postId={postId}
-        artistId={artistId}
-        priorityEnabled={priorityEnabled}
-        updatePost={updatePost}
-        toggleCampaign={toggleCampaign}
-        postIndex={postIndex}
-        promotionStatus={promotionStatus}
+      <PostCardHeaderSource
+        platform={platform}
+        publishedDate={publishedDate}
+        permalink={permalink}
+        postType={postType}
       />
     </div>
   )
