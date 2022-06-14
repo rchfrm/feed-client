@@ -13,6 +13,7 @@ import PostInsights from '@/app/PostInsights'
 import PostSettings from '@/app/PostSettings'
 import SplitView from '@/app/SplitView'
 import RadioButtonTabs from '@/app/RadioButtonTabs'
+import PostCardMedia from '@/app/PostCardMedia'
 
 import Spinner from '@/elements/Spinner'
 
@@ -29,23 +30,6 @@ export const postTabs = [
     name: 'settings',
   },
 ]
-
-const Image = () => (
-  <div
-    className="col-span-8 col-start-3 relative mb-6"
-    style={{ paddingBottom: '100%' }}
-  >
-    <div
-      className={[
-        'absolute',
-        'top-0 left-0',
-        'w-full h-full',
-        'border-2 border-solid border-grey-2',
-        'rounded-dialogue',
-      ].join(' ')}
-    />
-  </div>
-)
 
 const PostContent = ({ postId }) => {
   const [post, setPost] = React.useState(null)
@@ -101,17 +85,31 @@ const PostContent = ({ postId }) => {
 
   return (
     isDesktopLayout ? (
-      <SplitView
-        contentComponents={postComponents}
-        options={postOptions}
-        optionsHeader={<Image />}
-        breakpoint={breakpoint}
-        className="sm:grid grid-cols-12 gap-8"
-      />
+      <>
+        <SplitView
+          contentComponents={postComponents}
+          options={postOptions}
+          optionsHeader={(
+            <PostCardMedia
+              media={post.media}
+              thumbnails={post.thumbnails}
+              postType={post.postType}
+            />
+          )}
+          breakpoint={breakpoint}
+          className="sm:grid grid-cols-12 gap-8"
+        />
+      </>
     ) : (
       <>
         <div className="grid grid-cols-12">
-          <Image />
+          <div className="col-span-8 col-start-3 relative mb-6">
+            <PostCardMedia
+              media={post.media}
+              thumbnails={post.thumbnails}
+              postType={post.postType}
+            />
+          </div>
         </div>
         <RadioButtonTabs
           tabs={postTabs}
