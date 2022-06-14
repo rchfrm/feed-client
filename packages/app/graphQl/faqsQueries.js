@@ -1,5 +1,4 @@
-import { contentBlocks, seo } from '@/graphQl/querySnippets'
-import { blogIntro } from '@/landing/graphQl/blogArticlesQueries'
+import { contentBlocks } from '@/graphQl/querySnippets'
 
 export const getAllFaqQuestionsQuery = () => `
   query {

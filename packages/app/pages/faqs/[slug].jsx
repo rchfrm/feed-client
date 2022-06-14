@@ -2,34 +2,16 @@ import getDatoData from '@/helpers/getDatoData'
 import { getAllFaqSlugsQuery, getFaqQuery } from '@/app/graphQl/faqsQueries'
 import BasePage from '@/app/BasePage'
 import React from 'react'
-import MarkdownText from '@/elements/MarkdownText'
+import FaqContent from '@/app/FaqContent'
 import { headerConfig } from './index'
 
 export default function FAQPage({ pageData }) {
-  const {
-    question,
-    answer,
-  } = pageData
   return (
     <BasePage
       headerConfig={headerConfig}
       staticPage
     >
-      <h2>{question}</h2>
-      {answer.map(contentBlock => {
-        const {
-          id,
-          copy,
-          _modelApiKey: contentType,
-        } = contentBlock
-        // COPY
-        if (contentType === 'copy') {
-          return (
-            <MarkdownText markdown={copy} key={id} />
-          )
-        }
-        return null
-      })}
+      <FaqContent faq={pageData} />
     </BasePage>
   )
 }

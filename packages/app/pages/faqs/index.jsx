@@ -1,5 +1,5 @@
 import BasePage from '@/app/BasePage'
-import FaqContent from '@/app/FaqContent'
+import FaqList from '@/app/FaqList'
 import getDatoData from '@/helpers/getDatoData'
 import { getAllFaqQuestionsQuery } from '@/app/graphQl/faqsQueries'
 
@@ -13,7 +13,7 @@ const Page = ({ faqs }) => {
       headerConfig={headerConfig}
       staticPage
     >
-      <FaqContent faqs={faqs} />
+      <FaqList faqs={faqs} />
     </BasePage>
   )
 }

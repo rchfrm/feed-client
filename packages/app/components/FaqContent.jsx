@@ -1,26 +1,54 @@
-// IMPORT PACKAGES
+import MarkdownText from '@/elements/MarkdownText'
 import React from 'react'
-import PropTypes from 'prop-types'
 import Link from 'next/link'
+import * as ROUTES from '@/app/constants/routes'
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
-function FaqContent({ faqs }) {
+export default function FaqContent({ faq }) {
+  const {
+    question,
+    answer,
+  } = faq
   return (
-    <article>
-      <ul>
-        {faqs.map(({ question, slug, id }) => {
+    <>
+      <Link href={ROUTES.FAQS}>
+        <div
+          className={[
+            'inline-flex',
+            'gap-2',
+            'items-center',
+            'mb-10',
+            'cursor-pointer',
+            'w-auto',
+            'self-start',
+          ].join(' ')}
+        >
+          <ArrowAltIcon direction="left" className="w-3" />
+          <h4
+            className={[
+              'mb-0',
+              'underline',
+              'hover:text-green',
+            ].join(' ')}
+          >See all FAQs
+          </h4>
+        </div>
+      </Link>
+      <h2>{question}</h2>
+      {answer.map(contentBlock => {
+        const {
+          id,
+          copy,
+          _modelApiKey: contentType,
+        } = contentBlock
+        // COPY
+        if (contentType === 'copy') {
           return (
-            <li key={id}>
-              <Link href={`faqs/${slug}`}>{question}</Link>
-            </li>
+            <MarkdownText markdown={copy} key={id} />
           )
-        })}
-      </ul>
-    </article>
+        }
+        return null
+      })}
+    </>
   )
 }
-
-FaqContent.propTypes = {
-  faqs: PropTypes.array.isRequired,
-}
-
-export default FaqContent
