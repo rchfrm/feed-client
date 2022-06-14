@@ -9,7 +9,7 @@ export const LOGIN_FACEBOOK = '/login/facebook'
 export const PASSWORD_FORGET = '/forgot-password'
 export const PASSWORD_RESET = '/password-reset'
 
-export const FAQ = '/faq'
+export const FAQS = '/faqs'
 export const PRICING = 'https://tryfeed.co/pricing'
 
 export const CONNECT_ACCOUNTS = '/connect-accounts'

@@ -1,14 +1,13 @@
 import BasePage from '@/app/BasePage'
 import FaqContent from '@/app/FaqContent'
 import getDatoData from '@/helpers/getDatoData'
-import query from '@/app/graphQl/faqsQuery'
+import { getAllFaqQuestionsQuery } from '@/app/graphQl/faqsQueries'
 
-const headerConfig = {
+export const headerConfig = {
   text: 'FAQs',
 }
 
 const Page = ({ faqs }) => {
-  console.log('faqs', faqs)
   return (
     <BasePage
       headerConfig={headerConfig}
@@ -25,11 +24,9 @@ export async function getStaticProps() {
   const forceLoad = true
   const {
     data: {
-      faqsApp: {
-        faqs,
-      },
+      allFaqArticles: faqs,
     },
-  } = await getDatoData(query, 'faqsQuery', forceLoad)
+  } = await getDatoData(getAllFaqQuestionsQuery(), 'faqQuestions', forceLoad)
   return {
     props: {
       faqs,

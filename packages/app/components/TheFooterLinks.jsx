@@ -8,7 +8,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 import styles from '@/app/TheFooter.module.css'
 
-const { LOGIN, SIGN_UP, PRICING, FAQ } = ROUTES
+const { LOGIN, SIGN_UP, PRICING, FAQS } = ROUTES
 const termsLink = 'https://archform.ltd/terms/'
 const links = [
   {
@@ -20,7 +20,7 @@ const links = [
     title: 'sign up',
   },
   {
-    href: FAQ,
+    href: FAQS,
     title: 'FAQs',
   },
   {

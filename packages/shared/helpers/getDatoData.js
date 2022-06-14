@@ -34,6 +34,8 @@ const getDatoData = async (query, cachedFilename, forceFetch) => {
     }
   }
 
+  console.log('query', query)
+
   // Else get live data
   const { status, statusText, data } = await axiosClient({
     url: '/',

@@ -48,12 +48,12 @@ export const contentBlocks = (fieldName = 'content', type = 'blog') => `
       breakoutWidth
       ${image()}
     }
+    ${type === 'blog' ? `
     ... on SectionHeaderRecord {
       id
       _modelApiKey
       header
     }
-    ${type === 'blog' ? `
     ... on PullquoteRecord {
       id
       _modelApiKey
@@ -83,7 +83,7 @@ export const contentBlocks = (fieldName = 'content', type = 'blog') => `
       cta
     }
     ` : ''}
-    
+
   }
 `
 
