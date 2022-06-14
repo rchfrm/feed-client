@@ -71,7 +71,7 @@ const ConnectProfilesLoader = ({
       if (!isMounted()) return
 
       if (error.message !== 'user cache is not available') {
-        setErrors([...errors, error?.message?.previous || error])
+        setErrors([...errors, error])
       }
       setPageLoading(false)
       return
