@@ -43,8 +43,7 @@ const getDatoData = async (query, cachedFilename, forceFetch) => {
 
   // Handle errors...
   if (status !== 200) {
-    const errorMessage = statusText
-    throw new Error(errorMessage)
+    throw new Error(statusText)
   }
 
   if (data.errors) {
