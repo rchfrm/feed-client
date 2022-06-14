@@ -14,20 +14,20 @@ const PostDetails = ({ post }) => {
       <div className="md:pl-16">
         <div className="flex">
           <div className="mb-6 w-1/2">
-            <p className="mb-2 font-bold">Platform</p>
+            <p className="mb-2 text-lg font-bold">Platform</p>
             <div className="flex align-items pl-4">
               <PlatformIcon platform={platform} className="w-4 h-4 inline mr-1" />
               <p className="inline">{capitalise(platform)}</p>
             </div>
           </div>
           <div className="w-1/2">
-            <p className="mb-2 font-bold">Date</p>
+            <p className="mb-2 text-lg font-bold">Date</p>
             <p className="pl-4">{publishedTime}</p>
           </div>
         </div>
 
         <div className="mb-6">
-          <p className="mb-2 font-bold">Link</p>
+          <p className="mb-2 text-lg font-bold">Link</p>
           <a
             href={permalinkUrl}
             target="_blank"
@@ -39,7 +39,7 @@ const PostDetails = ({ post }) => {
         </div>
 
         <div>
-          <p className="mb-2 font-bold">Caption</p>
+          <p className="mb-2 text-lg font-bold">Caption</p>
           <p className="pl-4">{message}</p>
         </div>
       </div>
