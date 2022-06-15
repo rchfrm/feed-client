@@ -1,6 +1,6 @@
 import MarkdownText from '@/elements/MarkdownText'
 import React from 'react'
-import FaqsLinkToAll from '@/app/FaqsLinkToAll'
+import PropTypes from 'prop-types'
 
 export default function FaqContent({ faq }) {
   const {
@@ -33,4 +33,11 @@ export default function FaqContent({ faq }) {
       })}
     </div>
   )
+}
+
+FaqContent.propTypes = {
+  faq: PropTypes.shape({
+    question: PropTypes.string.isRequired,
+    answer: PropTypes.array.isRequired,
+  }).isRequired,
 }

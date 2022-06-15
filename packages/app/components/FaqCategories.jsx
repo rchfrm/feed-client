@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
 import { filterUnique } from '@/helpers/utils'
 import FaqList from '@/app/FaqList'
 
@@ -30,5 +29,9 @@ export default function FaqCategories({ faqs }) {
 }
 
 FaqCategories.propTypes = {
-  faqs: PropTypes.array.isRequired,
+  faqs: PropTypes.arrayOf(PropTypes.shape({
+    category: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+  })).isRequired,
 }

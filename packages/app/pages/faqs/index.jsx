@@ -3,14 +3,14 @@ import FaqCategories from '@/app/FaqCategories'
 import getDatoData from '@/helpers/getDatoData'
 import { getAllFaqQuestionsQuery } from '@/app/graphQl/faqsQueries'
 
-export const headerConfig = {
+export const faqHeaderConfig = {
   text: 'FAQs',
 }
 
-const Page = ({ faqs }) => {
+export default function Page({ faqs }) {
   return (
     <BasePage
-      headerConfig={headerConfig}
+      headerConfig={faqHeaderConfig}
       staticPage
     >
       <FaqCategories faqs={faqs} />
@@ -21,7 +21,7 @@ const Page = ({ faqs }) => {
 // This function gets called at build time on server-side.
 // https://nextjs.org/docs/basic-features/data-fetching#write-server-side-code-directly
 export async function getStaticProps() {
-  const forceLoad = false
+  const forceLoad = true
   const {
     data: {
       allFaqArticles: faqs,
@@ -33,5 +33,3 @@ export async function getStaticProps() {
     },
   }
 }
-
-export default Page

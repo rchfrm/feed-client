@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default function FaqsRelated({ slug, faqs }) {
   const filteredFaqs = faqs.filter(faq => faq.slug !== slug)
@@ -36,4 +37,13 @@ export default function FaqsRelated({ slug, faqs }) {
       </ul>
     </div>
   )
+}
+
+FaqsRelated.propTypes = {
+  slug: PropTypes.string.isRequired,
+  faqs: PropTypes.arrayOf(PropTypes.shape({
+    category: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+  })).isRequired,
 }

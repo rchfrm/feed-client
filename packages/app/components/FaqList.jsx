@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default function FaqList({ faqs, category }) {
   return (
@@ -7,7 +8,6 @@ export default function FaqList({ faqs, category }) {
       className={[
         'sm:col-span-6',
       ].join(' ')}
-      key={category}
     >
       <h3 className="bold">{category}</h3>
       <ul>
@@ -15,10 +15,9 @@ export default function FaqList({ faqs, category }) {
           const {
             question,
             slug,
-            id,
           } = faq
           return (
-            <li key={id} className="pb-4">
+            <li key={slug} className="pb-4">
               <Link href={`faqs/${slug}`}>{question}</Link>
             </li>
           )
@@ -26,4 +25,13 @@ export default function FaqList({ faqs, category }) {
       </ul>
     </div>
   )
+}
+
+FaqList.propTypes = {
+  faqs: PropTypes.arrayOf(PropTypes.shape({
+    category: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    question: PropTypes.string.isRequired,
+  })).isRequired,
+  category: PropTypes.string.isRequired,
 }

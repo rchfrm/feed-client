@@ -5,7 +5,7 @@ import React from 'react'
 import FaqContent from '@/app/FaqContent'
 import FaqsRelated from '@/app/FaqsRelated'
 import FaqsLinkToAll from '@/app/FaqsLinkToAll'
-import { headerConfig } from './index'
+import { faqHeaderConfig } from './index'
 
 export default function FAQPage({ pageData }) {
   const {
@@ -14,7 +14,7 @@ export default function FAQPage({ pageData }) {
   } = pageData
   return (
     <BasePage
-      headerConfig={headerConfig}
+      headerConfig={faqHeaderConfig}
       staticPage
     >
       <div
