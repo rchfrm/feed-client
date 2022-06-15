@@ -21,7 +21,7 @@ export default function Page({ faqs }) {
 // This function gets called at build time on server-side.
 // https://nextjs.org/docs/basic-features/data-fetching#write-server-side-code-directly
 export async function getStaticProps() {
-  const forceLoad = true
+  const forceLoad = false
   const {
     data: {
       allFaqArticles: faqs,
