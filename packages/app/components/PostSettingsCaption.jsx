@@ -9,7 +9,6 @@ import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 import CheckboxInput from '@/elements/CheckboxInput'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import Spinner from '@/elements/Spinner'
 import CaptionText from '@/elements/CaptionText'
 
 import { getPostAdMessages, updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
@@ -28,7 +27,6 @@ const PostSettingsAdMessage = ({
 
   const [isDefaultAdMessage, setIsDefaultAdMessage] = React.useState(true)
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
@@ -43,7 +41,6 @@ const PostSettingsAdMessage = ({
     }
 
     setAdMessages(res)
-    setIsLoading(false)
   }, [])
 
   const handleChange = () => {
@@ -101,16 +98,12 @@ const PostSettingsAdMessage = ({
     setCurrentAdMessage(adMessage)
     setCaption(adMessage?.message)
     setSavedCaption(adMessage?.message)
-
-    setIsLoading(false)
   }, [campaignType, adMessages])
 
-  if (isLoading) return <Spinner className="h-64 flex items-center" width={28} />
-
   return (
-    <>
+    <div className="mb-10">
       <div className="flex justify-between">
-        <p className="text-lg font-bold">Call to action</p>
+        <p className="text-lg font-bold">Caption</p>
         {shouldShowSaveButton && (
           <Button
             version="green small"
@@ -134,7 +127,6 @@ const PostSettingsAdMessage = ({
       {!isDefaultAdMessage && (
         <div
           className="bg-grey-1 p-4 rounded-dialogue"
-          style={isLoading ? { opacity: 0.6 } : null}
         >
           {useEditMode ? (
             <PostCardEditCaptionMessage
@@ -152,7 +144,7 @@ const PostSettingsAdMessage = ({
         </div>
       )}
       <Error error={error} />
-    </>
+    </div>
   )
 }
 

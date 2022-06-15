@@ -10,7 +10,6 @@ import PostLinksSelect from '@/app/PostLinksSelect'
 import CheckboxInput from '@/elements/CheckboxInput'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import Spinner from '@/elements/Spinner'
 
 import { setPostLink, getLinkById } from '@/app/helpers/linksHelpers'
 
@@ -40,7 +39,6 @@ const PostSettingsLink = ({
 
   const [isDefaultLink, setIsDefaultLink] = React.useState(true)
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
@@ -100,14 +98,10 @@ const PostSettingsLink = ({
     if (linkId && linkId !== defaultLink.id) {
       setIsDefaultLink(false)
     }
-
-    setIsLoading(false)
   }, [campaignType, linkSpecs, defaultLink.id, defaultLink.href])
 
-  if (isLoading) return <Spinner className="h-64 flex items-center" width={28} />
-
   return (
-    <>
+    <div className="mb-10">
       <div className="flex justify-between">
         <p className="text-lg font-bold">Link</p>
         {shouldShowSaveButton && (
@@ -141,7 +135,7 @@ const PostSettingsLink = ({
         />
       )}
       <Error error={error} />
-    </>
+    </div>
   )
 }
 

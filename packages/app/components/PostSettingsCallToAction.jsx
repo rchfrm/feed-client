@@ -11,7 +11,6 @@ import CallToActionSelector from '@/app/CallToActionSelector'
 import CheckboxInput from '@/elements/CheckboxInput'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import Spinner from '@/elements/Spinner'
 
 import { getPostCallToActions, setPostCallToAction } from '@/app/helpers/postsHelpers'
 import { capitalise } from '@/helpers/utils'
@@ -38,7 +37,6 @@ const PostSettingsCallToAction = ({
 
   const [isDefaultCallToAction, setIsDefaultCallToAction] = React.useState(true)
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
@@ -121,13 +119,10 @@ const PostSettingsCallToAction = ({
     if (postCallToAction?.value && postCallToAction?.value !== defaultCallToAction) {
       setIsDefaultCallToAction(false)
     }
-    setIsLoading(false)
   }, [campaignType, callToActions, defaultCallToAction])
 
-  if (isLoading) return <Spinner className="h-64 flex items-center" width={28} />
-
   return (
-    <>
+    <div className="mb-10">
       <div className="flex justify-between">
         <p className="text-lg font-bold">Call to action</p>
         {shouldShowSaveButton && (
@@ -162,7 +157,7 @@ const PostSettingsCallToAction = ({
         />
       )}
       <Error error={error} />
-    </>
+    </div>
   )
 }
 
