@@ -11,9 +11,9 @@ export default function FaqContent({ faq }) {
     <div
       className={[
         'pb-8',
+        'md:col-span-8',
       ].join(' ')}
     >
-      <FaqsLinkToAll />
       <h3 className={['leading-tight', 'font-bold'].join(' ')}>{question}</h3>
       {answer.map(contentBlock => {
         const {

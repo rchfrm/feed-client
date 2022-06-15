@@ -15,6 +15,7 @@ export default function FaqsLinkToAll() {
           'cursor-pointer',
           'w-auto',
           'self-start',
+          'col-span-12',
         ].join(' ')}
       >
         <ArrowAltIcon direction="left" className="w-3" />

@@ -4,6 +4,7 @@ import BasePage from '@/app/BasePage'
 import React from 'react'
 import FaqContent from '@/app/FaqContent'
 import FaqsRelated from '@/app/FaqsRelated'
+import FaqsLinkToAll from '@/app/FaqsLinkToAll'
 import { headerConfig } from './index'
 
 export default function FAQPage({ pageData }) {
@@ -16,8 +17,17 @@ export default function FAQPage({ pageData }) {
       headerConfig={headerConfig}
       staticPage
     >
-      <FaqContent faq={faqArticle} />
-      <FaqsRelated slug={faqArticle.slug} faqs={allFaqsInCategory} />
+      <div
+        className={[
+          'md:grid',
+          'md:grid-cols-12',
+          'md:gap-4',
+        ].join(' ')}
+      >
+        <FaqsLinkToAll />
+        <FaqContent faq={faqArticle} />
+        <FaqsRelated slug={faqArticle.slug} faqs={allFaqsInCategory} />
+      </div>
     </BasePage>
   )
 }

@@ -13,6 +13,11 @@ export default function FaqsRelated({ slug, faqs }) {
         'border-grey-2',
         'border-solid',
         'pt-6',
+        'md:col-span-4',
+        'md:border-t-0',
+        'md:pt-0',
+        'md:border-l',
+        'md:pl-6',
       ].join(' ')}
     >
       <h4>People also ask...</h4>
@@ -21,10 +26,9 @@ export default function FaqsRelated({ slug, faqs }) {
           const {
             question,
             slug,
-            id,
           } = faq
           return (
-            <li key={id} className="pb-4">
+            <li key={slug} className="pb-4">
               <Link href={`${slug}`}>{question}</Link>
             </li>
           )

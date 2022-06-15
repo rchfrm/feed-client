@@ -7,6 +7,7 @@ export default function FaqList({ faqs, category }) {
       className={[
         'sm:col-span-6',
       ].join(' ')}
+      key={category}
     >
       <h3 className="bold">{category}</h3>
       <ul>
