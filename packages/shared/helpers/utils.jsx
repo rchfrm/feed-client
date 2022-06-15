@@ -3,18 +3,12 @@ import url from 'url'
 import produce from 'immer'
 import getVideoId from 'get-video-id'
 import getSymbolFromCurrency from 'currency-symbol-map'
-import countries from '@/constants/countries'
 import get from 'lodash/get'
 
 export const capitalise = (string) => {
   if (!string) return
 
   return string[0].toUpperCase() + string.slice(1)
-}
-
-export const extractDataSourcePlatform = string => {
-  const lengthOfPlatform = string.indexOf('_')
-  return string.slice(0, lengthOfPlatform)
 }
 
 // TODO: Use `truncate` instead: https://tailwindcss.com/docs/text-overflow
@@ -123,6 +117,12 @@ export const minArrayValue = (array) => {
     }
   })
   return min
+}
+
+export const filterUnique = array => {
+  return array.filter((value, index, self) => {
+    return self.indexOf(value) === index
+  })
 }
 
 /**

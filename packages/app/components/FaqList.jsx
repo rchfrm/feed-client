@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import Link from 'next/link'
+import React from 'react'
 
-function FaqList({ faqs }) {
+export default function FaqList({ faqs, category }) {
   return (
     <article>
+      <h3 className="bold">{category}</h3>
       <ul>
         {faqs.map((faq) => {
           const {
@@ -22,9 +22,3 @@ function FaqList({ faqs }) {
     </article>
   )
 }
-
-FaqList.propTypes = {
-  faqs: PropTypes.array.isRequired,
-}
-
-export default FaqList
