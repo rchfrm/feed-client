@@ -1,17 +1,23 @@
 import getDatoData from '@/helpers/getDatoData'
-import { getAllFaqSlugsQuery, getFaqQuery } from '@/app/graphQl/faqsQueries'
+import { getAllFaqQuestionsByCategoryQuery, getAllFaqSlugsQuery, getFaqQuery } from '@/app/graphQl/faqsQueries'
 import BasePage from '@/app/BasePage'
 import React from 'react'
 import FaqContent from '@/app/FaqContent'
+import FaqsRelated from '@/app/FaqsRelated'
 import { headerConfig } from './index'
 
 export default function FAQPage({ pageData }) {
+  const {
+    faqArticle,
+    allFaqsInCategory,
+  } = pageData
   return (
     <BasePage
       headerConfig={headerConfig}
       staticPage
     >
-      <FaqContent faq={pageData} />
+      <FaqContent faq={faqArticle} />
+      <FaqsRelated slug={faqArticle.slug} faqs={allFaqsInCategory} />
     </BasePage>
   )
 }
@@ -19,7 +25,7 @@ export default function FAQPage({ pageData }) {
 export async function getStaticPaths() {
   const query = getAllFaqSlugsQuery()
   const pageKey = 'faqSlugs'
-  const forceLoad = true
+  const forceLoad = false
   const {
     data: {
       allFaqArticles: faqs,
@@ -42,12 +48,21 @@ export async function getStaticProps({ params: { slug } }) {
   const forceLoad = true
   const {
     data: {
-      faqArticle: pageData,
+      faqArticle,
     },
   } = await getDatoData(query, pageKey, forceLoad)
+  const { category } = faqArticle
+  const {
+    data: {
+      allFaqArticles: allFaqsInCategory,
+    },
+  } = await getDatoData(getAllFaqQuestionsByCategoryQuery(category), `faqQuestions_${category}`, forceLoad)
   return {
     props: {
-      pageData,
+      pageData: {
+        faqArticle,
+        allFaqsInCategory,
+      },
     },
   }
 }

@@ -10,6 +10,16 @@ export const getAllFaqQuestionsQuery = () => `
   }
 `
 
+export const getAllFaqQuestionsByCategoryQuery = category => `
+  query {
+    allFaqArticles(filter: {category: {eq: "${category}"}}) {
+      slug
+      question
+      category
+    }
+  }
+`
+
 export const getAllFaqSlugsQuery = () => `
   query {
     allFaqArticles {
@@ -21,8 +31,10 @@ export const getAllFaqSlugsQuery = () => `
 export const getFaqQuery = (slug) => `
   query {
     faqArticle(filter: {slug: {eq: "${slug}"}}) {
+      slug
       question
       ${contentBlocks('answer', 'faq')}
+      category
     }
   }
 `
