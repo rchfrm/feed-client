@@ -5,6 +5,7 @@ export const getAllFaqQuestionsQuery = () => `
     allFaqArticles {
       slug
       question
+      category
     }
   }
 `

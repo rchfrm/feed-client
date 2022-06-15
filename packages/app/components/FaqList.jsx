@@ -6,7 +6,12 @@ function FaqList({ faqs }) {
   return (
     <article>
       <ul>
-        {faqs.map(({ question, slug, id }) => {
+        {faqs.map((faq) => {
+          const {
+            question,
+            slug,
+            id,
+          } = faq
           return (
             <li key={id}>
               <Link href={`faqs/${slug}`}>{question}</Link>
