@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PostCardMedia from '@/app/PostCardMedia'
+import PostScore from '@/app/PostScore'
 
 const PostMedia = ({ post }) => {
   const {
@@ -18,26 +19,10 @@ const PostMedia = ({ post }) => {
         thumbnails={thumbnails}
         postType={postType}
       />
-      <div className={[
-        'absolute right-4 bottom-4',
-        'w-16 h-16',
-        'flex justify-center items-center',
-        'rounded-full bg-white border-3 border-solid border-insta',
-        'font-bold text-2xl',
-      ].join(' ')}
-      >
-        {organicMetrics.normalizedScore}
-        <div className={[
-          'absolute -right-1 -bottom-1',
-          'w-6 h-6',
-          'flex justify-center items-center',
-          'bg-white rounded-full',
-          'font-normal text-sm text-grey-3',
-        ].join(' ')}
-        >
-          10
-        </div>
-      </div>
+      <PostScore
+        score={organicMetrics.normalizedScore}
+        className="right-4 bottom-4"
+      />
     </div>
   )
 }

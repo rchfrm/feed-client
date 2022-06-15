@@ -8,13 +8,13 @@ import useOnResize from '@/landing/hooks/useOnResize'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
+import SplitView from '@/app/SplitView'
+import RadioButtonTabs from '@/app/RadioButtonTabs'
 import PostMedia from '@/app/PostMedia'
+import PostMediaMobile from '@/app/PostMediaMobile'
 import PostDetails from '@/app/PostDetails'
 import PostInsights from '@/app/PostInsights'
 import PostSettings from '@/app/PostSettings'
-import SplitView from '@/app/SplitView'
-import RadioButtonTabs from '@/app/RadioButtonTabs'
-import PostCardMedia from '@/app/PostCardMedia'
 
 import Spinner from '@/elements/Spinner'
 
@@ -97,15 +97,9 @@ const PostContent = ({ postId }) => {
       </>
     ) : (
       <>
-        <div className="grid grid-cols-12">
-          <div className="col-span-8 col-start-3 relative mb-6">
-            <PostCardMedia
-              media={post.media}
-              thumbnails={post.thumbnails}
-              postType={post.postType}
-            />
-          </div>
-        </div>
+        <PostMediaMobile
+          post={post}
+        />
         <RadioButtonTabs
           tabs={postTabs}
           activeTab={activeTab}
