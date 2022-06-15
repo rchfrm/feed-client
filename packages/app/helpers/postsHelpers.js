@@ -433,6 +433,32 @@ export const formatPostsResponse = (posts) => {
   })
 }
 
+export const formatPostsMinimal = (posts) => {
+  const formattedPosts = posts.map((post) => {
+    const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
+    const thumbnailUrls = post.display?.thumbnails?.map((thumbnail) => thumbnail.url) || []
+    const thumbnails = [
+      post.display?.media?.media_library?.source,
+      post.display?.thumbnail_url,
+      ...thumbnailUrls,
+    ]
+
+    return {
+      id: post.id,
+      publishedTime: moment(post.published_time).format('YYYY-MM-DD'),
+      reach: post.reach_rate * 100,
+      engagement: post.engagement_rate * 100,
+      media,
+      thumbnails,
+      postType: post.subtype || post.type,
+      promotionEnabled: post.promotion_enabled,
+      _links: post._links,
+    }
+  })
+
+  return formattedPosts
+}
+
 // GET POST CURSOR
 export const getCursor = (post = {}) => {
   const { _links: { after = {} } } = post

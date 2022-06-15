@@ -56,20 +56,19 @@ const getSliderRange = (defaultMin, defaultMax, sliderStep, initialBudget) => {
   return [defaultMin, defaultMax]
 }
 
-export const calcBudgetSliderConfig = (minBase, minHard, initialBudget) => {
+export const calcBudgetSliderConfig = (minBase, minHard, initialBudget, objective) => {
   const sliderStep = Math.round(minBase / 4)
+  const defaultMaxMultiplier = objective === 'sales' ? 30 : 20
   const defaultMin = minHard
-  const defaultMax = minBase * 30
+  const defaultMax = minBase * defaultMaxMultiplier
   const sliderValueRange = getSliderRange(defaultMin, defaultMax, sliderStep, initialBudget)
   return { sliderStep, sliderValueRange }
 }
-
 
 export const getSaveDisabledReason = (reason) => {
   if (reason === 'budget') return 'Budget is too small'
   return 'Select at least one location'
 }
-
 
 // SUMMARY HELPERS
 // ---------------
@@ -326,4 +325,16 @@ export const getSpendingData = (dailyData) => {
     hasSpentConsecutivelyLessThan30Days: lengthOfCurrentSpendingPeriod < 30,
     daysOfSpending: lengthOfCurrentSpendingPeriod,
   }
+}
+
+export const getBudgetSuggestions = (objective, minBaseUnrounded) => {
+  let multipliers = [4, 6, 9]
+
+  if (objective === 'sales') {
+    multipliers = [12, 15, 20]
+  }
+
+  return multipliers.map((multiplier) => {
+    return Math.round((multiplier * minBaseUnrounded))
+  })
 }

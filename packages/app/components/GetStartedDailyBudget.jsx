@@ -7,22 +7,30 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import useControlsStore from '@/app/stores/controlsStore'
+import useBillingStore from '@/app/stores/billingStore'
 
-import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
+import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
+import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
+import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
+import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
+})
+
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
 })
 
 const GetStartedDailyBudget = () => {
@@ -34,6 +42,7 @@ const GetStartedDailyBudget = () => {
     updateTargetingBudget,
     saveTargetingSettings,
     targetingLoading,
+    setBudgetSlider,
   } = React.useContext(TargetingContext)
 
   const {
@@ -53,27 +62,25 @@ const GetStartedDailyBudget = () => {
           minRecommendedStories: minRecommendedStoriesString,
         },
       },
+      hasSetUpProfile,
     },
     artistId,
+    updatehasSetUpProfile,
   } = React.useContext(ArtistContext)
 
   const [budget, setBudget] = React.useState(targetingState.budget)
+  const [showCustomBudget, setShowCustomBudget] = React.useState(false)
+  const [budgetSuggestions, setBudgetSuggestions] = React.useState([])
+  const [error, setError] = React.useState(null)
+
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+
   const hasSalesObjective = objective === 'sales'
   const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
-
-  // Get slider settings based on min budget
-  const { sliderStep, sliderValueRange } = React.useMemo(() => {
-    return targetingHelpers.calcBudgetSliderConfig(minBase, minHardBudget, targetingState.initialBudget)
-  }, [minBase, minHardBudget, targetingState.initialBudget])
-
-  React.useEffect(() => {
-    if (typeof budget !== 'number') return
-    updateTargetingBudget(budget)
-  }, [budget, updateTargetingBudget, minReccBudget])
 
   // If minReccBudget isn't set yet reinitialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -85,23 +92,46 @@ const GetStartedDailyBudget = () => {
     initPage(state, error)
   }, [minReccBudget])
 
+  const checkAndUpdateCompletedSetupAt = async () => {
+    if (!hasSetUpProfile && defaultPaymentMethod) {
+      const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
 
-  const saveBudget = async () => {
+      if (error) {
+        setError(error)
+        return
+      }
+
+      const { completed_setup_at: completedSetupAt } = artistUpdated
+
+      updatehasSetUpProfile(completedSetupAt)
+    }
+  }
+
+  const saveBudget = async (budget) => {
     await saveTargeting('settings', { ...targetingState, budget })
+    await checkAndUpdateCompletedSetupAt()
 
     next()
   }
 
-  const handleNext = async () => {
+  const handleNext = async (budget) => {
     if (budget === initialTargetingState.budget) {
+      await checkAndUpdateCompletedSetupAt()
       next()
 
       return
     }
-    saveBudget()
+    saveBudget(budget)
   }
 
-  if (!minReccBudget) return <Spinner />
+  React.useEffect(() => {
+    if (!minBaseUnroundedMajor || !objective) return
+
+    const suggestions = targetingHelpers.getBudgetSuggestions(objective, minBaseUnroundedMajor)
+    setBudgetSuggestions(suggestions)
+  }, [minBaseUnroundedMajor, objective])
+
+  if (!minReccBudget || !budgetSuggestions.length) return <Spinner />
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
@@ -109,27 +139,46 @@ const GetStartedDailyBudget = () => {
       <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.budgetDescription} />
       <ControlsSettingsSectionFooter
         copy={copy.budgetFooter(minBaseUnroundedMajor, currencyCode)}
-        className="text-insta"
+        className="text-insta mb-6"
       />
+      <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">
-        <div className="w-full sm:w-2/3 h-26 mb-4 px-6">
-          <TargetingBudgetSlider
-            sliderStep={sliderStep}
-            sliderValueRange={sliderValueRange}
-            initialBudget={initialTargetingState.budget || minRecommendedStories}
-            onChange={(budget) => {
-              setBudget(budget)
-            }}
-            currency={currencyCode}
-            currencyOffset={currencyOffset}
-            shouldShowError={hasInsufficientBudget}
-            errorMessage={copy.inSufficientBudget(minRecommendedStoriesString)}
-            mobileVersion
-          />
+        <div
+          className="w-full sm:w-3/4 flex flex-column justify-between mb-10"
+          style={{ minHeight: '120px' }}
+        >
+          <div>
+            <TargetingBudgetSetter
+              budget={budget}
+              setBudget={setBudget}
+              currency={currencyCode}
+              currencyOffset={currencyOffset}
+              minBase={minBase}
+              minHardBudget={minHardBudget}
+              initialBudget={initialTargetingState.budget || budgetSuggestions[1] * currencyOffset}
+              budgetSuggestions={budgetSuggestions}
+              updateTargetingBudget={updateTargetingBudget}
+              showCustomBudget={showCustomBudget}
+              setBudgetSlider={setBudgetSlider}
+              shouldShowError={hasInsufficientBudget}
+              errorMessage={copy.inSufficientBudget(minRecommendedStoriesString)}
+              onBudgetSuggestionClick={handleNext}
+            />
+          </div>
+          <div className="flex justify-center">
+            <TargetingCustomBudgetButton
+              style={{ zIndex: 2 }}
+              showCustomBudget={showCustomBudget}
+              setShowCustomBudget={setShowCustomBudget}
+              initialBudget={initialTargetingState.budget}
+              minBase={minBase}
+              minHardBudget={minHardBudget}
+            />
+          </div>
         </div>
         <Button
           version="green"
-          onClick={handleNext}
+          onClick={() => handleNext(budget)}
           loading={targetingLoading}
           className="w-full sm:w-48"
           trackComponentName="GetStartedDailyBudget"
