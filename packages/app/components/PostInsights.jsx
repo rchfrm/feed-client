@@ -22,10 +22,11 @@ const PostInsights = ({ post }) => {
 }
 
 PostInsights.propTypes = {
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object,
 }
 
 PostInsights.defaultProps = {
+  post: null,
 }
 
 export default PostInsights

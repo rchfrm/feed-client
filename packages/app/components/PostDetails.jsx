@@ -48,10 +48,11 @@ const PostDetails = ({ post }) => {
 }
 
 PostDetails.propTypes = {
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object,
 }
 
 PostDetails.defaultProps = {
+  post: null,
 }
 
 export default PostDetails

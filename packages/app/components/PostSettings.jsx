@@ -1,32 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
-import PostCardSettings from '@/app/PostCardSettings'
+import PostSettingsLink from '@/app/PostSettingsLink'
+import PostSettingsCallToAction from '@/app/PostSettingsCallToAction'
 
 const PostSettings = ({ post }) => {
-  const { postIndex } = post
-  const { artistId } = React.useContext(ArtistContext)
-
   return (
     <>
-      <PostCardSettings
-        post={post}
-        postIndex={postIndex}
-        postToggleSetterType="single"
-        artistId={artistId}
-        className="md:pl-16"
-      />
+      <h2 className="mb-8">Promotion settings</h2>
+      <div className="md:pl-16">
+        <PostSettingsLink
+          post={post}
+          campaignType="all"
+        />
+        <PostSettingsCallToAction
+          post={post}
+          campaignType="all"
+        />
+      </div>
     </>
   )
 }
 
 PostSettings.propTypes = {
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object,
 }
 
 PostSettings.defaultProps = {
+  post: null,
 }
 
 export default PostSettings

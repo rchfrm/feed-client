@@ -13,7 +13,7 @@ const Page = () => {
 
   return (
     <BasePage
-      headerConfig=""
+      headerConfig={{ text: '' }}
       artistRequired
       controlsRequired
       hasNoProfilesPage
