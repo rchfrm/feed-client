@@ -15,11 +15,17 @@ export default function FaqCategories({ faqs }) {
   const categories = filterUnique(faqs.map(faq => faq.category))
   const faqsByCategory = createFaqsByCategoryObject(categories, faqs)
   return (
-    <>
+    <div
+      className={[
+        'sm:grid',
+        'sm:grid-cols-12',
+        'sm:gap-4',
+      ].join(' ')}
+    >
       {categories.map(category => {
         return <FaqList key={category} category={category} faqs={faqsByCategory[category]} />
       })}
-    </>
+    </div>
   )
 }
 

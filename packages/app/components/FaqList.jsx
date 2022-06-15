@@ -3,7 +3,11 @@ import React from 'react'
 
 export default function FaqList({ faqs, category }) {
   return (
-    <article>
+    <div
+      className={[
+        'sm:col-span-6',
+      ].join(' ')}
+    >
       <h3 className="bold">{category}</h3>
       <ul>
         {faqs.map((faq) => {
@@ -13,12 +17,12 @@ export default function FaqList({ faqs, category }) {
             id,
           } = faq
           return (
-            <li key={id}>
+            <li key={id} className="pb-4">
               <Link href={`faqs/${slug}`}>{question}</Link>
             </li>
           )
         })}
       </ul>
-    </article>
+    </div>
   )
 }
