@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
+import produce from 'immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -24,13 +25,14 @@ const getControlsStoreState = (state) => ({
 const PostSettingsCallToAction = ({
   post,
   campaignType,
+  updatePost,
 }) => {
   const {
     id: postId,
     promotionStatus,
   } = post
 
-  const [callToActions, setCallToActions] = React.useState([])
+  const [callToActions, setCallToActions] = React.useState(post.callToActions)
   const [savedCallToAction, setSavedCallToAction] = React.useState('')
   const [currentCallToAction, setCurrentCallToAction] = React.useState('')
   const [currentCallToActionId, setCurrentCallToActionId] = React.useState('')
@@ -55,14 +57,17 @@ const PostSettingsCallToAction = ({
 
   // Get post level call to actions
   useAsyncEffect(async (isMounted) => {
-    const { res, error } = await getPostCallToActions(artistId, postId)
+    if (post.callToActions) return
+
+    const { res: callToActions, error } = await getPostCallToActions(artistId, postId)
     if (!isMounted) return
 
     if (error) {
       return
     }
 
-    setCallToActions(res)
+    setCallToActions(callToActions)
+    updatePost('update-call-to-actions', { callToActions })
   }, [])
 
   const handleChange = () => {
@@ -73,9 +78,28 @@ const PostSettingsCallToAction = ({
     }
   }
 
+  const updatePostState = (callToAction) => {
+    // Check if call to action already exists for the selected campaign type
+    const index = callToActions.findIndex(({ campaignType }) => campaignType === callToAction.campaignType)
+    // Update local state
+    const updatedCallToActions = produce(callToActions, draftState => {
+      // If the call to action exists, only update it's value
+      if (index !== -1) {
+        draftState[index].value = callToAction.value
+        return
+      }
+      // Otherwise push the new call to action object to the array
+      draftState.push(callToAction)
+    })
+    setCallToActions(updatedCallToActions)
+    setSavedCallToAction(callToAction.value)
+
+    updatePost('update-call-to-actions', { callToActions: updatedCallToActions })
+  }
+
   // Save currently selected call to action and hide save button
   const save = async () => {
-    const { res: postCallToAction, error } = await setPostCallToAction({
+    const { res: callToAction, error } = await setPostCallToAction({
       artistId,
       callToAction: currentCallToAction,
       hasSalesObjective,
@@ -89,8 +113,8 @@ const PostSettingsCallToAction = ({
       return
     }
 
-    setSavedCallToAction(postCallToAction.value)
     setShouldShowSaveButton(false)
+    updatePostState(callToAction)
 
     if (currentCallToAction === defaultCallToAction) {
       setIsDefaultCallToAction(true)
@@ -106,7 +130,7 @@ const PostSettingsCallToAction = ({
 
   // On initial mount and on campaign type change set the call to action
   React.useEffect(() => {
-    if (!callToActions.length) return
+    if (!callToActions) return
 
     const postCallToAction = callToActions?.find((callToAction) => callToAction.campaignType === campaignType) || {}
     // Initial value is post level call to action, or default call to action
@@ -164,6 +188,7 @@ const PostSettingsCallToAction = ({
 PostSettingsCallToAction.propTypes = {
   post: PropTypes.object.isRequired,
   campaignType: PropTypes.string.isRequired,
+  updatePost: PropTypes.func.isRequired,
 }
 
 PostSettingsCallToAction.defaultProps = {

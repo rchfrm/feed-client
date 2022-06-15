@@ -23,7 +23,7 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const PostSettings = ({ post }) => {
+const PostSettings = ({ post, updatePost }) => {
   const {
     id: postId,
     promotionEnabled,
@@ -102,14 +102,17 @@ const PostSettings = ({ post }) => {
         <PostSettingsLink
           post={post}
           campaignType={campaignType}
+          updatePost={updatePost}
         />
         <PostSettingsCallToAction
           post={post}
           campaignType={campaignType}
+          updatePost={updatePost}
         />
         <PostSettingsCaption
           post={post}
           campaignType={campaignType}
+          updatePost={updatePost}
         />
       </div>
     </>
@@ -118,6 +121,7 @@ const PostSettings = ({ post }) => {
 
 PostSettings.propTypes = {
   post: PropTypes.object,
+  updatePost: PropTypes.func.isRequired,
 }
 
 PostSettings.defaultProps = {

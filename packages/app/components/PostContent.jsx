@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useAsyncEffect from 'use-async-effect'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useOnResize from '@/landing/hooks/useOnResize'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import SplitView from '@/app/SplitView'
@@ -16,9 +14,7 @@ import PostDetails from '@/app/PostDetails'
 import PostInsights from '@/app/PostInsights'
 import PostSettings from '@/app/PostSettings'
 
-import Spinner from '@/elements/Spinner'
-
-import { postOptions, getPostById } from '@/app/helpers/postsHelpers'
+import { postOptions } from '@/app/helpers/postsHelpers'
 
 export const postTabs = [
   {
@@ -32,38 +28,20 @@ export const postTabs = [
   },
 ]
 
-const PostContent = ({ postId }) => {
-  const [post, setPost] = React.useState(null)
-  const [isLoading, setIsLoading] = React.useState(true)
+const PostContent = ({ post, updatePost }) => {
   const [activeTab, setActiveTab] = React.useState(postTabs[0].name)
 
   const breakpoint = 'sm'
   const { width } = useOnResize()
 
-  const { artistId } = React.useContext(ArtistContext)
   const { setHeader } = React.useContext(InterfaceContext)
   const isDesktopLayout = useBreakpointTest(breakpoint)
 
   const postComponents = {
     details: <PostDetails post={post} />,
     insights: <PostInsights post={post} />,
-    settings: <PostSettings post={post} />,
+    settings: <PostSettings post={post} updatePost={updatePost} />,
   }
-
-  useAsyncEffect(async (isMounted) => {
-    if (!artistId) return
-
-    const { res, error } = await getPostById(artistId, postId)
-    if (!isMounted()) return
-
-    if (error) {
-      setIsLoading(false)
-      return
-    }
-
-    setPost(res)
-    setIsLoading(false)
-  }, [artistId])
 
   React.useEffect(() => {
     if (!post) return
@@ -81,8 +59,6 @@ const PostContent = ({ postId }) => {
 
     setHeader({ text: 'post' })
   }, [width, post, isDesktopLayout, setHeader])
-
-  if (isLoading) return <Spinner />
 
   return (
     isDesktopLayout ? (
@@ -113,7 +89,8 @@ const PostContent = ({ postId }) => {
 }
 
 PostContent.propTypes = {
-  postId: PropTypes.string.isRequired,
+  post: PropTypes.object.isRequired,
+  updatePost: PropTypes.func.isRequired,
 }
 
 PostContent.defaultProps = {

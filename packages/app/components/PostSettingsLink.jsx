@@ -22,6 +22,7 @@ const getControlsStoreState = (state) => ({
 const PostSettingsLink = ({
   post,
   campaignType,
+  updatePost,
 }) => {
   const { linkSpecs } = post
 
@@ -58,7 +59,7 @@ const PostSettingsLink = ({
 
   // Save currently selected link and hide save button
   const save = async () => {
-    const { error } = await setPostLink({
+    const { res: linkSpecs, error } = await setPostLink({
       artistId,
       linkId: currentLink.id,
       hasSalesObjective,
@@ -73,6 +74,7 @@ const PostSettingsLink = ({
 
     setSavedLink(currentLink)
     setShouldShowSaveButton(false)
+    updatePost('update-link-specs', { linkSpecs })
 
     if (currentLink.id === defaultLink.id) {
       setIsDefaultLink(true)
@@ -142,6 +144,7 @@ const PostSettingsLink = ({
 PostSettingsLink.propTypes = {
   post: PropTypes.object.isRequired,
   campaignType: PropTypes.string.isRequired,
+  updatePost: PropTypes.func.isRequired,
 }
 
 PostSettingsLink.defaultProps = {

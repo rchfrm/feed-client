@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useRouter } from 'next/router'
 
-import PostContent from '@/app/PostContent'
+import PostLoader from '@/app/PostLoader'
 
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
@@ -18,7 +18,7 @@ const Page = () => {
       controlsRequired
       hasNoProfilesPage
     >
-      <PostContent postId={id} />
+      <PostLoader postId={id} />
     </BasePage>
   )
 }
