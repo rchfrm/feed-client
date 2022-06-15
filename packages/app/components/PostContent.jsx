@@ -8,6 +8,7 @@ import useOnResize from '@/landing/hooks/useOnResize'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
+import PostMedia from '@/app/PostMedia'
 import PostDetails from '@/app/PostDetails'
 import PostInsights from '@/app/PostInsights'
 import PostSettings from '@/app/PostSettings'
@@ -89,13 +90,7 @@ const PostContent = ({ postId }) => {
         <SplitView
           contentComponents={postComponents}
           options={postOptions}
-          optionsHeader={(
-            <PostCardMedia
-              media={post.media}
-              thumbnails={post.thumbnails}
-              postType={post.postType}
-            />
-          )}
+          optionsHeader={<PostMedia post={post} />}
           breakpoint={breakpoint}
           className="sm:grid grid-cols-12 gap-8"
         />
