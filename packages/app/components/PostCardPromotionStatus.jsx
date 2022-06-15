@@ -69,7 +69,7 @@ const PostCardPromotionStatus = ({
           'border-2 border-solid rounded-full',
           'mb-0',
           isSmallSize ? 'text-xs' : null,
-          !promotionEnabled ? 'text-grey-3 bg-grey-2' : null,
+          !promotionEnabled ? 'text-grey-3 bg-grey-2' : 'bg-white',
         ].join(' ')}
         style={{
           borderColor: promotionEnabled ? brandColors[color] : brandColors.grey,
