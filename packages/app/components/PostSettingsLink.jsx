@@ -50,6 +50,14 @@ const PostSettingsLink = ({
     setCurrentLink(getLinkById(nestedLinks, linkId))
   }
 
+  const handleChange = () => {
+    setIsDefaultLink(!isDefaultLink)
+
+    if (!isDefaultLink) {
+      setCurrentLink(defaultLink)
+    }
+  }
+
   // Save currently selected link and hide save button
   const save = async () => {
     const { error } = await setPostLink({
@@ -120,13 +128,7 @@ const PostSettingsLink = ({
         buttonLabel={`Use default (${defaultLink.href})`}
         value="link"
         checked={isDefaultLink}
-        onChange={() => {
-          setIsDefaultLink(!isDefaultLink)
-
-          if (!isDefaultLink) {
-            setCurrentLink(defaultLink)
-          }
-        }}
+        onChange={handleChange}
       />
       {!isDefaultLink && (
         <PostLinksSelect

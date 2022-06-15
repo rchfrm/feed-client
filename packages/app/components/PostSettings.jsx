@@ -3,19 +3,25 @@ import PropTypes from 'prop-types'
 
 import PostSettingsLink from '@/app/PostSettingsLink'
 import PostSettingsCallToAction from '@/app/PostSettingsCallToAction'
+import PostSettingsCaption from '@/app/PostSettingsCaption'
 
 const PostSettings = ({ post }) => {
+  const [campaignType, setCampaignType] = React.useState('all')
   return (
     <>
       <h2 className="mb-8">Promotion settings</h2>
       <div className="md:pl-16">
         <PostSettingsLink
           post={post}
-          campaignType="all"
+          campaignType={campaignType}
         />
         <PostSettingsCallToAction
           post={post}
-          campaignType="all"
+          campaignType={campaignType}
+        />
+        <PostSettingsCaption
+          post={post}
+          campaignType={campaignType}
         />
       </div>
     </>

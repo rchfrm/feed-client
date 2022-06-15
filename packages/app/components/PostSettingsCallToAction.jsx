@@ -67,6 +67,14 @@ const PostSettingsCallToAction = ({
     setCallToActions(res)
   }, [])
 
+  const handleChange = () => {
+    setIsDefaultCallToAction(!isDefaultCallToAction)
+
+    if (!isDefaultCallToAction) {
+      setCurrentCallToAction(defaultCallToAction)
+    }
+  }
+
   // Save currently selected call to action and hide save button
   const save = async () => {
     const { res: postCallToAction, error } = await setPostCallToAction({
@@ -140,18 +148,10 @@ const PostSettingsCallToAction = ({
         buttonLabel={`Use default (${defaultCallToActionString})`}
         value="cta"
         checked={isDefaultCallToAction}
-        onChange={() => {
-          setIsDefaultCallToAction(!isDefaultCallToAction)
-
-          if (!isDefaultCallToAction) {
-            setCurrentCallToAction(defaultCallToAction)
-          }
-        }}
+        onChange={handleChange}
       />
       {!isDefaultCallToAction && (
         <CallToActionSelector
-          onSelect={() => setShouldShowSaveButton(true)}
-          onSuccess={() => setShouldShowSaveButton(true)}
           callToAction={currentCallToAction}
           setCallToAction={setCurrentCallToAction}
           callToActionId={currentCallToActionId}

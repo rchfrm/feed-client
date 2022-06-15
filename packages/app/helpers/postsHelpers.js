@@ -586,7 +586,7 @@ export const getPostCallToActions = async (artistId, assetId) => {
  * @param {string} assetId
  * @returns {Promise<any>}
  */
-export const getPostAddMessages = async (artistId, assetId) => {
+export const getPostAdMessages = async (artistId, assetId) => {
   const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages`
   const payload = null
   const errorTracking = {
