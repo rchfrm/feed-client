@@ -76,7 +76,7 @@ const PostSettingsLink = ({
     setShouldShowSaveButton(false)
     updatePost('update-link-specs', { linkSpecs })
 
-    if (currentLink.id === defaultLink.id) {
+    if (currentLink.id === defaultLink?.id) {
       setIsDefaultLink(true)
     }
   }
@@ -100,7 +100,7 @@ const PostSettingsLink = ({
     if (linkId && linkId !== defaultLink.id) {
       setIsDefaultLink(false)
     }
-  }, [campaignType, linkSpecs, defaultLink.id, defaultLink.href])
+  }, [campaignType, linkSpecs, defaultLink?.id, defaultLink?.href])
 
   return (
     <div className="mb-10">

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { useImmerReducer } from 'use-immer'
+import Router from 'next/router'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -9,6 +10,7 @@ import PostContent from '@/app/PostContent'
 import Spinner from '@/elements/Spinner'
 
 import { getPostById } from '@/app/helpers/postsHelpers'
+import * as ROUTES from '@/app/constants/routes'
 
 const postInitialState = null
 
@@ -65,6 +67,11 @@ const PostLoader = ({ postId }) => {
     if (!isMounted()) return
 
     if (error) {
+      if (error.message === 'Not Found' || error.error === 'Not Found') {
+        Router.push(ROUTES.HOME)
+        return
+      }
+
       setIsLoading(false)
       return
     }

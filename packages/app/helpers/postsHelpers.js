@@ -342,6 +342,8 @@ const getAdPreviewLinks = (post) => {
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
+    if (!post) return null
+
     const { message, ads_summary: adsSummary = {}, ads } = post
     const shortMessage = utils.abbreviatePostText(message)
     const mediaType = post.display?.type
