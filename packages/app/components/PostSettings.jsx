@@ -21,6 +21,7 @@ import { promotionStatusSlugs } from '@/app/helpers/postsHelpers'
 import copy from '@/app/copy/PostsPageCopy'
 
 const getControlsStoreState = (state) => ({
+  canRunConversions: state.canRunConversions,
   optimizationPreferences: state.optimizationPreferences,
 })
 
@@ -92,10 +93,12 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
                 setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
                 isDisabled={isToggleDisabled}
                 showAlertModal={isConversionsCampaign && (!canRunConversions)}
+                className="pl-4"
               />
               <PostCardSettingsPromotionStatus
                 promotionEnabled={promotionEnabled}
                 promotionStatus={promotionStatus}
+                className="pl-4"
               />
             </div>
             {shouldShowPreview && (
