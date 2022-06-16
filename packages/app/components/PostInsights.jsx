@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import PostCardMetrics from '@/app/PostCardMetrics'
 
 const PostInsights = ({ post }) => {
   const { postType, promotionStatus } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
+  const isDesktopLayout = useBreakpointTest('sm')
 
   const metrics = {
     organic: post.organicMetrics,
@@ -16,6 +19,7 @@ const PostInsights = ({ post }) => {
     <PostCardMetrics
       metrics={metrics}
       postType={postType}
+      shouldShowTitle={isDesktopLayout}
       className="md:pl-16"
     />
   )

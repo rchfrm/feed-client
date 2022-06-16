@@ -27,6 +27,7 @@ const metricsType = [
 const PostCardMetrics = ({
   metrics,
   postType,
+  shouldShowTitle,
   className,
 }) => {
   return (
@@ -35,7 +36,7 @@ const PostCardMetrics = ({
         'md:max-w-none',
       ].join(' ')}
     >
-      <h2 className={sidePanelStyles.SidePanel__Header}>Post Insights</h2>
+      {shouldShowTitle && <h2 className={sidePanelStyles.SidePanel__Header}>Post Insights</h2>}
       <div className={className}>
         {metricsType.map(({ type, header, description }) => {
           const typeMetrics = metrics[type]
@@ -78,10 +79,12 @@ const PostCardMetrics = ({
 PostCardMetrics.propTypes = {
   metrics: PropTypes.object.isRequired,
   postType: PropTypes.string.isRequired,
+  shouldShowTitle: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostCardMetrics.defaultProps = {
+  shouldShowTitle: true,
   className: null,
 }
 

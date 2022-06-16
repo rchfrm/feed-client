@@ -70,7 +70,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
 
   return (
     <>
-      <h2 className="mb-8">Promotion settings</h2>
+      <h2 className="hidden sm:block mb-8">Promotion settings</h2>
       <div className="md:pl-16">
         {hasSalesObjective && (
           <PostCardSettingsTabs
