@@ -105,10 +105,11 @@ const PostLoader = ({ postId }) => {
 }
 
 PostLoader.propTypes = {
-  postId: PropTypes.string.isRequired,
+  postId: PropTypes.string,
 }
 
 PostLoader.defaultProps = {
+  postId: '',
 }
 
 export default PostLoader
