@@ -77,7 +77,7 @@ const PostCard = ({
             toggleCampaign={toggleCampaign}
             updatePost={updatePost}
             priorityEnabled={post.priorityEnabled}
-            togglesClassName="py-2 px-4 mb-2 last:mb-0"
+            togglesClassName="py-2 px-4 mb-2 last:mb-0 bg-grey-1"
             className="mb-2"
             hasSalesObjective={hasSalesObjective}
           />

@@ -125,6 +125,7 @@ const PostSettingsLink = ({
         value="link"
         checked={isDefaultLink}
         onChange={handleChange}
+        className="sm:pl-2"
       />
       {!isDefaultLink && (
         <PostLinksSelect
@@ -134,6 +135,7 @@ const PostSettingsLink = ({
           componentLocation="post"
           campaignType={campaignType}
           includeAddLinkOption
+          className="sm:pl-4"
         />
       )}
       <Error error={error} />

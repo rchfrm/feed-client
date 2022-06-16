@@ -168,6 +168,7 @@ const PostSettingsCallToAction = ({
         value="cta"
         checked={isDefaultCallToAction}
         onChange={handleChange}
+        className="sm:pl-2"
       />
       {!isDefaultCallToAction && (
         <CallToActionSelector
@@ -178,6 +179,7 @@ const PostSettingsCallToAction = ({
           isPostActive={isPostActive}
           campaignType={campaignType}
           disabled={false}
+          className="sm:pl-4"
         />
       )}
       <Error error={error} />

@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsTabLine from '@/app/ResultsTabLine'
+import RadioButtonTabLine from '@/app/RadioButtonTabLine'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { capitalise } from '@/helpers/utils'
 
-const ResultsTab = ({
+const RadioButtonTab = ({
   name,
   index,
   activeTab,
@@ -38,7 +38,7 @@ const ResultsTab = ({
         </div>
       </button>
       {isDesktopLayout && (
-        <ResultsTabLine
+        <RadioButtonTabLine
           index={index}
           isActive={isActive}
         />
@@ -47,11 +47,11 @@ const ResultsTab = ({
   )
 }
 
-ResultsTab.propTypes = {
+RadioButtonTab.propTypes = {
   name: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
 }
 
-export default ResultsTab
+export default RadioButtonTab

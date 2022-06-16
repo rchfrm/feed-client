@@ -64,6 +64,7 @@ const ResultsContent = ({
               activeTab={metricType}
               setActiveTab={setMetricType}
               shouldHideTab={!hasSalesObjective && !hasGrowthObjective}
+              tabToHideIndex={2}
               hasNoProfiles={hasNoProfiles}
               className={isDesktopLayout ? 'order-2' : 'order-1'}
             />

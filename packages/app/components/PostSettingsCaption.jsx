@@ -149,14 +149,16 @@ const PostSettingsAdMessage = ({
         value="caption"
         checked={isDefaultAdMessage}
         onChange={handleChange}
+        className="sm:pl-2"
       />
       {!isDefaultAdMessage && (
         <div
-          className="bg-grey-1 p-4 rounded-dialogue"
+          className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
         >
           <PostCardEditCaptionMessage
             message={caption || post.message}
             setMessage={setCaption}
+            hasAutoFocus={false}
           />
         </div>
       )}

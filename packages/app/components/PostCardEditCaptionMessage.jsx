@@ -1,18 +1,19 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import TextareaAutosize from 'react-textarea-autosize'
 
 const PostCardEditCaptionMessage = ({
   message,
   setMessage,
+  hasAutoFocus,
 }) => {
   return (
     <div>
       <TextareaAutosize
         className="w-full"
         cacheMeasurements
-        autoFocus
+        autoFocus={hasAutoFocus}
         maxRows={8}
         value={message}
         onChange={({ target: { value } }) => {
@@ -24,10 +25,11 @@ const PostCardEditCaptionMessage = ({
 }
 
 PostCardEditCaptionMessage.propTypes = {
+  hasAutoFocus: PropTypes.bool,
 }
 
 PostCardEditCaptionMessage.defaultProps = {
-
+  hasAutoFocus: true,
 }
 
 export default PostCardEditCaptionMessage

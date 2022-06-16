@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import PostCardSettingsTabs from '@/app/PostCardSettingsTabs'
 import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
@@ -23,7 +24,7 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const PostSettings = ({ post, updatePost }) => {
+const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   const {
     id: postId,
     promotionEnabled,
@@ -39,6 +40,7 @@ const PostSettings = ({ post, updatePost }) => {
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
 
   const { artistId } = React.useContext(ArtistContext)
+  const isDesktopLayout = useBreakpointTest('sm')
 
   const { canRunConversions, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
@@ -65,15 +67,6 @@ const PostSettings = ({ post, updatePost }) => {
   const { active, inReview, rejected } = promotionStatusSlugs
   const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus) && hasPreviewLinkForSelectedCampaignType
 
-  // Define function for toggling promotion campaign or conversions campaign
-  const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all') => {
-    updatePost(campaignType === 'all' ? 'toggle-promotion' : 'toggle-conversion',
-      {
-        promotionEnabled,
-        promotableStatus,
-      })
-  }, [updatePost])
-
   return (
     <>
       <h2 className="mb-8">Promotion settings</h2>
@@ -84,30 +77,34 @@ const PostSettings = ({ post, updatePost }) => {
             setCampaignType={setCampaignType}
           />
         )}
-        {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
-        <div className="flex">
-          <PostCardSettingsToggle
-            post={post}
-            postId={postId}
-            postToggleSetterType="single"
-            campaignType={campaignType}
-            toggleCampaign={toggleCampaign}
-            artistId={artistId}
-            isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
-            setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-            isDisabled={isToggleDisabled}
-            showAlertModal={isConversionsCampaign && (!canRunConversions)}
-          />
-          <PostCardSettingsPromotionStatus
-            promotionEnabled={promotionEnabled}
-            promotionStatus={promotionStatus}
-          />
-        </div>
-        {shouldShowPreview && (
-          <PostCardSettingsPreview
-            previewLinks={adPreviewLinks}
-            campaignType={campaignType}
-          />
+        {isDesktopLayout && (
+          <>
+            {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
+            <div className="flex">
+              <PostCardSettingsToggle
+                post={post}
+                postId={postId}
+                postToggleSetterType="single"
+                campaignType={campaignType}
+                toggleCampaign={toggleCampaign}
+                artistId={artistId}
+                isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
+                setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
+                isDisabled={isToggleDisabled}
+                showAlertModal={isConversionsCampaign && (!canRunConversions)}
+              />
+              <PostCardSettingsPromotionStatus
+                promotionEnabled={promotionEnabled}
+                promotionStatus={promotionStatus}
+              />
+            </div>
+            {shouldShowPreview && (
+              <PostCardSettingsPreview
+                previewLinks={adPreviewLinks}
+                campaignType={campaignType}
+              />
+            )}
+          </>
         )}
         <PostSettingsLink
           post={post}
@@ -132,6 +129,7 @@ const PostSettings = ({ post, updatePost }) => {
 PostSettings.propTypes = {
   post: PropTypes.object,
   updatePost: PropTypes.func.isRequired,
+  toggleCampaign: PropTypes.func.isRequired,
 }
 
 PostSettings.defaultProps = {

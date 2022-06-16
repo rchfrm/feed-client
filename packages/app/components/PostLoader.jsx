@@ -24,6 +24,7 @@ const postReducer = (draftState, postsAction) => {
     post,
     promotionEnabled,
     promotableStatus,
+    priorityEnabled,
     linkSpecs,
     adMessages,
     callToActions,
@@ -39,6 +40,9 @@ const postReducer = (draftState, postsAction) => {
     case 'toggle-conversion':
       draftState.conversionsEnabled = promotionEnabled
       draftState.promotableStatus = promotableStatus
+      break
+    case 'toggle-priority':
+      draftState.priorityEnabled = priorityEnabled
       break
     case 'update-link-specs':
       draftState.linkSpecs = linkSpecs

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import ResultsTab from '@/app/ResultsTab'
+import RadioButtonTab from '@/app/RadioButtonTab'
 
 const RadioButtonTabs = ({
   tabs,
@@ -11,6 +11,7 @@ const RadioButtonTabs = ({
   setActiveTab,
   hasNoProfiles,
   shouldHideTab,
+  tabToHideIndex,
   className,
 }) => {
   const isDesktopLayout = useBreakpointTest('sm')
@@ -23,10 +24,10 @@ const RadioButtonTabs = ({
     ].join(' ')}
     >
       {tabs.map(({ name }, index) => {
-        if ((shouldHideTab && index === 2) || (isDesktopLayout && hasNoProfiles)) return
+        if ((shouldHideTab && index === tabToHideIndex) || (isDesktopLayout && hasNoProfiles)) return
 
         return (
-          <ResultsTab
+          <RadioButtonTab
             key={name}
             name={name}
             index={index}
@@ -43,13 +44,16 @@ RadioButtonTabs.propTypes = {
   tabs: PropTypes.array.isRequired,
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func.isRequired,
-  hasNoProfiles: PropTypes.bool.isRequired,
+  hasNoProfiles: PropTypes.bool,
   shouldHideTab: PropTypes.bool,
+  tabToHideIndex: PropTypes.number,
   className: PropTypes.string,
 }
 
 RadioButtonTabs.defaultProps = {
   shouldHideTab: false,
+  tabToHideIndex: 0,
+  hasNoProfiles: false,
   className: '',
 }
 
