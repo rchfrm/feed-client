@@ -116,7 +116,7 @@ const PostSettingsLink = ({
         value="link"
         checked={isDefaultLink}
         onChange={handleChange}
-        className="sm:pl-2"
+        className="sm:pl-2 break-all"
       />
       {!isDefaultLink && (
         <PostLinksSelect
