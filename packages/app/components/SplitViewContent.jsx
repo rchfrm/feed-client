@@ -16,7 +16,7 @@ SplitViewContent.propTypes = {
 }
 
 SplitViewContent.defaultProps = {
-  className: '',
+  className: null,
 }
 
 export default SplitViewContent

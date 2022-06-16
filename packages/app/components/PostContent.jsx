@@ -20,24 +20,12 @@ import PostCardUnpromotable from '@/app/PostCardUnpromotable'
 
 import { postOptions } from '@/app/helpers/postsHelpers'
 
-export const postTabs = [
-  {
-    name: 'details',
-  },
-  {
-    name: 'insights',
-  },
-  {
-    name: 'settings',
-  },
-]
-
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
 const PostContent = ({ post, updatePost }) => {
-  const [activeTab, setActiveTab] = React.useState(postTabs[0].name)
+  const [activeTab, setActiveTab] = React.useState(postOptions[0].name)
 
   const breakpoint = 'sm'
   const { width } = useOnResize()
@@ -84,15 +72,13 @@ const PostContent = ({ post, updatePost }) => {
 
   return (
     isDesktopLayout ? (
-      <>
-        <SplitView
-          contentComponents={postComponents}
-          options={postOptions}
-          optionsHeader={<PostMedia post={post} />}
-          breakpoint={breakpoint}
-          className="sm:grid grid-cols-12 gap-8"
-        />
-      </>
+      <SplitView
+        contentComponents={postComponents}
+        options={postOptions}
+        optionsHeader={<PostMedia post={post} />}
+        breakpoint={breakpoint}
+        className="sm:grid grid-cols-12 gap-8"
+      />
     ) : (
       <>
         <PostMediaMobile
@@ -117,7 +103,7 @@ const PostContent = ({ post, updatePost }) => {
           />
         )}
         <RadioButtonTabs
-          tabs={postTabs}
+          tabs={postOptions}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           className="mb-12"

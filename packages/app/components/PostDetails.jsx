@@ -26,7 +26,6 @@ const PostDetails = ({ post }) => {
             <p className="mb-6 sm:mb-0 pl-4">{publishedTime}</p>
           </div>
         </div>
-
         <div className="mb-6">
           <p className="mb-2 text-lg font-bold">Link</p>
           <div className="flex items-center sm:w-2/3 pl-4">
@@ -41,7 +40,6 @@ const PostDetails = ({ post }) => {
             </a>
           </div>
         </div>
-
         {message && (
           <div>
             <p className="mb-2 text-lg font-bold">Caption</p>
@@ -56,11 +54,10 @@ const PostDetails = ({ post }) => {
 }
 
 PostDetails.propTypes = {
-  post: PropTypes.object,
+  post: PropTypes.object.isRequired,
 }
 
 PostDetails.defaultProps = {
-  post: null,
 }
 
 export default PostDetails

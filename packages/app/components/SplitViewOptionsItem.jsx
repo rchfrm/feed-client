@@ -22,7 +22,7 @@ const SplitViewOptionsItem = ({
   isLast,
   goToSpecificSetting,
 }) => {
-  const { title, key, hasDefaultSidePanelButton = true } = option
+  const { name, title, hasDefaultSidePanelButton = true } = option
 
   const {
     artist: {
@@ -50,7 +50,7 @@ const SplitViewOptionsItem = ({
         !isLast && !isActive ? 'border-solid border-grey-1 border-b-2' : null,
         isActive ? 'bg-insta text-white' : null,
       ].join(' ')}
-      onClick={() => goToSpecificSetting(key, hasDefaultSidePanelButton)}
+      onClick={() => goToSpecificSetting(name, hasDefaultSidePanelButton)}
     >
       {/* TITLE */}
       <div className={[
@@ -65,7 +65,7 @@ const SplitViewOptionsItem = ({
       </div>
       <div>
         <p className="font-bold mb-2">{title}</p>
-        <p className="mb-0">{copy.optionsDescription(key, hasSetUpProfile, objectiveString, isSpendingPaused, formattedBudget)}</p>
+        <p className="mb-0">{copy.optionsDescription(name, hasSetUpProfile, objectiveString, isSpendingPaused, formattedBudget)}</p>
       </div>
     </a>
   )

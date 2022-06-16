@@ -111,14 +111,13 @@ PostCardSettingsCallToAction.propTypes = {
   postId: PropTypes.string.isRequired,
   postIndex: PropTypes.number.isRequired,
   postCallToActions: PropTypes.arrayOf(PropTypes.object),
-  updatePost: PropTypes.func,
+  updatePost: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool.isRequired,
 }
 
 PostCardSettingsCallToAction.defaultProps = {
   postCallToActions: null,
-  updatePost: () => {},
 }
 
 export default PostCardSettingsCallToAction

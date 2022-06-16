@@ -168,7 +168,7 @@ const PostLinksSelect = ({
     // Skip API request and only update parent link value
     if (!shouldSaveOnChange) {
       updateParentLink(selectedOptionValue)
-      setLoading(true)
+      setLoading(false)
       return
     }
     // Run server

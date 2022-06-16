@@ -8,9 +8,9 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import CallToActionSelector from '@/app/CallToActionSelector'
+import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
 
 import CheckboxInput from '@/elements/CheckboxInput'
-import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import { getPostCallToActions, setPostCallToAction } from '@/app/helpers/postsHelpers'
@@ -149,19 +149,10 @@ const PostSettingsCallToAction = ({
     <div className="mb-10">
       <div className="flex justify-between">
         <p className="text-lg font-bold">Call to action</p>
-        {shouldShowSaveButton && (
-          <Button
-            version="green small"
-            className={[
-              'h-8',
-              'rounded-full',
-            ].join(' ')}
-            onClick={save}
-            trackComponentName="PostSettings"
-          >
-            Save
-          </Button>
-        )}
+        <PostSettingsSaveButton
+          onClick={save}
+          shouldShow={shouldShowSaveButton}
+        />
       </div>
       <CheckboxInput
         buttonLabel={`Use default (${defaultCallToActionString})`}

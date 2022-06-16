@@ -5,10 +5,10 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
+import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
 import PostLinksSelect from '@/app/PostLinksSelect'
 
 import CheckboxInput from '@/elements/CheckboxInput'
-import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import { setPostLink, getLinkById } from '@/app/helpers/linksHelpers'
@@ -106,19 +106,10 @@ const PostSettingsLink = ({
     <div className="mb-10">
       <div className="flex justify-between">
         <p className="text-lg font-bold">Link</p>
-        {shouldShowSaveButton && (
-          <Button
-            version="green small"
-            className={[
-              'h-8',
-              'rounded-full',
-            ].join(' ')}
-            onClick={save}
-            trackComponentName="PostSettings"
-          >
-            Save
-          </Button>
-        )}
+        <PostSettingsSaveButton
+          onClick={save}
+          shouldShow={shouldShowSaveButton}
+        />
       </div>
       <CheckboxInput
         buttonLabel={`Use default (${defaultLink.href})`}

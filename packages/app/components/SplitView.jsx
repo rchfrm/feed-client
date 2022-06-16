@@ -17,7 +17,7 @@ const SplitView = ({
   className,
 }) => {
   const isDesktopLayout = useBreakpointTest(breakpoint)
-  const [activeOption, setActiveOption] = React.useState(!basePath ? options[0].key : slug)
+  const [activeOption, setActiveOption] = React.useState(!basePath ? options[0].name : slug)
 
   return (
     <div className={className}>
@@ -54,6 +54,7 @@ SplitView.propTypes = {
   basePath: PropTypes.string,
   hasEvenColumns: PropTypes.bool,
   breakpoint: PropTypes.string,
+  className: PropTypes.string,
 }
 
 SplitView.defaultProps = {
@@ -64,6 +65,7 @@ SplitView.defaultProps = {
   basePath: '',
   hasEvenColumns: false,
   breakpoint: 'md',
+  className: null,
 }
 
 export default SplitView

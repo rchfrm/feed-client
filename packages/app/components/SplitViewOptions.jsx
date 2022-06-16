@@ -28,24 +28,24 @@ const SplitViewOptions = ({
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  const goToSpecificSetting = (key, hasDefaultSidePanelButton) => {
-    setActiveOption(key)
+  const goToSpecificSetting = (name, hasDefaultSidePanelButton) => {
+    setActiveOption(name)
 
     if (!basePath) return
 
     if (isDesktopLayout) {
       Router.push({
-        pathname: `${basePath}/${key}`,
+        pathname: `${basePath}/${name}`,
       })
       return
     }
     // Open content in side-panel if mobile
-    const content = contentComponents[key]
+    const content = contentComponents[name]
     // Set a sidepanel button unless the component has a custom sidepanel button itself
     const button = hasDefaultSidePanelButton ? <Button version="green" onClick={() => toggleSidePanel(false)} trackComponentName="ControlsContentOptions">Done</Button> : null
 
     setSidePanelContent(content)
-    setSidePanelContentLabel(`${basePath} ${key}`)
+    setSidePanelContentLabel(`${basePath} ${name}`)
     toggleSidePanel(true)
     setSidePanelButton(button)
   }
@@ -61,13 +61,13 @@ const SplitViewOptions = ({
       ].join(' ')}
     >
       {options.map((option, index) => {
-        const { key } = option
-        const isActive = key === activeOption
+        const { name } = option
+        const isActive = name === activeOption
         const isLast = index === options.length - 1
 
         return (
           <SplitViewOptionsItem
-            key={key}
+            key={name}
             option={option}
             isActive={isActive}
             isLast={isLast}

@@ -79,7 +79,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
         )}
         {isDesktopLayout && (
           <>
-            {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
+            <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />
             <div className="flex">
               <PostCardSettingsToggle
                 post={post}
@@ -127,13 +127,12 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
 }
 
 PostSettings.propTypes = {
-  post: PropTypes.object,
+  post: PropTypes.object.isRequired,
   updatePost: PropTypes.func.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
 }
 
 PostSettings.defaultProps = {
-  post: null,
 }
 
 export default PostSettings

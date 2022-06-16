@@ -204,15 +204,15 @@ export const dummyPosts = [
 
 export const postOptions = [
   {
-    key: 'details',
+    name: 'details',
     title: 'Details',
   },
   {
-    key: 'insights',
+    name: 'insights',
     title: 'Insights',
   },
   {
-    key: 'settings',
+    name: 'settings',
     title: 'Settings',
   },
 ]

@@ -99,111 +99,113 @@ const PostCardSettings = ({
   const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus) && hasPreviewLinkForSelectedCampaignType
 
   return (
-    <div>
+    <div
+      className={[
+        className,
+      ].join(' ')}
+    >
       {/* HEADER */}
       <h2 className={sidePanelStyles.SidePanel__Header}>Post Settings</h2>
-      <div className={className}>
-        {/* STOP HERE IF NO DEFAULT LINK IS SET */}
-        {isMissingDefaultLink ? (
-          <div className="bg-grey-1 px-5 py-4 rounded-dialogue">
-            <p>Before you can run any post as an ad, you must first select a default link in the global post settings.</p>
-            <Button
-              onClick={goToGlobalPostSettings}
-              version="green x-small"
-              trackComponentName="PostCardSettings"
-            >
-              Go to Global Post Settings
-            </Button>
+      {/* STOP HERE IF NO DEFAULT LINK IS SET */}
+      {isMissingDefaultLink ? (
+        <div className="bg-grey-1 px-5 py-4 rounded-dialogue">
+          <p>Before you can run any post as an ad, you must first select a default link in the global post settings.</p>
+          <Button
+            onClick={goToGlobalPostSettings}
+            version="green x-small"
+            trackComponentName="PostCardSettings"
+          >
+            Go to Global Post Settings
+          </Button>
+        </div>
+      ) : (
+        <>
+          {/* CAMPAIGN TYPE TABS */}
+          {hasSalesObjective && (
+            <PostCardSettingsTabs
+              campaignType={campaignType}
+              setCampaignType={setCampaignType}
+            />
+          )}
+          {/* ERROR */}
+          <Error error={error} />
+          {/* SETTINGS SECTION */}
+          {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
+          <div className="flex">
+            <PostCardSettingsToggle
+              post={post}
+              postId={postId}
+              postToggleSetterType={postToggleSetterType}
+              campaignType={campaignType}
+              artistId={artistId}
+              toggleCampaign={toggleCampaign}
+              isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
+              setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
+              isDisabled={isToggleDisabled}
+              showAlertModal={isConversionsCampaign && (!canRunConversions)}
+            />
+            <PostCardSettingsPromotionStatus
+              promotionEnabled={promotionEnabled}
+              promotionStatus={promotionStatus}
+            />
           </div>
-        ) : (
-          <>
-            {/* CAMPAIGN TYPE TABS */}
-            {hasSalesObjective && (
-              <PostCardSettingsTabs
-                campaignType={campaignType}
-                setCampaignType={setCampaignType}
-              />
-            )}
-            {/* ERROR */}
-            <Error error={error} />
-            {/* SETTINGS SECTION */}
-            {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
-            <div className="flex">
-              <PostCardSettingsToggle
-                post={post}
-                postId={postId}
-                postToggleSetterType={postToggleSetterType}
-                campaignType={campaignType}
-                artistId={artistId}
-                toggleCampaign={toggleCampaign}
-                isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
-                setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-                isDisabled={isToggleDisabled}
-                showAlertModal={isConversionsCampaign && (!canRunConversions)}
-              />
-              <PostCardSettingsPromotionStatus
-                promotionEnabled={promotionEnabled}
-                promotionStatus={promotionStatus}
-              />
-            </div>
-            {shouldShowPreview && (
-              <PostCardSettingsPreview
-                previewLinks={adPreviewLinks}
-                campaignType={campaignType}
-              />
-            )}
-            <AdSettingsSection
-              header="Link"
-              copy={copy.postLinkSetting}
+          {shouldShowPreview && (
+            <PostCardSettingsPreview
+              previewLinks={adPreviewLinks}
+              campaignType={campaignType}
+            />
+          )}
+          <AdSettingsSection
+            header="Link"
+            copy={copy.postLinkSetting}
+            isDisabled={isSectionDisabled}
+          >
+            <PostCardSettingsLink
+              postId={post.id}
+              postIndex={postIndex}
+              updatePost={updatePost}
+              postPromotionStatus={promotionStatus}
+              setError={setError}
+              linkSpecs={linkSpecs}
+              campaignType={campaignType}
               isDisabled={isSectionDisabled}
-            >
-              <PostCardSettingsLink
-                postId={post.id}
-                postIndex={postIndex}
-                updatePost={updatePost}
-                postPromotionStatus={promotionStatus}
-                setError={setError}
-                linkSpecs={linkSpecs}
-                campaignType={campaignType}
-                isDisabled={isSectionDisabled}
-              />
-            </AdSettingsSection>
-            <AdSettingsSection
-              header="Call to Action"
-              copy={copy.postCallToActionSetting}
+            />
+          </AdSettingsSection>
+          <AdSettingsSection
+            header="Call to Action"
+            copy={copy.postCallToActionSetting}
+            isDisabled={isSectionDisabled}
+          >
+            <PostCardSettingsCallToAction
+              postId={post.id}
+              postIndex={postIndex}
+              postCallToActions={callToActions}
+              artistId={artistId}
+              updatePost={updatePost}
+              campaignType={campaignType}
+              postPromotionStatus={promotionStatus}
               isDisabled={isSectionDisabled}
-            >
-              <PostCardSettingsCallToAction
-                postId={post.id}
-                postIndex={postIndex}
-                postCallToActions={callToActions}
-                artistId={artistId}
-                updatePost={updatePost}
-                campaignType={campaignType}
-                postPromotionStatus={promotionStatus}
-                isDisabled={isSectionDisabled}
-              />
-            </AdSettingsSection>
-            {/* EDIT MESSAGE */}
-            <AdSettingsSection
-              header="Caption"
-              copy={noCaptionEditExcuse || copy.editCaption}
-              copyClassName={noCaptionEditExcuse && 'text-red'}
+            />
+          </AdSettingsSection>
+          {/* EDIT MESSAGE */}
+          <AdSettingsSection
+            header="Caption"
+            copy={noCaptionEditExcuse || copy.editCaption}
+            copyClassName={noCaptionEditExcuse && 'text-red'}
+            isDisabled={isSectionDisabled}
+          >
+            <PostCardEditCaption
+              post={post}
+              postIndex={postIndex}
+              postAdMessages={adMessages}
+              updatePost={updatePost}
+              isEditable={!noCaptionEditExcuse}
+              campaignType={campaignType}
               isDisabled={isSectionDisabled}
-            >
-              <PostCardEditCaption
-                post={post}
-                postIndex={postIndex}
-                postAdMessages={adMessages}
-                updatePost={updatePost}
-                isEditable={!noCaptionEditExcuse}
-                campaignType={campaignType}
-                isDisabled={isSectionDisabled}
-              />
-            </AdSettingsSection>
-          </>
-        )}
-      </div>
+            />
+          </AdSettingsSection>
+        </>
+      )}
     </div>
   )
 }
@@ -212,17 +214,14 @@ PostCardSettings.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
-  updatePost: PropTypes.func,
+  updatePost: PropTypes.func.isRequired,
   artistId: PropTypes.string.isRequired,
-  toggleCampaign: PropTypes.func,
-  isMissingDefaultLink: PropTypes.bool,
+  toggleCampaign: PropTypes.func.isRequired,
+  isMissingDefaultLink: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
 PostCardSettings.defaultProps = {
-  updatePost: () => {},
-  toggleCampaign: () => {},
-  isMissingDefaultLink: false,
   className: null,
 }
 

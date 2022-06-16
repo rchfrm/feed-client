@@ -110,7 +110,7 @@ PostCardSettingsToggle.propTypes = {
   postId: PropTypes.string.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
-  toggleCampaign: PropTypes.func,
+  toggleCampaign: PropTypes.func.isRequired,
   artistId: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
@@ -120,7 +120,6 @@ PostCardSettingsToggle.propTypes = {
 
 PostCardSettingsToggle.defaultProps = {
   showAlertModal: false,
-  toggleCampaign: () => {},
 }
 
 export default PostCardSettingsToggle

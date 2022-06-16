@@ -5,10 +5,10 @@ import produce from 'immer'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
 import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 
 import CheckboxInput from '@/elements/CheckboxInput'
-import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import { getPostAdMessages, updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
@@ -130,19 +130,10 @@ const PostSettingsAdMessage = ({
     <div className="mb-10">
       <div className="flex justify-between">
         <p className="text-lg font-bold">Caption</p>
-        {shouldShowSaveButton && (
-          <Button
-            version="green small"
-            className={[
-              'h-8',
-              'rounded-full',
-            ].join(' ')}
-            onClick={save}
-            trackComponentName="PostSettings"
-          >
-            Save
-          </Button>
-        )}
+        <PostSettingsSaveButton
+          onClick={save}
+          shouldShow={shouldShowSaveButton}
+        />
       </div>
       <CheckboxInput
         buttonLabel="Use original post caption"

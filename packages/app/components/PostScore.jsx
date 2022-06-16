@@ -39,7 +39,7 @@ PostScore.propTypes = {
 
 PostScore.defaultProps = {
   size: 'regular',
-  className: '',
+  className: null,
 }
 
 export default PostScore

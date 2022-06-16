@@ -17,6 +17,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
 import copy from '@/app/copy/controlsPageCopy'
+import * as ROUTES from '@/app/constants/routes'
 
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
@@ -57,7 +58,7 @@ const ControlsContent = ({ slug }) => {
       slug={slug}
       contentComponents={controlsComponents}
       options={controlsOptions}
-      basePath="/controls"
+      basePath={ROUTES.CONTROLS}
       hasEvenColumns
       className="md:grid grid-cols-12 gap-8"
     />
