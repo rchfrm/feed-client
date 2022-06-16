@@ -82,7 +82,7 @@ const PostCardToggle = ({
     }
     // Update post list state
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
-    toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
+    toggleCampaign(isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType, postId)
     checkAndDeprioritize(updatedPost)
   }, [artistId, postId, toggleCampaign, campaignType, isConversionsCampaign, showAlertModal, checkAndDeprioritize])
 

@@ -65,6 +65,15 @@ const PostSettings = ({ post, updatePost }) => {
   const { active, inReview, rejected } = promotionStatusSlugs
   const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus) && hasPreviewLinkForSelectedCampaignType
 
+  // Define function for toggling promotion campaign or conversions campaign
+  const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all') => {
+    updatePost(campaignType === 'all' ? 'toggle-promotion' : 'toggle-conversion',
+      {
+        promotionEnabled,
+        promotableStatus,
+      })
+  }, [updatePost])
+
   return (
     <>
       <h2 className="mb-8">Promotion settings</h2>
@@ -82,6 +91,7 @@ const PostSettings = ({ post, updatePost }) => {
             postId={postId}
             postToggleSetterType="single"
             campaignType={campaignType}
+            toggleCampaign={toggleCampaign}
             artistId={artistId}
             isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
             setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}

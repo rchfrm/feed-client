@@ -48,7 +48,7 @@ const PostCardSettingsToggle = ({
     }
     // Update post list state
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
-    toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
+    toggleCampaign(isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType, postId)
   }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled, isConversionsCampaign, showAlertModal])
 
   const goToControlsPage = () => {

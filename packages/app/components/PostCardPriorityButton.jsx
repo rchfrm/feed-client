@@ -43,7 +43,7 @@ const PostCardPriorityButton = ({
 
       // Update post list state
       const { promotion_enabled, promotable_status } = updatedPost
-      toggleCampaign(postId, promotion_enabled, promotable_status, campaignType)
+      toggleCampaign(promotion_enabled, promotable_status, campaignType, postId)
     }
   }, [artistId, postId, toggleCampaign])
 
