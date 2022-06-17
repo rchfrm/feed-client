@@ -13,7 +13,13 @@ const Hero = ({
   imageDesktop,
 }) => {
   return (
-    <Section>
+    <Section
+      className={[
+        'flex',
+        'flex-column',
+        'gap-15',
+      ].join(' ')}
+    >
       <HeroStrapLine strapLine={strapLine} />
       <HeroSignUp />
       <HeroDescription description={copy} />

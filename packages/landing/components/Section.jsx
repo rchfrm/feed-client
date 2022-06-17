@@ -7,7 +7,7 @@ const Section = ({ children, className, fullWidth, id }) => {
       className={[
         !fullWidth ? 'px-5' : null,
         !fullWidth ? 'xs:px-8' : null,
-        'py-10',
+        'py-15',
         className,
       ].join(' ')}
     >

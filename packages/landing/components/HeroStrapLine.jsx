@@ -1,23 +1,19 @@
 import PropTypes from 'prop-types'
 
 export default function HeroStrapLine({ strapLine }) {
-  const fontSizing = [
-    'text-[2rem]',
-    'leading-9',
-    'minContent:text-5xl',
-    'minContent:leading-[1.1]',
-    'lg:text-6xl',
-  ]
   return (
-    <div
+    <h1
       className={[
-        'col-span-12',
-        'md:col-span-9',
-        'py-10',
+        'mb-0',
+        'font-normal',
+        'leading-[1.1]',
+        'text-[2rem]',
+        'minContent:text-5xl',
+        'lg:text-6xl',
       ].join(' ')}
     >
-      <h1 className={['mb-0', 'font-normal', ...fontSizing].join(' ')}>{strapLine}</h1>
-    </div>
+      {strapLine}
+    </h1>
   )
 }
 

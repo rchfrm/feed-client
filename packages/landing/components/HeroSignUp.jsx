@@ -65,11 +65,8 @@ export default function HeroSignUp() {
   return (
     <div
       className={[
-        'col-span-12',
-        'row-start-2',
         'sm:col-start-3',
         'sm:col-end-11',
-        'pb-8 xs:pb-16',
         'lg:z-10',
       ].join(' ')}
     >
