@@ -6,6 +6,8 @@ import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 import * as styles from '@/landing/PrimaryCTA.module.css'
 import Section from '@/landing/Section'
+import brandColors from '@/constants/brandColors'
+import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 const getJoinLink = state => state.joinLink
 
@@ -17,58 +19,44 @@ export default function PrimaryCTA({
   return (
     <Section
       className={[
-        'grid',
-        'gap-4',
-        'grid-cols-12',
         styles.primaryCTASection,
+        'py-30',
       ].join(' ')}
     >
-      <div
-        className={[
-          'col-span-12',
-
-          'xxs:col-span-8',
-          'xxs:col-start-3',
-
-          'xs:col-span-6',
-          'xs:col-start-4',
-
-          'sm:col-span-6',
-          'sm:col-start-4',
-
-          styles.primaryCTAButtonWrapper,
-        ].join(' ')}
-      >
-        <Link href={joinLink}>
-          <Button
-            className={[
-              'h-auto',
-              'w-full',
-              'max-w-xs',
-              'mx-auto',
-              'pt-2',
-              'px-8',
-              'pb-3',
-              'text-3xl',
-              'bg-white',
-              'text-green',
-              'border-solid',
-              'border-green',
-              'font-display',
-              'hover:bg-white',
-              'focus:bg-white',
-              'focus:shadow-none',
-              styles.ctaShadow,
-            ].join(' ')}
-            onClick={() => {
-              mixpanelExternalLinkClick(joinLink, { location: trackingLocation })
-            }}
-            trackComponentName="PrimaryCTA"
-          >
-            Get started
-          </Button>
-        </Link>
-      </div>
+      <Link href={joinLink}>
+        <Button
+          className={[
+            'h-auto',
+            'w-full',
+            'max-w-xs',
+            'mx-auto',
+            'py-3',
+            'px-8',
+            'text-3xl',
+            'bg-white',
+            'text-green',
+            'border-solid',
+            'border-green',
+            'font-display',
+            'border-4',
+            'hover:bg-white',
+            'focus:bg-white',
+            'focus:shadow-none',
+            styles.ctaShadow,
+          ].join(' ')}
+          onClick={() => {
+            mixpanelExternalLinkClick(joinLink, { location: trackingLocation })
+          }}
+          trackComponentName="PrimaryCTA"
+        >
+          Get started
+          <ArrowAltIcon
+            className="ml-3 h-6"
+            fill={brandColors.green}
+            direction="right"
+          />
+        </Button>
+      </Link>
     </Section>
   )
 }
