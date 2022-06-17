@@ -10,8 +10,11 @@ const PostMediaMobile = ({ post }) => {
     promotionEnabled,
     promotionStatus,
     media,
+    mediaType,
     thumbnails,
     postType,
+    videoFallback,
+    message,
     organicMetrics,
   } = post
 
@@ -27,8 +30,11 @@ const PostMediaMobile = ({ post }) => {
         </div>
         <PostCardMedia
           media={media}
+          mediaType={mediaType}
           thumbnails={thumbnails}
           postType={postType}
+          videoFallback={videoFallback}
+          caption={message}
         />
         <PostScore
           score={organicMetrics.normalizedScore}

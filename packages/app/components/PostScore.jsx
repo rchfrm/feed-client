@@ -10,7 +10,7 @@ const PostScore = ({ score, size, className }) => {
       'flex justify-center items-center',
       'rounded-full bg-white border-3 border-solid border-insta',
       'font-bold',
-      isSmall ? 'w-8 h-8' : 'w-16 h-16 text-2xl',
+      isSmall ? 'w-10 h-10' : 'w-16 h-16 text-2xl',
       className,
     ].join(' ')}
     >
@@ -21,9 +21,9 @@ const PostScore = ({ score, size, className }) => {
           'flex justify-center items-center',
           'bg-white rounded-full',
           'font-normal text-grey-3',
-          isSmall ? 'w-3 h-3' : 'w-6 h-6 text-sm',
+          isSmall ? 'w-4 h-4' : 'w-6 h-6 text-sm',
         ].join(' ')}
-        style={{ fontSize: isSmall ? '8px' : null }}
+        style={{ fontSize: isSmall ? '9px' : null }}
       >
         10
       </div>

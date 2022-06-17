@@ -26,6 +26,7 @@ const PostSettingsCallToAction = ({
   post,
   campaignType,
   updatePost,
+  isDisabled,
 }) => {
   const {
     id: postId,
@@ -148,7 +149,13 @@ const PostSettingsCallToAction = ({
   return (
     <div className="mb-10">
       <div className="flex justify-between">
-        <p className="text-lg font-bold">Call to action</p>
+        <p className={[
+          'text-lg font-bold',
+          isDisabled ? 'text-grey-2' : null,
+        ].join(' ')}
+        >
+          Call to action
+        </p>
         <PostSettingsSaveButton
           onClick={save}
           shouldShow={shouldShowSaveButton}
@@ -159,6 +166,7 @@ const PostSettingsCallToAction = ({
         value="cta"
         checked={isDefaultCallToAction}
         onChange={handleChange}
+        disabled={isDisabled}
         className="sm:pl-2"
       />
       {!isDefaultCallToAction && (
@@ -182,6 +190,7 @@ PostSettingsCallToAction.propTypes = {
   post: PropTypes.object.isRequired,
   campaignType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 PostSettingsCallToAction.defaultProps = {

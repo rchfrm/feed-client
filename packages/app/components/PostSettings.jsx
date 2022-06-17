@@ -62,6 +62,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   const isToggleDisabled = campaignType === 'all'
     ? !isEligibleForGrowAndNurture && !priorityEnabled
     : (!isEligibleForConversions && !priorityEnabled)
+  const isSectionDisabled = campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled
 
   const { sales: salesPreviewLink, ...growAndNurturePreviewLinks } = adPreviewLinks || {}
   const hasPreviewLinkForSelectedCampaignType = (campaignType === 'all' && Object.keys(growAndNurturePreviewLinks).length > 0) || (campaignType === 'conversions' && salesPreviewLink)
@@ -80,7 +81,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
         )}
         {isDesktopLayout && (
           <>
-            <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />
+            {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
             <div className="flex">
               <PostCardSettingsToggle
                 post={post}
@@ -113,16 +114,19 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
           post={post}
           campaignType={campaignType}
           updatePost={updatePost}
+          isDisabled={isSectionDisabled}
         />
         <PostSettingsCallToAction
           post={post}
           campaignType={campaignType}
           updatePost={updatePost}
+          isDisabled={isSectionDisabled}
         />
         <PostSettingsCaption
           post={post}
           campaignType={campaignType}
           updatePost={updatePost}
+          isDisabled={isSectionDisabled}
         />
       </div>
     </>

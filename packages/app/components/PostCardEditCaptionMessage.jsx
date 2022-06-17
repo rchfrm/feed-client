@@ -7,11 +7,12 @@ const PostCardEditCaptionMessage = ({
   message,
   setMessage,
   hasAutoFocus,
+  className,
 }) => {
   return (
     <div>
       <TextareaAutosize
-        className="w-full"
+        className={['w-full', className].join(' ')}
         cacheMeasurements
         autoFocus={hasAutoFocus}
         maxRows={8}
@@ -26,10 +27,12 @@ const PostCardEditCaptionMessage = ({
 
 PostCardEditCaptionMessage.propTypes = {
   hasAutoFocus: PropTypes.bool,
+  className: PropTypes.string,
 }
 
 PostCardEditCaptionMessage.defaultProps = {
   hasAutoFocus: true,
+  className: null,
 }
 
 export default PostCardEditCaptionMessage

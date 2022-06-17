@@ -27,6 +27,7 @@ const PostSettingsAdMessage = ({
   post,
   campaignType,
   updatePost,
+  isDisabled,
 }) => {
   const { id: postId } = post
 
@@ -141,35 +142,40 @@ const PostSettingsAdMessage = ({
   return (
     <div className="mb-10">
       <div className="flex justify-between">
-        <p className="text-lg font-bold">Caption</p>
+        <p className={[
+          'text-lg font-bold',
+          isDisabled ? 'text-grey-2' : null,
+        ].join(' ')}
+        >
+          Caption
+        </p>
         <PostSettingsSaveButton
           onClick={save}
           shouldShow={shouldShowSaveButton}
         />
       </div>
       {!noCaptionEditReason ? (
-        <>
-          <CheckboxInput
-            buttonLabel="Use original post caption"
-            value="caption"
-            checked={isDefaultAdMessage}
-            onChange={handleChange}
-            className="sm:pl-2"
-          />
-          {!isDefaultAdMessage && (
-            <div
-              className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
-            >
-              <PostCardEditCaptionMessage
-                message={caption || post.message}
-                setMessage={setCaption}
-                hasAutoFocus={false}
-              />
-            </div>
-          )}
-        </>
+        <CheckboxInput
+          buttonLabel="Use original post caption"
+          value="caption"
+          checked={isDefaultAdMessage}
+          onChange={handleChange}
+          className="sm:pl-2"
+        />
       ) : (
-        <MarkdownText markdown={noCaptionEditReason} className="text-red" />
+        <MarkdownText markdown={noCaptionEditReason} className={['sm:pl-4', isDisabled ? 'text-grey-2' : 'text-red'].join(' ')} />
+      )}
+      {(!isDefaultAdMessage || noCaptionEditReason) && (
+        <div
+          className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
+        >
+          <PostCardEditCaptionMessage
+            message={caption || post.message}
+            setMessage={setCaption}
+            hasAutoFocus={false}
+            className={isDisabled || noCaptionEditReason ? 'text-grey-2 pointer-events-none' : null}
+          />
+        </div>
       )}
       <Error error={error} />
     </div>
@@ -180,6 +186,7 @@ PostSettingsAdMessage.propTypes = {
   post: PropTypes.object.isRequired,
   campaignType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 PostSettingsAdMessage.defaultProps = {

@@ -23,6 +23,7 @@ const PostSettingsLink = ({
   post,
   campaignType,
   updatePost,
+  isDisabled,
 }) => {
   const { linkSpecs } = post
 
@@ -108,7 +109,13 @@ const PostSettingsLink = ({
   return (
     <div className="mb-10">
       <div className="flex justify-between">
-        <p className="text-lg font-bold">Link</p>
+        <p className={[
+          'text-lg font-bold',
+          isDisabled ? 'text-grey-2' : null,
+        ].join(' ')}
+        >
+          Link
+        </p>
         <PostSettingsSaveButton
           onClick={save}
           shouldShow={shouldShowSaveButton}
@@ -120,6 +127,7 @@ const PostSettingsLink = ({
         checked={isDefaultLink}
         onChange={handleChange}
         className="sm:pl-2 break-all"
+        disabled={isDisabled}
       />
       {!isDefaultLink && (
         <PostLinksSelect
@@ -141,6 +149,7 @@ PostSettingsLink.propTypes = {
   post: PropTypes.object.isRequired,
   campaignType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 PostSettingsLink.defaultProps = {

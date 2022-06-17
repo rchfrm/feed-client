@@ -7,8 +7,11 @@ import PostScore from '@/app/PostScore'
 const PostMedia = ({ post }) => {
   const {
     media,
+    mediaType,
     thumbnails,
     postType,
+    videoFallback,
+    message,
     organicMetrics,
   } = post
 
@@ -16,8 +19,12 @@ const PostMedia = ({ post }) => {
     <div className="relative">
       <PostCardMedia
         media={media}
+        mediaType={mediaType}
         thumbnails={thumbnails}
         postType={postType}
+        videoFallback={videoFallback}
+        caption={message}
+        className="mb-2"
       />
       <PostScore
         score={organicMetrics.normalizedScore}
