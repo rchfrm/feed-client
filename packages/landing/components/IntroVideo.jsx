@@ -8,8 +8,6 @@ const IntroVideo = () => {
     >
       <div
         className={[
-          'w-full',
-          'bmw',
           'grid',
           'grid-cols-12',
           'gap-4',

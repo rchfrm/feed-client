@@ -15,8 +15,6 @@ const Hero = ({
   return (
     <Section
       className={[
-        'max-w-7xl',
-        'mx-auto',
         'flex',
         'flex-column',
         'gap-y-15',

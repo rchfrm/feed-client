@@ -20,7 +20,6 @@ export default function PrimaryCTA({
     <Section
       className={[
         styles.primaryCTASection,
-        'py-30',
       ].join(' ')}
     >
       <Link href={joinLink}>
@@ -42,6 +41,7 @@ export default function PrimaryCTA({
             'hover:bg-white',
             'focus:bg-white',
             'focus:shadow-none',
+            'my-15',
             styles.ctaShadow,
           ].join(' ')}
           onClick={() => {

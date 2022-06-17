@@ -32,7 +32,7 @@ const BlogSummary = ({
   }, [featuredBlogArticles, sortBy, sortOrder])
 
   return (
-    <Section className="bmw">
+    <Section>
       <ul className={[
         styles.blogList,
         'xs:grid',

@@ -17,8 +17,6 @@ export default function PricingPage() {
           'sm:grid',
           'sm:grid-cols-12',
           'sm:gap-x-4',
-          'max-w-[1216px]',
-          'mx-auto',
         ].join(' ')}
       >
         <HeroStrapLine strapLine={strapLine} />
