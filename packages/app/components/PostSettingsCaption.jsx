@@ -10,8 +10,18 @@ import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 
 import CheckboxInput from '@/elements/CheckboxInput'
 import Error from '@/elements/Error'
+import MarkdownText from '@/elements/MarkdownText'
 
 import { getPostAdMessages, updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
+
+const getCaptionNotEditableReason = (post) => {
+  const base = 'The caption is not editable because'
+
+  if (post.postType === 'story') return `${base} this is a story.`
+  if (!post.postPromotable) return `${base} the post is not promotable.`
+
+  return ''
+}
 
 const PostSettingsAdMessage = ({
   post,
@@ -30,6 +40,7 @@ const PostSettingsAdMessage = ({
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
+  const noCaptionEditReason = getCaptionNotEditableReason(post)
 
   // Get post ad messages
   useAsyncEffect(async (isMounted) => {
@@ -79,6 +90,7 @@ const PostSettingsAdMessage = ({
 
     setCurrentAdMessage(adMessage)
     setSavedCaption(adMessage?.message)
+    setAdMessages(updatedCaptions)
     updatePost('update-ad-messages', { adMessages: updatedCaptions })
   }
 
@@ -135,23 +147,29 @@ const PostSettingsAdMessage = ({
           shouldShow={shouldShowSaveButton}
         />
       </div>
-      <CheckboxInput
-        buttonLabel="Use original post caption"
-        value="caption"
-        checked={isDefaultAdMessage}
-        onChange={handleChange}
-        className="sm:pl-2"
-      />
-      {!isDefaultAdMessage && (
-        <div
-          className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
-        >
-          <PostCardEditCaptionMessage
-            message={caption || post.message}
-            setMessage={setCaption}
-            hasAutoFocus={false}
+      {!noCaptionEditReason ? (
+        <>
+          <CheckboxInput
+            buttonLabel="Use original post caption"
+            value="caption"
+            checked={isDefaultAdMessage}
+            onChange={handleChange}
+            className="sm:pl-2"
           />
-        </div>
+          {!isDefaultAdMessage && (
+            <div
+              className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
+            >
+              <PostCardEditCaptionMessage
+                message={caption || post.message}
+                setMessage={setCaption}
+                hasAutoFocus={false}
+              />
+            </div>
+          )}
+        </>
+      ) : (
+        <MarkdownText markdown={noCaptionEditReason} className="text-red" />
       )}
       <Error error={error} />
     </div>

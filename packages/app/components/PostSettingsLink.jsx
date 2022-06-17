@@ -92,10 +92,13 @@ const PostSettingsLink = ({
   React.useEffect(() => {
     const { linkId, linkHref } = linkSpecs[campaignType] || {}
 
-    setCurrentLink({
+    const link = {
       id: linkId || defaultLink.id,
       href: linkHref || defaultLink.href,
-    })
+    }
+
+    setCurrentLink(link)
+    setSavedLink(link)
 
     if (linkId && linkId !== defaultLink.id) {
       setIsDefaultLink(false)
