@@ -7,8 +7,10 @@ const Features = ({ features }) => {
     <section
       id="features"
       className={[
-        'section--padding',
         'bmw',
+        'px-5',
+        'xs:px-8',
+        'py-10',
       ].join(' ')}
     >
       <ul

@@ -34,16 +34,16 @@ export default function HomePage({ pageData }) {
         heroStraplineB={straplineB}
       />
       {hasTestimonies && <Testimonies testimonies={testimonies} />}
-      <IntroVideo />
-      {hasPartners && <Partners partners={partners} />}
       {hasFeatures && <Features features={features} />}
       <PrimaryCTA />
+      <IntroVideo />
       {hasFeaturedArticles && (
         <>
           <BlogSummary featuredBlogArticles={featuredArticles} />
           <TertiaryCTA trackLocation="feed-landing" />
         </>
       )}
+      {hasPartners && <Partners partners={partners} />}
     </>
   )
 }

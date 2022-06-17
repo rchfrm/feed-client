@@ -14,7 +14,6 @@ export default function HeroStrapLine({ partA, partB }) {
         'col-span-12',
         'md:col-span-9',
         'py-10',
-        'minContent:py-14',
       ].join(' ')}
     >
       <h1 className={['mb-0', 'font-normal', ...fontSizing].join(' ')}>{partA} {partB}</h1>
