@@ -8,6 +8,7 @@ export default function HeroStrapLine({ strapLine }) {
         'font-normal',
         'leading-[1.1]',
         'text-[2rem]',
+        'xxs:text-[2.5rem]',
         'minContent:text-5xl',
         'lg:text-6xl',
       ].join(' ')}

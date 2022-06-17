@@ -7,7 +7,7 @@ const Features = ({ features }) => {
   return (
     <Section
       id="features"
-      className="bmw"
+      className={['max-w-screen-md', 'mx-auto'].join(' ')}
     >
       <ul
         className={[
@@ -20,11 +20,12 @@ const Features = ({ features }) => {
           'md:text-xl',
         ].join(' ')}
       >
-        {features.map((feature) => {
+        {features.map((feature, index) => {
           const { id, header, copy, image } = feature
           return (
             <FeatureItem
               key={id}
+              index={index}
               header={header}
               copy={copy}
               image={image}
@@ -32,12 +33,11 @@ const Features = ({ features }) => {
                 'flex',
                 'flex-col',
                 'items-center',
-                'xs:px-8',
-                'sm:flex-row',
+                'sm:grid',
+                'sm:grid-cols-2',
+                'sm:gap-x-15',
                 'sm:even:flex-row-reverse',
-                'sm:p-0',
-                'sm:justify-evenly',
-                'sm:last:mb-0',
+                'sm:justify-between',
               ].join(' ')}
             />
           )

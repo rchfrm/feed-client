@@ -9,6 +9,7 @@ const FeatureItem = ({
   copy,
   className,
   image,
+  index,
 }) => {
   const {
     url: imageSrc,
@@ -17,14 +18,16 @@ const FeatureItem = ({
     width,
     height,
   } = image
+  const shouldReverse = index % 2 !== 0
   const isSvg = mimeType === 'image/svg+xml'
   return (
     <li className={className}>
       <div
         className={[
           'mb-7',
-          'sm:w-2/4',
-          'sm:max-w-md',
+          'sm:mb-0',
+          shouldReverse ? 'sm:col-start-2' : null,
+          shouldReverse ? 'sm:row-start-1' : null,
         ].join(' ')}
       >
         <h3
@@ -37,41 +40,41 @@ const FeatureItem = ({
         >
           {header}
         </h3>
-        <MarkdownText markdown={copy} />
+        <MarkdownText className="sm:mb-0" markdown={copy} />
       </div>
-      {imageSrc && (
-        <>
-          {isSvg ? (
-            <img
-              className={[
-                'inline',
-                'w-full',
-                'h-auto',
-                'max-w-xs',
-                'sm:w-2/4',
-                'md:max-w-sm',
-              ].join(' ')}
-              src={imageSrc}
-              alt={header}
-              width={width}
-              height={height}
-            />
-          ) : (
-            <Image
-              data={{
-                ...responsiveImage,
-                alt: header,
-              }}
-              fadeInDuration={1}
-              className={[
-                'max-w-xs',
-                'sm:w-2/4',
-                'md:max-w-sm',
-              ].join(' ')}
-            />
-          )}
-        </>
-      )}
+      <div
+        className={[
+          shouldReverse ? 'sm:col-start-1' : null,
+          shouldReverse ? 'sm:row-start-1' : null,
+        ].join(' ')}
+      >
+        {imageSrc && (
+          <>
+            {isSvg ? (
+              <img
+                className={[
+
+                ].join(' ')}
+                src={imageSrc}
+                alt={header}
+                width={width}
+                height={height}
+              />
+            ) : (
+              <Image
+                data={{
+                  ...responsiveImage,
+                  alt: header,
+                }}
+                fadeInDuration={1}
+                className={[
+
+                ].join(' ')}
+              />
+            )}
+          </>
+        )}
+      </div>
     </li>
   )
 }
@@ -81,6 +84,7 @@ FeatureItem.propTypes = {
   copy: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
   className: PropTypes.string,
+  index: PropTypes.number.isRequired,
 }
 
 FeatureItem.defaultProps = {
