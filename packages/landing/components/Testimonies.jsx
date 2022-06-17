@@ -31,6 +31,7 @@ const Testimonies = ({
     >
       <div ref={swiperContainer} className="swiper-container">
         <ul className={[
+          'mb-0',
           'swiper-wrapper',
           !isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-10 box-border px-10 mb-0' : null,
         ].join(' ')}
@@ -52,11 +53,14 @@ const Testimonies = ({
       <div
         ref={swiperPagination}
         className={[
+          'leading-[0]',
+          'left-1/2',
           'swiper-pagination',
-          'absolute bottom-4 -translate-x-1/2',
+          'absolute',
+          'bottom-6',
+          '-translate-x-1/2',
           !isSwiperActive ? 'hidden' : null,
         ].join(' ')}
-        style={{ left: '50%' }}
       />
     </Section>
   )
