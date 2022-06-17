@@ -2,19 +2,22 @@ import PropTypes from 'prop-types'
 
 export default function HeroStrapLine({ partA, partB }) {
   const fontSizing = [
-    'text-3xl',
-    'xxs:text-4xl',
-    'xs:text-5xl',
+    'text-[2rem]',
+    'leading-9',
+    'minContent:text-5xl',
+    'minContent:leading-[1.1]',
+    'lg:text-6xl',
   ]
   return (
     <div
       className={[
         'col-span-12',
-        'pb-10',
+        'md:col-span-9',
+        'py-10',
+        'minContent:py-14',
       ].join(' ')}
     >
-      {partA && <h1 className={['mb-0', 'font-normal', ...fontSizing].join(' ')}>{partA}</h1>}
-      {partB && <h2 className={['border-b-3', 'border-green', 'border-solid', 'inline', ...fontSizing].join(' ')}><strong>{partB}</strong></h2>}
+      <h1 className={['mb-0', 'font-normal', ...fontSizing].join(' ')}>{partA} {partB}</h1>
     </div>
   )
 }

@@ -2,7 +2,12 @@ import PropTypes from 'prop-types'
 
 const Section = ({ children }) => {
   return (
-    <section className="section--padding lg">
+    <section
+      className={[
+        'px-5',
+        'xs:px-8',
+      ].join(' ')}
+    >
       <div className={['grid', 'grid-cols-12', 'xs:gap-4'].join(' ')}>
         { children }
       </div>

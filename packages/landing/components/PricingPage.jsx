@@ -7,12 +7,11 @@ import PricingTiers from '@/landing/PricingTiers'
 export default function PricingPage() {
   const {
     titlePartA,
-    titlePartB,
   } = pricingPageCopy
 
   return (
     <Section>
-      <HeroStrapLine partA={titlePartA} partB={titlePartB} />
+      <HeroStrapLine partA={titlePartA} />
       <PricingTiers />
     </Section>
   )

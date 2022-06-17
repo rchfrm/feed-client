@@ -39,7 +39,14 @@ const FeedLanding = ({ Component, pageProps }) => {
 
         <TheHeader />
 
-        <main id="page--container-landing">
+        <main
+          className={[
+            'block',
+            'flex-auto',
+            'w-full',
+            'mt-24',
+          ].join(' ')}
+        >
           <Component {...pageProps} />
         </main>
 
