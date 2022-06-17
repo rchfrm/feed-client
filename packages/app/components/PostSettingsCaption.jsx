@@ -23,7 +23,7 @@ const getCaptionNotEditableReason = (post) => {
   return ''
 }
 
-const PostSettingsAdMessage = ({
+const PostSettingsCaption = ({
   post,
   campaignType,
   updatePost,
@@ -182,14 +182,14 @@ const PostSettingsAdMessage = ({
   )
 }
 
-PostSettingsAdMessage.propTypes = {
+PostSettingsCaption.propTypes = {
   post: PropTypes.object.isRequired,
   campaignType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
 }
 
-PostSettingsAdMessage.defaultProps = {
+PostSettingsCaption.defaultProps = {
 }
 
-export default PostSettingsAdMessage
+export default PostSettingsCaption
