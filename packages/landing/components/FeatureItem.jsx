@@ -22,20 +22,17 @@ const FeatureItem = ({
     <li className={className}>
       <div
         className={[
-          'w-full',
-          'mb-10',
+          'mb-7',
           'sm:w-2/4',
           'sm:max-w-md',
         ].join(' ')}
       >
         <h3
           className={[
-            'border-b-2',
-            'border-green',
-            'border-solid',
-            'mb-4',
+            'underline',
+            'mb-7',
             'text-green',
-            'w-fit',
+            'leading-tight',
           ].join(' ')}
         >
           {header}

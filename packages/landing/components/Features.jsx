@@ -11,6 +11,9 @@ const Features = ({ features }) => {
     >
       <ul
         className={[
+          'flex',
+          'flex-column',
+          'gap-15',
           'text-xl',
           'sm:text-base',
           'md:p-5',
@@ -26,7 +29,6 @@ const Features = ({ features }) => {
               copy={copy}
               image={image}
               className={[
-                'mb-16',
                 'flex',
                 'flex-col',
                 'items-center',
