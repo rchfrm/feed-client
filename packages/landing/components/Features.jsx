@@ -1,17 +1,13 @@
 import PropTypes from 'prop-types'
 
 import FeatureItem from '@/landing/FeatureItem'
+import Section from '@/landing/Section'
 
 const Features = ({ features }) => {
   return (
-    <section
+    <Section
       id="features"
-      className={[
-        'bmw',
-        'px-5',
-        'xs:px-8',
-        'py-10',
-      ].join(' ')}
+      className="bmw"
     >
       <ul
         className={[
@@ -45,7 +41,7 @@ const Features = ({ features }) => {
           )
         })}
       </ul>
-    </section>
+    </Section>
   )
 }
 

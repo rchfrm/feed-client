@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import BlogSummaryItem from '@/landing/BlogSummaryItem'
-
 import * as blogHelpers from '@/landing/helpers/blogHelpers'
-
 import * as styles from '@/landing/BlogSummary.module.css'
+import Section from '@/landing/Section'
 
 const BlogSummary = ({
   featuredBlogArticles,
@@ -34,7 +32,7 @@ const BlogSummary = ({
   }, [featuredBlogArticles, sortBy, sortOrder])
 
   return (
-    <section className="section--padding bmw">
+    <Section className="bmw">
       <ul className={[
         styles.blogList,
         'xs:grid',
@@ -59,7 +57,7 @@ const BlogSummary = ({
           )
         })}
       </ul>
-    </section>
+    </Section>
   )
 }
 

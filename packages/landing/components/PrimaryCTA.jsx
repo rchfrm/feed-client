@@ -1,16 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Link from 'next/link'
-
 import Button from '@/elements/Button'
-
-// Global info store
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
-
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
-
 import * as styles from '@/landing/PrimaryCTA.module.css'
+import Section from '@/landing/Section'
 
 const getJoinLink = state => state.joinLink
 
@@ -20,9 +15,8 @@ export default function PrimaryCTA({
   const joinLink = useGlobalInfoStore(getJoinLink)
 
   return (
-    <section
+    <Section
       className={[
-        'section--padding',
         'grid',
         'gap-4',
         'grid-cols-12',
@@ -75,7 +69,7 @@ export default function PrimaryCTA({
           </Button>
         </Link>
       </div>
-    </section>
+    </Section>
   )
 }
 

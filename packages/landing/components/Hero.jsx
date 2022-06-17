@@ -7,28 +7,26 @@ import HeroSignUp from '@/landing/HeroSignUp'
 import Section from '@/landing/Section'
 
 const Hero = ({
-  heroStraplineA,
-  heroStraplineB,
-  heroCopy,
-  heroImageMobile,
-  heroImageDesktop,
+  strapLine,
+  copy,
+  imageMobile,
+  imageDesktop,
 }) => {
   return (
     <Section>
-      <HeroStrapLine partA={heroStraplineA} partB={heroStraplineB} />
+      <HeroStrapLine strapLine={strapLine} />
       <HeroSignUp />
-      <HeroDescription description={heroCopy} />
-      <HeroImage mobile={heroImageMobile} desktop={heroImageDesktop} />
+      <HeroDescription description={copy} />
+      <HeroImage mobile={imageMobile} desktop={imageDesktop} />
     </Section>
   )
 }
 
 Hero.propTypes = {
-  heroStraplineA: PropTypes.string.isRequired,
-  heroStraplineB: PropTypes.string.isRequired,
-  heroCopy: PropTypes.string.isRequired,
-  heroImageMobile: PropTypes.object.isRequired,
-  heroImageDesktop: PropTypes.object.isRequired,
+  strapLine: PropTypes.string.isRequired,
+  copy: PropTypes.string.isRequired,
+  imageMobile: PropTypes.object.isRequired,
+  imageDesktop: PropTypes.object.isRequired,
 }
 
 export default Hero

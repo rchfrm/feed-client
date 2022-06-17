@@ -1,23 +1,32 @@
 import PropTypes from 'prop-types'
 
-const Section = ({ children }) => {
+const Section = ({ children, className, fullWidth, id }) => {
   return (
     <section
+      id={id}
       className={[
-        'px-5',
-        'xs:px-8',
+        !fullWidth ? 'px-5' : null,
+        !fullWidth ? 'xs:px-8' : null,
         'py-10',
+        className,
       ].join(' ')}
     >
-      <div className={['grid', 'grid-cols-12', 'xs:gap-4'].join(' ')}>
-        { children }
-      </div>
+      { children }
     </section>
   )
 }
 
 Section.propTypes = {
   children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  fullWidth: PropTypes.bool,
+  id: PropTypes.string,
+}
+
+Section.defaultProps = {
+  className: '',
+  fullWidth: false,
+  id: null,
 }
 
 export default Section

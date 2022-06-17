@@ -1,13 +1,10 @@
 import VideoEmbed from '@/elements/VideoEmbed'
+import Section from '@/landing/Section'
 
 const IntroVideo = () => {
   return (
-    <section
+    <Section
       id="intro-video"
-      className={[
-        'section--padding',
-        'bg-white',
-      ].join(' ')}
     >
       <div
         className={[
@@ -35,7 +32,7 @@ const IntroVideo = () => {
           }}
         />
       </div>
-    </section>
+    </Section>
   )
 }
 

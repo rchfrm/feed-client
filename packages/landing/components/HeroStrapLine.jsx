@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export default function HeroStrapLine({ partA, partB }) {
+export default function HeroStrapLine({ strapLine }) {
   const fontSizing = [
     'text-[2rem]',
     'leading-9',
@@ -16,22 +16,14 @@ export default function HeroStrapLine({ partA, partB }) {
         'py-10',
       ].join(' ')}
     >
-      <h1 className={['mb-0', 'font-normal', ...fontSizing].join(' ')}>{partA} {partB}</h1>
+      <h1 className={['mb-0', 'font-normal', ...fontSizing].join(' ')}>{strapLine}</h1>
     </div>
   )
 }
 
 HeroStrapLine.propTypes = {
-  partA: PropTypes.oneOfType([
+  strapLine: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
   ]).isRequired,
-  partB: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
-}
-
-HeroStrapLine.defaultProps = {
-  partB: null,
 }

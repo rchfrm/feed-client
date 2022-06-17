@@ -27,11 +27,10 @@ export default function HomePage({ pageData }) {
   return (
     <>
       <Hero
-        heroStraplineA={straplineA}
-        heroCopy={description}
-        heroImageMobile={mobileImage}
-        heroImageDesktop={desktopImage}
-        heroStraplineB={straplineB}
+        strapLine={`${straplineA} ${straplineB}`}
+        copy={description}
+        imageMobile={mobileImage}
+        imageDesktop={desktopImage}
       />
       {hasTestimonies && <Testimonies testimonies={testimonies} />}
       {hasFeatures && <Features features={features} />}
@@ -50,8 +49,7 @@ export default function HomePage({ pageData }) {
 
 HomePage.propTypes = {
   pageData: PropTypes.shape({
-    straplineA: PropTypes.string.isRequired,
-    straplineB: PropTypes.string.isRequired,
+    strapLine: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     mobileImage: PropTypes.object.isRequired,
     desktopImage: PropTypes.object.isRequired,

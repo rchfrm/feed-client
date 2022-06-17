@@ -5,7 +5,6 @@ export default function HeroDescription({ description }) {
     <MarkdownText
       className={[
         'text-xl',
-        'font-display',
         'col-span-12',
         'row-start-3',
         'col-start-1',

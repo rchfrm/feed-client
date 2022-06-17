@@ -4,16 +4,16 @@ import PropTypes from 'prop-types'
 import NewsletterSignup from '@/landing/NewsletterSignup'
 
 import * as primaryStyles from '@/landing/PrimaryCTA.module.css'
+import Section from '@/landing/Section'
 
 const TertiaryCTA = React.forwardRef(({
   header,
   trackLocation,
 }, ref) => {
   return (
-    <section
+    <Section
       ref={ref}
       className={[
-        'section--padding',
         primaryStyles.primaryCTASection,
       ].join(' ')}
     >
@@ -21,7 +21,7 @@ const TertiaryCTA = React.forwardRef(({
         header={header}
         trackLocation={trackLocation}
       />
-    </section>
+    </Section>
   )
 })
 
