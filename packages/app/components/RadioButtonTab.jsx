@@ -20,12 +20,17 @@ const RadioButtonTab = ({
   }
 
   return (
-    <li className="relative col-span-4 flex justify-center">
-      <button
-        onClick={() => onClick(name)}
+    <button
+      className={[
+        'relative col-span-4 flex justify-center py-4 sm:py-0',
+        !isActive ? 'bg-gradient-to-t from-grey-1 sm:bg-none' : null,
+      ].join(' ')}
+      onClick={() => onClick(name)}
+    >
+      <li
         className="flex flex-column justify-center items-center"
       >
-        {!isDesktopLayout && <p className="mb-2">{capitalise(name)}</p>}
+        {!isDesktopLayout && <p className="mb-2 font-bold">{capitalise(name)}</p>}
         <div
           className={[
             'flex justify-center items-center',
@@ -36,14 +41,14 @@ const RadioButtonTab = ({
         >
           {isActive && <div className="w-3 h-3 sm:w-6 sm:h-6 rounded-full bg-green" />}
         </div>
-      </button>
+      </li>
       {isDesktopLayout && (
         <RadioButtonTabLine
           index={index}
           isActive={isActive}
         />
       )}
-    </li>
+    </button>
   )
 }
 
