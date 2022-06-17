@@ -15,9 +15,14 @@ const Hero = ({
   return (
     <Section
       className={[
+        'max-w-7xl',
+        'mx-auto',
         'flex',
         'flex-column',
-        'gap-15',
+        'gap-y-15',
+        'sm:grid',
+        'sm:grid-cols-12',
+        'sm:gap-x-4',
       ].join(' ')}
     >
       <HeroStrapLine strapLine={strapLine} />

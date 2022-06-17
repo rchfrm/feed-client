@@ -11,6 +11,11 @@ export default function HeroDescription({ description }) {
         'md:text-xl',
         'lg:text-2xl',
 
+        'sm:col-start-1',
+        'sm:col-span-12',
+
+        'md:row-start-3',
+
         'md:mr-6',
 
         'md:z-10',
