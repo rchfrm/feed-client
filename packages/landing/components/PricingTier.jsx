@@ -5,12 +5,10 @@ import PricingTierServiceFee from '@/landing/PricingTierServiceFee'
 import PricingTierFeatures from '@/landing/PricingTierFeatures'
 import React from 'react'
 import TryFeed from '@/landing/TryFeed'
+import { getCurrencySymbol } from '@/helpers/utils'
 import copy from '@/landing/copy/PricingPageCopy'
 
-const {
-  currencyOptions,
-  currencies,
-} = copy
+const { currencies } = copy
 
 export default function PricingTier({ tier, showAnnualPricing, currency }) {
   const {
@@ -27,7 +25,7 @@ export default function PricingTier({ tier, showAnnualPricing, currency }) {
     if (maxSpendMultiple) {
       setExpandedFeatureList([
         ...features,
-        `${currencies[currency]}${monthlyCost[currency] * maxSpendMultiple} max monthly spend per profile^`,
+        `${getCurrencySymbol(currency)}${monthlyCost[currency] * maxSpendMultiple} max monthly spend per profile^`,
       ])
     } else {
       setExpandedFeatureList(features)
@@ -85,5 +83,5 @@ PricingTier.propTypes = {
     maxSpendMultiple: PropTypes.number,
   }).isRequired,
   showAnnualPricing: PropTypes.bool.isRequired,
-  currency: PropTypes.oneOf(currencyOptions).isRequired,
+  currency: PropTypes.oneOf(currencies).isRequired,
 }
