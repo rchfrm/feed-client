@@ -187,9 +187,9 @@ const Chart = ({
     }
     setChartBarLimit(newChartBarLimit)
 
-    const increaseArr = periodValues.reduce((result, currentValue, index, array) => {
+    const increaseArr = periodValues.reduce((result, currentValue, index, source) => {
       if (index !== 0) {
-        result.push(currentValue - array[index - 1])
+        result.push(currentValue - source[index - 1])
       }
       return result
     }, [0])
