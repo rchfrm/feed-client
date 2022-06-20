@@ -9,6 +9,7 @@ import copy from '@/landing/copy/PricingPageCopy'
 
 const {
   currencyOptions,
+  currencies,
 } = copy
 
 export default function PricingTier({ tier, showAnnualPricing, currency }) {
@@ -18,7 +19,20 @@ export default function PricingTier({ tier, showAnnualPricing, currency }) {
     monthlyCost,
     serviceFeePercentage,
     features,
+    maxSpendMultiple,
   } = tier
+  // Add max spend to feature list if applicable
+  const [expandedFeatureList, setExpandedFeatureList] = React.useState(features)
+  React.useEffect(() => {
+    if (maxSpendMultiple) {
+      setExpandedFeatureList([
+        ...features,
+        `${currencies[currency]}${monthlyCost[currency] * maxSpendMultiple} max monthly spend per profile^`,
+      ])
+    } else {
+      setExpandedFeatureList(features)
+    }
+  }, [currency, features, maxSpendMultiple, monthlyCost])
   return (
     <div
       className={[
@@ -56,7 +70,7 @@ export default function PricingTier({ tier, showAnnualPricing, currency }) {
         className={['w-full', 'mb-5'].join(' ')}
         trackLocation={`PricingTier${name}`}
       />
-      <PricingTierFeatures features={features} />
+      <PricingTierFeatures features={expandedFeatureList} />
     </div>
   )
 }
@@ -68,6 +82,7 @@ PricingTier.propTypes = {
     monthlyCost: PropTypes.objectOf(PropTypes.number),
     serviceFeePercentage: PropTypes.number,
     features: PropTypes.arrayOf(PropTypes.string),
+    maxSpendMultiple: PropTypes.number,
   }).isRequired,
   showAnnualPricing: PropTypes.bool.isRequired,
   currency: PropTypes.oneOf(currencyOptions).isRequired,

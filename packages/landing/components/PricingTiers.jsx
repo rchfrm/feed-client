@@ -31,6 +31,7 @@ const pricingTiers = [
       'One user and one profile*',
       'Organic insights & benchmarks',
     ],
+    maxSpendMultiple: 0,
   },
   {
     name: 'Growth',
@@ -54,8 +55,8 @@ const pricingTiers = [
       'Prioritise a post for instant promotion',
       'Edit individual ad text, links and CTA',
       'Override automated post selection',
-      '£500 max monthly spend per profile^',
     ],
+    maxSpendMultiple: 10,
   },
   {
     name: 'Pro',
@@ -77,8 +78,8 @@ const pricingTiers = [
       'Meta pixel based retargeting',
       'Multiple objectives°',
       'Clear reporting on return from ad spend',
-      '£2,000 max monthly spend per profile^',
     ],
+    maxSpendMultiple: 40,
   },
 ]
 
