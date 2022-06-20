@@ -1,11 +1,8 @@
-// IMPORT PACKAGES
-// import React from 'react'
 import moment from 'moment'
 import url from 'url'
 import produce from 'immer'
 import getVideoId from 'get-video-id'
 import getSymbolFromCurrency from 'currency-symbol-map'
-import countries from '@/constants/countries'
 import get from 'lodash/get'
 
 export const capitalise = (string) => {
@@ -14,27 +11,7 @@ export const capitalise = (string) => {
   return string[0].toUpperCase() + string.slice(1)
 }
 
-export const extractDataSourcePlatform = string => {
-  const lengthOfPlatform = string.indexOf('_')
-  return string.slice(0, lengthOfPlatform)
-}
-
-
-
-// CONVERT DATE TO n TIME AGO
-/**
- * @param {object} dateMoment
- * @returns {String}
- */
-export const dateToTimePassed = (dateMoment) => {
-  if (typeof dateMoment !== 'object') {
-    console.error('Please pass the date as a moment object')
-    return
-  }
-  const fromNow = dateMoment.fromNow()
-  return fromNow
-}
-
+// TODO: Use `truncate` instead: https://tailwindcss.com/docs/text-overflow
 export const abbreviatePostText = (message) => {
   let shortenedText = message
   const text = []
@@ -50,18 +27,6 @@ export const abbreviatePostText = (message) => {
     }
   }
   return text
-}
-
-export const arrToObjById = (array) => {
-  // Stop here if no array or empty array
-  if (!array || !array.length) return array
-  return array.reduce((obj, item) => {
-    const { id } = item
-    return {
-      ...obj,
-      [id]: item,
-    }
-  }, {})
 }
 
 export const removeItemFromArray = ({ array, item, index }) => {
@@ -91,28 +56,6 @@ export const sortArrayByKey = (arr, key, sortDirection = 'asc') => {
   })
 }
 
-export const cleanSpotifyUrl = (url) => {
-  if (!url) {
-    return url
-  }
-  return url.slice(0, url.indexOf('?si='))
-}
-
-export const convertPlatformToPriorityDSP = (platform) => {
-  if (platform === 'facebook') {
-    return 'facebook_page_url'
-  }
-
-  return `${platform}_url`
-}
-
-export const extractPlatformFromPriorityDSP = (priorityDSP) => {
-  if (priorityDSP === 'facebook_page_url') {
-    return 'facebook'
-  }
-  return priorityDSP.replace('_url', '')
-}
-
 export const filterArtistUrls = (artist) => {
   const artistKeys = Object.keys(artist)
   // Create an array of links
@@ -131,69 +74,6 @@ export const filterArtistUrls = (artist) => {
     }
   })
   return linksObj
-}
-
-export const findCountryName = (twoLetterCode) => {
-  let countryName
-  for (let i = 0; i < countries.length; i += 1) {
-    if (countries[i].id === twoLetterCode) {
-      countryName = countries[i].name
-      break
-    }
-  }
-  return countryName
-}
-
-export const findPostMedia = (attachments) => {
-  if (!attachments) return
-
-  let obj
-  let link
-
-  if (attachments.subattachments) {
-    // eslint-disable-next-line
-    obj = attachments.subattachments[0]
-  } else {
-    obj = attachments
-  }
-
-  if (obj.media) {
-    if (obj.media.source) {
-      link = obj.media.source
-    } else if (obj.media.image) {
-      link = obj.media.image.src
-    } else if (obj.media.video) {
-      link = obj.media.video.src
-    }
-  }
-
-  return link
-}
-
-export const findPostThumbnail = (attachments) => {
-  if (!attachments) return
-
-  let obj
-  let thumbnail
-
-  if (attachments.subattachments) {
-    // eslint-disable-next-line
-    obj = attachments.subattachments[0]
-  } else {
-    obj = attachments
-  }
-
-  if (obj.media) {
-    if (obj.media.image) {
-      if (obj.media.image.source) {
-        thumbnail = obj.media.image.source
-      } else if (obj.media.image.src) {
-        thumbnail = obj.media.image.src
-      }
-    }
-  }
-
-  return thumbnail
 }
 
 export const getPostMediaType = (src) => {
@@ -237,6 +117,12 @@ export const minArrayValue = (array) => {
     }
   })
   return min
+}
+
+export const filterUnique = array => {
+  return array.filter((value, index, self) => {
+    return self.indexOf(value) === index
+  })
 }
 
 /**
@@ -341,13 +227,6 @@ export const getDataArray = (propsToDisplay, data, options = {}) => {
   }, [])
 }
 
-export const closestNumberInArray = (array, target) => {
-  // https://stackoverflow.com/a/19277804
-  return array.reduce((prev, curr) => {
-    return (Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev)
-  })
-}
-
 /**
  * @param {array} baseArray
  * @param {array} comparisonArray
@@ -363,19 +242,6 @@ export const removeArrayOverlap = (baseArray = [], comparisonArray = []) => {
     // Else include item
     return [...arr, item]
   }, [])
-}
-
-export const returnArtistNameArray = (obj) => {
-  if (obj === null) {
-    return null
-  }
-  return Object.keys(obj).map((key) => obj[key].name)
-}
-
-export const returnLatestValue = (data) => {
-  const timestamps = Object.keys(data).map(timestamp => Number(timestamp))
-  const latestTimestamp = Math.max(...timestamps)
-  return data[latestTimestamp]
 }
 
 
@@ -399,18 +265,6 @@ export const getVideoThumb = (url, quality = 'hqdefault') => {
   // Thumb types: https://stackoverflow.com/a/2068371/993297
   if (service === 'youtube') return `https://img.youtube.com/vi/${id}/${quality}.jpg`
   return ''
-}
-
-
-export const sortAssetsChronologically = (assets) => {
-  if (assets) {
-    return assets.sort((a, b) => {
-      const publishTimeA = Number(moment(a.published_time).format('X'))
-      const publishTimeB = Number(moment(b.published_time).format('X'))
-      return publishTimeB - publishTimeA
-    })
-  }
-  return assets
 }
 
 export const sortDatesChronologically = (dates) => {
@@ -446,62 +300,15 @@ export const translate = (phrase) => {
   return capitalisedArray.join(' ')
 }
 
-export const translateDataSourceId = (dataSource, shouldCapitalise = true) => {
-  let phrase = dataSource
-  const platform = extractDataSourcePlatform(phrase)
-  phrase = phrase.slice(platform.length + 1)
-  phrase = phrase.replace('_count', 's')
-  if (phrase.indexOf('engaged') === -1) {
-    phrase = phrase.replace('_7d', ' (rolling 7 day total)')
-    phrase = phrase.replace('_30d', ' (rolling 30 day total)')
-  } else {
-    phrase = phrase.replace('_7d', ' (in last week)')
-    phrase = phrase.replace('_28d', ' (in last 4 weeks)')
-    phrase = phrase.replace('_1y', ' (in last year)')
-  }
-  switch (dataSource) {
-    case `${platform}_reach`:
-    case `${platform}_profile_view_count`:
-      phrase += ' (daily)'
-      break
-    case `${platform}_views`:
-      phrase += ' (lifetime)'
-      break
-    default:
-      break
-  }
-  phrase = phrase.replace('ad_', 'daily ')
-  phrase = phrase.replace('_feed', ' (through Feed)')
-  phrase = phrase.replace(/_/g, ' ')
-  if (shouldCapitalise) {
-    phrase = capitalise(phrase)
-  }
-  return phrase
-}
-
 export const getLinkType = (href) => {
   if (href.startsWith('/')) return 'internal'
   if (href.startsWith('mailto:')) return 'email'
   return 'external'
 }
 
-// Round a number to the nearest n^10
-/**
-* @param {number} n
-* @returns {number}
-*/
-export const roundToFactorOfTen = (n, roundType = 'ceil') => {
-  const exponent = Math.round(n).toString().length - 1
-  const multiplier = 10 ** exponent
-  const rounded = Math[roundType](n / multiplier) * multiplier
-  return rounded
-}
-
 
 // EXTERNAL URL helpers
 // ---------------------
-
-
 export const trimTrailingSlash = (url) => {
   return url.replace(/\/$/, '')
 }
@@ -534,15 +341,6 @@ export const enforceUrlProtocol = (url, forceSSH = false) => {
   return `${protocol}${url}`
 }
 
-// Removes any URL protocal
-/**
- * @param {string} url
- * @returns {string}
- */
-export const trimUrlProtocol = (url) => {
-  return url.replace(/(^\w+:|^)\/\//, '')
-}
-
 /**
  * @param {string} url To pass, url must include a protocol (ie, https?://)
  * @param {boolean} addUrlProtocol if true, adds a protocol
@@ -560,12 +358,6 @@ export const testValidEmail = (email) => {
   // eslint-disable-next-line
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return re.test(String(email).toLowerCase())
-}
-
-export const shortenUrl = (url) => {
-  let shortenedUrl = removeProtocolFromUrl(url)
-  shortenedUrl = removeWWWFromUrl(shortenedUrl)
-  return shortenedUrl
 }
 
 /**
@@ -589,15 +381,6 @@ export const getLocalStorage = (key) => {
     return localStorage.getItem(key)
   } catch (e) {
     return null
-  }
-}
-
-export const clearLocalStorage = () => {
-  try {
-    localStorage.clear()
-    return true
-  } catch (e) {
-    return false
   }
 }
 
@@ -639,8 +422,6 @@ export const parseUrl = (urlString) => {
     query: queryObject,
   }
 }
-
-export const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
 export const getNestedObjectByValue = (object, value) => {
   return Object.keys(object).find(key => Object.values(object[key]).includes(value))

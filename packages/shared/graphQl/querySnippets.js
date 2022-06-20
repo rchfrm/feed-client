@@ -48,12 +48,22 @@ export const contentBlocks = (fieldName = 'content', type = 'blog') => `
       breakoutWidth
       ${image()}
     }
+    ... on EmbedRecord {
+      id
+      _modelApiKey
+      externalVideo {
+        providerUid
+        provider
+        url
+        title
+      }
+    }
+    ${type === 'blog' ? `
     ... on SectionHeaderRecord {
       id
       _modelApiKey
       header
     }
-    ${type === 'blog' ? `
     ... on PullquoteRecord {
       id
       _modelApiKey
@@ -65,17 +75,6 @@ export const contentBlocks = (fieldName = 'content', type = 'blog') => `
       colour
       buttonText
     }
-    ... on EmbedRecord {
-      id
-      _modelApiKey
-      externalVideo {
-        providerUid
-        provider
-        url
-        title
-      }
-      otherEmbed
-    }
     ... on NewsletterSignUpRecord {
       id
       _modelApiKey
@@ -83,7 +82,7 @@ export const contentBlocks = (fieldName = 'content', type = 'blog') => `
       cta
     }
     ` : ''}
-    
+
   }
 `
 
