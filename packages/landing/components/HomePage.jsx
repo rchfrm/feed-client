@@ -49,7 +49,8 @@ export default function HomePage({ pageData }) {
 
 HomePage.propTypes = {
   pageData: PropTypes.shape({
-    strapLine: PropTypes.string.isRequired,
+    straplineA: PropTypes.string.isRequired,
+    straplineB: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     mobileImage: PropTypes.object.isRequired,
     desktopImage: PropTypes.object.isRequired,

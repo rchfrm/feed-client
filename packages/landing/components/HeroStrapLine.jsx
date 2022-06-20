@@ -5,7 +5,6 @@ export default function HeroStrapLine({ strapLine }) {
     <h1
       className={[
         'mb-0',
-        'font-normal',
         'leading-[1.1]',
         'text-[2rem]',
         'xxs:text-[2.5rem]',
