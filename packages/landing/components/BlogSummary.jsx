@@ -44,6 +44,7 @@ const BlogSummary = ({
             <BlogSummaryItem
               className={[
                 'col-span-12',
+                'sm:col-span-6',
                 blogs.length === 1 ? 'lg:col-span-4' : 'lg:col-span-3',
               ].join(' ')}
               key={blog.id}
