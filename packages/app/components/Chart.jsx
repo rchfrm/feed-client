@@ -186,19 +186,13 @@ const Chart = ({
       min: currentDataSource === 'facebook_ad_spend_feed' ? 0 : Math.max(0, Math.round(min * 0.99) - 1),
     }
     setChartBarLimit(newChartBarLimit)
-    const increaseArr = periodValues.map((datum, index) => {
-      if (index === 0) return 0
-      // Get previous value, skipping gaps
-      let previousValue = null
-      let i = 1
-      while (typeof previousValue !== 'number') {
-        previousValue = periodValues[index - i]
-        i += 1
+
+    const increaseArr = periodValues.reduce((result, currentValue, index, array) => {
+      if (index !== 0) {
+        result.push(currentValue - array[index - 1])
       }
-      const value = datum - previousValue
-      if (value < 0) return 0
-      return value
-    })
+      return result
+    }, [0])
 
     const carriedArr = periodValues.map((datum, index) => {
       return datum - increaseArr[index]
@@ -377,7 +371,7 @@ const Chart = ({
       {/* Loading spinner */}
       {loading && <Spinner className={styles.chartSpinner} />}
       {/* No data warning */}
-      {error && <p className={styles.chartError}>Insufficent Data</p>}
+      {error && <p className={styles.chartError}>Insufficient Data</p>}
       {/* CHART */}
       <div className={heightClasses || styles.chartContainer__inner}>
         <MixedChart
