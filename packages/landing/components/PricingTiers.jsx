@@ -4,17 +4,22 @@ import PricingPeriodToggle from '@/landing/PricingPeriodToggle'
 import React from 'react'
 import PricingCurrencySelect from '@/landing/PricingCurrencySelect'
 import MarkdownText from '@/elements/MarkdownText'
-import copy from '@/landing/copy/PricingPageCopy'
+import { pricingCopy } from '@/landing/copy/PricingPageCopy'
 
 const {
   twoThousandPlus,
   footnotes,
-} = copy
+  pricingTiers,
+} = pricingCopy
 
 export default function PricingTiers() {
+  const { maxSpendMultiple, monthlyCost } = pricingTiers.find(tier => tier.name === 'Pro')
   const [showAnnualPricing, setShowAnnualPricing] = React.useState(false)
   const [currency, setCurrency] = React.useState('GBP')
-  const { pricingTiers } = copy
+  const [maxSpend, setMaxSpend] = React.useState(monthlyCost[currency] * maxSpendMultiple)
+  React.useEffect(() => {
+    setMaxSpend(monthlyCost[currency] * maxSpendMultiple)
+  }, [currency, maxSpendMultiple, monthlyCost])
   return (
     <div
       className={[
@@ -37,7 +42,7 @@ export default function PricingTiers() {
       </div>
       <PricingTiersWrapper tiers={pricingTiers} showAnnualPricing={showAnnualPricing} currency={currency} />
       <ManagedTier currency={currency} />
-      <MarkdownText markdown={twoThousandPlus} className="text-center mb-10" />
+      <MarkdownText markdown={twoThousandPlus(currency, maxSpend)} className="text-center mb-10" />
       <MarkdownText markdown={footnotes} className="small--p mb-0" />
     </div>
   )

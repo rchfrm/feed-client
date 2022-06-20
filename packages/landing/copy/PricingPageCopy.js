@@ -1,8 +1,20 @@
 /* eslint-disable quotes */
 
-export default {
+import { getCurrencySymbol } from '@/helpers/utils'
+
+export const getMaxSpendString = (currency, maxSpend) => {
+  const currencySymbol = getCurrencySymbol(currency)
+  if (currencySymbol === 'kr') {
+    return `${maxSpend} ${currencySymbol}`
+  }
+  return `${currencySymbol}${maxSpend}`
+}
+export const pricingCopy = {
   strapLine: 'Grow reach, sales and never log in to Ads Manager',
-  twoThousandPlus: 'Spending more than £2,000 per month? [Get in touch](https://meetings.hubspot.com/feed/enterprise)',
+  twoThousandPlus: (currency, maxSpend) => {
+    const maxSpendString = getMaxSpendString(currency, maxSpend)
+    return `Spending more than ${maxSpendString} per month? [Get in touch](https://meetings.hubspot.com/feed/enterprise)`
+  },
   currencies: [
     'GBP',
     'USD',

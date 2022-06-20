@@ -6,9 +6,9 @@ import PricingTierFeatures from '@/landing/PricingTierFeatures'
 import React from 'react'
 import TryFeed from '@/landing/TryFeed'
 import { getCurrencySymbol } from '@/helpers/utils'
-import copy from '@/landing/copy/PricingPageCopy'
+import { getMaxSpendString, pricingCopy } from '@/landing/copy/PricingPageCopy'
 
-const { currencies } = copy
+const { currencies } = pricingCopy
 
 export default function PricingTier({ tier, showAnnualPricing, currency }) {
   const {
@@ -23,9 +23,10 @@ export default function PricingTier({ tier, showAnnualPricing, currency }) {
   const [expandedFeatureList, setExpandedFeatureList] = React.useState(features)
   React.useEffect(() => {
     if (maxSpendMultiple) {
+      const maxSpendString = getMaxSpendString(currency, monthlyCost[currency] * maxSpendMultiple)
       setExpandedFeatureList([
         ...features,
-        `${getCurrencySymbol(currency)}${monthlyCost[currency] * maxSpendMultiple} max monthly spend per profile^`,
+        `${maxSpendString} max monthly spend per profile^`,
       ])
     } else {
       setExpandedFeatureList(features)

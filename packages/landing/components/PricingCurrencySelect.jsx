@@ -1,8 +1,8 @@
 import Select from '@/elements/Select'
 import PropTypes from 'prop-types'
-import copy from '@/landing/copy/PricingPageCopy'
+import { pricingCopy } from '@/landing/copy/PricingPageCopy'
 
-const { currencies } = copy
+const { currencies } = pricingCopy
 
 export default function PricingCurrencySelect({ currency, setCurrency }) {
   const handleChange = e => setCurrency(e.target.value)
