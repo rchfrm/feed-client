@@ -21,6 +21,7 @@ export default function PrimaryCTA({
       className={[
         styles.primaryCTASection,
       ].join(' ')}
+      fullWidth
     >
       <Link href={joinLink}>
         <Button

@@ -16,6 +16,7 @@ const TertiaryCTA = React.forwardRef(({
       className={[
         primaryStyles.primaryCTASection,
       ].join(' ')}
+      fullWidth
     >
       <NewsletterSignup
         header={header}
