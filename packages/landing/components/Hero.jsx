@@ -17,7 +17,7 @@ const Hero = ({
       className={[
         'flex',
         'flex-column',
-        'gap-y-15',
+        'gap-y-10',
         'sm:grid',
         'sm:grid-cols-12',
         'sm:gap-x-4',

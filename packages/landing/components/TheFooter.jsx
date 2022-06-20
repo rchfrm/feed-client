@@ -1,11 +1,7 @@
 import TheFooterNavigationItem from '@/landing/TheFooterNavigationItem'
 import TheFooterSocialLink from '@/landing/TheFooterSocialLink'
 import TheFooterColophon from '@/landing/TheFooterColophon'
-
 import copy from '@/landing/copy/LandingPageCopy'
-import * as styles from '@/landing/TheFooter.module.css'
-
-// Global info store
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
 const getGlobalInfo = state => state
@@ -76,10 +72,3 @@ const TheFooter = () => {
 }
 
 export default TheFooter
-
-// In the future
-// -- request a new feature, see Buffer's Typeform
-// -- product roadmap, see Buffer's link to a public Trello board
-// -- specific feature pages
-// -- customers
-// -- investors area
