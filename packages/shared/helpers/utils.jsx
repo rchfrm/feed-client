@@ -1,4 +1,3 @@
-// IMPORT PACKAGES
 // import React from 'react'
 import moment from 'moment'
 import url from 'url'
@@ -7,7 +6,6 @@ import getVideoId from 'get-video-id'
 import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '@/constants/countries'
 import get from 'lodash/get'
-import { number } from 'tailwindcss/lib/util/dataTypes'
 
 export const capitalise = (string) => {
   if (!string) return
