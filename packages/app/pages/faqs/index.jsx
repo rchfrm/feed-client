@@ -1,20 +1,19 @@
 import BasePage from '@/app/BasePage'
-import FaqContent from '@/app/FaqContent'
-// Dato data
+import FaqCategories from '@/app/FaqCategories'
 import getDatoData from '@/helpers/getDatoData'
-import query from '@/app/graphQl/faqsQuery'
+import { getAllFaqQuestionsQuery } from '@/app/graphQl/faqsQueries'
 
-const headerConfig = {
+export const faqHeaderConfig = {
   text: 'FAQs',
 }
 
-const Page = ({ faqs }) => {
+export default function Page({ faqs }) {
   return (
     <BasePage
-      headerConfig={headerConfig}
+      headerConfig={faqHeaderConfig}
       staticPage
     >
-      <FaqContent faqs={faqs} />
+      <FaqCategories faqs={faqs} />
     </BasePage>
   )
 }
@@ -23,12 +22,14 @@ const Page = ({ faqs }) => {
 // https://nextjs.org/docs/basic-features/data-fetching#write-server-side-code-directly
 export async function getStaticProps() {
   const forceLoad = false
-  const { data: { faqsApp: { faqs } } } = await getDatoData(query, 'faqsQuery', forceLoad)
+  const {
+    data: {
+      allFaqArticles: faqs,
+    },
+  } = await getDatoData(getAllFaqQuestionsQuery(), 'faqQuestions', forceLoad)
   return {
     props: {
       faqs,
     },
   }
 }
-
-export default Page

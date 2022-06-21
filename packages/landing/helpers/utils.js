@@ -7,35 +7,6 @@ export const getLinkType = (href) => {
   return 'external'
 }
 
-export const hexToRGBA = (hex, opacity) => {
-  const hexNumbers = hex.slice(1)
-  const r = parseInt(hexNumbers.slice(0, 2), 16)
-  const g = parseInt(hexNumbers.slice(2, 4), 16)
-  const b = parseInt(hexNumbers.slice(4), 16)
-  const a = opacity >= 0 && opacity <= 1 ? opacity : ''
-  return `rgba(${r}, ${g}, ${b}, ${a})`
-}
-
-export const maxArrayValue = (array) => {
-  let max = array[0]
-  array.forEach(item => {
-    if (item > max) {
-      max = item
-    }
-  })
-  return max
-}
-
-export const minArrayValue = (array) => {
-  let min = array[0]
-  array.forEach(item => {
-    if (item < min) {
-      min = item
-    }
-  })
-  return min
-}
-
 export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
   if (value === null || typeof value === 'undefined' || Number.isNaN(value)) return
   const currencyToUse = currency === null ? 'GBP' : currency

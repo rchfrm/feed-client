@@ -9,7 +9,8 @@ export const LOGIN_FACEBOOK = '/login/facebook'
 export const PASSWORD_FORGET = '/forgot-password'
 export const PASSWORD_RESET = '/password-reset'
 
-export const FAQ = '/faq'
+export const FAQS = '/faqs'
+export const FAQS_SLUG = '/faqs/[slug]'
 export const PRICING = 'https://tryfeed.co/pricing'
 
 export const CONNECT_ACCOUNTS = '/connect-accounts'
@@ -24,6 +25,7 @@ export const RESULTS = '/results'
 export const NOTIFICATIONS = '/notifications'
 export const TARGETING = '/targeting'
 export const CONTROLS = '/controls'
+export const CONTROLS_SLUG = '/controls/[slug]'
 export const CONTROLS_OBJECTIVE = '/controls/objective'
 export const CONTROLS_BUDGET = '/controls/budget'
 export const CONTROLS_TARGETING = '/controls/targeting'
@@ -64,7 +66,7 @@ export const signedOutPages = [
   PASSWORD_RESET,
 ]
 
-// Array of controls sub-pages
+// Array of controls subpages
 export const controlsPages = [
   CONTROLS_OBJECTIVE,
   CONTROLS_BUDGET,
@@ -72,4 +74,10 @@ export const controlsPages = [
   CONTROLS_LINKS,
   CONTROLS_INTEGRATIONS,
   CONTROLS_ADS,
+]
+
+// Array of subpages
+export const subPages = [
+  CONTROLS_SLUG,
+  FAQS_SLUG,
 ]

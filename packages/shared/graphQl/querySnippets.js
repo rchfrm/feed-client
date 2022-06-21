@@ -77,17 +77,6 @@ export const contentBlocks = (fieldName = 'content', type = 'blog') => `
       colour
       buttonText
     }
-    ... on EmbedRecord {
-      id
-      _modelApiKey
-      externalVideo {
-        providerUid
-        provider
-        url
-        title
-      }
-      otherEmbed
-    }
     ... on NewsletterSignUpRecord {
       id
       _modelApiKey
