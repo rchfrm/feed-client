@@ -11,7 +11,7 @@ export const getMaxSpendString = (currency, maxSpend) => {
   return `${currencySymbol}${formattedSpend}`
 }
 export const pricingCopy = {
-  strapLine: 'Grow reach, sales and never log in to Ads Manager',
+  strapLine: 'Grow reach, sales and **never log in to Ads Manager**',
   twoThousandPlus: (currency, maxSpend) => {
     const maxSpendString = getMaxSpendString(currency, maxSpend)
     return `Spending more than ${maxSpendString} per month? [Get in touch](https://meetings.hubspot.com/feed/enterprise)`

@@ -10,8 +10,7 @@ import TertiaryCTA from '@/landing/TertiaryCTA'
 
 export default function HomePage({ pageData }) {
   const {
-    straplineA,
-    straplineB,
+    strapLine,
     description,
     mobileImage,
     desktopImage,
@@ -27,7 +26,7 @@ export default function HomePage({ pageData }) {
   return (
     <>
       <Hero
-        strapLine={`${straplineA} ${straplineB}`}
+        strapLine={strapLine}
         copy={description}
         imageMobile={mobileImage}
         imageDesktop={desktopImage}
@@ -49,8 +48,7 @@ export default function HomePage({ pageData }) {
 
 HomePage.propTypes = {
   pageData: PropTypes.shape({
-    straplineA: PropTypes.string.isRequired,
-    straplineB: PropTypes.string.isRequired,
+    strapLine: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     mobileImage: PropTypes.object.isRequired,
     desktopImage: PropTypes.object.isRequired,

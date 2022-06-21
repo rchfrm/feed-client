@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types'
+import MarkdownText from '@/elements/MarkdownText'
+import * as styles from './Hero.module.css'
 
 export default function HeroStrapLine({ strapLine }) {
   return (
-    <h1
+    <MarkdownText
+      markdown={strapLine}
       className={[
         'mb-0',
         'leading-[1.1]',
@@ -12,10 +15,9 @@ export default function HeroStrapLine({ strapLine }) {
         'sm:col-span-12',
         'lg:col-span-9',
         'lg:text-6xl',
+        styles.heroStrapLineUnderline,
       ].join(' ')}
-    >
-      {strapLine}
-    </h1>
+    />
   )
 }
 

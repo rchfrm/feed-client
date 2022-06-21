@@ -33,8 +33,9 @@ const FeatureItem = ({
         <h3
           className={[
             'underline',
+            'decoration-green',
+            'decoration-2',
             'mb-7',
-            'text-green',
             'leading-tight',
           ].join(' ')}
         >

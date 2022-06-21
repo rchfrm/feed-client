@@ -13,7 +13,7 @@ export default function PricingPage() {
     <Section>
       <div
         className={[
-          'bg-redLight',
+          'bg-fb',
           'rounded-dialogue',
           'p-4',
           'text-white',
