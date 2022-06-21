@@ -6,7 +6,7 @@ import Button from '@/elements/Button'
 import PricingTierFeatures from '@/landing/PricingTierFeatures'
 import { pricingCopy } from '@/landing/copy/PricingPageCopy'
 
-const { currencyOptions } = pricingCopy
+const { currencies } = pricingCopy
 
 const managedTier = {
   name: 'Managed',
@@ -83,5 +83,5 @@ export default function ManagedTier({ currency }) {
 }
 
 ManagedTier.propTypes = {
-  currency: PropTypes.oneOf(currencyOptions).isRequired,
+  currency: PropTypes.oneOf(currencies).isRequired,
 }

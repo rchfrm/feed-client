@@ -7,6 +7,7 @@ import getVideoId from 'get-video-id'
 import getSymbolFromCurrency from 'currency-symbol-map'
 import countries from '@/constants/countries'
 import get from 'lodash/get'
+import { number } from 'tailwindcss/lib/util/dataTypes'
 
 export const capitalise = (string) => {
   if (!string) return
@@ -275,6 +276,23 @@ export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
 export const formatNumber = (number, options = {}, locale = navigator.language) => {
   if (typeof number !== 'number') { return number }
   return new Intl.NumberFormat(locale, options).format(number)
+}
+
+export const addCommasToNumber = number => {
+  if (typeof number !== 'number') return number
+  const numberArray = Array.from(number.toString()).reverse()
+  return numberArray.reduce((acc, digit, index) => {
+    if (
+      (index + 1) % 3 === 0
+      && index < numberArray.length - 1
+    ) {
+      return [...acc, `,${digit}`]
+    }
+    return [...acc, digit]
+    //   return acc.push(`,${digit}`)
+    // }
+    // return acc.push(digit)
+  }, []).reverse().join('')
 }
 
 // Abbreviate number

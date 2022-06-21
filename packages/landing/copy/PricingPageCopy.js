@@ -1,13 +1,14 @@
 /* eslint-disable quotes */
 
-import { getCurrencySymbol } from '@/helpers/utils'
+import { addCommasToNumber, getCurrencySymbol } from '@/helpers/utils'
 
 export const getMaxSpendString = (currency, maxSpend) => {
   const currencySymbol = getCurrencySymbol(currency)
+  const formattedSpend = addCommasToNumber(maxSpend)
   if (currencySymbol === 'kr') {
-    return `${maxSpend} ${currencySymbol}`
+    return `${formattedSpend} ${currencySymbol}`
   }
-  return `${currencySymbol}${maxSpend}`
+  return `${currencySymbol}${formattedSpend}`
 }
 export const pricingCopy = {
   strapLine: 'Grow reach, sales and never log in to Ads Manager',
