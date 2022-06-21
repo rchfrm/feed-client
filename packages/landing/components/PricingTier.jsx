@@ -5,7 +5,6 @@ import PricingTierServiceFee from '@/landing/PricingTierServiceFee'
 import PricingTierFeatures from '@/landing/PricingTierFeatures'
 import React from 'react'
 import TryFeed from '@/landing/TryFeed'
-import { getCurrencySymbol } from '@/helpers/utils'
 import { getMaxSpendString, pricingCopy } from '@/landing/copy/PricingPageCopy'
 
 const { currencies } = pricingCopy
