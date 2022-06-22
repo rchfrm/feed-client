@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-
 import * as server from '@/admin/helpers/adminServer'
 
 const ArtistActivationStatusButton = ({ artistId, artistStatus, setArtistsStatus }) => {

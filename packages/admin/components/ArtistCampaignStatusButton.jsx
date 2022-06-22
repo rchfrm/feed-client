@@ -2,7 +2,6 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import React from 'react'
 import * as server from '@/admin/helpers/adminServer'
-import { patchArtistCampaignStatus } from '@/admin/helpers/adminServer'
 
 export default function ArtistCampaignStatusButton({ artistId, artistStatus, setArtistStatus }) {
   const [error, setError] = React.useState(null)
