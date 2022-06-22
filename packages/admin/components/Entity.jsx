@@ -165,26 +165,36 @@ const Entity = ({ entity, propsToDisplay }) => {
           integrations={entity.integrations}
         />
 
-        {/* PATCH INSTAGRAM BUSINESS ID */}
-        <PatchArtist
-          artistId={entity.id}
-          artistName={entity.name}
-          integrations={entity.integrations}
-        />
+        <div
+          className={[
+            'flex',
+            'flex-wrap',
+            'gap-4',
+            'mb-4',
+          ].join(' ')}
+        >
 
-        {/* ACTIVATE ARTIST */}
-        <ArtistActivationStatusButton
-          artistId={entity.id}
-          artistStatus={artistActivationStatus}
-          setArtistsStatus={setArtistActivationStatus}
-        />
+          {/* PATCH INSTAGRAM BUSINESS ID */}
+          <PatchArtist
+            artistId={entity.id}
+            artistName={entity.name}
+            integrations={entity.integrations}
+          />
 
-        {/* ARTIST CAMPAIGN STATUS */}
-        <ArtistCampaignStatusButton
-          artistId={entity.id}
-          artistStatus={artistCampaignStatus}
-          setArtistStatus={setArtistCampaignStatus}
-        />
+          {/* ACTIVATE ARTIST */}
+          <ArtistActivationStatusButton
+            artistId={entity.id}
+            artistStatus={artistActivationStatus}
+            setArtistsStatus={setArtistActivationStatus}
+          />
+
+          {/* ARTIST CAMPAIGN STATUS */}
+          <ArtistCampaignStatusButton
+            artistId={entity.id}
+            artistStatus={artistCampaignStatus}
+            setArtistStatus={setArtistCampaignStatus}
+          />
+        </div>
 
         {/* TOTAL SPEND */}
         <TotalSpendLoader
