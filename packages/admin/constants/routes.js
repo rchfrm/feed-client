@@ -3,7 +3,7 @@
 export const LOGIN = '/login'
 export const PASSWORD_FORGET = '/forgot-password'
 export const ARTISTS = '/'
-export const ARTIST = '/artist'
+export const ARTIST = '/artists'
 export const USERS = '/users'
 export const USER = '/user'
 export const ORGANISATION = '/organisation'

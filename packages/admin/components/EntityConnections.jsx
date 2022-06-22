@@ -30,6 +30,8 @@ const EntityConnections = ({ connections, connectionType }) => {
         ].join(' ')}
       >
         {connections.map(({ id, name }, index) => {
+          // eslint-disable-next-line import/namespace
+          const pathname = connectionType === 'Artist' ? `${ROUTES[entityRoute]}/[id]` : ROUTES[entityRoute]
           return (
             <li className="pl-3" key={id}>
               <p>
@@ -41,8 +43,7 @@ const EntityConnections = ({ connections, connectionType }) => {
               <p>
                 <Link
                   href={{
-                    // eslint-disable-next-line import/namespace
-                    pathname: ROUTES[entityRoute],
+                    pathname,
                     query: { id },
                   }}
                 >
