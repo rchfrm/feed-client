@@ -10,7 +10,8 @@ import { capitalise } from '@/helpers/utils'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import TotalSpendLoader from '@/admin/TotalSpendLoader'
-import ArtistStatusButton from '@/admin/ArtistStatusButton'
+import ArtistActivationStatusButton from '@/admin/ArtistActivationStatusButton'
+import ArtistCampaignStatusButton from '@/admin/ArtistCampaignStatusButton'
 
 const CategoryWrapper = ({ entityType, children }) => {
   return (
@@ -133,7 +134,8 @@ const Category = ({ entityType, id }) => {
 }
 
 const Entity = ({ entity, propsToDisplay }) => {
-  const [artistStatus, setArtistStatus] = React.useState(entity.status)
+  const [artistActivationStatus, setArtistActivationStatus] = React.useState(entity.status)
+  const [artistCampaignStatus, setArtistCampaignStatus] = React.useState(entity.preferences.targeting.status)
   const entityInfo = getEntityInfo(entity)
   if (!entity) {
     return null
@@ -171,7 +173,18 @@ const Entity = ({ entity, propsToDisplay }) => {
         />
 
         {/* ACTIVATE ARTIST */}
-        <ArtistStatusButton setArtistsStatus={setArtistStatus} artistStatus={artistStatus} artistId={entity.id} />
+        <ArtistActivationStatusButton
+          artistId={entity.id}
+          artistStatus={artistActivationStatus}
+          setArtistsStatus={setArtistActivationStatus}
+        />
+
+        {/* ARTIST CAMPAIGN STATUS */}
+        <ArtistCampaignStatusButton
+          artistId={entity.id}
+          artistStatus={artistCampaignStatus}
+          setArtistStatus={setArtistCampaignStatus}
+        />
 
         {/* TOTAL SPEND */}
         <TotalSpendLoader

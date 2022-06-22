@@ -6,7 +6,7 @@ import Error from '@/elements/Error'
 
 import * as server from '@/admin/helpers/adminServer'
 
-const ArtistStatusButton = ({ artistId, artistStatus, setArtistsStatus }) => {
+const ArtistActivationStatusButton = ({ artistId, artistStatus, setArtistsStatus }) => {
   const [error, setError] = React.useState(null)
   const [loading, setLoading] = React.useState(false)
   // Define button props
@@ -48,7 +48,7 @@ const ArtistStatusButton = ({ artistId, artistStatus, setArtistsStatus }) => {
         version="black small"
         loading={loading}
         onClick={() => updateStatus(artistId, buttonProps.action)}
-        trackComponentName="ArtistStatusButton"
+        trackComponentName="ArtistActivationStatusButton"
       >
         {buttonProps.text}
       </Button>
@@ -57,10 +57,10 @@ const ArtistStatusButton = ({ artistId, artistStatus, setArtistsStatus }) => {
   )
 }
 
-ArtistStatusButton.propTypes = {
+ArtistActivationStatusButton.propTypes = {
   artistId: PropTypes.string.isRequired,
   artistStatus: PropTypes.string.isRequired,
   setArtistsStatus: PropTypes.func.isRequired,
 }
 
-export default ArtistStatusButton
+export default ArtistActivationStatusButton

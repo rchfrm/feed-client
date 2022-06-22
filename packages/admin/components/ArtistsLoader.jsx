@@ -1,13 +1,10 @@
-// import useSWR, { useSWRPages } from 'swr'
 import React from 'react'
-import PropTypes from 'prop-types'
 import Error from '@/elements/Error'
 import ArtistsFilters from '@/admin/ArtistsFilters'
 import ListSearch from '@/admin/elements/ListSearch'
 import EntityList from '@/admin/EntityList'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-import Entity from '@/admin/Entity'
 
 const ArtistsLoader = () => {
   const propsToDisplay = [
