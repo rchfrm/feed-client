@@ -63,8 +63,12 @@ const PostSettingsCaption = ({
   const handleChange = () => {
     setIsDefaultAdMessage(!isDefaultAdMessage)
 
-    if (!isDefaultAdMessage && caption !== post?.message) {
-      setShouldShowSaveButton(true)
+    if (!isDefaultAdMessage) {
+      setShouldShowSaveButton(savedCaption !== post?.message)
+    }
+
+    if (isDefaultAdMessage) {
+      setShouldShowSaveButton(savedCaption !== caption)
     }
   }
 

@@ -75,8 +75,12 @@ const PostSettingsCallToAction = ({
   const handleChange = () => {
     setIsDefaultCallToAction(!isDefaultCallToAction)
 
-    if (!isDefaultCallToAction && currentCallToAction !== defaultCallToAction) {
-      setShouldShowSaveButton(true)
+    if (!isDefaultCallToAction) {
+      setShouldShowSaveButton(savedCallToAction !== defaultCallToAction)
+    }
+
+    if (isDefaultCallToAction) {
+      setShouldShowSaveButton(savedCallToAction !== currentCallToAction)
     }
   }
 

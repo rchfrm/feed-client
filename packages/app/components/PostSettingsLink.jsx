@@ -54,8 +54,12 @@ const PostSettingsLink = ({
   const handleChange = () => {
     setIsDefaultLink(!isDefaultLink)
 
-    if (!isDefaultLink && currentLink.id !== defaultLink?.id) {
-      setShouldShowSaveButton(true)
+    if (!isDefaultLink) {
+      setShouldShowSaveButton(savedLink?.id !== defaultLink?.id)
+    }
+
+    if (isDefaultLink) {
+      setShouldShowSaveButton(savedLink?.id !== currentLink.id)
     }
   }
 
