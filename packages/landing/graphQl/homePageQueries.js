@@ -16,8 +16,7 @@ function getQuery(page) {
   return `
     query {
       ${getFilter(page)} {
-        straplineA
-        straplineB
+        strapLine
         description
         ${image('mobileImage')}
         ${image('desktopImage')}

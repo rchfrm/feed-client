@@ -8,8 +8,7 @@ export default function TheFooterNavigationItem({ copy }) {
   return (
     <div
       className={[
-        styles.theFooterNav,
-        styles.footerColumn,
+        'w-full',
         'col-span-6',
         'xs:col-span-4',
         'sm:col-span-3',
@@ -17,27 +16,11 @@ export default function TheFooterNavigationItem({ copy }) {
     >
       <MarkdownText
         markdown={copy}
-        className={styles.footerColumnCopy}
+        className={[
+          styles.footerColumnCopy,
+          'pt-4',
+        ].join(' ')}
       />
-      {/* <ul className={classes.list}>
-        {copy.links.map(({ href, text }, index) => {
-          return (
-            <li key={index}>
-              <p>
-                <Anchor
-                  className={[
-                    'button--text',
-                  ].join(' ')}
-                  href={href}
-                  activeClass="-active"
-                >
-                  <span className="button--inner">{text}</span>
-                </Anchor>
-              </p>
-            </li>
-          )
-        })}
-      </ul> */}
     </div>
   )
 }

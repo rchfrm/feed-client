@@ -48,6 +48,7 @@ export const contentBlocks = (fieldName = 'content', type = 'blog') => `
       breakoutWidth
       ${image()}
     }
+    ${type === 'blog' || type === 'faq' ? `
     ... on EmbedRecord {
       id
       _modelApiKey
@@ -58,6 +59,7 @@ export const contentBlocks = (fieldName = 'content', type = 'blog') => `
         title
       }
     }
+    ` : ''}
     ${type === 'blog' ? `
     ... on SectionHeaderRecord {
       id

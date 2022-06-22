@@ -1,11 +1,8 @@
 import React from 'react'
-
 import TheHead from '@/landing/TheHead'
 import TheHeader from '@/landing/TheHeader'
 import TheFooter from '@/landing/TheFooter'
 import BrowserStoreSetup from '@/landing/BrowserStoreSetup'
-
-// Stylesheets
 import '../../shared/css/core.css'
 import '../../shared/css/app.css'
 import '../../shared/css/utilities.css'
@@ -35,17 +32,20 @@ const FeedLanding = ({ Component, pageProps }) => {
     <>
       <TheHead />
 
-      <div id="container-landing">
+      <TheHeader />
 
-        <TheHeader />
+      <main
+        className={[
+          'block',
+          'flex-auto',
+          'w-full',
+          'mt-24',
+        ].join(' ')}
+      >
+        <Component {...pageProps} />
+      </main>
 
-        <main id="page--container-landing">
-          <Component {...pageProps} />
-        </main>
-
-        <TheFooter />
-
-      </div>
+      <TheFooter />
 
       {/* Setup browser store */}
       <BrowserStoreSetup />
