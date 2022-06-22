@@ -10,6 +10,7 @@ import { capitalise } from '@/helpers/utils'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import TotalSpendLoader from '@/admin/TotalSpendLoader'
+import ArtistStatusButton from '@/admin/ArtistStatusButton'
 
 const CategoryWrapper = ({ entityType, children }) => {
   return (
@@ -132,6 +133,7 @@ const Category = ({ entityType, id }) => {
 }
 
 const Entity = ({ entity, propsToDisplay }) => {
+  const [artistStatus, setArtistStatus] = React.useState(entity.status)
   const entityInfo = getEntityInfo(entity)
   if (!entity) {
     return null
@@ -167,6 +169,9 @@ const Entity = ({ entity, propsToDisplay }) => {
           artistName={entity.name}
           integrations={entity.integrations}
         />
+
+        {/* ACTIVATE ARTIST */}
+        <ArtistStatusButton setArtistsStatus={setArtistStatus} artistStatus={artistStatus} artistId={entity.id} />
 
         {/* TOTAL SPEND */}
         <TotalSpendLoader

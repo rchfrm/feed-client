@@ -4,6 +4,7 @@ import testPageReady from '@/hoc/testPageReady'
 import BasePage from '@/admin/BasePage'
 import ArtistsLoader from '@/admin/ArtistsLoader'
 import PageQuerySetter from '@/admin/PageQuerySetter'
+import ArtistLoader from '@/admin/ArtistLoader'
 
 const Artist = () => {
   const {
@@ -11,11 +12,12 @@ const Artist = () => {
       id,
     },
   } = useRouter()
+  console.log('id', id)
   return (
     <BasePage
       header="artist"
     >
-      <ArtistsLoader
+      <ArtistLoader
         id={id}
       />
     </BasePage>
