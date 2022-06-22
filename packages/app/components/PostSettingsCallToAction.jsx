@@ -40,6 +40,7 @@ const PostSettingsCallToAction = ({
 
   const [isDefaultCallToAction, setIsDefaultCallToAction] = React.useState(true)
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
@@ -74,8 +75,8 @@ const PostSettingsCallToAction = ({
   const handleChange = () => {
     setIsDefaultCallToAction(!isDefaultCallToAction)
 
-    if (!isDefaultCallToAction) {
-      setCurrentCallToAction(defaultCallToAction)
+    if (!isDefaultCallToAction && currentCallToAction !== defaultCallToAction) {
+      setShouldShowSaveButton(true)
     }
   }
 
@@ -100,9 +101,11 @@ const PostSettingsCallToAction = ({
 
   // Save currently selected call to action and hide save button
   const save = async () => {
+    setIsLoading(true)
+
     const { res: callToAction, error } = await setPostCallToAction({
       artistId,
-      callToAction: currentCallToAction,
+      callToAction: isDefaultCallToAction ? defaultCallToAction : currentCallToAction,
       hasSalesObjective,
       assetId: postId,
       campaignType,
@@ -111,6 +114,8 @@ const PostSettingsCallToAction = ({
 
     if (error) {
       setError(error)
+      setIsLoading(false)
+
       return
     }
 
@@ -120,6 +125,8 @@ const PostSettingsCallToAction = ({
     if (currentCallToAction === defaultCallToAction) {
       setIsDefaultCallToAction(true)
     }
+
+    setIsLoading(false)
   }
 
   // Watch for call to action changes and show save button if there has been a change
@@ -159,6 +166,7 @@ const PostSettingsCallToAction = ({
         <PostSettingsSaveButton
           onClick={save}
           shouldShow={shouldShowSaveButton}
+          isLoading={isLoading}
         />
       </div>
       <CheckboxInput

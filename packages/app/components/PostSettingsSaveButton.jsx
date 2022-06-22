@@ -6,6 +6,7 @@ import Button from '@/elements/Button'
 const PostSettingsSaveButton = ({
   onClick,
   shouldShow,
+  isLoading,
 }) => {
   return (
     shouldShow && (
@@ -16,6 +17,7 @@ const PostSettingsSaveButton = ({
           'rounded-full',
         ].join(' ')}
         onClick={onClick}
+        loading={isLoading}
         trackComponentName="PostSettingsSaveButton"
       >
         Save
@@ -25,8 +27,9 @@ const PostSettingsSaveButton = ({
 }
 
 PostSettingsSaveButton.propTypes = {
-  shouldShow: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
+  shouldShow: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 }
 
 PostSettingsSaveButton.defaultProps = {

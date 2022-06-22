@@ -38,6 +38,7 @@ const PostSettingsCaption = ({
 
   const [isDefaultAdMessage, setIsDefaultAdMessage] = React.useState(true)
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
@@ -62,11 +63,8 @@ const PostSettingsCaption = ({
   const handleChange = () => {
     setIsDefaultAdMessage(!isDefaultAdMessage)
 
-    // On check set caption equal to original post message
-    if (!isDefaultAdMessage) {
-      setCaption(post?.message)
-    } else {
-      setCaption(currentAdMessage.message || '')
+    if (!isDefaultAdMessage && caption !== post?.message) {
+      setShouldShowSaveButton(true)
     }
   }
 
@@ -97,6 +95,8 @@ const PostSettingsCaption = ({
 
   // Save current ad message and hide save button
   const save = async () => {
+    setIsLoading(true)
+
     const isResetCaption = caption === null
     const action = isResetCaption ? resetPostCaption : updatePostCaption
 
@@ -105,16 +105,19 @@ const PostSettingsCaption = ({
       assetId: postId,
       adMessageId: currentAdMessage.id,
       campaignType,
-      caption,
+      caption: isDefaultAdMessage ? post?.message : caption,
     })
 
     if (error) {
       setError(error)
+      setIsLoading(false)
+
       return
     }
 
     setShouldShowSaveButton(false)
     updatePostState(adMessage)
+    setIsLoading(false)
   }
 
   // Watch for ad message changes and show save button if there has been a change
@@ -152,6 +155,7 @@ const PostSettingsCaption = ({
         <PostSettingsSaveButton
           onClick={save}
           shouldShow={shouldShowSaveButton}
+          isLoading={isLoading}
         />
       </div>
       {!noCaptionEditReason ? (
@@ -161,6 +165,7 @@ const PostSettingsCaption = ({
           checked={isDefaultAdMessage}
           onChange={handleChange}
           className="sm:pl-2"
+          disabled={isDisabled}
         />
       ) : (
         <MarkdownText markdown={noCaptionEditReason} className={['sm:pl-4', isDisabled ? 'text-grey-2' : 'text-red'].join(' ')} />

@@ -69,6 +69,14 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   const { active, inReview, rejected } = promotionStatusSlugs
   const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus) && hasPreviewLinkForSelectedCampaignType
 
+  React.useEffect(() => {
+    if (isConversionsCampaign) {
+      setIsConversionsEnabled(conversionsEnabled)
+    } else {
+      setIsPromotionEnabled(promotionEnabled)
+    }
+  }, [isConversionsCampaign, promotionEnabled, conversionsEnabled])
+
   return (
     <>
       <h2 className="hidden sm:block mb-8">Promotion settings</h2>

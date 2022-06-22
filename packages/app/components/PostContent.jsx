@@ -57,13 +57,9 @@ const PostContent = ({ post, updatePost }) => {
     if (!post) return
 
     const isMobile = width < 992
-    const isDesktop = width > 1220
-    const textLength = isDesktop ? 32 : 20
 
     if (!isMobile) {
-      const truncatedText = post?.message?.substring(0, textLength)
-
-      setHeader({ text: truncatedText ? `${truncatedText}...` : 'post' })
+      setHeader({ text: post?.message || 'post' })
       return
     }
 

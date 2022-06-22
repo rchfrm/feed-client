@@ -343,6 +343,10 @@ a[type=button] {
   font-size: var(--sp-4);
   padding: 0 1.2em;
   height: var(--button-height-small);
+
+  .button--spinner {
+    height: var(--sp-4);
+  }
 }
 
 .button--x-small {
