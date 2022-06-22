@@ -1,3 +1,10 @@
+.heroStrapLineUnderline {
+  strong {
+    text-decoration: underline;
+    text-decoration-color: var(--green);
+  }
+}
+
 .heroCTA {
   position: relative;
   z-index: 2;

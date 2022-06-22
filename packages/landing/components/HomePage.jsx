@@ -10,8 +10,7 @@ import TertiaryCTA from '@/landing/TertiaryCTA'
 
 export default function HomePage({ pageData }) {
   const {
-    straplineA,
-    straplineB,
+    strapLine,
     description,
     mobileImage,
     desktopImage,
@@ -27,31 +26,29 @@ export default function HomePage({ pageData }) {
   return (
     <>
       <Hero
-        heroStraplineA={straplineA}
-        heroCopy={description}
-        heroImageMobile={mobileImage}
-        heroImageDesktop={desktopImage}
-        heroStraplineB={straplineB}
+        strapLine={strapLine}
+        copy={description}
+        imageMobile={mobileImage}
+        imageDesktop={desktopImage}
       />
       {hasTestimonies && <Testimonies testimonies={testimonies} />}
-      <IntroVideo />
-      {hasPartners && <Partners partners={partners} />}
       {hasFeatures && <Features features={features} />}
       <PrimaryCTA />
+      <IntroVideo />
       {hasFeaturedArticles && (
         <>
           <BlogSummary featuredBlogArticles={featuredArticles} />
           <TertiaryCTA trackLocation="feed-landing" />
         </>
       )}
+      {hasPartners && <Partners partners={partners} />}
     </>
   )
 }
 
 HomePage.propTypes = {
   pageData: PropTypes.shape({
-    straplineA: PropTypes.string.isRequired,
-    straplineB: PropTypes.string.isRequired,
+    strapLine: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     mobileImage: PropTypes.object.isRequired,
     desktopImage: PropTypes.object.isRequired,

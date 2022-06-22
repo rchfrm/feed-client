@@ -4,24 +4,40 @@ import PropTypes from 'prop-types'
 import NewsletterSignup from '@/landing/NewsletterSignup'
 
 import * as primaryStyles from '@/landing/PrimaryCTA.module.css'
+import Section from '@/landing/Section'
 
 const TertiaryCTA = React.forwardRef(({
   header,
   trackLocation,
 }, ref) => {
   return (
-    <section
+    <Section
       ref={ref}
       className={[
-        'section--padding',
         primaryStyles.primaryCTASection,
       ].join(' ')}
+      fullWidth
     >
       <NewsletterSignup
+        className={[
+          'bg-white',
+          'border-2',
+          'border-green',
+          'border-solid',
+          'rounded-dialogue',
+          'mx-5',
+          'xs:mx-8',
+          'p-6',
+          'xs:p-10',
+          'md:p-12',
+          'max-w-2xl',
+          'xs:mx-10',
+          'sm:mx-auto',
+        ].join(' ')}
         header={header}
         trackLocation={trackLocation}
       />
-    </section>
+    </Section>
   )
 })
 

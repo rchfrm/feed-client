@@ -1,11 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import BlogSummaryItem from '@/landing/BlogSummaryItem'
-
 import * as blogHelpers from '@/landing/helpers/blogHelpers'
-
-import * as styles from '@/landing/BlogSummary.module.css'
+import Section from '@/landing/Section'
 
 const BlogSummary = ({
   featuredBlogArticles,
@@ -34,24 +31,21 @@ const BlogSummary = ({
   }, [featuredBlogArticles, sortBy, sortOrder])
 
   return (
-    <section className="section--padding bmw">
+    <Section>
       <ul className={[
-        styles.blogList,
-        'xs:grid',
+        'grid',
         'grid-cols-12',
         'gap-4',
-        'xs:gap-5',
-        'md:gap-20',
-        'lg:gap-6',
+        'gap-y-10',
       ].join(' ')}
       >
         {blogs.map((blog) => {
           return (
             <BlogSummaryItem
               className={[
-                'xs:col-span-6',
-                'md:col-span-6',
-                blogs.length === 1 ? 'lg:col-span-4' : 'lg:col-span-3',
+                'col-span-12',
+                'sm:col-span-6',
+                'lg:col-span-4',
               ].join(' ')}
               key={blog.id}
               blog={blog}
@@ -59,7 +53,7 @@ const BlogSummary = ({
           )
         })}
       </ul>
-    </section>
+    </Section>
   )
 }
 

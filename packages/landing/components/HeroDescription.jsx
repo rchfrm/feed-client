@@ -4,21 +4,18 @@ export default function HeroDescription({ description }) {
   return (
     <MarkdownText
       className={[
-        'text-xl',
-        'font-display',
-        'col-span-12',
-        'row-start-3',
-        'col-start-1',
-        'md:mr-6',
         'bg-white',
-
+        'font-display',
+        'text-xl',
         'sm:text-2xl',
-
         'md:text-xl',
+        'lg:text-2xl',
+        'sm:col-start-1',
+        'sm:col-span-12',
+        'md:row-start-3',
+        'md:mr-6',
         'md:z-10',
         'md:col-end-7',
-
-        'lg:text-2xl',
       ].join(' ')}
       markdown={description}
     />

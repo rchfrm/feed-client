@@ -1,35 +1,29 @@
 import PropTypes from 'prop-types'
+import MarkdownText from '@/elements/MarkdownText'
+import * as styles from './Hero.module.css'
 
-export default function HeroStrapLine({ partA, partB }) {
-  const fontSizing = [
-    'text-3xl',
-    'xxs:text-4xl',
-    'xs:text-5xl',
-  ]
+export default function HeroStrapLine({ strapLine }) {
   return (
-    <div
+    <MarkdownText
+      markdown={strapLine}
       className={[
-        'col-span-12',
-        'pb-10',
+        'mb-0',
+        'leading-[1.1]',
+        'text-[2rem]',
+        'xxs:text-[2.5rem]',
+        'minContent:text-5xl',
+        'sm:col-span-12',
+        'lg:col-span-9',
+        'lg:text-6xl',
+        styles.heroStrapLineUnderline,
       ].join(' ')}
-    >
-      {partA && <h1 className={['mb-0', 'font-normal', ...fontSizing].join(' ')}>{partA}</h1>}
-      {partB && <h2 className={['border-b-3', 'border-green', 'border-solid', 'inline', ...fontSizing].join(' ')}><strong>{partB}</strong></h2>}
-    </div>
+    />
   )
 }
 
 HeroStrapLine.propTypes = {
-  partA: PropTypes.oneOfType([
+  strapLine: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
   ]).isRequired,
-  partB: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
-}
-
-HeroStrapLine.defaultProps = {
-  partB: null,
 }

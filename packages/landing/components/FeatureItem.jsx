@@ -9,6 +9,7 @@ const FeatureItem = ({
   copy,
   className,
   image,
+  index,
 }) => {
   const {
     url: imageSrc,
@@ -17,42 +18,42 @@ const FeatureItem = ({
     width,
     height,
   } = image
+  const shouldReverse = index % 2 !== 0
   const isSvg = mimeType === 'image/svg+xml'
   return (
     <li className={className}>
       <div
         className={[
-          'w-full',
-          'mb-10',
-          'sm:w-2/4',
-          'sm:max-w-md',
+          'mb-7',
+          'sm:mb-0',
+          shouldReverse ? 'sm:col-start-2' : null,
+          shouldReverse ? 'sm:row-start-1' : null,
         ].join(' ')}
       >
         <h3
           className={[
-            'border-b-2',
-            'border-green',
-            'border-solid',
-            'mb-4',
-            'text-green',
-            'w-fit',
+            'underline',
+            'decoration-green',
+            'decoration-2',
+            'mb-7',
+            'leading-tight',
           ].join(' ')}
         >
           {header}
         </h3>
-        <MarkdownText markdown={copy} />
+        <MarkdownText className="sm:mb-0" markdown={copy} />
       </div>
-      {imageSrc && (
-        <>
-          {isSvg ? (
+      <div
+        className={[
+          shouldReverse ? 'sm:col-start-1' : null,
+          shouldReverse ? 'sm:row-start-1' : null,
+        ].join(' ')}
+      >
+        {imageSrc && (
+          isSvg ? (
             <img
               className={[
-                'inline',
-                'w-full',
-                'h-auto',
-                'max-w-xs',
-                'sm:w-2/4',
-                'md:max-w-sm',
+
               ].join(' ')}
               src={imageSrc}
               alt={header}
@@ -67,14 +68,12 @@ const FeatureItem = ({
               }}
               fadeInDuration={1}
               className={[
-                'max-w-xs',
-                'sm:w-2/4',
-                'md:max-w-sm',
+
               ].join(' ')}
             />
-          )}
-        </>
-      )}
+          )
+        )}
+      </div>
     </li>
   )
 }
@@ -84,6 +83,7 @@ FeatureItem.propTypes = {
   copy: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
   className: PropTypes.string,
+  index: PropTypes.number.isRequired,
 }
 
 FeatureItem.defaultProps = {

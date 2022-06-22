@@ -1,11 +1,7 @@
 import TheFooterNavigationItem from '@/landing/TheFooterNavigationItem'
 import TheFooterSocialLink from '@/landing/TheFooterSocialLink'
 import TheFooterColophon from '@/landing/TheFooterColophon'
-
 import copy from '@/landing/copy/LandingPageCopy'
-import * as styles from '@/landing/TheFooter.module.css'
-
-// Global info store
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
 const getGlobalInfo = state => state
@@ -17,15 +13,25 @@ const TheFooter = () => {
   const { footerLinks: linkColumns, legalLinks } = useGlobalInfoStore(getGlobalInfo)
 
   return (
-    <footer id="TheFooter" className={['section--padding', styles.theFooter].join(' ')}>
+    <footer
+      id="TheFooter"
+      className={[
+        'w-full',
+        'bg-black',
+        'text-white',
+        'px-5',
+        'xs:px-8',
+        'py-15',
+      ].join(' ')}
+    >
       <div className="bmw">
-        <div className={styles.lineBreak} />
+        <div className={['w-full', 'border-t', 'border-white', 'border-solid'].join(' ')} />
         {/* Footer columns */}
         <nav className={[
           'grid',
           'gap-4',
           'grid-cols-12',
-          styles.footerColumns,
+          'sm:mb-10',
         ].join(' ')}
         >
           {/* Nav columns */}
@@ -39,7 +45,12 @@ const TheFooter = () => {
           })}
           {/* socialLinks */}
           <ul className={[
-            styles.socialList,
+            'flex',
+            'justify-center',
+            'sm:justify-start',
+            'pt-20',
+            'sm:pt-5',
+            'mb-5',
             'col-span-12',
             'sm:col-span-3',
           ].join(' ')}
@@ -52,7 +63,7 @@ const TheFooter = () => {
 
         <TheFooterColophon
           colophon={legalCopy.colophon}
-          className={styles.colophon}
+          className={['pt-6', 'text-center', 'mb-4'].join(' ')}
           legalLinks={legalLinks}
         />
       </div>
@@ -61,10 +72,3 @@ const TheFooter = () => {
 }
 
 export default TheFooter
-
-// In the future
-// -- request a new feature, see Buffer's Typeform
-// -- product roadmap, see Buffer's link to a public Trello board
-// -- specific feature pages
-// -- customers
-// -- investors area

@@ -65,15 +65,20 @@ export default function HeroSignUp() {
   return (
     <div
       className={[
-        'col-span-12',
-        'row-start-2',
         'sm:col-start-3',
         'sm:col-end-11',
-        'pb-8 xs:pb-16',
         'lg:z-10',
       ].join(' ')}
     >
-      <div className="flex flex-column xs:flex-row xs:items-end mb-2">
+      <div
+        className={[
+          'flex',
+          'flex-column',
+          'xs:flex-row',
+          'xs:items-end',
+          'mb-2',
+        ].join(' ')}
+      >
         <Input
           handleChange={handleChange}
           value={email}

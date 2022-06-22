@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import PartnerItem from '@/landing/PartnerItem'
 
 import useSwiperWithBreakpoint from '@/landing/hooks/useSwiperWithBreakpoint'
+import Section from '@/landing/Section'
 
 const Partners = ({ partners }) => {
   const swiperContainer = React.useRef(null)
@@ -16,10 +17,13 @@ const Partners = ({ partners }) => {
   })
 
   return (
-    <section className={[
-      'relative bg-grey-1',
-      isSwiperActive ? 'py-20' : 'py-10 sm:py-20',
-    ].join(' ')}
+    <Section
+      className={[
+        'relative',
+        'bg-grey-1',
+        isSwiperActive ? 'py-20' : 'py-10 sm:py-20',
+      ].join(' ')}
+      fullWidth
     >
       <div ref={swiperContainer} className="swiper-container">
         <ul className={[
@@ -49,7 +53,7 @@ const Partners = ({ partners }) => {
         ].join(' ')}
         style={{ left: '50%' }}
       />
-    </section>
+    </Section>
   )
 }
 

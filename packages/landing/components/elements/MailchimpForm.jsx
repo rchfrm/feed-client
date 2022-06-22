@@ -74,10 +74,10 @@ const MailchimpForm = ({
           <div id="mergeRow-gdpr" className="mergeRow gdpr-mergeRow content__gdprBlock mc-field-group">
             <div className={['content__gdpr', checkboxClass].join(' ')}>
               {/* GDPR */}
-              <fieldset className="mb-4" name="interestgroup_field">
+              <fieldset name="interestgroup_field">
                 <CheckboxInput
-                  label="GDPR"
-                  buttonLabel="Tick the box to confirm you're happy to receive emails from us."
+                  buttonLabel="Tick the GDPR box to show you want our emails."
+                  className="text-xs"
                   value="Y"
                   id="gdpr_9737"
                   name="gdpr[9737]"

@@ -1,3 +1,4 @@
+// import React from 'react'
 import moment from 'moment'
 import url from 'url'
 import produce from 'immer'
@@ -161,6 +162,20 @@ export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
 export const formatNumber = (number, options = {}, locale = navigator.language) => {
   if (typeof number !== 'number') { return number }
   return new Intl.NumberFormat(locale, options).format(number)
+}
+
+export const addCommasToNumber = number => {
+  if (typeof number !== 'number') return number
+  const numberArray = Array.from(number.toString()).reverse()
+  return numberArray.reduce((acc, digit, index) => {
+    if (
+      (index + 1) % 3 === 0
+      && index < numberArray.length - 1
+    ) {
+      return [...acc, `,${digit}`]
+    }
+    return [...acc, digit]
+  }, []).reverse().join('')
 }
 
 // Abbreviate number

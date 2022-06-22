@@ -14,9 +14,6 @@ const NewsletterSignup = ({
   return (
     <div
       className={[
-        styles.mailchimp,
-        'max-w-2xl',
-        'xs:mx-10 sm:mx-auto',
         className,
       ].join(' ')}
     >
@@ -27,9 +24,8 @@ const NewsletterSignup = ({
       )}
       <MailchimpForm
         inputClass={styles.emailInput}
-        checkboxClass={styles.emailCheckbox}
         submitClass={styles.emailSubmit}
-        disclaimerClass={styles.emailLegal}
+        disclaimerClass="hidden"
         trackLocation={trackLocation}
         ctaText={ctaText}
       />
