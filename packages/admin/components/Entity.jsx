@@ -165,22 +165,21 @@ const Entity = ({ entity, propsToDisplay }) => {
           integrations={entity.integrations}
         />
 
+        {/* PATCH INSTAGRAM BUSINESS ID */}
+        <PatchArtist
+          artistId={entity.id}
+          artistName={entity.name}
+          integrations={entity.integrations}
+        />
+
         <div
           className={[
             'flex',
             'flex-wrap',
             'gap-4',
-            'mb-4',
+            'my-4',
           ].join(' ')}
         >
-
-          {/* PATCH INSTAGRAM BUSINESS ID */}
-          <PatchArtist
-            artistId={entity.id}
-            artistName={entity.name}
-            integrations={entity.integrations}
-          />
-
           {/* ACTIVATE ARTIST */}
           <ArtistActivationStatusButton
             artistId={entity.id}

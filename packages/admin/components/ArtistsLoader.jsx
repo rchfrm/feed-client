@@ -40,7 +40,7 @@ const ArtistsLoader = () => {
   // Search state
   const [searchedArtists, setSearchedArtists] = React.useState(filteredArtists)
 
-  if (!searchedArtists) {
+  if (!artists) {
     return (
       <section className="content">
         <p>Loading...</p>
