@@ -175,9 +175,6 @@ export const addCommasToNumber = number => {
       return [...acc, `,${digit}`]
     }
     return [...acc, digit]
-    //   return acc.push(`,${digit}`)
-    // }
-    // return acc.push(digit)
   }, []).reverse().join('')
 }
 

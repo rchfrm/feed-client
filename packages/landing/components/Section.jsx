@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types'
 
 const Section = ({ children, className, fullWidth, id }) => {
+  const standardWidthClasses = ['px-5', 'xs:px-8', 'max-w-[1200px]', 'mx-auto'].join(' ')
   return (
     <section
       id={id}
       className={[
-        !fullWidth ? 'px-5' : null,
-        !fullWidth ? 'xs:px-8' : null,
-        !fullWidth ? 'max-w-[1200px]' : null,
-        !fullWidth ? 'mx-auto' : null,
+        !fullWidth ? standardWidthClasses : null,
         'py-15',
         className,
       ].join(' ')}

@@ -50,30 +50,28 @@ const FeatureItem = ({
         ].join(' ')}
       >
         {imageSrc && (
-          <>
-            {isSvg ? (
-              <img
-                className={[
+          isSvg ? (
+            <img
+              className={[
 
-                ].join(' ')}
-                src={imageSrc}
-                alt={header}
-                width={width}
-                height={height}
-              />
-            ) : (
-              <Image
-                data={{
-                  ...responsiveImage,
-                  alt: header,
-                }}
-                fadeInDuration={1}
-                className={[
+              ].join(' ')}
+              src={imageSrc}
+              alt={header}
+              width={width}
+              height={height}
+            />
+          ) : (
+            <Image
+              data={{
+                ...responsiveImage,
+                alt: header,
+              }}
+              fadeInDuration={1}
+              className={[
 
-                ].join(' ')}
-              />
-            )}
-          </>
+              ].join(' ')}
+            />
+          )
         )}
       </div>
     </li>
