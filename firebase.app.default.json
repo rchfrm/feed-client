@@ -21,11 +21,6 @@
         "type": 301
       },
       {
-        "source": "/posts",
-        "destination": "/",
-        "type": 301
-      },
-      {
         "source": "/sign-up",
         "destination": "/join",
         "type": 301
