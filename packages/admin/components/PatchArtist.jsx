@@ -44,7 +44,7 @@ const PatchArtist = ({ artistId, artistName, integrations }) => {
   if (integrations.facebook && integrations.facebook.instagram_id) return null
 
   return (
-    <div className={['pt-5'].join(' ')}>
+    <div>
       <h4><strong>Patch {artistName}</strong></h4>
       <form onSubmit={onSubmit}>
         <Select
