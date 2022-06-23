@@ -1,6 +1,7 @@
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import React from 'react'
+import PropTypes from 'prop-types'
 import * as server from '@/admin/helpers/adminServer'
 
 export default function ArtistCampaignStatusButton({ artistId, artistStatus, setArtistStatus }) {
@@ -46,4 +47,10 @@ export default function ArtistCampaignStatusButton({ artistId, artistStatus, set
       <Error error={error} />
     </div>
   )
+}
+
+ArtistCampaignStatusButton.propTypes = {
+  artistId: PropTypes.string.isRequired,
+  artistStatus: PropTypes.number.isRequired,
+  setArtistStatus: PropTypes.func.isRequired,
 }
