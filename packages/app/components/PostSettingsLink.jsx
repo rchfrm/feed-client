@@ -149,6 +149,7 @@ const PostSettingsLink = ({
           componentLocation="post"
           campaignType={campaignType}
           includeAddLinkOption
+          disabled={isDisabled}
           className="sm:pl-4"
         />
       )}

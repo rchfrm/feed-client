@@ -189,7 +189,7 @@ const PostSettingsCallToAction = ({
           postId={postId}
           isPostActive={isPostActive}
           campaignType={campaignType}
-          disabled={false}
+          disabled={isDisabled}
           className="sm:pl-4"
         />
       )}
