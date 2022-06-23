@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ResultsNoSpendStats from '@/app/ResultsNoSpendStats'
-import ResultsTabs from '@/app/ResultsTabs'
+import RadioButtonTabs from '@/app/RadioButtonTabs'
 import ResultsNoSpendCharts from '@/app/ResultsNoSpendCharts'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
@@ -49,11 +49,12 @@ const ResultsNoSpendContent = ({
             isDesktopLayout={isDesktopLayout}
             className={isDesktopLayout ? 'order-1' : 'order-2'}
           />
-          <ResultsTabs
-            metricTypes={organicMetricTypes}
-            metricType={metricType}
-            setMetricType={setMetricType}
+          <RadioButtonTabs
+            tabs={organicMetricTypes}
+            activeTab={metricType}
+            setActiveTab={setMetricType}
             shouldHideTab={!hasGrowth && isDesktopLayout}
+            tabToHideIndex={2}
             hasNoProfiles={hasNoProfiles}
             className={isDesktopLayout ? 'order-2' : 'order-1'}
           />

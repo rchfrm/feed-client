@@ -90,7 +90,7 @@ PostCardToggles.propTypes = {
   artistId: PropTypes.string.isRequired,
   post: PropTypes.object.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
-  postIndex: PropTypes.number.isRequired,
+  postIndex: PropTypes.number,
   toggleCampaign: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,
   priorityEnabled: PropTypes.bool.isRequired,
@@ -102,6 +102,7 @@ PostCardToggles.propTypes = {
 PostCardToggles.defaultProps = {
   togglesClassName: null,
   className: null,
+  postIndex: null,
 }
 
 export default PostCardToggles

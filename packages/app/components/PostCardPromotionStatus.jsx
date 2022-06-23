@@ -16,6 +16,7 @@ const PostCardPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
   size,
+  className,
 }) => {
   const { active, inReview, inActive, rejected, notRun } = postsHelpers.promotionStatusSlugs
   const [title, setTitle] = React.useState('')
@@ -61,6 +62,7 @@ const PostCardPromotionStatus = ({
       className={[
         'flex items-center',
         isSmallSize ? 'h-4' : 'h-8',
+        className,
       ].join(' ')}
     >
       <div
@@ -69,7 +71,7 @@ const PostCardPromotionStatus = ({
           'border-2 border-solid rounded-full',
           'mb-0',
           isSmallSize ? 'text-xs' : null,
-          !promotionEnabled ? 'text-grey-3 bg-grey-2' : null,
+          !promotionEnabled ? 'text-grey-3 bg-grey-2' : 'bg-white',
         ].join(' ')}
         style={{
           borderColor: promotionEnabled ? brandColors[color] : brandColors.grey,
@@ -94,10 +96,12 @@ PostCardPromotionStatus.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
   size: PropTypes.string,
+  className: PropTypes.string,
 }
 
 PostCardPromotionStatus.defaultProps = {
   size: 'regular',
+  className: null,
 }
 
 export default PostCardPromotionStatus

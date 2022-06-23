@@ -56,6 +56,7 @@ const ThePageButtons = () => {
       href: ROUTES.POSTS,
       title: 'posts',
       icon: 'posts',
+      matchingHrefs: [ROUTES.POST],
     },
     {
       href: ROUTES.CONTROLS,

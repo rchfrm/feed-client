@@ -6,11 +6,18 @@ import MarkdownText from '@/elements/MarkdownText'
 
 const Error = ({ error, messagePrefix, className }) => {
   if (!error) return null
-  const { message: errorMessage } = error
-  const message = `${messagePrefix}${errorMessage}`
+  const { message } = error
+  let errorMessage = message
+
+  if (typeof errorMessage === 'object') {
+    errorMessage = errorMessage?.previous?.message || errorMessage?.message
+  }
+
+  const text = `${messagePrefix}${errorMessage}`
   const classes = ['error', className].join(' ')
+
   return (
-    <MarkdownText className={classes} markdown={message} />
+    <MarkdownText className={classes} markdown={text} />
   )
 }
 

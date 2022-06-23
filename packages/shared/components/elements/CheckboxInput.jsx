@@ -17,7 +17,10 @@ const CheckboxInput = (props) => {
   } = props
   return (
     <div
-      className={[className].join(' ')}
+      className={[
+        className,
+        disabled ? 'pointer-events-none' : null,
+      ].join(' ')}
     >
       <div>
         {/* LABEL */}

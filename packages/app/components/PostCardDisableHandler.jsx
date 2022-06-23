@@ -61,7 +61,7 @@ const PostCardDisableHandler = ({
       if (error) return
       // Update post list state
       const { promotion_enabled, conversions_enabled, promotable_status } = postUpdated
-      toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
+      toggleCampaign(isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType, postId)
       // Update local toggle state
       setIsEnabled(isConversionsCampaign ? conversions_enabled : promotion_enabled)
     },

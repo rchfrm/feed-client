@@ -13,7 +13,7 @@ import Error from '@/elements/Error'
 import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
 import PostCardEditAlert from '@/app/PostCardEditAlert'
 
-import { updatePostCaption, resetPostCaption, getPostAddMessages } from '@/app/helpers/postsHelpers'
+import { updatePostCaption, resetPostCaption, getPostAdMessages } from '@/app/helpers/postsHelpers'
 import { track } from '@/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
@@ -44,7 +44,7 @@ const PostCardEditCaption = ({
   useAsyncEffect(async (isMounted) => {
     if (adMessages || !isMounted) return
 
-    const { res, error } = await getPostAddMessages(artistId, post.id)
+    const { res, error } = await getPostAdMessages(artistId, post.id)
 
     if (error) {
       setError(error)

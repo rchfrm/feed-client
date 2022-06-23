@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ResultsTabLine = ({ index, isActive }) => {
+const RadioButtonTabLine = ({ index, isActive }) => {
   const getWidth = () => {
     switch (index) {
       case 0:
@@ -62,9 +62,9 @@ const ResultsTabLine = ({ index, isActive }) => {
   )
 }
 
-ResultsTabLine.propTypes = {
+RadioButtonTabLine.propTypes = {
   index: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
 }
 
-export default ResultsTabLine
+export default RadioButtonTabLine

@@ -1,31 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ResultsTabLine from '@/app/ResultsTabLine'
+import RadioButtonTabLine from '@/app/RadioButtonTabLine'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { capitalise } from '@/helpers/utils'
 
-const ResultsTab = ({
-  type,
+const RadioButtonTab = ({
+  name,
   index,
-  metricType,
-  setMetricType,
+  activeTab,
+  setActiveTab,
 }) => {
   const isDesktopLayout = useBreakpointTest('sm')
-  const isActive = metricType === type
+  const isActive = activeTab === name
 
   const onClick = (audience) => {
-    setMetricType(audience)
+    setActiveTab(audience)
   }
 
   return (
-    <li className="relative col-span-4 flex justify-center">
-      <button
-        onClick={() => onClick(type)}
+    <button
+      className={[
+        'relative col-span-4 flex justify-center py-4 sm:py-0',
+        !isActive ? 'bg-gradient-to-t from-grey-1 sm:bg-none' : null,
+      ].join(' ')}
+      onClick={() => onClick(name)}
+    >
+      <li
         className="flex flex-column justify-center items-center"
       >
-        {!isDesktopLayout && <p className="mb-2">{capitalise(type)}</p>}
+        {!isDesktopLayout && <p className="mb-2 font-bold">{capitalise(name)}</p>}
         <div
           className={[
             'flex justify-center items-center',
@@ -36,22 +41,22 @@ const ResultsTab = ({
         >
           {isActive && <div className="w-3 h-3 sm:w-6 sm:h-6 rounded-full bg-green" />}
         </div>
-      </button>
+      </li>
       {isDesktopLayout && (
-        <ResultsTabLine
+        <RadioButtonTabLine
           index={index}
           isActive={isActive}
         />
       )}
-    </li>
+    </button>
   )
 }
 
-ResultsTab.propTypes = {
-  type: PropTypes.string.isRequired,
+RadioButtonTab.propTypes = {
+  name: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  metricType: PropTypes.string.isRequired,
-  setMetricType: PropTypes.func.isRequired,
+  activeTab: PropTypes.string.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
 }
 
-export default ResultsTab
+export default RadioButtonTab

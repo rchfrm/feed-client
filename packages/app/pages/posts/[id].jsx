@@ -2,26 +2,23 @@ import React from 'react'
 
 import { useRouter } from 'next/router'
 
+import PostLoader from '@/app/PostLoader'
+
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import ControlsContent from '@/app/ControlsContent'
-
-const headerConfig = {
-  text: 'controls',
-}
 
 const Page = () => {
   const router = useRouter()
-  const { slug } = router.query
+  const { id } = router.query
 
   return (
     <BasePage
-      headerConfig={headerConfig}
+      headerConfig={{ text: '' }}
       artistRequired
       controlsRequired
       hasNoProfilesPage
     >
-      <ControlsContent slug={slug} />
+      <PostLoader postId={id} />
     </BasePage>
   )
 }

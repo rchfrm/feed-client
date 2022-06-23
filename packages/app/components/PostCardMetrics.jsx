@@ -27,49 +27,51 @@ const metricsType = [
 const PostCardMetrics = ({
   metrics,
   postType,
+  shouldShowTitle,
   className,
 }) => {
   return (
     <div
       className={[
-        'max-w-lg md:max-w-none',
-        className,
+        'md:max-w-none',
       ].join(' ')}
     >
-      <h2 className={sidePanelStyles.SidePanel__Header}>Post Metrics</h2>
-      {metricsType.map(({ type, header, description }) => {
-        const typeMetrics = metrics[type]
-        if (!typeMetrics) return null
-        return (
-          <AdSettingsSection
-            key={type}
-            header={header}
-            copy={description}
-          >
-            <div
-              className="md:grid grid-cols-12 items-center pt-4"
+      {shouldShowTitle && <h2 className={sidePanelStyles.SidePanel__Header}>Post Insights</h2>}
+      <div className={className}>
+        {metricsType.map(({ type, header, description }) => {
+          const typeMetrics = metrics[type]
+          if (!typeMetrics) return null
+          return (
+            <AdSettingsSection
+              key={type}
+              header={header}
+              copy={description}
             >
-              <div className="col-span-4">
-                <PostCardMetricsScore
-                  score={type === 'organic' ? typeMetrics.normalizedScore : typeMetrics.engagementScore}
+              <div
+                className="md:grid grid-cols-12 items-center pt-4"
+              >
+                <div className="col-span-4">
+                  <PostCardMetricsScore
+                    score={type === 'organic' ? typeMetrics.normalizedScore : typeMetrics.engagementScore}
+                    metricsType={type}
+                    className={[
+                      'mb-8 mx-auto',
+                      'xs:mx-0',
+                      'md:mb-0 md:-mt-2',
+                    ].join(' ')}
+                  />
+                </div>
+                <PostCardMetricsList
+                  metrics={typeMetrics}
+                  metricsContent={getPostMetricsContent(type, postType)}
                   metricsType={type}
-                  className={[
-                    'mb-8 mx-auto',
-                    'xs:mx-0',
-                    'md:mb-0 md:-mt-2',
-                  ].join(' ')}
+                  className="col-span-7 col-start-6"
                 />
               </div>
-              <PostCardMetricsList
-                metrics={typeMetrics}
-                metricsContent={getPostMetricsContent(type, postType)}
-                metricsType={type}
-                className="col-span-7 col-start-6"
-              />
-            </div>
-          </AdSettingsSection>
-        )
-      })}
+            </AdSettingsSection>
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -77,10 +79,12 @@ const PostCardMetrics = ({
 PostCardMetrics.propTypes = {
   metrics: PropTypes.object.isRequired,
   postType: PropTypes.string.isRequired,
+  shouldShowTitle: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostCardMetrics.defaultProps = {
+  shouldShowTitle: true,
   className: null,
 }
 

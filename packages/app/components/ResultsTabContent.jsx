@@ -22,7 +22,7 @@ const ResultsTabContent = ({
   const [dailyGrowthData, setDailyGrowthData] = React.useState(null)
   const [dailySpendData, setDailySpendData] = React.useState(null)
 
-  const post = adData.posts.find(({ type }) => type === metricType)
+  const post = adData.posts.find(({ name }) => name === metricType)
 
   const { optimizationPreferences, isSpendingPaused } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
