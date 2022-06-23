@@ -135,13 +135,14 @@ const PostSettingsCaption = ({
   React.useEffect(() => {
     if (!adMessages) return
 
-    const adMessage = adMessages?.find((callToAction) => callToAction.campaignType === campaignType) || {}
+    const postAdMessage = adMessages?.find((adMessage) => adMessage.campaignType === campaignType) || {}
+    const adMessage = postAdMessage?.message || post?.message
 
-    setCurrentAdMessage(adMessage)
-    setCaption(adMessage?.message || '')
-    setSavedCaption(adMessage?.message || '')
+    setCurrentAdMessage(postAdMessage)
+    setCaption(adMessage)
+    setSavedCaption(adMessage)
 
-    if (adMessage?.message && adMessage?.message !== post?.message) {
+    if (adMessage !== post?.message) {
       setIsDefaultAdMessage(false)
     }
   }, [campaignType, adMessages, post?.message])
@@ -179,7 +180,7 @@ const PostSettingsCaption = ({
           className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
         >
           <PostCardEditCaptionMessage
-            message={caption || post.message}
+            message={caption}
             setMessage={setCaption}
             hasAutoFocus={false}
             className={isDisabled || noCaptionEditReason ? 'text-grey-2 pointer-events-none' : null}
