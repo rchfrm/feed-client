@@ -11,6 +11,8 @@ const Page = () => {
   const router = useRouter()
   const { id } = router.query
 
+  console.log(id)
+
   return (
     <BasePage
       headerConfig={{ text: '' }}
