@@ -10,14 +10,6 @@
     "cleanUrls": true,
     "rewrites": [
       {
-        "source": "/posts/**",
-        "destination": "/posts/[id].html"
-      },
-      {
-        "source": "/controls/**",
-        "destination": "/controls/[slug].html"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }
