@@ -12,6 +12,10 @@
       {
         "source": "**",
         "destination": "/index.html"
+      },
+      {
+        "source": "/posts/**",
+        "destination": "/posts/[id]/index.html"
       }
     ],
     "redirects": [
