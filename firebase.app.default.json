@@ -11,11 +11,11 @@
     "rewrites": [
       {
         "source": "/posts/**",
-        "destination": "/posts/[id]/index.html"
+        "destination": "/posts/[id].html"
       },
       {
         "source": "/controls/**",
-        "destination": "/controls/[slug]/index.html"
+        "destination": "/controls/[slug].html"
       },
       {
         "source": "**",
