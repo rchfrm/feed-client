@@ -116,21 +116,30 @@ const ObjectiveSettings = () => {
         section="objective"
         hasTierRestriction={!hasGrowthTier}
       >
-        <MarkdownText markdown={copy.objectiveIntro} className="inline-block mb-10" />
-        <ObjectiveSettingsObjectiveSelector
-          objective={objective}
-          setObjective={setObjective}
-          platform={platform}
-          setPlatform={setPlatform}
-          setType={setType}
-          shouldShowAlert={shouldShowAlert}
-          setObjectiveChangeSteps={setObjectiveChangeSteps}
-          shouldRestoreObjective={shouldRestoreObjective && isObjectiveChange}
-          setShouldRestoreObjective={setShouldRestoreObjective}
-          save={save}
-          isLoading={isLoading && isObjectiveChange}
-          error={error}
-        />
+        <MarkdownText markdown={copy.objectiveIntro} className="inline-block mb-12" />
+        <div className="relative mb-4">
+          <ObjectiveSettingsObjectiveSelector
+            objective={objective}
+            setObjective={setObjective}
+            platform={platform}
+            setPlatform={setPlatform}
+            setType={setType}
+            shouldShowAlert={shouldShowAlert}
+            setObjectiveChangeSteps={setObjectiveChangeSteps}
+            shouldRestoreObjective={shouldRestoreObjective && isObjectiveChange}
+            setShouldRestoreObjective={setShouldRestoreObjective}
+            save={save}
+            isLoading={isLoading && isObjectiveChange}
+            error={error}
+          />
+          {hasGrowthTier && !hasProTier && (
+            <TierRestrictionMessage
+              copy={copy.objectiveTierRestriction}
+              size="small"
+              className="-mt-6"
+            />
+          )}
+        </div>
         {hasGrowthObjective ? (
           <div className="relative">
             <ObjectiveSettingsPlatformSelector
@@ -172,7 +181,7 @@ const ObjectiveSettings = () => {
       </DisabledSection>
       {hasProTier && (
         <TierRestrictionMessage
-          copy={copy.managedTier}
+          copy={copy.objectiveManagedTier}
           className="block mt-20"
         />
       )}

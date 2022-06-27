@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import useControlsStore from '@/app/stores/controlsStore'
 import useCheckObjectiveChangeStatus from '@/app/hooks/useCheckObjectiveChangeStatus'
 
@@ -34,14 +36,20 @@ const ObjectiveSettingsObjectiveSelector = ({
   const name = 'objective'
   const isFirstRender = React.useRef(true)
 
+  const { artist: { hasProTier } } = React.useContext(ArtistContext)
+
   React.useEffect(() => {
-    const options = objectives.map(({ name, value }) => ({
+    let options = objectives.map(({ name, value }) => ({
       name,
       value,
     }))
 
+    if (!hasProTier) {
+      options = options.filter((option) => option.value !== 'sales')
+    }
+
     setSelectOptions(options)
-  }, [])
+  }, [hasProTier])
 
   const handleChange = (e) => {
     const { target: { value } } = e

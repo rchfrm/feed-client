@@ -10,22 +10,23 @@ import * as ROUTES from '@/app/constants/routes'
 
 const TierRestrictionMessage = ({
   copy,
+  size,
   className,
 }) => {
+  const isSmallSize = size === 'small'
   return (
     <Link href={ROUTES.BILLING}>
-      <a className={['no-underline', className].join(' ')}>
+      <a className={['block no-underline', className].join(' ')}>
         <div className={[
           'flex items-center',
-          'p-4',
-          'border-2 border-solid border-insta rounded-dialogue',
+          isSmallSize ? 'text-xs' : 'p-4 border-2 border-solid border-insta rounded-dialogue',
           'text-insta -hover--insta',
         ].join(' ')}
         >
           <span role="img" aria-label="lock">🔒</span>
-          <MarkdownText markdown={copy} className="mx-3 mb-0" />
+          <MarkdownText markdown={copy} className={[isSmallSize ? 'underline mx-2' : 'mx-3', 'mb-0'].join(' ')} />
           <ArrowAltIcon
-            className="w-5 h-5 flex-shrink-0"
+            className={[isSmallSize ? 'w-3 h-3' : 'w-5 h-5', 'flex-shrink-0'].join(' ')}
             direction="right"
             fill={brandColors.instagram.bg}
           />
@@ -37,10 +38,12 @@ const TierRestrictionMessage = ({
 
 TierRestrictionMessage.propTypes = {
   copy: PropTypes.string.isRequired,
+  size: PropTypes.string,
   className: PropTypes.string,
 }
 
 TierRestrictionMessage.defaultProps = {
+  size: 'regular',
   className: null,
 }
 
