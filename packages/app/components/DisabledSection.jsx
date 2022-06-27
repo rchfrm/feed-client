@@ -20,7 +20,6 @@ const DisabledSection = ({
   const {
     artist: {
       hasSetUpProfile,
-      hasGrowthTier,
     },
   } = React.useContext(ArtistContext)
 
@@ -28,14 +27,14 @@ const DisabledSection = ({
   const linkTo = !hasSetUpProfile ? ROUTES.GET_STARTED : ROUTES.BILLING
 
   return (
-    <div className={[className].join(' ')}>
+    <div className={className}>
       {isDisabled && (
         <Link href={linkTo}>
-          <a className="text-insta -hover--insta no-underline inline-block mb-2">
+          <a className="flex items-center text-insta -hover--insta no-underline mb-5">
             <span role="img" aria-label="lock">🔒</span>
-            <MarkdownText markdown={copy.disabledReason(section, hasSetUpProfile)} className="mx-2 inline-block underline" />
+            <MarkdownText markdown={copy.disabledReason(section, hasSetUpProfile)} className="mx-2 underline mb-0" />
             <ArrowAltIcon
-              className="w-4 h-4 inline-block"
+              className="w-4 h-4 flex-shrink-0"
               direction="right"
               fill={brandColors.instagram.bg}
             />
