@@ -37,6 +37,9 @@ const initialArtistState = {
   missingDefaultLink: true,
   isMusician: false,
   hasSetUpProfile: false,
+  hasGrowthTier: false,
+  hasProTier: false,
+  hasManagedTier: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -125,6 +128,7 @@ function ArtistProvider({ children }) {
   }
 
   const updateArtist = React.useCallback((artist) => {
+    artist.tier = 'pro'
     // Test whether artist is musician
     const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
@@ -147,6 +151,11 @@ function ArtistProvider({ children }) {
     // Get completed setup at
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
+    // Set pricing tier booleans
+    const hasGrowthTier = artist.tier === 'growth' || artist.tier === 'pro' || artist.tier === 'managed'
+    const hasProTier = artist.tier === 'pro' || artist.tier === 'managed'
+    const hasManagedTier = artist.tier === 'managed'
+
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
@@ -156,6 +165,9 @@ function ArtistProvider({ children }) {
       artistDraft.feedMinBudgetInfo = feedMinBudgetInfo || {}
       artistDraft.isSpendingPaused = isSpendingPaused
       artistDraft.hasSetUpProfile = hasSetUpProfile
+      artistDraft.hasGrowthTier = hasGrowthTier
+      artistDraft.hasProTier = hasProTier
+      artistDraft.hasManagedTier = hasManagedTier
     })
 
     // Set hasBudget state
