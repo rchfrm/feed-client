@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
 import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
+import { formatCurrency } from '@/helpers/utils'
 
 export default {
   // CONTROLS OPTIONS
@@ -71,7 +72,17 @@ export default {
   facebookPixelEventIntro: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
   facebookPixelEventFooter: `"Purchase" is recommended based on your objective`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-  budgetFooter: (minRecommendedStories) => `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStories}`,
+  budgetFooter: (hasBudgetBelowMinRecommendedStories, minRecommendedStories, hasProTier, currency) => {
+    if (hasBudgetBelowMinRecommendedStories) {
+      return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStories}`
+    }
+
+    if (!hasProTier) {
+      return `May hit max monthly spend of ${formatCurrency(300, currency, true)} causing ads to stop, consider upgrading to "pro" tier raise the cap  ${formatCurrency(2000, currency, true)}`
+    }
+
+    return `May hit max monthly spend of ${formatCurrency(2000, currency, true)} causing ads to stop, [arrange a call](https://meetings.hubspot.com/feed/managed) to discuss increasing this.`
+  },
   objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
   alertPlatformTitle: 'Where would you like to grow?',
   alertPlatformDescription: `You can always change this later on. You'll also have the option to send people to multiple platforms using different posts.`,

@@ -43,6 +43,7 @@ const TargetingBudgetBox = ({
         currencyOffset,
         minorUnit: {
           minBase,
+          minBaseUnrounded,
           minHard: minHardBudget,
           minRecommendedStories,
         } = {},
@@ -51,23 +52,31 @@ const TargetingBudgetBox = ({
         } = {},
       } = {},
       hasSetUpProfile,
+      hasGrowthTier,
+      hasProTier,
     },
   } = React.useContext(ArtistContext)
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
-  const [hasBudgetBelowMinRecommendedStories, setHasBudgetBelowMinRecommendedStories] = React.useState(false)
+  const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
+
+  const growthTierMaxBudget = Math.round(minBaseUnrounded * 10)
+  const proTierMaxBudget = Math.round(minBaseUnrounded * 25)
+  const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
+  const mayHitGrowthTierMaxBudget = hasGrowthTier && !hasProTier && targetingState.budget > growthTierMaxBudget
+  const mayHitProTierMaxBudget = hasProTier && targetingState.budget > proTierMaxBudget
+
 
   React.useEffect(() => {
-    if (targetingState.budget < minRecommendedStories && !hasBudgetBelowMinRecommendedStories) {
-      setHasBudgetBelowMinRecommendedStories(true)
-      return
+    if (hasBudgetBelowMinRecommendedStories || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget) {
+      setShouldShowWarning(true)
     }
 
-    if (targetingState.budget >= minRecommendedStories && hasBudgetBelowMinRecommendedStories) {
-      setHasBudgetBelowMinRecommendedStories(false)
+    if (!hasBudgetBelowMinRecommendedStories && !mayHitGrowthTierMaxBudget && !mayHitProTierMaxBudget) {
+      setShouldShowWarning(false)
     }
-  }, [targetingState.budget, minRecommendedStories, hasBudgetBelowMinRecommendedStories])
+  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget])
 
   return (
     <>
@@ -139,9 +148,9 @@ const TargetingBudgetBox = ({
           </>
         )}
       </section>
-      {hasBudgetBelowMinRecommendedStories && (
+      {shouldShowWarning && (
         <ControlsSettingsSectionFooter
-          copy={copy.budgetFooter(minRecommendedStoriesString)}
+          copy={copy.budgetFooter(hasBudgetBelowMinRecommendedStories, minRecommendedStoriesString, hasProTier, currencyCode)}
           className="mt-5 text-insta"
         />
       )}
