@@ -12,6 +12,7 @@ import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjective
 import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
+import TierRestrictionMessage from '@/app/TierRestrictionMessage'
 
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
@@ -29,7 +30,7 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasGrowthTier } = artist
+  const { hasGrowthTier, hasProTier } = artist
   const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
@@ -169,6 +170,12 @@ const ObjectiveSettings = () => {
           />
         )}
       </DisabledSection>
+      {hasProTier && (
+        <TierRestrictionMessage
+          copy={copy.managedTier}
+          className="block mt-20"
+        />
+      )}
     </div>
   )
 }

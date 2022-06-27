@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
 import TargetingLocationsSettings from '@/app/TargetingLocationsSettings'
@@ -21,6 +23,8 @@ const TargetingLocations = ({
     spotifyConnected,
   } = React.useContext(TargetingContext)
 
+  const { artist: { hasGrowthTier } } = React.useContext(ArtistContext)
+
   return (
     <section className={[className].join(' ')}>
       {/* INTRO */}
@@ -38,7 +42,7 @@ const TargetingLocations = ({
       />
       <DisabledSection
         section="custom-locations"
-        hasTierRestriction
+        hasTierRestriction={!hasGrowthTier}
       >
         <TargetingLocationsSearch />
       </DisabledSection>

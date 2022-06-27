@@ -1,26 +1,25 @@
 
-// IMPORT PACKAGES
 import React from 'react'
-// IMPORT CONTEXTS
+
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-// IMPORT ELEMENTS
-// IMPORT COMPONENTS
+
 import InsightPlatformSelectors from '@/app/InsightPlatformSelectors'
 import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
 import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
-// IMPORT HELPERS
+import TierRestrictionMessage from '@/app/TierRestrictionMessage'
+
 import * as insightsHelpers from '@/app/helpers/insightsHelpers'
-// IMPORT TEXT
+
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/InsightPageCopy'
-// IMPORT STYLES
+
 import styles from '@/app/InsightsPage.module.css'
 
-
-function InsightsContent() {
+const InsightsContent = () => {
   // Import artist context
   const { artistLoading, artist, artistId } = React.useContext(ArtistContext)
+  const { hasGrowthTier } = artist
   // Define states
   const [currentPlatform, setCurrentPlatform] = React.useState('')
   const [currentDataSource, setCurrentDataSource] = React.useState('')
@@ -74,9 +73,19 @@ function InsightsContent() {
     }
   }, [initialLoading])
 
+  if (!hasGrowthTier) {
+    return (
+      <TierRestrictionMessage
+        copy={copy.tierRestriction}
+        className="sm:w-1/2 mr-auto"
+      />
+    )
+  }
+
   if (artistLoading || !availablePlatforms || !availableDataSources.length) return null
 
   const containerClasses = [styles.pageContainer]
+
   if (pageReady) {
     containerClasses.push(styles._ready)
   }

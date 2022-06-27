@@ -9,4 +9,5 @@ export default {
     if (totalImpressions === 0) return '.'
     return `, and your posts were seen **${totalImpressions}** times.`
   },
+  tierRestriction: 'Upgrade to **Growth** tier to see audience data (followers, views e.g.) from all your connected integrations here.',
 }

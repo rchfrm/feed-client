@@ -127,4 +127,5 @@ export default {
     if (section === 'post-cta') return `${tierBaseString} to change the call to action of this post`
     if (section === 'post-caption') return `${tierBaseString} to change the caption of this post`
   },
+  managedTier: 'Interested in setting “Multiple objectives” for one single profile? Book a call with us to chat about **Managed** tier.',
 }
