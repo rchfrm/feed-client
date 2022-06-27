@@ -105,4 +105,26 @@ export default {
   alertNewPixelDescription: `You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway.`,
   alertSelectPixelTitle: 'Select your Facebook Pixel',
   alertSelectPixelDescription: `This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway.`,
+  disabledReason: (section, hasSetUpProfile) => {
+    const setupBaseString = 'Continue set-up to'
+    const tierBaseString = `Upgrade to **${section === 'facebook-pixel' ? 'Pro' : 'Growth'}** tier`
+
+    if (!hasSetUpProfile) {
+      if (section === 'objective') return `${setupBaseString} choose your objective`
+      if (section === 'linkbank') return `${setupBaseString} add to the link bank`
+      if (section === 'integrations') return `${setupBaseString} integrate other platforms`
+      if (section === 'budget') return `${setupBaseString} choose your budget`
+      if (section === 'targeting') return `${setupBaseString} adjust your targeting`
+      if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
+    }
+
+    if (section === 'objective') return `${tierBaseString} to set a different objective`
+    if (section === 'default-promotion') return `${tierBaseString} to manually opt-in posts`
+    if (section === 'facebook-pixel') return `${tierBaseString} to add a Facebook pixel`
+    if (section === 'custom-locations') return `${tierBaseString} to add custom locations`
+    if (section === 'linkbank') return `${tierBaseString} to manage the links that are used in your ads`
+    if (section === 'post-link') return `${tierBaseString} to change the link of this post`
+    if (section === 'post-cta') return `${tierBaseString} to change the call to action of this post`
+    if (section === 'post-caption') return `${tierBaseString} to change the caption of this post`
+  },
 }

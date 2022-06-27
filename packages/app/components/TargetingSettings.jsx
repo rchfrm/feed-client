@@ -12,7 +12,7 @@ import TargetingLocations from '@/app/TargetingLocations'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
 import TargetingPlatformsSelector from '@/app/TargetingPlatformsSelector'
-import ControlsContentSection from '@/app/ControlsContentSection'
+import DisabledSection from '@/app/DisabledSection'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -48,7 +48,7 @@ const TargetingSettings = () => {
         />
         {/* INTRO */}
         <h2>Targeting</h2>
-        <ControlsContentSection action="adjust your targeting">
+        <DisabledSection section="targeting">
           <MarkdownText
             markdown={copy.settingsIntro}
             className={[
@@ -109,7 +109,7 @@ const TargetingSettings = () => {
           >
             <TargetingSettingsHelp desktopVersion />
           </TargetingSettingsSaveContainer>
-        </ControlsContentSection>
+        </DisabledSection>
       </div>
     </div>
   )

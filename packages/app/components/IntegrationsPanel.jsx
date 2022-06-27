@@ -8,7 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 import IntegrationsPanelIntegration from '@/app/IntegrationsPanelIntegration'
-import ControlsContentSection from '@/app/ControlsContentSection'
+import DisabledSection from '@/app/DisabledSection'
 
 import { dummyIntegrations } from '@/helpers/integrationHelpers'
 
@@ -33,7 +33,7 @@ const IntegrationsPanel = ({
   return (
     <section>
       <h2>Integrations</h2>
-      <ControlsContentSection action="integrate other platforms">
+      <DisabledSection section="integrations">
         <MarkdownText markdown={copy.sidepanelIntro} className="mb-8" />
         <ul className="sm:grid grid-cols-2 gap-8">
           {integrations.map((integration) => {
@@ -69,7 +69,7 @@ const IntegrationsPanel = ({
             </Button>
           </div>
         )}
-      </ControlsContentSection>
+      </DisabledSection>
     </section>
   )
 }

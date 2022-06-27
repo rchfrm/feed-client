@@ -6,6 +6,7 @@ import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
 import TargetingLocationsSettings from '@/app/TargetingLocationsSettings'
 import TargetingLocationsPicker from '@/app/TargetingLocationsPicker'
 import TargetingLocationsSearch from '@/app/TargetingLocationsSearch'
+import DisabledSection from '@/app/DisabledSection'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -35,7 +36,12 @@ const TargetingLocations = ({
         initialCityKeys={initialCityKeys}
         initialCountryCodes={initialCountryCodes}
       />
-      <TargetingLocationsSearch />
+      <DisabledSection
+        section="custom-locations"
+        hasTierRestriction
+      >
+        <TargetingLocationsSearch />
+      </DisabledSection>
     </section>
   )
 }

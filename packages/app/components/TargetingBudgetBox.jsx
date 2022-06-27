@@ -12,7 +12,7 @@ import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
-import ControlsContentSection from '@/app/ControlsContentSection'
+import DisabledSection from '@/app/DisabledSection'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import copy from '@/app/copy/controlsPageCopy'
@@ -99,7 +99,7 @@ const TargetingBudgetBox = ({
                 className={!isDesktopLayout ? 'mr-12' : null}
               />
             </div>
-            <ControlsContentSection action="choose your budget">
+            <DisabledSection section="budget">
               {/* BUDGET SETTER */}
               <div>
                 <TargetingBudgetSetter
@@ -135,7 +135,7 @@ const TargetingBudgetBox = ({
                   minHardBudget={minHardBudget}
                 />
               </div>
-            </ControlsContentSection>
+            </DisabledSection>
           </>
         )}
       </section>

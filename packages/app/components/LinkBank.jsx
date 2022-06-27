@@ -8,7 +8,7 @@ import Error from '@/elements/Error'
 
 import LinkBankList from '@/app/LinkBankList'
 import LinkBankIntegrations from '@/app/LinkBankIntegrations'
-import ControlsContentSection from '@/app/ControlsContentSection'
+import DisabledSection from '@/app/DisabledSection'
 
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -26,7 +26,7 @@ const getControlsStoreState = (state) => ({
 
 const LinkBank = () => {
   const { fetchData, nestedLinks, isControlsLoading, linkBankError } = useControlsStore(getControlsStoreState, shallow)
-  const { artistId, artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
+  const { artistId, artist: { hasSetUpProfile, hasGrowthTier } } = React.useContext(ArtistContext)
 
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
@@ -54,7 +54,10 @@ const LinkBank = () => {
       {linkBankError && (
         <Error error={linkBankError} className="mb-8" />
       )}
-      <ControlsContentSection action="add to the link bank">
+      <DisabledSection
+        section="linkbank"
+        hasTierRestriction={!hasGrowthTier}
+      >
         <section className="mb-10">
           <LinkBankList
             looseLinks={hasSetUpProfile ? looseLinks : dummyLinks}
@@ -68,7 +71,7 @@ const LinkBank = () => {
             integrationLinks={hasSetUpProfile ? integrationLinks : dummyIntegrationLinks}
           />
         </section>
-      </ControlsContentSection>
+      </DisabledSection>
     </section>
   )
 }

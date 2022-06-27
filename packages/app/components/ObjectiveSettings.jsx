@@ -7,7 +7,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import ControlsContentSection from '@/app/ControlsContentSection'
+import DisabledSection from '@/app/DisabledSection'
 import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjectiveSelector'
 import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
@@ -29,6 +29,7 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
+  const { hasGrowthTier } = artist
   const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
@@ -110,8 +111,11 @@ const ObjectiveSettings = () => {
   return (
     <div>
       <h2>Objective</h2>
-      <ControlsContentSection action="choose your objective">
-        <MarkdownText markdown={copy.objectiveIntro} className="mb-10" />
+      <DisabledSection
+        section="objective"
+        hasTierRestriction={!hasGrowthTier}
+      >
+        <MarkdownText markdown={copy.objectiveIntro} className="inline-block mb-10" />
         <ObjectiveSettingsObjectiveSelector
           objective={objective}
           setObjective={setObjective}
@@ -164,7 +168,7 @@ const ObjectiveSettings = () => {
             isLoading={isLoading}
           />
         )}
-      </ControlsContentSection>
+      </DisabledSection>
     </div>
   )
 }

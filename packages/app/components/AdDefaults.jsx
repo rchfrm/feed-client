@@ -9,7 +9,7 @@ import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
 import AdDefaultsAdAccount from '@/app/AdDefaultsAdAccount'
 import AdDefaultsPixelSelector from '@/app/AdDefaultsPixelSelector'
 import AdDefaultsPixelEvent from '@/app/AdDefaultsPixelEvent'
-import ControlsContentSection from '@/app/ControlsContentSection'
+import DisabledSection from '@/app/DisabledSection'
 
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -23,7 +23,8 @@ const getControlsStoreState = (state) => ({
 })
 
 const AdDefaults = () => {
-  const { artistId, setPostPreferences } = React.useContext(ArtistContext)
+  const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
+  const { hasGrowthTier, hasProTier } = artist
 
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   const { postsPreferences, conversionsPreferences, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
@@ -35,10 +36,12 @@ const AdDefaults = () => {
   return (
     <div>
       <h2>Promotion Settings</h2>
-      <ControlsContentSection action="fill in these fields">
+      <DisabledSection section="promotion-settings">
         {/* GLOBAL POST STATUS */}
         <AdSettingsSection
           header="Automated post selection"
+          section="default-promotion"
+          hasTierRestriction={!hasGrowthTier}
           copy={copy.globalToggleIntro}
         >
           <AdDefaultsStatus
@@ -72,6 +75,8 @@ const AdDefaults = () => {
         {/* FB PIXEL */}
         <AdSettingsSection
           header="Facebook Pixel"
+          section="facebook-pixel"
+          hasTierRestriction={!hasProTier}
           copy={copy.facebookPixelIntro}
         >
           <AdDefaultsPixelSelector />
@@ -89,7 +94,7 @@ const AdDefaults = () => {
             />
           </AdSettingsSection>
         )}
-      </ControlsContentSection>
+      </DisabledSection>
     </div>
   )
 }

@@ -1,14 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import DisabledSection from '@/app/DisabledSection'
+
 import MarkdownText from '@/elements/MarkdownText'
 
 const AdSettingsSection = ({
+  children,
   header,
   copy,
-  copyClassName,
-  children,
+  section,
+  hasTierRestriction,
   isDisabled,
+  className,
 }) => {
   return (
     <section className={[
@@ -17,25 +21,35 @@ const AdSettingsSection = ({
     >
       <div className={isDisabled ? 'text-grey-2' : null}>
         <h3 className="font-body font-bold text-lg mb-3">{header}</h3>
-        {copy && <MarkdownText markdown={copy} className={copyClassName} />}
+        <DisabledSection
+          section={section}
+          hasTierRestriction={hasTierRestriction}
+          className="mb-10"
+        >
+          {copy && <MarkdownText markdown={copy} className={className} />}
+          {children}
+        </DisabledSection>
       </div>
-      {children}
     </section>
   )
 }
 
 AdSettingsSection.propTypes = {
+  children: PropTypes.node.isRequired,
   header: PropTypes.string.isRequired,
   copy: PropTypes.string,
-  copyClassName: PropTypes.string,
+  section: PropTypes.string,
+  hasTierRestriction: PropTypes.bool,
   isDisabled: PropTypes.bool,
-  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
 }
 
 AdSettingsSection.defaultProps = {
   copy: '',
-  copyClassName: null,
+  section: '',
+  hasTierRestriction: false,
   isDisabled: false,
+  className: null,
 }
 
 
