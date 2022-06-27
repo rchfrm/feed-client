@@ -182,6 +182,7 @@ const ObjectiveSettings = () => {
       {hasProTier && (
         <TierRestrictionMessage
           copy={copy.objectiveManagedTier}
+          externalUrl="https://meetings.hubspot.com/feed/managed"
           className="block mt-20"
         />
       )}

@@ -11,12 +11,16 @@ import * as ROUTES from '@/app/constants/routes'
 const TierRestrictionMessage = ({
   copy,
   size,
+  externalUrl,
   className,
 }) => {
   const isSmallSize = size === 'small'
+
   return (
-    <Link href={ROUTES.BILLING}>
-      <a className={['block no-underline', className].join(' ')}>
+    <Link
+      href={externalUrl || ROUTES.BILLING}
+    >
+      <a className={['block no-underline', className].join(' ')} target={externalUrl ? '_blank' : null}>
         <div className={[
           'flex items-center',
           isSmallSize ? 'text-xs' : 'p-4 border-2 border-solid border-insta rounded-dialogue',
@@ -39,11 +43,13 @@ const TierRestrictionMessage = ({
 TierRestrictionMessage.propTypes = {
   copy: PropTypes.string.isRequired,
   size: PropTypes.string,
+  externalUrl: PropTypes.string,
   className: PropTypes.string,
 }
 
 TierRestrictionMessage.defaultProps = {
   size: 'regular',
+  externalUrl: '',
   className: null,
 }
 
