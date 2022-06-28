@@ -6,7 +6,6 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import useSignup from '@/app/hooks/useSignup'
-import EditBlock from '@/app/EditBlock'
 
 import ArrowAltIcon from 'shared/components/icons/ArrowAltIcon'
 import brandColors from '@/constants/brandColors'
@@ -25,7 +24,6 @@ import styles from '@/LoginPage.module.css'
 const SignupEmailForm = ({ initialEmail }) => {
   const [email, setEmail] = React.useState(initialEmail)
   const [password, setPassword] = React.useState('')
-  const [isEmailEdit, setIsEmailEdit] = React.useState(!initialEmail)
   const [error, setError] = React.useState(null)
   const [hasEmailError, setHasEmailError] = React.useState(false)
 
@@ -151,27 +149,17 @@ const SignupEmailForm = ({ initialEmail }) => {
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       <Error className={styles.error} error={error} />
-      {isEmailEdit ? (
-        <Input
-          className={styles.input}
-          handleChange={onInputChange}
-          name="email"
-          type="email"
-          label="Email"
-          value={email}
-          error={hasEmailError}
-          autoFocus
-          required
-        />
-      ) : (
-        <EditBlock
-          value={email}
-          isEditMode={isEmailEdit}
-          setIsEditMode={setIsEmailEdit}
-          trackComponentName="SignupEmailForm"
-          className="mb-4"
-        />
-      )}
+      <Input
+        className={styles.input}
+        handleChange={onInputChange}
+        name="email"
+        type="email"
+        label="Email"
+        value={email}
+        error={hasEmailError}
+        autoFocus
+        required
+      />
       <Input
         className={styles.input}
         handleChange={onInputChange}
