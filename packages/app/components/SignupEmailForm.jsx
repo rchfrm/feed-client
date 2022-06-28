@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
+import shallow from 'zustand/shallow'
 
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 import useSignup from '@/app/hooks/useSignup'
+import useReferralStore from '@/app/stores/referralStore'
 
 import ArrowAltIcon from 'shared/components/icons/ArrowAltIcon'
 import brandColors from '@/constants/brandColors'
@@ -21,14 +23,25 @@ import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpe
 import * as ROUTES from '@/app/constants/routes'
 import styles from '@/LoginPage.module.css'
 
+const getReferralStoreState = (state) => ({
+  getStoredReferrerCode: state.getStoredReferrerCode,
+})
+
 const SignupEmailForm = ({ initialEmail }) => {
   const [email, setEmail] = React.useState(initialEmail)
   const [password, setPassword] = React.useState('')
+  const [referralCode, setReferralCode] = React.useState('')
   const [error, setError] = React.useState(null)
   const [hasEmailError, setHasEmailError] = React.useState(false)
 
   const { runCreateUser } = React.useContext(UserContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+
+  const { getStoredReferrerCode } = useReferralStore(getReferralStoreState, shallow)
+
+  React.useEffect(() => {
+    setReferralCode(getStoredReferrerCode())
+  }, [getStoredReferrerCode])
 
   const passwordStatus = React.useMemo(() => {
     if (!password) {
@@ -171,11 +184,19 @@ const SignupEmailForm = ({ initialEmail }) => {
         error={passwordStatus.error}
         required
       />
+      <Input
+        className={[styles.input].join(' ')}
+        handleChange={onInputChange}
+        name="referral-code"
+        type="text"
+        label="Referral Code"
+        value={referralCode}
+      />
       <Button
         className={[styles.signupButton, 'ml-auto'].join(' ')}
         version="green wide"
         disabled={!formComplete}
-        type="sumbit"
+        type="submit"
         trackComponentName="SignupEmailForm"
       >
         Next
