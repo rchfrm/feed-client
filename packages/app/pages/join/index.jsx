@@ -1,5 +1,6 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import getDatoData from '@/helpers/getDatoData'
+import query from '@/app/graphQl/testimoniesQuery'
 
 import BasePage from '@/app/BasePage'
 
@@ -9,16 +10,28 @@ const headerConfig = {
   text: 'sign up',
 }
 
-const Page = () => {
+const Page = ({ testimonies }) => {
   return (
     <BasePage
       headerConfig={headerConfig}
       staticPage
       authPage
     >
-      <SignupPage />
+      <SignupPage testimonies={testimonies} />
     </BasePage>
   )
+}
+
+export async function getStaticProps() {
+  const forceLoad = false
+  const { data } = await getDatoData(query, 'home', forceLoad)
+  const { heroCopy: { testimonies } } = data
+
+  return {
+    props: {
+      testimonies,
+    },
+  }
 }
 
 export default Page

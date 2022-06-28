@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { useRouter } from 'next/router'
 import useAsyncEffect from 'use-async-effect'
@@ -22,7 +23,7 @@ const getReferralStoreState = (state) => ({
   getStoredReferrerCode: state.getStoredReferrerCode,
 })
 
-const SignupPage = () => {
+const SignupPage = ({ testimonies }) => {
   const {
     testCodeValidity,
     testCodeTruth,
@@ -33,6 +34,7 @@ const SignupPage = () => {
   const [checking, setChecking] = React.useState(true)
   const [error, setError] = React.useState(null)
   const [email, setEmail] = React.useState('')
+  const [testimony, setTestimony] = React.useState(null)
   const { asPath: urlString } = useRouter()
 
   const isValidReferralCode = async (referralCode) => {
@@ -81,8 +83,15 @@ const SignupPage = () => {
     }
   }, [])
 
+  // Pick and set a random testimony
+  React.useEffect(() => {
+    if (!testimonies.length || testimony) return
+
+    setTestimony(testimonies[Math.floor(Math.random() * testimonies.length)])
+  }, [testimonies, testimony])
+
   // STOP HERE IF CHECKING QUERY CODE
-  if (checking) return <Spinner />
+  if (checking || !testimony) return <Spinner />
 
   return (
     <>
@@ -90,9 +99,14 @@ const SignupPage = () => {
       <SignupPageContent
         email={email}
         isValidReferralCode={isValidReferralCode}
+        testimony={testimony}
       />
     </>
   )
+}
+
+SignupPage.propTypes = {
+  testimonies: PropTypes.array.isRequired,
 }
 
 export default SignupPage
