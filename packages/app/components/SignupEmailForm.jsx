@@ -33,6 +33,7 @@ const SignupEmailForm = ({ initialEmail }) => {
   const [referralCode, setReferralCode] = React.useState('')
   const [error, setError] = React.useState(null)
   const [hasEmailError, setHasEmailError] = React.useState(false)
+  const [shouldShowReferralCodeInput, setShouldShowReferralCodeInput] = React.useState(false)
 
   const { runCreateUser } = React.useContext(UserContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
@@ -76,6 +77,10 @@ const SignupEmailForm = ({ initialEmail }) => {
 
     if (name === 'password') {
       setPassword(e.target.value)
+    }
+
+    if (name === 'referralCode') {
+      setReferralCode(e.target.value)
     }
   }
 
@@ -146,6 +151,10 @@ const SignupEmailForm = ({ initialEmail }) => {
     }
   }
 
+  const toggleReferralCodeInput = () => {
+    setShouldShowReferralCodeInput((shouldShowReferralCodeInput) => !shouldShowReferralCodeInput)
+  }
+
   React.useEffect(() => {
     /* There’s no guarantee that the reCaptcha DOM element exist on page load.
     So we watch the document body and apply styling once the element does exist. */
@@ -163,7 +172,7 @@ const SignupEmailForm = ({ initialEmail }) => {
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       <Error className={styles.error} error={error} />
       <Input
-        className={styles.input}
+        className={[styles.input, 'mb-6'].join(' ')}
         handleChange={onInputChange}
         name="email"
         type="email"
@@ -174,7 +183,7 @@ const SignupEmailForm = ({ initialEmail }) => {
         required
       />
       <Input
-        className={styles.input}
+        className={[styles.input, 'mb-6'].join(' ')}
         handleChange={onInputChange}
         name="password"
         type="password"
@@ -184,14 +193,29 @@ const SignupEmailForm = ({ initialEmail }) => {
         error={passwordStatus.error}
         required
       />
-      <Input
-        className={[styles.input].join(' ')}
-        handleChange={onInputChange}
-        name="referral-code"
-        type="text"
-        label="Referral Code"
-        value={referralCode}
-      />
+      <div className={['w-full', shouldShowReferralCodeInput ? 'mb-4' : 'mb-10'].join(' ')}>
+        <Button
+          version="text"
+          type="button"
+          onClick={toggleReferralCodeInput}
+          className={['-mt-2 h-5'].join(' ')}
+          trackComponentName="SignupEmailForm"
+        >
+          {shouldShowReferralCodeInput ? 'Hide' : 'Enter a'} referral code
+        </Button>
+      </div>
+      {shouldShowReferralCodeInput && (
+        <div className="w-full mb-2">
+          <Input
+            className="w-1/2"
+            handleChange={onInputChange}
+            name="referral-code"
+            type="text"
+            label="Referral Code"
+            value={referralCode}
+          />
+        </div>
+      )}
       <Button
         className={[styles.signupButton, 'ml-auto'].join(' ')}
         version="green wide"
