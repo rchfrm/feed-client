@@ -39,10 +39,12 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   const { getStoredReferrerCode } = useReferralStore(getReferralStoreState, shallow)
+  const initialReferralCode = getStoredReferrerCode()
 
   React.useEffect(() => {
-    setReferralCode(getStoredReferrerCode())
-  }, [getStoredReferrerCode])
+    setReferralCode(initialReferralCode)
+    // eslint-disable-next-line
+  }, [])
 
   const passwordStatus = React.useMemo(() => {
     if (!password) {
@@ -100,7 +102,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
     })
 
     // If referral code is given, check if it's valid
-    if (referralCode) {
+    if (referralCode && referralCode !== initialReferralCode) {
       const isValid = await isValidReferralCode(referralCode)
 
       if (!isValid) {
