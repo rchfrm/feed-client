@@ -27,7 +27,7 @@ const getReferralStoreState = (state) => ({
   getStoredReferrerCode: state.getStoredReferrerCode,
 })
 
-const SignupEmailForm = ({ initialEmail }) => {
+const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
   const [email, setEmail] = React.useState(initialEmail)
   const [password, setPassword] = React.useState('')
   const [referralCode, setReferralCode] = React.useState('')
@@ -79,7 +79,7 @@ const SignupEmailForm = ({ initialEmail }) => {
       setPassword(e.target.value)
     }
 
-    if (name === 'referralCode') {
+    if (name === 'referral-code') {
       setReferralCode(e.target.value)
     }
   }
@@ -89,13 +89,25 @@ const SignupEmailForm = ({ initialEmail }) => {
   // * HANDLE FORM SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     // Stop here if not complete
     if (!formComplete) return
+
     toggleGlobalLoading(true)
     fireSentryBreadcrumb({
       category: 'sign up',
       action: 'submit sign up form',
     })
+
+    // If referral code is given, check if it's valid
+    if (referralCode) {
+      const isValid = await isValidReferralCode(referralCode)
+
+      if (!isValid) {
+        toggleGlobalLoading(false)
+        return
+      }
+    }
 
     const signupRes = await signupWithEmail(email, password)
       .catch((error) => {
@@ -109,6 +121,7 @@ const SignupEmailForm = ({ initialEmail }) => {
           label: email,
         })
       })
+
     if (!signupRes) return
 
     window.grecaptcha.enterprise.ready(async () => {
@@ -236,6 +249,7 @@ const SignupEmailForm = ({ initialEmail }) => {
 
 SignupEmailForm.propTypes = {
   initialEmail: PropTypes.string,
+  isValidReferralCode: PropTypes.func.isRequired,
 }
 
 SignupEmailForm.defaultProps = {

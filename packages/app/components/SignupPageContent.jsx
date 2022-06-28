@@ -9,7 +9,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/LoginPageCopy'
 
-const SignupPageContent = ({ email }) => {
+const SignupPageContent = ({ email, isValidReferralCode }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
 
   // Clear auth error when leaving page
@@ -26,7 +26,10 @@ const SignupPageContent = ({ email }) => {
           <Error error={authError} />
           <h2 className="mb-2 text-2xl">Create account</h2>
           <MarkdownText className={['small--text'].join(' ')} markdown={copy.tcText('clicking next')} />
-          <SignupEmailForm initialEmail={email} />
+          <SignupEmailForm
+            initialEmail={email}
+            isValidReferralCode={isValidReferralCode}
+          />
         </div>
       </div>
       <div className="hidden sm:flex flex-1 items-center justify-center pt-10">
@@ -40,6 +43,7 @@ const SignupPageContent = ({ email }) => {
 
 SignupPageContent.propTypes = {
   email: PropTypes.string,
+  isValidReferralCode: PropTypes.func.isRequired,
 }
 
 SignupPageContent.defaultProps = {
