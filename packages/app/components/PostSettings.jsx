@@ -13,6 +13,7 @@ import PostCardSettingsPreview from '@/app/PostCardSettingsPreview'
 import PostSettingsLink from '@/app/PostSettingsLink'
 import PostSettingsCallToAction from '@/app/PostSettingsCallToAction'
 import PostSettingsCaption from '@/app/PostSettingsCaption'
+import PostUnpromotable from '@/app/PostUnpromotable'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -29,6 +30,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   const {
     id: postId,
     promotionEnabled,
+    postPromotable,
     conversionsEnabled,
     priorityEnabled,
     promotionEligibility,
@@ -85,10 +87,14 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
           <PostCardSettingsTabs
             campaignType={campaignType}
             setCampaignType={setCampaignType}
+            isDisabled={!postPromotable}
           />
         )}
         {isDesktopLayout && (
           <>
+            {!postPromotable && (
+              <PostUnpromotable className="w-1/2 mb-10" />
+            )}
             {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
             <div className="flex">
               <PostCardSettingsToggle
@@ -100,7 +106,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
                 artistId={artistId}
                 isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
                 setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-                isDisabled={isToggleDisabled}
+                isDisabled={isToggleDisabled || !postPromotable}
                 showAlertModal={isConversionsCampaign && (!canRunConversions)}
                 className="pl-4"
               />
@@ -108,6 +114,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
                 promotionEnabled={promotionEnabled}
                 promotionStatus={promotionStatus}
                 className="pl-4"
+                isDisabled={!postPromotable}
               />
             </div>
             {shouldShowPreview && (
