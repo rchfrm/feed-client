@@ -222,7 +222,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
       {shouldShowReferralCodeInput && (
         <div className="w-full mb-2">
           <Input
-            className="w-1/2"
+            className="w-full xs:w-1/2"
             handleChange={onInputChange}
             name="referral-code"
             type="text"
