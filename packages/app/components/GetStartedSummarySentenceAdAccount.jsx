@@ -39,7 +39,7 @@ const GetStartedSummarySentenceAdAccount = () => {
   return (
     <GetStartedSummarySentenceSection
       section={getStartedSections.adAccount}
-      text=", in"
+      text=" in"
       color={brandColors.yellow}
       isComplete={Boolean(adAccountId)}
       className="mx-1 sm:mx-2"

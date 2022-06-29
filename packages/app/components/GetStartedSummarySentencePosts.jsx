@@ -4,6 +4,8 @@ import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
 
 import PostImage from '@/PostImage'
@@ -21,10 +23,14 @@ const GetStartedSummarySentencePosts = () => {
   const { artistId, enabledPosts } = React.useContext(ArtistContext)
   const { steps, currentStep } = React.useContext(WizardContext)
 
+  const isDesktopLayout = useBreakpointTest('xs')
+
   const section = getStartedSections.postPromotion
   const isActive = steps[currentStep].section === section
   const isComplete = posts.length > 0
   const isInActive = !isActive && !isComplete
+  const lastStep = steps.length - 1
+  const isLastStep = currentStep === lastStep
 
   useAsyncEffect(async (isMounted) => {
     if (!artistId) return
@@ -74,8 +80,8 @@ const GetStartedSummarySentencePosts = () => {
                   key={id}
                   className={[
                     'relative',
-                    'w-5 h-5 xs:w-10 xs:h-10',
-                    'mx-0.5 xs:mx-1 rounded-full overflow-hidden',
+                    'rounded-full overflow-hidden',
+                    isDesktopLayout || isLastStep ? 'w-10 h-10 mx-1' : 'w-5 h-5 mx-0.5',
                   ].join(' ')}
                 >
                   <PostImage
@@ -88,7 +94,12 @@ const GetStartedSummarySentencePosts = () => {
               )
             })}
             {posts.length > 2 && (
-              <div className="flex justify-center items-center w-5 h-5 xs:w-10 xs:h-10 mx-1 border-2 border-solid border-black rounded-full text-xs">
+              <div className={[
+                'flex justify-center items-center',
+                'border-2 border-solid border-black rounded-full text-xs',
+                isDesktopLayout || isLastStep ? 'w-10 h-10 mx-1' : 'w-5 h-5 mx-0.5',
+              ].join(' ')}
+              >
                 &bull;&bull;&bull;
               </div>
             )}
@@ -98,7 +109,10 @@ const GetStartedSummarySentencePosts = () => {
           Array.from([1, 2]).map((index) => (
             <BrokenImageIcon
               key={index}
-              className="relative w-5 h-5 xs:w-10 xs:h-10 mx-0.5 xs:mx-1 rounded-full"
+              className={[
+                'relative rounded-full',
+                isDesktopLayout || isLastStep ? 'w-10 h-10 mx-1' : 'w-5 h-5 mx-0.5',
+              ].join(' ')}
               circleFill={isInActive ? brandColors.grey : brandColors.black}
               dotFill={isInActive ? brandColors.textColor : brandColors.white}
               strokeFill={isInActive ? brandColors.white : brandColors.grey}

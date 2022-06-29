@@ -26,6 +26,8 @@ const GetStartedSummarySentenceSection = ({
   const { steps, currentStep, goToStep, wizardState, setWizardState } = React.useContext(WizardContext)
   const { sectionColors } = wizardState
   const objectiveSectionColor = sectionColors?.objective
+  const lastStep = steps.length - 1
+  const isLastStep = currentStep === lastStep
   const isDesktopLayout = useBreakpointTest('xs')
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
@@ -102,13 +104,24 @@ const GetStartedSummarySentenceSection = ({
       className={[
         'flex items-center',
         isInActive ? 'text-grey-2 pointer-events-none' : 'text-black',
+        isLastStep && !isDesktopLayout ? 'flex-column mb-2' : null,
       ].join(' ')}
     >
-      {text && <span className="whitespace-pre xs:mb-2">{isDesktopLayout ? text : '>'}</span>}
+      {text && (
+        <span
+          className={[
+            'whitespace-pre xs:mb-2',
+            isLastStep && !isDesktopLayout ? 'text-xs mb-2' : null,
+          ].join(' ')}
+        >
+          {isDesktopLayout || isLastStep ? text : '>'}
+        </span>
+      )}
       <span
         className={[
           hasBorder && isDesktopLayout ? 'mb-2 py-1 px-3 border-2 border-solid rounded-full' : null,
           isComplete && !isDesktopLayout ? 'font-bold' : null,
+          isLastStep && !isDesktopLayout ? 'text-xl' : null,
           className,
         ].join(' ')}
         style={{ [isDesktopLayout ? 'borderColor' : 'color']: borderColor }}
