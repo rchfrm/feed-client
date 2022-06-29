@@ -35,7 +35,7 @@ export default function FAQPage({ pageData }) {
 export async function getStaticPaths() {
   const query = getAllFaqSlugsQuery()
   const pageKey = 'faqSlugs'
-  const forceLoad = false
+  const forceLoad = true
   const {
     data: {
       allFaqArticles: faqs,
