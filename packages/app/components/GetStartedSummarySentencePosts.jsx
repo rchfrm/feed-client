@@ -96,8 +96,8 @@ const GetStartedSummarySentencePosts = () => {
             {posts.length > 2 && (
               <div className={[
                 'flex justify-center items-center',
-                'border-2 border-solid border-black rounded-full text-xs',
-                isDesktopLayout || isLastStep ? 'w-10 h-10 mx-1' : 'w-5 h-5 mx-0.5 text-[8px]',
+                'border-solid border-black rounded-full text-xs',
+                isDesktopLayout || isLastStep ? 'w-10 h-10 mx-1 border-2' : 'w-5 h-5 mx-0.5 text-[8px] border',
               ].join(' ')}
               >
                 &bull;&bull;&bull;
