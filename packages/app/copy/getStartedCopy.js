@@ -112,9 +112,9 @@ export default {
   },
   inSufficientBudget: (minBudget) => `Budget must be at least ${minBudget} to set your objective to sales.`,
   reviewDescription: 'Feed has submitted your ads for approval!',
-  objectiveSummary: (objective, platform) => {
+  objectiveSummary: (objective, platform, isDesktopLayout) => {
     if (!objective) {
-      return 'Grow, sell or drive traffic'
+      return isDesktopLayout ? 'Grow, sell or drive traffic' : 'Objective'
     }
 
     if (objective && objective === 'growth') {

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 
@@ -25,6 +26,7 @@ const GetStartedSummarySentenceSection = ({
   const { steps, currentStep, goToStep, wizardState, setWizardState } = React.useContext(WizardContext)
   const { sectionColors } = wizardState
   const objectiveSectionColor = sectionColors?.objective
+  const isDesktopLayout = useBreakpointTest('xs')
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective: storedObjective, platform: storedPlatform } = JSON.parse(getLocalStorage('getStartedWizard')) || {}
@@ -63,7 +65,7 @@ const GetStartedSummarySentenceSection = ({
       return
     }
 
-    setBorderColor(brandColors.greyLight)
+    setBorderColor(brandColors.grey)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasBorder, isActive, objective, platform, isComplete, section])
 
@@ -102,13 +104,14 @@ const GetStartedSummarySentenceSection = ({
         isInActive ? 'text-grey-2 pointer-events-none' : 'text-black',
       ].join(' ')}
     >
-      {text && <span className="whitespace-pre mb-2">{text}</span>}
+      {text && <span className="whitespace-pre xs:mb-2">{isDesktopLayout ? text : '>'}</span>}
       <span
         className={[
-          hasBorder ? 'mb-2 py-1 px-3 border-2 border-solid rounded-full' : null,
+          hasBorder && isDesktopLayout ? 'mb-2 py-1 px-3 border-2 border-solid rounded-full' : null,
+          isComplete && !isDesktopLayout ? 'font-bold' : null,
           className,
         ].join(' ')}
-        style={{ borderColor }}
+        style={{ [isDesktopLayout ? 'borderColor' : 'color']: borderColor }}
       >
         {children}
       </span>

@@ -59,10 +59,10 @@ const GetStartedSummarySentencePosts = () => {
       section={getStartedSections.postPromotion}
       text="using these posts:"
       isComplete={isComplete}
-      className="mx-2"
+      className="sm:mx-2"
       hasBorder={false}
     >
-      <div className="flex items-center mb-2">
+      <div className="flex items-center xs:mb-2">
         {posts.length ? (
           <>
             {posts.map(({ id, media, thumbnails }, index) => {
@@ -70,7 +70,14 @@ const GetStartedSummarySentencePosts = () => {
               if (index > 1) return
 
               return (
-                <div key={id} className="relative w-10 h-10 mx-1 rounded-full overflow-hidden">
+                <div
+                  key={id}
+                  className={[
+                    'relative',
+                    'w-5 h-5 xs:w-10 xs:h-10',
+                    'mx-0.5 xs:mx-1 rounded-full overflow-hidden',
+                  ].join(' ')}
+                >
                   <PostImage
                     mediaSrc={media}
                     mediaType="image"
@@ -81,7 +88,7 @@ const GetStartedSummarySentencePosts = () => {
               )
             })}
             {posts.length > 2 && (
-              <div className="flex justify-center items-center w-10 h-10 mx-1 border-2 border-solid border-black rounded-full text-xs">
+              <div className="flex justify-center items-center w-5 h-5 xs:w-10 xs:h-10 mx-1 border-2 border-solid border-black rounded-full text-xs">
                 &bull;&bull;&bull;
               </div>
             )}
@@ -91,7 +98,7 @@ const GetStartedSummarySentencePosts = () => {
           Array.from([1, 2]).map((index) => (
             <BrokenImageIcon
               key={index}
-              className="relative w-10 h-10 mx-1 rounded-full"
+              className="relative w-5 h-5 xs:w-10 xs:h-10 mx-0.5 xs:mx-1 rounded-full"
               circleFill={isInActive ? brandColors.grey : brandColors.black}
               dotFill={isInActive ? brandColors.textColor : brandColors.white}
               strokeFill={isInActive ? brandColors.white : brandColors.grey}
