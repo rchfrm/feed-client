@@ -232,7 +232,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         </div>
       )}
       <Button
-        className={[styles.signupButton, 'ml-auto'].join(' ')}
+        className={[styles.signupButton, 'w-full xs:w-1/2 ml-auto'].join(' ')}
         version="green wide"
         disabled={!formComplete}
         type="submit"
