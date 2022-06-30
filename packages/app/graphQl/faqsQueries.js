@@ -2,7 +2,7 @@ import { contentBlocks } from '@/graphQl/querySnippets'
 
 export const getAllFaqQuestionsQuery = () => `
   query {
-    allFaqArticles {
+    allFaqArticles(first: 100) {
       slug
       question
       category
@@ -22,7 +22,7 @@ export const getAllFaqQuestionsByCategoryQuery = category => `
 
 export const getAllFaqSlugsQuery = () => `
   query {
-    allFaqArticles {
+    allFaqArticles(first: 100) {
       slug
     }
   }
