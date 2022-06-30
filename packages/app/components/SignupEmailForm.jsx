@@ -194,7 +194,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         label="Email"
         value={email}
         error={hasEmailError}
-        autoFocus
+        autoFocus={!initialEmail}
         required
       />
       <Input
@@ -206,6 +206,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         value={password}
         success={passwordStatus.success}
         error={passwordStatus.error}
+        autoFocus={Boolean(initialEmail)}
         required
       />
       <div className={['w-full', shouldShowReferralCodeInput ? 'mb-4' : 'mb-10'].join(' ')}>
@@ -222,7 +223,6 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
       {shouldShowReferralCodeInput && (
         <div className="w-full mb-2">
           <Input
-            className="w-full xs:w-1/2"
             handleChange={onInputChange}
             name="referral-code"
             type="text"
