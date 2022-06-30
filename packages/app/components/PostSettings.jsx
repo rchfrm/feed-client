@@ -64,7 +64,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   const isToggleDisabled = campaignType === 'all'
     ? !isEligibleForGrowAndNurture && !priorityEnabled
     : (!isEligibleForConversions && !priorityEnabled)
-  const isSectionDisabled = campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled
+  const isSectionDisabled = (campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled) || !postPromotable
 
   const { sales: salesPreviewLink, ...growAndNurturePreviewLinks } = adPreviewLinks || {}
   const hasPreviewLinkForSelectedCampaignType = (campaignType === 'all' && Object.keys(growAndNurturePreviewLinks).length > 0) || (campaignType === 'conversions' && salesPreviewLink)
@@ -113,8 +113,8 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
               <PostCardSettingsPromotionStatus
                 promotionEnabled={promotionEnabled}
                 promotionStatus={promotionStatus}
+                postPromotable={postPromotable}
                 className="pl-4"
-                isDisabled={!postPromotable}
               />
             </div>
             {shouldShowPreview && (

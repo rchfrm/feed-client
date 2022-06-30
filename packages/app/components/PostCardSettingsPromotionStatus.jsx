@@ -6,13 +6,12 @@ import PostCardPromotionStatus from '@/app/PostCardPromotionStatus'
 const PostCardSettingsPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
-  isDisabled,
+  postPromotable,
   className,
 }) => {
   return (
     <div className="flex flex-column w-1/2">
       <h3 className={[
-        isDisabled ? 'text-grey-2' : null,
         'font-bold text-lg',
       ].join(' ')}
       >
@@ -21,6 +20,7 @@ const PostCardSettingsPromotionStatus = ({
       <PostCardPromotionStatus
         promotionEnabled={promotionEnabled}
         promotionStatus={promotionStatus}
+        postPromotable={postPromotable}
         className={className}
       />
     </div>
@@ -30,12 +30,11 @@ const PostCardSettingsPromotionStatus = ({
 PostCardSettingsPromotionStatus.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
-  isDisabled: PropTypes.bool,
+  postPromotable: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
 PostCardSettingsPromotionStatus.defaultProps = {
-  isDisabled: false,
   className: null,
 }
 
