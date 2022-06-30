@@ -82,6 +82,10 @@ const useCheckProfileSetupStatus = () => {
       isComplete: Boolean(defaultLink?.href || wizardState?.defaultLink?.href),
     },
     {
+      name: profileStatus.pricingTier,
+      isComplete: Boolean(wizardState?.pricingTier),
+    },
+    {
       name: profileStatus.connectProfile,
       isComplete: Boolean(user.artists.length),
     },
@@ -113,7 +117,8 @@ const useCheckProfileSetupStatus = () => {
       name: profileStatus.paymentMethod,
       isComplete: Boolean(defaultPaymentMethod),
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
+  ], [
+    adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.pricingTier, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => !condition.isComplete)?.name

@@ -15,6 +15,7 @@ import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 import GetStartedObjective from '@/app/GetStartedObjective'
 import GetStartedPlatform from '@/app/GetStartedPlatform'
 import GetStartedDefaultLink from '@/app/GetStartedDefaultLink'
+import GetStartedPricingTier from '@/app/GetStartedPricingTier'
 import GetStartedConnectFacebook from '@/app/GetStartedConnectFacebook'
 import GetStartedPostsSelection from '@/app/GetStartedPostsSelection'
 import GetStartedPostsDefaultSelection from '@/app/GetStartedPostsDefaultSelection'
@@ -98,6 +99,13 @@ const GetStartedWizard = () => {
     },
     {
       id: 3,
+      name: profileStatus.pricingTier,
+      title: 'Your plan',
+      section: getStartedSections.pricingTier,
+      component: <GetStartedPricingTier />,
+    },
+    {
+      id: 4,
       name: profileStatus.connectProfile,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
@@ -105,35 +113,35 @@ const GetStartedWizard = () => {
       shouldSkip: Boolean(user.artists.length),
     },
     {
-      id: 4,
+      id: 5,
       name: profileStatus.posts,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsSelection />,
     },
     {
-      id: 5,
+      id: 6,
       name: profileStatus.defaultPostPromotion,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsDefaultSelection />,
     },
     {
-      id: 6,
+      id: 7,
       name: profileStatus.adAccount,
       title: 'Your ad account',
       section: getStartedSections.adAccount,
       component: <GetStartedAdAccount />,
     },
     {
-      id: 7,
+      id: 8,
       name: profileStatus.facebookPixel,
       title: 'Your pixel',
       section: getStartedSections.adAccount,
       component: <GetStartedFacebookPixel />,
     },
     {
-      id: 8,
+      id: 9,
       name: profileStatus.location,
       title: 'Your location',
       section: getStartedSections.adAccount,
@@ -141,14 +149,14 @@ const GetStartedWizard = () => {
       shouldSkip: (Object.keys(locations || {}).length || artist.country_code),
     },
     {
-      id: 9,
+      id: 10,
       name: profileStatus.budget,
       title: 'Budget',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
     },
     {
-      id: 10,
+      id: 11,
       name: profileStatus.paymentMethod,
       title: "Feed's service fee",
       section: getStartedSections.targeting,
@@ -156,7 +164,7 @@ const GetStartedWizard = () => {
       shouldSkip: Boolean(defaultPaymentMethod),
     },
     {
-      id: 11,
+      id: 12,
       title: '',
       component: <GetStartedSummary />,
     },

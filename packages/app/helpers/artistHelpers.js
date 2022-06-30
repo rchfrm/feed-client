@@ -590,6 +590,7 @@ export const profileStatus = {
   objective: 'objective',
   platform: 'platform',
   defaultLink: 'default-link',
+  pricingTier: 'pricing-tier',
   connectProfile: 'connect-profile',
   posts: 'posts',
   defaultPostPromotion: 'default-post-promotion',
@@ -652,12 +653,14 @@ export const getPreferencesObject = (updatedArtist) => {
 }
 
 const objective = 'objective'
+const pricingTier = 'pricing-tier'
 const postPromotion = 'post-promotion'
 const adAccount = 'ad-account'
 const targeting = 'targeting'
 
 export const getStartedSections = {
   objective,
+  pricingTier,
   postPromotion,
   adAccount,
   targeting,
