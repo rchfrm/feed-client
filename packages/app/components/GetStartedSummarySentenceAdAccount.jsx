@@ -40,7 +40,7 @@ const GetStartedSummarySentenceAdAccount = () => {
     <GetStartedSummarySentenceSection
       section={getStartedSections.adAccount}
       text=" in"
-      color={brandColors.yellow}
+      color={isDesktopLayout ? brandColors.yellow : brandColors.facebook.bg}
       isComplete={Boolean(adAccountId)}
       className="mx-1 sm:mx-2"
     >
