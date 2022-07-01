@@ -35,7 +35,6 @@ const useCheckProfileSetupStatus = () => {
     optimizationPreferences,
   } = useControlsStore(getControlsStoreState)
 
-  const { defaultPromotionEnabled } = postsPreferences
   const objective = optimizationPreferences.objective || storedObjective
   const platform = optimizationPreferences.platform || storedPlatform
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId) || storedDefaultLink
@@ -94,10 +93,6 @@ const useCheckProfileSetupStatus = () => {
       isComplete: Boolean(enabledPosts.length),
     },
     {
-      name: profileStatus.defaultPostPromotion,
-      isComplete: defaultPromotionEnabled !== null,
-    },
-    {
       name: profileStatus.adAccount,
       isComplete: Boolean(adAccountId),
     },
@@ -117,8 +112,7 @@ const useCheckProfileSetupStatus = () => {
       name: profileStatus.paymentMethod,
       isComplete: Boolean(defaultPaymentMethod),
     },
-  ], [
-    adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.pricingTier, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.pricingTier, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => !condition.isComplete)?.name

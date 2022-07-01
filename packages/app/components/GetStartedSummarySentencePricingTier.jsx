@@ -9,7 +9,7 @@ import brandColors from '@/constants/brandColors'
 
 const GetStartedSummarySentencePricingTier = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
-  const { pricingTier: storedPricingTier } = wizardState
+  const { pricingTier: storedPricingTier } = wizardState || {}
   const isComplete = Boolean(storedPricingTier)
 
   return (
@@ -20,7 +20,7 @@ const GetStartedSummarySentencePricingTier = () => {
       isComplete={isComplete}
       className="mx-1 sm:mx-2"
     >
-      {`the ${capitalise(storedPricingTier)}` || 'a Feed'} tier
+      {storedPricingTier ? `the ${capitalise(storedPricingTier)}` : 'a Feed'} tier
     </GetStartedSummarySentenceSection>
   )
 }

@@ -15,9 +15,9 @@ export default {
 
       return 'Enter your website link'
     }
+    if (status === 'pricing-tier') return 'Select your pricing plan'
     if (status === 'connect-profile') return 'Connect to Facebook'
     if (status === 'posts') return 'Select the posts to promote'
-    if (status === 'default-post-promotion') return 'Automate post selection?'
     if (status === 'ad-account') return 'Select your ad account'
     if (status === 'facebook-pixel') return 'Select your Facebook pixel'
     if (status === 'location') return 'Where are you based?'
@@ -71,8 +71,6 @@ export default {
     }
     return 'Based on how your existing audience is engaging with your content, these are the posts we recommend to start promoting first.'
   },
-  postsDefaultSelectionSubtitle: 'Are you happy for Feed to continue selecting the best posts on your behalf?',
-  postsDefaultSelectionDescription: 'This means Feed will identify which of your recent posts (last 28 days) are likely to perform best, and prioritise those posts.',
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
   adAccountDescription: "Feed's ads for this profile will run from this ad account. You can set different ad accounts for your other profiles later.",
   facebookPixelSubtitle: (pixels, shouldShowPixelSelector) => {

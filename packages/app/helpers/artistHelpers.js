@@ -593,7 +593,6 @@ export const profileStatus = {
   pricingTier: 'pricing-tier',
   connectProfile: 'connect-profile',
   posts: 'posts',
-  defaultPostPromotion: 'default-post-promotion',
   adAccount: 'ad-account',
   facebookPixel: 'facebook-pixel',
   location: 'location',

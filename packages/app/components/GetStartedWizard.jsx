@@ -18,7 +18,6 @@ import GetStartedDefaultLink from '@/app/GetStartedDefaultLink'
 import GetStartedPricingTier from '@/app/GetStartedPricingTier'
 import GetStartedConnectFacebook from '@/app/GetStartedConnectFacebook'
 import GetStartedPostsSelection from '@/app/GetStartedPostsSelection'
-import GetStartedPostsDefaultSelection from '@/app/GetStartedPostsDefaultSelection'
 import GetStartedAdAccount from '@/app/GetStartedAdAccount'
 import GetStartedFacebookPixel from '@/app/GetStartedFacebookPixel'
 import GetStartedLocation from '@/app/GetStartedLocation'
@@ -121,27 +120,20 @@ const GetStartedWizard = () => {
     },
     {
       id: 6,
-      name: profileStatus.defaultPostPromotion,
-      title: 'Promoting your posts',
-      section: getStartedSections.postPromotion,
-      component: <GetStartedPostsDefaultSelection />,
-    },
-    {
-      id: 7,
       name: profileStatus.adAccount,
       title: 'Your ad account',
       section: getStartedSections.adAccount,
       component: <GetStartedAdAccount />,
     },
     {
-      id: 8,
+      id: 7,
       name: profileStatus.facebookPixel,
       title: 'Your pixel',
       section: getStartedSections.adAccount,
       component: <GetStartedFacebookPixel />,
     },
     {
-      id: 9,
+      id: 8,
       name: profileStatus.location,
       title: 'Your location',
       section: getStartedSections.adAccount,
@@ -149,14 +141,14 @@ const GetStartedWizard = () => {
       shouldSkip: (Object.keys(locations || {}).length || artist.country_code),
     },
     {
-      id: 10,
+      id: 9,
       name: profileStatus.budget,
       title: 'Budget',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
     },
     {
-      id: 11,
+      id: 10,
       name: profileStatus.paymentMethod,
       title: "Feed's service fee",
       section: getStartedSections.targeting,
@@ -164,7 +156,7 @@ const GetStartedWizard = () => {
       shouldSkip: Boolean(defaultPaymentMethod),
     },
     {
-      id: 12,
+      id: 11,
       title: '',
       component: <GetStartedSummary />,
     },
