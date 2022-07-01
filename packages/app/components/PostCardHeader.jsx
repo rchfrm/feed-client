@@ -19,6 +19,7 @@ const PostCardHeader = ({
   postIndex,
   className,
   promotionStatus,
+  postPromotable,
 }) => {
   return (
     <div
@@ -41,6 +42,7 @@ const PostCardHeader = ({
         <PostCardPromotionStatus
           promotionEnabled={promotionEnabled}
           promotionStatus={promotionStatus}
+          postPromotable={postPromotable}
           size="small"
         />
       </div>
@@ -66,6 +68,7 @@ PostCardHeader.propTypes = {
   toggleCampaign: PropTypes.func.isRequired,
   postIndex: PropTypes.number.isRequired,
   promotionStatus: PropTypes.string.isRequired,
+  postPromotable: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

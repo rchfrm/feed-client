@@ -64,7 +64,13 @@ const PostCardSettingsToggle = ({
 
   return (
     <div className="flex flex-column w-1/2">
-      <h3 className="font-bold text-lg">Promotion</h3>
+      <h3 className={[
+        isDisabled ? 'text-grey-2' : null,
+        'font-bold text-lg',
+      ].join(' ')}
+      >
+        Promotion
+      </h3>
       <div
         className={[
           'flex items-center',
@@ -83,6 +89,7 @@ const PostCardSettingsToggle = ({
           className={[
             'mb-0',
             showAlertModal ? 'text-red' : null,
+            isDisabled ? 'text-grey-2' : null,
           ].join(' ')}
         >
           {isEnabled ? 'Enabled' : 'Disabled'}

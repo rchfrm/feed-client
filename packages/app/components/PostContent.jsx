@@ -95,7 +95,7 @@ const PostContent = ({ post, updatePost }) => {
         ) : (
           <PostCardUnpromotable
             hasSalesObjective={hasSalesObjective}
-            className="py-3 px-4 mb-2"
+            className="py-3 px-4 mb-10"
           />
         )}
         <RadioButtonTabs
