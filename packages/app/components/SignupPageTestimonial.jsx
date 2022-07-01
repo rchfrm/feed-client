@@ -19,7 +19,7 @@ const SignupPageTestimonial = ({ testimony }) => {
 
   return (
     <div className="relative">
-      <figure className="opacity-70">
+      <figure>
         <img
           src={responsiveImage?.src}
           alt={`${handle}, ${bio}`}
@@ -29,8 +29,12 @@ const SignupPageTestimonial = ({ testimony }) => {
           ].join(' ')}
         />
       </figure>
-      <MarkdownText className="relative w-3/4 -mt-11 ml-auto text-xl italic z-10" markdown={quote} />
-      <QuoteIcon fill={brandColors.instagram.bg} className="-mt-11 ml-auto" />
+      <div className="relative w-3/4 -mt-11 p-2.5 ml-auto bg-white bg-opacity-75 rounded-dialogue text-xl z-10">
+        <MarkdownText markdown={quote} />
+        <p className="font-bold mb-1">@{handle}</p>
+        <p>{bio}</p>
+      </div>
+      <QuoteIcon fill={brandColors.instagram.bg} className="relative -mt-12 ml-auto z-20" />
     </div>
   )
 }
