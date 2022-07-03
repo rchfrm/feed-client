@@ -21,6 +21,7 @@ import * as billingHelpers from '@/app/helpers/billingHelpers'
 import { track } from '@/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
+import * as ROUTES from '@/app/constants/routes'
 
 const STRIPE_ELEMENT_OPTIONS = {
   style: {
@@ -56,6 +57,7 @@ const FORM = ({
   setIsFormValid,
   isLoading,
   setIsLoading,
+  isPaymentRequired,
 }) => {
   const elements = useElements()
   const stripe = useStripe()
@@ -88,15 +90,39 @@ const FORM = ({
     if (!isFormValid || isLoading) return
 
     setIsLoading(true)
-    // Create payment method with Stripe
-    const cardElement = elements.getElement(CardElement)
-    const { paymentMethod, error: stripeError } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
-      billing_details: {
-        name,
-      },
-    })
+
+    let stripeError = null
+    let stripePaymentMethod = null
+
+    // If payment is required...
+    if (isPaymentRequired) {
+      const cardElement = elements.getElement(CardElement)
+
+      const { error: confirmCardPaymentError } = await stripe.confirmCardPayment('abcd_secret_1234', {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name,
+          },
+        },
+      })
+
+      stripeError = confirmCardPaymentError
+    } else {
+      // Create payment method with Stripe
+      const cardElement = elements.getElement(CardElement)
+      const { paymentMethod, error: createPaymentError } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+        billing_details: {
+          name,
+        },
+      })
+
+      stripeError = createPaymentError
+      stripePaymentMethod = paymentMethod
+    }
+
     // Handle Stripe error
     if (stripeError) {
       setError(stripeError)
@@ -108,7 +134,7 @@ const FORM = ({
     // Add payment method to DB
     const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
       organisationId,
-      paymentMethodId: paymentMethod.id,
+      paymentMethodId: stripePaymentMethod.id,
       shouldBeDefault,
     })
 
@@ -123,14 +149,14 @@ const FORM = ({
     const { setup_intent: setupIntent } = paymentMethodDb
     if (setupIntent.status !== 'succeeded') {
       const res = await stripe.confirmCardSetup(setupIntent.client_secret, {
-        payment_method: paymentMethod.id,
+        payment_method: stripePaymentMethod.id,
       }).catch((error) => {
         setError(error)
       })
       // Handle failure
       if (res?.setupIntent?.status !== 'succeeded') {
         // Delete payment method
-        await billingHelpers.deletePaymentMethod(organisationId, paymentMethod.id)
+        await billingHelpers.deletePaymentMethod(organisationId, stripePaymentMethod.id)
         setIsLoading(false)
         return
       }
@@ -140,10 +166,10 @@ const FORM = ({
     if (shouldBeDefault) {
       const { error } = await billingHelpers.setPaymentAsDefault({
         organisationId,
-        paymentMethodId: paymentMethod.id,
+        paymentMethodId: stripePaymentMethod.id,
       })
       if (error) {
-        await billingHelpers.deletePaymentMethod(organisationId, paymentMethod.id)
+        await billingHelpers.deletePaymentMethod(organisationId, stripePaymentMethod.id)
         setError(error)
         setIsLoading(false)
         return
@@ -160,7 +186,7 @@ const FORM = ({
     setSuccess(true)
     // Track
     track('billing_finish_add_payment', { organisationId, shouldBeDefault })
-  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements])
+  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements, isPaymentRequired])
 
   React.useEffect(() => {
     setAddPaymentMethod(() => onSubmit)
@@ -219,6 +245,7 @@ const AddPaymentForm = ({
   setIsFormValid,
   isLoading,
   setIsLoading,
+  isPaymentRequired,
 }) => {
   return (
     <Elements stripe={stripePromise}>
@@ -234,6 +261,7 @@ const AddPaymentForm = ({
         setIsFormValid={setIsFormValid}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
+        isPaymentRequired={isPaymentRequired}
       />
     </Elements>
   )
@@ -249,6 +277,7 @@ AddPaymentForm.propTypes = {
   setIsFormValid: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setIsLoading: PropTypes.func.isRequired,
+  isPaymentRequired: PropTypes.bool,
 }
 
 AddPaymentForm.defaultProps = {
@@ -256,6 +285,7 @@ AddPaymentForm.defaultProps = {
   shouldShowLabels: true,
   setPaymentMethod: () => {},
   setSuccess: () => {},
+  isPaymentRequired: false,
 }
 
 export default AddPaymentForm
