@@ -474,6 +474,25 @@ export const updateCompletedSetupAt = (artistId) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
+// Update pricing tier
+/**
+* @param {string} artistId
+* @returns {Promise<object>} { res, error }
+*/
+export const updatePricingTier = (artistId, pricingTier) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    plan: pricingTier,
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update pricing tier',
+  }
+
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
 export const getCallToAction = (objective, platform) => {
   if (platform === 'facebook' || platform === 'instagram' || objective === 'traffic') {
     return {

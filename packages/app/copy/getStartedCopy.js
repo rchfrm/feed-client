@@ -71,6 +71,11 @@ export default {
     }
     return 'Based on how your existing audience is engaging with your content, these are the posts we recommend to start promoting first.'
   },
+  pricingTier: (pricingTier) => {
+    if (pricingTier.includes('basic')) return 'the Basic'
+    if (pricingTier.includes('growth')) return 'the Growth'
+    if (pricingTier.includes('pro')) return 'the Pro'
+  },
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
   adAccountDescription: "Feed's ads for this profile will run from this ad account. You can set different ad accounts for your other profiles later.",
   facebookPixelSubtitle: (pixels, shouldShowPixelSelector) => {

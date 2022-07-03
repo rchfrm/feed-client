@@ -3,9 +3,10 @@ import React from 'react'
 import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
 
 import { getStartedSections } from '@/app/helpers/artistHelpers'
-import { capitalise, getLocalStorage } from '@/helpers/utils'
+import { getLocalStorage } from '@/helpers/utils'
 
 import brandColors from '@/constants/brandColors'
+import copy from '@/app/copy/getStartedCopy'
 
 const GetStartedSummarySentencePricingTier = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
@@ -20,7 +21,7 @@ const GetStartedSummarySentencePricingTier = () => {
       isComplete={isComplete}
       className="mx-1 sm:mx-2"
     >
-      {storedPricingTier ? `the ${capitalise(storedPricingTier)}` : 'a Feed'} tier
+      {storedPricingTier ? copy.pricingTier(storedPricingTier) : 'a Feed'} tier
     </GetStartedSummarySentenceSection>
   )
 }
