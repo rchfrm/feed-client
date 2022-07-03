@@ -189,5 +189,5 @@ Would you like to continue?`
 
     return `${connectToString} insights about your pages.`
   },
-  postTierRestriction: `[Upgrade](${ROUTES.BILLING}) to **Growth** tier to prioritize this post.`,
+  postTierRestriction: `[Upgrade](${ROUTES.BILLING}) to **Growth** tier to prioritise posts for promotion.`,
 }

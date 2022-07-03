@@ -78,10 +78,14 @@ export default {
     }
 
     if (!hasProTier) {
-      return `May hit max monthly spend of ${formatCurrency(300, currency, true)} causing ads to stop, consider upgrading to "pro" tier raise the cap  ${formatCurrency(2000, currency, true)}`
+      return `Your projected monthly ad budget is [CCY daily budget x 31]. The reach cap for the Growth tier is ${formatCurrency(250, currency, true)} per month - ads will stop after reaching this limit.
+
+To increase your reach, upgrade to the Pro tier and raise the cap to ${formatCurrency(2000, currency, true)} per month.`
     }
 
-    return `May hit max monthly spend of ${formatCurrency(2000, currency, true)} causing ads to stop, [arrange a call](https://meetings.hubspot.com/feed/managed) to discuss increasing this.`
+    return `Your projected monthly ad budget is [CCY daily budget x 31]. The reach cap for the Pro tier is ${formatCurrency(2000, currency, true)} per month - ads will stop after reaching this limit.
+
+To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and discuss options.`
   },
   objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
   alertPlatformTitle: 'Where would you like to grow?',
@@ -129,15 +133,17 @@ export default {
       if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
     }
 
-    if (section === 'objective') return `${tierBaseString} to set a different objective`
-    if (section === 'default-promotion') return `${tierBaseString} to manually opt-in posts`
-    if (section === 'facebook-pixel') return `${tierBaseString} to add a Facebook pixel`
-    if (section === 'custom-locations') return `${tierBaseString} to add custom locations`
-    if (section === 'linkbank') return `${tierBaseString} to manage the links that are used in your ads`
-    if (section === 'post-link') return `${tierBaseString} to change the link of this post`
-    if (section === 'post-cta') return `${tierBaseString} to change the call to action of this post`
-    if (section === 'post-caption') return `${tierBaseString} to change the caption of this post`
+    if (section === 'objective') return `${tierBaseString} to use the website visits objective. This lets you drive people from Facebook & Instagram onto your website or landing page`
+    if (section === 'default-promotion') return `Want all posts switched off by default until you opt them in? ${tierBaseString} to turn off Automated Post Selection`
+    if (section === 'facebook-pixel') return `${tierBaseString} to use Meta (Facebook) pixel in your Feed ads for improved results and retargeting`
+    if (section === 'custom-locations') return `${tierBaseString} to add custom cities and countries`
+    if (section === 'linkbank') return `${tierBaseString} to add and store links that can be used in your Feed ads`
+    if (section === 'post-link') return `${tierBaseString} to set custom links on specific posts`
+    if (section === 'post-cta') return `${tierBaseString} to set custom CTAs on specific posts`
+    if (section === 'post-caption') return `${tierBaseString} to edit caption of promoted posts`
   },
-  objectiveTierRestriction: 'Upgrade to Pro tier to set “Website sales” as your objective.',
-  objectiveManagedTier: 'Interested in setting “Multiple objectives” for one single profile? Book a call with us to chat about **Managed** tier.',
+  objectiveTierRestriction: 'Upgrade to Pro tier to use the website sales objective. This lets Feed run conversion ads to maximise sales or leads on your website.',
+  objectiveManagedTier: `Currently only people on our **Managed Tier** can set multiple objectives per profile.
+
+  [Email](mailto:team@tryfeed.co) to find out more or [book a call now](https://meetings.hubspot.com/feed/managed)`,
 }
