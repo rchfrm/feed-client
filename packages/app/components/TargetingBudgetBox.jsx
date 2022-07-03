@@ -61,8 +61,8 @@ const TargetingBudgetBox = ({
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
-  const growthTierMaxBudget = Math.round(minBaseUnrounded * 10)
-  const proTierMaxBudget = Math.round(minBaseUnrounded * 25)
+  const growthTierMaxBudget = Math.round(minBaseUnrounded * 8)
+  const proTierMaxBudget = Math.round(minBaseUnrounded * 65)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
   const mayHitGrowthTierMaxBudget = hasGrowthTier && !hasProTier && targetingState.budget > growthTierMaxBudget
   const mayHitProTierMaxBudget = hasProTier && targetingState.budget > proTierMaxBudget
