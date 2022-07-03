@@ -128,7 +128,7 @@ function ArtistProvider({ children }) {
   }
 
   const updateArtist = React.useCallback((artist) => {
-    artist.tier = 'basic'
+    artist.plan = 'pro_monthly'
     // Test whether artist is musician
     const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
@@ -152,9 +152,9 @@ function ArtistProvider({ children }) {
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
     // Set pricing tier booleans
-    const hasGrowthTier = artist.tier === 'growth' || artist.tier === 'pro' || artist.tier === 'managed'
-    const hasProTier = artist.tier === 'pro' || artist.tier === 'managed'
-    const hasManagedTier = artist.tier === 'managed'
+    const hasGrowthTier = artist.plan.includes('growth') || artist.plan.includes('pro') || artist.plan.includes('legacy')
+    const hasProTier = artist.plan.includes('pro') || artist.plan.includes('legacy')
+    const hasManagedTier = artist.plan.includes('*')
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {

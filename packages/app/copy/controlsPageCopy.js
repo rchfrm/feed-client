@@ -80,7 +80,7 @@ export default {
     if (!hasProTier) {
       return `Your projected monthly ad budget is [CCY daily budget x 31]. The reach cap for the Growth tier is ${formatCurrency(250, currency, true)} per month - ads will stop after reaching this limit.
 
-To increase your reach, upgrade to the Pro tier and raise the cap to ${formatCurrency(2000, currency, true)} per month.`
+To increase your reach, upgrade to the **Pro** tier and raise the cap to ${formatCurrency(2000, currency, true)} per month.`
     }
 
     return `Your projected monthly ad budget is [CCY daily budget x 31]. The reach cap for the Pro tier is ${formatCurrency(2000, currency, true)} per month - ads will stop after reaching this limit.
@@ -142,8 +142,8 @@ To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and di
     if (section === 'post-cta') return `${tierBaseString} to set custom CTAs on specific posts`
     if (section === 'post-caption') return `${tierBaseString} to edit caption of promoted posts`
   },
-  objectiveTierRestriction: 'Upgrade to Pro tier to use the website sales objective. This lets Feed run conversion ads to maximise sales or leads on your website.',
-  objectiveManagedTier: `Currently only people on our **Managed Tier** can set multiple objectives per profile.
+  objectiveTierRestriction: 'Upgrade to **Pro** tier to use the website sales objective. This lets Feed run conversion ads to maximise sales or leads on your website.',
+  objectiveManagedTier: `Currently only people on our **Managed** Tier can set multiple objectives per profile.
 
   [Email](mailto:team@tryfeed.co) to find out more or [book a call now](https://meetings.hubspot.com/feed/managed)`,
 }
