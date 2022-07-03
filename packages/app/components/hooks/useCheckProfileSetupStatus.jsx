@@ -98,7 +98,7 @@ const useCheckProfileSetupStatus = () => {
     },
     {
       name: profileStatus.facebookPixel,
-      isComplete: objective === 'growth' || Boolean(facebookPixelId),
+      isComplete: objective !== 'sales' || Boolean(facebookPixelId),
     },
     {
       name: profileStatus.location,
