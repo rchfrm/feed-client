@@ -5,9 +5,8 @@ import PricingTierServiceFee from '@/landing/PricingTierServiceFee'
 import PricingTierFeatures from '@/landing/PricingTierFeatures'
 import React from 'react'
 import TryFeed from '@/landing/TryFeed'
-import { getMaxSpendString, pricingCopy } from '@/landing/copy/PricingPageCopy'
-
-const { currencies } = pricingCopy
+import { getMaxSpendString } from '@/landing/copy/PricingPageCopy'
+import { currencies } from '@/constants/pricing'
 
 export default function PricingTier({ tier, showAnnualPricing, currency }) {
   const {

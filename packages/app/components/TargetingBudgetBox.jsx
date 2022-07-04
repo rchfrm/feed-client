@@ -61,11 +61,18 @@ const TargetingBudgetBox = ({
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
-  const growthTierMaxBudget = Math.round(minBaseUnrounded * 8)
-  const proTierMaxBudget = Math.round(minBaseUnrounded * 65)
+  const growthTierMaxDailyBudget = Math.round(minBaseUnrounded * 9)
+  const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
-  const mayHitGrowthTierMaxBudget = hasGrowthTier && !hasProTier && targetingState.budget > growthTierMaxBudget
-  const mayHitProTierMaxBudget = hasProTier && targetingState.budget > proTierMaxBudget
+  const mayHitGrowthTierMaxBudget = hasGrowthTier && !hasProTier && targetingState.budget > growthTierMaxDailyBudget
+  const mayHitProTierMaxBudget = hasProTier && targetingState.budget > proTierMaxDailyBudget
+
+  const budgetData = {
+    currency: currencyCode,
+    projectedMonthlyBudget: (targetingState.budget * 31) / currencyOffset,
+    hasBudgetBelowMinRecommendedStories,
+    minRecommendedStoriesString,
+  }
 
 
   React.useEffect(() => {
@@ -150,7 +157,7 @@ const TargetingBudgetBox = ({
       </section>
       {shouldShowWarning && (
         <ControlsSettingsSectionFooter
-          copy={copy.budgetFooter(hasBudgetBelowMinRecommendedStories, minRecommendedStoriesString, hasProTier, currencyCode)}
+          copy={copy.budgetFooter(hasProTier, budgetData)}
           className="mt-5 text-insta"
         />
       )}

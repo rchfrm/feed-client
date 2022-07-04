@@ -5,8 +5,9 @@ import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import PricingTierFeatures from '@/landing/PricingTierFeatures'
 import { pricingCopy } from '@/landing/copy/PricingPageCopy'
+import { currencies } from '@/constants/pricing'
 
-const { currencies, managedTier } = pricingCopy
+const { managedTier } = pricingCopy
 
 export default function ManagedTier({ currency }) {
   const {

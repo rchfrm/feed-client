@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import SwiperBlock from '@/SwiperBlock'
 import React from 'react'
 import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
-import { pricingCopy } from '@/landing/copy/PricingPageCopy'
-
-const { currencies } = pricingCopy
+import { currencies } from '@/constants/pricing'
 
 export default function PricingTiersWrapper({ tiers, showAnnualPricing, currency }) {
   const growthTierIndex = tiers.findIndex(tier => tier.name === 'Growth')

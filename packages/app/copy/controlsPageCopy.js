@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
 import { formatCurrency } from '@/helpers/utils'
+import { plans } from '@/constants/pricing'
 
 export default {
   // CONTROLS OPTIONS
@@ -72,18 +73,29 @@ export default {
   facebookPixelEventIntro: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
   facebookPixelEventFooter: `"Purchase" is recommended based on your objective`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-  budgetFooter: (hasBudgetBelowMinRecommendedStories, minRecommendedStories, hasProTier, currency) => {
+  budgetFooter: (hasProTier, budgetData) => {
+    const {
+      currency,
+      projectedMonthlyBudget,
+      hasBudgetBelowMinRecommendedStories,
+      minRecommendedStories,
+    } = budgetData
+
+    const { growth, pro } = plans
+    const growthPlanMaxMonthlySpend = growth.monthlyCost[currency] * growth.maxSpendMultiple
+    const proPlanMaxMonthlySpend = pro.monthlyCost[currency] * pro.maxSpendMultiple
+
     if (hasBudgetBelowMinRecommendedStories) {
       return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStories}`
     }
 
     if (!hasProTier) {
-      return `Your projected monthly ad budget is [CCY daily budget x 31]. The reach cap for the Growth tier is ${formatCurrency(250, currency, true)} per month - ads will stop after reaching this limit.
+      return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Growth tier is ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
 
-To increase your reach, upgrade to the **Pro** tier and raise the cap to ${formatCurrency(2000, currency, true)} per month.`
+To increase your reach, upgrade to the **Pro** tier and raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
     }
 
-    return `Your projected monthly ad budget is [CCY daily budget x 31]. The reach cap for the Pro tier is ${formatCurrency(2000, currency, true)} per month - ads will stop after reaching this limit.
+    return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Pro tier is ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
 
 To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and discuss options.`
   },

@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
-import { pricingCopy } from '@/landing/copy/PricingPageCopy'
 import { getCurrencySymbol } from '@/helpers/utils'
-
-const { currencies } = pricingCopy
+import { currencies } from '@/constants/pricing'
 
 export default function PricingTierMonthlyCost({ amount, currency, isManaged, showAnnualPricing }) {
   const currencySymbol = getCurrencySymbol(currency)
