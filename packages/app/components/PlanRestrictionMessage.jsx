@@ -20,11 +20,10 @@ const PlanRestrictionMessage = ({
     <Link
       href={externalUrl || ROUTES.BILLING}
     >
-      <a className={['block no-underline', className].join(' ')} target={externalUrl ? '_blank' : null}>
+      <a className={['block no-underline text-insta -hover--insta', className].join(' ')} target={externalUrl ? '_blank' : null}>
         <div className={[
           'flex items-center',
           isSmallSize ? 'text-xs' : 'p-4 border-2 border-solid border-insta rounded-dialogue',
-          'text-insta -hover--insta',
         ].join(' ')}
         >
           <span role="img" aria-label="lock">🔒</span>
