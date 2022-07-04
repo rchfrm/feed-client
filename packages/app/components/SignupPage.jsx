@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { useRouter } from 'next/router'
 import useAsyncEffect from 'use-async-effect'
@@ -22,8 +23,7 @@ const getReferralStoreState = (state) => ({
   getStoredReferrerCode: state.getStoredReferrerCode,
 })
 
-const SignupPage = () => {
-  // READ STORE
+const SignupPage = ({ testimonies }) => {
   const {
     testCodeValidity,
     testCodeTruth,
@@ -31,13 +31,36 @@ const SignupPage = () => {
     getStoredReferrerCode,
   } = useReferralStore(getReferralStoreState, shallow)
 
-  // READ CODE FROM QUERY
   const [checking, setChecking] = React.useState(true)
   const [error, setError] = React.useState(null)
   const [email, setEmail] = React.useState('')
+  const [testimony, setTestimony] = React.useState(null)
   const { asPath: urlString } = useRouter()
 
-  useAsyncEffect(async (isMounted) => {
+  const isValidReferralCode = async (referralCode) => {
+    const isValid = testCodeValidity(referralCode)
+
+    if (!isValid) {
+      setError({ message: copy.invalidCodeCopy })
+      return false
+    }
+
+    const isTrue = await testCodeTruth(referralCode)
+
+    if (!isTrue) {
+      setError({ message: copy.invalidCodeCopy })
+      return false
+    }
+
+    // If reached here, code in query is valid and true and has been stored in store and local storage
+    storeTrueCode(referralCode)
+    setError(null)
+    setChecking(false)
+
+    return true
+  }
+
+  useAsyncEffect(async () => {
     const { query } = parseUrl(urlString)
     const email = decodeURIComponent(query?.email || '')
     const queryCode = query?.code
@@ -52,34 +75,38 @@ const SignupPage = () => {
       setChecking(false)
       return
     }
-    const isValid = testCodeValidity(initialReferralCode)
+
+    const isValid = await isValidReferralCode(initialReferralCode)
+
     if (!isValid) {
       setChecking(false)
-      setError({ message: copy.invalidCodeCopy })
-      return
     }
-    const isTrue = await testCodeTruth(initialReferralCode)
-    if (!isMounted()) return
-    setChecking(false)
-    if (!isTrue) {
-      setError({ message: copy.invalidCodeCopy })
-      return
-    }
-    // If reached here, code in query is valid and true
-    // and has been stored in store and local storage
-    storeTrueCode(initialReferralCode)
-    setError(null)
   }, [])
 
+  // Pick and set a random testimony
+  React.useEffect(() => {
+    if (!testimonies.length || testimony) return
+
+    setTestimony(testimonies[Math.floor(Math.random() * testimonies.length)])
+  }, [testimonies, testimony])
+
   // STOP HERE IF CHECKING QUERY CODE
-  if (checking) return <Spinner />
+  if (checking || !testimony) return <Spinner />
 
   return (
     <>
       <Error error={error} />
-      <SignupPageContent email={email} />
+      <SignupPageContent
+        email={email}
+        isValidReferralCode={isValidReferralCode}
+        testimony={testimony}
+      />
     </>
   )
+}
+
+SignupPage.propTypes = {
+  testimonies: PropTypes.array.isRequired,
 }
 
 export default SignupPage

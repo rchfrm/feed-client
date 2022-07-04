@@ -47,7 +47,6 @@
 .form {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: var(--sp-10);
 }
 
 .input {
