@@ -32,7 +32,7 @@ const DisabledSection = ({
         <Link href={linkTo}>
           <a className="flex items-center text-insta -hover--insta no-underline mb-5">
             <span role="img" aria-label="lock">🔒</span>
-            <MarkdownText markdown={copy.disabledReason(section, hasSetUpProfile)} className="mx-2 mb-0" />
+            <MarkdownText markdown={copy.disabledReason(section, hasSetUpProfile)} className="mx-2 mb-0 underline" />
             <ArrowAltIcon
               className="w-4 h-4 flex-shrink-0"
               direction="right"

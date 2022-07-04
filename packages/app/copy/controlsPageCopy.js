@@ -2,6 +2,7 @@
 import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
 import { formatCurrency } from '@/helpers/utils'
 import { plans } from '@/constants/pricing'
+import * as ROUTES from '@/app/constants/routes'
 
 export default {
   // CONTROLS OPTIONS
@@ -92,7 +93,7 @@ export default {
     if (!hasProPlan) {
       return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Growth tier is ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
 
-To increase your reach, upgrade to the **Pro** tier and raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
+To increase your reach, [upgrade](${ROUTES.BILLING}) to the **Pro** tier and raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
     }
 
     return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Pro tier is ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
