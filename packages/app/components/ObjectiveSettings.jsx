@@ -112,11 +112,11 @@ const ObjectiveSettings = () => {
   return (
     <div>
       <h2>Objective</h2>
+      <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', hasGrowthTier ? 'mb-12' : 'mb-4'].join(' ')} />
       <DisabledSection
         section="objective"
         hasTierRestriction={!hasGrowthTier}
       >
-        <MarkdownText markdown={copy.objectiveIntro} className="inline-block mb-12" />
         <div className="relative mb-4">
           <ObjectiveSettingsObjectiveSelector
             objective={objective}
@@ -140,45 +140,45 @@ const ObjectiveSettings = () => {
             />
           )}
         </div>
-        {hasGrowthObjective ? (
-          <div className="relative">
-            <ObjectiveSettingsPlatformSelector
-              objective={objective}
-              platform={platform}
-              setPlatform={setPlatform}
-              setType={setType}
-              shouldShowAlert={shouldShowAlert}
-              setObjectiveChangeSteps={setObjectiveChangeSteps}
-              shouldRestoreObjective={shouldRestoreObjective && isPlatformChange}
-              setShouldRestoreObjective={setShouldRestoreObjective}
-              save={save}
-              isLoading={isLoading && isPlatformChange}
-              error={error}
-            />
-          </div>
-        ) : (
-          <ObjectiveSettingsDefaultLink
-            defaultLink={defaultLink}
-            setPostPreferences={setPostPreferences}
-            objective={objective}
-            label="Default Link"
-            className="mb-8"
-          />
-        )}
-        {shouldShowAlert && (
-          <ObjectiveSettingsChangeAlert
-            objectiveChangeSteps={objectiveChangeSteps}
-            shouldShowAlert={shouldShowAlert}
-            setShouldShowAlert={setShouldShowAlert}
-            onCancel={onCancel}
-            save={save}
+      </DisabledSection>
+      {hasGrowthObjective ? (
+        <div className="relative">
+          <ObjectiveSettingsPlatformSelector
             objective={objective}
             platform={platform}
             setPlatform={setPlatform}
-            isLoading={isLoading}
+            setType={setType}
+            shouldShowAlert={shouldShowAlert}
+            setObjectiveChangeSteps={setObjectiveChangeSteps}
+            shouldRestoreObjective={shouldRestoreObjective && isPlatformChange}
+            setShouldRestoreObjective={setShouldRestoreObjective}
+            save={save}
+            isLoading={isLoading && isPlatformChange}
+            error={error}
           />
-        )}
-      </DisabledSection>
+        </div>
+      ) : (
+        <ObjectiveSettingsDefaultLink
+          defaultLink={defaultLink}
+          setPostPreferences={setPostPreferences}
+          objective={objective}
+          label="Default Link"
+          className="mb-8"
+        />
+      )}
+      {shouldShowAlert && (
+        <ObjectiveSettingsChangeAlert
+          objectiveChangeSteps={objectiveChangeSteps}
+          shouldShowAlert={shouldShowAlert}
+          setShouldShowAlert={setShouldShowAlert}
+          onCancel={onCancel}
+          save={save}
+          objective={objective}
+          platform={platform}
+          setPlatform={setPlatform}
+          isLoading={isLoading}
+        />
+      )}
       {hasProTier && (
         <TierRestrictionMessage
           copy={copy.objectiveManagedTier}
