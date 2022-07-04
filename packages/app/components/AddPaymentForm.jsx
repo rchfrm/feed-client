@@ -21,7 +21,6 @@ import * as billingHelpers from '@/app/helpers/billingHelpers'
 import { track } from '@/helpers/trackingHelpers'
 
 import brandColors from '@/constants/brandColors'
-import * as ROUTES from '@/app/constants/routes'
 
 const STRIPE_ELEMENT_OPTIONS = {
   style: {
