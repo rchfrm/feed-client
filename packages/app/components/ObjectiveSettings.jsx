@@ -12,7 +12,7 @@ import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjective
 import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
-import TierRestrictionMessage from '@/app/TierRestrictionMessage'
+import PlanRestrictionMessage from '@/app/PlanRestrictionMessage'
 
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
@@ -30,7 +30,7 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasGrowthTier, hasProTier } = artist
+  const { hasGrowthPlan, hasProPlan } = artist
   const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
@@ -112,10 +112,10 @@ const ObjectiveSettings = () => {
   return (
     <div>
       <h2>Objective</h2>
-      <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', hasGrowthTier ? 'mb-12' : 'mb-4'].join(' ')} />
+      <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', hasGrowthPlan ? 'mb-12' : 'mb-4'].join(' ')} />
       <DisabledSection
         section="objective"
-        hasTierRestriction={!hasGrowthTier}
+        hasPlanRestriction={!hasGrowthPlan}
       >
         <div className="relative mb-4">
           <ObjectiveSettingsObjectiveSelector
@@ -132,9 +132,9 @@ const ObjectiveSettings = () => {
             isLoading={isLoading && isObjectiveChange}
             error={error}
           />
-          {hasGrowthTier && !hasProTier && (
-            <TierRestrictionMessage
-              copy={copy.objectiveTierRestriction}
+          {hasGrowthPlan && !hasProPlan && (
+            <PlanRestrictionMessage
+              copy={copy.objectivePlanRestriction}
               size="small"
               className="-mt-6"
             />
@@ -179,8 +179,8 @@ const ObjectiveSettings = () => {
           isLoading={isLoading}
         />
       )}
-      {hasProTier && (
-        <TierRestrictionMessage
+      {hasProPlan && (
+        <PlanRestrictionMessage
           copy={copy.objectiveManagedTier}
           externalUrl="https://meetings.hubspot.com/feed/managed"
           className="block mt-20"

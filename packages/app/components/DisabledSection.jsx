@@ -13,7 +13,7 @@ import copy from '@/app/copy/controlsPageCopy'
 
 const DisabledSection = ({
   children,
-  hasTierRestriction,
+  hasPlanRestriction,
   section,
   className,
 }) => {
@@ -23,7 +23,7 @@ const DisabledSection = ({
     },
   } = React.useContext(ArtistContext)
 
-  const isDisabled = !hasSetUpProfile || hasTierRestriction
+  const isDisabled = !hasSetUpProfile || hasPlanRestriction
   const linkTo = !hasSetUpProfile ? ROUTES.GET_STARTED : ROUTES.BILLING
 
   return (
@@ -52,13 +52,13 @@ const DisabledSection = ({
 
 DisabledSection.propTypes = {
   children: PropTypes.node.isRequired,
-  hasTierRestriction: PropTypes.bool,
+  hasPlanRestriction: PropTypes.bool,
   section: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
 DisabledSection.defaultProps = {
-  hasTierRestriction: false,
+  hasPlanRestriction: false,
   className: null,
 }
 

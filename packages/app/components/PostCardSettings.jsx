@@ -73,7 +73,7 @@ const PostCardSettings = ({
   const hasSalesObjective = objective === 'sales'
   const isConversionsCampaign = campaignType === 'conversions'
 
-  const { artist: { hasGrowthTier } } = React.useContext(ArtistContext)
+  const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
 
   const {
     enticeEngage,
@@ -162,7 +162,7 @@ const PostCardSettings = ({
           <AdSettingsSection
             header="Link"
             section="post-link"
-            hasTierRestriction={!hasGrowthTier && !isSectionDisabled}
+            hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
             copy={copy.postLinkSetting}
             isDisabled={isSectionDisabled}
           >
@@ -180,7 +180,7 @@ const PostCardSettings = ({
           <AdSettingsSection
             header="Call to Action"
             section="post-cta"
-            hasTierRestriction={!hasGrowthTier && !isSectionDisabled}
+            hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
             copy={copy.postCallToActionSetting}
             isDisabled={isSectionDisabled}
           >
@@ -199,7 +199,7 @@ const PostCardSettings = ({
           <AdSettingsSection
             header="Caption"
             section="post-caption"
-            hasTierRestriction={!hasGrowthTier && !isSectionDisabled}
+            hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
             copy={noCaptionEditExcuse || copy.editCaption}
             isDisabled={isSectionDisabled}
             className={noCaptionEditExcuse && 'text-red'}

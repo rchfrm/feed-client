@@ -26,7 +26,7 @@ const getControlsStoreState = (state) => ({
 
 const LinkBank = () => {
   const { fetchData, nestedLinks, isControlsLoading, linkBankError } = useControlsStore(getControlsStoreState, shallow)
-  const { artistId, artist: { hasSetUpProfile, hasGrowthTier } } = React.useContext(ArtistContext)
+  const { artistId, artist: { hasSetUpProfile, hasGrowthPlan } } = React.useContext(ArtistContext)
 
   const { looseLinks, linkFolders, integrationLinks } = React.useMemo(() => {
     return splitLinks(nestedLinks)
@@ -56,7 +56,7 @@ const LinkBank = () => {
       )}
       <DisabledSection
         section="linkbank"
-        hasTierRestriction={!hasGrowthTier}
+        hasPlanRestriction={!hasGrowthPlan}
       >
         <section className="mb-10">
           <LinkBankList

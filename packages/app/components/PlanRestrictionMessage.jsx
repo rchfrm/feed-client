@@ -8,7 +8,7 @@ import brandColors from '@/constants/brandColors'
 
 import * as ROUTES from '@/app/constants/routes'
 
-const TierRestrictionMessage = ({
+const PlanRestrictionMessage = ({
   copy,
   size,
   externalUrl,
@@ -40,17 +40,17 @@ const TierRestrictionMessage = ({
   )
 }
 
-TierRestrictionMessage.propTypes = {
+PlanRestrictionMessage.propTypes = {
   copy: PropTypes.string.isRequired,
   size: PropTypes.string,
   externalUrl: PropTypes.string,
   className: PropTypes.string,
 }
 
-TierRestrictionMessage.defaultProps = {
+PlanRestrictionMessage.defaultProps = {
   size: 'regular',
   externalUrl: '',
   className: null,
 }
 
-export default TierRestrictionMessage
+export default PlanRestrictionMessage

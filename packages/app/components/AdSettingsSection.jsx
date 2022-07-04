@@ -10,7 +10,7 @@ const AdSettingsSection = ({
   header,
   copy,
   section,
-  hasTierRestriction,
+  hasPlanRestriction,
   isDisabled,
   className,
 }) => {
@@ -23,7 +23,7 @@ const AdSettingsSection = ({
         <h3 className="font-body font-bold text-lg mb-3">{header}</h3>
         <DisabledSection
           section={section}
-          hasTierRestriction={hasTierRestriction}
+          hasPlanRestriction={hasPlanRestriction}
           className="mb-10"
         >
           {copy && <MarkdownText markdown={copy} className={className} />}
@@ -39,7 +39,7 @@ AdSettingsSection.propTypes = {
   header: PropTypes.string.isRequired,
   copy: PropTypes.string,
   section: PropTypes.string,
-  hasTierRestriction: PropTypes.bool,
+  hasPlanRestriction: PropTypes.bool,
   isDisabled: PropTypes.bool,
   className: PropTypes.string,
 }
@@ -47,7 +47,7 @@ AdSettingsSection.propTypes = {
 AdSettingsSection.defaultProps = {
   copy: '',
   section: '',
-  hasTierRestriction: false,
+  hasPlanRestriction: false,
   isDisabled: false,
   className: null,
 }

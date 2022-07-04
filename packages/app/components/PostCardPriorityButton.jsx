@@ -28,11 +28,11 @@ const PostCardPriorityButton = ({
   const [currentState, setCurrentState] = React.useState(priorityEnabled)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
 
-  const { artist: { hasGrowthTier } } = React.useContext(ArtistContext)
+  const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
 
   const isPostActive = promotionStatus === 'active'
   const isPostArchived = promotionStatus === 'archived'
-  const isDisabled = (isPostActive && !currentState) || !hasGrowthTier
+  const isDisabled = (isPostActive && !currentState) || !hasGrowthPlan
 
   // Update internal state when outside state changes
   React.useEffect(() => {
@@ -82,12 +82,12 @@ const PostCardPriorityButton = ({
         <ChevronDoubleUpCircleIcon
           fill={currentState ? brandColors.instagram.bg : brandColors.white}
           stroke={currentState ? brandColors.white : brandColors.greyDark}
-          className={[!hasGrowthTier ? '-mr-1' : null, 'w-6 h-6'].join(' ')}
+          className={[!hasGrowthPlan ? '-mr-1' : null, 'w-6 h-6'].join(' ')}
         />
       </button>
-      {!hasGrowthTier && (
+      {!hasGrowthPlan && (
         <TooltipButton
-          copy={copy.postTierRestriction}
+          copy={copy.postPlanRestriction}
           direction="top"
           buttonClasses="-mr-3"
           icon={LockIcon}

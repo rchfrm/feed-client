@@ -37,8 +37,8 @@ const initialArtistState = {
   missingDefaultLink: true,
   isMusician: false,
   hasSetUpProfile: false,
-  hasGrowthTier: false,
-  hasProTier: false,
+  hasGrowthPlan: false,
+  hasProPlan: false,
   hasManagedTier: false,
 }
 
@@ -151,9 +151,9 @@ function ArtistProvider({ children }) {
     // Get completed setup at
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
-    // Set pricing tier booleans
-    const hasGrowthTier = artist.plan.includes('growth') || artist.plan.includes('pro') || artist.plan.includes('legacy')
-    const hasProTier = artist.plan.includes('pro') || artist.plan.includes('legacy')
+    // Set pricing plan booleans
+    const hasGrowthPlan = artist.plan.includes('growth') || artist.plan.includes('pro') || artist.plan.includes('legacy')
+    const hasProPlan = artist.plan.includes('pro') || artist.plan.includes('legacy')
     const hasManagedTier = artist.plan.includes('*')
 
     // Update artist with new info
@@ -165,8 +165,8 @@ function ArtistProvider({ children }) {
       artistDraft.feedMinBudgetInfo = feedMinBudgetInfo || {}
       artistDraft.isSpendingPaused = isSpendingPaused
       artistDraft.hasSetUpProfile = hasSetUpProfile
-      artistDraft.hasGrowthTier = hasGrowthTier
-      artistDraft.hasProTier = hasProTier
+      artistDraft.hasGrowthPlan = hasGrowthPlan
+      artistDraft.hasProPlan = hasProPlan
       artistDraft.hasManagedTier = hasManagedTier
     })
 

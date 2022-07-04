@@ -7,7 +7,7 @@ import InsightPlatformSelectors from '@/app/InsightPlatformSelectors'
 import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
 import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
-import TierRestrictionMessage from '@/app/TierRestrictionMessage'
+import PlanRestrictionMessage from '@/app/PlanRestrictionMessage'
 
 import * as insightsHelpers from '@/app/helpers/insightsHelpers'
 
@@ -19,7 +19,7 @@ import styles from '@/app/InsightsPage.module.css'
 const InsightsContent = () => {
   // Import artist context
   const { artistLoading, artist, artistId } = React.useContext(ArtistContext)
-  const { hasGrowthTier } = artist
+  const { hasGrowthPlan } = artist
   // Define states
   const [currentPlatform, setCurrentPlatform] = React.useState('')
   const [currentDataSource, setCurrentDataSource] = React.useState('')
@@ -73,10 +73,10 @@ const InsightsContent = () => {
     }
   }, [initialLoading])
 
-  if (!hasGrowthTier) {
+  if (!hasGrowthPlan) {
     return (
-      <TierRestrictionMessage
-        copy={copy.tierRestriction}
+      <PlanRestrictionMessage
+        copy={copy.planRestriction}
         className="sm:w-1/2 mr-auto"
       />
     )

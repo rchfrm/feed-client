@@ -23,7 +23,7 @@ const TargetingLocations = ({
     spotifyConnected,
   } = React.useContext(TargetingContext)
 
-  const { artist: { hasGrowthTier } } = React.useContext(ArtistContext)
+  const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
 
   return (
     <section className={[className].join(' ')}>
@@ -42,7 +42,7 @@ const TargetingLocations = ({
       />
       <DisabledSection
         section="custom-locations"
-        hasTierRestriction={!hasGrowthTier}
+        hasPlanRestriction={!hasGrowthPlan}
       >
         <TargetingLocationsSearch />
       </DisabledSection>

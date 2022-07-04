@@ -52,8 +52,8 @@ const TargetingBudgetBox = ({
         } = {},
       } = {},
       hasSetUpProfile,
-      hasGrowthTier,
-      hasProTier,
+      hasGrowthPlan,
+      hasProPlan,
     },
   } = React.useContext(ArtistContext)
 
@@ -64,8 +64,8 @@ const TargetingBudgetBox = ({
   const growthTierMaxDailyBudget = Math.round(minBaseUnrounded * 9)
   const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
-  const mayHitGrowthTierMaxBudget = hasGrowthTier && !hasProTier && targetingState.budget > growthTierMaxDailyBudget
-  const mayHitProTierMaxBudget = hasProTier && targetingState.budget > proTierMaxDailyBudget
+  const mayHitGrowthTierMaxBudget = hasGrowthPlan && !hasProPlan && targetingState.budget > growthTierMaxDailyBudget
+  const mayHitProTierMaxBudget = hasProPlan && targetingState.budget > proTierMaxDailyBudget
 
   const budgetData = {
     currency: currencyCode,
@@ -157,7 +157,7 @@ const TargetingBudgetBox = ({
       </section>
       {shouldShowWarning && (
         <ControlsSettingsSectionFooter
-          copy={copy.budgetFooter(hasProTier, budgetData)}
+          copy={copy.budgetFooter(hasProPlan, budgetData)}
           className="mt-5 text-insta"
         />
       )}

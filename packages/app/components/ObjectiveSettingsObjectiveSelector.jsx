@@ -36,7 +36,7 @@ const ObjectiveSettingsObjectiveSelector = ({
   const name = 'objective'
   const isFirstRender = React.useRef(true)
 
-  const { artist: { hasProTier } } = React.useContext(ArtistContext)
+  const { artist: { hasProPlan } } = React.useContext(ArtistContext)
 
   React.useEffect(() => {
     let options = objectives.map(({ name, value }) => ({
@@ -44,12 +44,12 @@ const ObjectiveSettingsObjectiveSelector = ({
       value,
     }))
 
-    if (!hasProTier) {
+    if (!hasProPlan) {
       options = options.filter((option) => option.value !== 'sales')
     }
 
     setSelectOptions(options)
-  }, [hasProTier])
+  }, [hasProPlan])
 
   const handleChange = (e) => {
     const { target: { value } } = e

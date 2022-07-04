@@ -24,7 +24,7 @@ const getControlsStoreState = (state) => ({
 
 const AdDefaults = () => {
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasGrowthTier, hasProTier } = artist
+  const { hasGrowthPlan, hasProPlan } = artist
 
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   const { postsPreferences, conversionsPreferences, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
@@ -41,7 +41,7 @@ const AdDefaults = () => {
         <AdSettingsSection
           header="Automated post selection"
           section="default-promotion"
-          hasTierRestriction={!hasGrowthTier}
+          hasPlanRestriction={!hasGrowthPlan}
           copy={copy.globalToggleIntro}
         >
           <AdDefaultsStatus
@@ -76,7 +76,7 @@ const AdDefaults = () => {
         <AdSettingsSection
           header="Facebook Pixel"
           section="facebook-pixel"
-          hasTierRestriction={!hasProTier}
+          hasPlanRestriction={!hasProPlan}
           copy={copy.facebookPixelIntro}
         >
           <AdDefaultsPixelSelector />
