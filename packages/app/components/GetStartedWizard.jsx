@@ -15,7 +15,7 @@ import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 import GetStartedObjective from '@/app/GetStartedObjective'
 import GetStartedPlatform from '@/app/GetStartedPlatform'
 import GetStartedDefaultLink from '@/app/GetStartedDefaultLink'
-import GetStartedPricingPlan from '@/app/GetStartedPricingPlan'
+import GetStartedPricing from '@/app/GetStartedPricing'
 import GetStartedConnectFacebook from '@/app/GetStartedConnectFacebook'
 import GetStartedPostsSelection from '@/app/GetStartedPostsSelection'
 import GetStartedAdAccount from '@/app/GetStartedAdAccount'
@@ -101,7 +101,7 @@ const GetStartedWizard = () => {
       name: profileStatus.pricingPlan,
       title: 'Your plan',
       section: getStartedSections.pricingPlan,
-      component: <GetStartedPricingPlan />,
+      component: <GetStartedPricing />,
     },
     {
       id: 4,
