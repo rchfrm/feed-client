@@ -22,6 +22,7 @@ const PostCardSettingsToggle = ({
   setIsEnabled,
   isDisabled,
   showAlertModal,
+  className,
 }) => {
   const { postPromotable, promotionStatus } = post
   const [isLoading, setIsLoading] = React.useState(false)
@@ -48,7 +49,7 @@ const PostCardSettingsToggle = ({
     }
     // Update post list state
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
-    toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
+    toggleCampaign(isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType, postId)
   }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled, isConversionsCampaign, showAlertModal])
 
   const goToControlsPage = () => {
@@ -63,12 +64,18 @@ const PostCardSettingsToggle = ({
 
   return (
     <div className="flex flex-column w-1/2">
-      <h3 className="font-bold text-lg">Promotion</h3>
+      <h3 className={[
+        isDisabled ? 'text-grey-2' : null,
+        'font-bold text-lg',
+      ].join(' ')}
+      >
+        Promotion
+      </h3>
       <div
         className={[
           'flex items-center',
           'mb-10',
-          showAlertModal ? 'border-2 border-solid border-red' : null,
+          className,
         ].join(' ')}
       >
         <ToggleSwitch
@@ -78,7 +85,15 @@ const PostCardSettingsToggle = ({
           className="mr-4"
           disabled={isDisabled}
         />
-        <p className="mb-0">{isEnabled ? 'Enabled' : 'Disabled'}</p>
+        <p
+          className={[
+            'mb-0',
+            showAlertModal ? 'text-red' : null,
+            isDisabled ? 'text-grey-2' : null,
+          ].join(' ')}
+        >
+          {isEnabled ? 'Enabled' : 'Disabled'}
+        </p>
         {postPromotable && promotionStatus === 'active' && hasChanged && (
           <PostCardDisableHandler
             post={post}
@@ -116,10 +131,12 @@ PostCardSettingsToggle.propTypes = {
   setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   showAlertModal: PropTypes.bool,
+  className: PropTypes.string,
 }
 
 PostCardSettingsToggle.defaultProps = {
   showAlertModal: false,
+  className: null,
 }
 
 export default PostCardSettingsToggle

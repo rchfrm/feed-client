@@ -202,6 +202,21 @@ export const dummyPosts = [
   },
 ]
 
+export const postOptions = [
+  {
+    name: 'details',
+    title: 'Details',
+  },
+  {
+    name: 'insights',
+    title: 'Insights',
+  },
+  {
+    name: 'settings',
+    title: 'Settings',
+  },
+]
+
 // CAMPAIGN TYPE GRADIENTS
 const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
 export const growthGradient = createGradient(brandColors.blue)
@@ -327,6 +342,8 @@ const getAdPreviewLinks = (post) => {
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
+    if (!post) return null
+
     const { message, ads_summary: adsSummary = {}, ads } = post
     const shortMessage = utils.abbreviatePostText(message)
     const mediaType = post.display?.type
@@ -597,7 +614,7 @@ export const getPostCallToActions = async (artistId, assetId) => {
  * @param {string} assetId
  * @returns {Promise<any>}
  */
-export const getPostAddMessages = async (artistId, assetId) => {
+export const getPostAdMessages = async (artistId, assetId) => {
   const endpoint = `/artists/${artistId}/assets/${assetId}/ad_messages`
   const payload = null
   const errorTracking = {

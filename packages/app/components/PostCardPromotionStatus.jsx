@@ -15,7 +15,9 @@ import brandColors from '@/constants/brandColors'
 const PostCardPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
+  postPromotable,
   size,
+  className,
 }) => {
   const { active, inReview, inActive, rejected, notRun } = postsHelpers.promotionStatusSlugs
   const [title, setTitle] = React.useState('')
@@ -23,7 +25,7 @@ const PostCardPromotionStatus = ({
   const isSmallSize = size === 'small'
 
   React.useEffect(() => {
-    if (!promotionEnabled) {
+    if (!promotionEnabled || !postPromotable) {
       setStatus('disabled')
       setTitle('Disabled')
       return
@@ -31,7 +33,7 @@ const PostCardPromotionStatus = ({
 
     setStatus(promotionStatus)
     setTitle(postsHelpers.promotionStatus.find((status) => status.slug === promotionStatus)?.title)
-  }, [promotionEnabled, promotionStatus])
+  }, [promotionEnabled, promotionStatus, postPromotable])
 
   const getColor = (status) => {
     if (status === active) return 'green'
@@ -61,6 +63,7 @@ const PostCardPromotionStatus = ({
       className={[
         'flex items-center',
         isSmallSize ? 'h-4' : 'h-8',
+        className,
       ].join(' ')}
     >
       <div
@@ -69,7 +72,7 @@ const PostCardPromotionStatus = ({
           'border-2 border-solid rounded-full',
           'mb-0',
           isSmallSize ? 'text-xs' : null,
-          !promotionEnabled ? 'text-grey-3 bg-grey-2' : null,
+          !promotionEnabled ? 'text-grey-3 bg-grey-2' : 'bg-white',
         ].join(' ')}
         style={{
           borderColor: promotionEnabled ? brandColors[color] : brandColors.grey,
@@ -93,11 +96,14 @@ const PostCardPromotionStatus = ({
 PostCardPromotionStatus.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
+  postPromotable: PropTypes.bool.isRequired,
   size: PropTypes.string,
+  className: PropTypes.string,
 }
 
 PostCardPromotionStatus.defaultProps = {
   size: 'regular',
+  className: null,
 }
 
 export default PostCardPromotionStatus

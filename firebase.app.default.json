@@ -10,6 +10,14 @@
     "cleanUrls": true,
     "rewrites": [
       {
+        "source": "/posts/**",
+        "destination": "/posts/[id].html"
+      },
+      {
+        "source": "/controls/**",
+        "destination": "/controls/[slug].html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
@@ -17,11 +25,6 @@
     "redirects": [
       {
         "source": "/home",
-        "destination": "/",
-        "type": 301
-      },
-      {
-        "source": "/posts",
         "destination": "/",
         "type": 301
       },

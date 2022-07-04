@@ -26,7 +26,7 @@ const PostCardSettingsPreview = ({
 
           if (shouldShowPreviewLink) {
             return (
-              <li key={key} className="flex items-center pl-6 mb-2">
+              <li key={key} className="flex items-center pl-4 mb-2">
                 <span className={[
                   'inline-block mr-2 h-4 w-4 rounded-full',
                   backgroundColorClass[key],

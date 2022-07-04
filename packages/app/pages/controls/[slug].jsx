@@ -21,7 +21,7 @@ const Page = () => {
       controlsRequired
       hasNoProfilesPage
     >
-      <ControlsContent activeSlug={slug} />
+      <ControlsContent slug={slug} />
     </BasePage>
   )
 }

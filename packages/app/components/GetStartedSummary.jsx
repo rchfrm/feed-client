@@ -22,9 +22,9 @@ const GetStartedSummary = () => {
   return (
     <div className="flex flex-1 flex-column justify-center items-center mb-6 sm:mb-0">
       <h2><span role="img" aria-label="party face">🥳</span> Congrats!</h2>
-      <h3 className="mr-auto sm:mr-0 mb-10 font-medium text-xl">{copy.reviewDescription}</h3>
+      <h3 className="mb-10 font-medium text-center text-xl">{copy.reviewDescription}</h3>
       <GetStartedSummarySentence
-        className="sm:justify-center"
+        className="justify-center"
       />
       <Button
         version="outline-green"

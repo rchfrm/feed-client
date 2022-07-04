@@ -142,6 +142,12 @@ export const patchArtistBusinessId = async (id, instagramId) => {
   return res
 }
 
+export const patchArtistCampaignStatus = async (id, status) => {
+  return api.patch(`/artists/${id}/targeting`, {
+    status,
+  })
+}
+
 
 // USERS
 // -----------------------

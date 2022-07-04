@@ -25,13 +25,13 @@ const ResultsNoSpendStats = ({
 
   return (
     data && (
-      organicMetricTypes.map(({ type }) => {
-        if ((isDesktopLayout && data[type]) || (!isDesktopLayout && metricType === type)) {
-          const ResultsStats = components[type]
+      organicMetricTypes.map(({ name }) => {
+        if ((isDesktopLayout && data[name]) || (!isDesktopLayout && metricType === name)) {
+          const ResultsStats = components[name]
 
           return (
-            <div key={type} className={[className, 'col-span-12 sm:col-span-4'].join(' ')}>
-              <ResultsStats data={data[type]} />
+            <div key={name} className={[className, 'col-span-12 sm:col-span-4'].join(' ')}>
+              <ResultsStats data={data[name]} />
             </div>
           )
         }

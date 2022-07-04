@@ -1,6 +1,8 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
@@ -12,6 +14,7 @@ const GetStartedSummarySentenceAdAccount = () => {
   const [adAccountName, setAdAccountName] = React.useState('')
 
   const { artistId, artist } = React.useContext(ArtistContext)
+  const isDesktopLayout = useBreakpointTest('xs')
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
@@ -36,12 +39,12 @@ const GetStartedSummarySentenceAdAccount = () => {
   return (
     <GetStartedSummarySentenceSection
       section={getStartedSections.adAccount}
-      text=", in"
-      color={brandColors.yellow}
+      text=" in"
+      color={isDesktopLayout ? brandColors.yellow : brandColors.facebook.bg}
       isComplete={Boolean(adAccountId)}
-      className="mx-2"
+      className="mx-1 sm:mx-2"
     >
-      {adAccountName ? `the ${adAccountName}` : 'your ad account'}
+      {adAccountName ? `the ${adAccountName}` : `${isDesktopLayout ? 'your' : ''} ad account`}
     </GetStartedSummarySentenceSection>
   )
 }

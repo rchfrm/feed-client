@@ -26,7 +26,7 @@ const ResultsPostsChartContent = ({
   const [isLoading, setIsLoading] = React.useState(false)
 
   const { platform } = organicData?.growth || {}
-  const color = organicMetricTypes.find(({ type }) => type === metricType)?.color
+  const color = organicMetricTypes.find(({ name }) => name === metricType)?.color
 
   const { artistId } = React.useContext(ArtistContext)
 

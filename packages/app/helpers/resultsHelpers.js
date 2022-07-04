@@ -14,19 +14,19 @@ import { formatPostsMinimal } from '@/app/helpers/postsHelpers'
 
 export const adMetricTypes = [
   {
-    type: 'engagement',
+    name: 'engagement',
     key: 'unaware',
     valueKey: 'engaged',
     color: brandColors.blue,
   },
   {
-    type: 'nurture',
+    name: 'nurture',
     key: 'on_platform',
     valueKey: 'reach',
     color: brandColors.green,
   },
   {
-    type: 'growth',
+    name: 'growth',
     key: 'conversions',
     valueKey: ['sales_value', 'events_count'],
     color: brandColors.redLight,
@@ -35,15 +35,15 @@ export const adMetricTypes = [
 
 export const organicMetricTypes = [
   {
-    type: 'reach',
+    name: 'reach',
     color: brandColors.blue,
   },
   {
-    type: 'engagement',
+    name: 'engagement',
     color: brandColors.green,
   },
   {
-    type: 'growth',
+    name: 'growth',
     color: brandColors.redLight,
   },
 ]

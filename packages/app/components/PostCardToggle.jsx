@@ -82,7 +82,7 @@ const PostCardToggle = ({
     }
     // Update post list state
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
-    toggleCampaign(postId, isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType)
+    toggleCampaign(isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType, postId)
     checkAndDeprioritize(updatedPost)
   }, [artistId, postId, toggleCampaign, campaignType, isConversionsCampaign, showAlertModal, checkAndDeprioritize])
 
@@ -97,7 +97,7 @@ const PostCardToggle = ({
       className={[
         'relative w-full',
         'flex justify-between items-center',
-        'rounded-dialogue bg-grey-1',
+        'rounded-dialogue',
         showAlertModal ? 'border-2 border-solid border-red' : null,
         className,
       ].join(' ')}
@@ -166,7 +166,7 @@ const PostCardToggle = ({
 PostCardToggle.propTypes = {
   post: PropTypes.object.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
-  postIndex: PropTypes.number.isRequired,
+  postIndex: PropTypes.number,
   campaignType: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool,
@@ -180,6 +180,7 @@ PostCardToggle.propTypes = {
 }
 
 PostCardToggle.defaultProps = {
+  postIndex: null,
   disabled: false,
   className: null,
   isEnabled: false,

@@ -193,7 +193,7 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
   const [postToggleSetterType, setPostToggleSetterType] = React.useState('single')
 
   // Define function for toggling SINGLE promotion campaign or conversions campaign
-  const toggleCampaign = React.useCallback(async (postId, promotionEnabled, promotableStatus, campaignType = 'all') => {
+  const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all', postId) => {
     const postIndex = posts.findIndex(({ id }) => postId === id)
     const newPromotionState = promotionEnabled
     setPostToggleSetterType('single')

@@ -5,57 +5,64 @@ export default {
   // CONTROLS OPTIONS
   controlsOptions: [
     {
-      key: 'objective',
+      name: 'objective',
       title: 'Objective',
+      hasDescription: true,
     },
     {
-      key: 'budget',
+      name: 'budget',
       title: 'Budget',
+      hasDescription: true,
     },
     {
-      key: 'ads',
+      name: 'ads',
       title: 'Promotion Settings',
+      hasDescription: true,
     },
     {
-      key: 'targeting',
+      name: 'targeting',
       title: 'Targeting',
+      hasDefaultSidePanelButton: false,
+      hasDescription: true,
     },
     {
-      key: 'links',
+      name: 'links',
       title: 'Links',
+      hasDescription: true,
     },
     {
-      key: 'integrations',
+      name: 'integrations',
       title: 'Integrations',
+      hasDescription: true,
     },
   ],
-  optionsDescription: (key, hasSetUpProfile, objectiveString, isSpendingPaused, budget) => {
-    if (key === 'objective') {
+  optionsDescription: (name, hasSetUpProfile, objectiveString, isSpendingPaused, budget) => {
+    if (name === 'objective') {
       if (hasSetUpProfile) {
         return `Feed is set-up for ${objectiveString}`
       }
       return 'Continue set-up to choose your objective'
     }
-    if (key === 'budget') {
+    if (name === 'budget') {
       if (hasSetUpProfile) {
         return `Promotion is ${isSpendingPaused ? 'paused' : `active and set to ${budget} a day`}`
       }
       return 'Continue set-up to set your budget'
     }
-    if (key === 'ads') {
+    if (name === 'ads') {
       if (hasSetUpProfile) {
         return 'Post selection, calls to action and ad settings'
       }
       return 'Continue set-up to manage post selection, calls to action and more'
     }
-    if (key === 'targeting') {
+    if (name === 'targeting') {
       if (hasSetUpProfile) {
         return 'Control who sees your ads'
       }
       return 'Continue set-up to choose age, gender and location targeting'
     }
-    if (key === 'links') return 'Add and edit the links that are used in your ads'
-    if (key === 'integrations') return 'Connect Feed to other platforms'
+    if (name === 'links') return 'Add and edit the links that are used in your ads'
+    if (name === 'integrations') return 'Connect Feed to other platforms'
   },
   // AD DEFAULTS
   globalToggleIntro: `Can Feed automatically select which recent posts (last 28 days) are promoted? You can still opt out specific posts from the posts page.

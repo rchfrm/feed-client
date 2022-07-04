@@ -32,6 +32,8 @@ export const getEntityInfo = entity => {
 const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
   const entityInfo = getEntityInfo(entity)
   const entityRoute = entityInfo.type.toUpperCase()
+  // eslint-disable-next-line import/namespace
+  const pathname = entityInfo.type === 'artist' ? `${ROUTES[entityRoute]}/[id]` : ROUTES[entityRoute]
   // Concatenate first and last name if entity is a user
   const name = entityInfo.type === 'user' ? entity.full_name : entity.name
   // Array of users with access to the artist or organisation
@@ -75,8 +77,7 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
       {!isSingleEntity && (
         <Link
           href={{
-            // eslint-disable-next-line import/namespace
-            pathname: ROUTES[entityRoute],
+            pathname,
             query: { id: entity.id },
           }}
         >
