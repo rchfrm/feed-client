@@ -1,7 +1,13 @@
 import { getAllReferralCodeSlugsQuery, getReferralCodeQuery } from '@/landing/graphQl/referralCodeQueries'
 import getDatoData from '@/landing/helpers/getDatoData'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-export default function Page() {
+export default function Page({ url }) {
+  const router = useRouter()
+  useEffect(() => {
+    router.push(url)
+  })
   return null
 }
 
@@ -34,9 +40,8 @@ export async function getStaticProps({ params: { slug } }) {
     },
   } = await getDatoData(query, pageKey, true)
   return {
-    redirect: {
-      destination: `https://app.tryfeed.co/join?code=${referralCode}`,
-      permanent: true,
+    props: {
+      url: `https://app.tryfeed.co/join?code=${referralCode}`,
     },
   }
 }
