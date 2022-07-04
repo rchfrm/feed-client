@@ -474,20 +474,20 @@ export const updateCompletedSetupAt = (artistId) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
-// Update pricing tier
+// Update pricing plan
 /**
 * @param {string} artistId
 * @returns {Promise<object>} { res, error }
 */
-export const updatePricingTier = (artistId, pricingTier) => {
+export const updatePricingPlan = (artistId, pricingPlan) => {
   const requestUrl = `/artists/${artistId}`
   const payload = {
-    plan: pricingTier,
+    plan: pricingPlan,
   }
 
   const errorTracking = {
     category: 'Artist',
-    action: 'Update pricing tier',
+    action: 'Update pricing plan',
   }
 
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
@@ -609,7 +609,7 @@ export const profileStatus = {
   objective: 'objective',
   platform: 'platform',
   defaultLink: 'default-link',
-  pricingTier: 'pricing-tier',
+  pricingPlan: 'pricing-plan',
   connectProfile: 'connect-profile',
   posts: 'posts',
   adAccount: 'ad-account',
@@ -671,14 +671,14 @@ export const getPreferencesObject = (updatedArtist) => {
 }
 
 const objective = 'objective'
-const pricingTier = 'pricing-tier'
+const pricingPlan = 'pricing-plan'
 const postPromotion = 'post-promotion'
 const adAccount = 'ad-account'
 const targeting = 'targeting'
 
 export const getStartedSections = {
   objective,
-  pricingTier,
+  pricingPlan,
   postPromotion,
   adAccount,
   targeting,

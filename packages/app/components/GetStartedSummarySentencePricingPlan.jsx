@@ -8,28 +8,28 @@ import { getLocalStorage } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/getStartedCopy'
 
-const GetStartedSummarySentencePricingTier = () => {
+const GetStartedSummarySentencePricingPlan = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
-  const { pricingTier: storedPricingTier } = wizardState || {}
-  const isComplete = Boolean(storedPricingTier)
+  const { pricingPlan: storedPricingPlan } = wizardState || {}
+  const isComplete = Boolean(storedPricingPlan)
 
   return (
     <GetStartedSummarySentenceSection
-      section={getStartedSections.pricingTier}
+      section={getStartedSections.pricingPlan}
       text="on"
       color={brandColors.blue}
       isComplete={isComplete}
       className="mx-1 sm:mx-2"
     >
-      {storedPricingTier ? copy.pricingTier(storedPricingTier) : 'a Feed'} tier
+      {storedPricingPlan ? copy.pricingPlan(storedPricingPlan) : 'a Feed'} tier
     </GetStartedSummarySentenceSection>
   )
 }
 
-GetStartedSummarySentencePricingTier.propTypes = {
+GetStartedSummarySentencePricingPlan.propTypes = {
 }
 
-GetStartedSummarySentencePricingTier.defaultProps = {
+GetStartedSummarySentencePricingPlan.defaultProps = {
 }
 
-export default GetStartedSummarySentencePricingTier
+export default GetStartedSummarySentencePricingPlan

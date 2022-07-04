@@ -8,12 +8,12 @@ import ToggleSwitch from '@/elements/ToggleSwitch'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
-import { updatePricingTier } from '@/app/helpers/artistHelpers'
+import { updatePricingPlan } from '@/app/helpers/artistHelpers'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
-const GetStartedPricingTier = () => {
-  const [selectedPricingTier, setSelectedPricingTier] = React.useState('')
+const GetStartedPricingPlan = () => {
+  const [selectedPricingPlan, setSelectedPricingPlan] = React.useState('')
   const [isMonthly, setIsMonthly] = React.useState(true)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -21,22 +21,22 @@ const GetStartedPricingTier = () => {
   const { next } = React.useContext(WizardContext)
   const { artistId } = React.useContext(ArtistContext)
 
-  const getPricingTierString = React.useCallback((pricingTier) => {
+  const getPricingPlanString = React.useCallback((pricingPlan) => {
     const period = isMonthly ? 'monthly' : 'annual'
 
-    return `${pricingTier}_${period}`
+    return `${pricingPlan}_${period}`
   }, [isMonthly])
 
   const onChange = () => {
     setIsMonthly((isMonthly) => setIsMonthly(!isMonthly))
   }
 
-  const handleNextStep = React.useCallback(async (pricingTier) => {
+  const handleNextStep = React.useCallback(async (pricingPlan) => {
     const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
-    const pricingTierString = getPricingTierString(pricingTier)
+    const pricingPlanString = getPricingPlanString(pricingPlan)
 
-    // If the pricing tier hasn't changed just go to the next step
-    if (pricingTierString === wizardState?.pricingTier) {
+    // If the pricing plan hasn't changed just go to the next step
+    if (pricingPlanString === wizardState?.pricingPlan) {
       next()
       return
     }
@@ -45,7 +45,7 @@ const GetStartedPricingTier = () => {
     if (!artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({
         ...wizardState,
-        pricingTier: pricingTierString,
+        pricingPlan: pricingPlanString,
       }))
 
       next()
@@ -55,7 +55,7 @@ const GetStartedPricingTier = () => {
     setIsLoading(true)
 
     // Otherwise save the data in the db
-    const { res: updatedArtist, error } = await updatePricingTier(artistId, pricingTierString)
+    const { res: updatedArtist, error } = await updatePricingPlan(artistId, pricingPlanString)
 
     console.log(updatedArtist)
 
@@ -68,18 +68,18 @@ const GetStartedPricingTier = () => {
 
     setIsLoading(false)
     next()
-  }, [next, artistId, getPricingTierString])
+  }, [next, artistId, getPricingPlanString])
 
   React.useEffect(() => {
-    if (!selectedPricingTier) return
+    if (!selectedPricingPlan) return
 
-    handleNextStep(selectedPricingTier)
-  }, [selectedPricingTier, handleNextStep])
+    handleNextStep(selectedPricingPlan)
+  }, [selectedPricingPlan, handleNextStep])
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
       <h3 className="mb-4 font-medium text-xl">Select the features and pricing to suit you.</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown="And then there's a nice description about what these pricing tiers are and which one suits the user best." />
+      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown="And then there's a nice description about what these pricing plans are and which one suits the user best." />
       <Error error={error} />
       <div>
         <div>
@@ -95,19 +95,19 @@ const GetStartedPricingTier = () => {
                 <div className="w-full flex mx-auto mt-6">
                   <button
                     className="h-60 w-1/3 mx-2 border-3 border-solid border-black rounded-dialogue font-bold"
-                    onClick={() => setSelectedPricingTier('basic')}
+                    onClick={() => setSelectedPricingPlan('basic')}
                   >
                     Basic
                   </button>
                   <button
                     className="h-60 w-1/3 mx-2 border-3 border-solid border-black rounded-dialogue font-bold"
-                    onClick={() => setSelectedPricingTier('growth')}
+                    onClick={() => setSelectedPricingPlan('growth')}
                   >
                     Growth
                   </button>
                   <button
                     className="h-60 w-1/3 mx-2 border-3 border-solid border-black rounded-dialogue font-bold"
-                    onClick={() => setSelectedPricingTier('pro')}
+                    onClick={() => setSelectedPricingPlan('pro')}
                   >
                     Pro
                   </button>
@@ -120,10 +120,10 @@ const GetStartedPricingTier = () => {
   )
 }
 
-GetStartedPricingTier.propTypes = {
+GetStartedPricingPlan.propTypes = {
 }
 
-GetStartedPricingTier.defaultProps = {
+GetStartedPricingPlan.defaultProps = {
 }
 
-export default GetStartedPricingTier
+export default GetStartedPricingPlan
