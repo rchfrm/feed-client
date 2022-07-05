@@ -1,5 +1,6 @@
-import ToggleSwitch from '@/elements/ToggleSwitch'
 import PropTypes from 'prop-types'
+
+import ToggleSwitch from '@/elements/ToggleSwitch'
 import ButtonPill from '@/elements/ButtonPill'
 
 const PricingPeriodToggle = ({

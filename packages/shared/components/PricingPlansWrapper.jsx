@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import SwiperBlock from '@/SwiperBlock'
 
-import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 import { currencies } from '@/constants/pricing'
 
 export default function PricingPlansWrapper({
@@ -11,11 +10,12 @@ export default function PricingPlansWrapper({
   showAnnualPricing,
   currency,
   pricingPlanComponent,
-  setSelectedPlan,
+  isDesktop,
+  setSelectedPricingPlan,
   recommendedPlan,
+  className,
 }) {
   const growthPlanIndex = plans.findIndex(plan => plan.name === 'growth')
-  const isDesktop = useBreakpointTest('sm')
   const PricingPlanComponent = pricingPlanComponent
 
   if (isDesktop) {
@@ -25,6 +25,7 @@ export default function PricingPlansWrapper({
           'grid',
           'grid-cols-12',
           'gap-4',
+          className,
         ].join(' ')}
       >
         {plans.map(plan => {
@@ -39,7 +40,7 @@ export default function PricingPlansWrapper({
                 plan={plan}
                 showAnnualPricing={showAnnualPricing}
                 currency={currency}
-                setSelectedPlan={setSelectedPlan}
+                setSelectedPricingPlan={setSelectedPricingPlan}
                 isRecommended={plan.name === recommendedPlan}
               />
             </div>
@@ -78,7 +79,7 @@ export default function PricingPlansWrapper({
               plan={plan}
               showAnnualPricing={showAnnualPricing}
               currency={currency}
-              setSelectedPlan={setSelectedPlan}
+              setSelectedPricingPlan={setSelectedPricingPlan}
               isRecommended={plan.name === recommendedPlan}
             />
           </li>
@@ -93,12 +94,15 @@ PricingPlansWrapper.propTypes = {
   showAnnualPricing: PropTypes.bool.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
   pricingPlanComponent: PropTypes.func.isRequired,
-  setSelectedPlan: PropTypes.func,
+  isDesktop: PropTypes.bool.isRequired,
+  setSelectedPricingPlan: PropTypes.func,
   recommendedPlan: PropTypes.string,
+  className: PropTypes.string,
 }
 
 PricingPlansWrapper.defaultProps = {
-  setSelectedPlan: () => {},
+  setSelectedPricingPlan: () => {},
   recommendedPlan: '',
+  className: null,
 }
 
