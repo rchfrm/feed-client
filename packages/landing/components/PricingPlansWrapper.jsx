@@ -3,12 +3,10 @@ import PropTypes from 'prop-types'
 import SwiperBlock from '@/SwiperBlock'
 import React from 'react'
 import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
-import { pricingCopy } from '@/landing/copy/PricingPageCopy'
-
-const { currencies } = pricingCopy
+import { currencies } from '@/constants/pricing'
 
 export default function PricingPlansWrapper({ plans, showAnnualPricing, currency }) {
-  const growthPlanIndex = plans.findIndex(plan => plan.name === 'Growth')
+  const growthPlanIndex = plans.findIndex(plan => plan.name === 'growth')
   const isDesktop = useBreakpointTest('sm')
 
   if (isDesktop) {

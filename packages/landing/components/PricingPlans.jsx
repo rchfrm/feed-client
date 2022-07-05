@@ -5,15 +5,15 @@ import React from 'react'
 import PricingCurrencySelect from '@/landing/PricingCurrencySelect'
 import MarkdownText from '@/elements/MarkdownText'
 import { pricingCopy } from '@/landing/copy/PricingPageCopy'
+import { pricingPlans } from '@/constants/pricing'
 
 const {
   twoThousandPlus,
   footnotes,
-  pricingPlans,
 } = pricingCopy
 
 export default function PricingPlans() {
-  const { maxSpendMultiple, monthlyCost } = pricingPlans.find(plan => plan.name === 'Pro')
+  const { maxSpendMultiple, monthlyCost } = pricingPlans.find(plan => plan.name === 'pro')
   const [showAnnualPricing, setShowAnnualPricing] = React.useState(false)
   const [currency, setCurrency] = React.useState('GBP')
   const [maxSpend, setMaxSpend] = React.useState(monthlyCost[currency] * maxSpendMultiple)

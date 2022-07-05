@@ -5,9 +5,9 @@ import PricingPlanServiceFee from '@/landing/PricingPlanServiceFee'
 import PricingPlanFeatures from '@/landing/PricingPlanFeatures'
 import React from 'react'
 import TryFeed from '@/landing/TryFeed'
-import { getMaxSpendString, pricingCopy } from '@/landing/copy/PricingPageCopy'
-
-const { currencies } = pricingCopy
+import { getMaxSpendString } from '@/landing/copy/PricingPageCopy'
+import { capitalise } from '@/helpers/utils'
+import { currencies } from '@/constants/pricing'
 
 export default function PricingPlan({ plan, showAnnualPricing, currency }) {
   const {
@@ -44,7 +44,7 @@ export default function PricingPlan({ plan, showAnnualPricing, currency }) {
         'h-full',
       ].join(' ')}
     >
-      <h2>{name}</h2>
+      <h2>{capitalise(name)}</h2>
       <MarkdownText
         markdown={description}
         className={[

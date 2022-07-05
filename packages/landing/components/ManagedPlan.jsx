@@ -4,9 +4,8 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import PricingPlanFeatures from '@/landing/PricingPlanFeatures'
-import { pricingCopy } from '@/landing/copy/PricingPageCopy'
-
-const { currencies, managedPlan } = pricingCopy
+import { currencies, managedPlan } from '@/constants/pricing'
+import { capitalise } from '@/helpers/utils'
 
 export default function ManagedPlan({ currency }) {
   const {
@@ -36,7 +35,7 @@ export default function ManagedPlan({ currency }) {
         <ManagedPlanHeader header="Expert strategy &amp; support" />
         <div className="p-5">
           <PricingPlanMonthlyCost amount={monthlyCost[currency]} currency={currency} isManaged />
-          <MarkdownText markdown={`### ${name} service`} />
+          <MarkdownText markdown={`### ${capitalise(name)} service`} />
           <MarkdownText markdown={description} className="small--p sm:text-base" />
           <Button
             trackComponentName="ManagedPlan"
