@@ -1,22 +1,30 @@
 import React from 'react'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import useControlsStore from '@/app/stores/controlsStore'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import PricingPlansHeader from '@/PricingPlansHeader'
 import PricingPlansWrapper from '@/PricingPlansWrapper'
 import GetStartedPricingPlan from '@/app/GetStartedPricingPlan'
+import GetStartedPricingReadMore from '@/app/GetStartedPricingReadMore'
 
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
+import Button from '@/elements/Button'
 
 import { updatePricingPlan } from '@/app/helpers/artistHelpers'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { pricingPlans } from '@/constants/pricing'
+
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
 
 const GetStartedPricing = () => {
   const [selectedPricingPlan, setSelectedPricingPlan] = React.useState('')
@@ -25,9 +33,16 @@ const GetStartedPricing = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
+  const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
   const { next } = React.useContext(WizardContext)
   const { artistId } = React.useContext(ArtistContext)
   const isDesktop = useBreakpointTest('sm')
+
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
+  const { objective: storedObjective } = wizardState || {}
+  const objective = optimizationPreferences?.objective || storedObjective
+  const recommendedPlan = objective === 'sales' ? 'pro' : 'growth'
 
   const getPricingPlanString = React.useCallback((pricingPlan) => {
     const period = showAnnualPricing ? 'anual' : 'monthly'
@@ -35,8 +50,16 @@ const GetStartedPricing = () => {
     return `${pricingPlan}_${period}`
   }, [showAnnualPricing])
 
+  const openReadMoreSidePanel = (plan) => {
+    const content = <GetStartedPricingReadMore plan={plan} currency={currency} />
+    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+
+    setSidePanelContent(content)
+    toggleSidePanel(true)
+    setSidePanelButton(button)
+  }
+
   const handleNextStep = React.useCallback(async (pricingPlan) => {
-    const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
     const pricingPlanString = getPricingPlanString(pricingPlan)
 
     // If the pricing plan hasn't changed just go to the next step
@@ -71,6 +94,7 @@ const GetStartedPricing = () => {
 
     setIsLoading(false)
     next()
+  // eslint-disable-next-line
   }, [next, artistId, getPricingPlanString])
 
   React.useEffect(() => {
@@ -103,7 +127,8 @@ const GetStartedPricing = () => {
                 pricingPlanComponent={GetStartedPricingPlan}
                 isDesktop={isDesktop}
                 setSelectedPricingPlan={setSelectedPricingPlan}
-                recommendedPlan="growth"
+                handleSidePanel={openReadMoreSidePanel}
+                recommendedPlan={recommendedPlan}
               />
             </div>
           </>

@@ -13,6 +13,7 @@ const GetStartedPricingPlan = ({
   plan,
   showAnnualPricing,
   setSelectedPricingPlan,
+  handleSidePanel,
   currency,
   isRecommended,
 }) => {
@@ -49,7 +50,7 @@ const GetStartedPricingPlan = ({
         />
         <Button
           version="text"
-          onClick={() => console.log('Open side-panel')}
+          onClick={() => handleSidePanel(plan)}
           className="inline-block mr-1"
           trackComponentName="GetStartedPricingPlan"
         >
@@ -65,6 +66,7 @@ GetStartedPricingPlan.propTypes = {
   plan: PropTypes.object.isRequired,
   showAnnualPricing: PropTypes.bool.isRequired,
   setSelectedPricingPlan: PropTypes.func.isRequired,
+  handleSidePanel: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
   isRecommended: PropTypes.bool.isRequired,
 }
