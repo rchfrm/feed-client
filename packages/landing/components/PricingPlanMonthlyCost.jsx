@@ -4,7 +4,7 @@ import { getCurrencySymbol } from '@/helpers/utils'
 
 const { currencies } = pricingCopy
 
-export default function PricingTierMonthlyCost({ amount, currency, isManaged, showAnnualPricing }) {
+export default function PricingPlanMonthlyCost({ amount, currency, isManaged, showAnnualPricing }) {
   const currencySymbol = getCurrencySymbol(currency)
   return (
     <div
@@ -41,14 +41,14 @@ export default function PricingTierMonthlyCost({ amount, currency, isManaged, sh
   )
 }
 
-PricingTierMonthlyCost.propTypes = {
+PricingPlanMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
   isManaged: PropTypes.bool,
   showAnnualPricing: PropTypes.bool,
 }
 
-PricingTierMonthlyCost.defaultProps = {
+PricingPlanMonthlyCost.defaultProps = {
   showAnnualPricing: false,
   isManaged: false,
 }

@@ -1,20 +1,20 @@
-import ManagedTierHeader from '@/landing/ManagedTierHeader'
-import PricingTierMonthlyCost from '@/landing/PricingTierMonthlyCost'
+import ManagedPlanHeader from '@/landing/ManagedPlanHeader'
+import PricingPlanMonthlyCost from '@/landing/PricingPlanMonthlyCost'
 import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
-import PricingTierFeatures from '@/landing/PricingTierFeatures'
+import PricingPlanFeatures from '@/landing/PricingPlanFeatures'
 import { pricingCopy } from '@/landing/copy/PricingPageCopy'
 
-const { currencies, managedTier } = pricingCopy
+const { currencies, managedPlan } = pricingCopy
 
-export default function ManagedTier({ currency }) {
+export default function ManagedPlan({ currency }) {
   const {
     name,
     monthlyCost,
     description,
     features,
-  } = managedTier
+  } = managedPlan
   return (
     <div
       className={[
@@ -33,13 +33,13 @@ export default function ManagedTier({ currency }) {
           'sm:col-start-4',
         ].join(' ')}
       >
-        <ManagedTierHeader header="Expert strategy &amp; support" />
+        <ManagedPlanHeader header="Expert strategy &amp; support" />
         <div className="p-5">
-          <PricingTierMonthlyCost amount={monthlyCost[currency]} currency={currency} isManaged />
+          <PricingPlanMonthlyCost amount={monthlyCost[currency]} currency={currency} isManaged />
           <MarkdownText markdown={`### ${name} service`} />
           <MarkdownText markdown={description} className="small--p sm:text-base" />
           <Button
-            trackComponentName="ManagedTier"
+            trackComponentName="ManagedPlan"
             version="text"
             className={[
               'flex',
@@ -49,16 +49,16 @@ export default function ManagedTier({ currency }) {
             ].join(' ')}
             href="https://meetings.hubspot.com/feed/managed"
           >
-            <strong>Arrange a call to hear more -></strong>
+            <strong>Arrange a call to hear more -&gt;</strong>
           </Button>
           <hr className="my-5" />
-          <PricingTierFeatures features={features} />
+          <PricingPlanFeatures features={features} />
         </div>
       </div>
     </div>
   )
 }
 
-ManagedTier.propTypes = {
+ManagedPlan.propTypes = {
   currency: PropTypes.oneOf(currencies).isRequired,
 }

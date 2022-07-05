@@ -30,7 +30,7 @@ export const pricingCopy = {
   ^ A profile is a Facebook page and Instagram account for the same person, brand or company\n
   ° Multiple objectives coming June-July 2022
   `,
-  pricingTiers: [
+  pricingPlans: [
     {
       name: 'Basic',
       description: 'Audience growth for beginners. Suitable for any level of budget.',
@@ -105,7 +105,7 @@ export const pricingCopy = {
       maxSpendMultiple: 40,
     },
   ],
-  managedTier: {
+  managedPlan: {
     name: 'Managed',
     description: 'Add a digital marketing expert to your team. Everything in the Pro tier plus the benefits below:',
     monthlyCost: {
