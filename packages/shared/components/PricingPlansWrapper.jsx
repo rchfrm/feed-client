@@ -12,6 +12,7 @@ export default function PricingPlansWrapper({
   pricingPlanComponent,
   isDesktop,
   setSelectedPricingPlan,
+  handleSidePanel,
   recommendedPlan,
   className,
 }) {
@@ -41,7 +42,9 @@ export default function PricingPlansWrapper({
                 showAnnualPricing={showAnnualPricing}
                 currency={currency}
                 setSelectedPricingPlan={setSelectedPricingPlan}
+                handleSidePanel={handleSidePanel}
                 isRecommended={plan.name === recommendedPlan}
+                isDesktop={isDesktop}
               />
             </div>
           )
@@ -80,7 +83,9 @@ export default function PricingPlansWrapper({
               showAnnualPricing={showAnnualPricing}
               currency={currency}
               setSelectedPricingPlan={setSelectedPricingPlan}
+              handleSidePanel={handleSidePanel}
               isRecommended={plan.name === recommendedPlan}
+              isDesktop={isDesktop}
             />
           </li>
         )
@@ -96,13 +101,14 @@ PricingPlansWrapper.propTypes = {
   pricingPlanComponent: PropTypes.func.isRequired,
   isDesktop: PropTypes.bool.isRequired,
   setSelectedPricingPlan: PropTypes.func,
+  handleSidePanel: PropTypes.func,
   recommendedPlan: PropTypes.string,
   className: PropTypes.string,
 }
 
 PricingPlansWrapper.defaultProps = {
   setSelectedPricingPlan: () => {},
+  handleSidePanel: () => {},
   recommendedPlan: '',
   className: null,
 }
-
