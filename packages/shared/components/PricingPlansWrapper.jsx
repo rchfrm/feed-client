@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PricingPlan from '@/landing/PricingPlan'
 import SwiperBlock from '@/SwiperBlock'
 
 import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
@@ -11,12 +10,13 @@ export default function PricingPlansWrapper({
   plans,
   showAnnualPricing,
   currency,
-  isLandingPage,
+  pricingPlanComponent,
+  setSelectedPlan,
   recommendedPlan,
 }) {
   const growthPlanIndex = plans.findIndex(plan => plan.name === 'growth')
   const isDesktop = useBreakpointTest('sm')
-  const PricingPlanComponent = isLandingPage ? PricingPlan : PricingPlan
+  const PricingPlanComponent = pricingPlanComponent
 
   if (isDesktop) {
     return (
@@ -39,6 +39,7 @@ export default function PricingPlansWrapper({
                 plan={plan}
                 showAnnualPricing={showAnnualPricing}
                 currency={currency}
+                setSelectedPlan={setSelectedPlan}
                 isRecommended={plan.name === recommendedPlan}
               />
             </div>
@@ -77,6 +78,7 @@ export default function PricingPlansWrapper({
               plan={plan}
               showAnnualPricing={showAnnualPricing}
               currency={currency}
+              setSelectedPlan={setSelectedPlan}
               isRecommended={plan.name === recommendedPlan}
             />
           </li>
@@ -90,12 +92,13 @@ PricingPlansWrapper.propTypes = {
   plans: PropTypes.arrayOf(PropTypes.object).isRequired,
   showAnnualPricing: PropTypes.bool.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
-  isLandingPage: PropTypes.bool,
+  pricingPlanComponent: PropTypes.func.isRequired,
+  setSelectedPlan: PropTypes.func,
   recommendedPlan: PropTypes.string,
 }
 
 PricingPlansWrapper.defaultProps = {
-  isLandingPage: true,
+  setSelectedPlan: () => {},
   recommendedPlan: '',
 }
 

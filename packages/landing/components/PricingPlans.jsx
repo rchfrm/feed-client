@@ -3,6 +3,7 @@ import ManagedPlan from '@/landing/ManagedPlan'
 import PricingPlansWrapper from '@/PricingPlansWrapper'
 import PricingPeriodToggle from '@/PricingPeriodToggle'
 import PricingCurrencySelect from '@/PricingCurrencySelect'
+import PricingPlan from '@/landing/PricingPlan'
 import MarkdownText from '@/elements/MarkdownText'
 import { pricingCopy } from '@/landing/copy/PricingPageCopy'
 import { pricingPlans } from '@/constants/pricing'
@@ -51,6 +52,7 @@ export default function PricingPlans() {
         plans={pricingPlans}
         showAnnualPricing={showAnnualPricing}
         currency={currency}
+        pricingPlanComponent={PricingPlan}
       />
       <ManagedPlan currency={currency} />
       <MarkdownText markdown={twoThousandPlus(currency, maxSpend)} className="text-center mb-10" />
