@@ -119,7 +119,7 @@ const GetStartedPricing = () => {
               setShowAnnualPricing={setShowAnnualPricing}
               buttonPillClassName="bg-blue border-blue"
             />
-            <div className="col-span-12 mt-12 mb-10">
+            <div className="col-span-12 sm:mt-12 mb-10">
               <PricingPlansWrapper
                 plans={pricingPlans}
                 showAnnualPricing={showAnnualPricing}
