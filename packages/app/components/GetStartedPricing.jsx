@@ -5,6 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PricingPeriodToggle from '@/PricingPeriodToggle'
 import PricingCurrencySelect from '@/PricingCurrencySelect'
+import PricingPlansWrapper from '@/PricingPlansWrapper'
 import GetStartedPricingPlan from '@/app/GetStartedPricingPlan'
 
 import Spinner from '@/elements/Spinner'
@@ -18,7 +19,7 @@ import { pricingPlans } from '@/constants/pricing'
 
 const GetStartedPricing = () => {
   const [selectedPricingPlan, setSelectedPricingPlan] = React.useState('')
-  const [isAnnualPricing, setIsAnnualPricing] = React.useState(false)
+  const [showAnnualPricing, setShowAnnualPricing] = React.useState(false)
   const [currency, setCurrency] = React.useState('GBP')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -27,10 +28,10 @@ const GetStartedPricing = () => {
   const { artistId } = React.useContext(ArtistContext)
 
   const getPricingPlanString = React.useCallback((pricingPlan) => {
-    const period = isAnnualPricing ? 'anual' : 'monthly'
+    const period = showAnnualPricing ? 'anual' : 'monthly'
 
     return `${pricingPlan}_${period}`
-  }, [isAnnualPricing])
+  }, [showAnnualPricing])
 
   const handleNextStep = React.useCallback(async (pricingPlan) => {
     const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
@@ -95,24 +96,21 @@ const GetStartedPricing = () => {
                 />
               </div>
               <PricingPeriodToggle
-                showAnnualPricing={isAnnualPricing}
-                setShowAnnualPricing={setIsAnnualPricing}
+                showAnnualPricing={showAnnualPricing}
+                setShowAnnualPricing={setShowAnnualPricing}
                 className="flex items-center"
+                buttonPillClassName="bg-blue border-blue"
               />
             </div>
-            <div className="w-full flex mb-12">
-              {pricingPlans.map((pricingPlan, index) => {
-                return (
-                  <GetStartedPricingPlan
-                    key={pricingPlan.name}
-                    plan={pricingPlan}
-                    isAnnualPricing={isAnnualPricing}
-                    setSelectedPricingPlan={setSelectedPricingPlan}
-                    currency={currency}
-                    isRecommended={index === 1}
-                  />
-                )
-              })}
+            <div className="col-span-12">
+              <PricingPlansWrapper
+                plans={pricingPlans}
+                showAnnualPricing={showAnnualPricing}
+                currency={currency}
+                pricingPlanComponent={GetStartedPricingPlan}
+                setSelectedPricingPlan={setSelectedPricingPlan}
+                recommendedPlan="growth"
+              />
             </div>
           </>
         )}
