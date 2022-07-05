@@ -1,8 +1,8 @@
+import React from 'react'
 import ManagedPlan from '@/landing/ManagedPlan'
 import PricingPlansWrapper from '@/landing/PricingPlansWrapper'
-import PricingPeriodToggle from '@/landing/PricingPeriodToggle'
-import React from 'react'
-import PricingCurrencySelect from '@/landing/PricingCurrencySelect'
+import PricingPeriodToggle from '@/PricingPeriodToggle'
+import PricingCurrencySelect from '@/PricingCurrencySelect'
 import MarkdownText from '@/elements/MarkdownText'
 import { pricingCopy } from '@/landing/copy/PricingPageCopy'
 import { pricingPlans } from '@/constants/pricing'
@@ -28,17 +28,24 @@ export default function PricingPlans() {
     >
       <div
         className={[
-          'grid',
-          'gap-x-2',
+          'flex flex-column xs:flex-row sm:items-center xs:justify-between',
+          "after:content-[''] after:flex-1",
           'mb-5',
-          'items-center',
         ].join(' ')}
-        style={{
-          gridTemplateColumns: '80px 1fr auto 1fr 80px',
-        }}
       >
-        <PricingCurrencySelect currency={currency} setCurrency={setCurrency} />
-        <PricingPeriodToggle showAnnualPricing={showAnnualPricing} setShowAnnualPricing={setShowAnnualPricing} />
+        <div className="flex flex-1 mb-2 xs:mb-0">
+          <PricingCurrencySelect
+            currency={currency}
+            setCurrency={setCurrency}
+            className="xs:ml-2 w-[75px]"
+          />
+        </div>
+        <PricingPeriodToggle
+          showAnnualPricing={showAnnualPricing}
+          setShowAnnualPricing={setShowAnnualPricing}
+          className="flex items-center"
+          buttonPillClassName="bg-insta border-insta"
+        />
       </div>
       <PricingPlansWrapper plans={pricingPlans} showAnnualPricing={showAnnualPricing} currency={currency} />
       <ManagedPlan currency={currency} />
