@@ -1,9 +1,9 @@
 import ManagedPlanHeader from '@/landing/ManagedPlanHeader'
-import PricingPlanMonthlyCost from '@/landing/PricingPlanMonthlyCost'
+import PricingPlanMonthlyCost from '@/PricingPlanMonthlyCost'
 import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
-import PricingPlanFeatures from '@/landing/PricingPlanFeatures'
+import PricingPlanFeatures from '@/PricingPlanFeatures'
 import { currencies, managedPlan } from '@/constants/pricing'
 import { capitalise } from '@/helpers/utils'
 

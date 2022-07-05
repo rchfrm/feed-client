@@ -1,20 +1,17 @@
-import MarkdownText from '@/elements/MarkdownText'
-import PropTypes from 'prop-types'
-import PricingPlanMonthlyCost from '@/landing/PricingPlanMonthlyCost'
-import PricingPlanServiceFee from '@/landing/PricingPlanServiceFee'
-import PricingPlanFeatures from '@/landing/PricingPlanFeatures'
 import React from 'react'
+import PropTypes from 'prop-types'
+
+import PricingPlanFeatures from '@/PricingPlanFeatures'
+import PricingPlanTopSection from '@/PricingPlanTopSection'
 import TryFeed from '@/landing/TryFeed'
+
 import { getMaxSpendString } from '@/landing/copy/PricingPageCopy'
-import { capitalise } from '@/helpers/utils'
 import { currencies } from '@/constants/pricing'
 
 export default function PricingPlan({ plan, showAnnualPricing, currency }) {
   const {
     name,
-    description,
     monthlyCost,
-    serviceFeePercentage,
     features,
     maxSpendMultiple,
   } = plan
@@ -44,25 +41,11 @@ export default function PricingPlan({ plan, showAnnualPricing, currency }) {
         'h-full',
       ].join(' ')}
     >
-      <h2>{capitalise(name)}</h2>
-      <MarkdownText
-        markdown={description}
-        className={[
-          'small--p',
-          'sm:text-base',
-          'xxs:min-h-2-lines',
-          'xxs:mb-0',
-          'xs:min-h-fit',
-          'xs:mb-5',
-          'sm:min-h-4-lines',
-          'sm:mb-0',
-          'md:min-h-3-lines',
-          'lg:min-h-fit',
-          'lg:mb-5',
-        ].join(' ')}
+      <PricingPlanTopSection
+        plan={plan}
+        currency={currency}
+        showAnnualPricing={showAnnualPricing}
       />
-      <PricingPlanMonthlyCost amount={monthlyCost[currency]} showAnnualPricing={showAnnualPricing} currency={currency} />
-      <PricingPlanServiceFee percentage={serviceFeePercentage} />
       <TryFeed
         buttonText="Get Started"
         className={['w-full', 'mb-5'].join(' ')}
@@ -74,7 +57,7 @@ export default function PricingPlan({ plan, showAnnualPricing, currency }) {
 }
 
 PricingPlan.propTypes = {
-  plan: PropTypes.exact({
+  plan: PropTypes.shape({
     name: PropTypes.string,
     description: PropTypes.string,
     monthlyCost: PropTypes.objectOf(PropTypes.number),

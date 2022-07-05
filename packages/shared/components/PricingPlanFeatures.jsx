@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import PricingPlanFeature from '@/landing/PricingPlanFeature'
+import PricingPlanFeature from '@/PricingPlanFeature'
 
 export default function PricingPlanFeatures({ features }) {
   return (

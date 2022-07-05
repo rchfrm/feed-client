@@ -1,6 +1,6 @@
 import React from 'react'
 import ManagedPlan from '@/landing/ManagedPlan'
-import PricingPlansWrapper from '@/landing/PricingPlansWrapper'
+import PricingPlansWrapper from '@/PricingPlansWrapper'
 import PricingPeriodToggle from '@/PricingPeriodToggle'
 import PricingCurrencySelect from '@/PricingCurrencySelect'
 import MarkdownText from '@/elements/MarkdownText'
@@ -47,7 +47,11 @@ export default function PricingPlans() {
           buttonPillClassName="bg-insta border-insta"
         />
       </div>
-      <PricingPlansWrapper plans={pricingPlans} showAnnualPricing={showAnnualPricing} currency={currency} />
+      <PricingPlansWrapper
+        plans={pricingPlans}
+        showAnnualPricing={showAnnualPricing}
+        currency={currency}
+      />
       <ManagedPlan currency={currency} />
       <MarkdownText markdown={twoThousandPlus(currency, maxSpend)} className="text-center mb-10" />
       <MarkdownText markdown={footnotes} className="small--p mb-0" />
