@@ -2,7 +2,12 @@ import ToggleSwitch from '@/elements/ToggleSwitch'
 import PropTypes from 'prop-types'
 import ButtonPill from '@/elements/ButtonPill'
 
-const PricingPeriodToggle = ({ showAnnualPricing, setShowAnnualPricing, className }) => {
+const PricingPeriodToggle = ({
+  showAnnualPricing,
+  setShowAnnualPricing,
+  className,
+  buttonPillClassName,
+}) => {
   const handleToggle = () => {
     setShowAnnualPricing(!showAnnualPricing)
   }
@@ -12,11 +17,11 @@ const PricingPeriodToggle = ({ showAnnualPricing, setShowAnnualPricing, classNam
   }
 
   return (
-    <div className={className}>
+    <div className={['relative', className].join(' ')}>
       <p
         className={[
           !showAnnualPricing ? 'bold' : null,
-          'mb-0',
+          'xs:w-16 mb-0',
           'text-right',
         ].join(' ')}
       >
@@ -26,24 +31,24 @@ const PricingPeriodToggle = ({ showAnnualPricing, setShowAnnualPricing, classNam
         onChange={handleToggle}
         state={showAnnualPricing}
         offColour="bg-green"
-        className="mx-4"
+        className="mx-3"
       />
       <p
         className={[
           showAnnualPricing ? 'bold' : null,
-          'mb-0',
+          'xs:w-16 mb-0',
         ].join(' ')}
       >
         Annual
       </p>
       <ButtonPill
         className={[
+          'xs:absolute xs:-right-12',
           'small--p',
           'bold',
-          'bg-blue',
-          'border-blue',
+          'ml-1 xs:ml-0',
           'text-white',
-          'ml-1',
+          buttonPillClassName,
         ].join(' ')}
         onClick={handlePillClick}
       >
@@ -56,6 +61,13 @@ const PricingPeriodToggle = ({ showAnnualPricing, setShowAnnualPricing, classNam
 PricingPeriodToggle.propTypes = {
   showAnnualPricing: PropTypes.bool.isRequired,
   setShowAnnualPricing: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  buttonPillClassName: PropTypes.string,
+}
+
+PricingPeriodToggle.defaultProps = {
+  className: null,
+  buttonPillClassName: PropTypes.string,
 }
 
 export default PricingPeriodToggle

@@ -9,8 +9,8 @@
   &._disabled {
     cursor: default;
     cursor: not-allowed;
-    opacity: 0.5;
-    filter: saturate(0.3);
+    opacity: 0.2;
+    filter: saturate(0);
   }
 }
 

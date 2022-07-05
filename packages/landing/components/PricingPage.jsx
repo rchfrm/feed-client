@@ -2,7 +2,7 @@ import React from 'react'
 import Section from '@/landing/Section'
 import HeroStrapLine from '@/landing/HeroStrapLine'
 import { pricingCopy } from '@/landing/copy/PricingPageCopy'
-import PricingTiers from '@/landing/PricingTiers'
+import PricingPlans from '@/landing/PricingPlans'
 
 export default function PricingPage() {
   const {
@@ -36,7 +36,7 @@ export default function PricingPage() {
       >
         <HeroStrapLine strapLine={strapLine} />
       </div>
-      <PricingTiers />
+      <PricingPlans />
     </Section>
   )
 }

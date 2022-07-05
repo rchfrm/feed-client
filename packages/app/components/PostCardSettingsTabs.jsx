@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { campaignTypes, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
-const PostCardSettingsTabs = ({ campaignType, setCampaignType }) => {
+const PostCardSettingsTabs = ({ campaignType, setCampaignType, isDisabled }) => {
   return (
     <div className="flex mb-6 text-lg text-grey-3">
       {campaignTypes.map(({ title, slug }) => {
@@ -13,14 +13,16 @@ const PostCardSettingsTabs = ({ campaignType, setCampaignType }) => {
             key={slug}
             className={[
               'mr-5',
-              isActive ? 'text-black' : null,
+              isActive && !isDisabled ? 'text-black' : null,
+              isDisabled ? 'text-grey-2 pointer-events-none' : null,
             ].join(' ')}
           >
             <button
               type="button"
               className={[
                 'flex items-center',
-                isActive ? 'font-bold' : '',
+                isActive ? 'font-bold' : null,
+                isDisabled ? 'saturate-0' : null,
               ].join(' ')}
               onClick={() => setCampaignType(slug)}
             >
@@ -42,9 +44,11 @@ const PostCardSettingsTabs = ({ campaignType, setCampaignType }) => {
 PostCardSettingsTabs.propTypes = {
   campaignType: PropTypes.string.isRequired,
   setCampaignType: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool,
 }
 
 PostCardSettingsTabs.defaultProps = {
+  isDisabled: false,
 
 }
 
