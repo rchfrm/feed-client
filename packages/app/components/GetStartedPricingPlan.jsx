@@ -6,8 +6,10 @@ import PricingPlanTopSection from '@/PricingPlanTopSection'
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import PlusCircleIcon from '@/icons/PlusCircleIcon'
+import LightbulbIcon from '@/icons/LightbulbIcon'
 
 import { capitalise } from '@/helpers/utils'
+import brandColors from '@/constants/brandColors'
 
 const GetStartedPricingPlan = ({
   plan,
@@ -23,13 +25,27 @@ const GetStartedPricingPlan = ({
   return (
     <div
       className={[
-        'w-full h-full',
+        'w-full h-full relative',
         'shrink-0',
         'p-6',
         'border-solid rounded-dialogue',
         isRecommended ? 'border-[5px] border-insta' : 'border-3 border-black',
       ].join(' ')}
     >
+      {isRecommended && (
+        <div className={[
+          'absolute left-0 -top-9',
+          'flex items-center justify-center',
+          'w-full h-8 p-3',
+          'outline outline-[5px] outline-solid outline-insta',
+          'rounded-t-dialogue bg-insta',
+          'text-xs text-white italic',
+        ].join(' ')}
+        >
+          <LightbulbIcon className="h-4 w-4 mr-1" fill={brandColors.white} />
+          Recommended based on your settings
+        </div>
+      )}
       <PricingPlanTopSection
         plan={plan}
         currency={currency}
