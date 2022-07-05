@@ -1,10 +1,11 @@
 import React from 'react'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import PricingPeriodToggle from '@/PricingPeriodToggle'
-import PricingCurrencySelect from '@/PricingCurrencySelect'
+import PricingPlansHeader from '@/PricingPlansHeader'
 import PricingPlansWrapper from '@/PricingPlansWrapper'
 import GetStartedPricingPlan from '@/app/GetStartedPricingPlan'
 
@@ -26,6 +27,7 @@ const GetStartedPricing = () => {
 
   const { next } = React.useContext(WizardContext)
   const { artistId } = React.useContext(ArtistContext)
+  const isDesktop = useBreakpointTest('sm')
 
   const getPricingPlanString = React.useCallback((pricingPlan) => {
     const period = showAnnualPricing ? 'anual' : 'monthly'
@@ -86,28 +88,20 @@ const GetStartedPricing = () => {
         ? <Spinner />
         : (
           <>
-            <div className="flex items-center justify-between after:content-[''] after:flex-1 mb-10">
-              <div className="flex flex-1">
-                Currency:
-                <PricingCurrencySelect
-                  currency={currency}
-                  setCurrency={setCurrency}
-                  className="ml-2 w-[75px]"
-                />
-              </div>
-              <PricingPeriodToggle
-                showAnnualPricing={showAnnualPricing}
-                setShowAnnualPricing={setShowAnnualPricing}
-                className="flex items-center"
-                buttonPillClassName="bg-blue border-blue"
-              />
-            </div>
-            <div className="col-span-12">
+            <PricingPlansHeader
+              currency={currency}
+              setCurrency={setCurrency}
+              showAnnualPricing={showAnnualPricing}
+              setShowAnnualPricing={setShowAnnualPricing}
+              buttonPillClassName="bg-blue border-blue"
+            />
+            <div className="col-span-12 mb-10">
               <PricingPlansWrapper
                 plans={pricingPlans}
                 showAnnualPricing={showAnnualPricing}
                 currency={currency}
                 pricingPlanComponent={GetStartedPricingPlan}
+                isDesktop={isDesktop}
                 setSelectedPricingPlan={setSelectedPricingPlan}
                 recommendedPlan="growth"
               />
