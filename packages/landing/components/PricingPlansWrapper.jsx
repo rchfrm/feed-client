@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
+
+import PricingPlan from '@/landing/PricingPlan'
 import SwiperBlock from '@/SwiperBlock'
 
 import { currencies } from '@/constants/pricing'
@@ -9,15 +12,9 @@ export default function PricingPlansWrapper({
   plans,
   showAnnualPricing,
   currency,
-  pricingPlanComponent,
-  isDesktop,
-  setSelectedPricingPlan,
-  handleSidePanel,
-  recommendedPlan,
-  className,
 }) {
   const growthPlanIndex = plans.findIndex(plan => plan.name === 'growth')
-  const PricingPlanComponent = pricingPlanComponent
+  const isDesktop = useBreakpointTest('sm')
 
   if (isDesktop) {
     return (
@@ -26,7 +23,6 @@ export default function PricingPlansWrapper({
           'grid',
           'grid-cols-12',
           'gap-4',
-          className,
         ].join(' ')}
       >
         {plans.map(plan => {
@@ -37,14 +33,10 @@ export default function PricingPlansWrapper({
                 'col-span-4',
               ].join(' ')}
             >
-              <PricingPlanComponent
+              <PricingPlan
                 plan={plan}
                 showAnnualPricing={showAnnualPricing}
                 currency={currency}
-                setSelectedPricingPlan={setSelectedPricingPlan}
-                handleSidePanel={handleSidePanel}
-                isRecommended={plan.name === recommendedPlan}
-                isDesktop={isDesktop}
               />
             </div>
           )
@@ -78,14 +70,10 @@ export default function PricingPlansWrapper({
               'box-border',
             ].join(' ')}
           >
-            <PricingPlanComponent
+            <PricingPlan
               plan={plan}
               showAnnualPricing={showAnnualPricing}
               currency={currency}
-              setSelectedPricingPlan={setSelectedPricingPlan}
-              handleSidePanel={handleSidePanel}
-              isRecommended={plan.name === recommendedPlan}
-              isDesktop={isDesktop}
             />
           </li>
         )
@@ -98,17 +86,7 @@ PricingPlansWrapper.propTypes = {
   plans: PropTypes.arrayOf(PropTypes.object).isRequired,
   showAnnualPricing: PropTypes.bool.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
-  pricingPlanComponent: PropTypes.func.isRequired,
-  isDesktop: PropTypes.bool.isRequired,
-  setSelectedPricingPlan: PropTypes.func,
-  handleSidePanel: PropTypes.func,
-  recommendedPlan: PropTypes.string,
-  className: PropTypes.string,
 }
 
 PricingPlansWrapper.defaultProps = {
-  setSelectedPricingPlan: () => {},
-  handleSidePanel: () => {},
-  recommendedPlan: '',
-  className: null,
 }

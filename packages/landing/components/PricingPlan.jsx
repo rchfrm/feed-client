@@ -2,18 +2,25 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import PricingPlanFeatures from '@/PricingPlanFeatures'
-import PricingPlanTopSection from '@/PricingPlanTopSection'
+import PricingPlanMonthlyCost from '@/PricingPlanMonthlyCost'
+import PricingPlanServiceFee from '@/landing/PricingPlanServiceFee'
 import TryFeed from '@/landing/TryFeed'
+
+import MarkdownText from '@/elements/MarkdownText'
 
 import { getMaxSpendString } from '@/landing/copy/PricingPageCopy'
 import { currencies } from '@/constants/pricing'
 
+import { capitalise } from '@/helpers/utils'
+
 export default function PricingPlan({ plan, showAnnualPricing, currency }) {
   const {
     name,
+    description,
     monthlyCost,
     features,
     maxSpendMultiple,
+    serviceFeePercentage,
   } = plan
   // Add max spend to feature list if applicable
   const [expandedFeatureList, setExpandedFeatureList] = React.useState(features)
@@ -41,11 +48,25 @@ export default function PricingPlan({ plan, showAnnualPricing, currency }) {
         'h-full',
       ].join(' ')}
     >
-      <PricingPlanTopSection
-        plan={plan}
-        currency={currency}
-        showAnnualPricing={showAnnualPricing}
+      <h2>{capitalise(name)}</h2>
+      <MarkdownText
+        markdown={description}
+        className={[
+          'small--p',
+          'sm:text-base',
+          'xxs:min-h-2-lines',
+          'xxs:mb-0',
+          'xs:min-h-fit',
+          'xs:mb-5',
+          'sm:min-h-4-lines',
+          'sm:mb-0',
+          'md:min-h-3-lines',
+          'lg:min-h-fit',
+          'lg:mb-5',
+        ].join(' ')}
       />
+      <PricingPlanMonthlyCost amount={monthlyCost[currency]} showAnnualPricing={showAnnualPricing} currency={currency} />
+      <PricingPlanServiceFee percentage={serviceFeePercentage} />
       <TryFeed
         buttonText="Get Started"
         className={['w-full', 'mb-5'].join(' ')}
