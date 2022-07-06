@@ -14,7 +14,7 @@ import moment from 'moment'
  * @param {string} [token]
  * @returns {Promise<any>}
  */
-export const createArtist = async (artist, token) => {
+export const createArtist = async (artist, plan, token) => {
   return api.post('/artists', {
     name: artist.name,
     location: null,
@@ -24,6 +24,7 @@ export const createArtist = async (artist, token) => {
         instagram_id: artist.instagram_id,
       },
     },
+    plan,
   }, token)
 }
 

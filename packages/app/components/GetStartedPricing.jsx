@@ -27,25 +27,26 @@ const getControlsStoreState = (state) => ({
 })
 
 const GetStartedPricing = () => {
+  const { artistId, setPlan, artist: { plan } } = React.useContext(ArtistContext)
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
+  const { objective: storedObjective, plan: storedPricingPlan = '' } = wizardState || {}
+
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const objective = optimizationPreferences?.objective || storedObjective
+  const recommendedPlan = objective === 'sales' ? 'pro' : 'growth'
+
   const [selectedPricingPlan, setSelectedPricingPlan] = React.useState('')
-  const [showAnnualPricing, setShowAnnualPricing] = React.useState(false)
+  const [showAnnualPricing, setShowAnnualPricing] = React.useState(plan.includes('annual') || storedPricingPlan?.includes('annual'))
   const [currency, setCurrency] = React.useState('GBP')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
   const { next } = React.useContext(WizardContext)
-  const { artistId } = React.useContext(ArtistContext)
   const isDesktop = useBreakpointTest('sm')
 
-  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
-  const { objective: storedObjective } = wizardState || {}
-  const objective = optimizationPreferences?.objective || storedObjective
-  const recommendedPlan = objective === 'sales' ? 'pro' : 'growth'
-
   const getPricingPlanString = React.useCallback((pricingPlan) => {
-    const period = showAnnualPricing ? 'anual' : 'monthly'
+    const period = showAnnualPricing && pricingPlan !== 'basic' ? 'annual' : 'monthly'
 
     return `${pricingPlan}_${period}`
   }, [showAnnualPricing])
@@ -63,7 +64,7 @@ const GetStartedPricing = () => {
     const pricingPlanString = getPricingPlanString(pricingPlan)
 
     // If the pricing plan hasn't changed just go to the next step
-    if (pricingPlanString === wizardState?.pricingPlan) {
+    if (pricingPlanString === plan || pricingPlanString === wizardState?.plan) {
       next()
       return
     }
@@ -72,7 +73,7 @@ const GetStartedPricing = () => {
     if (!artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({
         ...wizardState,
-        pricingPlan: pricingPlanString,
+        plan: pricingPlanString,
       }))
 
       next()
@@ -84,13 +85,14 @@ const GetStartedPricing = () => {
     // Otherwise save the data in the db
     const { res: updatedArtist, error } = await updatePricingPlan(artistId, pricingPlanString)
 
-    console.log(updatedArtist)
-
     if (error) {
       setError(error)
       setIsLoading(false)
       return
     }
+
+    // Update artist context
+    setPlan(updatedArtist.plan)
 
     setIsLoading(false)
     next()

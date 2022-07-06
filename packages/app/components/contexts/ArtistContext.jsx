@@ -37,6 +37,9 @@ const initialArtistState = {
   missingDefaultLink: true,
   isMusician: false,
   hasSetUpProfile: false,
+  hasGrowthPlan: false,
+  hasProPlan: false,
+  hasManagedTier: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -70,6 +73,10 @@ const artistReducer = (draftState, action) => {
     case 'set-connection': {
       draftState.URLs[payload.platform] = payload.url
       draftState[payload.platform] = payload.url
+      break
+    }
+    case 'set-plan': {
+      draftState.plan = payload.plan
       break
     }
     case 'update-post-preferences': {
@@ -147,6 +154,11 @@ function ArtistProvider({ children }) {
     // Get completed setup at
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
+    // Set pricing plan booleans
+    const hasGrowthPlan = artist.plan.includes('growth') || artist.plan.includes('pro') || artist.plan.includes('legacy')
+    const hasProPlan = artist.plan.includes('pro') || artist.plan.includes('legacy')
+    const hasManagedTier = artist.plan.includes('*')
+
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
       artistDraft.isMusician = isMusician
@@ -156,6 +168,9 @@ function ArtistProvider({ children }) {
       artistDraft.feedMinBudgetInfo = feedMinBudgetInfo || {}
       artistDraft.isSpendingPaused = isSpendingPaused
       artistDraft.hasSetUpProfile = hasSetUpProfile
+      artistDraft.hasGrowthPlan = hasGrowthPlan
+      artistDraft.hasProPlan = hasProPlan
+      artistDraft.hasManagedTier = hasManagedTier
     })
 
     // Set hasBudget state
@@ -205,7 +220,7 @@ function ArtistProvider({ children }) {
    * @param {object} oldUser
    * @returns {Promise<any>}
   */
-  const connectArtist = React.useCallback(async (artistAccount, oldUser) => {
+  const connectArtist = React.useCallback(async (artistAccount, oldUser, plan) => {
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
 
@@ -216,7 +231,7 @@ function ArtistProvider({ children }) {
     }
 
     // Wait to connect the artist
-    await artistHelpers.createArtist(artistAccount)
+    await artistHelpers.createArtist(artistAccount, plan)
       .catch((error) => {
         // Sentry error
         fireSentryError({
@@ -286,6 +301,15 @@ function ArtistProvider({ children }) {
     })
   }
 
+  const setPlan = React.useCallback((plan) => {
+    setArtist({
+      type: 'set-plan',
+      payload: {
+        plan,
+      },
+    })
+  }, [setArtist])
+
   const setPostPreferences = (preferenceType, value) => {
     setArtist({
       type: 'update-post-preferences',
@@ -335,6 +359,7 @@ function ArtistProvider({ children }) {
     setArtist,
     setArtistLoading,
     setConnection,
+    setPlan,
     setPostPreferences,
     setEnabledPosts,
     storeArtist,

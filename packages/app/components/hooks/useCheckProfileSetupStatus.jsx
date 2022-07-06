@@ -51,6 +51,7 @@ const useCheckProfileSetupStatus = () => {
       } = {},
     },
     daily_budget: dailyBudget,
+    plan,
   } = artist
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
@@ -82,7 +83,7 @@ const useCheckProfileSetupStatus = () => {
     },
     {
       name: profileStatus.pricingPlan,
-      isComplete: Boolean(wizardState?.pricingPlan),
+      isComplete: Boolean(plan || wizardState?.plan),
     },
     {
       name: profileStatus.connectProfile,
@@ -112,7 +113,7 @@ const useCheckProfileSetupStatus = () => {
       name: profileStatus.paymentMethod,
       isComplete: Boolean(defaultPaymentMethod),
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.pricingPlan, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, facebookPixelId, hasSufficientBudget, objective, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => !condition.isComplete)?.name

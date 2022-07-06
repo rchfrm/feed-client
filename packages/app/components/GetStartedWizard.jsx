@@ -192,7 +192,11 @@ const GetStartedWizard = () => {
       return
     }
 
-    const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState
+    const {
+      objective: storedObjective,
+      platform: storedPlatform,
+      defaultLink: storedDefaultLink,
+    } = wizardState
 
     const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
 
