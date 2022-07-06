@@ -1,14 +1,13 @@
 import React from 'react'
 
-import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
-import PricingPlansHeader from '@/PricingPlansHeader'
-import PricingPlansWrapper from '@/PricingPlansWrapper'
+import PricingPeriodToggle from '@/PricingPeriodToggle'
+import PricingCurrencySelect from '@/PricingCurrencySelect'
 import GetStartedPricingPlan from '@/app/GetStartedPricingPlan'
 import GetStartedPricingReadMore from '@/app/GetStartedPricingReadMore'
 
@@ -43,7 +42,6 @@ const GetStartedPricing = () => {
 
   const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
   const { next } = React.useContext(WizardContext)
-  const isDesktop = useBreakpointTest('sm')
 
   const getPricingPlanString = React.useCallback((pricingPlan) => {
     const period = showAnnualPricing && pricingPlan !== 'basic' ? 'annual' : 'monthly'
@@ -114,24 +112,47 @@ const GetStartedPricing = () => {
         ? <Spinner />
         : (
           <>
-            <PricingPlansHeader
-              currency={currency}
-              setCurrency={setCurrency}
-              showAnnualPricing={showAnnualPricing}
-              setShowAnnualPricing={setShowAnnualPricing}
-              buttonPillClassName="bg-blue border-blue"
-            />
-            <div className="col-span-12 sm:mt-12 mb-10">
-              <PricingPlansWrapper
-                plans={pricingPlans}
+            <div
+              className={[
+                'flex flex-column xs:flex-row sm:items-center xs:justify-between',
+                "after:content-[''] after:flex-1",
+                'mb-5',
+              ].join(' ')}
+            >
+              <div className="flex flex-1 mb-2 xs:mb-0">
+                <PricingCurrencySelect
+                  currency={currency}
+                  setCurrency={setCurrency}
+                  className="xs:ml-2 w-[75px]"
+                />
+              </div>
+              <PricingPeriodToggle
                 showAnnualPricing={showAnnualPricing}
-                currency={currency}
-                pricingPlanComponent={GetStartedPricingPlan}
-                isDesktop={isDesktop}
-                setSelectedPricingPlan={setSelectedPricingPlan}
-                handleSidePanel={openReadMoreSidePanel}
-                recommendedPlan={recommendedPlan}
+                setShowAnnualPricing={setShowAnnualPricing}
+                className="flex items-center"
+                buttonPillClassName="bg-blue border-blue"
               />
+            </div>
+            <div className="col-span-12 sm:mt-12 mb-10">
+              <div className="grid grid-cols-12 gap-4">
+                {pricingPlans.map(plan => {
+                  return (
+                    <div
+                      key={plan.name}
+                      className="col-span-12 sm:col-span-4"
+                    >
+                      <GetStartedPricingPlan
+                        plan={plan}
+                        showAnnualPricing={showAnnualPricing}
+                        currency={currency}
+                        setSelectedPricingPlan={setSelectedPricingPlan}
+                        handleSidePanel={openReadMoreSidePanel}
+                        isRecommended={plan.name === recommendedPlan}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </>
         )}

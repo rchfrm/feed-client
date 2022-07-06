@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import PricingPlanTopSection from '@/PricingPlanTopSection'
 
 import Button from '@/elements/Button'
@@ -20,7 +22,6 @@ const GetStartedPricingPlan = ({
   handleSidePanel,
   currency,
   isRecommended,
-  isDesktop,
 }) => {
   const { name } = plan
   const title = capitalise(name)
@@ -30,6 +31,7 @@ const GetStartedPricingPlan = ({
     pro: StarCircleIcon,
   }
   const Icon = icons[name]
+  const isDesktop = useBreakpointTest('sm')
 
   return (
     <div
@@ -96,7 +98,6 @@ GetStartedPricingPlan.propTypes = {
   handleSidePanel: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
   isRecommended: PropTypes.bool.isRequired,
-  isDesktop: PropTypes.bool.isRequired,
 }
 
 GetStartedPricingPlan.defaultProps = {
