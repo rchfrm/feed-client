@@ -95,18 +95,30 @@ const FORM = ({
 
     // If payment is required...
     if (isPaymentRequired) {
-      const cardElement = elements.getElement(CardElement)
+      // Get stripe client secret
+      const { res, error: getStripeClientSecretError } = await billingHelpers.getStripeClientSecret(organisationId)
 
-      const { error: confirmCardPaymentError } = await stripe.confirmCardPayment('abcd_secret_1234', {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            name,
-          },
-        },
-      })
+      if (getStripeClientSecretError) {
+        stripeError = getStripeClientSecretError
+        setIsLoading(false)
+        return
+      }
 
-      stripeError = confirmCardPaymentError
+      console.log(res)
+
+      // Confirm and handle payment
+      // const cardElement = elements.getElement(CardElement)
+
+      // const { error: confirmCardPaymentError } = await stripe.confirmCardPayment('abcd_secret_1234', {
+      //   payment_method: {
+      //     card: cardElement,
+      //     billing_details: {
+      //       name,
+      //     },
+      //   },
+      // })
+
+      // stripeError = confirmCardPaymentError
     } else {
       // Create payment method with Stripe
       const cardElement = elements.getElement(CardElement)
@@ -127,6 +139,7 @@ const FORM = ({
       setError(stripeError)
       setIsLoading(false)
       elements.getElement('card').focus()
+
       return
     }
 
