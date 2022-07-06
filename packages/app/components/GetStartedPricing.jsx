@@ -21,7 +21,7 @@ const getControlsStoreState = (state) => ({
 })
 
 const GetStartedPricing = () => {
-  const { artistId, setPlan, artist: { plan } } = React.useContext(ArtistContext)
+  const { artistId, setPlan, artist: { plan = '' } } = React.useContext(ArtistContext)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
   const { objective: storedObjective, plan: storedPricingPlan = '' } = wizardState || {}
 
@@ -30,7 +30,7 @@ const GetStartedPricing = () => {
   const recommendedPlan = objective === 'sales' ? 'pro' : 'growth'
 
   const [selectedPricingPlan, setSelectedPricingPlan] = React.useState('')
-  const [showAnnualPricing, setShowAnnualPricing] = React.useState(plan.includes('annual') || storedPricingPlan?.includes('annual'))
+  const [showAnnualPricing, setShowAnnualPricing] = React.useState(plan?.includes('annual') || storedPricingPlan?.includes('annual'))
   const [currency, setCurrency] = React.useState('GBP')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)

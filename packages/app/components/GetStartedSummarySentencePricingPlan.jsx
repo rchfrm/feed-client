@@ -13,7 +13,7 @@ import copy from '@/app/copy/getStartedCopy'
 const GetStartedSummarySentencePricingPlan = () => {
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { artist } = React.useContext(ArtistContext)
-  const { pricingPlan: storedPricingPlan } = wizardState || {}
+  const { plan: storedPricingPlan } = wizardState || {}
 
   const plan = artist?.plan || storedPricingPlan
   const isComplete = Boolean(plan)

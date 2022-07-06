@@ -95,6 +95,7 @@ const GetStartedPricingPlan = ({
         />
         <GetStartedPricingPlanServiceFee
           percentage={serviceFeePercentage}
+          plan={plan}
         />
       </div>
       <button

@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 
-const GetStartedPricingPlanServiceFee = ({ percentage }) => {
+const GetStartedPricingPlanServiceFee = ({ percentage, plan }) => {
+  const { name } = plan
+
   return (
     <div
       className={[
@@ -10,8 +12,18 @@ const GetStartedPricingPlanServiceFee = ({ percentage }) => {
       ].join(' ')}
     >
       <div className="flex items-center">
-        <p className="text-2xl mb-0 sm:mb-5">{percentage * 100}</p>
-        <p className="h4 pr-1 mb-0 sm:mb-5">
+        <p className={[
+          'text-2xl mb-0 sm:mb-5',
+          name === 'basic' ? 'font-bold sm:font-normal' : null,
+        ].join(' ')}
+        >
+          {percentage * 100}
+        </p>
+        <p className={[
+          'h4 pr-1 mb-0 sm:mb-5',
+          name === 'basic' ? 'font-bold sm:font-normal' : null,
+        ].join(' ')}
+        >
           %
         </p>
       </div>
@@ -22,6 +34,7 @@ const GetStartedPricingPlanServiceFee = ({ percentage }) => {
 
 GetStartedPricingPlanServiceFee.propTypes = {
   percentage: PropTypes.number.isRequired,
+  plan: PropTypes.object.isRequired,
 }
 
 export default GetStartedPricingPlanServiceFee
