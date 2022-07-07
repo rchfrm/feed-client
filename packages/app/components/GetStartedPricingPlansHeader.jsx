@@ -1,6 +1,9 @@
 import React from 'react'
 
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+
 import PricingPeriodToggle from '@/PricingPeriodToggle'
+import GetStartedPricingPeriodSelect from '@/app/GetStartedPricingPeriodSelect'
 import PricingCurrencySelect from '@/PricingCurrencySelect'
 
 const GetStartedPricingPlansHeader = ({
@@ -9,27 +12,37 @@ const GetStartedPricingPlansHeader = ({
   showAnnualPricing,
   setShowAnnualPricing,
 }) => {
+  const isDesktopLayout = useBreakpointTest('xs')
+
   return (
     <div
       className={[
-        'flex flex-column xs:flex-row sm:items-center xs:justify-between',
-        "after:content-[''] after:flex-1",
+        'flex flex-row items-center justify-between',
+        "xs:after:content-[''] xs:after:flex-1",
         'mb-5',
       ].join(' ')}
     >
-      <div className="flex flex-1 mb-2 xs:mb-0">
+      <div className="flex flex-1">
         <PricingCurrencySelect
           currency={currency}
           setCurrency={setCurrency}
           className="xs:ml-2 w-[75px]"
         />
       </div>
-      <PricingPeriodToggle
-        showAnnualPricing={showAnnualPricing}
-        setShowAnnualPricing={setShowAnnualPricing}
-        className="flex items-center"
-        buttonPillClassName="bg-blue border-blue"
-      />
+      {isDesktopLayout ? (
+        <PricingPeriodToggle
+          showAnnualPricing={showAnnualPricing}
+          setShowAnnualPricing={setShowAnnualPricing}
+          className="flex items-center"
+          buttonPillClassName="bg-blue border-blue"
+        />
+      ) : (
+        <GetStartedPricingPeriodSelect
+          showAnnualPricing={showAnnualPricing}
+          setShowAnnualPricing={setShowAnnualPricing}
+          className="xs:ml-2 w-[108px]"
+        />
+      )}
     </div>
   )
 }
