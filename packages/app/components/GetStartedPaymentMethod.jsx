@@ -34,6 +34,8 @@ const GetStartedPaymentMethod = () => {
   const {
     artist: {
       hasSetUpProfile,
+      hasGrowthPlan,
+      hasProPlan,
     },
     artistId,
     updatehasSetUpProfile,
@@ -43,6 +45,7 @@ const GetStartedPaymentMethod = () => {
   const { next } = React.useContext(WizardContext)
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+  const isPaymentRequired = hasGrowthPlan || hasProPlan
 
   const {
     card,
@@ -110,6 +113,7 @@ const GetStartedPaymentMethod = () => {
             setIsFormValid={setIsFormValid}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
+            isPaymentRequired={isPaymentRequired}
           />
         )}
         <Button
@@ -119,7 +123,7 @@ const GetStartedPaymentMethod = () => {
           className="w-full sm:w-48 mt-12 mx-auto"
           trackComponentName="GetStartedPaymentMethod"
         >
-          Next
+          {isPaymentRequired ? 'Pay' : 'Next'}
           <ArrowAltIcon
             className="ml-3"
             direction="right"
