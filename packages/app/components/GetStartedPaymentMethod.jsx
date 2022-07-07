@@ -44,9 +44,6 @@ const GetStartedPaymentMethod = () => {
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
-  const hasGrowthPlan = true
-  const hasProPlan = false
-
   const {
     card,
     billing_details: billingDetails,
@@ -113,7 +110,6 @@ const GetStartedPaymentMethod = () => {
             setIsFormValid={setIsFormValid}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
-            isPaymentRequired={hasGrowthPlan || hasProPlan}
           />
         )}
         <Button
