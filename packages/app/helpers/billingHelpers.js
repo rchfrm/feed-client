@@ -57,21 +57,6 @@ export const deletePaymentMethod = async (organisationId, paymentMethodId) => {
   return api.requestWithCatch('delete', endpoint, payload, errorTracking)
 }
 
-// GET STRIPE CLIENT SECRET
-/**
- * @param {string} organisationId
- * @returns {Promise<any>}
- */
-export const getStripeClientSecret = async (organisationId) => {
-  const payload = null
-  const endpoint = `/organizations/${organisationId}/billing/payments/client_secret`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Get Stripe client secret',
-  }
-  return api.requestWithCatch('get', endpoint, payload, errorTracking)
-}
-
 // * BILLING
 // * --------------------
 
