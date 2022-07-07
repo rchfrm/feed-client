@@ -2,15 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { AuthContext } from '@/contexts/AuthContext'
+
 import SignupEmailForm from '@/app/SignupEmailForm'
+import SignupPageTestimonial from '@/app/SignupPageTestimonial'
 
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
-import TickCircleIcon from '@/icons/TickCircleIcon'
 
 import copy from '@/app/copy/LoginPageCopy'
 
-const SignupPageContent = ({ email }) => {
+const SignupPageContent = ({ email, isValidReferralCode, testimony }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
 
   // Clear auth error when leaving page
@@ -21,28 +22,22 @@ const SignupPageContent = ({ email }) => {
   }, [setAuthError])
 
   return (
-    <div className="flex flex-column sm:flex-row mx-auto sm:pt-8 max-w-4xl">
-      <div className="flex-1 pb-5 sm:pb-0 pt-10 sm:order-2">
-        <div className="sm:ml-16">
+    <div className="flex mx-auto sm:pt-4 max-w-4xl">
+      <div className="flex-1 pb-5 pt-10">
+        <div className="sm:mr-6 md:mr-12">
           <Error error={authError} />
-          <h2 className="mb-2 text-2xl">Enter {!email ? 'an email and' : 'a'} password to create your account</h2>
+          <h2 className="mb-2 text-2xl">Create account</h2>
           <MarkdownText className={['small--text'].join(' ')} markdown={copy.tcText('clicking next')} />
-          <SignupEmailForm initialEmail={email} />
+          <SignupEmailForm
+            initialEmail={email}
+            isValidReferralCode={isValidReferralCode}
+          />
         </div>
       </div>
-      <div className="flex-1 sm:order-1 pt-15 sm:pt-10 border-solid border-t sm:border-t-0 sm:border-r border-grey-3">
-        <div className="sm:mr-16">
-          <MarkdownText className="mb-10 text-lg" markdown={copy.signupTeaser} />
-          <ul className="mb-10 pl-10">
-            {copy.signupReasons.map((reason) => (
-              <li key={reason} className="flex mb-4">
-                <TickCircleIcon className="w-6 h-6 mr-6" />
-                {reason}
-              </li>
-            ))}
-          </ul>
-          <MarkdownText markdown={copy.loginReminder} />
-        </div>
+      <div className="hidden sm:flex flex-1 justify-center ml-6 md:ml-12 pt-10">
+        <SignupPageTestimonial
+          testimony={testimony}
+        />
       </div>
     </div>
   )
@@ -50,6 +45,8 @@ const SignupPageContent = ({ email }) => {
 
 SignupPageContent.propTypes = {
   email: PropTypes.string,
+  isValidReferralCode: PropTypes.func.isRequired,
+  testimony: PropTypes.object.isRequired,
 }
 
 SignupPageContent.defaultProps = {
