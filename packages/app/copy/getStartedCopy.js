@@ -28,6 +28,11 @@ export default {
   },
   objectiveSubtitle: 'What are you trying to achieve?',
   objectiveDescription: 'Choose audience growth if your focus is growing on a platform like Instagram, YouTube or Spotify; website sales for sales on your online store or website visits to get your audience to a website or landing page.',
+  objectivePlanFooter: (plan) => {
+    if (plan === 'basic') return 'Available in all tiers'
+    if (plan === 'growth') return 'Growth and above'
+    if (plan === 'pro') return 'Pro exclusive'
+  },
   platformSubtitle: 'Which platform would you like to focus on initially?',
   platformDescription: "You can always change this later on. You'll also have the option to send people to multiple platforms using different posts.",
   defaultLinkSubtitle: (objective, platform) => {
