@@ -116,7 +116,7 @@ const FORM = ({
       })
 
       stripeError = confirmCardPaymentError
-      stripePaymentMethodId = paymentIntent.payment_method
+      stripePaymentMethodId = paymentIntent?.payment_method
     } else {
       // Create payment method with Stripe
       const cardElement = elements.getElement(CardElement)
@@ -129,7 +129,7 @@ const FORM = ({
       })
 
       stripeError = createPaymentError
-      stripePaymentMethodId = paymentMethod.id
+      stripePaymentMethodId = paymentMethod?.id
     }
 
     // Handle Stripe error
