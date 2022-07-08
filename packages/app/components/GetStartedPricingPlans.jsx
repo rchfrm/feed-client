@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
@@ -52,6 +53,10 @@ const GetStartedPricingPlans = ({
 }
 
 GetStartedPricingPlans.propTypes = {
+  showAnnualPricing: PropTypes.bool.isRequired,
+  currency: PropTypes.string.isRequired,
+  setSelectedPricingPlan: PropTypes.func.isRequired,
+  recommendedPlan: PropTypes.string.isRequired,
 }
 
 GetStartedPricingPlans.defaultProps = {

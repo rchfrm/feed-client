@@ -8,6 +8,7 @@ const GetStartedPricingPlanMonthlyCost = ({
   showAnnualPricing,
 }) => {
   const currencySymbol = getCurrencySymbol(currency)
+
   return (
     <div
       className={[

@@ -77,9 +77,9 @@ export default {
     return 'Based on how your existing audience is engaging with your content, these are the posts we recommend to start promoting first.'
   },
   pricingPlan: (pricingPlan) => {
-    if (pricingPlan.includes('basic')) return 'the Basic'
-    if (pricingPlan.includes('growth')) return 'the Growth'
-    if (pricingPlan.includes('pro')) return 'the Pro'
+    const [plan] = pricingPlan.split('_')
+
+    return `the ${capitalise(plan)}`
   },
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
   adAccountDescription: "Feed's ads for this profile will run from this ad account. You can set different ad accounts for your other profiles later.",

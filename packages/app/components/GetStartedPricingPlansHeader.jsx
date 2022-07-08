@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
@@ -48,6 +49,10 @@ const GetStartedPricingPlansHeader = ({
 }
 
 GetStartedPricingPlansHeader.propTypes = {
+  showAnnualPricing: PropTypes.bool.isRequired,
+  setShowAnnualPricing: PropTypes.func.isRequired,
+  currency: PropTypes.string.isRequired,
+  setCurrency: PropTypes.func.isRequired,
 }
 
 GetStartedPricingPlansHeader.defaultProps = {

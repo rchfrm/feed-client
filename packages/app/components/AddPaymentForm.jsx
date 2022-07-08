@@ -103,7 +103,7 @@ const FORM = ({
         return
       }
 
-      // Confirm and handle payment
+      // Confirm payment and create payment method with Stripe
       const cardElement = elements.getElement(CardElement)
 
       const { paymentIntent, error: confirmCardPaymentError } = await stripe.confirmCardPayment(res.clientSecret, {

@@ -42,5 +42,4 @@ InsightsCircleIcon.defaultProps = {
   fill: black,
 }
 
-
 export default InsightsCircleIcon
