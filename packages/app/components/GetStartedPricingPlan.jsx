@@ -47,7 +47,7 @@ const GetStartedPricingPlan = ({
       className={[
         'w-full sm:h-full relative',
         'flex flex-row items-center justify-between sm:block',
-        'p-2 xs:p-3 sm:p-6',
+        'py-2 px-3 xs:py-3 sm:p-6',
         'mb-6 sm:mb-0',
         !isDesktop && isRecommended ? 'pb-12 xs:pb-12' : null,
         'border-solid rounded-dialogue',
@@ -101,7 +101,7 @@ const GetStartedPricingPlan = ({
       <button
         className={[
           'sm:w-full flex justify-between',
-          'px-2 sm:px-4 py-2 sm:mb-5',
+          'px-0 sm:px-4 py-2 sm:mb-5',
           'sm:border-2 sm:border-green sm:border-solid sm:rounded-dialogue',
           'font-bold',
         ].join(' ')}

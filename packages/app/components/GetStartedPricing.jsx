@@ -9,7 +9,6 @@ import GetStartedPricingPlansHeader from '@/app/GetStartedPricingPlansHeader'
 import GetStartedPricingPlans from '@/app/GetStartedPricingPlans'
 
 import Spinner from '@/elements/Spinner'
-import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import { updatePricingPlan } from '@/app/helpers/artistHelpers'
@@ -21,7 +20,7 @@ const getControlsStoreState = (state) => ({
 })
 
 const GetStartedPricing = () => {
-  const { artistId, setPlan, artist: { plan = '' } } = React.useContext(ArtistContext)
+  const { artistId, setPlan, artist: { plan = '', currency: artistCurrency } } = React.useContext(ArtistContext)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
   const { objective: storedObjective, plan: storedPricingPlan = '' } = wizardState || {}
 
@@ -31,7 +30,7 @@ const GetStartedPricing = () => {
 
   const [selectedPricingPlan, setSelectedPricingPlan] = React.useState('')
   const [showAnnualPricing, setShowAnnualPricing] = React.useState(plan?.includes('annual') || storedPricingPlan?.includes('annual'))
-  const [currency, setCurrency] = React.useState('GBP')
+  const [currency, setCurrency] = React.useState(artistCurrency || 'GBP')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
@@ -90,8 +89,7 @@ const GetStartedPricing = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="mb-4 font-medium text-xl">Select the features and pricing to suit you.</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic mb-12" markdown="And then there's a nice description about what these pricing plans are and which one suits the user best." />
+      <h3 className="mb-4 font-medium text-xl mb-8 sm:mb-12">Select the features and pricing to suit you.</h3>
       <Error error={error} />
       {isLoading
         ? <Spinner />

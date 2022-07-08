@@ -19,6 +19,8 @@ import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
+import { pricingNumbers } from '@/constants/pricing'
+import { formatCurrency } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
@@ -36,6 +38,8 @@ const GetStartedPaymentMethod = () => {
       hasSetUpProfile,
       hasGrowthPlan,
       hasProPlan,
+      plan,
+      currency: artistCurrency = 'GBP',
     },
     artistId,
     updatehasSetUpProfile,
@@ -46,6 +50,11 @@ const GetStartedPaymentMethod = () => {
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
   const isPaymentRequired = hasGrowthPlan || hasProPlan
+
+  const [pricingPlan, pricingPeriod] = plan.split('_')
+  const monthlyCost = pricingNumbers[pricingPlan].monthlyCost[artistCurrency]
+  const annualCost = monthlyCost * 12
+  const amountToPay = pricingPeriod === 'annual' ? annualCost - (annualCost * pricingNumbers.annualDiscount) : monthlyCost
 
   const {
     card,
@@ -123,7 +132,7 @@ const GetStartedPaymentMethod = () => {
           className="w-full sm:w-48 mt-12 mx-auto"
           trackComponentName="GetStartedPaymentMethod"
         >
-          {isPaymentRequired ? 'Pay' : 'Next'}
+          {isPaymentRequired ? `Pay ${formatCurrency(amountToPay, artistCurrency, true)}` : 'Next'}
           <ArrowAltIcon
             className="ml-3"
             direction="right"

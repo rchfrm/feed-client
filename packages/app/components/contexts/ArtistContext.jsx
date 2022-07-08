@@ -76,6 +76,8 @@ const artistReducer = (draftState, action) => {
     }
     case 'set-plan': {
       draftState.plan = payload.plan
+      draftState.hasGrowthPlan = artistHelpers.hasGrowthPlan(payload.plan)
+      draftState.hasProPlan = artistHelpers.hasProPlan(payload.plan)
       break
     }
     case 'update-post-preferences': {
@@ -154,8 +156,8 @@ function ArtistProvider({ children }) {
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
     // Set pricing plan booleans
-    const hasGrowthPlan = artist.plan.includes('growth') || artist.plan.includes('pro') || artist.plan.includes('legacy')
-    const hasProPlan = artist.plan.includes('pro') || artist.plan.includes('legacy')
+    const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist.plan)
+    const hasProPlan = artistHelpers.hasProPlan(artist.plan)
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {

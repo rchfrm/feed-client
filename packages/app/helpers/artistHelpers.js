@@ -688,6 +688,14 @@ export const getStartedSections = {
   targeting,
 }
 
+export const hasGrowthPlan = (plan) => {
+  return plan.includes('growth') || plan.includes('pro') || plan.includes('legacy')
+}
+
+export const hasProPlan = (plan) => {
+  return plan.includes('pro') || plan.includes('legacy')
+}
+
 // Update artist
 /**
 * @param {string} artistId
