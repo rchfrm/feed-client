@@ -183,6 +183,7 @@ const ObjectiveSettings = () => {
         <DisabledActionPrompt
           copy={copy.objectiveManagedTier}
           version="border"
+          isButton={false}
           className="block mt-20"
         />
       )}
