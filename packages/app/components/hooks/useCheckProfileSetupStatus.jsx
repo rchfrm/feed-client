@@ -35,7 +35,6 @@ const useCheckProfileSetupStatus = () => {
     optimizationPreferences,
   } = useControlsStore(getControlsStoreState)
 
-  const { defaultPromotionEnabled } = postsPreferences
   const objective = optimizationPreferences.objective || storedObjective
   const platform = optimizationPreferences.platform || storedPlatform
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId) || storedDefaultLink
@@ -52,6 +51,7 @@ const useCheckProfileSetupStatus = () => {
       } = {},
     },
     daily_budget: dailyBudget,
+    plan,
   } = artist
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
@@ -82,6 +82,10 @@ const useCheckProfileSetupStatus = () => {
       isComplete: Boolean(defaultLink?.href || wizardState?.defaultLink?.href),
     },
     {
+      name: profileStatus.pricingPlan,
+      isComplete: Boolean(plan || wizardState?.plan),
+    },
+    {
       name: profileStatus.connectProfile,
       isComplete: Boolean(user.artists.length),
     },
@@ -90,16 +94,12 @@ const useCheckProfileSetupStatus = () => {
       isComplete: Boolean(enabledPosts.length),
     },
     {
-      name: profileStatus.defaultPostPromotion,
-      isComplete: defaultPromotionEnabled !== null,
-    },
-    {
       name: profileStatus.adAccount,
       isComplete: Boolean(adAccountId),
     },
     {
       name: profileStatus.facebookPixel,
-      isComplete: objective === 'growth' || Boolean(facebookPixelId),
+      isComplete: objective !== 'sales' || Boolean(facebookPixelId),
     },
     {
       name: profileStatus.location,
@@ -113,7 +113,7 @@ const useCheckProfileSetupStatus = () => {
       name: profileStatus.paymentMethod,
       isComplete: Boolean(defaultPaymentMethod),
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, defaultPromotionEnabled, facebookPixelId, hasSufficientBudget, objective, platform, enabledPosts, user.artists.length, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, facebookPixelId, hasSufficientBudget, objective, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform, defaultPaymentMethod])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => !condition.isComplete)?.name

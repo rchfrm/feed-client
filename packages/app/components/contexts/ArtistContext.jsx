@@ -74,6 +74,12 @@ const artistReducer = (draftState, action) => {
       draftState[payload.platform] = payload.url
       break
     }
+    case 'set-plan': {
+      draftState.plan = payload.plan
+      draftState.hasGrowthPlan = artistHelpers.hasGrowthPlan(payload.plan)
+      draftState.hasProPlan = artistHelpers.hasProPlan(payload.plan)
+      break
+    }
     case 'update-post-preferences': {
       draftState.preferences.posts[payload.preferenceType] = payload.value
       if (payload.preferenceType === 'default_link_id') {
@@ -150,8 +156,8 @@ function ArtistProvider({ children }) {
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
     // Set pricing plan booleans
-    const hasGrowthPlan = artist.plan.includes('growth') || artist.plan.includes('pro') || artist.plan.includes('legacy')
-    const hasProPlan = artist.plan.includes('pro') || artist.plan.includes('legacy')
+    const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist.plan)
+    const hasProPlan = artistHelpers.hasProPlan(artist.plan)
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
@@ -213,7 +219,7 @@ function ArtistProvider({ children }) {
    * @param {object} oldUser
    * @returns {Promise<any>}
   */
-  const connectArtist = React.useCallback(async (artistAccount, oldUser) => {
+  const connectArtist = React.useCallback(async (artistAccount, oldUser, plan) => {
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
 
@@ -224,7 +230,7 @@ function ArtistProvider({ children }) {
     }
 
     // Wait to connect the artist
-    await artistHelpers.createArtist(artistAccount)
+    await artistHelpers.createArtist(artistAccount, plan)
       .catch((error) => {
         // Sentry error
         fireSentryError({
@@ -294,6 +300,15 @@ function ArtistProvider({ children }) {
     })
   }
 
+  const setPlan = React.useCallback((plan) => {
+    setArtist({
+      type: 'set-plan',
+      payload: {
+        plan,
+      },
+    })
+  }, [setArtist])
+
   const setPostPreferences = (preferenceType, value) => {
     setArtist({
       type: 'update-post-preferences',
@@ -343,6 +358,7 @@ function ArtistProvider({ children }) {
     setArtist,
     setArtistLoading,
     setConnection,
+    setPlan,
     setPostPreferences,
     setEnabledPosts,
     storeArtist,
