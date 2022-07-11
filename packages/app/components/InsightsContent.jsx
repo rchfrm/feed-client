@@ -7,7 +7,7 @@ import InsightPlatformSelectors from '@/app/InsightPlatformSelectors'
 import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
 import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
-import UpgradePlanPrompt from '@/app/UpgradePlanPrompt'
+import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 
 import * as insightsHelpers from '@/app/helpers/insightsHelpers'
 
@@ -75,8 +75,9 @@ const InsightsContent = () => {
 
   if (!hasGrowthPlan) {
     return (
-      <UpgradePlanPrompt
+      <DisabledActionPrompt
         copy={copy.planRestriction}
+        version="border"
         className="sm:w-1/2 mr-auto"
       />
     )

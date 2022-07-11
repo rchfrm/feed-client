@@ -12,7 +12,7 @@ import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjective
 import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
-import UpgradePlanPrompt from '@/app/UpgradePlanPrompt'
+import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
@@ -133,9 +133,9 @@ const ObjectiveSettings = () => {
             error={error}
           />
           {hasGrowthPlan && !hasProPlan && (
-            <UpgradePlanPrompt
+            <DisabledActionPrompt
               copy={copy.objectivePlanRestriction}
-              size="small"
+              version="small"
               className="-mt-6"
             />
           )}
@@ -180,9 +180,9 @@ const ObjectiveSettings = () => {
         />
       )}
       {hasProPlan && (
-        <UpgradePlanPrompt
+        <DisabledActionPrompt
           copy={copy.objectiveManagedTier}
-          externalUrl="https://meetings.hubspot.com/feed/managed"
+          version="border"
           className="block mt-20"
         />
       )}

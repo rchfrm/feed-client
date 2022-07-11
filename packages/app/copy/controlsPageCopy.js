@@ -140,7 +140,7 @@ To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and di
   alertSelectPixelDescription: `This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway.`,
   disabledReason: (section, hasSetUpProfile) => {
     const setupBaseString = 'Continue set-up to'
-    const planBaseString = `Upgrade to <span className="text-insta font-bold">${section === 'facebook-pixel' ? 'Pro' : 'Growth'}</span> to "desired action"`
+    const planBaseString = `Upgrade to <span className="text-insta font-bold">${section === 'facebook-pixel' ? 'Pro' : 'Growth'}</span> to`
 
     if (!hasSetUpProfile) {
       if (section === 'objective') return `${setupBaseString} choose your objective`
@@ -151,16 +151,14 @@ To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and di
       if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
     }
 
-    return planBaseString
-
-    // if (section === 'objective') return `${planBaseString} to use the website visits objective. This lets you drive people from Facebook & Instagram onto your website or landing page`
-    // if (section === 'default-promotion') return `Want all posts switched off by default until you opt them in? ${planBaseString} to turn off Automated Post Selection`
-    // if (section === 'facebook-pixel') return `${planBaseString} to use Meta (Facebook) pixel in your Feed ads for improved results and retargeting`
-    // if (section === 'custom-locations') return `${planBaseString} to add custom cities and countries`
-    // if (section === 'linkbank') return `${planBaseString} to add and store links that can be used in your Feed ads`
-    // if (section === 'post-link') return `${planBaseString} to set custom links on specific posts`
-    // if (section === 'post-cta') return `${planBaseString} to set custom CTAs on specific posts`
-    // if (section === 'post-caption') return `${planBaseString} to edit caption of promoted posts`
+    if (section === 'objective') return `${planBaseString} use the website visits objective`
+    if (section === 'default-promotion') return `${planBaseString} turn off Automated Post Selection`
+    if (section === 'facebook-pixel') return `${planBaseString} use Meta (Facebook) pixel in your Feed ads`
+    if (section === 'custom-locations') return `${planBaseString} add custom cities and countries`
+    if (section === 'linkbank') return `${planBaseString} add and store links`
+    if (section === 'post-link') return `${planBaseString} set custom links on specific posts`
+    if (section === 'post-cta') return `${planBaseString} set custom CTAs on specific posts`
+    if (section === 'post-caption') return `${planBaseString} edit caption of promoted posts`
   },
   objectivePlanRestriction: 'Upgrade to <span className="text-insta font-bold">Pro</span> to use the website sales objective.',
   objectiveManagedTier: `Currently only people on our <span className="text-insta font-bold">Managed</span> plan can set multiple objectives per profile.
