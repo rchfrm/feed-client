@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useOpenPricingPlanUpgradeSidePanel from '@/app/hooks/useOpenPricingPlanUpgradeSidePanel'
+
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 import ChevronDoubleUpCircleIcon from '@/icons/ChevronDoubleUpCircleIcon'
 import LockIcon from '@/icons/LockIcon'
-import TooltipButton from '@/elements/TooltipButton'
 
 import brandColors from '@/constants/brandColors'
 import PostCardPriorityButtonAlert from '@/app/PostCardPriorityButtonAlert'
 
 import { updatePost } from '@/app/helpers/postsHelpers'
-import copy from '@/app/copy/PostsPageCopy'
 
 const PostCardPriorityButton = ({
   postId,
@@ -29,6 +29,7 @@ const PostCardPriorityButton = ({
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
 
   const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
+  const openPricingPlanUpgradeSidePanel = useOpenPricingPlanUpgradeSidePanel()
 
   const isPostActive = promotionStatus === 'active'
   const isPostArchived = promotionStatus === 'archived'
@@ -86,13 +87,12 @@ const PostCardPriorityButton = ({
         />
       </button>
       {!hasGrowthPlan && (
-        <TooltipButton
-          copy={copy.postPlanRestriction}
-          direction="top"
-          buttonClasses="-mr-3"
-          icon={LockIcon}
-          iconFill={brandColors.instagram.bg}
-        />
+        <button onClick={() => openPricingPlanUpgradeSidePanel('priority-post')}>
+          <LockIcon
+            fill={brandColors.instagram.bg}
+            className="w-4 h-4 ml-2"
+          />
+        </button>
       )}
       {/* ALERT */}
       {shouldShowAlert && (

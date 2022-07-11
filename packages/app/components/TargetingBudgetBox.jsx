@@ -14,6 +14,7 @@ import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
 import DisabledSection from '@/app/DisabledSection'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
+import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -156,10 +157,19 @@ const TargetingBudgetBox = ({
         )}
       </section>
       {shouldShowWarning && (
-        <ControlsSettingsSectionFooter
-          copy={copy.budgetFooter(hasProPlan, budgetData)}
-          className="mt-5 text-insta"
-        />
+        hasBudgetBelowMinRecommendedStories ? (
+          <ControlsSettingsSectionFooter
+            copy={copy.budgetFooter(hasProPlan, budgetData)}
+            className="mt-5 text-insta"
+          />
+        ) : (
+          <DisabledActionPrompt
+            copy={copy.budgetFooter(hasProPlan, budgetData)}
+            section="budget"
+            version="small"
+            className="mt-5"
+          />
+        )
       )}
     </>
   )

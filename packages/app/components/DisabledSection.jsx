@@ -26,6 +26,7 @@ const DisabledSection = ({
       {isDisabled && (
         <DisabledActionPrompt
           copy={copy.disabledReason(section, hasSetUpProfile)}
+          section={section}
           className="mb-5"
         />
       )}

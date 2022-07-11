@@ -78,6 +78,7 @@ const InsightsContent = () => {
       <DisabledActionPrompt
         copy={copy.planRestriction}
         version="border"
+        section="insights"
         className="sm:w-1/2 mr-auto"
       />
     )

@@ -135,6 +135,7 @@ const ObjectiveSettings = () => {
           {hasGrowthPlan && !hasProPlan && (
             <DisabledActionPrompt
               copy={copy.objectivePlanRestriction}
+              section="objective"
               version="small"
               className="-mt-6"
             />

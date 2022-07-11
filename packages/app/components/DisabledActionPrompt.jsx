@@ -2,15 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { SidePanelContext } from '@/contexts/SidePanelContext'
+import useOpenPricingPlanUpgradeSidePanel from '@/app/hooks/useOpenPricingPlanUpgradeSidePanel'
 
-import PricingPlanUpgrade from '@/app/PricingPlanUpgrade'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import LockIcon from '@/icons/LockIcon'
 import MarkdownText from '@/elements/MarkdownText'
-import Button from '@/elements/Button'
 
 import brandColors from '@/constants/brandColors'
 import * as ROUTES from '@/app/constants/routes'
@@ -18,6 +16,7 @@ import * as ROUTES from '@/app/constants/routes'
 const DisabledActionPrompt = ({
   version,
   copy,
+  section,
   isButton,
   className,
 }) => {
@@ -26,17 +25,7 @@ const DisabledActionPrompt = ({
   const hasBorder = version === 'border'
 
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
-  const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
-
-  const openPricingPlanUpgradeSidePanel = () => {
-    const content = <PricingPlanUpgrade />
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
-
-    setSidePanelContent(content)
-    toggleSidePanel(true)
-    setSidePanelButton(button)
-  }
-
+  const openPricingPlanUpgradeSidePanel = useOpenPricingPlanUpgradeSidePanel()
 
   const onClick = () => {
     if (!isButton) return
@@ -47,7 +36,7 @@ const DisabledActionPrompt = ({
       return
     }
 
-    openPricingPlanUpgradeSidePanel()
+    openPricingPlanUpgradeSidePanel(section)
   }
 
   return (
@@ -81,12 +70,14 @@ const DisabledActionPrompt = ({
 DisabledActionPrompt.propTypes = {
   version: PropTypes.string,
   copy: PropTypes.string.isRequired,
+  section: PropTypes.string,
   isButton: PropTypes.bool,
   className: PropTypes.string,
 }
 
 DisabledActionPrompt.defaultProps = {
   version: 'regular',
+  section: '',
   isButton: true,
   className: null,
 }

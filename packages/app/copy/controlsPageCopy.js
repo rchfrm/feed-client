@@ -82,7 +82,6 @@ export default {
   budgetFooter: (hasProPlan, budgetData) => {
     const {
       currency,
-      projectedMonthlyBudget,
       hasBudgetBelowMinRecommendedStories,
       minRecommendedStories,
     } = budgetData
@@ -96,13 +95,11 @@ export default {
     }
 
     if (!hasProPlan) {
-      return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Growth plan is ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
-
-To increase your reach, upgrade to **Pro** and raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
+      return `The reach cap for Growth is ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)} per month.
+Upgrade to <span className="text-insta font-bold">Pro</span> to raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
     }
 
-    return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Pro plan is ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
-
+    return `The reach cap for the Pro plan is ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.
 To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and discuss options.`
   },
   objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
