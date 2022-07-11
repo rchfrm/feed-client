@@ -3,7 +3,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import TickIcon from '@/icons/TickIcon'
 import brandColors from '@/constants/brandColors'
 
-export default function PricingTierFeature({ feature }) {
+export default function PricingPlanFeature({ feature }) {
   return (
     <div
       className={['flex', 'items-center', 'pb-5'].join(' ')}
@@ -17,6 +17,6 @@ export default function PricingTierFeature({ feature }) {
   )
 }
 
-PricingTierFeature.propTypes = {
+PricingPlanFeature.propTypes = {
   feature: PropTypes.string.isRequired,
 }

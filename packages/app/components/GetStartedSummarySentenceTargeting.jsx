@@ -38,7 +38,7 @@ const GetStartedSummarySentenceTargeting = () => {
       text="with a daily budget of"
       color={brandColors.green}
       isComplete={isComplete}
-      className="ml-2"
+      className="ml-1 sm:ml-2"
     >
       {formatCurrency(budget || 5, currencyCode)}
     </GetStartedSummarySentenceSection>

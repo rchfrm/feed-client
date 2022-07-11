@@ -13,6 +13,7 @@ import PostCardSettingsPreview from '@/app/PostCardSettingsPreview'
 import PostSettingsLink from '@/app/PostSettingsLink'
 import PostSettingsCallToAction from '@/app/PostSettingsCallToAction'
 import PostSettingsCaption from '@/app/PostSettingsCaption'
+import PostUnpromotable from '@/app/PostUnpromotable'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -29,6 +30,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   const {
     id: postId,
     promotionEnabled,
+    postPromotable,
     conversionsEnabled,
     priorityEnabled,
     promotionEligibility,
@@ -62,7 +64,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   const isToggleDisabled = campaignType === 'all'
     ? !isEligibleForGrowAndNurture && !priorityEnabled
     : (!isEligibleForConversions && !priorityEnabled)
-  const isSectionDisabled = campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled
+  const isSectionDisabled = (campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled) || !postPromotable
 
   const { sales: salesPreviewLink, ...growAndNurturePreviewLinks } = adPreviewLinks || {}
   const hasPreviewLinkForSelectedCampaignType = (campaignType === 'all' && Object.keys(growAndNurturePreviewLinks).length > 0) || (campaignType === 'conversions' && salesPreviewLink)
@@ -85,10 +87,14 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
           <PostCardSettingsTabs
             campaignType={campaignType}
             setCampaignType={setCampaignType}
+            isDisabled={!postPromotable}
           />
         )}
         {isDesktopLayout && (
           <>
+            {!postPromotable && (
+              <PostUnpromotable className="w-1/2 mb-10" />
+            )}
             {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
             <div className="flex">
               <PostCardSettingsToggle
@@ -100,13 +106,14 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
                 artistId={artistId}
                 isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
                 setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-                isDisabled={isToggleDisabled}
+                isDisabled={isToggleDisabled || !postPromotable}
                 showAlertModal={isConversionsCampaign && (!canRunConversions)}
                 className="pl-4"
               />
               <PostCardSettingsPromotionStatus
                 promotionEnabled={promotionEnabled}
                 promotionStatus={promotionStatus}
+                postPromotable={postPromotable}
                 className="pl-4"
               />
             </div>

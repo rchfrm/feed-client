@@ -60,6 +60,7 @@ const PostCardSettings = ({
     id: postId,
     priorityEnabled,
     adPreviewLinks,
+    postPromotable,
   } = post
   // HANDLE ERROR
   const [error, setError] = React.useState(null)
@@ -151,6 +152,7 @@ const PostCardSettings = ({
             <PostCardSettingsPromotionStatus
               promotionEnabled={promotionEnabled}
               promotionStatus={promotionStatus}
+              postPromotable={postPromotable}
             />
           </div>
           {shouldShowPreview && (

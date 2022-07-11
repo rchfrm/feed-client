@@ -100,6 +100,11 @@ const nextConfig = {
         destination: '/blog/music-marketing-strategies',
         permanent: true,
       },
+      {
+        source: '/join',
+        destination: 'https://app.tryfeed.co/join',
+        permanent: true,
+      },
     ]
   },
 }

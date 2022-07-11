@@ -52,6 +52,7 @@ const PostCard = ({
         toggleCampaign={toggleCampaign}
         postIndex={postIndex}
         promotionStatus={promotionStatus}
+        postPromotable={postPromotable}
         className="mb-2"
       />
       <PostCardMedia

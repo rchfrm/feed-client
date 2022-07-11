@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export default function ManagedTierHeader({ header }) {
+export default function ManagedPlanHeader({ header }) {
   return (
     <h2
       className={[
@@ -16,6 +16,6 @@ export default function ManagedTierHeader({ header }) {
   )
 }
 
-ManagedTierHeader.propTypes = {
+ManagedPlanHeader.propTypes = {
   header: PropTypes.string.isRequired,
 }

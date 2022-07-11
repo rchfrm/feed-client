@@ -15,6 +15,7 @@ import brandColors from '@/constants/brandColors'
 const PostCardPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
+  postPromotable,
   size,
   className,
 }) => {
@@ -24,7 +25,7 @@ const PostCardPromotionStatus = ({
   const isSmallSize = size === 'small'
 
   React.useEffect(() => {
-    if (!promotionEnabled) {
+    if (!promotionEnabled || !postPromotable) {
       setStatus('disabled')
       setTitle('Disabled')
       return
@@ -32,7 +33,7 @@ const PostCardPromotionStatus = ({
 
     setStatus(promotionStatus)
     setTitle(postsHelpers.promotionStatus.find((status) => status.slug === promotionStatus)?.title)
-  }, [promotionEnabled, promotionStatus])
+  }, [promotionEnabled, promotionStatus, postPromotable])
 
   const getColor = (status) => {
     if (status === active) return 'green'
@@ -95,6 +96,7 @@ const PostCardPromotionStatus = ({
 PostCardPromotionStatus.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
+  postPromotable: PropTypes.bool.isRequired,
   size: PropTypes.string,
   className: PropTypes.string,
 }

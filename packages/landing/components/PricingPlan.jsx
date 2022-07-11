@@ -1,22 +1,27 @@
-import MarkdownText from '@/elements/MarkdownText'
-import PropTypes from 'prop-types'
-import PricingTierMonthlyCost from '@/landing/PricingTierMonthlyCost'
-import PricingTierServiceFee from '@/landing/PricingTierServiceFee'
-import PricingTierFeatures from '@/landing/PricingTierFeatures'
 import React from 'react'
+import PropTypes from 'prop-types'
+
+import PricingPlanFeatures from '@/PricingPlanFeatures'
+import PricingPlanMonthlyCost from '@/PricingPlanMonthlyCost'
+import PricingPlanServiceFee from '@/landing/PricingPlanServiceFee'
 import TryFeed from '@/landing/TryFeed'
+
+import MarkdownText from '@/elements/MarkdownText'
+
 import { getMaxSpendString } from '@/landing/copy/PricingPageCopy'
 import { currencies } from '@/constants/pricing'
 
-export default function PricingTier({ tier, showAnnualPricing, currency }) {
+import { capitalise } from '@/helpers/utils'
+
+export default function PricingPlan({ plan, showAnnualPricing, currency }) {
   const {
     name,
     description,
     monthlyCost,
-    serviceFeePercentage,
     features,
     maxSpendMultiple,
-  } = tier
+    serviceFeePercentage,
+  } = plan
   // Add max spend to feature list if applicable
   const [expandedFeatureList, setExpandedFeatureList] = React.useState(features)
   React.useEffect(() => {
@@ -43,7 +48,7 @@ export default function PricingTier({ tier, showAnnualPricing, currency }) {
         'h-full',
       ].join(' ')}
     >
-      <h2>{name}</h2>
+      <h2>{capitalise(name)}</h2>
       <MarkdownText
         markdown={description}
         className={[
@@ -60,20 +65,20 @@ export default function PricingTier({ tier, showAnnualPricing, currency }) {
           'lg:mb-5',
         ].join(' ')}
       />
-      <PricingTierMonthlyCost amount={monthlyCost[currency]} showAnnualPricing={showAnnualPricing} currency={currency} />
-      <PricingTierServiceFee percentage={serviceFeePercentage} />
+      <PricingPlanMonthlyCost amount={monthlyCost[currency]} showAnnualPricing={showAnnualPricing} currency={currency} />
+      <PricingPlanServiceFee percentage={serviceFeePercentage} />
       <TryFeed
         buttonText="Get Started"
         className={['w-full', 'mb-5'].join(' ')}
-        trackLocation={`PricingTier${name}`}
+        trackLocation={`PricingPlan${name}`}
       />
-      <PricingTierFeatures features={expandedFeatureList} />
+      <PricingPlanFeatures features={expandedFeatureList} />
     </div>
   )
 }
 
-PricingTier.propTypes = {
-  tier: PropTypes.exact({
+PricingPlan.propTypes = {
+  plan: PropTypes.shape({
     name: PropTypes.string,
     description: PropTypes.string,
     monthlyCost: PropTypes.objectOf(PropTypes.number),

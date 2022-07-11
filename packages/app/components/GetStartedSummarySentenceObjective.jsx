@@ -1,6 +1,7 @@
 import React from 'react'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import GetStartedSummarySentenceSection from '@/app/GetStartedSummarySentenceSection'
 
@@ -16,6 +17,7 @@ const getControlsStoreState = (state) => ({
 const GetStartedSummarySentenceObjective = () => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
+  const isDesktopLayout = useBreakpointTest('xs')
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { objective: storedObjective, platform: storedPlatform } = wizardState || {}
@@ -25,9 +27,9 @@ const GetStartedSummarySentenceObjective = () => {
     <GetStartedSummarySentenceSection
       section={getStartedSections.objective}
       isComplete={isComplete}
-      className="mr-2"
+      className="mr-1 sm:mr-2"
     >
-      {copy.objectiveSummary((objective || storedObjective), (platform || storedPlatform))}
+      {copy.objectiveSummary((objective || storedObjective), (platform || storedPlatform), isDesktopLayout)}
     </GetStartedSummarySentenceSection>
   )
 }

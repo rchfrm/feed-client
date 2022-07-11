@@ -10,27 +10,33 @@ export default {
     {
       name: 'objective',
       title: 'Objective',
+      hasDescription: true,
     },
     {
       name: 'budget',
       title: 'Budget',
+      hasDescription: true,
     },
     {
       name: 'ads',
       title: 'Promotion Settings',
+      hasDescription: true,
     },
     {
       name: 'targeting',
       title: 'Targeting',
       hasDefaultSidePanelButton: false,
+      hasDescription: true,
     },
     {
       name: 'links',
       title: 'Links',
+      hasDescription: true,
     },
     {
       name: 'integrations',
       title: 'Integrations',
+      hasDescription: true,
     },
   ],
   optionsDescription: (name, hasSetUpProfile, objectiveString, isSpendingPaused, budget) => {
