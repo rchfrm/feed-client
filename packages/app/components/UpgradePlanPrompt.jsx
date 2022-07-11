@@ -5,10 +5,11 @@ import Link from 'next/link'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import MarkdownText from '@/elements/MarkdownText'
 import brandColors from '@/constants/brandColors'
+import LockIcon from '@/icons/LockIcon'
 
 import * as ROUTES from '@/app/constants/routes'
 
-const PlanRestrictionMessage = ({
+const UpgradePlanPrompt = ({
   copy,
   size,
   externalUrl,
@@ -20,14 +21,17 @@ const PlanRestrictionMessage = ({
     <Link
       href={externalUrl || ROUTES.BILLING}
     >
-      <a className={['block no-underline text-insta -hover--insta', className].join(' ')} target={externalUrl ? '_blank' : null}>
+      <a className={['block no-underline', className].join(' ')} target={externalUrl ? '_blank' : null}>
         <div className={[
           'flex items-center',
-          isSmallSize ? 'text-xs' : 'p-4 border-2 border-solid border-insta rounded-dialogue',
+          isSmallSize ? 'text-xs' : 'p-4 border-2 border-solid border-black rounded-dialogue',
         ].join(' ')}
         >
-          <span role="img" aria-label="lock">🔒</span>
-          <MarkdownText markdown={copy} className={[isSmallSize ? 'underline mx-2' : 'mx-3', 'mb-0'].join(' ')} />
+          <LockIcon
+            className={[isSmallSize ? 'w-3 h-3' : 'w-5 h-5'].join(' ')}
+            fill={brandColors.instagram.bg}
+          />
+          <MarkdownText markdown={copy} className={[isSmallSize ? 'underline mx-1' : 'mx-3', 'mb-0'].join(' ')} />
           <ArrowAltIcon
             className={[isSmallSize ? 'w-3 h-3' : 'w-5 h-5', 'flex-shrink-0'].join(' ')}
             direction="right"
@@ -39,17 +43,17 @@ const PlanRestrictionMessage = ({
   )
 }
 
-PlanRestrictionMessage.propTypes = {
+UpgradePlanPrompt.propTypes = {
   copy: PropTypes.string.isRequired,
   size: PropTypes.string,
   externalUrl: PropTypes.string,
   className: PropTypes.string,
 }
 
-PlanRestrictionMessage.defaultProps = {
+UpgradePlanPrompt.defaultProps = {
   size: 'regular',
   externalUrl: '',
   className: null,
 }
 
-export default PlanRestrictionMessage
+export default UpgradePlanPrompt

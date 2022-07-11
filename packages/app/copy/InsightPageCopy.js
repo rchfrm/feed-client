@@ -9,5 +9,5 @@ export default {
     if (totalImpressions === 0) return '.'
     return `, and your posts were seen **${totalImpressions}** times.`
   },
-  planRestriction: 'Upgrade to **Growth** tier to track audience data (followers, views etc) from connected integrations here.',
+  planRestriction: 'Upgrade to <span className="text-insta font-bold">Growth</span> to track audience data (followers, views etc) from connected integrations here.',
 }

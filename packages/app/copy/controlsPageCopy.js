@@ -1,8 +1,7 @@
 /* eslint-disable quotes */
 import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
 import { formatCurrency } from '@/helpers/utils'
-import { plans } from '@/constants/pricing'
-import * as ROUTES from '@/app/constants/routes'
+import { pricingNumbers } from '@/constants/pricing'
 
 export default {
   // CONTROLS OPTIONS
@@ -88,7 +87,7 @@ export default {
       minRecommendedStories,
     } = budgetData
 
-    const { growth, pro } = plans
+    const { growth, pro } = pricingNumbers
     const growthPlanMaxMonthlySpend = growth.monthlyCost[currency] * growth.maxSpendMultiple
     const proPlanMaxMonthlySpend = pro.monthlyCost[currency] * pro.maxSpendMultiple
 
@@ -97,12 +96,12 @@ export default {
     }
 
     if (!hasProPlan) {
-      return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Growth tier is ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
+      return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Growth plan is ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
 
-To increase your reach, [upgrade](${ROUTES.BILLING}) to the **Pro** tier and raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
+To increase your reach, upgrade to **Pro** and raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
     }
 
-    return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Pro tier is ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
+    return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the Pro plan is ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
 
 To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and discuss options.`
   },
@@ -141,7 +140,7 @@ To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and di
   alertSelectPixelDescription: `This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway.`,
   disabledReason: (section, hasSetUpProfile) => {
     const setupBaseString = 'Continue set-up to'
-    const planBaseString = `Upgrade to **${section === 'facebook-pixel' ? 'Pro' : 'Growth'}** tier`
+    const planBaseString = `Upgrade to <span className="text-insta font-bold">${section === 'facebook-pixel' ? 'Pro' : 'Growth'}</span> to "desired action"`
 
     if (!hasSetUpProfile) {
       if (section === 'objective') return `${setupBaseString} choose your objective`
@@ -152,17 +151,19 @@ To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and di
       if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
     }
 
-    if (section === 'objective') return `${planBaseString} to use the website visits objective. This lets you drive people from Facebook & Instagram onto your website or landing page`
-    if (section === 'default-promotion') return `Want all posts switched off by default until you opt them in? ${planBaseString} to turn off Automated Post Selection`
-    if (section === 'facebook-pixel') return `${planBaseString} to use Meta (Facebook) pixel in your Feed ads for improved results and retargeting`
-    if (section === 'custom-locations') return `${planBaseString} to add custom cities and countries`
-    if (section === 'linkbank') return `${planBaseString} to add and store links that can be used in your Feed ads`
-    if (section === 'post-link') return `${planBaseString} to set custom links on specific posts`
-    if (section === 'post-cta') return `${planBaseString} to set custom CTAs on specific posts`
-    if (section === 'post-caption') return `${planBaseString} to edit caption of promoted posts`
+    return planBaseString
+
+    // if (section === 'objective') return `${planBaseString} to use the website visits objective. This lets you drive people from Facebook & Instagram onto your website or landing page`
+    // if (section === 'default-promotion') return `Want all posts switched off by default until you opt them in? ${planBaseString} to turn off Automated Post Selection`
+    // if (section === 'facebook-pixel') return `${planBaseString} to use Meta (Facebook) pixel in your Feed ads for improved results and retargeting`
+    // if (section === 'custom-locations') return `${planBaseString} to add custom cities and countries`
+    // if (section === 'linkbank') return `${planBaseString} to add and store links that can be used in your Feed ads`
+    // if (section === 'post-link') return `${planBaseString} to set custom links on specific posts`
+    // if (section === 'post-cta') return `${planBaseString} to set custom CTAs on specific posts`
+    // if (section === 'post-caption') return `${planBaseString} to edit caption of promoted posts`
   },
-  objectivePlanRestriction: 'Upgrade to **Pro** tier to use the website sales objective. This lets Feed run conversion ads to maximise sales or leads on your website.',
-  objectiveManagedTier: `Currently only people on our **Managed** Tier can set multiple objectives per profile.
+  objectivePlanRestriction: 'Upgrade to <span className="text-insta font-bold">Pro</span> to use the website sales objective.',
+  objectiveManagedTier: `Currently only people on our <span className="text-insta font-bold">Managed</span> plan can set multiple objectives per profile.
 
   [Email](mailto:team@tryfeed.co) to find out more or [book a call now](https://meetings.hubspot.com/feed/managed)`,
 }

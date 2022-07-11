@@ -6,8 +6,9 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import MarkdownText from '@/elements/MarkdownText'
-import brandColors from '@/constants/brandColors'
+import LockIcon from '@/icons/LockIcon'
 
+import brandColors from '@/constants/brandColors'
 import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -30,9 +31,9 @@ const DisabledSection = ({
     <div className={className}>
       {isDisabled && (
         <Link href={linkTo}>
-          <a className="flex items-center text-insta -hover--insta no-underline mb-5">
-            <span role="img" aria-label="lock">🔒</span>
-            <MarkdownText markdown={copy.disabledReason(section, hasSetUpProfile)} className="mx-2 mb-0 underline" />
+          <a className="flex items-center underline mb-5">
+            <LockIcon className="w-5 h-5" fill={brandColors.instagram.bg} />
+            <MarkdownText markdown={copy.disabledReason(section, hasSetUpProfile)} className="mx-2 mb-0" />
             <ArrowAltIcon
               className="w-4 h-4 flex-shrink-0"
               direction="right"

@@ -7,7 +7,7 @@ import InsightPlatformSelectors from '@/app/InsightPlatformSelectors'
 import InsightDataSelectors from '@/app/InsightDataSelectors'
 import InsightsChartLoader from '@/app/InsightsChartLoader'
 import ShowIntegrationsButton from '@/app/ShowIntegrationsButton'
-import PlanRestrictionMessage from '@/app/PlanRestrictionMessage'
+import UpgradePlanPrompt from '@/app/UpgradePlanPrompt'
 
 import * as insightsHelpers from '@/app/helpers/insightsHelpers'
 
@@ -75,7 +75,7 @@ const InsightsContent = () => {
 
   if (!hasGrowthPlan) {
     return (
-      <PlanRestrictionMessage
+      <UpgradePlanPrompt
         copy={copy.planRestriction}
         className="sm:w-1/2 mr-auto"
       />

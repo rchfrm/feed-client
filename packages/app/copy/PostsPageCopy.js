@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import { getIntegrationInfo } from '@/helpers/integrationHelpers'
-import * as ROUTES from '@/app/constants/routes'
 
 export default {
   noPostsCopy: {
@@ -189,5 +188,5 @@ Would you like to continue?`
 
     return `${connectToString} insights about your pages.`
   },
-  postPlanRestriction: `[Upgrade](${ROUTES.BILLING}) to **Growth** tier to prioritise posts for promotion.`,
+  postPlanRestriction: `Upgrade to **Growth** to prioritise posts for promotion.`,
 }
