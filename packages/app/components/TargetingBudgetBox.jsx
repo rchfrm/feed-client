@@ -116,7 +116,7 @@ const TargetingBudgetBox = ({
                 className={!isDesktopLayout ? 'mr-12' : null}
               />
             </div>
-            <DisabledSection section="budget">
+            <DisabledSection section="budget" isDisabled={!hasSetUpProfile} className="mt-4">
               {/* BUDGET SETTER */}
               <div>
                 <TargetingBudgetSetter

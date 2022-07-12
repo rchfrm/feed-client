@@ -9,7 +9,7 @@ import copy from '@/app/copy/controlsPageCopy'
 
 const DisabledSection = ({
   children,
-  hasPlanRestriction,
+  isDisabled,
   section,
   className,
 }) => {
@@ -18,8 +18,6 @@ const DisabledSection = ({
       hasSetUpProfile,
     },
   } = React.useContext(ArtistContext)
-
-  const isDisabled = !hasSetUpProfile || hasPlanRestriction
 
   return (
     <div className={className}>
@@ -41,13 +39,13 @@ const DisabledSection = ({
 
 DisabledSection.propTypes = {
   children: PropTypes.node.isRequired,
-  hasPlanRestriction: PropTypes.bool,
+  isDisabled: PropTypes.bool,
   section: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
 DisabledSection.defaultProps = {
-  hasPlanRestriction: false,
+  isDisabled: false,
   className: null,
 }
 

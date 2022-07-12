@@ -24,7 +24,7 @@ const getControlsStoreState = (state) => ({
 
 const AdDefaults = () => {
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasProPlan } = artist
+  const { hasGrowthPlan, hasProPlan, hasSetUpProfile } = artist
 
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   const { postsPreferences, conversionsPreferences, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
@@ -36,7 +36,7 @@ const AdDefaults = () => {
   return (
     <div>
       <h2>Promotion Settings</h2>
-      <DisabledSection section="promotion-settings">
+      <DisabledSection section="promotion-settings" isDisabled={!hasSetUpProfile}>
         {/* GLOBAL POST STATUS */}
         <AdSettingsSection
           header="Automated post selection"

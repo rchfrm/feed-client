@@ -56,7 +56,7 @@ const LinkBank = () => {
       )}
       <DisabledSection
         section="linkbank"
-        hasPlanRestriction={!hasGrowthPlan}
+        isDisabled={!hasGrowthPlan || !hasSetUpProfile}
       >
         <section className="mb-10">
           <LinkBankList

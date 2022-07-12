@@ -2,6 +2,8 @@ import React from 'react'
 
 import produce from 'immer'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
@@ -31,6 +33,8 @@ const TargetingSettings = () => {
     errorUpdatingSettings,
   } = React.useContext(TargetingContext)
 
+  const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
+
   React.useEffect(() => {
     return () => cancelUpdateSettings()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +52,7 @@ const TargetingSettings = () => {
         />
         {/* INTRO */}
         <h2>Targeting</h2>
-        <DisabledSection section="targeting">
+        <DisabledSection section="targeting" isDisabled={!hasSetUpProfile}>
           <MarkdownText
             markdown={copy.settingsIntro}
             className={[
