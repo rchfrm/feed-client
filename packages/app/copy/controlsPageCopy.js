@@ -148,6 +148,7 @@ To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and di
       if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
     }
 
+    if (section === 'connect-accounts') return `${planBaseString} connect more profiles`
     if (section === 'objective') return `${planBaseString} use the website visits objective`
     if (section === 'default-promotion') return `${planBaseString} turn off Automated Post Selection`
     if (section === 'facebook-pixel') return `${planBaseString} use Meta (Facebook) pixel in your Feed ads`

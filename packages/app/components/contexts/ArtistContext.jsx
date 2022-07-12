@@ -136,6 +136,7 @@ function ArtistProvider({ children }) {
     artist.plan = 'basic_monthly'
     // artist.plan = 'growth_monthly'
     // artist.plan = 'pro_monthly'
+    // artist.plan = 'legacy_weekly'
     // Test whether artist is musician
     const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
