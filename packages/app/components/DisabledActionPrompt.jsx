@@ -30,7 +30,7 @@ const DisabledActionPrompt = ({
   const onClick = () => {
     if (!isButton) return
 
-    if (!hasSetUpProfile) {
+    if (!hasSetUpProfile && section !== 'connect-accounts') {
       Router.push(ROUTES.GET_STARTED)
 
       return

@@ -118,7 +118,7 @@ const ObjectiveSettings = () => {
       >
         <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', hasGrowthPlan ? 'mb-12' : 'mb-4'].join(' ')} />
         <DisabledSection
-          section="objective"
+          section="objective-traffic"
           isDisabled={!hasGrowthPlan && hasSetUpProfile}
         >
           <div className="relative mb-4">
@@ -139,7 +139,7 @@ const ObjectiveSettings = () => {
             {hasGrowthPlan && !hasProPlan && (
               <DisabledActionPrompt
                 copy={copy.objectivePlanRestriction}
-                section="objective"
+                section="objective-sales"
                 version="small"
                 className="-mt-6"
               />
