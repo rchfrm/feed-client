@@ -83,7 +83,8 @@ export default {
     const {
       currency,
       hasBudgetBelowMinRecommendedStories,
-      minRecommendedStories,
+      projectedMonthlyBudget,
+      minRecommendedStoriesString,
     } = budgetData
 
     const { growth, pro } = pricingNumbers
@@ -91,7 +92,7 @@ export default {
     const proPlanMaxMonthlySpend = pro.monthlyCost[currency] * pro.maxSpendMultiple
 
     if (hasBudgetBelowMinRecommendedStories) {
-      return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStories}`
+      return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStoriesString}`
     }
 
     if (!hasProPlan) {
@@ -99,7 +100,7 @@ export default {
 Upgrade to <span className="text-insta font-bold">Pro</span> to raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
     }
 
-    return `The reach cap for the Pro plan is ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.
+    return `Your projected monthly ad budget is ${formatCurrency(projectedMonthlyBudget, currency)}. The reach cap for the <span className="text-insta font-bold">Pro</span> is ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month - ads will stop after reaching this limit.
 To increase your reach, [email](mailto:team@tryfeed.co) to arrange a call and discuss options.`
   },
   objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
