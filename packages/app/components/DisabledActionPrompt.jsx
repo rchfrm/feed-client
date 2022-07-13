@@ -52,10 +52,13 @@ const DisabledActionPrompt = ({
       onClick={onClick}
     >
       <LockIcon
-        className={[isSmallSize ? 'w-3 h-3' : 'w-5 h-5', 'flex-shrink-0'].join(' ')}
+        className={[isSmallSize ? 'w-3 h-3' : 'w-5 h-5', 'flex-shrink-0', '-mt-[3px]'].join(' ')}
         fill={brandColors.instagram.bg}
       />
-      <MarkdownText markdown={copy} className={[isSmallSize ? 'mx-1' : 'mx-3', 'mb-0'].join(' ')} />
+      <MarkdownText
+        markdown={copy}
+        className={[isSmallSize ? 'mx-1' : 'mx-2', 'mb-0'].join(' ')}
+      />
       {isButton && (
         <ArrowAltIcon
           className={[isSmallSize ? 'w-3 h-3' : 'w-5 h-5', 'flex-shrink-0'].join(' ')}
@@ -69,8 +72,8 @@ const DisabledActionPrompt = ({
 
 DisabledActionPrompt.propTypes = {
   version: PropTypes.string,
-  copy: PropTypes.string.isRequired,
   section: PropTypes.string,
+  copy: PropTypes.string.isRequired,
   isButton: PropTypes.bool,
   className: PropTypes.string,
 }

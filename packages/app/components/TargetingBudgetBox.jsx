@@ -167,7 +167,6 @@ const TargetingBudgetBox = ({
             copy={copy.budgetFooter(hasProPlan, budgetData)}
             section="budget"
             version="small"
-            isButton={!hasProPlan}
             className="mt-5"
           />
         )
