@@ -23,16 +23,16 @@ const DisabledActionPrompt = ({
   isButton,
   className,
 }) => {
-  const ref = React.useRef()
-  const hasOverflow = useHasOverflow(ref)
-  const shouldIgnoreOverflow = Boolean(copy) || version === 'border'
-
   const Wrapper = isButton ? 'button' : 'div'
   const isSmallSize = version === 'small'
   const hasBorder = version === 'border'
 
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
   const openPricingPlanUpgradeSidePanel = useOpenPricingPlanUpgradeSidePanel()
+
+  const ref = React.useRef()
+  const hasOverflow = useHasOverflow(ref)
+  const shouldSetHeight = !copy && version !== 'border' && hasSetUpProfile
 
   const onClick = () => {
     if (!isButton) return
@@ -51,8 +51,8 @@ const DisabledActionPrompt = ({
       className={[
         'flex items-center',
         'text-left',
-        !shouldIgnoreOverflow ? 'h-5' : null,
-        !shouldIgnoreOverflow && isSmallSize ? 'h-4' : null,
+        shouldSetHeight ? 'h-5' : null,
+        shouldSetHeight && isSmallSize ? 'h-4' : null,
         isButton ? 'underline' : null,
         isSmallSize ? 'text-xs' : null,
         hasBorder ? 'p-4 border-2 border-solid border-black rounded-dialogue' : null,
