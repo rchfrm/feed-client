@@ -5,7 +5,6 @@ const referralAmounts = {
   CAD: 120,
   AUD: 130,
   NOK: 900,
-  MXN: 1900,
   SEK: 930,
 }
 
