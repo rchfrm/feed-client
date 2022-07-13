@@ -1,7 +1,5 @@
 /* eslint-disable quotes */
 import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
-import { formatCurrency } from '@/helpers/utils'
-import { pricingNumbers } from '@/constants/pricing'
 
 export default {
   // CONTROLS OPTIONS
@@ -79,28 +77,6 @@ export default {
   facebookPixelEventIntro: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
   facebookPixelEventFooter: `"Purchase" is recommended based on your objective`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-  budgetFooter: (hasProPlan, budgetData) => {
-    const {
-      currency,
-      hasBudgetBelowMinRecommendedStories,
-      minRecommendedStoriesString,
-    } = budgetData
-
-    const { growth, pro } = pricingNumbers
-    const growthPlanMaxMonthlySpend = growth.monthlyCost[currency] * growth.maxSpendMultiple
-    const proPlanMaxMonthlySpend = pro.monthlyCost[currency] * pro.maxSpendMultiple
-
-    if (hasBudgetBelowMinRecommendedStories) {
-      return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStoriesString}`
-    }
-
-    if (!hasProPlan) {
-      return `The reach cap for Growth is ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)} per month.
-Upgrade to <span className="text-insta font-bold">Pro</span> to raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
-    }
-
-    return `You're projected monthly to exceed the <span className="text-insta font-bold">Pro</span> reach cap of ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
-  },
   objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
   alertPlatformTitle: 'Where would you like to grow?',
   alertPlatformDescription: `You can always change this later on. You'll also have the option to send people to multiple platforms using different posts.`,
@@ -149,6 +125,7 @@ Upgrade to <span className="text-insta font-bold">Pro</span> to raise the cap to
 
     if (section === 'connect-accounts') return `${planBaseString} connect more profiles`
     if (section === 'objective-traffic') return `${planBaseString} use the website visits objective`
+    if (section === 'objective-sales') return `${planBaseString} use the website sales objective.`
     if (section === 'default-promotion') return `${planBaseString} turn off Automated Post Selection`
     if (section === 'facebook-pixel') return `${planBaseString} use Meta (Facebook) pixel in your Feed ads`
     if (section === 'custom-locations') return `${planBaseString} add custom cities and countries`
@@ -156,9 +133,9 @@ Upgrade to <span className="text-insta font-bold">Pro</span> to raise the cap to
     if (section === 'post-link') return `${planBaseString} set custom links on specific posts`
     if (section === 'post-cta') return `${planBaseString} set custom CTAs on specific posts`
     if (section === 'post-caption') return `${planBaseString} edit caption of promoted posts`
+    if (section === 'insights') return `${planBaseString} track audience data from connected integrations`
   },
-  objectivePlanRestriction: 'Upgrade to <span className="text-insta font-bold">Pro</span> to use the website sales objective.',
-  objectiveManagedTier: `Currently only people on our <span className="text-insta font-bold">Managed</span> plan can set multiple objectives per profile.
+  objectiveManagedPlan: `Currently only people on our <span className="text-insta font-bold">Managed</span> plan can set multiple objectives per profile.
 
   [Email](mailto:team@tryfeed.co) to find out more or [book a call now](https://meetings.hubspot.com/feed/managed)`,
 }

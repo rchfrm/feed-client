@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
-import { capitalise } from '@/helpers/utils'
+import { formatCurrency, capitalise } from '@/helpers/utils'
+import { pricingNumbers } from '@/constants/pricing'
 
 const getListOfSources = (isMusician, hasSpotify) => {
   if (!hasSpotify || !isMusician) return 'Facebook and Instagram followers'
@@ -24,6 +25,29 @@ Do you want to continue?`,
   saveWhenPausedCopy: `**Spending is currently paused**
 
   Would you like to resume spending with these settings? Or just save these settings and keep the spending paused?`,
+
+  budgetFooter: (hasProPlan, budgetData) => {
+    const {
+      currency,
+      hasBudgetBelowMinRecommendedStories,
+      minRecommendedStoriesString,
+    } = budgetData
+
+    const { growth, pro } = pricingNumbers
+    const growthPlanMaxMonthlySpend = growth.monthlyCost[currency] * growth.maxSpendMultiple
+    const proPlanMaxMonthlySpend = pro.monthlyCost[currency] * pro.maxSpendMultiple
+
+    if (hasBudgetBelowMinRecommendedStories) {
+      return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStoriesString}`
+    }
+
+    if (!hasProPlan) {
+      return `The reach cap for Growth is ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)} per month.
+Upgrade to <span className="text-insta font-bold">Pro</span> to raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
+    }
+
+    return `You're projected monthly to exceed the <span className="text-insta font-bold">Pro</span> reach cap of ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
+  },
 
   togglePauseWarning: (isPaused) => {
     if (isPaused) return `**This will resume spending on ads.** Are you sure you want to continue?`

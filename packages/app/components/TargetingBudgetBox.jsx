@@ -16,7 +16,7 @@ import DisabledSection from '@/app/DisabledSection'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 
-import copy from '@/app/copy/controlsPageCopy'
+import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingBudgetBox = ({
   className,
