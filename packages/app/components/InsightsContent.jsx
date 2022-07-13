@@ -13,14 +13,13 @@ import * as insightsHelpers from '@/app/helpers/insightsHelpers'
 
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/InsightPageCopy'
-import controlsPageCopy from '@/app/copy/controlsPageCopy'
 
 import styles from '@/app/InsightsPage.module.css'
 
 const InsightsContent = () => {
   // Import artist context
   const { artistLoading, artist, artistId } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasSetUpProfile } = artist
+  const { hasGrowthPlan } = artist
   // Define states
   const [currentPlatform, setCurrentPlatform] = React.useState('')
   const [currentDataSource, setCurrentDataSource] = React.useState('')
@@ -77,7 +76,6 @@ const InsightsContent = () => {
   if (!hasGrowthPlan) {
     return (
       <DisabledActionPrompt
-        copy={controlsPageCopy.disabledReason('insights', hasSetUpProfile)}
         version="border"
         section="insights"
         className="sm:w-fit mr-auto"

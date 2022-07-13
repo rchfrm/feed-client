@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
-
-import copy from '@/app/copy/controlsPageCopy'
 
 const DisabledSection = ({
   children,
@@ -13,17 +9,10 @@ const DisabledSection = ({
   section,
   className,
 }) => {
-  const {
-    artist: {
-      hasSetUpProfile,
-    },
-  } = React.useContext(ArtistContext)
-
   return (
     <div className={className}>
       {isDisabled && (
         <DisabledActionPrompt
-          copy={copy.disabledReason(section, hasSetUpProfile)}
           section={section}
           className="mb-5"
         />

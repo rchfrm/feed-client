@@ -138,7 +138,6 @@ const ObjectiveSettings = () => {
             />
             {hasGrowthPlan && !hasProPlan && (
               <DisabledActionPrompt
-                copy={copy.disabledReason('objective-sales', hasSetUpProfile)}
                 section="objective-sales"
                 version="small"
                 className="-mt-6"

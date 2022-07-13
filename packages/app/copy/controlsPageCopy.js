@@ -110,31 +110,6 @@ export default {
   alertNewPixelDescription: `You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway.`,
   alertSelectPixelTitle: 'Select your Facebook Pixel',
   alertSelectPixelDescription: `This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway.`,
-  disabledReason: (section, hasSetUpProfile) => {
-    const setupBaseString = 'Continue set-up to'
-    const planBaseString = `Upgrade to <span className="text-insta font-bold">${section === 'facebook-pixel' ? 'Pro' : 'Growth'}</span> to`
-
-    if (!hasSetUpProfile) {
-      if (section === 'objective') return `${setupBaseString} choose your objective`
-      if (section === 'linkbank') return `${setupBaseString} add to the link bank`
-      if (section === 'integrations') return `${setupBaseString} integrate other platforms`
-      if (section === 'budget') return `${setupBaseString} choose your budget`
-      if (section === 'targeting') return `${setupBaseString} adjust your targeting`
-      if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
-    }
-
-    if (section === 'connect-accounts') return `${planBaseString} connect more profiles`
-    if (section === 'objective-traffic') return `${planBaseString} use the website visits objective`
-    if (section === 'objective-sales') return `${planBaseString} use the website sales objective.`
-    if (section === 'default-promotion') return `${planBaseString} turn off Automated Post Selection`
-    if (section === 'facebook-pixel') return `${planBaseString} use Meta (Facebook) pixel in your Feed ads`
-    if (section === 'custom-locations') return `${planBaseString} add custom cities and countries`
-    if (section === 'linkbank') return `${planBaseString} add and store links`
-    if (section === 'post-link') return `${planBaseString} set custom links on specific posts`
-    if (section === 'post-cta') return `${planBaseString} set custom CTAs on specific posts`
-    if (section === 'post-caption') return `${planBaseString} edit caption of promoted posts`
-    if (section === 'insights') return `${planBaseString} track audience data from connected integrations`
-  },
   objectiveManagedPlan: `Currently only people on our <span className="text-insta font-bold">Managed</span> plan can set multiple objectives per profile.
 
   [Email](mailto:team@tryfeed.co) to find out more or [book a call now](https://meetings.hubspot.com/feed/managed)`,
