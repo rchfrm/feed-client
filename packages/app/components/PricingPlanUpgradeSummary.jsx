@@ -40,8 +40,8 @@ PricingPlanUpgradeSummary.propTypes = {
   toggleSidePanel: PropTypes.func,
   profilesToUpgrade: PropTypes.arrayOf(
     PropTypes.shape({
-      artistId: PropTypes.string.isRequired,
-      plan: PropTypes.string.isRequired,
+      artistId: PropTypes.string,
+      plan: PropTypes.string,
     }),
   ),
 }

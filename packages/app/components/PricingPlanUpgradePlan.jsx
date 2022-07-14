@@ -41,8 +41,10 @@ const PricingPlanUpgradePlan = ({
     setProfilesToUpgrade({
       type: 'update-plan',
       payload: {
-        profileIndex: 0,
-        plan,
+        profile: {
+          name,
+          plan,
+        },
       },
     })
 

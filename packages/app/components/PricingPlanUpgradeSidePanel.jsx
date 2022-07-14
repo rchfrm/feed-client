@@ -17,16 +17,19 @@ const profilesReducer = (draftState, profilesAction) => {
 
   const {
     profile,
-    profileIndex,
-    plan,
   } = payload
+
+  const index = draftState.findIndex(({ name }) => name === profile.name)
 
   switch (actionType) {
     case 'add-profile':
       draftState.push(profile)
       break
+    case 'remove-profile':
+      draftState.splice(index, 1)
+      break
     case 'update-plan':
-      draftState[profileIndex].plan = plan
+      draftState[index].plan = profile.plan
       break
     default:
       return draftState
@@ -34,7 +37,7 @@ const profilesReducer = (draftState, profilesAction) => {
 }
 
 const PricingPlanUpgradeSidePanel = ({ section }) => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist: { name } } = React.useContext(ArtistContext)
   const [currentStep, setCurrentStep] = React.useState(0)
   const [profilesToUpgrade, setProfilesToUpgrade] = useImmerReducer(profilesReducer, profilesInitialState)
 
@@ -60,16 +63,25 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   )
 
   React.useEffect(() => {
+    // Add currently active profile to 'profiles to upgrade' array
     setProfilesToUpgrade({
       type: 'add-profile',
       payload: {
         profile: {
-          artistId,
+          id: artistId,
+          name,
           plan: 'growth',
         },
       },
     })
-  }, [artistId, setProfilesToUpgrade])
+  }, [artistId, name, setProfilesToUpgrade])
+
+  React.useEffect(() => {
+    if (!profilesToUpgrade.length) return
+
+    console.log('call preview_prorations endpoint')
+    console.log(profilesToUpgrade)
+  }, [profilesToUpgrade])
 
   return (
     StepComponent

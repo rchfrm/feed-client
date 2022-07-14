@@ -60,7 +60,7 @@ const fetchInvoices = async (organisation) => {
 }
 
 // * INITIAL SETUP
-const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisationDetailsOnly = false, activeOrganisation }) => {
+const setupBilling = (set) => async ({ user, artistCurrency, activeOrganisation }) => {
   // FETCH the first organisation and set it
   const allOrgs = activeOrganisation ? null : await fetchAllOrgs(user)
   // TODO improve selecting the org
@@ -69,18 +69,6 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
     billingDetails,
     defaultPaymentMethod,
   } = await fetchOrganisationDetails(organisation)
-
-  if (shouldFetchOrganisationDetailsOnly) {
-    set({
-      ...(allOrgs && { allOrgs }),
-      organisation,
-      billingDetails,
-      defaultPaymentMethod,
-      ...(artistCurrency && { artistCurrency }),
-      loading: false,
-    })
-    return
-  }
 
   const {
     upcomingInvoice,

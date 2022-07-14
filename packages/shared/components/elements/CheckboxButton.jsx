@@ -33,7 +33,7 @@ const CheckboxButton = ({
     <div className={[
       'checkbox--button',
       highlight ? '-highlighted' : null,
-      disabled ? '-disabled' : null,
+      disabled ? '-disabled pointer-events-none' : null,
       className,
     ].join(' ')}
     >
