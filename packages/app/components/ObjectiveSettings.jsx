@@ -138,7 +138,6 @@ const ObjectiveSettings = () => {
             />
             {hasGrowthPlan && !hasProPlan && (
               <DisabledActionPrompt
-                copy={copy.objectivePlanRestriction}
                 section="objective-sales"
                 version="small"
                 className="-mt-6"
@@ -187,7 +186,7 @@ const ObjectiveSettings = () => {
       )}
       {hasProPlan && (
         <DisabledActionPrompt
-          copy={copy.objectiveManagedTier}
+          copy={copy.objectiveManagedPlan}
           version="border"
           isButton={false}
           className="block mt-20"

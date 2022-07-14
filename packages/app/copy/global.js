@@ -39,4 +39,32 @@ Each profile on **${capitalise(plan)}** is charged at £${monthlyCost} per month
 ${currentProfile} has been upgraded to <span className="text-insta font-bold">${capitalise(currentPlan)}</span>.
 
 Jupiter Grey has been connected on <span className="text-insta font-bold">Pro</span>. Close this window to set an objective.`,
+  disabledReason: (section, hasSetUpProfile, hasOverflow) => {
+    const shouldUpgradeToPro = section === 'facebook-pixel' || section === 'objective-sales'
+    const setupBaseString = 'Continue set-up to'
+    const planBaseString = `Upgrade to <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span>`
+
+    if (!hasSetUpProfile) {
+      if (section === 'objective') return `${setupBaseString} choose your objective`
+      if (section === 'linkbank') return `${setupBaseString} add to the link bank`
+      if (section === 'integrations') return `${setupBaseString} integrate other platforms`
+      if (section === 'budget') return `${setupBaseString} choose your budget`
+      if (section === 'targeting') return `${setupBaseString} adjust your targeting`
+      if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
+    }
+
+    if (hasOverflow) return planBaseString
+
+    if (section === 'connect-accounts') return `${planBaseString} to connect more profiles`
+    if (section === 'objective-traffic') return `${planBaseString} to use the website visits objective`
+    if (section === 'objective-sales') return `${planBaseString} to use the website sales objective.`
+    if (section === 'default-promotion') return `${planBaseString} to turn off Automated Post Selection`
+    if (section === 'facebook-pixel') return `${planBaseString} to use Meta (Facebook) pixel in your Feed ads`
+    if (section === 'custom-locations') return `${planBaseString} to add custom cities and countries`
+    if (section === 'linkbank') return `${planBaseString} to add and store links`
+    if (section === 'post-link') return `${planBaseString} to set custom links on specific posts`
+    if (section === 'post-cta') return `${planBaseString} to set custom CTAs on specific posts`
+    if (section === 'post-caption') return `${planBaseString} to edit caption of promoted posts`
+    if (section === 'insights') return `${planBaseString} to track audience data from connected integrations`
+  },
 }

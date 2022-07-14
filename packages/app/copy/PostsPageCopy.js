@@ -188,5 +188,4 @@ Would you like to continue?`
 
     return `${connectToString} insights about your pages.`
   },
-  postPlanRestriction: `Upgrade to **Growth** to prioritise posts for promotion.`,
 }

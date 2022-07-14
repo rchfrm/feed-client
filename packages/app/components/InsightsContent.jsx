@@ -76,10 +76,9 @@ const InsightsContent = () => {
   if (!hasGrowthPlan) {
     return (
       <DisabledActionPrompt
-        copy={copy.planRestriction}
         version="border"
         section="insights"
-        className="sm:w-1/2 mr-auto"
+        className="sm:w-fit mr-auto"
       />
     )
   }
