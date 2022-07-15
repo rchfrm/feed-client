@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
@@ -9,10 +10,15 @@ import PricingPlanUpgradePlan from '@/app/PricingPlanUpgradePlan'
 import PricingPlanUpgradePayment from '@/app/PricingPlanUpgradePayment'
 import PricingPlanUpgradeSummary from '@/app/PricingPlanUpgradeSummary'
 
+import { getProrationsPreview } from '@/app/helpers/billingHelpers'
+
 const PricingPlanUpgradeSidePanel = ({ section }) => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
+  const { organization: { id: organizationId } } = artist
   const [currentStep, setCurrentStep] = React.useState(0)
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({ [artistId]: 'growth' })
+  const [prorationsPreview, setProrationsPreview] = React.useState(null)
+  // const [error, setError] = React.useState(null)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
 
@@ -32,13 +38,23 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       setCurrentStep,
       setSidePanelButton,
       toggleSidePanel,
+      prorationsPreview,
     },
   )
 
-  React.useEffect(() => {
+  useAsyncEffect(async (isMounted) => {
     if (!Object.keys(profilesToUpgrade).length) return
 
-    console.log(profilesToUpgrade)
+    const { res, error } = await getProrationsPreview(organizationId, profilesToUpgrade)
+    if (!isMounted()) return
+
+    if (error) {
+      // setError(error)
+
+      return
+    }
+
+    setProrationsPreview(res)
   }, [profilesToUpgrade])
 
   return (

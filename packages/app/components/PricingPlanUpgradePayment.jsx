@@ -18,6 +18,7 @@ const PricingPlanUpgradePayment = ({
   setSidePanelButton,
   profilesToUpgrade,
   setProfilesToUpgrade,
+  prorationsPreview,
 }) => {
   const { artistId } = React.useContext(ArtistContext)
   const plan = profilesToUpgrade[artistId]
@@ -26,7 +27,6 @@ const PricingPlanUpgradePayment = ({
   const handlePayment = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
   }, [setCurrentStep])
-
 
   React.useEffect(() => {
     const button = (
@@ -42,6 +42,10 @@ const PricingPlanUpgradePayment = ({
 
     setSidePanelButton(button)
   }, [handlePayment, setSidePanelButton, monthlyCost])
+
+  React.useEffect(() => {
+    console.log(prorationsPreview)
+  }, [prorationsPreview])
 
   return (
     <div>

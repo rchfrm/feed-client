@@ -72,6 +72,36 @@ export const getStripeClientSecret = async (organisationId) => {
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
+// GET PRORATIONS PREVIEW
+/**
+ * @param {string} organisationId
+ * @returns {Promise<any>}
+ */
+export const getProrationsPreview = async (organisationId, profilesToUpgrade) => {
+  // const payload = profilesToUpgrade
+  // const endpoint = `/organizations/${organisationId}/billing/preview_prorations`
+  // const errorTracking = {
+  //   category: 'Billing',
+  //   action: 'Get prorations preview',
+  // }
+  // return api.requestWithCatch('get', endpoint, payload, errorTracking)
+  console.log(organisationId, profilesToUpgrade)
+
+  return {
+    res: {
+      amount: 30,
+      currency: 'GBP',
+      profileAmounts: {
+        mOfoSHv2HNbn9xRX7yw6: 10,
+        ZAFJSrFCYJh63R4fuNHi: 20,
+      },
+      currentPeriodStart: '',
+      currentPeriodEnd: '',
+    },
+    error: '',
+  }
+}
+
 // * BILLING
 // * --------------------
 
