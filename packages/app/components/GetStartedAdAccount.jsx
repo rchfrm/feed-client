@@ -35,7 +35,7 @@ const GetStartedAdAccount = () => {
   const { objective } = optimizationPreferences
 
   const { goToStep, setWizardState, currentStep } = React.useContext(WizardContext)
-  const nextStep = objective === 'growth' ? currentStep + 2 : currentStep + 1
+  const nextStep = objective !== 'sales' ? currentStep + 2 : currentStep + 1
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {

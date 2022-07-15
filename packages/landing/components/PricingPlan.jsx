@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PricingPlanFeatures from '@/PricingPlanFeatures'
 import PricingPlanMonthlyCost from '@/PricingPlanMonthlyCost'
-import PricingPlanServiceFee from '@/landing/PricingPlanServiceFee'
+import PricingPlanServiceFee from '@/PricingPlanServiceFee'
 import TryFeed from '@/landing/TryFeed'
 
 import MarkdownText from '@/elements/MarkdownText'

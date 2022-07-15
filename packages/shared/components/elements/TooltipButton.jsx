@@ -94,5 +94,4 @@ TooltipButton.defaultProps = {
   size: 'medium',
 }
 
-
 export default TooltipButton

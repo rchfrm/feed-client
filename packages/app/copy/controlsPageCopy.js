@@ -77,7 +77,6 @@ export default {
   facebookPixelEventIntro: `Select an event to optimise for. The number in brackets shows how many times each event was triggered in the past 7 days.`,
   facebookPixelEventFooter: `"Purchase" is recommended based on your objective`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
-  budgetFooter: (minRecommendedStories) => `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStories}`,
   objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
   alertPlatformTitle: 'Where would you like to grow?',
   alertPlatformDescription: `You can always change this later on. You'll also have the option to send people to multiple platforms using different posts.`,
@@ -111,4 +110,7 @@ export default {
   alertNewPixelDescription: `You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway.`,
   alertSelectPixelTitle: 'Select your Facebook Pixel',
   alertSelectPixelDescription: `This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway.`,
+  objectiveManagedPlan: `Currently only people on our <span className="text-insta font-bold">Managed</span> plan can set multiple objectives per profile.
+
+  [Email](mailto:team@tryfeed.co) to find out more or [book a call now](https://meetings.hubspot.com/feed/managed)`,
 }

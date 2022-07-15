@@ -60,6 +60,7 @@ export const pricingNumbers = {
     },
     serviceFeePercentage: 0,
   },
+  annualDiscount: 0.2,
 }
 
 const { basic, growth, pro, managed } = pricingNumbers

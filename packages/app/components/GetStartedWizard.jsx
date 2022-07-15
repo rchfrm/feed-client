@@ -15,9 +15,9 @@ import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 import GetStartedObjective from '@/app/GetStartedObjective'
 import GetStartedPlatform from '@/app/GetStartedPlatform'
 import GetStartedDefaultLink from '@/app/GetStartedDefaultLink'
+import GetStartedPricing from '@/app/GetStartedPricing'
 import GetStartedConnectFacebook from '@/app/GetStartedConnectFacebook'
 import GetStartedPostsSelection from '@/app/GetStartedPostsSelection'
-import GetStartedPostsDefaultSelection from '@/app/GetStartedPostsDefaultSelection'
 import GetStartedAdAccount from '@/app/GetStartedAdAccount'
 import GetStartedFacebookPixel from '@/app/GetStartedFacebookPixel'
 import GetStartedLocation from '@/app/GetStartedLocation'
@@ -98,6 +98,13 @@ const GetStartedWizard = () => {
     },
     {
       id: 3,
+      name: profileStatus.pricingPlan,
+      title: 'Your plan',
+      section: getStartedSections.pricingPlan,
+      component: <GetStartedPricing />,
+    },
+    {
+      id: 4,
       name: profileStatus.connectProfile,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
@@ -105,18 +112,11 @@ const GetStartedWizard = () => {
       shouldSkip: Boolean(user.artists.length),
     },
     {
-      id: 4,
+      id: 5,
       name: profileStatus.posts,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsSelection />,
-    },
-    {
-      id: 5,
-      name: profileStatus.defaultPostPromotion,
-      title: 'Promoting your posts',
-      section: getStartedSections.postPromotion,
-      component: <GetStartedPostsDefaultSelection />,
     },
     {
       id: 6,
@@ -192,7 +192,11 @@ const GetStartedWizard = () => {
       return
     }
 
-    const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState
+    const {
+      objective: storedObjective,
+      platform: storedPlatform,
+      defaultLink: storedDefaultLink,
+    } = wizardState
 
     const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
 
