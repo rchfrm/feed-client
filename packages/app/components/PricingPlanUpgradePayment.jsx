@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -17,9 +19,9 @@ const PricingPlanUpgradePayment = ({
   profilesToUpgrade,
   setProfilesToUpgrade,
 }) => {
-  const [profile] = profilesToUpgrade
-  const { plan } = profile
-  const monthlyCost = pricingNumbers[plan].monthlyCost.GBP
+  const { artistId } = React.useContext(ArtistContext)
+  const plan = profilesToUpgrade[artistId]
+  const monthlyCost = pricingNumbers[plan]?.monthlyCost?.GBP
 
   const handlePayment = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
@@ -43,7 +45,7 @@ const PricingPlanUpgradePayment = ({
 
   return (
     <div>
-      <h2 className="mb-8 pr-12">Additional profiles</h2>
+      <h2 className="mb-8 pr-12">Upgrade profiles</h2>
       <MarkdownText markdown={copy.pricingUpgradePlanIntro(plan, monthlyCost)} className="mb-8" />
       <PricingPlanUpgradePaymentProfilesList
         profilesToUpgrade={profilesToUpgrade}
@@ -56,19 +58,15 @@ const PricingPlanUpgradePayment = ({
 PricingPlanUpgradePayment.propTypes = {
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
-  profilesToUpgrade: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      plan: PropTypes.string,
-    }),
-  ),
+  profilesToUpgrade: PropTypes.object,
+  setProfilesToUpgrade: PropTypes.func,
 }
 
 PricingPlanUpgradePayment.defaultProps = {
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
-  profilesToUpgrade: [],
+  profilesToUpgrade: null,
+  setProfilesToUpgrade: () => {},
 }
 
 export default PricingPlanUpgradePayment

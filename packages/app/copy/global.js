@@ -31,14 +31,19 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
       Pricing starts from £20 per month per profile.`
     }
   },
-  pricingUpgradePlanIntro: (plan, monthlyCost) => `Would you like to add additional profiles to Feed at the same time?
+  pricingUpgradePlanIntro: (plan, monthlyCost) => `Would you like to upgrade other profiles at the same time?
 
 Each profile on **${capitalise(plan)}** is charged at £${monthlyCost} per month.`,
-  pricingUpgradeSummary: (currentProfile, currentPlan) => `You have paid £25.
+  pricingUpgradeSummary: (upgradedProfiles) => {
+    const [currentProfile, ...otherProfiles] = upgradedProfiles
+    const additionalUpgradesList = otherProfiles.map(({ name, plan }) => `${name} has been upgraded to <span className="text-insta font-bold">${capitalise(plan)}</span>.`)
 
-${currentProfile} has been upgraded to <span className="text-insta font-bold">${capitalise(currentPlan)}</span>.
+    return `You have paid £25.
 
-Jupiter Grey has been connected on <span className="text-insta font-bold">Pro</span>. Close this window to set an objective.`,
+${[currentProfile.name]} has been upgraded to <span className="text-insta font-bold">${capitalise(currentProfile.plan)}</span>.
+
+${additionalUpgradesList} Close this window to set an objective.`
+  },
   disabledReason: (section, hasSetUpProfile, hasOverflow) => {
     const shouldUpgradeToPro = section === 'facebook-pixel' || section === 'objective-sales'
     const setupBaseString = 'Continue set-up to'

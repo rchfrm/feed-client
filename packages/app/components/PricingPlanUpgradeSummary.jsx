@@ -1,21 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import shallow from 'zustand/shallow'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
+import useBillingStore from '@/app/stores/billingStore'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/global'
 
+const getBillingStoreState = (state) => ({
+  organisationArtists: state.organisationArtists,
+})
+
 const PricingPlanUpgradeSummary = ({
   setSidePanelButton,
   toggleSidePanel,
   profilesToUpgrade,
 }) => {
-  const [profile] = profilesToUpgrade
-  const { plan: currentPlan } = profile
-  const { artist: { name: currentProfile } } = React.useContext(ArtistContext)
+  const [upgradedProfiles, setUpgradedProfiles] = React.useState([])
+  const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
+
+  React.useEffect(() => {
+    const profiles = Object.keys(profilesToUpgrade).reduce((array, id) => {
+      const profile = organisationArtists.find((profile) => profile.id === id)
+
+      array.push({
+        name: profile.name,
+        plan: profilesToUpgrade[id],
+      })
+
+      return array
+    }, [])
+
+    setUpgradedProfiles(profiles)
+  }, [organisationArtists, profilesToUpgrade])
 
   const closeSidePanel = React.useCallback(() => {
     toggleSidePanel(false)
@@ -27,10 +46,12 @@ const PricingPlanUpgradeSummary = ({
     setSidePanelButton(button)
   }, [closeSidePanel, setSidePanelButton])
 
+  if (!upgradedProfiles.length) return
+
   return (
     <div>
       <h2 className="mb-8 pr-12">Thank you!</h2>
-      <MarkdownText markdown={copy.pricingUpgradeSummary(currentProfile, currentPlan)} />
+      <MarkdownText markdown={copy.pricingUpgradeSummary(upgradedProfiles)} />
     </div>
   )
 }
@@ -38,18 +59,14 @@ const PricingPlanUpgradeSummary = ({
 PricingPlanUpgradeSummary.propTypes = {
   setSidePanelButton: PropTypes.func,
   toggleSidePanel: PropTypes.func,
-  profilesToUpgrade: PropTypes.arrayOf(
-    PropTypes.shape({
-      artistId: PropTypes.string,
-      plan: PropTypes.string,
-    }),
-  ),
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.string),
+
 }
 
 PricingPlanUpgradeSummary.defaultProps = {
   setSidePanelButton: () => {},
   toggleSidePanel: () => {},
-  profilesToUpgrade: [],
+  profilesToUpgrade: null,
 }
 
 export default PricingPlanUpgradeSummary

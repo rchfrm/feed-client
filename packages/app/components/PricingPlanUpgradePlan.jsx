@@ -21,34 +21,23 @@ const PricingPlanUpgradePlan = ({
 }) => {
   const [pricingPlan, setPricingPlan] = React.useState('growth')
 
-  const { artist: { name } } = React.useContext(ArtistContext)
+  const { artistId, artist: { name } } = React.useContext(ArtistContext)
   const features = pricingPlans.find(({ name }) => name === pricingPlan)?.features
 
   const pricingPlanOptions = [
     {
       value: 'growth',
       label: 'Growth',
-      name: 'growth',
     },
     {
       value: 'pro',
       label: 'Pro',
-      name: 'pro',
     },
   ]
 
   const handleChange = (plan) => {
-    setProfilesToUpgrade({
-      type: 'update-plan',
-      payload: {
-        profile: {
-          name,
-          plan,
-        },
-      },
-    })
-
     setPricingPlan(plan)
+    setProfilesToUpgrade({ [artistId]: plan })
   }
 
   const handleUpgrade = React.useCallback(() => {
