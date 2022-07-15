@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import Error from '@/elements/Error'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
@@ -71,6 +73,8 @@ const PostCardSettings = ({
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
   const isConversionsCampaign = campaignType === 'conversions'
+
+  const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
 
   const {
     enticeEngage,
@@ -159,6 +163,8 @@ const PostCardSettings = ({
           )}
           <AdSettingsSection
             header="Link"
+            section="post-link"
+            hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
             copy={copy.postLinkSetting}
             isDisabled={isSectionDisabled}
           >
@@ -175,6 +181,8 @@ const PostCardSettings = ({
           </AdSettingsSection>
           <AdSettingsSection
             header="Call to Action"
+            section="post-cta"
+            hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
             copy={copy.postCallToActionSetting}
             isDisabled={isSectionDisabled}
           >
@@ -192,9 +200,11 @@ const PostCardSettings = ({
           {/* EDIT MESSAGE */}
           <AdSettingsSection
             header="Caption"
+            section="post-caption"
+            hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
             copy={noCaptionEditExcuse || copy.editCaption}
-            copyClassName={noCaptionEditExcuse && 'text-red'}
             isDisabled={isSectionDisabled}
+            className={noCaptionEditExcuse && 'text-red'}
           >
             <PostCardEditCaption
               post={post}

@@ -29,12 +29,12 @@ const SignupPageTestimonial = ({ testimony }) => {
           ].join(' ')}
         />
       </figure>
-      <div className="relative w-3/4 -mt-11 p-2.5 ml-auto bg-white bg-opacity-75 rounded-dialogue text-xl z-10">
+      <div className="relative w-3/4 -mt-11 p-2.5 ml-auto bg-white bg-opacity-75 rounded-dialogue text-xl">
         <MarkdownText markdown={quote} />
         <p className="font-bold mb-1">@{handle}</p>
         <p>{bio}</p>
       </div>
-      <QuoteIcon fill={brandColors.instagram.bg} className="relative -mt-12 ml-auto z-20" />
+      <QuoteIcon fill={brandColors.instagram.bg} className="relative -mt-12 ml-auto" />
     </div>
   )
 }

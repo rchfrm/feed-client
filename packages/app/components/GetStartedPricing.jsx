@@ -20,7 +20,8 @@ const getControlsStoreState = (state) => ({
 })
 
 const GetStartedPricing = () => {
-  const { artistId, setPlan, artist: { plan = '', currency: artistCurrency } } = React.useContext(ArtistContext)
+  const { artistId, setPlan, artist } = React.useContext(ArtistContext)
+  const { currency: artistCurrency } = artist
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
   const { objective: storedObjective, plan: storedPricingPlan = '' } = wizardState || {}
 
@@ -29,7 +30,7 @@ const GetStartedPricing = () => {
   const recommendedPlan = objective === 'sales' ? 'pro' : 'growth'
 
   const [selectedPricingPlan, setSelectedPricingPlan] = React.useState('')
-  const [showAnnualPricing, setShowAnnualPricing] = React.useState(plan?.includes('annual') || storedPricingPlan?.includes('annual'))
+  const [showAnnualPricing, setShowAnnualPricing] = React.useState(artist?.plan?.includes('annual') || storedPricingPlan?.includes('annual'))
   const [currency, setCurrency] = React.useState(artistCurrency || 'GBP')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -46,7 +47,7 @@ const GetStartedPricing = () => {
     const pricingPlanString = getPricingPlanString(pricingPlan)
 
     // If the pricing plan hasn't changed just go to the next step
-    if (pricingPlanString === plan || pricingPlanString === wizardState?.plan) {
+    if (pricingPlanString === artist?.plan || pricingPlanString === wizardState?.plan) {
       next()
       return
     }

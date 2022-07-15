@@ -689,10 +689,14 @@ export const getStartedSections = {
 }
 
 export const hasGrowthPlan = (plan) => {
+  if (!plan) return false
+
   return plan.includes('growth') || plan.includes('pro') || plan.includes('legacy')
 }
 
 export const hasProPlan = (plan) => {
+  if (!plan) return false
+
   return plan.includes('pro') || plan.includes('legacy')
 }
 
