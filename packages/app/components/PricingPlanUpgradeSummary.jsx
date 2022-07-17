@@ -24,10 +24,11 @@ const PricingPlanUpgradeSummary = ({
   React.useEffect(() => {
     const profiles = Object.keys(profilesToUpgrade).reduce((array, id) => {
       const profile = organisationArtists.find((profile) => profile.id === id)
+      const [planPrefix] = profilesToUpgrade[id].split('_')
 
       array.push({
         name: profile.name,
-        plan: profilesToUpgrade[id],
+        plan: planPrefix,
       })
 
       return array

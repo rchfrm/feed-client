@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import Select from '@/elements/Select'
 
-const GetStartedPricingPeriodSelect = ({ showAnnualPricing, setShowAnnualPricing, className }) => {
+const PricingPlanPeriodSelect = ({ showAnnualPricing, setShowAnnualPricing, className }) => {
   const handleChange = (e) => {
     setShowAnnualPricing(e.target.value === 'true' || false)
   }
@@ -44,14 +44,14 @@ const GetStartedPricingPeriodSelect = ({ showAnnualPricing, setShowAnnualPricing
   )
 }
 
-GetStartedPricingPeriodSelect.propTypes = {
+PricingPlanPeriodSelect.propTypes = {
   showAnnualPricing: PropTypes.bool.isRequired,
   setShowAnnualPricing: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
-GetStartedPricingPeriodSelect.defaultProps = {
+PricingPlanPeriodSelect.defaultProps = {
   className: null,
 }
 
-export default GetStartedPricingPeriodSelect
+export default PricingPlanPeriodSelect

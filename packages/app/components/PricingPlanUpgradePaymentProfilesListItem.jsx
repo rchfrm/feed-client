@@ -1,22 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import DropdownPill from '@/app/DropdownPill'
+
+import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 const PricingPlanUpgradePaymentProfilesListItem = ({
   profile,
   profilesToUpgrade,
   setProfilesToUpgrade,
 }) => {
+  const { artistId } = React.useContext(ArtistContext)
   const { name, id } = profile
-  const [selectedPlan, setSelectedPlan] = React.useState(profilesToUpgrade[id] || 'growth')
+  const [, planPeriod] = profilesToUpgrade[artistId]?.split('_') || []
+  const [planPrefix] = profilesToUpgrade[id]?.split('_') || []
+  const [selectedPlan, setSelectedPlan] = React.useState(planPrefix || 'growth')
+  const isAnnualPricing = planPeriod === 'annual'
 
   const handleOnChange = (plan) => {
     setSelectedPlan(plan)
 
     setProfilesToUpgrade((profilesToUpgrade) => ({
       ...profilesToUpgrade,
-      [id]: plan,
+      [id]: getPricingPlanString(plan, isAnnualPricing),
     }))
   }
 

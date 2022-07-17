@@ -1,24 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import shallow from 'zustand/shallow'
-
-import useBillingStore from '@/app/stores/billingStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PricingPlanUpgradePaymentProfilesListItem from './PricingPlanUpgradePaymentProfilesListItem'
 
-const getBillingStoreState = (state) => ({
-  organisationArtists: state.organisationArtists,
-})
-
 const PricingPlanUpgradePaymentProfilesList = ({
   profilesToUpgrade,
   setProfilesToUpgrade,
+  organisationArtists,
 }) => {
   const [organisationProfiles, setOrganisationProfiles] = React.useState([])
 
-  const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
   const { artistId } = React.useContext(ArtistContext)
 
   React.useEffect(() => {
@@ -30,7 +23,7 @@ const PricingPlanUpgradePaymentProfilesList = ({
   }, [artistId, organisationArtists])
 
   return (
-    <div className="pl-8">
+    <div className="mb-10 pl-8">
       {organisationProfiles.map((profile) => (
         <PricingPlanUpgradePaymentProfilesListItem
           key={profile.name}
@@ -46,6 +39,7 @@ const PricingPlanUpgradePaymentProfilesList = ({
 PricingPlanUpgradePaymentProfilesList.propTypes = {
   profilesToUpgrade: PropTypes.objectOf(PropTypes.string).isRequired,
   setProfilesToUpgrade: PropTypes.func.isRequired,
+  organisationArtists: PropTypes.array.isRequired,
 }
 
 PricingPlanUpgradePaymentProfilesList.defaultProps = {

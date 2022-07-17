@@ -1,5 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import shallow from 'zustand/shallow'
+
+import useBillingStore from '@/app/stores/billingStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -11,7 +14,12 @@ import { pricingNumbers } from '@/constants/pricing'
 import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/global'
-import PricingPlanUpgradePaymentProfilesList from './PricingPlanUpgradePaymentProfilesList'
+import PricingPlanUpgradePaymentProfilesList from '@/app/PricingPlanUpgradePaymentProfilesList'
+import PricingPlanUpgradePaymentProrations from '@/app/PricingPlanUpgradePaymentProrations'
+
+const getBillingStoreState = (state) => ({
+  organisationArtists: state.organisationArtists,
+})
 
 const PricingPlanUpgradePayment = ({
   setCurrentStep,
@@ -20,9 +28,12 @@ const PricingPlanUpgradePayment = ({
   setProfilesToUpgrade,
   prorationsPreview,
 }) => {
-  const { artistId } = React.useContext(ArtistContext)
-  const plan = profilesToUpgrade[artistId]
-  const monthlyCost = pricingNumbers[plan]?.monthlyCost?.GBP
+  const { artistId, artist } = React.useContext(ArtistContext)
+  const { hasGrowthPlan } = artist
+  const [planPrefix] = profilesToUpgrade[artistId].split('_')
+  const monthlyCost = pricingNumbers[planPrefix]?.monthlyCost?.GBP
+
+  const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
 
   const handlePayment = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
@@ -43,18 +54,18 @@ const PricingPlanUpgradePayment = ({
     setSidePanelButton(button)
   }, [handlePayment, setSidePanelButton, monthlyCost])
 
-  React.useEffect(() => {
-    console.log(prorationsPreview)
-  }, [prorationsPreview])
-
   return (
     <div>
       <h2 className="mb-8 pr-12">Upgrade profiles</h2>
-      <MarkdownText markdown={copy.pricingUpgradePlanIntro(plan, monthlyCost)} className="mb-8" />
-      <PricingPlanUpgradePaymentProfilesList
-        profilesToUpgrade={profilesToUpgrade}
-        setProfilesToUpgrade={setProfilesToUpgrade}
-      />
+      <MarkdownText markdown={copy.pricingUpgradePlanIntro(planPrefix, monthlyCost)} className="mb-8" />
+      {(hasGrowthPlan && organisationArtists.length > 1) && (
+        <PricingPlanUpgradePaymentProfilesList
+          profilesToUpgrade={profilesToUpgrade}
+          setProfilesToUpgrade={setProfilesToUpgrade}
+          organisationArtists={organisationArtists}
+        />
+      )}
+      <PricingPlanUpgradePaymentProrations prorationsPreview={prorationsPreview} />
     </div>
   )
 }
@@ -64,6 +75,7 @@ PricingPlanUpgradePayment.propTypes = {
   setSidePanelButton: PropTypes.func,
   profilesToUpgrade: PropTypes.object,
   setProfilesToUpgrade: PropTypes.func,
+  prorationsPreview: PropTypes.object,
 }
 
 PricingPlanUpgradePayment.defaultProps = {
@@ -71,6 +83,7 @@ PricingPlanUpgradePayment.defaultProps = {
   setSidePanelButton: () => {},
   profilesToUpgrade: null,
   setProfilesToUpgrade: () => {},
+  prorationsPreview: null,
 }
 
 export default PricingPlanUpgradePayment

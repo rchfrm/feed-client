@@ -2,31 +2,49 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 
+import useBillingStore from '@/app/stores/billingStore'
+
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import PricingPlanUpgradeIntro from '@/app/PricingPlanUpgradeIntro'
 import PricingPlanUpgradePlan from '@/app/PricingPlanUpgradePlan'
+import PricingPlanUpgradePaymentMethod from '@/app/PricingPlanUpgradePaymentMethod'
 import PricingPlanUpgradePayment from '@/app/PricingPlanUpgradePayment'
 import PricingPlanUpgradeSummary from '@/app/PricingPlanUpgradeSummary'
 
-import { getProrationsPreview } from '@/app/helpers/billingHelpers'
+import Error from '@/elements/Error'
+
+import { getPricingPlanString, getProrationsPreview } from '@/app/helpers/billingHelpers'
+
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
+})
 
 const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { artistId, artist } = React.useContext(ArtistContext)
   const { organization: { id: organizationId } } = artist
+
+  const { hasGrowthPlan } = artist
+  const [, planPeriod] = artist.plan.split('_') || []
+  const isAnnualPricing = planPeriod === 'annual'
+
   const [currentStep, setCurrentStep] = React.useState(0)
-  const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({ [artistId]: 'growth' })
+  const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({
+    [artistId]: getPricingPlanString(hasGrowthPlan ? 'pro' : 'growth', isAnnualPricing),
+  })
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
-  // const [error, setError] = React.useState(null)
+  const [error, setError] = React.useState(null)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
   const pricingPlanUpgradeSteps = [
     <PricingPlanUpgradeIntro key={0} />,
-    <PricingPlanUpgradePlan key={1} />,
-    <PricingPlanUpgradePayment key={2} />,
-    <PricingPlanUpgradeSummary key={3} />,
+    ...(!hasGrowthPlan ? [<PricingPlanUpgradePlan key={1} />] : []),
+    ...(!defaultPaymentMethod ? [<PricingPlanUpgradePaymentMethod key={2} />] : []),
+    <PricingPlanUpgradePayment key={3} />,
+    <PricingPlanUpgradeSummary key={4} />,
   ]
 
   const StepComponent = React.cloneElement(
@@ -49,8 +67,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     if (!isMounted()) return
 
     if (error) {
-      // setError(error)
-
+      setError(error)
       return
     }
 
@@ -58,7 +75,10 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   }, [profilesToUpgrade])
 
   return (
-    StepComponent
+    <>
+      {StepComponent}
+      <Error error={error} className="-mt-16" />
+    </>
   )
 }
 

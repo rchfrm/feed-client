@@ -184,6 +184,12 @@ export const getAllOrgsInfo = async ({ user }) => {
   return allOrgsInfo
 }
 
+// GET PRICING PLAN STRING
+export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
+  const planPeriod = isAnnualPricing && planPrefix !== 'basic' ? 'annual' : 'monthly'
+
+  return `${planPrefix}_${planPeriod}`
+}
 
 // * REFERRALS
 // * --------------------

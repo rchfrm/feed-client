@@ -133,6 +133,7 @@ function ArtistProvider({ children }) {
   }
 
   const updateArtist = React.useCallback((artist) => {
+    artist.plan = 'growth_annual'
     // Test whether artist is musician
     const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)

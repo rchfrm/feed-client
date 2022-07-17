@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import PricingPlanFeatures from '@/PricingPlanFeatures'
+import PricingPlanPeriodSelect from '@/app/PricingPlanPeriodSelect'
+import PricingPlanUpgradePlanItem from '@/app/PricingPlanUpgradePlanItem'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-import RadioButtons from '@/elements/RadioButtons'
 
 import brandColors from '@/constants/brandColors'
-import { pricingPlans } from '@/constants/pricing'
+import { pricingNumbers, pricingPlans } from '@/constants/pricing'
 
 import { capitalise } from '@/helpers/utils'
+import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 const PricingPlanUpgradePlan = ({
   setCurrentStep,
@@ -20,24 +21,15 @@ const PricingPlanUpgradePlan = ({
   setProfilesToUpgrade,
 }) => {
   const [pricingPlan, setPricingPlan] = React.useState('growth')
+  const [isAnnualPricing, setIsAnnualPricing] = React.useState(false)
 
-  const { artistId, artist: { name } } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
+  const { hasGrowthPlan, name } = artist
   const features = pricingPlans.find(({ name }) => name === pricingPlan)?.features
-
-  const pricingPlanOptions = [
-    {
-      value: 'growth',
-      label: 'Growth',
-    },
-    {
-      value: 'pro',
-      label: 'Pro',
-    },
-  ]
+  const { growth: growthPlan, pro: proPlan } = pricingNumbers
 
   const handleChange = (plan) => {
     setPricingPlan(plan)
-    setProfilesToUpgrade({ [artistId]: plan })
   }
 
   const handleUpgrade = React.useCallback(() => {
@@ -59,19 +51,40 @@ const PricingPlanUpgradePlan = ({
     setSidePanelButton(button)
   }, [handleUpgrade, setSidePanelButton, pricingPlan])
 
+  React.useEffect(() => {
+    setProfilesToUpgrade({ [artistId]: getPricingPlanString(pricingPlan, isAnnualPricing) })
+  }, [isAnnualPricing, pricingPlan, artistId, setProfilesToUpgrade])
+
   return (
     <div>
       <h2 className="mb-8 pr-12">Upgrade {name}</h2>
-      <div className="mb-10">
-        <RadioButtons
-          options={pricingPlanOptions}
-          onChange={handleChange}
-          selectedValue={pricingPlan}
-          trackGroupLabel="Upgrade plan"
-        />
-      </div>
-      <p className="pl-1">Features:</p>
-      <PricingPlanFeatures features={features} />
+      {!hasGrowthPlan && (
+        <div className="flex items-center mb-8">
+          <p className="mr-1 mb-0">Period:</p>
+          <PricingPlanPeriodSelect
+            showAnnualPricing={isAnnualPricing}
+            setShowAnnualPricing={setIsAnnualPricing}
+            className="xs:ml-2 w-[108px]"
+          />
+        </div>
+      )}
+      <PricingPlanUpgradePlanItem
+        name="growth"
+        plan={growthPlan}
+        selectedPlan={pricingPlan}
+        isAnnualPricing={isAnnualPricing}
+        features={features}
+        handleChange={handleChange}
+        className="mb-4"
+      />
+      <PricingPlanUpgradePlanItem
+        name="pro"
+        plan={proPlan}
+        selectedPlan={pricingPlan}
+        isAnnualPricing={isAnnualPricing}
+        features={features}
+        handleChange={handleChange}
+      />
     </div>
   )
 }

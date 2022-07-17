@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import PricingPeriodToggle from '@/PricingPeriodToggle'
-import GetStartedPricingPeriodSelect from '@/app/GetStartedPricingPeriodSelect'
+import PricingPlanPeriodSelect from '@/app/PricingPlanPeriodSelect'
 import PricingCurrencySelect from '@/PricingCurrencySelect'
 
 const GetStartedPricingPlansHeader = ({
@@ -38,7 +38,7 @@ const GetStartedPricingPlansHeader = ({
           buttonPillClassName="bg-blue border-blue"
         />
       ) : (
-        <GetStartedPricingPeriodSelect
+        <PricingPlanPeriodSelect
           showAnnualPricing={showAnnualPricing}
           setShowAnnualPricing={setShowAnnualPricing}
           className="xs:ml-2 w-[108px]"

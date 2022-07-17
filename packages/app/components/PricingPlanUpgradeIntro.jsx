@@ -1,9 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import PricingPlanUpgradeIntroPlan from '@/app/PricingPlanUpgradeIntroPlan'
+
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
-
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import copy from '@/app/copy/global'
@@ -14,6 +17,9 @@ const PricingPlanUpgradeIntro = ({
   setCurrentStep,
   setSidePanelButton,
 }) => {
+  const { artist } = React.useContext(ArtistContext)
+  const { hasGrowthPlan } = artist
+
   const next = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
   }, [setCurrentStep])
@@ -36,7 +42,10 @@ const PricingPlanUpgradeIntro = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">{copy.pricingUpgradeIntroTitle(section)}</h2>
-      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section)} />
+      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section)} className="mb-8" />
+      {hasGrowthPlan && (
+        <PricingPlanUpgradeIntroPlan />
+      )}
     </div>
   )
 }
