@@ -12,11 +12,11 @@ const PricingPlanPeriodSelect = ({ showAnnualPricing, setShowAnnualPricing, clas
   const options = [
     {
       name: 'Monthly',
-      value: false,
+      value: 'false',
     },
     {
       name: 'Annual',
-      value: true,
+      value: 'true',
     },
   ]
 

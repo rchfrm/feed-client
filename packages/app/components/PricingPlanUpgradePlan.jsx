@@ -62,7 +62,7 @@ const PricingPlanUpgradePlan = ({
         <div className="flex items-center mb-8">
           <p className="mr-1 mb-0">Period:</p>
           <PricingPlanPeriodSelect
-            showAnnualPricing={isAnnualPricing}
+            showAnnualPricing={isAnnualPricing.toString()}
             setShowAnnualPricing={setIsAnnualPricing}
             className="xs:ml-2 w-[108px]"
           />
