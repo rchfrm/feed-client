@@ -19,7 +19,7 @@ const PricingPlanUpgradePaymentProfilesList = ({
 
     // Filter out current profile and profiles with a pro plan
     const otherProfiles = organisationArtists.filter((profile) => {
-      const [planPrefix] = profile?.plan.split('_') || []
+      const [planPrefix] = profile?.plan?.split('_') || []
 
       return (profile.id !== artistId) && (planPrefix !== 'pro')
     })

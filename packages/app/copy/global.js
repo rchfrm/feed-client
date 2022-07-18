@@ -1,7 +1,7 @@
 
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
-import { capitalise } from '@/helpers/utils'
+import { capitalise, formatCurrency } from '@/helpers/utils'
 
 export default {
   noArtists: `It looks like you haven't connected any Facebook pages yet. Please finish the sign up process [here](${ROUTES.GET_STARTED}).`,
@@ -43,6 +43,24 @@ Each profile on **${capitalise(plan)}** is charged at £${monthlyCost} per month
 ${[currentProfile.name]} has been upgraded to <span className="text-insta font-bold">${capitalise(currentProfile.plan)}</span>.
 
 ${additionalUpgradesList} Close this window to set an objective.`
+  },
+  pricingUpgradeCurrentPaymentList: (upgradedProfiles, currency) => {
+    const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
+      if (!currentPayment) {
+        return `- No change to ${name}`
+      }
+
+      return `- ${formatCurrency(currentPayment, currency)} to upgrade ${name} to ${capitalise(plan)}`
+    })
+
+    return list.join('\n')
+  },
+  pricingUpgradeNextPaymentList: (upgradedProfiles, currency) => {
+    const list = upgradedProfiles.map(({ name, plan, nextPayment }) => {
+      return `- ${formatCurrency(nextPayment, currency)} for ${name} on ${capitalise(plan)}`
+    })
+
+    return list.join('\n')
   },
   disabledReason: (section, hasSetUpProfile, hasOverflow) => {
     const shouldUpgradeToPro = section === 'facebook-pixel' || section === 'objective-sales'

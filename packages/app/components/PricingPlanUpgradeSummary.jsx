@@ -7,6 +7,8 @@ import useBillingStore from '@/app/stores/billingStore'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
+import { getUpgradedProfilesArray } from '@/app/helpers/billingHelpers'
+
 import copy from '@/app/copy/global'
 
 const getBillingStoreState = (state) => ({
@@ -17,25 +19,17 @@ const PricingPlanUpgradeSummary = ({
   setSidePanelButton,
   toggleSidePanel,
   profilesToUpgrade,
+  prorationsPreview,
 }) => {
   const [upgradedProfiles, setUpgradedProfiles] = React.useState([])
   const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
+  const { profileAmounts, currency } = prorationsPreview || {}
 
   React.useEffect(() => {
-    const profiles = Object.keys(profilesToUpgrade).reduce((array, id) => {
-      const profile = organisationArtists.find((profile) => profile.id === id)
-      const [planPrefix] = profilesToUpgrade[id].split('_')
-
-      array.push({
-        name: profile.name,
-        plan: planPrefix,
-      })
-
-      return array
-    }, [])
+    const profiles = getUpgradedProfilesArray({ profilesToUpgrade, organisationArtists, profileAmounts, currency })
 
     setUpgradedProfiles(profiles)
-  }, [organisationArtists, profilesToUpgrade])
+  }, [organisationArtists, profilesToUpgrade, profileAmounts, currency])
 
   const closeSidePanel = React.useCallback(() => {
     toggleSidePanel(false)

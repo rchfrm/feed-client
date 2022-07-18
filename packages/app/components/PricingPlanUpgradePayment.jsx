@@ -6,6 +6,9 @@ import useBillingStore from '@/app/stores/billingStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
+import PricingPlanUpgradePaymentProfilesList from '@/app/PricingPlanUpgradePaymentProfilesList'
+import PricingPlanUpgradePaymentProrations from '@/app/PricingPlanUpgradePaymentProrations'
+
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -13,9 +16,8 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import { pricingNumbers } from '@/constants/pricing'
 import brandColors from '@/constants/brandColors'
 
+import { formatCurrency } from '@/helpers/utils'
 import copy from '@/app/copy/global'
-import PricingPlanUpgradePaymentProfilesList from '@/app/PricingPlanUpgradePaymentProfilesList'
-import PricingPlanUpgradePaymentProrations from '@/app/PricingPlanUpgradePaymentProrations'
 
 const getBillingStoreState = (state) => ({
   organisationArtists: state.organisationArtists,
@@ -31,7 +33,12 @@ const PricingPlanUpgradePayment = ({
   const { artistId, artist } = React.useContext(ArtistContext)
   const { hasGrowthPlan } = artist
   const [planPrefix] = profilesToUpgrade[artistId].split('_')
+
   const monthlyCost = pricingNumbers[planPrefix]?.monthlyCost?.GBP
+  const {
+    amount = 0,
+    currency,
+  } = prorationsPreview || {}
 
   const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
 
@@ -42,7 +49,7 @@ const PricingPlanUpgradePayment = ({
   React.useEffect(() => {
     const button = (
       <Button version="insta" onClick={handlePayment} trackComponentName="PricingPlanUpgradePayment">
-        Pay £{monthlyCost}
+        Pay {formatCurrency(amount, currency)}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
@@ -52,7 +59,7 @@ const PricingPlanUpgradePayment = ({
     )
 
     setSidePanelButton(button)
-  }, [handlePayment, setSidePanelButton, monthlyCost])
+  }, [handlePayment, setSidePanelButton, monthlyCost, amount, currency])
 
   return (
     <div>
@@ -65,7 +72,10 @@ const PricingPlanUpgradePayment = ({
           organisationArtists={organisationArtists}
         />
       )}
-      <PricingPlanUpgradePaymentProrations prorationsPreview={prorationsPreview} />
+      <PricingPlanUpgradePaymentProrations
+        prorationsPreview={prorationsPreview}
+        profilesToUpgrade={profilesToUpgrade}
+      />
     </div>
   )
 }
