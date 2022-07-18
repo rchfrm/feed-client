@@ -16,11 +16,19 @@ const PricingPlanUpgradePaymentProfilesList = ({
 
   React.useEffect(() => {
     const currentProfile = organisationArtists.find((profile) => profile.id === artistId)
-    const otherProfiles = organisationArtists.filter((profile) => profile.id !== artistId)
+
+    // Filter out current profile and profiles with a pro plan
+    const otherProfiles = organisationArtists.filter((profile) => {
+      const [planPrefix] = profile?.plan.split('_') || []
+
+      return (profile.id !== artistId) && (planPrefix !== 'pro')
+    })
 
     // Make sure that the currently active profile is the first item in the array
     setOrganisationProfiles([currentProfile, ...otherProfiles])
   }, [artistId, organisationArtists])
+
+  if (organisationProfiles.length === 1) return null
 
   return (
     <div className="mb-10 pl-8">
