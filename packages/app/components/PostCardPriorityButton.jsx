@@ -1,9 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useOpenPricingPlanUpgradeSidePanel from '@/app/hooks/useOpenPricingPlanUpgradeSidePanel'
+
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 import ChevronDoubleUpCircleIcon from '@/icons/ChevronDoubleUpCircleIcon'
+import LockIcon from '@/icons/LockIcon'
 
 import brandColors from '@/constants/brandColors'
 import PostCardPriorityButtonAlert from '@/app/PostCardPriorityButtonAlert'
@@ -22,9 +27,13 @@ const PostCardPriorityButton = ({
   // Store INTERNAL STATE based on priorityEnabled
   const [currentState, setCurrentState] = React.useState(priorityEnabled)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+
+  const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
+  const openPricingPlanUpgradeSidePanel = useOpenPricingPlanUpgradeSidePanel()
+
   const isPostActive = promotionStatus === 'active'
   const isPostArchived = promotionStatus === 'archived'
-  const isDisabled = isPostActive && !currentState
+  const isDisabled = (isPostActive && !currentState) || !hasGrowthPlan
 
   // Update internal state when outside state changes
   React.useEffect(() => {
@@ -74,9 +83,17 @@ const PostCardPriorityButton = ({
         <ChevronDoubleUpCircleIcon
           fill={currentState ? brandColors.instagram.bg : brandColors.white}
           stroke={currentState ? brandColors.white : brandColors.greyDark}
-          className="w-6 h-6"
+          className={[!hasGrowthPlan ? '-mr-1' : null, 'w-6 h-6'].join(' ')}
         />
       </button>
+      {!hasGrowthPlan && (
+        <button onClick={() => openPricingPlanUpgradeSidePanel('priority-post')}>
+          <LockIcon
+            fill={brandColors.instagram.bg}
+            className="w-4 h-4 ml-2"
+          />
+        </button>
+      )}
       {/* ALERT */}
       {shouldShowAlert && (
         <PostCardPriorityButtonAlert

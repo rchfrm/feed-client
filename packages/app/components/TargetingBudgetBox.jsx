@@ -12,10 +12,11 @@ import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
-import ControlsContentSection from '@/app/ControlsContentSection'
+import DisabledSection from '@/app/DisabledSection'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
+import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 
-import copy from '@/app/copy/controlsPageCopy'
+import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingBudgetBox = ({
   className,
@@ -43,6 +44,7 @@ const TargetingBudgetBox = ({
         currencyOffset,
         minorUnit: {
           minBase,
+          minBaseUnrounded,
           minHard: minHardBudget,
           minRecommendedStories,
         } = {},
@@ -51,23 +53,38 @@ const TargetingBudgetBox = ({
         } = {},
       } = {},
       hasSetUpProfile,
+      hasGrowthPlan,
+      hasProPlan,
     },
   } = React.useContext(ArtistContext)
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
-  const [hasBudgetBelowMinRecommendedStories, setHasBudgetBelowMinRecommendedStories] = React.useState(false)
+  const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
+
+  const growthTierMaxDailyBudget = Math.round(minBaseUnrounded * 9)
+  const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
+  const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
+  const mayHitGrowthTierMaxBudget = hasGrowthPlan && !hasProPlan && targetingState.budget > growthTierMaxDailyBudget
+  const mayHitProTierMaxBudget = hasProPlan && targetingState.budget > proTierMaxDailyBudget
+
+  const budgetData = {
+    currency: currencyCode,
+    projectedMonthlyBudget: (targetingState.budget * 31) / currencyOffset,
+    hasBudgetBelowMinRecommendedStories,
+    minRecommendedStoriesString,
+  }
+
 
   React.useEffect(() => {
-    if (targetingState.budget < minRecommendedStories && !hasBudgetBelowMinRecommendedStories) {
-      setHasBudgetBelowMinRecommendedStories(true)
-      return
+    if (hasBudgetBelowMinRecommendedStories || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget) {
+      setShouldShowWarning(true)
     }
 
-    if (targetingState.budget >= minRecommendedStories && hasBudgetBelowMinRecommendedStories) {
-      setHasBudgetBelowMinRecommendedStories(false)
+    if (!hasBudgetBelowMinRecommendedStories && !mayHitGrowthTierMaxBudget && !mayHitProTierMaxBudget) {
+      setShouldShowWarning(false)
     }
-  }, [targetingState.budget, minRecommendedStories, hasBudgetBelowMinRecommendedStories])
+  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget])
 
   return (
     <>
@@ -99,7 +116,7 @@ const TargetingBudgetBox = ({
                 className={!isDesktopLayout ? 'mr-12' : null}
               />
             </div>
-            <ControlsContentSection action="choose your budget">
+            <DisabledSection section="budget" isDisabled={!hasSetUpProfile} className="mt-4">
               {/* BUDGET SETTER */}
               <div>
                 <TargetingBudgetSetter
@@ -135,15 +152,24 @@ const TargetingBudgetBox = ({
                   minHardBudget={minHardBudget}
                 />
               </div>
-            </ControlsContentSection>
+            </DisabledSection>
           </>
         )}
       </section>
-      {hasBudgetBelowMinRecommendedStories && (
-        <ControlsSettingsSectionFooter
-          copy={copy.budgetFooter(minRecommendedStoriesString)}
-          className="mt-5 text-insta"
-        />
+      {shouldShowWarning && (
+        hasBudgetBelowMinRecommendedStories ? (
+          <ControlsSettingsSectionFooter
+            copy={copy.budgetFooter(hasProPlan, budgetData)}
+            className="mt-5 text-insta"
+          />
+        ) : (
+          <DisabledActionPrompt
+            copy={copy.budgetFooter(hasProPlan, budgetData)}
+            section="budget"
+            version="small"
+            className="mt-5"
+          />
+        )
       )}
     </>
   )

@@ -6,6 +6,7 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import GetStartedSummarySentenceObjective from '@/app/GetStartedSummarySentenceObjective'
+import GetStartedSummarySentencePricingPlan from '@/app/GetStartedSummarySentencePricingPlan'
 import GetStartedSummarySentencePosts from '@/app/GetStartedSummarySentencePosts'
 import GetStartedSummarySentenceAdAccount from '@/app/GetStartedSummarySentenceAdAccount'
 import GetStartedSummarySentenceTargeting from '@/app/GetStartedSummarySentenceTargeting'
@@ -26,6 +27,7 @@ const GetStartedSummarySentence = ({ className }) => {
       ].join(' ')}
       >
         <GetStartedSummarySentenceObjective />
+        <GetStartedSummarySentencePricingPlan />
         <GetStartedSummarySentencePosts />
         <GetStartedSummarySentenceAdAccount />
         <GetStartedSummarySentenceTargeting />

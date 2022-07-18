@@ -14,7 +14,7 @@ import moment from 'moment'
  * @param {string} [token]
  * @returns {Promise<any>}
  */
-export const createArtist = async (artist, token) => {
+export const createArtist = async (artist, plan, token) => {
   return api.post('/artists', {
     name: artist.name,
     location: null,
@@ -24,6 +24,7 @@ export const createArtist = async (artist, token) => {
         instagram_id: artist.instagram_id,
       },
     },
+    plan,
   }, token)
 }
 
@@ -474,6 +475,25 @@ export const updateCompletedSetupAt = (artistId) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
+// Update pricing plan
+/**
+* @param {string} artistId
+* @returns {Promise<object>} { res, error }
+*/
+export const updatePricingPlan = (artistId, pricingPlan) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    plan: pricingPlan,
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Update pricing plan',
+  }
+
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
 export const getCallToAction = (objective, platform) => {
   if (platform === 'facebook' || platform === 'instagram' || objective === 'traffic') {
     return {
@@ -538,16 +558,19 @@ export const objectives = [
     name: 'Audience growth',
     value: 'growth',
     color: 'green',
-  },
-  {
-    name: 'Website sales',
-    value: 'sales',
-    color: 'insta',
+    plan: 'basic',
   },
   {
     name: 'Website visits',
     value: 'traffic',
     color: 'blue',
+    plan: 'growth',
+  },
+  {
+    name: 'Website sales',
+    value: 'sales',
+    color: 'insta',
+    plan: 'pro',
   },
 ]
 
@@ -590,9 +613,9 @@ export const profileStatus = {
   objective: 'objective',
   platform: 'platform',
   defaultLink: 'default-link',
+  pricingPlan: 'pricing-plan',
   connectProfile: 'connect-profile',
   posts: 'posts',
-  defaultPostPromotion: 'default-post-promotion',
   adAccount: 'ad-account',
   facebookPixel: 'facebook-pixel',
   location: 'location',
@@ -652,15 +675,29 @@ export const getPreferencesObject = (updatedArtist) => {
 }
 
 const objective = 'objective'
+const pricingPlan = 'pricing-plan'
 const postPromotion = 'post-promotion'
 const adAccount = 'ad-account'
 const targeting = 'targeting'
 
 export const getStartedSections = {
   objective,
+  pricingPlan,
   postPromotion,
   adAccount,
   targeting,
+}
+
+export const hasGrowthPlan = (plan) => {
+  if (!plan) return false
+
+  return plan.includes('growth') || plan.includes('pro') || plan.includes('legacy')
+}
+
+export const hasProPlan = (plan) => {
+  if (!plan) return false
+
+  return plan.includes('pro') || plan.includes('legacy')
 }
 
 // Update artist

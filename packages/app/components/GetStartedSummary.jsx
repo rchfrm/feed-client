@@ -24,7 +24,7 @@ const GetStartedSummary = () => {
       <h2><span role="img" aria-label="party face">🥳</span> Congrats!</h2>
       <h3 className="mb-10 font-medium text-center text-xl">{copy.reviewDescription}</h3>
       <GetStartedSummarySentence
-        className="justify-center"
+        className="justify-center pointer-events-none"
       />
       <Button
         version="outline-green"

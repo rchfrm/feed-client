@@ -7,6 +7,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+import { getLocalStorage } from '@/helpers/utils'
 
 const GetStartedConnectFacebookProfilesItem = ({
   profile,
@@ -16,6 +17,8 @@ const GetStartedConnectFacebookProfilesItem = ({
   const { picture, name, instagram_username } = profile
   const { user } = React.useContext(UserContext)
   const { connectArtist } = React.useContext(ArtistContext)
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  const { plan } = wizardState || {}
 
   const createArtist = async () => {
     setIsConnecting(true)
@@ -23,7 +26,7 @@ const GetStartedConnectFacebookProfilesItem = ({
 
     // Santise URLs
     const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(profile)
-    const { error } = await connectArtist(artistAccountSanitised, user) || {}
+    const { error } = await connectArtist(artistAccountSanitised, user, plan) || {}
 
     if (error) {
       setIsConnecting(false)

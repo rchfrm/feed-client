@@ -12,6 +12,7 @@ import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import Spinner from '@/elements/Spinner'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+import { getLocalStorage } from '@/helpers/utils'
 
 const GetStartedConnectFacebook = () => {
   const [artistAccounts, setArtistAccounts] = React.useState([])
@@ -21,6 +22,9 @@ const GetStartedConnectFacebook = () => {
   const [error, setError] = React.useState(null)
 
   const { artistId, connectArtist } = React.useContext(ArtistContext)
+
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  const { plan } = wizardState || {}
 
   const {
     auth,
@@ -77,7 +81,7 @@ const GetStartedConnectFacebook = () => {
       // Santise URLs
       const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(processedArtists[0])
 
-      const { error } = await connectArtist(artistAccountSanitised, user) || {}
+      const { error } = await connectArtist(artistAccountSanitised, user, plan) || {}
 
       if (!isMounted()) return
 
