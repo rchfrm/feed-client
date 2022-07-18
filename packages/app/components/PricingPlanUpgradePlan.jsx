@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import PricingPlanPeriodSelect from '@/app/PricingPlanPeriodSelect'
 import PricingPlanUpgradePlanItem from '@/app/PricingPlanUpgradePlanItem'
 
 import Button from '@/elements/Button'
@@ -21,10 +20,9 @@ const PricingPlanUpgradePlan = ({
   setProfilesToUpgrade,
 }) => {
   const [pricingPlan, setPricingPlan] = React.useState('growth')
-  const [isAnnualPricing, setIsAnnualPricing] = React.useState(false)
 
   const { artistId, artist } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, name } = artist
+  const { name } = artist
   const features = pricingPlans.find(({ name }) => name === pricingPlan)?.features
   const { growth: growthPlan, pro: proPlan } = pricingNumbers
 
@@ -52,27 +50,17 @@ const PricingPlanUpgradePlan = ({
   }, [handleUpgrade, setSidePanelButton, pricingPlan])
 
   React.useEffect(() => {
-    setProfilesToUpgrade({ [artistId]: getPricingPlanString(pricingPlan, isAnnualPricing) })
-  }, [isAnnualPricing, pricingPlan, artistId, setProfilesToUpgrade])
+    setProfilesToUpgrade({ [artistId]: getPricingPlanString(pricingPlan, false) })
+  }, [pricingPlan, artistId, setProfilesToUpgrade])
 
   return (
     <div>
       <h2 className="mb-8 pr-12">Upgrade {name}</h2>
-      {!hasGrowthPlan && (
-        <div className="flex items-center mb-8">
-          <p className="mr-1 mb-0">Period:</p>
-          <PricingPlanPeriodSelect
-            showAnnualPricing={isAnnualPricing.toString()}
-            setShowAnnualPricing={setIsAnnualPricing}
-            className="xs:ml-2 w-[108px]"
-          />
-        </div>
-      )}
       <PricingPlanUpgradePlanItem
         name="growth"
         plan={growthPlan}
         selectedPlan={pricingPlan}
-        isAnnualPricing={isAnnualPricing}
+        isAnnualPricing={false}
         features={features}
         handleChange={handleChange}
         className="mb-4"
@@ -81,7 +69,7 @@ const PricingPlanUpgradePlan = ({
         name="pro"
         plan={proPlan}
         selectedPlan={pricingPlan}
-        isAnnualPricing={isAnnualPricing}
+        isAnnualPricing={false}
         features={features}
         handleChange={handleChange}
       />
