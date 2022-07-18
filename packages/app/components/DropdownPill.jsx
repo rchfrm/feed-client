@@ -43,15 +43,16 @@ const DropdownPill = ({
   }, [isOpen])
 
   return (
-    <div className={[className, 'relative'].join(' ')} ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={[
           buttonClassName,
           'flex items-center',
           'px-2 py-1 text-xs',
-          'border-2 border-solid border-insta rounded-full',
+          'border-2 border-solid rounded-full',
           disabled ? 'pointer-events-none' : null,
+          className,
         ].join(' ')}
       >
         {capitalise(selectedItem)}

@@ -35,6 +35,7 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
         items={['growth', 'pro']}
         selectedItem={selectedPlan}
         handleItemClick={handleOnChange}
+        className={selectedPlan === 'growth' ? 'border-black' : 'border-insta'}
       />
     </div>
   )

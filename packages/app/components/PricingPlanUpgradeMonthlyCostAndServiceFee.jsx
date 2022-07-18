@@ -41,10 +41,11 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ plan, isAnnualPricing }) =
 
 PricingPlanUpgradeMonthlyCostAndServiceFee.propTypes = {
   plan: PropTypes.object.isRequired,
-  isAnnualPricing: PropTypes.bool.isRequired,
+  isAnnualPricing: PropTypes.bool,
 }
 
 PricingPlanUpgradeMonthlyCostAndServiceFee.defaultProps = {
+  isAnnualPricing: false,
 }
 
 export default PricingPlanUpgradeMonthlyCostAndServiceFee
