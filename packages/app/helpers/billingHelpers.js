@@ -76,6 +76,7 @@ export const getStripeClientSecret = async (organisationId) => {
 // GET PRORATIONS PREVIEW
 /**
  * @param {string} organisationId
+ * @param {object} profilesToUpgrade
  * @returns {Promise<any>}
  */
 export const getProrationsPreview = async (organisationId, profilesToUpgrade) => {
@@ -86,6 +87,22 @@ export const getProrationsPreview = async (organisationId, profilesToUpgrade) =>
     action: 'Get prorations preview',
   }
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
+}
+
+// UPGRADE PRICING PLANS
+/**
+ * @param {string} organisationId
+ * @param {object} profilesToUpgrade
+ * @returns {Promise<any>}
+ */
+export const upgradePricingPlan = async (organisationId, profilesToUpgrade) => {
+  const payload = profilesToUpgrade
+  const endpoint = `/organizations/${organisationId}/billing/upgrade_profiles`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Upgrade pricing plans',
+  }
+  return api.requestWithCatch('patch', endpoint, payload, errorTracking)
 }
 
 // * BILLING

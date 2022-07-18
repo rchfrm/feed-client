@@ -18,12 +18,12 @@ import Error from '@/elements/Error'
 import { getPricingPlanString, getProrationsPreview } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
+  organisation: state.organisation,
   defaultPaymentMethod: state.defaultPaymentMethod,
 })
 
 const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { artistId, artist } = React.useContext(ArtistContext)
-  const { organization: { id: organizationId } } = artist
 
   const { hasGrowthPlan } = artist
   const [, planPeriod] = artist.plan.split('_') || []
@@ -35,9 +35,11 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   })
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
   const [error, setError] = React.useState(null)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
-  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+  const { defaultPaymentMethod, organisation } = useBillingStore(getBillingStoreState)
+  const { id: organisationId } = organisation
 
   const pricingPlanUpgradeSteps = [
     <PricingPlanUpgradeIntro key={0} />,
@@ -57,21 +59,26 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       setSidePanelButton,
       toggleSidePanel,
       prorationsPreview,
+      isLoading,
     },
   )
 
   useAsyncEffect(async (isMounted) => {
     if (!Object.keys(profilesToUpgrade).length) return
 
-    const { res, error } = await getProrationsPreview(organizationId, profilesToUpgrade)
+    setIsLoading(true)
+    const { res, error } = await getProrationsPreview(organisationId, profilesToUpgrade)
     if (!isMounted()) return
 
     if (error) {
       setError(error)
+      setIsLoading(false)
+
       return
     }
 
     setProrationsPreview(res)
+    setIsLoading(false)
   }, [profilesToUpgrade])
 
   return (

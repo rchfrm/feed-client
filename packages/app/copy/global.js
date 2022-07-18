@@ -1,7 +1,9 @@
 
 /* eslint-disable quotes */
 import * as ROUTES from '@/app/constants/routes'
+
 import { capitalise, formatCurrency } from '@/helpers/utils'
+import { pricingNumbers } from '@/constants/pricing'
 
 export default {
   noArtists: `It looks like you haven't connected any Facebook pages yet. Please finish the sign up process [here](${ROUTES.GET_STARTED}).`,
@@ -21,19 +23,30 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
     const baseString = 'Looking to'
 
     if (section) {
-      return `${baseString} connect another profile?`
+      return `${baseString} ...?`
     }
   },
   pricingUpgradeIntroDescription: (section) => {
     if (section) {
-      return `Manage multiple Facebook pages and Instagram accounts by upgrading to <span className="text-insta font-bold">Growth</span> or <span className="text-insta font-bold">Pro</span>.
+      return `Pulvinar elementum integer enim neque volutpat ac. Volutpat est velit egestas dui id ornare arcu odio ut.
 
-      Pricing starts from £20 per month per profile.`
+      Tellus mauris a diam maecenas.`
     }
   },
-  pricingUpgradePlanIntro: (plan, monthlyCost) => `Would you like to upgrade other profiles at the same time?
+  pricingUpgradePlanIntro: (hasMultipleUpgradableProfiles, name, plan, currency) => {
+    const [planPrefix, planPeriod] = plan?.split('_') || []
+    const monthlyCost = pricingNumbers[planPrefix].monthlyCost[currency]
+    const isAnnualPricing = planPeriod === 'annual'
+    const amount = isAnnualPricing ? monthlyCost * 0.8 : monthlyCost
 
-Each profile on **${capitalise(plan)}** is charged at £${monthlyCost} per month.`,
+    if (hasMultipleUpgradableProfiles) {
+      return `Would you like to upgrade other profiles at the same time?
+
+Each profile on **${capitalise(planPrefix)}** is charged at ${formatCurrency(amount, currency, true)} per month.`
+    }
+
+    return `${name} will be upgraded to <span className="text-insta font-bold">${capitalise(planPrefix)}</span>.`
+  },
   pricingUpgradeSummary: (upgradedProfiles, amount, currency) => {
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
       if (currentPayment <= 0) return

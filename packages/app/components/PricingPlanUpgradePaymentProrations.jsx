@@ -4,6 +4,7 @@ import shallow from 'zustand/shallow'
 
 import useBillingStore from '@/app/stores/billingStore'
 
+import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 
 import { getUpgradedProfilesArray } from '@/app/helpers/billingHelpers'
@@ -17,6 +18,7 @@ const getBillingStoreState = (state) => ({
 const PricingPlanUpgradePaymentProrations = ({
   prorationsPreview,
   profilesToUpgrade,
+  isLoading,
 }) => {
   const [upgradedProfiles, setUpgradedProfiles] = React.useState([])
   const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
@@ -27,6 +29,8 @@ const PricingPlanUpgradePaymentProrations = ({
 
     setUpgradedProfiles(profiles)
   }, [organisationArtists, profilesToUpgrade, profileAmounts, currency])
+
+  if (isLoading) return <Spinner className="h-32 flex items-center" width={28} />
 
   return (
     <>

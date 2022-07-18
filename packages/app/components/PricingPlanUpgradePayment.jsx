@@ -13,13 +13,14 @@ import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
-import { pricingNumbers } from '@/constants/pricing'
 import brandColors from '@/constants/brandColors'
 
 import { formatCurrency } from '@/helpers/utils'
+import { upgradePricingPlan } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 
 const getBillingStoreState = (state) => ({
+  organisation: state.organisation,
   organisationArtists: state.organisationArtists,
 })
 
@@ -29,26 +30,60 @@ const PricingPlanUpgradePayment = ({
   profilesToUpgrade,
   setProfilesToUpgrade,
   prorationsPreview,
+  isLoadingProrations,
 }) => {
-  const { artistId, artist } = React.useContext(ArtistContext)
-  const { hasGrowthPlan } = artist
-  const [planPrefix] = profilesToUpgrade[artistId].split('_')
+  const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(false)
 
-  const monthlyCost = pricingNumbers[planPrefix]?.monthlyCost?.GBP
+  const { artistId, artist } = React.useContext(ArtistContext)
+  const { name, hasGrowthPlan } = artist
+  const plan = profilesToUpgrade[artistId]
+  const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
+
   const {
     amount = 0,
     currency,
   } = prorationsPreview || {}
 
-  const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
+  const { organisationArtists, organisation } = useBillingStore(getBillingStoreState, shallow)
+  const { id: organisationId } = organisation
 
-  const handlePayment = React.useCallback(() => {
+  React.useEffect(() => {
+    const currentProfile = organisationArtists.find((profile) => profile.id === artistId)
+
+    // Filter out current profile and profiles with a pro plan
+    const otherProfiles = organisationArtists.filter((profile) => {
+      const [planPrefix] = profile?.plan?.split('_') || []
+
+      return (profile.id !== artistId) && (planPrefix !== 'pro')
+    })
+
+    // Make sure that the currently active profile is the first item in the array
+    setUpgradableProfiles([currentProfile, ...otherProfiles])
+  }, [artistId, organisationArtists])
+
+  const upgradePlan = React.useCallback(async () => {
+    setIsLoading(true)
+    const { error } = await upgradePricingPlan(organisationId, profilesToUpgrade)
+
+    if (error) {
+      setIsLoading(false)
+      return
+    }
+
+    setIsLoading(false)
     setCurrentStep((currentStep) => currentStep + 1)
-  }, [setCurrentStep])
+  }, [setCurrentStep, profilesToUpgrade, organisationId])
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={handlePayment} trackComponentName="PricingPlanUpgradePayment" disabled={!amount}>
+      <Button
+        version="insta"
+        onClick={upgradePlan}
+        trackComponentName="PricingPlanUpgradePayment"
+        disabled={!amount}
+        loading={isLoading}
+      >
         Pay {formatCurrency(amount, currency)}
         <ArrowAltIcon
           className="ml-3"
@@ -59,22 +94,23 @@ const PricingPlanUpgradePayment = ({
     )
 
     setSidePanelButton(button)
-  }, [handlePayment, setSidePanelButton, monthlyCost, amount, currency])
+  }, [upgradePlan, setSidePanelButton, amount, currency, isLoading])
 
   return (
     <div>
-      <h2 className="mb-8 pr-12">Upgrade profiles</h2>
-      <MarkdownText markdown={copy.pricingUpgradePlanIntro(planPrefix, monthlyCost)} className="mb-8" />
-      {(hasGrowthPlan && organisationArtists.length > 1) && (
+      <h2 className="mb-8 pr-12">Upgrade profile{hasMultipleUpgradableProfiles ? 's' : ''}</h2>
+      <MarkdownText markdown={copy.pricingUpgradePlanIntro(hasMultipleUpgradableProfiles, name, plan, currency)} className="mb-8" />
+      {(hasGrowthPlan && hasMultipleUpgradableProfiles) && (
         <PricingPlanUpgradePaymentProfilesList
           profilesToUpgrade={profilesToUpgrade}
           setProfilesToUpgrade={setProfilesToUpgrade}
-          organisationArtists={organisationArtists}
+          profiles={upgradableProfiles}
         />
       )}
       <PricingPlanUpgradePaymentProrations
         prorationsPreview={prorationsPreview}
         profilesToUpgrade={profilesToUpgrade}
+        isLoading={isLoadingProrations}
       />
     </div>
   )
