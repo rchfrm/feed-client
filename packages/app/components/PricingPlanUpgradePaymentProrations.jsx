@@ -32,7 +32,7 @@ const PricingPlanUpgradePaymentProrations = ({
     <>
       <p className="font-bold">To pay today:</p>
       <MarkdownText markdown={copy.pricingUpgradeCurrentPaymentList(upgradedProfiles, currency)} className="mb-6" />
-      <p className="font-bold">Your next invoice will be for £75:</p>
+      <p className="font-bold">Your next invoice will be for:</p>
       <MarkdownText markdown={copy.pricingUpgradeNextPaymentList(upgradedProfiles, currency)} />
     </>
   )

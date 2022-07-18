@@ -48,12 +48,12 @@ const PricingPlanUpgradePayment = ({
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={handlePayment} trackComponentName="PricingPlanUpgradePayment">
+      <Button version="insta" onClick={handlePayment} trackComponentName="PricingPlanUpgradePayment" disabled={!amount}>
         Pay {formatCurrency(amount, currency)}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
-          fill={brandColors.white}
+          fill={!amount ? brandColors.greyDark : brandColors.white}
         />
       </Button>
     )

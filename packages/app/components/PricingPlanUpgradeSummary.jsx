@@ -23,7 +23,7 @@ const PricingPlanUpgradeSummary = ({
 }) => {
   const [upgradedProfiles, setUpgradedProfiles] = React.useState([])
   const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
-  const { profileAmounts, currency } = prorationsPreview || {}
+  const { profileAmounts, amount, currency } = prorationsPreview || {}
 
   React.useEffect(() => {
     const profiles = getUpgradedProfilesArray({ profilesToUpgrade, organisationArtists, profileAmounts, currency })
@@ -46,7 +46,7 @@ const PricingPlanUpgradeSummary = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">Thank you!</h2>
-      <MarkdownText markdown={copy.pricingUpgradeSummary(upgradedProfiles)} />
+      <MarkdownText markdown={copy.pricingUpgradeSummary(upgradedProfiles, amount, currency)} />
     </div>
   )
 }

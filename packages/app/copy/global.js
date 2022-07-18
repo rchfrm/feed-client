@@ -34,18 +34,23 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
   pricingUpgradePlanIntro: (plan, monthlyCost) => `Would you like to upgrade other profiles at the same time?
 
 Each profile on **${capitalise(plan)}** is charged at £${monthlyCost} per month.`,
-  pricingUpgradeSummary: (upgradedProfiles) => {
-    const [currentProfile, ...otherProfiles] = upgradedProfiles
-    const additionalUpgradesList = otherProfiles.map(({ name, plan }) => `${name} has been upgraded to <span className="text-insta font-bold">${capitalise(plan)}</span>.`)
+  pricingUpgradeSummary: (upgradedProfiles, amount, currency) => {
+    const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
+      if (currentPayment <= 0) return
 
-    return `You have paid £25.
+      return `- ${name} has been upgraded to <span className="text-insta font-bold">${capitalise(plan)}</span>.`
+    })
 
-${[currentProfile.name]} has been upgraded to <span className="text-insta font-bold">${capitalise(currentProfile.plan)}</span>.
+    return `You have paid ${formatCurrency(amount, currency)}.
 
-${additionalUpgradesList} Close this window to set an objective.`
+${list.join('\n')}
+
+Close this window to set an objective.`
   },
   pricingUpgradeCurrentPaymentList: (upgradedProfiles, currency) => {
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
+      if (currentPayment < 0) return
+
       if (!currentPayment) {
         return `- No change to ${name}`
       }
@@ -56,7 +61,9 @@ ${additionalUpgradesList} Close this window to set an objective.`
     return list.join('\n')
   },
   pricingUpgradeNextPaymentList: (upgradedProfiles, currency) => {
-    const list = upgradedProfiles.map(({ name, plan, nextPayment }) => {
+    const list = upgradedProfiles.map(({ name, plan, currentPayment, nextPayment }) => {
+      if (currentPayment <= 0) return
+
       return `- ${formatCurrency(nextPayment, currency)} for ${name} on ${capitalise(plan)}`
     })
 

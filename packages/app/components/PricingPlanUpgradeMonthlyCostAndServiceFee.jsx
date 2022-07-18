@@ -1,15 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import shallow from 'zustand/shallow'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
+import useBillingStore from '@/app/stores/billingStore'
 
 import { getCurrencySymbol } from '@/helpers/utils'
 
-const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ plan, isAnnualPricing }) => {
-  const { artistCurrency } = React.useContext(ArtistContext)
-  const currencySymbol = getCurrencySymbol(artistCurrency)
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
+})
 
-  const monthlyCost = plan.monthlyCost[artistCurrency]
+const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ plan, isAnnualPricing }) => {
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState, shallow)
+  const { currency } = defaultPaymentMethod
+  const currencySymbol = getCurrencySymbol(currency)
+
+  const monthlyCost = plan.monthlyCost[currency]
   const { serviceFeePercentage } = plan
 
   return (
