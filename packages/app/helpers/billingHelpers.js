@@ -1,7 +1,7 @@
 import get from 'lodash/get'
+import moment from 'moment'
 
 import * as api from '@/helpers/api'
-import { pricingNumbers } from '@/constants/pricing'
 
 // * PAYMENT
 // * --------------------
@@ -194,26 +194,53 @@ export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
   return `${planPrefix}_${planPeriod}`
 }
 
-// CREATE UPGRADED PROFILES ARRAY CONTAINING NAME, PLAN AND AMOUNT TO PAY
-export const getUpgradedProfilesArray = ({ profilesToUpgrade, organisationArtists, profileAmounts, currency }) => {
-  return Object.keys(profilesToUpgrade).reduce((array, id) => {
+// FORMAT PRORATIONS DATA
+export const formatProrationsPreview = ({ profilesToUpgrade, organisationArtists, prorationsPreview }) => {
+  const {
+    currency,
+    currentPeriodStart,
+    currentPeriodEnd,
+    prorations,
+    nextInvoice,
+  } = prorationsPreview
+
+  const { profileAmounts: nextInvoiceProfileAmounts } = nextInvoice
+  const { profileAmounts } = prorations
+
+  const periodStart = moment(currentPeriodStart)
+  const periodEnd = moment(currentPeriodEnd)
+  const daysInPeriod = periodEnd.diff(periodStart, 'days')
+  const today = moment()
+  const daysRemainingInPeriod = periodEnd.diff(today, 'days') + 1
+  const isFirstDayOfPeriod = daysRemainingInPeriod === daysInPeriod
+
+  const upgradedProfiles = Object.keys(profilesToUpgrade).reduce((array, id) => {
     const profile = organisationArtists.find((profile) => profile.id === id)
-    const [planPrefix, planPeriod] = profilesToUpgrade[id].split('_')
-    const isAnnualPricing = planPeriod === 'annual'
-    const monthlyCost = pricingNumbers[planPrefix].monthlyCost[currency]
-    const currentPayment = profileAmounts[id]
-    const nextPayment = isAnnualPricing ? monthlyCost * 0.8 : monthlyCost
+    const [planPrefix] = profilesToUpgrade[id].split('_')
+    const currentPayment = profileAmounts[id] || 0
+    const nextPayment = nextInvoiceProfileAmounts[id] || 0
 
     array.push({
       name: profile.name,
       plan: planPrefix,
       currentPayment,
       nextPayment,
-
     })
 
     return array
   }, [])
+
+  return {
+    currency,
+    upgradedProfiles,
+    prorations,
+    nextInvoice,
+    period: {
+      daysInPeriod,
+      daysRemainingInPeriod,
+      isFirstDayOfPeriod,
+    },
+  }
 }
 
 // * REFERRALS

@@ -35,7 +35,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   })
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
   const [error, setError] = React.useState(null)
-  const [isLoading, setIsLoading] = React.useState(false)
+  const [isLoadingProrations, setIsLoadingProrations] = React.useState(false)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
   const { defaultPaymentMethod, organisation } = useBillingStore(getBillingStoreState)
@@ -59,26 +59,26 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       setSidePanelButton,
       toggleSidePanel,
       prorationsPreview,
-      isLoading,
+      isLoadingProrations,
     },
   )
 
   useAsyncEffect(async (isMounted) => {
     if (!Object.keys(profilesToUpgrade).length) return
 
-    setIsLoading(true)
+    setIsLoadingProrations(true)
     const { res, error } = await getProrationsPreview(organisationId, profilesToUpgrade)
     if (!isMounted()) return
 
     if (error) {
       setError(error)
-      setIsLoading(false)
+      setIsLoadingProrations(false)
 
       return
     }
 
     setProrationsPreview(res)
-    setIsLoading(false)
+    setIsLoadingProrations(false)
   }, [profilesToUpgrade])
 
   return (

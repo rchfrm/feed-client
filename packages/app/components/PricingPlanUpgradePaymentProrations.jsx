@@ -7,7 +7,8 @@ import useBillingStore from '@/app/stores/billingStore'
 import Spinner from '@/elements/Spinner'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { getUpgradedProfilesArray } from '@/app/helpers/billingHelpers'
+import { formatProrationsPreview } from '@/app/helpers/billingHelpers'
+import { formatCurrency } from '@/helpers/utils'
 
 import copy from '@/app/copy/global'
 
@@ -20,30 +21,54 @@ const PricingPlanUpgradePaymentProrations = ({
   profilesToUpgrade,
   isLoading,
 }) => {
-  const [upgradedProfiles, setUpgradedProfiles] = React.useState([])
+  const [formattedProrationsPreview, setFormattedProrationsPreview] = React.useState(null)
   const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
-  const { profileAmounts, currency } = prorationsPreview || {}
+  const {
+    currency,
+    prorations: {
+      amount: prorationsAmount,
+    } = {},
+    nextInvoice: {
+      amount: nextInvoiceAmount,
+      usageAmount,
+    } = {},
+    period: {
+      isFirstDayOfPeriod,
+      daysRemainingInPeriod,
+    } = {},
+  } = formattedProrationsPreview || {}
 
   React.useEffect(() => {
-    const profiles = getUpgradedProfilesArray({ profilesToUpgrade, organisationArtists, profileAmounts, currency })
+    const formattedProrations = formatProrationsPreview({ profilesToUpgrade, organisationArtists, prorationsPreview })
 
-    setUpgradedProfiles(profiles)
-  }, [organisationArtists, profilesToUpgrade, profileAmounts, currency])
+    setFormattedProrationsPreview(formattedProrations)
+  }, [organisationArtists, profilesToUpgrade, prorationsPreview])
 
   if (isLoading) return <Spinner className="h-32 flex items-center" width={28} />
 
+  if (!formattedProrationsPreview) return
+
   return (
     <>
-      <p className="font-bold">To pay today:</p>
-      <MarkdownText markdown={copy.pricingUpgradeCurrentPaymentList(upgradedProfiles, currency)} className="mb-6" />
-      <p className="font-bold">Your next invoice will be for:</p>
-      <MarkdownText markdown={copy.pricingUpgradeNextPaymentList(upgradedProfiles, currency)} />
+      <div className="mb-8">
+        <MarkdownText markdown={copy.pricingUpgradeCurrentPaymentList(formattedProrationsPreview, currency)} className="mb-6" />
+        {!isFirstDayOfPeriod && prorationsAmount > 0 && <p className="text-xs">^Covering the remaining {daysRemainingInPeriod} {daysRemainingInPeriod > 1 ? 'days' : 'day'} of the current billing period.</p>}
+      </div>
+      {nextInvoiceAmount > 0 && (
+        <>
+          <MarkdownText markdown={copy.pricingUpgradeNextPaymentList(formattedProrationsPreview, currency)} />
+          <p className="text-xs">*Covering the next billing period.</p>
+          <p>Each subsequent monthly invoice will be for {formatCurrency(usageAmount ? nextInvoiceAmount - usageAmount : nextInvoiceAmount, currency)}.</p>
+        </>
+      )}
     </>
   )
 }
 
 PricingPlanUpgradePaymentProrations.propTypes = {
   prorationsPreview: PropTypes.object.isRequired,
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.string).isRequired,
+  isLoading: PropTypes.bool.isRequired,
 }
 
 PricingPlanUpgradePaymentProrations.defaultProps = {

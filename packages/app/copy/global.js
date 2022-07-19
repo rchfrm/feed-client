@@ -45,9 +45,70 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
 Each profile on **${capitalise(planPrefix)}** is charged at ${formatCurrency(amount, currency, true)} per month.`
     }
 
-    return `${name} will be upgraded to <span className="text-insta font-bold">${capitalise(planPrefix)}</span>.`
+    return `### **Final confirmation**
+
+${name} will be upgraded to <span className="text-insta font-bold">${capitalise(planPrefix)}</span>.`
   },
-  pricingUpgradeSummary: (upgradedProfiles, amount, currency) => {
+  pricingUpgradeCurrentPaymentList: (prorationsPreview, currency) => {
+    const {
+      upgradedProfiles,
+      period: {
+        isFirstDayOfPeriod,
+      },
+    } = prorationsPreview
+
+    const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
+      if (currentPayment < 0) return
+
+      if (!currentPayment) {
+        return `- No change to ${name}`
+      }
+
+      return `- ${formatCurrency(currentPayment, currency)} to upgrade ${name} to <span className="text-insta font-bold">${capitalise(plan)}</span>${!isFirstDayOfPeriod ? '^' : ''}`
+    })
+
+    return `**To pay today:**
+
+${list.join('\n')}`
+  },
+  pricingUpgradeNextPaymentList: (prorationsPreview, currency) => {
+    const {
+      upgradedProfiles,
+      nextInvoice: {
+        amount,
+        usageAmount,
+      },
+      period: {
+        daysInPeriod,
+        daysRemainingInPeriod,
+      },
+    } = prorationsPreview
+
+    const daysPassedInPeriod = daysInPeriod - daysRemainingInPeriod
+
+    const list = upgradedProfiles.map(({ name, plan, currentPayment, nextPayment }) => {
+      if (currentPayment === 0) return
+
+      return `- ${formatCurrency(nextPayment, currency)} for ${name} on <span className="text-insta font-bold">${capitalise(plan)}</span>*`
+    })
+
+    if (usageAmount) {
+      list.push(`- ${formatCurrency(usageAmount, currency)} service fee from Basic plan during first ${daysPassedInPeriod} ${daysPassedInPeriod > 1 ? 'days' : 'day'} of current billing period`)
+    }
+
+    return `**Your next invoice will be for ${formatCurrency(amount, currency)}:**
+
+${list.join('\n')}`
+  },
+  pricingUpgradeSummary: (prorationsPreview) => {
+    const {
+      currency,
+      upgradedProfiles,
+      prorations: {
+        amount,
+      },
+    } = prorationsPreview
+
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
       if (currentPayment <= 0) return
 
@@ -59,28 +120,6 @@ Each profile on **${capitalise(planPrefix)}** is charged at ${formatCurrency(amo
 ${list.join('\n')}
 
 Close this window to set an objective.`
-  },
-  pricingUpgradeCurrentPaymentList: (upgradedProfiles, currency) => {
-    const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
-      if (currentPayment < 0) return
-
-      if (!currentPayment) {
-        return `- No change to ${name}`
-      }
-
-      return `- ${formatCurrency(currentPayment, currency)} to upgrade ${name} to ${capitalise(plan)}`
-    })
-
-    return list.join('\n')
-  },
-  pricingUpgradeNextPaymentList: (upgradedProfiles, currency) => {
-    const list = upgradedProfiles.map(({ name, plan, currentPayment, nextPayment }) => {
-      if (currentPayment <= 0) return
-
-      return `- ${formatCurrency(nextPayment, currency)} for ${name} on ${capitalise(plan)}`
-    })
-
-    return list.join('\n')
   },
   disabledReason: (section, hasSetUpProfile, hasOverflow) => {
     const shouldUpgradeToPro = section === 'facebook-pixel' || section === 'objective-sales'

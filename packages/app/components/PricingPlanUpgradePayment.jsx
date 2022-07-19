@@ -40,27 +40,10 @@ const PricingPlanUpgradePayment = ({
   const plan = profilesToUpgrade[artistId]
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
 
-  const {
-    amount = 0,
-    currency,
-  } = prorationsPreview || {}
+  const { currency, prorations: { amount = 0 } } = prorationsPreview || {}
 
   const { organisationArtists, organisation } = useBillingStore(getBillingStoreState, shallow)
   const { id: organisationId } = organisation
-
-  React.useEffect(() => {
-    const currentProfile = organisationArtists.find((profile) => profile.id === artistId)
-
-    // Filter out current profile and profiles with a pro plan
-    const otherProfiles = organisationArtists.filter((profile) => {
-      const [planPrefix] = profile?.plan?.split('_') || []
-
-      return (profile.id !== artistId) && (planPrefix !== 'pro')
-    })
-
-    // Make sure that the currently active profile is the first item in the array
-    setUpgradableProfiles([currentProfile, ...otherProfiles])
-  }, [artistId, organisationArtists])
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
@@ -96,6 +79,35 @@ const PricingPlanUpgradePayment = ({
     setSidePanelButton(button)
   }, [upgradePlan, setSidePanelButton, amount, currency, isLoading])
 
+  React.useEffect(() => {
+    // Get the current profile
+    const currentProfile = organisationArtists.find((profile) => profile.id === artistId)
+
+    // Filter out the current profile and profiles with a pro plan
+    const otherProfiles = organisationArtists.filter((profile) => {
+      const [planPrefix] = profile?.plan?.split('_') || []
+
+      return (profile.id !== artistId) && (planPrefix !== 'pro')
+    })
+
+    // Make sure that the currently active profile is the first item in the array
+    setUpgradableProfiles([currentProfile, ...otherProfiles])
+
+    // Create plans object keyed by profile id
+    const otherProfilesPlans = otherProfiles.reduce((result, { id, plan }) => {
+      return {
+        ...result,
+        [id]: plan,
+      }
+    }, {})
+
+    // Update the profiles to upgrade state
+    setProfilesToUpgrade((profilesToUpgrade) => ({
+      ...profilesToUpgrade,
+      ...otherProfilesPlans,
+    }))
+  }, [artistId, organisationArtists, setProfilesToUpgrade])
+
   return (
     <div>
       <h2 className="mb-8 pr-12">Upgrade profile{hasMultipleUpgradableProfiles ? 's' : ''}</h2>
@@ -122,6 +134,7 @@ PricingPlanUpgradePayment.propTypes = {
   profilesToUpgrade: PropTypes.object,
   setProfilesToUpgrade: PropTypes.func,
   prorationsPreview: PropTypes.object,
+  isLoadingProrations: PropTypes.bool,
 }
 
 PricingPlanUpgradePayment.defaultProps = {
@@ -130,6 +143,7 @@ PricingPlanUpgradePayment.defaultProps = {
   profilesToUpgrade: null,
   setProfilesToUpgrade: () => {},
   prorationsPreview: null,
+  isLoadingProrations: false,
 }
 
 export default PricingPlanUpgradePayment

@@ -7,7 +7,7 @@ import useBillingStore from '@/app/stores/billingStore'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { getUpgradedProfilesArray } from '@/app/helpers/billingHelpers'
+import { formatProrationsPreview } from '@/app/helpers/billingHelpers'
 
 import copy from '@/app/copy/global'
 
@@ -21,15 +21,14 @@ const PricingPlanUpgradeSummary = ({
   profilesToUpgrade,
   prorationsPreview,
 }) => {
-  const [upgradedProfiles, setUpgradedProfiles] = React.useState([])
+  const [formattedProrationsPreview, setFormattedProrationsPreview] = React.useState(null)
   const { organisationArtists } = useBillingStore(getBillingStoreState, shallow)
-  const { profileAmounts, amount, currency } = prorationsPreview || {}
 
   React.useEffect(() => {
-    const profiles = getUpgradedProfilesArray({ profilesToUpgrade, organisationArtists, profileAmounts, currency })
+    const formattedProrations = formatProrationsPreview({ profilesToUpgrade, organisationArtists, prorationsPreview })
 
-    setUpgradedProfiles(profiles)
-  }, [organisationArtists, profilesToUpgrade, profileAmounts, currency])
+    setFormattedProrationsPreview(formattedProrations)
+  }, [organisationArtists, profilesToUpgrade, prorationsPreview])
 
   const closeSidePanel = React.useCallback(() => {
     toggleSidePanel(false)
@@ -41,12 +40,12 @@ const PricingPlanUpgradeSummary = ({
     setSidePanelButton(button)
   }, [closeSidePanel, setSidePanelButton])
 
-  if (!upgradedProfiles.length) return
+  if (!formattedProrationsPreview) return
 
   return (
     <div>
       <h2 className="mb-8 pr-12">Thank you!</h2>
-      <MarkdownText markdown={copy.pricingUpgradeSummary(upgradedProfiles, amount, currency)} />
+      <MarkdownText markdown={copy.pricingUpgradeSummary(formattedProrationsPreview)} />
     </div>
   )
 }
@@ -55,6 +54,7 @@ PricingPlanUpgradeSummary.propTypes = {
   setSidePanelButton: PropTypes.func,
   toggleSidePanel: PropTypes.func,
   profilesToUpgrade: PropTypes.objectOf(PropTypes.string),
+  prorationsPreview: PropTypes.object,
 
 }
 
@@ -62,6 +62,7 @@ PricingPlanUpgradeSummary.defaultProps = {
   setSidePanelButton: () => {},
   toggleSidePanel: () => {},
   profilesToUpgrade: null,
+  prorationsPreview: null,
 }
 
 export default PricingPlanUpgradeSummary
