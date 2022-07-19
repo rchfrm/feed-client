@@ -58,7 +58,7 @@ ${name} will be upgraded to <span className="text-insta font-bold">${capitalise(
     } = prorationsPreview
 
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
-      if (currentPayment < 0) return
+      if (!currentPayment && plan === 'pro') return
 
       if (!currentPayment) {
         return `- No change to ${name}`
@@ -86,9 +86,7 @@ ${list.join('\n')}`
 
     const daysPassedInPeriod = daysInPeriod - daysRemainingInPeriod
 
-    const list = upgradedProfiles.map(({ name, plan, currentPayment, nextPayment }) => {
-      if (currentPayment === 0) return
-
+    const list = upgradedProfiles.map(({ name, plan, nextPayment }) => {
       return `- ${formatCurrency(nextPayment, currency)} for ${name} on <span className="text-insta font-bold">${capitalise(plan)}</span>*`
     })
 

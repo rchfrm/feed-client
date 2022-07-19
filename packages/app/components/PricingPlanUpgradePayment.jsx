@@ -35,7 +35,7 @@ const PricingPlanUpgradePayment = ({
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const { artistId, artist } = React.useContext(ArtistContext)
+  const { artistId, artist, setPlan } = React.useContext(ArtistContext)
   const { name, hasGrowthPlan } = artist
   const plan = profilesToUpgrade[artistId]
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
@@ -54,9 +54,10 @@ const PricingPlanUpgradePayment = ({
       return
     }
 
+    setPlan(plan)
     setIsLoading(false)
     setCurrentStep((currentStep) => currentStep + 1)
-  }, [setCurrentStep, profilesToUpgrade, organisationId])
+  }, [setCurrentStep, profilesToUpgrade, organisationId, plan, setPlan])
 
   React.useEffect(() => {
     const button = (
@@ -83,15 +84,18 @@ const PricingPlanUpgradePayment = ({
     // Get the current profile
     const currentProfile = organisationArtists.find((profile) => profile.id === artistId)
 
-    // Filter out the current profile and profiles with a pro plan
-    const otherProfiles = organisationArtists.filter((profile) => {
+    // Filter out the current profile
+    const otherProfiles = organisationArtists.filter((profile) => profile.id !== artistId)
+
+    // Filter out profiles with a pro plan
+    const filteredProfiles = otherProfiles.filter((profile) => {
       const [planPrefix] = profile?.plan?.split('_') || []
 
-      return (profile.id !== artistId) && (planPrefix !== 'pro')
+      return planPrefix !== 'pro'
     })
 
     // Make sure that the currently active profile is the first item in the array
-    setUpgradableProfiles([currentProfile, ...otherProfiles])
+    setUpgradableProfiles([currentProfile, ...filteredProfiles])
 
     // Create plans object keyed by profile id
     const otherProfilesPlans = otherProfiles.reduce((result, { id, plan }) => {
