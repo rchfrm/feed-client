@@ -29,7 +29,7 @@ const PricingPlanUpgradePaymentProrations = ({
 
   const subsequentMonthlyAmount = usageAmount ? nextInvoiceAmount - usageAmount : nextInvoiceAmount
 
-  if (isLoading) return <Spinner className="h-32 flex items-center" width={28} />
+  if (isLoading) return <Spinner className="h-40 flex items-center" width={28} />
 
   if (!prorationsPreview) return
 

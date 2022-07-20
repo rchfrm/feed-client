@@ -67,7 +67,7 @@ function Main({ children }) {
     if (!artistId || artistLoading || Object.keys(organisation).length > 0) return
 
     const { currency: artistCurrency } = minDailyBudgetInfo || {}
-    setupBilling({ user, artistCurrency })
+    setupBilling({ user, artistCurrency, shouldFetchOrganisationDetailsOnly: true })
   // eslint-disable-next-line
   }, [artistId, artistLoading, organisation])
 
