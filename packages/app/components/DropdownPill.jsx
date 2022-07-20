@@ -10,7 +10,6 @@ const DropdownPill = ({
   selectedItem,
   handleItemClick,
   className,
-  buttonClassName,
   disabled,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -47,7 +46,6 @@ const DropdownPill = ({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={[
-          buttonClassName,
           'flex items-center',
           'px-2 py-1 text-xs',
           'border-2 border-solid rounded-full',
@@ -97,13 +95,11 @@ DropdownPill.propTypes = {
   handleItemClick: PropTypes.func.isRequired,
   selectedItem: PropTypes.string.isRequired,
   className: PropTypes.string,
-  buttonClassName: PropTypes.string,
   disabled: PropTypes.bool,
 }
 
 DropdownPill.defaultProps = {
   className: null,
-  buttonClassName: null,
   disabled: false,
 }
 

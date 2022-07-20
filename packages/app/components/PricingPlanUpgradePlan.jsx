@@ -32,13 +32,13 @@ const PricingPlanUpgradePlan = ({
     setPricingPlan(plan)
   }
 
-  const handleUpgrade = React.useCallback(() => {
+  const next = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
   }, [setCurrentStep])
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={handleUpgrade} disabled={isDisabled} trackComponentName="PricingPlanUpgradePlan">
+      <Button version="insta" onClick={next} disabled={isDisabled} trackComponentName="PricingPlanUpgradePlan">
         Upgrade to {capitalise(pricingPlan)}
         <ArrowAltIcon
           className="ml-3"
@@ -49,7 +49,7 @@ const PricingPlanUpgradePlan = ({
     )
 
     setSidePanelButton(button)
-  }, [handleUpgrade, setSidePanelButton, pricingPlan, isDisabled])
+  }, [next, setSidePanelButton, pricingPlan, isDisabled])
 
   // Update the profiles to upgrade state
   React.useEffect(() => {

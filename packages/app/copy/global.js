@@ -28,9 +28,7 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
   },
   pricingUpgradeIntroDescription: (section) => {
     if (section) {
-      return `Pulvinar elementum integer enim neque volutpat ac. Volutpat est velit egestas dui id ornare arcu odio ut.
-
-      Tellus mauris a diam maecenas.`
+      return `Description ...`
     }
   },
   pricingUpgradePlanIntro: (hasMultipleUpgradableProfiles, name, plan, currency) => {
@@ -50,19 +48,11 @@ Each profile on **${capitalise(planPrefix)}** is charged at ${formatCurrency(amo
 ${name} will be upgraded to <span className="text-insta font-bold">${capitalise(planPrefix)}</span>.`
   },
   pricingUpgradeCurrentPaymentList: (prorationsPreview, currency) => {
-    const {
-      upgradedProfiles,
-      period: {
-        isFirstDayOfPeriod,
-      },
-    } = prorationsPreview
+    const { upgradedProfiles, period: { isFirstDayOfPeriod } } = prorationsPreview
 
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
       if (!currentPayment && plan === 'pro') return
-
-      if (!currentPayment) {
-        return `- No change to ${name}`
-      }
+      if (!currentPayment) return `- No change to ${name}`
 
       return `- ${formatCurrency(currentPayment, currency)} to upgrade ${name} to <span className="text-insta font-bold">${capitalise(plan)}</span>${!isFirstDayOfPeriod ? '^' : ''}`
     })
@@ -117,7 +107,7 @@ ${list.join('\n')}`
 
 ${list.join('\n')}
 
-Close this window to set an objective.`
+Close this window to ...`
   },
   disabledReason: (section, hasSetUpProfile, hasOverflow) => {
     const shouldUpgradeToPro = section === 'facebook-pixel' || section === 'objective-sales'

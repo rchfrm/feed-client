@@ -46,7 +46,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   } = useBillingStore(getBillingStoreState)
   const { id: organisationId } = organisation
 
-  // Define plan upgrade flow steps
+  // Define steps of plan upgrade flow
   const pricingPlanUpgradeSteps = React.useMemo(() => [
     <PricingPlanUpgradeIntro key={0} />,
     ...(!hasGrowthPlan ? [<PricingPlanUpgradePlan key={1} />] : []),
@@ -69,6 +69,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       prorationsPreview,
       isLoadingProrations,
       error,
+      setError,
     },
   )
 

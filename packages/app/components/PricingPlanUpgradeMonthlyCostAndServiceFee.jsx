@@ -55,4 +55,3 @@ PricingPlanUpgradeMonthlyCostAndServiceFee.defaultProps = {
 }
 
 export default PricingPlanUpgradeMonthlyCostAndServiceFee
-

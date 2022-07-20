@@ -22,7 +22,7 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   const handleOnChange = (plan) => {
     setSelectedPlan(plan)
 
-    // Update the profiles to upgrade state
+    // Update the 'profiles to upgrade' state
     setProfilesToUpgrade((profilesToUpgrade) => ({
       ...profilesToUpgrade,
       [id]: getPricingPlanString(plan, isAnnualPricing),

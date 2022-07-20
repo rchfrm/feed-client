@@ -33,6 +33,7 @@ const PricingPlanUpgradePayment = ({
   prorationsPreview,
   isLoadingProrations,
   error,
+  setError,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
@@ -57,7 +58,9 @@ const PricingPlanUpgradePayment = ({
     const { res: organisationArtists, error } = await upgradePricingPlan(organisationId, profilesToUpgrade)
 
     if (error) {
+      setError(error)
       setIsLoading(false)
+
       return
     }
 
@@ -69,7 +72,7 @@ const PricingPlanUpgradePayment = ({
 
     setCurrentStep((currentStep) => currentStep + 1)
     setIsLoading(false)
-  }, [setCurrentStep, profilesToUpgrade, organisationId, plan, setPlan, updateOrganisationArtists])
+  }, [setCurrentStep, profilesToUpgrade, organisationId, plan, setPlan, updateOrganisationArtists, setError])
 
   React.useEffect(() => {
     const button = (
@@ -117,7 +120,7 @@ const PricingPlanUpgradePayment = ({
       }
     }, {})
 
-    // Update the profiles to upgrade state
+    // Update the 'profiles to upgrade' state
     setProfilesToUpgrade((profilesToUpgrade) => ({
       ...profilesToUpgrade,
       ...otherProfilesPlans,
@@ -152,6 +155,7 @@ PricingPlanUpgradePayment.propTypes = {
   prorationsPreview: PropTypes.object,
   isLoadingProrations: PropTypes.bool,
   error: PropTypes.object,
+  setError: PropTypes.func,
 }
 
 PricingPlanUpgradePayment.defaultProps = {
@@ -162,6 +166,7 @@ PricingPlanUpgradePayment.defaultProps = {
   prorationsPreview: null,
   isLoadingProrations: false,
   error: null,
+  setError: () => {},
 }
 
 export default PricingPlanUpgradePayment

@@ -63,4 +63,3 @@ PricingPlanUpgradeIntro.defaultProps = {
 }
 
 export default PricingPlanUpgradeIntro
-
