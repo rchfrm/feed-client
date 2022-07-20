@@ -55,6 +55,7 @@ const TargetingBudgetBox = ({
       hasSetUpProfile,
       hasGrowthPlan,
       hasProPlan,
+      hasLegacyPlan,
     },
   } = React.useContext(ArtistContext)
 
@@ -66,7 +67,7 @@ const TargetingBudgetBox = ({
   const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
   const mayHitGrowthTierMaxBudget = hasGrowthPlan && !hasProPlan && targetingState.budget > growthTierMaxDailyBudget
-  const mayHitProTierMaxBudget = hasProPlan && targetingState.budget > proTierMaxDailyBudget
+  const mayHitProTierMaxBudget = hasProPlan && !hasLegacyPlan && targetingState.budget > proTierMaxDailyBudget
 
   const budgetData = {
     currency: currencyCode,
@@ -75,8 +76,9 @@ const TargetingBudgetBox = ({
     minRecommendedStoriesString,
   }
 
-
   React.useEffect(() => {
+    if (!hasSetUpProfile) return
+
     if (hasBudgetBelowMinRecommendedStories || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget) {
       setShouldShowWarning(true)
     }
@@ -84,7 +86,7 @@ const TargetingBudgetBox = ({
     if (!hasBudgetBelowMinRecommendedStories && !mayHitGrowthTierMaxBudget && !mayHitProTierMaxBudget) {
       setShouldShowWarning(false)
     }
-  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget])
+  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile])
 
   return (
     <>

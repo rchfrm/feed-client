@@ -39,6 +39,7 @@ const initialArtistState = {
   hasSetUpProfile: false,
   hasGrowthPlan: false,
   hasProPlan: false,
+  hasLegacyPlan: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -158,6 +159,7 @@ function ArtistProvider({ children }) {
     // Set pricing plan booleans
     const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan)
     const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
+    const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
@@ -170,6 +172,7 @@ function ArtistProvider({ children }) {
       artistDraft.hasSetUpProfile = hasSetUpProfile
       artistDraft.hasGrowthPlan = hasGrowthPlan
       artistDraft.hasProPlan = hasProPlan
+      artistDraft.hasLegacyPlan = hasLegacyPlan
     })
 
     // Set hasBudget state
