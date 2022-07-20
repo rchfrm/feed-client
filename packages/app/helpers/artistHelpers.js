@@ -700,6 +700,12 @@ export const hasProPlan = (plan) => {
   return plan.includes('pro') || plan.includes('legacy')
 }
 
+export const hasLegacyPlan = (plan) => {
+  if (!plan) return false
+
+  return plan.includes('legacy')
+}
+
 // Update artist
 /**
 * @param {string} artistId
