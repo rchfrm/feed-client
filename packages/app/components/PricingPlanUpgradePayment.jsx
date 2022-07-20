@@ -22,6 +22,7 @@ import copy from '@/app/copy/global'
 const getBillingStoreState = (state) => ({
   organisation: state.organisation,
   organisationArtists: state.organisationArtists,
+  updateOrganisationArtists: state.updateOrganisationArtists,
 })
 
 const PricingPlanUpgradePayment = ({
@@ -44,22 +45,31 @@ const PricingPlanUpgradePayment = ({
   const { currency, prorations: { amount = 0 } } = prorationsPreview || {}
   const isDisabled = !amount || Boolean(error)
 
-  const { organisationArtists, organisation } = useBillingStore(getBillingStoreState, shallow)
+  const {
+    organisationArtists,
+    organisation,
+    updateOrganisationArtists,
+  } = useBillingStore(getBillingStoreState, shallow)
   const { id: organisationId } = organisation
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
-    const { error } = await upgradePricingPlan(organisationId, profilesToUpgrade)
+    const { res: organisationArtists, error } = await upgradePricingPlan(organisationId, profilesToUpgrade)
 
     if (error) {
       setIsLoading(false)
       return
     }
 
+    // Update plan in artist context
     setPlan(plan)
-    setIsLoading(false)
+
+    // Update organisation artists in billing store
+    updateOrganisationArtists(organisationArtists)
+
     setCurrentStep((currentStep) => currentStep + 1)
-  }, [setCurrentStep, profilesToUpgrade, organisationId, plan, setPlan])
+    setIsLoading(false)
+  }, [setCurrentStep, profilesToUpgrade, organisationId, plan, setPlan, updateOrganisationArtists])
 
   React.useEffect(() => {
     const button = (

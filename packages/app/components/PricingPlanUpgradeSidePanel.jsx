@@ -47,13 +47,14 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { id: organisationId } = organisation
 
   // Define plan upgrade flow steps
-  const pricingPlanUpgradeSteps = [
+  const pricingPlanUpgradeSteps = React.useMemo(() => [
     <PricingPlanUpgradeIntro key={0} />,
     ...(!hasGrowthPlan ? [<PricingPlanUpgradePlan key={1} />] : []),
     ...(!defaultPaymentMethod ? [<PricingPlanUpgradePaymentMethod key={2} />] : []),
     <PricingPlanUpgradePayment key={3} />,
     <PricingPlanUpgradeSummary key={4} />,
-  ]
+  // eslint-disable-next-line
+  ], [])
 
   // Pass additional props to every step component
   const StepComponent = React.cloneElement(
