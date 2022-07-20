@@ -18,6 +18,7 @@ const PricingPlanUpgradePlan = ({
   setCurrentStep,
   setSidePanelButton,
   setProfilesToUpgrade,
+  error,
 }) => {
   const [pricingPlan, setPricingPlan] = React.useState('growth')
 
@@ -25,6 +26,7 @@ const PricingPlanUpgradePlan = ({
   const { name } = artist
   const features = pricingPlans.find(({ name }) => name === pricingPlan)?.features
   const { growth: growthPlan, pro: proPlan } = pricingNumbers
+  const isDisabled = Boolean(error)
 
   const handleChange = (plan) => {
     setPricingPlan(plan)
@@ -36,18 +38,18 @@ const PricingPlanUpgradePlan = ({
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={handleUpgrade} trackComponentName="PricingPlanUpgradePlan">
+      <Button version="insta" onClick={handleUpgrade} disabled={isDisabled} trackComponentName="PricingPlanUpgradePlan">
         Upgrade to {capitalise(pricingPlan)}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
-          fill={brandColors.white}
+          fill={isDisabled ? brandColors.greyDark : brandColors.white}
         />
       </Button>
     )
 
     setSidePanelButton(button)
-  }, [handleUpgrade, setSidePanelButton, pricingPlan])
+  }, [handleUpgrade, setSidePanelButton, pricingPlan, isDisabled])
 
   // Update the profiles to upgrade state
   React.useEffect(() => {
@@ -82,12 +84,14 @@ PricingPlanUpgradePlan.propTypes = {
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
   setProfilesToUpgrade: PropTypes.func,
+  error: PropTypes.object,
 }
 
 PricingPlanUpgradePlan.defaultProps = {
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
   setProfilesToUpgrade: () => {},
+  error: null,
 }
 
 export default PricingPlanUpgradePlan

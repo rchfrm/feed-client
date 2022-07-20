@@ -67,6 +67,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       toggleSidePanel,
       prorationsPreview,
       isLoadingProrations,
+      error,
     },
   )
 
@@ -75,6 +76,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     if (!Object.keys(profilesToUpgrade).length) return
 
     setIsLoadingProrations(true)
+    setError(null)
 
     const { res: prorationsPreview, error } = await getProrationsPreview(organisationId, profilesToUpgrade)
     if (!isMounted()) return

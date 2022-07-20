@@ -31,6 +31,7 @@ const PricingPlanUpgradePayment = ({
   setProfilesToUpgrade,
   prorationsPreview,
   isLoadingProrations,
+  error,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
@@ -41,6 +42,7 @@ const PricingPlanUpgradePayment = ({
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
 
   const { currency, prorations: { amount = 0 } } = prorationsPreview || {}
+  const isDisabled = !amount || Boolean(error)
 
   const { organisationArtists, organisation } = useBillingStore(getBillingStoreState, shallow)
   const { id: organisationId } = organisation
@@ -65,20 +67,20 @@ const PricingPlanUpgradePayment = ({
         version="insta"
         onClick={upgradePlan}
         trackComponentName="PricingPlanUpgradePayment"
-        disabled={!amount}
+        disabled={isDisabled}
         loading={isLoading}
       >
         Pay {formatCurrency(amount, currency)}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
-          fill={!amount ? brandColors.greyDark : brandColors.white}
+          fill={isDisabled ? brandColors.greyDark : brandColors.white}
         />
       </Button>
     )
 
     setSidePanelButton(button)
-  }, [upgradePlan, setSidePanelButton, amount, currency, isLoading])
+  }, [upgradePlan, setSidePanelButton, amount, isDisabled, currency, isLoading])
 
   React.useEffect(() => {
     // Get the current profile
@@ -139,6 +141,7 @@ PricingPlanUpgradePayment.propTypes = {
   setProfilesToUpgrade: PropTypes.func,
   prorationsPreview: PropTypes.object,
   isLoadingProrations: PropTypes.bool,
+  error: PropTypes.object,
 }
 
 PricingPlanUpgradePayment.defaultProps = {
@@ -148,6 +151,7 @@ PricingPlanUpgradePayment.defaultProps = {
   setProfilesToUpgrade: () => {},
   prorationsPreview: null,
   isLoadingProrations: false,
+  error: null,
 }
 
 export default PricingPlanUpgradePayment
