@@ -15,10 +15,11 @@ import PricingPlanUpgradeSummary from '@/app/PricingPlanUpgradeSummary'
 
 import Error from '@/elements/Error'
 
-import { getPricingPlanString, getProrationsPreview } from '@/app/helpers/billingHelpers'
+import { getPricingPlanString, getProrationsPreview, formatProrationsPreview } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   organisation: state.organisation,
+  organisationArtists: state.organisationArtists,
   defaultPaymentMethod: state.defaultPaymentMethod,
 })
 
@@ -38,9 +39,14 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const [isLoadingProrations, setIsLoadingProrations] = React.useState(false)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
-  const { defaultPaymentMethod, organisation } = useBillingStore(getBillingStoreState)
+  const {
+    defaultPaymentMethod,
+    organisation,
+    organisationArtists,
+  } = useBillingStore(getBillingStoreState)
   const { id: organisationId } = organisation
 
+  // Define plan upgrade flow steps
   const pricingPlanUpgradeSteps = [
     <PricingPlanUpgradeIntro key={0} />,
     ...(!hasGrowthPlan ? [<PricingPlanUpgradePlan key={1} />] : []),
@@ -49,6 +55,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     <PricingPlanUpgradeSummary key={4} />,
   ]
 
+  // Pass additional props to every step component
   const StepComponent = React.cloneElement(
     pricingPlanUpgradeSteps[currentStep],
     {
@@ -63,11 +70,13 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     },
   )
 
+  // Fetch and format prorations preview when the profilesToUpgrade object changes
   useAsyncEffect(async (isMounted) => {
     if (!Object.keys(profilesToUpgrade).length) return
 
     setIsLoadingProrations(true)
-    const { res, error } = await getProrationsPreview(organisationId, profilesToUpgrade)
+
+    const { res: prorationsPreview, error } = await getProrationsPreview(organisationId, profilesToUpgrade)
     if (!isMounted()) return
 
     if (error) {
@@ -77,7 +86,9 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       return
     }
 
-    setProrationsPreview(res)
+    const formattedProrations = formatProrationsPreview({ profilesToUpgrade, organisationArtists, prorationsPreview })
+
+    setProrationsPreview(formattedProrations)
     setIsLoadingProrations(false)
   }, [profilesToUpgrade])
 

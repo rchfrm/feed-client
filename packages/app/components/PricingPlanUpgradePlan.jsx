@@ -49,6 +49,7 @@ const PricingPlanUpgradePlan = ({
     setSidePanelButton(button)
   }, [handleUpgrade, setSidePanelButton, pricingPlan])
 
+  // Update the profiles to upgrade state
   React.useEffect(() => {
     setProfilesToUpgrade({ [artistId]: getPricingPlanString(pricingPlan, false) })
   }, [pricingPlan, artistId, setProfilesToUpgrade])
