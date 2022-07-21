@@ -43,7 +43,7 @@ const PricingPlanUpgradePayment = ({
   const plan = profilesToUpgrade[artistId]
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
 
-  const { currency, prorations: { amount = 0 } } = prorationsPreview || {}
+  const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
   const isDisabled = !amount || Boolean(error)
 
   const {
@@ -55,7 +55,7 @@ const PricingPlanUpgradePayment = ({
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
-    const { res: organisationArtists, error } = await upgradePricingPlan(organisationId, profilesToUpgrade)
+    const { res: { profiles }, error } = await upgradePricingPlan(organisationId, profilesToUpgrade)
 
     if (error) {
       setError(error)
@@ -68,7 +68,7 @@ const PricingPlanUpgradePayment = ({
     setPlan(plan)
 
     // Update organisation artists in billing store
-    updateOrganisationArtists(organisationArtists)
+    updateOrganisationArtists(profiles)
 
     setCurrentStep((currentStep) => currentStep + 1)
     setIsLoading(false)
