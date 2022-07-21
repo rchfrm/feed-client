@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useAsyncEffect from 'use-async-effect'
 
 import useBillingStore from '@/app/stores/billingStore'
 
@@ -15,16 +14,14 @@ import PricingPlanUpgradeSummary from '@/app/PricingPlanUpgradeSummary'
 
 import Error from '@/elements/Error'
 
-import { getPricingPlanString, getProrationsPreview, formatProrationsPreview } from '@/app/helpers/billingHelpers'
+import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
-  organisationArtists: state.organisationArtists,
   defaultPaymentMethod: state.defaultPaymentMethod,
 })
 
 const PricingPlanUpgradeSidePanel = ({ section }) => {
-  const { artistId, artist } = React.useContext(ArtistContext)
+  const { artist } = React.useContext(ArtistContext)
 
   const { hasGrowthPlan } = artist
   const [, planPeriod] = artist.plan.split('_') || []
@@ -32,20 +29,13 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const isUpgradeToPro = hasGrowthPlan || section === 'facebook-pixel'
 
   const [currentStep, setCurrentStep] = React.useState(0)
-  const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({
-    [artistId]: getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing),
-  })
+  const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({})
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
+  const [plan, setPlan] = React.useState(getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing))
   const [error, setError] = React.useState(null)
-  const [isLoadingProrations, setIsLoadingProrations] = React.useState(false)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
-  const {
-    defaultPaymentMethod,
-    organisation,
-    organisationArtists,
-  } = useBillingStore(getBillingStoreState)
-  const { id: organisationId } = organisation
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
   // Define steps of plan upgrade flow
   const pricingPlanUpgradeSteps = React.useMemo(() => [
@@ -62,40 +52,19 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     pricingPlanUpgradeSteps[currentStep],
     {
       section,
+      plan,
+      setPlan,
       profilesToUpgrade,
       setProfilesToUpgrade,
+      prorationsPreview,
+      setProrationsPreview,
       setCurrentStep,
       setSidePanelButton,
       toggleSidePanel,
-      prorationsPreview,
-      isLoadingProrations,
       error,
       setError,
     },
   )
-
-  // Fetch and format prorations preview when the profilesToUpgrade object changes
-  useAsyncEffect(async (isMounted) => {
-    if (!Object.keys(profilesToUpgrade).length) return
-
-    setIsLoadingProrations(true)
-    setError(null)
-
-    const { res: prorationsPreview, error } = await getProrationsPreview(organisationId, profilesToUpgrade)
-    if (!isMounted()) return
-
-    if (error) {
-      setError(error)
-      setIsLoadingProrations(false)
-
-      return
-    }
-
-    const formattedProrations = formatProrationsPreview({ profilesToUpgrade, organisationArtists, prorationsPreview })
-
-    setProrationsPreview(formattedProrations)
-    setIsLoadingProrations(false)
-  }, [profilesToUpgrade])
 
   return (
     <>

@@ -12,6 +12,7 @@ import useBillingStore from '@/app/stores/billingStore'
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
+import PricingProrationsLoader from '@/app/PricingProrationsLoader'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -21,6 +22,7 @@ import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
+import { formatCurrency } from '@/helpers/utils'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -31,6 +33,8 @@ const getControlsStoreState = (state) => ({
 
 const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
+  organisation: state.organisation,
+  organisationArtists: state.organisationArtists,
 })
 
 const GetStartedDailyBudget = () => {
@@ -47,6 +51,7 @@ const GetStartedDailyBudget = () => {
 
   const {
     artist: {
+      plan,
       feedMinBudgetInfo: {
         currencyCode,
         currencyOffset,
@@ -71,13 +76,19 @@ const GetStartedDailyBudget = () => {
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
   const [budgetSuggestions, setBudgetSuggestions] = React.useState([])
+  const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({})
+  const [prorationsPreview, setProrationsPreview] = React.useState(null)
   const [error, setError] = React.useState(null)
 
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
-  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+
+  const { organisationArtists, defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+  const { currency } = defaultPaymentMethod
+  const hasMultipleProfiles = organisationArtists.length > 1
+  const { prorations: { amount } = {} } = prorationsPreview || {}
 
   const hasSalesObjective = objective === 'sales'
   const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
@@ -180,17 +191,28 @@ const GetStartedDailyBudget = () => {
           version="green"
           onClick={() => handleNext(budget)}
           loading={targetingLoading}
-          className="w-full sm:w-48"
+          className={['w-full mb-8', hasMultipleProfiles ? 'sm:w-72' : 'sm:w-48'].join(' ')}
           trackComponentName="GetStartedDailyBudget"
           disabled={hasInsufficientBudget}
         >
-          Save
+          Save {amount ? `and pay ${formatCurrency(amount, currency)}` : null}
           <ArrowAltIcon
             className="ml-3"
             direction="right"
             fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.white}
           />
         </Button>
+        {hasMultipleProfiles && (
+          <PricingProrationsLoader
+            profilesToUpgrade={profilesToUpgrade}
+            setProfilesToUpgrade={setProfilesToUpgrade}
+            prorationsPreview={prorationsPreview}
+            setProrationsPreview={setProrationsPreview}
+            plan={plan}
+            setError={setError}
+            className="mb-4"
+          />
+        )}
       </div>
     </div>
   )
