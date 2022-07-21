@@ -1,6 +1,7 @@
 import React from 'react'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBillingStore from '@/app/stores/billingStore'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -20,6 +21,10 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
+const getBillingStoreState = (state) => ({
+  organisationArtists: state.organisationArtists,
+})
+
 const GetStartedPricing = () => {
   const { artistId, setPlan, artist } = React.useContext(ArtistContext)
   const { currency: artistCurrency } = artist
@@ -36,10 +41,21 @@ const GetStartedPricing = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
+  const { organisationArtists } = useBillingStore(getBillingStoreState)
+  const hasMultipleProfiles = organisationArtists.length > 1
+
   const { next } = React.useContext(WizardContext)
 
   const handleNextStep = React.useCallback(async (pricingPlan) => {
-    const pricingPlanString = getPricingPlanString(pricingPlan, showAnnualPricing)
+    let isAnnualPricing = showAnnualPricing
+
+    if (hasMultipleProfiles) {
+      const { plan } = organisationArtists.find(({ plan }) => plan)
+
+      isAnnualPricing = plan.includes('annual')
+    }
+
+    const pricingPlanString = getPricingPlanString(pricingPlan, isAnnualPricing)
 
     // If the pricing plan hasn't changed just go to the next step
     if (pricingPlanString === artist?.plan || pricingPlanString === wizardState?.plan) {
@@ -91,12 +107,14 @@ const GetStartedPricing = () => {
         ? <Spinner />
         : (
           <>
-            <GetStartedPricingPlansHeader
-              currency={currency}
-              setCurrency={setCurrency}
-              showAnnualPricing={showAnnualPricing}
-              setShowAnnualPricing={setShowAnnualPricing}
-            />
+            {!hasMultipleProfiles && (
+              <GetStartedPricingPlansHeader
+                currency={currency}
+                setCurrency={setCurrency}
+                showAnnualPricing={showAnnualPricing}
+                setShowAnnualPricing={setShowAnnualPricing}
+              />
+            )}
             <GetStartedPricingPlans
               showAnnualPricing={showAnnualPricing}
               currency={currency}

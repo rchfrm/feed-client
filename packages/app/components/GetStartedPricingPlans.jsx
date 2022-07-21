@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useBillingStore from '@/app/stores/billingStore'
+
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import GetStartedPricingPlan from '@/app/GetStartedPricingPlan'
@@ -10,6 +12,10 @@ import Button from '@/elements/Button'
 
 import { pricingPlans } from '@/constants/pricing'
 
+const getBillingStoreState = (state) => ({
+  organisationArtists: state.organisationArtists,
+})
+
 const GetStartedPricingPlans = ({
   showAnnualPricing,
   currency,
@@ -17,6 +23,8 @@ const GetStartedPricingPlans = ({
   recommendedPlan,
 }) => {
   const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
+  const { organisationArtists } = useBillingStore(getBillingStoreState)
+  const hasMultipleProfiles = organisationArtists.length > 1
 
   const openReadMoreSidePanel = (plan) => {
     const content = <GetStartedPricingReadMore plan={plan} currency={currency} />
@@ -30,11 +38,18 @@ const GetStartedPricingPlans = ({
   return (
     <div className="col-span-12 sm:mt-12 mb-10">
       <div className="grid grid-cols-12 gap-4">
-        {pricingPlans.map(plan => {
+        {pricingPlans.map((plan, index) => {
+          // Don't show basic plan if user already has more than 1 profile
+          if (hasMultipleProfiles && plan.name === 'basic') return
+
           return (
             <div
               key={plan.name}
-              className="col-span-12 sm:col-span-4"
+              className={[
+                'col-span-12 sm:col-span-4',
+                hasMultipleProfiles && index === 1 ? 'sm:col-start-3' : null,
+                hasMultipleProfiles && index === 2 ? 'sm:col-start-7' : null,
+              ].join(' ')}
             >
               <GetStartedPricingPlan
                 plan={plan}
