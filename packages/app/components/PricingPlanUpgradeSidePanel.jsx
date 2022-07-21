@@ -29,10 +29,11 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { hasGrowthPlan } = artist
   const [, planPeriod] = artist.plan.split('_') || []
   const isAnnualPricing = planPeriod === 'annual'
+  const isUpgradeToPro = hasGrowthPlan || section === 'facebook-pixel'
 
   const [currentStep, setCurrentStep] = React.useState(0)
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({
-    [artistId]: getPricingPlanString(hasGrowthPlan ? 'pro' : 'growth', isAnnualPricing),
+    [artistId]: getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing),
   })
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
   const [error, setError] = React.useState(null)
@@ -49,7 +50,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   // Define steps of plan upgrade flow
   const pricingPlanUpgradeSteps = React.useMemo(() => [
     <PricingPlanUpgradeIntro key={0} />,
-    ...(!hasGrowthPlan ? [<PricingPlanUpgradePlan key={1} />] : []),
+    ...(!isUpgradeToPro ? [<PricingPlanUpgradePlan key={1} />] : []),
     ...(!defaultPaymentMethod ? [<PricingPlanUpgradePaymentMethod key={2} />] : []),
     <PricingPlanUpgradePayment key={3} />,
     <PricingPlanUpgradeSummary key={4} />,

@@ -19,6 +19,7 @@ const PricingPlanUpgradeIntro = ({
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { hasGrowthPlan } = artist
+  const isUpgradeToPro = hasGrowthPlan || section === 'facebook-pixel'
 
   const next = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
@@ -43,7 +44,7 @@ const PricingPlanUpgradeIntro = ({
     <div>
       <h2 className="mb-8 pr-12">{copy.pricingUpgradeIntroTitle(section)}</h2>
       <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section)} className="mb-8" />
-      {hasGrowthPlan && (
+      {isUpgradeToPro && (
         <PricingPlanUpgradeIntroPlan />
       )}
     </div>
