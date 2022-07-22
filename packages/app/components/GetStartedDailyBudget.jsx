@@ -8,11 +8,11 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import useControlsStore from '@/app/stores/controlsStore'
 import useBillingStore from '@/app/stores/billingStore'
+import useOpenPricingProrationsSidePanel from '@/app/hooks/useOpenPricingProrationsSidePanel'
 
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
-import PricingProrationsLoader from '@/app/PricingProrationsLoader'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -22,6 +22,7 @@ import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
+import { getProrationsPreview } from '@/app/helpers/billingHelpers'
 import { formatCurrency } from '@/helpers/utils'
 
 import copy from '@/app/copy/getStartedCopy'
@@ -76,6 +77,8 @@ const GetStartedDailyBudget = () => {
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
   const [budgetSuggestions, setBudgetSuggestions] = React.useState([])
+  const [amountToPay, setAmountToPay] = React.useState(0)
+  const [hasCheckedIfPaymentIsRequired, setHasCheckedIfPaymentIsRequired] = React.useState(false)
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({})
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
   const [error, setError] = React.useState(null)
@@ -85,13 +88,15 @@ const GetStartedDailyBudget = () => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
 
-  const { organisationArtists, defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+  const { organisation, organisationArtists, defaultPaymentMethod } = useBillingStore(getBillingStoreState)
   const { currency } = defaultPaymentMethod
-  const hasMultipleProfiles = organisationArtists.length > 1
-  const { prorations: { amount } = {} } = prorationsPreview || {}
+  const { id: organisationId } = organisation
+  const isPaymentRequired = organisationArtists.length > 1
 
   const hasSalesObjective = objective === 'sales'
   const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
+
+  const openPricingProrationsSidePanel = useOpenPricingProrationsSidePanel()
 
   // If minReccBudget isn't set yet reinitialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -102,6 +107,25 @@ const GetStartedDailyBudget = () => {
 
     initPage(state, error)
   }, [minReccBudget])
+
+  // Fetch amount to pay if payment is required
+  useAsyncEffect(async (isMounted) => {
+    if (!isPaymentRequired) {
+      setHasCheckedIfPaymentIsRequired(true)
+      return
+    }
+
+    const { res, error } = await getProrationsPreview(organisationId, { [artistId]: plan })
+    if (!isMounted()) return
+
+    if (error) {
+      setError(error)
+      return
+    }
+
+    setAmountToPay(res.prorations.amount)
+    setHasCheckedIfPaymentIsRequired(true)
+  }, [isPaymentRequired])
 
   const checkAndUpdateCompletedSetupAt = async () => {
     if (!hasSetUpProfile && defaultPaymentMethod) {
@@ -141,6 +165,16 @@ const GetStartedDailyBudget = () => {
     const suggestions = targetingHelpers.getBudgetSuggestions(objective, minBaseUnroundedMajor)
     setBudgetSuggestions(suggestions)
   }, [minBaseUnroundedMajor, objective])
+
+  const openProrationsSidePanel = () => {
+    openPricingProrationsSidePanel(
+      profilesToUpgrade,
+      setProfilesToUpgrade,
+      prorationsPreview,
+      setProrationsPreview,
+      plan,
+    )
+  }
 
   if (!minReccBudget || !budgetSuggestions.length) return <Spinner />
 
@@ -191,27 +225,26 @@ const GetStartedDailyBudget = () => {
           version="green"
           onClick={() => handleNext(budget)}
           loading={targetingLoading}
-          className={['w-full mb-8', hasMultipleProfiles ? 'sm:w-72' : 'sm:w-48'].join(' ')}
+          className={['w-full', isPaymentRequired ? 'sm:w-72' : 'sm:w-48'].join(' ')}
           trackComponentName="GetStartedDailyBudget"
-          disabled={hasInsufficientBudget}
+          disabled={hasInsufficientBudget || !hasCheckedIfPaymentIsRequired}
         >
-          Save {amount ? `and pay ${formatCurrency(amount, currency)}` : null}
+          Save {amountToPay ? `and pay ${formatCurrency(amountToPay, currency)}` : null}
           <ArrowAltIcon
             className="ml-3"
             direction="right"
-            fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.white}
+            fill={hasInsufficientBudget || !hasCheckedIfPaymentIsRequired ? brandColors.greyDark : brandColors.white}
           />
         </Button>
-        {hasMultipleProfiles && (
-          <PricingProrationsLoader
-            profilesToUpgrade={profilesToUpgrade}
-            setProfilesToUpgrade={setProfilesToUpgrade}
-            prorationsPreview={prorationsPreview}
-            setProrationsPreview={setProrationsPreview}
-            plan={plan}
-            setError={setError}
-            className="mb-4"
-          />
+        {isPaymentRequired && (
+          <Button
+            version="text"
+            onClick={openProrationsSidePanel}
+            trackComponentName="GetStartedDailyBudget"
+            className="text-sm"
+          >
+            View payment breakdown
+          </Button>
         )}
       </div>
     </div>

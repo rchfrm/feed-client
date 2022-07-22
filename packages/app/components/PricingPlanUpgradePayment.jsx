@@ -12,6 +12,7 @@ import PricingProrationsLoader from '@/app/PricingProrationsLoader'
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import Error from '@/elements/Error'
 
 import brandColors from '@/constants/brandColors'
 
@@ -33,11 +34,10 @@ const PricingPlanUpgradePayment = ({
   setProfilesToUpgrade,
   prorationsPreview,
   setProrationsPreview,
-  error,
-  setError,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
   const { artistId, artist, setPlan } = React.useContext(ArtistContext)
   const { name, hasGrowthPlan } = artist
@@ -130,8 +130,8 @@ const PricingPlanUpgradePayment = ({
         prorationsPreview={prorationsPreview}
         setProrationsPreview={setProrationsPreview}
         plan={plan}
-        setError={setError}
       />
+      <Error error={error} />
     </div>
   )
 }
@@ -144,8 +144,6 @@ PricingPlanUpgradePayment.propTypes = {
   setProfilesToUpgrade: PropTypes.func,
   prorationsPreview: PropTypes.object,
   setProrationsPreview: PropTypes.func,
-  error: PropTypes.object,
-  setError: PropTypes.func,
 }
 
 PricingPlanUpgradePayment.defaultProps = {
@@ -156,8 +154,6 @@ PricingPlanUpgradePayment.defaultProps = {
   setProfilesToUpgrade: () => {},
   prorationsPreview: null,
   setProrationsPreview: () => {},
-  error: null,
-  setError: () => {},
 }
 
 export default PricingPlanUpgradePayment

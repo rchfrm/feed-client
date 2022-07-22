@@ -9,6 +9,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PricingProrations from '@/app/PricingProrations'
 
 import Spinner from '@/elements/Spinner'
+import Error from '@/elements/Error'
 
 import { getProrationsPreview, formatProrationsPreview } from '@/app/helpers/billingHelpers'
 
@@ -23,10 +24,10 @@ const PricingProrationsLoader = ({
   prorationsPreview,
   setProrationsPreview,
   plan,
-  setError,
-  className,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
+
   const { artistId } = React.useContext(ArtistContext)
 
   const {
@@ -85,28 +86,19 @@ const PricingProrationsLoader = ({
   return (
     <div className={[
       'w-full',
-      className,
     ].join(' ')}
     >
-      <PricingProrations
-        prorationsPreview={prorationsPreview}
-      />
+      <PricingProrations prorationsPreview={prorationsPreview} />
+      <Error error={error} />
     </div>
   )
 }
 
 PricingProrationsLoader.propTypes = {
   plan: PropTypes.string.isRequired,
-  profilesToUpgrade: PropTypes.object.isRequired,
-  setProfilesToUpgrade: PropTypes.func.isRequired,
-  prorationsPreview: PropTypes.object.isRequired,
-  setProrationsPreview: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
-  className: PropTypes.string,
 }
 
 PricingProrationsLoader.defaultProps = {
-  className: null,
 }
 
 export default PricingProrationsLoader

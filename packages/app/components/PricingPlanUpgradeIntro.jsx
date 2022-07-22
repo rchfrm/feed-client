@@ -16,12 +16,10 @@ const PricingPlanUpgradeIntro = ({
   section,
   setCurrentStep,
   setSidePanelButton,
-  error,
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { hasGrowthPlan } = artist
   const isUpgradeToPro = hasGrowthPlan || section === 'facebook-pixel'
-  const isDisabled = Boolean(error)
 
   const next = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
@@ -29,18 +27,18 @@ const PricingPlanUpgradeIntro = ({
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={next} disabled={isDisabled} trackComponentName="PricingPlanUpgradeIntro">
+      <Button version="insta" onClick={next} trackComponentName="PricingPlanUpgradeIntro">
         Upgrade
         <ArrowAltIcon
           className="ml-3"
           direction="right"
-          fill={isDisabled ? brandColors.greyDark : brandColors.white}
+          fill={brandColors.white}
         />
       </Button>
     )
 
     setSidePanelButton(button)
-  }, [next, setSidePanelButton, isDisabled])
+  }, [next, setSidePanelButton])
 
   return (
     <div>
@@ -57,14 +55,12 @@ PricingPlanUpgradeIntro.propTypes = {
   section: PropTypes.string,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
-  error: PropTypes.object,
 }
 
 PricingPlanUpgradeIntro.defaultProps = {
   section: '',
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
-  error: null,
 }
 
 export default PricingPlanUpgradeIntro

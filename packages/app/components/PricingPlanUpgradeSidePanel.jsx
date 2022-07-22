@@ -12,8 +12,6 @@ import PricingPlanUpgradePaymentMethod from '@/app/PricingPlanUpgradePaymentMeth
 import PricingPlanUpgradePayment from '@/app/PricingPlanUpgradePayment'
 import PricingPlanUpgradeSummary from '@/app/PricingPlanUpgradeSummary'
 
-import Error from '@/elements/Error'
-
 import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
@@ -32,7 +30,6 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({})
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
   const [plan, setPlan] = React.useState(getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing))
-  const [error, setError] = React.useState(null)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
@@ -61,16 +58,11 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       setCurrentStep,
       setSidePanelButton,
       toggleSidePanel,
-      error,
-      setError,
     },
   )
 
   return (
-    <>
-      {StepComponent}
-      <Error error={error} className="-mt-16" />
-    </>
+    StepComponent
   )
 }
 
