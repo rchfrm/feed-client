@@ -27,7 +27,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const isUpgradeToPro = hasGrowthPlan || section === 'facebook-pixel'
 
   const [currentStep, setCurrentStep] = React.useState(0)
-  const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({})
+  const [profilesToUpgrade, setProfilesToUpgrade] = React.useState(null)
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
   const [plan, setPlan] = React.useState(getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing))
 

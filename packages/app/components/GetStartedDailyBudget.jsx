@@ -79,8 +79,6 @@ const GetStartedDailyBudget = () => {
   const [budgetSuggestions, setBudgetSuggestions] = React.useState([])
   const [amountToPay, setAmountToPay] = React.useState(0)
   const [hasCheckedIfPaymentIsRequired, setHasCheckedIfPaymentIsRequired] = React.useState(false)
-  const [profilesToUpgrade, setProfilesToUpgrade] = React.useState({})
-  const [prorationsPreview, setProrationsPreview] = React.useState(null)
   const [error, setError] = React.useState(null)
 
   const { next } = React.useContext(WizardContext)
@@ -167,13 +165,7 @@ const GetStartedDailyBudget = () => {
   }, [minBaseUnroundedMajor, objective])
 
   const openProrationsSidePanel = () => {
-    openPricingProrationsSidePanel(
-      profilesToUpgrade,
-      setProfilesToUpgrade,
-      prorationsPreview,
-      setProrationsPreview,
-      plan,
-    )
+    openPricingProrationsSidePanel(plan)
   }
 
   if (!minReccBudget || !budgetSuggestions.length) return <Spinner />

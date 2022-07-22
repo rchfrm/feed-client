@@ -13,21 +13,11 @@ const useOpenPricingProrationsSidePanel = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  const openPricingProrationsSidePanel = React.useCallback((
-    profilesToUpgrade,
-    setProfilesToUpgrade,
-    prorationsPreview,
-    setProrationsPreview,
-    plan,
-  ) => {
+  const openPricingProrationsSidePanel = React.useCallback((plan) => {
     const content = (
       <div>
         <h2 className="mb-8 pr-12">Payment</h2>
         <PricingProrationsLoader
-          profilesToUpgrade={profilesToUpgrade}
-          setProfilesToUpgrade={setProfilesToUpgrade}
-          prorationsPreview={prorationsPreview}
-          setProrationsPreview={setProrationsPreview}
           plan={plan}
         />
       </div>
