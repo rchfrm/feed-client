@@ -75,7 +75,7 @@ const GetStartedPricing = () => {
     setIsLoading(false)
     next()
   // eslint-disable-next-line
-  }, [next, artistId, getPricingPlanString])
+  }, [next, artistId, getPricingPlanString, showAnnualPricing])
 
   React.useEffect(() => {
     if (!selectedPricingPlan) return
