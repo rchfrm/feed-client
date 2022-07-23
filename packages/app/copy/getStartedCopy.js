@@ -27,26 +27,19 @@ export default {
     return ''
   },
   objectiveSubtitle: 'What are you trying to achieve?',
-  objectiveDescription: 'Choose audience growth if your focus is growing on a platform like Instagram, YouTube or Spotify; website sales for sales on your online store or website visits to get your audience to a website or landing page.',
   objectivePlanFooter: (plan) => {
     if (plan === 'basic') return 'Available in all tiers'
     if (plan === 'growth') return 'Growth and above'
     if (plan === 'pro') return 'Pro exclusive'
   },
   platformSubtitle: 'Which platform would you like to focus on initially?',
-  platformDescription: "You can always change this later on. You'll also have the option to send people to multiple platforms using different posts.",
   defaultLinkSubtitle: (objective, platform) => {
     if (objective !== 'growth') {
       return 'Enter the link to your website or landing page'
     }
     return `Enter the link to your ${getPlatform(platform)}`
   },
-  defaultLinkDescription: (objective) => {
-    if (objective !== 'growth') {
-      return 'If you have multiple pages, set the homepage for now. You can choose to send people to different pages and/or change this setting later on.'
-    }
-    return "This should be the home page of your channel, you'll be able to link to specific videos or playlists later on."
-  },
+  pricingSubtitle: 'Select the features and pricing to suit you',
   invalidLinkReason: (reason) => {
     const errorString = 'Error saving the link, the provided link'
     if (reason === 1) return `${errorString} contains a redirect`
@@ -54,9 +47,7 @@ export default {
     if (reason === 3) return `${errorString} is inaccessible`
   },
   facebookConnectSubtitle: 'Connect to Facebook and Instagram',
-  facebookConnectDescription: 'This gives Feed permission to analyse your posts to see which would work best as ads, and set-up campaigns on your behalf.',
   facebookConnectMultipleProfilesSubtitle: "You've connected multiple profiles, which would you like to set-up first?",
-  facebookConnectMultipleProfilesDescription: "The settings you've selected so far will be applied to the profile you select below. You'll be able to set-up other profiles separately later on!",
   postsSelectionSubtitle: (hasEnabledPosts) => {
     if (hasEnabledPosts) {
       return "The posts you've selected for promotion..."
@@ -64,25 +55,7 @@ export default {
 
     return 'These are the posts we recommend promoting first...'
   },
-  postsSelectionDescription: (canLoadPosts, hasEnabledPosts) => {
-    if (!canLoadPosts) {
-      return `Feed's algorithm predicts which of your existing social media posts will be most effective as ads to grow your audience on Instagram.
-
-      This process may take a couple of minutes...`
-    }
-
-    if (hasEnabledPosts) {
-      return 'To enable more posts, click Load more.. and see the ones we recommend based on how your existing audience is engaging with your content.'
-    }
-    return 'Based on how your existing audience is engaging with your content, these are the posts we recommend to start promoting first.'
-  },
-  pricingPlan: (pricingPlan) => {
-    const [plan] = pricingPlan.split('_')
-
-    return `the ${capitalise(plan)}`
-  },
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
-  adAccountDescription: "Feed's ads for this profile will run from this ad account. You can set different ad accounts for your other profiles later.",
   facebookPixelSubtitle: (pixels, shouldShowPixelSelector) => {
     if (shouldShowPixelSelector) {
       if (pixels.length) {
@@ -93,23 +66,17 @@ export default {
 
     return "Looks like you don't have a Facebook Pixel! Happy for us to create one?"
   },
-  facebookPixelDescription: (pixels, shouldShowPixelSelector) => {
-    if (shouldShowPixelSelector) {
-      if (pixels.length) {
-        return "This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway."
-      }
-      return ''
-    }
-    return "You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway."
-  },
   locationSubtitle: 'Where are you based?',
-  locationDescription: 'This location will be set as your home country.',
   budgetSubtitle: 'What is your daily budget for advertising?',
-  budgetDescription: 'You can change this at any time. We recommend running ads for at least 4-6 weeks to get an idea of the impact Feed can have.',
-  paymentMethodSubtitle: 'Which card would you like to pay with?',
-  paymentMethodDescription: `Almost there!
+  paymentMethodSubtitle: (planPrefix, amount) => {
+    if (planPrefix === 'basic') {
+      return `#### Enter your card details below.
 
-  Feed charges a 10% service fee on the budget you spend through the platform. The fee is included in the budget you set in the previous step, not in addition to it.`,
+This is to cover Feed's 10% service fee. You won't be charged in months where you don't run ads.`
+    }
+
+    return `Add a card to pay ${amount} and get started with <span className="text-insta font-bold">${capitalise(planPrefix)}</span>.`
+  },
   budgetFooter: (minBaseUnrounded, currency) => {
     const lowestMultiplier = 3.7
     const highestMultiplier = 8.8
@@ -117,6 +84,11 @@ export default {
     const highestAmountString = (minBaseUnrounded * highestMultiplier).toFixed(1)
 
     return `Most people start with a budget of ${formatCurrency(lowestAmountString, currency)} - ${formatCurrency(highestAmountString, currency)} a day.`
+  },
+  pricingPlan: (pricingPlan) => {
+    const [plan] = pricingPlan.split('_')
+
+    return `the ${capitalise(plan)}`
   },
   inSufficientBudget: (minBudget) => `Budget must be at least ${minBudget} to set your objective to sales.`,
   reviewDescription: 'Feed has submitted your ads for approval!',

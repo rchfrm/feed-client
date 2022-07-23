@@ -17,7 +17,6 @@ import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Spinner from '@/elements/Spinner'
-import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
@@ -87,7 +86,7 @@ const GetStartedDailyBudget = () => {
   const { objective } = optimizationPreferences
 
   const { organisation, organisationArtists, defaultPaymentMethod } = useBillingStore(getBillingStoreState)
-  const { currency } = defaultPaymentMethod
+  const { currency = 'GBP' } = defaultPaymentMethod || {}
   const { id: organisationId } = organisation
   const isPaymentRequired = organisationArtists.length > 1
 
@@ -172,8 +171,7 @@ const GetStartedDailyBudget = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.budgetSubtitle}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.budgetDescription} />
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-lg">{copy.budgetSubtitle}</h3>
       <ControlsSettingsSectionFooter
         copy={copy.budgetFooter(minBaseUnroundedMajor, currencyCode)}
         className="text-insta mb-6"

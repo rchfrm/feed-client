@@ -12,7 +12,6 @@ import DefaultLinkForm from '@/app/DefaultLinkForm'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-import MarkdownText from '@/elements/MarkdownText'
 
 import { setDefaultLink, getLinkById, getLinkByHref, validateLink } from '@/app/helpers/linksHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
@@ -200,8 +199,7 @@ const GetStartedDefaultLink = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="mb-4 font-medium text-xl">{copy.defaultLinkSubtitle(objective, platform)}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.defaultLinkDescription(objective)} />
+      <h3 className="mb-4 font-medium text-lg">{copy.defaultLinkSubtitle(objective, platform)}</h3>
       <Error error={error} />
       <form
         onSubmit={onSubmit}

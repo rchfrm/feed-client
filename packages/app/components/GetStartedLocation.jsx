@@ -8,7 +8,6 @@ import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-import MarkdownText from '@/elements/MarkdownText'
 
 import countries from '@/constants/countries'
 
@@ -79,8 +78,7 @@ const GetStartedLocation = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.locationSubtitle}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.locationDescription} />
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-lg">{copy.locationSubtitle}</h3>
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center w-full sm:w-1/3 mx-auto">
         <Select

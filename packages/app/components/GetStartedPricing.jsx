@@ -17,6 +17,8 @@ import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
+import copy from '@/app/copy/getStartedCopy'
+
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
@@ -101,7 +103,7 @@ const GetStartedPricing = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="mb-4 font-medium text-xl mb-8 sm:mb-12">Select the features and pricing to suit you.</h3>
+      <h3 className="mb-4 font-medium text-lg mb-8 sm:mb-12">{copy.pricingSubtitle}</h3>
       <Error error={error} />
       {isLoading
         ? <Spinner />
