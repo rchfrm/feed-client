@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import MarkdownText from '@/elements/MarkdownText'
 
 import { formatCurrency } from '@/helpers/utils'
@@ -8,6 +10,8 @@ import { formatCurrency } from '@/helpers/utils'
 import copy from '@/app/copy/global'
 
 const PricingPlanUpgradePaymentProrations = ({ prorationsPreview }) => {
+  const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
+
   const {
     currency,
     prorations: {
@@ -28,7 +32,7 @@ const PricingPlanUpgradePaymentProrations = ({ prorationsPreview }) => {
   return (
     <>
       <div className="mb-8">
-        <MarkdownText markdown={copy.pricingUpgradeCurrentPaymentList(prorationsPreview, currency)} className="mb-6" />
+        <MarkdownText markdown={copy.pricingUpgradeCurrentPaymentList(prorationsPreview, currency, hasSetUpProfile)} className="mb-6" />
         {!isFirstDayOfPeriod && prorationsAmount > 0 && <p className="text-xs">^Covering the remaining {daysRemainingInPeriod} {daysRemainingInPeriod > 1 ? 'days' : 'day'} of the current billing period.</p>}
       </div>
       {nextInvoiceAmount > 0 && (
