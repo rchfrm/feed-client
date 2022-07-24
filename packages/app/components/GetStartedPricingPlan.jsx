@@ -41,7 +41,6 @@ const GetStartedPricingPlan = ({
         !isDesktop && isRecommended ? 'pb-12 xs:pb-12' : null,
         'border-solid rounded-dialogue',
         isRecommended ? 'border-[5px] border-insta' : 'border-3 border-black',
-        isDisabled ? 'pointer-events-none grayscale border-grey-2 opacity-20 ' : null,
       ].join(' ')}
     >
       {isRecommended && (
@@ -79,6 +78,7 @@ const GetStartedPricingPlan = ({
       <GetStartedPricingPlanSelectButton
         setSelectedPricingPlan={setSelectedPricingPlan}
         plan={plan}
+        isDisabled={isDisabled}
       />
       <GetStartedPricingPlanReadMoreButton
         plan={plan}
