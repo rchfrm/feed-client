@@ -51,10 +51,10 @@ const GetStartedPaymentMethod = () => {
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
   const isPaymentRequired = hasGrowthPlan || hasProPlan
 
-  const [planPrefix, planPreriod] = plan.split('_')
+  const [planPrefix, planPeriod] = plan.split('_')
   const monthlyCost = pricingNumbers[planPrefix].monthlyCost[artistCurrency]
   const annualCost = monthlyCost * 12
-  const amountToPay = planPreriod === 'annual' ? annualCost - (annualCost * pricingNumbers.annualDiscount) : monthlyCost
+  const amountToPay = planPeriod === 'annual' ? annualCost - (annualCost * pricingNumbers.annualDiscount) : monthlyCost
 
   const {
     card,
