@@ -20,7 +20,7 @@ import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
-import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
+import { updateCompletedSetupAt, hasAllProfilesOnLegacyPlan } from '@/app/helpers/artistHelpers'
 import { getProrationsPreview } from '@/app/helpers/billingHelpers'
 import { formatCurrency } from '@/helpers/utils'
 
@@ -88,7 +88,7 @@ const GetStartedDailyBudget = () => {
   const { organisation, organisationArtists, defaultPaymentMethod } = useBillingStore(getBillingStoreState)
   const { currency = 'GBP' } = defaultPaymentMethod || {}
   const { id: organisationId } = organisation
-  const isPaymentRequired = organisationArtists.length > 1
+  const isPaymentRequired = !hasAllProfilesOnLegacyPlan(organisationArtists) && organisationArtists.length > 1
 
   const hasSalesObjective = objective === 'sales'
   const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories

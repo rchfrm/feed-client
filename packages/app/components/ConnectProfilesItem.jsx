@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
 
+import useBillingStore from '@/app/stores/billingStore'
+
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -10,6 +12,10 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import * as ROUTES from '@/app/constants/routes'
+
+const getBillingStoreState = (state) => ({
+  organisationArtists: state.organisationArtists,
+})
 
 const ConnectProfilesItem = ({
   profile,
@@ -21,14 +27,22 @@ const ConnectProfilesItem = ({
   const { name, page_id, instagram_username } = profile
   const { user } = React.useContext(UserContext)
   const { connectArtist } = React.useContext(ArtistContext)
+  const { organisationArtists } = useBillingStore(getBillingStoreState)
 
   const createArtist = async () => {
     setIsConnecting(true)
     setSelectedProfile(profile)
 
+    let plan = ''
+    const hasAllProfilesOnLegacyPlan = artistHelpers.hasAllProfilesOnLegacyPlan(organisationArtists)
+
+    if (hasAllProfilesOnLegacyPlan) {
+      plan = 'legacy_monthly'
+    }
+
     // Santise URLs
     const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(profile)
-    const { error } = await connectArtist(artistAccountSanitised, user) || {}
+    const { error } = await connectArtist(artistAccountSanitised, user, plan) || {}
 
     if (error) {
       setIsConnecting(false)

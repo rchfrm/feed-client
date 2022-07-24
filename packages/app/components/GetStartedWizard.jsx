@@ -51,6 +51,8 @@ const GetStartedWizard = () => {
 
   const { user } = React.useContext(UserContext)
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
+  const { hasLegacyPlan } = artist
+
 
   const {
     nestedLinks,
@@ -102,6 +104,7 @@ const GetStartedWizard = () => {
       title: 'Your plan',
       section: getStartedSections.pricingPlan,
       component: <GetStartedPricing />,
+      shouldSkip: hasLegacyPlan,
     },
     {
       id: 4,

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
@@ -17,6 +18,8 @@ const GetStartedSummarySentence = ({ className }) => {
   const isLastStep = currentStep === lastStep
   const isDesktopLayout = useBreakpointTest('xs')
 
+  const { artist: { hasLegacyPlan } } = React.useContext(ArtistContext)
+
   return (
     <>
       <div className={[
@@ -27,7 +30,7 @@ const GetStartedSummarySentence = ({ className }) => {
       ].join(' ')}
       >
         <GetStartedSummarySentenceObjective />
-        <GetStartedSummarySentencePricingPlan />
+        {!hasLegacyPlan && <GetStartedSummarySentencePricingPlan />}
         <GetStartedSummarySentencePosts />
         <GetStartedSummarySentenceAdAccount />
         <GetStartedSummarySentenceTargeting />
