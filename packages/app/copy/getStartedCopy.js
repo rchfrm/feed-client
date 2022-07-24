@@ -48,8 +48,8 @@ export default {
   },
   facebookConnectSubtitle: 'Connect to Facebook and Instagram',
   facebookConnectMultipleProfilesSubtitle: "You've connected multiple profiles, which would you like to set-up first?",
-  postsSelectionSubtitle: (hasEnabledPosts) => {
-    if (hasEnabledPosts) {
+  postsSelectionSubtitle: (hasEnabledPosts, postType) => {
+    if (hasEnabledPosts && postType === 'promotion_enabled') {
       return "The posts you've selected for promotion..."
     }
 

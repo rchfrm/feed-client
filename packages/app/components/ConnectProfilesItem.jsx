@@ -33,7 +33,7 @@ const ConnectProfilesItem = ({
     setIsConnecting(true)
     setSelectedProfile(profile)
 
-    let plan = ''
+    let plan
     const hasAllProfilesOnLegacyPlan = artistHelpers.hasAllProfilesOnLegacyPlan(organisationArtists)
 
     if (hasAllProfilesOnLegacyPlan) {

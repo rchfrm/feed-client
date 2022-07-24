@@ -168,7 +168,7 @@ const GetStartedPostsSelection = () => {
       ) : (
         posts.length > 0 ? (
           <>
-            <h3 className="mb-4 font-medium text-lg">{copy.postsSelectionSubtitle(hasEnabledPosts)}</h3>
+            <h3 className="mb-4 font-medium text-lg">{copy.postsSelectionSubtitle(hasEnabledPosts, postType)}</h3>
             <Error error={error} />
             <div className={[
               shouldAdjustLayout ? 'grid grid-cols-12' : null,
