@@ -32,6 +32,11 @@ const GetStartedObjective = () => {
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
+  const { plan: storedPlan } = wizardState || {}
+  const plan = artist?.plan || storedPlan
+  const [planPrefix] = plan?.split('_') || []
+  const hasBasicPlan = planPrefix === 'basic'
+  const hasGrowthPlan = planPrefix === 'growth'
 
   const unsetDefaultLink = (artist) => {
     // Unset the link in the controls store
@@ -127,13 +132,18 @@ const GetStartedObjective = () => {
         <div className="xs:flex justify-between xs:-mx-4 mb-10 xs:mb-20">
           {isLoading
             ? <Spinner />
-            : objectives.map((objective) => (
-              <GetStartedObjectiveButton
-                key={objective.value}
-                objective={objective}
-                setSelectedObjective={setSelectedObjective}
-              />
-            ))}
+            : objectives.map((objective) => {
+              const isDisabled = (hasBasicPlan && objective.value !== 'growth') || (hasGrowthPlan && objective.value === 'sales')
+
+              return (
+                <GetStartedObjectiveButton
+                  key={objective.value}
+                  objective={objective}
+                  setSelectedObjective={setSelectedObjective}
+                  isDisabled={isDisabled}
+                />
+              )
+            })}
         </div>
         <a className="xs:self-center" href="mailto:help@tryfeed.co">Something else?</a>
       </div>
