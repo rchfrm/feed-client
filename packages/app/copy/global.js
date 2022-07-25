@@ -21,25 +21,91 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
   },
   pricingUpgradeIntroTitle: (section) => {
     const baseString = 'Looking to'
-
-    switch (section) {
-      case 'priority-post':
-        return `${baseString} prioritise a post?`
-      default:
-        return `${baseString} ...?`
+    function getSectionIntro(section) {
+      switch (section) {
+        case 'priority-post':
+          return 'prioritise a post'
+        case 'post-link':
+          return 'select another link'
+        case 'post-cta':
+          return 'select a different CTA'
+        case 'post-caption':
+          return 'edit the caption'
+        case 'objective-traffic':
+          return 'choose another objective'
+        case 'default-promotion':
+          return 'disable automatic promotion'
+        case 'facebook-pixel':
+          return 'add a Meta pixel'
+        case 'custom-locations':
+          return 'target another location'
+        case 'linkbank':
+          return 'save more links'
+        case 'insights':
+          return 'get some insights'
+        default:
+          return section
+      }
     }
+    return `${baseString} ${getSectionIntro(section)}?`
   },
   pricingUpgradeIntroDescription: (section) => {
-    switch (section) {
-      case 'priority-post':
-        return `
-          The double chevron icon in the top left corner of each post allows you to mark it as a priority.
-
-          Feed will create ads will and submit them for review within 15 minutes.
-        `
-      default:
-        return `Description...?`
+    function getSectionDescription(section) {
+      switch (section) {
+        case 'priority-post':
+          return 'The double chevron in the top left corner of each post allows you to mark it as a priority.'
+            + '\n\n This means Feed will create ads based on that post and submit them for review within 15 minutes.'
+            + '\n\n The ads are usually approved by Meta within a few hours. Once they are, the prioritised post will start to run on its own, with any ads that were running turned off.'
+        case 'post-link':
+          return 'By default, when turning a post into an ad, Feed will set the link based on the your objective.'
+            + '\n\n If your objective is Instagram Growth this will be the link to your profile page.'
+            + '\n\n This section allows you to set links for individual posts. This means some could point to your YouTube channel and others to your Instagram profile.'
+        case 'post-cta':
+          return 'The CTA (or call-to-action) appears over the image or video in your ads. This is the button people click to go to the link you\'ve selected.'
+            + '\n\n Feed selects the most appropriate CTA for your objective and applies it to each ad by default. If you\'ve chosen Spotify Growth, then this default CTA will be "Listen Now".'
+            + '\n\n There are other options available for the CTA, such as:  "Shop Now", "Sign Up" or "Watch More". This section allows you to choose a CTA specific to the post and create ads that use different CTAs.'
+        case 'post-caption':
+          return 'When turning a post into an ad, Feed copies the original caption over too.'
+            + '\n\n For engagement ads, this means any paid and organic likes get added together. So if there were 10 organic likes, and 10 paid likes, the post in your Feed will show 20 total likes.  This is great for "social proof".'
+            + '\n\n Of course, the original caption might not always be quite right for an ad. The caption may refer to an event that is now in the past, or include lots of hashtags. Editing the caption enables you to use a different message in the ads.'
+        case 'objective-traffic':
+          return 'Beyond audience growth there are two other objectives in Feed: traffic or sales.'
+            + '\n\n The traffic objective will focus on link clicks, so sending people to your website. Encouraging people off Facebook or Instagram helps you have a more direct relationship.'
+            + '\n\n The sales objective focusses on purchases from your online shop. By adding a Meta Pixel, Feed will be able to report back the value of purchases made as a direct result of the ads.'
+        case 'default-promotion':
+          return 'By default, each one of your posts will be eligible for promotion. Feed will prioritise the posts based on score, and run continuous A/B testing to ensure the best results.'
+            + '\n\n The more posts Feed has to choose from the better, as it is often surprising which posts perform the best!'
+            + '\n\n Disabling automated post selection toggles off every post by default. This means you\'ll need to toggle on each of the posts you\'d like to promote.'
+            + '\n\n In exchange for spending a few extra minutes choosing posts, you gain finer control over your ads.'
+        case 'facebook-pixel':
+          return 'Adding a Meta Pixel to your website makes a big difference to the potential power of your ad campaigns.'
+            + '\n\n This short piece of code can detect when a Facebook or Instagram user visits your website. Selecting a Meta Pixel in Feed will enable a few things:'
+            + '\n\n 1. Reporting on which actions people take on your website'
+            + '\n\n 2. Creation of retargeting audiences containing people who have visited your website'
+            + '\n\n 3. Targeting of those retargeting audiences with further ads'
+        case 'custom-locations':
+          return 'Feed analyses your audience to create a list of priority locations to target.'
+            + '\n\n The list shows every city or country that contains more than 1% of your total audience.'
+            + '\n\n You can target any combination of these locations with your ads.'
+            + '\n\n The search box enables you to extend this list with any location and add it to your targeting.'
+        case 'linkbank':
+          return 'The "link bank" is your store of links to use across your ads.'
+            + '\n\n You might have various product pages, music releases, or blog articles. Here you can save a link to each one and organise them in folders.'
+            + '\n\n Those links will then be available to select as your default link or on individual posts.'
+        case 'insights':
+          return 'The insights page is all about the bigger picture.'
+            + '\n\n How is has your Instagram follower count been growing over time?'
+            + '\n\n What about Spotify Monthly Listeners?'
+            + '\n\n Here you can see charts displaying the impact your marketing is having on your audience.'
+        default:
+          return 'Description...?'
+      }
     }
+    const suffix = '\n**To try this feature, click upgrade below.**'
+    return `
+      ${getSectionDescription(section)}
+      ${suffix}
+    `
   },
   pricingUpgradePlanIntro: (hasMultipleUpgradableProfiles, name, plan, currency) => {
     const [planPrefix, planPeriod] = plan?.split('_') || []
