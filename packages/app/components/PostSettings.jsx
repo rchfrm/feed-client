@@ -128,7 +128,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
         )}
         <DisabledSection
           section="single-post-page"
-          isDisabled={!hasGrowthPlan}
+          isDisabled={!hasGrowthPlan && !isSectionDisabled}
           className="brightness-100"
         >
           <PostSettingsLink
