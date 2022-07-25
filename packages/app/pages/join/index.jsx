@@ -1,5 +1,5 @@
 import getDatoData from '@/helpers/getDatoData'
-import getQuery from '@/landing/graphQl/homePageQueries'
+import { getAllTestimonies, getQuery } from '@/landing/graphQl/homePageQueries'
 
 import BasePage from '@/app/BasePage'
 
@@ -22,10 +22,10 @@ const Page = ({ testimonies }) => {
 }
 
 export async function getStaticProps() {
-  const query = getQuery()
+  const query = getAllTestimonies()
   const forceLoad = false
   const { data } = await getDatoData(query, 'home', forceLoad)
-  const { heroCopy: { testimonies } } = data
+  const { allTestimonies: testimonies } = data
 
   return {
     props: {
