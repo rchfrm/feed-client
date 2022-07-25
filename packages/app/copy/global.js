@@ -136,5 +136,6 @@ Close this window to ...`
     if (section === 'post-cta') return `${planBaseString} to set custom CTAs on specific posts`
     if (section === 'post-caption') return `${planBaseString} to edit caption of promoted posts`
     if (section === 'insights') return `${planBaseString} to track audience data from connected integrations`
+    if (section === 'single-post-page') return `${planBaseString} to use custom settings for specific posts`
   },
 }

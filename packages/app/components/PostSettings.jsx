@@ -14,6 +14,7 @@ import PostSettingsLink from '@/app/PostSettingsLink'
 import PostSettingsCallToAction from '@/app/PostSettingsCallToAction'
 import PostSettingsCaption from '@/app/PostSettingsCaption'
 import PostUnpromotable from '@/app/PostUnpromotable'
+import DisabledSection from '@/app/DisabledSection'
 
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -42,7 +43,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
 
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
   const isDesktopLayout = useBreakpointTest('sm')
 
   const { canRunConversions, optimizationPreferences } = useControlsStore(getControlsStoreState)
@@ -125,24 +126,30 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
             )}
           </>
         )}
-        <PostSettingsLink
-          post={post}
-          campaignType={campaignType}
-          updatePost={updatePost}
-          isDisabled={isSectionDisabled}
-        />
-        <PostSettingsCallToAction
-          post={post}
-          campaignType={campaignType}
-          updatePost={updatePost}
-          isDisabled={isSectionDisabled}
-        />
-        <PostSettingsCaption
-          post={post}
-          campaignType={campaignType}
-          updatePost={updatePost}
-          isDisabled={isSectionDisabled}
-        />
+        <DisabledSection
+          section="single-post-page"
+          isDisabled={!hasGrowthPlan}
+          className="brightness-100"
+        >
+          <PostSettingsLink
+            post={post}
+            campaignType={campaignType}
+            updatePost={updatePost}
+            isDisabled={isSectionDisabled}
+          />
+          <PostSettingsCallToAction
+            post={post}
+            campaignType={campaignType}
+            updatePost={updatePost}
+            isDisabled={isSectionDisabled}
+          />
+          <PostSettingsCaption
+            post={post}
+            campaignType={campaignType}
+            updatePost={updatePost}
+            isDisabled={isSectionDisabled}
+          />
+        </DisabledSection>
       </div>
     </>
   )
