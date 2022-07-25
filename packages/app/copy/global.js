@@ -22,13 +22,23 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
   pricingUpgradeIntroTitle: (section) => {
     const baseString = 'Looking to'
 
-    if (section) {
-      return `${baseString} ...?`
+    switch (section) {
+      case 'priority-post':
+        return `${baseString} prioritise a post?`
+      default:
+        return `${baseString} ...?`
     }
   },
   pricingUpgradeIntroDescription: (section) => {
-    if (section) {
-      return `Description ...`
+    switch (section) {
+      case 'priority-post':
+        return `
+          The double chevron icon in the top left corner of each post allows you to mark it as a priority.
+
+          Feed will create ads will and submit them for review within 15 minutes.
+        `
+      default:
+        return `Description...?`
     }
   },
   pricingUpgradePlanIntro: (hasMultipleUpgradableProfiles, name, plan, currency) => {
