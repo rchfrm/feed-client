@@ -31,17 +31,17 @@ export default function HomePage({ pageData }) {
         imageMobile={mobileImage}
         imageDesktop={desktopImage}
       />
-      {hasTestimonies && <Testimonies testimonies={testimonies} />}
+      {hasPartners && <Partners partners={partners} />}
       {hasFeatures && <Features features={features} />}
-      <PrimaryCTA />
       <IntroVideo />
+      <PrimaryCTA />
+      {hasTestimonies && <Testimonies testimonies={testimonies} />}
       {hasFeaturedArticles && (
         <>
           <BlogSummary featuredBlogArticles={featuredArticles} />
           <TertiaryCTA trackLocation="feed-landing" />
         </>
       )}
-      {hasPartners && <Partners partners={partners} />}
     </>
   )
 }
