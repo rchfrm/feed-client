@@ -43,6 +43,7 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'save more links'
         case 'insights':
           return 'get some insights'
+        // TODO Checkout FD-1279-profiles-upgrade and run server locally, then upgrade to Growth and continue
         default:
           return section
       }
