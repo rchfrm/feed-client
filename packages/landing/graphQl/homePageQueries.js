@@ -11,8 +11,21 @@ function getFilter(page) {
       return 'heroCopy(filter: {setAsDefault: {eq: true}})'
   }
 }
+export function getAllTestimonies() {
+  return `
+    query {
+      allTestimonies {
+        id
+        handle
+        quote
+        bio
+        ${image({ imgixParams: 'q: "50", auto: format, w: "600", h: "600", fit: crop', sizes: '10vw' })}
+      }
+    }
+  `
+}
 
-function getQuery(page) {
+export function getQuery(page) {
   return `
     query {
       ${getFilter(page)} {
@@ -44,5 +57,3 @@ function getQuery(page) {
     }
   `
 }
-
-export default getQuery

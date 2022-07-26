@@ -1,7 +1,6 @@
 const getQuery = () => `
 query {
   globalInfo {
-    blogLink
     feedLoginLink
     feedSignUpLink
     footerLinks {
@@ -14,6 +13,18 @@ query {
       id
       slug
       title
+    }
+  }
+  _site {
+    globalSeo {
+      siteName
+      twitterAccount
+      fallbackSeo {
+        description
+        image {
+          url
+        }
+      }
     }
   }
 }

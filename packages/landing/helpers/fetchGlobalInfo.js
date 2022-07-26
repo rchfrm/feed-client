@@ -8,7 +8,13 @@ const getQuery = require('../graphQl/globalInfoQuery')
 
 // FORMAT DATA
 const getFormattedData = (data) => {
-  const { globalInfo, home } = data
+  const {
+    globalInfo,
+    home,
+    _site: {
+      globalSeo,
+    },
+  } = data
   const legalLinks = home.legalPages.map(({ title, slug }) => {
     return {
       title,
@@ -18,9 +24,9 @@ const getFormattedData = (data) => {
   return {
     joinLink: globalInfo.feedSignUpLink,
     loginLink: globalInfo.feedLoginLink,
-    blogLink: globalInfo.blogLink,
     footerLinks: globalInfo.footerLinks,
     legalLinks,
+    globalSeo,
   }
 }
 
