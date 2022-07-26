@@ -33,6 +33,8 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'select a different CTA'
         case 'post-caption':
           return 'edit the caption'
+        case 'single-post-page':
+          return 'edit the post settings'
         case 'objective-traffic':
           return 'choose another objective'
         case 'objective-sales':
@@ -79,6 +81,11 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'When turning a post into an ad, Feed copies the original caption over too.'
             + '\n\n For engagement ads, this means any paid and organic likes get added together. So if there were 10 organic likes, and 10 paid likes, the post in your Feed will show 20 total likes.  This is great for "social proof".'
             + '\n\n Of course, the original caption might not always be quite right for an ad. The caption may refer to an event that is now in the past, or include lots of hashtags. Editing the caption enables you to use a different message in the ads.'
+        case 'single-post-page':
+          return 'By default, Feed will set the link and CTA (call-to-action) on your ads based on your objective.'
+            + '\n\n Then copy the caption over from the original post.'
+            + '\n\n It is possible to make edits to these for individual posts.'
+            + '\n\n As an example: you could have one post that links to your YouTube channel with a CTA of "Watch More", and another that links to Spotify with a "Listen More" CTA.'
         case 'objective-traffic':
           return 'Beyond audience growth there are two other objectives in Feed: traffic or sales.'
             + '\n\n The traffic objective will focus on link clicks, so sending people to your website. Encouraging people off Facebook or Instagram helps you have a more direct relationship.'
