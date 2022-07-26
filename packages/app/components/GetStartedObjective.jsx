@@ -145,7 +145,6 @@ const GetStartedObjective = () => {
               )
             })}
         </div>
-        <a className="xs:self-center" href="mailto:help@tryfeed.co">Something else?</a>
       </div>
     </div>
   )

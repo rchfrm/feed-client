@@ -119,7 +119,6 @@ const BillingContent = () => {
           allOrgs={allOrgs}
         />
       )}
-      {/* ONLY SHOW IF BILLING IS ENABLED FOR THE ORGANISATION */}
       <BILLING_CONTENT_SECTIONS
         loadingErrors={loadingErrors}
         latestInvoice={latestInvoice}
