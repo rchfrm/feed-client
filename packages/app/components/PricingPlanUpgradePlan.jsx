@@ -49,7 +49,6 @@ const PricingPlanUpgradePlan = ({
     setSidePanelButton(button)
   }, [next, setSidePanelButton, planPrefix])
 
-
   return (
     <div>
       <h2 className="mb-8 pr-12">Upgrade {name}</h2>
