@@ -1,5 +1,5 @@
 import getDatoData from '@/helpers/getDatoData'
-import { getAllTestimonies, getQuery } from '@/landing/graphQl/homePageQueries'
+import { getAllTestimonies } from '@/landing/graphQl/homePageQueries'
 
 import BasePage from '@/app/BasePage'
 
