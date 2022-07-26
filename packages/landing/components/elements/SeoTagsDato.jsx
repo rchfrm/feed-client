@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import { renderMetaTags } from 'react-datocms'
-import globalInfo from '@/landing/tempData/globalInfo.json'
+import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
 const getMetaTags = ({ pageTitle, pageDescription }) => {
   return [
@@ -44,11 +44,27 @@ const getMetaTags = ({ pageTitle, pageDescription }) => {
   ]
 }
 
+const getGlobalInfo = state => state
+
 const SeoTagsDato = ({
   metaTags,
   pageTitle,
   pageDescription,
 }) => {
+  const {
+    globalSeo: {
+      siteName,
+      fallbackSeo: {
+        description,
+      },
+    },
+  } = useGlobalInfoStore(getGlobalInfo)
+  if (pageTitle === '') {
+    pageTitle = siteName
+  }
+  if (pageDescription === '') {
+    pageDescription = description
+  }
   const tags = metaTags || getMetaTags({ pageTitle, pageDescription })
   return (
     <Head>
@@ -65,8 +81,8 @@ SeoTagsDato.propTypes = {
 
 SeoTagsDato.defaultProps = {
   metaTags: null,
-  pageTitle: globalInfo.globalSeo.siteName,
-  pageDescription: globalInfo.globalSeo.fallbackSeo.description,
+  pageTitle: '',
+  pageDescription: '',
 }
 
 export default SeoTagsDato
