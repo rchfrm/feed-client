@@ -314,6 +314,8 @@ export const getGeoLocations = (query) => {
 }
 
 export const getSpendingData = (dailyData) => {
+  if (!dailyData) return null
+
   const latestDayOfSpend = Object.keys(dailyData).filter(date => dailyData[date] > 0).pop()
   const latestDayOf0Spend = Object.keys(dailyData).filter(date => date < latestDayOfSpend && dailyData[date] === 0).pop()
   const firstDayOfData = Object.keys(dailyData)[0]
