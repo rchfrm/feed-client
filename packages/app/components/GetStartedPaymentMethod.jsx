@@ -51,10 +51,10 @@ const GetStartedPaymentMethod = () => {
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
   const isPaymentRequired = hasGrowthPlan || hasProPlan
 
-  const [pricingPlan, pricingPeriod] = plan.split('_')
-  const monthlyCost = pricingNumbers[pricingPlan].monthlyCost[artistCurrency]
+  const [planPrefix, planPeriod] = plan.split('_')
+  const monthlyCost = pricingNumbers[planPrefix].monthlyCost[artistCurrency]
   const annualCost = monthlyCost * 12
-  const amountToPay = pricingPeriod === 'annual' ? annualCost - (annualCost * pricingNumbers.annualDiscount) : monthlyCost
+  const amountToPay = planPeriod === 'annual' ? annualCost - (annualCost * pricingNumbers.annualDiscount) : monthlyCost
 
   const {
     card,
@@ -96,8 +96,7 @@ const GetStartedPaymentMethod = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6">
-      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.paymentMethodSubtitle}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 mb-10 text-grey-3 italic" markdown={copy.paymentMethodDescription} />
+      <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(planPrefix, formatCurrency(amountToPay, currency))} />
       <Error error={error} />
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
         {defaultPaymentMethod ? (

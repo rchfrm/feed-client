@@ -9,6 +9,19 @@ export const currencies = [
 ]
 
 export const pricingNumbers = {
+  legacy: {
+    monthlyCost: {
+      GBP: 0,
+      USD: 0,
+      EUR: 0,
+      CAD: 0,
+      AUD: 0,
+      NOK: 0,
+      SEK: 0,
+    },
+    serviceFeePercentage: 0.1,
+    maxSpendMultiple: 0,
+  },
   basic: {
     monthlyCost: {
       GBP: 0,

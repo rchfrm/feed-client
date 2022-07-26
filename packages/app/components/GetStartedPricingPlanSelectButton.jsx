@@ -8,6 +8,7 @@ import { capitalise } from '@/helpers/utils'
 const GetStartedPricingPlanSelectButton = ({
   plan,
   setSelectedPricingPlan,
+  isDisabled,
 }) => {
   const { name } = plan
   const title = capitalise(name)
@@ -19,6 +20,7 @@ const GetStartedPricingPlanSelectButton = ({
         'px-0 sm:px-4 py-2 sm:mb-5',
         'sm:border-2 sm:border-green sm:border-solid sm:rounded-dialogue',
         'font-bold',
+        isDisabled ? 'pointer-events-none grayscale border-grey-2 opacity-20' : null,
       ].join(' ')}
       onClick={() => setSelectedPricingPlan(name)}
     >
@@ -34,9 +36,11 @@ const GetStartedPricingPlanSelectButton = ({
 GetStartedPricingPlanSelectButton.propTypes = {
   plan: PropTypes.object.isRequired,
   setSelectedPricingPlan: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool,
 }
 
 GetStartedPricingPlanSelectButton.defaultProps = {
+  isDisabled: false,
 }
 
 export default GetStartedPricingPlanSelectButton

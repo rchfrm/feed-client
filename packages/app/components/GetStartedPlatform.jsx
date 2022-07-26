@@ -9,7 +9,6 @@ import GetStartedPlatformShowMoreButton from '@/app/GetStartedPlatformShowMoreBu
 import GetStartedPlatformShowMoreContent from '@/app/GetStartedPlatformShowMoreContent'
 
 import Error from '@/elements/Error'
-import MarkdownText from '@/elements/MarkdownText'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -142,8 +141,7 @@ const GetStartedPlatform = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="mb-4 font-medium text-xl">{copy.platformSubtitle}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.platformDescription} />
+      <h3 className="font-medium text-lg">{copy.platformSubtitle}</h3>
       <Error error={error} />
       <div>
         <div className="w-full xxs:w-3/4 lg:w-1/2 mx-auto mt-6">

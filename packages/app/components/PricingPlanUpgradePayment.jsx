@@ -7,11 +7,12 @@ import useBillingStore from '@/app/stores/billingStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PricingPlanUpgradePaymentProfilesList from '@/app/PricingPlanUpgradePaymentProfilesList'
-import PricingPlanUpgradePaymentProrations from '@/app/PricingPlanUpgradePaymentProrations'
+import PricingProrationsLoader from '@/app/PricingProrationsLoader'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import Error from '@/elements/Error'
 
 import brandColors from '@/constants/brandColors'
 
@@ -26,21 +27,20 @@ const getBillingStoreState = (state) => ({
 })
 
 const PricingPlanUpgradePayment = ({
+  plan,
   setCurrentStep,
   setSidePanelButton,
   profilesToUpgrade,
   setProfilesToUpgrade,
   prorationsPreview,
-  isLoadingProrations,
-  error,
-  setError,
+  setProrationsPreview,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
   const { artistId, artist, setPlan } = React.useContext(ArtistContext)
   const { name, hasGrowthPlan } = artist
-  const plan = profilesToUpgrade[artistId]
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
@@ -111,20 +111,6 @@ const PricingPlanUpgradePayment = ({
 
     // Make sure that the currently active profile is the first item in the array
     setUpgradableProfiles([currentProfile, ...filteredProfiles])
-
-    // Create plans object keyed by profile id
-    const otherProfilesPlans = otherProfiles.reduce((result, { id, plan }) => {
-      return {
-        ...result,
-        [id]: plan,
-      }
-    }, {})
-
-    // Update the 'profiles to upgrade' state
-    setProfilesToUpgrade((profilesToUpgrade) => ({
-      ...profilesToUpgrade,
-      ...otherProfilesPlans,
-    }))
   }, [artistId, organisationArtists, setProfilesToUpgrade])
 
   return (
@@ -138,35 +124,36 @@ const PricingPlanUpgradePayment = ({
           profiles={upgradableProfiles}
         />
       )}
-      <PricingPlanUpgradePaymentProrations
-        prorationsPreview={prorationsPreview}
+      <PricingProrationsLoader
         profilesToUpgrade={profilesToUpgrade}
-        isLoading={isLoadingProrations}
+        setProfilesToUpgrade={setProfilesToUpgrade}
+        prorationsPreview={prorationsPreview}
+        setProrationsPreview={setProrationsPreview}
+        plan={plan}
       />
+      <Error error={error} />
     </div>
   )
 }
 
 PricingPlanUpgradePayment.propTypes = {
+  plan: PropTypes.string,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
   profilesToUpgrade: PropTypes.object,
   setProfilesToUpgrade: PropTypes.func,
   prorationsPreview: PropTypes.object,
-  isLoadingProrations: PropTypes.bool,
-  error: PropTypes.object,
-  setError: PropTypes.func,
+  setProrationsPreview: PropTypes.func,
 }
 
 PricingPlanUpgradePayment.defaultProps = {
+  plan: '',
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
   profilesToUpgrade: null,
   setProfilesToUpgrade: () => {},
   prorationsPreview: null,
-  isLoadingProrations: false,
-  error: null,
-  setError: () => {},
+  setProrationsPreview: () => {},
 }
 
 export default PricingPlanUpgradePayment

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 
 import ButtonHelp from '@/elements/ButtonHelp'
-import MarkdownText from '@/elements/MarkdownText'
 import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import Error from '@/elements/Error'
 
@@ -18,15 +17,13 @@ const GetStartedConnectFacebookNoProfiles = ({ auth, error }) => {
 
   return (
     <div className="flex flex-1 flex-column">
-      <h3 className="mb-4 font-medium text-xl">{copy.facebookConnectSubtitle}</h3>
-      {missingScopes.length > 0 ? (
+      <h3 className="mb-4 font-medium text-lg">{copy.facebookConnectSubtitle}</h3>
+      {missingScopes.length > 0 && (
         <MissingScopesMessage
           scopes={missingScopes}
           showButton={false}
           className="text-grey-3 italic mb-4"
         />
-      ) : (
-        <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectDescription} />
       )}
       <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">

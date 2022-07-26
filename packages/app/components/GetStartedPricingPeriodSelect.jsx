@@ -45,7 +45,7 @@ const GetStartedPricingPeriodSelect = ({ showAnnualPricing, setShowAnnualPricing
 }
 
 GetStartedPricingPeriodSelect.propTypes = {
-  showAnnualPricing: PropTypes.bool.isRequired,
+  showAnnualPricing: PropTypes.string.isRequired,
   setShowAnnualPricing: PropTypes.func.isRequired,
   className: PropTypes.string,
 }

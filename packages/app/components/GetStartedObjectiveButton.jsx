@@ -12,7 +12,7 @@ import InsightsCircleIcon from '@/icons/InsightsCircleIcon'
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/getStartedCopy'
 
-const GetStartedObjectiveButton = ({ objective, setSelectedObjective }) => {
+const GetStartedObjectiveButton = ({ objective, setSelectedObjective, isDisabled }) => {
   const { name, value, color, plan } = objective
 
   const icons = {
@@ -30,12 +30,13 @@ const GetStartedObjectiveButton = ({ objective, setSelectedObjective }) => {
         onClick={() => setSelectedObjective(value)}
         className="mb-1"
         trackComponentName="GetStartedObjectiveButton"
+        disabled={isDisabled}
       >
         {name}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
-          fill="white"
+          fill={isDisabled ? brandColors.greyDark : brandColors.white}
         />
       </Button>
       <div className="flex justify-center items-center">
@@ -49,9 +50,11 @@ const GetStartedObjectiveButton = ({ objective, setSelectedObjective }) => {
 GetStartedObjectiveButton.propTypes = {
   objective: PropTypes.object.isRequired,
   setSelectedObjective: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool,
 }
 
 GetStartedObjectiveButton.defaultProps = {
+  isDisabled: false,
 }
 
 export default GetStartedObjectiveButton

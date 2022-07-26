@@ -47,14 +47,14 @@ Each profile on **${capitalise(planPrefix)}** is charged at ${formatCurrency(amo
 
 ${name} will be upgraded to <span className="text-insta font-bold">${capitalise(planPrefix)}</span>.`
   },
-  pricingUpgradeCurrentPaymentList: (prorationsPreview, currency) => {
+  pricingUpgradeCurrentPaymentList: (prorationsPreview, currency, hasSetUpProfile) => {
     const { upgradedProfiles, period: { isFirstDayOfPeriod } } = prorationsPreview
 
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
-      if (!currentPayment && plan === 'pro') return
+      if ((!currentPayment && plan === 'pro') || (!currentPayment && !hasSetUpProfile)) return
       if (!currentPayment) return `- No change to ${name}`
 
-      return `- ${formatCurrency(currentPayment, currency)} to upgrade ${name} to <span className="text-insta font-bold">${capitalise(plan)}</span>${!isFirstDayOfPeriod ? '^' : ''}`
+      return `- ${formatCurrency(currentPayment, currency)} ${hasSetUpProfile ? `to upgrade ${name} to` : `to set ${name} on`} <span className="text-insta font-bold">${capitalise(plan)}</span>${!isFirstDayOfPeriod ? '^' : ''}`
     })
 
     return `**To pay today:**

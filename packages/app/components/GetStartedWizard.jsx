@@ -51,6 +51,8 @@ const GetStartedWizard = () => {
 
   const { user } = React.useContext(UserContext)
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
+  const { hasLegacyPlan } = artist
+
 
   const {
     nestedLinks,
@@ -102,6 +104,7 @@ const GetStartedWizard = () => {
       title: 'Your plan',
       section: getStartedSections.pricingPlan,
       component: <GetStartedPricing />,
+      shouldSkip: hasLegacyPlan,
     },
     {
       id: 4,
@@ -150,7 +153,7 @@ const GetStartedWizard = () => {
     {
       id: 10,
       name: profileStatus.paymentMethod,
-      title: "Feed's service fee",
+      title: 'Your payment method',
       section: getStartedSections.targeting,
       component: <GetStartedPaymentMethod />,
       shouldSkip: Boolean(defaultPaymentMethod),

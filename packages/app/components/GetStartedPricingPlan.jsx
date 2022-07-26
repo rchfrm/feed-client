@@ -20,6 +20,7 @@ const GetStartedPricingPlan = ({
   handleSidePanel,
   currency,
   isRecommended,
+  isDisabled,
 }) => {
   const {
     name,
@@ -77,6 +78,7 @@ const GetStartedPricingPlan = ({
       <GetStartedPricingPlanSelectButton
         setSelectedPricingPlan={setSelectedPricingPlan}
         plan={plan}
+        isDisabled={isDisabled}
       />
       <GetStartedPricingPlanReadMoreButton
         plan={plan}
@@ -93,9 +95,11 @@ GetStartedPricingPlan.propTypes = {
   handleSidePanel: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
   isRecommended: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool,
 }
 
 GetStartedPricingPlan.defaultProps = {
+  isDisabled: false,
 }
 
 export default GetStartedPricingPlan

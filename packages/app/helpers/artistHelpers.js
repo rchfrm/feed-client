@@ -706,6 +706,14 @@ export const hasLegacyPlan = (plan) => {
   return plan.includes('legacy')
 }
 
+export const hasAllProfilesOnLegacyPlan = (organisationArtists) => {
+  if (!organisationArtists.length) {
+    return false
+  }
+
+  return organisationArtists.every(({ plan }) => plan === 'legacy_monthly')
+}
+
 // Update artist
 /**
 * @param {string} artistId

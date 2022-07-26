@@ -15,21 +15,19 @@ import { capitalise } from '@/helpers/utils'
 import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 const PricingPlanUpgradePlan = ({
+  plan,
+  setPlan,
   setCurrentStep,
   setSidePanelButton,
-  setProfilesToUpgrade,
-  error,
 }) => {
-  const [pricingPlan, setPricingPlan] = React.useState('growth')
-
-  const { artistId, artist } = React.useContext(ArtistContext)
+  const { artist } = React.useContext(ArtistContext)
   const { name } = artist
-  const features = pricingPlans.find(({ name }) => name === pricingPlan)?.features
+  const [planPrefix] = plan.split('_')
+  const features = pricingPlans.find(({ name }) => name === planPrefix)?.features
   const { growth: growthPlan, pro: proPlan } = pricingNumbers
-  const isDisabled = Boolean(error)
 
   const handleChange = (plan) => {
-    setPricingPlan(plan)
+    setPlan(getPricingPlanString(plan, false))
   }
 
   const next = React.useCallback(() => {
@@ -38,23 +36,18 @@ const PricingPlanUpgradePlan = ({
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={next} disabled={isDisabled} trackComponentName="PricingPlanUpgradePlan">
-        Upgrade to {capitalise(pricingPlan)}
+      <Button version="insta" onClick={next} trackComponentName="PricingPlanUpgradePlan">
+        Upgrade to {capitalise(planPrefix)}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
-          fill={isDisabled ? brandColors.greyDark : brandColors.white}
+          fill={brandColors.white}
         />
       </Button>
     )
 
     setSidePanelButton(button)
-  }, [next, setSidePanelButton, pricingPlan, isDisabled])
-
-  // Update the profiles to upgrade state
-  React.useEffect(() => {
-    setProfilesToUpgrade({ [artistId]: getPricingPlanString(pricingPlan, false) })
-  }, [pricingPlan, artistId, setProfilesToUpgrade])
+  }, [next, setSidePanelButton, planPrefix])
 
   return (
     <div>
@@ -62,7 +55,7 @@ const PricingPlanUpgradePlan = ({
       <PricingPlanUpgradePlanItem
         name="growth"
         plan={growthPlan}
-        selectedPlan={pricingPlan}
+        selectedPlan={planPrefix}
         isAnnualPricing={false}
         features={features}
         handleChange={handleChange}
@@ -71,7 +64,7 @@ const PricingPlanUpgradePlan = ({
       <PricingPlanUpgradePlanItem
         name="pro"
         plan={proPlan}
-        selectedPlan={pricingPlan}
+        selectedPlan={planPrefix}
         isAnnualPricing={false}
         features={features}
         handleChange={handleChange}
@@ -81,17 +74,17 @@ const PricingPlanUpgradePlan = ({
 }
 
 PricingPlanUpgradePlan.propTypes = {
+  plan: PropTypes.string,
+  setPlan: PropTypes.func,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
-  setProfilesToUpgrade: PropTypes.func,
-  error: PropTypes.object,
 }
 
 PricingPlanUpgradePlan.defaultProps = {
+  plan: '',
+  setPlan: () => {},
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
-  setProfilesToUpgrade: () => {},
-  error: null,
 }
 
 export default PricingPlanUpgradePlan
