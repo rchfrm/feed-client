@@ -129,7 +129,7 @@ const TargetingBudgetBox = ({
               />
             </div>
             <DisabledSection
-              section="budget"
+              section="set-budget"
               isDisabled={isDisabled}
               className="mt-4"
             >

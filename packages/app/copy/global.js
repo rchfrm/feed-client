@@ -51,6 +51,8 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'get some insights'
         case 'budget':
           return 'increase your budget'
+        case 'set-budget':
+          return 'set a budget'
         default:
           return section
       }
@@ -123,6 +125,8 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
         case 'budget':
           return `Growth includes a monthly limit of ad spend of ${formatCurrency(maxSpendGrowth, currency)}.`
             + `\n\n With Pro this increases to ${formatCurrency(maxSpendPro, currency)}.`
+        case 'set-budget':
+          return `Explanation about the profile not being able to run ads because it's not on a plan while the organisation has at least one profile on Growth or Pro.`
         default:
           return 'Description...?'
       }
@@ -237,5 +241,6 @@ ${list.join('\n')}`
     if (section === 'post-caption') return `${planBaseString} to edit caption of promoted posts`
     if (section === 'insights') return `${planBaseString} to track audience data from connected integrations`
     if (section === 'single-post-page') return `${planBaseString} to use custom settings for specific posts`
+    if (section === 'set-budget') return `${planBaseString} to set a budget`
   },
 }
