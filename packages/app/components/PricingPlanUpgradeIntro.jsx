@@ -24,8 +24,8 @@ const PricingPlanUpgradeIntro = ({
   setSidePanelButton,
 }) => {
   const { artist } = React.useContext(ArtistContext)
-  const { hasGrowthPlan } = artist
-  const isUpgradeToPro = hasGrowthPlan || section === 'facebook-pixel'
+  const { hasGrowthPlan, hasLegacyPlan } = artist
+  const isUpgradeToPro = (hasGrowthPlan && !hasLegacyPlan) || section === 'facebook-pixel'
   const { defaultPaymentMethod: { currency } } = useBillingStore(getBillingStoreState, shallow)
 
   const next = React.useCallback(() => {

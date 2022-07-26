@@ -7,6 +7,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import useBillingStore from '@/app/stores/billingStore'
 
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
@@ -16,7 +17,13 @@ import DisabledSection from '@/app/DisabledSection'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 
+import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
+
 import copy from '@/app/copy/targetingPageCopy'
+
+const getBillingStoreState = (state) => ({
+  organisationArtists: state.organisationArtists,
+})
 
 const TargetingBudgetBox = ({
   className,
@@ -58,6 +65,9 @@ const TargetingBudgetBox = ({
       hasLegacyPlan,
     },
   } = React.useContext(ArtistContext)
+
+  const { organisationArtists } = useBillingStore(getBillingStoreState)
+  const isDisabled = !hasSetUpProfile || (hasLegacyPlan && hasAProfileOnGrowthOrPro(organisationArtists))
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
@@ -114,11 +124,15 @@ const TargetingBudgetBox = ({
               <TargetingBudgetPauseButton
                 togglePauseCampaign={togglePauseCampaign}
                 isPaused={!targetingState.status}
-                isDisabled={!hasSetUpProfile}
+                isDisabled={isDisabled}
                 className={!isDesktopLayout ? 'mr-12' : null}
               />
             </div>
-            <DisabledSection section="budget" isDisabled={!hasSetUpProfile} className="mt-4">
+            <DisabledSection
+              section="budget"
+              isDisabled={isDisabled}
+              className="mt-4"
+            >
               {/* BUDGET SETTER */}
               <div>
                 <TargetingBudgetSetter

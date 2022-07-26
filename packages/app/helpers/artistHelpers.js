@@ -714,6 +714,14 @@ export const hasAllProfilesOnLegacyPlan = (organisationArtists) => {
   return organisationArtists.every(({ plan }) => plan === 'legacy_monthly')
 }
 
+export const hasAProfileOnGrowthOrPro = (organisationArtists) => {
+  return organisationArtists.some(({ plan }) => {
+    const [planPrefix] = plan.split('_')
+
+    return planPrefix === 'growth' || planPrefix === 'pro'
+  })
+}
+
 // Update artist
 /**
 * @param {string} artistId

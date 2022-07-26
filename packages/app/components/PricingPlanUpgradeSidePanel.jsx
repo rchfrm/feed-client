@@ -21,10 +21,10 @@ const getBillingStoreState = (state) => ({
 const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { artist } = React.useContext(ArtistContext)
 
-  const { hasGrowthPlan } = artist
+  const { hasGrowthPlan, hasLegacyPlan } = artist
   const [, planPeriod] = artist.plan.split('_') || []
   const isAnnualPricing = planPeriod === 'annual'
-  const isUpgradeToPro = hasGrowthPlan || section === 'facebook-pixel'
+  const isUpgradeToPro = (hasGrowthPlan && !hasLegacyPlan) || section === 'facebook-pixel'
 
   const [currentStep, setCurrentStep] = React.useState(0)
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState(null)
