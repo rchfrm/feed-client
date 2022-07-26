@@ -12,6 +12,7 @@ import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
 import { updatePricingPlan } from '@/app/helpers/artistHelpers'
+import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
@@ -37,14 +38,8 @@ const GetStartedPricing = () => {
 
   const { next } = React.useContext(WizardContext)
 
-  const getPricingPlanString = React.useCallback((pricingPlan) => {
-    const period = showAnnualPricing && pricingPlan !== 'basic' ? 'annual' : 'monthly'
-
-    return `${pricingPlan}_${period}`
-  }, [showAnnualPricing])
-
   const handleNextStep = React.useCallback(async (pricingPlan) => {
-    const pricingPlanString = getPricingPlanString(pricingPlan)
+    const pricingPlanString = getPricingPlanString(pricingPlan, showAnnualPricing)
 
     // If the pricing plan hasn't changed just go to the next step
     if (pricingPlanString === artist?.plan || pricingPlanString === wizardState?.plan) {
@@ -80,7 +75,7 @@ const GetStartedPricing = () => {
     setIsLoading(false)
     next()
   // eslint-disable-next-line
-  }, [next, artistId, getPricingPlanString])
+  }, [next, artistId, getPricingPlanString, showAnnualPricing])
 
   React.useEffect(() => {
     if (!selectedPricingPlan) return

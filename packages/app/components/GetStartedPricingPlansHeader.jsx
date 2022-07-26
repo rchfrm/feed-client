@@ -39,7 +39,7 @@ const GetStartedPricingPlansHeader = ({
         />
       ) : (
         <GetStartedPricingPeriodSelect
-          showAnnualPricing={showAnnualPricing}
+          showAnnualPricing={showAnnualPricing.toString()}
           setShowAnnualPricing={setShowAnnualPricing}
           className="xs:ml-2 w-[108px]"
         />

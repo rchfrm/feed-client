@@ -32,7 +32,8 @@ const ConnectProfilesConnectMore = ({
       trackComponentName="ConnectProfilesConnectMore"
       className="w-full xs:w-1/2"
     />)
-  }, [sidePanelOpen, isDesktopLayout, setSidePanelButton, errors, setErrors])
+  // eslint-disable-next-line
+  }, [isDesktopLayout, setSidePanelButton, errors, setErrors])
 
   return (
     <div>

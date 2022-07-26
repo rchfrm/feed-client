@@ -34,9 +34,19 @@ const fetchOrganisationDetails = async (organisation) => {
   const billingDetails = billingHelpers.getbillingDetails(organisation)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
 
+  let organisationArtists = []
+  const organisationArtistsResponse = await billingHelpers.getOrganisationArtists(organisation.id)
+
+  if (!organisationArtistsResponse.error) {
+    organisationArtists = organisationArtistsResponse.res.artists
+  } else {
+    organisationArtists = Object.values((organisation || {}).artists || {})
+  }
+
   return {
     billingDetails,
     defaultPaymentMethod,
+    organisationArtists,
   }
 }
 
@@ -68,12 +78,14 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
   const {
     billingDetails,
     defaultPaymentMethod,
+    organisationArtists,
   } = await fetchOrganisationDetails(organisation)
 
   if (shouldFetchOrganisationDetailsOnly) {
     set({
       ...(allOrgs && { allOrgs }),
       organisation,
+      organisationArtists,
       billingDetails,
       defaultPaymentMethod,
       ...(artistCurrency && { artistCurrency }),
@@ -97,14 +109,6 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
     organisationUsers = organisationUsersResponse.res.users
   } else {
     organisationUsers = Object.values((organisation || {}).users || {})
-  }
-
-  let organisationArtists = []
-  const organisationArtistsResponse = await billingHelpers.getOrganisationArtists(organisation.id)
-  if (!organisationArtistsResponse.error) {
-    organisationArtists = organisationArtistsResponse.res.artists
-  } else {
-    organisationArtists = Object.values((organisation || {}).artists || {})
   }
 
   let organisationInvites = []
