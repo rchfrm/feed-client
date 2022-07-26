@@ -23,6 +23,8 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
     const baseString = 'Looking to'
     function getSectionIntro(section) {
       switch (section) {
+        case 'connect-accounts':
+          return 'manage multiple profiles'
         case 'priority-post':
           return 'prioritise a post'
         case 'post-link':
@@ -58,6 +60,9 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
     const maxSpendPro = pricingNumbers.pro.monthlyCost[currency] * pricingNumbers.pro.maxSpendMultiple
     function getSectionDescription(section) {
       switch (section) {
+        case 'connect-accounts':
+          return 'Feed allows you to run ads for more than one profile at once.'
+            + '\n\n You can switch between profiles, setting individual budgets, objectives and viewing the results.'
         case 'priority-post':
           return 'The double chevron in the top left corner of each post allows you to mark it as a priority.'
             + '\n\n This means Feed will create ads based on that post and submit them for review within 15 minutes.'
