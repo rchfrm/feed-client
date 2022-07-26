@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import BillingOpenProfiles from '@/app/BillingOpenProfiles'
 import BillingProfilesTransferList from '@/app/BillingProfilesTransferList'
 import MarkdownText from '@/elements/MarkdownText'
-
 import copy from '@/app/copy/billingCopy'
-
 import useBillingStore from '@/app/stores/billingStore'
+import { capitalise } from '@/helpers/utils'
+import LightbulbIcon from '@/icons/LightbulbIcon'
+import brandColors from '@/constants/brandColors'
 
 const getBillingStoreState = (state) => ({
   organisation: state.organisation,
@@ -52,14 +52,38 @@ const BillingProfilesSummary = ({
         <>
           <MarkdownText markdown={copy.profilesIntro} />
           <ul>
-            {artists.map((artist) => (
-              <React.Fragment key={artist.id}>
-                <li className="flex ml-5 mb-3 last:mb-0">
-                  <span>{artist.name}</span>
-                </li>
-              </React.Fragment>
-            ))}
+            {artists.map((artist) => {
+              const artistPlan = artist.plan && artist.plan.split('_')[0]
+              return (
+                <React.Fragment key={artist.id}>
+                  <li className="flex ml-5 mb-3 last:mb-0 items-center gap-2">
+                    <span>{artist.name}</span>
+                    {artistPlan && (
+                      <div
+                        className={[
+                          'inline-flex',
+                          'items-center',
+                          'px-2',
+                          'py-1',
+                          'text-xs',
+                          'border-2',
+                          'border-solid',
+                          'border-insta',
+                          'rounded-full',
+                        ].join(' ')}
+                      >
+                        {capitalise(artistPlan)}
+                      </div>
+                    )}
+                  </li>
+                </React.Fragment>
+              )
+            })}
           </ul>
+          <div className="flex items-center mb-4">
+            <LightbulbIcon className="flex-none h-auto mr-2 w-3" fill={brandColors.instagram.bg} />
+            <MarkdownText className="mb-0 bold text-insta" markdown="[Email us to downgrade or cancel your subscription](mailto:team@tryfeed.co)" />
+          </div>
         </>
       )}
       {/* TRANSFER REQUESTS */}
