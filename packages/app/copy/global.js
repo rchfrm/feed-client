@@ -117,7 +117,7 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
             + '\n\n Those links will then be available to select as your default link or on individual posts.'
         case 'insights':
           return 'The insights page is all about the bigger picture.'
-            + '\n\n How is has your Instagram follower count been growing over time?'
+            + '\n\n How has has your Instagram follower count been growing over time?'
             + '\n\n What about Spotify Monthly Listeners?'
             + '\n\n Here you can see charts displaying the impact your marketing is having on your audience.'
         case 'budget':
