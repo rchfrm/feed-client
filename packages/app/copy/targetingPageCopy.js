@@ -46,6 +46,7 @@ Do you want to continue?`,
 Upgrade to <span className="text-insta font-bold">Pro</span> to raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
     }
 
+    // TODO: Prompt to email us / book a call instead of opening side panel
     return `You're projected monthly to exceed the <span className="text-insta font-bold">Pro</span> reach cap of ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
   },
 

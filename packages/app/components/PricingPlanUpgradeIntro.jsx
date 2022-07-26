@@ -11,6 +11,12 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import copy from '@/app/copy/global'
 import brandColors from '@/constants/brandColors'
+import useBillingStore from '@/app/stores/billingStore'
+import shallow from 'zustand/shallow'
+
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
+})
 
 const PricingPlanUpgradeIntro = ({
   section,
@@ -20,6 +26,7 @@ const PricingPlanUpgradeIntro = ({
   const { artist } = React.useContext(ArtistContext)
   const { hasGrowthPlan } = artist
   const isUpgradeToPro = hasGrowthPlan || section === 'facebook-pixel'
+  const { defaultPaymentMethod: { currency } } = useBillingStore(getBillingStoreState, shallow)
 
   const next = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
@@ -43,7 +50,7 @@ const PricingPlanUpgradeIntro = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">{copy.pricingUpgradeIntroTitle(section)}</h2>
-      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section)} className="mb-8" />
+      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currency)} className="mb-8" />
       {isUpgradeToPro && (
         <PricingPlanUpgradeIntroPlan />
       )}

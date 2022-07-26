@@ -33,6 +33,8 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'edit the caption'
         case 'objective-traffic':
           return 'choose another objective'
+        case 'objective-sales':
+          return 'use conversion ads'
         case 'default-promotion':
           return 'disable automatic promotion'
         case 'facebook-pixel':
@@ -43,14 +45,17 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'save more links'
         case 'insights':
           return 'get some insights'
-        // TODO Checkout FD-1279-profiles-upgrade and run server locally, then upgrade to Growth and continue
+        case 'budget':
+          return 'increase your budget'
         default:
           return section
       }
     }
     return `${baseString} ${getSectionIntro(section)}?`
   },
-  pricingUpgradeIntroDescription: (section) => {
+  pricingUpgradeIntroDescription: (section, currency = 'GBP') => {
+    const maxSpendGrowth = pricingNumbers.growth.monthlyCost[currency] * pricingNumbers.growth.maxSpendMultiple
+    const maxSpendPro = pricingNumbers.pro.monthlyCost[currency] * pricingNumbers.pro.maxSpendMultiple
     function getSectionDescription(section) {
       switch (section) {
         case 'priority-post':
@@ -73,6 +78,11 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'Beyond audience growth there are two other objectives in Feed: traffic or sales.'
             + '\n\n The traffic objective will focus on link clicks, so sending people to your website. Encouraging people off Facebook or Instagram helps you have a more direct relationship.'
             + '\n\n The sales objective focusses on purchases from your online shop. By adding a Meta Pixel, Feed will be able to report back the value of purchases made as a direct result of the ads.'
+        case 'objective-sales':
+          return 'The sales objective allows you to run ads geared towards purchases on your site.'
+            + '\n\n You\'ll be able to track both the number and value of sales on your site as a direct result of Feed\'s ads.'
+            + '\n\n This means Feed can then calculate your ROAS, or return on ad spend.'
+            + '\n\n A 3x ROAS would mean that you made 3x more in revenue from purchases than you spent on the ads that drove those sales.'
         case 'default-promotion':
           return 'By default, each one of your posts will be eligible for promotion. Feed will prioritise the posts based on score, and run continuous A/B testing to ensure the best results.'
             + '\n\n The more posts Feed has to choose from the better, as it is often surprising which posts perform the best!'
@@ -98,6 +108,9 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
             + '\n\n How is has your Instagram follower count been growing over time?'
             + '\n\n What about Spotify Monthly Listeners?'
             + '\n\n Here you can see charts displaying the impact your marketing is having on your audience.'
+        case 'budget':
+          return `Growth includes a monthly limit of ad spend of ${formatCurrency(maxSpendGrowth, currency)}.`
+            + `\n\n With Pro this increases to ${formatCurrency(maxSpendPro, currency)}.`
         default:
           return 'Description...?'
       }
@@ -180,11 +193,9 @@ ${list.join('\n')}`
       return `- ${name} has been upgraded to <span className="text-insta font-bold">${capitalise(plan)}</span>.`
     })
 
-    return `You have paid ${formatCurrency(amount, currency)}.
-
-${list.join('\n')}
-
-Close this window to ...`
+    return `You have paid ${formatCurrency(amount, currency)}.`
+      + `\n\n ${list.join('\n')}`
+    // TODO: Add message to use feature from initial prompt that opened the upgrade flow. "Close this window to..."
   },
   disabledReason: (section, hasSetUpProfile, hasOverflow) => {
     const shouldUpgradeToPro = section === 'facebook-pixel' || section === 'objective-sales'
