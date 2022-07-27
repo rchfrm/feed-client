@@ -1,5 +1,5 @@
 const facebook = {
-  OAUTH_URL: 'https://www.facebook.com/v12.0/dialog/oauth',
+  OAUTH_URL: 'https://www.facebook.com/v14.0/dialog/oauth',
   APP_ID: '617771208738795',
 }
 
