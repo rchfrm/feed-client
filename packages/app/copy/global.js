@@ -223,7 +223,7 @@ ${list.join('\n')}`
       if (section === 'objective') return `${setupBaseString} choose your objective`
       if (section === 'linkbank') return `${setupBaseString} add to the link bank`
       if (section === 'integrations') return `${setupBaseString} integrate other platforms`
-      if (section === 'budget') return `${setupBaseString} choose your budget`
+      if (section === 'set-budget') return `${setupBaseString} choose your budget`
       if (section === 'targeting') return `${setupBaseString} adjust your targeting`
       if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
     }
