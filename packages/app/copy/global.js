@@ -127,7 +127,7 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
             + `\n\n With Pro this increases to ${formatCurrency(maxSpendPro, currency)}.`
         case 'set-budget':
           return 'Set a budget for this profile to start ads geared towards your objective.'
-          + '\n\n Once you upgrade to either Growth or Pro you will be able to set a budget, objective and start running ads.'
+            + '\n\n Once you upgrade to either Growth or Pro you will be able to set a budget, objective and start running ads.'
         default:
           return 'Description...?'
       }
