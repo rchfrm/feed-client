@@ -126,7 +126,8 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return `Growth includes a monthly limit of ad spend of ${formatCurrency(maxSpendGrowth, currency)}.`
             + `\n\n With Pro this increases to ${formatCurrency(maxSpendPro, currency)}.`
         case 'set-budget':
-          return `Explanation about the profile not being able to run ads because it's not on a plan while the organisation has at least one profile on Growth or Pro.`
+          return 'Set a budget for this profile to start ads geared towards your objective.'
+          + '\n\n Once you upgrade to either Growth or Pro you will be able to set a budget, objective and start running ads.'
         default:
           return 'Description...?'
       }
