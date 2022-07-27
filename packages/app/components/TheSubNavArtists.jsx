@@ -102,7 +102,7 @@ const TheSubNavArtists = ({ className }) => {
         />
         {isDisabled && (
           <DisabledActionPrompt
-            section="profiles-select"
+            section="profile-select"
             version="small"
             className="-mt-3 mb-6 md:mb-4 no-underline"
           />
@@ -148,7 +148,7 @@ const TheSubNavArtists = ({ className }) => {
         })}
         {isDisabled && (
           <DisabledActionPrompt
-            section="profiles-select"
+            section="profile-select"
             version="small"
             className="mb-6 md:mb-4 no-underline"
           />
