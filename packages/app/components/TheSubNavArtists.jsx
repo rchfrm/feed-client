@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useBillingStore from '@/app/stores/billingStore'
+
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -15,6 +17,10 @@ import TheSubNavConnectProfiles from '@/app/TheSubNavConnectProfiles'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 import styles from '@/app/TheSubNav.module.css'
+
+const getBillingStoreState = (state) => ({
+  organisationArtists: state.organisationArtists,
+})
 
 const ARTIST_SELECT_OPTIONS = ({
   currentArtistId,
@@ -52,8 +58,11 @@ const getArtistsWithNotifications = state => state.artistsWithNotifications
 const TheSubNavArtists = ({ className }) => {
   const { user } = React.useContext(UserContext)
   const { artists: allArtists } = user
-  const { artistId, storeArtist } = React.useContext(ArtistContext)
+  const { artistId, storeArtist, artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
   const maxArtists = 3
+  const { organisationArtists } = useBillingStore(getBillingStoreState)
+  const hasAllProfilesOnLegacyPlan = artistHelpers.hasAllProfilesOnLegacyPlan(organisationArtists)
+  const isDisabled = !hasGrowthPlan && hasAllProfilesOnLegacyPlan
 
   const updateArtist = (artistId) => {
     storeArtist(artistId)
