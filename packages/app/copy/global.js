@@ -126,7 +126,12 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return `Growth includes a monthly limit of ad spend of ${formatCurrency(maxSpendGrowth, currency)}.`
             + `\n\n With Pro this increases to ${formatCurrency(maxSpendPro, currency)}.`
         case 'set-budget':
+<<<<<<< HEAD
           return `Explanation about the profile not being able to run ads because it's not on a plan while the organisation has at least one profile on Growth or Pro.`
+=======
+          return 'Set a budget for this profile to start ads geared towards your objective.'
+            + '\n\n Once you upgrade to either Growth or Pro you will be able to set a budget, objective and start running ads.'
+>>>>>>> dev
         default:
           return 'Description...?'
       }
@@ -222,7 +227,7 @@ ${list.join('\n')}`
       if (section === 'objective') return `${setupBaseString} choose your objective`
       if (section === 'linkbank') return `${setupBaseString} add to the link bank`
       if (section === 'integrations') return `${setupBaseString} integrate other platforms`
-      if (section === 'budget') return `${setupBaseString} choose your budget`
+      if (section === 'set-budget') return `${setupBaseString} choose your budget`
       if (section === 'targeting') return `${setupBaseString} adjust your targeting`
       if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
     }
