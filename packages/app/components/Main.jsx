@@ -4,7 +4,6 @@ import useAsyncEffect from 'use-async-effect'
 
 import InitUser from '@/app/InitUser'
 
-import { SidePanelContextProvider } from '@/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
@@ -107,13 +106,11 @@ function Main({ children }) {
 
   return (
     <main id="page--container" className="md:ml-10">
-      <SidePanelContextProvider>
-        <InitUser>
-          {children}
-          <IntegrationErrorHandler />
-          <NotificationsHandler />
-        </InitUser>
-      </SidePanelContextProvider>
+      <InitUser>
+        {children}
+        <IntegrationErrorHandler />
+        <NotificationsHandler />
+      </InitUser>
     </main>
   )
 }
