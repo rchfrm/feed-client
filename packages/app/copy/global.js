@@ -242,5 +242,6 @@ ${list.join('\n')}`
     if (section === 'insights') return `${planBaseString} to track audience data from connected integrations`
     if (section === 'single-post-page') return `${planBaseString} to use custom settings for specific posts`
     if (section === 'set-budget') return `${planBaseString} to set a budget`
+    if (section === 'profiles-select') return `${planBaseString} to switch between profiles`
   },
 }
