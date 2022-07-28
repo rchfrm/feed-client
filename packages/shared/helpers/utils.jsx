@@ -497,3 +497,13 @@ export const isBooleanString = (value) => {
 export const checkAndConvertBooleanString = (value) => {
   return isBooleanString(value) ? JSON.parse(value) : value
 }
+
+export const getMaxSpendString = (currency, maxSpend) => {
+  const currencySymbol = getCurrencySymbol(currency)
+  const formattedSpend = addCommasToNumber(maxSpend)
+
+  if (currencySymbol === 'kr') {
+    return `${formattedSpend} ${currencySymbol}`
+  }
+  return `${currencySymbol}${formattedSpend}`
+}

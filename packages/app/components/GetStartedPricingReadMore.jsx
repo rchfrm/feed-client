@@ -17,7 +17,6 @@ const GetStartedPricingReadMore = ({ plan, currency }) => {
     description,
     monthlyCost,
     serviceFeePercentage,
-    features,
   } = plan
 
   const amount = monthlyCost[currency]
@@ -29,7 +28,7 @@ const GetStartedPricingReadMore = ({ plan, currency }) => {
       <PricingPlanMonthlyCost amount={amount} currenct={currency} />
       {isBasicPlan && <PricingPlanServiceFee percentage={serviceFeePercentage} />}
       <p className="text-2xl mb-8">{description}</p>
-      <PricingPlanFeatures features={features} className="mb-4" />
+      <PricingPlanFeatures plan={plan} currency={currency} className="mb-4" />
       <MarkdownText markdown={copy.pricingProfileFootnote} className="text-xs mb-0" />
     </div>
   )

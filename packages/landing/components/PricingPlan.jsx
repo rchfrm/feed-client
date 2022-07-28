@@ -8,7 +8,6 @@ import TryFeed from '@/landing/TryFeed'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import { getMaxSpendString } from '@/landing/copy/PricingPageCopy'
 import { currencies } from '@/constants/pricing'
 
 import { capitalise } from '@/helpers/utils'
@@ -18,23 +17,9 @@ export default function PricingPlan({ plan, showAnnualPricing, currency }) {
     name,
     description,
     monthlyCost,
-    features,
-    maxSpendMultiple,
     serviceFeePercentage,
   } = plan
-  // Add max spend to feature list if applicable
-  const [expandedFeatureList, setExpandedFeatureList] = React.useState(features)
-  React.useEffect(() => {
-    if (maxSpendMultiple) {
-      const maxSpendString = getMaxSpendString(currency, monthlyCost[currency] * maxSpendMultiple)
-      setExpandedFeatureList([
-        ...features,
-        `${maxSpendString} max monthly spend per profile^`,
-      ])
-    } else {
-      setExpandedFeatureList(features)
-    }
-  }, [currency, features, maxSpendMultiple, monthlyCost])
+
   return (
     <div
       className={[
@@ -72,7 +57,7 @@ export default function PricingPlan({ plan, showAnnualPricing, currency }) {
         className={['w-full', 'mb-5'].join(' ')}
         trackLocation={`PricingPlan${name}`}
       />
-      <PricingPlanFeatures features={expandedFeatureList} />
+      <PricingPlanFeatures plan={plan} currency={currency} />
     </div>
   )
 }

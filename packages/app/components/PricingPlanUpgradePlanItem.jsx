@@ -13,11 +13,12 @@ import copy from '@/app/copy/global'
 
 const PricingPlanUpgradePlanItem = ({
   name,
-  plan,
+  pricingPlan,
+  pricingPlanNumbers,
   selectedPlan,
   isAnnualPricing,
   handleChange,
-  features,
+  currency,
   className,
 }) => {
   return (
@@ -32,14 +33,14 @@ const PricingPlanUpgradePlanItem = ({
           className="mb-0 font-bold text-xl"
         />
         <PricingPlanUpgradeMonthlyCostAndServiceFee
-          plan={plan}
+          plan={pricingPlanNumbers}
           isAnnualPricing={isAnnualPricing}
         />
       </div>
       {selectedPlan === name && (
         <div className="my-6 pl-4">
           <p className="pl-1">Features:</p>
-          <PricingPlanFeatures features={features} className="mb-4" />
+          <PricingPlanFeatures plan={pricingPlan} currency={currency} className="mb-4" />
           <MarkdownText markdown={copy.pricingProfileFootnote} className="text-xs mb-0" />
         </div>
       )}
@@ -49,11 +50,12 @@ const PricingPlanUpgradePlanItem = ({
 
 PricingPlanUpgradePlanItem.propTypes = {
   name: PropTypes.string.isRequired,
-  plan: PropTypes.object.isRequired,
+  pricingPlan: PropTypes.object.isRequired,
+  pricingPlanNumbers: PropTypes.object.isRequired,
   selectedPlan: PropTypes.string.isRequired,
   isAnnualPricing: PropTypes.bool.isRequired,
   handleChange: PropTypes.func.isRequired,
-  features: PropTypes.array.isRequired,
+  currency: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
