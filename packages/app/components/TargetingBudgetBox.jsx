@@ -81,7 +81,7 @@ const TargetingBudgetBox = ({
 
   const budgetData = {
     currency: currencyCode,
-    projectedMonthlyBudget: (targetingState.budget * 31) / currencyOffset,
+    dailyBudget: targetingState.budget / currencyOffset,
     hasBudgetBelowMinRecommendedStories,
     minRecommendedStoriesString,
   }
@@ -183,6 +183,7 @@ const TargetingBudgetBox = ({
             copy={copy.budgetFooter(hasProPlan, budgetData)}
             section="budget"
             version="small"
+            isButton={!hasProPlan}
             className="mt-5"
           />
         )
