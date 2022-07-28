@@ -42,7 +42,7 @@ const GetStartedPricingPlanReadMoreButton = ({
         >
           Read more
         </Button>
-        about the {title} tier
+        about the {title} plan
       </div>
     </div>
   )

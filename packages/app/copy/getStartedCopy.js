@@ -28,7 +28,7 @@ export default {
   },
   objectiveSubtitle: 'What are you trying to achieve?',
   objectivePlanFooter: (plan) => {
-    if (plan === 'basic') return 'Available in all tiers'
+    if (plan === 'basic') return 'Available in all plans'
     if (plan === 'growth') return 'Growth and above'
     if (plan === 'pro') return 'Pro exclusive'
   },
