@@ -161,7 +161,7 @@ ${name} will be upgraded to <span className="text-insta font-bold">${capitalise(
       if ((!currentPayment && plan === 'pro') || (!currentPayment && !hasSetUpProfile)) return
       if (!currentPayment) return `- No change to ${name}`
 
-      return `- ${formatCurrency(currentPayment, currency)} ${hasSetUpProfile ? `to upgrade ${name} to` : `to set ${name} on`} <span className="text-insta font-bold">${capitalise(plan)}</span>${!isFirstDayOfPeriod ? '^' : ''}`
+      return `- ${formatCurrency(currentPayment, currency)} ${hasSetUpProfile ? `to upgrade ${name} to` : `to set up ${name} on`} <span className="text-insta font-bold">${capitalise(plan)}</span>${!isFirstDayOfPeriod ? '^' : ''}`
     })
 
     return `**To pay today:**
