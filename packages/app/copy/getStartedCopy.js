@@ -90,6 +90,9 @@ This is to cover Feed's 10% service fee. You won't be charged in months where yo
 
     return `the ${capitalise(plan)}`
   },
+  disabledPricingPlan: (pricingPlan, objective) => {
+    return `${capitalise(pricingPlan)} is unavailable with the website ${objective} objective.`
+  },
   inSufficientBudget: (minBudget) => `Budget must be at least ${minBudget} to set your objective to sales.`,
   reviewDescription: 'Feed has submitted your ads for approval!',
   objectiveSummary: (objective, platform, isDesktopLayout) => {

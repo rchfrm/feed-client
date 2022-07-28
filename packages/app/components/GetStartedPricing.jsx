@@ -122,6 +122,7 @@ const GetStartedPricing = () => {
               currency={currency}
               setSelectedPricingPlan={setSelectedPricingPlan}
               recommendedPlan={recommendedPlan}
+              objective={objective}
             />
           </>
         )}
