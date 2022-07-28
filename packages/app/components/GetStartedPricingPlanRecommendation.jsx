@@ -15,7 +15,7 @@ const GetStartedPricingPlanRecommendation = () => {
       isDesktop ? 'left-0 -top-9' : 'bottom-0 right-0',
       'flex items-center justify-center',
       'w-full h-8 p-3',
-      'outline outline-[5px] outline-solid outline-insta',
+      'ring-[5px] ring-insta',
       'rounded-b-dialogue sm:rounded-t-dialogue sm:rounded-b-none bg-insta',
       'text-xs text-white italic',
     ].join(' ')}
