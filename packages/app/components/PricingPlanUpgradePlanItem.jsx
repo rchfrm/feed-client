@@ -5,8 +5,11 @@ import PricingPlanUpgradeMonthlyCostAndServiceFee from '@/app/PricingPlanUpgrade
 import PricingPlanFeatures from '@/PricingPlanFeatures'
 
 import RadioButton from '@/elements/RadioButton'
+import MarkdownText from '@/elements/MarkdownText'
 
 import { capitalise } from '@/helpers/utils'
+
+import copy from '@/app/copy/global'
 
 const PricingPlanUpgradePlanItem = ({
   name,
@@ -36,7 +39,8 @@ const PricingPlanUpgradePlanItem = ({
       {selectedPlan === name && (
         <div className="my-6 pl-4">
           <p className="pl-1">Features:</p>
-          <PricingPlanFeatures features={features} />
+          <PricingPlanFeatures features={features} className="mb-4" />
+          <MarkdownText markdown={copy.pricingProfileFootnote} className="text-xs mb-0" />
         </div>
       )}
     </>

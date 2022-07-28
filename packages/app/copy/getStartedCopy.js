@@ -30,7 +30,7 @@ export default {
   objectivePlanFooter: (plan) => {
     if (plan === 'basic') return 'Available in all plans'
     if (plan === 'growth') return 'Growth and above'
-    if (plan === 'pro') return 'Pro exclusive'
+    if (plan === 'pro') return 'Only available on Pro'
   },
   platformSubtitle: 'Which platform would you like to focus on initially?',
   defaultLinkSubtitle: (objective, platform) => {

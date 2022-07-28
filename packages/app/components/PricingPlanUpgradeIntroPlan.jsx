@@ -5,7 +5,11 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PricingPlanUpgradeMonthlyCostAndServiceFee from '@/app/PricingPlanUpgradeMonthlyCostAndServiceFee'
 import PricingPlanFeatures from '@/PricingPlanFeatures'
 
+import MarkdownText from '@/elements/MarkdownText'
+
 import { pricingNumbers, pricingPlans } from '@/constants/pricing'
+
+import copy from '@/app/copy/global'
 
 const PricingPlanUpgradeIntroPlan = () => {
   const { artist } = React.useContext(ArtistContext)
@@ -23,7 +27,8 @@ const PricingPlanUpgradeIntroPlan = () => {
       </div>
       <div className="pl-8">
         <p>Features:</p>
-        <PricingPlanFeatures features={features} />
+        <PricingPlanFeatures features={features} className="mb-4" />
+        <MarkdownText markdown={copy.pricingProfileFootnote} className="text-xs mb-0" />
       </div>
     </>
   )
