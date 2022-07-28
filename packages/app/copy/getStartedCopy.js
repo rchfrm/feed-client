@@ -56,10 +56,10 @@ export default {
     return 'These are the posts we recommend promoting first...'
   },
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
-  facebookPixelSubtitle: (pixels, shouldShowPixelSelector) => {
+  facebookPixelSubtitle: (pixels, shouldShowPixelSelector, defaultLinkHref) => {
     if (shouldShowPixelSelector) {
       if (pixels.length) {
-        return 'Which Facebook Pixel would you like Feed to use?'
+        return `Which Meta pixel is installed on ${defaultLinkHref}?`
       }
       return 'How should your Facebook Pixel be named?'
     }

@@ -1,6 +1,8 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import GetStartedFacebookPixelQuestion from '@/app/GetStartedFacebookPixelQuestion'
 import GetStartedFacebookPixelForm from '@/app/GetStartedFacebookPixelForm'
 
@@ -14,6 +16,11 @@ import { getArtistPixels, setPixel, getCurrentPixelId } from '@/app/helpers/sett
 
 import copy from '@/app/copy/getStartedCopy'
 
+const getControlsStoreState = (state) => ({
+  defaultLink: state.defaultLink,
+})
+
+
 const GetStartedFacebookPixel = () => {
   const [pixels, setPixels] = React.useState(null)
   const [facebookPixel, setFacebookPixel] = React.useState(null)
@@ -24,6 +31,7 @@ const GetStartedFacebookPixel = () => {
   const { artistId, artist, setArtist } = React.useContext(ArtistContext)
   const { next } = React.useContext(WizardContext)
 
+  const { defaultLink: { href: defaultLinkHref } } = useControlsStore(getControlsStoreState)
 
   const saveFacebookPixel = async (pixelId) => {
     setIsLoading(true)
@@ -82,7 +90,7 @@ const GetStartedFacebookPixel = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="w-full mb-8 xs:mb-4 font-medium text-lg">{copy.facebookPixelSubtitle(pixels, shouldShowPixelSelector)}</h3>
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-lg">{copy.facebookPixelSubtitle(pixels, shouldShowPixelSelector, defaultLinkHref)}</h3>
       <Error error={error} />
       <div className={[
         'flex flex-1 flex-column',
