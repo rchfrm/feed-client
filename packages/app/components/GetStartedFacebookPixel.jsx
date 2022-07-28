@@ -20,7 +20,6 @@ const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
 })
 
-
 const GetStartedFacebookPixel = () => {
   const [pixels, setPixels] = React.useState(null)
   const [facebookPixel, setFacebookPixel] = React.useState(null)
