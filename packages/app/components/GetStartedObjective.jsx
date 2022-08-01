@@ -140,6 +140,7 @@ const GetStartedObjective = () => {
                   key={objective.value}
                   objective={objective}
                   setSelectedObjective={setSelectedObjective}
+                  selectedPlan={planPrefix}
                   isDisabled={isDisabled}
                 />
               )

@@ -5,7 +5,11 @@ import PricingPlanMonthlyCost from '@/PricingPlanMonthlyCost'
 import PricingPlanServiceFee from '@/PricingPlanServiceFee'
 import PricingPlanFeatures from '@/PricingPlanFeatures'
 
+import MarkdownText from '@/elements/MarkdownText'
+
 import { capitalise } from '@/helpers/utils'
+
+import copy from '@/app/copy/global'
 
 const GetStartedPricingReadMore = ({ plan, currency }) => {
   const {
@@ -13,7 +17,6 @@ const GetStartedPricingReadMore = ({ plan, currency }) => {
     description,
     monthlyCost,
     serviceFeePercentage,
-    features,
   } = plan
 
   const amount = monthlyCost[currency]
@@ -25,7 +28,8 @@ const GetStartedPricingReadMore = ({ plan, currency }) => {
       <PricingPlanMonthlyCost amount={amount} currenct={currency} />
       {isBasicPlan && <PricingPlanServiceFee percentage={serviceFeePercentage} />}
       <p className="text-2xl mb-8">{description}</p>
-      <PricingPlanFeatures features={features} />
+      <PricingPlanFeatures plan={plan} currency={currency} className="mb-4" />
+      <MarkdownText markdown={copy.pricingProfileFootnote} className="text-xs mb-0" />
     </div>
   )
 }

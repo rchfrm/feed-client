@@ -12,7 +12,6 @@ export default function ManagedPlan({ currency }) {
     name,
     monthlyCost,
     description,
-    features,
   } = managedPlan
   return (
     <div
@@ -51,7 +50,7 @@ export default function ManagedPlan({ currency }) {
             <strong>Arrange a call to hear more -&gt;</strong>
           </Button>
           <hr className="my-5" />
-          <PricingPlanFeatures features={features} />
+          <PricingPlanFeatures plan={managedPlan} currency={currency} />
         </div>
       </div>
     </div>

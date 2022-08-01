@@ -52,7 +52,7 @@ const PricingPlanUpgradeIntro = ({
       <h2 className="mb-8 pr-12">{copy.pricingUpgradeIntroTitle(section)}</h2>
       <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currency)} className="mb-8" />
       {isUpgradeToPro && (
-        <PricingPlanUpgradeIntroPlan />
+        <PricingPlanUpgradeIntroPlan currency={currency} />
       )}
     </div>
   )

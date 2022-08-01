@@ -1,26 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import GetStartedObjectiveButtonFooter from '@/app/GetStartedObjectiveButtonFooter'
+
 import Button from '@/elements/Button'
-import MarkdownText from '@/elements/MarkdownText'
 
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-import InformationIcon from '@/icons/InformationIcon'
-import StarCircleIcon from '@/icons/StarCircleIcon'
-import InsightsCircleIcon from '@/icons/InsightsCircleIcon'
 
 import brandColors from '@/constants/brandColors'
-import copy from '@/app/copy/getStartedCopy'
 
-const GetStartedObjectiveButton = ({ objective, setSelectedObjective, isDisabled }) => {
+const GetStartedObjectiveButton = ({
+  objective,
+  setSelectedObjective,
+  selectedPlan,
+  isDisabled,
+}) => {
   const { name, value, color, plan } = objective
-
-  const icons = {
-    basic: InformationIcon,
-    growth: InsightsCircleIcon,
-    pro: StarCircleIcon,
-  }
-  const Icon = icons[plan]
 
   return (
     <div className="flex flex-col w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0">
@@ -39,10 +34,13 @@ const GetStartedObjectiveButton = ({ objective, setSelectedObjective, isDisabled
           fill={isDisabled ? brandColors.greyDark : brandColors.white}
         />
       </Button>
-      <div className="flex justify-center items-center">
-        <Icon className="w-4 h-4 mr-1" fill={brandColors.greyDark} />
-        <MarkdownText markdown={copy.objectivePlanFooter(plan)} className="mb-0 text-xs text-grey-3" />
-      </div>
+      {(!selectedPlan || isDisabled) && (
+        <GetStartedObjectiveButtonFooter
+          plan={plan}
+          selectedPlan={selectedPlan}
+          isDisabled={isDisabled}
+        />
+      )}
     </div>
   )
 }
@@ -50,10 +48,12 @@ const GetStartedObjectiveButton = ({ objective, setSelectedObjective, isDisabled
 GetStartedObjectiveButton.propTypes = {
   objective: PropTypes.object.isRequired,
   setSelectedObjective: PropTypes.func.isRequired,
+  selectedPlan: PropTypes.string,
   isDisabled: PropTypes.bool,
 }
 
 GetStartedObjectiveButton.defaultProps = {
+  selectedPlan: '',
   isDisabled: false,
 }
 

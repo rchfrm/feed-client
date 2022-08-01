@@ -182,7 +182,7 @@ const GetStartedDailyBudget = () => {
           className="w-full sm:w-3/4 flex flex-column justify-between mb-10"
           style={{ minHeight: '120px' }}
         >
-          <div>
+          <div className="mb-5">
             <TargetingBudgetSetter
               budget={budget}
               setBudget={setBudget}

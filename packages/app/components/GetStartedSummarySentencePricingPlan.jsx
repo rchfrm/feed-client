@@ -26,7 +26,7 @@ const GetStartedSummarySentencePricingPlan = () => {
       isComplete={isComplete}
       className="mx-1 sm:mx-2"
     >
-      {plan ? copy.pricingPlan(plan) : 'a Feed'} tier
+      {plan ? copy.pricingPlan(plan) : 'a Feed'} plan
     </GetStartedSummarySentenceSection>
   )
 }

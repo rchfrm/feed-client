@@ -49,15 +49,7 @@ const GetStartedPricing = () => {
   const { next } = React.useContext(WizardContext)
 
   const handleNextStep = React.useCallback(async (pricingPlan) => {
-    let isAnnualPricing = showAnnualPricing
-
-    if (hasMultipleProfiles) {
-      const { plan } = organisationArtists.find(({ plan }) => plan)
-
-      isAnnualPricing = plan.includes('annual')
-    }
-
-    const pricingPlanString = getPricingPlanString(pricingPlan, isAnnualPricing)
+    const pricingPlanString = getPricingPlanString(pricingPlan, showAnnualPricing)
 
     // If the pricing plan hasn't changed just go to the next step
     if (pricingPlanString === artist?.plan || pricingPlanString === wizardState?.plan) {
@@ -100,6 +92,14 @@ const GetStartedPricing = () => {
 
     handleNextStep(selectedPricingPlan)
   }, [selectedPricingPlan, handleNextStep])
+
+  React.useEffect(() => {
+    if (hasMultipleProfiles) {
+      const { plan } = organisationArtists.find(({ plan }) => plan)
+
+      setShowAnnualPricing(plan.includes('annual'))
+    }
+  }, [hasMultipleProfiles, organisationArtists])
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">

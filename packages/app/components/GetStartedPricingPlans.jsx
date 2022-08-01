@@ -2,13 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useBillingStore from '@/app/stores/billingStore'
-
-import { SidePanelContext } from '@/contexts/SidePanelContext'
+import useOpenPricingPlanReadMoreSidePanel from '@/app/hooks/useOpenPricingPlanReadMoreSidePanel'
 
 import GetStartedPricingPlan from '@/app/GetStartedPricingPlan'
-import GetStartedPricingReadMore from '@/app/GetStartedPricingReadMore'
-
-import Button from '@/elements/Button'
 
 import { pricingPlans } from '@/constants/pricing'
 
@@ -23,20 +19,16 @@ const GetStartedPricingPlans = ({
   recommendedPlan,
   objective,
 }) => {
-  const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
   const { organisationArtists } = useBillingStore(getBillingStoreState)
   const hasMultipleProfiles = organisationArtists.length > 1
 
   const hasGrowthObjective = objective === 'growth'
   const hasSalesObjective = objective === 'sales'
 
-  const openReadMoreSidePanel = (plan) => {
-    const content = <GetStartedPricingReadMore plan={plan} currency={currency} />
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+  const openPricingPlanReadMoreSidePanel = useOpenPricingPlanReadMoreSidePanel()
 
-    setSidePanelContent(content)
-    toggleSidePanel(true)
-    setSidePanelButton(button)
+  const openReadMoreSidePanel = (plan) => {
+    openPricingPlanReadMoreSidePanel(plan, currency)
   }
 
   return (

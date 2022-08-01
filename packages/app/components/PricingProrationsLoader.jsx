@@ -105,7 +105,10 @@ const PricingProrationsLoader = ({
       'w-full',
     ].join(' ')}
     >
-      <PricingProrations prorationsPreview={prorationsPreview || prorations} />
+      <PricingProrations
+        prorationsPreview={prorationsPreview || prorations}
+        plan={plan}
+      />
       <Error error={error} />
     </div>
   )
