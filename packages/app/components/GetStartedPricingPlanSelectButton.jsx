@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
 import { capitalise } from '@/helpers/utils'
+import brandColors from '@/constants/brandColors'
 
 const GetStartedPricingPlanSelectButton = ({
   plan,
@@ -20,7 +21,7 @@ const GetStartedPricingPlanSelectButton = ({
         'px-0 sm:px-4 py-2 sm:mb-5',
         'sm:border-2 sm:border-green sm:border-solid sm:rounded-dialogue',
         'font-bold',
-        isDisabled ? 'pointer-events-none grayscale border-grey-2 opacity-20' : null,
+        isDisabled ? 'pointer-events-none grayscale border-grey-2 text-grey-2' : null,
       ].join(' ')}
       onClick={() => setSelectedPricingPlan(name)}
     >
@@ -28,6 +29,7 @@ const GetStartedPricingPlanSelectButton = ({
       <ArrowAltIcon
         direction="right"
         className="w-6 h-6 sm:w-auto sm:h-auto"
+        fill={isDisabled ? brandColors.grey : brandColors.black}
       />
     </button>
   )

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const GetStartedPricingPlanServiceFee = ({ percentage, plan }) => {
+const GetStartedPricingPlanServiceFee = ({ percentage, plan, isDisabled }) => {
   const { name } = plan
 
   return (
@@ -8,7 +8,7 @@ const GetStartedPricingPlanServiceFee = ({ percentage, plan }) => {
       className={[
         'flex',
         'items-center flex-col sm:flex-row',
-        percentage === 0 ? 'text-grey-3' : null,
+        percentage === 0 || isDisabled ? 'text-grey-3' : null,
       ].join(' ')}
     >
       <div className="flex items-center">
@@ -35,6 +35,7 @@ const GetStartedPricingPlanServiceFee = ({ percentage, plan }) => {
 GetStartedPricingPlanServiceFee.propTypes = {
   percentage: PropTypes.number.isRequired,
   plan: PropTypes.object.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 export default GetStartedPricingPlanServiceFee

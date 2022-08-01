@@ -19,12 +19,13 @@ const PricingPlanUpgradePlan = ({
   setPlan,
   setCurrentStep,
   setSidePanelButton,
+  currency,
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { name } = artist
   const [planPrefix] = plan.split('_')
-  const features = pricingPlans.find(({ name }) => name === planPrefix)?.features
-  const { growth: growthPlan, pro: proPlan } = pricingNumbers
+  const pricingPlan = pricingPlans.find(({ name }) => name === planPrefix)
+  const { growth: growthPlanNumbers, pro: proPlanNumbers } = pricingNumbers
 
   const handleChange = (plan) => {
     setPlan(getPricingPlanString(plan, false))
@@ -54,20 +55,22 @@ const PricingPlanUpgradePlan = ({
       <h2 className="mb-8 pr-12">Upgrade {name}</h2>
       <PricingPlanUpgradePlanItem
         name="growth"
-        plan={growthPlan}
+        pricingPlan={pricingPlan}
+        pricingPlanNumbers={growthPlanNumbers}
         selectedPlan={planPrefix}
         isAnnualPricing={false}
-        features={features}
         handleChange={handleChange}
+        currency={currency}
         className="mb-4"
       />
       <PricingPlanUpgradePlanItem
         name="pro"
-        plan={proPlan}
+        pricingPlan={pricingPlan}
+        pricingPlanNumbers={proPlanNumbers}
         selectedPlan={planPrefix}
         isAnnualPricing={false}
-        features={features}
         handleChange={handleChange}
+        currency={currency}
       />
     </div>
   )
@@ -78,6 +81,7 @@ PricingPlanUpgradePlan.propTypes = {
   setPlan: PropTypes.func,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
+  currency: PropTypes.string,
 }
 
 PricingPlanUpgradePlan.defaultProps = {
@@ -85,6 +89,7 @@ PricingPlanUpgradePlan.defaultProps = {
   setPlan: () => {},
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
+  currency: '',
 }
 
 export default PricingPlanUpgradePlan

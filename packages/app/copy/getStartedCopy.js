@@ -28,9 +28,13 @@ export default {
   },
   objectiveSubtitle: 'What are you trying to achieve?',
   objectivePlanFooter: (plan) => {
-    if (plan === 'basic') return 'Available in all tiers'
+    if (plan === 'basic') return 'Available in all plans'
     if (plan === 'growth') return 'Growth and above'
-    if (plan === 'pro') return 'Pro exclusive'
+    if (plan === 'pro') return 'Only available on Pro'
+  },
+  objectiveDisabledFooter: (plan) => {
+    if (plan === 'growth') return 'Select <span className="text-insta font-bold">Growth</span> or <span className="text-insta font-bold">Pro</span> to use this objective'
+    if (plan === 'pro') return 'Select <span className="text-insta font-bold">Pro</span> to use this objective'
   },
   platformSubtitle: 'Which platform would you like to focus on initially?',
   defaultLinkSubtitle: (objective, platform) => {
@@ -56,10 +60,10 @@ export default {
     return 'These are the posts we recommend promoting first...'
   },
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
-  facebookPixelSubtitle: (pixels, shouldShowPixelSelector) => {
+  facebookPixelSubtitle: (pixels, shouldShowPixelSelector, defaultLinkHref) => {
     if (shouldShowPixelSelector) {
       if (pixels.length) {
-        return 'Which Facebook Pixel would you like Feed to use?'
+        return `Which Meta pixel is installed on ${defaultLinkHref}?`
       }
       return 'How should your Facebook Pixel be named?'
     }
@@ -68,14 +72,16 @@ export default {
   },
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
-  paymentMethodSubtitle: (planPrefix, amount) => {
+  paymentMethodSubtitle: (planPrefix, planPeriod, amount) => {
     if (planPrefix === 'basic') {
       return `#### Enter your card details below.
 
 This is to cover Feed's 10% service fee. You won't be charged in months where you don't run ads.`
     }
 
-    return `Add a card to pay ${amount} and get started with <span className="text-insta font-bold">${capitalise(planPrefix)}</span>.`
+    return `Add a card to pay ${amount} for your first ${planPeriod === 'monthly' ? 'month' : 'year'} of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
+
+You will be invoiced separately by Facebook for the ad spend.`
   },
   budgetFooter: (minBaseUnrounded, currency) => {
     const lowestMultiplier = 3.7
@@ -89,6 +95,9 @@ This is to cover Feed's 10% service fee. You won't be charged in months where yo
     const [plan] = pricingPlan.split('_')
 
     return `the ${capitalise(plan)}`
+  },
+  disabledPricingPlan: (pricingPlan, objective) => {
+    return `${capitalise(pricingPlan)} is unavailable with the website ${objective} objective.`
   },
   inSufficientBudget: (minBudget) => `Budget must be at least ${minBudget} to set your objective to sales.`,
   reviewDescription: 'Feed has submitted your ads for approval!',

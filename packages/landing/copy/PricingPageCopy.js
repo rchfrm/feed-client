@@ -1,17 +1,8 @@
 /* eslint-disable quotes */
 
-import { addCommasToNumber, getCurrencySymbol } from '@/helpers/utils'
+import { getMaxSpendString } from '@/helpers/utils'
 
-export const getMaxSpendString = (currency, maxSpend) => {
-  const currencySymbol = getCurrencySymbol(currency)
-  const formattedSpend = addCommasToNumber(maxSpend)
-  if (currencySymbol === 'kr') {
-    return `${formattedSpend} ${currencySymbol}`
-  }
-  return `${currencySymbol}${formattedSpend}`
-}
-
-export const pricingCopy = {
+const pricingCopy = {
   strapLine: 'Grow reach, sales and **never log in to Ads Manager**',
   twoThousandPlus: (currency, maxSpend) => {
     const maxSpendString = getMaxSpendString(currency, maxSpend)
@@ -22,3 +13,5 @@ export const pricingCopy = {
   ° Multiple objectives coming June-July 2022
   `,
 }
+
+export default pricingCopy

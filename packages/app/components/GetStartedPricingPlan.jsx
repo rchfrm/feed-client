@@ -13,12 +13,15 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { capitalise } from '@/helpers/utils'
 
+import copy from '@/app/copy/getStartedCopy'
+
 const GetStartedPricingPlan = ({
   plan,
   showAnnualPricing,
   setSelectedPricingPlan,
   handleSidePanel,
   currency,
+  objective,
   isRecommended,
   isDisabled,
 }) => {
@@ -41,6 +44,7 @@ const GetStartedPricingPlan = ({
         !isDesktop && isRecommended ? 'pb-12 xs:pb-12' : null,
         'border-solid rounded-dialogue',
         isRecommended ? 'border-[5px] border-insta' : 'border-3 border-black',
+        isDisabled ? 'border-grey-2' : null,
       ].join(' ')}
     >
       {isRecommended && (
@@ -48,7 +52,7 @@ const GetStartedPricingPlan = ({
       )}
       <h2 className="mb-0 sm:mb-5 text-2xl sm:text-3xl">{capitalise(name)}</h2>
       <MarkdownText
-        markdown={description}
+        markdown={isDisabled ? copy.disabledPricingPlan(name, objective) : description}
         className={[
           'hidden sm:block',
           'small--p',
@@ -69,10 +73,12 @@ const GetStartedPricingPlan = ({
           amount={monthlyCost[currency]}
           showAnnualPricing={showAnnualPricing}
           currency={currency}
+          isDisabled={isDisabled}
         />
         <GetStartedPricingPlanServiceFee
           percentage={serviceFeePercentage}
           plan={plan}
+          isDisabled={isDisabled}
         />
       </div>
       <GetStartedPricingPlanSelectButton
@@ -94,12 +100,12 @@ GetStartedPricingPlan.propTypes = {
   setSelectedPricingPlan: PropTypes.func.isRequired,
   handleSidePanel: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
+  objective: PropTypes.string.isRequired,
   isRecommended: PropTypes.bool.isRequired,
-  isDisabled: PropTypes.bool,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 GetStartedPricingPlan.defaultProps = {
-  isDisabled: false,
 }
 
 export default GetStartedPricingPlan

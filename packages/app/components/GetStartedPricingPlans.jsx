@@ -1,25 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useControlsStore from '@/app/stores/controlsStore'
 import useBillingStore from '@/app/stores/billingStore'
-
-import { SidePanelContext } from '@/contexts/SidePanelContext'
+import useOpenPricingPlanReadMoreSidePanel from '@/app/hooks/useOpenPricingPlanReadMoreSidePanel'
 
 import GetStartedPricingPlan from '@/app/GetStartedPricingPlan'
-import GetStartedPricingReadMore from '@/app/GetStartedPricingReadMore'
-
-import Button from '@/elements/Button'
 
 import { pricingPlans } from '@/constants/pricing'
-import { getLocalStorage } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
   organisationArtists: state.organisationArtists,
-})
-
-const getControlsStoreState = (state) => ({
-  optimizationPreferences: state.optimizationPreferences,
 })
 
 const GetStartedPricingPlans = ({
@@ -27,26 +17,18 @@ const GetStartedPricingPlans = ({
   currency,
   setSelectedPricingPlan,
   recommendedPlan,
+  objective,
 }) => {
-  const { setSidePanelContent, toggleSidePanel, setSidePanelButton } = React.useContext(SidePanelContext)
   const { organisationArtists } = useBillingStore(getBillingStoreState)
   const hasMultipleProfiles = organisationArtists.length > 1
-
-  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
-  const { objective: storedObjective } = wizardState || {}
-  const objective = optimizationPreferences?.objective || storedObjective
 
   const hasGrowthObjective = objective === 'growth'
   const hasSalesObjective = objective === 'sales'
 
-  const openReadMoreSidePanel = (plan) => {
-    const content = <GetStartedPricingReadMore plan={plan} currency={currency} />
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+  const openPricingPlanReadMoreSidePanel = useOpenPricingPlanReadMoreSidePanel()
 
-    setSidePanelContent(content)
-    toggleSidePanel(true)
-    setSidePanelButton(button)
+  const openReadMoreSidePanel = (plan) => {
+    openPricingPlanReadMoreSidePanel(plan, currency)
   }
 
   return (
@@ -73,6 +55,7 @@ const GetStartedPricingPlans = ({
                 currency={currency}
                 setSelectedPricingPlan={setSelectedPricingPlan}
                 handleSidePanel={openReadMoreSidePanel}
+                objective={objective}
                 isRecommended={plan.name === recommendedPlan}
                 isDisabled={isDisabled}
               />
@@ -89,6 +72,7 @@ GetStartedPricingPlans.propTypes = {
   currency: PropTypes.string.isRequired,
   setSelectedPricingPlan: PropTypes.func.isRequired,
   recommendedPlan: PropTypes.string.isRequired,
+  objective: PropTypes.string.isRequired,
 }
 
 GetStartedPricingPlans.defaultProps = {

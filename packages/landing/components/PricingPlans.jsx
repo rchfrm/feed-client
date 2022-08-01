@@ -7,7 +7,7 @@ import PricingPlansWrapper from '@/landing/PricingPlansWrapper'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import { pricingCopy } from '@/landing/copy/PricingPageCopy'
+import pricingCopy from '@/landing/copy/PricingPageCopy'
 import { pricingPlans } from '@/constants/pricing'
 
 const {

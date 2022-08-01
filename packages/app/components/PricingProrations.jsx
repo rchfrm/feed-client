@@ -9,8 +9,12 @@ import { formatCurrency } from '@/helpers/utils'
 
 import copy from '@/app/copy/global'
 
-const PricingPlanUpgradePaymentProrations = ({ prorationsPreview }) => {
+const PricingPlanUpgradePaymentProrations = ({
+  prorationsPreview,
+  plan,
+}) => {
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
+  const [, planPeriod] = plan.split('_')
 
   const {
     currency,
@@ -39,7 +43,7 @@ const PricingPlanUpgradePaymentProrations = ({ prorationsPreview }) => {
         <>
           <MarkdownText markdown={copy.pricingUpgradeNextPaymentList(prorationsPreview, currency)} />
           <p className="text-xs">*Covering the next billing period.</p>
-          <p>Each subsequent monthly invoice will be for {formatCurrency(subsequentMonthlyAmount, currency)}.</p>
+          <p>Each subsequent {planPeriod} invoice will be for {formatCurrency(subsequentMonthlyAmount, currency)}.</p>
         </>
       )}
     </>
@@ -48,6 +52,7 @@ const PricingPlanUpgradePaymentProrations = ({ prorationsPreview }) => {
 
 PricingPlanUpgradePaymentProrations.propTypes = {
   prorationsPreview: PropTypes.object.isRequired,
+  plan: PropTypes.string.isRequired,
 }
 
 PricingPlanUpgradePaymentProrations.defaultProps = {

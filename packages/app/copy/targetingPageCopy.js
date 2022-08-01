@@ -29,27 +29,28 @@ Do you want to continue?`,
   budgetFooter: (hasProPlan, budgetData) => {
     const {
       currency,
+      dailyBudget,
       hasBudgetBelowMinRecommendedStories,
       minRecommendedStoriesString,
     } = budgetData
 
-    const { growth, pro } = pricingNumbers
-    const growthPlanMaxMonthlySpend = growth.monthlyCost[currency] * growth.maxSpendMultiple
+    const plan = hasProPlan ? 'pro' : 'growth'
+    const { pro } = pricingNumbers
+    const planMaxMonthlySpend = pricingNumbers[plan].monthlyCost[currency] * pricingNumbers[plan].maxSpendMultiple
     const proPlanMaxMonthlySpend = pro.monthlyCost[currency] * pro.maxSpendMultiple
 
     if (hasBudgetBelowMinRecommendedStories) {
       return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStoriesString}`
     }
 
+    const baseString = `By spending ${formatCurrency(dailyBudget, currency)} a day, you are likely to exceed the <span className="text-insta font-bold">${capitalise(plan)}</span> spend cap of ${formatCurrency(planMaxMonthlySpend, currency, true)} per month.`
+
     if (!hasProPlan) {
-      return `The reach cap for Growth is ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)} per month.
-Upgrade to <span className="text-insta font-bold">Pro</span> to raise the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
+      return `${baseString} Upgrade to Pro to increase the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)}`
     }
 
-    // TODO: Prompt to email us / book a call instead of opening side panel
-    return `You're projected monthly to exceed the <span className="text-insta font-bold">Pro</span> reach cap of ${formatCurrency(proPlanMaxMonthlySpend, currency, true)} per month.`
+    return `${baseString} [Email us](mailto:team@tryfeed.co) if you would like to increase this cap.`
   },
-
   togglePauseWarning: (isPaused) => {
     if (isPaused) return `**This will resume spending on ads.** Are you sure you want to continue?`
 

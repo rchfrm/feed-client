@@ -6,6 +6,7 @@ const GetStartedPricingPlanMonthlyCost = ({
   amount,
   currency,
   showAnnualPricing,
+  isDisabled,
 }) => {
   const currencySymbol = getCurrencySymbol(currency)
 
@@ -14,7 +15,7 @@ const GetStartedPricingPlanMonthlyCost = ({
       className={[
         'flex items-center flex-col sm:flex-row',
         'mb-0 sm:mb-5 mr-2',
-        amount === 0 ? 'text-grey-3' : null,
+        amount === 0 || isDisabled ? 'text-grey-3' : null,
       ].join(' ')}
     >
       <div className="flex items-center">
@@ -34,7 +35,7 @@ const GetStartedPricingPlanMonthlyCost = ({
           className={[
             'text-2xl sm:text-7xl font-display font-bold',
             'mb-0 pr-2',
-            showAnnualPricing && amount > 0 ? 'text-green' : null,
+            showAnnualPricing && amount > 0 && !isDisabled ? 'text-green' : null,
           ].join(' ')}
         >
           {showAnnualPricing ? amount * 0.8 : amount}
@@ -49,6 +50,7 @@ GetStartedPricingPlanMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
   showAnnualPricing: PropTypes.bool,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 GetStartedPricingPlanMonthlyCost.defaultProps = {
