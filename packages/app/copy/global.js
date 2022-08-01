@@ -53,6 +53,8 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'increase your budget'
         case 'set-budget':
           return 'set a budget'
+        case 'profile-select':
+          return 'switch between profiles'
         default:
           return section
       }
@@ -128,6 +130,9 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
         case 'set-budget':
           return 'Set a budget for this profile to start ads geared towards your objective.'
             + '\n\n Once you upgrade to either Growth or Pro you will be able to set a budget, objective and start running ads.'
+        case 'profile-select':
+          return 'Feed allows you to run ads for more than one profile at once.'
+            + '\n\n Once you upgrade to either Growth or Pro you will be able to switch between all your profiles and manage multiple accounts.'
         default:
           return 'Description...?'
       }
@@ -244,5 +249,6 @@ ${list.join('\n')}`
     if (section === 'insights') return `${planBaseString} to track audience data from connected integrations`
     if (section === 'single-post-page') return `${planBaseString} to use custom settings for specific posts`
     if (section === 'set-budget') return `${planBaseString} to set a budget`
+    if (section === 'profile-select') return `${planBaseString} to switch between profiles`
   },
 }
