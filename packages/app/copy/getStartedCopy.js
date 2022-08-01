@@ -32,6 +32,10 @@ export default {
     if (plan === 'growth') return 'Growth and above'
     if (plan === 'pro') return 'Only available on Pro'
   },
+  objectiveDisabledFooter: (plan) => {
+    if (plan === 'growth') return 'Select <span className="text-insta font-bold">Growth</span> or <span className="text-insta font-bold">Pro</span> to use this objective'
+    if (plan === 'pro') return 'Select <span className="text-insta font-bold">Pro</span> to use this objective'
+  },
   platformSubtitle: 'Which platform would you like to focus on initially?',
   defaultLinkSubtitle: (objective, platform) => {
     if (objective !== 'growth') {
