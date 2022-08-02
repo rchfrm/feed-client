@@ -11,7 +11,6 @@ import GetStartedPostsSelectionCard from '@/app/GetStartedPostsSelectionCard'
 import GetStartedPostsSelectionAnalysePosts from '@/app/GetStartedPostsSelectionAnalysePosts'
 import GetStartedPostsSelectionButtons from '@/app/GetStartedPostsSelectionButtons'
 
-import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 
@@ -165,12 +164,11 @@ const GetStartedPostsSelection = () => {
   return (
     <div className="flex flex-1 flex-column mb-6">
       {!canLoadPosts ? (
-        <GetStartedPostsSelectionAnalysePosts canLoadPosts={canLoadPosts} />
+        <GetStartedPostsSelectionAnalysePosts />
       ) : (
         posts.length > 0 ? (
           <>
-            <h3 className="mb-4 font-medium text-xl">{copy.postsSelectionSubtitle(hasEnabledPosts)}</h3>
-            <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.postsSelectionDescription(canLoadPosts, hasEnabledPosts)} />
+            <h3 className="mb-4 font-medium text-lg">{copy.postsSelectionSubtitle(hasEnabledPosts, postType)}</h3>
             <Error error={error} />
             <div className={[
               shouldAdjustLayout ? 'grid grid-cols-12' : null,

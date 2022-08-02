@@ -32,9 +32,10 @@ const FeatureItem = ({
       >
         <h3
           className={[
+            'bold',
             'underline',
             'decoration-green',
-            'decoration-2',
+            'decoration-3',
             'mb-7',
             'leading-tight',
           ].join(' ')}

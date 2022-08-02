@@ -82,10 +82,17 @@ export default function HeroSignUp() {
         <Input
           handleChange={handleChange}
           value={email}
-          label="Enter your email to get started"
+          label="Enter your work email to get started"
           name="email"
           placeholder="name@domain.com"
-          className={[styles.heroInputBox, 'flex-1 border-pink mb-3 xs:mr-4 xs:mb-0'].join(' ')}
+          className={[
+            styles.heroInputBox,
+            'flex-1',
+            'border-pink',
+            'mb-3',
+            'xs:mr-4',
+            'xs:mb-0',
+          ].join(' ')}
         />
         <Button
           onClick={fetchSignInMethodsAndRedirect}

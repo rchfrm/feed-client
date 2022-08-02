@@ -1,6 +1,8 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 
+import useControlsStore from '@/app/stores/controlsStore'
+
 import GetStartedFacebookPixelQuestion from '@/app/GetStartedFacebookPixelQuestion'
 import GetStartedFacebookPixelForm from '@/app/GetStartedFacebookPixelForm'
 
@@ -9,11 +11,14 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
-import MarkdownText from '@/elements/MarkdownText'
 
 import { getArtistPixels, setPixel, getCurrentPixelId } from '@/app/helpers/settingsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
+
+const getControlsStoreState = (state) => ({
+  defaultLink: state.defaultLink,
+})
 
 const GetStartedFacebookPixel = () => {
   const [pixels, setPixels] = React.useState(null)
@@ -25,6 +30,7 @@ const GetStartedFacebookPixel = () => {
   const { artistId, artist, setArtist } = React.useContext(ArtistContext)
   const { next } = React.useContext(WizardContext)
 
+  const { defaultLink: { href: defaultLinkHref } } = useControlsStore(getControlsStoreState)
 
   const saveFacebookPixel = async (pixelId) => {
     setIsLoading(true)
@@ -83,8 +89,7 @@ const GetStartedFacebookPixel = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.facebookPixelSubtitle(pixels, shouldShowPixelSelector)}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.facebookPixelDescription(pixels, shouldShowPixelSelector)} />
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-lg">{copy.facebookPixelSubtitle(pixels, shouldShowPixelSelector, defaultLinkHref)}</h3>
       <Error error={error} />
       <div className={[
         'flex flex-1 flex-column',

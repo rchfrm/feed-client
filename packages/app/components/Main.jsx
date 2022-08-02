@@ -4,7 +4,6 @@ import useAsyncEffect from 'use-async-effect'
 
 import InitUser from '@/app/InitUser'
 
-import { SidePanelContextProvider } from '@/contexts/SidePanelContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
@@ -60,16 +59,16 @@ function Main({ children }) {
     await initControlsStore(artist, 'fetchData')
   }, [artistId])
 
-  const { setupBilling, organisation } = useBillingStore(getBillingStoreState)
+  const { setupBilling } = useBillingStore(getBillingStoreState)
 
   // Setup billing store
   React.useEffect(() => {
-    if (!artistId || artistLoading || Object.keys(organisation).length > 0) return
+    if (!artistId || artistLoading) return
 
     const { currency: artistCurrency } = minDailyBudgetInfo || {}
     setupBilling({ user, artistCurrency, shouldFetchOrganisationDetailsOnly: true })
   // eslint-disable-next-line
-  }, [artistId, artistLoading, organisation])
+  }, [artistId, artistLoading])
 
   // Update integrations when they change on artist
   React.useEffect(() => {
@@ -107,13 +106,11 @@ function Main({ children }) {
 
   return (
     <main id="page--container" className="md:ml-10">
-      <SidePanelContextProvider>
-        <InitUser>
-          {children}
-          <IntegrationErrorHandler />
-          <NotificationsHandler />
-        </InitUser>
-      </SidePanelContextProvider>
+      <InitUser>
+        {children}
+        <IntegrationErrorHandler />
+        <NotificationsHandler />
+      </InitUser>
     </main>
   )
 }

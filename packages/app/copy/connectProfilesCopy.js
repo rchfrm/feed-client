@@ -12,7 +12,7 @@ export default {
 
   When you connect Feed to Facebook and Instagram, it will ask for the below permissions. All are necessary for Feed to work!
 
-You can revoke these from at any time from Facebook. Feed will never post anything on Facebook & Instagram..
+You can revoke these from at any time from Facebook. Feed will never post anything on Facebook & Instagram.
 
 **Show a list of the Pages**  
 <span className="text-xs">So you can choose which ones to connect to Feed.<span>

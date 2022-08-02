@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import useBillingStore from '@/app/stores/billingStore'
+
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -11,16 +13,22 @@ import Select from '@/elements/Select'
 import NotificationDot from '@/elements/NotificationDot'
 
 import TheSubNavConnectProfiles from '@/app/TheSubNavConnectProfiles'
+import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 import styles from '@/app/TheSubNav.module.css'
+
+const getBillingStoreState = (state) => ({
+  organisationArtists: state.organisationArtists,
+})
 
 const ARTIST_SELECT_OPTIONS = ({
   currentArtistId,
   artists,
   updateArtist,
   artistsWithNotifications,
+  isDisabled,
 }) => {
   const artistOptions = React.useMemo(() => {
     return artists.map(({ id, name: artistName }) => {
@@ -43,6 +51,7 @@ const ARTIST_SELECT_OPTIONS = ({
       name="Selected Profile"
       label="Selected Profile"
       version="box white small sans"
+      disabled={isDisabled}
     />
   )
 }
@@ -52,8 +61,12 @@ const getArtistsWithNotifications = state => state.artistsWithNotifications
 const TheSubNavArtists = ({ className }) => {
   const { user } = React.useContext(UserContext)
   const { artists: allArtists } = user
-  const { artistId, storeArtist } = React.useContext(ArtistContext)
+  const { artistId, storeArtist, artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
   const maxArtists = 3
+  const { organisationArtists } = useBillingStore(getBillingStoreState)
+  const otherOrganisationProfiles = organisationArtists.filter(({ id }) => id !== artistId)
+  const hasAllOtherProfilesOnLegacyPlan = artistHelpers.hasAllProfilesOnLegacyPlan(otherOrganisationProfiles)
+  const isDisabled = !hasGrowthPlan && hasAllOtherProfilesOnLegacyPlan
 
   const updateArtist = (artistId) => {
     storeArtist(artistId)
@@ -85,7 +98,15 @@ const TheSubNavArtists = ({ className }) => {
           artists={sortedArtists}
           currentArtistId={artistId}
           artistsWithNotifications={artistsWithNotifications}
+          isDisabled={isDisabled}
         />
+        {isDisabled && (
+          <DisabledActionPrompt
+            section="profile-select"
+            version="small"
+            className="-mt-3 mb-6 md:mb-4 no-underline"
+          />
+        )}
         <div className="mb-0 md:pt-3 md:mb-3 h4--text">
           <TheSubNavConnectProfiles />
         </div>
@@ -96,16 +117,21 @@ const TheSubNavArtists = ({ className }) => {
   // Else show more explicit selector
   return (
     <div className={[styles.artistsOuter, className].join(' ')}>
-      <ul className={[styles.artistLinks, 'h4--text'].join(' ')}>
+      <ul className={[styles.artistLinks].join(' ')}>
         {sortedArtists.map(({ id, name, facebook_page_id }) => {
-          const activeClass = id === artistId ? styles._active : ''
+          const isActiveProfile = id === artistId
+          const activeClass = isActiveProfile ? styles._active : ''
+          const disabledClass = isDisabled && !isActiveProfile ? 'pointer-events-none opacity-30' : null
           const hasNotification = otherArtistNotifications.includes(id)
+
           return (
             <li
               key={id}
               className={[
                 styles.artistLink,
                 activeClass,
+                disabledClass,
+                'text-lg',
               ].join(' ')}
             >
               <a className={['relative', styles.artistLink_button].join(' ')} role="button" onClick={() => updateArtist(id)}>
@@ -120,14 +146,21 @@ const TheSubNavArtists = ({ className }) => {
             </li>
           )
         })}
+        {isDisabled && (
+          <DisabledActionPrompt
+            section="profile-select"
+            version="small"
+            className="mb-6 md:mb-4 no-underline"
+          />
+        )}
         {sortedArtists.length > 0 && (
-          <li className="md:hidden pt-3">
+          <li className="md:hidden pt-3 text-lg">
             <TheSubNavConnectProfiles />
           </li>
         )}
       </ul>
       {sortedArtists.length > 0 && (
-        <div className="hidden md:block pt-5 pb-3">
+        <div className="hidden md:block pt-5 pb-3 text-lg">
           <TheSubNavConnectProfiles />
         </div>
       )}

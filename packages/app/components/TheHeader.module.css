@@ -187,10 +187,14 @@
   }
 
   .pageTitle {
-    top: 2.2em;
+    top: 1em;
     left: 6rem;
     text-align: left;
     transform: none;
+
+    @media (--xxs) {
+      top: 2.2em;
+    }
 
     h1 {
       font-size: 2.5rem;

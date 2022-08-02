@@ -19,6 +19,8 @@ import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
+import { pricingNumbers } from '@/constants/pricing'
+import { formatCurrency } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
@@ -34,6 +36,10 @@ const GetStartedPaymentMethod = () => {
   const {
     artist: {
       hasSetUpProfile,
+      hasGrowthPlan,
+      hasProPlan,
+      plan,
+      currency: artistCurrency = 'GBP',
     },
     artistId,
     updatehasSetUpProfile,
@@ -43,12 +49,18 @@ const GetStartedPaymentMethod = () => {
   const { next } = React.useContext(WizardContext)
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+  const isPaymentRequired = hasGrowthPlan || hasProPlan
+
+  const [planPrefix, planPeriod] = plan.split('_')
+  const monthlyCost = pricingNumbers[planPrefix].monthlyCost[artistCurrency]
+  const annualCost = monthlyCost * 12
+  const amountToPay = planPeriod === 'annual' ? annualCost - (annualCost * pricingNumbers.annualDiscount) : monthlyCost
 
   const {
     card,
     billing_details: billingDetails,
     is_default,
-    currency,
+    currency = 'GBP',
   } = defaultPaymentMethod || {}
 
   const checkAndUpdateCompletedSetupAt = async () => {
@@ -84,8 +96,7 @@ const GetStartedPaymentMethod = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6">
-      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.paymentMethodSubtitle}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 mb-10 text-grey-3 italic" markdown={copy.paymentMethodDescription} />
+      <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency))} />
       <Error error={error} />
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
         {defaultPaymentMethod ? (
@@ -110,6 +121,7 @@ const GetStartedPaymentMethod = () => {
             setIsFormValid={setIsFormValid}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
+            isPaymentRequired={isPaymentRequired}
           />
         )}
         <Button
@@ -119,7 +131,7 @@ const GetStartedPaymentMethod = () => {
           className="w-full sm:w-48 mt-12 mx-auto"
           trackComponentName="GetStartedPaymentMethod"
         >
-          Next
+          {isPaymentRequired ? `Pay ${formatCurrency(amountToPay, artistCurrency, true)}` : 'Next'}
           <ArrowAltIcon
             className="ml-3"
             direction="right"

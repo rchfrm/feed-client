@@ -1,13 +1,13 @@
 import Select from '@/elements/Select'
 import PropTypes from 'prop-types'
-import { pricingCopy } from '@/landing/copy/PricingPageCopy'
+import { currencies } from '@/constants/pricing'
 
-const { currencies } = pricingCopy
+const PricingCurrencySelect = ({ currency, setCurrency, className }) => {
+  const handleChange = (e) => {
+    setCurrency(e.target.value)
+  }
 
-export default function PricingCurrencySelect({ currency, setCurrency }) {
-  const handleChange = e => setCurrency(e.target.value)
-
-  const options = currencies.map(currency => {
+  const options = currencies.map((currency) => {
     return {
       name: currency,
       value: currency,
@@ -18,7 +18,8 @@ export default function PricingCurrencySelect({ currency, setCurrency }) {
     <div
       className={[
         'flex',
-        'justify-end',
+        'items-center',
+        className,
       ].join(' ')}
     >
       <Select
@@ -40,4 +41,11 @@ export default function PricingCurrencySelect({ currency, setCurrency }) {
 PricingCurrencySelect.propTypes = {
   currency: PropTypes.oneOf(currencies).isRequired,
   setCurrency: PropTypes.func.isRequired,
+  className: PropTypes.string,
 }
+
+PricingCurrencySelect.defaultProps = {
+  className: null,
+}
+
+export default PricingCurrencySelect

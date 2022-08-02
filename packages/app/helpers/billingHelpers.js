@@ -1,4 +1,5 @@
 import get from 'lodash/get'
+import moment from 'moment'
 
 import * as api from '@/helpers/api'
 
@@ -41,7 +42,6 @@ export const setPaymentAsDefault = async ({ organisationId, paymentMethodId }) =
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
-
 // DELETE PAYMENT
 /**
  * @param {string} organisationId
@@ -58,6 +58,52 @@ export const deletePaymentMethod = async (organisationId, paymentMethodId) => {
   return api.requestWithCatch('delete', endpoint, payload, errorTracking)
 }
 
+// GET STRIPE CLIENT SECRET
+/**
+ * @param {string} organisationId
+ * @returns {Promise<any>}
+ */
+export const getStripeClientSecret = async (organisationId) => {
+  const payload = null
+  const endpoint = `/organizations/${organisationId}/billing/payments/client_secret`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Get Stripe client secret',
+  }
+  return api.requestWithCatch('get', endpoint, payload, errorTracking)
+}
+
+// GET PRORATIONS PREVIEW
+/**
+ * @param {string} organisationId
+ * @param {object} profilesToUpgrade
+ * @returns {Promise<any>}
+ */
+export const getProrationsPreview = async (organisationId, profilesToUpgrade) => {
+  const payload = profilesToUpgrade
+  const endpoint = `/organizations/${organisationId}/billing/preview_prorations`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Get prorations preview',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
+}
+
+// UPGRADE PRICING PLANS
+/**
+ * @param {string} organisationId
+ * @param {object} profilesToUpgrade
+ * @returns {Promise<any>}
+ */
+export const upgradePricingPlan = async (organisationId, profilesToUpgrade) => {
+  const payload = profilesToUpgrade
+  const endpoint = `/organizations/${organisationId}/billing/upgrade_profiles`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Upgrade pricing plans',
+  }
+  return api.requestWithCatch('patch', endpoint, payload, errorTracking)
+}
 
 // * BILLING
 // * --------------------
@@ -141,6 +187,61 @@ export const getAllOrgsInfo = async ({ user }) => {
   return allOrgsInfo
 }
 
+// GET PRICING PLAN STRING
+export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
+  const planPeriod = isAnnualPricing && planPrefix !== 'basic' ? 'annual' : 'monthly'
+
+  return `${planPrefix}_${planPeriod}`
+}
+
+// FORMAT PRORATIONS DATA
+export const formatProrationsPreview = ({ profilesToUpgrade, organisationArtists, prorationsPreview }) => {
+  const {
+    currency,
+    currentPeriodStart,
+    currentPeriodEnd,
+    prorations,
+    nextInvoice,
+  } = prorationsPreview
+
+  const { profileAmounts: nextInvoiceProfileAmounts } = nextInvoice
+  const { profileAmounts } = prorations
+
+  const periodStart = moment(currentPeriodStart)
+  const periodEnd = moment(currentPeriodEnd)
+  const daysInPeriod = periodEnd.diff(periodStart, 'days')
+  const today = moment()
+  const daysRemainingInPeriod = periodEnd.startOf('day').diff(today.startOf('day'), 'days')
+  const isFirstDayOfPeriod = daysRemainingInPeriod === daysInPeriod
+
+  const upgradedProfiles = Object.keys(profilesToUpgrade).reduce((array, id) => {
+    const profile = organisationArtists.find((profile) => profile.id === id)
+    const [planPrefix] = profilesToUpgrade[id].split('_')
+    const currentPayment = profileAmounts[id] || 0
+    const nextPayment = nextInvoiceProfileAmounts[id] || 0
+
+    array.push({
+      name: profile.name,
+      plan: planPrefix,
+      currentPayment,
+      nextPayment,
+    })
+
+    return array
+  }, [])
+
+  return {
+    currency,
+    upgradedProfiles,
+    prorations,
+    nextInvoice,
+    period: {
+      daysInPeriod,
+      daysRemainingInPeriod,
+      isFirstDayOfPeriod,
+    },
+  }
+}
 
 // * REFERRALS
 // * --------------------

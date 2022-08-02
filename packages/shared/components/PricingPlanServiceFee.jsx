@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-export default function PricingTierServiceFee({ percentage }) {
+export default function PricingPlanServiceFee({ percentage }) {
   return (
     <div
       className={[
@@ -20,6 +20,6 @@ export default function PricingTierServiceFee({ percentage }) {
   )
 }
 
-PricingTierServiceFee.propTypes = {
+PricingPlanServiceFee.propTypes = {
   percentage: PropTypes.number.isRequired,
 }

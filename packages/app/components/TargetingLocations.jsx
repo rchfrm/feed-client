@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 import TargetingLocationsSentence from '@/app/TargetingLocationsSentence'
 import TargetingLocationsSettings from '@/app/TargetingLocationsSettings'
 import TargetingLocationsPicker from '@/app/TargetingLocationsPicker'
 import TargetingLocationsSearch from '@/app/TargetingLocationsSearch'
+import DisabledSection from '@/app/DisabledSection'
 
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
@@ -19,6 +22,8 @@ const TargetingLocations = ({
     artistIsMusician,
     spotifyConnected,
   } = React.useContext(TargetingContext)
+
+  const { artist: { hasGrowthPlan, hasSetUpProfile } } = React.useContext(ArtistContext)
 
   return (
     <section className={[className].join(' ')}>
@@ -35,7 +40,12 @@ const TargetingLocations = ({
         initialCityKeys={initialCityKeys}
         initialCountryCodes={initialCountryCodes}
       />
-      <TargetingLocationsSearch />
+      <DisabledSection
+        section="custom-locations"
+        isDisabled={!hasGrowthPlan && hasSetUpProfile}
+      >
+        <TargetingLocationsSearch />
+      </DisabledSection>
     </section>
   )
 }

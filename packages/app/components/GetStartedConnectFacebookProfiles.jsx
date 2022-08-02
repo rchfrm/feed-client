@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import GetStartedConnectFacebookProfilesList from '@/app/GetStartedConnectFacebookProfilesList'
 
-import MarkdownText from '@/elements/MarkdownText'
-
 import copy from '@/app/copy/getStartedCopy'
 
 const GetStartedConnectFacebookProfiles = ({
@@ -14,8 +12,7 @@ const GetStartedConnectFacebookProfiles = ({
 }) => {
   return (
     <>
-      <h3 className="mb-4 font-medium text-xl mb-4">{copy.facebookConnectMultipleProfilesSubtitle}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.facebookConnectMultipleProfilesDescription} />
+      <h3 className="mb-4 font-medium text-lg mb-4">{copy.facebookConnectMultipleProfilesSubtitle}</h3>
       <div className="flex flex-1 flex-column justify-center items-center">
         <GetStartedConnectFacebookProfilesList
           profiles={artistAccounts}

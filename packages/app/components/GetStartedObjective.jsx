@@ -6,7 +6,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import GetStartedObjectiveButton from '@/app/GetStartedObjectiveButton'
 
 import Error from '@/elements/Error'
-import MarkdownText from '@/elements/MarkdownText'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -33,6 +32,11 @@ const GetStartedObjective = () => {
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
+  const { plan: storedPlan } = wizardState || {}
+  const plan = artist?.plan || storedPlan
+  const [planPrefix] = plan?.split('_') || []
+  const hasBasicPlan = planPrefix === 'basic'
+  const hasGrowthPlan = planPrefix === 'growth'
 
   const unsetDefaultLink = (artist) => {
     // Unset the link in the controls store
@@ -122,22 +126,26 @@ const GetStartedObjective = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="w-full mb-8 xs:mb-4 font-medium text-xl">{copy.objectiveSubtitle}</h3>
-      <MarkdownText className="hidden xs:block sm:w-2/3 text-grey-3 italic" markdown={copy.objectiveDescription} />
+      <h3 className="w-full mb-8 xs:mb-4 font-medium text-lg">{copy.objectiveSubtitle}</h3>
       <div className="flex flex-1 flex-column justify-center">
         <Error error={error} />
         <div className="xs:flex justify-between xs:-mx-4 mb-10 xs:mb-20">
           {isLoading
             ? <Spinner />
-            : objectives.map((objective) => (
-              <GetStartedObjectiveButton
-                key={objective.value}
-                objective={objective}
-                setSelectedObjective={setSelectedObjective}
-              />
-            ))}
+            : objectives.map((objective) => {
+              const isDisabled = (hasBasicPlan && objective.value !== 'growth') || (hasGrowthPlan && objective.value === 'sales')
+
+              return (
+                <GetStartedObjectiveButton
+                  key={objective.value}
+                  objective={objective}
+                  setSelectedObjective={setSelectedObjective}
+                  selectedPlan={planPrefix}
+                  isDisabled={isDisabled}
+                />
+              )
+            })}
         </div>
-        <a className="xs:self-center" href="mailto:help@tryfeed.co">Something else?</a>
       </div>
     </div>
   )

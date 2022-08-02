@@ -1,22 +1,28 @@
-import ToggleSwitch from '@/elements/ToggleSwitch'
 import PropTypes from 'prop-types'
+
+import ToggleSwitch from '@/elements/ToggleSwitch'
 import ButtonPill from '@/elements/ButtonPill'
 
-export default function PricingPeriodToggle({ showAnnualPricing, setShowAnnualPricing }) {
-  const handleToggle = () => setShowAnnualPricing(!showAnnualPricing)
-  const handlePillClick = () => setShowAnnualPricing(true)
+const PricingPeriodToggle = ({
+  showAnnualPricing,
+  setShowAnnualPricing,
+  className,
+  buttonPillClassName,
+}) => {
+  const handleToggle = () => {
+    setShowAnnualPricing(!showAnnualPricing)
+  }
+
+  const handlePillClick = () => {
+    setShowAnnualPricing(true)
+  }
 
   return (
-    <>
+    <div className={['relative', className].join(' ')}>
       <p
         className={[
-          'row-start-2',
-          'col-span-2',
-          'xxs:row-start-1',
-          'xxs:col-span-1',
-          'xxs:col-start-2',
           !showAnnualPricing ? 'bold' : null,
-          'mb-0',
+          'xs:w-16 mb-0',
           'text-right',
         ].join(' ')}
       >
@@ -26,44 +32,43 @@ export default function PricingPeriodToggle({ showAnnualPricing, setShowAnnualPr
         onChange={handleToggle}
         state={showAnnualPricing}
         offColour="bg-green"
-        className={[
-          'row-start-2',
-          'col-start-3',
-          'xxs:row-start-1',
-        ].join(' ')}
+        className="mx-3"
       />
       <p
         className={[
-          'row-start-2',
-          'col-start-4',
-          'col-span-2',
-          'xxs:row-start-1',
           showAnnualPricing ? 'bold' : null,
-          'mb-0',
+          'xs:w-16 mb-0',
         ].join(' ')}
       >
         Annual
       </p>
       <ButtonPill
         className={[
+          'xs:absolute xs:-right-12',
           'small--p',
-          'row-start-3',
-          'col-start-4',
           'bold',
-          'bg-insta',
-          'border-insta',
+          'ml-1 xs:ml-0',
           'text-white',
-          'max-w-fit',
+          buttonPillClassName,
         ].join(' ')}
         onClick={handlePillClick}
       >
         -20%
       </ButtonPill>
-    </>
+    </div>
   )
 }
 
 PricingPeriodToggle.propTypes = {
   showAnnualPricing: PropTypes.bool.isRequired,
   setShowAnnualPricing: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  buttonPillClassName: PropTypes.string,
 }
+
+PricingPeriodToggle.defaultProps = {
+  className: null,
+  buttonPillClassName: PropTypes.string,
+}
+
+export default PricingPeriodToggle

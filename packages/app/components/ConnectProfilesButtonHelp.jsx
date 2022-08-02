@@ -9,7 +9,7 @@ import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
 
 import copy from '@/app/copy/connectProfilesCopy'
 
-const ConnectProfilesLoader = ({
+const ConnectProfilesButtonHelp = ({
   auth,
   errors,
   setErrors,
@@ -43,15 +43,15 @@ const ConnectProfilesLoader = ({
   )
 }
 
-ConnectProfilesLoader.propTypes = {
+ConnectProfilesButtonHelp.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
   isConnecting: PropTypes.bool.isRequired,
 }
 
-ConnectProfilesLoader.defaultProps = {
+ConnectProfilesButtonHelp.defaultProps = {
   errors: [],
 }
 
-export default ConnectProfilesLoader
+export default ConnectProfilesButtonHelp

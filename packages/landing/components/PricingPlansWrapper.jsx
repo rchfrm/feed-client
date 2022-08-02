@@ -1,14 +1,19 @@
-import PricingTier from '@/landing/PricingTier'
-import PropTypes from 'prop-types'
-import SwiperBlock from '@/SwiperBlock'
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
-import { pricingCopy } from '@/landing/copy/PricingPageCopy'
 
-const { currencies } = pricingCopy
+import PricingPlan from '@/landing/PricingPlan'
+import SwiperBlock from '@/SwiperBlock'
 
-export default function PricingTiersWrapper({ tiers, showAnnualPricing, currency }) {
-  const growthTierIndex = tiers.findIndex(tier => tier.name === 'Growth')
+import { currencies } from '@/constants/pricing'
+
+export default function PricingPlansWrapper({
+  plans,
+  showAnnualPricing,
+  currency,
+}) {
+  const growthPlanIndex = plans.findIndex(plan => plan.name === 'growth')
   const isDesktop = useBreakpointTest('sm')
 
   if (isDesktop) {
@@ -20,15 +25,19 @@ export default function PricingTiersWrapper({ tiers, showAnnualPricing, currency
           'gap-4',
         ].join(' ')}
       >
-        {tiers.map(tier => {
+        {plans.map(plan => {
           return (
             <div
-              key={tier.name}
+              key={plan.name}
               className={[
                 'col-span-4',
               ].join(' ')}
             >
-              <PricingTier tier={tier} showAnnualPricing={showAnnualPricing} currency={currency} />
+              <PricingPlan
+                plan={plan}
+                showAnnualPricing={showAnnualPricing}
+                currency={currency}
+              />
             </div>
           )
         })}
@@ -38,7 +47,7 @@ export default function PricingTiersWrapper({ tiers, showAnnualPricing, currency
 
   return (
     <SwiperBlock
-      goToSlide={growthTierIndex}
+      goToSlide={growthPlanIndex}
       pagination
       paginationPosition="top"
       paginationClass={[
@@ -52,16 +61,20 @@ export default function PricingTiersWrapper({ tiers, showAnnualPricing, currency
         spaceBetween: 20,
       }}
     >
-      {tiers.map(tier => {
+      {plans.map(plan => {
         return (
           <li
-            key={tier.name}
+            key={plan.name}
             className={[
               'swiper-slide',
               'box-border',
             ].join(' ')}
           >
-            <PricingTier tier={tier} showAnnualPricing={showAnnualPricing} currency={currency} />
+            <PricingPlan
+              plan={plan}
+              showAnnualPricing={showAnnualPricing}
+              currency={currency}
+            />
           </li>
         )
       })}
@@ -69,8 +82,11 @@ export default function PricingTiersWrapper({ tiers, showAnnualPricing, currency
   )
 }
 
-PricingTiersWrapper.propTypes = {
-  tiers: PropTypes.arrayOf(PropTypes.object).isRequired,
+PricingPlansWrapper.propTypes = {
+  plans: PropTypes.arrayOf(PropTypes.object).isRequired,
   showAnnualPricing: PropTypes.bool.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
+}
+
+PricingPlansWrapper.defaultProps = {
 }
