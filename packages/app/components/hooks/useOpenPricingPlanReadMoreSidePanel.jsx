@@ -13,8 +13,15 @@ const useOpenPricingPlanReadMoreSidePanel = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  const openPricingPlanReadMoreSidePanel = React.useCallback((plan, currency) => {
-    const content = <GetStartedPricingReadMore plan={plan} currency={currency} />
+  const openPricingPlanReadMoreSidePanel = React.useCallback((plan, currency, objective, isDisabled) => {
+    const content = (
+      <GetStartedPricingReadMore
+        plan={plan}
+        currency={currency}
+        objective={objective}
+        isDisabled={isDisabled}
+      />
+    )
     const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
 
     setSidePanelContent(content)

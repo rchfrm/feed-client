@@ -89,6 +89,7 @@ const GetStartedPricingPlan = ({
       <GetStartedPricingPlanReadMoreButton
         plan={plan}
         handleSidePanel={handleSidePanel}
+        isDisabled={isDisabled}
       />
     </div>
   )
