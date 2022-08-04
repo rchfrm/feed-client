@@ -37,7 +37,7 @@ const TargetingBudgetButtons = ({
         <Button
           version="small"
           className={[
-            'w-8 h-8 p-0 mr-6',
+            'w-8 h-8 p-0 mr-4 xxs:mr-6',
             'bg-black',
             'rounded-full',
             isDisabled ? 'bg-grey-2 focus:bg-grey-2 pointer-events-none' : '',
@@ -55,7 +55,7 @@ const TargetingBudgetButtons = ({
       <Button
         version="green small"
         className={[
-          'h-8',
+          'h-8 mr-2 xxs:mr-0',
           'rounded-full',
           isDisabled ? 'bg-grey-2 pointer-events-none' : '',
         ].join(' ')}

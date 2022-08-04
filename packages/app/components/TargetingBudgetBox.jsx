@@ -99,55 +99,52 @@ const TargetingBudgetBox = ({
   }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile])
 
   return (
-    <>
-      <section
-        className={[
-          'flex flex-column justify-between',
-          className,
-        ].join(' ')}
-        style={{ height: '170px', paddingBottom: '0' }}
-      >
-        {targetingLoading ? (
-          <Spinner width={36} />
-        ) : (
-          <>
-            <div className="flex justify-between items-start">
-              <h2 className="mb-0">
-                Daily Budget
-                {!targetingState.status ? (
-                  hasSetUpProfile && <span className="text-red"> Paused</span>
-                ) : (
-                  hasSetUpProfile && <span className="text-green"> Active</span>
-                )}
-              </h2>
-              {/* PAUSE OR RESUME SPENDING */}
-              <TargetingBudgetPauseButton
-                togglePauseCampaign={togglePauseCampaign}
-                isPaused={!targetingState.status}
-                isDisabled={isDisabled}
-                className={!isDesktopLayout ? 'mr-12' : null}
-              />
-            </div>
-            <DisabledSection
-              section="set-budget"
+    <section
+      className={[
+        'pb-0',
+        className,
+      ].join(' ')}
+    >
+      {targetingLoading ? (
+        <Spinner width={36} />
+      ) : (
+        <>
+          <div className="flex justify-between items-start">
+            <h2 className="mb-0">
+              Daily Budget
+              {!targetingState.status ? (
+                hasSetUpProfile && <span className="text-red"> Paused</span>
+              ) : (
+                hasSetUpProfile && <span className="text-green"> Active</span>
+              )}
+            </h2>
+            {/* PAUSE OR RESUME SPENDING */}
+            <TargetingBudgetPauseButton
+              togglePauseCampaign={togglePauseCampaign}
+              isPaused={!targetingState.status}
               isDisabled={isDisabled}
-              className="mt-4"
-            >
-              {/* BUDGET SETTER */}
-              <div>
-                <TargetingBudgetSetter
-                  budget={budget}
-                  setBudget={setBudget}
-                  currency={currencyCode}
-                  currencyOffset={currencyOffset}
-                  minBase={minBase}
-                  minHardBudget={minHardBudget}
-                  initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
-                  updateTargetingBudget={updateTargetingBudget}
-                  showCustomBudget={showCustomBudget}
-                  setBudgetSlider={setBudgetSlider}
-                />
-              </div>
+              className={!isDesktopLayout ? 'mr-12' : null}
+            />
+          </div>
+          <DisabledSection
+            section="set-budget"
+            isDisabled={isDisabled}
+            className="mt-4"
+          >
+            {/* BUDGET SETTER */}
+            <div className="flex flex-column justify-between h-30">
+              <TargetingBudgetSetter
+                budget={budget}
+                setBudget={setBudget}
+                currency={currencyCode}
+                currencyOffset={currencyOffset}
+                minBase={minBase}
+                minHardBudget={minHardBudget}
+                initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
+                updateTargetingBudget={updateTargetingBudget}
+                showCustomBudget={showCustomBudget}
+                setBudgetSlider={setBudgetSlider}
+              />
               <div className="flex items-center justify-between">
                 <TargetingBudgetButtons
                   targetingState={targetingState}
@@ -168,10 +165,10 @@ const TargetingBudgetBox = ({
                   minHardBudget={minHardBudget}
                 />
               </div>
-            </DisabledSection>
-          </>
-        )}
-      </section>
+            </div>
+          </DisabledSection>
+        </>
+      )}
       {shouldShowWarning && (
         hasBudgetBelowMinRecommendedStories ? (
           <ControlsSettingsSectionFooter
@@ -188,7 +185,7 @@ const TargetingBudgetBox = ({
           />
         )
       )}
-    </>
+    </section>
   )
 }
 
