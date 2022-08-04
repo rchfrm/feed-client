@@ -167,23 +167,23 @@ const TargetingBudgetBox = ({
               </div>
             </div>
           </DisabledSection>
+          {shouldShowWarning && (
+            hasBudgetBelowMinRecommendedStories ? (
+              <ControlsSettingsSectionFooter
+                copy={copy.budgetFooter(hasProPlan, budgetData)}
+                className="mt-5 text-insta"
+              />
+            ) : (
+              <DisabledActionPrompt
+                copy={copy.budgetFooter(hasProPlan, budgetData)}
+                section="budget"
+                version="small"
+                isButton={!hasProPlan}
+                className="mt-5"
+              />
+            )
+          )}
         </>
-      )}
-      {shouldShowWarning && (
-        hasBudgetBelowMinRecommendedStories ? (
-          <ControlsSettingsSectionFooter
-            copy={copy.budgetFooter(hasProPlan, budgetData)}
-            className="mt-5 text-insta"
-          />
-        ) : (
-          <DisabledActionPrompt
-            copy={copy.budgetFooter(hasProPlan, budgetData)}
-            section="budget"
-            version="small"
-            isButton={!hasProPlan}
-            className="mt-5"
-          />
-        )
       )}
     </section>
   )
