@@ -107,7 +107,7 @@ You will be invoiced separately by Facebook for the ad spend.`
     }
 
     if (objective && objective === 'growth') {
-      return `${platform !== 'website' ? capitalise(platform) : `Audience`} growth`
+      return `${platform && platform !== 'website' ? capitalise(platform) : `Audience`} growth`
     }
 
     return `${capitalise(platform)} ${objective}`
