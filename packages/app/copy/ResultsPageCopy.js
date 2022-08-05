@@ -140,11 +140,11 @@ export default {
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
-  postDescription: (type, value, isPurchase, objective, platform) => {
-    if (type === 'engagement') {
+  postDescription: (name, value, isPurchase, objective, platform) => {
+    if (name === 'engagement') {
       return `This post was the most effective at ${getObjectiveString(objective, platform)}, engaging **${formatNumber(value)}** new people.`
     }
-    if (type === 'nurture') {
+    if (name === 'nurture') {
       return `This post was the most effective at ${getObjectiveString(objective, platform)}, with **${formatNumber(value)}** people reached.`
     }
     return isPurchase ? (
