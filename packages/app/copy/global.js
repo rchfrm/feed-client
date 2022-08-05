@@ -125,7 +125,7 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
             + '\n\n What about Spotify Monthly Listeners?'
             + '\n\n Here you can see charts displaying the impact your marketing is having on your audience.'
         case 'budget':
-          return `Growth includes a monthly limit of ad spend of ${formatCurrency(maxSpendGrowth, currency)}.`
+          return `Growth includes a monthly ad spend limit of ${formatCurrency(maxSpendGrowth, currency)}.`
             + `\n\n With Pro this increases to ${formatCurrency(maxSpendPro, currency)}.`
         case 'set-budget':
           return 'Set a budget for this profile to start ads geared towards your objective.'

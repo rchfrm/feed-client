@@ -27,8 +27,8 @@ const GetStartedPricingPlans = ({
 
   const openPricingPlanReadMoreSidePanel = useOpenPricingPlanReadMoreSidePanel()
 
-  const openReadMoreSidePanel = (plan) => {
-    openPricingPlanReadMoreSidePanel(plan, currency)
+  const openReadMoreSidePanel = (plan, isDisabled) => {
+    openPricingPlanReadMoreSidePanel(plan, currency, objective, isDisabled)
   }
 
   return (

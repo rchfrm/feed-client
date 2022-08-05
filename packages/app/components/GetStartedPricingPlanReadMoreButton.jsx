@@ -11,6 +11,7 @@ import { capitalise } from '@/helpers/utils'
 const GetStartedPricingPlanReadMoreButton = ({
   plan,
   handleSidePanel,
+  isDisabled,
 }) => {
   const { name } = plan
 
@@ -36,7 +37,7 @@ const GetStartedPricingPlanReadMoreButton = ({
       <div>
         <Button
           version="text"
-          onClick={() => handleSidePanel(plan)}
+          onClick={() => handleSidePanel(plan, isDisabled)}
           className="h-4 inline-block mr-1"
           trackComponentName="GetStartedPricingPlanReadMoreButton"
         >
@@ -51,6 +52,7 @@ const GetStartedPricingPlanReadMoreButton = ({
 GetStartedPricingPlanReadMoreButton.propTypes = {
   plan: PropTypes.object.isRequired,
   handleSidePanel: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 GetStartedPricingPlanReadMoreButton.defaultProps = {
