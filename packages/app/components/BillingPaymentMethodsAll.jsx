@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import shallow from 'zustand/shallow'
 
+import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
@@ -37,21 +38,34 @@ const BillingPaymentMethodsAll = ({ className }) => {
 
   // STORE SELECTED STATE
   const [selectedMethodId, setSelectedMethodId] = React.useState(defaultPaymentMethod.id)
+  const [hasDefaultSelectionChanged, setHasDefaultSelectionChanged] = React.useState(false)
 
   // SET AS DEFAULT
   const [error, setError] = React.useState(null)
+  const [isLoading, setIsLoading] = React.useState(false)
+
   const setMethodAsDefault = React.useCallback(async () => {
+    setIsLoading(true)
     const { res: newDefaultPaymentMethod, error } = await setPaymentAsDefault({ organisationId, paymentMethodId: selectedMethodId })
+
     // Handle error
     if (error) {
       setError(error)
+      setIsLoading(false)
+
       return
     }
     // Update default in store
     updateDefaultPaymentStore(newDefaultPaymentMethod)
     setError(null)
     track('billing_set_default_payment_method', { organisationId })
+    setIsLoading(false)
   }, [organisationId, selectedMethodId, updateDefaultPaymentStore])
+
+  React.useEffect(() => {
+    // Check whether the user has selected a new default card
+    setHasDefaultSelectionChanged(selectedMethodId !== defaultPaymentMethod.id)
+  }, [selectedMethodId, defaultPaymentMethod])
 
   // DELETE METHOD
   const deleteMethod = React.useCallback(async (paymentMethodId) => {
@@ -74,7 +88,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
     >
       <MarkdownText markdown={copy.choosePaymentIntro} />
       <Error error={error} />
-      <div className="w-2/3 mb-10">
+      <div className="mb-10">
         {allPaymentMethods.map((method) => {
           const { id, currency, card, billing_details: cardBillingDetails, is_default } = method
           return (
@@ -97,6 +111,17 @@ const BillingPaymentMethodsAll = ({ className }) => {
           )
         })}
       </div>
+      {hasDefaultSelectionChanged && (
+        <Button
+          version="green"
+          onClick={setMethodAsDefault}
+          trackComponentName="BillingPaymentMethodsAll"
+          loading={isLoading}
+          className="w-full mb-10"
+        >
+          Set as default
+        </Button>
+      )}
       <BillingPaymentAdd
         shouldBeDefault
       />

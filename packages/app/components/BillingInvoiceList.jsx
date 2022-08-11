@@ -33,7 +33,7 @@ const BillingInvoiceList = () => {
 
   return (
     <div>
-      <h3 className="font-bold">Past invoices</h3>
+      <h3 className="font-bold">Previous invoices</h3>
       <Error error={error} />
       <ul className="text-lg">
         {invoices.map(({ id, created_at: date, invoice_pdf: link }) => {

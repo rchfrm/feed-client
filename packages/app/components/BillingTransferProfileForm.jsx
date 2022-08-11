@@ -87,6 +87,7 @@ const FORM = ({
         version="green"
         disabled={!artist.name || !email}
         onClick={onSubmit}
+        loading={isLoading}
         trackComponentName="BillingTransferProfileForm"
         className="w-full"
       >

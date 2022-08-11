@@ -10,7 +10,7 @@ export default {
     if (success) return `Payment method added!`
     return `Add a new card`
   },
-  addMethodSucess: (shouldBeDefault) => `You've successfully added a payment method${shouldBeDefault ? ' and it has been set the default:' : ':'}`,
+  addMethodSucess: (shouldBeDefault) => `You've successfully added a payment method${shouldBeDefault ? ' and it has been set the default.' : '.'}`,
 
   // CHOOSE PAYMENT METHOD
   choosePaymentIntro: `Here are the payment methods you've added so far. Choose what to use as a default or add a new method.`,
@@ -31,7 +31,6 @@ export default {
   // USERS & INVITES
   usersInfo: 'Manage the users that have access to the billing settings.',
   noUsers: `It looks like you haven't connected any users to this billing account yet.`,
-  inviteHeader: 'Enter their email address:',
   inviteDescription: 'We’ll send them a link inviting them join your team on Feed and manage the billing information for the profiles you have.',
   userDeleteAlert: 'This user will lose access to the billing account. Do you want to continue?',
   invited: (inviting_user_name) => `You’ve been invited to join ${inviting_user_name}'s billing account`,

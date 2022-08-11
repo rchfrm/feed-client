@@ -70,6 +70,7 @@ const FORM = ({
         version="green"
         disabled={!email}
         onClick={onSubmit}
+        loading={isLoading}
         trackComponentName="BillingOrganisationInviteForm"
         className="w-full"
       >

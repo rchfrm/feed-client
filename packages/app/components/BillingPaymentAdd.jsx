@@ -49,6 +49,7 @@ const BillingPaymentAdd = ({
               disabled={!isFormValid}
               onClick={addPaymentMethod}
               trackComponentName="BillingPaymentAdd"
+              loading={isLoading}
               className="w-full"
             >
               Submit
