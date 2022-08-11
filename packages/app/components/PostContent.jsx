@@ -72,6 +72,7 @@ const PostContent = ({ post, updatePost }) => {
         contentComponents={postComponents}
         options={postOptions}
         optionsHeader={<PostMedia post={post} />}
+        shouldUseSidePanelOnMobile={false}
         breakpoint={breakpoint}
         className="sm:grid grid-cols-12 gap-8"
       />

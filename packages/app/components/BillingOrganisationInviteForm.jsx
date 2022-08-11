@@ -16,8 +16,6 @@ const getBillingStoreState = (state) => ({ organisation: state.organisation })
 // THE FORM
 const FORM = ({
   className,
-  setSidePanelButton,
-  setSidePanelLoading,
   setSuccess,
 }) => {
   const [email, setEmail] = React.useState('')
@@ -28,12 +26,6 @@ const FORM = ({
 
   // FORM STATE
   const [isLoading, setIsLoading] = React.useState(false)
-
-  // HANDLE LOADING
-  React.useEffect(() => {
-    setSidePanelLoading(isLoading)
-  }, [isLoading, setSidePanelLoading])
-
 
   // HANDLE FORM
   const onSubmit = React.useCallback(async () => {
@@ -57,12 +49,6 @@ const FORM = ({
     setSuccess(true)
   }, [isLoading, organisation, email, setSuccess])
 
-  // CHANGE SIDEPANEL BUTTON
-  React.useEffect(() => {
-    const button = <Button version="green" disabled={!email} onClick={onSubmit} trackComponentName="BillingOrganisationInviteForm">Send</Button>
-    setSidePanelButton(button)
-  }, [onSubmit, setSidePanelButton, email])
-
   return (
     <form
       className={[className].join(' ')}
@@ -72,8 +58,6 @@ const FORM = ({
       }}
     >
       <Error error={error} />
-
-      {/* EMAIL */}
       <Input
         name="email"
         type="email"
@@ -82,21 +66,26 @@ const FORM = ({
         placeholder="Email address"
         required
       />
+      <Button
+        version="green"
+        disabled={!email}
+        onClick={onSubmit}
+        trackComponentName="BillingOrganisationInviteForm"
+        className="w-full"
+      >
+        Send
+      </Button>
     </form>
   )
 }
 
 const BillingOrganisationInviteForm = ({
   className,
-  setSidePanelButton,
-  setSidePanelLoading,
   setSuccess,
 }) => {
   return (
     <FORM
       className={className}
-      setSidePanelButton={setSidePanelButton}
-      setSidePanelLoading={setSidePanelLoading}
       setSuccess={setSuccess}
     />
   )
@@ -104,8 +93,6 @@ const BillingOrganisationInviteForm = ({
 
 BillingOrganisationInviteForm.propTypes = {
   className: PropTypes.string,
-  setSidePanelButton: PropTypes.func.isRequired,
-  setSidePanelLoading: PropTypes.func.isRequired,
   setSuccess: PropTypes.func.isRequired,
 }
 

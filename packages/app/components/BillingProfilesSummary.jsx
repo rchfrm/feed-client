@@ -42,7 +42,7 @@ const BillingProfilesSummary = ({
       ].join(' ')}
     >
       {/* INTRO */}
-      <h3 className="font-body font-bold mb-6">Profiles</h3>
+      <h2 className="font-body font-bold mb-6">Profiles</h2>
       {/* SUMMARY */}
       <div className="mb-10">
         {artists.length === 0 ? (

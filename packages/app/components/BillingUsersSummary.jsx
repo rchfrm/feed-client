@@ -9,8 +9,9 @@ import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/billingCopy'
 
-import BillingOpenUsers from '@/app/BillingOpenUsers'
 import BillingOrganisationUserDeleteAlert from '@/app/BillingOrganisationUserDeleteAlert'
+import BillingOrganisationInvite from '@/app/BillingOrganisationInvite'
+
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 import useBillingStore from '@/app/stores/billingStore'
@@ -105,27 +106,26 @@ const BillingUsersSummary = ({
         className,
       ].join(' ')}
     >
-      {/* INTRO */}
-      <h3 className="font-body font-bold mb-6">Your Team</h3>
+      <h2 className="font-body font-bold mb-6">Your Team</h2>
       <MarkdownText markdown={copy.usersInfo} />
       <Error error={error} />
-      {/* SUMMARY */}
-      {users.length === 0 ? (
-        <span>{copy.noUsers}</span>
-      ) : (
-        <ul>
-          {users.map((user) => (
-            <React.Fragment key={user.id}>
-              <li className="flex justify-between ml-5 mb-3 mr-5 last:mb-0">
-                <span>{makeNameAndRoleElement(user)}</span>
-                {makeDeleteButton(user)}
-              </li>
-            </React.Fragment>
-          ))}
-        </ul>
-      )}
-      {/* BUTTON (SEND INVITE) */}
-      <BillingOpenUsers className="pt-2" />
+      <div className="mb-10">
+        {users.length === 0 ? (
+          <span>{copy.noUsers}</span>
+        ) : (
+          <ul>
+            {users.map((user) => (
+              <React.Fragment key={user.id}>
+                <li className="flex justify-between ml-5 mb-3 mr-5 last:mb-0">
+                  <span>{makeNameAndRoleElement(user)}</span>
+                  {makeDeleteButton(user)}
+                </li>
+              </React.Fragment>
+            ))}
+          </ul>
+        )}
+      </div>
+      <BillingOrganisationInvite />
       <BillingOrganisationUserDeleteAlert
         confirmAlert={confirmAlert}
         setConfirmAlert={setConfirmAlert}

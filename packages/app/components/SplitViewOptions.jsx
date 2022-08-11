@@ -16,6 +16,7 @@ const SplitViewOptions = ({
   basePath,
   activeOption,
   setActiveOption,
+  shouldUseSidePanelOnMobile,
   className,
 }) => {
   const isDesktopLayout = useBreakpointTest('md')
@@ -31,12 +32,14 @@ const SplitViewOptions = ({
   const goToSpecificSetting = (name, hasDefaultSidePanelButton) => {
     setActiveOption(name)
 
-    if (!basePath) return
+    if (!shouldUseSidePanelOnMobile) return
 
     if (isDesktopLayout) {
-      Router.push({
-        pathname: `${basePath}/${name}`,
-      })
+      if (basePath) {
+        Router.push({
+          pathname: `${basePath}/${name}`,
+        })
+      }
       return
     }
     // Open content in side-panel if mobile
@@ -85,6 +88,7 @@ SplitViewOptions.propTypes = {
   basePath: PropTypes.string,
   activeOption: PropTypes.string.isRequired,
   setActiveOption: PropTypes.func.isRequired,
+  shouldUseSidePanelOnMobile: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
