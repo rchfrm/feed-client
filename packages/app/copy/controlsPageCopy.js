@@ -63,6 +63,10 @@ export default {
     }
     if (name === 'links') return 'Add and edit the links that are used in your ads'
     if (name === 'integrations') return 'Connect Feed to other platforms'
+    if (name === 'invoices') return 'Past and upcoming invoices'
+    if (name === 'profiles') return 'Profiles that appear on your invoice'
+    if (name === 'paymentMethod') return 'Add or remove cards and choose a default'
+    if (name === 'users') return 'Manage access to billing settings'
   },
   // AD DEFAULTS
   globalToggleIntro: `Can Feed automatically select which recent posts (last 28 days) are promoted? You can still opt out specific posts from the posts page.

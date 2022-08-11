@@ -22,9 +22,11 @@ const SplitView = ({
   return (
     <div className={className}>
       <div className={hasEvenColumns ? 'col-span-6' : 'col-span-4'}>
-        <div className="mb-8">
-          {optionsHeader && optionsHeader}
-        </div>
+        {optionsHeader && (
+          <div className="mb-8">
+            {optionsHeader}
+          </div>
+        )}
         {/* SETTINGS MENU */}
         <SplitViewOptions
           contentComponents={contentComponents}

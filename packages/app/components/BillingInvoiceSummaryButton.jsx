@@ -3,14 +3,12 @@ import PropTypes from 'prop-types'
 
 import Button from '@/elements/Button'
 
-import BillingOpenInvoices from '@/app/BillingOpenInvoices'
-
 const BillingInvoiceSummaryButton = ({
-  latestInvoice,
   latestInvoiceSelected,
   outstandingAmount,
   invoiceUrl,
   spending,
+  className,
 }) => {
   // Button to pay outstanding invoice
   // TODO: Use BillingOpenFailedInvoice component to handle payment failures in app
@@ -18,7 +16,7 @@ const BillingInvoiceSummaryButton = ({
     return (
       <Button
         version="black small"
-        className="bg-red"
+        className={[className, 'bg-red'].join(' ')}
         href={invoiceUrl}
         trackComponentName="BillingInvoiceSummaryButton"
       >
@@ -26,12 +24,7 @@ const BillingInvoiceSummaryButton = ({
       </Button>
     )
   }
-  // Button to show historical invoices
-  if (latestInvoice.paymentStatus) {
-    return (
-      <BillingOpenInvoices />
-    )
-  }
+
   // Ask user to set a budget if there are no historical invoices
   // and there is no spend on the "upcoming" invoice
   if (!spending) {
@@ -40,6 +33,7 @@ const BillingInvoiceSummaryButton = ({
         version="black small"
         href="/controls"
         trackComponentName="BillingInvoiceSummaryButton"
+        className={className}
       >
         Set a budget
       </Button>
@@ -49,7 +43,6 @@ const BillingInvoiceSummaryButton = ({
 }
 
 BillingInvoiceSummaryButton.propTypes = {
-  latestInvoice: PropTypes.object.isRequired,
   latestInvoiceSelected: PropTypes.bool.isRequired,
   outstandingAmount: PropTypes.bool.isRequired,
   invoiceUrl: PropTypes.string,
