@@ -8,8 +8,11 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useBillingStore from '@/app/stores/billingStore'
 
 import Spinner from '@/elements/Spinner'
+import Error from '@/elements/Error'
 
 import SplitView from '@/app/SplitView'
+import BillingOrganisationSelect from '@/app/BillingOrganisationSelect'
+import BillingOrganisationInviteList from '@/app/BillingOrganisationInviteList'
 import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 import BillingProfilesSummary from '@/app/BillingProfilesSummary'
@@ -33,6 +36,7 @@ const getBillingStoreState = (state) => ({
 })
 
 const BILLING_CONTENT_SECTIONS = ({
+  loadingErrors,
   latestInvoice,
   upcomingInvoice,
   defaultPaymentMethod,
@@ -68,12 +72,16 @@ const BILLING_CONTENT_SECTIONS = ({
   }
 
   return (
-    <SplitView
-      contentComponents={billingComponents}
-      options={billingOptions}
-      className="sm:grid grid-cols-12 gap-8"
-      hasEvenColumns
-    />
+    <>
+      {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
+      <SplitView
+        contentComponents={billingComponents}
+        options={billingOptions}
+        className="sm:grid grid-cols-12 gap-8"
+        optionsHeader
+        hasEvenColumns
+      />
+    </>
   )
 }
 
@@ -84,11 +92,14 @@ const BillingContent = () => {
   // Read from BILLING STORE
   const {
     loading: billingLoading,
+    loadingErrors,
     setupBilling,
     defaultPaymentMethod,
     upcomingInvoice,
     latestInvoice,
     organisation,
+    allOrgs,
+    organisationInvites,
     updateLatestInvoice,
   } = useBillingStore(getBillingStoreState, shallow)
 
@@ -105,15 +116,34 @@ const BillingContent = () => {
   if (billingLoading) return <Spinner />
 
   return (
-    <div>
+    <>
+      <div className="grid grid-cols-12 gap-8">
+        <div className="col-span-6">
+          {/* ACCEPT / REJECT ORGANISATION INVITES */}
+          {organisationInvites.length > 0 && (
+            <BillingOrganisationInviteList
+              className="mb-12 sm:mb-0 rounded-dialogue border-solid border-2 border-redLight"
+            />
+          )}
+          {/* SELECT ORG */}
+          {allOrgs.length >= 2 && (
+            <BillingOrganisationSelect
+              className="mb-12 sm:mb-0"
+              organisation={organisation}
+              allOrgs={allOrgs}
+            />
+          )}
+        </div>
+      </div>
       <BILLING_CONTENT_SECTIONS
+        loadingErrors={loadingErrors}
         latestInvoice={latestInvoice}
         upcomingInvoice={upcomingInvoice}
         organisation={organisation}
         updateLatestInvoice={updateLatestInvoice}
         defaultPaymentMethod={defaultPaymentMethod}
       />
-    </div>
+    </>
   )
 }
 
