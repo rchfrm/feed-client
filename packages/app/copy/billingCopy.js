@@ -19,9 +19,6 @@ export default {
   failedInvoiceIntro: (date, hasPaymentMethod) => `There was a problem with the payment method on your invoice from **${date}** ${hasPaymentMethod ? 'using the payment method below:' : ''}`,
   failedInvoiceAction: 'Please, **retry making the payment**:',
 
-  // REFERRALS
-  noReferralsTitle: `🤝 See more on the [referrals page](/my-referral-code) 💰!`,
-
   // PROFILES
   profilesIntro: 'The following profiles are part of this billing account, and appear on the same invoice.',
   noProfiles: `It looks like you haven't connected any profiles to this billing account yet.`,

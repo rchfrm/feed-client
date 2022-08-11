@@ -105,7 +105,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
                 setSelectedMethodId(id)
               }}
               onDelete={deleteMethod}
-              className="mb-6 last:mb-0"
+              className="max-w-xs mb-6 last:mb-0"
             />
           )
         })}
