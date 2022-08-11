@@ -6,11 +6,11 @@ export default {
   facebookInvoice: `You will receive a separate invoice directly from Facebook for the ad spend.`,
 
   // ADD PAYMENT METHODS
-  addPaymentHeader: (success) => {
-    if (success) return `Payment method added!`
+  addPaymentHeader: (shouldBeDefault) => {
+    if (shouldBeDefault) return `Add a payment method`
     return `Add a new card`
   },
-  addMethodSucess: (shouldBeDefault) => `You've successfully added a payment method${shouldBeDefault ? ' and it has been set the default.' : '.'}`,
+  addMethodSuccess: (shouldBeDefault) => `You've successfully added a payment method${shouldBeDefault ? ' and it has been set the default.' : '.'}`,
 
   // CHOOSE PAYMENT METHOD
   choosePaymentIntro: `Here are the payment methods you've added so far. Choose what to use as a default or add a new method.`,

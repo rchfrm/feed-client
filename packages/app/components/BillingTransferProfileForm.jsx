@@ -84,7 +84,7 @@ const FORM = ({
         required
       />
       <Button
-        version="green"
+        version="black"
         disabled={!artist.name || !email}
         onClick={onSubmit}
         loading={isLoading}

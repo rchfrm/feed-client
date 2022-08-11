@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 
 import BillingPaymentMethodsAll from '@/app/BillingPaymentMethodsAll'
+import BillingPaymentAdd from '@/app/BillingPaymentAdd'
 
 import copy from '@/app/copy/billingCopy'
 
@@ -24,6 +25,9 @@ const BillingPaymentMethodsSummary = ({
         ) : (
           <MarkdownText markdown={copy.noPaymentMethods} />
         )}
+        <BillingPaymentAdd
+          shouldBeDefault={!defaultPaymentMethod}
+        />
       </div>
     </div>
   )

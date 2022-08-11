@@ -28,7 +28,7 @@ const BillingPaymentAdd = ({
   return (
     <section>
       <h3 className="font-bold">
-        {copy.addPaymentHeader(success)}
+        {copy.addPaymentHeader(shouldBeDefault)}
       </h3>
       <div>
         {success ? <BillingPaymentAddSuccess paymentMethod={paymentMethod} /> : (
@@ -45,7 +45,7 @@ const BillingPaymentAdd = ({
               setIsLoading={setIsLoading}
             />
             <Button
-              version="green"
+              version="black"
               disabled={!isFormValid}
               onClick={addPaymentMethod}
               trackComponentName="BillingPaymentAdd"

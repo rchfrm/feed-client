@@ -9,7 +9,7 @@ const BillingPaymentAddSuccess = ({ paymentMethod }) => {
   const { is_default } = paymentMethod
 
   return (
-    <MarkdownText markdown={copy.addMethodSucess(is_default)} />
+    <MarkdownText markdown={copy.addMethodSuccess(is_default)} />
   )
 }
 

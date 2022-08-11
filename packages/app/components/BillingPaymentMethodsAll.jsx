@@ -8,7 +8,6 @@ import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import BillingPaymentCard from '@/app/BillingPaymentCard'
-import BillingPaymentAdd from '@/app/BillingPaymentAdd'
 
 import useBillingStore from '@/app/stores/billingStore'
 
@@ -113,7 +112,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
       </div>
       {hasDefaultSelectionChanged && (
         <Button
-          version="green"
+          version="black"
           onClick={setMethodAsDefault}
           trackComponentName="BillingPaymentMethodsAll"
           loading={isLoading}
@@ -122,9 +121,6 @@ const BillingPaymentMethodsAll = ({ className }) => {
           Set as default
         </Button>
       )}
-      <BillingPaymentAdd
-        shouldBeDefault
-      />
     </div>
   )
 }

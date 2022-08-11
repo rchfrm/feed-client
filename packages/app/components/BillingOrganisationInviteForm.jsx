@@ -67,7 +67,7 @@ const FORM = ({
         required
       />
       <Button
-        version="green"
+        version="black"
         disabled={!email}
         onClick={onSubmit}
         loading={isLoading}
