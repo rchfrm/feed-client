@@ -251,4 +251,36 @@ ${list.join('\n')}`
     if (section === 'set-budget') return `${planBaseString} to set a budget`
     if (section === 'profile-select') return `${planBaseString} to switch between profiles`
   },
+  splitViewOptionsDescription: (name, hasSetUpProfile, objectiveString, isSpendingPaused, budget) => {
+    if (name === 'objective') {
+      if (hasSetUpProfile) {
+        return `Feed is set-up for ${objectiveString}`
+      }
+      return 'Continue set-up to choose your objective'
+    }
+    if (name === 'budget') {
+      if (hasSetUpProfile) {
+        return `Promotion is ${isSpendingPaused ? 'paused' : `active and set to ${budget} a day`}`
+      }
+      return 'Continue set-up to set your budget'
+    }
+    if (name === 'ads') {
+      if (hasSetUpProfile) {
+        return 'Post selection, calls to action and ad settings'
+      }
+      return 'Continue set-up to manage post selection, calls to action and more'
+    }
+    if (name === 'targeting') {
+      if (hasSetUpProfile) {
+        return 'Control who sees your ads'
+      }
+      return 'Continue set-up to choose age, gender and location targeting'
+    }
+    if (name === 'links') return 'Add and edit the links that are used in your ads'
+    if (name === 'integrations') return 'Connect Feed to other platforms'
+    if (name === 'invoices') return 'Past and upcoming invoices'
+    if (name === 'profiles') return 'Profiles that appear on your invoice'
+    if (name === 'paymentMethod') return 'Add or remove cards and choose a default'
+    if (name === 'users') return 'Manage access to billing settings'
+  },
 }
