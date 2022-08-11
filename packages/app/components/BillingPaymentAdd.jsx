@@ -25,6 +25,18 @@ const BillingPaymentAdd = ({
   const [paymentMethod, setPaymentMethod] = React.useState(null)
   const [success, setSuccess] = React.useState(false)
 
+  React.useEffect(() => {
+    if (!success) return
+
+    const timeout = setTimeout(() => {
+      setSuccess(false)
+    }, 5000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [success])
+
   return (
     <section>
       <h3 className="font-bold">

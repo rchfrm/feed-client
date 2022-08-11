@@ -9,6 +9,18 @@ import MarkdownText from '@/elements/MarkdownText'
 const BillingOrganisationInvite = () => {
   const [success, setSuccess] = React.useState(false)
 
+  React.useEffect(() => {
+    if (!success) return
+
+    const timeout = setTimeout(() => {
+      setSuccess(false)
+    }, 5000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [success])
+
   return (
     <div>
       <h3 className="font-bold">Invite someone to join your team</h3>
