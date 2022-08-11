@@ -8,7 +8,7 @@ export default {
   // ADD PAYMENT METHODS
   addPaymentHeader: (success) => {
     if (success) return `Payment method added!`
-    return `Enter your card details`
+    return `Add a new card`
   },
   addMethodSucess: (shouldBeDefault) => `You've successfully added a payment method${shouldBeDefault ? ' and it has been set the default:' : ':'}`,
 
