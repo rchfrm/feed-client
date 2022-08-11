@@ -368,3 +368,26 @@ export const rejectOrganisationInvite = async (token) => {
   }
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
+
+export const billingOptions = [
+  {
+    name: 'invoices',
+    title: 'Invoices',
+    hasDescription: true,
+  },
+  {
+    name: 'profiles',
+    title: 'Profiles',
+    hasDescription: true,
+  },
+  {
+    name: 'paymentMethod',
+    title: 'Payment methods',
+    hasDescription: true,
+  },
+  {
+    name: 'users',
+    title: 'Team',
+    hasDescription: true,
+  },
+]
