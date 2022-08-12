@@ -24,7 +24,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { hasGrowthPlan, hasLegacyPlan } = artist
   const [, planPeriod] = artist.plan.split('_') || []
   const isAnnualPricing = planPeriod === 'annual'
-  const isUpgradeToPro = (hasGrowthPlan && !hasLegacyPlan) || section === 'facebook-pixel'
+  const isUpgradeToPro = hasGrowthPlan && !hasLegacyPlan
 
   const [currentStep, setCurrentStep] = React.useState(0)
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState(null)

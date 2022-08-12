@@ -76,7 +76,7 @@ const AdDefaults = () => {
         <AdSettingsSection
           header="Facebook Pixel"
           section="facebook-pixel"
-          hasPlanRestriction={!hasProPlan}
+          hasPlanRestriction={!hasGrowthPlan}
           copy={copy.facebookPixelIntro}
         >
           <AdDefaultsPixelSelector />
