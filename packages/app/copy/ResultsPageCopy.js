@@ -51,17 +51,19 @@ export default {
   organic posts which reached **${organicValue}%** on average.`,
   existingAudienceFallback: (currValue, prevValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience${prevValue ? versusLastMonth(formatNumber(prevValue)) : ''}.`,
   conversionMainDescription: (roas) => {
-    const { name } = optimisationsEventsDictionary.omni_purchase
+    const { name, event } = optimisationsEventsDictionary.omni_purchase
     return {
       title: name,
       description: `Feed’s conversion ads generated **${roas}x** more in sales than was spent.`,
+      event,
     }
   },
   conversionFallbackSales: (currValue, prevValue) => {
-    const { name } = optimisationsEventsDictionary.omni_purchase
+    const { name, event } = optimisationsEventsDictionary.omni_purchase
     return {
       title: name,
       description: `Feed’s conversion ads generated **${currValue}** in sales${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event,
     }
   },
   conversionFallbackOptimisationEvents: (eventCount, optimisationsEvent, prevValue) => {
@@ -69,30 +71,34 @@ export default {
     return {
       title: name,
       description: `Feed’s conversion ads generated **${eventCount} ${eventCount === 1 ? event : `${event}s`}**${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event: eventCount === 1 ? event : `${event}s`,
     }
   },
   conversionFallbackLandingPageViews: (currValue, facebookPixelEvent, prevValue) => {
     const optimisationsEvent = getNestedObjectByValue(optimisationsEventsDictionary, facebookPixelEvent)
-    const { name, detail } = optimisationsEventsDictionary[optimisationsEvent]
+    const { name, event, detail } = optimisationsEventsDictionary[optimisationsEvent]
     return {
       title: name,
       description: `**${currValue} people** have visited your website as a result of seeing ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event,
     }
   },
   conversionFallbackOutboundClicks: (currValue, facebookPixelEvent, prevValue) => {
     const optimisationsEvent = getNestedObjectByValue(optimisationsEventsDictionary, facebookPixelEvent)
-    const { name, detail } = optimisationsEventsDictionary[optimisationsEvent]
+    const { name, event, detail } = optimisationsEventsDictionary[optimisationsEvent]
     return {
       title: name,
       description: `**${currValue} people** clicked through to your website as a result of seeing ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event,
     }
   },
   conversionFallbackReach: (currValue, facebookPixelEvent, prevValue) => {
     const optimisationsEvent = getNestedObjectByValue(optimisationsEventsDictionary, facebookPixelEvent)
-    const { name, detail } = optimisationsEventsDictionary[optimisationsEvent]
+    const { name, event, detail } = optimisationsEventsDictionary[optimisationsEvent]
     return {
       title: name,
       description: `**${currValue} people** saw ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event,
     }
   },
   platformGrowth: ({
@@ -144,7 +150,7 @@ export default {
     return isPurchase ? (
       `This post was the most effective at generating sales with a total value of **${value}**.`
     ) : (
-      `This post was the most effective by generating **${formatNumber(value)}** sale(s).`
+      `This post was the most effective by generating **${formatNumber(value)}** event(s).`
     )
   },
   statsNoData: 'Feed is setting up your ads',
