@@ -115,12 +115,13 @@ const BillingUsersSummary = ({
         ) : (
           <ul>
             {users.map((user) => (
-              <React.Fragment key={user.id}>
-                <li className="flex justify-between ml-5 mb-3 mr-5 last:mb-0">
-                  <span>{makeNameAndRoleElement(user)}</span>
-                  {makeDeleteButton(user)}
-                </li>
-              </React.Fragment>
+              <li
+                key={user.id}
+                className="flex justify-between ml-5 mb-3 mr-5 last:mb-0"
+              >
+                <span>{makeNameAndRoleElement(user)}</span>
+                {makeDeleteButton(user)}
+              </li>
             ))}
           </ul>
         )}

@@ -17,7 +17,6 @@ const initialState = {
   latestInvoice: {},
   artistCurrency: {},
   defaultPaymentMethod: null,
-  referralsDetails: {},
   organisationInvites: [],
   transferRequests: [],
 }
@@ -52,19 +51,18 @@ const fetchOrganisationDetails = async (organisation) => {
 
 const fetchInvoices = async (organisation) => {
   const errors = []
+
   // Fetch next invoice
   const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organisation.id)
   if (upcomingInvoiceError && upcomingInvoiceError.message !== 'Not Found') errors.push(upcomingInvoiceError)
+
   // Fetch latest invoice
   const { res: latestInvoice, error: latestInvoiceError } = await fetchLatestInvoice(organisation.id)
   if (latestInvoiceError) errors.push(latestInvoiceError)
-  // Referrals data
-  const { res: referralsDetails, error: referralsError = null } = await billingHelpers.getReferralsData(organisation.id)
-  if (referralsError) errors.push(referralsError)
+
   return {
     upcomingInvoice,
     latestInvoice,
-    referralsDetails,
     errors,
   }
 }

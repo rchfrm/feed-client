@@ -243,18 +243,6 @@ export const formatProrationsPreview = ({ profilesToUpgrade, organisationArtists
   }
 }
 
-// * REFERRALS
-// * --------------------
-export const getReferralsData = async (organizationId) => {
-  const payload = {}
-  const endpoint = `/organizations/${organizationId}/referral_stats`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Get referrals data',
-  }
-  return api.requestWithCatch('get', endpoint, payload, errorTracking)
-}
-
 // * PROFILE TRANSFER
 // * --------------------
 export const getOrganisationArtists = async (organisationId) => {
