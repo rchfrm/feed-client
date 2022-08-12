@@ -108,6 +108,7 @@ export const pricingPlans = [
       'Prioritise a post for instant promotion',
       'Edit individual ad text, links and CTA',
       'Override automated post selection',
+      'Meta pixel based retargeting',
       'Connect unlimited profiles^',
     ],
     maxSpendMultiple: growth.maxSpendMultiple,
@@ -120,7 +121,6 @@ export const pricingPlans = [
     features: [
       'Everything in **Growth** plus...',
       'Run sales or pre-save ads (conversion ads)',
-      'Meta pixel based retargeting',
       'Clear reporting on return from ad spend',
     ],
     maxSpendMultiple: pro.maxSpendMultiple,
