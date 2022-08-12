@@ -24,7 +24,7 @@ const getControlsStoreState = (state) => ({
 
 const AdDefaults = () => {
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasProPlan, hasSetUpProfile } = artist
+  const { hasGrowthPlan, hasSetUpProfile } = artist
 
   const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   const { postsPreferences, conversionsPreferences, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
