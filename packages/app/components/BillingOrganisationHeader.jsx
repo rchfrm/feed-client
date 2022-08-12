@@ -20,7 +20,7 @@ const BillingOrganisationHeader = () => {
   } = useBillingStore(getBillingStoreState, shallow)
 
   return (
-    <div className="grid grid-cols-12 gap-8">
+    <div className="grid grid-cols-12 gap-8 mb-6">
       <div className="col-span-6">
         {/* ACCEPT / REJECT ORGANISATION INVITES */}
         {organisationInvites.length > 0 && (

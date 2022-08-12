@@ -70,7 +70,6 @@ const BillingContent = () => {
         contentComponents={billingComponents}
         options={billingOptions}
         className="sm:grid grid-cols-12 gap-8"
-        optionsHeader
         hasEvenColumns
       />
     </>
