@@ -76,29 +76,29 @@ export default {
   },
   conversionFallbackLandingPageViews: (currValue, facebookPixelEvent, prevValue) => {
     const optimisationsEvent = getNestedObjectByValue(optimisationsEventsDictionary, facebookPixelEvent)
-    const { name, event, detail } = optimisationsEventsDictionary[optimisationsEvent]
+    const { name, detail } = optimisationsEventsDictionary[optimisationsEvent]
     return {
       title: name,
       description: `**${currValue} people** have visited your website as a result of seeing ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
-      event,
+      event: currValue === 1 ? 'visit' : 'visits',
     }
   },
   conversionFallbackOutboundClicks: (currValue, facebookPixelEvent, prevValue) => {
     const optimisationsEvent = getNestedObjectByValue(optimisationsEventsDictionary, facebookPixelEvent)
-    const { name, event, detail } = optimisationsEventsDictionary[optimisationsEvent]
+    const { name, detail } = optimisationsEventsDictionary[optimisationsEvent]
     return {
       title: name,
       description: `**${currValue} people** clicked through to your website as a result of seeing ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
-      event,
+      event: currValue === 1 ? 'click' : 'clicks',
     }
   },
   conversionFallbackReach: (currValue, facebookPixelEvent, prevValue) => {
     const optimisationsEvent = getNestedObjectByValue(optimisationsEventsDictionary, facebookPixelEvent)
-    const { name, event, detail } = optimisationsEventsDictionary[optimisationsEvent]
+    const { name, detail } = optimisationsEventsDictionary[optimisationsEvent]
     return {
       title: name,
       description: `**${currValue} people** saw ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
-      event,
+      event: currValue === 1 ? 'view' : 'views',
     }
   },
   platformGrowth: ({
