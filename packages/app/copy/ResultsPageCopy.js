@@ -43,12 +43,6 @@ const optimisationsEventsDictionary = {
 
 const versusLastMonth = (prevValue) => `, versus ${prevValue} last month`
 
-const getObjectiveString = (objective, platform) => {
-  if (objective === 'sales') return 'driving your website sales'
-  if (objective === 'traffic') return 'driving your website visits'
-  if (objective === 'growth') return `growing your ${getPlatformNameByValue(platform)} audience`
-}
-
 export default {
   newAudienceOnPlatformMainDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
   newAudienceUnawareFallbackEngaged: (currValue, prevValue) => `**${formatNumber(currValue)} engaged** with your posts${prevValue ? versusLastMonth(formatNumber(prevValue)) : ''}.`,
@@ -140,12 +134,12 @@ export default {
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
-  postDescription: (name, value, isPurchase, objective, platform) => {
+  postDescription: (name, value, isPurchase) => {
     if (name === 'engagement') {
-      return `This post was the most effective at ${getObjectiveString(objective, platform)}, engaging **${formatNumber(value)}** new people.`
+      return `This post was the most effective at reaching new audiences, with **${formatNumber(value)}** people engaging with your content for the first time.`
     }
     if (name === 'nurture') {
-      return `This post was the most effective at ${getObjectiveString(objective, platform)}, with **${formatNumber(value)}** people reached.`
+      return `This post was the most effective at nurturing the relationship with your existing audience, reaching **${formatNumber(value)}** people.`
     }
     return isPurchase ? (
       `This post was the most effective at generating sales with a total value of **${value}**.`
