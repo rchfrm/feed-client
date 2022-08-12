@@ -221,7 +221,7 @@ ${list.join('\n')}`
   },
   pricingProfileFootnote: '^ A profile is a Facebook page and Instagram account for the same person, brand or company',
   disabledReason: (section, hasSetUpProfile, hasOverflow) => {
-    const shouldUpgradeToPro = section === 'facebook-pixel' || section === 'objective-sales'
+    const shouldUpgradeToPro = section === 'objective-sales'
     const setupBaseString = 'Continue set-up to'
     const planBaseString = `Upgrade to <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span>`
 
