@@ -44,7 +44,7 @@ const BillingPaymentAdd = ({
       </h3>
       <div>
         {success ? <BillingPaymentAddSuccess paymentMethod={paymentMethod} /> : (
-          <>
+          <div className="w-full lg:w-2/3">
             <AddPaymentForm
               organisationId={organisationId}
               setAddPaymentMethod={setAddPaymentMethod}
@@ -66,7 +66,7 @@ const BillingPaymentAdd = ({
             >
               Submit
             </Button>
-          </>
+          </div>
         )}
       </div>
     </section>

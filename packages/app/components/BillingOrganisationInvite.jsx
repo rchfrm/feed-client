@@ -27,7 +27,7 @@ const BillingOrganisationInvite = () => {
       <MarkdownText markdown={copy.inviteDescription} />
       {success ? <MarkdownText markdown="Invite sent 🎉" /> : (
         <BillingOrganisationInviteForm
-          className="mt-10"
+          className="w-full lg:w-2/3 mt-10"
           setSuccess={setSuccess}
         />
       )}

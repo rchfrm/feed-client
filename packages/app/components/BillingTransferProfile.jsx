@@ -26,7 +26,7 @@ const BillingTransferProfile = () => {
       <MarkdownText markdown={copy.transferDescription} />
       {success ? <MarkdownText markdown="Request sent 🎉" /> : (
         <BillingTransferProfileForm
-          className="mt-10"
+          className="w-full lg:w-2/3 mt-10"
           setSuccess={setSuccess}
         />
       )}
