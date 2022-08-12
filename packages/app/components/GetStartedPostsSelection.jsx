@@ -19,6 +19,7 @@ import * as server from '@/app/helpers/appServer'
 import { getCursor, getInitialPostsImportStatus, formatPostsMinimal } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
+import postsCopy from '@/app/copy/PostsPageCopy'
 
 const postsInitialState = []
 
@@ -56,9 +57,11 @@ const GetStartedPostsSelection = () => {
   const [postType, setPostType] = React.useState('promotion_enabled')
   const [hasEnabledPosts, setHasEnabledPosts] = React.useState(false)
   const [shouldShowLoadMoreButton, setShouldShowLoadMoreButton] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
+  const { noPostsCopy } = postsCopy
 
   const { initialLoading } = useCheckBackgroundTaskStatus({
     artistId,
@@ -96,6 +99,7 @@ const GetStartedPostsSelection = () => {
 
   const handlePosts = async (postType, limit) => {
     let res = []
+    setIsLoading(true)
     // Fetch posts sorted by normalized score
     res = await fetchPosts(postType, limit)
 
@@ -129,6 +133,8 @@ const GetStartedPostsSelection = () => {
       type: 'add-posts',
       payload: { posts: postsFiltered },
     })
+
+    setIsLoading(false)
   }
 
   useAsyncEffect(async (isMounted) => {
@@ -160,6 +166,10 @@ const GetStartedPostsSelection = () => {
   }, [posts, hasEnabledPosts, setPosts])
 
   if (initialLoading) return null
+
+  if (canLoadPosts && !posts.length && !isLoading) {
+    return noPostsCopy.all()
+  }
 
   return (
     <div className="flex flex-1 flex-column mb-6">
@@ -210,7 +220,9 @@ const GetStartedPostsSelection = () => {
               />
             </div>
           </>
-        ) : <Spinner />
+        ) : (
+          <Spinner />
+        )
       )}
     </div>
   )

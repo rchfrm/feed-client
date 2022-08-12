@@ -125,7 +125,7 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
             + '\n\n What about Spotify Monthly Listeners?'
             + '\n\n Here you can see charts displaying the impact your marketing is having on your audience.'
         case 'budget':
-          return `Growth includes a monthly limit of ad spend of ${formatCurrency(maxSpendGrowth, currency)}.`
+          return `Growth includes a monthly ad spend limit of ${formatCurrency(maxSpendGrowth, currency)}.`
             + `\n\n With Pro this increases to ${formatCurrency(maxSpendPro, currency)}.`
         case 'set-budget':
           return 'Set a budget for this profile to start ads geared towards your objective.'
@@ -221,7 +221,7 @@ ${list.join('\n')}`
   },
   pricingProfileFootnote: '^ A profile is a Facebook page and Instagram account for the same person, brand or company',
   disabledReason: (section, hasSetUpProfile, hasOverflow) => {
-    const shouldUpgradeToPro = section === 'facebook-pixel' || section === 'objective-sales'
+    const shouldUpgradeToPro = section === 'objective-sales'
     const setupBaseString = 'Continue set-up to'
     const planBaseString = `Upgrade to <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span>`
 

@@ -29,7 +29,7 @@ const ResultsTopPerformingPost = ({
   metricType,
   className,
 }) => {
-  const { type, valueKey: key } = post
+  const { name, valueKey: key } = post
   const [postData, setPostsData] = React.useState(null)
   const [isPurchase, setIsPurchase] = React.useState(false)
   const [value, setValue] = React.useState(Array.isArray(key) ? post[key[0]] : post[key])
@@ -44,14 +44,14 @@ const ResultsTopPerformingPost = ({
   const imageHeight = isDesktopLayout ? '176px' : '100px'
 
   React.useEffect(() => {
-    if (type === 'growth') {
+    if (name === 'growth') {
       const salesValue = post[key[0]]
       const eventsCount = post[key[1]]
 
       setIsPurchase(salesValue > 0)
       setValue(salesValue > 0 ? formatCurrency(salesValue, currency) : eventsCount)
     }
-  }, [setIsPurchase, post, type, currency, key])
+  }, [setIsPurchase, post, name, currency, key])
 
   useAsyncEffect(async (isMounted) => {
     setIsLoading(true)
@@ -76,7 +76,7 @@ const ResultsTopPerformingPost = ({
     >
       <p className="w-full font-bold text-xl">Top performing post</p>
       <div className="flex flex-col">
-        <MarkdownText markdown={copy.postDescription(type, value, isPurchase, objective, platform)} className="xs:mb-12 text-left" />
+        <MarkdownText markdown={copy.postDescription(name, value, isPurchase, objective, platform)} className="xs:mb-12 text-left" />
         {isLoading ? (
           <Spinner className="h-64 flex items-center" width={28} />
         ) : (
