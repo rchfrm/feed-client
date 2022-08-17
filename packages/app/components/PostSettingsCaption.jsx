@@ -15,8 +15,14 @@ import MarkdownText from '@/elements/MarkdownText'
 import { getPostAdMessages, updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
 
 const getCaptionNotEditableReason = (post) => {
+  const base = 'The caption is not editable because'
+
   if (post.postType === 'story') {
-    return 'The caption is not editable because this is a story.'
+    return `${base} this is a story.`
+  }
+
+  if (post.postType === 'reels') {
+    return `${base} this is a reel.`
   }
 
   return ''

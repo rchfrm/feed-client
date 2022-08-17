@@ -22,6 +22,9 @@ const PostCardHeaderSource = ({
         {postType === 'story' && (
           <strong className="text-insta ml-1">Story</strong>
         )}
+        {postType === 'reels' && (
+          <strong className="text-insta ml-1">Reel</strong>
+        )}
       </a>
     </p>
   )
