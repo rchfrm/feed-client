@@ -29,7 +29,7 @@ app.get('/spotify/:id', (req, res) => {
   const userAgent = UserAgent(headers['user-agent'])
 
   if (userAgent.isIOS || userAgent.isAndroid) {
-    return res.redirect(HTTP_STATUS_PERMANENT_REDIRECT, `spotify:artist:${id}`)
+    return res.redirect(HTTP_STATUS_PERMANENT_REDIRECT, `spotify://artist/${id}`)
   }
 
   return res.redirect(HTTP_STATUS_PERMANENT_REDIRECT, `https://open.spotify.com/artist/${id}`)
