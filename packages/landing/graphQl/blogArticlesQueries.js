@@ -26,9 +26,11 @@ query {
 `
 
 // Get list of slugs for building static pages
-export const getLinksQuery = () => `
+export const getLinksQuery = (count = 30) => `
 query {
-  allBlogArticles {
+  allBlogArticles(first: "${count}", filter: {
+    showInArticleList: {eq:true}
+  }) {
     slug
   }
 }
