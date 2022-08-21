@@ -14,19 +14,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { getPostAdMessages, updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
 
-const getCaptionNotEditableReason = (post) => {
-  const base = 'The caption is not editable because'
-
-  if (post.postType === 'story') {
-    return `${base} this is a story.`
-  }
-
-  if (post.postType === 'reels') {
-    return `${base} this is a reel.`
-  }
-
-  return ''
-}
+import copy from '@/app/copy/PostsPageCopy'
 
 const PostSettingsCaption = ({
   post,
@@ -47,7 +35,7 @@ const PostSettingsCaption = ({
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
-  const noCaptionEditReason = getCaptionNotEditableReason(post)
+  const noCaptionEditReason = copy.captionNotEditableReason(post)
 
   // Get post ad messages
   useAsyncEffect(async (isMounted) => {
