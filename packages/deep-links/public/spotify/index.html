@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script type="text/javascript">
+      window.onload = function() {
+        const path = window.location.pathname;
+        const id = path.split('/').pop()
+
+        window.location = `spotify://artist/${id}`
+
+        setTimeout(function() {
+          window.location = `https://open.spotify.com/artist/${id}`
+        }, 3000)
+      }
+    </script>
+  </body>
+</html>
