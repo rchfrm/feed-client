@@ -216,7 +216,7 @@ export const formatProrationsPreview = ({ profilesToUpgrade, organisationArtists
 
   const upgradedProfiles = Object.keys(profilesToUpgrade).reduce((array, id) => {
     const profile = organisationArtists.find((profile) => profile.id === id)
-    const [planPrefix] = profilesToUpgrade[id].split('_')
+    const [planPrefix] = profilesToUpgrade[id]?.split('_') || []
     const currentPayment = profileAmounts[id] || 0
     const nextPayment = nextInvoiceProfileAmounts[id] || 0
 

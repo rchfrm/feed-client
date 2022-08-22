@@ -189,7 +189,7 @@ ${list.join('\n')}`
     const daysPassedInPeriod = daysInPeriod - daysRemainingInPeriod
 
     const list = upgradedProfiles.map(({ name, plan, nextPayment }) => {
-      return `- ${formatCurrency(nextPayment, currency)} for ${name} on <span className="text-insta font-bold">${capitalise(plan)}</span>*`
+      return `- ${formatCurrency(nextPayment, currency)} for ${name} on ${plan ? `<span className="text-insta font-bold">${capitalise(plan)}</span>*` : 'no plan'}`
     })
 
     if (usageAmount) {
