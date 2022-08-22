@@ -243,18 +243,6 @@ export const formatProrationsPreview = ({ profilesToUpgrade, organisationArtists
   }
 }
 
-// * REFERRALS
-// * --------------------
-export const getReferralsData = async (organizationId) => {
-  const payload = {}
-  const endpoint = `/organizations/${organizationId}/referral_stats`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Get referrals data',
-  }
-  return api.requestWithCatch('get', endpoint, payload, errorTracking)
-}
-
 // * PROFILE TRANSFER
 // * --------------------
 export const getOrganisationArtists = async (organisationId) => {
@@ -368,3 +356,26 @@ export const rejectOrganisationInvite = async (token) => {
   }
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
+
+export const billingOptions = [
+  {
+    name: 'invoices',
+    title: 'Invoices',
+    hasDescription: true,
+  },
+  {
+    name: 'profiles',
+    title: 'Profiles',
+    hasDescription: true,
+  },
+  {
+    name: 'paymentMethod',
+    title: 'Payment methods',
+    hasDescription: true,
+  },
+  {
+    name: 'users',
+    title: 'Team',
+    hasDescription: true,
+  },
+]

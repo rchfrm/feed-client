@@ -17,8 +17,6 @@ const getBillingStoreState = (state) => ({ artists: state.organisationArtists })
 // THE FORM
 const FORM = ({
   className,
-  setSidePanelButton,
-  setSidePanelLoading,
   setSuccess,
 }) => {
   const [artist, setArtist] = React.useState({})
@@ -30,12 +28,6 @@ const FORM = ({
 
   // FORM STATE
   const [isLoading, setIsLoading] = React.useState(false)
-
-  // HANDLE LOADING
-  React.useEffect(() => {
-    setSidePanelLoading(isLoading)
-  }, [isLoading, setSidePanelLoading])
-
 
   // HANDLE FORM
   const onSubmit = React.useCallback(async () => {
@@ -58,12 +50,6 @@ const FORM = ({
     setError(null)
     setSuccess(true)
   }, [isLoading, artist, email, setSuccess])
-
-  // CHANGE SIDEPANEL BUTTON
-  React.useEffect(() => {
-    const button = <Button version="green" disabled={!artist.name || !email} onClick={onSubmit} trackComponentName="BillingTransferProfileForm">Send</Button>
-    setSidePanelButton(button)
-  }, [onSubmit, setSidePanelButton, artist, email])
 
   return (
     <form
@@ -97,6 +83,16 @@ const FORM = ({
         placeholder="Email address"
         required
       />
+      <Button
+        version="black"
+        disabled={!artist.name || !email}
+        onClick={onSubmit}
+        loading={isLoading}
+        trackComponentName="BillingTransferProfileForm"
+        className="w-full"
+      >
+        Send
+      </Button>
     </form>
   )
 }

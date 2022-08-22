@@ -1,52 +1,32 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
-import useAsyncEffect from 'use-async-effect'
 
 import BillingTransferProfileForm from '@/app/BillingTransferProfileForm'
 import copy from '@/app/copy/billingCopy'
-import sidePanelStyles from '@/SidePanel.module.css'
 
-import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
-const BillingTransferProfile = ({
-  setSidePanelButton,
-  toggleSidePanel,
-  setSidePanelLoading,
-}) => {
-  // START SIDEPANEL LOADING
-  React.useEffect(() => {
-    setSidePanelLoading(true)
-  }, [setSidePanelLoading])
-
-  // WAIT FOR MOUNT
-  useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
-    setSidePanelLoading(false)
-  }, [])
-
-  // HANDLE SUCCESS
+const BillingTransferProfile = () => {
   const [success, setSuccess] = React.useState(false)
 
-  // CHANGE SIDEPANEL BUTTON on SUCCESS
   React.useEffect(() => {
-    if (success) {
-      const button = <Button version="green" onClick={() => toggleSidePanel(false)} trackComponentName="BillingTransferProfile">Done</Button>
-      setSidePanelButton(button)
+    if (!success) return
+
+    const timeout = setTimeout(() => {
+      setSuccess(false)
+    }, 5000)
+
+    return () => {
+      clearTimeout(timeout)
     }
-  }, [success, setSidePanelButton, toggleSidePanel])
+  }, [success])
 
   return (
     <div>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Manage profiles</h2>
-      <h4>{copy.transferHeader}</h4>
+      <h3 className="font-bold">Manage profiles</h3>
       <MarkdownText markdown={copy.transferDescription} />
       {success ? <MarkdownText markdown="Request sent 🎉" /> : (
         <BillingTransferProfileForm
-          className="mt-10"
-          setSidePanelButton={setSidePanelButton}
-          setSidePanelLoading={setSidePanelLoading}
+          className="w-full lg:w-2/3 mt-10"
           setSuccess={setSuccess}
         />
       )}
@@ -55,7 +35,6 @@ const BillingTransferProfile = ({
 }
 
 BillingTransferProfile.propTypes = {
-  setSidePanelLoading: PropTypes.func.isRequired,
 }
 
 BillingTransferProfile.defaultProps = {

@@ -9,7 +9,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { getObjectiveString } from '@/app/helpers/artistHelpers'
 import { formatCurrency } from '@/helpers/utils'
 
-import copy from '@/app/copy/controlsPageCopy'
+import copy from '@/app/copy/global'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -65,7 +65,7 @@ const SplitViewOptionsItem = ({
       </div>
       <div>
         <p className={['font-bold', hasDescription ? 'mb-2' : 'mb-0'].join(' ')}>{title}</p>
-        {hasDescription && <p className="mb-0">{copy.optionsDescription(name, hasSetUpProfile, objectiveString, isSpendingPaused, formattedBudget)}</p>}
+        {hasDescription && <p className="mb-0">{copy.splitViewOptionsDescription(name, hasSetUpProfile, objectiveString, isSpendingPaused, formattedBudget)}</p>}
       </div>
     </a>
   )
