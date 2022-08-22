@@ -719,7 +719,7 @@ export const hasAllProfilesOnNoPlan = (organisationArtists) => {
     return false
   }
 
-  return organisationArtists.every(({ plan }) => plan === undefined)
+  return organisationArtists.every(({ plan }) => !plan)
 }
 
 export const hasAProfileOnGrowthOrPro = (organisationArtists) => {
