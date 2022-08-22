@@ -160,6 +160,7 @@ function ArtistProvider({ children }) {
     const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan)
     const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
     const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
+    const hasNoPlan = !artist?.plan
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
@@ -173,6 +174,7 @@ function ArtistProvider({ children }) {
       artistDraft.hasGrowthPlan = hasGrowthPlan
       artistDraft.hasProPlan = hasProPlan
       artistDraft.hasLegacyPlan = hasLegacyPlan
+      artistDraft.hasNoPlan = hasNoPlan
     })
 
     // Set hasBudget state
