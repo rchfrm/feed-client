@@ -77,6 +77,7 @@ const PostCardMedia = ({
                 thumbnailOptions={thumbnails}
                 title={caption}
                 isStory={postType === 'story'}
+                isReel={postType === 'reels'}
                 onFinishedSelection={(thumbnail = {}) => {
                   setSelectedThumbnail(thumbnail)
                   setReady(true)

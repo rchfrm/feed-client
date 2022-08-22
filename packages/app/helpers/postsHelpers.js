@@ -143,6 +143,10 @@ export const filterTypes = [
         slug: 'story',
         title: 'Story',
       },
+      {
+        slug: 'reels',
+        title: 'Reels',
+      },
     ],
   },
   {
@@ -406,7 +410,7 @@ export const formatPostsResponse = (posts) => {
     const adPreviewLinks = getAdPreviewLinks(post)
     return {
       id: post.id,
-      postType: post.subtype || post.type,
+      postType: post.internal_type || post.subtype || post.type,
       platform: post.platform,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
@@ -473,7 +477,7 @@ export const getCursor = (post = {}) => {
 export const getPostMetricsContent = (metricsType, postType) => {
   // ORGANIC METRICS
   if (metricsType === 'organic') {
-    if (postType === 'story') {
+    if (postType === 'story' || postType === 'reels') {
       return [
         'replies',
         'taps_forward',
