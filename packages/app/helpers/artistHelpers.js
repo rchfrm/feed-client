@@ -724,7 +724,7 @@ export const hasAllProfilesOnNoPlan = (organisationArtists) => {
 
 export const hasAProfileOnGrowthOrPro = (organisationArtists) => {
   return organisationArtists.some(({ plan }) => {
-    const [planPrefix] = plan.split('_')
+    const [planPrefix] = plan?.split('_') || []
 
     return planPrefix === 'growth' || planPrefix === 'pro'
   })
