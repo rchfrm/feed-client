@@ -2,15 +2,27 @@
 <html>
   <body>
     <script type="text/javascript">
-      window.onload = function() {
+      window.onload = function () {
         const path = window.location.pathname;
         const id = path.split('/').pop()
 
+        let timer = setTimeout(fallbackRedirect, 3000)
+
+        function fallbackRedirect() {
+          window.location = `https://open.spotify.com/artist/${id}`
+        }
+
+        // Redirect to spotify app
         window.location = `spotify://artist/${id}`
 
-        setTimeout(function() {
-          window.location = `https://open.spotify.com/artist/${id}`
-        }, 3000)
+        /* This event fires when switching from the browser to a different app.
+        In that case we can assume that the user has switched to the spotify app so we cancel the fallback redirect. */
+        document.addEventListener("visibilitychange", function () {
+          if (document.visibilityState === 'hidden' && timer) {
+            clearTimeout(timer)
+            timer = null
+          }
+        })
       }
     </script>
   </body>
