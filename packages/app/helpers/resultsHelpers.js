@@ -366,6 +366,10 @@ export const getPlatformData = (adData, aggregatedAdData, platform) => {
 
   const platformGrowthKey = `${platform}_growth`
 
+  if (!adData[platformGrowthKey]) {
+    return null
+  }
+
   const {
     '30d': {
       paid,
