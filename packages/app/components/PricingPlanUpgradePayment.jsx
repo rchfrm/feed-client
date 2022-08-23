@@ -102,11 +102,11 @@ const PricingPlanUpgradePayment = ({
     // Filter out the current profile
     const otherProfiles = organisationArtists.filter((profile) => profile.id !== artistId)
 
-    // Filter out profiles with a pro plan
+    // Filter out profiles with no plan or a pro plan
     const filteredProfiles = otherProfiles.filter((profile) => {
       const [planPrefix] = profile?.plan?.split('_') || []
 
-      return planPrefix !== 'pro'
+      return planPrefix && planPrefix !== 'pro'
     })
 
     // Make sure that the currently active profile is the first item in the array
@@ -116,7 +116,7 @@ const PricingPlanUpgradePayment = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">Upgrade profile{hasMultipleUpgradableProfiles ? 's' : ''}</h2>
-      <MarkdownText markdown={copy.pricingUpgradePlanIntro(hasMultipleUpgradableProfiles, name, plan, currency)} className="mb-8" />
+      <MarkdownText markdown={copy.pricingUpgradePlanIntro({ hasMultipleUpgradableProfiles, hasGrowthPlan, name, plan, currency })} className="mb-8" />
       {(hasGrowthPlan && hasMultipleUpgradableProfiles) && (
         <PricingPlanUpgradePaymentProfilesList
           profilesToUpgrade={profilesToUpgrade}
