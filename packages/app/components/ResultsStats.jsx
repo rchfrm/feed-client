@@ -26,6 +26,8 @@ const ResultsStats = ({
   metricType,
   hasSalesObjective,
   hasInstagramGrowthObjective,
+  hasSpotifyGrowthObjective,
+  platform,
   isDesktopLayout,
   className,
 }) => {
@@ -46,13 +48,13 @@ const ResultsStats = ({
       existingAudienceData,
       conversionData,
       platformData,
-    } = getStatsData({ ...adData, facebookPixelEvent, currency }, aggregatedAdData)
+    } = getStatsData({ ...adData, facebookPixelEvent, currency }, aggregatedAdData, platform)
 
     setNewAudienceData(newAudienceData)
     setExistingAudienceData(existingAudienceData)
     setConversionData(conversionData)
     setPlatformData(platformData)
-  }, [adData, aggregatedAdData, facebookPixelEvent, currency])
+  }, [adData, aggregatedAdData, facebookPixelEvent, currency, platform])
 
   return (
     <div className={[
@@ -90,7 +92,7 @@ const ResultsStats = ({
         </div>
       )}
 
-      {hasInstagramGrowthObjective && (isDesktopLayout || metricType === 'growth') && (
+      {(hasInstagramGrowthObjective || hasSpotifyGrowthObjective) && (isDesktopLayout || metricType === 'growth') && (
         <div className="col-span-12 sm:col-span-4">
           {platformData ? (
             <ResultsPlatformGrowthStats data={platformData} />
@@ -100,7 +102,7 @@ const ResultsStats = ({
         </div>
       )}
 
-      {!hasInstagramGrowthObjective && !hasSalesObjective && (isDesktopLayout || metricType === 'growth') && (
+      {(!hasInstagramGrowthObjective && !hasSpotifyGrowthObjective) && !hasSalesObjective && (isDesktopLayout || metricType === 'growth') && (
         <ResultsConversionsActivator
           className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
         />
@@ -116,11 +118,14 @@ ResultsStats.propTypes = {
   metricType: PropTypes.string.isRequired,
   hasSalesObjective: PropTypes.bool.isRequired,
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,
+  hasSpotifyGrowthObjective: PropTypes.bool.isRequired,
+  platform: PropTypes.string,
   isDesktopLayout: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
 }
 
 ResultsStats.defaultProps = {
+  platform: '',
 }
 
 export default ResultsStats

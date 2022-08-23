@@ -32,6 +32,7 @@ const ResultsContent = ({
   const hasSalesObjective = objective === 'sales'
   const hasGrowthObjective = objective === 'growth'
   const hasInstagramGrowthObjective = hasGrowthObjective && platform === 'instagram'
+  const hasSpotifyGrowthObjective = hasGrowthObjective && platform === 'spotify'
 
   const isDesktopLayout = useBreakpointTest('sm')
 
@@ -56,6 +57,8 @@ const ResultsContent = ({
               metricType={metricType}
               hasSalesObjective={hasSalesObjective}
               hasInstagramGrowthObjective={hasInstagramGrowthObjective}
+              hasSpotifyGrowthObjective={hasSpotifyGrowthObjective}
+              platform={platform}
               isDesktopLayout={isDesktopLayout}
               className={isDesktopLayout ? 'order-1' : 'order-2'}
             />
