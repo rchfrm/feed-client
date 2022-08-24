@@ -43,12 +43,6 @@ const optimisationsEventsDictionary = {
 
 const versusLastMonth = (prevValue) => `, versus ${prevValue} last month`
 
-const getObjectiveString = (objective, platform) => {
-  if (objective === 'sales') return 'driving your website sales'
-  if (objective === 'traffic') return 'driving your website visits'
-  if (objective === 'growth') return `growing your ${getPlatformNameByValue(platform)} audience`
-}
-
 export default {
   newAudienceOnPlatformMainDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
   newAudienceUnawareFallbackEngaged: (currValue, prevValue) => `**${formatNumber(currValue)} engaged** with your posts${prevValue ? versusLastMonth(formatNumber(prevValue)) : ''}.`,
@@ -57,17 +51,19 @@ export default {
   organic posts which reached **${organicValue}%** on average.`,
   existingAudienceFallback: (currValue, prevValue) => `Feed has reached **${formatNumber(currValue)}** within your existing audience${prevValue ? versusLastMonth(formatNumber(prevValue)) : ''}.`,
   conversionMainDescription: (roas) => {
-    const { name } = optimisationsEventsDictionary.omni_purchase
+    const { name, event } = optimisationsEventsDictionary.omni_purchase
     return {
       title: name,
       description: `Feed’s conversion ads generated **${roas}x** more in sales than was spent.`,
+      event,
     }
   },
   conversionFallbackSales: (currValue, prevValue) => {
-    const { name } = optimisationsEventsDictionary.omni_purchase
+    const { name, event } = optimisationsEventsDictionary.omni_purchase
     return {
       title: name,
       description: `Feed’s conversion ads generated **${currValue}** in sales${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event,
     }
   },
   conversionFallbackOptimisationEvents: (eventCount, optimisationsEvent, prevValue) => {
@@ -75,6 +71,7 @@ export default {
     return {
       title: name,
       description: `Feed’s conversion ads generated **${eventCount} ${eventCount === 1 ? event : `${event}s`}**${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event: eventCount === 1 ? event : `${event}s`,
     }
   },
   conversionFallbackLandingPageViews: (currValue, facebookPixelEvent, prevValue) => {
@@ -83,6 +80,7 @@ export default {
     return {
       title: name,
       description: `**${currValue} people** have visited your website as a result of seeing ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event: currValue === 1 ? 'visit' : 'visits',
     }
   },
   conversionFallbackOutboundClicks: (currValue, facebookPixelEvent, prevValue) => {
@@ -91,6 +89,7 @@ export default {
     return {
       title: name,
       description: `**${currValue} people** clicked through to your website as a result of seeing ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event: currValue === 1 ? 'click' : 'clicks',
     }
   },
   conversionFallbackReach: (currValue, facebookPixelEvent, prevValue) => {
@@ -99,6 +98,7 @@ export default {
     return {
       title: name,
       description: `**${currValue} people** saw ${detail}${prevValue ? versusLastMonth(prevValue) : ''}.`,
+      event: currValue === 1 ? 'view' : 'views',
     }
   },
   platformGrowth: ({
@@ -140,12 +140,12 @@ export default {
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
-  postDescription: (name, value, isPurchase, objective, platform) => {
+  postDescription: (name, value, isPurchase) => {
     if (name === 'engagement') {
-      return `This post was the most effective at ${getObjectiveString(objective, platform)}, engaging **${formatNumber(value)}** new people.`
+      return `This post was the most effective at reaching new audiences, with **${formatNumber(value)}** people engaging with your content for the first time.`
     }
     if (name === 'nurture') {
-      return `This post was the most effective at ${getObjectiveString(objective, platform)}, with **${formatNumber(value)}** people reached.`
+      return `This post was the most effective at nurturing the relationship with your existing audience, reaching **${formatNumber(value)}** people.`
     }
     return isPurchase ? (
       `This post was the most effective at generating sales with a total value of **${value}**.`

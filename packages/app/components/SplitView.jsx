@@ -13,6 +13,7 @@ const SplitView = ({
   optionsHeader,
   basePath,
   hasEvenColumns,
+  shouldUseSidePanelOnMobile,
   breakpoint,
   className,
 }) => {
@@ -22,9 +23,11 @@ const SplitView = ({
   return (
     <div className={className}>
       <div className={hasEvenColumns ? 'col-span-6' : 'col-span-4'}>
-        <div className="mb-8">
-          {optionsHeader && optionsHeader}
-        </div>
+        {optionsHeader && (
+          <div className="mb-8">
+            {optionsHeader}
+          </div>
+        )}
         {/* SETTINGS MENU */}
         <SplitViewOptions
           contentComponents={contentComponents}
@@ -32,6 +35,7 @@ const SplitView = ({
           basePath={basePath}
           activeOption={activeOption}
           setActiveOption={setActiveOption}
+          shouldUseSidePanelOnMobile={shouldUseSidePanelOnMobile}
         />
       </div>
       {/* SETTINGS VIEW */}
@@ -53,6 +57,7 @@ SplitView.propTypes = {
   optionsHeader: PropTypes.node,
   basePath: PropTypes.string,
   hasEvenColumns: PropTypes.bool,
+  shouldUseSidePanelOnMobile: PropTypes.bool,
   breakpoint: PropTypes.string,
   className: PropTypes.string,
 }
@@ -64,6 +69,7 @@ SplitView.defaultProps = {
   optionsHeader: null,
   basePath: '',
   hasEvenColumns: false,
+  shouldUseSidePanelOnMobile: true,
   breakpoint: 'md',
   className: null,
 }

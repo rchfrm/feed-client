@@ -23,7 +23,7 @@ const BillingInvoiceSummaryHeader = ({
     return `Next payment: ${formatDate(latestInvoiceDueDate)}`
   }
 
-  return <h3 className="font-body font-bold mb-6">{getHeader()}</h3>
+  return <h2 className="font-body font-bold mb-6">{getHeader()}</h2>
 }
 
 BillingInvoiceSummaryHeader.propTypes = {

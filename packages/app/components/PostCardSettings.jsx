@@ -32,13 +32,6 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const getCaptionNotEditableExcuse = (post) => {
-  const base = 'The caption is not editable because'
-  if (post.postType === 'story') return `${base} this is a story.`
-  if (!post.postPromotable) return `${base} the post is not promotable.`
-  return ''
-}
-
 const PostCardSettings = ({
   post,
   postIndex,
@@ -92,7 +85,7 @@ const PostCardSettings = ({
     : (!isEligibleForConversions && !priorityEnabled)
   const isSectionDisabled = campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled
 
-  const noCaptionEditExcuse = getCaptionNotEditableExcuse(post)
+  const noCaptionEditReason = copy.captionNotEditableReason(post)
 
   const goToGlobalPostSettings = () => {
     Router.push(ROUTES.CONTROLS_ADS)
@@ -202,16 +195,16 @@ const PostCardSettings = ({
             header="Caption"
             section="post-caption"
             hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
-            copy={noCaptionEditExcuse || copy.editCaption}
+            copy={noCaptionEditReason || copy.editCaption}
             isDisabled={isSectionDisabled}
-            className={noCaptionEditExcuse && 'text-red'}
+            className={noCaptionEditReason && 'text-red'}
           >
             <PostCardEditCaption
               post={post}
               postIndex={postIndex}
               postAdMessages={adMessages}
               updatePost={updatePost}
-              isEditable={!noCaptionEditExcuse}
+              isEditable={!noCaptionEditReason}
               campaignType={campaignType}
               isDisabled={isSectionDisabled}
             />

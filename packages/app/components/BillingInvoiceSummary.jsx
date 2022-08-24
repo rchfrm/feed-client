@@ -6,6 +6,7 @@ import BillingInvoiceSummaryHeader from '@/app/BillingInvoiceSummaryHeader'
 import BillingInvoiceSummaryPeriodOptions from '@/app/BillingInvoiceSummaryPeriodOptions'
 import BillingInvoiceSummarySelectedInvoice from '@/app/BillingInvoiceSummarySelectedInvoice'
 import BillingInvoiceSummaryButton from '@/app/BillingInvoiceSummaryButton'
+import BillingInvoiceList from '@/app/BillingInvoiceList'
 
 const BillingInvoiceSummary = ({
   latestInvoice,
@@ -15,20 +16,19 @@ const BillingInvoiceSummary = ({
   const initSelectedInvoiceName = upcomingInvoice.paymentStatus && upcomingInvoice.paymentStatus !== 'paid' ? 'upcoming' : 'latest'
   const [selectedInvoiceName, setSelectedInvoiceName] = React.useState(initSelectedInvoiceName)
   const noLatestInvoiceOrIsPaid = !latestInvoice.paymentStatus || latestInvoice.paymentStatus === 'paid'
+
   return (
     <div
       className={[
         className,
       ].join(' ')}
     >
-
       <BillingInvoiceSummaryHeader
         latestInvoicePaymentStatus={latestInvoice.paymentStatus}
         latestInvoiceDueDate={latestInvoice.date_due && moment(latestInvoice.date_due)}
         upcomingInvoiceDueDate={upcomingInvoice.date_due && moment(upcomingInvoice.date_due)}
         upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
       />
-
       <BillingInvoiceSummaryPeriodOptions
         noLatestInvoiceOrIsPaid={noLatestInvoiceOrIsPaid}
         latestInvoicePeriod={{ start: latestInvoice.period_start, end: latestInvoice.period_end }}
@@ -37,19 +37,21 @@ const BillingInvoiceSummary = ({
         selectedInvoiceName={selectedInvoiceName}
         setSelectedInvoiceName={setSelectedInvoiceName}
       />
-
       <BillingInvoiceSummarySelectedInvoice
         invoice={selectedInvoiceName === 'upcoming' ? upcomingInvoice : latestInvoice}
         noLatestInvoiceOrIsPaid={noLatestInvoiceOrIsPaid}
         upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
       />
-
       <BillingInvoiceSummaryButton
         latestInvoice={latestInvoice}
         latestInvoiceSelected={selectedInvoiceName === 'latest'}
         outstandingAmount={latestInvoice.paymentStatus === 'failed' && latestInvoice.totalFee}
         invoiceUrl={latestInvoice.invoiceUrl}
         spending={upcomingInvoice.serviceFeePlusAdSpend > 0}
+        className="mb-10"
+      />
+      <BillingInvoiceList
+        trackComponentName="BillingOpenInvoices"
       />
     </div>
   )

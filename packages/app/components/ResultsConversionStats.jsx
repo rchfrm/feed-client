@@ -40,7 +40,7 @@ const ResultsConversionStats = ({ data, currency }) => {
           >
             {isPurchase ? formatCurrency(currValue, currency) : abbreviateNumber(currValue)}
           </p>
-          <p className="hidden sm:block text-xs mb-0 sm:mb-8">in sales</p>
+          <p className="hidden sm:block text-xs mb-0 sm:mb-8">{isPurchase ? `in ${copy.event}s` : copy.event}</p>
         </div>
       </div>
       {isMainChart && (

@@ -1,52 +1,33 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
-import useAsyncEffect from 'use-async-effect'
 
 import BillingOrganisationInviteForm from '@/app/BillingOrganisationInviteForm'
-import copy from '@/app/copy/billingCopy'
-import sidePanelStyles from '@/SidePanel.module.css'
 
-import Button from '@/elements/Button'
+import copy from '@/app/copy/billingCopy'
+
 import MarkdownText from '@/elements/MarkdownText'
 
-const BillingOrganisationInvite = ({
-  setSidePanelButton,
-  toggleSidePanel,
-  setSidePanelLoading,
-}) => {
-  // START SIDEPANEL LOADING
-  React.useEffect(() => {
-    setSidePanelLoading(true)
-  }, [setSidePanelLoading])
-
-  // WAIT FOR MOUNT
-  useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
-    setSidePanelLoading(false)
-  }, [])
-
-  // HANDLE SUCCESS
+const BillingOrganisationInvite = () => {
   const [success, setSuccess] = React.useState(false)
 
-  // CHANGE SIDEPANEL BUTTON on SUCCESS
   React.useEffect(() => {
-    if (success) {
-      const button = <Button version="green" onClick={() => toggleSidePanel(false)} trackComponentName="BillingOrganisationInvite">Done</Button>
-      setSidePanelButton(button)
+    if (!success) return
+
+    const timeout = setTimeout(() => {
+      setSuccess(false)
+    }, 5000)
+
+    return () => {
+      clearTimeout(timeout)
     }
-  }, [success, setSidePanelButton, toggleSidePanel])
+  }, [success])
 
   return (
     <div>
-      <h2 className={sidePanelStyles.SidePanel__Header}>Invite someone to join your team</h2>
-      <h4>{copy.inviteHeader}</h4>
+      <h3 className="font-bold">Invite someone to join your team</h3>
       <MarkdownText markdown={copy.inviteDescription} />
       {success ? <MarkdownText markdown="Invite sent 🎉" /> : (
         <BillingOrganisationInviteForm
-          className="mt-10"
-          setSidePanelButton={setSidePanelButton}
-          setSidePanelLoading={setSidePanelLoading}
+          className="w-full lg:w-2/3 mt-10"
           setSuccess={setSuccess}
         />
       )}
@@ -55,7 +36,6 @@ const BillingOrganisationInvite = ({
 }
 
 BillingOrganisationInvite.propTypes = {
-  setSidePanelLoading: PropTypes.func.isRequired,
 }
 
 BillingOrganisationInvite.defaultProps = {

@@ -359,29 +359,31 @@ const getQuartile = (percentile, audience) => {
   }
 }
 
-export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram') => {
-  const { instagram_growth } = adData
+export const getPlatformData = (adData, aggregatedAdData, platform) => {
+  if (platform !== 'instagram' && platform !== 'spotify') {
+    return null
+  }
 
-  if (!instagram_growth) return null
+  const platformGrowthKey = `${platform}_growth`
 
-  const {
-    instagram_growth: {
-      '30d': {
-        paid,
-      },
-      '180d': {
-        organic,
-      },
-    },
-  } = adData
+  if (!adData[platformGrowthKey]) {
+    return null
+  }
 
   const {
-    instagram_growth: {
-      '180d': {
-        organic: aggregatedOrganic,
-      },
+    '30d': {
+      paid,
     },
-  } = aggregatedAdData
+    '180d': {
+      organic,
+    },
+  } = adData[platformGrowthKey]
+
+  const {
+    '180d': {
+      organic: aggregatedOrganic,
+    },
+  } = aggregatedAdData[platformGrowthKey]
 
   const paidGrowthRate = paid.rate.value
   const shouldUseAggregateGrowthRate = organic.number_of_days.value < 7
@@ -427,12 +429,12 @@ export const getPlatformData = (adData, aggregatedAdData, platform = 'instagram'
   }
 }
 
-export const getStatsData = (adData, aggregatedAdData) => {
+export const getStatsData = (adData, aggregatedAdData, platform) => {
   return {
     newAudienceData: getNewAudienceData(adData),
     existingAudienceData: getExistingAudienceData(adData),
     conversionData: getConversionData(adData),
-    platformData: getPlatformData(adData, aggregatedAdData),
+    platformData: getPlatformData(adData, aggregatedAdData, platform),
   }
 }
 
