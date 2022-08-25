@@ -39,4 +39,4 @@ app.get('*', (req, res) => {
   return res.redirect(HTTP_STATUS_PERMANENT_REDIRECT, 'https://tryfeed.co')
 })
 
-exports.instagramRedirect = functions.https.onRequest(app)
+exports.platformRedirect = functions.https.onRequest(app)
