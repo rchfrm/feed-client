@@ -24,8 +24,19 @@ app.get('/instagram/:handle', (req, res) => {
   return res.redirect(HTTP_STATUS_PERMANENT_REDIRECT, `https://instagram.com/${handle}`)
 })
 
+app.get('/spotify/:id', (req, res) => {
+  const { params: { id }, headers } = req
+  const userAgent = UserAgent(headers['user-agent'])
+
+  if (userAgent.isIOS || userAgent.isAndroid) {
+    return res.sendFile(path.join(__dirname, 'public/spotify/index.html'))
+  }
+
+  return res.redirect(HTTP_STATUS_PERMANENT_REDIRECT, `https://open.spotify.com/artist/${id}`)
+})
+
 app.get('*', (req, res) => {
   return res.redirect(HTTP_STATUS_PERMANENT_REDIRECT, 'https://tryfeed.co')
 })
 
-exports.instagramRedirect = functions.https.onRequest(app)
+exports.platformRedirect = functions.https.onRequest(app)
