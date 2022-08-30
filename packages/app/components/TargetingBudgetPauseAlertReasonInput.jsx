@@ -22,7 +22,9 @@ const TargetingBudgetPauseAlertReasonInput = ({
         handleChange={handleChange}
         className={isValidCustomReason ? 'mb-8' : 'mb-2'}
       />
-      {!isValidCustomReason && <p className="block relative h-4 text-xs mb-2">The minimum length for this field is {minLength} characters.</p>}
+      {!isValidCustomReason && (
+        <p className="block relative h-4 text-xs mb-2">The minimum length for this field is {minLength} characters.</p>
+      )}
     </>
   )
 }

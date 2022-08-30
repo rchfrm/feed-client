@@ -49,7 +49,7 @@ const TargetingBudgetPauseAlertReasonSelect = ({
       if (!option?.objective || option?.objective === objective) {
         if (option.objective === 'growth') {
           options.push({
-            // Update the name value with the current platform name if the objective is growth
+            // Add the current platform name to name and value if the objective is growth
             name: `${platformName} ${option.name.toLowerCase()}`,
             value: `${platformName}-${option.value}`,
           })
