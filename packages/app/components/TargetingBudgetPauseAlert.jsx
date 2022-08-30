@@ -1,16 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import useAlertModal from '@/hooks/useAlertModal'
-import useControlsStore from '@/app/stores/controlsStore'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
-import { track } from '@/helpers/trackingHelpers'
-import copy from '@/app/copy/targetingPageCopy'
-
-const getControlsStoreState = (state) => ({
-  optimizationPreferences: state.optimizationPreferences,
-})
+import TargetingBudgetPauseAlertReason from '@/app/TargetingBudgetPauseAlertReason'
+import TargetingBudgetPauseAlertShortSpendingPeriod from '@/app/TargetingBudgetPauseAlertShortSpendingPeriod'
 
 const TargetingBudgetPauseAlert = ({
   isPaused,
@@ -20,62 +14,49 @@ const TargetingBudgetPauseAlert = ({
   currency,
   closeAlert,
 }) => {
+  const { hasSpentConsecutivelyLessThan30Days } = spendingData || {}
+  const isPausedWithShortSpendingPeriod = !isPaused && hasSpentConsecutivelyLessThan30Days
+
+  const [shouldShowShortSpendingPeriodWarning, setShouldShowShortSpendingPeriodWarning] = React.useState(isPausedWithShortSpendingPeriod)
+
   const { setButtons } = useAlertModal()
 
-  const { hasSpentConsecutivelyLessThan30Days, daysOfSpending } = spendingData || {}
-  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { objective } = optimizationPreferences
-  const hasSalesObjective = objective === 'sales'
-
-  const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
-  const {
-    minorUnit: {
-      minHard,
-      minRecommendedStories,
-    } = {},
-  } = feedMinBudgetInfo
-
-  const isPausedWithShortSpendingPeriod = !isPaused && hasSpentConsecutivelyLessThan30Days
-  const hasMinimumBudget = (!hasSalesObjective && budget === minHard) || (hasSalesObjective && budget <= minRecommendedStories)
-  const alertCopy = copy.shortSpendingPeriodWarning(daysOfSpending, hasMinimumBudget)
-
-  console.log(isPausedWithShortSpendingPeriod)
-  console.log(alertCopy)
-
-  React.useEffect(() => {
-    const buttons = [
-      {
-        text: isPaused ? 'Resume Spending' : 'Pause Spending',
-        onClick: () => {
-          togglePauseCampaign()
-
-          const action = isPaused ? 'resume_spending' : 'pause_spending'
-          track(action, {
-            budget,
-            currency,
-          })
-        },
-        color: isPaused ? 'green' : 'red',
-      },
-      {
-        text: 'Cancel',
-        onClick: closeAlert,
-        color: 'black',
-      },
-    ]
-
-    setButtons(buttons)
-  }, [isPaused, closeAlert, setButtons, togglePauseCampaign, budget, currency])
-
   return (
-    <p>{isPaused ? 'Resume' : 'Pause'} spending?</p>
+    shouldShowShortSpendingPeriodWarning ? (
+      <TargetingBudgetPauseAlertShortSpendingPeriod
+        budget={budget}
+        spendingData={spendingData}
+        setShouldShowShortSpendingPeriodWarning={setShouldShowShortSpendingPeriodWarning}
+        setButtons={setButtons}
+        closeAlert={closeAlert}
+      />
+    ) : (
+      <TargetingBudgetPauseAlertReason
+        isPaused={isPaused}
+        togglePauseCampaign={togglePauseCampaign}
+        setButtons={setButtons}
+        closeAlert={closeAlert}
+        budget={budget}
+        currency={currency}
+      />
+    )
   )
 }
 
 TargetingBudgetPauseAlert.propTypes = {
+  isPaused: PropTypes.bool.isRequired,
+  togglePauseCampaign: PropTypes.func.isRequired,
+  budget: PropTypes.number.isRequired,
+  spendingData: PropTypes.shape({
+    hasSpentConsecutivelyLessThan30Days: PropTypes.bool.isRequired,
+    daysOfSpending: PropTypes.number.isRequired,
+  }),
+  currency: PropTypes.string.isRequired,
+  closeAlert: PropTypes.func.isRequired,
 }
 
 TargetingBudgetPauseAlert.defaultProps = {
+  spendingData: null,
 }
 
 export default TargetingBudgetPauseAlert
