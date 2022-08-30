@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import TextArea from '@/elements/TextArea'
 
@@ -10,7 +11,6 @@ const TargetingBudgetPauseAlertReasonInput = ({
 }) => {
   const handleChange = ({ target }) => {
     const { value } = target
-
     setCustomReason(value)
   }
 
@@ -28,6 +28,10 @@ const TargetingBudgetPauseAlertReasonInput = ({
 }
 
 TargetingBudgetPauseAlertReasonInput.propTypes = {
+  customReason: PropTypes.string.isRequired,
+  setCustomReason: PropTypes.func.isRequired,
+  isValidCustomReason: PropTypes.bool.isRequired,
+  minLength: PropTypes.number.isRequired,
 }
 
 TargetingBudgetPauseAlertReasonInput.defaultProps = {

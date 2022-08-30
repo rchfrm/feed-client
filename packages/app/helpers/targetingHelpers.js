@@ -352,7 +352,7 @@ export const budgetPauseReasonOptions = [
   },
   {
     name: 'Growth was too slow',
-    value: 'slow-platform-growth',
+    value: 'slow-growth',
     objective: 'growth',
   },
   {

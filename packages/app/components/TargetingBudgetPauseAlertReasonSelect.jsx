@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -23,10 +24,10 @@ const TargetingBudgetPauseAlertReasonSelect = ({
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
+  const platformName = getPlatformNameByValue(platform)
 
-  const handleChange = (e) => {
-    const { target: { value } } = e
-
+  const handleChange = ({ target }) => {
+    const { value } = target
     if (value === reason) {
       return
     }
@@ -49,8 +50,8 @@ const TargetingBudgetPauseAlertReasonSelect = ({
         if (option.objective === 'growth') {
           options.push({
             // Update the name value with the current platform name if the objective is growth
-            name: `${getPlatformNameByValue(platform)} ${option.name.toLowerCase()}`,
-            value: option.value,
+            name: `${platformName} ${option.name.toLowerCase()}`,
+            value: `${platformName}-${option.value}`,
           })
 
           return
@@ -61,7 +62,7 @@ const TargetingBudgetPauseAlertReasonSelect = ({
     })
 
     setReasonOptions(options)
-  }, [objective, platform])
+  }, [objective, platform, platformName])
 
   React.useEffect(() => {
     if (reason || !reasonOptions.length) {
@@ -85,6 +86,9 @@ const TargetingBudgetPauseAlertReasonSelect = ({
 }
 
 TargetingBudgetPauseAlertReasonSelect.propTypes = {
+  reason: PropTypes.string.isRequired,
+  setReason: PropTypes.func.isRequired,
+  setHasCustomReason: PropTypes.bool.isRequired,
 }
 
 TargetingBudgetPauseAlertReasonSelect.defaultProps = {

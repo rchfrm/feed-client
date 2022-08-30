@@ -17,8 +17,8 @@ const TargetingBudgetPauseAlertReason = ({
   const [customReason, setCustomReason] = React.useState('')
   const [hasCustomReason, setHasCustomReason] = React.useState(false)
 
-  const minLength = 20
-  const isValidCustomReason = customReason.length > minLength
+  const customReasonMinLength = 20
+  const isValidCustomReason = customReason.length >= customReasonMinLength
 
   React.useEffect(() => {
     const buttons = [
@@ -60,7 +60,7 @@ const TargetingBudgetPauseAlertReason = ({
           customReason={customReason}
           setCustomReason={setCustomReason}
           isValidCustomReason={isValidCustomReason}
-          minLength={minLength}
+          minLength={customReasonMinLength}
         />
       )}
     </>

@@ -28,11 +28,11 @@ const TargetingBudgetPauseAlertShortSpendingPeriod = ({
     } = {},
   } = feedMinBudgetInfo
 
-  const { daysOfSpending } = spendingData || {}
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
 
+  const { daysOfSpending } = spendingData || {}
   const hasMinimumBudget = (!hasSalesObjective && budget === minHard) || (hasSalesObjective && budget <= minRecommendedStories)
   const alertCopy = copy.shortSpendingPeriodWarning(daysOfSpending, hasMinimumBudget)
 
@@ -67,6 +67,7 @@ TargetingBudgetPauseAlertShortSpendingPeriod.propTypes = {
     hasSpentConsecutivelyLessThan30Days: PropTypes.bool.isRequired,
     daysOfSpending: PropTypes.number.isRequired,
   }).isRequired,
+  setShouldShowShortSpendingPeriodWarning: PropTypes.func.isRequired,
   setButtons: PropTypes.func.isRequired,
   closeAlert: PropTypes.func.isRequired,
 }
