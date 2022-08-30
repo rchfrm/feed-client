@@ -7,7 +7,6 @@ import TargetingBudgetPauseAlertReasonInput from '@/app/TargetingBudgetPauseAler
 import { track } from '@/helpers/trackingHelpers'
 
 const TargetingBudgetPauseAlertReason = ({
-  isPaused,
   togglePauseCampaign,
   budget,
   currency,
@@ -21,18 +20,20 @@ const TargetingBudgetPauseAlertReason = ({
   React.useEffect(() => {
     const buttons = [
       {
-        text: isPaused ? 'Resume Spending' : 'Pause Spending',
+        text: 'Pause Spending',
         onClick: () => {
           togglePauseCampaign()
 
-          const action = isPaused ? 'resume_spending' : 'pause_spending'
+          const action = 'pause_spending'
           track(action, {
             budget,
             currency,
+            reason,
+            ...(hasOtherReason ? ({ otherReason }) : {}),
           })
         },
         disabled: !reason || (reason === 'other' && !otherReason),
-        color: isPaused ? 'green' : 'red',
+        color: 'red',
       },
       {
         text: 'Cancel',
@@ -42,7 +43,7 @@ const TargetingBudgetPauseAlertReason = ({
     ]
 
     setButtons(buttons)
-  }, [isPaused, closeAlert, setButtons, togglePauseCampaign, budget, currency, reason, otherReason])
+  }, [closeAlert, setButtons, togglePauseCampaign, budget, currency, reason, otherReason, hasOtherReason])
 
   return (
     <>
@@ -51,13 +52,17 @@ const TargetingBudgetPauseAlertReason = ({
         setReason={setReason}
         setHasOtherReason={setHasOtherReason}
       />
-      {hasOtherReason && <TargetingBudgetPauseAlertReasonInput setOtherReason={setOtherReason} />}
+      {hasOtherReason && (
+        <TargetingBudgetPauseAlertReasonInput
+          otherReason={otherReason}
+          setOtherReason={setOtherReason}
+        />
+      )}
     </>
   )
 }
 
 TargetingBudgetPauseAlertReason.propTypes = {
-  isPaused: PropTypes.bool.isRequired,
   togglePauseCampaign: PropTypes.func.isRequired,
   budget: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,

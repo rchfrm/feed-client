@@ -7,7 +7,6 @@ import TargetingBudgetPauseAlertReason from '@/app/TargetingBudgetPauseAlertReas
 import TargetingBudgetPauseAlertShortSpendingPeriod from '@/app/TargetingBudgetPauseAlertShortSpendingPeriod'
 
 const TargetingBudgetPauseAlert = ({
-  isPaused,
   togglePauseCampaign,
   budget,
   spendingData,
@@ -15,9 +14,8 @@ const TargetingBudgetPauseAlert = ({
   closeAlert,
 }) => {
   const { hasSpentConsecutivelyLessThan30Days } = spendingData || {}
-  const isPausedWithShortSpendingPeriod = !isPaused && hasSpentConsecutivelyLessThan30Days
 
-  const [shouldShowShortSpendingPeriodWarning, setShouldShowShortSpendingPeriodWarning] = React.useState(isPausedWithShortSpendingPeriod)
+  const [shouldShowShortSpendingPeriodWarning, setShouldShowShortSpendingPeriodWarning] = React.useState(hasSpentConsecutivelyLessThan30Days)
 
   const { setButtons } = useAlertModal()
 
@@ -32,7 +30,6 @@ const TargetingBudgetPauseAlert = ({
       />
     ) : (
       <TargetingBudgetPauseAlertReason
-        isPaused={isPaused}
         togglePauseCampaign={togglePauseCampaign}
         setButtons={setButtons}
         closeAlert={closeAlert}
@@ -44,7 +41,6 @@ const TargetingBudgetPauseAlert = ({
 }
 
 TargetingBudgetPauseAlert.propTypes = {
-  isPaused: PropTypes.bool.isRequired,
   togglePauseCampaign: PropTypes.func.isRequired,
   budget: PropTypes.number.isRequired,
   spendingData: PropTypes.shape({

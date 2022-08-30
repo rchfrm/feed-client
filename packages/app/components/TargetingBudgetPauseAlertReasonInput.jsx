@@ -1,8 +1,20 @@
 import React from 'react'
 
-const TargetingBudgetPauseAlertReasonInput = () => {
+import TextArea from '@/elements/TextArea'
+
+const TargetingBudgetPauseAlertReasonInput = ({ otherReason, setOtherReason }) => {
+  const handleChange = ({ target }) => {
+    const { value } = target
+
+    setOtherReason(value)
+  }
+
   return (
-    <p>Input field</p>
+    <TextArea
+      name="other-reason"
+      value={otherReason}
+      handleChange={handleChange}
+    />
   )
 }
 

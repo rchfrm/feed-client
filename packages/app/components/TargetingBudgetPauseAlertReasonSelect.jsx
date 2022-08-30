@@ -75,8 +75,8 @@ const TargetingBudgetPauseAlertReasonSelect = ({
     <>
       <MarkdownText markdown={copy.pauseSpendingReason} />
       <Select
-        handleChange={handleChange}
         name="reason"
+        handleChange={handleChange}
         selectedValue={reason}
         options={reasonOptions}
       />

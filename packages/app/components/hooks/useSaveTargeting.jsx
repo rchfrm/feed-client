@@ -141,7 +141,6 @@ const useSaveTargeting = ({
     if (togglePauseCampaign) {
       const children = (
         <TargetingBudgetPauseAlert
-          isPaused={spendingPaused}
           togglePauseCampaign={togglePauseCampaign}
           budget={savedState.budget}
           spendingData={spendingData}
