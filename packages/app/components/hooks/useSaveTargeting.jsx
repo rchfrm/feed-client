@@ -1,57 +1,23 @@
 import React from 'react'
 
 import useAlertModal from '@/hooks/useAlertModal'
-import useControlsStore from '@/app/stores/controlsStore'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+
+import TargetingBudgetPauseAlert from '@/app/TargetingBudgetPauseAlert'
 
 import copy from '@/app/copy/targetingPageCopy'
 import { track } from '@/helpers/trackingHelpers'
 import { trackGoogleBudgetSet } from 'shared/helpers/trackGoogleHelpers'
 
-const getControlsStoreState = (state) => ({
-  optimizationPreferences: state.optimizationPreferences,
-})
-
 const getWarningButtons = ({
   warningType,
-  isPaused,
   saveTargetingSettings,
   savedState,
   onConfirm = () => {},
   closeAlert,
   feedMinBudgetInfo,
 }) => {
-  if (warningType === 'togglePause') {
-    return [
-      {
-        text: isPaused ? 'Resume Spending' : 'Pause Spending',
-        onClick: onConfirm,
-        color: isPaused ? 'green' : 'red',
-      },
-      {
-        text: 'Cancel',
-        onClick: closeAlert,
-        color: 'black',
-      },
-    ]
-  }
-
-  if (warningType === 'pausedWithShortSpendingPeriod') {
-    return [
-      {
-        text: 'Pause Spending',
-        onClick: onConfirm,
-        color: 'red',
-      },
-      {
-        text: 'Cancel',
-        onClick: closeAlert,
-        color: 'black',
-      },
-    ]
-  }
-
   if (warningType === 'saveWhenPaused') {
     return [
       {
@@ -109,16 +75,7 @@ const useSaveTargeting = ({
   const {
     currencyCode,
     currencyOffset,
-    minorUnit: {
-      minHard,
-      minRecommendedStories,
-    } = {},
   } = feedMinBudgetInfo
-
-  const { hasSpentConsecutivelyLessThan30Days, daysOfSpending } = spendingData || {}
-  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { objective } = optimizationPreferences
-  const hasSalesObjective = objective === 'sales'
 
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
@@ -143,51 +100,19 @@ const useSaveTargeting = ({
       return saveTargetingSettings(unpausedTargetingState)
     }
 
-    // Warn about recommended minimum period of spending
-    if (togglePauseCampaign && !isPaused && hasSpentConsecutivelyLessThan30Days) {
-      const hasMinimumBudget = (!hasSalesObjective && targetingState.budget === minHard) || (hasSalesObjective && targetingState.budget <= minRecommendedStories)
-      const alertCopy = copy.shortSpendingPeriodWarning(daysOfSpending, hasMinimumBudget)
-
-      const buttons = getWarningButtons({
-        warningType: 'pausedWithShortSpendingPeriod',
-        onConfirm: () => {
-          // Toggle pause
-          togglePauseCampaign()
-
-          // Track
-          const action = 'pause_spending'
-          track(action, {
-            budget: savedState.budget,
-            currencyCode,
-          })
-        },
-        closeAlert,
-      })
-
-      showAlert({ copy: alertCopy, buttons })
-      return
-    }
-
-    // Warn about toggling paused
     if (togglePauseCampaign) {
-      const alertCopy = copy.togglePauseWarning(spendingPaused)
-      const buttons = getWarningButtons({
-        warningType: 'togglePause',
-        onConfirm: () => {
-          // TOGGLE PAUSE
-          togglePauseCampaign()
-          // TRACK
-          const action = spendingPaused ? 'resume_spending' : 'pause_spending'
-          track(action, {
-            budget: savedState.budget,
-            currencyCode,
-          })
-        },
-        isPaused: spendingPaused,
-        closeAlert,
-        feedMinBudgetInfo,
-      })
-      showAlert({ copy: alertCopy, buttons })
+      const children = (
+        <TargetingBudgetPauseAlert
+          isPaused={spendingPaused}
+          togglePauseCampaign={togglePauseCampaign}
+          budget={savedState.budget}
+          spendingData={spendingData}
+          currency={currencyCode}
+          closeAlert={closeAlert}
+        />
+      )
+
+      showAlert({ children })
       return
     }
 
