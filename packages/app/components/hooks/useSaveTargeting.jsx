@@ -18,6 +18,21 @@ const getWarningButtons = ({
   closeAlert,
   feedMinBudgetInfo,
 }) => {
+  if (warningType === 'resumeSpending') {
+    return [
+      {
+        text: 'Resume Spending',
+        onClick: onConfirm,
+        color: 'green',
+      },
+      {
+        text: 'Cancel',
+        onClick: closeAlert,
+        color: 'black',
+      },
+    ]
+  }
+
   if (warningType === 'saveWhenPaused') {
     return [
       {
@@ -98,6 +113,29 @@ const useSaveTargeting = ({
       })
       trackGoogleBudgetSet()
       return saveTargetingSettings(unpausedTargetingState)
+    }
+
+    if (isPaused && togglePauseCampaign) {
+      const alertCopy = copy.togglePauseWarning(spendingPaused)
+
+      const buttons = getWarningButtons({
+        warningType: 'resumeSpending',
+        onConfirm: () => {
+          togglePauseCampaign()
+
+          const action = 'resume_spending'
+          track(action, {
+            budget: savedState.budget,
+            currencyCode,
+          })
+        },
+        isPaused: spendingPaused,
+        closeAlert,
+        feedMinBudgetInfo,
+      })
+
+      showAlert({ copy: alertCopy, buttons })
+      return
     }
 
     if (togglePauseCampaign) {
