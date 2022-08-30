@@ -17,7 +17,7 @@ const getControlsStoreState = (state) => ({
 const TargetingBudgetPauseAlertReasonSelect = ({
   reason,
   setReason,
-  setHasOtherReason,
+  setHasCustomReason,
 }) => {
   const [reasonOptions, setReasonOptions] = React.useState([])
 
@@ -31,10 +31,10 @@ const TargetingBudgetPauseAlertReasonSelect = ({
       return
     }
 
-    setHasOtherReason(false)
+    setHasCustomReason(false)
 
     if (value === 'other') {
-      setHasOtherReason(true)
+      setHasCustomReason(true)
     }
 
     setReason(value)

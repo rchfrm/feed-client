@@ -2,19 +2,28 @@ import React from 'react'
 
 import TextArea from '@/elements/TextArea'
 
-const TargetingBudgetPauseAlertReasonInput = ({ otherReason, setOtherReason }) => {
+const TargetingBudgetPauseAlertReasonInput = ({
+  customReason,
+  setCustomReason,
+  isValidCustomReason,
+  minLength,
+}) => {
   const handleChange = ({ target }) => {
     const { value } = target
 
-    setOtherReason(value)
+    setCustomReason(value)
   }
 
   return (
-    <TextArea
-      name="other-reason"
-      value={otherReason}
-      handleChange={handleChange}
-    />
+    <>
+      <TextArea
+        name="custom-reason"
+        value={customReason}
+        handleChange={handleChange}
+        className={isValidCustomReason ? 'mb-8' : 'mb-2'}
+      />
+      {!isValidCustomReason && <p className="block relative h-4 text-xs mb-2">The minimum length for this field is {minLength} characters.</p>}
+    </>
   )
 }
 

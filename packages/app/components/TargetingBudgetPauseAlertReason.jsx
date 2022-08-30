@@ -14,8 +14,11 @@ const TargetingBudgetPauseAlertReason = ({
   closeAlert,
 }) => {
   const [reason, setReason] = React.useState('')
-  const [otherReason, setOtherReason] = React.useState('')
-  const [hasOtherReason, setHasOtherReason] = React.useState(false)
+  const [customReason, setCustomReason] = React.useState('')
+  const [hasCustomReason, setHasCustomReason] = React.useState(false)
+
+  const minLength = 20
+  const isValidCustomReason = customReason.length > minLength
 
   React.useEffect(() => {
     const buttons = [
@@ -29,10 +32,10 @@ const TargetingBudgetPauseAlertReason = ({
             budget,
             currency,
             reason,
-            ...(hasOtherReason ? ({ otherReason }) : {}),
+            ...(hasCustomReason ? ({ customReason }) : {}),
           })
         },
-        disabled: !reason || (reason === 'other' && !otherReason),
+        disabled: !reason || (reason === 'other' && !isValidCustomReason),
         color: 'red',
       },
       {
@@ -43,19 +46,21 @@ const TargetingBudgetPauseAlertReason = ({
     ]
 
     setButtons(buttons)
-  }, [closeAlert, setButtons, togglePauseCampaign, budget, currency, reason, otherReason, hasOtherReason])
+  }, [closeAlert, setButtons, togglePauseCampaign, budget, currency, reason, customReason, hasCustomReason, isValidCustomReason])
 
   return (
     <>
       <TargetingBudgetPauseAlertReasonSelect
         reason={reason}
         setReason={setReason}
-        setHasOtherReason={setHasOtherReason}
+        setHasCustomReason={setHasCustomReason}
       />
-      {hasOtherReason && (
+      {hasCustomReason && (
         <TargetingBudgetPauseAlertReasonInput
-          otherReason={otherReason}
-          setOtherReason={setOtherReason}
+          customReason={customReason}
+          setCustomReason={setCustomReason}
+          isValidCustomReason={isValidCustomReason}
+          minLength={minLength}
         />
       )}
     </>
