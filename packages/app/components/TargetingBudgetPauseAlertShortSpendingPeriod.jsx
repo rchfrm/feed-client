@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
@@ -61,6 +62,13 @@ const TargetingBudgetPauseAlertShortSpendingPeriod = ({
 }
 
 TargetingBudgetPauseAlertShortSpendingPeriod.propTypes = {
+  budget: PropTypes.number.isRequired,
+  spendingData: PropTypes.shape({
+    hasSpentConsecutivelyLessThan30Days: PropTypes.bool.isRequired,
+    daysOfSpending: PropTypes.number.isRequired,
+  }).isRequired,
+  setButtons: PropTypes.func.isRequired,
+  closeAlert: PropTypes.func.isRequired,
 }
 
 TargetingBudgetPauseAlertShortSpendingPeriod.defaultProps = {

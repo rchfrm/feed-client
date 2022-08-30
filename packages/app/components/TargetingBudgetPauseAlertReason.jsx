@@ -1,14 +1,15 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { track } from '@/helpers/trackingHelpers'
 
 const TargetingBudgetPauseAlertReason = ({
   isPaused,
   togglePauseCampaign,
-  setButtons,
-  closeAlert,
   budget,
   currency,
+  setButtons,
+  closeAlert,
 }) => {
   React.useEffect(() => {
     const buttons = [
@@ -41,6 +42,12 @@ const TargetingBudgetPauseAlertReason = ({
 }
 
 TargetingBudgetPauseAlertReason.propTypes = {
+  isPaused: PropTypes.bool.isRequired,
+  togglePauseCampaign: PropTypes.func.isRequired,
+  budget: PropTypes.number.isRequired,
+  currency: PropTypes.string.isRequired,
+  setButtons: PropTypes.func.isRequired,
+  closeAlert: PropTypes.func.isRequired,
 }
 
 TargetingBudgetPauseAlertReason.defaultProps = {
