@@ -88,7 +88,7 @@ const TargetingBudgetPauseAlertReasonSelect = ({
 TargetingBudgetPauseAlertReasonSelect.propTypes = {
   reason: PropTypes.string.isRequired,
   setReason: PropTypes.func.isRequired,
-  setHasCustomReason: PropTypes.bool.isRequired,
+  setHasCustomReason: PropTypes.func.isRequired,
 }
 
 TargetingBudgetPauseAlertReasonSelect.defaultProps = {
