@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import TargetingBudgetPauseAlertReasonSelect from '@/app/TargetingBudgetPauseAlertReasonSelect'
+import TargetingBudgetPauseAlertReasonInput from '@/app/TargetingBudgetPauseAlertReasonInput'
+
 import { track } from '@/helpers/trackingHelpers'
 
 const TargetingBudgetPauseAlertReason = ({
@@ -11,6 +14,10 @@ const TargetingBudgetPauseAlertReason = ({
   setButtons,
   closeAlert,
 }) => {
+  const [reason, setReason] = React.useState('')
+  const [otherReason, setOtherReason] = React.useState('')
+  const [hasOtherReason, setHasOtherReason] = React.useState(false)
+
   React.useEffect(() => {
     const buttons = [
       {
@@ -24,6 +31,7 @@ const TargetingBudgetPauseAlertReason = ({
             currency,
           })
         },
+        disabled: !reason || (reason === 'other' && !otherReason),
         color: isPaused ? 'green' : 'red',
       },
       {
@@ -34,10 +42,17 @@ const TargetingBudgetPauseAlertReason = ({
     ]
 
     setButtons(buttons)
-  }, [isPaused, closeAlert, setButtons, togglePauseCampaign, budget, currency])
+  }, [isPaused, closeAlert, setButtons, togglePauseCampaign, budget, currency, reason, otherReason])
 
   return (
-    <p>Pause alert reason</p>
+    <>
+      <TargetingBudgetPauseAlertReasonSelect
+        reason={reason}
+        setReason={setReason}
+        setHasOtherReason={setHasOtherReason}
+      />
+      {hasOtherReason && <TargetingBudgetPauseAlertReasonInput setOtherReason={setOtherReason} />}
+    </>
   )
 }
 

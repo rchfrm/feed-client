@@ -65,6 +65,10 @@ Do you want to continue?`,
 
   You've been spending for just ${daysOfSpending} ${daysOfSpending > 1 ? 'days' : 'day'}. ${hasMinimumBudget ? '' : 'If budget is an issue, consider reducing your daily spend instead?'}`,
 
+  pauseSpendingReason: `#### **Why do you want to pause your budget?**
+
+  Your feedback helps us create a better experience for you and for all of our customers.`,
+
   locationsDescription: (isMusician, hasSpotify) => `Your audience shown includes ${getListOfSources(isMusician, hasSpotify)}.`,
 
   locationsHelperText: `Currently we only show you countries and cities with more than 1% of your combined Instagram, Facebook & Spotify audience (if applicable). This is so we can recommend the best targeting locations based on your audience.
