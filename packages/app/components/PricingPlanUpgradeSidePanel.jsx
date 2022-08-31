@@ -22,7 +22,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { artist } = React.useContext(ArtistContext)
 
   const { hasGrowthPlan, hasLegacyPlan } = artist
-  const [, planPeriod] = artist.plan.split('_') || []
+  const [, planPeriod] = artist?.plan?.split('_') || []
   const isAnnualPricing = planPeriod === 'annual'
   const isUpgradeToPro = hasGrowthPlan && !hasLegacyPlan
 

@@ -65,8 +65,8 @@ const TheSubNavArtists = ({ className }) => {
   const maxArtists = 3
   const { organisationArtists } = useBillingStore(getBillingStoreState)
   const otherOrganisationProfiles = organisationArtists.filter(({ id }) => id !== artistId)
-  const hasAllOtherProfilesOnLegacyPlan = artistHelpers.hasAllProfilesOnLegacyPlan(otherOrganisationProfiles)
-  const isDisabled = !hasGrowthPlan && hasAllOtherProfilesOnLegacyPlan && role !== 'admin'
+  const hasAllOtherProfilesOnNoPlan = artistHelpers.hasAllProfilesOnNoPlan(otherOrganisationProfiles)
+  const isDisabled = !hasGrowthPlan && hasAllOtherProfilesOnNoPlan && role !== 'admin'
 
   const updateArtist = (artistId) => {
     storeArtist(artistId)
