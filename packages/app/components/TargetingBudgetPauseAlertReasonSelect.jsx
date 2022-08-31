@@ -32,12 +32,7 @@ const TargetingBudgetPauseAlertReasonSelect = ({
       return
     }
 
-    setHasCustomReason(false)
-
-    if (value === 'other') {
-      setHasCustomReason(true)
-    }
-
+    setHasCustomReason(value === 'other')
     setReason(value)
   }
 
