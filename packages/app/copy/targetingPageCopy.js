@@ -67,7 +67,7 @@ Do you want to continue?`,
 
   pauseSpendingReason: `#### **Why do you want to pause your budget?**
 
-  Your feedback helps us create a better experience for you and for all of our customers.`,
+  Your feedback helps us create a better experience for you (and everyone else!)`,
 
   locationsDescription: (isMusician, hasSpotify) => `Your audience shown includes ${getListOfSources(isMusician, hasSpotify)}.`,
 
