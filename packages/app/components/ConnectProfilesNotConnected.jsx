@@ -15,7 +15,7 @@ const ConnectProfilesNotConnected = ({
   setIsConnecting,
   className,
 }) => {
-  const { userLoading, user } = React.useContext(UserContext)
+  const { userLoading } = React.useContext(UserContext)
   const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
 
   const sortedArtistAccounts = React.useMemo(() => {
@@ -29,7 +29,7 @@ const ConnectProfilesNotConnected = ({
       <h2>Connect more</h2>
       <DisabledSection
         section="connect-accounts"
-        isDisabled={!hasGrowthPlan && user.role !== 'admin'}
+        isDisabled={!hasGrowthPlan}
       >
         <ul
           className={[
