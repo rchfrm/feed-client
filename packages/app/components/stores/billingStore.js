@@ -2,7 +2,7 @@ import create from 'zustand'
 import produce from 'immer'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
-import { fetchLatestInvoice, fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
+import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
   allOrgs: [],
@@ -14,7 +14,6 @@ const initialState = {
   billingEnabled: false,
   billingDetails: {},
   upcomingInvoice: {},
-  latestInvoice: {},
   artistCurrency: {},
   defaultPaymentMethod: null,
   organisationInvites: [],
@@ -56,13 +55,8 @@ const fetchInvoices = async (organisation) => {
   const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organisation.id)
   if (upcomingInvoiceError && upcomingInvoiceError.message !== 'Not Found') errors.push(upcomingInvoiceError)
 
-  // Fetch latest invoice
-  const { res: latestInvoice, error: latestInvoiceError } = await fetchLatestInvoice(organisation.id)
-  if (latestInvoiceError) errors.push(latestInvoiceError)
-
   return {
     upcomingInvoice,
-    latestInvoice,
     errors,
   }
 }
@@ -94,7 +88,6 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
 
   const {
     upcomingInvoice,
-    latestInvoice,
     errors,
     referralsDetails,
   } = await fetchInvoices(organisation)
@@ -132,7 +125,6 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
     referralsDetails,
     defaultPaymentMethod,
     upcomingInvoice,
-    latestInvoice,
     loadingErrors: errors,
     ...(artistCurrency && { artistCurrency }),
     loading: false,
@@ -237,11 +229,6 @@ const updateUpcomingInvoice = (set) => (upcomingInvoice) => {
   set({ upcomingInvoice })
 }
 
-const updateLatestInvoice = (set) => (latestInvoice) => {
-  set({ latestInvoice })
-}
-
-
 const useBillingStore = create((set, get) => ({
   ...initialState,
   // GETTERS
@@ -256,7 +243,6 @@ const useBillingStore = create((set, get) => ({
   removeTransferRequest: removeTransferRequest(set, get),
   updateOrganisationArtists: updateOrganisationArtists(set, get),
   updateUpcomingInvoice: updateUpcomingInvoice(set, get),
-  updateLatestInvoice: updateLatestInvoice(set, get),
 }))
 
 export default useBillingStore

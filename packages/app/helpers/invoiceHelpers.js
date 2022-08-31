@@ -107,18 +107,3 @@ export const fetchUpcomingInvoice = async (organizationId) => {
   const res = formatUpcomingInvoice(invoice)
   return { res }
 }
-
-export const fetchLatestInvoice = async (organizationId) => {
-  const payload = null
-  const endpoint = `/organizations/${organizationId}/billing/invoices`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Fetch latest invoice',
-  }
-
-  const { res: invoices, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
-  if (error) return { error }
-  // Format invoice
-  const res = invoices[0] ? formatUpcomingInvoice(invoices[0]) : {}
-  return { res }
-}
