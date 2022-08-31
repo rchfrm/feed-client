@@ -8,6 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { budgetPauseReasonOptions } from '@/app/helpers/targetingHelpers'
 import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
+import { shuffleArray } from '@/helpers/utils'
 
 import copy from '@/app/copy/targetingPageCopy'
 
@@ -39,7 +40,12 @@ const TargetingBudgetPauseAlertReasonSelect = ({
   React.useEffect(() => {
     const options = []
 
-    budgetPauseReasonOptions.forEach((option) => {
+    const generalOptions = budgetPauseReasonOptions.slice(0, -1)
+    const lastOption = budgetPauseReasonOptions.slice(-1)[0]
+    const shuffledGeneralOptions = shuffleArray(generalOptions)
+    const newOptions = [...shuffledGeneralOptions, lastOption]
+
+    newOptions.forEach((option) => {
       // Add all general reasons and one objective specific reason
       if (!option?.objective || option?.objective === objective) {
         if (option.objective === 'growth') {
@@ -59,14 +65,6 @@ const TargetingBudgetPauseAlertReasonSelect = ({
     setReasonOptions(options)
   }, [objective, platform, platformName])
 
-  React.useEffect(() => {
-    if (reason || !reasonOptions.length) {
-      return
-    }
-
-    setReason(reasonOptions[0].value)
-  }, [reason, reasonOptions, setReason])
-
   return (
     <>
       <MarkdownText markdown={copy.pauseSpendingReason} />
@@ -75,6 +73,7 @@ const TargetingBudgetPauseAlertReasonSelect = ({
         handleChange={handleChange}
         selectedValue={reason}
         options={reasonOptions}
+        placeholder="Please select a reason"
       />
     </>
   )
