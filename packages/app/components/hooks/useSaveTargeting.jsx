@@ -208,7 +208,7 @@ const useSaveTargeting = ({
 
     // Basic save (eg when just changing budget)
     return saveTargetingSettings(savedState)
-  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser, feedMinBudgetInfo])
+  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser, feedMinBudgetInfo, currencyCode, currencyOffset, spendingData])
 
   return saveTargeting
 }
