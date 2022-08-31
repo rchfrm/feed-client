@@ -143,13 +143,13 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
       ${suffix}
     `
   },
-  pricingUpgradePlanIntro: (hasMultipleUpgradableProfiles, name, plan, currency) => {
+  pricingUpgradePlanIntro: ({ hasMultipleUpgradableProfiles, hasGrowthPlan, name, plan, currency }) => {
     const [planPrefix, planPeriod] = plan?.split('_') || []
     const monthlyCost = pricingNumbers[planPrefix].monthlyCost[currency]
     const isAnnualPricing = planPeriod === 'annual'
     const amount = isAnnualPricing ? monthlyCost * 0.8 : monthlyCost
 
-    if (hasMultipleUpgradableProfiles) {
+    if (hasGrowthPlan && hasMultipleUpgradableProfiles) {
       return `Would you like to upgrade other profiles at the same time?
 
 Each profile on **${capitalise(planPrefix)}** is charged at ${formatCurrency(amount, currency, true)} per month.`
@@ -163,7 +163,8 @@ ${name} will be upgraded to <span className="text-insta font-bold">${capitalise(
     const { upgradedProfiles, period: { isFirstDayOfPeriod } } = prorationsPreview
 
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
-      if ((!currentPayment && plan === 'pro') || (!currentPayment && !hasSetUpProfile)) return
+      if (!plan || (!currentPayment && plan === 'pro') || (!currentPayment && !hasSetUpProfile)) return
+
       if (!currentPayment) return `- No change to ${name}`
 
       return `- ${formatCurrency(currentPayment, currency)} ${hasSetUpProfile ? `to upgrade ${name} to` : `to set up ${name} on`} <span className="text-insta font-bold">${capitalise(plan)}</span>${!isFirstDayOfPeriod ? '^' : ''}`
@@ -189,6 +190,8 @@ ${list.join('\n')}`
     const daysPassedInPeriod = daysInPeriod - daysRemainingInPeriod
 
     const list = upgradedProfiles.map(({ name, plan, nextPayment }) => {
+      if (!plan) return
+
       return `- ${formatCurrency(nextPayment, currency)} for ${name} on <span className="text-insta font-bold">${capitalise(plan)}</span>*`
     })
 

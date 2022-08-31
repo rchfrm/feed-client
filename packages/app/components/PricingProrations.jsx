@@ -9,7 +9,7 @@ import { formatCurrency } from '@/helpers/utils'
 
 import copy from '@/app/copy/global'
 
-const PricingPlanUpgradePaymentProrations = ({
+const PricingProrations = ({
   prorationsPreview,
   plan,
 }) => {
@@ -50,12 +50,12 @@ const PricingPlanUpgradePaymentProrations = ({
   )
 }
 
-PricingPlanUpgradePaymentProrations.propTypes = {
+PricingProrations.propTypes = {
   prorationsPreview: PropTypes.object.isRequired,
   plan: PropTypes.string.isRequired,
 }
 
-PricingPlanUpgradePaymentProrations.defaultProps = {
+PricingProrations.defaultProps = {
 }
 
-export default PricingPlanUpgradePaymentProrations
+export default PricingProrations
