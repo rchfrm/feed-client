@@ -20,6 +20,7 @@ const FORM = ({
   setSuccess,
 }) => {
   const [artist, setArtist] = React.useState({})
+  const [options, setOptions] = React.useState([])
   const [email, setEmail] = React.useState('')
   const [error, setError] = React.useState(null)
 
@@ -51,6 +52,15 @@ const FORM = ({
     setSuccess(true)
   }, [isLoading, artist, email, setSuccess])
 
+  React.useEffect(() => {
+    const options = artists.map(({ name, id }) => ({
+      name,
+      value: id,
+    }))
+
+    setOptions(options)
+  }, [artists])
+
   return (
     <form
       className={[className].join(' ')}
@@ -65,11 +75,12 @@ const FORM = ({
       <Select
         name="artist"
         handleChange={({ target: { value } }) => {
-          const artist = artists.find(({ name }) => name === value)
+          console.log(value)
+          const artist = artists.find(({ id }) => id === value)
           setArtist(artist)
         }}
-        selectedValue={artist.name}
-        options={artists}
+        selectedValue={artist.id}
+        options={options}
         placeholder="Choose profile"
         required
       />
@@ -99,15 +110,11 @@ const FORM = ({
 
 const BillingTransferProfileForm = ({
   className,
-  setSidePanelButton,
-  setSidePanelLoading,
   setSuccess,
 }) => {
   return (
     <FORM
       className={className}
-      setSidePanelButton={setSidePanelButton}
-      setSidePanelLoading={setSidePanelLoading}
       setSuccess={setSuccess}
     />
   )
@@ -115,8 +122,6 @@ const BillingTransferProfileForm = ({
 
 BillingTransferProfileForm.propTypes = {
   className: PropTypes.string,
-  setSidePanelButton: PropTypes.func.isRequired,
-  setSidePanelLoading: PropTypes.func.isRequired,
   setSuccess: PropTypes.func.isRequired,
 }
 

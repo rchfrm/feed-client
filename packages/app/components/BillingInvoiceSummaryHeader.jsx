@@ -13,10 +13,11 @@ const BillingInvoiceSummaryHeader = ({ dueDate }) => {
 }
 
 BillingInvoiceSummaryHeader.propTypes = {
-  dueDate: PropTypes.string.isRequired,
+  dueDate: PropTypes.string,
 }
 
 BillingInvoiceSummaryHeader.defaultProps = {
+  dueDate: '',
 }
 
 export default BillingInvoiceSummaryHeader

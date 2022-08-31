@@ -8,6 +8,7 @@ import BillingInvoiceList from '@/app/BillingInvoiceList'
 
 const BillingInvoiceSummary = ({
   upcomingInvoice,
+  organisationArtists,
   className,
 }) => {
   return (
@@ -28,6 +29,7 @@ const BillingInvoiceSummary = ({
         invoice={upcomingInvoice}
         total={upcomingInvoice.total}
         currency={upcomingInvoice.currency}
+        organisationArtists={organisationArtists}
       />
       <BillingInvoiceList
         trackComponentName="BillingOpenInvoices"
