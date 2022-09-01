@@ -340,3 +340,37 @@ export const getBudgetSuggestions = (objective, minBaseUnrounded) => {
     return Math.round((multiplier * minBaseUnrounded))
   })
 }
+
+export const budgetPauseReasonOptions = [
+  {
+    name: "I don't have the budget right now",
+    value: 'no-budget',
+  },
+  {
+    name: "Temporary pause - I'll be back",
+    value: 'temporary-pause',
+  },
+  {
+    name: 'Growth was too slow',
+    value: 'slow-growth',
+    objective: 'growth',
+  },
+  {
+    name: "I didn't see enough sales",
+    value: 'not-enough-sales',
+    objective: 'sales',
+  },
+  {
+    name: "I didn't see enough visits to my website",
+    value: 'not-enough-traffic',
+    objective: 'traffic',
+  },
+  {
+    name: "Didn't increase engagement enough",
+    value: 'not-enough-engagement',
+  },
+  {
+    name: 'Other',
+    value: 'other',
+  },
+]
