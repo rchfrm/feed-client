@@ -1,8 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import BillingInvoiceSummaryPreviewProfileAmountsItem from '@/app/BillingInvoiceSummaryPreviewProfileAmountsItem'
+import BillingInvoiceSummaryPreviewProfileAmountsItems from '@/app/BillingInvoiceSummaryPreviewProfileAmountsItems'
+
 import { formatProfileAmounts } from '@/app/helpers/billingHelpers'
-import { formatCurrency, capitalise } from '@/helpers/utils'
+import { formatCurrency } from '@/helpers/utils'
 
 const BillingInvoiceSummaryPreviewProfileAmounts = ({
   invoice,
@@ -26,26 +29,20 @@ const BillingInvoiceSummaryPreviewProfileAmounts = ({
         if (plan === 'legacy') return
 
         return profiles.length > 1 ? (
-          <div key={plan} className="mb-4">
-            <p className="mb-2">{capitalise(plan)}:</p>
-            {profiles.map((profile) => (
-              <div key={profile.name} className="flex justify-between pl-3 mb-2">
-                <p className="mb-0">{profile.name}</p>
-                <p className="mb-0">{formatCurrency(profile.amount, currency)}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div
+          <BillingInvoiceSummaryPreviewProfileAmountsItems
             key={plan}
-            className={[
-              'flex justify-between',
-              hasMultipleProfiles ? 'mb-3' : 'mb-0',
-            ].join(' ')}
-          >
-            <p className="mb-0">{profiles[0].name} ({capitalise(plan)})</p>
-            <p className={[hasMultipleProfiles ? null : 'font-bold', 'mb-0'].join(' ')}>{formatCurrency(profiles[0].amount, currency)}</p>
-          </div>
+            plan={plan}
+            currency={currency}
+            profiles={profiles}
+          />
+        ) : (
+          <BillingInvoiceSummaryPreviewProfileAmountsItem
+            key={plan}
+            plan={plan}
+            profiles={profiles}
+            hasMultipleProfiles={hasMultipleProfiles}
+            currency={currency}
+          />
         )
       })}
       {hasMultipleProfiles && (

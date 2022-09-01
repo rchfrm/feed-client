@@ -18,7 +18,9 @@ const BillingInvoiceSummaryPreview = ({
 
   return (
     <div className="border-solid border-2 mb-10 p-5 border-green rounded-dialogue">
-      {Object.keys(invoice).length === 0 ? <Spinner width={28} /> : (
+      {Object.keys(invoice).length === 0 ? (
+        <Spinner width={24} />
+      ) : (
         hasGrowthPlan && !hasLegacyPlan ? (
           <BillingInvoiceSummaryPreviewProfileAmounts
             invoice={invoice}
