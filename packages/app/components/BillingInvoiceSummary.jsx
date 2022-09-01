@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import BillingInvoiceSummaryHeader from '@/app/BillingInvoiceSummaryHeader'
 import BillingInvoiceSummaryPeriodOptions from '@/app/BillingInvoiceSummaryPeriodOptions'
-import BillingInvoiceSummarySelectedInvoice from '@/app/BillingInvoiceSummarySelectedInvoice'
+import BillingInvoiceSummaryPreview from '@/app/BillingInvoiceSummaryPreview'
 import BillingInvoiceList from '@/app/BillingInvoiceList'
 
 const BillingInvoiceSummary = ({
@@ -25,7 +25,7 @@ const BillingInvoiceSummary = ({
         periodStart={upcomingInvoice.periodStart}
         periodEnd={upcomingInvoice.periodEnd}
       />
-      <BillingInvoiceSummarySelectedInvoice
+      <BillingInvoiceSummaryPreview
         invoice={upcomingInvoice}
         total={upcomingInvoice.total}
         currency={upcomingInvoice.currency}
