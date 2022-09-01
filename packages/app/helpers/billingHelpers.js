@@ -381,7 +381,7 @@ export const billingOptions = [
 ]
 
 export const formatProfileAmounts = (organisationArtists, profileAmounts) => {
-  return Object.keys(profileAmounts).reduce((result, id) => {
+  const formattedProfileAmounts = Object.keys(profileAmounts).reduce((result, id) => {
     const profile = organisationArtists.find((profile) => profile.id === id)
     const [planPrefix] = profile?.plan.split('_') || []
 
@@ -400,4 +400,6 @@ export const formatProfileAmounts = (organisationArtists, profileAmounts) => {
 
     return result
   }, {})
+
+  return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
 }
