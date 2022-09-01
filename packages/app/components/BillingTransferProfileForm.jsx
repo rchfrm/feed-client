@@ -75,7 +75,6 @@ const FORM = ({
       <Select
         name="artist"
         handleChange={({ target: { value } }) => {
-          console.log(value)
           const artist = artists.find(({ id }) => id === value)
           setArtist(artist)
         }}

@@ -38,7 +38,7 @@ const BillingInvoiceList = () => {
       <ul className="text-lg">
         {invoices.map(({ id, created_at: date, invoice_pdf: link }) => {
           return (
-            <li key={id} className="flex text-base mb-3 last:mb-0">
+            <li key={id} className="flex mb-3 last:mb-0">
               <a href={link} className="flex items-baseline" target="_blank" rel="noreferrer noopener">
                 <LinkIcon className="h-4 w-auto" style={{ transform: 'translateY(0.1rem)' }} />
                 <p className="ml-2 mb-0">{formatDate(date)}</p>
