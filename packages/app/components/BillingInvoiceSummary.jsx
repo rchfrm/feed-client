@@ -18,19 +18,22 @@ const BillingInvoiceSummary = ({
       ].join(' ')}
     >
       <BillingInvoiceSummaryHeader
-        dueDate={upcomingInvoice.periodEnd}
-        total={upcomingInvoice.total}
+        upcomingInvoice={upcomingInvoice}
       />
-      <BillingInvoiceSummaryPeriodOptions
-        periodStart={upcomingInvoice.periodStart}
-        periodEnd={upcomingInvoice.periodEnd}
-      />
-      <BillingInvoiceSummaryPreview
-        invoice={upcomingInvoice}
-        total={upcomingInvoice.total}
-        currency={upcomingInvoice.currency}
-        organisationArtists={organisationArtists}
-      />
+      {upcomingInvoice && (
+        <>
+          <BillingInvoiceSummaryPeriodOptions
+            periodStart={upcomingInvoice.periodStart}
+            periodEnd={upcomingInvoice.periodEnd}
+          />
+          <BillingInvoiceSummaryPreview
+            invoice={upcomingInvoice}
+            total={upcomingInvoice.total}
+            currency={upcomingInvoice.currency}
+            organisationArtists={organisationArtists}
+          />
+        </>
+      )}
       <BillingInvoiceList
         trackComponentName="BillingOpenInvoices"
       />
@@ -39,11 +42,12 @@ const BillingInvoiceSummary = ({
 }
 
 BillingInvoiceSummary.propTypes = {
-  upcomingInvoice: PropTypes.object.isRequired,
+  upcomingInvoice: PropTypes.object,
   className: PropTypes.string,
 }
 
 BillingInvoiceSummary.defaultProps = {
+  upcomingInvoice: null,
   className: null,
 }
 

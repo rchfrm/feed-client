@@ -21,13 +21,11 @@ const BillingInvoiceSummaryPeriodOptions = ({
 }
 
 BillingInvoiceSummaryPeriodOptions.propTypes = {
-  periodStart: PropTypes.string,
-  periodEnd: PropTypes.string,
+  periodStart: PropTypes.string.isRequired,
+  periodEnd: PropTypes.string.isRequired,
 }
 
 BillingInvoiceSummaryPeriodOptions.defaultProps = {
-  periodStart: '',
-  periodEnd: '',
 }
 
 export default BillingInvoiceSummaryPeriodOptions

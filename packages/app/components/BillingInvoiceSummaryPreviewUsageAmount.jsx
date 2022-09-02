@@ -32,11 +32,10 @@ const BillingInvoicePreviewSummaryUsageAmount = ({
 
 BillingInvoicePreviewSummaryUsageAmount.propTypes = {
   invoice: PropTypes.object.isRequired,
-  currency: PropTypes.string,
+  currency: PropTypes.string.isRequired,
 }
 
 BillingInvoicePreviewSummaryUsageAmount.defaultProps = {
-  currency: '',
 }
 
 export default BillingInvoicePreviewSummaryUsageAmount

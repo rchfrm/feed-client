@@ -57,12 +57,11 @@ const BillingInvoiceSummaryPreviewProfileAmounts = ({
 
 BillingInvoiceSummaryPreviewProfileAmounts.propTypes = {
   invoice: PropTypes.object.isRequired,
-  currency: PropTypes.string,
+  currency: PropTypes.string.isRequired,
   organisationArtists: PropTypes.array.isRequired,
 }
 
 BillingInvoiceSummaryPreviewProfileAmounts.defaultProps = {
-  currency: '',
 }
 
 export default BillingInvoiceSummaryPreviewProfileAmounts

@@ -13,7 +13,7 @@ const initialState = {
   organisationArtists: [],
   billingEnabled: false,
   billingDetails: {},
-  upcomingInvoice: {},
+  upcomingInvoice: null,
   artistCurrency: {},
   defaultPaymentMethod: null,
   organisationInvites: [],
@@ -81,7 +81,6 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
       billingDetails,
       defaultPaymentMethod,
       ...(artistCurrency && { artistCurrency }),
-      loading: false,
     })
     return
   }
