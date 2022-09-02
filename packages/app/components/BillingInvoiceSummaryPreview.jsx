@@ -1,38 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import BillingInvoiceSummaryPreviewUsageAmount from '@/app/BillingInvoiceSummaryPreviewUsageAmount'
 import BillingInvoiceSummaryPreviewProfileAmounts from '@/app/BillingInvoiceSummaryPreviewProfileAmounts'
 
-import Spinner from '@/elements/Spinner'
+import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
 
 const BillingInvoiceSummaryPreview = ({
   invoice,
   currency,
   organisationArtists,
 }) => {
-  const { artist } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasLegacyPlan } = artist
+  const shouldShowProfileAmounts = hasAProfileOnGrowthOrPro(organisationArtists)
 
   return (
     <div className="border-solid border-2 mb-10 p-5 border-green rounded-dialogue">
-      {Object.keys(invoice).length === 0 ? (
-        <Spinner width={24} />
+      {shouldShowProfileAmounts ? (
+        <BillingInvoiceSummaryPreviewProfileAmounts
+          invoice={invoice}
+          currency={currency}
+          organisationArtists={organisationArtists}
+        />
       ) : (
-        hasGrowthPlan && !hasLegacyPlan ? (
-          <BillingInvoiceSummaryPreviewProfileAmounts
-            invoice={invoice}
-            currency={currency}
-            organisationArtists={organisationArtists}
-          />
-        ) : (
-          <BillingInvoiceSummaryPreviewUsageAmount
-            invoice={invoice}
-            currency={currency}
-          />
-        )
+        <BillingInvoiceSummaryPreviewUsageAmount
+          invoice={invoice}
+          currency={currency}
+        />
       )}
     </div>
   )
