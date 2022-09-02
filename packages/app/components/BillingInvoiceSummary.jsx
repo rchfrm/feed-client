@@ -43,6 +43,7 @@ const BillingInvoiceSummary = ({
 
 BillingInvoiceSummary.propTypes = {
   upcomingInvoice: PropTypes.object,
+  organisationArtists: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 
