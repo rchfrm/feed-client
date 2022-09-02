@@ -60,13 +60,13 @@ const getArtistsWithNotifications = state => state.artistsWithNotifications
 
 const TheSubNavArtists = ({ className }) => {
   const { user } = React.useContext(UserContext)
-  const { artists: allArtists } = user
+  const { artists: allArtists, role } = user
   const { artistId, storeArtist, artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
   const maxArtists = 3
   const { organisationArtists } = useBillingStore(getBillingStoreState)
   const otherOrganisationProfiles = organisationArtists.filter(({ id }) => id !== artistId)
   const hasAllOtherProfilesOnNoPlan = artistHelpers.hasAllProfilesOnNoPlan(otherOrganisationProfiles)
-  const isDisabled = !hasGrowthPlan && hasAllOtherProfilesOnNoPlan
+  const isDisabled = !hasGrowthPlan && hasAllOtherProfilesOnNoPlan && role !== 'admin'
 
   const updateArtist = (artistId) => {
     storeArtist(artistId)
