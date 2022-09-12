@@ -51,6 +51,7 @@ const GetStartedPaymentMethodPromoCode = ({
       return
     }
 
+    setIsLoading(false)
     setHasAppliedPromoCode(true)
     setSuccess(true)
   }, [debouncedPromoCode])
