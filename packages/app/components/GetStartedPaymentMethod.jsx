@@ -125,7 +125,9 @@ const GetStartedPaymentMethod = () => {
               setIsLoading={setIsLoading}
               isPaymentRequired={isPaymentRequired}
             />
-            <GetStartedPaymentMethodPromoCode />
+            <GetStartedPaymentMethodPromoCode
+              organisationId={organisationId}
+            />
           </>
         )}
         <Button

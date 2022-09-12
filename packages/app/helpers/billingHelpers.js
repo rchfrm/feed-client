@@ -96,7 +96,7 @@ export const getProrationsPreview = async (organisationId, profilesToUpgrade) =>
  * @returns {Promise<any>}
  */
 export const applyPromoCode = async (organisationId, promoCode) => {
-  const payload = promoCode
+  const payload = { promoCode }
   const endpoint = `/organizations/${organisationId}/billing/apply_promo_code`
   const errorTracking = {
     category: 'Billing',
