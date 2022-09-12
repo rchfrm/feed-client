@@ -9,6 +9,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import AddPaymentForm from '@/app/AddPaymentForm'
 import BillingPaymentCard from '@/app/BillingPaymentCard'
+import GetStartedPaymentMethodPromoCode from '@/app/GetStartedPaymentMethodPromoCode'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
@@ -111,18 +112,21 @@ const GetStartedPaymentMethod = () => {
             />
           </>
         ) : (
-          <AddPaymentForm
-            organisationId={organisationId}
-            setAddPaymentMethod={setAddPaymentMethod}
-            setSuccess={setSuccess}
-            shouldBeDefault
-            shouldShowLabels={false}
-            isFormValid={isFormValid}
-            setIsFormValid={setIsFormValid}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            isPaymentRequired={isPaymentRequired}
-          />
+          <>
+            <AddPaymentForm
+              organisationId={organisationId}
+              setAddPaymentMethod={setAddPaymentMethod}
+              setSuccess={setSuccess}
+              shouldBeDefault
+              shouldShowLabels={false}
+              isFormValid={isFormValid}
+              setIsFormValid={setIsFormValid}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              isPaymentRequired={isPaymentRequired}
+            />
+            <GetStartedPaymentMethodPromoCode />
+          </>
         )}
         <Button
           version="green"
