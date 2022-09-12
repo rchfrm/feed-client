@@ -89,6 +89,22 @@ export const getProrationsPreview = async (organisationId, profilesToUpgrade) =>
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
+// APPLY PROMO CODE
+/**
+ * @param {string} organisationId
+ * @param {string} promoCode
+ * @returns {Promise<any>}
+ */
+export const applyPromoCode = async (organisationId, promoCode) => {
+  const payload = promoCode
+  const endpoint = `/organizations/${organisationId}/billing/apply_promo_code`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Apply promo code',
+  }
+  return api.requestWithCatch('post', endpoint, payload, errorTracking)
+}
+
 // UPGRADE PRICING PLANS
 /**
  * @param {string} organisationId
