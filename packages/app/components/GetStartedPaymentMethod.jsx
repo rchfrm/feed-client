@@ -17,10 +17,10 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Error from '@/elements/Error'
 
 import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
+import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
-import { pricingNumbers } from '@/constants/pricing'
 import { formatCurrency } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
@@ -33,6 +33,10 @@ const GetStartedPaymentMethod = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const [amountToPay, setAmountToPay] = React.useState(0)
+  const [hasAppliedPromoCode, setHasAppliedPromoCode] = React.useState(false)
+
+  const isFirstRender = React.useRef(true)
 
   const {
     artist: {
@@ -53,9 +57,6 @@ const GetStartedPaymentMethod = () => {
   const isPaymentRequired = hasGrowthPlan || hasProPlan
 
   const [planPrefix, planPeriod] = plan.split('_')
-  const monthlyCost = pricingNumbers[planPrefix].monthlyCost[artistCurrency]
-  const annualCost = monthlyCost * 12
-  const amountToPay = planPeriod === 'annual' ? annualCost - (annualCost * pricingNumbers.annualDiscount) : monthlyCost
 
   const {
     card,
@@ -63,6 +64,24 @@ const GetStartedPaymentMethod = () => {
     is_default,
     currency = 'GBP',
   } = defaultPaymentMethod || {}
+
+  // Get amount to pay on mount or when promo code has been applied
+  useAsyncEffect(async () => {
+    if (!isFirstRender.current && !hasAppliedPromoCode) {
+      return
+    }
+
+    isFirstRender.current = false
+
+    const { res, error } = await fetchUpcomingInvoice(organisationId)
+    if (error) {
+      setError(error)
+
+      return
+    }
+
+    setAmountToPay(res.amount)
+  }, [hasAppliedPromoCode])
 
   const checkAndUpdateCompletedSetupAt = async () => {
     if (!hasSetUpProfile) {
@@ -127,6 +146,9 @@ const GetStartedPaymentMethod = () => {
             />
             <GetStartedPaymentMethodPromoCode
               organisationId={organisationId}
+              hasAppliedPromoCode={hasAppliedPromoCode}
+              setHasAppliedPromoCode={setHasAppliedPromoCode}
+              setError={setError}
             />
           </>
         )}

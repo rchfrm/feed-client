@@ -5,17 +5,21 @@ import useAsyncEffect from 'use-async-effect'
 import useDebounce from '@/app/hooks/useDebounce'
 
 import Input from '@/elements/Input'
-import Error from '@/elements/Error'
 import Button from '@/elements/Button'
+import Success from '@/elements/Success'
 
 import { applyPromoCode } from '@/app/helpers/billingHelpers'
 
-const GetStartedPaymentMethodPromoCode = ({ organisationId }) => {
+const GetStartedPaymentMethodPromoCode = ({
+  organisationId,
+  hasAppliedPromoCode,
+  setHasAppliedPromoCode,
+  setError,
+}) => {
   const [promoCode, setPromoCode] = React.useState('')
   const [shouldShowPromoCodeInput, setShouldShowPromoCodeInput] = React.useState(false)
-  const [hasAppliedPromoCode, setHasAppliedPromoCode] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
-  const [error, setError] = React.useState(null)
+  const [success, setSuccess] = React.useState(false)
 
   const debouncedPromoCode = useDebounce(promoCode, 300)
 
@@ -30,6 +34,7 @@ const GetStartedPaymentMethodPromoCode = ({ organisationId }) => {
     setPromoCode(value)
   }
 
+  // Make 'apply promo code' request on change
   useAsyncEffect(async () => {
     if (!debouncedPromoCode) {
       return
@@ -47,54 +52,63 @@ const GetStartedPaymentMethodPromoCode = ({ organisationId }) => {
     }
 
     setHasAppliedPromoCode(true)
-    setIsLoading(false)
+    setSuccess(true)
   }, [debouncedPromoCode])
 
+  // Show success message
   React.useEffect(() => {
-    if (!hasAppliedPromoCode) {
-      return
-    }
+    if (!success) return
 
-    // Call prorations or upcoming invoice endpoint?
-    console.log('Retrieve amount to pay')
-  }, [hasAppliedPromoCode])
+    const timeout = setTimeout(() => {
+      setSuccess(false)
+    }, 3000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [success])
 
   return (
-    !hasAppliedPromoCode && (
-      <>
-        <div className={['w-full -mt-3', shouldShowPromoCodeInput ? 'mb-4' : 'mb-10'].join(' ')}>
-          <Button
-            version="text"
-            type="button"
-            onClick={toggleCouponCodeInput}
-            className={['-mt-2 w-full h-5 text-xs text-center'].join(' ')}
-            trackComponentName="SignupEmailForm"
-          >
-            {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} coupon code
-          </Button>
-        </div>
-        {shouldShowPromoCodeInput && (
-          <div className="w-full mb-2">
-            <Input
-              handleChange={onChange}
-              name="promo-code"
-              type="text"
-              placeholder="Coupon Code"
-              value={promoCode}
-              className="mb-3"
-              disabled={isLoading}
-              icon={isLoading ? 'spinner' : null}
-            />
-            <Error error={error} className="mb-0" />
+    <>
+      {!hasAppliedPromoCode && (
+        <>
+          <div className={['w-full -mt-3', shouldShowPromoCodeInput ? 'mb-4' : 'mb-10'].join(' ')}>
+            <Button
+              version="text"
+              type="button"
+              onClick={toggleCouponCodeInput}
+              className={['-mt-2 w-full h-5 text-xs text-center'].join(' ')}
+              trackComponentName="SignupEmailForm"
+            >
+              {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} coupon code
+            </Button>
           </div>
-        )}
-      </>
-    )
+          {shouldShowPromoCodeInput && (
+            <div className="w-full mb-2">
+              <Input
+                handleChange={onChange}
+                name="promo-code"
+                type="text"
+                placeholder="Coupon Code"
+                value={promoCode}
+                className="mb-3"
+                disabled={isLoading}
+                icon={isLoading ? 'spinner' : null}
+              />
+            </div>
+          )}
+        </>
+      )}
+      {success && <Success message="Coupon code applied!" className="text-sm" />}
+    </>
   )
 }
 
 GetStartedPaymentMethodPromoCode.propTypes = {
   organisationId: PropTypes.string.isRequired,
+  hasAppliedPromoCode: PropTypes.bool.isRequired,
+  setHasAppliedPromoCode: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
 }
 
 GetStartedPaymentMethodPromoCode.defaultProps = {

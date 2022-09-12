@@ -126,7 +126,7 @@
 .success--message {
   position: relative;
   line-height: 1.5;
-  padding-left: var(--sp-10);
+  padding-left: var(--sp-6);
 }
 
 .success-message_icon {
