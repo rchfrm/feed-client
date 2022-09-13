@@ -6,15 +6,13 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
-import useAlertModal from '@/hooks/useAlertModal'
 import useControlsStore from '@/app/stores/controlsStore'
 import useBillingStore from '@/app/stores/billingStore'
-import useOpenPricingProrationsSidePanel from '@/app/hooks/useOpenPricingProrationsSidePanel'
 
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
-import GetStartedDailyBudgetPromoCodeAlert from '@/app/GetStartedDailyBudgetPromoCodeAlert'
+import GetStartedDailyBudgetPaymentRequiredButtons from '@/app/GetStartedDailyBudgetPaymentRequiredButtons'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -85,7 +83,6 @@ const GetStartedDailyBudget = () => {
 
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
-  const { showAlert, closeAlert } = useAlertModal()
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
 
@@ -96,8 +93,6 @@ const GetStartedDailyBudget = () => {
 
   const hasSalesObjective = objective === 'sales'
   const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
-
-  const openPricingProrationsSidePanel = useOpenPricingProrationsSidePanel()
 
   // If minReccBudget isn't set yet reinitialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -167,27 +162,6 @@ const GetStartedDailyBudget = () => {
     setBudgetSuggestions(suggestions)
   }, [minBaseUnroundedMajor, objective])
 
-  const openProrationsSidePanel = () => {
-    openPricingProrationsSidePanel(plan)
-  }
-
-  const openModal = () => {
-    const alertButtons = [{
-      text: 'Close',
-      onClick: closeAlert,
-      color: 'black',
-    }]
-
-    const children = (
-      <GetStartedDailyBudgetPromoCodeAlert
-        organisationId={organisationId}
-        setHasAppliedPromoCode={setHasAppliedPromoCode}
-        closeAlert={closeAlert}
-      />
-    )
-    showAlert({ children, buttons: alertButtons })
-  }
-
   if (!minReccBudget || !budgetSuggestions.length) return <Spinner />
 
   return (
@@ -248,26 +222,12 @@ const GetStartedDailyBudget = () => {
           />
         </Button>
         {isPaymentRequired && (
-          <>
-            <Button
-              version="text"
-              onClick={openProrationsSidePanel}
-              trackComponentName="GetStartedDailyBudget"
-              className="h-6 text-sm mb-2"
-            >
-              View payment breakdown
-            </Button>
-            {!hasAppliedPromoCode && (
-              <Button
-                version="text"
-                onClick={openModal}
-                trackComponentName="GetStartedDailyBudget"
-                className="h-6 text-sm mb-2"
-              >
-                Enter coupon code
-              </Button>
-            )}
-          </>
+          <GetStartedDailyBudgetPaymentRequiredButtons
+            organisationId={organisationId}
+            hasAppliedPromoCode={hasAppliedPromoCode}
+            setHasAppliedPromoCode={setHasAppliedPromoCode}
+            setHasCheckedIfPaymentIsRequired={setHasCheckedIfPaymentIsRequired}
+          />
         )}
       </div>
     </div>
