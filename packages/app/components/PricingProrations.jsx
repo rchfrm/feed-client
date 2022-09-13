@@ -23,7 +23,9 @@ const PricingProrations = ({
     } = {},
     nextInvoice: {
       amount: nextInvoiceAmount,
-      usageAmount,
+      usageAmount: {
+        adSpendFee,
+      },
     } = {},
     period: {
       isFirstDayOfPeriod,
@@ -31,7 +33,7 @@ const PricingProrations = ({
     } = {},
   } = prorationsPreview || {}
 
-  const subsequentMonthlyAmount = usageAmount ? nextInvoiceAmount - usageAmount : nextInvoiceAmount
+  const subsequentMonthlyAmount = adSpendFee ? nextInvoiceAmount - adSpendFee : nextInvoiceAmount
 
   return (
     <>
