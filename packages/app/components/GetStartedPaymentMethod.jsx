@@ -31,6 +31,7 @@ const GetStartedPaymentMethod = () => {
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
+  const [isLoadingAmountToPay, setIsLoadingAmountToPay] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
   const [error, setError] = React.useState(null)
   const [amountToPay, setAmountToPay] = React.useState(0)
@@ -71,16 +72,19 @@ const GetStartedPaymentMethod = () => {
       return
     }
 
+    setIsLoadingAmountToPay(true)
     isFirstRender.current = false
 
     const { res, error } = await fetchUpcomingInvoice(organisationId)
     if (error) {
       setError(error)
+      setIsLoadingAmountToPay(false)
 
       return
     }
 
-    setAmountToPay(res.amount)
+    setAmountToPay(res.total)
+    setIsLoadingAmountToPay(false)
   }, [hasAppliedPromoCode])
 
   const checkAndUpdateCompletedSetupAt = async () => {
@@ -155,11 +159,11 @@ const GetStartedPaymentMethod = () => {
         <Button
           version="green"
           onClick={savePaymentMethod}
-          loading={isLoading}
+          loading={isLoading || isLoadingAmountToPay}
           className="w-full sm:w-48 mt-12 mx-auto"
           trackComponentName="GetStartedPaymentMethod"
         >
-          {isPaymentRequired ? `Pay ${formatCurrency(amountToPay, artistCurrency, true)}` : 'Next'}
+          {isPaymentRequired ? `Pay ${formatCurrency(amountToPay, artistCurrency)}` : 'Next'}
           <ArrowAltIcon
             className="ml-3"
             direction="right"
