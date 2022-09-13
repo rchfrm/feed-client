@@ -148,12 +148,13 @@ const GetStartedPaymentMethod = () => {
               setIsLoading={setIsLoading}
               isPaymentRequired={isPaymentRequired}
             />
-            <GetStartedPaymentMethodPromoCode
-              organisationId={organisationId}
-              hasAppliedPromoCode={hasAppliedPromoCode}
-              setHasAppliedPromoCode={setHasAppliedPromoCode}
-              setError={setError}
-            />
+            {!hasAppliedPromoCode && (
+              <GetStartedPaymentMethodPromoCode
+                organisationId={organisationId}
+                setHasAppliedPromoCode={setHasAppliedPromoCode}
+                setError={setError}
+              />
+            )}
           </>
         )}
         <Button

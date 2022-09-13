@@ -6,6 +6,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
+import useAlertModal from '@/hooks/useAlertModal'
 import useControlsStore from '@/app/stores/controlsStore'
 import useBillingStore from '@/app/stores/billingStore'
 import useOpenPricingProrationsSidePanel from '@/app/hooks/useOpenPricingProrationsSidePanel'
@@ -13,6 +14,7 @@ import useOpenPricingProrationsSidePanel from '@/app/hooks/useOpenPricingProrati
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
+import GetStartedDailyBudgetPromoCodeAlert from '@/app/GetStartedDailyBudgetPromoCodeAlert'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -78,10 +80,12 @@ const GetStartedDailyBudget = () => {
   const [budgetSuggestions, setBudgetSuggestions] = React.useState([])
   const [amountToPay, setAmountToPay] = React.useState(0)
   const [hasCheckedIfPaymentIsRequired, setHasCheckedIfPaymentIsRequired] = React.useState(false)
+  const [hasAppliedPromoCode, setHasAppliedPromoCode] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
+  const { showAlert, closeAlert } = useAlertModal()
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
 
@@ -122,7 +126,7 @@ const GetStartedDailyBudget = () => {
 
     setAmountToPay(res.prorations.amount)
     setHasCheckedIfPaymentIsRequired(true)
-  }, [isPaymentRequired])
+  }, [isPaymentRequired, hasAppliedPromoCode])
 
   const checkAndUpdateCompletedSetupAt = async () => {
     if (!hasSetUpProfile && defaultPaymentMethod) {
@@ -165,6 +169,23 @@ const GetStartedDailyBudget = () => {
 
   const openProrationsSidePanel = () => {
     openPricingProrationsSidePanel(plan)
+  }
+
+  const openModal = () => {
+    const alertButtons = [{
+      text: 'Close',
+      onClick: closeAlert,
+      color: 'black',
+    }]
+
+    const children = (
+      <GetStartedDailyBudgetPromoCodeAlert
+        organisationId={organisationId}
+        setHasAppliedPromoCode={setHasAppliedPromoCode}
+        closeAlert={closeAlert}
+      />
+    )
+    showAlert({ children, buttons: alertButtons })
   }
 
   if (!minReccBudget || !budgetSuggestions.length) return <Spinner />
@@ -215,7 +236,7 @@ const GetStartedDailyBudget = () => {
           version="green"
           onClick={() => handleNext(budget)}
           loading={targetingLoading}
-          className={['w-full', isPaymentRequired ? 'sm:w-72' : 'sm:w-48'].join(' ')}
+          className={['w-full', isPaymentRequired ? 'sm:w-72' : 'sm:w-48', 'mb-4'].join(' ')}
           trackComponentName="GetStartedDailyBudget"
           disabled={hasInsufficientBudget || !hasCheckedIfPaymentIsRequired}
         >
@@ -227,14 +248,26 @@ const GetStartedDailyBudget = () => {
           />
         </Button>
         {isPaymentRequired && (
-          <Button
-            version="text"
-            onClick={openProrationsSidePanel}
-            trackComponentName="GetStartedDailyBudget"
-            className="text-sm"
-          >
-            View payment breakdown
-          </Button>
+          <>
+            <Button
+              version="text"
+              onClick={openProrationsSidePanel}
+              trackComponentName="GetStartedDailyBudget"
+              className="h-6 text-sm mb-2"
+            >
+              View payment breakdown
+            </Button>
+            {!hasAppliedPromoCode && (
+              <Button
+                version="text"
+                onClick={openModal}
+                trackComponentName="GetStartedDailyBudget"
+                className="h-6 text-sm mb-2"
+              >
+                Enter coupon code
+              </Button>
+            )}
+          </>
         )}
       </div>
     </div>
