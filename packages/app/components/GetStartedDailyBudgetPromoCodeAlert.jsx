@@ -17,7 +17,7 @@ const GetStartedDailyBudgetPromoCodeAlert = ({
 
   return (
     <div className="h-48">
-      <h2 className="mb-8">Apply coupon code</h2>
+      <h2 className="mb-8">Apply promo code</h2>
       <PromoCodeInput
         organisationId={organisationId}
         onSuccess={onSuccess}

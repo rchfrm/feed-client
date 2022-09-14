@@ -60,7 +60,7 @@ const GetStartedDailyBudgetPaymentRequiredButtons = ({
           trackComponentName="GetStartedDailyBudgetPaymentRequiredButtons"
           className="h-6 text-sm mb-2"
         >
-          Enter coupon code
+          Enter promo code
         </Button>
       )}
     </>

@@ -76,14 +76,14 @@ const PromoCodeInput = ({
         handleChange={onChange}
         name="promo-code"
         type="text"
-        placeholder="Coupon Code"
+        placeholder="Promo code"
         value={promoCode}
         className="mb-3"
         disabled={isLoading || success}
         icon={isLoading ? 'spinner' : null}
       />
       <Error error={error} />
-      {success && <Success message="Coupon code applied!" className="text-sm" />}
+      {success && <Success message={`Promo code ${promoCode} applied`} className="text-sm" />}
     </div>
   )
 }

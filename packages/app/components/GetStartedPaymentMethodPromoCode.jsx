@@ -29,7 +29,7 @@ const GetStartedPaymentMethodPromoCode = ({
           className={['-mt-2 w-full h-5 text-xs text-center'].join(' ')}
           trackComponentName="GetStartedPaymentMethodPromoCode"
         >
-          {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} coupon code
+          {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} promo code
         </Button>
       </div>
       {shouldShowPromoCodeInput && (
