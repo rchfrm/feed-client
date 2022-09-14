@@ -152,7 +152,6 @@ const GetStartedPaymentMethod = () => {
               <GetStartedPaymentMethodPromoCode
                 organisationId={organisationId}
                 setHasAppliedPromoCode={setHasAppliedPromoCode}
-                setError={setError}
               />
             )}
           </>

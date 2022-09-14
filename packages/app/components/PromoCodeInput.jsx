@@ -6,17 +6,18 @@ import useDebounce from '@/app/hooks/useDebounce'
 
 import Input from '@/elements/Input'
 import Success from '@/elements/Success'
+import Error from '@/elements/Error'
 
 import { applyPromoCode, isValidPromoCode } from '@/app/helpers/billingHelpers'
 
 const PromoCodeInput = ({
   organisationId,
   onSuccess,
-  setError,
 }) => {
   const [promoCode, setPromoCode] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
   const debouncedPromoCode = useDebounce(promoCode, 300)
 
@@ -81,6 +82,7 @@ const PromoCodeInput = ({
         disabled={isLoading || success}
         icon={isLoading ? 'spinner' : null}
       />
+      <Error error={error} />
       {success && <Success message="Coupon code applied!" className="text-sm" />}
     </div>
   )
@@ -89,7 +91,6 @@ const PromoCodeInput = ({
 PromoCodeInput.propTypes = {
   organisationId: PropTypes.string.isRequired,
   onSuccess: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
 }
 
 PromoCodeInput.defaultProps = {

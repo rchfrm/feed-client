@@ -8,7 +8,6 @@ import Button from '@/elements/Button'
 const GetStartedPaymentMethodPromoCode = ({
   organisationId,
   setHasAppliedPromoCode,
-  setError,
 }) => {
   const [shouldShowPromoCodeInput, setShouldShowPromoCodeInput] = React.useState(false)
 
@@ -37,7 +36,6 @@ const GetStartedPaymentMethodPromoCode = ({
         <PromoCodeInput
           organisationId={organisationId}
           onSuccess={onSuccess}
-          setError={setError}
         />
       )}
     </>
@@ -47,7 +45,6 @@ const GetStartedPaymentMethodPromoCode = ({
 GetStartedPaymentMethodPromoCode.propTypes = {
   organisationId: PropTypes.string.isRequired,
   setHasAppliedPromoCode: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
 }
 
 GetStartedPaymentMethodPromoCode.defaultProps = {

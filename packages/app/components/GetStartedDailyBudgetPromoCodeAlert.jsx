@@ -3,16 +3,12 @@ import PropTypes from 'prop-types'
 
 import PromoCodeInput from '@/app/PromoCodeInput'
 
-import Error from '@/elements/Error'
-
 const GetStartedDailyBudgetPromoCodeAlert = ({
   organisationId,
   setHasAppliedPromoCode,
   setHasCheckedIfPaymentIsRequired,
   closeAlert,
 }) => {
-  const [error, setError] = React.useState(null)
-
   const onSuccess = () => {
     setHasAppliedPromoCode(true)
     setHasCheckedIfPaymentIsRequired(false)
@@ -25,9 +21,7 @@ const GetStartedDailyBudgetPromoCodeAlert = ({
       <PromoCodeInput
         organisationId={organisationId}
         onSuccess={onSuccess}
-        setError={setError}
       />
-      <Error error={error} />
     </div>
   )
 }
