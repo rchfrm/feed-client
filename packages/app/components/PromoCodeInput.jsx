@@ -7,7 +7,7 @@ import useDebounce from '@/app/hooks/useDebounce'
 import Input from '@/elements/Input'
 import Success from '@/elements/Success'
 
-import { applyPromoCode } from '@/app/helpers/billingHelpers'
+import { applyPromoCode, isValidPromoCode } from '@/app/helpers/billingHelpers'
 
 const PromoCodeInput = ({
   organisationId,
@@ -30,6 +30,13 @@ const PromoCodeInput = ({
   // Make 'apply promo code' request on change
   useAsyncEffect(async () => {
     if (!debouncedPromoCode) {
+      return
+    }
+
+    const isValid = isValidPromoCode(debouncedPromoCode)
+    if (!isValid) {
+      setError({ message: 'Invalid promo code format' })
+
       return
     }
 

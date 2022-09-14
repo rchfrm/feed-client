@@ -105,6 +105,12 @@ export const applyPromoCode = async (organisationId, promoCode) => {
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
+export const isValidPromoCode = (promoCode) => {
+  const regexp = new RegExp(/^[A-Z]{4}[0-9]{3}$/)
+
+  return regexp.test(promoCode)
+}
+
 // UPGRADE PRICING PLANS
 /**
  * @param {string} organisationId
