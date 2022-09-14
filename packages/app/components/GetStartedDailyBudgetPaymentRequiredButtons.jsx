@@ -48,7 +48,7 @@ const GetStartedDailyBudgetPaymentRequiredButtons = ({
       <Button
         version="text"
         onClick={openProrationsSidePanel}
-        trackComponentName="GetStartedDailyBudget"
+        trackComponentName="GetStartedDailyBudgetPaymentRequiredButtons"
         className="h-6 text-sm mb-2"
       >
         View payment breakdown
@@ -57,7 +57,7 @@ const GetStartedDailyBudgetPaymentRequiredButtons = ({
         <Button
           version="text"
           onClick={openPromoCodeModal}
-          trackComponentName="GetStartedDailyBudget"
+          trackComponentName="GetStartedDailyBudgetPaymentRequiredButtons"
           className="h-6 text-sm mb-2"
         >
           Enter coupon code
@@ -71,6 +71,7 @@ GetStartedDailyBudgetPaymentRequiredButtons.propTypes = {
   organisationId: PropTypes.string.isRequired,
   hasAppliedPromoCode: PropTypes.bool.isRequired,
   setHasAppliedPromoCode: PropTypes.func.isRequired,
+  setHasCheckedIfPaymentIsRequired: PropTypes.func.isRequired,
 }
 
 GetStartedDailyBudgetPaymentRequiredButtons.defaultProps = {

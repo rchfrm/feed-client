@@ -27,7 +27,7 @@ const GetStartedPaymentMethodPromoCode = ({
           type="button"
           onClick={toggleCouponCodeInput}
           className={['-mt-2 w-full h-5 text-xs text-center'].join(' ')}
-          trackComponentName="SignupEmailForm"
+          trackComponentName="GetStartedPaymentMethodPromoCode"
         >
           {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} coupon code
         </Button>
