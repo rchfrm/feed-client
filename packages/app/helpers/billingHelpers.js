@@ -106,7 +106,7 @@ export const applyPromoCode = async (organisationId, promoCode) => {
 }
 
 export const isValidPromoCode = (promoCode) => {
-  const regexp = new RegExp(/^[A-Z]{4}[0-9]{3}$/)
+  const regexp = new RegExp(/^[A-Z]{4}[0-9]{2}$/)
 
   return regexp.test(promoCode)
 }
