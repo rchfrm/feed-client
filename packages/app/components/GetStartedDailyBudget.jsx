@@ -12,7 +12,6 @@ import useBillingStore from '@/app/stores/billingStore'
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
-import GetStartedDailyBudgetPaymentRequiredButtons from '@/app/GetStartedDailyBudgetPaymentRequiredButtons'
 
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
@@ -20,9 +19,7 @@ import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
-import { updateCompletedSetupAt, hasAllProfilesOnLegacyPlan } from '@/app/helpers/artistHelpers'
-import { getProrationsPreview } from '@/app/helpers/billingHelpers'
-import { formatCurrency } from '@/helpers/utils'
+import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -51,7 +48,6 @@ const GetStartedDailyBudget = () => {
 
   const {
     artist: {
-      plan,
       feedMinBudgetInfo: {
         currencyCode,
         currencyOffset,
@@ -76,9 +72,6 @@ const GetStartedDailyBudget = () => {
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
   const [budgetSuggestions, setBudgetSuggestions] = React.useState([])
-  const [amountToPay, setAmountToPay] = React.useState(0)
-  const [hasCheckedIfPaymentIsRequired, setHasCheckedIfPaymentIsRequired] = React.useState(false)
-  const [hasAppliedPromoCode, setHasAppliedPromoCode] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { next } = React.useContext(WizardContext)
@@ -86,10 +79,7 @@ const GetStartedDailyBudget = () => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
 
-  const { organisation, organisationArtists, defaultPaymentMethod } = useBillingStore(getBillingStoreState)
-  const { currency = 'GBP' } = defaultPaymentMethod || {}
-  const { id: organisationId } = organisation
-  const isPaymentRequired = !hasAllProfilesOnLegacyPlan(organisationArtists) && organisationArtists.length > 1
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
   const hasSalesObjective = objective === 'sales'
   const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
@@ -103,25 +93,6 @@ const GetStartedDailyBudget = () => {
 
     initPage(state, error)
   }, [minReccBudget])
-
-  // Fetch amount to pay if payment is required
-  useAsyncEffect(async (isMounted) => {
-    if (!isPaymentRequired) {
-      setHasCheckedIfPaymentIsRequired(true)
-      return
-    }
-
-    const { res, error } = await getProrationsPreview(organisationId, { [artistId]: plan })
-    if (!isMounted()) return
-
-    if (error) {
-      setError(error)
-      return
-    }
-
-    setAmountToPay(res.prorations.amount)
-    setHasCheckedIfPaymentIsRequired(true)
-  }, [isPaymentRequired, hasAppliedPromoCode])
 
   const checkAndUpdateCompletedSetupAt = async () => {
     if (!hasSetUpProfile && defaultPaymentMethod) {
@@ -210,25 +181,17 @@ const GetStartedDailyBudget = () => {
           version="green"
           onClick={() => handleNext(budget)}
           loading={targetingLoading}
-          className={['w-full', isPaymentRequired ? 'sm:w-72' : 'sm:w-48', 'mb-4'].join(' ')}
+          className="w-full sm:w-48 mb-4"
           trackComponentName="GetStartedDailyBudget"
-          disabled={hasInsufficientBudget || !hasCheckedIfPaymentIsRequired}
+          disabled={hasInsufficientBudget}
         >
-          Save {amountToPay ? `and pay ${formatCurrency(amountToPay, currency)}` : null}
+          Save
           <ArrowAltIcon
             className="ml-3"
             direction="right"
-            fill={hasInsufficientBudget || !hasCheckedIfPaymentIsRequired ? brandColors.greyDark : brandColors.white}
+            fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.white}
           />
         </Button>
-        {isPaymentRequired && (
-          <GetStartedDailyBudgetPaymentRequiredButtons
-            organisationId={organisationId}
-            hasAppliedPromoCode={hasAppliedPromoCode}
-            setHasAppliedPromoCode={setHasAppliedPromoCode}
-            setHasCheckedIfPaymentIsRequired={setHasCheckedIfPaymentIsRequired}
-          />
-        )}
       </div>
     </div>
   )
