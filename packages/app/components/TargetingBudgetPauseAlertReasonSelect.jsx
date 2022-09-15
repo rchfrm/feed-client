@@ -25,7 +25,6 @@ const TargetingBudgetPauseAlertReasonSelect = ({
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
-  const platformName = getPlatformNameByValue(platform)
 
   const handleChange = ({ target }) => {
     const { value } = target
@@ -49,6 +48,8 @@ const TargetingBudgetPauseAlertReasonSelect = ({
       // Add all general reasons and one objective specific reason
       if (!option?.objective || option?.objective === objective) {
         if (option.objective === 'growth') {
+          const platformName = getPlatformNameByValue(platform)
+
           options.push({
             // Add the current platform name to name and value if the objective is growth
             name: `${platformName} ${option.name.toLowerCase()}`,
@@ -63,7 +64,7 @@ const TargetingBudgetPauseAlertReasonSelect = ({
     })
 
     setReasonOptions(options)
-  }, [objective, platform, platformName])
+  }, [objective, platform])
 
   return (
     <>
