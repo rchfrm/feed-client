@@ -8,22 +8,26 @@ import Input from '@/elements/Input'
 import Success from '@/elements/Success'
 import Error from '@/elements/Error'
 
-import { applyPromoCode, isValidPromoCode } from '@/app/helpers/billingHelpers'
+import { isValidPromoCode } from '@/app/helpers/billingHelpers'
 
 const PromoCodeInput = ({
-  organisationId,
-  onSuccess,
+  promoCode,
+  setPromoCode,
+  setIsValidPromoCode,
+  hasAppliedPromoCode,
+  setShouldHidePromoCode,
+  isLoading,
+  error,
+  setError,
 }) => {
-  const [promoCode, setPromoCode] = React.useState('')
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [success, setSuccess] = React.useState(false)
-  const [error, setError] = React.useState(null)
+  const [validationError, setValidationError] = React.useState(null)
 
   const debouncedPromoCode = useDebounce(promoCode, 300)
 
   const onChange = (e) => {
     const { value } = e.target
 
+    setValidationError(null)
     setError(null)
     setPromoCode(value)
   }
@@ -36,39 +40,26 @@ const PromoCodeInput = ({
 
     const isValid = isValidPromoCode(debouncedPromoCode)
     if (!isValid) {
-      setError({ message: 'Invalid promo code format' })
+      setValidationError({ message: 'Invalid promo code format' })
 
       return
     }
 
-    setIsLoading(true)
-
-    const { error } = await applyPromoCode(organisationId, debouncedPromoCode)
-
-    if (error) {
-      setError(error)
-      setIsLoading(false)
-
-      return
-    }
-
-    setIsLoading(false)
-    setSuccess(true)
+    setIsValidPromoCode(true)
   }, [debouncedPromoCode])
 
   // Show success message
   React.useEffect(() => {
-    if (!success) return
+    if (!hasAppliedPromoCode) return
 
     const timeout = setTimeout(() => {
-      setSuccess(false)
-      onSuccess()
+      setShouldHidePromoCode(true)
     }, 3000)
 
     return () => {
       clearTimeout(timeout)
     }
-  }, [success, onSuccess])
+  }, [hasAppliedPromoCode, setShouldHidePromoCode])
 
   return (
     <div className="w-full mb-2">
@@ -79,21 +70,28 @@ const PromoCodeInput = ({
         placeholder="Promo code"
         value={promoCode}
         className="mb-3"
-        disabled={isLoading || success}
+        disabled={isLoading || hasAppliedPromoCode}
         icon={isLoading ? 'spinner' : null}
       />
-      <Error error={error} />
-      {success && <Success message={`Promo code ${promoCode} applied`} className="text-sm" />}
+      <Error error={validationError || error} />
+      {hasAppliedPromoCode && <Success message={`Promo code ${promoCode} applied`} className="text-sm" />}
     </div>
   )
 }
 
 PromoCodeInput.propTypes = {
-  organisationId: PropTypes.string.isRequired,
-  onSuccess: PropTypes.func.isRequired,
+  promoCode: PropTypes.string.isRequired,
+  setPromoCode: PropTypes.func.isRequired,
+  setIsValidPromoCode: PropTypes.func.isRequired,
+  hasAppliedPromoCode: PropTypes.bool.isRequired,
+  setShouldHidePromoCode: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.object,
+  setError: PropTypes.func.isRequired,
 }
 
 PromoCodeInput.defaultProps = {
+  error: null,
 }
 
 export default PromoCodeInput

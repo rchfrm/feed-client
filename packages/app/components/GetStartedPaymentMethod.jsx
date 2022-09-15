@@ -36,9 +36,11 @@ const GetStartedPaymentMethod = () => {
   const [success, setSuccess] = React.useState(false)
   const [error, setError] = React.useState(null)
   const [amountToPay, setAmountToPay] = React.useState(0)
+  const [promoCode, setPromoCode] = React.useState('')
+  const [promoCodeError, setPromoCodeError] = React.useState(null)
+  const [isValidPromoCode, setIsValidPromoCode] = React.useState(false)
   const [hasAppliedPromoCode, setHasAppliedPromoCode] = React.useState(false)
-
-  const isFirstRender = React.useRef(true)
+  const [shouldHidePromoCode, setShouldHidePromoCode] = React.useState(false)
 
   const {
     artist: {
@@ -67,26 +69,33 @@ const GetStartedPaymentMethod = () => {
     currency = 'GBP',
   } = defaultPaymentMethod || {}
 
-  // Get amount to pay on mount or when promo code has been applied
+  // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
-    if (!isFirstRender.current && !hasAppliedPromoCode) {
-      return
-    }
-
     setIsLoadingAmountToPay(true)
-    isFirstRender.current = false
 
-    const { res, error } = await getProrationsPreview(organisationId, { [artistId]: plan })
+    const { res, error } = await getProrationsPreview(organisationId, { [artistId]: plan }, promoCode)
     if (error) {
+      if (error.message === 'Invalid promo code') {
+        setIsValidPromoCode(false)
+        setPromoCodeError(error)
+        setIsLoadingAmountToPay(false)
+
+        return
+      }
+
       setError(error)
       setIsLoadingAmountToPay(false)
 
       return
     }
 
+    if (promoCode) {
+      setHasAppliedPromoCode(true)
+    }
+
     setAmountToPay(res.prorations.amount)
     setIsLoadingAmountToPay(false)
-  }, [hasAppliedPromoCode])
+  }, [isValidPromoCode])
 
   const checkAndUpdateCompletedSetupAt = async () => {
     if (!hasSetUpProfile) {
@@ -121,7 +130,7 @@ const GetStartedPaymentMethod = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6">
-      <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency))} />
+      <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(defaultPaymentMethod, planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency))} />
       <Error error={error} />
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
         {defaultPaymentMethod ? (
@@ -148,14 +157,21 @@ const GetStartedPaymentMethod = () => {
               isLoading={isLoading}
               setIsLoading={setIsLoading}
               isPaymentRequired={isPaymentRequired}
+              promoCode={promoCode}
             />
-            {!hasAppliedPromoCode && (
+            {!shouldHidePromoCode && (
               <GetStartedPaymentMethodPromoCode
-                organisationId={organisationId}
-                setHasAppliedPromoCode={setHasAppliedPromoCode}
+                promoCode={promoCode}
+                setPromoCode={setPromoCode}
+                setIsValidPromoCode={setIsValidPromoCode}
+                hasAppliedPromoCode={hasAppliedPromoCode}
+                setShouldHidePromoCode={setShouldHidePromoCode}
+                isLoading={isLoadingAmountToPay}
+                error={promoCodeError}
+                setError={setPromoCodeError}
               />
             )}
-            <GetStartedPaymentMethodProrationsButton />
+            <GetStartedPaymentMethodProrationsButton promoCode={promoCode} />
           </>
         )}
         <Button

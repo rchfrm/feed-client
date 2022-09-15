@@ -6,13 +6,13 @@ import useOpenPricingProrationsSidePanel from '@/app/hooks/useOpenPricingProrati
 
 import Button from '@/elements/Button'
 
-const GetStartedPaymentMethodProrationsButton = () => {
+const GetStartedPaymentMethodProrationsButton = ({ promoCode }) => {
   const { artist: { plan } } = React.useContext(ArtistContext)
 
   const openPricingProrationsSidePanel = useOpenPricingProrationsSidePanel()
 
   const openProrationsSidePanel = () => {
-    openPricingProrationsSidePanel(plan)
+    openPricingProrationsSidePanel(plan, promoCode)
   }
 
   return (

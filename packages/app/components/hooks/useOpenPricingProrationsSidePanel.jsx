@@ -13,12 +13,13 @@ const useOpenPricingProrationsSidePanel = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  const openPricingProrationsSidePanel = React.useCallback((plan) => {
+  const openPricingProrationsSidePanel = React.useCallback((plan, promoCode) => {
     const content = (
       <div>
         <h2 className="mb-8 pr-12">Payment</h2>
         <PricingProrationsLoader
           plan={plan}
+          promoCode={promoCode}
         />
       </div>
     )

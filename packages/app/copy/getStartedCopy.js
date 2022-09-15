@@ -72,14 +72,16 @@ export default {
   },
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
-  paymentMethodSubtitle: (planPrefix, planPeriod, amount) => {
+  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, planPeriod, amount) => {
+    const baseString = defaultPaymentMethod ? 'Confirm your default payment method' : 'Add a card'
+
     if (planPrefix === 'basic') {
       return `#### Enter your card details below.
 
 This is to cover Feed's 10% service fee. You won't be charged in months where you don't run ads.`
     }
 
-    return `Add a card to pay ${amount} for your first ${planPeriod === 'monthly' ? 'month' : 'year'} of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
+    return `${baseString} to pay ${amount} for your first ${planPeriod === 'monthly' ? 'month' : 'year'} of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
 
 You will be invoiced separately by Facebook for the ad spend.`
   },

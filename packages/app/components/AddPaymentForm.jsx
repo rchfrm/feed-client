@@ -57,6 +57,7 @@ const FORM = ({
   isLoading,
   setIsLoading,
   isPaymentRequired,
+  promoCode,
 }) => {
   const elements = useElements()
   const stripe = useStripe()
@@ -146,6 +147,7 @@ const FORM = ({
       organisationId,
       paymentMethodId: stripePaymentMethodId,
       shouldBeDefault,
+      promoCode,
     })
 
     // Handle error adding payment to DB
@@ -196,7 +198,7 @@ const FORM = ({
     setSuccess(true)
     // Track
     track('billing_finish_add_payment', { organisationId, shouldBeDefault })
-  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements, isPaymentRequired])
+  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements, isPaymentRequired, promoCode])
 
   React.useEffect(() => {
     setAddPaymentMethod(() => onSubmit)
@@ -256,6 +258,7 @@ const AddPaymentForm = ({
   isLoading,
   setIsLoading,
   isPaymentRequired,
+  promoCode,
 }) => {
   return (
     <Elements stripe={stripePromise}>
@@ -272,6 +275,7 @@ const AddPaymentForm = ({
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         isPaymentRequired={isPaymentRequired}
+        promoCode={promoCode}
       />
     </Elements>
   )
@@ -288,6 +292,7 @@ AddPaymentForm.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   setIsLoading: PropTypes.func.isRequired,
   isPaymentRequired: PropTypes.bool,
+  promoCode: PropTypes.string,
 }
 
 AddPaymentForm.defaultProps = {
@@ -296,6 +301,7 @@ AddPaymentForm.defaultProps = {
   setPaymentMethod: () => {},
   setSuccess: () => {},
   isPaymentRequired: false,
+  promoCode: '',
 }
 
 export default AddPaymentForm

@@ -12,11 +12,12 @@ import * as api from '@/helpers/api'
  * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
-export const submitPaymentMethod = async ({ organisationId, paymentMethodId, currency, shouldBeDefault = false }) => {
+export const submitPaymentMethod = async ({ organisationId, paymentMethodId, currency, shouldBeDefault = false, promoCode }) => {
   const payload = {
     token: paymentMethodId,
     currency,
     is_default: shouldBeDefault,
+    promoCode,
   }
   const endpoint = `/organizations/${organisationId}/billing/payments`
   const errorTracking = {
@@ -79,8 +80,11 @@ export const getStripeClientSecret = async (organisationId) => {
  * @param {object} profilesToUpgrade
  * @returns {Promise<any>}
  */
-export const getProrationsPreview = async (organisationId, profilesToUpgrade) => {
-  const payload = profilesToUpgrade
+export const getProrationsPreview = async (organisationId, profilesToUpgrade, promoCode) => {
+  const payload = {
+    profilePlans: profilesToUpgrade,
+    promoCode,
+  }
   const endpoint = `/organizations/${organisationId}/billing/preview_prorations`
   const errorTracking = {
     category: 'Billing',

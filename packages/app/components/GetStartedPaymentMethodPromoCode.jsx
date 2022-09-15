@@ -6,17 +6,19 @@ import PromoCodeInput from '@/app/PromoCodeInput'
 import Button from '@/elements/Button'
 
 const GetStartedPaymentMethodPromoCode = ({
-  organisationId,
-  setHasAppliedPromoCode,
+  promoCode,
+  setPromoCode,
+  setIsValidPromoCode,
+  hasAppliedPromoCode,
+  setShouldHidePromoCode,
+  isLoading,
+  error,
+  setError,
 }) => {
   const [shouldShowPromoCodeInput, setShouldShowPromoCodeInput] = React.useState(false)
 
   const toggleCouponCodeInput = () => {
     setShouldShowPromoCodeInput((shouldShowPromoCodeInput) => !shouldShowPromoCodeInput)
-  }
-
-  const onSuccess = () => {
-    setHasAppliedPromoCode(true)
   }
 
   return (
@@ -34,8 +36,14 @@ const GetStartedPaymentMethodPromoCode = ({
       </div>
       {shouldShowPromoCodeInput && (
         <PromoCodeInput
-          organisationId={organisationId}
-          onSuccess={onSuccess}
+          promoCode={promoCode}
+          setPromoCode={setPromoCode}
+          setIsValidPromoCode={setIsValidPromoCode}
+          hasAppliedPromoCode={hasAppliedPromoCode}
+          setShouldHidePromoCode={setShouldHidePromoCode}
+          isLoading={isLoading}
+          error={error}
+          setError={setError}
         />
       )}
     </>
@@ -43,11 +51,18 @@ const GetStartedPaymentMethodPromoCode = ({
 }
 
 GetStartedPaymentMethodPromoCode.propTypes = {
-  organisationId: PropTypes.string.isRequired,
-  setHasAppliedPromoCode: PropTypes.func.isRequired,
+  promoCode: PropTypes.string.isRequired,
+  setPromoCode: PropTypes.func.isRequired,
+  setIsValidPromoCode: PropTypes.func.isRequired,
+  hasAppliedPromoCode: PropTypes.bool.isRequired,
+  setShouldHidePromoCode: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.object,
+  setError: PropTypes.func.isRequired,
 }
 
 GetStartedPaymentMethodPromoCode.defaultProps = {
+  error: null,
 }
 
 export default GetStartedPaymentMethodPromoCode
