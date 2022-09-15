@@ -21,12 +21,12 @@ const GetStartedPaymentMethodPromoCode = ({
 
   return (
     <>
-      <div className={['w-full -mt-3', shouldShowPromoCodeInput ? 'mb-4' : 'mb-10'].join(' ')}>
+      <div className={['w-full -mt-3 mb-4'].join(' ')}>
         <Button
           version="text"
           type="button"
           onClick={toggleCouponCodeInput}
-          className={['-mt-2 w-full h-5 text-xs text-center'].join(' ')}
+          className={['-mt-2 w-full h-5 text-sm text-center'].join(' ')}
           trackComponentName="GetStartedPaymentMethodPromoCode"
         >
           {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} promo code

@@ -10,6 +10,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import AddPaymentForm from '@/app/AddPaymentForm'
 import BillingPaymentCard from '@/app/BillingPaymentCard'
 import GetStartedPaymentMethodPromoCode from '@/app/GetStartedPaymentMethodPromoCode'
+import GetStartedPaymentMethodProrationsButton from '@/app/GetStartedPaymentMethodProrationsButton'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
@@ -17,7 +18,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Error from '@/elements/Error'
 
 import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
-import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
+import { getProrationsPreview } from '@/app/helpers/billingHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -75,7 +76,7 @@ const GetStartedPaymentMethod = () => {
     setIsLoadingAmountToPay(true)
     isFirstRender.current = false
 
-    const { res, error } = await fetchUpcomingInvoice(organisationId)
+    const { res, error } = await getProrationsPreview(organisationId, { [artistId]: plan })
     if (error) {
       setError(error)
       setIsLoadingAmountToPay(false)
@@ -83,7 +84,7 @@ const GetStartedPaymentMethod = () => {
       return
     }
 
-    setAmountToPay(res.total)
+    setAmountToPay(res.prorations.amount)
     setIsLoadingAmountToPay(false)
   }, [hasAppliedPromoCode])
 
@@ -154,6 +155,7 @@ const GetStartedPaymentMethod = () => {
                 setHasAppliedPromoCode={setHasAppliedPromoCode}
               />
             )}
+            <GetStartedPaymentMethodProrationsButton />
           </>
         )}
         <Button
