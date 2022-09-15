@@ -179,8 +179,8 @@ ${list.join('\n')}`
       upgradedProfiles,
       nextInvoice: {
         amount,
-        usageAmount: {
-          adSpendFee,
+        usageAmounts: {
+          fee,
         },
       },
       period: {
@@ -197,8 +197,8 @@ ${list.join('\n')}`
       return `- ${formatCurrency(nextPayment, currency)} for ${name} on <span className="text-insta font-bold">${capitalise(plan)}</span>*`
     })
 
-    if (adSpendFee) {
-      list.push(`- ${formatCurrency(adSpendFee, currency)} service fee from Basic plan during first ${daysPassedInPeriod} ${daysPassedInPeriod > 1 ? 'days' : 'day'} of current billing period`)
+    if (fee) {
+      list.push(`- ${formatCurrency(fee, currency)} service fee from Basic plan during first ${daysPassedInPeriod} ${daysPassedInPeriod > 1 ? 'days' : 'day'} of current billing period`)
     }
 
     return `**Your next invoice will be for ${formatCurrency(amount, currency)}:**
