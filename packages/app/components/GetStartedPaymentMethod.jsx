@@ -18,7 +18,7 @@ import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Error from '@/elements/Error'
 
 import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
-import { getProrationsPreview } from '@/app/helpers/billingHelpers'
+import { getProrationsPreview, upgradeProfiles } from '@/app/helpers/billingHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -112,11 +112,27 @@ const GetStartedPaymentMethod = () => {
     }
   }
 
-  const savePaymentMethod = () => {
-    if (defaultPaymentMethod) {
-      next()
+  const upgradeProfilePlans = async () => {
+    setIsLoading(true)
+    const { error } = await upgradeProfiles(organisationId, { [artistId]: plan }, promoCode)
+
+    if (error) {
+      setError(error)
+      setIsLoading(false)
+
       return
     }
+
+    next()
+  }
+
+  const handleNext = async () => {
+    if (defaultPaymentMethod) {
+      await upgradeProfilePlans()
+
+      return
+    }
+
     addPaymentMethod()
   }
 
@@ -176,7 +192,7 @@ const GetStartedPaymentMethod = () => {
         )}
         <Button
           version="green"
-          onClick={savePaymentMethod}
+          onClick={handleNext}
           loading={isLoading || isLoadingAmountToPay}
           className="w-full sm:w-48 mt-12 mx-auto"
           trackComponentName="GetStartedPaymentMethod"

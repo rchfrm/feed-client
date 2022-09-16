@@ -121,8 +121,11 @@ export const isValidPromoCode = (promoCode) => {
  * @param {object} profilesToUpgrade
  * @returns {Promise<any>}
  */
-export const upgradePricingPlan = async (organisationId, profilesToUpgrade) => {
-  const payload = profilesToUpgrade
+export const upgradeProfiles = async (organisationId, profilesToUpgrade, promoCode) => {
+  const payload = {
+    profilePlans: profilesToUpgrade,
+    promoCode,
+  }
   const endpoint = `/organizations/${organisationId}/billing/upgrade_profiles`
   const errorTracking = {
     category: 'Billing',
