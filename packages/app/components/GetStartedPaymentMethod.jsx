@@ -47,6 +47,7 @@ const GetStartedPaymentMethod = () => {
       hasSetUpProfile,
       hasGrowthPlan,
       hasProPlan,
+      hasLegacyPlan,
       plan,
       currency: artistCurrency = 'GBP',
     },
@@ -58,7 +59,7 @@ const GetStartedPaymentMethod = () => {
   const { next } = React.useContext(WizardContext)
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
-  const isPaymentRequired = hasGrowthPlan || hasProPlan
+  const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
 
   const [planPrefix, planPeriod] = plan.split('_')
 
@@ -71,6 +72,10 @@ const GetStartedPaymentMethod = () => {
 
   // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
+    if (!isPaymentRequired) {
+      return
+    }
+
     setIsLoadingAmountToPay(true)
 
     const { res, error } = await getProrationsPreview(organisationId, { [artistId]: plan }, promoCode)
