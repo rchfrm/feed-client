@@ -75,7 +75,11 @@ export default {
   paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, planPeriod, amount) => {
     const baseString = defaultPaymentMethod ? 'Confirm your default payment method' : 'Add a card'
 
-    if (planPrefix === 'basic') {
+    if (planPrefix === 'basic' || planPrefix === 'legacy') {
+      if (defaultPaymentMethod) {
+        return 'Confirm your default payment method and start running ads.'
+      }
+
       return `#### Enter your card details below.
 
 This is to cover Feed's 10% service fee. You won't be charged in months where you don't run ads.`

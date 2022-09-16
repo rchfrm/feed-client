@@ -123,6 +123,7 @@ const GetStartedPaymentMethod = () => {
       return
     }
 
+    setIsLoading(false)
     next()
   }
 
@@ -161,20 +162,22 @@ const GetStartedPaymentMethod = () => {
             />
           </>
         ) : (
+          <AddPaymentForm
+            organisationId={organisationId}
+            setAddPaymentMethod={setAddPaymentMethod}
+            setSuccess={setSuccess}
+            shouldBeDefault
+            shouldShowLabels={false}
+            isFormValid={isFormValid}
+            setIsFormValid={setIsFormValid}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            isPaymentRequired={isPaymentRequired}
+            promoCode={promoCode}
+          />
+        )}
+        {isPaymentRequired && (
           <>
-            <AddPaymentForm
-              organisationId={organisationId}
-              setAddPaymentMethod={setAddPaymentMethod}
-              setSuccess={setSuccess}
-              shouldBeDefault
-              shouldShowLabels={false}
-              isFormValid={isFormValid}
-              setIsFormValid={setIsFormValid}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              isPaymentRequired={isPaymentRequired}
-              promoCode={promoCode}
-            />
             {!shouldHidePromoCode && (
               <GetStartedPaymentMethodPromoCode
                 promoCode={promoCode}
