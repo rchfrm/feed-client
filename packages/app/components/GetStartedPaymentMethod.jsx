@@ -123,6 +123,7 @@ const GetStartedPaymentMethod = () => {
       return
     }
 
+    await checkAndUpdateCompletedSetupAt()
     setIsLoading(false)
     next()
   }
