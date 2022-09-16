@@ -1,22 +1,16 @@
 import React from 'react'
-
 import useControlsStore from '@/app/stores/controlsStore'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
-
 import MarkdownText from '@/elements/MarkdownText'
-
 import DisabledSection from '@/app/DisabledSection'
 import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjectiveSelector'
 import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
-
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
-
 import copy from '@/app/copy/controlsPageCopy'
 
 const getControlsStoreState = (state) => ({
@@ -30,7 +24,7 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasProPlan, hasLegacyPlan, hasSetUpProfile } = artist
+  const { hasGrowthPlan, hasProPlan, hasSetUpProfile } = artist
   const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
@@ -182,14 +176,6 @@ const ObjectiveSettings = () => {
           platform={platform}
           setPlatform={setPlatform}
           isLoading={isLoading}
-        />
-      )}
-      {hasProPlan && !hasLegacyPlan && (
-        <DisabledActionPrompt
-          copy={copy.objectiveManagedPlan}
-          version="border"
-          isButton={false}
-          className="block mt-20"
         />
       )}
     </div>
