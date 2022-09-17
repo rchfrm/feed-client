@@ -82,7 +82,4 @@ export default {
   alertNewPixelDescription: `You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway.`,
   alertSelectPixelTitle: 'Select your Facebook Pixel',
   alertSelectPixelDescription: `This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway.`,
-  objectiveManagedPlan: `Currently only people on our <span className="text-insta font-bold">Managed</span> plan can set multiple objectives per profile.
-
-  [Email](mailto:team@tryfeed.co) to find out more or [book a call now](https://meetings.hubspot.com/feed/managed)`,
 }

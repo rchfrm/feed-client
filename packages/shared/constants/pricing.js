@@ -61,22 +61,10 @@ export const pricingNumbers = {
     serviceFeePercentage: 0,
     maxSpendMultiple: 40,
   },
-  managed: {
-    monthlyCost: {
-      GBP: 399,
-      USD: 450,
-      EUR: 450,
-      CAD: 600,
-      AUD: 700,
-      NOK: 5000,
-      SEK: 5000,
-    },
-    serviceFeePercentage: 0,
-  },
   annualDiscount: 0.2,
 }
 
-const { basic, growth, pro, managed } = pricingNumbers
+const { basic, growth, pro } = pricingNumbers
 
 export const pricingPlans = [
   {
@@ -126,17 +114,3 @@ export const pricingPlans = [
     maxSpendMultiple: pro.maxSpendMultiple,
   },
 ]
-
-export const managedPlan = {
-  name: 'managed',
-  description: 'Add a digital marketing expert to your artist team. Everything in the Pro tier plus the benefits below:',
-  monthlyCost: managed.monthlyCost,
-  serviceFeePercentage: managed.serviceFeePercentage,
-  features: [
-    'Regular strategy and insight calls',
-    'Set-up support &amp; ongoing management of Feed ads',
-    'Multiple objectives°',
-    'Maximise your results &amp; what you’re learning ',
-    'Dedicated account manager',
-  ],
-}

@@ -33,7 +33,8 @@ const GetStartedPlatform = () => {
   const [shouldShowMore, setShouldShowMore] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const [primaryPlatform, ...secondaryPlatforms] = platforms
+  const primaryPlatforms = platforms.slice(0, 2)
+  const secondaryPlatforms = platforms.slice(2)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
 
@@ -150,10 +151,17 @@ const GetStartedPlatform = () => {
             : (
               <>
                 <div className="flex flex-column items-center">
-                  <GetStartedPlatformButton
-                    platform={primaryPlatform}
-                    setSelectedPlatform={setSelectedPlatform}
-                  />
+                  <div className="flex-wrap">
+                    {primaryPlatforms.map(primaryPlatform => {
+                      return (
+                        <GetStartedPlatformButton
+                          key={primaryPlatform.value}
+                          platform={primaryPlatform}
+                          setSelectedPlatform={setSelectedPlatform}
+                        />
+                      )
+                    })}
+                  </div>
                   <GetStartedPlatformShowMoreButton
                     shouldShowMore={shouldShowMore}
                     setShouldShowMore={setShouldShowMore}
