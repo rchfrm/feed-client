@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -28,6 +29,7 @@ const GetStartedPaymentMethodProrationsButton = ({ promoCode }) => {
 }
 
 GetStartedPaymentMethodProrationsButton.propTypes = {
+  promoCode: PropTypes.string.isRequired,
 }
 
 GetStartedPaymentMethodProrationsButton.defaultProps = {
