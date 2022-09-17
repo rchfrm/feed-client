@@ -73,11 +73,11 @@ export default {
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
   paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, planPeriod, amount) => {
-    const baseString = defaultPaymentMethod ? 'Confirm your default payment method' : 'Add a card'
+    const baseString = defaultPaymentMethod ? 'Confirm your default card' : 'Add a card'
 
     if (planPrefix === 'basic' || planPrefix === 'legacy') {
       if (defaultPaymentMethod) {
-        return 'Confirm your default payment method and start running ads.'
+        return 'Confirm your default card and start running ads.'
       }
 
       return `#### Enter your card details below.
