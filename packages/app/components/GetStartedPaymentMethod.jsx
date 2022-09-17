@@ -40,7 +40,7 @@ const GetStartedPaymentMethod = () => {
   const [promoCodeError, setPromoCodeError] = React.useState(null)
   const [isValidPromoCode, setIsValidPromoCode] = React.useState(false)
   const [hasAppliedPromoCode, setHasAppliedPromoCode] = React.useState(false)
-  const [shouldHidePromoCode, setShouldHidePromoCode] = React.useState(false)
+  const [shouldShowPromoCode, setShouldShowPromoCode] = React.useState(true)
 
   const {
     artist: {
@@ -69,6 +69,7 @@ const GetStartedPaymentMethod = () => {
     is_default,
     currency = 'GBP',
   } = defaultPaymentMethod || {}
+
 
   // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
@@ -184,13 +185,13 @@ const GetStartedPaymentMethod = () => {
         )}
         {isPaymentRequired && (
           <>
-            {!shouldHidePromoCode && (
+            {shouldShowPromoCode && (
               <GetStartedPaymentMethodPromoCode
                 promoCode={promoCode}
                 setPromoCode={setPromoCode}
                 setIsValidPromoCode={setIsValidPromoCode}
                 hasAppliedPromoCode={hasAppliedPromoCode}
-                setShouldHidePromoCode={setShouldHidePromoCode}
+                setShouldShowPromoCode={setShouldShowPromoCode}
                 isLoading={isLoadingAmountToPay}
                 error={promoCodeError}
                 setError={setPromoCodeError}

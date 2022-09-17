@@ -10,7 +10,7 @@ const GetStartedPaymentMethodPromoCode = ({
   setPromoCode,
   setIsValidPromoCode,
   hasAppliedPromoCode,
-  setShouldHidePromoCode,
+  setShouldShowPromoCode,
   isLoading,
   error,
   setError,
@@ -23,7 +23,7 @@ const GetStartedPaymentMethodPromoCode = ({
 
   return (
     <>
-      <div className={['w-full -mt-3 mb-4'].join(' ')}>
+      <div className={['w-full mb-3'].join(' ')}>
         <Button
           version="text"
           type="button"
@@ -40,7 +40,7 @@ const GetStartedPaymentMethodPromoCode = ({
           setPromoCode={setPromoCode}
           setIsValidPromoCode={setIsValidPromoCode}
           hasAppliedPromoCode={hasAppliedPromoCode}
-          setShouldHidePromoCode={setShouldHidePromoCode}
+          setShouldShowPromoCode={setShouldShowPromoCode}
           isLoading={isLoading}
           error={error}
           setError={setError}
@@ -55,7 +55,7 @@ GetStartedPaymentMethodPromoCode.propTypes = {
   setPromoCode: PropTypes.func.isRequired,
   setIsValidPromoCode: PropTypes.func.isRequired,
   hasAppliedPromoCode: PropTypes.bool.isRequired,
-  setShouldHidePromoCode: PropTypes.func.isRequired,
+  setShouldShowPromoCode: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.object,
   setError: PropTypes.func.isRequired,
