@@ -29,8 +29,11 @@ const getBillingStoreState = (state) => ({
 })
 
 const GetStartedPaymentMethod = () => {
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
+  const [shouldShowPaymentMethodForm, setShouldShowPaymentMethodForm] = React.useState(Boolean(!defaultPaymentMethod))
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingAmountToPay, setIsLoadingAmountToPay] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
@@ -58,8 +61,9 @@ const GetStartedPaymentMethod = () => {
   const { user: { organizations } } = React.useContext(UserContext)
   const { next } = React.useContext(WizardContext)
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
-  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+
   const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
+  const isPaymentIntentRequired = !defaultPaymentMethod && isPaymentRequired
 
   const [planPrefix, planPeriod] = plan.split('_')
 
@@ -69,7 +73,6 @@ const GetStartedPaymentMethod = () => {
     is_default,
     currency = 'GBP',
   } = defaultPaymentMethod || {}
-
 
   // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
@@ -103,6 +106,10 @@ const GetStartedPaymentMethod = () => {
     setIsLoadingAmountToPay(false)
   }, [isValidPromoCode])
 
+  const togglePaymentMethodForm = () => {
+    setShouldShowPaymentMethodForm((shouldShowPaymentMethodForm) => setShouldShowPaymentMethodForm(!shouldShowPaymentMethodForm))
+  }
+
   const checkAndUpdateCompletedSetupAt = async () => {
     if (!hasSetUpProfile) {
       const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
@@ -135,7 +142,7 @@ const GetStartedPaymentMethod = () => {
   }
 
   const handleNext = async () => {
-    if (defaultPaymentMethod) {
+    if (defaultPaymentMethod && !shouldShowPaymentMethodForm) {
       await upgradeProfilePlans()
 
       return
@@ -157,18 +164,7 @@ const GetStartedPaymentMethod = () => {
       <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(defaultPaymentMethod, planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency))} />
       <Error error={error} />
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
-        {defaultPaymentMethod ? (
-          <>
-            <p className="mb-4 font-bold text-center">Your current default card:</p>
-            <BillingPaymentCard
-              currency={currency}
-              card={card}
-              billingDetails={billingDetails}
-              isDefault={is_default}
-              className="max-w-sm mb-10 mx-auto"
-            />
-          </>
-        ) : (
+        {shouldShowPaymentMethodForm ? (
           <AddPaymentForm
             organisationId={organisationId}
             setAddPaymentMethod={setAddPaymentMethod}
@@ -179,9 +175,31 @@ const GetStartedPaymentMethod = () => {
             setIsFormValid={setIsFormValid}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
-            isPaymentRequired={isPaymentRequired}
+            isPaymentIntentRequired={isPaymentIntentRequired}
             promoCode={promoCode}
           />
+        ) : (
+          <>
+            <p className="mb-4 font-bold text-center">Your current default card:</p>
+            <BillingPaymentCard
+              currency={currency}
+              card={card}
+              billingDetails={billingDetails}
+              isDefault={is_default}
+              className="max-w-sm mb-6 mx-auto"
+            />
+          </>
+        )}
+        {defaultPaymentMethod && (
+          <Button
+            version="text"
+            type="button"
+            onClick={togglePaymentMethodForm}
+            className={['w-full h-5 mb-3 text-sm'].join(' ')}
+            trackComponentName="GetStartedPaymentMethod"
+          >
+            {shouldShowPaymentMethodForm ? 'Cancel' : 'Add a new card '}
+          </Button>
         )}
         {isPaymentRequired && (
           <>

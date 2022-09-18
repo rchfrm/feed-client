@@ -23,17 +23,6 @@ const GetStartedPaymentMethodPromoCode = ({
 
   return (
     <>
-      <div className={['w-full mb-3'].join(' ')}>
-        <Button
-          version="text"
-          type="button"
-          onClick={toggleCouponCodeInput}
-          className={['-mt-2 w-full h-5 text-sm text-center'].join(' ')}
-          trackComponentName="GetStartedPaymentMethodPromoCode"
-        >
-          {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} promo code
-        </Button>
-      </div>
       {shouldShowPromoCodeInput && (
         <PromoCodeInput
           promoCode={promoCode}
@@ -46,6 +35,15 @@ const GetStartedPaymentMethodPromoCode = ({
           setError={setError}
         />
       )}
+      <Button
+        version="text"
+        type="button"
+        onClick={toggleCouponCodeInput}
+        className={['w-full h-5 mb-3 text-sm text-center'].join(' ')}
+        trackComponentName="GetStartedPaymentMethodPromoCode"
+      >
+        {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} promo code
+      </Button>
     </>
   )
 }

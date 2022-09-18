@@ -56,7 +56,7 @@ const FORM = ({
   setIsFormValid,
   isLoading,
   setIsLoading,
-  isPaymentRequired,
+  isPaymentIntentRequired,
   promoCode,
 }) => {
   const elements = useElements()
@@ -128,7 +128,7 @@ const FORM = ({
     }
 
     // If payment is required
-    if (isPaymentRequired) {
+    if (isPaymentIntentRequired) {
       // Get stripe client secret
       const { res, error: getStripeClientSecretError } = await billingHelpers.getStripeClientSecret(organisationId)
 
@@ -191,7 +191,7 @@ const FORM = ({
     setSuccess(true)
     // Track
     track('billing_finish_add_payment', { organisationId, shouldBeDefault })
-  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements, isPaymentRequired, promoCode, error])
+  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements, isPaymentIntentRequired, promoCode, error])
 
   React.useEffect(() => {
     setAddPaymentMethod(() => onSubmit)
@@ -250,7 +250,7 @@ const AddPaymentForm = ({
   setIsFormValid,
   isLoading,
   setIsLoading,
-  isPaymentRequired,
+  isPaymentIntentRequired,
   promoCode,
 }) => {
   return (
@@ -267,7 +267,7 @@ const AddPaymentForm = ({
         setIsFormValid={setIsFormValid}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
-        isPaymentRequired={isPaymentRequired}
+        isPaymentIntentRequired={isPaymentIntentRequired}
         promoCode={promoCode}
       />
     </Elements>
@@ -284,7 +284,7 @@ AddPaymentForm.propTypes = {
   setIsFormValid: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setIsLoading: PropTypes.func.isRequired,
-  isPaymentRequired: PropTypes.bool,
+  isPaymentIntentRequired: PropTypes.bool,
   promoCode: PropTypes.string,
 }
 
@@ -293,7 +293,7 @@ AddPaymentForm.defaultProps = {
   shouldShowLabels: true,
   setPaymentMethod: () => {},
   setSuccess: () => {},
-  isPaymentRequired: false,
+  isPaymentIntentRequired: false,
   promoCode: '',
 }
 
