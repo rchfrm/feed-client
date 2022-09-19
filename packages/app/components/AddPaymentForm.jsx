@@ -127,7 +127,7 @@ const FORM = ({
       return
     }
 
-    // If payment is required
+    // If payment intent is required
     if (isPaymentIntentRequired) {
       // Get stripe client secret
       const { res, error: getStripeClientSecretError } = await billingHelpers.getStripeClientSecret(organisationId)

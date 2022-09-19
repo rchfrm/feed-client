@@ -207,7 +207,7 @@ const GetStartedPaymentMethod = () => {
             version="text"
             type="button"
             onClick={togglePaymentMethodForm}
-            className={['w-full h-5 mb-3 text-sm'].join(' ')}
+            className="w-full h-5 mb-3 text-sm"
             trackComponentName="GetStartedPaymentMethod"
           >
             {shouldShowPaymentMethodForm ? 'Cancel' : 'Add a new card '}
