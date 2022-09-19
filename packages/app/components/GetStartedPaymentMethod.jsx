@@ -25,11 +25,15 @@ import brandColors from '@/constants/brandColors'
 import { formatCurrency } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
+  billingDetails: state.billingDetails,
   defaultPaymentMethod: state.defaultPaymentMethod,
 })
 
 const GetStartedPaymentMethod = () => {
-  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
+  const {
+    defaultPaymentMethod,
+    billingDetails: { allPaymentMethods },
+  } = useBillingStore(getBillingStoreState)
 
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -154,6 +158,14 @@ const GetStartedPaymentMethod = () => {
   // Go to next step on success
   useAsyncEffect(async () => {
     if (success) {
+      setShouldShowPaymentMethodForm(false)
+
+      // If it's not the first payment method added we need to make sure to upgrade the profile plans
+      if (allPaymentMethods.length > 1) {
+        await upgradeProfilePlans()
+        return
+      }
+
       await checkAndUpdateCompletedSetupAt()
       next()
     }
