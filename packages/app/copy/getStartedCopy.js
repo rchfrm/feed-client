@@ -3,7 +3,7 @@ import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
 import { capitalise, formatCurrency } from '@/helpers/utils'
 
 export default {
-  profileStatus: (status, objective, platform) => {
+  profileStatus: (status, objective, platform, defaultPaymentMethod) => {
     if (status === 'objective') return `What's your objective?`
     if (status === 'platform') return 'Select the platform to grow'
     if (status === 'default-link') {
@@ -22,7 +22,7 @@ export default {
     if (status === 'facebook-pixel') return 'Select your Facebook pixel'
     if (status === 'location') return 'Where are you based?'
     if (status === 'budget') return 'How much would you like to spend?'
-    if (status === 'payment-method') return 'Add a payment method'
+    if (status === 'payment-method') return defaultPaymentMethod ? 'Confirm your payment method' : 'Add a payment method'
 
     return ''
   },

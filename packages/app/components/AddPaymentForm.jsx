@@ -112,7 +112,7 @@ const FORM = ({
 
     const stripePaymentMethodId = paymentMethod?.id
 
-    // Store payment method to DB
+    // Store payment method in DB
     const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
       organisationId,
       paymentMethodId: stripePaymentMethodId,
@@ -120,7 +120,7 @@ const FORM = ({
       promoCode,
     })
 
-    // Handle error storing payment to DB
+    // Handle error storing payment method in DB
     if (serverError) {
       setError(serverError)
       setIsLoading(false)
@@ -140,7 +140,6 @@ const FORM = ({
 
       const { error: confirmCardPaymentError } = await stripe.confirmCardPayment(res.clientSecret, { payment_method: stripePaymentMethodId })
 
-      // Handle Stripe error
       if (confirmCardPaymentError) {
         setError(confirmCardPaymentError)
         setIsLoading(false)
