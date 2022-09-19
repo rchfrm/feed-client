@@ -225,7 +225,7 @@ export const formatProrationsPreview = ({ profilesToUpgrade, organisationArtists
   const daysInPeriod = periodEnd.diff(periodStart, 'days')
   const today = moment()
   const daysRemainingInPeriod = periodEnd.startOf('day').diff(today.startOf('day'), 'days')
-  const isFirstDayOfPeriod = daysRemainingInPeriod === daysInPeriod
+  const isFirstDayOfPeriod = (!currentPeriodStart && !currentPeriodEnd) || daysRemainingInPeriod === daysInPeriod
 
   const upgradedProfiles = Object.keys(profilesToUpgrade).reduce((array, id) => {
     const profile = organisationArtists.find((profile) => profile.id === id)
