@@ -1,22 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
 
 import BillingInvoiceSummaryHeader from '@/app/BillingInvoiceSummaryHeader'
 import BillingInvoiceSummaryPeriodOptions from '@/app/BillingInvoiceSummaryPeriodOptions'
-import BillingInvoiceSummarySelectedInvoice from '@/app/BillingInvoiceSummarySelectedInvoice'
-import BillingInvoiceSummaryButton from '@/app/BillingInvoiceSummaryButton'
+import BillingInvoiceSummaryPreview from '@/app/BillingInvoiceSummaryPreview'
 import BillingInvoiceList from '@/app/BillingInvoiceList'
 
 const BillingInvoiceSummary = ({
-  latestInvoice,
   upcomingInvoice,
+  organisationArtists,
   className,
 }) => {
-  const initSelectedInvoiceName = upcomingInvoice.paymentStatus && upcomingInvoice.paymentStatus !== 'paid' ? 'upcoming' : 'latest'
-  const [selectedInvoiceName, setSelectedInvoiceName] = React.useState(initSelectedInvoiceName)
-  const noLatestInvoiceOrIsPaid = !latestInvoice.paymentStatus || latestInvoice.paymentStatus === 'paid'
-
   return (
     <div
       className={[
@@ -24,32 +18,22 @@ const BillingInvoiceSummary = ({
       ].join(' ')}
     >
       <BillingInvoiceSummaryHeader
-        latestInvoicePaymentStatus={latestInvoice.paymentStatus}
-        latestInvoiceDueDate={latestInvoice.date_due && moment(latestInvoice.date_due)}
-        upcomingInvoiceDueDate={upcomingInvoice.date_due && moment(upcomingInvoice.date_due)}
-        upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
+        upcomingInvoice={upcomingInvoice}
       />
-      <BillingInvoiceSummaryPeriodOptions
-        noLatestInvoiceOrIsPaid={noLatestInvoiceOrIsPaid}
-        latestInvoicePeriod={{ start: latestInvoice.period_start, end: latestInvoice.period_end }}
-        upcomingInvoicePeriod={{ start: upcomingInvoice.period_start, end: upcomingInvoice.period_end }}
-        upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
-        selectedInvoiceName={selectedInvoiceName}
-        setSelectedInvoiceName={setSelectedInvoiceName}
-      />
-      <BillingInvoiceSummarySelectedInvoice
-        invoice={selectedInvoiceName === 'upcoming' ? upcomingInvoice : latestInvoice}
-        noLatestInvoiceOrIsPaid={noLatestInvoiceOrIsPaid}
-        upcomingInvoiceSpendAndFee={upcomingInvoice.serviceFeePlusAdSpend}
-      />
-      <BillingInvoiceSummaryButton
-        latestInvoice={latestInvoice}
-        latestInvoiceSelected={selectedInvoiceName === 'latest'}
-        outstandingAmount={latestInvoice.paymentStatus === 'failed' && latestInvoice.totalFee}
-        invoiceUrl={latestInvoice.invoiceUrl}
-        spending={upcomingInvoice.serviceFeePlusAdSpend > 0}
-        className="mb-10"
-      />
+      {upcomingInvoice && (
+        <>
+          <BillingInvoiceSummaryPeriodOptions
+            periodStart={upcomingInvoice.periodStart}
+            periodEnd={upcomingInvoice.periodEnd}
+          />
+          <BillingInvoiceSummaryPreview
+            invoice={upcomingInvoice}
+            total={upcomingInvoice.total}
+            currency={upcomingInvoice.currency}
+            organisationArtists={organisationArtists}
+          />
+        </>
+      )}
       <BillingInvoiceList
         trackComponentName="BillingOpenInvoices"
       />
@@ -59,13 +43,12 @@ const BillingInvoiceSummary = ({
 
 BillingInvoiceSummary.propTypes = {
   upcomingInvoice: PropTypes.object,
-  latestInvoice: PropTypes.object,
+  organisationArtists: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 
 BillingInvoiceSummary.defaultProps = {
-  upcomingInvoice: {},
-  latestInvoice: {},
+  upcomingInvoice: null,
   className: null,
 }
 

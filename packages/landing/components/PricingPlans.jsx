@@ -1,12 +1,8 @@
 import React from 'react'
-
-import ManagedPlan from '@/landing/ManagedPlan'
 import PricingPeriodToggle from '@/PricingPeriodToggle'
 import PricingCurrencySelect from '@/PricingCurrencySelect'
 import PricingPlansWrapper from '@/landing/PricingPlansWrapper'
-
 import MarkdownText from '@/elements/MarkdownText'
-
 import pricingCopy from '@/landing/copy/PricingPageCopy'
 import { pricingPlans } from '@/constants/pricing'
 
@@ -56,8 +52,7 @@ export default function PricingPlans() {
         showAnnualPricing={showAnnualPricing}
         currency={currency}
       />
-      <ManagedPlan currency={currency} />
-      <MarkdownText markdown={twoThousandPlus(currency, maxSpend)} className="text-center mb-10" />
+      <MarkdownText markdown={twoThousandPlus(currency, maxSpend)} className="text-center my-10" />
       <MarkdownText markdown={footnotes} className="small--p mb-0" />
     </div>
   )

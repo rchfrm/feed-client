@@ -26,7 +26,7 @@ const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
   defaultPaymentMethod: state.defaultPaymentMethod,
   upcomingInvoice: state.upcomingInvoice,
-  latestInvoice: state.latestInvoice,
+  organisationArtists: state.organisationArtists,
 })
 
 const BillingContent = () => {
@@ -40,11 +40,11 @@ const BillingContent = () => {
     setupBilling,
     defaultPaymentMethod,
     upcomingInvoice,
-    latestInvoice,
+    organisationArtists,
   } = useBillingStore(getBillingStoreState, shallow)
 
   const billingComponents = {
-    invoices: <BillingInvoiceSummary latestInvoice={latestInvoice} upcomingInvoice={upcomingInvoice} />,
+    invoices: <BillingInvoiceSummary upcomingInvoice={upcomingInvoice} organisationArtists={organisationArtists} />,
     paymentMethod: <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />,
     profiles: <BillingProfilesSummary />,
     users: <BillingUsersSummary />,

@@ -33,15 +33,15 @@ const BillingInvoiceList = () => {
 
   return (
     <div>
-      <h3 className="font-bold">Previous invoices</h3>
+      <h3 className="font-bold">Past invoices</h3>
       <Error error={error} />
       <ul className="text-lg">
         {invoices.map(({ id, created_at: date, invoice_pdf: link }) => {
           return (
-            <li key={id} className="flex mb-6 last:mb-0">
+            <li key={id} className="flex mb-3 last:mb-0">
               <a href={link} className="flex items-baseline" target="_blank" rel="noreferrer noopener">
                 <LinkIcon className="h-4 w-auto" style={{ transform: 'translateY(0.1rem)' }} />
-                <p className="ml-4 mb-0">{formatDate(date)}</p>
+                <p className="ml-2 mb-0">{formatDate(date)}</p>
               </a>
             </li>
           )
