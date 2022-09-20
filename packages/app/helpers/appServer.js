@@ -168,31 +168,6 @@ export const togglePromotionEnabled = async (artistId, postId, promotionEnabled,
  * @param {boolean} enabled
  * @returns {Promise<any>}
  */
-export const updateDefaultPromotionStatus = async (artistId, postType, defaultPostStatus) => {
-  const requestUrl = `/artists/${artistId}`
-  const payload = {
-    preferences: {
-      posts: {
-        promotion_enabled_default_per_type: {
-          [postType]: defaultPostStatus[postType],
-        },
-      },
-    },
-  }
-  const errorTracking = {
-    category: 'Posts',
-    action: 'Update default promotion status',
-  }
-
-  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
-}
-
-
-/**
- * @param {string} artistId
- * @param {boolean} enabled
- * @returns {Promise<any>}
- */
 export const patchArtistPromotionStatus = async (artistId, enabled) => {
   return api.patch(`/artists/${artistId}`, { preferences: { posts: { promotion_enabled_default: enabled } } })
 }

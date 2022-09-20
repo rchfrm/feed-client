@@ -7,7 +7,7 @@ import Error from '@/elements/Error'
 
 import AdDefaultsStatusConfirmation from '@/app/AdDefaultsStatusConfirmation'
 
-import { updateDefaultPromotionStatus } from '@/app/helpers/appServer'
+import { batchTogglePromotionEnabled, updateDefaultPromotionStatus } from '@/app/helpers/artistHelpers'
 import { capitalise } from '@/helpers/utils'
 
 const AdDefaultsStatus = ({
@@ -27,6 +27,11 @@ const AdDefaultsStatus = ({
 
   useAsyncEffect(async (isMounted) => {
     if (!shouldUpdatePostStatus) {
+      return
+    }
+
+    const { res: { success } } = await batchTogglePromotionEnabled(artistId, postType, pendingDefaultPostStatus)
+    if (!isMounted() || !success) {
       return
     }
 
@@ -97,7 +102,7 @@ const AdDefaultsStatus = ({
 AdDefaultsStatus.propTypes = {
   artistId: PropTypes.string.isRequired,
   setPostPreferences: PropTypes.func.isRequired,
-  defaultPromotionEnabled: PropTypes.bool.isRequired,
+  defaultPromotionEnabled: PropTypes.object.isRequired,
   updatePreferences: PropTypes.func.isRequired,
 }
 

@@ -753,3 +753,48 @@ export const updateArtist = (artist, data) => {
   }
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
+
+/**
+ * @param {string} artistId
+ * @param {boolean} defaultPromotionStatus
+ * @param {string} postType
+ * @returns {Promise<any>}
+ */
+export const batchTogglePromotionEnabled = async (artistId, postType, defaultPostStatus) => {
+  const requestUrl = '/actions/batchSetPromotionEnabled'
+  const payload = {
+    artist_id: artistId,
+    enabled: defaultPostStatus[postType],
+    type: postType,
+  }
+  const errorTracking = {
+    category: 'Posts',
+    action: 'Batch toggle promotion enabled',
+  }
+
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} artistId
+ * @param {boolean} enabled
+ * @returns {Promise<any>}
+ */
+export const updateDefaultPromotionStatus = async (artistId, postType, defaultPostStatus) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    preferences: {
+      posts: {
+        promotion_enabled_default_per_type: {
+          [postType]: defaultPostStatus[postType],
+        },
+      },
+    },
+  }
+  const errorTracking = {
+    category: 'Posts',
+    action: 'Update default promotion status',
+  }
+
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
