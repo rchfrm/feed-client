@@ -10,7 +10,6 @@ import Error from '@/elements/Error'
 import AdDefaultsStatusConfirmation from '@/app/AdDefaultsStatusConfirmation'
 
 import { batchTogglePromotionEnabled, updateDefaultPromotionStatus } from '@/app/helpers/artistHelpers'
-import { capitalise } from '@/helpers/utils'
 
 const AdDefaultsStatus = ({
   artistId,
@@ -26,7 +25,21 @@ const AdDefaultsStatus = ({
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const postTypes = ['post', 'story', 'reels']
+  const postTypes = [
+    {
+      label: 'Posts',
+      value: 'post',
+    },
+    {
+      label: 'Reels',
+      value: 'reels',
+    },
+    {
+      label: 'Stories',
+      value: 'story',
+    },
+  ]
+
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
 
   useAsyncEffect(async (isMounted) => {
@@ -92,15 +105,15 @@ const AdDefaultsStatus = ({
   return (
     <div>
       <Error error={error} />
-      <div className="w-1/2 xs:w-1/3 sm:w-1/4 md:w-1/3 lg:w-1/4">
-        {postTypes.map((type) => (
-          <div className="flex justify-between items-center mb-3" key={type}>
-            <p className="mr-2 mb-0">{capitalise(type)}:</p>
+      <div className="w-32 xs:w-full flex flex-column xs:flex-row">
+        {postTypes.map(({ label, value }) => (
+          <div className="flex justify-between items-center mb-3 xs:mb-0 xs:mr-4 lg:mr-6" key={value}>
+            <p className="mr-1 mb-0">{label}:</p>
             <ToggleSwitch
-              name={type}
-              state={defaultPostStatus[type]}
+              name={value}
+              state={defaultPostStatus[value]}
               onChange={updateGlobalStatus}
-              isLoading={isLoading && type === postType}
+              isLoading={isLoading && value === postType}
             />
           </div>
         ))}
