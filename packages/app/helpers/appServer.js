@@ -164,16 +164,6 @@ export const togglePromotionEnabled = async (artistId, postId, promotionEnabled,
 }
 
 /**
- * @param {string} artistId
- * @param {boolean} enabled
- * @returns {Promise<any>}
- */
-export const patchArtistPromotionStatus = async (artistId, enabled) => {
-  return api.patch(`/artists/${artistId}`, { preferences: { posts: { promotion_enabled_default: enabled } } })
-}
-
-
-/**
  * @param {array} artistIds
  * @param {string} accessToken
  * @returns {Promise<any>}

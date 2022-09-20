@@ -61,7 +61,7 @@ const AdDefaultsStatus = ({
     setDefaultPostStatus(newDefaultPostStatus)
 
     // Update artist context
-    setPostPreferences('promotion_enabled_default', newDefaultPostStatus)
+    setPostPreferences('promotion_enabled_default_per_type', newDefaultPostStatus)
 
     // Update controls store
     updatePreferences({

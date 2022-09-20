@@ -666,7 +666,7 @@ export const getPreferencesObject = (updatedArtist) => {
     postsPreferences: {
       callToAction: preferences.posts.call_to_action,
       defaultLinkId: preferences.posts.default_link_id,
-      promotionEnabled: preferences.posts.promotion_enabled_default,
+      promotionEnabled: preferences.posts.promotion_enabled_default_per_type,
     },
     optimizationPreferences: {
       objective,
