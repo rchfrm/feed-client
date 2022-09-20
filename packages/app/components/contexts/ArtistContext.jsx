@@ -24,7 +24,7 @@ const initialArtistState = {
   URLs: {},
   preferences: {
     posts: {
-      promotion_enabled_default: true,
+      promotion_enabled_default: {},
       default_link_id: null,
     },
   },

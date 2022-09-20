@@ -13,7 +13,6 @@ import { capitalise } from '@/helpers/utils'
 const AdDefaultsStatus = ({
   artistId,
   setPostPreferences,
-  // togglePromotionGlobal,
   defaultPromotionEnabled,
   updatePreferences,
 }) => {
@@ -56,9 +55,6 @@ const AdDefaultsStatus = ({
         defaultPromotionEnabled: newDefaultPostStatus,
       },
     })
-
-    // Update status on all posts
-    // togglePromotionGlobal(newDefaultPostStatus)
   }, [shouldUpdatePostStatus])
 
   // Call this on toggle switch change
@@ -101,7 +97,8 @@ const AdDefaultsStatus = ({
 AdDefaultsStatus.propTypes = {
   artistId: PropTypes.string.isRequired,
   setPostPreferences: PropTypes.func.isRequired,
-  // togglePromotionGlobal: PropTypes.func.isRequired,
+  defaultPromotionEnabled: PropTypes.bool.isRequired,
+  updatePreferences: PropTypes.func.isRequired,
 }
 
 export default AdDefaultsStatus
