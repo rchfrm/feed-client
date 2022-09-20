@@ -5,25 +5,12 @@ import { useAsync } from 'react-async'
 
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
-import RadioButtons from '@/elements/RadioButtons'
+import ToggleSwitch from '@/elements/ToggleSwitch'
 import Error from '@/elements/Error'
 
 import AdDefaultsStatusConfirmation from '@/app/AdDefaultsStatusConfirmation'
 
 import * as server from '@/app/helpers/appServer'
-
-const postSettingOptions = [
-  {
-    value: true,
-    label: 'Yes',
-    name: 'posts-enabled',
-  },
-  {
-    value: false,
-    label: 'No',
-    name: 'posts-disabled',
-  },
-]
 
 // Call the server with the new post status
 const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPostStatus }) => {
@@ -44,11 +31,13 @@ const AdDefaultsStatus = ({
   updatePreferences,
 }) => {
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
+
   // UPDATE POST STATUS SETTINGS
   const [defaultPostStatus, setDefaultPostStatus] = React.useState(defaultPromotionEnabled)
   const [pendingDefaultPostStatus, setPendingDefaultPostStatus] = React.useState(defaultPromotionEnabled)
   const [updatePostStatus, triggerStatusUpdate] = React.useState(false)
   const [showPostStatusConfirmation, setShowPostStatusConfirmation] = React.useState(false)
+
   // Call this from the radio buttons...
   const updateGlobalStatus = React.useCallback((value) => {
     // Update pending status
@@ -85,24 +74,43 @@ const AdDefaultsStatus = ({
       }
     },
   })
+
   // Cancel initial run
   React.useEffect(() => {
     cancelUpdatePostSettings()
   }, [cancelUpdatePostSettings])
+
   // Update loading state on panel while fetching from server
   React.useEffect(() => {
     setSidePanelLoading(isPending)
   }, [isPending, setSidePanelLoading])
+
   return (
     <div>
       <Error error={error} />
-      <RadioButtons
-        className="settingSection__options"
-        options={postSettingOptions}
-        onChange={updateGlobalStatus}
-        selectedValue={defaultPostStatus}
-        trackGroupLabel="Posts Default Status"
-      />
+      <div className="w-1/2 xs:w-1/3 sm:w-1/4 md:w-1/3 lg:w-1/4">
+        <div className="flex justify-between items-center mb-3">
+          <p className="mr-2 mb-0">Posts:</p>
+          <ToggleSwitch
+            state={defaultPostStatus.post}
+            onChange={updateGlobalStatus}
+          />
+        </div>
+        <div className="flex justify-between items-center mb-3">
+          <p className="mr-2 mb-0">Stories:</p>
+          <ToggleSwitch
+            state={defaultPostStatus.post}
+            onChange={updateGlobalStatus}
+          />
+        </div>
+        <div className="flex justify-between items-center">
+          <p className="mr-2 mb-0">Reels:</p>
+          <ToggleSwitch
+            state={defaultPostStatus.post}
+            onChange={updateGlobalStatus}
+          />
+        </div>
+      </div>
       <AdDefaultsStatusConfirmation
         triggerStatusUpdate={triggerStatusUpdate}
         confirmationOpen={showPostStatusConfirmation}

@@ -383,7 +383,13 @@ export const getPreferences = (artist, type) => {
   const formattedPreferencesResponse = {
     ...(type !== 'optimization' && { defaultLinkId: preferences[type].default_link_id, callToAction: preferences[type].call_to_action }),
     ...(type === 'conversions' && { facebookPixelEvent: preferences[type].facebook_pixel_event }),
-    ...(type === 'posts' && { defaultPromotionEnabled: preferences[type].promotion_enabled_default }),
+    ...(type === 'posts' && {
+      defaultPromotionEnabled: {
+        post: preferences[type].promotion_enabled_default_per_type.post,
+        story: preferences[type].promotion_enabled_default_per_type.story,
+        reels: preferences[type].promotion_enabled_default_per_type.reels,
+      },
+    }),
     ...(type === 'optimization' && { objective: preferences[type].objective, platform: preferences[type].platform }),
   }
   return formattedPreferencesResponse
