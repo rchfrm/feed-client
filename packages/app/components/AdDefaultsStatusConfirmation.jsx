@@ -17,7 +17,7 @@ function CONFIRMATION_CONTENT() {
 }
 
 const AdDefaultsStatusConfirmation = ({
-  triggerStatusUpdate,
+  setShouldUpdatePostStatus,
   confirmationOpen,
   dismissConfirmation,
 }) => {
@@ -26,13 +26,13 @@ const AdDefaultsStatusConfirmation = ({
   // DEFINE ALERT RESPONSES
   const resetAlert = React.useCallback(() => {
     dismissConfirmation()
-    triggerStatusUpdate(false)
-  }, [dismissConfirmation, triggerStatusUpdate])
+    setShouldUpdatePostStatus(false)
+  }, [dismissConfirmation, setShouldUpdatePostStatus])
 
   const acceptAlert = React.useCallback(() => {
     dismissConfirmation()
-    triggerStatusUpdate(true)
-  }, [dismissConfirmation, triggerStatusUpdate])
+    setShouldUpdatePostStatus(true)
+  }, [dismissConfirmation, setShouldUpdatePostStatus])
 
   React.useEffect(() => {
     if (!confirmationOpen) return closeAlert()
@@ -57,7 +57,7 @@ const AdDefaultsStatusConfirmation = ({
 }
 
 AdDefaultsStatusConfirmation.propTypes = {
-  triggerStatusUpdate: PropTypes.func.isRequired,
+  setShouldUpdatePostStatus: PropTypes.func.isRequired,
   confirmationOpen: PropTypes.bool.isRequired,
   dismissConfirmation: PropTypes.func.isRequired,
 }
