@@ -10,6 +10,7 @@ import styles from '@/elements/ToggleSwitch.module.css'
 
 const ToggleSwitch = ({
   state,
+  name,
   onChange,
   isLoading,
   disabled,
@@ -86,8 +87,8 @@ const ToggleSwitch = ({
   // Handle Tapping
   const handleTap = React.useCallback(() => {
     const newState = !state
-    onChange(newState)
-  }, [state, onChange])
+    onChange(newState, name)
+  }, [name, state, onChange])
 
   // Run this on drag
   const onDrag = React.useCallback((dragState) => {
@@ -114,12 +115,12 @@ const ToggleSwitch = ({
       const newState = movementPercent > 0
       // Animate
       animateSwitch(newState)
-      onChange(newState)
+      onChange(newState, name)
       return
     }
     // Move switch
     cssSetter.current(xClamped)
-  }, [onChange, handleTap, animateSwitch, disabled])
+  }, [name, onChange, handleTap, animateSwitch, disabled])
   // Drag binder
   const dragBind = useDrag(state => onDrag(state), {
     axis: 'x',
@@ -165,10 +166,12 @@ const ToggleSwitch = ({
       {!disabled && (
         <>
           <ToggleSwitchClicker
+            name={name}
             action="off"
             onChange={onChange}
           />
           <ToggleSwitchClicker
+            name={name}
             action="on"
             onChange={onChange}
           />
@@ -184,6 +187,7 @@ const ToggleSwitch = ({
 
 ToggleSwitch.propTypes = {
   state: PropTypes.bool.isRequired,
+  name: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -194,6 +198,7 @@ ToggleSwitch.propTypes = {
 }
 
 ToggleSwitch.defaultProps = {
+  name: '',
   isLoading: false,
   disabled: false,
   className: null,
