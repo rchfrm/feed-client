@@ -95,7 +95,7 @@ const AdDefaultsStatus = ({
       <div className="w-1/2 xs:w-1/3 sm:w-1/4 md:w-1/3 lg:w-1/4">
         {postTypes.map((type) => (
           <div className="flex justify-between items-center mb-3" key={type}>
-            <p className="mr-2 mb-0">{capitalise(type)}</p>
+            <p className="mr-2 mb-0">{capitalise(type)}:</p>
             <ToggleSwitch
               name={type}
               state={defaultPostStatus[type]}
