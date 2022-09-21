@@ -6,7 +6,7 @@ export const getPostTypePlural = (type) => {
   if (type === 'reels') return 'reels'
   if (type === 'story') return 'stories'
 
-  return 'Posts'
+  return 'posts'
 }
 
 export default {
