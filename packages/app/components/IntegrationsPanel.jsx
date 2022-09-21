@@ -8,7 +8,6 @@ import MarkdownText from '@/elements/MarkdownText'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 import IntegrationsPanelIntegration from '@/app/IntegrationsPanelIntegration'
-import IntegrationsPanelTikTokIntegration from '@/app/IntegrationsPanelTikTokIntegration'
 import DisabledSection from '@/app/DisabledSection'
 
 import { dummyIntegrations } from '@/helpers/integrationHelpers'
@@ -31,8 +30,6 @@ const IntegrationsPanel = ({
 
   const integrations = hasSetUpProfile ? artistIntegrations : dummyIntegrations
 
-  const tikTokIntegration = artistIntegrations.find((integration) => integration.platform === 'tiktok')
-
   return (
     <section>
       <h2>Integrations</h2>
@@ -54,11 +51,6 @@ const IntegrationsPanel = ({
               />
             )
           })}
-          <IntegrationsPanelTikTokIntegration
-            integration={tikTokIntegration}
-            isDisabled={!hasSetUpProfile}
-            className="mb-8 mr-8 sm:mb-0 sm:mr-0 last:mb-0"
-          />
         </ul>
         {goBack && (
           <div className="mt-10">

@@ -34,6 +34,7 @@ const IntegrationsPanelIntegration = ({
   const borderColor = isPopulated ? color.bg : brandColors.textColor
   const textColor = isPopulated ? color.text : brandColors.textColor
   const iconFill = isPopulated ? color.text : color.bg
+  const ChainIcon = isPopulated ? ChainLinkedIcon : ChainUnlinkedIcon
 
   const { fetchAndUpdateLinks } = useControlsStore(getControlsStoreState)
 
@@ -71,6 +72,10 @@ const IntegrationsPanelIntegration = ({
         className={['w-full'].join(' ')}
         size={useLargeButtons ? 'x-large' : 'large'}
         onClick={() => {
+          if (platform === 'tiktok') {
+            console.log('tiktok')
+            return
+          }
           updateIntegration(integration, action)
         }}
         style={{
@@ -89,17 +94,10 @@ const IntegrationsPanelIntegration = ({
           fill={iconFill}
         />
         {title}
-        {isPopulated ? (
-          <ChainLinkedIcon
-            className="flex-shrink-0 ml-2"
-            fill={brandColors.white}
-          />
-        ) : (
-          <ChainUnlinkedIcon
-            className="flex-shrink-0 ml-2"
-            fill={brandColors.textColor}
-          />
-        )}
+        <ChainIcon
+          className="flex-shrink-0 ml-2"
+          fill={isPopulated ? brandColors.white : brandColors.textColor}
+        />
       </ButtonPill>
     </li>
   )

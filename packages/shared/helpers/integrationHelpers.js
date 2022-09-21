@@ -83,7 +83,6 @@ export const getIntegrationInfo = (integration) => {
         accountIdKey: 'username',
         color: brandColors[platform],
         editable: true,
-        hidden: true,
       }
     default:
       return {}
