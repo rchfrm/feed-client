@@ -1,6 +1,14 @@
 /* eslint-disable quotes */
 import { getIntegrationInfo } from '@/helpers/integrationHelpers'
 
+export const getPostTypePlural = (type) => {
+  if (type === 'post') return 'posts'
+  if (type === 'reels') return 'reels'
+  if (type === 'story') return 'stories'
+
+  return 'Posts'
+}
+
 export default {
   noPostsCopy: {
     // If no posts when filtering to all
@@ -25,13 +33,13 @@ Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotif
     `The other icons are suggested links, but you can use any field for any link.`,
   ],
 
-  globalStatusConfirmation: `Are you sure?
+  globalStatusConfirmation: (postType) => `Are you sure?
 
-Changing this will update the current status on all your current and future posts.
+  This will change which current and future ${getPostTypePlural(postType)} are automatically promotable.
 
-Posts you've manually switched on or off won't be affected.
+  Those you've manually switched on or off won't be affected.
 
-**This process might take a while, so please don’t refresh the page.**
+**This process might take a while, so please don't refresh the page.**
 
 Do you want to continue?`,
 

@@ -10,6 +10,9 @@ import Error from '@/elements/Error'
 import AdDefaultsStatusConfirmation from '@/app/AdDefaultsStatusConfirmation'
 
 import { batchTogglePromotionEnabled, updateDefaultPromotionStatus } from '@/app/helpers/artistHelpers'
+import { capitalise } from '@/helpers/utils'
+
+import { getPostTypePlural } from '@/app/copy/PostsPageCopy'
 
 const AdDefaultsStatus = ({
   artistId,
@@ -25,20 +28,7 @@ const AdDefaultsStatus = ({
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const postTypes = [
-    {
-      label: 'Posts',
-      value: 'post',
-    },
-    {
-      label: 'Reels',
-      value: 'reels',
-    },
-    {
-      label: 'Stories',
-      value: 'story',
-    },
-  ]
+  const postTypes = ['post', 'reels', 'story']
 
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
 
@@ -106,14 +96,14 @@ const AdDefaultsStatus = ({
     <div>
       <Error error={error} />
       <div className="w-32 xs:w-full flex flex-column xs:flex-row">
-        {postTypes.map(({ label, value }) => (
-          <div className="flex justify-between items-center mb-3 xs:mb-0 xs:mr-4 lg:mr-6" key={value}>
-            <p className="mr-1 mb-0">{label}:</p>
+        {postTypes.map((type) => (
+          <div className="flex justify-between items-center mb-3 xs:mb-0 xs:mr-4 lg:mr-6" key={type}>
+            <p className="mr-1 mb-0">{capitalise(getPostTypePlural(type))}:</p>
             <ToggleSwitch
-              name={value}
-              state={defaultPostStatus[value]}
+              name={type}
+              state={defaultPostStatus[type]}
               onChange={updateGlobalStatus}
-              isLoading={isLoading && value === postType}
+              isLoading={isLoading && type === postType}
             />
           </div>
         ))}
@@ -122,6 +112,7 @@ const AdDefaultsStatus = ({
         setShouldUpdatePostStatus={setShouldUpdatePostStatus}
         confirmationOpen={shouldShowPostStatusConfirmation}
         dismissConfirmation={() => setShouldShowPostStatusConfirmation(false)}
+        postType={postType}
       />
     </div>
   )
