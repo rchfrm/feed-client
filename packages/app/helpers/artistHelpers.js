@@ -756,8 +756,8 @@ export const updateArtist = (artist, data) => {
 
 /**
  * @param {string} artistId
- * @param {boolean} defaultPromotionStatus
  * @param {string} postType
+ * @param {boolean} defaultPromotionStatus
  * @returns {Promise<any>}
  */
 export const batchTogglePromotionEnabled = async (artistId, postType, defaultPostStatus) => {
@@ -777,7 +777,8 @@ export const batchTogglePromotionEnabled = async (artistId, postType, defaultPos
 
 /**
  * @param {string} artistId
- * @param {boolean} enabled
+ * @param {string} postType
+ * @param {boolean} defaultPromotionStatus
  * @returns {Promise<any>}
  */
 export const updateDefaultPromotionStatus = async (artistId, postType, defaultPostStatus) => {
