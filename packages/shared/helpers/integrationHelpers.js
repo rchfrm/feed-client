@@ -74,6 +74,17 @@ export const getIntegrationInfo = (integration) => {
         color: brandColors[platform],
         editable: true,
       }
+    case 'tiktok':
+      return {
+        title: 'TikTok',
+        titleVerbose: 'TikTok profile',
+        baseUrl: 'https://tiktok.com/',
+        placeholderUrl: 'https://tiktok.com/<username>',
+        accountIdKey: 'username',
+        color: brandColors[platform],
+        editable: true,
+        hidden: true,
+      }
     default:
       return {}
   }
@@ -125,6 +136,7 @@ const integrationPlaceholders = {
   soundcloud: null,
   twitter: null,
   youtube: null,
+  tiktok: null,
 }
 
 export const dummyIntegrations = [
@@ -156,6 +168,11 @@ export const dummyIntegrations = [
   {
     platform: 'youtube',
     title: 'Youtube',
+    color: '',
+  },
+  {
+    platform: 'tiktok',
+    title: 'TikTok',
     color: '',
   },
 ]
@@ -190,6 +207,11 @@ export const dummyIntegrationLinks = [
     platform: 'youtube',
     href: 'not connected',
     titleVerbose: 'Youtube account',
+  },
+  {
+    platform: 'tiktok',
+    href: 'not connected',
+    titleVerbose: 'Tiktok profile',
   },
 ]
 
