@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PlatformIcon from '@/icons/PlatformIcon'
+import ChainLinkedIcon from '@/icons/ChainLinkedIcon'
+import ChainUnlinkedIcon from '@/icons/ChainUnlinkedIcon'
 import ButtonPill from '@/elements/ButtonPill'
 
 import brandColors from '@/constants/brandColors'
@@ -32,7 +34,6 @@ const IntegrationsPanelIntegration = ({
   const borderColor = isPopulated ? color.bg : brandColors.textColor
   const textColor = isPopulated ? color.text : brandColors.textColor
   const iconFill = isPopulated ? color.text : color.bg
-  const buttonText = isPopulated ? `${title} connected` : `Connect ${title}`
 
   const { fetchAndUpdateLinks } = useControlsStore(getControlsStoreState)
 
@@ -83,11 +84,22 @@ const IntegrationsPanelIntegration = ({
       >
         <PlatformIcon
           platform={platform}
-          className="mr-5"
+          className="flex-shrink-0 mr-2"
           title={title}
           fill={iconFill}
         />
-        {buttonText}
+        {title}
+        {isPopulated ? (
+          <ChainLinkedIcon
+            className="flex-shrink-0 ml-2"
+            fill={brandColors.white}
+          />
+        ) : (
+          <ChainUnlinkedIcon
+            className="flex-shrink-0 ml-2"
+            fill={brandColors.textColor}
+          />
+        )}
       </ButtonPill>
     </li>
   )
