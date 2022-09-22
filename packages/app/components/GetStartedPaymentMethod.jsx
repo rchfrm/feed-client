@@ -15,7 +15,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Error from '@/elements/Error'
 
-import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
+import { hasLegacyPlan, updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -49,7 +49,7 @@ const GetStartedPaymentMethod = () => {
   const { next } = React.useContext(WizardContext)
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
-  const isPaymentRequired = hasGrowthPlan || hasProPlan
+  const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
 
   const [planPrefix, planPeriod] = plan.split('_')
   const monthlyCost = pricingNumbers[planPrefix].monthlyCost[artistCurrency]

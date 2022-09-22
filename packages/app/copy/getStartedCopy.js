@@ -73,7 +73,7 @@ export default {
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
   paymentMethodSubtitle: (planPrefix, planPeriod, amount) => {
-    if (planPrefix === 'basic') {
+    if (planPrefix === 'basic' || planPrefix === 'legacy') {
       return `#### Enter your card details below.
 
 This is to cover Feed's 10% service fee. You won't be charged in months where you don't run ads.`
