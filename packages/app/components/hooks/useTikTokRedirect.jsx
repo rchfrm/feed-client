@@ -4,49 +4,50 @@ import { useRouter } from 'next/router'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
-import { parseUrl, getLocalStorage } from '@/helpers/utils'
+import { parseUrl, getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { setTikTokAccessToken, updateTikTokAccessToken } from '@/app/helpers/tikTokHelpers'
 
 const useTikTokRedirect = () => {
   const { setIsTikTokRedirect, setAuthError } = React.useContext(AuthContext)
   const router = useRouter()
 
-  const exchangeCodeForAccessToken = async (code, redirectPath) => {
-    const redirectUrl = `${process.env.react_app_url}${redirectPath}`
-
-    return setTikTokAccessToken(code, redirectUrl)
-  }
-
-  const saveAccessToken = async (artistId) => {
-    return updateTikTokAccessToken(artistId)
-  }
-
   const checkAndHandleTikTokRedirect = async (artistId) => {
     // Try to grab query params from TikTok redirect
     const { query } = parseUrl(router.asPath)
-    const code = decodeURIComponent(query?.code || '')
+    const authCode = decodeURIComponent(query?.auth_code || '')
+    const state = decodeURIComponent(query?.state)
 
     /*
     Return early if:
     - No TikTok redirect code
+    - The state param from the callback doesn't match the state we passed during the redirect request
     */
-    if (!code) {
+    if (!authCode) {
       return
     }
 
     router.replace(router.pathname, null)
-    const { redirectPath } = JSON.parse(getLocalStorage('tikTokRedirect'))
+    const { state: storedState } = JSON.parse(getLocalStorage('tikTokRedirect'))
 
-    // Exchange the redirect code for an access token
-    const { error } = await exchangeCodeForAccessToken(code, redirectPath)
+    if (state !== storedState) {
+      setLocalStorage('tikTokRedirect', null)
+
+      return
+    }
+
+    setLocalStorage('tikTokRedirect', null)
+
+    // Exchange the redirect auth code for an access token
+    const { error } = await setTikTokAccessToken(authCode)
 
     if (error) {
+      setAuthError({ message: error.message })
       return
     }
 
     // If user has an artist make sure to update the access token in the db
     if (artistId) {
-      const { error } = await saveAccessToken(artistId)
+      const { error } = await updateTikTokAccessToken(artistId)
 
       if (error) {
         setAuthError({ message: error.message })
