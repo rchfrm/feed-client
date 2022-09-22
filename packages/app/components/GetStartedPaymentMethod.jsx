@@ -15,7 +15,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Error from '@/elements/Error'
 
-import { hasLegacyPlan, updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
+import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
@@ -38,6 +38,7 @@ const GetStartedPaymentMethod = () => {
       hasSetUpProfile,
       hasGrowthPlan,
       hasProPlan,
+      hasLegacyPlan,
       plan,
       currency: artistCurrency = 'GBP',
     },
