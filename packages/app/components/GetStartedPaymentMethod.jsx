@@ -38,6 +38,7 @@ const GetStartedPaymentMethod = () => {
       hasSetUpProfile,
       hasGrowthPlan,
       hasProPlan,
+      hasLegacyPlan,
       plan,
       currency: artistCurrency = 'GBP',
     },
@@ -49,7 +50,7 @@ const GetStartedPaymentMethod = () => {
   const { next } = React.useContext(WizardContext)
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
-  const isPaymentRequired = hasGrowthPlan || hasProPlan
+  const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
 
   const [planPrefix, planPeriod] = plan.split('_')
   const monthlyCost = pricingNumbers[planPrefix].monthlyCost[artistCurrency]
