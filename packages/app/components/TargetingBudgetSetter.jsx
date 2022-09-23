@@ -69,7 +69,7 @@ const TargetingBudgetSetter = ({
                 name="Budget"
                 label={mobileVersion ? 'Custom Budget' : null}
                 className={[
-                  'mt-3 mb-5 w-full',
+                  'mt-3 mb-0.5 w-full',
                 ].join(' ')}
                 currency={currency}
                 autoFocus

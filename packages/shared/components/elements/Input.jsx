@@ -29,14 +29,22 @@ const Input = ({
   autoComplete,
   autoFocus,
   disabled,
+  min,
+  max,
 }) => {
   // Auto focus input if needed
   const inputElement = React.useRef(null)
   React.useEffect(() => {
     if (!autoFocus) return
+
     if (inputElement.current) {
       inputElement.current.focus()
+
+      if (type === 'date') {
+        inputElement.current.showPicker()
+      }
     }
+  // eslint-disable-next-line
   }, [autoFocus])
 
   const onChange = React.useCallback((e) => {
@@ -97,6 +105,8 @@ const Input = ({
         readOnly={readOnly || disabled}
         required={required}
         autoComplete={!autoComplete ? 'off' : ''}
+        min={min}
+        max={max}
       />
     </InputBase>
   )

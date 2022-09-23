@@ -24,7 +24,7 @@ const TargetingCustomBudgetButton = ({
   return (
     <a
       className={[
-        'underline text-xs font-normal',
+        'w-full text-center underline text-xs font-normal',
         className,
       ].join(' ')}
       role="button"
