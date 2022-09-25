@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const TargetingBudgetHeader = ({
-  showCampaignBudget,
+  isDailyBudget,
   hasSetUpProfile,
   targetingState,
 }) => {
   return (
     <h2 className="mb-0 flex-1">
-      {!showCampaignBudget ? 'Daily' : 'Campaign'} Budget
+      {isDailyBudget ? 'Daily' : 'Campaign'} Budget
       {hasSetUpProfile && (
         <span className={!targetingState.status ? 'text-red' : 'text-green'}>
           {!targetingState.status ? ' Paused' : ' Active'}
@@ -19,7 +19,7 @@ const TargetingBudgetHeader = ({
 }
 
 TargetingBudgetHeader.propTypes = {
-  showCampaignBudget: PropTypes.bool.isRequired,
+  isDailyBudget: PropTypes.bool.isRequired,
   hasSetUpProfile: PropTypes.bool.isRequired,
   targetingState: PropTypes.object.isRequired,
 }

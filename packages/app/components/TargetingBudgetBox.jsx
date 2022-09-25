@@ -12,8 +12,8 @@ import useBillingStore from '@/app/stores/billingStore'
 import TargetingBudgetHeader from '@/app/TargetingBudgetHeader'
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
-import TargetingBudgetCampaignButton from '@/app/TargetingBudgetCampaignButton'
-import TargetingBudgetCampaign from '@/app/TargetingBudgetCampaign'
+import TargetingBudgetSwitchButton from '@/app/TargetingBudgetSwitchButton'
+import TargetingCampaignBudget from '@/app/TargetingCampaignBudget'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
 import DisabledSection from '@/app/DisabledSection'
@@ -75,7 +75,7 @@ const TargetingBudgetBox = ({
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
-  const [showCampaignBudget, setShowCampaignBudget] = React.useState(false)
+  const [isDailyBudget, setIsDailyBudget] = React.useState(true)
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
   const growthTierMaxDailyBudget = Math.round(minBaseUnrounded * 9)
@@ -116,24 +116,24 @@ const TargetingBudgetBox = ({
         <>
           <div className="flex justify-between items-start">
             <TargetingBudgetHeader
-              showCampaignBudget={showCampaignBudget}
+              isDailyBudget={isDailyBudget}
               hasSetUpProfile={hasSetUpProfile}
               targetingState={targetingState}
             />
-            <TargetingBudgetCampaignButton
-              showCampaignBudget={showCampaignBudget}
-              setShowCampaignBudget={setShowCampaignBudget}
+            <TargetingBudgetPauseButton
+              togglePauseCampaign={togglePauseCampaign}
+              isPaused={!targetingState.status}
+              isDisabled={isDisabled}
+              className={!isDesktopLayout ? 'mr-12' : null}
             />
           </div>
           <DisabledSection
             section="set-budget"
             isDisabled={isDisabled}
-            className="mt-4"
+            className="relative mt-4"
           >
-            {showCampaignBudget ? (
-              <TargetingBudgetCampaign currency={currencyCode} />
-            ) : (
-              <div className="flex flex-column justify-between h-36">
+            {isDailyBudget ? (
+              <div className="flex flex-column justify-between h-40">
                 <TargetingBudgetSetter
                   budget={budget}
                   setBudget={setBudget}
@@ -144,7 +144,6 @@ const TargetingBudgetBox = ({
                   initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
                   updateTargetingBudget={updateTargetingBudget}
                   showCustomBudget={showCustomBudget}
-                  showCampaignBudget={showCampaignBudget}
                   setBudgetSlider={setBudgetSlider}
                 />
                 <TargetingCustomBudgetButton
@@ -156,14 +155,6 @@ const TargetingBudgetBox = ({
                   minHardBudget={minHardBudget}
                 />
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-column">
-                    <TargetingBudgetPauseButton
-                      togglePauseCampaign={togglePauseCampaign}
-                      isPaused={!targetingState.status}
-                      isDisabled={isDisabled}
-                      className={!isDesktopLayout ? 'mr-12' : null}
-                    />
-                  </div>
                   <TargetingBudgetButtons
                     targetingState={targetingState}
                     initialTargetingState={initialTargetingState}
@@ -175,7 +166,15 @@ const TargetingBudgetBox = ({
                   />
                 </div>
               </div>
+            ) : (
+              <TargetingCampaignBudget
+                currency={currencyCode}
+              />
             )}
+            <TargetingBudgetSwitchButton
+              isDailyBudget={isDailyBudget}
+              setIsDailyBudget={setIsDailyBudget}
+            />
           </DisabledSection>
           {shouldShowWarning && (
             hasBudgetBelowMinRecommendedStories ? (
