@@ -15,10 +15,10 @@ const TargetingCampaignBudgetForm = ({
   const [startDate, setStartDate] = React.useState(moment().toISOString().split('T')[0])
   const [endDate, setEndDate] = React.useState(campaignBudget?.endDate || '')
   const [totalBudget, setTotalBudget] = React.useState(campaignBudget?.totalBudget || 0)
-  const [autoFocus, setAutoFocus] = React.useState(false)
   const [isFormValid, setIsFormValid] = React.useState(false)
 
   const hasCampaignStarted = Boolean(campaignBudget)
+  const endDateRef = React.useRef(null)
 
   const handleTotalBudgetChange = (value) => {
     setTotalBudget(value)
@@ -29,12 +29,11 @@ const TargetingCampaignBudgetForm = ({
 
     if (name === 'start-date') {
       setStartDate(value)
-      setAutoFocus(true)
+      endDateRef.current.showPicker()
     }
 
     if (name === 'end-date') {
       setEndDate(value)
-      setAutoFocus(false)
     }
   }
 
@@ -76,6 +75,7 @@ const TargetingCampaignBudgetForm = ({
             label="Start date"
             value={startDate}
             min={moment().toISOString().split('T')[0]}
+            max={endDate && (moment(endDate)).toISOString()?.split('T')[0]}
             handleChange={handleDateChange}
             className="flex-1 mx-1 mb-0 pt-2"
           />
@@ -85,10 +85,10 @@ const TargetingCampaignBudgetForm = ({
           type="date"
           label="End date"
           value={endDate}
-          min={(moment(startDate).add(2, 'days')).toISOString().split('T')[0]}
-          autoFocus={autoFocus}
+          min={(moment(startDate).add(2, 'days')).toISOString()?.split('T')[0]}
           handleChange={handleDateChange}
           className="flex-1 mx-1 mb-0 pt-2"
+          ref={endDateRef}
         />
       </div>
       <Button

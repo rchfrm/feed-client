@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import InputBase from '@/elements/InputBase'
 
-const Input = ({
+const Input = React.forwardRef(({
   El,
   handleChange,
   updateValue,
@@ -31,7 +31,7 @@ const Input = ({
   disabled,
   min,
   max,
-}) => {
+}, ref) => {
   // Auto focus input if needed
   const inputElement = React.useRef(null)
   React.useEffect(() => {
@@ -39,12 +39,7 @@ const Input = ({
 
     if (inputElement.current) {
       inputElement.current.focus()
-
-      if (type === 'date') {
-        inputElement.current.showPicker()
-      }
     }
-  // eslint-disable-next-line
   }, [autoFocus])
 
   const onChange = React.useCallback((e) => {
@@ -91,7 +86,7 @@ const Input = ({
         </div>
       )}
       <El
-        ref={inputElement}
+        ref={ref || inputElement}
         className={['input', `input--${version}`].join(' ')}
         name={name}
         type={type}
@@ -110,7 +105,7 @@ const Input = ({
       />
     </InputBase>
   )
-}
+})
 
 Input.propTypes = {
   El: PropTypes.string,
@@ -167,5 +162,7 @@ Input.defaultProps = {
   autoFocus: false,
   disabled: false,
 }
+
+Input.displayName = 'Input'
 
 export default Input
