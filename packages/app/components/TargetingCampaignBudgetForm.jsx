@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import Input from '@/elements/Input'
+import InputDatePicker from '@/app/InputDatePicker'
+
 import InputCurrency from '@/elements/InputCurrency'
 import Button from '@/elements/Button'
 
@@ -12,29 +13,27 @@ const TargetingCampaignBudgetForm = ({
   setIsCampaignEdit,
   currency,
 }) => {
-  const [startDate, setStartDate] = React.useState(moment().toISOString().split('T')[0])
-  const [endDate, setEndDate] = React.useState(campaignBudget?.endDate || '')
+  const [startDate, setStartDate] = React.useState(campaignBudget?.startDate || moment().toDate())
+  const [endDate, setEndDate] = React.useState(campaignBudget?.endDate || moment().add(1, 'days').toDate())
   const [totalBudget, setTotalBudget] = React.useState(campaignBudget?.totalBudget || 0)
   const [isFormValid, setIsFormValid] = React.useState(false)
 
   const hasCampaignStarted = Boolean(campaignBudget)
-  const endDateRef = React.useRef(null)
 
   const handleTotalBudgetChange = (value) => {
     setTotalBudget(value)
   }
 
-  const handleDateChange = ({ target }) => {
-    const { name, value } = target
+  const handleDateChange = (value) => {
+    if (Array.isArray(value)) {
+      const [start, end] = value
+      setStartDate(start)
+      setEndDate(end)
 
-    if (name === 'start-date') {
-      setStartDate(value)
-      endDateRef.current.showPicker()
+      return
     }
 
-    if (name === 'end-date') {
-      setEndDate(value)
-    }
+    setEndDate(value)
   }
 
   const onSubmit = () => {
@@ -59,37 +58,34 @@ const TargetingCampaignBudgetForm = ({
 
   return (
     <form>
-      <div className="flex h-32 -mx-1">
+      <div className="flex -mx-1">
         <InputCurrency
           name="total-budget"
           label="Total budget"
           value={totalBudget}
           handleChange={handleTotalBudgetChange}
-          className="flex-0 mx-1 mb-0 pt-2"
+          className="mx-1 pt-3 w-1/3"
           currency={currency}
         />
-        {!hasCampaignStarted && (
-          <Input
-            name="start-date"
-            type="date"
-            label="Start date"
-            value={startDate}
-            min={moment().toISOString().split('T')[0]}
-            max={endDate && (moment(endDate)).toISOString()?.split('T')[0]}
-            handleChange={handleDateChange}
-            className="flex-1 mx-1 mb-0 pt-2"
-          />
-        )}
-        <Input
-          name="end-date"
-          type="date"
-          label="End date"
-          value={endDate}
-          min={(moment(startDate).add(2, 'days')).toISOString()?.split('T')[0]}
-          handleChange={handleDateChange}
-          className="flex-1 mx-1 mb-0 pt-2"
-          ref={endDateRef}
-        />
+          {!hasCampaignStarted ? (
+            <InputDatePicker
+              label="Period"
+              startDate={startDate}
+              endDate={endDate}
+              minDate={moment().toDate()}
+              onChange={handleDateChange}
+              className="w-2/3 mx-1 pt-3"
+              isRange
+            />
+          ) : (
+            <InputDatePicker
+              label="End date"
+              value={endDate}
+              minDate={moment(startDate).add(1, 'days').toDate()}
+              onChange={handleDateChange}
+              className="w-2/3 mx-1 pt-3"
+            />
+          )}
       </div>
       <Button
         type="submit"
