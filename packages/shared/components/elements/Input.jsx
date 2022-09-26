@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import InputBase from '@/elements/InputBase'
 
-const Input = React.forwardRef(({
+const Input = ({
   El,
   handleChange,
   updateValue,
@@ -29,14 +29,11 @@ const Input = React.forwardRef(({
   autoComplete,
   autoFocus,
   disabled,
-  min,
-  max,
-}, ref) => {
+}) => {
   // Auto focus input if needed
   const inputElement = React.useRef(null)
   React.useEffect(() => {
     if (!autoFocus) return
-
     if (inputElement.current) {
       inputElement.current.focus()
     }
@@ -86,7 +83,7 @@ const Input = React.forwardRef(({
         </div>
       )}
       <El
-        ref={ref || inputElement}
+        ref={inputElement}
         className={['input', `input--${version}`].join(' ')}
         name={name}
         type={type}
@@ -100,12 +97,10 @@ const Input = React.forwardRef(({
         readOnly={readOnly || disabled}
         required={required}
         autoComplete={!autoComplete ? 'off' : ''}
-        min={min}
-        max={max}
       />
     </InputBase>
   )
-})
+}
 
 Input.propTypes = {
   El: PropTypes.string,
@@ -162,7 +157,5 @@ Input.defaultProps = {
   autoFocus: false,
   disabled: false,
 }
-
-Input.displayName = 'Input'
 
 export default Input

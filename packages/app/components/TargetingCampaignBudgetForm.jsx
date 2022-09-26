@@ -67,25 +67,25 @@ const TargetingCampaignBudgetForm = ({
           className="mx-1 pt-3 w-1/3"
           currency={currency}
         />
-          {!hasCampaignStarted ? (
-            <InputDatePicker
-              label="Period"
-              startDate={startDate}
-              endDate={endDate}
-              minDate={moment().toDate()}
-              onChange={handleDateChange}
-              className="w-2/3 mx-1 pt-3"
-              isRange
-            />
-          ) : (
-            <InputDatePicker
-              label="End date"
-              value={endDate}
-              minDate={moment(startDate).add(1, 'days').toDate()}
-              onChange={handleDateChange}
-              className="w-2/3 mx-1 pt-3"
-            />
-          )}
+        {!hasCampaignStarted ? (
+          <InputDatePicker
+            label="Period"
+            startDate={startDate}
+            endDate={endDate}
+            minDate={moment().toDate()}
+            onChange={handleDateChange}
+            className="w-2/3 mx-1 pt-3"
+            isRange
+          />
+        ) : (
+          <InputDatePicker
+            label="End date"
+            value={endDate}
+            minDate={moment(startDate).add(1, 'days').toDate()}
+            onChange={handleDateChange}
+            className="w-2/3 mx-1 pt-3"
+          />
+        )}
       </div>
       <Button
         type="submit"
