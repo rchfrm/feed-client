@@ -24,8 +24,7 @@ const DatePicker = ({
       onChange={onChange}
       selectsRange={isRange}
       dateFormat="dd/MM/yyyy"
-      showMonthDropdown
-      showYearDropdown
+      formatWeekDay={nameOfDay => nameOfDay.substring(0, 1)}
     />
   )
 }
