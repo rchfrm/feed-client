@@ -60,6 +60,7 @@ const initialState = {
   setTargetingLoading: () => {},
   budgetSlider: {},
   setBudgetSlider: () => {},
+  updateCampaignBudget: () => {},
 }
 
 const TargetingContext = React.createContext(initialState)
@@ -127,6 +128,15 @@ const TargetingContextProvider = ({ children }) => {
     setTargetingState((targetingState) => {
       return produce(targetingState, draftState => {
         draftState.budget = budget
+      })
+    })
+  }, [])
+
+  // FUNCTION TO UPDATE CAMPAIGN BUDGET
+  const updateCampaignBudget = React.useCallback((campaignBudget) => {
+    setTargetingState((targetingState) => {
+      return produce(targetingState, draftState => {
+        draftState.campaignBudget = campaignBudget
       })
     })
   }, [])
@@ -373,6 +383,7 @@ const TargetingContextProvider = ({ children }) => {
         targetingLoading,
         budgetSlider,
         setBudgetSlider,
+        updateCampaignBudget,
       }}
     >
       {children}

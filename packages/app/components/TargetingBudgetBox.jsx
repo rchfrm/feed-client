@@ -42,6 +42,7 @@ const TargetingBudgetBox = ({
     targetingLoading,
     budgetSlider,
     setBudgetSlider,
+    updateCampaignBudget,
   } = React.useContext(TargetingContext)
 
   const isDesktopLayout = useBreakpointTest('md')
@@ -168,6 +169,8 @@ const TargetingBudgetBox = ({
               </div>
             ) : (
               <TargetingCampaignBudget
+                campaignBudget={targetingState.campaignBudget}
+                updateCampaignBudget={updateCampaignBudget}
                 currency={currencyCode}
               />
             )}

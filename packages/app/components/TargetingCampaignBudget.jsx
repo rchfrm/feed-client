@@ -5,16 +5,19 @@ import TargetingCampaignBudgetProgressBar from '@/app/TargetingCampaignBudgetPro
 import TargetingCampaignBudgetEditButton from '@/app/TargetingCampaignEditBudgetButton'
 import TargetingCampaignBudgetForm from '@/app/TargetingCampaignBudgetForm'
 
-const TargetingCampaignBudget = ({ currency }) => {
+const TargetingCampaignBudget = ({
+  campaignBudget,
+  updateCampaignBudget,
+  currency,
+}) => {
   const [isCampaignEdit, setIsCampaignEdit] = React.useState(true)
-  const [campaignBudget, setCampaignBudget] = React.useState(null)
 
   return (
     <div>
       {isCampaignEdit ? (
         <TargetingCampaignBudgetForm
           campaignBudget={campaignBudget}
-          setCampaignBudget={setCampaignBudget}
+          updateCampaignBudget={updateCampaignBudget}
           setIsCampaignEdit={setIsCampaignEdit}
           currency={currency}
         />
@@ -34,6 +37,8 @@ const TargetingCampaignBudget = ({ currency }) => {
 }
 
 TargetingCampaignBudget.propTypes = {
+  campaignBudget: PropTypes.object.isRequired,
+  updateCampaignBudget: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
 }
 

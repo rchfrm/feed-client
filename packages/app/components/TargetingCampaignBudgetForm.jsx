@@ -2,14 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import InputDatePicker from '@/app/InputDatePicker'
 
 import InputCurrency from '@/elements/InputCurrency'
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
+
+import { saveCampaignBudget } from '@/app/helpers/targetingHelpers'
 
 const TargetingCampaignBudgetForm = ({
   campaignBudget,
-  setCampaignBudget,
+  updateCampaignBudget,
   setIsCampaignEdit,
   currency,
 }) => {
@@ -17,8 +22,10 @@ const TargetingCampaignBudgetForm = ({
   const [endDate, setEndDate] = React.useState(campaignBudget?.endDate || moment().add(1, 'days').toDate())
   const [totalBudget, setTotalBudget] = React.useState(campaignBudget?.totalBudget || 0)
   const [isFormValid, setIsFormValid] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
   const hasCampaignStarted = Boolean(campaignBudget)
+  const { artistId } = React.useContext(ArtistContext)
 
   const handleTotalBudgetChange = (value) => {
     setTotalBudget(value)
@@ -36,18 +43,24 @@ const TargetingCampaignBudgetForm = ({
     setEndDate(value)
   }
 
-  const onSubmit = () => {
+  const onSubmit = async (e) => {
+    e.preventDefault()
+
     const periodInDays = moment(endDate).diff(moment(startDate), 'days') + 1
 
-    setCampaignBudget({
-      ...campaignBudget,
-      ...(!hasCampaignStarted && { startDate }),
+    const { res: campaignBudget, error } = await saveCampaignBudget(artistId, {
+      startDate,
       endDate,
-      periodInDays,
-      dailyBudget: (totalBudget / periodInDays).toFixed(2),
+      dailyBudget: Math.round((totalBudget / periodInDays) * 100) / 100,
       totalBudget,
     })
 
+    if (error) {
+      setError(error)
+      return
+    }
+
+    updateCampaignBudget(campaignBudget)
     setIsCampaignEdit(false)
   }
 
@@ -58,6 +71,7 @@ const TargetingCampaignBudgetForm = ({
 
   return (
     <form>
+      <Error error={error} />
       <div className="flex -mx-1">
         <InputCurrency
           name="total-budget"
@@ -103,7 +117,7 @@ const TargetingCampaignBudgetForm = ({
 
 TargetingCampaignBudgetForm.propTypes = {
   campaignBudget: PropTypes.object.isRequired,
-  setCampaignBudget: PropTypes.func.isRequired,
+  updateCampaignBudget: PropTypes.func.isRequired,
   setIsCampaignEdit: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
 }

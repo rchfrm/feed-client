@@ -238,6 +238,13 @@ const formatSettings = (settings, currencyOffset) => {
     draftSettings.countries = countries
     draftSettings.cityKeys = cities.map(({ key }) => key)
     draftSettings.countryCodes = countries.map(({ code }) => code)
+    draftSettings.campaignBudget = {
+      startDate: new Date(draftSettings.campaign_budget.date_from),
+      endDate: new Date(draftSettings.campaign_budget.date_to),
+      totalBudget: draftSettings.campaign_budget.total,
+      dailyBudget: draftSettings.campaign_budget.daily_budget,
+    }
+    delete draftSettings.campaign_budget
   })
 }
 
@@ -374,3 +381,51 @@ export const budgetPauseReasonOptions = [
     value: 'other',
   },
 ]
+
+const formatCampaignBudgetResponse = (response) => {
+  const {
+    date_from,
+    date_to,
+    daily_budget,
+    total,
+  } = response
+
+  return {
+    startDate: new Date(date_from),
+    endDate: new Date(date_to),
+    dailyBudget: daily_budget,
+    totalBudget: total,
+  }
+}
+
+// Save campaign budget
+export const saveCampaignBudget = async (artistId, campaignBudget) => {
+  const requestUrl = `artists/${artistId}/targeting/campaign_budget`
+  const {
+    startDate,
+    endDate,
+    dailyBudget,
+    totalBudget,
+  } = campaignBudget
+
+  const payload = {
+    date_from: startDate,
+    date_to: endDate,
+    daily_budget: dailyBudget,
+    total: totalBudget,
+    status: 1,
+  }
+
+  const errorTracking = {
+    category: 'Targeting',
+    action: 'Save targeting campaign budget',
+  }
+
+  const { res, error } = await api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+
+  if (error) {
+    return { error }
+  }
+
+  return { res: formatCampaignBudgetResponse(res) }
+}
