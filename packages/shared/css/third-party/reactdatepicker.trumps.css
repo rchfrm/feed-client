@@ -5,7 +5,17 @@
 }
 
 .react-datepicker {
-   border: 1px solid var(--black) !important;
+   border: 2px solid var(--black) !important;
+   border-radius: 5px;
+
+   .react-datepicker__triangle::before {
+      top: -2px !important;
+      border-bottom-color: var(--black) !important;
+   }
+
+   .react-datepicker__triangle::after {
+      top: 1px !important;
+   }
 
    .react-datepicker__navigation {
       top: 12px !important;
@@ -37,6 +47,7 @@
    .react-datepicker__month-container {
       padding: 4px;
       background-color: var(--white);
+      border-radius: 5px;
 
       .react-datepicker__header {
          background-color: var(--white);
