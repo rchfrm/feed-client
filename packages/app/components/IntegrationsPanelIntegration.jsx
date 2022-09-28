@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import PlatformIcon from '@/icons/PlatformIcon'
+import ChainLinkedIcon from '@/icons/ChainLinkedIcon'
+import ChainUnlinkedIcon from '@/icons/ChainUnlinkedIcon'
 import ButtonPill from '@/elements/ButtonPill'
 
 import brandColors from '@/constants/brandColors'
@@ -26,13 +27,12 @@ const IntegrationsPanelIntegration = ({
   isDisabled,
   className,
 }) => {
-  const { title, platform, accountId, color } = integration
+  const { title, accountId, color } = integration
   const isPopulated = !!accountId
   const backgroundColor = isPopulated ? color.bg : brandColors.bgColor
   const borderColor = isPopulated ? color.bg : brandColors.textColor
   const textColor = isPopulated ? color.text : brandColors.textColor
-  const iconFill = isPopulated ? color.text : color.bg
-  const buttonText = isPopulated ? `${title} connected` : `Connect ${title}`
+  const ChainIcon = isPopulated ? ChainLinkedIcon : ChainUnlinkedIcon
 
   const { fetchAndUpdateLinks } = useControlsStore(getControlsStoreState)
 
@@ -80,14 +80,14 @@ const IntegrationsPanelIntegration = ({
         hasIcon
         active={isPopulated}
         trackComponentName="IntegrationsPanelIntegration"
+        isCentered={false}
       >
-        <PlatformIcon
-          platform={platform}
-          className="mr-5"
-          title={title}
-          fill={iconFill}
+        <ChainIcon
+          className="flex-shrink-0 ml-2"
+          fill={isPopulated ? brandColors.white : brandColors.textColor}
         />
-        {buttonText}
+        {title}
+        <div className="w-5 mx-2 invisible" />
       </ButtonPill>
     </li>
   )
@@ -106,6 +106,5 @@ IntegrationsPanelIntegration.defaultProps = {
   location: 'insights',
   className: null,
 }
-
 
 export default IntegrationsPanelIntegration

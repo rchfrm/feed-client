@@ -22,7 +22,7 @@
   }
 
   &.-x-large {
-    font-size: var(--text-lg);
+    font-size: var(--text-md);
     padding: 0.3em 1.2em;
     padding-bottom: 0.4em;
   }
@@ -36,7 +36,7 @@
     }
 
     &.-x-large {
-      padding: var(--sp-4) var(--sp-5);
+      padding: var(--sp-4) var(--sp-4);
     }
   }
 
