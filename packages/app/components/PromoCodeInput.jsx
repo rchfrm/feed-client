@@ -41,6 +41,7 @@ const PromoCodeInput = ({
     const isValid = isValidPromoCode(debouncedPromoCode)
     if (!isValid) {
       setValidationError({ message: 'Invalid promo code format' })
+      setIsValidPromoCode(false)
 
       return
     }

@@ -34,6 +34,7 @@ const GetStartedPaymentMethod = () => {
     defaultPaymentMethod,
     billingDetails: { allPaymentMethods },
   } = useBillingStore(getBillingStoreState)
+  const { next, setWizardState, wizardState } = React.useContext(WizardContext)
 
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -43,7 +44,7 @@ const GetStartedPaymentMethod = () => {
   const [success, setSuccess] = React.useState(false)
   const [error, setError] = React.useState(null)
   const [amountToPay, setAmountToPay] = React.useState(0)
-  const [promoCode, setPromoCode] = React.useState('')
+  const [promoCode, setPromoCode] = React.useState(wizardState?.promoCode || '')
   const [promoCodeError, setPromoCodeError] = React.useState(null)
   const [isValidPromoCode, setIsValidPromoCode] = React.useState(false)
   const [hasAppliedPromoCode, setHasAppliedPromoCode] = React.useState(false)
@@ -62,7 +63,6 @@ const GetStartedPaymentMethod = () => {
   } = React.useContext(ArtistContext)
 
   const { user: { organizations } } = React.useContext(UserContext)
-  const { next } = React.useContext(WizardContext)
   const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
 
   const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
@@ -79,7 +79,7 @@ const GetStartedPaymentMethod = () => {
 
   // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
-    if (!isPaymentRequired || (promoCode && !isValidPromoCode)) {
+    if (!isPaymentRequired || (promoCode && !isValidPromoCode) || promoCode === wizardState?.promoCode) {
       return
     }
 
@@ -103,6 +103,15 @@ const GetStartedPaymentMethod = () => {
 
     if (promoCode) {
       setHasAppliedPromoCode(true)
+
+      // Store applied promo code in the wizard state
+      setWizardState({
+        type: 'set-state',
+        payload: {
+          key: 'promoCode',
+          value: promoCode,
+        },
+      })
     }
 
     setAmountToPay(res.prorations.amount)
