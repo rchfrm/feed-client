@@ -84,7 +84,7 @@ const IntegrationsPanelIntegration = ({
       >
         <ChainIcon
           className="flex-shrink-0 ml-2"
-          fill={isPopulated ? brandColors.white : brandColors.textColor}
+          fill={isPopulated ? textColor : brandColors.textColor}
         />
         {title}
         <div className="w-5 mx-2 invisible" />
