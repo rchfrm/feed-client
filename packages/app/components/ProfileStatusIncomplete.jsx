@@ -4,6 +4,7 @@ import Router from 'next/router'
 import * as ROUTES from '@/app/constants/routes'
 
 import useControlsStore from '@/app/stores/controlsStore'
+import useBillingStore from '@/app/stores/billingStore'
 
 import { getLocalStorage } from '@/helpers/utils'
 import { profileStatus } from '@/app/helpers/artistHelpers'
@@ -17,8 +18,13 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
+const getBillingStoreState = (state) => ({
+  defaultPaymentMethod: state.defaultPaymentMethod,
+})
+
 const ProfileStatusIncomplete = () => {
   const { profileSetupStatus, optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
   const { objective: storedObjective, platform: storedPlatform } = wizardState || {}
@@ -56,7 +62,7 @@ const ProfileStatusIncomplete = () => {
             'px-3',
           ].join(' ')}
         >
-          {copy.profileStatus(profileSetupStatus, objective, platform)}
+          {copy.profileStatus(profileSetupStatus, objective, platform, defaultPaymentMethod)}
           <span className="pl-2">
             <ArrowAltIcon direction="right" />
           </span>

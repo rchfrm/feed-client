@@ -7,7 +7,7 @@ import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
 import TooltipButton from '@/elements/TooltipButton'
 import brandColors from '@/constants/brandColors'
-
+import Spinner from '@/elements/Spinner'
 
 const getIconEl = (icon, success) => {
   if (success) {
@@ -31,6 +31,12 @@ const getIconEl = (icon, success) => {
       </div>
     )
   }
+  if (icon === 'spinner') {
+    return (
+      <Spinner className="absolute top-4 left-4 w-6 h-6" />
+    )
+  }
+
   return null
 }
 

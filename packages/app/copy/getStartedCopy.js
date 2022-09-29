@@ -3,7 +3,7 @@ import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
 import { capitalise, formatCurrency } from '@/helpers/utils'
 
 export default {
-  profileStatus: (status, objective, platform) => {
+  profileStatus: (status, objective, platform, defaultPaymentMethod) => {
     if (status === 'objective') return `What's your objective?`
     if (status === 'platform') return 'Select the platform to grow'
     if (status === 'default-link') {
@@ -22,7 +22,7 @@ export default {
     if (status === 'facebook-pixel') return 'Select your Facebook pixel'
     if (status === 'location') return 'Where are you based?'
     if (status === 'budget') return 'How much would you like to spend?'
-    if (status === 'payment-method') return 'Add a payment method'
+    if (status === 'payment-method') return defaultPaymentMethod ? 'Confirm your payment method' : 'Add a payment method'
 
     return ''
   },
@@ -72,14 +72,20 @@ export default {
   },
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
-  paymentMethodSubtitle: (planPrefix, planPeriod, amount) => {
+  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, planPeriod, amount) => {
+    const baseString = defaultPaymentMethod ? 'Confirm your default card' : 'Add a card'
+
     if (planPrefix === 'basic' || planPrefix === 'legacy') {
+      if (defaultPaymentMethod) {
+        return 'Confirm your default card and start running ads.'
+      }
+
       return `#### Enter your card details below.
 
 This is to cover Feed's 10% service fee. You won't be charged in months where you don't run ads.`
     }
 
-    return `Add a card to pay ${amount} for your first ${planPeriod === 'monthly' ? 'month' : 'year'} of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
+    return `${baseString} to pay ${amount} for your first ${planPeriod === 'monthly' ? 'month' : 'year'} of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
 
 You will be invoiced separately by Facebook for the ad spend.`
   },

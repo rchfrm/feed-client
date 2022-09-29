@@ -24,6 +24,7 @@ const PricingProrationsLoader = ({
   prorationsPreview,
   setProrationsPreview,
   plan,
+  promoCode,
 }) => {
   const [prorations, setProrations] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -43,7 +44,7 @@ const PricingProrationsLoader = ({
     setError(null)
     setIsLoading(true)
 
-    const { res: prorationsPreview, error } = await getProrationsPreview(organisationId, profilesToUpgrade)
+    const { res: prorationsPreview, error } = await getProrationsPreview(organisationId, profilesToUpgrade, promoCode)
 
     if (error) {
       setError(error)
