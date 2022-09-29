@@ -16,6 +16,7 @@ const ButtonPill = ({
   className,
   children,
   trackComponentName,
+  isCentered,
 }) => {
   const classes = [
     'button--pill',
@@ -46,7 +47,12 @@ const ButtonPill = ({
       style={style}
       disabled={disabled}
     >
-      <div className="button--pill-inner">
+      <div
+        className={[
+          'button--pill-inner',
+          isCentered ? 'justify-center' : 'justify-between',
+        ].join(' ')}
+      >
         {children}
       </div>
     </button>
@@ -65,6 +71,7 @@ ButtonPill.propTypes = {
   style: PropTypes.object,
   className: PropTypes.string,
   trackComponentName: PropTypes.string,
+  isCentered: PropTypes.bool,
 }
 
 ButtonPill.defaultProps = {
@@ -77,6 +84,7 @@ ButtonPill.defaultProps = {
   style: {},
   className: '',
   trackComponentName: '',
+  isCentered: true,
 }
 
 

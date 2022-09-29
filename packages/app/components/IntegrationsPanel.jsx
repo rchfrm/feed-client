@@ -35,7 +35,7 @@ const IntegrationsPanel = ({
       <h2>Integrations</h2>
       <DisabledSection section="integrations" isDisabled={!hasSetUpProfile}>
         <MarkdownText markdown={copy.sidepanelIntro} className="mb-8" />
-        <ul className="sm:grid grid-cols-2 gap-8">
+        <ul className="sm:grid grid-cols-2 gap-4">
           {integrations.map((integration) => {
             const { hidden } = integration
             if (hidden) return null
