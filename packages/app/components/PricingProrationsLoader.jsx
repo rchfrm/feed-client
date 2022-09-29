@@ -108,6 +108,7 @@ const PricingProrationsLoader = ({
     >
       <PricingProrations
         prorationsPreview={prorationsPreview || prorations}
+        plan={plan}
       />
       <Error error={error} />
     </div>

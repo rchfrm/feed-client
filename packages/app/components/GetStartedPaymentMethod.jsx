@@ -67,6 +67,7 @@ const GetStartedPaymentMethod = () => {
 
   const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
   const isPaymentIntentRequired = !defaultPaymentMethod && isPaymentRequired
+  const shouldShowPromoCodeInput = false
 
   const [planPrefix, planPeriod] = plan.split('_')
 
@@ -223,16 +224,18 @@ const GetStartedPaymentMethod = () => {
         )}
         {isPaymentRequired && (
           <>
-            <GetStartedPaymentMethodPromoCode
-              promoCode={promoCode}
-              setPromoCode={setPromoCode}
-              setIsValidPromoCode={setIsValidPromoCode}
-              hasAppliedPromoCode={hasAppliedPromoCode}
-              setHasAppliedPromoCode={setHasAppliedPromoCode}
-              isLoading={isLoadingAmountToPay}
-              error={promoCodeError}
-              setError={setPromoCodeError}
-            />
+            {shouldShowPromoCodeInput && (
+              <GetStartedPaymentMethodPromoCode
+                promoCode={promoCode}
+                setPromoCode={setPromoCode}
+                setIsValidPromoCode={setIsValidPromoCode}
+                hasAppliedPromoCode={hasAppliedPromoCode}
+                setHasAppliedPromoCode={setHasAppliedPromoCode}
+                isLoading={isLoadingAmountToPay}
+                error={promoCodeError}
+                setError={setPromoCodeError}
+              />
+            )}
             <GetStartedPaymentMethodProrationsButton promoCode={promoCode} />
           </>
         )}

@@ -5,12 +5,16 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import MarkdownText from '@/elements/MarkdownText'
 
+import { formatCurrency } from '@/helpers/utils'
+
 import copy from '@/app/copy/global'
 
 const PricingProrations = ({
   prorationsPreview,
+  plan,
 }) => {
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
+  const [, planPeriod] = plan.split('_')
 
   const {
     currency,
@@ -19,12 +23,17 @@ const PricingProrations = ({
     } = {},
     nextInvoice: {
       amount: nextInvoiceAmount,
+      usageAmounts: {
+        fee,
+      },
     } = {},
     period: {
       isFirstDayOfPeriod,
       daysRemainingInPeriod,
     } = {},
   } = prorationsPreview || {}
+
+  const subsequentMonthlyAmount = fee ? nextInvoiceAmount - fee : nextInvoiceAmount
 
   return (
     <>
@@ -36,6 +45,7 @@ const PricingProrations = ({
         <>
           <MarkdownText markdown={copy.pricingUpgradeNextPaymentList(prorationsPreview, currency)} />
           <p className="text-xs">*Covering the next billing period.</p>
+          <p>Each subsequent {planPeriod} invoice will be for {formatCurrency(subsequentMonthlyAmount, currency)}.</p>
         </>
       )}
     </>
@@ -44,6 +54,7 @@ const PricingProrations = ({
 
 PricingProrations.propTypes = {
   prorationsPreview: PropTypes.object.isRequired,
+  plan: PropTypes.string.isRequired,
 }
 
 PricingProrations.defaultProps = {
