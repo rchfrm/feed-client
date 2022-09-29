@@ -80,7 +80,7 @@ const GetStartedPaymentMethod = () => {
 
   // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
-    if (!isPaymentRequired || (promoCode && !isValidPromoCode) || promoCode === wizardState?.promoCode) {
+    if (!isPaymentRequired || (promoCode && !isValidPromoCode)) {
       return
     }
 
