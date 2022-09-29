@@ -10,7 +10,7 @@ const GetStartedPaymentMethodPromoCode = ({
   setPromoCode,
   setIsValidPromoCode,
   hasAppliedPromoCode,
-  setShouldShowPromoCode,
+  setHasAppliedPromoCode,
   isLoading,
   error,
   setError,
@@ -29,7 +29,7 @@ const GetStartedPaymentMethodPromoCode = ({
           setPromoCode={setPromoCode}
           setIsValidPromoCode={setIsValidPromoCode}
           hasAppliedPromoCode={hasAppliedPromoCode}
-          setShouldShowPromoCode={setShouldShowPromoCode}
+          setHasAppliedPromoCode={setHasAppliedPromoCode}
           isLoading={isLoading}
           error={error}
           setError={setError}
@@ -53,7 +53,7 @@ GetStartedPaymentMethodPromoCode.propTypes = {
   setPromoCode: PropTypes.func.isRequired,
   setIsValidPromoCode: PropTypes.func.isRequired,
   hasAppliedPromoCode: PropTypes.bool.isRequired,
-  setShouldShowPromoCode: PropTypes.func.isRequired,
+  setHasAppliedPromoCode: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.object,
   setError: PropTypes.func.isRequired,

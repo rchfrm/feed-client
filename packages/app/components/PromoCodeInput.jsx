@@ -15,7 +15,7 @@ const PromoCodeInput = ({
   setPromoCode,
   setIsValidPromoCode,
   hasAppliedPromoCode,
-  setShouldShowPromoCode,
+  setHasAppliedPromoCode,
   isLoading,
   error,
   setError,
@@ -53,13 +53,13 @@ const PromoCodeInput = ({
     if (!hasAppliedPromoCode) return
 
     const timeout = setTimeout(() => {
-      setShouldShowPromoCode(false)
+      setHasAppliedPromoCode(false)
     }, 3000)
 
     return () => {
       clearTimeout(timeout)
     }
-  }, [hasAppliedPromoCode, setShouldShowPromoCode])
+  }, [hasAppliedPromoCode, setHasAppliedPromoCode])
 
   return (
     <div className="w-full mb-2">
@@ -84,7 +84,7 @@ PromoCodeInput.propTypes = {
   setPromoCode: PropTypes.func.isRequired,
   setIsValidPromoCode: PropTypes.func.isRequired,
   hasAppliedPromoCode: PropTypes.bool.isRequired,
-  setShouldShowPromoCode: PropTypes.func.isRequired,
+  setHasAppliedPromoCode: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.object,
   setError: PropTypes.func.isRequired,

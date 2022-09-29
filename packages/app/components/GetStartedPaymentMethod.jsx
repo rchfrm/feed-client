@@ -47,7 +47,6 @@ const GetStartedPaymentMethod = () => {
   const [promoCodeError, setPromoCodeError] = React.useState(null)
   const [isValidPromoCode, setIsValidPromoCode] = React.useState(false)
   const [hasAppliedPromoCode, setHasAppliedPromoCode] = React.useState(false)
-  const [shouldShowPromoCode, setShouldShowPromoCode] = React.useState(true)
 
   const {
     artist: {
@@ -215,18 +214,16 @@ const GetStartedPaymentMethod = () => {
         )}
         {isPaymentRequired && (
           <>
-            {shouldShowPromoCode && (
-              <GetStartedPaymentMethodPromoCode
-                promoCode={promoCode}
-                setPromoCode={setPromoCode}
-                setIsValidPromoCode={setIsValidPromoCode}
-                hasAppliedPromoCode={hasAppliedPromoCode}
-                setShouldShowPromoCode={setShouldShowPromoCode}
-                isLoading={isLoadingAmountToPay}
-                error={promoCodeError}
-                setError={setPromoCodeError}
-              />
-            )}
+            <GetStartedPaymentMethodPromoCode
+              promoCode={promoCode}
+              setPromoCode={setPromoCode}
+              setIsValidPromoCode={setIsValidPromoCode}
+              hasAppliedPromoCode={hasAppliedPromoCode}
+              setHasAppliedPromoCode={setHasAppliedPromoCode}
+              isLoading={isLoadingAmountToPay}
+              error={promoCodeError}
+              setError={setPromoCodeError}
+            />
             <GetStartedPaymentMethodProrationsButton promoCode={promoCode} />
           </>
         )}
