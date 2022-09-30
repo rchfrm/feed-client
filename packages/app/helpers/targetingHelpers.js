@@ -239,10 +239,10 @@ const formatSettings = (settings, currencyOffset) => {
     draftSettings.cityKeys = cities.map(({ key }) => key)
     draftSettings.countryCodes = countries.map(({ code }) => code)
     draftSettings.campaignBudget = {
-      startDate: new Date(draftSettings.campaign_budget.date_from),
-      endDate: new Date(draftSettings.campaign_budget.date_to),
-      totalBudget: draftSettings.campaign_budget.total,
-      dailyBudget: draftSettings.campaign_budget.daily_budget,
+      startDate: draftSettings.campaign_budget?.date_from ? new Date(draftSettings.campaign_budget.date_from) : null,
+      endDate: draftSettings.campaign_budget?.date_to ? new Date(draftSettings.campaign_budget.date_to) : null,
+      totalBudget: draftSettings.campaign_budget?.total,
+      dailyBudget: draftSettings.campaign_budget?.daily_budget,
     }
     delete draftSettings.campaign_budget
   })
