@@ -59,6 +59,7 @@ const TargetingBudgetBox = ({
           minRecommendedStories: minRecommendedStoriesString,
         } = {},
       } = {},
+      status,
       hasSetUpProfile,
       hasGrowthPlan,
       hasProPlan,
@@ -68,7 +69,7 @@ const TargetingBudgetBox = ({
   } = React.useContext(ArtistContext)
 
   const { organisationArtists } = useBillingStore(getBillingStoreState)
-  const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
+  const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists)) || status === 'unpaid'
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
