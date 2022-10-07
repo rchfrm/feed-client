@@ -91,14 +91,14 @@ const TargetingBudgetBox = ({
   React.useEffect(() => {
     if (!hasSetUpProfile) return
 
-    if (hasBudgetBelowMinRecommendedStories || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget) {
+    if ((hasBudgetBelowMinRecommendedStories || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget) && !isDisabled) {
       setShouldShowWarning(true)
     }
 
     if (!hasBudgetBelowMinRecommendedStories && !mayHitGrowthTierMaxBudget && !mayHitProTierMaxBudget) {
       setShouldShowWarning(false)
     }
-  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile])
+  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile, isDisabled])
 
   return (
     <section
