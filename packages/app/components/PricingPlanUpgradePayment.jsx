@@ -44,7 +44,7 @@ const PricingPlanUpgradePayment = ({
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
-  const isDisabled = !amount || Boolean(error)
+  const isDisabled = (plan !== 'basic_monthly' && !amount) || Boolean(error)
 
   const {
     organisationArtists,

@@ -171,7 +171,7 @@ ${name} will be upgraded to <span className="text-insta font-bold">${capitalise(
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
       if (!plan || (!currentPayment && plan === 'pro') || (!currentPayment && !hasSetUpProfile)) return
 
-      if (!currentPayment) return `- No change to ${name}`
+      if (!currentPayment) return `- No charge for ${name}`
 
       return `- ${formatCurrency(currentPayment, currency)} ${hasSetUpProfile ? `to upgrade ${name} to` : `to set up ${name} on`} <span className="text-insta font-bold">${capitalise(plan)}</span>${!isFirstDayOfPeriod ? '^' : ''}`
     })
@@ -223,7 +223,7 @@ ${list.join('\n')}`
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
       if (currentPayment <= 0) return
 
-      return `- ${name} has been upgraded to <span className="text-insta font-bold">${capitalise(plan)}</span>.`
+      return `- ${name} is now on <span className="text-insta font-bold">${capitalise(plan)}</span>.`
     })
 
     return `You have paid ${formatCurrency(amount, currency)}.`
