@@ -220,9 +220,7 @@ ${list.join('\n')}`
       },
     } = prorationsPreview
 
-    const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
-      if (currentPayment <= 0) return
-
+    const list = upgradedProfiles.map(({ name, plan }) => {
       return `- ${name} is now on <span className="text-insta font-bold">${capitalise(plan)}</span>.`
     })
 
@@ -238,7 +236,7 @@ ${list.join('\n')}`
       ? 'Choose a plan'
       : `Choose the <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span> plan`
     const planBaseString = `Upgrade to <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span>`
-    const baseString = hasCancelledPlan ?  noPlanBaseString : planBaseString
+    const baseString = hasCancelledPlan ? noPlanBaseString : planBaseString
 
     if (!hasSetUpProfile) {
       if (section === 'objective') return `${setupBaseString} choose your objective`
