@@ -22,10 +22,15 @@ const PricingPlanUpgradePlan = ({
   currency,
 }) => {
   const { artist } = React.useContext(ArtistContext)
-  const { name } = artist
+  const { name, hasCancelledPlan } = artist
   const [planPrefix] = plan.split('_')
   const pricingPlan = pricingPlans.find(({ name }) => name === planPrefix)
-  const { growth: growthPlanNumbers, pro: proPlanNumbers } = pricingNumbers
+  const {
+    basic: basicPlanNumbers,
+    growth: growthPlanNumbers,
+    pro: proPlanNumbers,
+  } = pricingNumbers
+  basicPlanNumbers.serviceFeePercentage = 10
 
   const handleChange = (plan) => {
     setPlan(getPricingPlanString(plan, false))
@@ -38,7 +43,7 @@ const PricingPlanUpgradePlan = ({
   React.useEffect(() => {
     const button = (
       <Button version="insta" onClick={next} trackComponentName="PricingPlanUpgradePlan">
-        Upgrade to {capitalise(planPrefix)}
+        {hasCancelledPlan ? 'Choose' : 'Update to'} {capitalise(planPrefix)}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
@@ -52,7 +57,21 @@ const PricingPlanUpgradePlan = ({
 
   return (
     <div>
-      <h2 className="mb-8 pr-12">Upgrade {name}</h2>
+      <h2 className="mb-8 pr-12">
+        {hasCancelledPlan ? 'Choose a plan' : `Upgrade ${name}`}
+      </h2>
+      {hasCancelledPlan && (
+        <PricingPlanUpgradePlanItem
+          name="basic"
+          pricingPlan={pricingPlan}
+          pricingPlanNumbers={basicPlanNumbers}
+          selectedPlan={planPrefix}
+          isAnnualPricing={false}
+          handleChange={handleChange}
+          currency={currency}
+          className="mb-4"
+        />
+      )}
       <PricingPlanUpgradePlanItem
         name="growth"
         pricingPlan={pricingPlan}

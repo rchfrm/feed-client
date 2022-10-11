@@ -22,10 +22,10 @@ const PricingPlanUpgradeIntro = ({
   section,
   setCurrentStep,
   setSidePanelButton,
+  isUpgradeToPro,
 }) => {
   const { artist } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasCancelledPlan } = artist
-  const isUpgradeToPro = hasGrowthPlan && !hasCancelledPlan
+  const { hasCancelledPlan } = artist
   const { defaultPaymentMethod: { currency } } = useBillingStore(getBillingStoreState, shallow)
 
   const next = React.useCallback(() => {
@@ -45,7 +45,7 @@ const PricingPlanUpgradeIntro = ({
     )
 
     setSidePanelButton(button)
-  }, [next, setSidePanelButton])
+  }, [hasCancelledPlan, next, setSidePanelButton])
 
   return (
     <div>
