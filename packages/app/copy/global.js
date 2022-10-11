@@ -61,7 +61,7 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
     }
     return `${baseString} ${getSectionIntro(section)}?`
   },
-  pricingUpgradeIntroDescription: (section, currency = 'GBP') => {
+  pricingUpgradeIntroDescription: (section, currency = 'GBP', hasCancelledPlan) => {
     const maxSpendGrowth = pricingNumbers.growth.monthlyCost[currency] * pricingNumbers.growth.maxSpendMultiple
     const maxSpendPro = pricingNumbers.pro.monthlyCost[currency] * pricingNumbers.pro.maxSpendMultiple
     function getSectionDescription(section) {
@@ -128,6 +128,10 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return `Growth includes a monthly ad spend limit of ${formatCurrency(maxSpendGrowth, currency)}.`
             + `\n\n With Pro this increases to ${formatCurrency(maxSpendPro, currency)}.`
         case 'set-budget':
+          if (hasCancelledPlan) {
+            return 'You don\'t currently have an active plan!'
+              + '\n\n As soon as you select one you will be able to set a budget and start running ads.'
+          }
           return 'Set a budget for this profile to start ads geared towards your objective.'
             + '\n\n Once you upgrade to either Growth or Pro you will be able to set a budget, objective and start running ads.'
         case 'profile-select':
@@ -137,7 +141,9 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'Description...?'
       }
     }
-    const suffix = '\n**To try this feature, click upgrade below.**'
+    const suffix = hasCancelledPlan
+      ? '\n**To choose a plan, click continue below.**'
+      : '\n**To try this feature, click upgrade below.**'
     return `
       ${getSectionDescription(section)}
       ${suffix}
