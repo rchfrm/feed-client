@@ -234,8 +234,11 @@ ${list.join('\n')}`
   disabledReason: (section, hasSetUpProfile, hasOverflow, hasCancelledPlan) => {
     const shouldUpgradeToPro = section === 'objective-sales'
     const setupBaseString = 'Continue set-up to'
-    const noPlanBaseString = 'Choose a plan'
+    const noPlanBaseString = section === 'set-budget'
+      ? 'Choose a plan'
+      : `Choose the <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span> plan`
     const planBaseString = `Upgrade to <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span>`
+    const baseString = hasCancelledPlan ?  noPlanBaseString : planBaseString
 
     if (!hasSetUpProfile) {
       if (section === 'objective') return `${setupBaseString} choose your objective`
@@ -246,22 +249,22 @@ ${list.join('\n')}`
       if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
     }
 
-    if (hasOverflow) return planBaseString
+    if (hasOverflow) return baseString
 
-    if (section === 'connect-accounts') return `${planBaseString} to connect more profiles`
-    if (section === 'objective-traffic') return `${planBaseString} to use the website visits objective`
-    if (section === 'objective-sales') return `${planBaseString} to use the website sales objective.`
-    if (section === 'default-promotion') return `${planBaseString} to turn off Automated Post Selection`
-    if (section === 'facebook-pixel') return `${planBaseString} to use Meta (Facebook) pixel in your Feed ads`
-    if (section === 'custom-locations') return `${planBaseString} to add custom cities and countries`
-    if (section === 'linkbank') return `${planBaseString} to add and store links`
-    if (section === 'post-link') return `${planBaseString} to set custom links on specific posts`
-    if (section === 'post-cta') return `${planBaseString} to set custom CTAs on specific posts`
-    if (section === 'post-caption') return `${planBaseString} to edit caption of promoted posts`
-    if (section === 'insights') return `${planBaseString} to track audience data from connected integrations`
-    if (section === 'single-post-page') return `${planBaseString} to use custom settings for specific posts`
-    if (section === 'set-budget') return `${hasCancelledPlan ? noPlanBaseString : planBaseString} to set a budget`
-    if (section === 'profile-select') return `${planBaseString} to switch between profiles`
+    if (section === 'connect-accounts') return `${baseString} to connect more profiles`
+    if (section === 'objective-traffic') return `${baseString} to use the website visits objective`
+    if (section === 'objective-sales') return `${baseString} to use the website sales objective.`
+    if (section === 'default-promotion') return `${baseString} to turn off Automated Post Selection`
+    if (section === 'facebook-pixel') return `${baseString} to use Meta (Facebook) pixel in your Feed ads`
+    if (section === 'custom-locations') return `${baseString} to add custom cities and countries`
+    if (section === 'linkbank') return `${baseString} to add and store links`
+    if (section === 'post-link') return `${baseString} to set custom links on specific posts`
+    if (section === 'post-cta') return `${baseString} to set custom CTAs on specific posts`
+    if (section === 'post-caption') return `${baseString} to edit caption of promoted posts`
+    if (section === 'insights') return `${baseString} to track audience data from connected integrations`
+    if (section === 'single-post-page') return `${baseString} to use custom settings for specific posts`
+    if (section === 'set-budget') return `${baseString} to set a budget`
+    if (section === 'profile-select') return `${baseString} to switch between profiles`
   },
   splitViewOptionsDescription: (name, hasSetUpProfile, objectiveString, isSpendingPaused, budget) => {
     if (name === 'objective') {

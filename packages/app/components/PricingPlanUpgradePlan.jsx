@@ -20,6 +20,7 @@ const PricingPlanUpgradePlan = ({
   setCurrentStep,
   setSidePanelButton,
   currency,
+  canChooseBasic,
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { name, hasCancelledPlan } = artist
@@ -30,7 +31,6 @@ const PricingPlanUpgradePlan = ({
     growth: growthPlanNumbers,
     pro: proPlanNumbers,
   } = pricingNumbers
-  basicPlanNumbers.serviceFeePercentage = 10
 
   const handleChange = (plan) => {
     setPlan(getPricingPlanString(plan, false))
@@ -53,14 +53,14 @@ const PricingPlanUpgradePlan = ({
     )
 
     setSidePanelButton(button)
-  }, [next, setSidePanelButton, planPrefix])
+  }, [next, setSidePanelButton, planPrefix, hasCancelledPlan])
 
   return (
     <div>
       <h2 className="mb-8 pr-12">
         {hasCancelledPlan ? 'Choose a plan' : `Upgrade ${name}`}
       </h2>
-      {hasCancelledPlan && (
+      {canChooseBasic && (
         <PricingPlanUpgradePlanItem
           name="basic"
           pricingPlan={pricingPlan}
