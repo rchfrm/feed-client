@@ -225,9 +225,10 @@ ${list.join('\n')}`
     // TODO: Add message to use feature from initial prompt that opened the upgrade flow. "Close this window to..."
   },
   pricingProfileFootnote: '^ A profile is a Facebook page and Instagram account for the same person, brand or company',
-  disabledReason: (section, hasSetUpProfile, hasOverflow) => {
+  disabledReason: (section, hasSetUpProfile, hasOverflow, hasCancelledPlan) => {
     const shouldUpgradeToPro = section === 'objective-sales'
     const setupBaseString = 'Continue set-up to'
+    const noPlanBaseString = 'Choose a plan'
     const planBaseString = `Upgrade to <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span>`
 
     if (!hasSetUpProfile) {
@@ -253,7 +254,7 @@ ${list.join('\n')}`
     if (section === 'post-caption') return `${planBaseString} to edit caption of promoted posts`
     if (section === 'insights') return `${planBaseString} to track audience data from connected integrations`
     if (section === 'single-post-page') return `${planBaseString} to use custom settings for specific posts`
-    if (section === 'set-budget') return `${planBaseString} to set a budget`
+    if (section === 'set-budget') return `${hasCancelledPlan ? noPlanBaseString : planBaseString} to set a budget`
     if (section === 'profile-select') return `${planBaseString} to switch between profiles`
   },
   splitViewOptionsDescription: (name, hasSetUpProfile, objectiveString, isSpendingPaused, budget) => {

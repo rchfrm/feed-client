@@ -40,6 +40,8 @@ const initialArtistState = {
   hasGrowthPlan: false,
   hasProPlan: false,
   hasLegacyPlan: false,
+  hasNoPlan: false,
+  hasCancelledPlan: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -161,6 +163,7 @@ function ArtistProvider({ children }) {
     const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
     const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
     const hasNoPlan = !artist?.plan
+    const hasCancelledPlan = artist.status === 'unpaid' && !hasNoPlan
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
@@ -175,6 +178,7 @@ function ArtistProvider({ children }) {
       artistDraft.hasProPlan = hasProPlan
       artistDraft.hasLegacyPlan = hasLegacyPlan
       artistDraft.hasNoPlan = hasNoPlan
+      artistDraft.hasCancelledPlan = hasCancelledPlan
     })
 
     // Set hasBudget state
