@@ -12,6 +12,8 @@ const DatePicker = ({
   startDate,
   endDate,
   minDate,
+  selectsStart,
+  selectsEnd,
   onChange,
   isRange,
 }) => {
@@ -25,6 +27,8 @@ const DatePicker = ({
       selectsRange={isRange}
       dateFormat="dd/MM/yyyy"
       formatWeekDay={nameOfDay => nameOfDay.substring(0, 1)}
+      selectsStart={selectsStart}
+      selectsEnd={selectsEnd}
     />
   )
 }
@@ -34,6 +38,8 @@ DatePicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   startDate: PropTypes.object,
   endDate: PropTypes.object,
+  selectsStart: PropTypes.bool,
+  selectsEnd: PropTypes.bool,
   isRange: PropTypes.bool,
 }
 
@@ -41,6 +47,8 @@ DatePicker.defaultProps = {
   value: null,
   startDate: null,
   endDate: null,
+  selectsStart: false,
+  selectsEnd: false,
   isRange: false,
 }
 

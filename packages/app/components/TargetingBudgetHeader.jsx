@@ -9,7 +9,7 @@ const TargetingBudgetHeader = ({
   return (
     <h2 className="mb-0 flex-1">
       {isDailyBudget ? 'Daily' : 'Campaign'} Budget
-      {hasSetUpProfile && (
+      {hasSetUpProfile && isDailyBudget && (
         <span className={!targetingState.status ? 'text-red' : 'text-green'}>
           {!targetingState.status ? ' Paused' : ' Active'}
         </span>

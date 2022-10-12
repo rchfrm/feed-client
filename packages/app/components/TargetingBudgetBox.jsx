@@ -12,7 +12,7 @@ import useBillingStore from '@/app/stores/billingStore'
 import TargetingBudgetHeader from '@/app/TargetingBudgetHeader'
 import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
-import TargetingBudgetSwitchButton from '@/app/TargetingBudgetSwitchButton'
+import TargetingCampaignBudgetButton from '@/app/TargetingCampaignBudgetButton'
 import TargetingCampaignBudget from '@/app/TargetingCampaignBudget'
 import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
 import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
@@ -121,12 +121,14 @@ const TargetingBudgetBox = ({
               hasSetUpProfile={hasSetUpProfile}
               targetingState={targetingState}
             />
-            <TargetingBudgetPauseButton
-              togglePauseCampaign={togglePauseCampaign}
-              isPaused={!targetingState.status}
-              isDisabled={isDisabled}
-              className={!isDesktopLayout ? 'mr-12' : null}
-            />
+            {isDailyBudget && (
+              <TargetingBudgetPauseButton
+                togglePauseCampaign={togglePauseCampaign}
+                isPaused={!targetingState.status}
+                isDisabled={isDisabled}
+                className={!isDesktopLayout ? 'mr-12' : null}
+              />
+            )}
           </div>
           <DisabledSection
             section="set-budget"
@@ -134,50 +136,50 @@ const TargetingBudgetBox = ({
             className="relative mt-4"
           >
             {isDailyBudget ? (
-              <div className="flex flex-column justify-between h-40">
-                <TargetingBudgetSetter
-                  budget={budget}
-                  setBudget={setBudget}
-                  currency={currencyCode}
-                  currencyOffset={currencyOffset}
-                  minBase={minBase}
-                  minHardBudget={minHardBudget}
-                  initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
-                  updateTargetingBudget={updateTargetingBudget}
-                  showCustomBudget={showCustomBudget}
-                  setBudgetSlider={setBudgetSlider}
-                />
-                <TargetingCustomBudgetButton
-                  style={{ zIndex: 2 }}
-                  showCustomBudget={showCustomBudget}
-                  setShowCustomBudget={setShowCustomBudget}
-                  initialBudget={initialTargetingState.budget}
-                  minBase={minBase}
-                  minHardBudget={minHardBudget}
-                />
-                <div className="flex items-center justify-between">
-                  <TargetingBudgetButtons
-                    targetingState={targetingState}
-                    initialTargetingState={initialTargetingState}
+              <>
+                <div className="flex flex-column justify-between h-32 mb-8">
+                  <TargetingBudgetSetter
+                    budget={budget}
+                    setBudget={setBudget}
+                    currency={currencyCode}
+                    currencyOffset={currencyOffset}
+                    minBase={minBase}
+                    minHardBudget={minHardBudget}
+                    initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
                     updateTargetingBudget={updateTargetingBudget}
-                    saveTargetingSettings={saveTargetingSettings}
-                    disableSaving={disableSaving}
-                    budgetSlider={budgetSlider}
                     showCustomBudget={showCustomBudget}
+                    setBudgetSlider={setBudgetSlider}
                   />
+                  <div className="flex items-center justify-between">
+                    <TargetingBudgetButtons
+                      targetingState={targetingState}
+                      initialTargetingState={initialTargetingState}
+                      updateTargetingBudget={updateTargetingBudget}
+                      saveTargetingSettings={saveTargetingSettings}
+                      disableSaving={disableSaving}
+                      budgetSlider={budgetSlider}
+                      showCustomBudget={showCustomBudget}
+                    />
+                    <TargetingCustomBudgetButton
+                      style={{ zIndex: 2 }}
+                      showCustomBudget={showCustomBudget}
+                      setShowCustomBudget={setShowCustomBudget}
+                      initialBudget={initialTargetingState.budget}
+                      minBase={minBase}
+                      minHardBudget={minHardBudget}
+                    />
+                  </div>
                 </div>
-              </div>
+                <TargetingCampaignBudgetButton setIsDailyBudget={setIsDailyBudget} />
+              </>
             ) : (
               <TargetingCampaignBudget
                 campaignBudget={targetingState.campaignBudget}
                 updateCampaignBudget={updateCampaignBudget}
+                setIsDailyBudget={setIsDailyBudget}
                 currency={currencyCode}
               />
             )}
-            <TargetingBudgetSwitchButton
-              isDailyBudget={isDailyBudget}
-              setIsDailyBudget={setIsDailyBudget}
-            />
           </DisabledSection>
           {shouldShowWarning && (
             hasBudgetBelowMinRecommendedStories ? (

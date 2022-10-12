@@ -401,19 +401,19 @@ const formatCampaignBudgetResponse = (response) => {
 // Save campaign budget
 export const saveCampaignBudget = async (artistId, campaignBudget) => {
   const requestUrl = `artists/${artistId}/targeting/campaign_budget`
+
   const {
     startDate,
     endDate,
     dailyBudget,
     totalBudget,
-  } = campaignBudget
+  } = campaignBudget || {}
 
   const payload = {
     date_from: startDate,
     date_to: endDate,
     daily_budget: dailyBudget,
     total: totalBudget,
-    status: 1,
   }
 
   const errorTracking = {

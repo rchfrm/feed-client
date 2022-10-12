@@ -1,16 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import TargetingCampaignBudgetProgressBar from '@/app/TargetingCampaignBudgetProgressBar'
 import TargetingCampaignBudgetEditButton from '@/app/TargetingCampaignEditBudgetButton'
 import TargetingCampaignBudgetForm from '@/app/TargetingCampaignBudgetForm'
 
+import Button from '@/elements/Button'
+
+import { saveCampaignBudget } from '@/app/helpers/targetingHelpers'
+
 const TargetingCampaignBudget = ({
   campaignBudget,
   updateCampaignBudget,
+  setIsDailyBudget,
   currency,
 }) => {
-  const [isCampaignEdit, setIsCampaignEdit] = React.useState(true)
+  const [isCampaignEdit, setIsCampaignEdit] = React.useState(Boolean(campaignBudget))
+
+  const { artistId } = React.useContext(ArtistContext)
+
+  const onCancel = async () => {
+    const { res: campaignBudget, error } = await saveCampaignBudget(artistId, null)
+
+    if (error) {
+      return
+    }
+
+    updateCampaignBudget(campaignBudget)
+    setIsDailyBudget(true)
+  }
 
   return (
     <div>
@@ -19,6 +39,7 @@ const TargetingCampaignBudget = ({
           campaignBudget={campaignBudget}
           updateCampaignBudget={updateCampaignBudget}
           setIsCampaignEdit={setIsCampaignEdit}
+          setIsDailyBudget={setIsDailyBudget}
           currency={currency}
         />
       ) : (
@@ -27,9 +48,19 @@ const TargetingCampaignBudget = ({
             campaignBudget={campaignBudget}
             currency={currency}
           />
-          <TargetingCampaignBudgetEditButton
-            setIsCampaignEdit={setIsCampaignEdit}
-          />
+          <div className="flex justify-between">
+            <TargetingCampaignBudgetEditButton
+              setIsCampaignEdit={setIsCampaignEdit}
+            />
+            <Button
+              version="red small"
+              className="h-8 rounded-full"
+              onClick={onCancel}
+              trackComponentName="TargetingCampaignBudgetProgressBar"
+            >
+              Cancel campaign
+            </Button>
+          </div>
         </>
       )}
     </div>
@@ -39,6 +70,7 @@ const TargetingCampaignBudget = ({
 TargetingCampaignBudget.propTypes = {
   campaignBudget: PropTypes.object.isRequired,
   updateCampaignBudget: PropTypes.func.isRequired,
+  setIsDailyBudget: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
 }
 

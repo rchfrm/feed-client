@@ -24,22 +24,20 @@ const TargetingCampaignBudgetForm = ({
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const hasCampaignStarted = Boolean(campaignBudget)
+  console.log(campaignBudget)
+
+  const hasCampaignStarted = Boolean(campaignBudget.startDate)
   const { artistId } = React.useContext(ArtistContext)
 
   const handleTotalBudgetChange = (value) => {
     setTotalBudget(value)
   }
 
-  const handleDateChange = (value) => {
-    if (Array.isArray(value)) {
-      const [start, end] = value
-      setStartDate(start)
-      setEndDate(end)
+  const handleStartDateChange = (value) => {
+    setStartDate(value)
+  }
 
-      return
-    }
-
+  const handleEndDateChange = (value) => {
     setEndDate(value)
   }
 
@@ -81,36 +79,50 @@ const TargetingCampaignBudgetForm = ({
           className="mx-1 pt-3 w-1/3"
           currency={currency}
         />
-        {!hasCampaignStarted ? (
+        {!hasCampaignStarted && (
           <InputDatePicker
-            label="Period"
+            label="Start date"
+            value={startDate}
             startDate={startDate}
             endDate={endDate}
             minDate={moment().toDate()}
-            onChange={handleDateChange}
+            onChange={handleStartDateChange}
             className="w-2/3 mx-1 pt-3"
-            isRange
-          />
-        ) : (
-          <InputDatePicker
-            label="End date"
-            value={endDate}
-            minDate={moment(startDate).add(1, 'days').toDate()}
-            onChange={handleDateChange}
-            className="w-2/3 mx-1 pt-3"
+            selectsStart
           />
         )}
+        <InputDatePicker
+          label="End date"
+          value={endDate}
+          startDate={startDate}
+          endDate={endDate}
+          minDate={moment(startDate).add(1, 'days').toDate()}
+          onChange={handleEndDateChange}
+          className="w-2/3 mx-1 pt-3"
+          selectsEnd
+        />
       </div>
-      <Button
-        type="submit"
-        version="green small"
-        className="h-8 rounded-full"
-        onClick={onSubmit}
-        trackComponentName="TargetingCampaignBudgetForm"
-        disabled={!isFormValid}
-      >
-        {!hasCampaignStarted ? 'Start' : 'Update'} campaign
-      </Button>
+      <div className="flex justify-between">
+        <Button
+          type="submit"
+          version="green small"
+          className="h-8 rounded-full"
+          onClick={onSubmit}
+          trackComponentName="TargetingCampaignBudgetForm"
+          disabled={!isFormValid}
+        >
+          {!hasCampaignStarted ? 'Start' : 'Update'} campaign
+        </Button>
+        <Button
+          type="submit"
+          version="black small"
+          className="h-8 rounded-full"
+          onClick={() => setIsCampaignEdit(false)}
+          trackComponentName="TargetingCampaignBudgetForm"
+        >
+          Back
+        </Button>
+      </div>
     </form>
   )
 }

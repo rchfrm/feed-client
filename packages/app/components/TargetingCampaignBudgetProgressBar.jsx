@@ -4,7 +4,10 @@ import moment from 'moment'
 
 import { formatCurrency } from '@/helpers/utils'
 
-const TargetingCampaignBudgetProgressBar = ({ campaignBudget, currency }) => {
+const TargetingCampaignBudgetProgressBar = ({
+  campaignBudget,
+  currency,
+}) => {
   const {
     startDate,
     endDate,
@@ -18,8 +21,8 @@ const TargetingCampaignBudgetProgressBar = ({ campaignBudget, currency }) => {
   const totalSpent = daysPassed > 0 ? Math.round((dailyBudget * daysPassed) * 100) / 100 : 0
 
   return (
-    <div className="h-32">
-      <div className="w-full flex justify-between mb-1 text-xs pt-6">
+    <div className="h-24">
+      <div className="w-full flex justify-between mb-1 text-xs pt-4">
         <div>{moment(startDate).format('DD MMM')}</div>
         <div>{moment(endDate).format('DD MMM')}</div>
       </div>

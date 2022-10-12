@@ -8,6 +8,8 @@ const InputDatePicker = ({
   value,
   startDate,
   endDate,
+  selectsStart,
+  selectsEnd,
   minDate,
   onChange,
   className,
@@ -29,6 +31,8 @@ const InputDatePicker = ({
           minDate={minDate}
           onChange={onChange}
           isRange={isRange}
+          selectsStart={selectsStart}
+          selectsEnd={selectsEnd}
         />
       </div>
     </div>
@@ -40,6 +44,8 @@ InputDatePicker.propTypes = {
   value: PropTypes.object,
   startDate: PropTypes.object,
   endDate: PropTypes.object,
+  selectsStart: PropTypes.bool,
+  selectsEnd: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
   isRange: PropTypes.bool,
@@ -50,6 +56,8 @@ InputDatePicker.defaultProps = {
   value: null,
   startDate: null,
   endDate: null,
+  selectsStart: false,
+  selectsEnd: false,
   className: null,
   isRange: false,
 }
