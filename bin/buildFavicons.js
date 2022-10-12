@@ -1,9 +1,9 @@
-const favicons = require('favicons')
+const { favicons } = require('favicons')
 const path = require('path')
 const fs = require('fs')
 const mkdirp = require('mkdirp')
 
-const source = 'packages/app/public/icons/icon.svg' // Source image(s). `string`, `buffer` or array of `string`
+const source = './packages/app/public/icons/icon.svg' // Source image(s). `string`, `buffer` or array of `string`
 const outputDir = './packages/app/public/pwa/'
 
 const configuration = {
@@ -40,9 +40,7 @@ const configuration = {
     android: true, // Create Android homescreen icon. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     appleIcon: true, // Create Apple touch icons. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     appleStartup: true, // Create Apple startup images. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
-    coast: true, // Create Opera Coast icon. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     favicons: false, // Create regular favicons. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
-    firefox: true, // Create Firefox OS icons. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     windows: true, // Create Windows 8 tile icons. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
     yandex: true, // Create Yandex browser icon. `boolean` or `{ offset, background, mask, overlayGlow, overlayShadow }`
   },
@@ -54,29 +52,30 @@ const saveAssets = (images = [], files = []) => {
   assets.forEach((image) => {
     const { name, contents } = image
     const outputPath = path.resolve(outputDir, name)
-    mkdirp(getDirName(outputPath), (err) => {
-      if (err) return console.error('err', err)
+    mkdirp(getDirName(outputPath)).then(() => {
       fs.writeFile(outputPath, contents, () => {})
+    }).catch(err => {
+      if (err) return console.error('err', err)
     })
   })
 }
 
 const buildMarkup = (htmlNodes = []) => {
-  return htmlNodes.join('\n')
+  return htmlNodes.map(node => node.replace('>', ' />')).join('\n')
 }
 
-const callback = (error, response) => {
-  if (error) {
-    console.error(error.message) // Error description e.g. "An unknown error has occurred"
-    return
-  }
+const handleResponse = response => {
   const { images, files, html: htmlNodes } = response
   // Save images and manifest files
   saveAssets(images, files)
   // Log html
   const newFaviconMarkp = buildMarkup(htmlNodes)
-  // Past this into Favicons.jsx
+  // Paste this into Favicons.jsx
   console.info(newFaviconMarkp)
 }
 
-favicons(source, configuration, callback)
+favicons(source, configuration).then(response => {
+  handleResponse(response)
+}).catch(error => {
+  console.error(error.message) // Error description e.g. "An unknown error has occurred"
+})
