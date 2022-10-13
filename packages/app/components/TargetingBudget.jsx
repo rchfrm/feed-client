@@ -10,6 +10,7 @@ import useBillingStore from '@/app/stores/billingStore'
 
 import DisabledSection from '@/app/DisabledSection'
 import TargetingDailyBudget from '@/app/TargetingDailyBudget'
+import TargetingBudgetTabs from '@/app/TargetingBudgetTabs'
 import TargetingCampaignBudget from '@/app/TargetingCampaignBudget'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
@@ -55,9 +56,10 @@ const TargetingBudget = ({
   const { organisationArtists } = useBillingStore(getBillingStoreState)
   const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
 
-  const [isDailyBudget, setIsDailyBudget] = React.useState(true)
+  const [budgetType, setBudgetType] = React.useState('daily')
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
+  const isDailyBudget = budgetType === 'daily'
   const growthTierMaxDailyBudget = Math.round(minBaseUnrounded * 9)
   const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
@@ -94,7 +96,11 @@ const TargetingBudget = ({
         <Spinner width={36} className="h-full" />
       ) : (
         <>
-          <h2>Budget</h2>
+          <h2 className="mb-6">Budget</h2>
+          <TargetingBudgetTabs
+            budgetType={budgetType}
+            setBudgetType={setBudgetType}
+          />
           <DisabledSection
             section="set-budget"
             isDisabled={isDisabled}
@@ -106,7 +112,7 @@ const TargetingBudget = ({
               <TargetingCampaignBudget
                 campaignBudget={targetingState.campaignBudget}
                 updateCampaignBudget={updateCampaignBudget}
-                setIsDailyBudget={setIsDailyBudget}
+                setBudgetType={setBudgetType}
                 currency={currencyCode}
               />
             )}

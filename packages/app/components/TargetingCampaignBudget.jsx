@@ -14,7 +14,6 @@ import { saveCampaignBudget } from '@/app/helpers/targetingHelpers'
 const TargetingCampaignBudget = ({
   campaignBudget,
   updateCampaignBudget,
-  setIsDailyBudget,
   currency,
 }) => {
   const [isCampaignEdit, setIsCampaignEdit] = React.useState(Boolean(!campaignBudget?.startDate))
@@ -29,7 +28,6 @@ const TargetingCampaignBudget = ({
     }
 
     updateCampaignBudget(campaignBudget)
-    setIsDailyBudget(true)
   }
 
   return (
@@ -39,7 +37,6 @@ const TargetingCampaignBudget = ({
           campaignBudget={campaignBudget}
           updateCampaignBudget={updateCampaignBudget}
           setIsCampaignEdit={setIsCampaignEdit}
-          setIsDailyBudget={setIsDailyBudget}
           currency={currency}
         />
       ) : (
@@ -56,7 +53,7 @@ const TargetingCampaignBudget = ({
               version="red small"
               className="h-8 rounded-full"
               onClick={onCancel}
-              trackComponentName="TargetingCampaignBudgetProgressBar"
+              trackComponentName="TargetingCampaignBudget"
             >
               Cancel campaign
             </Button>
@@ -70,7 +67,6 @@ const TargetingCampaignBudget = ({
 TargetingCampaignBudget.propTypes = {
   campaignBudget: PropTypes.object.isRequired,
   updateCampaignBudget: PropTypes.func.isRequired,
-  setIsDailyBudget: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
 }
 

@@ -68,13 +68,13 @@ const TargetingCampaignBudgetForm = ({
   return (
     <form>
       <Error error={error} />
-      <div className="flex -mx-1">
+      <div className="mb-10 xs:mb-6 xs:flex -mx-1">
         <InputCurrency
           name="total-budget"
           label="Total budget"
           value={totalBudget}
           handleChange={handleTotalBudgetChange}
-          className="mx-1 pt-3 w-1/3"
+          className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
           currency={currency}
         />
         {!hasCampaignStarted && (
@@ -85,7 +85,7 @@ const TargetingCampaignBudgetForm = ({
             endDate={endDate}
             minDate={moment().toDate()}
             onChange={handleStartDateChange}
-            className="w-2/3 mx-1 pt-3"
+            className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
             selectsStart
           />
         )}
@@ -96,7 +96,7 @@ const TargetingCampaignBudgetForm = ({
           endDate={endDate}
           minDate={moment(startDate).add(1, 'days').toDate()}
           onChange={handleEndDateChange}
-          className="w-2/3 mx-1 pt-3"
+          className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
           selectsEnd
         />
       </div>

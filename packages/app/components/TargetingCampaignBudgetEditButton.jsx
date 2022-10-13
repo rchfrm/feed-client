@@ -16,7 +16,7 @@ const TargetingCampaignBudgetEditButton = ({ setIsCampaignEdit }) => {
       version="green small"
       className="h-8 rounded-full flex items-center"
       onClick={toggleIsCampaignEdit}
-      trackComponentName="TargetingCampaignEditBudgetButton"
+      trackComponentName="TargetingCampaignBudgetEditButton"
     >
       <PencilIcon fill={brandColors.white} className="h-4 mr-1" />
       Edit
