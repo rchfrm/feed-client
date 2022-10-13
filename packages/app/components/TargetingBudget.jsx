@@ -6,15 +6,11 @@ import Spinner from '@/elements/Spinner'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useBillingStore from '@/app/stores/billingStore'
 
-import TargetingBudgetHeader from '@/app/TargetingBudgetHeader'
-import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
+import DisabledSection from '@/app/DisabledSection'
 import TargetingDailyBudget from '@/app/TargetingDailyBudget'
 import TargetingCampaignBudget from '@/app/TargetingCampaignBudget'
-import TargetingCampaignBudgetButton from '@/app/TargetingCampaignBudgetButton'
-import DisabledSection from '@/app/DisabledSection'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 
@@ -26,17 +22,14 @@ const getBillingStoreState = (state) => ({
   organisationArtists: state.organisationArtists,
 })
 
-const TargetingBudgetBox = ({
+const TargetingBudget = ({
   className,
 }) => {
   const {
     targetingState,
-    togglePauseCampaign,
     targetingLoading,
     updateCampaignBudget,
   } = React.useContext(TargetingContext)
-
-  const isDesktopLayout = useBreakpointTest('md')
 
   const {
     artist: {
@@ -101,31 +94,14 @@ const TargetingBudgetBox = ({
         <Spinner width={36} className="h-full" />
       ) : (
         <>
-          <div className="flex justify-between items-start">
-            <TargetingBudgetHeader
-              isDailyBudget={isDailyBudget}
-              hasSetUpProfile={hasSetUpProfile}
-              targetingState={targetingState}
-            />
-            {isDailyBudget && (
-              <TargetingBudgetPauseButton
-                togglePauseCampaign={togglePauseCampaign}
-                isPaused={!targetingState.status}
-                isDisabled={isDisabled}
-                className={!isDesktopLayout ? 'mr-12' : null}
-              />
-            )}
-          </div>
+          <h2>Budget</h2>
           <DisabledSection
             section="set-budget"
             isDisabled={isDisabled}
             className="relative mt-4"
           >
             {isDailyBudget ? (
-              <>
-                <TargetingDailyBudget />
-                <TargetingCampaignBudgetButton setIsDailyBudget={setIsDailyBudget} />
-              </>
+              <TargetingDailyBudget />
             ) : (
               <TargetingCampaignBudget
                 campaignBudget={targetingState.campaignBudget}
@@ -157,12 +133,12 @@ const TargetingBudgetBox = ({
   )
 }
 
-TargetingBudgetBox.propTypes = {
+TargetingBudget.propTypes = {
   className: PropTypes.string,
 }
 
-TargetingBudgetBox.defaultProps = {
+TargetingBudget.defaultProps = {
   className: null,
 }
 
-export default TargetingBudgetBox
+export default TargetingBudget

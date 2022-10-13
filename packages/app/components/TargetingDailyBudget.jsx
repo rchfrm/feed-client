@@ -3,9 +3,9 @@ import React from 'react'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
-import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
-import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
+import TargetingDailyBudgetSetter from '@/app/TargetingDailyBudgetSetter'
+import TargetingDailyBudgetCustomBudgetButton from '@/app/TargetingDailyBudgetCustomBudgetButton'
+import TargetingDailyBudgetButtons from '@/app/TargetingDailyBudgetButtons'
 
 const TargetingDailyBudget = () => {
   const {
@@ -37,7 +37,7 @@ const TargetingDailyBudget = () => {
 
   return (
     <div className="flex flex-column justify-between h-32 mb-8">
-      <TargetingBudgetSetter
+      <TargetingDailyBudgetSetter
         budget={budget}
         setBudget={setBudget}
         currency={currencyCode}
@@ -50,7 +50,7 @@ const TargetingDailyBudget = () => {
         setBudgetSlider={setBudgetSlider}
       />
       <div className="flex items-center justify-between">
-        <TargetingBudgetButtons
+        <TargetingDailyBudgetButtons
           targetingState={targetingState}
           initialTargetingState={initialTargetingState}
           updateTargetingBudget={updateTargetingBudget}
@@ -59,7 +59,7 @@ const TargetingDailyBudget = () => {
           budgetSlider={budgetSlider}
           showCustomBudget={showCustomBudget}
         />
-        <TargetingCustomBudgetButton
+        <TargetingDailyBudgetCustomBudgetButton
           style={{ zIndex: 2 }}
           showCustomBudget={showCustomBudget}
           setShowCustomBudget={setShowCustomBudget}

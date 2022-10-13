@@ -1,15 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const TargetingBudgetHeader = ({
-  isDailyBudget,
+const TargetingDailyBudgetStatus = ({
   hasSetUpProfile,
   targetingState,
 }) => {
   return (
     <h2 className="mb-0 flex-1">
-      {isDailyBudget ? 'Daily' : 'Campaign'} Budget
-      {hasSetUpProfile && isDailyBudget && (
+      {hasSetUpProfile && (
         <span className={!targetingState.status ? 'text-red' : 'text-green'}>
           {!targetingState.status ? ' Paused' : ' Active'}
         </span>
@@ -18,14 +16,12 @@ const TargetingBudgetHeader = ({
   )
 }
 
-TargetingBudgetHeader.propTypes = {
-  isDailyBudget: PropTypes.bool.isRequired,
+TargetingDailyBudgetStatus.propTypes = {
   hasSetUpProfile: PropTypes.bool.isRequired,
   targetingState: PropTypes.object.isRequired,
 }
 
-TargetingBudgetHeader.defaultProps = {
+TargetingDailyBudgetStatus.defaultProps = {
 }
 
-
-export default TargetingBudgetHeader
+export default TargetingDailyBudgetStatus

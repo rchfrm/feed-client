@@ -9,7 +9,7 @@ import RefreshIcon from '@/icons/RefreshIcon'
 
 import brandColors from '@/constants/brandColors'
 
-const TargetingBudgetButtons = ({
+const TargetingDailyBudgetButtons = ({
   targetingState,
   initialTargetingState,
   saveTargetingSettings,
@@ -43,7 +43,7 @@ const TargetingBudgetButtons = ({
             isDisabled ? 'bg-grey-2 focus:bg-grey-2 pointer-events-none' : '',
           ].join(' ')}
           onClick={resetBudget}
-          trackComponentName="TargetingBudgetButtons"
+          trackComponentName="TargetingDailyBudgetButtons"
         >
           <RefreshIcon
             className={['w-4 h-auto'].join(' ')}
@@ -60,7 +60,7 @@ const TargetingBudgetButtons = ({
           isDisabled ? 'bg-grey-2 pointer-events-none' : '',
         ].join(' ')}
         onClick={() => saveTargeting('budget')}
-        trackComponentName="TargetingBudgetButtons"
+        trackComponentName="TargetingDailyBudgetButtons"
       >
         Save
       </Button>
@@ -68,7 +68,7 @@ const TargetingBudgetButtons = ({
   )
 }
 
-TargetingBudgetButtons.propTypes = {
+TargetingDailyBudgetButtons.propTypes = {
   targetingState: PropTypes.object.isRequired,
   initialTargetingState: PropTypes.object.isRequired,
   updateTargetingBudget: PropTypes.func.isRequired,
@@ -77,8 +77,8 @@ TargetingBudgetButtons.propTypes = {
   showCustomBudget: PropTypes.bool.isRequired,
 }
 
-TargetingBudgetButtons.defaultProps = {
+TargetingDailyBudgetButtons.defaultProps = {
   disableSaving: '',
 }
 
-export default TargetingBudgetButtons
+export default TargetingDailyBudgetButtons

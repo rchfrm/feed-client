@@ -10,8 +10,8 @@ import useControlsStore from '@/app/stores/controlsStore'
 import useBillingStore from '@/app/stores/billingStore'
 import useOpenPricingProrationsSidePanel from '@/app/hooks/useOpenPricingProrationsSidePanel'
 
-import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
-import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
+import TargetingDailyBudgetSetter from '@/app/TargetingDailyBudgetSetter'
+import TargetingDailyBudgetCustomBudgetButton from '@/app/TargetingDailyBudgetCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import Button from '@/elements/Button'
@@ -183,7 +183,7 @@ const GetStartedDailyBudget = () => {
           style={{ minHeight: '120px' }}
         >
           <div className="mb-5">
-            <TargetingBudgetSetter
+            <TargetingDailyBudgetSetter
               budget={budget}
               setBudget={setBudget}
               currency={currencyCode}
@@ -201,7 +201,7 @@ const GetStartedDailyBudget = () => {
             />
           </div>
           <div className="flex justify-center">
-            <TargetingCustomBudgetButton
+            <TargetingDailyBudgetCustomBudgetButton
               style={{ zIndex: 2 }}
               showCustomBudget={showCustomBudget}
               setShowCustomBudget={setShowCustomBudget}

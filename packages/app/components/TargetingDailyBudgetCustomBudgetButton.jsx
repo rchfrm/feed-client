@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
-const TargetingCustomBudgetButton = ({
+const TargetingDailyBudgetCustomBudgetButton = ({
   showCustomBudget,
   setShowCustomBudget,
   initialBudget,
@@ -35,7 +35,7 @@ const TargetingCustomBudgetButton = ({
   )
 }
 
-TargetingCustomBudgetButton.propTypes = {
+TargetingDailyBudgetCustomBudgetButton.propTypes = {
   showCustomBudget: PropTypes.bool.isRequired,
   setShowCustomBudget: PropTypes.func.isRequired,
   initialBudget: PropTypes.number,
@@ -44,12 +44,11 @@ TargetingCustomBudgetButton.propTypes = {
   className: PropTypes.string,
 }
 
-TargetingCustomBudgetButton.defaultProps = {
+TargetingDailyBudgetCustomBudgetButton.defaultProps = {
   initialBudget: 0,
   minBase: 0,
   minHardBudget: 0,
   className: null,
 }
 
-
-export default TargetingCustomBudgetButton
+export default TargetingDailyBudgetCustomBudgetButton
