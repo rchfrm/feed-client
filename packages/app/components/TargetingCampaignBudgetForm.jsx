@@ -24,8 +24,6 @@ const TargetingCampaignBudgetForm = ({
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  console.log(campaignBudget)
-
   const hasCampaignStarted = Boolean(campaignBudget.startDate)
   const { artistId } = React.useContext(ArtistContext)
 

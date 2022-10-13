@@ -17,7 +17,7 @@ const TargetingCampaignBudget = ({
   setIsDailyBudget,
   currency,
 }) => {
-  const [isCampaignEdit, setIsCampaignEdit] = React.useState(Boolean(campaignBudget))
+  const [isCampaignEdit, setIsCampaignEdit] = React.useState(Boolean(!campaignBudget?.startDate))
 
   const { artistId } = React.useContext(ArtistContext)
 
