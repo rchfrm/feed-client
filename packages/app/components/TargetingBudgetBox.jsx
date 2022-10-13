@@ -10,12 +10,10 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useBillingStore from '@/app/stores/billingStore'
 
 import TargetingBudgetHeader from '@/app/TargetingBudgetHeader'
-import TargetingBudgetSetter from '@/app/TargetingBudgetSetter'
 import TargetingBudgetPauseButton from '@/app/TargetingBudgetPauseButton'
-import TargetingCampaignBudgetButton from '@/app/TargetingCampaignBudgetButton'
+import TargetingDailyBudget from '@/app/TargetingDailyBudget'
 import TargetingCampaignBudget from '@/app/TargetingCampaignBudget'
-import TargetingCustomBudgetButton from '@/app/TargetingCustomBudgetButton'
-import TargetingBudgetButtons from '@/app/TargetingBudgetButtons'
+import TargetingCampaignBudgetButton from '@/app/TargetingCampaignBudgetButton'
 import DisabledSection from '@/app/DisabledSection'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
@@ -31,32 +29,22 @@ const getBillingStoreState = (state) => ({
 const TargetingBudgetBox = ({
   className,
 }) => {
-  // GET TARGETING CONTEXT
   const {
     targetingState,
-    initialTargetingState,
-    updateTargetingBudget,
-    saveTargetingSettings,
     togglePauseCampaign,
-    disableSaving,
     targetingLoading,
-    budgetSlider,
-    setBudgetSlider,
     updateCampaignBudget,
   } = React.useContext(TargetingContext)
 
   const isDesktopLayout = useBreakpointTest('md')
 
-  // ARTIST context
   const {
     artist: {
       feedMinBudgetInfo: {
         currencyCode,
         currencyOffset,
         minorUnit: {
-          minBase,
           minBaseUnrounded,
-          minHard: minHardBudget,
           minRecommendedStories,
         } = {},
         string: {
@@ -74,8 +62,6 @@ const TargetingBudgetBox = ({
   const { organisationArtists } = useBillingStore(getBillingStoreState)
   const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
 
-  const [budget, setBudget] = React.useState(targetingState.budget)
-  const [showCustomBudget, setShowCustomBudget] = React.useState(false)
   const [isDailyBudget, setIsDailyBudget] = React.useState(true)
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
@@ -107,12 +93,12 @@ const TargetingBudgetBox = ({
   return (
     <section
       className={[
-        'pb-0',
+        'h-full pb-0',
         className,
       ].join(' ')}
     >
       {targetingLoading ? (
-        <Spinner width={36} />
+        <Spinner width={36} className="h-full" />
       ) : (
         <>
           <div className="flex justify-between items-start">
@@ -137,39 +123,7 @@ const TargetingBudgetBox = ({
           >
             {isDailyBudget ? (
               <>
-                <div className="flex flex-column justify-between h-32 mb-8">
-                  <TargetingBudgetSetter
-                    budget={budget}
-                    setBudget={setBudget}
-                    currency={currencyCode}
-                    currencyOffset={currencyOffset}
-                    minBase={minBase}
-                    minHardBudget={minHardBudget}
-                    initialBudget={hasSetUpProfile ? initialTargetingState.budget : 5}
-                    updateTargetingBudget={updateTargetingBudget}
-                    showCustomBudget={showCustomBudget}
-                    setBudgetSlider={setBudgetSlider}
-                  />
-                  <div className="flex items-center justify-between">
-                    <TargetingBudgetButtons
-                      targetingState={targetingState}
-                      initialTargetingState={initialTargetingState}
-                      updateTargetingBudget={updateTargetingBudget}
-                      saveTargetingSettings={saveTargetingSettings}
-                      disableSaving={disableSaving}
-                      budgetSlider={budgetSlider}
-                      showCustomBudget={showCustomBudget}
-                    />
-                    <TargetingCustomBudgetButton
-                      style={{ zIndex: 2 }}
-                      showCustomBudget={showCustomBudget}
-                      setShowCustomBudget={setShowCustomBudget}
-                      initialBudget={initialTargetingState.budget}
-                      minBase={minBase}
-                      minHardBudget={minHardBudget}
-                    />
-                  </div>
-                </div>
+                <TargetingDailyBudget />
                 <TargetingCampaignBudgetButton setIsDailyBudget={setIsDailyBudget} />
               </>
             ) : (
@@ -203,8 +157,6 @@ const TargetingBudgetBox = ({
   )
 }
 
-TargetingBudgetBox.displayName = 'TargetingBudgetBox'
-
 TargetingBudgetBox.propTypes = {
   className: PropTypes.string,
 }
@@ -212,6 +164,5 @@ TargetingBudgetBox.propTypes = {
 TargetingBudgetBox.defaultProps = {
   className: null,
 }
-
 
 export default TargetingBudgetBox

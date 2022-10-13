@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import TargetingCampaignBudgetProgressBar from '@/app/TargetingCampaignBudgetProgressBar'
-import TargetingCampaignBudgetEditButton from '@/app/TargetingCampaignEditBudgetButton'
+import TargetingCampaignBudgetEditButton from '@/app/TargetingCampaignBudgetEditButton'
 import TargetingCampaignBudgetForm from '@/app/TargetingCampaignBudgetForm'
 
 import Button from '@/elements/Button'

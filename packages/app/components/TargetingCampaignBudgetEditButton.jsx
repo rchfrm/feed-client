@@ -6,8 +6,8 @@ import PencilIcon from '@/icons/PencilIcon'
 
 import brandColors from '@/constants/brandColors'
 
-const TargetingCampaignEditBudgetButton = ({ setIsCampaignEdit }) => {
-  const switchIsCampaignEdit = () => {
+const TargetingCampaignBudgetEditButton = ({ setIsCampaignEdit }) => {
+  const toggleIsCampaignEdit = () => {
     setIsCampaignEdit(true)
   }
 
@@ -15,7 +15,7 @@ const TargetingCampaignEditBudgetButton = ({ setIsCampaignEdit }) => {
     <Button
       version="green small"
       className="h-8 rounded-full flex items-center"
-      onClick={switchIsCampaignEdit}
+      onClick={toggleIsCampaignEdit}
       trackComponentName="TargetingCampaignEditBudgetButton"
     >
       <PencilIcon fill={brandColors.white} className="h-4 mr-1" />
@@ -24,11 +24,11 @@ const TargetingCampaignEditBudgetButton = ({ setIsCampaignEdit }) => {
   )
 }
 
-TargetingCampaignEditBudgetButton.propTypes = {
+TargetingCampaignBudgetEditButton.propTypes = {
   setIsCampaignEdit: PropTypes.func.isRequired,
 }
 
-TargetingCampaignEditBudgetButton.defaultProps = {
+TargetingCampaignBudgetEditButton.defaultProps = {
 }
 
-export default TargetingCampaignEditBudgetButton
+export default TargetingCampaignBudgetEditButton
