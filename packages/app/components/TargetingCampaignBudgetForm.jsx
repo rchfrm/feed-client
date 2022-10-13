@@ -19,12 +19,13 @@ const TargetingCampaignBudgetForm = ({
   currency,
 }) => {
   const [startDate, setStartDate] = React.useState(campaignBudget?.startDate || moment().toDate())
-  const [endDate, setEndDate] = React.useState(campaignBudget?.endDate || moment().add(1, 'days').toDate())
+  const [endDate, setEndDate] = React.useState(campaignBudget?.endDate || null)
   const [totalBudget, setTotalBudget] = React.useState(campaignBudget?.totalBudget || 0)
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const hasCampaignStarted = Boolean(campaignBudget.startDate)
+  const endDateRef = React.useRef(null)
   const { artistId } = React.useContext(ArtistContext)
 
   const handleTotalBudgetChange = (value) => {
@@ -33,6 +34,14 @@ const TargetingCampaignBudgetForm = ({
 
   const handleStartDateChange = (value) => {
     setStartDate(value)
+
+    if (moment(value).isAfter(moment(endDate))) {
+      setEndDate(moment(value).add(1, 'days').toDate())
+    }
+
+    if (!endDate || moment(value).isAfter(moment(endDate))) {
+      endDateRef.current.setOpen(true)
+    }
   }
 
   const handleEndDateChange = (value) => {
@@ -68,7 +77,7 @@ const TargetingCampaignBudgetForm = ({
   return (
     <form>
       <Error error={error} />
-      <div className="mb-10 xs:mb-6 xs:flex -mx-1">
+      <div className="mb-12 xs:mb-8 xs:flex -mx-1">
         <InputCurrency
           name="total-budget"
           label="Total budget"
@@ -97,6 +106,8 @@ const TargetingCampaignBudgetForm = ({
           minDate={moment(startDate).add(1, 'days').toDate()}
           onChange={handleEndDateChange}
           className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
+          placeholderText="End date"
+          ref={endDateRef}
           selectsEnd
         />
       </div>

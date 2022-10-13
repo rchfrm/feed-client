@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 const Component = ReactDatePicker.default
 
-const DatePicker = ({
+const DatePicker = React.forwardRef(({
   value,
   startDate,
   endDate,
@@ -16,7 +16,8 @@ const DatePicker = ({
   selectsEnd,
   onChange,
   isRange,
-}) => {
+  placeholderText,
+}, ref) => {
   return (
     <Component
       selected={value}
@@ -29,9 +30,13 @@ const DatePicker = ({
       formatWeekDay={nameOfDay => nameOfDay.substring(0, 1)}
       selectsStart={selectsStart}
       selectsEnd={selectsEnd}
+      placeholderText={placeholderText}
+      ref={ref}
     />
   )
-}
+})
+
+DatePicker.displayName = 'DatePicker'
 
 DatePicker.propTypes = {
   value: PropTypes.object,

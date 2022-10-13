@@ -79,17 +79,17 @@
             text: var(--grey-light);
          }
 
-         &.react-datepicker__day--keyboard-selected {
-            background-color: var(--white);
+         &.react-datepicker__day--keyboard-selected,
+         &.react-datepicker__day--range-start,
+         &.react-datepicker__day--range-end {
+            background-color: var(--white) !important;
             color: var(--black);
          }
 
-         &.react-datepicker__day--selected,
-         &.react-datepicker__day--in-selecting-range,
-         &.react-datepicker__day--in-range {
+         &.react-datepicker__day--in-selecting-range {
             background-color: var(--black) !important;
             font-weight: 600;
-            color: var(--green);
+            color: var(--green) !important;
          }
       }
    }

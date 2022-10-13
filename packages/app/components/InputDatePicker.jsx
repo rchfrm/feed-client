@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import DatePicker from '@/app/DatePicker'
 
-const InputDatePicker = ({
+const InputDatePicker = React.forwardRef(({
   label,
   value,
   startDate,
@@ -14,7 +14,8 @@ const InputDatePicker = ({
   onChange,
   className,
   isRange,
-}) => {
+  placeholderText,
+}, ref) => {
   return (
     <div
       className={[
@@ -33,11 +34,15 @@ const InputDatePicker = ({
           isRange={isRange}
           selectsStart={selectsStart}
           selectsEnd={selectsEnd}
+          placeholderText={placeholderText}
+          ref={ref}
         />
       </div>
     </div>
   )
-}
+})
+
+InputDatePicker.displayName = 'InputDatePicker'
 
 InputDatePicker.propTypes = {
   label: PropTypes.string,

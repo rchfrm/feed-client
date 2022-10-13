@@ -6,7 +6,7 @@ const TargetingDailyBudgetStatus = ({
 }) => {
   return (
     <p className={[
-      'mb-0 px-2 py-1',
+      'mb-0 px-3 py-1',
       'font-bold',
       'border-solid border-2 rounded-full',
       !targetingState.status ? 'text-red border-red' : 'text-green border-green',
