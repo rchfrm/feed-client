@@ -3,7 +3,7 @@ import React from 'react'
 const Favicons = ({ children }) => {
   return (
     <>
-      <link rel="manifest" href="/pwa/manifest.json" />
+      <link rel="manifest" href="/pwa/manifest.webmanifest" />
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="theme-color" content="#0D1311" />
       <meta name="application-name" content="Feed" />
@@ -19,31 +19,34 @@ const Favicons = ({ children }) => {
       <link rel="apple-touch-icon" sizes="180x180" href="/pwa/apple-touch-icon-180x180.png" />
       <link rel="apple-touch-icon" sizes="1024x1024" href="/pwa/apple-touch-icon-1024x1024.png" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="white" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
       <meta name="apple-mobile-web-app-title" content="Feed" />
       <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-640x1136.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-750x1334.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-828x1792.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1125x2436.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1242x2208.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1242x2688.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1536x2048.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1668x2224.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1668x2388.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-2048x2732.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1620x2160.png" />
       <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-1136x640.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-750x1334.png" />
       <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-1334x750.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-1792x828.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1125x2436.png" />
       <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2436x1125.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2208x1242.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1170x2532.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2532x1170.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-828x1792.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-1792x828.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1242x2688.png" />
       <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2688x1242.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1242x2208.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2208x1242.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1284x2778.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2778x1284.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1536x2048.png" />
       <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2048x1536.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2224x1668.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2388x1668.png" />
-      <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2732x2048.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1620x2160.png" />
       <link rel="apple-touch-startup-image" media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2160x1620.png" />
-      <link rel="icon" type="image/png" sizes="228x228" href="/pwa/coast-228x228.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1668x2388.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2388x1668.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-1668x2224.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2224x1668.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="/pwa/apple-touch-startup-image-2048x2732.png" />
+      <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="/pwa/apple-touch-startup-image-2732x2048.png" />
       <meta name="msapplication-TileColor" content="#F4F4F4" />
       <meta name="msapplication-TileImage" content="/pwa/mstile-144x144.png" />
       <meta name="msapplication-config" content="/pwa/browserconfig.xml" />

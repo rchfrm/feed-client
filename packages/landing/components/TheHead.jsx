@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import Favicons from '@/landing/Favicons'
+import Favicons from '@/elements/Favicons'
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
 const getGlobalInfo = state => state
