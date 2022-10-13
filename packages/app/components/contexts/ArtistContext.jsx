@@ -1,13 +1,9 @@
-// IMPORT PACKAGES
 import React from 'react'
 import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
-// IMPORT CONTEXTS
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-// IMPORT STORES
 import useControlsStore from '@/app/stores/controlsStore'
-// IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import { track } from '@/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -193,8 +189,6 @@ function ArtistProvider({ children }) {
   }, [setArtist])
 
   const storeArtist = React.useCallback(async (id, hasSwitchedBetweenArtists = true) => {
-    // TODO : Store previously selected artists in state,
-    //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)
     if (hasSwitchedBetweenArtists) {
       setIsControlsLoading(true)
@@ -220,8 +214,9 @@ function ArtistProvider({ children }) {
 
     updateArtist(artist)
     setArtistLoading(false)
+    await selectOrganisation(artist.organisation.id)
     return { artist }
-  }, [toggleGlobalLoading, setIsControlsLoading, updateArtist])
+  }, [toggleGlobalLoading, updateArtist, selectOrganisation, setIsControlsLoading])
 
   /**
    * @param {array} artistAccount
@@ -328,7 +323,7 @@ function ArtistProvider({ children }) {
     })
   }
 
-  const updatehasSetUpProfile = (completedSetupAt) => {
+  const updateHasSetUpProfile = (completedSetupAt) => {
     setArtist({
       type: 'set-has-set-up-profile',
       payload: {
@@ -374,7 +369,7 @@ function ArtistProvider({ children }) {
     updateBudget,
     updateArtist,
     updateSpendingPaused,
-    updatehasSetUpProfile,
+    updateHasSetUpProfile,
     hasBudget,
   }
 

@@ -59,7 +59,7 @@ const GetStartedPaymentMethod = () => {
       currency: artistCurrency = 'GBP',
     },
     artistId,
-    updatehasSetUpProfile,
+    updateHasSetUpProfile,
   } = React.useContext(ArtistContext)
 
   const { user: { organizations } } = React.useContext(UserContext)
@@ -134,7 +134,7 @@ const GetStartedPaymentMethod = () => {
 
       const { completed_setup_at: completedSetupAt } = artistUpdated
 
-      updatehasSetUpProfile(completedSetupAt)
+      updateHasSetUpProfile(completedSetupAt)
     }
   }
 
