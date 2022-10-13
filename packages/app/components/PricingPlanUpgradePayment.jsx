@@ -42,9 +42,10 @@ const PricingPlanUpgradePayment = ({
   const { artistId, artist, setPlan } = React.useContext(ArtistContext)
   const { name, hasGrowthPlan } = artist
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
+  const planIsBasic = plan === 'basic_monthly'
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
-  const isDisabled = (plan !== 'basic_monthly' && !amount) || Boolean(error)
+  const isDisabled = (!planIsBasic && !amount) || Boolean(error)
 
   const {
     organisationArtists,
@@ -83,7 +84,10 @@ const PricingPlanUpgradePayment = ({
         disabled={isDisabled}
         loading={isLoading}
       >
-        Pay {formatCurrency(amount, currency)}
+        {(planIsBasic && amount === 0
+          ? `Confirm (${formatCurrency(amount, currency, true)})`
+          : `Pay ${formatCurrency(amount, currency)}`
+        )}
         <ArrowAltIcon
           className="ml-3"
           direction="right"

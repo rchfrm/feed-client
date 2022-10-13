@@ -214,9 +214,8 @@ function ArtistProvider({ children }) {
 
     updateArtist(artist)
     setArtistLoading(false)
-    await selectOrganisation(artist.organisation.id)
     return { artist }
-  }, [toggleGlobalLoading, updateArtist, selectOrganisation, setIsControlsLoading])
+  }, [toggleGlobalLoading, updateArtist, setIsControlsLoading])
 
   /**
    * @param {array} artistAccount
