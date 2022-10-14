@@ -21,15 +21,19 @@ const getBillingStoreState = (state) => ({
 const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { artist } = React.useContext(ArtistContext)
 
-  const { hasGrowthPlan, hasLegacyPlan } = artist
+  const { hasGrowthPlan, hasCancelledPlan } = artist
   const [, planPeriod] = artist?.plan?.split('_') || []
   const isAnnualPricing = planPeriod === 'annual'
-  const isUpgradeToPro = hasGrowthPlan && !hasLegacyPlan
+  const isUpgradeToPro = hasGrowthPlan && !hasCancelledPlan
+  const canChooseBasic = hasCancelledPlan && section === 'set-budget'
 
   const [currentStep, setCurrentStep] = React.useState(0)
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState(null)
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
-  const [plan, setPlan] = React.useState(getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing))
+  const initPlan = canChooseBasic
+    ? artist.plan
+    : getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing)
+  const [plan, setPlan] = React.useState(initPlan)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
   const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
@@ -60,6 +64,8 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       setSidePanelButton,
       toggleSidePanel,
       currency,
+      isUpgradeToPro,
+      canChooseBasic,
     },
   )
 

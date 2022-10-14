@@ -1,13 +1,9 @@
-// IMPORT PACKAGES
 import React from 'react'
 import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
-// IMPORT CONTEXTS
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-// IMPORT STORES
 import useControlsStore from '@/app/stores/controlsStore'
-// IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import { track } from '@/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -40,6 +36,8 @@ const initialArtistState = {
   hasGrowthPlan: false,
   hasProPlan: false,
   hasLegacyPlan: false,
+  hasNoPlan: false,
+  hasCancelledPlan: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -161,6 +159,7 @@ function ArtistProvider({ children }) {
     const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
     const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
     const hasNoPlan = !artist?.plan
+    const hasCancelledPlan = artist.status === 'unpaid' && !hasNoPlan
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
@@ -175,6 +174,7 @@ function ArtistProvider({ children }) {
       artistDraft.hasProPlan = hasProPlan
       artistDraft.hasLegacyPlan = hasLegacyPlan
       artistDraft.hasNoPlan = hasNoPlan
+      artistDraft.hasCancelledPlan = hasCancelledPlan
     })
 
     // Set hasBudget state
@@ -189,8 +189,6 @@ function ArtistProvider({ children }) {
   }, [setArtist])
 
   const storeArtist = React.useCallback(async (id, hasSwitchedBetweenArtists = true) => {
-    // TODO : Store previously selected artists in state,
-    //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)
     if (hasSwitchedBetweenArtists) {
       setIsControlsLoading(true)
@@ -217,7 +215,7 @@ function ArtistProvider({ children }) {
     updateArtist(artist)
     setArtistLoading(false)
     return { artist }
-  }, [toggleGlobalLoading, setIsControlsLoading, updateArtist])
+  }, [toggleGlobalLoading, updateArtist, setIsControlsLoading])
 
   /**
    * @param {array} artistAccount
@@ -324,7 +322,7 @@ function ArtistProvider({ children }) {
     })
   }
 
-  const updatehasSetUpProfile = (completedSetupAt) => {
+  const updateHasSetUpProfile = (completedSetupAt) => {
     setArtist({
       type: 'set-has-set-up-profile',
       payload: {
@@ -370,7 +368,7 @@ function ArtistProvider({ children }) {
     updateBudget,
     updateArtist,
     updateSpendingPaused,
-    updatehasSetUpProfile,
+    updateHasSetUpProfile,
     hasBudget,
   }
 
