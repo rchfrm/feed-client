@@ -19,6 +19,7 @@ const getBillingStoreState = (state) => ({
 })
 
 const PricingPlanUpgradeIntro = ({
+  currency,
   section,
   setCurrentStep,
   setSidePanelButton,
@@ -26,7 +27,6 @@ const PricingPlanUpgradeIntro = ({
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { hasCancelledPlan } = artist
-  const { defaultPaymentMethod: { currency } } = useBillingStore(getBillingStoreState, shallow)
 
   const next = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)

@@ -70,12 +70,12 @@ function Main({ children }) {
   React.useEffect(() => {
     if (!artistId || artistLoading) return
 
-    const { currency: artistCurrency } = minDailyBudgetInfo || {}
-
     if (pathname === ROUTES.BILLING) {
       return
     }
-    setupBilling({ user, artistCurrency, shouldFetchOrganisationDetailsOnly: true })
+    // TODO: Find other usages of setupBilling and make sure they pass the artist
+    //  object and other parameters are correct
+    setupBilling({ user, artist, shouldFetchOrganisationDetailsOnly: true })
   // eslint-disable-next-line
   }, [artistId, artistLoading])
 

@@ -30,6 +30,7 @@ const getBillingStoreState = (state) => ({
 })
 
 const BillingContent = () => {
+  // TODO: Wean this off billing store (unless the selected org is in the billing store)
   const { user } = React.useContext(UserContext)
   const { artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
 

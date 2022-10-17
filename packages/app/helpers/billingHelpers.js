@@ -148,6 +148,15 @@ const fetchOrg = async (org) => {
   }
 }
 
+/**
+ * @param {string} orgId
+ * @returns {Promise<object>}
+ */
+export const fetchOrgById = async (orgId) => {
+  const endpoint = `organizations/${orgId}`
+  return api.get(endpoint)
+}
+
 
 // Sort payment methods, putting the default payment first
 const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {

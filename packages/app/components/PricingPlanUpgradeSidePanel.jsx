@@ -16,6 +16,7 @@ import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
+  artistCurrency: state.artistCurrency,
 })
 
 const PricingPlanUpgradeSidePanel = ({ section }) => {
@@ -36,8 +37,8 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const [plan, setPlan] = React.useState(initPlan)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
-  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
-  const { currency } = defaultPaymentMethod
+  const { defaultPaymentMethod, artistCurrency } = useBillingStore(getBillingStoreState)
+  const currency = defaultPaymentMethod?.currency || artistCurrency
 
   // Define steps of plan upgrade flow
   const pricingPlanUpgradeSteps = React.useMemo(() => [

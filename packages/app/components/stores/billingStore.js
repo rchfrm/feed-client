@@ -62,21 +62,33 @@ const fetchInvoices = async (organisation) => {
 }
 
 // * INITIAL SETUP
-const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisationDetailsOnly = false, activeOrganisation }) => {
-  // FETCH the first organisation and set it
-  const allOrgs = activeOrganisation ? null : await fetchAllOrgs(user)
-  // TODO improve selecting the org
-  const organisation = activeOrganisation || allOrgs[0]
+const setupBilling = (set) => async ({ user, artist, shouldFetchOrganisationDetailsOnly = false }) => {
+  const {
+    min_daily_budget_info: {
+      currency: artistCurrency,
+    },
+  } = artist
+  const userOrgIds = Object.values(user.organizations).map(org => org.id)
+  const artistOrgId = artist.organization.id
+  const userHasAccessToArtistOrg = userOrgIds.includes(artistOrgId)
+  const userIsAdmin = user.role === 'admin'
+
+  if (!userHasAccessToArtistOrg && !userIsAdmin) {
+    // TODO: Handle this situation
+    return
+  }
+
+  const artistOrg = await billingHelpers.fetchOrgById(artistOrgId)
+  // TODO: Make sure everything below this point populates the store correctly
   const {
     billingDetails,
     defaultPaymentMethod,
     organisationArtists,
-  } = await fetchOrganisationDetails(organisation)
+  } = await fetchOrganisationDetails(artistOrg)
 
   if (shouldFetchOrganisationDetailsOnly) {
     set({
-      ...(allOrgs && { allOrgs }),
-      organisation,
+      artistOrg,
       organisationArtists,
       billingDetails,
       defaultPaymentMethod,
@@ -89,16 +101,16 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
     upcomingInvoice,
     errors,
     referralsDetails,
-  } = await fetchInvoices(organisation)
+  } = await fetchInvoices(artistOrg)
 
-  const billingEnabled = organisation.billing_enabled
+  const billingEnabled = artistOrg.billing_enabled
 
   let organisationUsers = []
-  const organisationUsersResponse = await billingHelpers.getOrganisationUsers(organisation.id)
+  const organisationUsersResponse = await billingHelpers.getOrganisationUsers(artistOrg.id)
   if (!organisationUsersResponse.error) {
     organisationUsers = organisationUsersResponse.res.users
   } else {
-    organisationUsers = Object.values((organisation || {}).users || {})
+    organisationUsers = Object.values((artistOrg || {}).users || {})
   }
 
   let organisationInvites = []
@@ -115,8 +127,7 @@ const setupBilling = (set) => async ({ user, artistCurrency, shouldFetchOrganisa
 
   // SET
   set({
-    ...(allOrgs && { allOrgs }),
-    organisation,
+    artistOrg,
     organisationUsers,
     organisationArtists,
     billingEnabled,
