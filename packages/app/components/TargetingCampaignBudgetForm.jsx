@@ -17,6 +17,7 @@ const TargetingCampaignBudgetForm = ({
   updateCampaignBudget,
   setIsCampaignEdit,
   currency,
+  currencyOffset,
 }) => {
   const [startDate, setStartDate] = React.useState(campaignBudget?.startDate || moment().toDate())
   const [endDate, setEndDate] = React.useState(campaignBudget?.endDate || null)
@@ -24,7 +25,8 @@ const TargetingCampaignBudgetForm = ({
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const hasCampaignStarted = Boolean(campaignBudget.startDate)
+  const { isActive } = campaignBudget || {}
+
   const endDateRef = React.useRef(null)
   const { artistId } = React.useContext(ArtistContext)
 
@@ -53,11 +55,12 @@ const TargetingCampaignBudgetForm = ({
 
     const periodInDays = moment(endDate).diff(moment(startDate), 'days') + 1
 
-    const { res: campaignBudget, error } = await saveCampaignBudget(artistId, {
+    const { res, error } = await saveCampaignBudget(artistId, currencyOffset, {
       startDate,
       endDate,
       dailyBudget: Math.round((totalBudget / periodInDays) * 100) / 100,
       totalBudget,
+      isActive: true,
     })
 
     if (error) {
@@ -65,7 +68,7 @@ const TargetingCampaignBudgetForm = ({
       return
     }
 
-    updateCampaignBudget(campaignBudget)
+    updateCampaignBudget(res?.campaignBudget)
     setIsCampaignEdit(false)
   }
 
@@ -86,7 +89,7 @@ const TargetingCampaignBudgetForm = ({
           className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
           currency={currency}
         />
-        {!hasCampaignStarted && (
+        {!isActive && (
           <InputDatePicker
             label="Start date"
             value={startDate}
@@ -120,17 +123,19 @@ const TargetingCampaignBudgetForm = ({
           trackComponentName="TargetingCampaignBudgetForm"
           disabled={!isFormValid}
         >
-          {!hasCampaignStarted ? 'Start' : 'Update'} campaign
+          {!isActive ? 'Start' : 'Update'} campaign
         </Button>
-        <Button
-          type="submit"
-          version="black small"
-          className="h-8 rounded-full"
-          onClick={() => setIsCampaignEdit(false)}
-          trackComponentName="TargetingCampaignBudgetForm"
-        >
-          Back
-        </Button>
+        {isActive && (
+          <Button
+            type="submit"
+            version="black small"
+            className="h-8 rounded-full"
+            onClick={() => setIsCampaignEdit(false)}
+            trackComponentName="TargetingCampaignBudgetForm"
+          >
+            Back
+          </Button>
+        )}
       </div>
     </form>
   )

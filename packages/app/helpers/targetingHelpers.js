@@ -242,7 +242,7 @@ const formatSettings = (settings, currencyOffset) => {
       startDate: draftSettings.campaign_budget?.date_from ? new Date(draftSettings.campaign_budget.date_from) : null,
       endDate: draftSettings.campaign_budget?.date_to ? new Date(draftSettings.campaign_budget.date_to) : null,
       totalBudget: draftSettings.campaign_budget?.total,
-      dailyBudget: draftSettings.campaign_budget?.daily_budget,
+      isActive: draftSettings.campaign_budget?.is_active,
     }
     delete draftSettings.campaign_budget
   })
@@ -386,20 +386,23 @@ const formatCampaignBudgetResponse = (response) => {
   const {
     date_from,
     date_to,
-    daily_budget,
+    is_active,
     total,
-  } = response
+  } = response.campaign_budget
 
   return {
-    startDate: new Date(date_from),
-    endDate: new Date(date_to),
-    dailyBudget: daily_budget,
-    totalBudget: total,
+    ...response,
+    campaign_budget: {
+      startDate: new Date(date_from),
+      endDate: new Date(date_to),
+      totalBudget: total,
+      isActive: is_active,
+    },
   }
 }
 
 // Save campaign budget
-export const saveCampaignBudget = async (artistId, campaignBudget) => {
+export const saveCampaignBudget = async (artistId, currencyOffset, campaignBudget) => {
   const requestUrl = `artists/${artistId}/targeting/campaign_budget`
 
   const {
@@ -407,6 +410,7 @@ export const saveCampaignBudget = async (artistId, campaignBudget) => {
     endDate,
     dailyBudget,
     totalBudget,
+    isActive,
   } = campaignBudget || {}
 
   const payload = {
@@ -414,6 +418,7 @@ export const saveCampaignBudget = async (artistId, campaignBudget) => {
     date_to: endDate,
     daily_budget: dailyBudget,
     total: totalBudget,
+    is_active: isActive,
   }
 
   const errorTracking = {
@@ -421,11 +426,11 @@ export const saveCampaignBudget = async (artistId, campaignBudget) => {
     action: 'Save targeting campaign budget',
   }
 
-  const { res, error } = await api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+  const { res: settings, error } = await api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 
   if (error) {
     return { error }
   }
 
-  return { res: formatCampaignBudgetResponse(res) }
+  return { res: formatSettings(settings, currencyOffset) }
 }

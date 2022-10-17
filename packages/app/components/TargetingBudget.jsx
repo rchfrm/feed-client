@@ -56,7 +56,7 @@ const TargetingBudget = ({
   const { organisationArtists } = useBillingStore(getBillingStoreState)
   const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
 
-  const [budgetType, setBudgetType] = React.useState('daily')
+  const [budgetType, setBudgetType] = React.useState(targetingState.campaignBudget.isActive ? 'campaign' : 'daily')
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
   const isDailyBudget = budgetType === 'daily'
@@ -114,6 +114,7 @@ const TargetingBudget = ({
                 updateCampaignBudget={updateCampaignBudget}
                 setBudgetType={setBudgetType}
                 currency={currencyCode}
+                currencyOffset={currencyOffset}
               />
             )}
           </DisabledSection>

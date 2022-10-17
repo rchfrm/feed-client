@@ -15,19 +15,24 @@ const TargetingCampaignBudget = ({
   campaignBudget,
   updateCampaignBudget,
   currency,
+  currencyOffset,
 }) => {
-  const [isCampaignEdit, setIsCampaignEdit] = React.useState(Boolean(!campaignBudget?.startDate))
+  const [isCampaignEdit, setIsCampaignEdit] = React.useState(Boolean(!campaignBudget?.isActive))
 
   const { artistId } = React.useContext(ArtistContext)
 
   const onCancel = async () => {
-    const { res: campaignBudget, error } = await saveCampaignBudget(artistId, null)
+    const { res, error } = await saveCampaignBudget(artistId, currencyOffset, {
+      ...campaignBudget,
+      isActive: false,
+    })
 
     if (error) {
       return
     }
 
-    updateCampaignBudget(campaignBudget)
+    updateCampaignBudget(res?.campaignBudget)
+    setIsCampaignEdit(true)
   }
 
   return (
@@ -38,6 +43,7 @@ const TargetingCampaignBudget = ({
           updateCampaignBudget={updateCampaignBudget}
           setIsCampaignEdit={setIsCampaignEdit}
           currency={currency}
+          currencyOffset={currencyOffset}
         />
       ) : (
         <>
