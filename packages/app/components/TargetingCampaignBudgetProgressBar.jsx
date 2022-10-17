@@ -6,13 +6,13 @@ import { formatCurrency } from '@/helpers/utils'
 
 const TargetingCampaignBudgetProgressBar = ({
   campaignBudget,
+  dailyBudget,
   currency,
 }) => {
   const {
     startDate,
     endDate,
     totalBudget,
-    dailyBudget,
   } = campaignBudget
 
   const periodInDays = moment(endDate).diff(moment(startDate), 'days') + 1
@@ -47,6 +47,7 @@ const TargetingCampaignBudgetProgressBar = ({
 
 TargetingCampaignBudgetProgressBar.propTypes = {
   campaignBudget: PropTypes.object.isRequired,
+  dailyBudget: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
 }
 

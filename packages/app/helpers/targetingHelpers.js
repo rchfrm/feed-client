@@ -286,12 +286,20 @@ export const saveCampaign = async ({
     })
   }
 
+  const { campaignBudget, ...otherNewSettings } = newSettings
+
   const payload = {
-    ...newSettings,
-    ...(currencyOffset && { budget: newSettings.budget / currencyOffset }),
+    ...otherNewSettings,
+    ...(currencyOffset && { budget: otherNewSettings.budget / currencyOffset }),
     geo_locations: {
       cities: selectedCities,
       countries: selectedCountries,
+    },
+    campaign_budget: {
+      date_from: campaignBudget.startDate,
+      date_to: campaignBudget.endDate,
+      total: campaignBudget.totalBudget,
+      is_active: campaignBudget.isActive,
     },
   }
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
@@ -381,56 +389,3 @@ export const budgetPauseReasonOptions = [
     value: 'other',
   },
 ]
-
-const formatCampaignBudgetResponse = (response) => {
-  const {
-    date_from,
-    date_to,
-    is_active,
-    total,
-  } = response.campaign_budget
-
-  return {
-    ...response,
-    campaign_budget: {
-      startDate: new Date(date_from),
-      endDate: new Date(date_to),
-      totalBudget: total,
-      isActive: is_active,
-    },
-  }
-}
-
-// Save campaign budget
-export const saveCampaignBudget = async (artistId, currencyOffset, campaignBudget) => {
-  const requestUrl = `artists/${artistId}/targeting/campaign_budget`
-
-  const {
-    startDate,
-    endDate,
-    dailyBudget,
-    totalBudget,
-    isActive,
-  } = campaignBudget || {}
-
-  const payload = {
-    date_from: startDate,
-    date_to: endDate,
-    daily_budget: dailyBudget,
-    total: totalBudget,
-    is_active: isActive,
-  }
-
-  const errorTracking = {
-    category: 'Targeting',
-    action: 'Save targeting campaign budget',
-  }
-
-  const { res: settings, error } = await api.requestWithCatch('patch', requestUrl, payload, errorTracking)
-
-  if (error) {
-    return { error }
-  }
-
-  return { res: formatSettings(settings, currencyOffset) }
-}

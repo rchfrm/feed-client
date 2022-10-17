@@ -2,33 +2,43 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
+import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 import InputDatePicker from '@/app/InputDatePicker'
 
 import InputCurrency from '@/elements/InputCurrency'
 import Button from '@/elements/Button'
-import Error from '@/elements/Error'
-
-import { saveCampaignBudget } from '@/app/helpers/targetingHelpers'
 
 const TargetingCampaignBudgetForm = ({
-  campaignBudget,
-  updateCampaignBudget,
+  initialTargetingState,
+  targetingState,
+  saveTargetingSettings,
   setIsCampaignEdit,
   currency,
-  currencyOffset,
 }) => {
-  const [startDate, setStartDate] = React.useState(campaignBudget?.startDate || moment().toDate())
-  const [endDate, setEndDate] = React.useState(campaignBudget?.endDate || null)
+  const { campaignBudget } = targetingState
+
+  const [startDate, setStartDate] = React.useState(new Date(campaignBudget?.startDate) || moment().toDate())
+  const [endDate, setEndDate] = React.useState(new Date(campaignBudget?.endDate) || null)
   const [totalBudget, setTotalBudget] = React.useState(campaignBudget?.totalBudget || 0)
   const [isFormValid, setIsFormValid] = React.useState(false)
-  const [error, setError] = React.useState(null)
 
   const { isActive } = campaignBudget || {}
 
   const endDateRef = React.useRef(null)
-  const { artistId } = React.useContext(ArtistContext)
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
+
+  const getButtonText = () => {
+    if (isActive) {
+      return 'Update'
+    }
+
+    if (moment(startDate).isAfter(moment())) {
+      return 'Schedule'
+    }
+
+    return 'Start'
+  }
 
   const handleTotalBudgetChange = (value) => {
     setTotalBudget(value)
@@ -55,20 +65,17 @@ const TargetingCampaignBudgetForm = ({
 
     const periodInDays = moment(endDate).diff(moment(startDate), 'days') + 1
 
-    const { res, error } = await saveCampaignBudget(artistId, currencyOffset, {
-      startDate,
-      endDate,
-      dailyBudget: Math.round((totalBudget / periodInDays) * 100) / 100,
-      totalBudget,
-      isActive: true,
+    await saveTargeting('campaignBudget', {
+      ...targetingState,
+      budget: Math.round((totalBudget / periodInDays) * 100),
+      campaignBudget: {
+        startDate,
+        endDate,
+        totalBudget,
+        isActive: true,
+      },
     })
 
-    if (error) {
-      setError(error)
-      return
-    }
-
-    updateCampaignBudget(res?.campaignBudget)
     setIsCampaignEdit(false)
   }
 
@@ -79,7 +86,6 @@ const TargetingCampaignBudgetForm = ({
 
   return (
     <form>
-      <Error error={error} />
       <div className="mb-12 xs:mb-8 xs:flex -mx-1">
         <InputCurrency
           name="total-budget"
@@ -123,7 +129,7 @@ const TargetingCampaignBudgetForm = ({
           trackComponentName="TargetingCampaignBudgetForm"
           disabled={!isFormValid}
         >
-          {!isActive ? 'Start' : 'Update'} campaign
+          {getButtonText()} campaign
         </Button>
         {isActive && (
           <Button
@@ -142,8 +148,9 @@ const TargetingCampaignBudgetForm = ({
 }
 
 TargetingCampaignBudgetForm.propTypes = {
-  campaignBudget: PropTypes.object.isRequired,
-  updateCampaignBudget: PropTypes.func.isRequired,
+  initialTargetingState: PropTypes.object.isRequired,
+  targetingState: PropTypes.object.isRequired,
+  saveTargetingSettings: PropTypes.func.isRequired,
   setIsCampaignEdit: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
 }

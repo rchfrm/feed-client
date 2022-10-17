@@ -27,9 +27,10 @@ const TargetingBudget = ({
   className,
 }) => {
   const {
+    initialTargetingState,
     targetingState,
+    saveTargetingSettings,
     targetingLoading,
-    updateCampaignBudget,
   } = React.useContext(TargetingContext)
 
   const {
@@ -110,11 +111,10 @@ const TargetingBudget = ({
               <TargetingDailyBudget />
             ) : (
               <TargetingCampaignBudget
-                campaignBudget={targetingState.campaignBudget}
-                updateCampaignBudget={updateCampaignBudget}
-                setBudgetType={setBudgetType}
+                initialTargetingState={initialTargetingState}
+                targetingState={targetingState}
+                saveTargetingSettings={saveTargetingSettings}
                 currency={currencyCode}
-                currencyOffset={currencyOffset}
               />
             )}
           </DisabledSection>

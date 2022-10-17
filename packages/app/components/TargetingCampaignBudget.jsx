@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ArtistContext } from '@/app/contexts/ArtistContext'
+import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 import TargetingCampaignBudgetProgressBar from '@/app/TargetingCampaignBudgetProgressBar'
 import TargetingCampaignBudgetEditButton from '@/app/TargetingCampaignBudgetEditButton'
@@ -9,29 +9,26 @@ import TargetingCampaignBudgetForm from '@/app/TargetingCampaignBudgetForm'
 
 import Button from '@/elements/Button'
 
-import { saveCampaignBudget } from '@/app/helpers/targetingHelpers'
-
 const TargetingCampaignBudget = ({
-  campaignBudget,
-  updateCampaignBudget,
+  initialTargetingState,
+  targetingState,
+  saveTargetingSettings,
   currency,
-  currencyOffset,
 }) => {
+  const { campaignBudget } = targetingState
   const [isCampaignEdit, setIsCampaignEdit] = React.useState(Boolean(!campaignBudget?.isActive))
 
-  const { artistId } = React.useContext(ArtistContext)
+  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
   const onCancel = async () => {
-    const { res, error } = await saveCampaignBudget(artistId, currencyOffset, {
-      ...campaignBudget,
-      isActive: false,
+    await saveTargeting('campaignBudget', {
+      ...targetingState,
+      campaignBudget: {
+        ...targetingState.campaignBudget,
+        isActive: false,
+      },
     })
 
-    if (error) {
-      return
-    }
-
-    updateCampaignBudget(res?.campaignBudget)
     setIsCampaignEdit(true)
   }
 
@@ -39,16 +36,17 @@ const TargetingCampaignBudget = ({
     <div>
       {isCampaignEdit ? (
         <TargetingCampaignBudgetForm
-          campaignBudget={campaignBudget}
-          updateCampaignBudget={updateCampaignBudget}
+          initialTargetingState={initialTargetingState}
+          targetingState={targetingState}
+          saveTargetingSettings={saveTargetingSettings}
           setIsCampaignEdit={setIsCampaignEdit}
           currency={currency}
-          currencyOffset={currencyOffset}
         />
       ) : (
         <>
           <TargetingCampaignBudgetProgressBar
             campaignBudget={campaignBudget}
+            dailyBudget={targetingState.budget}
             currency={currency}
           />
           <div className="flex justify-between">
@@ -71,8 +69,9 @@ const TargetingCampaignBudget = ({
 }
 
 TargetingCampaignBudget.propTypes = {
-  campaignBudget: PropTypes.object.isRequired,
-  updateCampaignBudget: PropTypes.func.isRequired,
+  initialTargetingState: PropTypes.object.isRequired,
+  targetingState: PropTypes.object.isRequired,
+  saveTargetingSettings: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
 }
 

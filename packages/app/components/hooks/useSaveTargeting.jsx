@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
@@ -195,6 +196,17 @@ const useSaveTargeting = ({
       })
       showAlert({ copy: alertCopy, buttons })
       return
+    }
+
+    if (trigger === 'campaignBudget') {
+      const shouldStartSpendingToday = moment().isSame(moment(savedState.campaignBudget.startDate), 'day') && savedState.campaignBudget.isActive
+
+      const updatedTargetingState = {
+        ...savedState,
+        status: shouldStartSpendingToday ? 1 : 0,
+      }
+
+      return saveTargetingSettings(updatedTargetingState)
     }
 
     // TRACK BUDGET CHANGE
