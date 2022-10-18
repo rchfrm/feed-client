@@ -298,7 +298,6 @@ export const saveCampaign = async ({
       date_from: campaignBudget.startDate,
       date_to: campaignBudget.endDate,
       total: campaignBudget.totalBudget,
-      is_active: campaignBudget.isActive,
     },
   }
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)

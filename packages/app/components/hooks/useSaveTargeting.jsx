@@ -199,7 +199,7 @@ const useSaveTargeting = ({
     }
 
     if (trigger === 'campaignBudget') {
-      const shouldStartSpendingToday = moment().isSame(moment(savedState.campaignBudget.startDate), 'day') && savedState.campaignBudget.isActive
+      const shouldStartSpendingToday = moment().isSame(moment(savedState.campaignBudget.startDate), 'day')
 
       const updatedTargetingState = {
         ...savedState,
