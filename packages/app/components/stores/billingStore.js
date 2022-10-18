@@ -55,14 +55,14 @@ const fetchInvoices = async (organisation) => {
 // * INITIAL SETUP
 const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationDetailsOnly = false) => {
   if (!user.id || !artist.id || typeof get !== 'function') return
-  // Check user has access to the artist's org or is sys admin
+  // Check user has access to the artist's org or is sysadmin
   const userOrgIds = Object.values(user.organizations).map(org => org.id)
   const artistOrgId = artist.organization.id
   const userHasAccessToArtistOrg = userOrgIds.includes(artistOrgId)
   const userIsAdmin = user.role === 'admin'
 
   if (!userHasAccessToArtistOrg && !userIsAdmin) {
-    // TODO: Handle this situation
+    // TODO: 1 Handle this situation
     return
   }
 
@@ -98,7 +98,7 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationD
 
   let organisationUsers = []
   const organisationUsersResponse = await billingHelpers.getOrganisationUsers(artistOrg.id)
-  // TODO: Is this needed in the store, or just on the billing page
+  // TODO: 3 Is this needed in the store, or just on the billing page
   if (!organisationUsersResponse.error) {
     organisationUsers = organisationUsersResponse.res.users
   } else {
@@ -107,14 +107,14 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationD
 
   let organisationInvites = []
   const organisationInvitesResponse = await billingHelpers.getOrganisationInvites()
-  // TODO: Is this needed in the store, or just on the billing page
+  // TODO: 3 Is this needed in the store, or just on the billing page
   if (!organisationInvitesResponse.error) {
     organisationInvites = organisationInvitesResponse.res.invites
   }
 
   let transferRequests = []
   const transferRequestsResponse = await billingHelpers.getTransferRequests()
-  // TODO: Is this needed in the store, or just on the billing page
+  // TODO: 3 Is this needed in the store, or just on the billing page
   if (!transferRequestsResponse.error) {
     transferRequests = transferRequestsResponse.res.transferRequests
   }
