@@ -11,8 +11,10 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { calcFeedMinBudgetInfo } from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
 import { trackGoogleProfileCreated } from 'shared/helpers/trackGoogleHelpers'
+import useBillingStore from '@/app/stores/billingStore'
 
 const updateIsControlsLoading = state => state.setIsControlsLoading
+const getSelectOrganisation = state => state.selectOrganisation
 
 const initialArtistState = {
   id: '',
@@ -110,8 +112,9 @@ const artistReducer = (draftState, action) => {
 }
 
 function ArtistProvider({ children }) {
-  const { storeUser } = React.useContext(UserContext)
+  const { user, storeUser } = React.useContext(UserContext)
   const setIsControlsLoading = useControlsStore(updateIsControlsLoading)
+  const selectOrganisation = useBillingStore(getSelectOrganisation)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
@@ -131,7 +134,7 @@ function ArtistProvider({ children }) {
     toggleGlobalLoading(false)
   }
 
-  const updateArtist = React.useCallback((artist) => {
+  const updateArtist = React.useCallback(async (artist) => {
     // Test whether artist is musician
     const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
@@ -186,6 +189,8 @@ function ArtistProvider({ children }) {
         artist: artistUpdated,
       },
     })
+
+    setArtistLoading(false)
   }, [setArtist])
 
   const storeArtist = React.useCallback(async (id, hasSwitchedBetweenArtists = true) => {
@@ -212,8 +217,8 @@ function ArtistProvider({ children }) {
 
     if (!artist) return
 
-    updateArtist(artist)
-    setArtistLoading(false)
+    await updateArtist(artist)
+
     return { artist }
   }, [toggleGlobalLoading, updateArtist, setIsControlsLoading])
 

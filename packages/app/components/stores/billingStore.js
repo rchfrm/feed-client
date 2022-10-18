@@ -5,13 +5,11 @@ import * as billingHelpers from '@/app/helpers/billingHelpers'
 import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
-  allOrgs: [],
+  artistOrg: [],
   loading: true,
   loadingErrors: [],
-  organisation: {},
   organisationUsers: [],
   organisationArtists: [],
-  billingEnabled: false,
   billingDetails: {},
   upcomingInvoice: null,
   artistCurrency: {},
@@ -19,13 +17,6 @@ const initialState = {
   organisationInvites: [],
   transferRequests: [],
 }
-
-// FETCH ALL ORGS the user has access to
-const fetchAllOrgs = async (user) => {
-  const allOrgs = await billingHelpers.getAllOrgsInfo({ user })
-  return allOrgs
-}
-
 
 // FETCH BILLING DETAILS
 const fetchOrganisationDetails = async (organisation) => {
@@ -62,12 +53,9 @@ const fetchInvoices = async (organisation) => {
 }
 
 // * INITIAL SETUP
-const setupBilling = (set) => async ({ user, artist, shouldFetchOrganisationDetailsOnly = false }) => {
-  const {
-    min_daily_budget_info: {
-      currency: artistCurrency,
-    },
-  } = artist
+const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationDetailsOnly = false) => {
+  if (!user.id || !artist.id || typeof get !== 'function') return
+  // Check user has access to the artist's org or is sys admin
   const userOrgIds = Object.values(user.organizations).map(org => org.id)
   const artistOrgId = artist.organization.id
   const userHasAccessToArtistOrg = userOrgIds.includes(artistOrgId)
@@ -78,6 +66,11 @@ const setupBilling = (set) => async ({ user, artist, shouldFetchOrganisationDeta
     return
   }
 
+  // If changing artist, check it's org is actually different first
+  const currentOrg = get().artistOrg
+  const orgHasChanged = currentOrg.id !== artistOrgId
+  if (!orgHasChanged) return
+
   const artistOrg = await billingHelpers.fetchOrgById(artistOrgId)
   const {
     billingDetails,
@@ -85,13 +78,15 @@ const setupBilling = (set) => async ({ user, artist, shouldFetchOrganisationDeta
     organisationArtists,
   } = await fetchOrganisationDetails(artistOrg)
 
+  const artistCurrency = artist.min_daily_budget_info.currency
+
   if (shouldFetchOrganisationDetailsOnly) {
     set({
       artistOrg,
       organisationArtists,
       billingDetails,
       defaultPaymentMethod,
-      ...(artistCurrency && { artistCurrency }),
+      artistCurrency,
     })
     return
   }
@@ -127,14 +122,14 @@ const setupBilling = (set) => async ({ user, artist, shouldFetchOrganisationDeta
   // SET
   set({
     artistOrg,
+    loading: false,
+    loadingErrors: errors,
     organisationUsers,
     organisationArtists,
     billingDetails,
-    defaultPaymentMethod,
     upcomingInvoice,
-    loadingErrors: errors,
     artistCurrency,
-    loading: false,
+    defaultPaymentMethod,
     organisationInvites,
     transferRequests,
   })
@@ -186,11 +181,9 @@ const updateDefaultPayment = (set, get) => (defaultPaymentMethod) => {
 }
 
 // * SELECT ACTIVE ORGANISATION
-const selectOrganisation = (set, get) => async (organisationId) => {
+const selectOrganisation = (set) => async (user, artist) => {
   set({ loading: true })
-  const { allOrgs } = get()
-  const organisation = allOrgs.find(({ id }) => id === organisationId)
-  await setupBilling(set)({ activeOrganisation: organisation })
+  await setupBilling(set)(user, artist)
 }
 
 export const removeOrganisationUser = (set, get) => (user) => {
@@ -238,9 +231,7 @@ const updateUpcomingInvoice = (set) => (upcomingInvoice) => {
 
 const useBillingStore = create((set, get) => ({
   ...initialState,
-  // GETTERS
-  setupBilling: setupBilling(set),
-  // SETTERS,
+  setupBilling: setupBilling(set, get),
   addPaymentMethod: addPaymentMethod(set, get),
   deletePaymentMethod: deletePaymentMethod(set, get),
   updateDefaultPayment: updateDefaultPayment(set, get),

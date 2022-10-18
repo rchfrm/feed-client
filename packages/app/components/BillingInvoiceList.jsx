@@ -12,7 +12,7 @@ import { fetchArchivedInvoices } from '@/app/helpers/invoiceHelpers'
 
 const formatDate = (date) => moment(date).format('DD MMMM YYYY')
 
-const getOrganisation = state => state.organisation
+const getOrganisation = state => state.artistOrg
 
 const BillingInvoiceList = () => {
   // LOAD INVOICES

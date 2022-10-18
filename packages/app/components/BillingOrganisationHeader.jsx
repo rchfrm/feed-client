@@ -29,13 +29,13 @@ const BillingOrganisationHeader = () => {
           />
         )}
         {/* SELECT ORG */}
-        {allOrgs.length >= 2 && (
-          <BillingOrganisationSelect
-            className="mb-12 sm:mb-0"
-            organisation={organisation}
-            allOrgs={allOrgs}
-          />
-        )}
+        {/* {allOrgs.length >= 2 && ( */}
+        {/*  <BillingOrganisationSelect */}
+        {/*    className="mb-12 sm:mb-0" */}
+        {/*    organisation={organisation} */}
+        {/*    allOrgs={allOrgs} */}
+        {/*  /> */}
+        {/* )} */}
       </div>
     </div>
   )

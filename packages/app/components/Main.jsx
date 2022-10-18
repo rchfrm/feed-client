@@ -31,16 +31,13 @@ const getControlsStoreState = (state) => ({
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
   organisation: state.organisation,
+  logOrgId: state.logOrgId,
 })
 
 function Main({ children }) {
-  const { user } = React.useContext(UserContext)
+  const { user, userLoading } = React.useContext(UserContext)
   const { artistId, artist, artistLoading, setEnabledPosts } = React.useContext(ArtistContext)
-  const { min_daily_budget_info: minDailyBudgetInfo } = artist
   const isFirstRender = React.useRef(true)
-
-  const router = useRouter()
-  const { pathname } = router
 
   const {
     getProfileSetupStatus,
@@ -68,14 +65,8 @@ function Main({ children }) {
 
   // Setup billing store
   React.useEffect(() => {
-    if (!artistId || artistLoading) return
-
-    if (pathname === ROUTES.BILLING) {
-      return
-    }
-    setupBilling({ user, artist, shouldFetchOrganisationDetailsOnly: true })
-  // eslint-disable-next-line
-  }, [artistId, artistLoading])
+    setupBilling(user, artist, true)
+  }, [artist, setupBilling, user])
 
   // Update integrations when they change on artist
   React.useEffect(() => {
