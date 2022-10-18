@@ -15,6 +15,7 @@ const TargetingCampaignBudgetForm = ({
   saveTargetingSettings,
   setIsCampaignEdit,
   currency,
+  currencyOffset,
   hasActiveCampaignBudget,
 }) => {
   const { campaignBudget } = targetingState
@@ -59,11 +60,16 @@ const TargetingCampaignBudgetForm = ({
     setEndDate(value)
   }
 
+  console.log(currencyOffset)
+
   const onSubmit = async (e) => {
     e.preventDefault()
 
+    const periodInDays = moment(endDate).diff(moment(startDate), 'days') + 1
+
     await saveTargeting('campaignBudget', {
       ...targetingState,
+      budget: Math.round((totalBudget / periodInDays) * currencyOffset),
       campaignBudget: {
         startDate,
         endDate,
@@ -148,6 +154,7 @@ TargetingCampaignBudgetForm.propTypes = {
   saveTargetingSettings: PropTypes.func.isRequired,
   setIsCampaignEdit: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
+  currencyOffset: PropTypes.number.isRequired,
   hasActiveCampaignBudget: PropTypes.bool.isRequired,
 }
 

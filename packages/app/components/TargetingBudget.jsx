@@ -120,6 +120,7 @@ const TargetingBudget = ({
                 targetingState={targetingState}
                 saveTargetingSettings={saveTargetingSettings}
                 currency={currencyCode}
+                currencyOffset={currencyOffset}
                 hasActiveCampaignBudget={hasActiveCampaignBudget}
               />
             )}

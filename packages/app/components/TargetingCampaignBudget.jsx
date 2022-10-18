@@ -14,6 +14,7 @@ const TargetingCampaignBudget = ({
   targetingState,
   saveTargetingSettings,
   currency,
+  currencyOffset,
   hasActiveCampaignBudget,
 }) => {
   const [isCampaignEdit, setIsCampaignEdit] = React.useState(!hasActiveCampaignBudget)
@@ -43,6 +44,7 @@ const TargetingCampaignBudget = ({
           saveTargetingSettings={saveTargetingSettings}
           setIsCampaignEdit={setIsCampaignEdit}
           currency={currency}
+          currencyOffset={currencyOffset}
           hasActiveCampaignBudget={hasActiveCampaignBudget}
         />
       ) : (
@@ -76,6 +78,7 @@ TargetingCampaignBudget.propTypes = {
   targetingState: PropTypes.object.isRequired,
   saveTargetingSettings: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
+  currencyOffset: PropTypes.number.isRequired,
   hasActiveCampaignBudget: PropTypes.bool.isRequired,
 }
 
