@@ -32,7 +32,8 @@ const getBillingStoreState = (state) => ({
 const BillingContent = () => {
   // TODO: Wean this off billing store (unless the selected org is in the billing store)
   const { user } = React.useContext(UserContext)
-  const { artistLoading, artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
+  const { artistLoading, artist } = React.useContext(ArtistContext)
+  const { min_daily_budget_info } = artist
 
   // Read from BILLING STORE
   const {
@@ -54,12 +55,8 @@ const BillingContent = () => {
   // Load billing info
   React.useEffect(() => {
     if (artistLoading) return
-
-    const { currency: artistCurrency } = min_daily_budget_info || {}
-
-    setupBilling({ user, artistCurrency })
-  // eslint-disable-next-line
-  }, [artistLoading, user, setupBilling])
+    setupBilling({ user, artist })
+  }, [artistLoading, user, setupBilling, artist])
 
   if (billingLoading) return <Spinner />
 

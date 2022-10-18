@@ -73,8 +73,6 @@ function Main({ children }) {
     if (pathname === ROUTES.BILLING) {
       return
     }
-    // TODO: Find other usages of setupBilling and make sure they pass the artist
-    //  object and other parameters are correct
     setupBilling({ user, artist, shouldFetchOrganisationDetailsOnly: true })
   // eslint-disable-next-line
   }, [artistId, artistLoading])

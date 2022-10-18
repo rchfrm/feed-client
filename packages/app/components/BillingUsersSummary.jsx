@@ -17,7 +17,7 @@ import * as billingHelpers from '@/app/helpers/billingHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 
 const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
+  organisation: state.artistOrg,
   organisationUsers: state.organisationUsers,
   removeOrganisationUser: state.removeOrganisationUser,
 })
@@ -78,6 +78,8 @@ const BillingUsersSummary = ({
   }
 
   const makeNameAndRoleElement = (user) => {
+    console.log('user', user)
+    console.log('organisation', organisation)
     return <span>{makeDisplayName(user)} – <strong>{organisation.users[user.id].role}</strong></span>
   }
 
