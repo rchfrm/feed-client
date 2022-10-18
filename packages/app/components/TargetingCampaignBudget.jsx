@@ -53,6 +53,7 @@ const TargetingCampaignBudget = ({
             campaignBudget={targetingState.campaignBudget}
             dailyBudget={targetingState.budget}
             currency={currency}
+            currencyOffset={currencyOffset}
           />
           <div className="flex justify-between">
             <TargetingCampaignBudgetEditButton
