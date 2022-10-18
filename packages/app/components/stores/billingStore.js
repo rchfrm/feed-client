@@ -79,7 +79,6 @@ const setupBilling = (set) => async ({ user, artist, shouldFetchOrganisationDeta
   }
 
   const artistOrg = await billingHelpers.fetchOrgById(artistOrgId)
-  // TODO: Make sure everything below this point populates the store correctly
   const {
     billingDetails,
     defaultPaymentMethod,
@@ -100,13 +99,11 @@ const setupBilling = (set) => async ({ user, artist, shouldFetchOrganisationDeta
   const {
     upcomingInvoice,
     errors,
-    referralsDetails,
   } = await fetchInvoices(artistOrg)
-
-  const billingEnabled = artistOrg.billing_enabled
 
   let organisationUsers = []
   const organisationUsersResponse = await billingHelpers.getOrganisationUsers(artistOrg.id)
+  // TODO: Is this needed in the store, or just on the billing page
   if (!organisationUsersResponse.error) {
     organisationUsers = organisationUsersResponse.res.users
   } else {
@@ -115,12 +112,14 @@ const setupBilling = (set) => async ({ user, artist, shouldFetchOrganisationDeta
 
   let organisationInvites = []
   const organisationInvitesResponse = await billingHelpers.getOrganisationInvites()
+  // TODO: Is this needed in the store, or just on the billing page
   if (!organisationInvitesResponse.error) {
     organisationInvites = organisationInvitesResponse.res.invites
   }
 
   let transferRequests = []
   const transferRequestsResponse = await billingHelpers.getTransferRequests()
+  // TODO: Is this needed in the store, or just on the billing page
   if (!transferRequestsResponse.error) {
     transferRequests = transferRequestsResponse.res.transferRequests
   }
@@ -130,13 +129,11 @@ const setupBilling = (set) => async ({ user, artist, shouldFetchOrganisationDeta
     artistOrg,
     organisationUsers,
     organisationArtists,
-    billingEnabled,
     billingDetails,
-    referralsDetails,
     defaultPaymentMethod,
     upcomingInvoice,
     loadingErrors: errors,
-    ...(artistCurrency && { artistCurrency }),
+    artistCurrency,
     loading: false,
     organisationInvites,
     transferRequests,

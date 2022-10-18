@@ -33,6 +33,7 @@ const PricingPlanUpgradePlanItem = ({
           className="mb-0 font-bold text-xl"
         />
         <PricingPlanUpgradeMonthlyCostAndServiceFee
+          currency={currency}
           plan={pricingPlanNumbers}
           isAnnualPricing={isAnnualPricing}
         />

@@ -1,21 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import shallow from 'zustand/shallow'
-
-import useBillingStore from '@/app/stores/billingStore'
 
 import { getCurrencySymbol } from '@/helpers/utils'
 
-const getBillingStoreState = (state) => ({
-  defaultPaymentMethod: state.defaultPaymentMethod,
-})
 
-const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ plan, isAnnualPricing }) => {
-  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState, shallow)
-  const { currency } = defaultPaymentMethod
-  const currencySymbol = getCurrencySymbol(currency)
+const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currency, plan, isAnnualPricing }) => {
+  const { code: currencyCode } = currency
+  const currencySymbol = getCurrencySymbol(currencyCode)
 
-  const monthlyCost = plan.monthlyCost[currency]
+  const monthlyCost = plan.monthlyCost[currencyCode]
   const { serviceFeePercentage } = plan
   const isBasic = monthlyCost === 0 && serviceFeePercentage === 0.1
 
@@ -55,11 +48,20 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ plan, isAnnualPricing }) =
 }
 
 PricingPlanUpgradeMonthlyCostAndServiceFee.propTypes = {
+  currency: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+  }),
   plan: PropTypes.object.isRequired,
   isAnnualPricing: PropTypes.bool,
 }
 
 PricingPlanUpgradeMonthlyCostAndServiceFee.defaultProps = {
+  currency: {
+    code: 'GBP',
+    exponent: 2,
+    name: 'Pound sterling',
+    offset: 100,
+  },
   isAnnualPricing: false,
 }
 
