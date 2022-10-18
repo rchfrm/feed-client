@@ -242,7 +242,6 @@ const formatSettings = (settings, currencyOffset) => {
       startDate: draftSettings.campaign_budget?.date_from ? new Date(draftSettings.campaign_budget.date_from) : null,
       endDate: draftSettings.campaign_budget?.date_to ? new Date(draftSettings.campaign_budget.date_to) : null,
       totalBudget: draftSettings.campaign_budget?.total,
-      isActive: draftSettings.campaign_budget?.is_active,
     }
     delete draftSettings.campaign_budget
   })

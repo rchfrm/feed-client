@@ -14,9 +14,9 @@ const TargetingCampaignBudget = ({
   targetingState,
   saveTargetingSettings,
   currency,
+  hasActiveCampaignBudget,
 }) => {
-  const { campaignBudget } = targetingState
-  const [isCampaignEdit, setIsCampaignEdit] = React.useState(Boolean(!campaignBudget?.isActive))
+  const [isCampaignEdit, setIsCampaignEdit] = React.useState(!hasActiveCampaignBudget)
 
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
@@ -25,7 +25,9 @@ const TargetingCampaignBudget = ({
       ...targetingState,
       campaignBudget: {
         ...targetingState.campaignBudget,
-        isActive: false,
+        startDate: null,
+        endDate: null,
+        totalBudget: null,
       },
     })
 
@@ -41,11 +43,12 @@ const TargetingCampaignBudget = ({
           saveTargetingSettings={saveTargetingSettings}
           setIsCampaignEdit={setIsCampaignEdit}
           currency={currency}
+          hasActiveCampaignBudget={hasActiveCampaignBudget}
         />
       ) : (
         <>
           <TargetingCampaignBudgetProgressBar
-            campaignBudget={campaignBudget}
+            campaignBudget={targetingState.campaignBudget}
             dailyBudget={targetingState.budget}
             currency={currency}
           />
@@ -73,6 +76,7 @@ TargetingCampaignBudget.propTypes = {
   targetingState: PropTypes.object.isRequired,
   saveTargetingSettings: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
+  hasActiveCampaignBudget: PropTypes.bool.isRequired,
 }
 
 TargetingCampaignBudget.defaultProps = {

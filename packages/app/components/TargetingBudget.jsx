@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import Spinner from '@/elements/Spinner'
 
@@ -57,7 +58,10 @@ const TargetingBudget = ({
   const { organisationArtists } = useBillingStore(getBillingStoreState)
   const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
 
-  const [budgetType, setBudgetType] = React.useState(targetingState.campaignBudget.isActive ? 'campaign' : 'daily')
+  const { campaignBudget } = targetingState
+  const hasActiveCampaignBudget = moment().isBefore(campaignBudget.endDate, 'day')
+
+  const [budgetType, setBudgetType] = React.useState(hasActiveCampaignBudget ? 'campaign' : 'daily')
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
   const isDailyBudget = budgetType === 'daily'
@@ -77,14 +81,15 @@ const TargetingBudget = ({
   React.useEffect(() => {
     if (!hasSetUpProfile) return
 
-    if (hasBudgetBelowMinRecommendedStories || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget) {
-      setShouldShowWarning(true)
+    if (!hasBudgetBelowMinRecommendedStories && (!isDailyBudget || (!mayHitGrowthTierMaxBudget && !mayHitProTierMaxBudget))) {
+      setShouldShowWarning(false)
+      return
     }
 
-    if (!hasBudgetBelowMinRecommendedStories && !mayHitGrowthTierMaxBudget && !mayHitProTierMaxBudget) {
-      setShouldShowWarning(false)
+    if (hasBudgetBelowMinRecommendedStories || (isDailyBudget && (mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget))) {
+      setShouldShowWarning(true)
     }
-  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile])
+  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile, isDailyBudget])
 
   return (
     <section
@@ -115,6 +120,7 @@ const TargetingBudget = ({
                 targetingState={targetingState}
                 saveTargetingSettings={saveTargetingSettings}
                 currency={currencyCode}
+                hasActiveCampaignBudget={hasActiveCampaignBudget}
               />
             )}
           </DisabledSection>

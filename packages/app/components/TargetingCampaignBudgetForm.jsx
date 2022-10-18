@@ -15,26 +15,25 @@ const TargetingCampaignBudgetForm = ({
   saveTargetingSettings,
   setIsCampaignEdit,
   currency,
+  hasActiveCampaignBudget,
 }) => {
   const { campaignBudget } = targetingState
 
-  const [startDate, setStartDate] = React.useState(new Date(campaignBudget?.startDate) || moment().toDate())
-  const [endDate, setEndDate] = React.useState(new Date(campaignBudget?.endDate) || null)
-  const [totalBudget, setTotalBudget] = React.useState(campaignBudget?.totalBudget || 0)
+  const [startDate, setStartDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.startDate : moment().toDate())
+  const [endDate, setEndDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.endDate : null)
+  const [totalBudget, setTotalBudget] = React.useState(hasActiveCampaignBudget ? campaignBudget?.totalBudget : 0)
   const [isFormValid, setIsFormValid] = React.useState(false)
-
-  const { isActive } = campaignBudget || {}
 
   const endDateRef = React.useRef(null)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
   const getButtonText = () => {
-    if (isActive) {
-      return 'Update'
+    if (moment(startDate).isAfter(moment(), 'day')) {
+      return 'Schedule'
     }
 
-    if (moment(startDate).isAfter(moment())) {
-      return 'Schedule'
+    if (hasActiveCampaignBudget) {
+      return 'Update'
     }
 
     return 'Start'
@@ -63,16 +62,12 @@ const TargetingCampaignBudgetForm = ({
   const onSubmit = async (e) => {
     e.preventDefault()
 
-    const periodInDays = moment(endDate).diff(moment(startDate), 'days') + 1
-
     await saveTargeting('campaignBudget', {
       ...targetingState,
-      budget: Math.round((totalBudget / periodInDays) * 100),
       campaignBudget: {
         startDate,
         endDate,
         totalBudget,
-        isActive: true,
       },
     })
 
@@ -95,7 +90,7 @@ const TargetingCampaignBudgetForm = ({
           className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
           currency={currency}
         />
-        {!isActive && (
+        {!hasActiveCampaignBudget && (
           <InputDatePicker
             label="Start date"
             value={startDate}
@@ -131,7 +126,7 @@ const TargetingCampaignBudgetForm = ({
         >
           {getButtonText()} campaign
         </Button>
-        {isActive && (
+        {hasActiveCampaignBudget && (
           <Button
             type="submit"
             version="black small"
@@ -153,6 +148,7 @@ TargetingCampaignBudgetForm.propTypes = {
   saveTargetingSettings: PropTypes.func.isRequired,
   setIsCampaignEdit: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
+  hasActiveCampaignBudget: PropTypes.bool.isRequired,
 }
 
 TargetingCampaignBudgetForm.defaultProps = {
