@@ -75,9 +75,9 @@ const ThePageButtons = () => {
       icon: 'insights',
     },
     {
-      href: ROUTES.MYREFERRAL,
-      title: getReferralAmount(currencyCode),
-      icon: 'referral',
+      href: ROUTES.FAQS,
+      title: 'FAQs',
+      icon: 'faqs',
     },
   ]
 

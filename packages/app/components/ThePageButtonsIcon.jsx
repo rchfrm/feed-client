@@ -15,7 +15,7 @@ const getIcon = (icon) => {
   if (icon === 'posts') return <PostsIcon />
   if (icon === 'results') return <StarIcon />
   if (icon === 'insights') return <InsightsIcon />
-  if (icon === 'referral') return <GiftIcon color={brandColors.instagram.bg} secondaryColor={brandColors.green} />
+  if (icon === 'faqs') return <GiftIcon color={brandColors.instagram.bg} secondaryColor={brandColors.green} />
 }
 
 const ThePageButtonsIcon = ({ icon, className, showBadge }) => {

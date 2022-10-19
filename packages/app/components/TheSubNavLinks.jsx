@@ -14,16 +14,12 @@ import styles from '@/app/TheSubNav.module.css'
 import * as ROUTES from '@/app/constants/routes'
 
 
-const { ACCOUNT, MYREFERRAL, PRICING, FAQS, NOTIFICATIONS, BILLING } = ROUTES
+const { ACCOUNT, PRICING, FAQS, NOTIFICATIONS, BILLING } = ROUTES
 const termsLink = 'https://tryfeed.co/legal/terms-of-service'
 const links = [
   {
     href: ACCOUNT,
     title: 'account settings',
-  },
-  {
-    href: MYREFERRAL,
-    title: 'my referral code',
   },
   {
     href: NOTIFICATIONS,
