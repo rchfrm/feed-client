@@ -60,8 +60,6 @@ const TargetingCampaignBudgetForm = ({
     setEndDate(value)
   }
 
-  console.log(currencyOffset)
-
   const onSubmit = async (e) => {
     e.preventDefault()
 

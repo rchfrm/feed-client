@@ -106,6 +106,8 @@ const TargetingBudget = ({
           <TargetingBudgetTabs
             budgetType={budgetType}
             setBudgetType={setBudgetType}
+            hasActiveCampaignBudget={hasActiveCampaignBudget}
+            targetingState={targetingState}
           />
           <DisabledSection
             section="set-budget"

@@ -58,6 +58,19 @@ Do you want to continue?`,
 
 **This will pause all spending on ads.** All ads will stop and won't continue until you unpause.`
   },
+  budgetTypeSwitchWarning: (budgetType) => {
+    if (budgetType === 'daily') {
+      return `**Daily budget is currently active**
+
+      Pause your current spending to be able to switch to using a campaign budget.
+      `
+    }
+
+    return `**Campaign budget is currently active**
+
+    Cancel your current campaign to be able to switch to using a daily budget.
+    `
+  },
 
   shortSpendingPeriodWarning: (daysOfSpending, hasMinimumBudget) => `#### **Are you sure?**
 
