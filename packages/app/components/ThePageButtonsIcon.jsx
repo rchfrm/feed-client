@@ -5,7 +5,7 @@ import JoystickIcon from '@/icons/JoystickIcon'
 import PostsIcon from '@/icons/PostsIcon'
 import StarIcon from '@/icons/StarIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
-import GiftIcon from '@/icons/GiftIcon'
+import FaqIcon from '@/icons/FaqIcon'
 
 import NotificationDot from '@/elements/NotificationDot'
 import brandColors from '@/constants/brandColors'
@@ -15,7 +15,7 @@ const getIcon = (icon) => {
   if (icon === 'posts') return <PostsIcon />
   if (icon === 'results') return <StarIcon />
   if (icon === 'insights') return <InsightsIcon />
-  if (icon === 'faqs') return <GiftIcon color={brandColors.instagram.bg} secondaryColor={brandColors.green} />
+  if (icon === 'faqs') return <FaqIcon color={brandColors.black} />
 }
 
 const ThePageButtonsIcon = ({ icon, className, showBadge }) => {

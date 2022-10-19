@@ -10,8 +10,6 @@ import { UserContext } from '@/app/contexts/UserContext'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useBrowserStore from '@/hooks/useBrowserStore'
 
-import getReferralAmount from '@/app/helpers/referralHelpers'
-
 import styles from '@/app/ThePageButtons.module.css'
 
 import * as ROUTES from '@/app/constants/routes'
@@ -45,9 +43,6 @@ const ThePageButtons = () => {
     artist: {
       missingDefaultLink,
       isSpendingPaused,
-      feedMinBudgetInfo: {
-        currencyCode,
-      },
     } = {},
   } = React.useContext(ArtistContext)
 
