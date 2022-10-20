@@ -11,7 +11,7 @@ import useBillingStore from '@/app/stores/billingStore'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 
 // READING FROM STORE
-const getBillingStoreState = (state) => ({ organisation: state.organisation })
+const getBillingStoreState = (state) => ({ organization: state.organization })
 
 // THE FORM
 const FORM = ({
@@ -22,7 +22,7 @@ const FORM = ({
   const [error, setError] = React.useState(null)
 
   // READ from BILLING STORE
-  const { organisation } = useBillingStore(getBillingStoreState, shallow)
+  const { organization } = useBillingStore(getBillingStoreState, shallow)
 
   // FORM STATE
   const [isLoading, setIsLoading] = React.useState(false)
@@ -34,7 +34,7 @@ const FORM = ({
     setIsLoading(true)
 
     // SEND API REQUEST
-    const { error: serverError } = await billingHelpers.createOrganizationInvite(organisation.id, email)
+    const { error: serverError } = await billingHelpers.createOrganizationInvite(organization.id, email)
 
     // HANDLE ERROR
     if (serverError) {
@@ -47,7 +47,7 @@ const FORM = ({
     setIsLoading(false)
     setError(null)
     setSuccess(true)
-  }, [isLoading, organisation, email, setSuccess])
+  }, [isLoading, organization, email, setSuccess])
 
   return (
     <form
@@ -71,7 +71,7 @@ const FORM = ({
         disabled={!email}
         onClick={onSubmit}
         loading={isLoading}
-        trackComponentName="BillingOrganisationInviteForm"
+        trackComponentName="BillingOrganizationInviteForm"
         className="w-full"
       >
         Send
@@ -80,7 +80,7 @@ const FORM = ({
   )
 }
 
-const BillingOrganisationInviteForm = ({
+const BillingOrganizationInviteForm = ({
   className,
   setSuccess,
 }) => {
@@ -92,13 +92,13 @@ const BillingOrganisationInviteForm = ({
   )
 }
 
-BillingOrganisationInviteForm.propTypes = {
+BillingOrganizationInviteForm.propTypes = {
   className: PropTypes.string,
   setSuccess: PropTypes.func.isRequired,
 }
 
-BillingOrganisationInviteForm.defaultProps = {
+BillingOrganizationInviteForm.defaultProps = {
   className: '',
 }
 
-export default BillingOrganisationInviteForm
+export default BillingOrganizationInviteForm

@@ -1,12 +1,12 @@
 import React from 'react'
 
-import BillingOrganisationInviteForm from '@/app/BillingOrganisationInviteForm'
+import BillingOrganizationInviteForm from '@/app/BillingOrganizationInviteForm'
 
 import copy from '@/app/copy/billingCopy'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-const BillingOrganisationInvite = () => {
+const BillingOrganizationInvite = () => {
   const [success, setSuccess] = React.useState(false)
 
   React.useEffect(() => {
@@ -26,7 +26,7 @@ const BillingOrganisationInvite = () => {
       <h3 className="font-bold">Invite someone to join your team</h3>
       <MarkdownText markdown={copy.inviteDescription} />
       {success ? <MarkdownText markdown="Invite sent 🎉" /> : (
-        <BillingOrganisationInviteForm
+        <BillingOrganizationInviteForm
           className="w-full lg:w-2/3 mt-10"
           setSuccess={setSuccess}
         />
@@ -35,11 +35,11 @@ const BillingOrganisationInvite = () => {
   )
 }
 
-BillingOrganisationInvite.propTypes = {
+BillingOrganizationInvite.propTypes = {
 }
 
-BillingOrganisationInvite.defaultProps = {
+BillingOrganizationInvite.defaultProps = {
 
 }
 
-export default React.memo(BillingOrganisationInvite)
+export default React.memo(BillingOrganizationInvite)

@@ -30,13 +30,12 @@ const getControlsStoreState = (state) => ({
 
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
-  organisation: state.organisation,
-  logOrgId: state.logOrgId,
+  organization: state.organization,
 })
 
 function Main({ children }) {
-  const { user, userLoading } = React.useContext(UserContext)
-  const { artistId, artist, artistLoading, setEnabledPosts } = React.useContext(ArtistContext)
+  const { user } = React.useContext(UserContext)
+  const { artistId, artist, setEnabledPosts } = React.useContext(ArtistContext)
   const isFirstRender = React.useRef(true)
 
   const {

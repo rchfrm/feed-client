@@ -10,18 +10,18 @@ import { formatCurrency } from '@/helpers/utils'
 const BillingInvoiceSummaryPreviewProfileAmounts = ({
   invoice,
   currency,
-  organisationArtists,
+  organizationArtists,
 }) => {
   const [profileAmounts, setprofileAmounts] = React.useState({})
-  const hasMultipleProfiles = organisationArtists.length > 1
+  const hasMultipleProfiles = organizationArtists.length > 1
 
   React.useEffect(() => {
     if (!invoice.profileAmounts || Object.keys(invoice.profileAmounts) === 0) {
       return
     }
 
-    setprofileAmounts(formatProfileAmounts(organisationArtists, invoice.profileAmounts))
-  }, [invoice.profileAmounts, organisationArtists])
+    setprofileAmounts(formatProfileAmounts(organizationArtists, invoice.profileAmounts))
+  }, [invoice.profileAmounts, organizationArtists])
 
   return (
     <div>
@@ -58,7 +58,7 @@ const BillingInvoiceSummaryPreviewProfileAmounts = ({
 BillingInvoiceSummaryPreviewProfileAmounts.propTypes = {
   invoice: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired,
-  organisationArtists: PropTypes.array.isRequired,
+  organizationArtists: PropTypes.array.isRequired,
 }
 
 BillingInvoiceSummaryPreviewProfileAmounts.defaultProps = {

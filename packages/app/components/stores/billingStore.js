@@ -5,45 +5,45 @@ import * as billingHelpers from '@/app/helpers/billingHelpers'
 import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
-  artistOrg: {},
+  organization: {},
   loading: true,
   loadingErrors: [],
-  organisationUsers: [],
-  organisationArtists: [],
+  organizationUsers: [],
+  organizationArtists: [],
   billingDetails: {},
   upcomingInvoice: null,
   artistCurrency: {},
   defaultPaymentMethod: null,
-  organisationInvites: [],
+  organizationInvites: [],
   transferRequests: [],
 }
 
 // FETCH BILLING DETAILS
-const fetchOrganisationDetails = async (organisation) => {
-  const billingDetails = billingHelpers.getbillingDetails(organisation)
+const fetchOrganizationDetails = async (organization) => {
+  const billingDetails = billingHelpers.getBillingDetails(organization)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
 
-  let organisationArtists = []
-  const organisationArtistsResponse = await billingHelpers.getOrganisationArtists(organisation.id)
+  let organizationArtists = []
+  const organizationArtistsResponse = await billingHelpers.getOrganizationArtists(organization.id)
 
-  if (!organisationArtistsResponse.error) {
-    organisationArtists = organisationArtistsResponse.res.artists
+  if (!organizationArtistsResponse.error) {
+    organizationArtists = organizationArtistsResponse.res.artists
   } else {
-    organisationArtists = Object.values((organisation || {}).artists || {})
+    organizationArtists = Object.values((organization || {}).artists || {})
   }
 
   return {
     billingDetails,
     defaultPaymentMethod,
-    organisationArtists,
+    organizationArtists,
   }
 }
 
-const fetchInvoices = async (organisation) => {
+const fetchInvoices = async (organization) => {
   const errors = []
 
   // Fetch next invoice
-  const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organisation.id)
+  const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organization.id)
   if (upcomingInvoiceError && upcomingInvoiceError.message !== 'Not Found') errors.push(upcomingInvoiceError)
 
   return {
@@ -60,7 +60,7 @@ const resetStore = (set) => () => {
 }
 
 // * INITIAL SETUP
-const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationDetailsOnly = false) => {
+const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationDetailsOnly = false) => {
   if (!user.id || !artist.id || typeof get !== 'function') return
   // Check user has access to the artist's org or is sysadmin
   const userOrgIds = Object.values(user.organizations).map(org => org.id)
@@ -75,23 +75,23 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationD
   }
 
   // If changing artist, check it's org is actually different first
-  const currentOrg = get().artistOrg
+  const currentOrg = get().organization
   const orgHasChanged = currentOrg.id !== artistOrgId
   if (!orgHasChanged) return
 
-  const artistOrg = await billingHelpers.fetchOrgById(artistOrgId)
+  const organization = await billingHelpers.fetchOrgById(artistOrgId)
   const {
     billingDetails,
     defaultPaymentMethod,
-    organisationArtists,
-  } = await fetchOrganisationDetails(artistOrg)
+    organizationArtists,
+  } = await fetchOrganizationDetails(organization)
 
   const artistCurrency = artist.min_daily_budget_info.currency
 
-  if (shouldFetchOrganisationDetailsOnly) {
+  if (shouldFetchOrganizationDetailsOnly) {
     set({
-      artistOrg,
-      organisationArtists,
+      organization,
+      organizationArtists,
       billingDetails,
       defaultPaymentMethod,
       artistCurrency,
@@ -102,22 +102,22 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationD
   const {
     upcomingInvoice,
     errors,
-  } = await fetchInvoices(artistOrg)
+  } = await fetchInvoices(organization)
 
-  let organisationUsers = []
-  const organisationUsersResponse = await billingHelpers.getOrganisationUsers(artistOrg.id)
+  let organizationUsers = []
+  const organizationUsersResponse = await billingHelpers.getOrganizationUsers(organization.id)
   // TODO: 3 Is this needed in the store, or just on the billing page
-  if (!organisationUsersResponse.error) {
-    organisationUsers = organisationUsersResponse.res.users
+  if (!organizationUsersResponse.error) {
+    organizationUsers = organizationUsersResponse.res.users
   } else {
-    organisationUsers = Object.values((artistOrg || {}).users || {})
+    organizationUsers = Object.values((organization || {}).users || {})
   }
 
-  let organisationInvites = []
-  const organisationInvitesResponse = await billingHelpers.getOrganisationInvites()
+  let organizationInvites = []
+  const organizationInvitesResponse = await billingHelpers.getOrganizationInvites()
   // TODO: 3 Is this needed in the store, or just on the billing page
-  if (!organisationInvitesResponse.error) {
-    organisationInvites = organisationInvitesResponse.res.invites
+  if (!organizationInvitesResponse.error) {
+    organizationInvites = organizationInvitesResponse.res.invites
   }
 
   let transferRequests = []
@@ -129,16 +129,16 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationD
 
   // SET
   set({
-    artistOrg,
+    organization,
     loading: false,
     loadingErrors: errors,
-    organisationUsers,
-    organisationArtists,
+    organizationUsers,
+    organizationArtists,
     billingDetails,
     upcomingInvoice,
     artistCurrency,
     defaultPaymentMethod,
-    organisationInvites,
+    organizationInvites,
     transferRequests,
   })
 }
@@ -188,35 +188,35 @@ const updateDefaultPayment = (set, get) => (defaultPaymentMethod) => {
   })
 }
 
-// * SELECT ACTIVE ORGANISATION
-const selectOrganisation = (set) => async (user, artist) => {
+// * SELECT ACTIVE ORGANIZATION
+const selectOrganization = (set) => async (user, artist) => {
   set({ loading: true })
   await setupBilling(set)(user, artist)
 }
 
-export const removeOrganisationUser = (set, get) => (user) => {
-  const { organisation, organisationUsers } = get()
+export const removeOrganizationUser = (set, get) => (user) => {
+  const { organization, organizationUsers } = get()
 
-  const organisationUsersUpdated = produce(organisationUsers, draftState => {
+  const organizationUsersUpdated = produce(organizationUsers, draftState => {
     return draftState.filter((u) => u.id !== user.id)
   })
 
-  const organisationUpdated = produce(organisation, draftState => {
+  const organizationUpdated = produce(organization, draftState => {
     delete draftState.users[user.id]
     return draftState
   })
 
-  set({ organisationUsers: organisationUsersUpdated, organisation: organisationUpdated })
+  set({ organizationUsers: organizationUsersUpdated, organization: organizationUpdated })
 }
 
-export const removeOrganisationInvite = (set, get) => async (organisationInvite) => {
-  const { organisationInvites } = get()
+export const removeOrganizationInvite = (set, get) => async (organizationInvite) => {
+  const { organizationInvites } = get()
 
-  const organisationInvitesUpdated = produce(organisationInvites, draftState => {
-    return draftState.filter((oi) => oi.token !== organisationInvite.token)
+  const organizationInvitesUpdated = produce(organizationInvites, draftState => {
+    return draftState.filter((oi) => oi.token !== organizationInvite.token)
   })
 
-  set({ organisationInvites: organisationInvitesUpdated })
+  set({ organizationInvites: organizationInvitesUpdated })
 }
 
 export const removeTransferRequest = (set, get) => async (transferRequest) => {
@@ -229,8 +229,8 @@ export const removeTransferRequest = (set, get) => async (transferRequest) => {
   set({ transferRequests: transferRequestsUpdated })
 }
 
-export const updateOrganisationArtists = (set) => async (organisationArtists) => {
-  set({ organisationArtists })
+export const updateOrganizationArtists = (set) => async (organizationArtists) => {
+  set({ organizationArtists })
 }
 
 const updateUpcomingInvoice = (set) => (upcomingInvoice) => {
@@ -244,11 +244,11 @@ const useBillingStore = create((set, get) => ({
   addPaymentMethod: addPaymentMethod(set, get),
   deletePaymentMethod: deletePaymentMethod(set, get),
   updateDefaultPayment: updateDefaultPayment(set, get),
-  selectOrganisation: selectOrganisation(set, get),
-  removeOrganisationUser: removeOrganisationUser(set, get),
-  removeOrganisationInvite: removeOrganisationInvite(set, get),
+  selectOrganization: selectOrganization(set, get),
+  removeOrganizationUser: removeOrganizationUser(set, get),
+  removeOrganizationInvite: removeOrganizationInvite(set, get),
   removeTransferRequest: removeTransferRequest(set, get),
-  updateOrganisationArtists: updateOrganisationArtists(set, get),
+  updateOrganizationArtists: updateOrganizationArtists(set, get),
   updateUpcomingInvoice: updateUpcomingInvoice(set, get),
 }))
 

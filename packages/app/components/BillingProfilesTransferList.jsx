@@ -7,10 +7,10 @@ import BillingProfilesTransferItem from '@/app/BillingProfilesTransferItem'
 import copy from '@/app/copy/billingCopy'
 
 const BillingProfilesTransferList = ({
-  organisationId,
+  organizationId,
   transferRequests,
   removeTransferRequest,
-  updateOrganisationArtists,
+  updateOrganizationArtists,
   className,
 }) => {
   return (
@@ -25,10 +25,10 @@ const BillingProfilesTransferList = ({
         <div className="rounded-dialogue border-solid border-2 border-redLight mb-4">
           {transferRequests.map((transferRequest, idx) => (
             <BillingProfilesTransferItem
-              organisationId={organisationId}
+              organizationId={organizationId}
               transferRequest={transferRequest}
               removeTransferRequest={removeTransferRequest}
-              updateOrganisationArtists={updateOrganisationArtists}
+              updateOrganizationArtists={updateOrganizationArtists}
               className="m-3"
               key={idx}
             />
@@ -40,10 +40,10 @@ const BillingProfilesTransferList = ({
 }
 
 BillingProfilesTransferList.propTypes = {
-  organisationId: PropTypes.string.isRequired,
+  organizationId: PropTypes.string.isRequired,
   transferRequests: PropTypes.array.isRequired,
   removeTransferRequest: PropTypes.func.isRequired,
-  updateOrganisationArtists: PropTypes.func.isRequired,
+  updateOrganizationArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

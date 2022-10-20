@@ -11,10 +11,8 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { calcFeedMinBudgetInfo } from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
 import { trackGoogleProfileCreated } from 'shared/helpers/trackGoogleHelpers'
-import useBillingStore from '@/app/stores/billingStore'
 
 const updateIsControlsLoading = state => state.setIsControlsLoading
-const getSelectOrganisation = state => state.selectOrganisation
 
 const initialArtistState = {
   id: '',
@@ -112,9 +110,8 @@ const artistReducer = (draftState, action) => {
 }
 
 function ArtistProvider({ children }) {
-  const { user, storeUser } = React.useContext(UserContext)
+  const { storeUser } = React.useContext(UserContext)
   const setIsControlsLoading = useControlsStore(updateIsControlsLoading)
-  const selectOrganisation = useBillingStore(getSelectOrganisation)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 

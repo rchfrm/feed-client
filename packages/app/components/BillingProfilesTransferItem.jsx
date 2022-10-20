@@ -10,10 +10,10 @@ import brandColors from '@/constants/brandColors'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 
 const BillingProfilesTransferItem = ({
-  organisationId,
+  organizationId,
   transferRequest,
   removeTransferRequest,
-  updateOrganisationArtists,
+  updateOrganizationArtists,
   className,
 }) => {
   const [error, setError] = React.useState(null)
@@ -22,7 +22,7 @@ const BillingProfilesTransferItem = ({
 
   const handleAccept = async () => {
     setLoadingAccept(true)
-    const acceptTransferResponse = await billingHelpers.acceptTransferRequest(transferRequest.token, organisationId)
+    const acceptTransferResponse = await billingHelpers.acceptTransferRequest(transferRequest.token, organizationId)
     setLoadingAccept(false)
     if (acceptTransferResponse.error) {
       setError(acceptTransferResponse.error)
@@ -31,13 +31,13 @@ const BillingProfilesTransferItem = ({
 
     removeTransferRequest(transferRequest)
 
-    const organisationArtistsResponse = await await billingHelpers.getOrganisationArtists(organisationId)
-    if (organisationArtistsResponse.error) {
-      setError(organisationArtistsResponse.error)
+    const organizationArtistsResponse = await await billingHelpers.getOrganizationArtists(organizationId)
+    if (organizationArtistsResponse.error) {
+      setError(organizationArtistsResponse.error)
       return
     }
 
-    updateOrganisationArtists(organisationArtistsResponse.res.artists)
+    updateOrganizationArtists(organizationArtistsResponse.res.artists)
   }
 
   const handleReject = async () => {
@@ -90,10 +90,10 @@ const BillingProfilesTransferItem = ({
 }
 
 BillingProfilesTransferItem.propTypes = {
-  organisationId: PropTypes.string.isRequired,
+  organizationId: PropTypes.string.isRequired,
   transferRequest: PropTypes.object.isRequired,
   removeTransferRequest: PropTypes.func.isRequired,
-  updateOrganisationArtists: PropTypes.func.isRequired,
+  updateOrganizationArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

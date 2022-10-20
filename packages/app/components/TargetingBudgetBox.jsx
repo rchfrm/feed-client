@@ -22,7 +22,7 @@ import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
 import copy from '@/app/copy/targetingPageCopy'
 
 const getBillingStoreState = (state) => ({
-  organisationArtists: state.organisationArtists,
+  organizationArtists: state.organizationArtists,
 })
 
 const TargetingBudgetBox = ({
@@ -68,10 +68,10 @@ const TargetingBudgetBox = ({
     },
   } = React.useContext(ArtistContext)
 
-  const { organisationArtists } = useBillingStore(getBillingStoreState)
+  const { organizationArtists } = useBillingStore(getBillingStoreState)
   const isDisabled = !hasSetUpProfile
     || hasCancelledPlan
-    || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
+    || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)

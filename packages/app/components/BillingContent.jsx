@@ -11,7 +11,7 @@ import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
 import SplitView from '@/app/SplitView'
-import BillingOrganisationHeader from '@/app/BillingOrganisationHeader'
+import BillingOrganizationHeader from '@/app/BillingOrganizationHeader'
 import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 import BillingProfilesSummary from '@/app/BillingProfilesSummary'
@@ -26,7 +26,7 @@ const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
   defaultPaymentMethod: state.defaultPaymentMethod,
   upcomingInvoice: state.upcomingInvoice,
-  organisationArtists: state.organisationArtists,
+  organizationArtists: state.organizationArtists,
 })
 
 const BillingContent = () => {
@@ -42,11 +42,11 @@ const BillingContent = () => {
     setupBilling,
     defaultPaymentMethod,
     upcomingInvoice,
-    organisationArtists,
+    organizationArtists,
   } = useBillingStore(getBillingStoreState, shallow)
 
   const billingComponents = {
-    invoices: <BillingInvoiceSummary upcomingInvoice={upcomingInvoice} organisationArtists={organisationArtists} />,
+    invoices: <BillingInvoiceSummary upcomingInvoice={upcomingInvoice} organizationArtists={organizationArtists} />,
     paymentMethod: <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />,
     profiles: <BillingProfilesSummary />,
     users: <BillingUsersSummary />,
@@ -63,7 +63,7 @@ const BillingContent = () => {
 
   return (
     <>
-      <BillingOrganisationHeader />
+      <BillingOrganizationHeader />
       {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
       <SplitView
         contentComponents={billingComponents}

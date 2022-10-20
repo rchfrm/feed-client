@@ -20,7 +20,7 @@ import copy from '@/app/copy/billingCopy'
 const getBillingStoreState = (state) => ({
   billingDetails: state.billingDetails,
   defaultPaymentMethod: state.defaultPaymentMethod,
-  organisation: state.organisation,
+  organization: state.organization,
   updateDefaultPayment: state.updateDefaultPayment,
   deletePaymentMethod: state.deletePaymentMethod,
 })
@@ -31,7 +31,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
     billingDetails: { allPaymentMethods },
     defaultPaymentMethod,
     deletePaymentMethod: deletePaymentMethodStore,
-    organisation: { id: organisationId },
+    organization: { id: organizationId },
     updateDefaultPayment: updateDefaultPaymentStore,
   } = useBillingStore(getBillingStoreState, shallow)
 
@@ -45,7 +45,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
 
   const setMethodAsDefault = React.useCallback(async () => {
     setIsLoading(true)
-    const { res: newDefaultPaymentMethod, error } = await setPaymentAsDefault({ organisationId, paymentMethodId: selectedMethodId })
+    const { res: newDefaultPaymentMethod, error } = await setPaymentAsDefault({ organizationId, paymentMethodId: selectedMethodId })
 
     // Handle error
     if (error) {
@@ -57,9 +57,9 @@ const BillingPaymentMethodsAll = ({ className }) => {
     // Update default in store
     updateDefaultPaymentStore(newDefaultPaymentMethod)
     setError(null)
-    track('billing_set_default_payment_method', { organisationId })
+    track('billing_set_default_payment_method', { organizationId })
     setIsLoading(false)
-  }, [organisationId, selectedMethodId, updateDefaultPaymentStore])
+  }, [organizationId, selectedMethodId, updateDefaultPaymentStore])
 
   React.useEffect(() => {
     // Check whether the user has selected a new default card
@@ -68,7 +68,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
 
   // DELETE METHOD
   const deleteMethod = React.useCallback(async (paymentMethodId) => {
-    const { error } = await deletePaymentMethod(organisationId, paymentMethodId)
+    const { error } = await deletePaymentMethod(organizationId, paymentMethodId)
     // Handle error
     if (error) {
       setError(error)
@@ -76,8 +76,8 @@ const BillingPaymentMethodsAll = ({ className }) => {
     }
     deletePaymentMethodStore(paymentMethodId)
     setError(null)
-    track('billing_delete_payment_method', { organisationId })
-  }, [organisationId, deletePaymentMethodStore])
+    track('billing_delete_payment_method', { organizationId })
+  }, [organizationId, deletePaymentMethodStore])
 
   return (
     <div

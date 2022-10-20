@@ -18,15 +18,15 @@ const getControlsStoreState = (state) => ({
 })
 
 const getBillingStoreState = (state) => ({
-  organisationArtists: state.organisationArtists,
+  organizationArtists: state.organizationArtists,
 })
 
 const ProfileStatusCompleted = ({ className }) => {
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
-  const { organisationArtists } = useBillingStore(getBillingStoreState)
+  const { organizationArtists } = useBillingStore(getBillingStoreState)
 
   const { artist: { hasLegacyPlan } } = React.useContext(ArtistContext)
-  const shouldUpgradeToGrowth = hasLegacyPlan && hasAProfileOnGrowthOrPro(organisationArtists)
+  const shouldUpgradeToGrowth = hasLegacyPlan && hasAProfileOnGrowthOrPro(organizationArtists)
 
   return (
     <div className={[className].join(' ')}>

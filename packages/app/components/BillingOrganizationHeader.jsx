@@ -3,36 +3,36 @@ import shallow from 'zustand/shallow'
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import BillingOrganisationSelect from '@/app/BillingOrganisationSelect'
-import BillingOrganisationInviteList from '@/app/BillingOrganisationInviteList'
+import BillingOrganizationSelect from '@/app/BillingOrganizationSelect'
+import BillingOrganizationInviteList from '@/app/BillingOrganizationInviteList'
 
 const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
-  organisationInvites: state.organisationInvites,
+  organization: state.organization,
+  organizationInvites: state.organizationInvites,
   allOrgs: state.allOrgs,
 })
 
-const BillingOrganisationHeader = () => {
+const BillingOrganizationHeader = () => {
   const {
-    organisation,
+    organization,
     allOrgs,
-    organisationInvites,
+    organizationInvites,
   } = useBillingStore(getBillingStoreState, shallow)
 
   return (
     <div className="grid grid-cols-12 gap-8 mb-6">
       <div className="col-span-12 sm:col-span-6">
-        {/* ACCEPT / REJECT ORGANISATION INVITES */}
-        {organisationInvites.length > 0 && (
-          <BillingOrganisationInviteList
+        {/* ACCEPT / REJECT ORGANIZATION INVITES */}
+        {organizationInvites.length > 0 && (
+          <BillingOrganizationInviteList
             className="mb-12 sm:mb-0 rounded-dialogue border-solid border-2 border-redLight"
           />
         )}
         {/* SELECT ORG */}
         {/* {allOrgs.length >= 2 && ( */}
-        {/*  <BillingOrganisationSelect */}
+        {/*  <BillingOrganizationSelect */}
         {/*    className="mb-12 sm:mb-0" */}
-        {/*    organisation={organisation} */}
+        {/*    organization={organization} */}
         {/*    allOrgs={allOrgs} */}
         {/*  /> */}
         {/* )} */}
@@ -41,10 +41,10 @@ const BillingOrganisationHeader = () => {
   )
 }
 
-BillingOrganisationHeader.propTypes = {
+BillingOrganizationHeader.propTypes = {
 }
 
-BillingOrganisationHeader.defaultProps = {
+BillingOrganizationHeader.defaultProps = {
 }
 
-export default BillingOrganisationHeader
+export default BillingOrganizationHeader

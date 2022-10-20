@@ -14,8 +14,8 @@ import Error from '@/elements/Error'
 import { getProrationsPreview, formatProrationsPreview } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
-  organisationArtists: state.organisationArtists,
+  organization: state.organization,
+  organizationArtists: state.organizationArtists,
 })
 
 const PricingProrationsLoader = ({
@@ -33,18 +33,18 @@ const PricingProrationsLoader = ({
   const { artistId } = React.useContext(ArtistContext)
 
   const {
-    organisation,
-    organisationArtists,
+    organization,
+    organizationArtists,
   } = useBillingStore(getBillingStoreState)
 
-  const { id: organisationId } = organisation
+  const { id: organizationId } = organization
 
   // Fetch and format prorations preview
   const getProrations = async (profilesToUpgrade) => {
     setError(null)
     setIsLoading(true)
 
-    const { res: prorationsPreview, error } = await getProrationsPreview(organisationId, profilesToUpgrade, promoCode)
+    const { res: prorationsPreview, error } = await getProrationsPreview(organizationId, profilesToUpgrade, promoCode)
 
     if (error) {
       setError(error)
@@ -53,12 +53,12 @@ const PricingProrationsLoader = ({
       return false
     }
 
-    return formatProrationsPreview({ profilesToUpgrade, organisationArtists, prorationsPreview })
+    return formatProrationsPreview({ profilesToUpgrade, organizationArtists, prorationsPreview })
   }
 
   useAsyncEffect(async (isMounted) => {
     // Filter out the current profile
-    const otherProfiles = organisationArtists.filter((profile) => profile.id !== artistId)
+    const otherProfiles = organizationArtists.filter((profile) => profile.id !== artistId)
 
     // Create plans object keyed by profile id
     const otherProfilesPlans = otherProfiles.reduce((result, { id, plan }) => {
@@ -86,7 +86,7 @@ const PricingProrationsLoader = ({
 
     // Otherwise update parent state
     setProfilesToUpgrade(profiles)
-  }, [artistId, organisationArtists, setProfilesToUpgrade, plan])
+  }, [artistId, organizationArtists, setProfilesToUpgrade, plan])
 
   // Watch for changes of the profilesToUpgrade object
   useAsyncEffect(async (isMounted) => {

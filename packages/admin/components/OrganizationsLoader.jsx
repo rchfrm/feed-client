@@ -5,7 +5,7 @@ import EntityList from '@/admin/EntityList'
 import Entity from '@/admin/Entity'
 import ListSearch from '@/admin/elements/ListSearch'
 
-const OrganisationsLoader = ({ id }) => {
+const OrganizationsLoader = ({ id }) => {
   const isSingleOrg = !!id
 
   const propsToDisplay = [
@@ -22,24 +22,24 @@ const OrganisationsLoader = ({ id }) => {
     'users',
   ]
 
-  const serverFunction = isSingleOrg ? 'getOrganisation' : 'getAllOrganisations'
+  const serverFunction = isSingleOrg ? 'getOrganization' : 'getAllOrganizations'
   const fields = [...propsToDisplay, ...extraFields]
   const requestProps = {
     limit: 100,
     fields: fields.join(','),
   }
   const serverFunctionArgs = isSingleOrg ? [id, requestProps] : [requestProps]
-  const { data: organisations, error, finishedLoading } = useGetPaginated(serverFunction, serverFunctionArgs)
+  const { data: organizations, error, finishedLoading } = useGetPaginated(serverFunction, serverFunctionArgs)
 
   // FILTER
   // Filtered List
-  // const [filteredOrgs, setFilteredOrgs] = React.useState(organisations)
+  // const [filteredOrgs, setFilteredOrgs] = React.useState(organizations)
   // TODO Add filter for payment status
   // Search state
-  const [searchedOrgs, setSearchedOrgs] = React.useState(organisations)
+  const [searchedOrgs, setSearchedOrgs] = React.useState(organizations)
 
   // GET DATA ARRAY BASED ON PAGE TYPE
-  const orgArray = isSingleOrg ? organisations : searchedOrgs
+  const orgArray = isSingleOrg ? organizations : searchedOrgs
 
   if (!orgArray) {
     return (
@@ -69,30 +69,30 @@ const OrganisationsLoader = ({ id }) => {
   return (
     <section className="content">
       {!finishedLoading ? <p>Loading...</p> : <p>Finished loading all organisations</p>}
-      <p>Total loaded: {organisations.length}</p>
+      <p>Total loaded: {organizations.length}</p>
       <p>Total filtered & searched: {searchedOrgs.length}</p>
 
       {/* SEARCH */}
-      {organisations.length > 1 && (
+      {organizations.length > 1 && (
         <ListSearch
           className="pt-2"
-          fullList={organisations}
+          fullList={organizations}
           updateList={setSearchedOrgs}
         />
       )}
 
-      {/* ORGANISATIONS */}
+      {/* ORGANIZATIONS */}
       <EntityList entities={orgArray} propsToDisplay={propsToDisplay} isSingleEntity={isSingleOrg} />
     </section>
   )
 }
 
-OrganisationsLoader.propTypes = {
+OrganizationsLoader.propTypes = {
   id: PropTypes.string,
 }
 
-OrganisationsLoader.defaultProps = {
+OrganizationsLoader.defaultProps = {
   id: '',
 }
 
-export default OrganisationsLoader
+export default OrganizationsLoader

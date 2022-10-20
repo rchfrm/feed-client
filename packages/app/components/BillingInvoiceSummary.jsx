@@ -8,7 +8,7 @@ import BillingInvoiceList from '@/app/BillingInvoiceList'
 
 const BillingInvoiceSummary = ({
   upcomingInvoice,
-  organisationArtists,
+  organizationArtists,
   className,
 }) => {
   return (
@@ -30,7 +30,7 @@ const BillingInvoiceSummary = ({
             invoice={upcomingInvoice}
             total={upcomingInvoice.total}
             currency={upcomingInvoice.currency}
-            organisationArtists={organisationArtists}
+            organizationArtists={organizationArtists}
           />
         </>
       )}
@@ -43,7 +43,7 @@ const BillingInvoiceSummary = ({
 
 BillingInvoiceSummary.propTypes = {
   upcomingInvoice: PropTypes.object,
-  organisationArtists: PropTypes.array.isRequired,
+  organizationArtists: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 

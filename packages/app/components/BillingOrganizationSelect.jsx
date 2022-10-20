@@ -10,14 +10,14 @@ import useBillingStore from '@/app/stores/billingStore'
 
 import { track } from '@/helpers/trackingHelpers'
 
-const getSelectOrganisation = state => state.selectOrganisation
+const getSelectOrganization = state => state.selectOrganization
 
-const BillingOrganisationSelect = ({
-  organisation,
+const BillingOrganizationSelect = ({
+  organization,
   allOrgs,
   className,
 }) => {
-  const selectOrganisation = useBillingStore(getSelectOrganisation)
+  const selectOrganization = useBillingStore(getSelectOrganization)
   const [selectActive, setSelectActive] = React.useState(false)
   const selectOptions = React.useMemo(() => {
     return allOrgs.map(({ name, id }) => {
@@ -26,7 +26,7 @@ const BillingOrganisationSelect = ({
   }, [allOrgs])
   return (
     <>
-      {/* ORGANISATION SELECT */}
+      {/* ORGANIZATION SELECT */}
       <div
         className={[
           className,
@@ -36,28 +36,28 @@ const BillingOrganisationSelect = ({
           {selectActive ? (
             <>
               <Select
-                name="organisation"
+                name="organization"
                 className="mb-6 sm:mb-0 sm:mr-6"
                 options={selectOptions}
-                selectedValue={organisation.id}
-                handleChange={({ target: { value: organisationId } }) => {
-                  track('billing_switch_organisation', {
-                    previousOrganisationId: organisation.id,
-                    newOrganisationId: organisationId,
+                selectedValue={organization.id}
+                handleChange={({ target: { value: organizationId } }) => {
+                  track('billing_switch_organization', {
+                    previousOrganizationId: organization.id,
+                    newOrganizationId: organizationId,
                   })
-                  selectOrganisation(organisationId)
+                  selectOrganization(organizationId)
                   setSelectActive(false)
                 }}
               />
               <div>
                 <Button
                   version="black x-small"
-                  label="Cancel switch organisation"
+                  label="Cancel switch organization"
                   onClick={(e) => {
                     setSelectActive(false)
                     e.currentTarget.blur() // lose focus on the button
                   }}
-                  trackComponentName="BillingOrganisationSelect"
+                  trackComponentName="BillingOrganizationSelect"
                 >
                   Cancel
                 </Button>
@@ -65,15 +65,15 @@ const BillingOrganisationSelect = ({
             </>
           ) : (
             <>
-              <h3 className="font-display font-bold text-2xl mr-6 mb-6 sm:mb-0">{organisation.name}</h3>
+              <h3 className="font-display font-bold text-2xl mr-6 mb-6 sm:mb-0">{organization.name}</h3>
               <div>
                 <Button
                   version="green x-small"
-                  label="Switch organisation"
+                  label="Switch organization"
                   onClick={() => {
                     setSelectActive(true)
                   }}
-                  trackComponentName="BillingOrganisationSelect"
+                  trackComponentName="BillingOrganizationSelect"
                 >
                   <SwitchIcon className="h-4 w-auto mr-2" fill={brandColors.white} />
                   Switch
@@ -89,14 +89,14 @@ const BillingOrganisationSelect = ({
   )
 }
 
-BillingOrganisationSelect.propTypes = {
-  organisation: PropTypes.object.isRequired,
+BillingOrganizationSelect.propTypes = {
+  organization: PropTypes.object.isRequired,
   allOrgs: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 
-BillingOrganisationSelect.defaultProps = {
+BillingOrganizationSelect.defaultProps = {
   className: null,
 }
 
-export default BillingOrganisationSelect
+export default BillingOrganizationSelect

@@ -9,7 +9,7 @@ import GetStartedPricingPlan from '@/app/GetStartedPricingPlan'
 import { pricingPlans } from '@/constants/pricing'
 
 const getBillingStoreState = (state) => ({
-  organisationArtists: state.organisationArtists,
+  organizationArtists: state.organizationArtists,
 })
 
 const GetStartedPricingPlans = ({
@@ -19,8 +19,8 @@ const GetStartedPricingPlans = ({
   recommendedPlan,
   objective,
 }) => {
-  const { organisationArtists } = useBillingStore(getBillingStoreState)
-  const hasMultipleProfiles = organisationArtists.length > 1
+  const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const hasMultipleProfiles = organizationArtists.length > 1
 
   const hasGrowthObjective = objective === 'growth'
   const hasSalesObjective = objective === 'sales'

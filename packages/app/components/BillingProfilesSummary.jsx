@@ -10,22 +10,22 @@ import LightbulbIcon from '@/icons/LightbulbIcon'
 import brandColors from '@/constants/brandColors'
 
 const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
-  organisationArtists: state.organisationArtists,
+  organization: state.organization,
+  organizationArtists: state.organizationArtists,
   transferRequests: state.transferRequests,
   removeTransferRequest: state.removeTransferRequest,
-  updateOrganisationArtists: state.updateOrganisationArtists,
+  updateOrganizationArtists: state.updateOrganizationArtists,
 })
 
 const BillingProfilesSummary = ({
   className,
 }) => {
   const {
-    organisation,
-    organisationArtists: artists,
+    organization,
+    organizationArtists: artists,
     transferRequests,
     removeTransferRequest,
-    updateOrganisationArtists,
+    updateOrganizationArtists,
   } = useBillingStore(getBillingStoreState)
 
   const currentArtistIdsHashTable = artists.reduce((result, artist) => {
@@ -89,10 +89,10 @@ const BillingProfilesSummary = ({
       {/* TRANSFER REQUESTS */}
       {filteredTransferRequests.length !== 0 && (
         <BillingProfilesTransferList
-          organisationId={organisation.id}
+          organizationId={organization.id}
           transferRequests={filteredTransferRequests}
           removeTransferRequest={removeTransferRequest}
-          updateOrganisationArtists={updateOrganisationArtists}
+          updateOrganizationArtists={updateOrganizationArtists}
         />
       )}
       <BillingTransferProfile />

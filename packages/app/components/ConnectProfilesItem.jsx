@@ -14,7 +14,7 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 import * as ROUTES from '@/app/constants/routes'
 
 const getBillingStoreState = (state) => ({
-  organisationArtists: state.organisationArtists,
+  organizationArtists: state.organizationArtists,
 })
 
 const ConnectProfilesItem = ({
@@ -27,14 +27,14 @@ const ConnectProfilesItem = ({
   const { name, page_id, instagram_username } = profile
   const { user } = React.useContext(UserContext)
   const { connectArtist } = React.useContext(ArtistContext)
-  const { organisationArtists } = useBillingStore(getBillingStoreState)
+  const { organizationArtists } = useBillingStore(getBillingStoreState)
 
   const createArtist = async () => {
     setIsConnecting(true)
     setSelectedProfile(profile)
 
     let plan
-    const hasAllProfilesOnLegacyPlan = artistHelpers.hasAllProfilesOnLegacyPlan(organisationArtists)
+    const hasAllProfilesOnLegacyPlan = artistHelpers.hasAllProfilesOnLegacyPlan(organizationArtists)
 
     if (hasAllProfilesOnLegacyPlan) {
       plan = 'legacy_monthly'

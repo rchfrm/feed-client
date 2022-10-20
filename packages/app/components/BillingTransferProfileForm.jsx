@@ -12,7 +12,7 @@ import useBillingStore from '@/app/stores/billingStore'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 
 // READING FROM STORE
-const getBillingStoreState = (state) => ({ artists: state.organisationArtists })
+const getBillingStoreState = (state) => ({ artists: state.organizationArtists })
 
 // THE FORM
 const FORM = ({

@@ -11,7 +11,7 @@ import copy from '@/app/copy/billingCopy'
 import useBillingStore from '@/app/stores/billingStore'
 
 const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
+  organization: state.organization,
 })
 
 const BillingPaymentAdd = ({
@@ -20,7 +20,7 @@ const BillingPaymentAdd = ({
   const [isLoading, setIsLoading] = React.useState(false)
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
-  const { organisation: { id: organisationId } } = useBillingStore(getBillingStoreState)
+  const { organization: { id: organizationId } } = useBillingStore(getBillingStoreState)
 
   const [paymentMethod, setPaymentMethod] = React.useState(null)
   const [success, setSuccess] = React.useState(false)
@@ -46,7 +46,7 @@ const BillingPaymentAdd = ({
         {success ? <BillingPaymentAddSuccess paymentMethod={paymentMethod} /> : (
           <div className="w-full lg:w-2/3">
             <AddPaymentForm
-              organisationId={organisationId}
+              organizationId={organizationId}
               setAddPaymentMethod={setAddPaymentMethod}
               setPaymentMethod={setPaymentMethod}
               setSuccess={setSuccess}

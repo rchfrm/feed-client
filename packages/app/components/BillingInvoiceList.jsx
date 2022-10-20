@@ -12,15 +12,15 @@ import { fetchArchivedInvoices } from '@/app/helpers/invoiceHelpers'
 
 const formatDate = (date) => moment(date).format('DD MMMM YYYY')
 
-const getOrganisation = state => state.artistOrg
+const getOrganization = state => state.organization
 
 const BillingInvoiceList = () => {
   // LOAD INVOICES
-  const { id: organisationId } = useBillingStore(getOrganisation)
+  const { id: organizationId } = useBillingStore(getOrganization)
   const [invoices, setInvoices] = React.useState([])
   const [error, setError] = React.useState(null)
   useAsyncEffect(async (isMounted) => {
-    const { res: invoices, error } = await fetchArchivedInvoices(organisationId)
+    const { res: invoices, error } = await fetchArchivedInvoices(organizationId)
 
     if (!isMounted()) return
 

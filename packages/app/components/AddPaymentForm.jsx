@@ -46,7 +46,7 @@ const getBillingStoreState = (state) => ({
 
 // THE FORM
 const FORM = ({
-  organisationId,
+  organizationId,
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
@@ -114,7 +114,7 @@ const FORM = ({
 
     // Store payment method in DB
     const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
-      organisationId,
+      organizationId,
       paymentMethodId: stripePaymentMethodId,
       shouldBeDefault,
       promoCode,
@@ -130,7 +130,7 @@ const FORM = ({
     // If payment intent is required
     if (isPaymentIntentRequired) {
       // Get stripe client secret
-      const { res, error: getStripeClientSecretError } = await billingHelpers.getStripeClientSecret(organisationId)
+      const { res, error: getStripeClientSecretError } = await billingHelpers.getStripeClientSecret(organizationId)
 
       if (getStripeClientSecretError) {
         setError(getStripeClientSecretError)
@@ -160,7 +160,7 @@ const FORM = ({
       // Handle failure
       if (res?.setupIntent?.status !== 'succeeded') {
         // Delete payment method
-        await billingHelpers.deletePaymentMethod(organisationId, stripePaymentMethodId)
+        await billingHelpers.deletePaymentMethod(organizationId, stripePaymentMethodId)
         setIsLoading(false)
         return
       }
@@ -169,11 +169,11 @@ const FORM = ({
     // Set card as default (if necessary)
     if (shouldBeDefault) {
       const { error } = await billingHelpers.setPaymentAsDefault({
-        organisationId,
+        organizationId,
         paymentMethodId: stripePaymentMethodId,
       })
       if (error) {
-        await billingHelpers.deletePaymentMethod(organisationId, stripePaymentMethodId)
+        await billingHelpers.deletePaymentMethod(organizationId, stripePaymentMethodId)
         setError(error)
         setIsLoading(false)
         return
@@ -189,8 +189,8 @@ const FORM = ({
     setPaymentMethod(paymentMethodDb)
     setSuccess(true)
     // Track
-    track('billing_finish_add_payment', { organisationId, shouldBeDefault })
-  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements, isPaymentIntentRequired, promoCode, error])
+    track('billing_finish_add_payment', { organizationId, shouldBeDefault })
+  }, [isFormValid, isLoading, setIsLoading, name, organizationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements, isPaymentIntentRequired, promoCode, error])
 
   React.useEffect(() => {
     setAddPaymentMethod(() => onSubmit)
@@ -239,7 +239,7 @@ const FORM = ({
 const stripePromise = loadStripe(process.env.stripe_provider)
 
 const AddPaymentForm = ({
-  organisationId,
+  organizationId,
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
@@ -256,7 +256,7 @@ const AddPaymentForm = ({
     <Elements stripe={stripePromise}>
       {/* Defined above... */}
       <FORM
-        organisationId={organisationId}
+        organizationId={organizationId}
         setAddPaymentMethod={setAddPaymentMethod}
         setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}

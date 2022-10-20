@@ -712,24 +712,24 @@ export const hasLegacyPlan = (plan) => {
   return plan.includes('legacy')
 }
 
-export const hasAllProfilesOnLegacyPlan = (organisationArtists) => {
-  if (!organisationArtists.length) {
+export const hasAllProfilesOnLegacyPlan = (organizationArtists) => {
+  if (!organizationArtists.length) {
     return false
   }
 
-  return organisationArtists.every(({ plan }) => plan === 'legacy_monthly')
+  return organizationArtists.every(({ plan }) => plan === 'legacy_monthly')
 }
 
-export const hasAllProfilesOnNoPlan = (organisationArtists) => {
-  if (!organisationArtists.length) {
+export const hasAllProfilesOnNoPlan = (organizationArtists) => {
+  if (!organizationArtists.length) {
     return false
   }
 
-  return organisationArtists.every(({ plan }) => !plan)
+  return organizationArtists.every(({ plan }) => !plan)
 }
 
-export const hasAProfileOnGrowthOrPro = (organisationArtists) => {
-  return organisationArtists.some(({ plan }) => {
+export const hasAProfileOnGrowthOrPro = (organizationArtists) => {
+  return organizationArtists.some(({ plan }) => {
     const [planPrefix] = plan?.split('_') || []
 
     return planPrefix === 'growth' || planPrefix === 'pro'

@@ -9,17 +9,17 @@ import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/billingCopy'
 
-import BillingOrganisationUserDeleteAlert from '@/app/BillingOrganisationUserDeleteAlert'
-import BillingOrganisationInvite from '@/app/BillingOrganisationInvite'
+import BillingOrganizationUserDeleteAlert from '@/app/BillingOrganizationUserDeleteAlert'
+import BillingOrganizationInvite from '@/app/BillingOrganizationInvite'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 
 const getBillingStoreState = (state) => ({
-  organisation: state.artistOrg,
-  organisationUsers: state.organisationUsers,
-  removeOrganisationUser: state.removeOrganisationUser,
+  organization: state.organization,
+  organizationUsers: state.organizationUsers,
+  removeOrganizationUser: state.removeOrganizationUser,
 })
 
 const BillingUsersSummary = ({
@@ -33,7 +33,7 @@ const BillingUsersSummary = ({
   const [error, setError] = React.useState(null)
   const [loading, setLoading] = React.useState(false)
 
-  const { organisation, organisationUsers: users, removeOrganisationUser } = useBillingStore(getBillingStoreState, shallow)
+  const { organization, organizationUsers: users, removeOrganizationUser } = useBillingStore(getBillingStoreState, shallow)
 
   const handleUserDelete = React.useCallback(async (user, forceDelete) => {
     setUser(user)
@@ -44,7 +44,7 @@ const BillingUsersSummary = ({
     }
 
     setLoading(true)
-    const { error: serverError } = await billingHelpers.deleteOrganisationUser(organisation.id, user.id)
+    const { error: serverError } = await billingHelpers.deleteOrganizationUser(organization.id, user.id)
     setLoading(false)
     if (serverError) {
       setError(serverError)
@@ -52,8 +52,8 @@ const BillingUsersSummary = ({
     }
 
     // UPDATE STORE
-    removeOrganisationUser(user)
-  }, [organisation.id, removeOrganisationUser])
+    removeOrganizationUser(user)
+  }, [organization.id, removeOrganizationUser])
 
   const currentUserId = firebaseHelpers.auth.currentUser.uid
 
@@ -78,13 +78,11 @@ const BillingUsersSummary = ({
   }
 
   const makeNameAndRoleElement = (user) => {
-    console.log('user', user)
-    console.log('organisation', organisation)
-    return <span>{makeDisplayName(user)} – <strong>{organisation.users[user.id].role}</strong></span>
+    return <span>{makeDisplayName(user)} – <strong>{organization.users[user.id].role}</strong></span>
   }
 
   const makeDeleteButton = (user) => {
-    return currentUserId !== user.id && organisation.users[user.id].role !== 'owner'
+    return currentUserId !== user.id && organization.users[user.id].role !== 'owner'
       ? (
         loading
           ? (
@@ -128,8 +126,8 @@ const BillingUsersSummary = ({
           </ul>
         )}
       </div>
-      <BillingOrganisationInvite />
-      <BillingOrganisationUserDeleteAlert
+      <BillingOrganizationInvite />
+      <BillingOrganizationUserDeleteAlert
         confirmAlert={confirmAlert}
         setConfirmAlert={setConfirmAlert}
         user={user}
