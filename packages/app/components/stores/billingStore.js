@@ -66,8 +66,7 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationD
   const userOrgIds = Object.values(user.organizations).map(org => org.id)
   const artistOrgId = artist.organization.id
   const userHasAccessToArtistOrg = userOrgIds.includes(artistOrgId)
-  // const userIsAdmin = user.role === 'admin'
-  const userIsAdmin = false
+  const userIsAdmin = user.role === 'admin'
 
   if (!userHasAccessToArtistOrg && !userIsAdmin) {
     resetStore(set)()
@@ -90,6 +89,7 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationD
 
   if (shouldFetchOrganizationDetailsOnly) {
     set({
+      loading: false,
       organization,
       organizationArtists,
       billingDetails,

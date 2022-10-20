@@ -61,7 +61,7 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
     }
     return `${baseString} ${getSectionIntro(section)}?`
   },
-  pricingUpgradeIntroDescription: (section, currency = 'GBP', hasCancelledPlan) => {
+  pricingUpgradeIntroDescription: (section, currency = 'GBP', hasCancelledPlan, hasBillingAccess) => {
     const maxSpendGrowth = pricingNumbers.growth.monthlyCost[currency] * pricingNumbers.growth.maxSpendMultiple
     const maxSpendPro = pricingNumbers.pro.monthlyCost[currency] * pricingNumbers.pro.maxSpendMultiple
     function getSectionDescription(section) {
@@ -141,12 +141,18 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
           return 'Description...?'
       }
     }
-    const suffix = hasCancelledPlan
-      ? '\n**To choose a plan, click continue below.**'
-      : '\n**To try this feature, click upgrade below.**'
+    function getSuffix(hasBillingAccess, hasCancelledPlan) {
+      if (hasBillingAccess) {
+        if (hasCancelledPlan) {
+          return '\n**To choose a plan, click continue below.**'
+        }
+        return '\n**To try this feature, click upgrade below.**'
+      }
+      return '\n**You don\'t have access to this billing account. Ask an admin to choose plan.**'
+    }
     return `
       ${getSectionDescription(section)}
-      ${suffix}
+      ${getSuffix(hasBillingAccess, hasCancelledPlan)}
     `
   },
   pricingUpgradePlanIntro: ({ hasMultipleUpgradableProfiles, hasGrowthPlan, name, plan, currency }) => {
