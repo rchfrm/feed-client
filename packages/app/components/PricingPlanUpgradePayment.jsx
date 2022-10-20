@@ -39,7 +39,7 @@ const PricingPlanUpgradePayment = ({
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const { artistId, artist, setPlan } = React.useContext(ArtistContext)
+  const { artistId, artist, updateArtist } = React.useContext(ArtistContext)
   const { name, hasGrowthPlan } = artist
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
   const planIsBasic = plan === 'basic_monthly'
@@ -65,15 +65,15 @@ const PricingPlanUpgradePayment = ({
       return
     }
 
-    // Update plan in artist context
-    setPlan(plan)
+    const profileUpdated = profiles.find(profile => profile.id === artistId)
+    updateArtist(profileUpdated)
 
     // Update organisation artists in billing store
     updateOrganisationArtists(profiles)
 
     setCurrentStep((currentStep) => currentStep + 1)
     setIsLoading(false)
-  }, [setCurrentStep, profilesToUpgrade, organisationId, plan, setPlan, updateOrganisationArtists, setError])
+  }, [setCurrentStep, profilesToUpgrade, organisationId, updateOrganisationArtists, setError, artistId, updateArtist])
 
   React.useEffect(() => {
     const button = (
