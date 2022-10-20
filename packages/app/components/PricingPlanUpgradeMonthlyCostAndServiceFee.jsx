@@ -58,9 +58,6 @@ PricingPlanUpgradeMonthlyCostAndServiceFee.propTypes = {
 PricingPlanUpgradeMonthlyCostAndServiceFee.defaultProps = {
   currency: {
     code: 'GBP',
-    exponent: 2,
-    name: 'Pound sterling',
-    offset: 100,
   },
   isAnnualPricing: false,
 }

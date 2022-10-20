@@ -56,12 +56,17 @@ PricingPlanUpgradePlanItem.propTypes = {
   selectedPlan: PropTypes.string.isRequired,
   isAnnualPricing: PropTypes.bool.isRequired,
   handleChange: PropTypes.func.isRequired,
-  currency: PropTypes.string.isRequired,
+  currency: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+  }),
   className: PropTypes.string,
 }
 
 PricingPlanUpgradePlanItem.defaultProps = {
   className: null,
+  currency: {
+    code: 'GBP',
+  },
 }
 
 export default PricingPlanUpgradePlanItem
