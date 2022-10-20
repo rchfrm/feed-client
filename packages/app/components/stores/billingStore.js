@@ -5,7 +5,7 @@ import * as billingHelpers from '@/app/helpers/billingHelpers'
 import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
-  artistOrg: [],
+  artistOrg: {},
   loading: true,
   loadingErrors: [],
   organisationUsers: [],
@@ -52,6 +52,13 @@ const fetchInvoices = async (organisation) => {
   }
 }
 
+const resetStore = (set) => () => {
+  set({
+    ...initialState,
+    loading: false,
+  })
+}
+
 // * INITIAL SETUP
 const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationDetailsOnly = false) => {
   if (!user.id || !artist.id || typeof get !== 'function') return
@@ -59,10 +66,11 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganisationD
   const userOrgIds = Object.values(user.organizations).map(org => org.id)
   const artistOrgId = artist.organization.id
   const userHasAccessToArtistOrg = userOrgIds.includes(artistOrgId)
-  const userIsAdmin = user.role === 'admin'
+  // const userIsAdmin = user.role === 'admin'
+  const userIsAdmin = false
 
   if (!userHasAccessToArtistOrg && !userIsAdmin) {
-    // TODO: 1 Handle this situation
+    resetStore(set)()
     return
   }
 
@@ -231,6 +239,7 @@ const updateUpcomingInvoice = (set) => (upcomingInvoice) => {
 
 const useBillingStore = create((set, get) => ({
   ...initialState,
+  resetStore: resetStore(set),
   setupBilling: setupBilling(set, get),
   addPaymentMethod: addPaymentMethod(set, get),
   deletePaymentMethod: deletePaymentMethod(set, get),
