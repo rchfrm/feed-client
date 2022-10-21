@@ -295,9 +295,9 @@ export const saveCampaign = async ({
       countries: selectedCountries,
     },
     campaign_budget: {
-      date_from: campaignBudget.startDate,
-      date_to: campaignBudget.endDate,
-      total: campaignBudget.totalBudget,
+      date_from: campaignBudget?.startDate,
+      date_to: campaignBudget?.endDate,
+      total: campaignBudget?.totalBudget,
     },
   }
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
