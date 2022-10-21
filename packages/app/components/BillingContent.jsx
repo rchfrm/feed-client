@@ -17,10 +17,8 @@ import useAsyncEffect from 'use-async-effect'
 const getBillingStoreState = (state) => ({
   billingStoreOrg: state.organization,
   billingStoreLoading: state.loading,
+  billingStoreOrgArtists: state.organizationArtists,
   setupBilling: state.setupBilling,
-  defaultPaymentMethod: state.defaultPaymentMethod,
-  upcomingInvoice: state.upcomingInvoice,
-  organizationArtists: state.organizationArtists,
 })
 
 const BillingContent = () => {
@@ -36,6 +34,7 @@ const BillingContent = () => {
   const {
     billingStoreOrg,
     billingStoreLoading,
+    billingStoreOrgArtists,
     defaultPaymentMethod,
   } = useBillingStore(getBillingStoreState, shallow)
 
@@ -51,8 +50,6 @@ const BillingContent = () => {
     const hasAccessToBillingStoreOrg = userOrgIds.includes(billingStoreOrg.id)
     if (hasAccessToBillingStoreOrg) {
       setSelectedOrgId(billingStoreOrg.id)
-      setOrganization(billingStoreOrg)
-      setOrgLoading(false)
     }
     setSelectedOrgId(userOrgIds[0])
   }, [artistLoading, billingStoreOrg, billingStoreLoading, selectedOrgId, user.organizations, userLoading])
@@ -77,6 +74,7 @@ const BillingContent = () => {
     // Check if selected org is already in billing store
     if (selectedOrgId === billingStoreOrg.id) {
       setOrganization(billingStoreOrg)
+      setOrgArtists(billingStoreOrgArtists)
       setOrgLoading(false)
       return
     }
@@ -87,15 +85,14 @@ const BillingContent = () => {
     setOrganization(orgResponse)
     setOrgArtists(Object.values(artists))
     setOrgLoading(false)
-  }, [userLoading, artistLoading, billingStoreLoading, selectedOrgId, orgLoading, organization, setOrgLoading, billingStoreOrg, setOrganization])
+  }, [selectedOrgId, billingStoreOrg.id])
 
   if (!organization || !organization.id || orgLoading) return <Spinner />
 
   const billingComponents = {
     invoices: <BillingInvoiceSection organization={organization} organizationArtists={orgArtists} />,
     profiles: <BillingProfilesSummary organization={organization} organizationArtists={orgArtists} setOrgArtists={setOrgArtists} />,
-    // TODO: Continue removing billing store from here:
-    paymentMethod: <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />,
+    paymentMethod: <BillingPaymentMethodsSummary organization={organization} defaultPaymentMethod={defaultPaymentMethod} />,
     users: <BillingUsersSummary />,
   }
 

@@ -18,21 +18,24 @@ import copy from '@/app/copy/billingCopy'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
-  billingDetails: state.billingDetails,
-  defaultPaymentMethod: state.defaultPaymentMethod,
-  organization: state.organization,
-  updateDefaultPayment: state.updateDefaultPayment,
-  deletePaymentMethod: state.deletePaymentMethod,
+  billingStoreOrg: state.organization,
+  updateBillingStoreOrgDefaultPayment: state.updateDefaultPayment,
+  deleteBillingStorePaymentMethod: state.deletePaymentMethod,
 })
 
-const BillingPaymentMethodsAll = ({ className }) => {
+const BillingPaymentMethodsAll = ({
+  allPaymentMethods,
+  className,
+  defaultPaymentMethod,
+  organization,
+  setAllPaymentMethods,
+  setDefaultPaymentMethod,
+}) => {
   // Read from BILLING STORE
   const {
-    billingDetails: { allPaymentMethods },
-    defaultPaymentMethod,
-    deletePaymentMethod: deletePaymentMethodStore,
-    organization: { id: organizationId },
-    updateDefaultPayment: updateDefaultPaymentStore,
+    billingStoreOrg,
+    updateBillingStoreOrgDefaultPayment,
+    deleteBillingStorePaymentMethod,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // STORE SELECTED STATE
@@ -41,25 +44,35 @@ const BillingPaymentMethodsAll = ({ className }) => {
 
   // SET AS DEFAULT
   const [error, setError] = React.useState(null)
-  const [isLoading, setIsLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
 
   const setMethodAsDefault = React.useCallback(async () => {
-    setIsLoading(true)
-    const { res: newDefaultPaymentMethod, error } = await setPaymentAsDefault({ organizationId, paymentMethodId: selectedMethodId })
+    setLoading(true)
+    const { res: newDefaultPaymentMethod, error } = await setPaymentAsDefault(organization.id, selectedMethodId)
 
     // Handle error
     if (error) {
       setError(error)
-      setIsLoading(false)
-
+      setLoading(false)
       return
     }
     // Update default in store
-    updateDefaultPaymentStore(newDefaultPaymentMethod)
+    if (organization.id === billingStoreOrg.id) {
+      updateBillingStoreOrgDefaultPayment(newDefaultPaymentMethod)
+    }
+    setDefaultPaymentMethod(newDefaultPaymentMethod)
+    const updatedPaymentMethods = allPaymentMethods.map(pm => {
+      if (pm.id === newDefaultPaymentMethod.id) {
+        return newDefaultPaymentMethod
+      }
+      pm.is_default = false
+      return pm
+    })
+    setAllPaymentMethods(updatedPaymentMethods)
     setError(null)
-    track('billing_set_default_payment_method', { organizationId })
-    setIsLoading(false)
-  }, [organizationId, selectedMethodId, updateDefaultPaymentStore])
+    track('billing_set_default_payment_method', { organizationId: organization.id })
+    setLoading(false)
+  }, [allPaymentMethods, billingStoreOrg.id, organization.id, selectedMethodId, setAllPaymentMethods, setDefaultPaymentMethod, updateBillingStoreOrgDefaultPayment])
 
   React.useEffect(() => {
     // Check whether the user has selected a new default card
@@ -68,16 +81,20 @@ const BillingPaymentMethodsAll = ({ className }) => {
 
   // DELETE METHOD
   const deleteMethod = React.useCallback(async (paymentMethodId) => {
-    const { error } = await deletePaymentMethod(organizationId, paymentMethodId)
+    const { error } = await deletePaymentMethod(organization.id, paymentMethodId)
     // Handle error
     if (error) {
       setError(error)
       return
     }
-    deletePaymentMethodStore(paymentMethodId)
+    if (organization.id === billingStoreOrg.id) {
+      deleteBillingStorePaymentMethod(paymentMethodId)
+    }
+    const updatedPaymentMethods = allPaymentMethods.filter(pm => pm.id !== paymentMethodId)
+    setAllPaymentMethods(updatedPaymentMethods)
     setError(null)
-    track('billing_delete_payment_method', { organizationId })
-  }, [organizationId, deletePaymentMethodStore])
+    track('billing_delete_payment_method', { organizationId: organization.id })
+  }, [organization.id, billingStoreOrg.id, allPaymentMethods, setAllPaymentMethods, deleteBillingStorePaymentMethod])
 
   return (
     <div
@@ -115,7 +132,7 @@ const BillingPaymentMethodsAll = ({ className }) => {
           version="black"
           onClick={setMethodAsDefault}
           trackComponentName="BillingPaymentMethodsAll"
-          loading={isLoading}
+          loading={loading}
           className="w-full mb-10"
         >
           Set as default
@@ -127,10 +144,15 @@ const BillingPaymentMethodsAll = ({ className }) => {
 
 BillingPaymentMethodsAll.propTypes = {
   className: PropTypes.string,
+  allPaymentMethods: PropTypes.array.isRequired,
+  defaultPaymentMethod: PropTypes.object.isRequired,
+  organization: PropTypes.object.isRequired,
+  setAllPaymentMethods: PropTypes.func.isRequired,
+  setDefaultPaymentMethod: PropTypes.func.isRequired,
 }
 
 BillingPaymentMethodsAll.defaultProps = {
-  className: null,
+  className: '',
 }
 
 export default BillingPaymentMethodsAll

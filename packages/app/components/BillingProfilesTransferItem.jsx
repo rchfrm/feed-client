@@ -8,6 +8,13 @@ import CrossIcon from '@/icons/CrossIcon'
 import brandColors from '@/constants/brandColors'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
+import useBillingStore from '@/app/stores/billingStore'
+import shallow from 'zustand/shallow'
+
+const getBillingStoreState = (state) => ({
+  billingStoreOrg: state.organization,
+  updateBillingStoreOrgArtists: state.updateOrganizationArtists,
+})
 
 const BillingProfilesTransferItem = ({
   organizationId,
@@ -19,6 +26,17 @@ const BillingProfilesTransferItem = ({
   const [error, setError] = React.useState(null)
   const [loadingAccept, setLoadingAccept] = React.useState(false)
   const [loadingReject, setLoadingReject] = React.useState(false)
+  const {
+    billingStoreOrg,
+    updateBillingStoreOrgArtists,
+  } = useBillingStore(getBillingStoreState)
+
+  const updateArtists = updatedArtists => {
+    if (organizationId === billingStoreOrg.id) {
+      updateBillingStoreOrgArtists(updatedArtists)
+    }
+    setOrgArtists(updatedArtists)
+  }
 
   const handleAccept = async () => {
     setLoadingAccept(true)
@@ -37,7 +55,7 @@ const BillingProfilesTransferItem = ({
       return
     }
 
-    setOrgArtists(organizationArtistsResponse.res.artists)
+    updateArtists(organizationArtistsResponse.res.artists)
   }
 
   const handleReject = async () => {

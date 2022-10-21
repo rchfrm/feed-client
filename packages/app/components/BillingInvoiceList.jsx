@@ -15,14 +15,11 @@ const BillingInvoiceList = ({
   invoicesLoading,
 }) => {
   // LOAD INVOICES
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(true)
   const [invoices, setInvoices] = React.useState([])
   const [error, setError] = React.useState(null)
-  useAsyncEffect(async (isMounted) => {
-    setLoading(true)
+  useAsyncEffect(async () => {
     const { res: invoices, error } = await fetchArchivedInvoices(organization.id)
-
-    if (!isMounted()) return
 
     setError(error)
 
@@ -30,7 +27,7 @@ const BillingInvoiceList = ({
       setInvoices(invoices)
     }
     setLoading(false)
-  }, [])
+  }, [organization])
 
   if (invoicesLoading) return null
 

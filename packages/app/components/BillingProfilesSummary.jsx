@@ -20,6 +20,7 @@ const BillingProfilesSummary = ({
   organization,
   organizationArtists,
   setOrgArtists,
+  className,
 }) => {
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
@@ -43,13 +44,9 @@ const BillingProfilesSummary = ({
     setTransferRequests(updatedTransferRequests)
   }
 
-  const {
-    updateOrganizationArtists,
-  } = useBillingStore(getBillingStoreState)
-
   if (loading) {
     return (
-      <div>
+      <div className={[className].join(' ')}>
         <h2 className="font-body font-bold mb-6">Profiles</h2>
         <Spinner width={25} className="text-left justify-start mb-10" />
       </div>
@@ -64,7 +61,7 @@ const BillingProfilesSummary = ({
   const filteredTransferRequests = transferRequests.filter(({ profile_id }) => !currentArtistIdsHashTable[profile_id])
 
   return (
-    <div>
+    <div className={[className].join(' ')}>
       {/* INTRO */}
       <h2 className="font-body font-bold mb-6">Profiles</h2>
       {/* SUMMARY */}
@@ -131,6 +128,11 @@ BillingProfilesSummary.propTypes = {
   organization: PropTypes.object.isRequired,
   organizationArtists: PropTypes.array.isRequired,
   setOrgArtists: PropTypes.func.isRequired,
+  className: PropTypes.string,
+}
+
+BillingProfilesSummary.defaultProps = {
+  className: '',
 }
 
 export default BillingProfilesSummary

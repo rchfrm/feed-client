@@ -58,7 +58,12 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationD
   // If changing artist, check it's org is actually different first
   const currentOrg = get().organization
   const orgHasChanged = currentOrg.id !== artistOrgId
-  if (!orgHasChanged) return
+  if (!orgHasChanged) {
+    set({ loading: false })
+    return
+  }
+
+  set({ loading: true })
 
   const organization = await billingHelpers.fetchOrgById(artistOrgId)
   const {

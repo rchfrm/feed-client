@@ -9,6 +9,7 @@ import Error from '@/elements/Error'
 const BillingInvoiceSection = ({
   organization,
   organizationArtists,
+  className,
 }) => {
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
@@ -26,10 +27,10 @@ const BillingInvoiceSection = ({
     setError(null)
     setUpcomingInvoice(upcomingInvoice)
     setLoading(false)
-  }, [organization, setError, setLoading, setUpcomingInvoice])
+  }, [organization])
 
   return (
-    <div>
+    <div className={[className].join(' ')}>
       <h2 className="font-body font-bold mb-10">Invoices</h2>
       <Error error={error} />
       <BillingInvoiceSummary
@@ -48,10 +49,11 @@ const BillingInvoiceSection = ({
 BillingInvoiceSection.propTypes = {
   organization: PropTypes.object.isRequired,
   organizationArtists: PropTypes.array.isRequired,
+  className: PropTypes.string,
 }
 
 BillingInvoiceSection.defaultProps = {
-
+  className: '',
 }
 
 export default BillingInvoiceSection
