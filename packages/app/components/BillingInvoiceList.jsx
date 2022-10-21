@@ -1,26 +1,26 @@
 import React from 'react'
-
 import moment from 'moment'
 import useAsyncEffect from 'use-async-effect'
-
 import LinkIcon from '@/icons/LinkIcon'
 import Error from '@/elements/Error'
 
-import useBillingStore from '@/app/stores/billingStore'
-
 import { fetchArchivedInvoices } from '@/app/helpers/invoiceHelpers'
+import PropTypes from 'prop-types'
+import Spinner from '@/elements/Spinner'
 
 const formatDate = (date) => moment(date).format('DD MMMM YYYY')
 
-const getOrganization = state => state.organization
-
-const BillingInvoiceList = () => {
+const BillingInvoiceList = ({
+  organization,
+  invoicesLoading,
+}) => {
   // LOAD INVOICES
-  const { id: organizationId } = useBillingStore(getOrganization)
+  const [loading, setLoading] = React.useState(false)
   const [invoices, setInvoices] = React.useState([])
   const [error, setError] = React.useState(null)
   useAsyncEffect(async (isMounted) => {
-    const { res: invoices, error } = await fetchArchivedInvoices(organizationId)
+    setLoading(true)
+    const { res: invoices, error } = await fetchArchivedInvoices(organization.id)
 
     if (!isMounted()) return
 
@@ -29,29 +29,40 @@ const BillingInvoiceList = () => {
     if (!error) {
       setInvoices(invoices)
     }
+    setLoading(false)
   }, [])
+
+  if (invoicesLoading) return null
 
   return (
     <div>
       <h3 className="font-bold">Past invoices</h3>
-      <Error error={error} />
-      <ul className="text-lg">
-        {invoices.map(({ id, created_at: date, invoice_pdf: link }) => {
-          return (
-            <li key={id} className="flex mb-3 last:mb-0">
-              <a href={link} className="flex items-baseline" target="_blank" rel="noreferrer noopener">
-                <LinkIcon className="h-4 w-auto" style={{ transform: 'translateY(0.1rem)' }} />
-                <p className="ml-2 mb-0">{formatDate(date)}</p>
-              </a>
-            </li>
-          )
-        })}
-      </ul>
+      {loading ? (
+        <Spinner width={25} className="text-left justify-start" />
+      ) : (
+        <>
+          <Error error={error} />
+          <ul className="text-lg">
+            {invoices.map(({ id, created_at: date, invoice_pdf: link }) => {
+              return (
+                <li key={id} className="flex mb-3 last:mb-0">
+                  <a href={link} className="flex items-baseline" target="_blank" rel="noreferrer noopener">
+                    <LinkIcon className="h-4 w-auto" style={{ transform: 'translateY(0.1rem)' }} />
+                    <p className="ml-2 mb-0">{formatDate(date)}</p>
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </>
+      )}
     </div>
   )
 }
 
 BillingInvoiceList.propTypes = {
+  organization: PropTypes.object.isRequired,
+  invoicesLoading: PropTypes.bool.isRequired,
 }
 
 BillingInvoiceList.defaultProps = {

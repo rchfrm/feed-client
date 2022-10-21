@@ -5,14 +5,20 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import BillingProfilesTransferItem from '@/app/BillingProfilesTransferItem'
 import copy from '@/app/copy/billingCopy'
+import Error from '@/elements/Error'
 
 const BillingProfilesTransferList = ({
+  error,
   organizationId,
   transferRequests,
   removeTransferRequest,
-  updateOrganizationArtists,
+  setOrgArtists,
   className,
 }) => {
+  if (error) {
+    return <Error error={error} />
+  }
+
   return (
     <>
       {/* PROFILE TRANSFERS LIST */}
@@ -28,7 +34,7 @@ const BillingProfilesTransferList = ({
               organizationId={organizationId}
               transferRequest={transferRequest}
               removeTransferRequest={removeTransferRequest}
-              updateOrganizationArtists={updateOrganizationArtists}
+              setOrgArtists={setOrgArtists}
               className="m-3"
               key={idx}
             />
@@ -40,15 +46,17 @@ const BillingProfilesTransferList = ({
 }
 
 BillingProfilesTransferList.propTypes = {
+  error: PropTypes.object,
   organizationId: PropTypes.string.isRequired,
   transferRequests: PropTypes.array.isRequired,
   removeTransferRequest: PropTypes.func.isRequired,
-  updateOrganizationArtists: PropTypes.func.isRequired,
+  setOrgArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 BillingProfilesTransferList.defaultProps = {
   className: null,
+  error: null,
 }
 
 export default BillingProfilesTransferList

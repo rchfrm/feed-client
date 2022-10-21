@@ -13,7 +13,7 @@ const BillingProfilesTransferItem = ({
   organizationId,
   transferRequest,
   removeTransferRequest,
-  updateOrganizationArtists,
+  setOrgArtists,
   className,
 }) => {
   const [error, setError] = React.useState(null)
@@ -31,13 +31,13 @@ const BillingProfilesTransferItem = ({
 
     removeTransferRequest(transferRequest)
 
-    const organizationArtistsResponse = await await billingHelpers.getOrganizationArtists(organizationId)
+    const organizationArtistsResponse = await billingHelpers.getOrganizationArtists(organizationId)
     if (organizationArtistsResponse.error) {
       setError(organizationArtistsResponse.error)
       return
     }
 
-    updateOrganizationArtists(organizationArtistsResponse.res.artists)
+    setOrgArtists(organizationArtistsResponse.res.artists)
   }
 
   const handleReject = async () => {
@@ -93,7 +93,7 @@ BillingProfilesTransferItem.propTypes = {
   organizationId: PropTypes.string.isRequired,
   transferRequest: PropTypes.object.isRequired,
   removeTransferRequest: PropTypes.func.isRequired,
-  updateOrganizationArtists: PropTypes.func.isRequired,
+  setOrgArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

@@ -1,21 +1,16 @@
 import create from 'zustand'
 import produce from 'immer'
-
 import * as billingHelpers from '@/app/helpers/billingHelpers'
-import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 const initialState = {
   organization: {},
   loading: true,
-  loadingErrors: [],
   organizationUsers: [],
   organizationArtists: [],
   billingDetails: {},
-  upcomingInvoice: null,
   artistCurrency: {},
   defaultPaymentMethod: null,
   organizationInvites: [],
-  transferRequests: [],
 }
 
 // FETCH BILLING DETAILS
@@ -36,19 +31,6 @@ const fetchOrganizationDetails = async (organization) => {
     billingDetails,
     defaultPaymentMethod,
     organizationArtists,
-  }
-}
-
-const fetchInvoices = async (organization) => {
-  const errors = []
-
-  // Fetch next invoice
-  const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organization.id)
-  if (upcomingInvoiceError && upcomingInvoiceError.message !== 'Not Found') errors.push(upcomingInvoiceError)
-
-  return {
-    upcomingInvoice,
-    errors,
   }
 }
 
@@ -99,11 +81,6 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationD
     return
   }
 
-  const {
-    upcomingInvoice,
-    errors,
-  } = await fetchInvoices(organization)
-
   let organizationUsers = []
   const organizationUsersResponse = await billingHelpers.getOrganizationUsers(organization.id)
   // TODO: 3 Is this needed in the store, or just on the billing page
@@ -120,26 +97,16 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationD
     organizationInvites = organizationInvitesResponse.res.invites
   }
 
-  let transferRequests = []
-  const transferRequestsResponse = await billingHelpers.getTransferRequests()
-  // TODO: 3 Is this needed in the store, or just on the billing page
-  if (!transferRequestsResponse.error) {
-    transferRequests = transferRequestsResponse.res.transferRequests
-  }
-
   // SET
   set({
     organization,
     loading: false,
-    loadingErrors: errors,
     organizationUsers,
     organizationArtists,
     billingDetails,
-    upcomingInvoice,
     artistCurrency,
     defaultPaymentMethod,
     organizationInvites,
-    transferRequests,
   })
 }
 
@@ -219,16 +186,6 @@ export const removeOrganizationInvite = (set, get) => async (organizationInvite)
   set({ organizationInvites: organizationInvitesUpdated })
 }
 
-export const removeTransferRequest = (set, get) => async (transferRequest) => {
-  const { transferRequests } = get()
-
-  const transferRequestsUpdated = produce(transferRequests, draftState => {
-    return draftState.filter((tr) => tr.token !== transferRequest.token)
-  })
-
-  set({ transferRequests: transferRequestsUpdated })
-}
-
 export const updateOrganizationArtists = (set) => async (organizationArtists) => {
   set({ organizationArtists })
 }
@@ -247,7 +204,6 @@ const useBillingStore = create((set, get) => ({
   selectOrganization: selectOrganization(set, get),
   removeOrganizationUser: removeOrganizationUser(set, get),
   removeOrganizationInvite: removeOrganizationInvite(set, get),
-  removeTransferRequest: removeTransferRequest(set, get),
   updateOrganizationArtists: updateOrganizationArtists(set, get),
   updateUpcomingInvoice: updateUpcomingInvoice(set, get),
 }))

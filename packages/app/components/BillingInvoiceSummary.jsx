@@ -1,55 +1,33 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-
-import BillingInvoiceSummaryHeader from '@/app/BillingInvoiceSummaryHeader'
+import Spinner from '@/elements/Spinner'
 import BillingInvoiceSummaryPeriodOptions from '@/app/BillingInvoiceSummaryPeriodOptions'
 import BillingInvoiceSummaryPreview from '@/app/BillingInvoiceSummaryPreview'
-import BillingInvoiceList from '@/app/BillingInvoiceList'
+import React from 'react'
 
 const BillingInvoiceSummary = ({
+  loading,
   upcomingInvoice,
   organizationArtists,
-  className,
 }) => {
-  return (
-    <div
-      className={[
-        className,
-      ].join(' ')}
-    >
-      <BillingInvoiceSummaryHeader
-        upcomingInvoice={upcomingInvoice}
-      />
-      {upcomingInvoice && (
-        <>
-          <BillingInvoiceSummaryPeriodOptions
-            periodStart={upcomingInvoice.periodStart}
-            periodEnd={upcomingInvoice.periodEnd}
-          />
-          <BillingInvoiceSummaryPreview
-            invoice={upcomingInvoice}
-            total={upcomingInvoice.total}
-            currency={upcomingInvoice.currency}
-            organizationArtists={organizationArtists}
-          />
-        </>
-      )}
-      <BillingInvoiceList
-        trackComponentName="BillingOpenInvoices"
-      />
-    </div>
-  )
-}
+  if (loading) {
+    return <Spinner width={25} className="text-left justify-start mb-10" />
+  }
 
-BillingInvoiceSummary.propTypes = {
-  upcomingInvoice: PropTypes.object,
-  organizationArtists: PropTypes.array.isRequired,
-  className: PropTypes.string,
-}
-
-BillingInvoiceSummary.defaultProps = {
-  upcomingInvoice: null,
-  className: null,
+  if (upcomingInvoice) {
+    return (
+      <>
+        <BillingInvoiceSummaryPeriodOptions
+          periodStart={upcomingInvoice.periodStart}
+          periodEnd={upcomingInvoice.periodEnd}
+        />
+        <BillingInvoiceSummaryPreview
+          invoice={upcomingInvoice}
+          total={upcomingInvoice.total}
+          currency={upcomingInvoice.currency}
+          organizationArtists={organizationArtists}
+        />
+      </>
+    )
+  }
 }
 
 export default BillingInvoiceSummary

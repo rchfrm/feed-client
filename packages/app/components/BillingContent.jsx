@@ -1,24 +1,22 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import shallow from 'zustand/shallow'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useBillingStore from '@/app/stores/billingStore'
 import Spinner from '@/elements/Spinner'
-import Error from '@/elements/Error'
 import SplitView from '@/app/SplitView'
 import BillingOrganizationHeader from '@/app/BillingOrganizationHeader'
-import BillingInvoiceSummary from '@/app/BillingInvoiceSummary'
+import BillingInvoiceSection from '@/app/BillingInvoiceSection'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 import BillingProfilesSummary from '@/app/BillingProfilesSummary'
 import BillingUsersSummary from '@/app/BillingUsersSummary'
-import {billingOptions, fetchOrgById} from '@/app/helpers/billingHelpers'
+import { billingOptions, fetchOrgById, getOrganizationArtists } from '@/app/helpers/billingHelpers'
 import useAsyncEffect from 'use-async-effect'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
-  artistOrg: state.organization,
+  billingStoreOrg: state.organization,
   billingStoreLoading: state.loading,
-  loadingErrors: state.loadingErrors,
   setupBilling: state.setupBilling,
   defaultPaymentMethod: state.defaultPaymentMethod,
   upcomingInvoice: state.upcomingInvoice,
@@ -28,20 +26,17 @@ const getBillingStoreState = (state) => ({
 const BillingContent = () => {
   // TODO: 2 Wean this off billing store (unless the selected org is in the billing store)
   const { user, userLoading } = React.useContext(UserContext)
-  const { artist, artistLoading } = React.useContext(ArtistContext)
-  const [selectedBillingOrgID, setSelectedBillingOrgID] = React.useState(undefined)
-  const [billingOrgLoading, setBillingOrgLoading] = React.useState(false)
-  const [billingOrg, setBillingOrg] = React.useState(undefined)
-  const { min_daily_budget_info } = artist
+  const { artistLoading } = React.useContext(ArtistContext)
+  const [selectedOrgId, setSelectedOrgId] = React.useState(undefined)
+  const [orgLoading, setOrgLoading] = React.useState(false)
+  const [organization, setOrganization] = React.useState(undefined)
+  const [orgArtists, setOrgArtists] = React.useState([])
 
   // Read from BILLING STORE
   const {
-    artistOrg,
+    billingStoreOrg,
     billingStoreLoading,
-    loadingErrors,
     defaultPaymentMethod,
-    upcomingInvoice,
-    organizationArtists,
   } = useBillingStore(getBillingStoreState, shallow)
 
   // Set initial selected organization
@@ -50,18 +45,17 @@ const BillingContent = () => {
     if (userLoading || artistLoading || billingStoreLoading) return
 
     // Don't run if an organization is selected
-    if (selectedBillingOrgID) return
+    if (selectedOrgId) return
 
-    const userOrgsIds = Object.keys(user.organizations)
-    const hasAccessToBillingStoreOrg = userOrgsIds.includes(artistOrg.id)
+    const userOrgIds = Object.keys(user.organizations)
+    const hasAccessToBillingStoreOrg = userOrgIds.includes(billingStoreOrg.id)
     if (hasAccessToBillingStoreOrg) {
-      setSelectedBillingOrgID(artistOrg.id)
-      setBillingOrg(artistOrg)
-      setBillingOrgLoading(false)
+      setSelectedOrgId(billingStoreOrg.id)
+      setOrganization(billingStoreOrg)
+      setOrgLoading(false)
     }
-    setSelectedBillingOrgID(userOrgsIds[0])
-  }, [artistLoading, artistOrg, billingStoreLoading, selectedBillingOrgID, user.organizations, userLoading])
-
+    setSelectedOrgId(userOrgIds[0])
+  }, [artistLoading, billingStoreOrg, billingStoreLoading, selectedOrgId, user.organizations, userLoading])
 
   // Get organisation details
   useAsyncEffect(async () => {
@@ -71,40 +65,43 @@ const BillingContent = () => {
     // Check if information needs to be loaded, ie. it's not already
     // loading or the selected org is the same as the one in state
     if (
-      !selectedBillingOrgID // No org has been selected
-      || billingOrgLoading // The org is already being fetched
-      || (selectedBillingOrgID && selectedBillingOrgID === billingOrg?.id) // The selected org isn't different to the one in state
+      !selectedOrgId // No org has been selected
+      || orgLoading // The org is already being fetched
+      || (selectedOrgId && selectedOrgId === organization?.id) // The selected org isn't different to the one in state
     ) {
       return
     }
 
-    setBillingOrgLoading(true)
+    setOrgLoading(true)
 
     // Check if selected org is already in billing store
-    if (selectedBillingOrgID === artistOrg.id) {
-      setBillingOrg(artistOrg)
-      setBillingOrgLoading(false)
+    if (selectedOrgId === billingStoreOrg.id) {
+      setOrganization(billingStoreOrg)
+      setOrgLoading(false)
       return
     }
 
-    const organization = await fetchOrgById(selectedBillingOrgID)
-    setBillingOrg(organization)
-    setBillingOrgLoading(false)
-  }, [userLoading, artistLoading, billingStoreLoading, selectedBillingOrgID, billingOrgLoading, billingOrg, setBillingOrgLoading, artistOrg, setBillingOrg])
+    const orgResponse = await fetchOrgById(selectedOrgId)
+    const { res } = await getOrganizationArtists(orgResponse.id)
+    const { artists } = res
+    setOrganization(orgResponse)
+    setOrgArtists(Object.values(artists))
+    setOrgLoading(false)
+  }, [userLoading, artistLoading, billingStoreLoading, selectedOrgId, orgLoading, organization, setOrgLoading, billingStoreOrg, setOrganization])
+
+  if (!organization || !organization.id || orgLoading) return <Spinner />
 
   const billingComponents = {
-    invoices: <BillingInvoiceSummary upcomingInvoice={upcomingInvoice} organizationArtists={organizationArtists} />,
+    invoices: <BillingInvoiceSection organization={organization} organizationArtists={orgArtists} />,
+    profiles: <BillingProfilesSummary organization={organization} organizationArtists={orgArtists} setOrgArtists={setOrgArtists} />,
+    // TODO: Continue removing billing store from here:
     paymentMethod: <BillingPaymentMethodsSummary defaultPaymentMethod={defaultPaymentMethod} />,
-    profiles: <BillingProfilesSummary />,
     users: <BillingUsersSummary />,
   }
-
-  if (!billingOrg || billingOrgLoading) return <Spinner />
 
   return (
     <>
       <BillingOrganizationHeader />
-      {loadingErrors.map((error, index) => <Error key={index} error={error} />)}
       <SplitView
         contentComponents={billingComponents}
         options={billingOptions}

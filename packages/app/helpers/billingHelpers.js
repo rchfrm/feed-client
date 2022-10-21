@@ -2,6 +2,7 @@ import get from 'lodash/get'
 import moment from 'moment'
 
 import * as api from '@/helpers/api'
+import {fetchUpcomingInvoice} from '@/app/helpers/invoiceHelpers'
 
 // * PAYMENT
 // * --------------------
@@ -424,4 +425,17 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
   }, {})
 
   return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
+}
+
+export const fetchInvoices = async (organization) => {
+  const errors = []
+
+  // Fetch next invoice
+  const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organization.id)
+  if (upcomingInvoiceError && upcomingInvoiceError.message !== 'Not Found') errors.push(upcomingInvoiceError)
+
+  return {
+    upcomingInvoice,
+    errors,
+  }
 }

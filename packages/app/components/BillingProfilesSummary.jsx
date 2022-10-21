@@ -8,27 +8,55 @@ import useBillingStore from '@/app/stores/billingStore'
 import { capitalise } from '@/helpers/utils'
 import LightbulbIcon from '@/icons/LightbulbIcon'
 import brandColors from '@/constants/brandColors'
+import Spinner from '@/elements/Spinner'
+import useAsyncEffect from 'use-async-effect'
+import { getTransferRequests } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
-  organization: state.organization,
-  organizationArtists: state.organizationArtists,
-  transferRequests: state.transferRequests,
-  removeTransferRequest: state.removeTransferRequest,
   updateOrganizationArtists: state.updateOrganizationArtists,
 })
 
 const BillingProfilesSummary = ({
-  className,
+  organization,
+  organizationArtists,
+  setOrgArtists,
 }) => {
+  const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState(null)
+  const [transferRequests, setTransferRequests] = React.useState(undefined)
+
+  useAsyncEffect(async () => {
+    const { error, res } = await getTransferRequests()
+    if (error) {
+      setError(error)
+      setLoading(false)
+      return
+    }
+    const { transferRequests } = res
+    setError(null)
+    setTransferRequests(transferRequests)
+    setLoading(false)
+  }, [])
+
+  const removeTransferRequest = transferRequest => {
+    const updatedTransferRequests = transferRequests.filter(tr => tr.token !== transferRequest.token)
+    setTransferRequests(updatedTransferRequests)
+  }
+
   const {
-    organization,
-    organizationArtists: artists,
-    transferRequests,
-    removeTransferRequest,
     updateOrganizationArtists,
   } = useBillingStore(getBillingStoreState)
 
-  const currentArtistIdsHashTable = artists.reduce((result, artist) => {
+  if (loading) {
+    return (
+      <div>
+        <h2 className="font-body font-bold mb-6">Profiles</h2>
+        <Spinner width={25} className="text-left justify-start mb-10" />
+      </div>
+    )
+  }
+
+  const currentArtistIdsHashTable = organizationArtists.reduce((result, artist) => {
     result[artist.id] = true
     return result
   }, {})
@@ -36,16 +64,12 @@ const BillingProfilesSummary = ({
   const filteredTransferRequests = transferRequests.filter(({ profile_id }) => !currentArtistIdsHashTable[profile_id])
 
   return (
-    <div
-      className={[
-        className,
-      ].join(' ')}
-    >
+    <div>
       {/* INTRO */}
       <h2 className="font-body font-bold mb-6">Profiles</h2>
       {/* SUMMARY */}
       <div className="mb-10">
-        {artists.length === 0 ? (
+        {organizationArtists.length === 0 ? (
           filteredTransferRequests.length === 0 && (
             <span>{copy.noProfiles}</span>
           )
@@ -53,7 +77,7 @@ const BillingProfilesSummary = ({
           <>
             <MarkdownText markdown={copy.profilesIntro} />
             <ul>
-              {artists.map((artist) => {
+              {organizationArtists.map((artist) => {
                 const artistPlan = artist.plan && artist.plan.split('_')[0]
                 return (
                   <li key={artist.id} className="flex ml-5 mb-3 last:mb-0 items-center gap-2">
@@ -81,7 +105,7 @@ const BillingProfilesSummary = ({
             </ul>
             <div className="flex items-center mb-4">
               <LightbulbIcon className="flex-none h-auto mr-2 w-3" fill={brandColors.instagram.bg} />
-              <MarkdownText className="mb-0 font-semibold text-insta" markdown="[Email us to downgrade or cancel your subscription](mailto:team@tryfeed.co)" />
+              <MarkdownText className="mb-0 font-semibold text-insta" markdown="[Email us to downgrade or cancel your plan](mailto:help@tryfeed.co)" />
             </div>
           </>
         )}
@@ -89,23 +113,24 @@ const BillingProfilesSummary = ({
       {/* TRANSFER REQUESTS */}
       {filteredTransferRequests.length !== 0 && (
         <BillingProfilesTransferList
+          error={error}
           organizationId={organization.id}
           transferRequests={filteredTransferRequests}
           removeTransferRequest={removeTransferRequest}
-          updateOrganizationArtists={updateOrganizationArtists}
+          setOrgArtists={setOrgArtists}
         />
       )}
-      <BillingTransferProfile />
+      <BillingTransferProfile
+        organizationArtists={organizationArtists}
+      />
     </div>
   )
 }
 
 BillingProfilesSummary.propTypes = {
-  className: PropTypes.string,
-}
-
-BillingProfilesSummary.defaultProps = {
-  className: null,
+  organization: PropTypes.object.isRequired,
+  organizationArtists: PropTypes.array.isRequired,
+  setOrgArtists: PropTypes.func.isRequired,
 }
 
 export default BillingProfilesSummary
