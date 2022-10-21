@@ -51,11 +51,6 @@ const postsReducer = (draftState, postsAction) => {
       draftState[postIndex].conversionsEnabled = promotionEnabled
       draftState[postIndex].promotableStatus = promotableStatus
       break
-    case 'toggle-promotion-global':
-      draftState.forEach((post) => {
-        post.promotionEnabled = promotionEnabled
-      })
-      break
     case 'update-link-specs':
       draftState[postIndex].linkSpecs = linkSpecs
       break
@@ -216,29 +211,6 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
     })
     return newPromotionState
   }, [posts, setPosts])
-
-  // Define function to BATCH TOGGLE all posts
-  // and save it in posts store
-  const setTogglePromotionGlobal = usePostsStore(React.useCallback(state => state.setTogglePromotionGlobal, []))
-  React.useEffect(() => {
-    const togglePromotionGlobal = (promotionEnabled) => {
-      setPostToggleSetterType('batch')
-      setPosts({
-        type: 'toggle-promotion-global',
-        payload: {
-          promotionEnabled,
-        },
-      })
-      // TRACK
-      track('default_post_promotion_status', {
-        status: promotionEnabled ? 'opt-in' : 'opt-out',
-      })
-    }
-    setTogglePromotionGlobal((promotionEnabled) => {
-      togglePromotionGlobal(promotionEnabled)
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setTogglePromotionGlobal])
 
   // Define function for loading more posts
   const loadMorePosts = React.useCallback(() => {

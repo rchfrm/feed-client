@@ -52,11 +52,14 @@ const TargetingBudget = ({
       hasProPlan,
       hasLegacyPlan,
       hasNoPlan,
+      hasCancelledPlan,
     },
   } = React.useContext(ArtistContext)
 
   const { organisationArtists } = useBillingStore(getBillingStoreState)
-  const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
+  const isDisabled = !hasSetUpProfile
+    || hasCancelledPlan
+    || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
 
   const { campaignBudget } = targetingState
   const hasActiveCampaignBudget = moment().isBefore(campaignBudget.endDate, 'day')
@@ -86,10 +89,10 @@ const TargetingBudget = ({
       return
     }
 
-    if (hasBudgetBelowMinRecommendedStories || (isDailyBudget && (mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget))) {
+    if ((hasBudgetBelowMinRecommendedStories || (isDailyBudget && (mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget))) && !isDisabled) {
       setShouldShowWarning(true)
     }
-  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile, isDailyBudget])
+  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile, isDailyBudget, isDisabled])
 
   return (
     <section

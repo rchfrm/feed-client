@@ -22,10 +22,10 @@ const PricingPlanUpgradeIntro = ({
   section,
   setCurrentStep,
   setSidePanelButton,
+  isUpgradeToPro,
 }) => {
   const { artist } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasLegacyPlan } = artist
-  const isUpgradeToPro = hasGrowthPlan && !hasLegacyPlan
+  const { hasCancelledPlan } = artist
   const { defaultPaymentMethod: { currency } } = useBillingStore(getBillingStoreState, shallow)
 
   const next = React.useCallback(() => {
@@ -35,7 +35,7 @@ const PricingPlanUpgradeIntro = ({
   React.useEffect(() => {
     const button = (
       <Button version="insta" onClick={next} trackComponentName="PricingPlanUpgradeIntro">
-        Upgrade
+        {hasCancelledPlan ? 'Continue' : 'Upgrade'}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
@@ -45,12 +45,12 @@ const PricingPlanUpgradeIntro = ({
     )
 
     setSidePanelButton(button)
-  }, [next, setSidePanelButton])
+  }, [hasCancelledPlan, next, setSidePanelButton])
 
   return (
     <div>
       <h2 className="mb-8 pr-12">{copy.pricingUpgradeIntroTitle(section)}</h2>
-      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currency)} className="mb-8" />
+      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currency, hasCancelledPlan)} className="mb-8" />
       {isUpgradeToPro && (
         <PricingPlanUpgradeIntroPlan currency={currency} />
       )}

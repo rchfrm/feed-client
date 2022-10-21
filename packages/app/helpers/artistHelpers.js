@@ -383,7 +383,13 @@ export const getPreferences = (artist, type) => {
   const formattedPreferencesResponse = {
     ...(type !== 'optimization' && { defaultLinkId: preferences[type].default_link_id, callToAction: preferences[type].call_to_action }),
     ...(type === 'conversions' && { facebookPixelEvent: preferences[type].facebook_pixel_event }),
-    ...(type === 'posts' && { defaultPromotionEnabled: preferences[type].promotion_enabled_default }),
+    ...(type === 'posts' && {
+      defaultPromotionEnabled: {
+        post: preferences[type].promotion_enabled_default_per_type.post,
+        story: preferences[type].promotion_enabled_default_per_type.story,
+        reels: preferences[type].promotion_enabled_default_per_type.reels,
+      },
+    }),
     ...(type === 'optimization' && { objective: preferences[type].objective, platform: preferences[type].platform }),
   }
   return formattedPreferencesResponse
@@ -660,7 +666,7 @@ export const getPreferencesObject = (updatedArtist) => {
     postsPreferences: {
       callToAction: preferences.posts.call_to_action,
       defaultLinkId: preferences.posts.default_link_id,
-      promotionEnabled: preferences.posts.promotion_enabled_default,
+      promotionEnabled: preferences.posts.promotion_enabled_default_per_type,
     },
     optimizationPreferences: {
       objective,
@@ -745,5 +751,51 @@ export const updateArtist = (artist, data) => {
     category: 'Artist',
     action: 'Update artist',
   }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} artistId
+ * @param {string} postType
+ * @param {boolean} defaultPromotionStatus
+ * @returns {Promise<any>}
+ */
+export const batchTogglePromotionEnabled = async (artistId, postType, defaultPostStatus) => {
+  const requestUrl = '/actions/batchSetPromotionEnabled'
+  const payload = {
+    artist_id: artistId,
+    enabled: defaultPostStatus[postType],
+    type: postType,
+  }
+  const errorTracking = {
+    category: 'Posts',
+    action: 'Batch toggle promotion enabled',
+  }
+
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} artistId
+ * @param {string} postType
+ * @param {boolean} defaultPromotionStatus
+ * @returns {Promise<any>}
+ */
+export const updateDefaultPromotionStatus = async (artistId, postType, defaultPostStatus) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    preferences: {
+      posts: {
+        promotion_enabled_default_per_type: {
+          [postType]: defaultPostStatus[postType],
+        },
+      },
+    },
+  }
+  const errorTracking = {
+    category: 'Posts',
+    action: 'Update default promotion status',
+  }
+
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }

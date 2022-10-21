@@ -17,28 +17,37 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ plan, isAnnualPricing }) =
 
   const monthlyCost = plan.monthlyCost[currency]
   const { serviceFeePercentage } = plan
+  const isBasic = monthlyCost === 0 && serviceFeePercentage === 0.1
 
   return (
     <div className="flex items-center">
       <div className="flex flex-col xs:flex-row items-center mr-3 xs:mr-8">
-        <div className="flex">
+        <div className={[
+          'flex',
+          isBasic ? 'text-grey-3' : 'text-black',
+        ].join(' ')}
+        >
           <p className="text-2xl pr-1 mb-0">{currencySymbol}</p>
-          {isAnnualPricing && (
+          {isAnnualPricing && !isBasic && (
             <p className="self-start line-through text-xs text-grey-3">{monthlyCost}</p>
           )}
           <p className={[
             'mr-1 mb-0 text-2xl font-bold',
-            isAnnualPricing ? 'text-green' : null,
+            isAnnualPricing && !isBasic ? 'text-green' : null,
           ].join(' ')}
           >
-            {isAnnualPricing ? monthlyCost * 0.8 : monthlyCost}
+            {isAnnualPricing && !isBasic ? monthlyCost * 0.8 : monthlyCost}
           </p>
         </div>
 
         <p className="mb-0 text-xs">per month</p>
       </div>
-      <div className="flex flex-col xs:flex-row items-center xs:mr-8 text-grey-3">
-        <p className="mr-2 mb-0 text-2xl">{serviceFeePercentage}%</p>
+      <div className={[
+        'flex flex-col xs:flex-row items-center xs:mr-8',
+        isBasic ? 'text-black' : 'text-grey-3',
+      ].join(' ')}
+      >
+        <p className="mr-2 mb-0 text-2xl">{serviceFeePercentage * 100}%</p>
         <p className="mb-0 text-xs">service fee</p>
       </div>
     </div>

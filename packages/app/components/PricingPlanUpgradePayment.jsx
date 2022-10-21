@@ -17,7 +17,7 @@ import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 
 import { formatCurrency } from '@/helpers/utils'
-import { upgradePricingPlan } from '@/app/helpers/billingHelpers'
+import { upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 
 const getBillingStoreState = (state) => ({
@@ -42,9 +42,10 @@ const PricingPlanUpgradePayment = ({
   const { artistId, artist, setPlan } = React.useContext(ArtistContext)
   const { name, hasGrowthPlan } = artist
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
+  const planIsBasic = plan === 'basic_monthly'
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
-  const isDisabled = !amount || Boolean(error)
+  const isDisabled = (!planIsBasic && !amount) || Boolean(error)
 
   const {
     organisationArtists,
@@ -55,7 +56,7 @@ const PricingPlanUpgradePayment = ({
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
-    const { res: { profiles }, error } = await upgradePricingPlan(organisationId, profilesToUpgrade)
+    const { res: { profiles }, error } = await upgradeProfiles(organisationId, profilesToUpgrade)
 
     if (error) {
       setError(error)
@@ -83,7 +84,10 @@ const PricingPlanUpgradePayment = ({
         disabled={isDisabled}
         loading={isLoading}
       >
-        Pay {formatCurrency(amount, currency)}
+        {(planIsBasic && amount === 0
+          ? `Confirm (${formatCurrency(amount, currency, true)})`
+          : `Pay ${formatCurrency(amount, currency)}`
+        )}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
