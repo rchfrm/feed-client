@@ -5,7 +5,6 @@ import * as billingHelpers from '@/app/helpers/billingHelpers'
 const initialState = {
   organization: {},
   loading: true,
-  organizationUsers: [],
   organizationArtists: [],
   billingDetails: {},
   artistCurrency: {},
@@ -86,15 +85,6 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationD
     return
   }
 
-  let organizationUsers = []
-  const organizationUsersResponse = await billingHelpers.getOrganizationUsers(organization.id)
-  // TODO: 3 Is this needed in the store, or just on the billing page
-  if (!organizationUsersResponse.error) {
-    organizationUsers = organizationUsersResponse.res.users
-  } else {
-    organizationUsers = Object.values((organization || {}).users || {})
-  }
-
   let organizationInvites = []
   const organizationInvitesResponse = await billingHelpers.getOrganizationInvites()
   // TODO: 3 Is this needed in the store, or just on the billing page
@@ -106,7 +96,6 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationD
   set({
     organization,
     loading: false,
-    organizationUsers,
     organizationArtists,
     billingDetails,
     artistCurrency,
@@ -166,21 +155,6 @@ const selectOrganization = (set) => async (user, artist) => {
   await setupBilling(set)(user, artist)
 }
 
-export const removeOrganizationUser = (set, get) => (user) => {
-  const { organization, organizationUsers } = get()
-
-  const organizationUsersUpdated = produce(organizationUsers, draftState => {
-    return draftState.filter((u) => u.id !== user.id)
-  })
-
-  const organizationUpdated = produce(organization, draftState => {
-    delete draftState.users[user.id]
-    return draftState
-  })
-
-  set({ organizationUsers: organizationUsersUpdated, organization: organizationUpdated })
-}
-
 export const removeOrganizationInvite = (set, get) => async (organizationInvite) => {
   const { organizationInvites } = get()
 
@@ -207,7 +181,6 @@ const useBillingStore = create((set, get) => ({
   deletePaymentMethod: deletePaymentMethod(set, get),
   updateDefaultPayment: updateDefaultPayment(set, get),
   selectOrganization: selectOrganization(set, get),
-  removeOrganizationUser: removeOrganizationUser(set, get),
   removeOrganizationInvite: removeOrganizationInvite(set, get),
   updateOrganizationArtists: updateOrganizationArtists(set, get),
   updateUpcomingInvoice: updateUpcomingInvoice(set, get),

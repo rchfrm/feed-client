@@ -22,7 +22,6 @@ const getBillingStoreState = (state) => ({
 })
 
 const BillingContent = () => {
-  // TODO: 2 Wean this off billing store (unless the selected org is in the billing store)
   const { user, userLoading } = React.useContext(UserContext)
   const { artistLoading } = React.useContext(ArtistContext)
   const [selectedOrgId, setSelectedOrgId] = React.useState(undefined)
@@ -93,7 +92,7 @@ const BillingContent = () => {
     invoices: <BillingInvoiceSection organization={organization} organizationArtists={orgArtists} />,
     profiles: <BillingProfilesSummary organization={organization} organizationArtists={orgArtists} setOrgArtists={setOrgArtists} />,
     paymentMethod: <BillingPaymentMethodsSummary organization={organization} defaultPaymentMethod={defaultPaymentMethod} />,
-    users: <BillingUsersSummary />,
+    users: <BillingUsersSummary organization={organization} />,
   }
 
   return (

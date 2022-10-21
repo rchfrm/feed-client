@@ -1,42 +1,46 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import shallow from 'zustand/shallow'
-
 import TrashIcon from '@/icons/TrashIcon'
 import MarkdownText from '@/elements/MarkdownText'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/billingCopy'
-
 import BillingOrganizationUserDeleteAlert from '@/app/BillingOrganizationUserDeleteAlert'
 import BillingOrganizationInvite from '@/app/BillingOrganizationInvite'
-
-import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
-import useBillingStore from '@/app/stores/billingStore'
-
-const getBillingStoreState = (state) => ({
-  organization: state.organization,
-  organizationUsers: state.organizationUsers,
-  removeOrganizationUser: state.removeOrganizationUser,
-})
+import useAsyncEffect from 'use-async-effect'
+import { getOrganizationUsers } from '@/app/helpers/billingHelpers'
+import { UserContext } from '@/app/contexts/UserContext'
 
 const BillingUsersSummary = ({
   className,
+  organization,
 }) => {
+  const { user } = React.useContext(UserContext)
   // SHOW ALERT ON USER DELETE
   const [confirmAlert, setConfirmAlert] = React.useState('')
 
   // INTERNAL STATE
-  const [user, setUser] = React.useState(null)
+  const [orgUsers, setOrgUsers] = React.useState(undefined)
+  const [selectedOrgUser, setSelectedOrgUser] = React.useState(null)
   const [error, setError] = React.useState(null)
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(true)
 
-  const { organization, organizationUsers: users, removeOrganizationUser } = useBillingStore(getBillingStoreState, shallow)
+  // Get users with access to the organization
+  useAsyncEffect(async () => {
+    const { error, res } = await getOrganizationUsers(organization.id)
+    if (error) {
+      setError(error)
+      setLoading(false)
+    }
+    setOrgUsers(res.users)
+    setError(null)
+    setLoading(false)
+  }, [organization.id])
 
-  const handleUserDelete = React.useCallback(async (user, forceDelete) => {
-    setUser(user)
+  const handleUserDelete = React.useCallback(async (orgUser, forceDelete) => {
+    setSelectedOrgUser(orgUser)
 
     if (!forceDelete) {
       setConfirmAlert('user-delete')
@@ -44,33 +48,30 @@ const BillingUsersSummary = ({
     }
 
     setLoading(true)
-    const { error: serverError } = await billingHelpers.deleteOrganizationUser(organization.id, user.id)
+    const { error: serverError } = await billingHelpers.deleteOrganizationUser(organization.id, orgUser.id)
+    const updatedOrgUsers = orgUsers.filter(user => user.id !== orgUser.id)
     setLoading(false)
     if (serverError) {
       setError(serverError)
       return
     }
+    setOrgUsers(updatedOrgUsers)
+  }, [orgUsers, organization.id])
 
-    // UPDATE STORE
-    removeOrganizationUser(user)
-  }, [organization.id, removeOrganizationUser])
-
-  const currentUserId = firebaseHelpers.auth.currentUser.uid
-
-  const makeDisplayName = (user) => {
+  const makeDisplayName = (orgUser) => {
     const names = []
 
-    const firstName = (user.first_name || '').trim()
+    const firstName = (orgUser.first_name || '').trim()
     if (firstName) {
       names.push(firstName)
     }
 
-    const lastName = (user.last_name || '').trim()
+    const lastName = (orgUser.last_name || '').trim()
     if (lastName) {
       names.push(lastName)
     }
 
-    if (currentUserId === user.id) {
+    if (user.id === orgUser.id) {
       names.push('(you)')
     }
 
@@ -81,56 +82,50 @@ const BillingUsersSummary = ({
     return <span>{makeDisplayName(user)} – <strong>{organization.users[user.id].role}</strong></span>
   }
 
-  const makeDeleteButton = (user) => {
-    return currentUserId !== user.id && organization.users[user.id].role !== 'owner'
-      ? (
-        loading
-          ? (
-            <Spinner width={22} className="w-auto justify-end" />
-          ) : (
-            <div
-              role="button"
-              className="cursor-pointer"
-              onClick={() => handleUserDelete(user, false)}
-            >
-              <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
-            </div>
-          )
-      )
-      : null
+  const makeDeleteButton = (orgUser) => {
+    return user.id !== orgUser.id && organization.users[orgUser.id].role !== 'owner' ? (
+      <div
+        role="button"
+        className="cursor-pointer"
+        onClick={() => handleUserDelete(orgUser, false)}
+      >
+        <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
+      </div>
+    ) : null
   }
 
   return (
-    <div
-      className={[
-        className,
-      ].join(' ')}
-    >
+    <div className={[className].join(' ')}>
       <h2 className="font-body font-bold mb-6">Your Team</h2>
       <MarkdownText markdown={copy.usersInfo} />
       <Error error={error} />
-      <div className="mb-10">
-        {users.length === 0 ? (
-          <span>{copy.noUsers}</span>
-        ) : (
-          <ul>
-            {users.map((user) => (
-              <li
-                key={user.id}
-                className="flex justify-between ml-5 mb-3 mr-5 last:mb-0"
-              >
-                <span>{makeNameAndRoleElement(user)}</span>
-                {makeDeleteButton(user)}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {loading ? (
+        <Spinner width={25} className="text-left justify-start mb-10" />
+      ) : (
+        <div className="mb-10">
+          {orgUsers.length === 0 ? (
+            <span>{copy.noUsers}</span>
+          ) : (
+            <ul>
+              {orgUsers.map((user) => (
+                <li
+                  key={user.id}
+                  className="flex justify-between ml-5 mb-3 mr-5 last:mb-0"
+                >
+                  <span>{makeNameAndRoleElement(user)}</span>
+                  {makeDeleteButton(user)}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+      // TODO: Final component to sort
       <BillingOrganizationInvite />
       <BillingOrganizationUserDeleteAlert
         confirmAlert={confirmAlert}
         setConfirmAlert={setConfirmAlert}
-        user={user}
+        user={selectedOrgUser}
         onConfirm={handleUserDelete}
       />
     </div>
