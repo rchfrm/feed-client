@@ -16,9 +16,9 @@ const TargetingCampaignBudgetProgressBar = ({
     totalBudget,
   } = campaignBudget
 
-  const periodInDays = moment(endDate).diff(moment(startDate), 'days') + 1
+  const daysInPeriod = moment(endDate).diff(moment(startDate), 'days') + 1
   const daysPassed = moment().diff(moment(startDate), 'days')
-  const progressInPercentage = daysPassed > 0 ? (daysPassed / periodInDays) * 100 : 0
+  const progressInPercentage = daysPassed > 0 ? (daysPassed / daysInPeriod) * 100 : 0
   const totalSpent = daysPassed > 0 ? Math.round((dailyBudget * daysPassed)) / currencyOffset : 0
 
   return (

@@ -40,21 +40,25 @@ DatePicker.displayName = 'DatePicker'
 
 DatePicker.propTypes = {
   value: PropTypes.object,
-  onChange: PropTypes.func.isRequired,
   startDate: PropTypes.object,
   endDate: PropTypes.object,
+  minDate: PropTypes.object,
   selectsStart: PropTypes.bool,
   selectsEnd: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
   isRange: PropTypes.bool,
+  placeholderText: PropTypes.string,
 }
 
 DatePicker.defaultProps = {
   value: null,
   startDate: null,
   endDate: null,
+  minDate: null,
   selectsStart: false,
   selectsEnd: false,
   isRange: false,
+  placeholderText: '',
 }
 
 export default DatePicker
