@@ -62,7 +62,8 @@ const TargetingBudget = ({
     || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
 
   const { campaignBudget } = targetingState
-  const hasActiveCampaignBudget = moment().isBefore(campaignBudget.endDate, 'day')
+  const dayAfterEndDate = moment(campaignBudget.endDate).add(1, 'days')
+  const hasActiveCampaignBudget = moment().isBefore(dayAfterEndDate, 'day')
 
   const [budgetType, setBudgetType] = React.useState(hasActiveCampaignBudget ? 'campaign' : 'daily')
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
