@@ -29,12 +29,12 @@ const TargetingCampaignBudgetForm = ({
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
   const getButtonText = () => {
-    if (moment(startDate).isAfter(moment(), 'day')) {
-      return 'Schedule'
-    }
-
     if (hasActiveCampaignBudget) {
       return 'Update'
+    }
+
+    if (moment(startDate).isAfter(moment(), 'day')) {
+      return 'Schedule'
     }
 
     return 'Start'
