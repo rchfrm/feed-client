@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import * as ReactDatePicker from 'react-datepicker'
 
+import { convertUTCToLocalDate, convertLocalToUTCDate } from '@/helpers/utils'
+
 import 'react-datepicker/dist/react-datepicker.css'
 
 const Component = ReactDatePicker.default
@@ -20,11 +22,11 @@ const DatePicker = React.forwardRef(({
 }, ref) => {
   return (
     <Component
-      selected={value}
-      startDate={startDate}
-      endDate={endDate}
-      minDate={minDate}
-      onChange={onChange}
+      selected={convertUTCToLocalDate(value)}
+      startDate={convertUTCToLocalDate(startDate)}
+      endDate={convertUTCToLocalDate(endDate)}
+      minDate={convertUTCToLocalDate(minDate)}
+      onChange={(date) => onChange(convertLocalToUTCDate(date))}
       selectsRange={isRange}
       dateFormat="dd/MM/yyyy"
       formatWeekDay={nameOfDay => nameOfDay.substring(0, 1)}

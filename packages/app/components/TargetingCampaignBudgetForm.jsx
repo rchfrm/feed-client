@@ -63,11 +63,11 @@ const TargetingCampaignBudgetForm = ({
   const onSubmit = async (e) => {
     e.preventDefault()
 
-    const periodInDays = moment(endDate).diff(moment(startDate), 'days') + 1
+    const daysInPeriod = moment(endDate).diff(moment(startDate), 'days') + 1
 
     await saveTargeting('campaignBudget', {
       ...targetingState,
-      budget: Math.round((totalBudget / periodInDays) * currencyOffset),
+      budget: Math.round((totalBudget / daysInPeriod) * currencyOffset),
       campaignBudget: {
         startDate,
         endDate,
