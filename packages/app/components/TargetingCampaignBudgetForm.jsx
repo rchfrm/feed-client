@@ -20,7 +20,7 @@ const TargetingCampaignBudgetForm = ({
 }) => {
   const { campaignBudget } = targetingState
 
-  const [startDate, setStartDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.startDate : moment().toDate())
+  const [startDate, setStartDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.startDate : moment().utc().startOf('day').toDate())
   const [endDate, setEndDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.endDate : null)
   const [totalBudget, setTotalBudget] = React.useState(hasActiveCampaignBudget ? campaignBudget?.totalBudget : 0)
   const [isFormValid, setIsFormValid] = React.useState(false)
