@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-import { useRouter } from 'next/router'
 
 import InitUser from '@/app/InitUser'
 

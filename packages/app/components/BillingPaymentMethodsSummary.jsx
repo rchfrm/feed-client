@@ -11,7 +11,7 @@ import {
   setPaymentAsDefault,
 } from '@/app/helpers/billingHelpers'
 import useBillingStore from '@/app/stores/billingStore'
-import {track} from '@/helpers/trackingHelpers'
+import { track } from '@/helpers/trackingHelpers'
 import Error from '@/elements/Error'
 
 const getBillingStoreState = (state) => ({

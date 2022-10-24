@@ -35,7 +35,7 @@ const BillingContent = () => {
   const [orgLoading, setOrgLoading] = React.useState(false)
   const [organization, setOrganization] = React.useState(undefined)
   const [orgArtists, setOrgArtists] = React.useState([])
-  const [orgInvites, setOrgInvites] = React.useState(undefined)
+  const [orgInvites, setOrgInvites] = React.useState([])
 
   // Read from BILLING STORE
   const {
@@ -82,10 +82,16 @@ const BillingContent = () => {
     if (selectedOrgId === billingStoreOrg.id) {
       setOrganization(billingStoreOrg)
       setOrgArtists(billingStoreOrgArtists)
+      const { error, res } = await getOrganizationInvites()
+      if (error) {
+        setError(error)
+      }
+      setOrgInvites(res.invites)
       setOrgLoading(false)
       return
     }
 
+    console.log('Promise.all')
     Promise.all([
       fetchOrgById(selectedOrgId),
       getOrganizationArtists(selectedOrgId),

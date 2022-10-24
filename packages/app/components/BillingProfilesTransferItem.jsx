@@ -9,7 +9,6 @@ import brandColors from '@/constants/brandColors'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 import useBillingStore from '@/app/stores/billingStore'
-import shallow from 'zustand/shallow'
 
 const getBillingStoreState = (state) => ({
   billingStoreOrg: state.organization,

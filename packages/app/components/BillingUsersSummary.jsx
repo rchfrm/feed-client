@@ -79,7 +79,7 @@ const BillingUsersSummary = ({
     return names.length > 0 ? names.join(' ') : ''
   }
 
-  const makeNameAndRoleElement =user => {
+  const makeNameAndRoleElement = user => {
     const orgUser = organization.users[user.id]
     if (!orgUser) return
     return <span>{makeDisplayName(user)} – <strong>{orgUser.role}</strong></span>
