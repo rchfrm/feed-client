@@ -31,6 +31,4 @@ TikTokIcon.defaultProps = {
   style: null,
 }
 
-
 export default TikTokIcon
-

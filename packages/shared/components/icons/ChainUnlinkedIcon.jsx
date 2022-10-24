@@ -63,5 +63,4 @@ ChainUnlinkedIcon.defaultProps = {
   style: null,
 }
 
-
 export default ChainUnlinkedIcon

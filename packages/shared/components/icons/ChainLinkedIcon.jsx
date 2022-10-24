@@ -46,5 +46,4 @@ ChainLinkedIcon.defaultProps = {
   style: null,
 }
 
-
 export default ChainLinkedIcon

@@ -50,12 +50,10 @@ const usePlatformRedirect = () => {
       return
     }
 
-    let grantedScopes = []
     setLocalStorage('platformRedirect', null)
 
     const platform = tikTokAuthCode ? 'tiktok' : 'facebook'
-    const authCode = facebookAuthCode || tikTokAuthCode
-    const isFacebookRedirect = platform === 'facebook'
+    const authCode = tikTokAuthCode || facebookAuthCode
 
     // Exchange the redirect auth code for an access token
     const redirectUrl = `${process.env.react_app_url}${redirectPath}`
@@ -67,17 +65,16 @@ const usePlatformRedirect = () => {
     }
 
     // Update facebook granted scopes in artist context
-    if (isFacebookRedirect) {
-      if (res) {
-        setArtist({
-          type: 'update-facebook-integration-scopes',
-          payload: {
-            scopes: res.scopes,
-          },
-        })
+    if (platform === 'facebook') {
+      setArtist({
+        type: 'update-facebook-integration-scopes',
+        payload: {
+          scopes: res?.scopes,
+        },
+      })
 
-        grantedScopes = res.scopes
-      }
+      const missingScopes = getMissingScopes({ grantedScopes: res?.scopes })
+      setMissingScopes(missingScopes)
     }
 
     // If user has an artist make sure to update the access token in the db
@@ -88,12 +85,6 @@ const usePlatformRedirect = () => {
         setAuthError({ message: error.message })
         return
       }
-      grantedScopes = res?.scopes
-    }
-
-    if (isFacebookRedirect) {
-      const missingScopes = getMissingScopes({ grantedScopes })
-      setMissingScopes(missingScopes)
     }
 
     setIsPlatformRedirect(true)
