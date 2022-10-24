@@ -51,6 +51,11 @@ const BillingPaymentMethodsSummary = ({
     }
     const { allPaymentMethods } = getBillingDetails(organization)
     setAllPaymentMethods(allPaymentMethods)
+    if (allPaymentMethods.length === 0) {
+      setDefaultPaymentMethod(undefined)
+      setSelectedMethodId(undefined)
+      return
+    }
     const defaultPaymentMethod = getDefaultPaymentMethod(allPaymentMethods)
     setDefaultPaymentMethod(defaultPaymentMethod)
     setSelectedMethodId(defaultPaymentMethod.id)

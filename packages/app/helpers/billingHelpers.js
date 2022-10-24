@@ -155,7 +155,11 @@ const fetchOrg = async (org) => {
  */
 export const fetchOrgById = async (orgId) => {
   const endpoint = `organizations/${orgId}`
-  return api.get(endpoint)
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Get organization by ID',
+  }
+  return api.requestWithCatch('get', endpoint, null, errorTracking)
 }
 
 

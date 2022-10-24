@@ -16,6 +16,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 const BillingUsersSummary = ({
   className,
   organization,
+  orgLoading,
 }) => {
   const { user } = React.useContext(UserContext)
   // SHOW ALERT ON USER DELETE
@@ -58,7 +59,7 @@ const BillingUsersSummary = ({
     setOrgUsers(updatedOrgUsers)
   }, [orgUsers, organization.id])
 
-  const makeDisplayName = (orgUser) => {
+  const makeDisplayName = orgUser => {
     const names = []
 
     const firstName = (orgUser.first_name || '').trim()
@@ -78,20 +79,28 @@ const BillingUsersSummary = ({
     return names.length > 0 ? names.join(' ') : ''
   }
 
-  const makeNameAndRoleElement = (user) => {
-    return <span>{makeDisplayName(user)} – <strong>{organization.users[user.id].role}</strong></span>
+  const makeNameAndRoleElement =user => {
+    const orgUser = organization.users[user.id]
+    if (!orgUser) return
+    return <span>{makeDisplayName(user)} – <strong>{orgUser.role}</strong></span>
   }
 
-  const makeDeleteButton = (orgUser) => {
-    return user.id !== orgUser.id && organization.users[orgUser.id].role !== 'owner' ? (
-      <div
-        role="button"
-        className="cursor-pointer"
-        onClick={() => handleUserDelete(orgUser, false)}
-      >
-        <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
-      </div>
-    ) : null
+  const makeDeleteButton = orgUser => {
+    const orgUserDetails = organization.users[orgUser.id]
+    if (!orgUserDetails) return
+    const shouldShowDeleteButton = user.id !== orgUser.id && orgUserDetails.role !== 'owner'
+    if (shouldShowDeleteButton) {
+      return (
+        <div
+          role="button"
+          className="cursor-pointer"
+          onClick={() => handleUserDelete(orgUser, false)}
+        >
+          <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
+        </div>
+      )
+    }
+    return null
   }
 
   return (
@@ -99,7 +108,7 @@ const BillingUsersSummary = ({
       <h2 className="font-body font-bold mb-6">Your Team</h2>
       <MarkdownText markdown={copy.usersInfo} />
       <Error error={error} />
-      {loading ? (
+      {loading || orgLoading ? (
         <Spinner width={25} className="text-left justify-start mb-10" />
       ) : (
         <div className="mb-10">
@@ -120,8 +129,9 @@ const BillingUsersSummary = ({
           )}
         </div>
       )}
-      // TODO: Final component to sort
-      <BillingOrganizationInvite />
+      <BillingOrganizationInvite
+        selectedOrgId={organization.id}
+      />
       <BillingOrganizationUserDeleteAlert
         confirmAlert={confirmAlert}
         setConfirmAlert={setConfirmAlert}
@@ -134,6 +144,8 @@ const BillingUsersSummary = ({
 
 BillingUsersSummary.propTypes = {
   className: PropTypes.string,
+  organization: PropTypes.object.isRequired,
+  orgLoading: PropTypes.bool.isRequired,
 }
 
 BillingUsersSummary.defaultProps = {

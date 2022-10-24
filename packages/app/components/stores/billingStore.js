@@ -41,7 +41,7 @@ const resetStore = (set) => () => {
 }
 
 // * INITIAL SETUP
-const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationDetailsOnly = false) => {
+const setupBilling = (set, get) => async (user, artist) => {
   if (!user.id || !artist.id || typeof get !== 'function') return
   // Check user has access to the artist's org or is sysadmin
   const userOrgIds = Object.values(user.organizations).map(org => org.id)
@@ -64,7 +64,7 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationD
 
   set({ loading: true })
 
-  const organization = await billingHelpers.fetchOrgById(artistOrgId)
+  const { res: organization } = await billingHelpers.fetchOrgById(artistOrgId)
   const {
     billingDetails,
     defaultPaymentMethod,
@@ -73,34 +73,13 @@ const setupBilling = (set, get) => async (user, artist, shouldFetchOrganizationD
 
   const artistCurrency = artist.min_daily_budget_info.currency
 
-  if (shouldFetchOrganizationDetailsOnly) {
-    set({
-      loading: false,
-      organization,
-      organizationArtists,
-      billingDetails,
-      defaultPaymentMethod,
-      artistCurrency,
-    })
-    return
-  }
-
-  let organizationInvites = []
-  const organizationInvitesResponse = await billingHelpers.getOrganizationInvites()
-  // TODO: 3 Is this needed in the store, or just on the billing page
-  if (!organizationInvitesResponse.error) {
-    organizationInvites = organizationInvitesResponse.res.invites
-  }
-
-  // SET
   set({
-    organization,
     loading: false,
+    organization,
     organizationArtists,
     billingDetails,
-    artistCurrency,
     defaultPaymentMethod,
-    organizationInvites,
+    artistCurrency,
   })
 }
 
@@ -155,16 +134,6 @@ const selectOrganization = (set) => async (user, artist) => {
   await setupBilling(set)(user, artist)
 }
 
-export const removeOrganizationInvite = (set, get) => async (organizationInvite) => {
-  const { organizationInvites } = get()
-
-  const organizationInvitesUpdated = produce(organizationInvites, draftState => {
-    return draftState.filter((oi) => oi.token !== organizationInvite.token)
-  })
-
-  set({ organizationInvites: organizationInvitesUpdated })
-}
-
 export const updateOrganizationArtists = (set) => async (organizationArtists) => {
   set({ organizationArtists })
 }
@@ -181,7 +150,6 @@ const useBillingStore = create((set, get) => ({
   deletePaymentMethod: deletePaymentMethod(set, get),
   updateDefaultPayment: updateDefaultPayment(set, get),
   selectOrganization: selectOrganization(set, get),
-  removeOrganizationInvite: removeOrganizationInvite(set, get),
   updateOrganizationArtists: updateOrganizationArtists(set, get),
   updateUpcomingInvoice: updateUpcomingInvoice(set, get),
 }))

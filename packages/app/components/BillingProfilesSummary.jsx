@@ -4,17 +4,12 @@ import BillingProfilesTransferList from '@/app/BillingProfilesTransferList'
 import BillingTransferProfile from '@/app/BillingTransferProfile'
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/billingCopy'
-import useBillingStore from '@/app/stores/billingStore'
 import { capitalise } from '@/helpers/utils'
 import LightbulbIcon from '@/icons/LightbulbIcon'
 import brandColors from '@/constants/brandColors'
 import Spinner from '@/elements/Spinner'
 import useAsyncEffect from 'use-async-effect'
 import { getTransferRequests } from '@/app/helpers/billingHelpers'
-
-const getBillingStoreState = (state) => ({
-  updateOrganizationArtists: state.updateOrganizationArtists,
-})
 
 const BillingProfilesSummary = ({
   organization,
@@ -27,6 +22,7 @@ const BillingProfilesSummary = ({
   const [transferRequests, setTransferRequests] = React.useState(undefined)
 
   useAsyncEffect(async () => {
+    setLoading(true)
     const { error, res } = await getTransferRequests()
     if (error) {
       setError(error)

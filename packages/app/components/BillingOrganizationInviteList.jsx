@@ -1,27 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import BillingOrganizationInviteItem from '@/app/BillingOrganizationInviteItem'
-
-import useBillingStore from '@/app/stores/billingStore'
-
-const getBillingStoreState = (state) => ({
-  organizationInvites: state.organizationInvites,
-  removeOrganizationInvite: state.removeOrganizationInvite,
-})
 
 const BillingOrganizationInvitesList = ({
   className,
+  organizationInvites,
+  setOrgInvites,
 }) => {
-  const { organizationInvites, removeOrganizationInvite } = useBillingStore(getBillingStoreState)
+  if (organizationInvites.length === 0) {
+    return null
+  }
+
+  const removeOrganizationInvite = orgInvite => {
+    const updatedOrgInvites = organizationInvites.filter(oi => oi.token !== orgInvite.token)
+    setOrgInvites(updatedOrgInvites)
+  }
+
   return (
     <>
       {/* INVITATIONS LIST */}
-      <div
-        className={[
-          className,
-        ].join(' ')}
-      >
+      <div className={[className].join(' ')}>
         {organizationInvites.map((organizationInvite, idx) => (
           <BillingOrganizationInviteItem
             organizationInvite={organizationInvite}
@@ -39,6 +37,8 @@ const BillingOrganizationInvitesList = ({
 
 BillingOrganizationInvitesList.propTypes = {
   className: PropTypes.string,
+  organizationInvites: PropTypes.array.isRequired,
+  setOrgInvites: PropTypes.func.isRequired,
 }
 
 BillingOrganizationInvitesList.defaultProps = {

@@ -17,6 +17,7 @@ const BillingInvoiceSection = ({
 
   // Fetch invoices for the organization
   useAsyncEffect(async () => {
+    setLoading(true)
     const { errors, upcomingInvoice } = await fetchInvoices(organization)
 
     if (errors.length) {

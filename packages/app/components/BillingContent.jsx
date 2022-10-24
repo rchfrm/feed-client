@@ -10,8 +10,14 @@ import BillingInvoiceSection from '@/app/BillingInvoiceSection'
 import BillingPaymentMethodsSummary from '@/app/BillingPaymentMethodsSummary'
 import BillingProfilesSummary from '@/app/BillingProfilesSummary'
 import BillingUsersSummary from '@/app/BillingUsersSummary'
-import { billingOptions, fetchOrgById, getOrganizationArtists } from '@/app/helpers/billingHelpers'
+import {
+  billingOptions,
+  fetchOrgById,
+  getOrganizationArtists,
+  getOrganizationInvites,
+} from '@/app/helpers/billingHelpers'
 import useAsyncEffect from 'use-async-effect'
+import Error from '@/elements/Error'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
@@ -24,10 +30,12 @@ const getBillingStoreState = (state) => ({
 const BillingContent = () => {
   const { user, userLoading } = React.useContext(UserContext)
   const { artistLoading } = React.useContext(ArtistContext)
+  const [error, setError] = React.useState(null)
   const [selectedOrgId, setSelectedOrgId] = React.useState(undefined)
   const [orgLoading, setOrgLoading] = React.useState(false)
   const [organization, setOrganization] = React.useState(undefined)
   const [orgArtists, setOrgArtists] = React.useState([])
+  const [orgInvites, setOrgInvites] = React.useState(undefined)
 
   // Read from BILLING STORE
   const {
@@ -78,11 +86,28 @@ const BillingContent = () => {
       return
     }
 
-    const orgResponse = await fetchOrgById(selectedOrgId)
-    const { res } = await getOrganizationArtists(orgResponse.id)
-    const { artists } = res
-    setOrganization(orgResponse)
-    setOrgArtists(Object.values(artists))
+    Promise.all([
+      fetchOrgById(selectedOrgId),
+      getOrganizationArtists(selectedOrgId),
+      getOrganizationInvites(),
+    ]).then(res => {
+      const errors = res.reduce((errors, res) => {
+        if (res.error) {
+          errors.push(res.error)
+        }
+        return errors
+      }, [])
+      if (errors.length > 0) {
+        setError(errors[0])
+        return
+      }
+      const orgResponse = res[0]
+      const orgArtistsResponse = res[1]
+      const orgInvitesResponse = res[2]
+      setOrganization(orgResponse.res)
+      setOrgArtists(orgArtistsResponse.res.artists)
+      setOrgInvites(orgInvitesResponse.res.invites)
+    })
     setOrgLoading(false)
   }, [selectedOrgId, billingStoreOrg.id])
 
@@ -92,12 +117,18 @@ const BillingContent = () => {
     invoices: <BillingInvoiceSection organization={organization} organizationArtists={orgArtists} />,
     profiles: <BillingProfilesSummary organization={organization} organizationArtists={orgArtists} setOrgArtists={setOrgArtists} />,
     paymentMethod: <BillingPaymentMethodsSummary organization={organization} defaultPaymentMethod={defaultPaymentMethod} />,
-    users: <BillingUsersSummary organization={organization} />,
+    users: <BillingUsersSummary organization={organization} orgLoading={orgLoading} />,
   }
 
   return (
     <>
-      <BillingOrganizationHeader />
+      <BillingOrganizationHeader
+        organizationInvites={orgInvites}
+        setOrgInvites={setOrgInvites}
+        selectedOrgId={selectedOrgId}
+        setSelectedOrgId={setSelectedOrgId}
+      />
+      <Error error={error} />
       <SplitView
         contentComponents={billingComponents}
         options={billingOptions}

@@ -1,37 +1,39 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import SwitchIcon from '@/icons/SwitchIcon'
 import Button from '@/elements/Button'
 import Select from '@/elements/Select'
 import brandColors from '@/constants/brandColors'
-
-import useBillingStore from '@/app/stores/billingStore'
-
 import { track } from '@/helpers/trackingHelpers'
-
-const getSelectOrganization = state => state.selectOrganization
+import { UserContext } from '@/app/contexts/UserContext'
 
 const BillingOrganizationSelect = ({
-  organization,
-  allOrgs,
   className,
+  selectedOrgId,
+  setSelectedOrgId,
 }) => {
-  const selectOrganization = useBillingStore(getSelectOrganization)
+  const { user, userLoading } = React.useContext(UserContext)
   const [selectActive, setSelectActive] = React.useState(false)
+  const selectedOrgName = React.useMemo(() => {
+    const { organizations } = user
+    if (!organizations) return {}
+    return organizations[selectedOrgId].name
+  }, [selectedOrgId, user])
   const selectOptions = React.useMemo(() => {
-    return allOrgs.map(({ name, id }) => {
+    const { organizations } = user
+    if (!organizations) return {}
+    const userOrgs = Object.values(organizations) || []
+    return userOrgs.map(({ name, id }) => {
       return { name, value: id }
     })
-  }, [allOrgs])
+  }, [user])
+  if (!selectedOrgId || userLoading || selectOptions.length < 2) {
+    return null
+  }
   return (
     <>
       {/* ORGANIZATION SELECT */}
-      <div
-        className={[
-          className,
-        ].join(' ')}
-      >
+      <div className={[className].join(' ')}>
         <div className="sm:flex items-start sm:h-buttonHeight">
           {selectActive ? (
             <>
@@ -39,13 +41,13 @@ const BillingOrganizationSelect = ({
                 name="organization"
                 className="mb-6 sm:mb-0 sm:mr-6"
                 options={selectOptions}
-                selectedValue={organization.id}
+                selectedValue={selectedOrgId}
                 handleChange={({ target: { value: organizationId } }) => {
                   track('billing_switch_organization', {
-                    previousOrganizationId: organization.id,
+                    previousOrganizationId: selectedOrgId,
                     newOrganizationId: organizationId,
                   })
-                  selectOrganization(organizationId)
+                  setSelectedOrgId(organizationId)
                   setSelectActive(false)
                 }}
               />
@@ -65,7 +67,7 @@ const BillingOrganizationSelect = ({
             </>
           ) : (
             <>
-              <h3 className="font-display font-bold text-2xl mr-6 mb-6 sm:mb-0">{organization.name}</h3>
+              <h3 className="font-display font-bold text-2xl mr-6 mb-6 sm:mb-0">{selectedOrgName}</h3>
               <div>
                 <Button
                   version="green x-small"
@@ -90,8 +92,8 @@ const BillingOrganizationSelect = ({
 }
 
 BillingOrganizationSelect.propTypes = {
-  organization: PropTypes.object.isRequired,
-  allOrgs: PropTypes.array.isRequired,
+  selectedOrgId: PropTypes.string.isRequired,
+  setSelectedOrgId: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

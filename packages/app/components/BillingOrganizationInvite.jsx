@@ -5,8 +5,11 @@ import BillingOrganizationInviteForm from '@/app/BillingOrganizationInviteForm'
 import copy from '@/app/copy/billingCopy'
 
 import MarkdownText from '@/elements/MarkdownText'
+import PropTypes from 'prop-types'
 
-const BillingOrganizationInvite = () => {
+const BillingOrganizationInvite = ({
+  selectedOrgId,
+}) => {
   const [success, setSuccess] = React.useState(false)
 
   React.useEffect(() => {
@@ -28,6 +31,7 @@ const BillingOrganizationInvite = () => {
       {success ? <MarkdownText markdown="Invite sent 🎉" /> : (
         <BillingOrganizationInviteForm
           className="w-full lg:w-2/3 mt-10"
+          selectedOrgId={selectedOrgId}
           setSuccess={setSuccess}
         />
       )}
@@ -36,10 +40,7 @@ const BillingOrganizationInvite = () => {
 }
 
 BillingOrganizationInvite.propTypes = {
-}
-
-BillingOrganizationInvite.defaultProps = {
-
+  selectedOrgId: PropTypes.string.isRequired,
 }
 
 export default React.memo(BillingOrganizationInvite)

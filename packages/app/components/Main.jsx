@@ -64,7 +64,7 @@ function Main({ children }) {
 
   // Setup billing store
   React.useEffect(() => {
-    setupBilling(user, artist, true)
+    setupBilling(user, artist)
   }, [artist, setupBilling, user])
 
   // Update integrations when they change on artist
