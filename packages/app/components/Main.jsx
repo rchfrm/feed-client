@@ -17,7 +17,6 @@ import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
 import * as server from '@/app/helpers/appServer'
 import { profileStatus } from '@/app/helpers/artistHelpers'
 import { formatPostsMinimal } from '@/app/helpers/postsHelpers'
-import * as ROUTES from '@/app/constants/routes'
 
 const getControlsStoreState = (state) => ({
   initControlsStore: state.initControlsStore,
