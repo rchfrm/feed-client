@@ -5,7 +5,7 @@ import ButtonFacebook from '@/elements/ButtonFacebook'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
-import { handleFbRedirect } from '@/app/helpers/facebookHelpers'
+import { handleFbAuthRedirect } from '@/app/helpers/facebookHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 
@@ -23,7 +23,7 @@ const ConnectFacebookButton = ({
       className={[
         className,
       ].join(' ')}
-      onClick={() => handleFbRedirect(auth, scopes, redirectPath)}
+      onClick={() => handleFbAuthRedirect(auth, scopes, redirectPath)}
       fallbackCta={buttonText}
       trackComponentName={trackComponentName}
     >

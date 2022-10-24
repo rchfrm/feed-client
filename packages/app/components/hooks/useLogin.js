@@ -6,7 +6,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import useFbRedirect from '@/app/hooks/useFbRedirect'
+import usePlatformRedirect from '@/app/hooks/usePlatformRedirect'
 
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
@@ -28,7 +28,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
   const { setNoUser, storeUser } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
-  const { checkAndHandleFbRedirect } = useFbRedirect()
+  const { checkAndHandlePlatformRedirect } = usePlatformRedirect()
 
   // Handle no auth user
   const handleNoAuthUser = React.useCallback((authError) => {
@@ -86,8 +86,8 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // Check if they have artists connected to their account or not,
     // if they don't, set setNoArtist, and push them to the Connect Artist page
     if (artists.length === 0) {
-      // Check whether we're coming from a manual oauth FB redirect...
-      await checkAndHandleFbRedirect()
+      // Check whether we're coming from a manual oauth platform redirect...
+      await checkAndHandlePlatformRedirect()
 
       fireSentryBreadcrumb({
         category: 'login',
@@ -126,8 +126,8 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
     await storeArtist(selectedArtistId, false)
 
-    // Check whether we're coming from a manual oauth FB redirect...
-    await checkAndHandleFbRedirect(selectedArtistId)
+    // Check whether we're coming from a manual oauth platform redirect...
+    await checkAndHandlePlatformRedirect(selectedArtistId)
 
     // Check if they are on either the log-in or sign-up page,
     // if they are push to the home page
@@ -145,7 +145,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       const userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
       return userRedirected
     }
-  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser, checkAndHandleFbRedirect])
+  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser, checkAndHandlePlatformRedirect])
 
   // Detect signed in user
   const handleInitialAuthCheck = React.useCallback(async (authUser, authError) => {

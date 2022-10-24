@@ -28,8 +28,8 @@ const GetStartedConnectFacebook = () => {
 
   const {
     auth,
-    isFacebookRedirect,
-    setIsFacebookRedirect,
+    isPlatformRedirect,
+    setIsPlatformRedirect,
   } = React.useContext(AuthContext)
   const { missingScopes: { ads: missingScopes } } = auth
 
@@ -71,7 +71,7 @@ const GetStartedConnectFacebook = () => {
     const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
 
     // Handle connecting a single artist
-    if (processedArtists.length === 1 && isFacebookRedirect && !artistId) {
+    if (processedArtists.length === 1 && isPlatformRedirect && !artistId) {
       setArtistAccounts(processedArtists)
       setSelectedProfile(processedArtists[0])
 
@@ -99,12 +99,12 @@ const GetStartedConnectFacebook = () => {
     setIsLoading(false)
   }, [])
 
-  // Reset isFacebookRedirect boolean when leaving page
+  // Reset isPlatformRedirect boolean when leaving page
   React.useEffect(() => {
     return () => {
-      setIsFacebookRedirect(false)
+      setIsPlatformRedirect(false)
     }
-  }, [setIsFacebookRedirect])
+  }, [setIsPlatformRedirect])
 
   if (isConnecting && artistAccounts.length > 0) {
     return <ConnectProfilesIsConnecting profile={selectedProfile} className="my-6 sm:my-0" />

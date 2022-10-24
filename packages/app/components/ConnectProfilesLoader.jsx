@@ -31,7 +31,7 @@ const ConnectProfilesLoader = ({
     auth,
     authError,
     setAuthError,
-    setIsFacebookRedirect,
+    setIsPlatformRedirect,
   } = React.useContext(AuthContext)
 
   const { user, userLoading } = React.useContext(UserContext)
@@ -48,9 +48,9 @@ const ConnectProfilesLoader = ({
   React.useEffect(() => {
     return () => {
       setAuthError(null)
-      setIsFacebookRedirect(false)
+      setIsPlatformRedirect(false)
     }
-  }, [setAuthError, authError, setIsFacebookRedirect])
+  }, [setAuthError, authError, setIsPlatformRedirect])
 
 
   // Get initial data from server
