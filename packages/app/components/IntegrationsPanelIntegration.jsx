@@ -17,6 +17,8 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
 import { handleTikTokAuthRedirect } from '@/app/helpers/tikTokHelpers'
 
+import * as ROUTES from '@/app/constants/routes'
+
 const getControlsStoreState = (state) => ({
   fetchAndUpdateLinks: state.fetchAndUpdateLinks,
 })
@@ -74,7 +76,7 @@ const IntegrationsPanelIntegration = ({
         size={useLargeButtons ? 'x-large' : 'large'}
         onClick={() => {
           if (platform === 'tiktok') {
-            handleTikTokAuthRedirect()
+            handleTikTokAuthRedirect(ROUTES.CONTROLS)
             return
           }
           updateIntegration(integration, action)
