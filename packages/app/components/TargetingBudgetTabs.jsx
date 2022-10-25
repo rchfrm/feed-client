@@ -35,7 +35,7 @@ const TargetingBudgetTabs = ({
             ].join(' ')}
             onClick={() => handleClick(type)}
           >
-            {capitalise(type)} budget
+            {capitalise(type)}
           </button>
         ))}
       </div>

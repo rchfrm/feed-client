@@ -56,17 +56,17 @@ const TargetingCampaignBudget = ({
             currencyOffset={currencyOffset}
           />
           <div className="flex justify-between">
-            <TargetingCampaignBudgetEditButton
-              setIsCampaignEdit={setIsCampaignEdit}
-            />
             <Button
               version="red small"
               className="h-8 rounded-full"
               onClick={onCancel}
               trackComponentName="TargetingCampaignBudget"
             >
-              Cancel campaign
+              Cancel
             </Button>
+            <TargetingCampaignBudgetEditButton
+              setIsCampaignEdit={setIsCampaignEdit}
+            />
           </div>
         </>
       )}

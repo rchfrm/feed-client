@@ -25,7 +25,7 @@ const TargetingBudgetTabsAlert = ({
 
     const buttons = [
       {
-        text: 'Back',
+        text: 'Ok',
         onClick: () => {
           setShouldShowAlert(false)
           closeAlert()

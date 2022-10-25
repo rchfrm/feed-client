@@ -120,16 +120,6 @@ const TargetingCampaignBudgetForm = ({
         />
       </div>
       <div className="flex justify-between">
-        <Button
-          type="submit"
-          version="green small"
-          className="h-8 rounded-full"
-          onClick={onSubmit}
-          trackComponentName="TargetingCampaignBudgetForm"
-          disabled={!isFormValid}
-        >
-          {getButtonText()} campaign
-        </Button>
         {hasActiveCampaignBudget && (
           <Button
             type="submit"
@@ -141,6 +131,16 @@ const TargetingCampaignBudgetForm = ({
             Back
           </Button>
         )}
+        <Button
+          type="submit"
+          version="green small"
+          className="h-8 rounded-full"
+          onClick={onSubmit}
+          trackComponentName="TargetingCampaignBudgetForm"
+          disabled={!isFormValid}
+        >
+          {getButtonText()} campaign
+        </Button>
       </div>
     </form>
   )
