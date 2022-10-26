@@ -21,9 +21,9 @@ import { upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 
 const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
-  organisationArtists: state.organisationArtists,
-  updateOrganisationArtists: state.updateOrganisationArtists,
+  organization: state.organization,
+  organizationArtists: state.organizationArtists,
+  updateOrganizationArtists: state.updateOrganizationArtists,
 })
 
 const PricingPlanUpgradePayment = ({
@@ -48,15 +48,15 @@ const PricingPlanUpgradePayment = ({
   const isDisabled = (!planIsBasic && !amount) || Boolean(error)
 
   const {
-    organisationArtists,
-    organisation,
-    updateOrganisationArtists,
+    organizationArtists,
+    organization,
+    updateOrganizationArtists,
   } = useBillingStore(getBillingStoreState, shallow)
-  const { id: organisationId } = organisation
+  const { id: organizationId } = organization
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
-    const { res: { profiles }, error } = await upgradeProfiles(organisationId, profilesToUpgrade)
+    const { res: { profiles }, error } = await upgradeProfiles(organizationId, profilesToUpgrade)
 
     if (error) {
       setError(error)
@@ -69,12 +69,12 @@ const PricingPlanUpgradePayment = ({
     setStatus(profileUpdated.status)
     setPlan(profileUpdated.plan)
 
-    // Update organisation artists in billing store
-    updateOrganisationArtists(profiles)
+    // Update organization artists in billing store
+    updateOrganizationArtists(profiles)
 
     setCurrentStep((currentStep) => currentStep + 1)
     setIsLoading(false)
-  }, [setCurrentStep, profilesToUpgrade, organisationId, updateOrganisationArtists, setError, artistId, setPlan, setStatus])
+  }, [setCurrentStep, profilesToUpgrade, organizationId, updateOrganizationArtists, setError, artistId, setPlan, setStatus])
 
   React.useEffect(() => {
     const button = (
@@ -102,10 +102,10 @@ const PricingPlanUpgradePayment = ({
 
   React.useEffect(() => {
     // Get the current profile
-    const currentProfile = organisationArtists.find((profile) => profile.id === artistId)
+    const currentProfile = organizationArtists.find((profile) => profile.id === artistId)
 
     // Filter out the current profile
-    const otherProfiles = organisationArtists.filter((profile) => profile.id !== artistId)
+    const otherProfiles = organizationArtists.filter((profile) => profile.id !== artistId)
 
     // Filter out profiles with no plan or a pro plan
     const filteredProfiles = otherProfiles.filter((profile) => {
@@ -116,7 +116,7 @@ const PricingPlanUpgradePayment = ({
 
     // Make sure that the currently active profile is the first item in the array
     setUpgradableProfiles([currentProfile, ...filteredProfiles])
-  }, [artistId, organisationArtists, setProfilesToUpgrade])
+  }, [artistId, organizationArtists, setProfilesToUpgrade])
 
   return (
     <div>

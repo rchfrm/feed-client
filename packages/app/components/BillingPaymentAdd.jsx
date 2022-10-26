@@ -1,41 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Button from '@/elements/Button'
-
 import AddPaymentForm from '@/app/AddPaymentForm'
 import BillingPaymentAddSuccess from '@/app/BillingPaymentAddSuccess'
-
 import copy from '@/app/copy/billingCopy'
 
-import useBillingStore from '@/app/stores/billingStore'
-
-const getBillingStoreState = (state) => ({
-  organisation: state.organisation,
-})
-
 const BillingPaymentAdd = ({
+  addMethodToState,
+  organization,
   shouldBeDefault,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
-  const { organisation: { id: organisationId } } = useBillingStore(getBillingStoreState)
-
   const [paymentMethod, setPaymentMethod] = React.useState(null)
   const [success, setSuccess] = React.useState(false)
-
-  React.useEffect(() => {
-    if (!success) return
-
-    const timeout = setTimeout(() => {
-      setSuccess(false)
-    }, 5000)
-
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [success])
 
   return (
     <section>
@@ -46,11 +25,12 @@ const BillingPaymentAdd = ({
         {success ? <BillingPaymentAddSuccess paymentMethod={paymentMethod} /> : (
           <div className="w-full lg:w-2/3">
             <AddPaymentForm
-              organisationId={organisationId}
-              setAddPaymentMethod={setAddPaymentMethod}
+              organizationId={organization.id}
               setPaymentMethod={setPaymentMethod}
               setSuccess={setSuccess}
               shouldBeDefault={shouldBeDefault}
+              addMethodToState={addMethodToState}
+              setAddPaymentMethod={setAddPaymentMethod}
               isFormValid={isFormValid}
               setIsFormValid={setIsFormValid}
               isLoading={isLoading}
@@ -74,6 +54,8 @@ const BillingPaymentAdd = ({
 }
 
 BillingPaymentAdd.propTypes = {
+  addMethodToState: PropTypes.func.isRequired,
+  organization: PropTypes.object.isRequired,
   shouldBeDefault: PropTypes.bool,
 }
 

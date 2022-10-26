@@ -1,18 +1,18 @@
 import { withRouter } from 'next/router'
 import testPageReady from '@/hoc/testPageReady'
 import BasePage from '@/admin/BasePage'
-import OrganisationsLoader from '@/admin/OrganisationsLoader'
+import OrganizationsLoader from '@/admin/OrganizationsLoader'
 
-const Organisations = ({ router: { query } }) => {
+const Organizations = ({ router: { query } }) => {
   const { id } = query
   return (
     <BasePage
       header="organisations"
       staticPage
     >
-      <OrganisationsLoader id={id} />
+      <OrganizationsLoader id={id} />
     </BasePage>
   )
 }
 
-export default testPageReady('admin')(withRouter(Organisations))
+export default testPageReady('admin')(withRouter(Organizations))

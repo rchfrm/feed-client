@@ -20,7 +20,7 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 import styles from '@/app/TheSubNav.module.css'
 
 const getBillingStoreState = (state) => ({
-  organisationArtists: state.organisationArtists,
+  organizationArtists: state.organizationArtists,
 })
 
 const ARTIST_SELECT_OPTIONS = ({
@@ -63,9 +63,9 @@ const TheSubNavArtists = ({ className }) => {
   const { artists: allArtists, role } = user
   const { artistId, storeArtist, artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
   const maxArtists = 3
-  const { organisationArtists } = useBillingStore(getBillingStoreState)
-  const otherOrganisationProfiles = organisationArtists.filter(({ id }) => id !== artistId)
-  const hasAllOtherProfilesOnNoPlan = artistHelpers.hasAllProfilesOnNoPlan(otherOrganisationProfiles)
+  const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const otherOrganizationProfiles = organizationArtists.filter(({ id }) => id !== artistId)
+  const hasAllOtherProfilesOnNoPlan = artistHelpers.hasAllProfilesOnNoPlan(otherOrganizationProfiles)
   const isDisabled = !hasGrowthPlan && hasAllOtherProfilesOnNoPlan && role !== 'admin'
 
   const updateArtist = (artistId) => {

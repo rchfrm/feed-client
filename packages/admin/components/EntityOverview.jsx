@@ -36,16 +36,16 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
   const pathname = entityInfo.type === 'artist' ? `${ROUTES[entityRoute]}/[id]` : ROUTES[entityRoute]
   // Concatenate first and last name if entity is a user
   const name = entityInfo.type === 'user' ? entity.full_name : entity.name
-  // Array of users with access to the artist or organisation
+  // Array of users with access to the artist or organization
   const users = entity.users && Object.values(entity.users)
-  // Array of artists connected to user or organisation
+  // Array of artists connected to user or organization
   const artists = entity.artists && Object.values(entity.artists)
-  // Array of organisations connected to user or artist
-  let organisations = []
+  // Array of organizations connected to user or artist
+  let organizations = []
   if (entity?.organization) {
-    organisations.push(entity.organization)
+    organizations.push(entity.organization)
   } else if (entity?.organizations) {
-    organisations = Object.values(entity.organizations)
+    organizations = Object.values(entity.organizations)
   }
   // Translate artist campaign status to string
   const campaignStatus = entity.preferences?.targeting?.status
@@ -60,8 +60,8 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
       {entity.users && <EntityConnections connections={users} connectionType="User" />}
       {/* Artists */}
       {entity.artists && <EntityConnections connections={artists} connectionType="Artist" />}
-      {/* Organisations */}
-      {organisations.length > 0 && <EntityConnections connections={organisations} connectionType="Organisation" />}
+      {/* Organizations */}
+      {organizations.length > 0 && <EntityConnections connections={organizations} connectionType="Organization" />}
 
       <DataDetails propsToDisplay={propsToDisplay} data={entity} />
 

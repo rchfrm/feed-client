@@ -24,7 +24,7 @@ const getControlsStoreState = (state) => ({
 })
 
 const getBillingStoreState = (state) => ({
-  organisationArtists: state.organisationArtists,
+  organizationArtists: state.organizationArtists,
 })
 
 const GetStartedPricing = () => {
@@ -43,8 +43,8 @@ const GetStartedPricing = () => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const { organisationArtists } = useBillingStore(getBillingStoreState)
-  const hasMultipleProfiles = organisationArtists.length > 1
+  const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const hasMultipleProfiles = organizationArtists.length > 1
 
   const { next } = React.useContext(WizardContext)
 
@@ -95,11 +95,11 @@ const GetStartedPricing = () => {
 
   React.useEffect(() => {
     if (hasMultipleProfiles) {
-      const { plan } = organisationArtists.find(({ plan }) => plan)
+      const { plan } = organizationArtists.find(({ plan }) => plan)
 
       setShowAnnualPricing(plan.includes('annual'))
     }
-  }, [hasMultipleProfiles, organisationArtists])
+  }, [hasMultipleProfiles, organizationArtists])
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">

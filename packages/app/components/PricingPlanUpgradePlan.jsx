@@ -100,7 +100,9 @@ PricingPlanUpgradePlan.propTypes = {
   setPlan: PropTypes.func,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
-  currency: PropTypes.string,
+  currency: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+  }),
 }
 
 PricingPlanUpgradePlan.defaultProps = {
@@ -108,7 +110,9 @@ PricingPlanUpgradePlan.defaultProps = {
   setPlan: () => {},
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
-  currency: '',
+  currency: {
+    code: 'GBP',
+  },
 }
 
 export default PricingPlanUpgradePlan

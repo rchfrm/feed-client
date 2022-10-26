@@ -127,11 +127,11 @@ export const filterUnique = array => {
 }
 
 /**
-* @param {string} currency
+* @param {string} currencyCode
 * @returns {string}
 */
-export const getCurrencySymbol = (currency = 'GBP') => {
-  return getSymbolFromCurrency(currency)
+export const getCurrencySymbol = (currencyCode = 'GBP') => {
+  return getSymbolFromCurrency(currencyCode)
 }
 
 /**

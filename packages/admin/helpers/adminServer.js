@@ -187,7 +187,7 @@ export const getAllUsers = async (cursor, requestProps = {}) => {
   })
 }
 
-// ORGANISATIONS
+// ORGANIZATIONS
 // -----------------------
 
 /**
@@ -196,7 +196,7 @@ export const getAllUsers = async (cursor, requestProps = {}) => {
  * @param id
  * @param requestProps
  */
-export const getOrganisation = async (cursor, id, requestProps = {}) => {
+export const getOrganization = async (cursor, id, requestProps = {}) => {
   const endpoint = `organizations/${id}`
   // Add request props
   const endpointWithProps = getEndpointWithRequestProps(endpoint, requestProps)
@@ -209,7 +209,7 @@ export const getOrganisation = async (cursor, id, requestProps = {}) => {
  * @param requestProps
  * @returns {Promise<any>}
  */
-export const getAllOrganisations = async (cursor, requestProps = {}) => {
+export const getAllOrganizations = async (cursor, requestProps = {}) => {
   const endpoint = 'organizations/all'
   // Add cursor to request props
   const requestPropsWithCursor = cursor ? { ...requestProps, after: cursor } : requestProps

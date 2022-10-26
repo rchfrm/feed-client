@@ -137,7 +137,7 @@ function ArtistProvider({ children }) {
     toggleGlobalLoading(false)
   }
 
-  const updateArtist = React.useCallback((artist) => {
+  const updateArtist = React.useCallback(async (artist) => {
     // Test whether artist is musician
     const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
@@ -192,6 +192,8 @@ function ArtistProvider({ children }) {
         artist: artistUpdated,
       },
     })
+
+    setArtistLoading(false)
   }, [setArtist])
 
   const storeArtist = React.useCallback(async (id, hasSwitchedBetweenArtists = true) => {
@@ -218,8 +220,8 @@ function ArtistProvider({ children }) {
 
     if (!artist) return
 
-    updateArtist(artist)
-    setArtistLoading(false)
+    await updateArtist(artist)
+
     return { artist }
   }, [toggleGlobalLoading, updateArtist, setIsControlsLoading])
 

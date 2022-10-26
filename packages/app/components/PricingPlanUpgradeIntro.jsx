@@ -1,41 +1,47 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import PricingPlanUpgradeIntroPlan from '@/app/PricingPlanUpgradeIntroPlan'
-
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-
 import copy from '@/app/copy/global'
 import brandColors from '@/constants/brandColors'
-import useBillingStore from '@/app/stores/billingStore'
-import shallow from 'zustand/shallow'
-
-const getBillingStoreState = (state) => ({
-  defaultPaymentMethod: state.defaultPaymentMethod,
-})
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 const PricingPlanUpgradeIntro = ({
+  currency,
   section,
   setCurrentStep,
   setSidePanelButton,
   isUpgradeToPro,
+  hasBillingAccess,
 }) => {
   const { artist } = React.useContext(ArtistContext)
+  const { toggleSidePanel } = React.useContext(SidePanelContext)
   const { hasCancelledPlan } = artist
-  const { defaultPaymentMethod: { currency } } = useBillingStore(getBillingStoreState, shallow)
 
   const next = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
   }, [setCurrentStep])
 
   React.useEffect(() => {
+    const onClick = () => {
+      if (hasBillingAccess) {
+        return next()
+      }
+      toggleSidePanel(false)
+    }
+    const buttonText = () => {
+      if (hasBillingAccess) {
+        return hasCancelledPlan ? 'Continue' : 'Upgrade'
+      }
+      return 'Close'
+    }
+
     const button = (
-      <Button version="insta" onClick={next} trackComponentName="PricingPlanUpgradeIntro">
-        {hasCancelledPlan ? 'Continue' : 'Upgrade'}
+      <Button version="insta" onClick={onClick} trackComponentName="PricingPlanUpgradeIntro">
+        {buttonText()}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
@@ -50,7 +56,7 @@ const PricingPlanUpgradeIntro = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">{copy.pricingUpgradeIntroTitle(section)}</h2>
-      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currency, hasCancelledPlan)} className="mb-8" />
+      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currency, hasCancelledPlan, hasBillingAccess)} className="mb-8" />
       {isUpgradeToPro && (
         <PricingPlanUpgradeIntroPlan currency={currency} />
       )}

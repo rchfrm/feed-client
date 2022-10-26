@@ -63,7 +63,7 @@ const GetStartedPaymentMethod = () => {
   } = React.useContext(ArtistContext)
 
   const { user: { organizations } } = React.useContext(UserContext)
-  const organisationId = Object.values(organizations).find((organisation) => organisation.role === 'owner')?.id
+  const organizationId = Object.values(organizations).find(org => org.role === 'owner')?.id
 
   const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
   const isPaymentIntentRequired = false
@@ -86,7 +86,7 @@ const GetStartedPaymentMethod = () => {
 
     setIsLoadingAmountToPay(true)
 
-    const { res, error } = await getProrationsPreview(organisationId, { [artistId]: plan }, promoCode)
+    const { res, error } = await getProrationsPreview(organizationId, { [artistId]: plan }, promoCode)
     if (error) {
       if (error.message === 'Invalid promo code') {
         setIsValidPromoCode(false)
@@ -138,7 +138,7 @@ const GetStartedPaymentMethod = () => {
 
   const upgradeProfilePlans = async () => {
     setIsLoading(true)
-    const { error } = await upgradeProfiles(organisationId, { [artistId]: plan }, promoCode)
+    const { error } = await upgradeProfiles(organizationId, { [artistId]: plan }, promoCode)
 
     if (error) {
       setError(error)
@@ -185,7 +185,7 @@ const GetStartedPaymentMethod = () => {
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
         {shouldShowPaymentMethodForm ? (
           <AddPaymentForm
-            organisationId={organisationId}
+            organizationId={organizationId}
             setAddPaymentMethod={setAddPaymentMethod}
             setSuccess={setSuccess}
             shouldBeDefault

@@ -10,10 +10,10 @@ import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/billingCopy'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 
-const BillingOrganisationInviteItem = ({
+const BillingOrganizationInviteItem = ({
   className,
-  organisationInvite,
-  removeOrganisationInvite,
+  organizationInvite,
+  removeOrganizationInvite,
 }) => {
   const [error, setError] = React.useState(null)
   const [loadingAccept, setLoadingAccept] = React.useState(false)
@@ -21,27 +21,27 @@ const BillingOrganisationInviteItem = ({
 
   const handleAccept = async () => {
     setLoadingAccept(true)
-    const { error: serverError } = await billingHelpers.acceptOrganisationInvite(organisationInvite.token)
+    const { error: serverError } = await billingHelpers.acceptOrganizationInvite(organizationInvite.token)
     setLoadingAccept(false)
     if (serverError) {
       setError(serverError)
       return
     }
 
-    removeOrganisationInvite(organisationInvite)
+    removeOrganizationInvite(organizationInvite)
     window.location.reload()
   }
 
   const handleReject = async () => {
     setLoadingReject(true)
-    const { error: serverError } = await billingHelpers.rejectOrganisationInvite(organisationInvite.token)
+    const { error: serverError } = await billingHelpers.rejectOrganizationInvite(organizationInvite.token)
     setLoadingReject(false)
     if (serverError) {
       setError(serverError)
       return
     }
 
-    removeOrganisationInvite(organisationInvite)
+    removeOrganizationInvite(organizationInvite)
   }
 
   return (
@@ -51,7 +51,7 @@ const BillingOrganisationInviteItem = ({
       ].join(' ')}
     >
       <Error error={error} />
-      <h4 className="font-display m-0">{copy.invited(organisationInvite.inviting_user_name)}</h4>
+      <h4 className="font-display m-0">{copy.invited(organizationInvite.inviting_user_name)}</h4>
       <div className="flex justify-between lg:w-1/2 mt-5">
         <Button
           version="green x-small"
@@ -59,7 +59,7 @@ const BillingOrganisationInviteItem = ({
           loading={loadingAccept}
           className="w-1/2 mr-1 md:mr-2"
           onClick={handleAccept}
-          trackComponentName="BillingOrganisationInviteItem"
+          trackComponentName="BillingOrganizationInviteItem"
         >
           <TickIcon className="h-4 w-auto mr-2" fill={brandColors.white} />
           Accept
@@ -70,7 +70,7 @@ const BillingOrganisationInviteItem = ({
           loading={loadingReject}
           className="w-1/2 ml-1 md:ml-2"
           onClick={handleReject}
-          trackComponentName="BillingOrganisationInviteItem"
+          trackComponentName="BillingOrganizationInviteItem"
         >
           <CrossIcon className="h-5 w-auto mr-2" fill={brandColors.white} />
           Reject
@@ -80,14 +80,14 @@ const BillingOrganisationInviteItem = ({
   )
 }
 
-BillingOrganisationInviteItem.propTypes = {
-  organisationInvite: PropTypes.object.isRequired,
-  removeOrganisationInvite: PropTypes.func.isRequired,
+BillingOrganizationInviteItem.propTypes = {
+  organizationInvite: PropTypes.object.isRequired,
+  removeOrganizationInvite: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
-BillingOrganisationInviteItem.defaultProps = {
+BillingOrganizationInviteItem.defaultProps = {
   className: null,
 }
 
-export default BillingOrganisationInviteItem
+export default BillingOrganizationInviteItem

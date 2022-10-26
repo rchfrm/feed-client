@@ -8,21 +8,38 @@ import CrossIcon from '@/icons/CrossIcon'
 import brandColors from '@/constants/brandColors'
 
 import * as billingHelpers from '@/app/helpers/billingHelpers'
+import useBillingStore from '@/app/stores/billingStore'
+
+const getBillingStoreState = (state) => ({
+  billingStoreOrg: state.organization,
+  updateBillingStoreOrgArtists: state.updateOrganizationArtists,
+})
 
 const BillingProfilesTransferItem = ({
-  organisationId,
+  organizationId,
   transferRequest,
   removeTransferRequest,
-  updateOrganisationArtists,
+  setOrgArtists,
   className,
 }) => {
   const [error, setError] = React.useState(null)
   const [loadingAccept, setLoadingAccept] = React.useState(false)
   const [loadingReject, setLoadingReject] = React.useState(false)
+  const {
+    billingStoreOrg,
+    updateBillingStoreOrgArtists,
+  } = useBillingStore(getBillingStoreState)
+
+  const updateArtists = (updatedArtists) => {
+    if (organizationId === billingStoreOrg.id) {
+      updateBillingStoreOrgArtists(updatedArtists)
+    }
+    setOrgArtists(updatedArtists)
+  }
 
   const handleAccept = async () => {
     setLoadingAccept(true)
-    const acceptTransferResponse = await billingHelpers.acceptTransferRequest(transferRequest.token, organisationId)
+    const acceptTransferResponse = await billingHelpers.acceptTransferRequest(transferRequest.token, organizationId)
     setLoadingAccept(false)
     if (acceptTransferResponse.error) {
       setError(acceptTransferResponse.error)
@@ -31,13 +48,13 @@ const BillingProfilesTransferItem = ({
 
     removeTransferRequest(transferRequest)
 
-    const organisationArtistsResponse = await await billingHelpers.getOrganisationArtists(organisationId)
-    if (organisationArtistsResponse.error) {
-      setError(organisationArtistsResponse.error)
+    const organizationArtistsResponse = await billingHelpers.getOrganizationArtists(organizationId)
+    if (organizationArtistsResponse.error) {
+      setError(organizationArtistsResponse.error)
       return
     }
 
-    updateOrganisationArtists(organisationArtistsResponse.res.artists)
+    updateArtists(organizationArtistsResponse.res.artists)
   }
 
   const handleReject = async () => {
@@ -90,10 +107,10 @@ const BillingProfilesTransferItem = ({
 }
 
 BillingProfilesTransferItem.propTypes = {
-  organisationId: PropTypes.string.isRequired,
+  organizationId: PropTypes.string.isRequired,
   transferRequest: PropTypes.object.isRequired,
   removeTransferRequest: PropTypes.func.isRequired,
-  updateOrganisationArtists: PropTypes.func.isRequired,
+  setOrgArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
