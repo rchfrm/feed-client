@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { capitalise } from '@/helpers/utils'
 
-const TargetingDailyBudgetStatus = ({
+const TargetingBudgetStatus = ({
   status,
   className,
 }) => {
@@ -20,12 +20,12 @@ const TargetingDailyBudgetStatus = ({
   )
 }
 
-TargetingDailyBudgetStatus.propTypes = {
+TargetingBudgetStatus.propTypes = {
   status: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
 }
 
-TargetingDailyBudgetStatus.defaultProps = {
+TargetingBudgetStatus.defaultProps = {
 }
 
-export default TargetingDailyBudgetStatus
+export default TargetingBudgetStatus
