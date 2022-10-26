@@ -2,12 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 import InputDatePicker from '@/app/InputDatePicker'
 
 import InputCurrency from '@/elements/InputCurrency'
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
+
+import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingCampaignBudgetForm = ({
   initialTargetingState,
@@ -20,13 +25,26 @@ const TargetingCampaignBudgetForm = ({
 }) => {
   const { campaignBudget } = targetingState
 
-  const [startDate, setStartDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.startDate : moment().utc().startOf('day').toDate())
+  const [startDate, setStartDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.startDate : moment().utc().toDate())
   const [endDate, setEndDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.endDate : null)
   const [totalBudget, setTotalBudget] = React.useState(hasActiveCampaignBudget ? campaignBudget?.totalBudget : 0)
   const [isFormValid, setIsFormValid] = React.useState(false)
 
+  const {
+    artist: {
+      feedMinBudgetInfo: {
+        currencyCode,
+        majorUnit: {
+          minHard,
+        } = {},
+      } = {},
+    },
+  } = React.useContext(ArtistContext)
+
   const endDateRef = React.useRef(null)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
+  const daysInPeriod = moment(endDate).diff(moment(startDate), 'days') + 1
+  const hasSufficientBudget = daysInPeriod > 0 && (totalBudget >= daysInPeriod * minHard)
 
   const getButtonText = () => {
     if (hasActiveCampaignBudget) {
@@ -62,8 +80,6 @@ const TargetingCampaignBudgetForm = ({
 
   const onSubmit = async (e) => {
     e.preventDefault()
-
-    const daysInPeriod = moment(endDate).diff(moment(startDate), 'days') + 1
 
     await saveTargeting('campaignBudget', {
       ...targetingState,
@@ -134,14 +150,17 @@ const TargetingCampaignBudgetForm = ({
         <Button
           type="submit"
           version="green small"
-          className="h-8 rounded-full"
+          className="h-8 mb-5 rounded-full"
           onClick={onSubmit}
           trackComponentName="TargetingCampaignBudgetForm"
-          disabled={!isFormValid}
+          disabled={!isFormValid || !hasSufficientBudget}
         >
           {getButtonText()} campaign
         </Button>
       </div>
+      {isFormValid && !hasSufficientBudget && (
+        <Error className="text-sm" error={{ message: copy.hasInsufficientBudgetError(daysInPeriod, minHard, currencyCode) }} />
+      )}
     </form>
   )
 }

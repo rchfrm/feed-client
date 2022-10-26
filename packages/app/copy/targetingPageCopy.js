@@ -51,6 +51,7 @@ Do you want to continue?`,
 
     return `${baseString} [Email us](mailto:team@tryfeed.co) if you would like to increase this cap.`
   },
+  hasInsufficientBudgetError: (daysInPeriod, minHard, currency) => `The total budget for your campaign with a duration of ${daysInPeriod} days is too low. The minimum daily budget is ${formatCurrency(minHard, currency)}.`,
   togglePauseWarning: (isPaused) => {
     if (isPaused) return `**This will resume spending on ads.** Are you sure you want to continue?`
 
