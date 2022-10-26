@@ -77,6 +77,12 @@ const artistReducer = (draftState, action) => {
       draftState.plan = payload.plan
       draftState.hasGrowthPlan = artistHelpers.hasGrowthPlan(payload.plan)
       draftState.hasProPlan = artistHelpers.hasProPlan(payload.plan)
+      draftState.hasNoPlan = !payload.plan
+      draftState.hasCancelledPlan = draftState.status === 'unpaid' && !draftState.hasNoPlan
+      break
+    }
+    case 'set-status': {
+      draftState.status = payload.status
       break
     }
     case 'update-post-preferences': {
@@ -314,6 +320,15 @@ function ArtistProvider({ children }) {
     })
   }, [setArtist])
 
+  const setStatus = React.useCallback((status) => {
+    setArtist({
+      type: 'set-status',
+      payload: {
+        status,
+      },
+    })
+  }, [setArtist])
+
   const setPostPreferences = (preferenceType, value) => {
     setArtist({
       type: 'update-post-preferences',
@@ -364,6 +379,7 @@ function ArtistProvider({ children }) {
     setArtistLoading,
     setConnection,
     setPlan,
+    setStatus,
     setPostPreferences,
     setEnabledPosts,
     storeArtist,

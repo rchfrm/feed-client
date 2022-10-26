@@ -59,14 +59,14 @@ const GetStartedPaymentMethod = () => {
       currency: artistCurrency = 'GBP',
     },
     artistId,
-    updateHasSetUpProfile,
+    updateArtist,
   } = React.useContext(ArtistContext)
 
   const { user: { organizations } } = React.useContext(UserContext)
   const organizationId = Object.values(organizations).find(org => org.role === 'owner')?.id
 
   const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
-  const isPaymentIntentRequired = !defaultPaymentMethod && isPaymentRequired
+  const isPaymentIntentRequired = false
   const shouldShowPromoCodeInput = false
 
   const [planPrefix, planPeriod] = plan.split('_')
@@ -132,9 +132,7 @@ const GetStartedPaymentMethod = () => {
         return
       }
 
-      const { completed_setup_at: completedSetupAt } = artistUpdated
-
-      updateHasSetUpProfile(completedSetupAt)
+      updateArtist(artistUpdated)
     }
   }
 
