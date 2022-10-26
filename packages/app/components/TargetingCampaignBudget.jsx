@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-import moment from 'moment'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -27,7 +26,6 @@ const TargetingCampaignBudget = ({
   const [isCampaignEdit, setIsCampaignEdit] = React.useState(!hasActiveCampaignBudget)
   const [spendingData, setSpendingData] = React.useState(null)
 
-  const shouldStartSpendingToday = moment().isSame(moment(targetingState.campaignBudget.startDate), 'day')
   const { artistId } = React.useContext(ArtistContext)
 
   const saveTargeting = useSaveTargeting({
@@ -52,7 +50,6 @@ const TargetingCampaignBudget = ({
     if (spendingData) {
       await saveTargeting('campaignBudget', {
         ...targetingState,
-        status: shouldStartSpendingToday ? 1 : 0,
         campaignBudget: {
           ...targetingState.campaignBudget,
           startDate: null,

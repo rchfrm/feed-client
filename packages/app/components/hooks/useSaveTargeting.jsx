@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
@@ -199,16 +200,22 @@ const useSaveTargeting = ({
     }
 
     if (trigger === 'campaignBudget') {
+      const shouldStartSpendingToday = moment().isSame(moment(savedState.campaignBudget.startDate), 'day')
+      const updatedState = {
+        ...savedState,
+        status: shouldStartSpendingToday ? 1 : 0,
+      }
+
       if (!savedState.campaignBudget.startDate) {
         const onConfirm = () => {
-          saveTargetingSettings(savedState)
+          saveTargetingSettings(updatedState)
           setIsCampaignEdit(true)
         }
 
         const children = (
           <TargetingBudgetPauseAlert
             onConfirm={onConfirm}
-            budget={savedState.budget}
+            budget={updatedState.budget}
             spendingData={spendingData}
             currency={currencyCode}
             closeAlert={closeAlert}
@@ -219,7 +226,7 @@ const useSaveTargeting = ({
         return
       }
 
-      return saveTargetingSettings(savedState)
+      return saveTargetingSettings(updatedState)
     }
 
     // TRACK BUDGET CHANGE
@@ -233,7 +240,7 @@ const useSaveTargeting = ({
 
     // Basic save (eg when just changing budget)
     return saveTargetingSettings(savedState)
-  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser, feedMinBudgetInfo, currencyCode, currencyOffset, spendingData])
+  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser, feedMinBudgetInfo, currencyCode, currencyOffset, spendingData, setIsCampaignEdit])
 
   return saveTargeting
 }
