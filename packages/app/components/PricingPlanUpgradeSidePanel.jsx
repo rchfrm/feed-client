@@ -29,7 +29,6 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   } = useBillingStore(getBillingStoreState)
 
   const hasBillingAccess = !orgLoading && !!organization.id
-  // const hasBillingAccess = true
   const { hasGrowthPlan, hasCancelledPlan } = artist
   const [, planPeriod] = artist?.plan?.split('_') || []
   const isAnnualPricing = planPeriod === 'annual'

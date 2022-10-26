@@ -34,6 +34,8 @@ const BillingUsersSummary = ({
     if (error) {
       setError(error)
       setIsLoading(false)
+      setOrgUsers(null)
+      return
     }
     setOrgUsers(res.users)
     setError(null)

@@ -107,7 +107,7 @@ const BillingPaymentMethodsSummary = ({
     track('billing_delete_payment_method', { organizationId: organization.id })
   }, [organization.id, billingStoreOrg.id, allPaymentMethods, setAllPaymentMethods, deleteBillingStorePaymentMethod])
 
-  const addMethod = React.useCallback(paymentMethod => {
+  const addMethodToState = React.useCallback(paymentMethod => {
     if (organization.id === billingStoreOrg.id) {
       addBillingStoreOrgPaymentMethod(paymentMethod)
     }
@@ -146,7 +146,7 @@ const BillingPaymentMethodsSummary = ({
           <MarkdownText markdown={copy.noPaymentMethods} />
         )}
         <BillingPaymentAdd
-          addMethodToState={addMethod}
+          addMethodToState={addMethodToState}
           organization={organization}
           shouldBeDefault={!defaultPaymentMethod}
         />

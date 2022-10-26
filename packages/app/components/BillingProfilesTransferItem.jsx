@@ -30,7 +30,7 @@ const BillingProfilesTransferItem = ({
     updateBillingStoreOrgArtists,
   } = useBillingStore(getBillingStoreState)
 
-  const updateArtists = updatedArtists => {
+  const updateArtists = (updatedArtists) => {
     if (organizationId === billingStoreOrg.id) {
       updateBillingStoreOrgArtists(updatedArtists)
     }
