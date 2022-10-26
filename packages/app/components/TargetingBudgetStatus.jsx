@@ -1,24 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { capitalise } from '@/helpers/utils'
+
 const TargetingDailyBudgetStatus = ({
-  targetingState,
+  status,
 }) => {
+  const isActive = status === 'active'
+
   return (
-    <p className={[
-      'mb-0 px-3 py-1',
+    <div className={[
+      'inline-block mb-0 px-3 py-1',
       'font-bold',
       'border-solid border-2 rounded-full',
-      !targetingState.status ? 'text-red border-red' : 'text-green border-green',
+      isActive ? 'text-green border-green' : 'text-red border-red',
     ].join(' ')}
     >
-      {!targetingState.status ? ' Paused' : ' Active'}
-    </p>
+      {capitalise(status)}
+    </div>
   )
 }
 
 TargetingDailyBudgetStatus.propTypes = {
-  targetingState: PropTypes.object.isRequired,
+  status: PropTypes.string.isRequired,
 }
 
 TargetingDailyBudgetStatus.defaultProps = {

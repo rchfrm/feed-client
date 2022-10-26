@@ -5,7 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useBillingStore from '@/app/stores/billingStore'
 
-import TargetingDailyBudgetStatus from '@/app/TargetingDailyBudgetStatus'
+import TargetingBudgetStatus from '@/app/TargetingBudgetStatus'
 import TargetingDailyBudgetPauseButton from '@/app/TargetingDailyBudgetPauseButton'
 import TargetingDailyBudgetSetter from '@/app/TargetingDailyBudgetSetter'
 import TargetingDailyBudgetCustomBudgetButton from '@/app/TargetingDailyBudgetCustomBudgetButton'
@@ -54,8 +54,8 @@ const TargetingDailyBudget = () => {
     <div className="flex flex-column justify-between h-44">
       <div className="flex justify-between">
         {hasSetUpProfile && (
-          <TargetingDailyBudgetStatus
-            targetingState={targetingState}
+          <TargetingBudgetStatus
+            status={!targetingState.status ? 'paused' : 'active'}
           />
         )}
         <TargetingDailyBudgetPauseButton

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
+import moment from 'moment'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -9,6 +10,7 @@ import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import TargetingCampaignBudgetProgressBar from '@/app/TargetingCampaignBudgetProgressBar'
 import TargetingCampaignBudgetEditButton from '@/app/TargetingCampaignBudgetEditButton'
 import TargetingCampaignBudgetForm from '@/app/TargetingCampaignBudgetForm'
+import TargetingBudgetStatus from '@/app/TargetingBudgetStatus'
 
 import Button from '@/elements/Button'
 
@@ -27,6 +29,8 @@ const TargetingCampaignBudget = ({
   const [spendingData, setSpendingData] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
+  const hasScheduledCampaignBudget = moment().isBefore(targetingState.campaignBudget?.startDate, 'day')
+
 
   const saveTargeting = useSaveTargeting({
     initialTargetingState,
@@ -75,6 +79,9 @@ const TargetingCampaignBudget = ({
         />
       ) : (
         <>
+          <TargetingBudgetStatus
+            status={hasScheduledCampaignBudget ? 'scheduled' : 'active'}
+          />
           <TargetingCampaignBudgetProgressBar
             campaignBudget={targetingState.campaignBudget}
             dailyBudget={targetingState.budget}
