@@ -81,6 +81,7 @@ const TargetingCampaignBudget = ({
         <>
           <TargetingBudgetStatus
             status={hasScheduledCampaignBudget ? 'scheduled' : 'active'}
+            className={hasScheduledCampaignBudget ? 'text-black border-black' : 'text-green border-green'}
           />
           <TargetingCampaignBudgetProgressBar
             campaignBudget={targetingState.campaignBudget}

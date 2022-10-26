@@ -55,7 +55,8 @@ const TargetingDailyBudget = () => {
       <div className="flex justify-between">
         {hasSetUpProfile && (
           <TargetingBudgetStatus
-            status={!targetingState.status ? 'paused' : 'active'}
+            status={targetingState.status ? 'active' : 'paused'}
+            className={targetingState.status ? 'text-green border-green' : 'text-red border-red'}
           />
         )}
         <TargetingDailyBudgetPauseButton
