@@ -14,22 +14,26 @@ const BillingOrganizationSelect = ({
 }) => {
   const { user, userLoading } = React.useContext(UserContext)
   const [selectActive, setSelectActive] = React.useState(false)
+
   const selectedOrgName = React.useMemo(() => {
     const { organizations } = user
-    if (!organizations) return {}
+    if (!organizations) return ''
     return organizations[selectedOrgId].name
   }, [selectedOrgId, user])
+
   const selectOptions = React.useMemo(() => {
     const { organizations } = user
-    if (!organizations) return {}
+    if (!organizations) return []
     const userOrgs = Object.values(organizations) || []
     return userOrgs.map(({ name, id }) => {
       return { name, value: id }
     })
   }, [user])
+
   if (!selectedOrgId || userLoading || selectOptions.length < 2) {
     return null
   }
+
   return (
     <>
       {/* ORGANIZATION SELECT */}
@@ -85,8 +89,6 @@ const BillingOrganizationSelect = ({
           )}
         </div>
       </div>
-      {/* PLACEHOLDER FOR THE 2-nd COLUMN */}
-      <div />
     </>
   )
 }

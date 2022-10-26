@@ -55,6 +55,7 @@ const BillingPaymentAdd = ({
 
 BillingPaymentAdd.propTypes = {
   addMethodToState: PropTypes.func.isRequired,
+  organization: PropTypes.object.isRequired,
   shouldBeDefault: PropTypes.bool,
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import shallow from 'zustand/shallow'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -31,9 +31,9 @@ const BillingContent = () => {
   const { user, userLoading } = React.useContext(UserContext)
   const { artistLoading } = React.useContext(ArtistContext)
   const [error, setError] = React.useState(null)
-  const [selectedOrgId, setSelectedOrgId] = React.useState(undefined)
+  const [selectedOrgId, setSelectedOrgId] = React.useState('')
   const [orgLoading, setOrgLoading] = React.useState(false)
-  const [organization, setOrganization] = React.useState(undefined)
+  const [organization, setOrganization] = React.useState(null)
   const [orgArtists, setOrgArtists] = React.useState([])
   const [orgInvites, setOrgInvites] = React.useState([])
 
@@ -46,7 +46,7 @@ const BillingContent = () => {
   } = useBillingStore(getBillingStoreState, shallow)
 
   // Set initial selected organization
-  useEffect(() => {
+  React.useEffect(() => {
     // Stop here if user or artist is still loading
     if (userLoading || artistLoading || billingStoreLoading) return
 
@@ -57,6 +57,7 @@ const BillingContent = () => {
     const hasAccessToBillingStoreOrg = userOrgIds.includes(billingStoreOrg.id)
     if (hasAccessToBillingStoreOrg) {
       setSelectedOrgId(billingStoreOrg.id)
+      return
     }
     setSelectedOrgId(userOrgIds[0])
   }, [artistLoading, billingStoreOrg, billingStoreLoading, selectedOrgId, user.organizations, userLoading])
@@ -85,35 +86,36 @@ const BillingContent = () => {
       const { error, res } = await getOrganizationInvites()
       if (error) {
         setError(error)
+        setOrgLoading(false)
+        return
       }
       setOrgInvites(res.invites)
       setOrgLoading(false)
       return
     }
 
-    console.log('Promise.all')
-    Promise.all([
+    const orgResponses = await Promise.all([
       fetchOrgById(selectedOrgId),
       getOrganizationArtists(selectedOrgId),
       getOrganizationInvites(),
-    ]).then(res => {
-      const errors = res.reduce((errors, res) => {
-        if (res.error) {
-          errors.push(res.error)
-        }
-        return errors
-      }, [])
-      if (errors.length > 0) {
-        setError(errors[0])
-        return
+    ])
+
+    const errors = orgResponses.reduce((errors, res) => {
+      if (res.error) {
+        errors.push(res.error)
       }
-      const orgResponse = res[0]
-      const orgArtistsResponse = res[1]
-      const orgInvitesResponse = res[2]
-      setOrganization(orgResponse.res)
-      setOrgArtists(orgArtistsResponse.res.artists)
-      setOrgInvites(orgInvitesResponse.res.invites)
-    })
+      return errors
+    }, [])
+    if (errors.length > 0) {
+      setError(errors[0])
+      return
+    }
+    const orgResponse = orgResponses[0]
+    const orgArtistsResponse = orgResponses[1]
+    const orgInvitesResponse = orgResponses[2]
+    setOrganization(orgResponse.res)
+    setOrgArtists(orgArtistsResponse.res.artists)
+    setOrgInvites(orgInvitesResponse.res.invites)
     setOrgLoading(false)
   }, [selectedOrgId, billingStoreOrg.id])
 
@@ -143,12 +145,6 @@ const BillingContent = () => {
       />
     </>
   )
-}
-
-BillingContent.propTypes = {
-}
-
-BillingContent.defaultProps = {
 }
 
 export default BillingContent

@@ -15,10 +15,12 @@ const BillingInvoiceList = ({
   invoicesLoading,
 }) => {
   // LOAD INVOICES
-  const [loading, setLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(true)
   const [invoices, setInvoices] = React.useState([])
   const [error, setError] = React.useState(null)
+
   useAsyncEffect(async () => {
+    setIsLoading(true)
     const { res: invoices, error } = await fetchArchivedInvoices(organization.id)
 
     setError(error)
@@ -26,7 +28,7 @@ const BillingInvoiceList = ({
     if (!error) {
       setInvoices(invoices)
     }
-    setLoading(false)
+    setIsLoading(false)
   }, [organization])
 
   if (invoicesLoading) return null
@@ -34,7 +36,7 @@ const BillingInvoiceList = ({
   return (
     <div>
       <h3 className="font-bold">Past invoices</h3>
-      {loading ? (
+      {isLoading ? (
         <Spinner width={25} className="text-left justify-start" />
       ) : (
         <>
@@ -60,10 +62,6 @@ const BillingInvoiceList = ({
 BillingInvoiceList.propTypes = {
   organization: PropTypes.object.isRequired,
   invoicesLoading: PropTypes.bool.isRequired,
-}
-
-BillingInvoiceList.defaultProps = {
-
 }
 
 export default React.memo(BillingInvoiceList)

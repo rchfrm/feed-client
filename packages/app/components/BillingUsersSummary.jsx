@@ -23,21 +23,21 @@ const BillingUsersSummary = ({
   const [confirmAlert, setConfirmAlert] = React.useState('')
 
   // INTERNAL STATE
-  const [orgUsers, setOrgUsers] = React.useState(undefined)
+  const [orgUsers, setOrgUsers] = React.useState(null)
   const [selectedOrgUser, setSelectedOrgUser] = React.useState(null)
   const [error, setError] = React.useState(null)
-  const [loading, setLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(true)
 
   // Get users with access to the organization
   useAsyncEffect(async () => {
     const { error, res } = await getOrganizationUsers(organization.id)
     if (error) {
       setError(error)
-      setLoading(false)
+      setIsLoading(false)
     }
     setOrgUsers(res.users)
     setError(null)
-    setLoading(false)
+    setIsLoading(false)
   }, [organization.id])
 
   const handleUserDelete = React.useCallback(async (orgUser, forceDelete) => {
@@ -48,10 +48,10 @@ const BillingUsersSummary = ({
       return
     }
 
-    setLoading(true)
+    setIsLoading(true)
     const { error: serverError } = await billingHelpers.deleteOrganizationUser(organization.id, orgUser.id)
     const updatedOrgUsers = orgUsers.filter(user => user.id !== orgUser.id)
-    setLoading(false)
+    setIsLoading(false)
     if (serverError) {
       setError(serverError)
       return
@@ -108,7 +108,7 @@ const BillingUsersSummary = ({
       <h2 className="font-body font-bold mb-6">Your Team</h2>
       <MarkdownText markdown={copy.usersInfo} />
       <Error error={error} />
-      {loading || orgLoading ? (
+      {isLoading || orgLoading ? (
         <Spinner width={25} className="text-left justify-start mb-10" />
       ) : (
         <div className="mb-10">

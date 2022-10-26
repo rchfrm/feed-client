@@ -17,22 +17,22 @@ const BillingProfilesSummary = ({
   setOrgArtists,
   className,
 }) => {
-  const [loading, setLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
-  const [transferRequests, setTransferRequests] = React.useState(undefined)
+  const [transferRequests, setTransferRequests] = React.useState([])
 
   useAsyncEffect(async () => {
-    setLoading(true)
+    setIsLoading(true)
     const { error, res } = await getTransferRequests()
     if (error) {
       setError(error)
-      setLoading(false)
+      setIsLoading(false)
       return
     }
     const { transferRequests } = res
     setError(null)
     setTransferRequests(transferRequests)
-    setLoading(false)
+    setIsLoading(false)
   }, [])
 
   const removeTransferRequest = transferRequest => {
@@ -40,7 +40,7 @@ const BillingProfilesSummary = ({
     setTransferRequests(updatedTransferRequests)
   }
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className={[className].join(' ')}>
         <h2 className="font-body font-bold mb-6">Profiles</h2>

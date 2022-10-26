@@ -2,13 +2,14 @@ import Spinner from '@/elements/Spinner'
 import BillingInvoiceSummaryPeriodOptions from '@/app/BillingInvoiceSummaryPeriodOptions'
 import BillingInvoiceSummaryPreview from '@/app/BillingInvoiceSummaryPreview'
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const BillingInvoiceSummary = ({
-  loading,
+  isLoading,
   upcomingInvoice,
   organizationArtists,
 }) => {
-  if (loading) {
+  if (isLoading) {
     return <Spinner width={25} className="text-left justify-start mb-10" />
   }
 
@@ -28,6 +29,16 @@ const BillingInvoiceSummary = ({
       </>
     )
   }
+}
+
+BillingInvoiceSummary.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  upcomingInvoice: PropTypes.object,
+  organizationArtists: PropTypes.array.isRequired,
+}
+
+BillingInvoiceSummary.propTypes = {
+  upcomingInvoice: null,
 }
 
 export default BillingInvoiceSummary

@@ -37,7 +37,4 @@ BillingInvoicePreviewSummaryUsageAmount.propTypes = {
   currency: PropTypes.string.isRequired,
 }
 
-BillingInvoicePreviewSummaryUsageAmount.defaultProps = {
-}
-
 export default BillingInvoicePreviewSummaryUsageAmount

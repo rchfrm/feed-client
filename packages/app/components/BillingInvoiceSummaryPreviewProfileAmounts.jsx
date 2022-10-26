@@ -61,7 +61,4 @@ BillingInvoiceSummaryPreviewProfileAmounts.propTypes = {
   organizationArtists: PropTypes.array.isRequired,
 }
 
-BillingInvoiceSummaryPreviewProfileAmounts.defaultProps = {
-}
-
 export default BillingInvoiceSummaryPreviewProfileAmounts

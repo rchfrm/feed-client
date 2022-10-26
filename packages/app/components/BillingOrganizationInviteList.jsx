@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import BillingOrganizationInviteItem from '@/app/BillingOrganizationInviteItem'
 
-const BillingOrganizationInvitesList = ({
+const BillingOrganizationInviteList = ({
   className,
   organizationInvites,
   setOrgInvites,
@@ -29,20 +29,18 @@ const BillingOrganizationInvitesList = ({
           />
         ))}
       </div>
-      {/* PLACEHOLDER FOR THE 2-nd COLUMN */}
-      <div />
     </>
   )
 }
 
-BillingOrganizationInvitesList.propTypes = {
+BillingOrganizationInviteList.propTypes = {
   className: PropTypes.string,
   organizationInvites: PropTypes.array.isRequired,
   setOrgInvites: PropTypes.func.isRequired,
 }
 
-BillingOrganizationInvitesList.defaultProps = {
+BillingOrganizationInviteList.defaultProps = {
   className: null,
 }
 
-export default BillingOrganizationInvitesList
+export default BillingOrganizationInviteList

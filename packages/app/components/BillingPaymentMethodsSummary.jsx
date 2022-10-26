@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 import BillingPaymentMethodsAll from '@/app/BillingPaymentMethodsAll'
@@ -27,11 +27,11 @@ const BillingPaymentMethodsSummary = ({
   className,
   organization,
 }) => {
-  const [defaultPaymentMethod, setDefaultPaymentMethod] = useState(undefined)
-  const [allPaymentMethods, setAllPaymentMethods] = useState(undefined)
-  const [selectedMethodId, setSelectedMethodId] = React.useState(undefined)
+  const [defaultPaymentMethod, setDefaultPaymentMethod] = React.useState(null)
+  const [allPaymentMethods, setAllPaymentMethods] = React.useState(null)
+  const [selectedMethodId, setSelectedMethodId] = React.useState(null)
   const [error, setError] = React.useState(null)
-  const [loading, setLoading] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   const {
     billingStoreOrg,
@@ -42,7 +42,7 @@ const BillingPaymentMethodsSummary = ({
     deleteBillingStorePaymentMethod,
   } = useBillingStore(getBillingStoreState)
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (organization.id === billingStoreOrg.id) {
       setDefaultPaymentMethod(billingStorePaymentMethod)
       setSelectedMethodId(billingStorePaymentMethod.id)
@@ -63,13 +63,13 @@ const BillingPaymentMethodsSummary = ({
 
   // Set payment method as default
   const setMethodAsDefault = React.useCallback(async () => {
-    setLoading(true)
+    setIsLoading(true)
     const { res: newDefaultPaymentMethod, error } = await setPaymentAsDefault(organization.id, selectedMethodId)
 
     // Handle error
     if (error) {
       setError(error)
-      setLoading(false)
+      setIsLoading(false)
       return
     }
     // Update default in store
@@ -87,7 +87,7 @@ const BillingPaymentMethodsSummary = ({
     setAllPaymentMethods(updatedPaymentMethods)
     setError(null)
     track('billing_set_default_payment_method', { organizationId: organization.id })
-    setLoading(false)
+    setIsLoading(false)
   }, [allPaymentMethods, billingStoreOrg.id, organization.id, selectedMethodId, setAllPaymentMethods, setDefaultPaymentMethod, updateBillingStoreOrgDefaultPayment])
 
   // Delete payment method
@@ -136,7 +136,7 @@ const BillingPaymentMethodsSummary = ({
               allPaymentMethods={allPaymentMethods}
               defaultPaymentMethod={defaultPaymentMethod}
               deleteMethod={deleteMethod}
-              loading={loading}
+              loading={isLoading}
               selectedMethodId={selectedMethodId}
               setSelectedMethodId={setSelectedMethodId}
               setMethodAsDefault={setMethodAsDefault}

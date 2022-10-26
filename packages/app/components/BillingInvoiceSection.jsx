@@ -11,23 +11,23 @@ const BillingInvoiceSection = ({
   organizationArtists,
   className,
 }) => {
-  const [loading, setLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
-  const [upcomingInvoice, setUpcomingInvoice] = React.useState(undefined)
+  const [upcomingInvoice, setUpcomingInvoice] = React.useState(null)
 
   // Fetch invoices for the organization
   useAsyncEffect(async () => {
-    setLoading(true)
+    setIsLoading(true)
     const { errors, upcomingInvoice } = await fetchInvoices(organization)
 
     if (errors.length) {
       setError(errors[0])
-      setLoading(false)
+      setIsLoading(false)
       return
     }
     setError(null)
     setUpcomingInvoice(upcomingInvoice)
-    setLoading(false)
+    setIsLoading(false)
   }, [organization])
 
   return (
@@ -35,13 +35,13 @@ const BillingInvoiceSection = ({
       <h2 className="font-body font-bold mb-10">Invoices</h2>
       <Error error={error} />
       <BillingInvoiceSummary
-        loading={loading}
+        isLoading={isLoading}
         upcomingInvoice={upcomingInvoice}
         organizationArtists={organizationArtists}
       />
       <BillingInvoiceList
         organization={organization}
-        invoicesLoading={loading}
+        invoicesLoading={isLoading}
       />
     </div>
   )
