@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
@@ -85,6 +84,7 @@ const useSaveTargeting = ({
   spendingPaused,
   isFirstTimeUser = false,
   spendingData = {},
+  setIsCampaignEdit,
 }) => {
   // GET ARTIST CONTEXT
   const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
@@ -142,7 +142,7 @@ const useSaveTargeting = ({
     if (togglePauseCampaign) {
       const children = (
         <TargetingBudgetPauseAlert
-          togglePauseCampaign={togglePauseCampaign}
+          onConfirm={togglePauseCampaign}
           budget={savedState.budget}
           spendingData={spendingData}
           currency={currencyCode}
@@ -199,14 +199,27 @@ const useSaveTargeting = ({
     }
 
     if (trigger === 'campaignBudget') {
-      const shouldStartSpendingToday = moment().isSame(moment(savedState.campaignBudget.startDate), 'day')
+      if (!savedState.campaignBudget.startDate) {
+        const onConfirm = () => {
+          saveTargetingSettings(savedState)
+          setIsCampaignEdit(true)
+        }
 
-      const updatedTargetingState = {
-        ...savedState,
-        status: shouldStartSpendingToday ? 1 : 0,
+        const children = (
+          <TargetingBudgetPauseAlert
+            onConfirm={onConfirm}
+            budget={savedState.budget}
+            spendingData={spendingData}
+            currency={currencyCode}
+            closeAlert={closeAlert}
+          />
+        )
+
+        showAlert({ children })
+        return
       }
 
-      return saveTargetingSettings(updatedTargetingState)
+      return saveTargetingSettings(savedState)
     }
 
     // TRACK BUDGET CHANGE

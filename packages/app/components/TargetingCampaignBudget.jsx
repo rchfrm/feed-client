@@ -1,5 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
+import moment from 'moment'
+
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
@@ -8,6 +12,9 @@ import TargetingCampaignBudgetEditButton from '@/app/TargetingCampaignBudgetEdit
 import TargetingCampaignBudgetForm from '@/app/TargetingCampaignBudgetForm'
 
 import Button from '@/elements/Button'
+
+import { getDataSourceValue } from '@/app/helpers/appServer'
+import { getSpendingData } from '@/app/helpers/targetingHelpers'
 
 const TargetingCampaignBudget = ({
   initialTargetingState,
@@ -18,22 +25,44 @@ const TargetingCampaignBudget = ({
   hasActiveCampaignBudget,
 }) => {
   const [isCampaignEdit, setIsCampaignEdit] = React.useState(!hasActiveCampaignBudget)
+  const [spendingData, setSpendingData] = React.useState(null)
 
-  const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
+  const shouldStartSpendingToday = moment().isSame(moment(targetingState.campaignBudget.startDate), 'day')
+  const { artistId } = React.useContext(ArtistContext)
+
+  const saveTargeting = useSaveTargeting({
+    initialTargetingState,
+    targetingState,
+    saveTargetingSettings,
+    setIsCampaignEdit,
+    spendingData,
+  })
 
   const onCancel = async () => {
-    await saveTargeting('campaignBudget', {
-      ...targetingState,
-      campaignBudget: {
-        ...targetingState.campaignBudget,
-        startDate: null,
-        endDate: null,
-        totalBudget: null,
-      },
-    })
+    const dataSource = 'facebook_ad_spend_feed'
+    const response = await getDataSourceValue([dataSource], artistId)
+    const dailySpendData = response[dataSource]?.daily_data
+    const spendingData = getSpendingData(dailySpendData)
 
-    setIsCampaignEdit(true)
+    setSpendingData(spendingData)
   }
+
+  useAsyncEffect(async () => {
+    // Wait for spendingData state change before save targeting
+    if (spendingData) {
+      await saveTargeting('campaignBudget', {
+        ...targetingState,
+        status: shouldStartSpendingToday ? 1 : 0,
+        campaignBudget: {
+          ...targetingState.campaignBudget,
+          startDate: null,
+          endDate: null,
+          totalBudget: null,
+        },
+      })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spendingData])
 
   return (
     <div>
