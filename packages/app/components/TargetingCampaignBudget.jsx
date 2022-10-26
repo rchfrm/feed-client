@@ -31,7 +31,6 @@ const TargetingCampaignBudget = ({
   const { artistId } = React.useContext(ArtistContext)
   const hasScheduledCampaignBudget = moment().isBefore(targetingState.campaignBudget?.startDate, 'day')
 
-
   const saveTargeting = useSaveTargeting({
     initialTargetingState,
     targetingState,
