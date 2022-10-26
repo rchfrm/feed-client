@@ -18,6 +18,9 @@ import {
 } from '@/app/helpers/billingHelpers'
 import useAsyncEffect from 'use-async-effect'
 import Error from '@/elements/Error'
+import NoArtistsConnectAccountsBlock from '@/app/NoArtistsConnectAccountsBlock'
+import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/app/copy/global'
 
 // READING FROM STORE
 const getBillingStoreState = (state) => ({
@@ -119,7 +122,18 @@ const BillingContent = () => {
     setOrgLoading(false)
   }, [selectedOrgId, billingStoreOrg.id])
 
-  if (!organization || !organization.id || orgLoading) return <Spinner />
+  if (orgLoading) return <Spinner />
+
+  if (!organization) {
+    return (
+      <div>
+        {/* NO ARTIST COPY */}
+        <div className="p-5 bg-grey-1 rounded-dialogue max-w-xl mb-4">
+          <MarkdownText className="h4--text mb-0" markdown={copy.noArtists} />
+        </div>
+      </div>
+    )
+  }
 
   const billingComponents = {
     invoices: <BillingInvoiceSection organization={organization} organizationArtists={orgArtists} />,
