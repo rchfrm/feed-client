@@ -18,7 +18,6 @@ import {
 } from '@/app/helpers/billingHelpers'
 import useAsyncEffect from 'use-async-effect'
 import Error from '@/elements/Error'
-import NoArtistsConnectAccountsBlock from '@/app/NoArtistsConnectAccountsBlock'
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/global'
 
