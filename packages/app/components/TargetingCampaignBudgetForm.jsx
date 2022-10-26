@@ -128,6 +128,7 @@ const TargetingCampaignBudgetForm = ({
           startDate={startDate}
           endDate={endDate}
           minDate={moment(startDate).add(1, 'days').toDate()}
+          maxDate={moment(startDate).add(180, 'days').toDate()}
           onChange={handleEndDateChange}
           className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
           placeholderText="End date"

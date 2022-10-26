@@ -9,6 +9,7 @@ const InputDatePicker = React.forwardRef(({
   startDate,
   endDate,
   minDate,
+  maxDate,
   selectsStart,
   selectsEnd,
   onChange,
@@ -30,6 +31,7 @@ const InputDatePicker = React.forwardRef(({
           startDate={startDate}
           endDate={endDate}
           minDate={minDate}
+          maxDate={maxDate}
           onChange={onChange}
           isRange={isRange}
           selectsStart={selectsStart}
@@ -50,6 +52,7 @@ InputDatePicker.propTypes = {
   startDate: PropTypes.object,
   endDate: PropTypes.object,
   minDate: PropTypes.object,
+  maxDate: PropTypes.object,
   selectsStart: PropTypes.bool,
   selectsEnd: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -64,6 +67,7 @@ InputDatePicker.defaultProps = {
   startDate: null,
   endDate: null,
   minDate: null,
+  maxDate: null,
   selectsStart: false,
   selectsEnd: false,
   className: null,

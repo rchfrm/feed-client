@@ -14,6 +14,7 @@ const DatePicker = React.forwardRef(({
   startDate,
   endDate,
   minDate,
+  maxDate,
   selectsStart,
   selectsEnd,
   onChange,
@@ -26,6 +27,7 @@ const DatePicker = React.forwardRef(({
       startDate={convertUTCToLocalDate(startDate)}
       endDate={convertUTCToLocalDate(endDate)}
       minDate={convertUTCToLocalDate(minDate)}
+      maxDate={convertUTCToLocalDate(maxDate)}
       onChange={(date) => onChange(convertLocalToUTCDate(date))}
       selectsRange={isRange}
       dateFormat="dd/MM/yyyy"
@@ -45,6 +47,7 @@ DatePicker.propTypes = {
   startDate: PropTypes.object,
   endDate: PropTypes.object,
   minDate: PropTypes.object,
+  maxDate: PropTypes.object,
   selectsStart: PropTypes.bool,
   selectsEnd: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
@@ -57,6 +60,7 @@ DatePicker.defaultProps = {
   startDate: null,
   endDate: null,
   minDate: null,
+  maxDate: null,
   selectsStart: false,
   selectsEnd: false,
   isRange: false,
