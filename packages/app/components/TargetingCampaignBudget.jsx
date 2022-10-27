@@ -45,7 +45,7 @@ const TargetingCampaignBudget = ({
     const dailySpendData = response[dataSource]?.daily_data
     const spendingData = getSpendingData(dailySpendData)
 
-    setSpendingData(spendingData)
+    setSpendingData(spendingData || {})
   }
 
   useAsyncEffect(async () => {
