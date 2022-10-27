@@ -45,6 +45,7 @@ const IntegrationsPanelIntegration = ({
 
   // EDIT FUNCTION
   const action = isPopulated ? 'delete' : 'add'
+
   const updateIntegration = useEditIntegration({
     artistId,
     location,
@@ -63,7 +64,15 @@ const IntegrationsPanelIntegration = ({
       await fetchAndUpdateLinks(artistWithFormattedIntegrations)
     },
   })
-  // GET BUTTON SIZE
+
+  const handleClick = () => {
+    if (platform === 'tiktok' && !isPopulated) {
+      handleTikTokAuthRedirect(ROUTES.CONTROLS)
+      return
+    }
+    updateIntegration(integration, action)
+  }
+
   const useLargeButtons = useBreakpointTest('xs')
   return (
     <li
@@ -74,13 +83,7 @@ const IntegrationsPanelIntegration = ({
       <ButtonPill
         className={['w-full'].join(' ')}
         size={useLargeButtons ? 'x-large' : 'large'}
-        onClick={() => {
-          if (platform === 'tiktok') {
-            handleTikTokAuthRedirect(ROUTES.CONTROLS)
-            return
-          }
-          updateIntegration(integration, action)
-        }}
+        onClick={handleClick}
         style={{
           backgroundColor: isPopulated && isDisabled ? brandColors.grey : backgroundColor,
           color: textColor,
