@@ -37,8 +37,9 @@ BillingInvoiceSummary.propTypes = {
   organizationArtists: PropTypes.array.isRequired,
 }
 
-BillingInvoiceSummary.propTypes = {
+BillingInvoiceSummary.defaultProps = {
   upcomingInvoice: null,
+
 }
 
 export default BillingInvoiceSummary
