@@ -31,7 +31,7 @@ const DatePicker = React.forwardRef(({
       onChange={(date) => onChange(convertLocalToUTCDate(date))}
       selectsRange={isRange}
       dateFormat="dd/MM/yyyy"
-      formatWeekDay={nameOfDay => nameOfDay.substring(0, 1)}
+      formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
       selectsStart={selectsStart}
       selectsEnd={selectsEnd}
       placeholderText={placeholderText}

@@ -25,7 +25,7 @@ const TargetingCampaignBudgetForm = ({
 }) => {
   const { campaignBudget } = targetingState
 
-  const [startDate, setStartDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.startDate : moment().utc().toDate())
+  const [startDate, setStartDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.startDate : moment().utc().startOf('day').toDate())
   const [endDate, setEndDate] = React.useState(hasActiveCampaignBudget ? campaignBudget?.endDate : null)
   const [totalBudget, setTotalBudget] = React.useState(hasActiveCampaignBudget ? campaignBudget?.totalBudget : 0)
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -43,7 +43,7 @@ const TargetingCampaignBudgetForm = ({
 
   const endDateRef = React.useRef(null)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
-  const daysInPeriod = moment(endDate).diff(moment(startDate), 'days') + 1
+  const daysInPeriod = moment(endDate).diff(moment(startDate).startOf('day'), 'days') + 1
   const hasSufficientBudget = daysInPeriod > 0 && (totalBudget >= daysInPeriod * minHard)
 
   const getButtonText = () => {
