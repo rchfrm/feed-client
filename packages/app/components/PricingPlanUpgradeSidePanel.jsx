@@ -67,7 +67,8 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     steps.push(<PricingPlanUpgradePayment key={3} />, <PricingPlanUpgradeSummary key={4} />)
 
     return steps
-  }, [defaultPaymentMethod, hasBillingAccess, isUpgradeToPro])
+  // eslint-disable-next-line
+  }, [defaultPaymentMethod, hasBillingAccess])
 
   // Pass additional props to every step component
   const StepComponent = React.cloneElement(
