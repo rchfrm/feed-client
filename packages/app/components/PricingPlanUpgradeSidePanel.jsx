@@ -80,6 +80,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       setProfilesToUpgrade,
       prorationsPreview,
       setProrationsPreview,
+      currentStep,
       setCurrentStep,
       setSidePanelButton,
       toggleSidePanel,

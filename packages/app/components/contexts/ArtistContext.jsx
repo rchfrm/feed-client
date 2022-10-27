@@ -11,8 +11,13 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { calcFeedMinBudgetInfo } from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
 import { trackGoogleProfileCreated } from 'shared/helpers/trackGoogleHelpers'
+import useBillingStore from '@/app/stores/billingStore'
 
 const updateIsControlsLoading = state => state.setIsControlsLoading
+
+const getBillingStoreState = (state) => ({
+  addOrganizationArtist: state.addOrganizationArtist,
+})
 
 const initialArtistState = {
   id: '',
@@ -118,6 +123,7 @@ const artistReducer = (draftState, action) => {
 function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
   const setIsControlsLoading = useControlsStore(updateIsControlsLoading)
+  const { addOrganizationArtist } = useBillingStore(getBillingStoreState)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
@@ -241,7 +247,7 @@ function ArtistProvider({ children }) {
     }
 
     // Wait to connect the artist
-    await artistHelpers.createArtist(artistAccount, plan)
+    const artist = await artistHelpers.createArtist(artistAccount, plan)
       .catch((error) => {
         // Sentry error
         fireSentryError({
@@ -270,6 +276,7 @@ function ArtistProvider({ children }) {
     const hasSwitchedBetweenArtists = oldUser?.artists[0]?.id !== selectedArtist.id
 
     await storeArtist(selectedArtist.id, hasSwitchedBetweenArtists)
+    addOrganizationArtist(artist)
     setArtistLoading(false)
 
     // TRACK

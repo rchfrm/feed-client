@@ -103,12 +103,15 @@ export const isValidPromoCode = (promoCode) => {
 /**
  * @param {string} organizationId
  * @param {object} profilesToUpgrade
+ * @param {string} promoCode
  * @returns {Promise<any>}
  */
-export const upgradeProfiles = async (organizationId, profilesToUpgrade, promoCode) => {
+export const upgradeProfiles = async (organizationId, profilesToUpgrade, promoCode = '') => {
   const payload = {
     profilePlans: profilesToUpgrade,
-    promoCode,
+  }
+  if (promoCode) {
+    payload.promoCode = promoCode
   }
   const endpoint = `/organizations/${organizationId}/billing/upgrade_profiles`
   const errorTracking = {

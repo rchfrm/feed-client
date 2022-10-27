@@ -134,6 +134,16 @@ const selectOrganization = (set) => async (user, artist) => {
   await setupBilling(set)(user, artist)
 }
 
+export const addOrganizationArtist = (set, get) => (artist) => {
+  const { organizationArtists } = get()
+  const organizationArtistsUpdated = produce(organizationArtists || [], draftState => {
+    draftState.push(artist)
+  })
+  set({
+    organizationArtists: organizationArtistsUpdated,
+  })
+}
+
 export const updateOrganizationArtists = (set) => async (organizationArtists) => {
   set({ organizationArtists })
 }
@@ -151,6 +161,7 @@ const useBillingStore = create((set, get) => ({
   updateDefaultPayment: updateDefaultPayment(set, get),
   selectOrganization: selectOrganization(set, get),
   updateOrganizationArtists: updateOrganizationArtists(set, get),
+  addOrganizationArtist: addOrganizationArtist(set, get),
   updateUpcomingInvoice: updateUpcomingInvoice(set, get),
 }))
 

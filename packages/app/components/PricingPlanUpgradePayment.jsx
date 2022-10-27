@@ -28,6 +28,7 @@ const getBillingStoreState = (state) => ({
 
 const PricingPlanUpgradePayment = ({
   plan,
+  currentStep,
   setCurrentStep,
   setSidePanelButton,
   profilesToUpgrade,
@@ -61,7 +62,6 @@ const PricingPlanUpgradePayment = ({
     if (error) {
       setError(error)
       setIsLoading(false)
-
       return
     }
 
@@ -74,7 +74,7 @@ const PricingPlanUpgradePayment = ({
 
     setCurrentStep((currentStep) => currentStep + 1)
     setIsLoading(false)
-  }, [setCurrentStep, profilesToUpgrade, organizationId, updateOrganizationArtists, setError, artistId, setPlan, setStatus])
+  }, [organizationId, profilesToUpgrade, setStatus, setPlan, updateOrganizationArtists, setCurrentStep, artistId])
 
   React.useEffect(() => {
     const button = (
