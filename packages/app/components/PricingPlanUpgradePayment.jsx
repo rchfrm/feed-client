@@ -28,7 +28,6 @@ const getBillingStoreState = (state) => ({
 
 const PricingPlanUpgradePayment = ({
   plan,
-  currentStep,
   setCurrentStep,
   setSidePanelButton,
   profilesToUpgrade,
@@ -65,7 +64,7 @@ const PricingPlanUpgradePayment = ({
       return
     }
 
-    const profileUpdated = profiles.find(profile => profile.id === artistId)
+    const profileUpdated = profiles.find((profile) => profile.id === artistId)
     setStatus(profileUpdated.status)
     setPlan(profileUpdated.plan)
 
