@@ -5,14 +5,20 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import BillingProfilesTransferItem from '@/app/BillingProfilesTransferItem'
 import copy from '@/app/copy/billingCopy'
+import Error from '@/elements/Error'
 
 const BillingProfilesTransferList = ({
-  organisationId,
+  error,
+  organizationId,
   transferRequests,
   removeTransferRequest,
-  updateOrganisationArtists,
+  setOrgArtists,
   className,
 }) => {
+  if (error) {
+    return <Error error={error} />
+  }
+
   return (
     <>
       {/* PROFILE TRANSFERS LIST */}
@@ -25,10 +31,10 @@ const BillingProfilesTransferList = ({
         <div className="rounded-dialogue border-solid border-2 border-redLight mb-4">
           {transferRequests.map((transferRequest, idx) => (
             <BillingProfilesTransferItem
-              organisationId={organisationId}
+              organizationId={organizationId}
               transferRequest={transferRequest}
               removeTransferRequest={removeTransferRequest}
-              updateOrganisationArtists={updateOrganisationArtists}
+              setOrgArtists={setOrgArtists}
               className="m-3"
               key={idx}
             />
@@ -40,15 +46,17 @@ const BillingProfilesTransferList = ({
 }
 
 BillingProfilesTransferList.propTypes = {
-  organisationId: PropTypes.string.isRequired,
+  error: PropTypes.object,
+  organizationId: PropTypes.string.isRequired,
   transferRequests: PropTypes.array.isRequired,
   removeTransferRequest: PropTypes.func.isRequired,
-  updateOrganisationArtists: PropTypes.func.isRequired,
+  setOrgArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 BillingProfilesTransferList.defaultProps = {
   className: null,
+  error: null,
 }
 
 export default BillingProfilesTransferList

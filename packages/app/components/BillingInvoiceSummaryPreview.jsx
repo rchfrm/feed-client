@@ -9,9 +9,9 @@ import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
 const BillingInvoiceSummaryPreview = ({
   invoice,
   currency,
-  organisationArtists,
+  organizationArtists,
 }) => {
-  const shouldShowProfileAmounts = hasAProfileOnGrowthOrPro(organisationArtists)
+  const shouldShowProfileAmounts = hasAProfileOnGrowthOrPro(organizationArtists)
 
   return (
     <div className="border-solid border-2 mb-10 p-5 border-green rounded-dialogue">
@@ -19,7 +19,7 @@ const BillingInvoiceSummaryPreview = ({
         <BillingInvoiceSummaryPreviewProfileAmounts
           invoice={invoice}
           currency={currency}
-          organisationArtists={organisationArtists}
+          organizationArtists={organizationArtists}
         />
       ) : (
         <BillingInvoiceSummaryPreviewUsageAmount
@@ -34,10 +34,7 @@ const BillingInvoiceSummaryPreview = ({
 BillingInvoiceSummaryPreview.propTypes = {
   invoice: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired,
-  organisationArtists: PropTypes.array.isRequired,
-}
-
-BillingInvoiceSummaryPreview.defaultProps = {
+  organizationArtists: PropTypes.array.isRequired,
 }
 
 export default BillingInvoiceSummaryPreview

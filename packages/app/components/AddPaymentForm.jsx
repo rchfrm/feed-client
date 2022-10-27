@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import shallow from 'zustand/shallow'
 import { loadStripe } from '@stripe/stripe-js'
 import {
   CardElement,
@@ -9,17 +7,11 @@ import {
   useElements,
   useStripe,
 } from '@stripe/react-stripe-js'
-
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
-
 import InputBase from '@/elements/InputBase'
-
-import useBillingStore from '@/app/stores/billingStore'
-
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 import { track } from '@/helpers/trackingHelpers'
-
 import brandColors from '@/constants/brandColors'
 
 const STRIPE_ELEMENT_OPTIONS = {
@@ -39,18 +31,14 @@ const STRIPE_ELEMENT_OPTIONS = {
   },
 }
 
-// READING FROM STORE
-const getBillingStoreState = (state) => ({
-  addPaymentMethod: state.addPaymentMethod,
-})
-
 // THE FORM
 const FORM = ({
-  organisationId,
+  organizationId,
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
   shouldShowLabels,
+  addMethodToState,
   setAddPaymentMethod,
   isFormValid,
   setIsFormValid,
@@ -63,9 +51,6 @@ const FORM = ({
   const stripe = useStripe()
   const [name, setName] = React.useState('')
   const [error, setError] = React.useState(null)
-
-  // READ from BILLING STORE
-  const { addPaymentMethod } = useBillingStore(getBillingStoreState, shallow)
 
   // WAIT FOR STRIPE TO LOAD
   React.useEffect(() => {
@@ -114,7 +99,7 @@ const FORM = ({
 
     // Store payment method in DB
     const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
-      organisationId,
+      organizationId,
       paymentMethodId: stripePaymentMethodId,
       shouldBeDefault,
       promoCode,
@@ -130,7 +115,7 @@ const FORM = ({
     // If payment intent is required
     if (isPaymentIntentRequired) {
       // Get stripe client secret
-      const { res, error: getStripeClientSecretError } = await billingHelpers.getStripeClientSecret(organisationId)
+      const { res, error: getStripeClientSecretError } = await billingHelpers.getStripeClientSecret(organizationId)
 
       if (getStripeClientSecretError) {
         setError(getStripeClientSecretError)
@@ -160,7 +145,7 @@ const FORM = ({
       // Handle failure
       if (res?.setupIntent?.status !== 'succeeded') {
         // Delete payment method
-        await billingHelpers.deletePaymentMethod(organisationId, stripePaymentMethodId)
+        await billingHelpers.deletePaymentMethod(organizationId, stripePaymentMethodId)
         setIsLoading(false)
         return
       }
@@ -168,12 +153,9 @@ const FORM = ({
 
     // Set card as default (if necessary)
     if (shouldBeDefault) {
-      const { error } = await billingHelpers.setPaymentAsDefault({
-        organisationId,
-        paymentMethodId: stripePaymentMethodId,
-      })
+      const { error } = await billingHelpers.setPaymentAsDefault(organizationId, stripePaymentMethodId)
       if (error) {
-        await billingHelpers.deletePaymentMethod(organisationId, stripePaymentMethodId)
+        await billingHelpers.deletePaymentMethod(organizationId, stripePaymentMethodId)
         setError(error)
         setIsLoading(false)
         return
@@ -183,14 +165,12 @@ const FORM = ({
     // Handle success
     setIsLoading(false)
     setError(null)
-    // Update store
-    addPaymentMethod(paymentMethodDb)
-    // Update local state
+    addMethodToState(paymentMethodDb)
     setPaymentMethod(paymentMethodDb)
     setSuccess(true)
     // Track
-    track('billing_finish_add_payment', { organisationId, shouldBeDefault })
-  }, [isFormValid, isLoading, setIsLoading, name, organisationId, shouldBeDefault, setSuccess, setPaymentMethod, addPaymentMethod, stripe, elements, isPaymentIntentRequired, promoCode, error])
+    track('billing_finish_add_payment', { organizationId, shouldBeDefault })
+  }, [isFormValid, isLoading, setIsLoading, elements, stripe, name, organizationId, shouldBeDefault, promoCode, isPaymentIntentRequired, addMethodToState, setPaymentMethod, setSuccess, error])
 
   React.useEffect(() => {
     setAddPaymentMethod(() => onSubmit)
@@ -234,15 +214,16 @@ const FORM = ({
   )
 }
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
+// Make sure to call `loadStripe` outside a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe(process.env.stripe_provider)
 
 const AddPaymentForm = ({
-  organisationId,
+  organizationId,
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
+  addMethodToState,
   shouldShowLabels,
   setAddPaymentMethod,
   isFormValid,
@@ -256,11 +237,12 @@ const AddPaymentForm = ({
     <Elements stripe={stripePromise}>
       {/* Defined above... */}
       <FORM
-        organisationId={organisationId}
-        setAddPaymentMethod={setAddPaymentMethod}
+        organizationId={organizationId}
         setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}
         shouldBeDefault={shouldBeDefault}
+        addMethodToState={addMethodToState}
+        setAddPaymentMethod={setAddPaymentMethod}
         shouldShowLabels={shouldShowLabels}
         isFormValid={isFormValid}
         setIsFormValid={setIsFormValid}
@@ -278,6 +260,7 @@ AddPaymentForm.propTypes = {
   setSuccess: PropTypes.func,
   shouldBeDefault: PropTypes.bool,
   shouldShowLabels: PropTypes.bool,
+  addMethodToState: PropTypes.func.isRequired,
   setAddPaymentMethod: PropTypes.func.isRequired,
   isFormValid: PropTypes.bool.isRequired,
   setIsFormValid: PropTypes.func.isRequired,

@@ -1,11 +1,12 @@
 import React from 'react'
-
 import BillingTransferProfileForm from '@/app/BillingTransferProfileForm'
 import copy from '@/app/copy/billingCopy'
-
 import MarkdownText from '@/elements/MarkdownText'
+import PropTypes from 'prop-types'
 
-const BillingTransferProfile = () => {
+const BillingTransferProfile = ({
+  organizationArtists,
+}) => {
   const [success, setSuccess] = React.useState(false)
 
   React.useEffect(() => {
@@ -27,6 +28,7 @@ const BillingTransferProfile = () => {
       {success ? <MarkdownText markdown="Request sent 🎉" /> : (
         <BillingTransferProfileForm
           className="w-full lg:w-2/3 mt-10"
+          organizationArtists={organizationArtists}
           setSuccess={setSuccess}
         />
       )}
@@ -35,10 +37,7 @@ const BillingTransferProfile = () => {
 }
 
 BillingTransferProfile.propTypes = {
-}
-
-BillingTransferProfile.defaultProps = {
-
+  organizationArtists: PropTypes.array.isRequired,
 }
 
 export default React.memo(BillingTransferProfile)

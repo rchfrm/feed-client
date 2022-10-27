@@ -25,7 +25,4 @@ BillingInvoiceSummaryPeriodOptions.propTypes = {
   periodEnd: PropTypes.string.isRequired,
 }
 
-BillingInvoiceSummaryPeriodOptions.defaultProps = {
-}
-
 export default BillingInvoiceSummaryPeriodOptions

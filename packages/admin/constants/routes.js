@@ -6,8 +6,8 @@ export const ARTISTS = '/'
 export const ARTIST = '/artists'
 export const USERS = '/users'
 export const USER = '/user'
-export const ORGANISATION = '/organisation'
-export const ORGANISATIONS = '/organisations'
+export const ORGANIZATION = '/organisation'
+export const ORGANIZATIONS = '/organisations'
 export const TOURNAMENTS = '/tournaments'
 export const TOURNAMENT = '/tournament'
 export const HOME = ARTISTS
@@ -16,8 +16,8 @@ export const restrictedPages = [
   ARTISTS,
   ARTIST,
   USERS,
-  ORGANISATION,
-  ORGANISATIONS,
+  ORGANIZATION,
+  ORGANIZATIONS,
   TOURNAMENTS,
   TOURNAMENT,
 ]

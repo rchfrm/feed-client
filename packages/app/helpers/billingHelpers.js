@@ -1,25 +1,25 @@
 import get from 'lodash/get'
 import moment from 'moment'
-
 import * as api from '@/helpers/api'
+import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 
 // * PAYMENT
 // * --------------------
 
 // SUBMIT PAYMENT
 /**
- * @param {string} organisationId
+ * @param {string} organizationId
  * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
-export const submitPaymentMethod = async ({ organisationId, paymentMethodId, currency, shouldBeDefault = false, promoCode }) => {
+export const submitPaymentMethod = async ({ organizationId, paymentMethodId, currency, shouldBeDefault = false, promoCode }) => {
   const payload = {
     token: paymentMethodId,
     currency,
     is_default: shouldBeDefault,
     promoCode,
   }
-  const endpoint = `/organizations/${organisationId}/billing/payments`
+  const endpoint = `/organizations/${organizationId}/billing/payments`
   const errorTracking = {
     category: 'Billing',
     action: 'Submit payment method',
@@ -29,13 +29,13 @@ export const submitPaymentMethod = async ({ organisationId, paymentMethodId, cur
 
 // SET PAYMENT AS DEFAULT
 /**
- * @param {string} organisationId
- * @param {string} paymentId
+ * @param {string} organizationId
+ * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
-export const setPaymentAsDefault = async ({ organisationId, paymentMethodId }) => {
+export const setPaymentAsDefault = async (organizationId, paymentMethodId) => {
   const payload = null
-  const endpoint = `/organizations/${organisationId}/billing/payments/${paymentMethodId}/default`
+  const endpoint = `/organizations/${organizationId}/billing/payments/${paymentMethodId}/default`
   const errorTracking = {
     category: 'Billing',
     action: 'Set payment as default',
@@ -45,13 +45,13 @@ export const setPaymentAsDefault = async ({ organisationId, paymentMethodId }) =
 
 // DELETE PAYMENT
 /**
- * @param {string} organisationId
+ * @param {string} organizationId
  * @param {string} paymentId
  * @returns {Promise<any>}
  */
-export const deletePaymentMethod = async (organisationId, paymentMethodId) => {
+export const deletePaymentMethod = async (organizationId, paymentMethodId) => {
   const payload = null
-  const endpoint = `/organizations/${organisationId}/billing/payments/${paymentMethodId}`
+  const endpoint = `/organizations/${organizationId}/billing/payments/${paymentMethodId}`
   const errorTracking = {
     category: 'Billing',
     action: 'Delete payment method',
@@ -61,12 +61,12 @@ export const deletePaymentMethod = async (organisationId, paymentMethodId) => {
 
 // GET STRIPE CLIENT SECRET
 /**
- * @param {string} organisationId
+ * @param {string} organizationId
  * @returns {Promise<any>}
  */
-export const getStripeClientSecret = async (organisationId) => {
+export const getStripeClientSecret = async (organizationId) => {
   const payload = null
-  const endpoint = `/organizations/${organisationId}/billing/payments/client_secret`
+  const endpoint = `/organizations/${organizationId}/billing/payments/client_secret`
   const errorTracking = {
     category: 'Billing',
     action: 'Get Stripe client secret',
@@ -76,16 +76,16 @@ export const getStripeClientSecret = async (organisationId) => {
 
 // GET PRORATIONS PREVIEW
 /**
- * @param {string} organisationId
+ * @param {string} organizationId
  * @param {object} profilesToUpgrade
  * @returns {Promise<any>}
  */
-export const getProrationsPreview = async (organisationId, profilesToUpgrade, promoCode) => {
+export const getProrationsPreview = async (organizationId, profilesToUpgrade, promoCode) => {
   const payload = {
     profilePlans: profilesToUpgrade,
     promoCode,
   }
-  const endpoint = `/organizations/${organisationId}/billing/preview_prorations`
+  const endpoint = `/organizations/${organizationId}/billing/preview_prorations`
   const errorTracking = {
     category: 'Billing',
     action: 'Get prorations preview',
@@ -101,16 +101,16 @@ export const isValidPromoCode = (promoCode) => {
 
 // UPGRADE PRICING PLANS
 /**
- * @param {string} organisationId
+ * @param {string} organizationId
  * @param {object} profilesToUpgrade
  * @returns {Promise<any>}
  */
-export const upgradeProfiles = async (organisationId, profilesToUpgrade, promoCode) => {
+export const upgradeProfiles = async (organizationId, profilesToUpgrade, promoCode) => {
   const payload = {
     profilePlans: profilesToUpgrade,
     promoCode,
   }
-  const endpoint = `/organizations/${organisationId}/billing/upgrade_profiles`
+  const endpoint = `/organizations/${organizationId}/billing/upgrade_profiles`
   const errorTracking = {
     category: 'Billing',
     action: 'Upgrade pricing plans',
@@ -148,6 +148,19 @@ const fetchOrg = async (org) => {
   }
 }
 
+/**
+ * @param {string} orgId
+ * @returns {Promise<object>}
+ */
+export const fetchOrgById = async (orgId) => {
+  const endpoint = `organizations/${orgId}`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Get organization by ID',
+  }
+  return api.requestWithCatch('get', endpoint, null, errorTracking)
+}
+
 
 // Sort payment methods, putting the default payment first
 const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
@@ -157,7 +170,7 @@ const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
 }
 
 // GET ALL BILLING DETAILS
-export const getbillingDetails = ({ name, payment_status = 'none', customer, role }) => {
+export const getBillingDetails = ({ name, payment_status = 'none', customer, role }) => {
   // If no payment status setup
   if (payment_status === 'none' || !customer) {
     return {
@@ -208,7 +221,7 @@ export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
 }
 
 // FORMAT PRORATIONS DATA
-export const formatProrationsPreview = ({ profilesToUpgrade, organisationArtists, prorationsPreview }) => {
+export const formatProrationsPreview = ({ profilesToUpgrade, organizationArtists, prorationsPreview }) => {
   const {
     currency,
     currentPeriodStart,
@@ -228,7 +241,7 @@ export const formatProrationsPreview = ({ profilesToUpgrade, organisationArtists
   const isFirstDayOfPeriod = (!currentPeriodStart && !currentPeriodEnd) || daysRemainingInPeriod === daysInPeriod
 
   const upgradedProfiles = Object.keys(profilesToUpgrade).reduce((array, id) => {
-    const profile = organisationArtists.find((profile) => profile.id === id)
+    const profile = organizationArtists.find((profile) => profile.id === id)
     const [planPrefix] = profilesToUpgrade[id]?.split('_') || []
     const currentPayment = profileAmounts[id] || 0
     const nextPayment = nextInvoiceProfileAmounts[id] || 0
@@ -258,9 +271,9 @@ export const formatProrationsPreview = ({ profilesToUpgrade, organisationArtists
 
 // * PROFILE TRANSFER
 // * --------------------
-export const getOrganisationArtists = async (organisationId) => {
+export const getOrganizationArtists = async (organizationId) => {
   const payload = {}
-  const endpoint = `/organizations/${organisationId}/artists`
+  const endpoint = `/organizations/${organizationId}/artists`
   const errorTracking = {
     category: 'Billing',
     action: 'Get organization artists',
@@ -288,8 +301,8 @@ export const getTransferRequests = async () => {
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
-export const acceptTransferRequest = async (token, organisationId) => {
-  const payload = { organization_id: organisationId }
+export const acceptTransferRequest = async (token, organizationId) => {
+  const payload = { organization_id: organizationId }
   const endpoint = `/artist_transfers/${token}/accept`
   const errorTracking = {
     category: 'Billing',
@@ -308,11 +321,11 @@ export const rejectTransferRequest = async (token) => {
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
-// * USERS AND ORGANISATION INVITES
+// * USERS AND ORGANIZATION INVITES
 // * --------------------
-export const getOrganisationUsers = async (organisationId) => {
+export const getOrganizationUsers = async (organizationId) => {
   const payload = {}
-  const endpoint = `/organizations/${organisationId}/users`
+  const endpoint = `/organizations/${organizationId}/users`
   const errorTracking = {
     category: 'Billing',
     action: 'Get organization users',
@@ -320,9 +333,9 @@ export const getOrganisationUsers = async (organisationId) => {
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
-export const createOrganizationInvite = async (organisationId, email) => {
+export const createOrganizationInvite = async (organizationId, email) => {
   const payload = { email }
-  const endpoint = `/organizations/${organisationId}/invite`
+  const endpoint = `/organizations/${organizationId}/invite`
   const errorTracking = {
     category: 'Billing',
     action: 'Create organization invite',
@@ -330,42 +343,42 @@ export const createOrganizationInvite = async (organisationId, email) => {
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
-export const deleteOrganisationUser = async (organisationId, userId) => {
+export const deleteOrganizationUser = async (organizationId, userId) => {
   const payload = {}
-  const endpoint = `/organizations/${organisationId}/users/${userId}`
+  const endpoint = `/organizations/${organizationId}/users/${userId}`
   const errorTracking = {
     category: 'Billing',
-    action: 'Delete organisation user',
+    action: 'Delete organization user',
   }
   return api.requestWithCatch('delete', endpoint, payload, errorTracking)
 }
 
-export const getOrganisationInvites = async () => {
+export const getOrganizationInvites = async () => {
   const payload = {}
   const endpoint = '/organization_invites'
   const errorTracking = {
     category: 'Billing',
-    action: 'Get organisation invites',
+    action: 'Get organization invites',
   }
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
-export const acceptOrganisationInvite = async (token) => {
+export const acceptOrganizationInvite = async (token) => {
   const payload = {}
   const endpoint = `/organization_invites/${token}/accept`
   const errorTracking = {
     category: 'Billing',
-    action: 'Accept organisation invite',
+    action: 'Accept organization invite',
   }
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
-export const rejectOrganisationInvite = async (token) => {
+export const rejectOrganizationInvite = async (token) => {
   const payload = {}
   const endpoint = `/organization_invites/${token}/reject`
   const errorTracking = {
     category: 'Billing',
-    action: 'Reject organisation invite',
+    action: 'Reject organization invite',
   }
   return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
@@ -393,9 +406,9 @@ export const billingOptions = [
   },
 ]
 
-export const formatProfileAmounts = (organisationArtists, profileAmounts) => {
+export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
   const formattedProfileAmounts = Object.keys(profileAmounts).reduce((result, id) => {
-    const profile = organisationArtists.find((profile) => profile.id === id)
+    const profile = organizationArtists.find((profile) => profile.id === id)
     const [planPrefix] = profile?.plan.split('_') || []
 
     const value = {
@@ -415,4 +428,17 @@ export const formatProfileAmounts = (organisationArtists, profileAmounts) => {
   }, {})
 
   return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
+}
+
+export const fetchInvoices = async (organization) => {
+  const errors = []
+
+  // Fetch next invoice
+  const { res: upcomingInvoice, error: upcomingInvoiceError } = await fetchUpcomingInvoice(organization.id)
+  if (upcomingInvoiceError && upcomingInvoiceError.message !== 'Not Found') errors.push(upcomingInvoiceError)
+
+  return {
+    upcomingInvoice,
+    errors,
+  }
 }

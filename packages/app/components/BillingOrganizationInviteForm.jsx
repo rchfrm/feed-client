@@ -1,28 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import shallow from 'zustand/shallow'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
-
-import useBillingStore from '@/app/stores/billingStore'
-
 import * as billingHelpers from '@/app/helpers/billingHelpers'
-
-// READING FROM STORE
-const getBillingStoreState = (state) => ({ organisation: state.organisation })
 
 // THE FORM
 const FORM = ({
   className,
+  selectedOrgId,
   setSuccess,
 }) => {
   const [email, setEmail] = React.useState('')
   const [error, setError] = React.useState(null)
-
-  // READ from BILLING STORE
-  const { organisation } = useBillingStore(getBillingStoreState, shallow)
 
   // FORM STATE
   const [isLoading, setIsLoading] = React.useState(false)
@@ -34,7 +24,7 @@ const FORM = ({
     setIsLoading(true)
 
     // SEND API REQUEST
-    const { error: serverError } = await billingHelpers.createOrganizationInvite(organisation.id, email)
+    const { error: serverError } = await billingHelpers.createOrganizationInvite(selectedOrgId, email)
 
     // HANDLE ERROR
     if (serverError) {
@@ -47,7 +37,7 @@ const FORM = ({
     setIsLoading(false)
     setError(null)
     setSuccess(true)
-  }, [isLoading, organisation, email, setSuccess])
+  }, [isLoading, selectedOrgId, email, setSuccess])
 
   return (
     <form
@@ -71,7 +61,7 @@ const FORM = ({
         disabled={!email}
         onClick={onSubmit}
         loading={isLoading}
-        trackComponentName="BillingOrganisationInviteForm"
+        trackComponentName="BillingOrganizationInviteForm"
         className="w-full"
       >
         Send
@@ -80,25 +70,28 @@ const FORM = ({
   )
 }
 
-const BillingOrganisationInviteForm = ({
+const BillingOrganizationInviteForm = ({
   className,
+  selectedOrgId,
   setSuccess,
 }) => {
   return (
     <FORM
       className={className}
+      selectedOrgId={selectedOrgId}
       setSuccess={setSuccess}
     />
   )
 }
 
-BillingOrganisationInviteForm.propTypes = {
+BillingOrganizationInviteForm.propTypes = {
   className: PropTypes.string,
+  selectedOrgId: PropTypes.string.isRequired,
   setSuccess: PropTypes.func.isRequired,
 }
 
-BillingOrganisationInviteForm.defaultProps = {
+BillingOrganizationInviteForm.defaultProps = {
   className: '',
 }
 
-export default BillingOrganisationInviteForm
+export default BillingOrganizationInviteForm

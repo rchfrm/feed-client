@@ -77,6 +77,12 @@ const artistReducer = (draftState, action) => {
       draftState.plan = payload.plan
       draftState.hasGrowthPlan = artistHelpers.hasGrowthPlan(payload.plan)
       draftState.hasProPlan = artistHelpers.hasProPlan(payload.plan)
+      draftState.hasNoPlan = !payload.plan
+      draftState.hasCancelledPlan = draftState.status === 'unpaid' && !draftState.hasNoPlan
+      break
+    }
+    case 'set-status': {
+      draftState.status = payload.status
       break
     }
     case 'update-post-preferences': {
@@ -131,7 +137,7 @@ function ArtistProvider({ children }) {
     toggleGlobalLoading(false)
   }
 
-  const updateArtist = React.useCallback((artist) => {
+  const updateArtist = React.useCallback(async (artist) => {
     // Test whether artist is musician
     const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
@@ -186,6 +192,8 @@ function ArtistProvider({ children }) {
         artist: artistUpdated,
       },
     })
+
+    setArtistLoading(false)
   }, [setArtist])
 
   const storeArtist = React.useCallback(async (id, hasSwitchedBetweenArtists = true) => {
@@ -212,8 +220,8 @@ function ArtistProvider({ children }) {
 
     if (!artist) return
 
-    updateArtist(artist)
-    setArtistLoading(false)
+    await updateArtist(artist)
+
     return { artist }
   }, [toggleGlobalLoading, updateArtist, setIsControlsLoading])
 
@@ -312,6 +320,15 @@ function ArtistProvider({ children }) {
     })
   }, [setArtist])
 
+  const setStatus = React.useCallback((status) => {
+    setArtist({
+      type: 'set-status',
+      payload: {
+        status,
+      },
+    })
+  }, [setArtist])
+
   const setPostPreferences = (preferenceType, value) => {
     setArtist({
       type: 'update-post-preferences',
@@ -362,6 +379,7 @@ function ArtistProvider({ children }) {
     setArtistLoading,
     setConnection,
     setPlan,
+    setStatus,
     setPostPreferences,
     setEnabledPosts,
     storeArtist,

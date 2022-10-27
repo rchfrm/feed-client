@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-import { useRouter } from 'next/router'
 
 import InitUser from '@/app/InitUser'
 
@@ -18,7 +17,6 @@ import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
 import * as server from '@/app/helpers/appServer'
 import { profileStatus } from '@/app/helpers/artistHelpers'
 import { formatPostsMinimal } from '@/app/helpers/postsHelpers'
-import * as ROUTES from '@/app/constants/routes'
 
 const getControlsStoreState = (state) => ({
   initControlsStore: state.initControlsStore,
@@ -30,17 +28,13 @@ const getControlsStoreState = (state) => ({
 
 const getBillingStoreState = (state) => ({
   setupBilling: state.setupBilling,
-  organisation: state.organisation,
+  organization: state.organization,
 })
 
 function Main({ children }) {
   const { user } = React.useContext(UserContext)
-  const { artistId, artist, artistLoading, setEnabledPosts } = React.useContext(ArtistContext)
-  const { min_daily_budget_info: minDailyBudgetInfo } = artist
+  const { artistId, artist, setEnabledPosts } = React.useContext(ArtistContext)
   const isFirstRender = React.useRef(true)
-
-  const router = useRouter()
-  const { pathname } = router
 
   const {
     getProfileSetupStatus,
@@ -68,16 +62,8 @@ function Main({ children }) {
 
   // Setup billing store
   React.useEffect(() => {
-    if (!artistId || artistLoading) return
-
-    const { currency: artistCurrency } = minDailyBudgetInfo || {}
-
-    if (pathname === ROUTES.BILLING) {
-      return
-    }
-    setupBilling({ user, artistCurrency, shouldFetchOrganisationDetailsOnly: true })
-  // eslint-disable-next-line
-  }, [artistId, artistLoading])
+    setupBilling(user, artist)
+  }, [artist, setupBilling, user])
 
   // Update integrations when they change on artist
   React.useEffect(() => {
