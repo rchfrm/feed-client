@@ -12,6 +12,7 @@ import brandColors from '@/constants/brandColors'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
+  addPaymentMethodToStore: state.addPaymentMethod,
 })
 
 const PricingPlanUpgradePaymentMethod = ({
@@ -23,7 +24,12 @@ const PricingPlanUpgradePaymentMethod = ({
   const [isLoading, setIsLoading] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
 
-  const { organization: { id: organizationId } } = useBillingStore(getBillingStoreState)
+  const {
+    organization: {
+      id: organizationId,
+    },
+    addPaymentMethodToStore,
+  } = useBillingStore(getBillingStoreState)
 
   const savePaymentMethod = React.useCallback(() => {
     addPaymentMethod()
@@ -60,6 +66,7 @@ const PricingPlanUpgradePaymentMethod = ({
       <h2 className="mb-8 pr-12">Add a payment method</h2>
       <p>Enter your card details below.</p>
       <AddPaymentForm
+        addMethodToState={addPaymentMethodToStore}
         organizationId={organizationId}
         setAddPaymentMethod={setAddPaymentMethod}
         setSuccess={setSuccess}

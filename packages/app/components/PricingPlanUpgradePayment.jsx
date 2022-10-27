@@ -61,11 +61,10 @@ const PricingPlanUpgradePayment = ({
     if (error) {
       setError(error)
       setIsLoading(false)
-
       return
     }
 
-    const profileUpdated = profiles.find(profile => profile.id === artistId)
+    const profileUpdated = profiles.find((profile) => profile.id === artistId)
     setStatus(profileUpdated.status)
     setPlan(profileUpdated.plan)
 
@@ -74,7 +73,7 @@ const PricingPlanUpgradePayment = ({
 
     setCurrentStep((currentStep) => currentStep + 1)
     setIsLoading(false)
-  }, [setCurrentStep, profilesToUpgrade, organizationId, updateOrganizationArtists, setError, artistId, setPlan, setStatus])
+  }, [organizationId, profilesToUpgrade, setStatus, setPlan, updateOrganizationArtists, setCurrentStep, artistId])
 
   React.useEffect(() => {
     const button = (
@@ -98,7 +97,7 @@ const PricingPlanUpgradePayment = ({
     )
 
     setSidePanelButton(button)
-  }, [upgradePlan, setSidePanelButton, amount, isDisabled, currency, isLoading])
+  }, [upgradePlan, setSidePanelButton, amount, isDisabled, currency, isLoading, planIsBasic])
 
   React.useEffect(() => {
     // Get the current profile

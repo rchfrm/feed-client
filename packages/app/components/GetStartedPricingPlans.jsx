@@ -75,7 +75,4 @@ GetStartedPricingPlans.propTypes = {
   objective: PropTypes.string.isRequired,
 }
 
-GetStartedPricingPlans.defaultProps = {
-}
-
 export default GetStartedPricingPlans

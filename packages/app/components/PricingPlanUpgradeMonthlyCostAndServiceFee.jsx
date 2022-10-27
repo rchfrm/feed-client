@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 import { getCurrencySymbol } from '@/helpers/utils'
 
 
-const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currency, plan, isAnnualPricing }) => {
-  const { code: currencyCode } = currency
+const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, isAnnualPricing }) => {
   const currencySymbol = getCurrencySymbol(currencyCode)
 
   const monthlyCost = plan.monthlyCost[currencyCode]
@@ -48,17 +47,13 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currency, plan, isAnnualPr
 }
 
 PricingPlanUpgradeMonthlyCostAndServiceFee.propTypes = {
-  currency: PropTypes.shape({
-    code: PropTypes.string.isRequired,
-  }),
+  currencyCode: PropTypes.string,
   plan: PropTypes.object.isRequired,
   isAnnualPricing: PropTypes.bool,
 }
 
 PricingPlanUpgradeMonthlyCostAndServiceFee.defaultProps = {
-  currency: {
-    code: 'GBP',
-  },
+  currencyCode: 'GBP',
   isAnnualPricing: false,
 }
 

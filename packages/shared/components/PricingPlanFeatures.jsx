@@ -4,7 +4,7 @@ import PricingPlanFeature from '@/PricingPlanFeature'
 
 import { getMaxSpendString } from '@/helpers/utils'
 
-export default function PricingPlanFeatures({ plan, currency, className }) {
+export default function PricingPlanFeatures({ plan, currencyCode, className }) {
   const {
     monthlyCost,
     features,
@@ -16,7 +16,7 @@ export default function PricingPlanFeatures({ plan, currency, className }) {
 
   React.useEffect(() => {
     if (maxSpendMultiple) {
-      const maxSpendString = getMaxSpendString(currency, monthlyCost[currency] * maxSpendMultiple)
+      const maxSpendString = getMaxSpendString(currencyCode, monthlyCost[currencyCode] * maxSpendMultiple)
 
       setExpandedFeatureList([
         ...features,
@@ -25,7 +25,7 @@ export default function PricingPlanFeatures({ plan, currency, className }) {
     } else {
       setExpandedFeatureList(features)
     }
-  }, [currency, features, maxSpendMultiple, monthlyCost])
+  }, [currencyCode, features, maxSpendMultiple, monthlyCost])
 
   return (
     <div className={['pl-3', className].join(' ')}>
@@ -38,7 +38,7 @@ export default function PricingPlanFeatures({ plan, currency, className }) {
 
 PricingPlanFeatures.propTypes = {
   plan: PropTypes.object.isRequired,
-  currency: PropTypes.string.isRequired,
+  currencyCode: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

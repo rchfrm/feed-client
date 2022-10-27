@@ -19,7 +19,7 @@ const PricingPlanUpgradePlan = ({
   setPlan,
   setCurrentStep,
   setSidePanelButton,
-  currency,
+  currencyCode,
   canChooseBasic,
 }) => {
   const { artist } = React.useContext(ArtistContext)
@@ -68,7 +68,7 @@ const PricingPlanUpgradePlan = ({
           selectedPlan={planPrefix}
           isAnnualPricing={false}
           handleChange={handleChange}
-          currency={currency}
+          currencyCode={currencyCode}
           className="mb-4"
         />
       )}
@@ -79,7 +79,7 @@ const PricingPlanUpgradePlan = ({
         selectedPlan={planPrefix}
         isAnnualPricing={false}
         handleChange={handleChange}
-        currency={currency}
+        currencyCode={currencyCode}
         className="mb-4"
       />
       <PricingPlanUpgradePlanItem
@@ -89,7 +89,7 @@ const PricingPlanUpgradePlan = ({
         selectedPlan={planPrefix}
         isAnnualPricing={false}
         handleChange={handleChange}
-        currency={currency}
+        currencyCode={currencyCode}
       />
     </div>
   )
@@ -100,9 +100,7 @@ PricingPlanUpgradePlan.propTypes = {
   setPlan: PropTypes.func,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
-  currency: PropTypes.shape({
-    code: PropTypes.string.isRequired,
-  }),
+  currencyCode: PropTypes.string,
 }
 
 PricingPlanUpgradePlan.defaultProps = {
@@ -110,9 +108,7 @@ PricingPlanUpgradePlan.defaultProps = {
   setPlan: () => {},
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
-  currency: {
-    code: 'GBP',
-  },
+  currencyCode: 'GBP',
 }
 
 export default PricingPlanUpgradePlan

@@ -22,6 +22,7 @@ const BillingInvoiceSection = ({
 
     if (errors.length) {
       setError(errors[0])
+      setUpcomingInvoice(null)
       setIsLoading(false)
       return
     }

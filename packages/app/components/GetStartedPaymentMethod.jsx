@@ -27,12 +27,14 @@ import { formatCurrency } from '@/helpers/utils'
 const getBillingStoreState = (state) => ({
   billingDetails: state.billingDetails,
   defaultPaymentMethod: state.defaultPaymentMethod,
+  addPaymentMethodToStore: state.addPaymentMethod,
 })
 
 const GetStartedPaymentMethod = () => {
   const {
     defaultPaymentMethod,
     billingDetails: { allPaymentMethods },
+    addPaymentMethodToStore,
   } = useBillingStore(getBillingStoreState)
   const { next, setWizardState, wizardState } = React.useContext(WizardContext)
 
@@ -185,6 +187,7 @@ const GetStartedPaymentMethod = () => {
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
         {shouldShowPaymentMethodForm ? (
           <AddPaymentForm
+            addMethodToState={addPaymentMethodToStore}
             organizationId={organizationId}
             setAddPaymentMethod={setAddPaymentMethod}
             setSuccess={setSuccess}

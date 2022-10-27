@@ -47,7 +47,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const [plan, setPlan] = React.useState(initPlan)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
-  const currency = defaultPaymentMethod?.currency || artistCurrency
+  const currencyCode = defaultPaymentMethod?.currency || artistCurrency
 
   // Define steps of plan upgrade flow
   const pricingPlanUpgradeSteps = React.useMemo(() => {
@@ -67,7 +67,8 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     steps.push(<PricingPlanUpgradePayment key={3} />, <PricingPlanUpgradeSummary key={4} />)
 
     return steps
-  }, [defaultPaymentMethod, hasBillingAccess, isUpgradeToPro])
+  // eslint-disable-next-line
+  }, [defaultPaymentMethod, hasBillingAccess])
 
   // Pass additional props to every step component
   const StepComponent = React.cloneElement(
@@ -80,10 +81,11 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       setProfilesToUpgrade,
       prorationsPreview,
       setProrationsPreview,
+      currentStep,
       setCurrentStep,
       setSidePanelButton,
       toggleSidePanel,
-      currency,
+      currencyCode,
       isUpgradeToPro,
       canChooseBasic,
       hasBillingAccess,
@@ -97,9 +99,6 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
 
 PricingPlanUpgradeSidePanel.propTypes = {
   section: PropTypes.string.isRequired,
-}
-
-PricingPlanUpgradeSidePanel.defaultProps = {
 }
 
 export default PricingPlanUpgradeSidePanel
