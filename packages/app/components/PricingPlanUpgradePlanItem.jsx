@@ -18,7 +18,7 @@ const PricingPlanUpgradePlanItem = ({
   selectedPlan,
   isAnnualPricing,
   handleChange,
-  currency,
+  currencyCode,
   className,
 }) => {
   return (
@@ -33,7 +33,7 @@ const PricingPlanUpgradePlanItem = ({
           className="mb-0 font-bold text-xl"
         />
         <PricingPlanUpgradeMonthlyCostAndServiceFee
-          currency={currency}
+          currencyCode={currencyCode}
           plan={pricingPlanNumbers}
           isAnnualPricing={isAnnualPricing}
         />
@@ -41,7 +41,7 @@ const PricingPlanUpgradePlanItem = ({
       {selectedPlan === name && (
         <div className="my-6 pl-4">
           <p className="pl-1">Features:</p>
-          <PricingPlanFeatures plan={pricingPlan} currency={currency} className="mb-4" />
+          <PricingPlanFeatures plan={pricingPlan} currencyCode={currencyCode} className="mb-4" />
           <MarkdownText markdown={copy.pricingProfileFootnote} className="text-xs mb-0" />
         </div>
       )}
@@ -56,17 +56,13 @@ PricingPlanUpgradePlanItem.propTypes = {
   selectedPlan: PropTypes.string.isRequired,
   isAnnualPricing: PropTypes.bool.isRequired,
   handleChange: PropTypes.func.isRequired,
-  currency: PropTypes.shape({
-    code: PropTypes.string.isRequired,
-  }),
+  currencyCode: PropTypes.string,
   className: PropTypes.string,
 }
 
 PricingPlanUpgradePlanItem.defaultProps = {
   className: null,
-  currency: {
-    code: 'GBP',
-  },
+  currencyCode: 'GBP',
 }
 
 export default PricingPlanUpgradePlanItem

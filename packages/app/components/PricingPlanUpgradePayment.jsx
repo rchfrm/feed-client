@@ -98,7 +98,7 @@ const PricingPlanUpgradePayment = ({
     )
 
     setSidePanelButton(button)
-  }, [upgradePlan, setSidePanelButton, amount, isDisabled, currency, isLoading])
+  }, [upgradePlan, setSidePanelButton, amount, isDisabled, currency, isLoading, planIsBasic])
 
   React.useEffect(() => {
     // Get the current profile

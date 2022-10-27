@@ -10,7 +10,7 @@ import brandColors from '@/constants/brandColors'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 const PricingPlanUpgradeIntro = ({
-  currency,
+  currencyCode,
   section,
   setCurrentStep,
   setSidePanelButton,
@@ -56,21 +56,27 @@ const PricingPlanUpgradeIntro = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">{copy.pricingUpgradeIntroTitle(section)}</h2>
-      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currency, hasCancelledPlan, hasBillingAccess)} className="mb-8" />
+      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currencyCode, hasCancelledPlan, hasBillingAccess)} className="mb-8" />
       {isUpgradeToPro && (
-        <PricingPlanUpgradeIntroPlan currency={currency} />
+        <PricingPlanUpgradeIntroPlan currencyCode={currencyCode} />
       )}
     </div>
   )
 }
 
 PricingPlanUpgradeIntro.propTypes = {
+  currencyCode: PropTypes.string,
+  isUpgradeToPro: PropTypes.bool,
+  hasBillingAccess: PropTypes.bool,
   section: PropTypes.string,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
 }
 
 PricingPlanUpgradeIntro.defaultProps = {
+  currencyCode: 'GBP',
+  isUpgradeToPro: false,
+  hasBillingAccess: true,
   section: '',
   setCurrentStep: () => {},
   setSidePanelButton: () => {},

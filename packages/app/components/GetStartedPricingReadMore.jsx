@@ -16,7 +16,7 @@ import getStartedCopy from '@/app/copy/getStartedCopy'
 
 const GetStartedPricingReadMore = ({
   plan,
-  currency,
+  currencyCode,
   objective,
   isDisabled,
 }) => {
@@ -28,17 +28,17 @@ const GetStartedPricingReadMore = ({
   } = plan
 
   const isDesktop = useBreakpointTest('sm')
-  const amount = monthlyCost[currency]
+  const amount = monthlyCost[currencyCode]
   const isBasicPlan = name === 'basic'
 
   return (
     <div>
       <h2 className="mb-8 pr-12">{capitalise(name)}</h2>
       {isDisabled && !isDesktop && <MarkdownText markdown={getStartedCopy.disabledPricingPlan(name, objective)} className="mb-4" />}
-      <PricingPlanMonthlyCost amount={amount} currenct={currency} />
+      <PricingPlanMonthlyCost amount={amount} currency={currencyCode} />
       {isBasicPlan && <PricingPlanServiceFee percentage={serviceFeePercentage} />}
       <p className="text-2xl mb-8">{description}</p>
-      <PricingPlanFeatures plan={plan} currency={currency} className="mb-4" />
+      <PricingPlanFeatures plan={plan} currencyCode={currencyCode} className="mb-4" />
       <MarkdownText markdown={copy.pricingProfileFootnote} className="text-xs mb-0" />
     </div>
   )
@@ -46,7 +46,7 @@ const GetStartedPricingReadMore = ({
 
 GetStartedPricingReadMore.propTypes = {
   plan: PropTypes.object.isRequired,
-  currency: PropTypes.string.isRequired,
+  currencyCode: PropTypes.string.isRequired,
   objective: PropTypes.string,
   isDisabled: PropTypes.bool,
 }

@@ -260,7 +260,7 @@ AddPaymentForm.propTypes = {
   setSuccess: PropTypes.func,
   shouldBeDefault: PropTypes.bool,
   shouldShowLabels: PropTypes.bool,
-  addMethodToState: PropTypes.func.isRequired,
+  addMethodToState: PropTypes.func,
   setAddPaymentMethod: PropTypes.func.isRequired,
   isFormValid: PropTypes.bool.isRequired,
   setIsFormValid: PropTypes.func.isRequired,
@@ -271,6 +271,7 @@ AddPaymentForm.propTypes = {
 }
 
 AddPaymentForm.defaultProps = {
+  addMethodToState: () => {},
   shouldBeDefault: false,
   shouldShowLabels: true,
   setPaymentMethod: () => {},

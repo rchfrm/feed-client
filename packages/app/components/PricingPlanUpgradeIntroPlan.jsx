@@ -12,7 +12,7 @@ import { pricingNumbers, pricingPlans } from '@/constants/pricing'
 
 import copy from '@/app/copy/global'
 
-const PricingPlanUpgradeIntroPlan = ({ currency }) => {
+const PricingPlanUpgradeIntroPlan = ({ currencyCode }) => {
   const { artist } = React.useContext(ArtistContext)
   const [, planPeriod] = artist.plan.split('_') || []
   const isAnnualPricing = planPeriod === 'annual'
@@ -24,11 +24,11 @@ const PricingPlanUpgradeIntroPlan = ({ currency }) => {
     <>
       <div className="flex items-center mb-8">
         <p className="mb-0 mr-12 pl-4 text-2xl font-bold">Pro</p>
-        <PricingPlanUpgradeMonthlyCostAndServiceFee plan={proPlan} isAnnualPricing={isAnnualPricing} />
+        <PricingPlanUpgradeMonthlyCostAndServiceFee currencyCode={currencyCode} plan={proPlan} isAnnualPricing={isAnnualPricing} />
       </div>
       <div className="pl-8">
         <p>Features:</p>
-        <PricingPlanFeatures plan={plan} currency={currency} className="mb-4" />
+        <PricingPlanFeatures plan={plan} currencyCode={currencyCode} className="mb-4" />
         <MarkdownText markdown={copy.pricingProfileFootnote} className="text-xs mb-0" />
       </div>
     </>
@@ -36,10 +36,7 @@ const PricingPlanUpgradeIntroPlan = ({ currency }) => {
 }
 
 PricingPlanUpgradeIntroPlan.propTypes = {
-  currency: PropTypes.string.isRequired,
-}
-
-PricingPlanUpgradeIntroPlan.defaultProps = {
+  currencyCode: PropTypes.string.isRequired,
 }
 
 export default PricingPlanUpgradeIntroPlan
