@@ -47,7 +47,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const [plan, setPlan] = React.useState(initPlan)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
-  const currencyCode = defaultPaymentMethod?.currency || artistCurrency.code
+  const currencyCode = defaultPaymentMethod?.currency || artistCurrency
 
   // Define steps of plan upgrade flow
   const pricingPlanUpgradeSteps = React.useMemo(() => {
@@ -97,9 +97,6 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
 
 PricingPlanUpgradeSidePanel.propTypes = {
   section: PropTypes.string.isRequired,
-}
-
-PricingPlanUpgradeSidePanel.defaultProps = {
 }
 
 export default PricingPlanUpgradeSidePanel

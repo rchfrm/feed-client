@@ -71,7 +71,7 @@ const setupBilling = (set, get) => async (user, artist) => {
     organizationArtists,
   } = await fetchOrganizationDetails(organization)
 
-  const artistCurrency = artist.min_daily_budget_info.currency
+  const artistCurrency = artist?.currency || 'GBP'
 
   set({
     loading: false,
