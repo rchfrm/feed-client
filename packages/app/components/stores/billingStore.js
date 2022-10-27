@@ -42,7 +42,12 @@ const resetStore = (set) => () => {
 
 // * INITIAL SETUP
 const setupBilling = (set, get) => async (user, artist) => {
-  if (!user.id || !artist.id || typeof get !== 'function') return
+  if (typeof get !== 'function') return
+  if (user.id && !user.artists.length) {
+    resetStore(set)()
+    return
+  }
+  if (!user.id || !artist.id) return
   // Check user has access to the artist's org or is sysadmin
   const userOrgIds = Object.values(user.organizations).map(org => org.id)
   const artistOrgId = artist.organization.id
