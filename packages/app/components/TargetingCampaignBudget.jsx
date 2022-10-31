@@ -56,11 +56,11 @@ const TargetingCampaignBudget = ({
     const dataSource = 'facebook_ad_spend_feed'
     const response = await getDataSourceValue([dataSource], artistId)
     const dailySpendData = response[dataSource]?.daily_data
-    const spendingData = getSpendingData(dailySpendData)
+    const spendingData = getSpendingData(dailySpendData) || {}
     const totalSpent = getTotalSpentInPeriod(dailySpendData, targetingState.campaignBudget?.startDate)
 
     setTotalSpent(totalSpent)
-    setSpendingData(spendingData || {})
+    setSpendingData(spendingData)
   }, [])
 
   return (

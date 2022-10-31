@@ -327,11 +327,13 @@ export const getGeoLocations = (query) => {
 }
 
 export const getTotalSpentInPeriod = (dailyData, startDate) => {
-  const objectKeys = Object.keys(dailyData)
-  const startDateIndex = objectKeys.findIndex((key) => key === moment(startDate).format('yyyy-MM-DD'))
-  const endDateIndex = objectKeys.length
+  if (!dailyData) return 0
 
-  const totalSpent = objectKeys.slice(startDateIndex, endDateIndex).reduce((total, key) => {
+  const dateKeys = Object.keys(dailyData)
+  const startDateIndex = dateKeys.findIndex((key) => key === moment(startDate).format('yyyy-MM-DD'))
+  const endDateIndex = dateKeys.length
+
+  const totalSpent = dateKeys.slice(startDateIndex, endDateIndex).reduce((total, key) => {
     return total + dailyData[key]
   }, 0)
 
