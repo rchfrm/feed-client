@@ -107,7 +107,7 @@ const getAccountId = (integration = {}, integrationInfo) => {
     return integration[userIdKey] ?? integration[channelIdKey] ?? integration[customIdKey]
   }
   // TODO: Once we've build the functionality to ask the user which advertiser to use, return the real account id.
-  if (platform === 'tiktok') {
+  if (platform === 'tiktok' && Object.prototype.hasOwnProperty.call(integration, 'advertiser_id')) {
     return 'tikTokAccountId'
   }
   // Handle the rest
