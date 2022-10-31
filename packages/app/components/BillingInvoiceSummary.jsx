@@ -1,55 +1,45 @@
+import Spinner from '@/elements/Spinner'
+import BillingInvoiceSummaryPeriodOptions from '@/app/BillingInvoiceSummaryPeriodOptions'
+import BillingInvoiceSummaryPreview from '@/app/BillingInvoiceSummaryPreview'
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import BillingInvoiceSummaryHeader from '@/app/BillingInvoiceSummaryHeader'
-import BillingInvoiceSummaryPeriodOptions from '@/app/BillingInvoiceSummaryPeriodOptions'
-import BillingInvoiceSummaryPreview from '@/app/BillingInvoiceSummaryPreview'
-import BillingInvoiceList from '@/app/BillingInvoiceList'
-
 const BillingInvoiceSummary = ({
+  isLoading,
   upcomingInvoice,
-  organisationArtists,
-  className,
+  organizationArtists,
 }) => {
-  return (
-    <div
-      className={[
-        className,
-      ].join(' ')}
-    >
-      <BillingInvoiceSummaryHeader
-        upcomingInvoice={upcomingInvoice}
-      />
-      {upcomingInvoice && (
-        <>
-          <BillingInvoiceSummaryPeriodOptions
-            periodStart={upcomingInvoice.periodStart}
-            periodEnd={upcomingInvoice.periodEnd}
-          />
-          <BillingInvoiceSummaryPreview
-            invoice={upcomingInvoice}
-            total={upcomingInvoice.total}
-            currency={upcomingInvoice.currency}
-            organisationArtists={organisationArtists}
-          />
-        </>
-      )}
-      <BillingInvoiceList
-        trackComponentName="BillingOpenInvoices"
-      />
-    </div>
-  )
+  if (isLoading) {
+    return <Spinner width={25} className="text-left justify-start mb-10" />
+  }
+
+  if (upcomingInvoice) {
+    return (
+      <>
+        <BillingInvoiceSummaryPeriodOptions
+          periodStart={upcomingInvoice.periodStart}
+          periodEnd={upcomingInvoice.periodEnd}
+        />
+        <BillingInvoiceSummaryPreview
+          invoice={upcomingInvoice}
+          total={upcomingInvoice.total}
+          currency={upcomingInvoice.currency}
+          organizationArtists={organizationArtists}
+        />
+      </>
+    )
+  }
 }
 
 BillingInvoiceSummary.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
   upcomingInvoice: PropTypes.object,
-  organisationArtists: PropTypes.array.isRequired,
-  className: PropTypes.string,
+  organizationArtists: PropTypes.array.isRequired,
 }
 
 BillingInvoiceSummary.defaultProps = {
   upcomingInvoice: null,
-  className: null,
+
 }
 
 export default BillingInvoiceSummary

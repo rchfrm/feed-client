@@ -8,7 +8,7 @@ import useAlertStore from '@/stores/alertStore'
 
 import copy from '@/app/copy/billingCopy'
 
-const BillingOrganisationUserDeleteAlert = ({
+const BillingOrganizationUserDeleteAlert = ({
   confirmAlert,
   setConfirmAlert,
   user,
@@ -57,7 +57,7 @@ const BillingOrganisationUserDeleteAlert = ({
   return null
 }
 
-BillingOrganisationUserDeleteAlert.Types = {
+BillingOrganizationUserDeleteAlert.Types = {
   confirmAlert: PropTypes.string.isRequired,
   setConfirmAlert: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
@@ -65,8 +65,8 @@ BillingOrganisationUserDeleteAlert.Types = {
   className: PropTypes.string,
 }
 
-BillingOrganisationUserDeleteAlert.Props = {
+BillingOrganizationUserDeleteAlert.Props = {
   className: null,
 }
 
-export default BillingOrganisationUserDeleteAlert
+export default BillingOrganizationUserDeleteAlert

@@ -7,37 +7,38 @@ import copy from '@/app/copy/PostsPageCopy'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
-function CONFIRMATION_CONTENT() {
-  return (
-    <>
-      <h2>Are you sure?</h2>
-      <MarkdownText markdown={copy.globalStatusConfirmation} />
-    </>
-  )
-}
-
 const AdDefaultsStatusConfirmation = ({
-  triggerStatusUpdate,
+  setShouldUpdatePostStatus,
   confirmationOpen,
   dismissConfirmation,
+  postType,
 }) => {
   // HANDLE ALERT
   const { showAlert, closeAlert } = useAlertModal()
   // DEFINE ALERT RESPONSES
   const resetAlert = React.useCallback(() => {
     dismissConfirmation()
-    triggerStatusUpdate(false)
-  }, [dismissConfirmation, triggerStatusUpdate])
+    setShouldUpdatePostStatus(false)
+  }, [dismissConfirmation, setShouldUpdatePostStatus])
 
   const acceptAlert = React.useCallback(() => {
     dismissConfirmation()
-    triggerStatusUpdate(true)
-  }, [dismissConfirmation, triggerStatusUpdate])
+    setShouldUpdatePostStatus(true)
+  }, [dismissConfirmation, setShouldUpdatePostStatus])
+
+  const alertContent = React.useMemo(() => {
+    return (
+      <>
+        <h2>Are you sure?</h2>
+        <MarkdownText markdown={copy.globalStatusConfirmation(postType)} />
+      </>
+    )
+  }, [postType])
 
   React.useEffect(() => {
     if (!confirmationOpen) return closeAlert()
     showAlert({
-      children: <CONFIRMATION_CONTENT />,
+      children: alertContent,
       buttons: [
         {
           text: 'Yes',
@@ -51,15 +52,16 @@ const AdDefaultsStatusConfirmation = ({
         },
       ],
     })
-  }, [confirmationOpen, resetAlert, acceptAlert, showAlert, closeAlert])
+  }, [confirmationOpen, resetAlert, acceptAlert, showAlert, closeAlert, postType, alertContent])
 
   return null
 }
 
 AdDefaultsStatusConfirmation.propTypes = {
-  triggerStatusUpdate: PropTypes.func.isRequired,
+  setShouldUpdatePostStatus: PropTypes.func.isRequired,
   confirmationOpen: PropTypes.bool.isRequired,
   dismissConfirmation: PropTypes.func.isRequired,
+  postType: PropTypes.string.isRequired,
 }
 
 export default AdDefaultsStatusConfirmation

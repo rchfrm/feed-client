@@ -1,112 +1,118 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import { useAsync } from 'react-async'
+import useAsyncEffect from 'use-async-effect'
 
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
-import RadioButtons from '@/elements/RadioButtons'
+import ToggleSwitch from '@/elements/ToggleSwitch'
 import Error from '@/elements/Error'
 
 import AdDefaultsStatusConfirmation from '@/app/AdDefaultsStatusConfirmation'
 
-import * as server from '@/app/helpers/appServer'
+import { batchTogglePromotionEnabled, updateDefaultPromotionStatus } from '@/app/helpers/artistHelpers'
+import { capitalise } from '@/helpers/utils'
 
-const postSettingOptions = [
-  {
-    value: true,
-    label: 'Yes',
-    name: 'posts-enabled',
-  },
-  {
-    value: false,
-    label: 'No',
-    name: 'posts-disabled',
-  },
-]
-
-// Call the server with the new post status
-const updatePostSettings = async ({ updatePostStatus, artistId, pendingDefaultPostStatus }) => {
-  if (!updatePostStatus) return
-  // Toggle all posts on server
-  const { success } = await server.toggleDefaultPromotionStatus(artistId, pendingDefaultPostStatus)
-  if (!success) return
-  // Patch artist post preferences
-  await server.patchArtistPromotionStatus(artistId, pendingDefaultPostStatus)
-  return pendingDefaultPostStatus
-}
+import { getPostTypePlural } from '@/app/copy/PostsPageCopy'
 
 const AdDefaultsStatus = ({
   artistId,
   setPostPreferences,
-  togglePromotionGlobal,
   defaultPromotionEnabled,
   updatePreferences,
 }) => {
-  const { setSidePanelLoading } = React.useContext(SidePanelContext)
-  // UPDATE POST STATUS SETTINGS
   const [defaultPostStatus, setDefaultPostStatus] = React.useState(defaultPromotionEnabled)
   const [pendingDefaultPostStatus, setPendingDefaultPostStatus] = React.useState(defaultPromotionEnabled)
-  const [updatePostStatus, triggerStatusUpdate] = React.useState(false)
-  const [showPostStatusConfirmation, setShowPostStatusConfirmation] = React.useState(false)
-  // Call this from the radio buttons...
-  const updateGlobalStatus = React.useCallback((value) => {
-    // Update pending status
-    setPendingDefaultPostStatus(value)
-    // Show confirmation
-    setShowPostStatusConfirmation(true)
-  }, [])
+  const [postType, setPostType] = React.useState('')
+  const [shouldUpdatePostStatus, setShouldUpdatePostStatus] = React.useState(false)
+  const [shouldShowPostStatusConfirmation, setShouldShowPostStatusConfirmation] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
-  // UPDATE POST STATUS SETTINGS ON SERVER
-  // Run this to fetch posts when the artist changes
-  const { error, isPending, cancel: cancelUpdatePostSettings } = useAsync({
-    promiseFn: updatePostSettings,
-    watch: updatePostStatus,
-    // The variable(s) to pass to promiseFn
-    updatePostStatus,
-    pendingDefaultPostStatus,
-    artistId,
-    // When promise resolves
-    onResolve: (newDefaultPostStatus) => {
-      triggerStatusUpdate(false)
-      if (typeof newDefaultPostStatus === 'boolean') {
-        // Update Component status
-        setDefaultPostStatus(newDefaultPostStatus)
-        // Update artist status
-        setPostPreferences('promotion_enabled_default', newDefaultPostStatus)
-        // Update controls store
-        updatePreferences({
-          postsPreferences: {
-            defaultPromotionEnabled: newDefaultPostStatus,
-          },
-        })
-        // Update status on all posts
-        togglePromotionGlobal(newDefaultPostStatus)
-      }
-    },
-  })
-  // Cancel initial run
+  const postTypes = ['post', 'reels', 'story']
+
+  const { setSidePanelLoading } = React.useContext(SidePanelContext)
+
+  useAsyncEffect(async (isMounted) => {
+    if (!shouldUpdatePostStatus) {
+      return
+    }
+
+    setIsLoading(true)
+
+    const { res: { success } } = await batchTogglePromotionEnabled(artistId, postType, pendingDefaultPostStatus)
+    if (!isMounted() || !success) {
+      setIsLoading(false)
+      return
+    }
+
+    const { res: artist, error } = await updateDefaultPromotionStatus(artistId, postType, pendingDefaultPostStatus)
+    if (!isMounted()) {
+      setIsLoading(false)
+      return
+    }
+
+    if (error) {
+      setError(error)
+      setIsLoading(false)
+      return
+    }
+
+    setShouldUpdatePostStatus(false)
+    const { promotion_enabled_default_per_type: newDefaultPostStatus } = artist.preferences.posts
+
+    // Update local state
+    setDefaultPostStatus(newDefaultPostStatus)
+
+    // Update artist context
+    setPostPreferences('promotion_enabled_default_per_type', newDefaultPostStatus)
+
+    // Update controls store
+    updatePreferences({
+      postsPreferences: {
+        defaultPromotionEnabled: newDefaultPostStatus,
+      },
+    })
+    setIsLoading(false)
+  }, [shouldUpdatePostStatus])
+
+  // Call this on toggle switch change
+  const updateGlobalStatus = React.useCallback((value, name) => {
+    setPostType(name)
+
+    // Update pending status
+    setPendingDefaultPostStatus({
+      ...pendingDefaultPostStatus,
+      [name]: value,
+    })
+
+    setShouldShowPostStatusConfirmation(true)
+  }, [pendingDefaultPostStatus])
+
   React.useEffect(() => {
-    cancelUpdatePostSettings()
-  }, [cancelUpdatePostSettings])
-  // Update loading state on panel while fetching from server
-  React.useEffect(() => {
-    setSidePanelLoading(isPending)
-  }, [isPending, setSidePanelLoading])
+    setSidePanelLoading(isLoading)
+  }, [isLoading, setSidePanelLoading])
+
   return (
     <div>
       <Error error={error} />
-      <RadioButtons
-        className="settingSection__options"
-        options={postSettingOptions}
-        onChange={updateGlobalStatus}
-        selectedValue={defaultPostStatus}
-        trackGroupLabel="Posts Default Status"
-      />
+      <div className="w-32 xs:w-full flex flex-column xs:flex-row">
+        {postTypes.map((type) => (
+          <div className="flex justify-between items-center mb-3 xs:mb-0 xs:mr-4 lg:mr-6" key={type}>
+            <p className="mr-1 mb-0">{capitalise(getPostTypePlural(type))}:</p>
+            <ToggleSwitch
+              name={type}
+              state={Boolean(defaultPostStatus[type])}
+              onChange={updateGlobalStatus}
+              isLoading={isLoading && type === postType}
+            />
+          </div>
+        ))}
+      </div>
       <AdDefaultsStatusConfirmation
-        triggerStatusUpdate={triggerStatusUpdate}
-        confirmationOpen={showPostStatusConfirmation}
-        dismissConfirmation={() => setShowPostStatusConfirmation(false)}
+        setShouldUpdatePostStatus={setShouldUpdatePostStatus}
+        confirmationOpen={shouldShowPostStatusConfirmation}
+        dismissConfirmation={() => setShouldShowPostStatusConfirmation(false)}
+        postType={postType}
       />
     </div>
   )
@@ -115,7 +121,8 @@ const AdDefaultsStatus = ({
 AdDefaultsStatus.propTypes = {
   artistId: PropTypes.string.isRequired,
   setPostPreferences: PropTypes.func.isRequired,
-  togglePromotionGlobal: PropTypes.func.isRequired,
+  defaultPromotionEnabled: PropTypes.object.isRequired,
+  updatePreferences: PropTypes.func.isRequired,
 }
 
 export default AdDefaultsStatus

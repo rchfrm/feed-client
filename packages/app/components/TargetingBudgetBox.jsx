@@ -22,7 +22,7 @@ import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
 import copy from '@/app/copy/targetingPageCopy'
 
 const getBillingStoreState = (state) => ({
-  organisationArtists: state.organisationArtists,
+  organizationArtists: state.organizationArtists,
 })
 
 const TargetingBudgetBox = ({
@@ -64,11 +64,14 @@ const TargetingBudgetBox = ({
       hasProPlan,
       hasLegacyPlan,
       hasNoPlan,
+      hasCancelledPlan,
     },
   } = React.useContext(ArtistContext)
 
-  const { organisationArtists } = useBillingStore(getBillingStoreState)
-  const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
+  const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const isDisabled = !hasSetUpProfile
+    || hasCancelledPlan
+    || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
@@ -90,14 +93,14 @@ const TargetingBudgetBox = ({
   React.useEffect(() => {
     if (!hasSetUpProfile) return
 
-    if (hasBudgetBelowMinRecommendedStories || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget) {
+    if ((hasBudgetBelowMinRecommendedStories || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget) && !isDisabled) {
       setShouldShowWarning(true)
     }
 
     if (!hasBudgetBelowMinRecommendedStories && !mayHitGrowthTierMaxBudget && !mayHitProTierMaxBudget) {
       setShouldShowWarning(false)
     }
-  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile])
+  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile, isDisabled])
 
   return (
     <section

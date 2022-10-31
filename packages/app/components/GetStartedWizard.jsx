@@ -8,7 +8,6 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import useControlsStore from '@/app/stores/controlsStore'
-import useBillingStore from '@/app/stores/billingStore'
 import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
@@ -42,10 +41,6 @@ const getControlsStoreState = (state) => ({
   isControlsLoading: state.isControlsLoading,
 })
 
-const getBillingStoreState = (state) => ({
-  defaultPaymentMethod: state.defaultPaymentMethod,
-})
-
 const GetStartedWizard = () => {
   const [steps, setSteps] = React.useState([])
 
@@ -63,8 +58,6 @@ const GetStartedWizard = () => {
     profileSetupStatus,
     isControlsLoading,
   } = useControlsStore(getControlsStoreState)
-
-  const { defaultPaymentMethod } = useBillingStore(getBillingStoreState)
 
   const { objective, platform } = optimizationPreferences
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId)
@@ -156,7 +149,6 @@ const GetStartedWizard = () => {
       title: 'Your payment method',
       section: getStartedSections.targeting,
       component: <GetStartedPaymentMethod />,
-      shouldSkip: Boolean(defaultPaymentMethod),
     },
     {
       id: 11,

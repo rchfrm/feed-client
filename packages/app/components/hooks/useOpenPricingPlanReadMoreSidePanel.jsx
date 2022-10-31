@@ -13,11 +13,11 @@ const useOpenPricingPlanReadMoreSidePanel = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  const openPricingPlanReadMoreSidePanel = React.useCallback((plan, currency, objective, isDisabled) => {
+  const openPricingPlanReadMoreSidePanel = React.useCallback((plan, currencyCode, objective, isDisabled) => {
     const content = (
       <GetStartedPricingReadMore
         plan={plan}
-        currency={currency}
+        currencyCode={currencyCode}
         objective={objective}
         isDisabled={isDisabled}
       />

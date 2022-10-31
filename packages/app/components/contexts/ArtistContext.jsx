@@ -1,13 +1,9 @@
-// IMPORT PACKAGES
 import React from 'react'
 import produce from 'immer'
 import { useImmerReducer } from 'use-immer'
-// IMPORT CONTEXTS
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-// IMPORT STORES
 import useControlsStore from '@/app/stores/controlsStore'
-// IMPORT HELPERS
 import * as utils from '@/helpers/utils'
 import { track } from '@/helpers/trackingHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -15,8 +11,13 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { calcFeedMinBudgetInfo } from '@/app/helpers/budgetHelpers'
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
 import { trackGoogleProfileCreated } from 'shared/helpers/trackGoogleHelpers'
+import useBillingStore from '@/app/stores/billingStore'
 
 const updateIsControlsLoading = state => state.setIsControlsLoading
+
+const getBillingStoreState = (state) => ({
+  addOrganizationArtist: state.addOrganizationArtist,
+})
 
 const initialArtistState = {
   id: '',
@@ -24,7 +25,7 @@ const initialArtistState = {
   URLs: {},
   preferences: {
     posts: {
-      promotion_enabled_default: true,
+      promotion_enabled_default_per_type: {},
       default_link_id: null,
     },
   },
@@ -40,6 +41,8 @@ const initialArtistState = {
   hasGrowthPlan: false,
   hasProPlan: false,
   hasLegacyPlan: false,
+  hasNoPlan: false,
+  hasCancelledPlan: false,
 }
 
 const ArtistContext = React.createContext(initialArtistState)
@@ -79,6 +82,12 @@ const artistReducer = (draftState, action) => {
       draftState.plan = payload.plan
       draftState.hasGrowthPlan = artistHelpers.hasGrowthPlan(payload.plan)
       draftState.hasProPlan = artistHelpers.hasProPlan(payload.plan)
+      draftState.hasNoPlan = !payload.plan
+      draftState.hasCancelledPlan = draftState.status === 'unpaid' && !draftState.hasNoPlan
+      break
+    }
+    case 'set-status': {
+      draftState.status = payload.status
       break
     }
     case 'update-post-preferences': {
@@ -114,6 +123,7 @@ const artistReducer = (draftState, action) => {
 function ArtistProvider({ children }) {
   const { storeUser } = React.useContext(UserContext)
   const setIsControlsLoading = useControlsStore(updateIsControlsLoading)
+  const { addOrganizationArtist } = useBillingStore(getBillingStoreState)
   // Import interface context
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
@@ -133,7 +143,7 @@ function ArtistProvider({ children }) {
     toggleGlobalLoading(false)
   }
 
-  const updateArtist = React.useCallback((artist) => {
+  const updateArtist = React.useCallback(async (artist) => {
     // Test whether artist is musician
     const { category_list: artistCategories, preferences } = artist
     const isMusician = artistHelpers.testIfMusician(artistCategories)
@@ -161,6 +171,7 @@ function ArtistProvider({ children }) {
     const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
     const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
     const hasNoPlan = !artist?.plan
+    const hasCancelledPlan = artist.status === 'unpaid' && !hasNoPlan
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
@@ -175,6 +186,7 @@ function ArtistProvider({ children }) {
       artistDraft.hasProPlan = hasProPlan
       artistDraft.hasLegacyPlan = hasLegacyPlan
       artistDraft.hasNoPlan = hasNoPlan
+      artistDraft.hasCancelledPlan = hasCancelledPlan
     })
 
     // Set hasBudget state
@@ -186,11 +198,11 @@ function ArtistProvider({ children }) {
         artist: artistUpdated,
       },
     })
+
+    setArtistLoading(false)
   }, [setArtist])
 
   const storeArtist = React.useCallback(async (id, hasSwitchedBetweenArtists = true) => {
-    // TODO : Store previously selected artists in state,
-    //  then if the user switches back to that artist, there doesn't need to be a new server call
     setArtistLoading(true)
     if (hasSwitchedBetweenArtists) {
       setIsControlsLoading(true)
@@ -214,10 +226,10 @@ function ArtistProvider({ children }) {
 
     if (!artist) return
 
-    updateArtist(artist)
-    setArtistLoading(false)
+    await updateArtist(artist)
+
     return { artist }
-  }, [toggleGlobalLoading, setIsControlsLoading, updateArtist])
+  }, [toggleGlobalLoading, updateArtist, setIsControlsLoading])
 
   /**
    * @param {array} artistAccount
@@ -235,7 +247,7 @@ function ArtistProvider({ children }) {
     }
 
     // Wait to connect the artist
-    await artistHelpers.createArtist(artistAccount, plan)
+    const artist = await artistHelpers.createArtist(artistAccount, plan)
       .catch((error) => {
         // Sentry error
         fireSentryError({
@@ -264,6 +276,7 @@ function ArtistProvider({ children }) {
     const hasSwitchedBetweenArtists = oldUser?.artists[0]?.id !== selectedArtist.id
 
     await storeArtist(selectedArtist.id, hasSwitchedBetweenArtists)
+    addOrganizationArtist(artist)
     setArtistLoading(false)
 
     // TRACK
@@ -314,6 +327,15 @@ function ArtistProvider({ children }) {
     })
   }, [setArtist])
 
+  const setStatus = React.useCallback((status) => {
+    setArtist({
+      type: 'set-status',
+      payload: {
+        status,
+      },
+    })
+  }, [setArtist])
+
   const setPostPreferences = (preferenceType, value) => {
     setArtist({
       type: 'update-post-preferences',
@@ -324,7 +346,7 @@ function ArtistProvider({ children }) {
     })
   }
 
-  const updatehasSetUpProfile = (completedSetupAt) => {
+  const updateHasSetUpProfile = (completedSetupAt) => {
     setArtist({
       type: 'set-has-set-up-profile',
       payload: {
@@ -364,13 +386,14 @@ function ArtistProvider({ children }) {
     setArtistLoading,
     setConnection,
     setPlan,
+    setStatus,
     setPostPreferences,
     setEnabledPosts,
     storeArtist,
     updateBudget,
     updateArtist,
     updateSpendingPaused,
-    updatehasSetUpProfile,
+    updateHasSetUpProfile,
     hasBudget,
   }
 

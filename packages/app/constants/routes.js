@@ -19,7 +19,6 @@ export const POSTS = '/'
 export const POST = '/posts/[id]'
 export const INSIGHTS = '/insights'
 export const ACCOUNT = '/account'
-export const MYREFERRAL = '/my-referral-code'
 export const PAYMENT = '/account?add-payment'
 export const CONNECTIONS = '/account?connections'
 export const RESULTS = '/results'
@@ -48,7 +47,6 @@ export const restrictedPages = [
   CONTROLS,
   INSIGHTS,
   ACCOUNT,
-  MYREFERRAL,
   PAYMENT,
   CONNECTIONS,
   RESULTS,

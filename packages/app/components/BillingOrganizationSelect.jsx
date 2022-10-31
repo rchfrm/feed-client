@@ -1,63 +1,69 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import SwitchIcon from '@/icons/SwitchIcon'
 import Button from '@/elements/Button'
 import Select from '@/elements/Select'
 import brandColors from '@/constants/brandColors'
-
-import useBillingStore from '@/app/stores/billingStore'
-
 import { track } from '@/helpers/trackingHelpers'
+import { UserContext } from '@/app/contexts/UserContext'
 
-const getSelectOrganisation = state => state.selectOrganisation
-
-const BillingOrganisationSelect = ({
-  organisation,
-  allOrgs,
+const BillingOrganizationSelect = ({
   className,
+  selectedOrgId,
+  setSelectedOrgId,
 }) => {
-  const selectOrganisation = useBillingStore(getSelectOrganisation)
+  const { user, userLoading } = React.useContext(UserContext)
   const [selectActive, setSelectActive] = React.useState(false)
+
+  const selectedOrgName = React.useMemo(() => {
+    const { organizations } = user
+    if (!organizations) return ''
+    return organizations[selectedOrgId].name
+  }, [selectedOrgId, user])
+
   const selectOptions = React.useMemo(() => {
-    return allOrgs.map(({ name, id }) => {
+    const { organizations } = user
+    if (!organizations) return []
+    const userOrgs = Object.values(organizations) || []
+    return userOrgs.map(({ name, id }) => {
       return { name, value: id }
     })
-  }, [allOrgs])
+  }, [user])
+
+  if (!selectedOrgId || userLoading || selectOptions.length < 2) {
+    return null
+  }
+
   return (
     <>
-      {/* ORGANISATION SELECT */}
-      <div
-        className={[
-          className,
-        ].join(' ')}
-      >
+      {/* ORGANIZATION SELECT */}
+      <div className={[className].join(' ')}>
         <div className="sm:flex items-start sm:h-buttonHeight">
           {selectActive ? (
             <>
               <Select
-                name="organisation"
+                name="organization"
                 className="mb-6 sm:mb-0 sm:mr-6"
                 options={selectOptions}
-                selectedValue={organisation.id}
-                handleChange={({ target: { value: organisationId } }) => {
-                  track('billing_switch_organisation', {
-                    previousOrganisationId: organisation.id,
-                    newOrganisationId: organisationId,
+                selectedValue={selectedOrgId}
+                handleChange={({ target: { value: organizationId } }) => {
+                  track('billing_switch_organization', {
+                    previousOrganizationId: selectedOrgId,
+                    newOrganizationId: organizationId,
                   })
-                  selectOrganisation(organisationId)
+                  setSelectedOrgId(organizationId)
                   setSelectActive(false)
                 }}
               />
               <div>
                 <Button
                   version="black x-small"
-                  label="Cancel switch organisation"
+                  label="Cancel switch organization"
                   onClick={(e) => {
                     setSelectActive(false)
                     e.currentTarget.blur() // lose focus on the button
                   }}
-                  trackComponentName="BillingOrganisationSelect"
+                  trackComponentName="BillingOrganizationSelect"
                 >
                   Cancel
                 </Button>
@@ -65,15 +71,15 @@ const BillingOrganisationSelect = ({
             </>
           ) : (
             <>
-              <h3 className="font-display font-bold text-2xl mr-6 mb-6 sm:mb-0">{organisation.name}</h3>
+              <h3 className="font-display font-bold text-2xl mr-6 mb-6 sm:mb-0">{selectedOrgName}</h3>
               <div>
                 <Button
                   version="green x-small"
-                  label="Switch organisation"
+                  label="Switch organization"
                   onClick={() => {
                     setSelectActive(true)
                   }}
-                  trackComponentName="BillingOrganisationSelect"
+                  trackComponentName="BillingOrganizationSelect"
                 >
                   <SwitchIcon className="h-4 w-auto mr-2" fill={brandColors.white} />
                   Switch
@@ -83,20 +89,18 @@ const BillingOrganisationSelect = ({
           )}
         </div>
       </div>
-      {/* PLACEHOLDER FOR THE 2-nd COLUMN */}
-      <div />
     </>
   )
 }
 
-BillingOrganisationSelect.propTypes = {
-  organisation: PropTypes.object.isRequired,
-  allOrgs: PropTypes.array.isRequired,
+BillingOrganizationSelect.propTypes = {
+  selectedOrgId: PropTypes.string.isRequired,
+  setSelectedOrgId: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
-BillingOrganisationSelect.defaultProps = {
+BillingOrganizationSelect.defaultProps = {
   className: null,
 }
 
-export default BillingOrganisationSelect
+export default BillingOrganizationSelect

@@ -368,7 +368,13 @@ export const getPreferences = (artist, type) => {
   const formattedPreferencesResponse = {
     ...(type !== 'optimization' && { defaultLinkId: preferences[type].default_link_id, callToAction: preferences[type].call_to_action }),
     ...(type === 'conversions' && { facebookPixelEvent: preferences[type].facebook_pixel_event }),
-    ...(type === 'posts' && { defaultPromotionEnabled: preferences[type].promotion_enabled_default }),
+    ...(type === 'posts' && {
+      defaultPromotionEnabled: {
+        post: preferences[type].promotion_enabled_default_per_type.post,
+        story: preferences[type].promotion_enabled_default_per_type.story,
+        reels: preferences[type].promotion_enabled_default_per_type.reels,
+      },
+    }),
     ...(type === 'optimization' && { objective: preferences[type].objective, platform: preferences[type].platform }),
   }
   return formattedPreferencesResponse
@@ -645,7 +651,7 @@ export const getPreferencesObject = (updatedArtist) => {
     postsPreferences: {
       callToAction: preferences.posts.call_to_action,
       defaultLinkId: preferences.posts.default_link_id,
-      promotionEnabled: preferences.posts.promotion_enabled_default,
+      promotionEnabled: preferences.posts.promotion_enabled_default_per_type,
     },
     optimizationPreferences: {
       objective,
@@ -691,24 +697,24 @@ export const hasLegacyPlan = (plan) => {
   return plan.includes('legacy')
 }
 
-export const hasAllProfilesOnLegacyPlan = (organisationArtists) => {
-  if (!organisationArtists.length) {
+export const hasAllProfilesOnLegacyPlan = (organizationArtists) => {
+  if (!organizationArtists.length) {
     return false
   }
 
-  return organisationArtists.every(({ plan }) => plan === 'legacy_monthly')
+  return organizationArtists.every(({ plan }) => plan === 'legacy_monthly')
 }
 
-export const hasAllProfilesOnNoPlan = (organisationArtists) => {
-  if (!organisationArtists.length) {
+export const hasAllProfilesOnNoPlan = (organizationArtists) => {
+  if (!organizationArtists.length) {
     return false
   }
 
-  return organisationArtists.every(({ plan }) => !plan)
+  return organizationArtists.every(({ plan }) => !plan)
 }
 
-export const hasAProfileOnGrowthOrPro = (organisationArtists) => {
-  return organisationArtists.some(({ plan }) => {
+export const hasAProfileOnGrowthOrPro = (organizationArtists) => {
+  return organizationArtists.some(({ plan }) => {
     const [planPrefix] = plan?.split('_') || []
 
     return planPrefix === 'growth' || planPrefix === 'pro'
@@ -736,6 +742,7 @@ export const updateArtist = (artist, data) => {
 // Update access token
 /**
 * @param {string} artistId
+* @param {string} platform
 * @returns {Promise<object>} { res, error }
 */
 export const updateAccessToken = (artistId, platform) => {
@@ -745,5 +752,51 @@ export const updateAccessToken = (artistId, platform) => {
     category: 'Artist',
     action: `Update ${platform} access token`,
   }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} artistId
+ * @param {string} postType
+ * @param {object} defaultPromotionStatus
+ * @returns {Promise<any>}
+ */
+export const batchTogglePromotionEnabled = async (artistId, postType, defaultPostStatus) => {
+  const requestUrl = '/actions/batchSetPromotionEnabled'
+  const payload = {
+    artist_id: artistId,
+    enabled: defaultPostStatus[postType],
+    type: postType,
+  }
+  const errorTracking = {
+    category: 'Posts',
+    action: 'Batch toggle promotion enabled',
+  }
+
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} artistId
+ * @param {string} postType
+ * @param {object} defaultPromotionStatus
+ * @returns {Promise<any>}
+ */
+export const updateDefaultPromotionStatus = async (artistId, postType, defaultPostStatus) => {
+  const requestUrl = `/artists/${artistId}`
+  const payload = {
+    preferences: {
+      posts: {
+        promotion_enabled_default_per_type: {
+          [postType]: defaultPostStatus[postType],
+        },
+      },
+    },
+  }
+  const errorTracking = {
+    category: 'Posts',
+    action: 'Update default promotion status',
+  }
+
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }

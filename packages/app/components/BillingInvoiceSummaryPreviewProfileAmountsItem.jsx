@@ -29,7 +29,4 @@ BillingInvoiceSummaryPreviewProfileAmountsItem.propTypes = {
   currency: PropTypes.string.isRequired,
 }
 
-BillingInvoiceSummaryPreviewProfileAmountsItem.defaultProps = {
-}
-
 export default BillingInvoiceSummaryPreviewProfileAmountsItem

@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import { currencies } from '@/constants/pricing'
 import { getCurrencySymbol } from '@/helpers/utils'
 
-export default function PricingPlanMonthlyCost({ amount, currency, isManaged, showAnnualPricing }) {
-  const currencySymbol = getCurrencySymbol(currency)
+export default function PricingPlanMonthlyCost({ amount, currencyCode, isManaged, showAnnualPricing }) {
+  const currencySymbol = getCurrencySymbol(currencyCode)
 
   return (
     <div
@@ -42,7 +42,7 @@ export default function PricingPlanMonthlyCost({ amount, currency, isManaged, sh
 
 PricingPlanMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
-  currency: PropTypes.oneOf(currencies).isRequired,
+  currencyCode: PropTypes.oneOf(currencies).isRequired,
   isManaged: PropTypes.bool,
   showAnnualPricing: PropTypes.bool,
 }

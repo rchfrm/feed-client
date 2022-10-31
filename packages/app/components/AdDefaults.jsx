@@ -2,7 +2,6 @@ import React from 'react'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
-import usePostsStore from '@/app/stores/postsStore'
 import AdSettingsSection from '@/app/AdSettingsSection'
 import AdDefaultsStatus from '@/app/AdDefaultsStatus'
 import AdDefaultsCallToAction from '@/app/AdDefaultsCallToAction'
@@ -12,8 +11,6 @@ import AdDefaultsPixelEvent from '@/app/AdDefaultsPixelEvent'
 import DisabledSection from '@/app/DisabledSection'
 
 import copy from '@/app/copy/controlsPageCopy'
-
-const getTogglePromotionGlobal = state => state.togglePromotionGlobal
 
 const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
@@ -26,7 +23,6 @@ const AdDefaults = () => {
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
   const { hasGrowthPlan, hasSetUpProfile } = artist
 
-  const togglePromotionGlobal = usePostsStore(getTogglePromotionGlobal)
   const { postsPreferences, conversionsPreferences, optimizationPreferences, updatePreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultCallToAction, defaultPromotionEnabled } = postsPreferences
   const { facebookPixelEvent } = conversionsPreferences
@@ -47,7 +43,6 @@ const AdDefaults = () => {
           <AdDefaultsStatus
             artistId={artistId}
             setPostPreferences={setPostPreferences}
-            togglePromotionGlobal={togglePromotionGlobal}
             defaultPromotionEnabled={defaultPromotionEnabled}
             updatePreferences={updatePreferences}
           />
