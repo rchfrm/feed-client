@@ -15,7 +15,7 @@ import TargetingBudgetStatus from '@/app/TargetingBudgetStatus'
 import Button from '@/elements/Button'
 
 import { getDataSourceValue } from '@/app/helpers/appServer'
-import { getSpendingData } from '@/app/helpers/targetingHelpers'
+import { getSpendingData, getTotalSpentInPeriod } from '@/app/helpers/targetingHelpers'
 
 const TargetingCampaignBudget = ({
   initialTargetingState,
@@ -27,6 +27,7 @@ const TargetingCampaignBudget = ({
 }) => {
   const [isCampaignEdit, setIsCampaignEdit] = React.useState(!hasActiveCampaignBudget)
   const [spendingData, setSpendingData] = React.useState(null)
+  const [totalSpent, setTotalSpent] = React.useState(0)
 
   const { artistId } = React.useContext(ArtistContext)
   const hasScheduledCampaignBudget = moment().isBefore(targetingState.campaignBudget?.startDate, 'day')
@@ -40,29 +41,27 @@ const TargetingCampaignBudget = ({
   })
 
   const onCancel = async () => {
+    await saveTargeting('campaignBudget', {
+      ...targetingState,
+      campaignBudget: {
+        ...targetingState.campaignBudget,
+        startDate: null,
+        endDate: null,
+        totalBudget: null,
+      },
+    })
+  }
+
+  useAsyncEffect(async () => {
     const dataSource = 'facebook_ad_spend_feed'
     const response = await getDataSourceValue([dataSource], artistId)
     const dailySpendData = response[dataSource]?.daily_data
     const spendingData = getSpendingData(dailySpendData)
+    const totalSpent = getTotalSpentInPeriod(dailySpendData, targetingState.campaignBudget?.startDate)
 
+    setTotalSpent(totalSpent)
     setSpendingData(spendingData || {})
-  }
-
-  useAsyncEffect(async () => {
-    // Wait for spendingData state change before save targeting
-    if (spendingData) {
-      await saveTargeting('campaignBudget', {
-        ...targetingState,
-        campaignBudget: {
-          ...targetingState.campaignBudget,
-          startDate: null,
-          endDate: null,
-          totalBudget: null,
-        },
-      })
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spendingData])
+  }, [])
 
   return (
     <div>
@@ -84,9 +83,8 @@ const TargetingCampaignBudget = ({
           />
           <TargetingCampaignBudgetProgressBar
             campaignBudget={targetingState.campaignBudget}
-            dailyBudget={targetingState.budget}
+            totalSpent={totalSpent}
             currency={currency}
-            currencyOffset={currencyOffset}
           />
           <div className="flex justify-between">
             <Button

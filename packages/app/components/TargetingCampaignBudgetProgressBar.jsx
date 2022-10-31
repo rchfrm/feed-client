@@ -6,9 +6,8 @@ import { formatCurrency } from '@/helpers/utils'
 
 const TargetingCampaignBudgetProgressBar = ({
   campaignBudget,
-  dailyBudget,
+  totalSpent,
   currency,
-  currencyOffset,
 }) => {
   const {
     startDate,
@@ -16,10 +15,9 @@ const TargetingCampaignBudgetProgressBar = ({
     totalBudget,
   } = campaignBudget
 
-  const daysInPeriod = moment(endDate).diff(moment(startDate), 'days') + 1
+  const daysInPeriod = moment(endDate).diff(moment(startDate).startOf('day'), 'days') + 1
   const daysSinceStartDate = moment().diff(moment(startDate), 'days')
   const progressInPercentage = daysSinceStartDate > 0 ? (daysSinceStartDate / daysInPeriod) * 100 : 0
-  const totalSpent = daysSinceStartDate > 0 ? Math.round(dailyBudget * daysSinceStartDate) / currencyOffset : 0
 
   return (
     <div className="h-24">
@@ -48,9 +46,8 @@ const TargetingCampaignBudgetProgressBar = ({
 
 TargetingCampaignBudgetProgressBar.propTypes = {
   campaignBudget: PropTypes.object.isRequired,
-  dailyBudget: PropTypes.number.isRequired,
+  totalSpent: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
-  currencyOffset: PropTypes.number.isRequired,
 }
 
 TargetingCampaignBudgetProgressBar.defaultProps = {
