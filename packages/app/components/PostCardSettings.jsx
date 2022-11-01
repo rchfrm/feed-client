@@ -18,7 +18,7 @@ import PostCardSettingsCallToAction from '@/app/PostCardSettingsCallToAction'
 import PostCardEditCaption from '@/app/PostCardEditCaption'
 
 import * as ROUTES from '@/app/constants/routes'
-import { promotionStatusSlugs } from '@/app/helpers/postsHelpers'
+import { promotionStatusSlugs, canBePromoted } from '@/app/helpers/postsHelpers'
 
 import sidePanelStyles from '@/SidePanel.module.css'
 
@@ -77,8 +77,8 @@ const PostCardSettings = ({
     remindConversions,
   } = promotionEligibility
 
-  const isEligibleForGrowAndNurture = [enticeEngage, remindTraffic, enticeTraffic].some(Boolean)
-  const isEligibleForConversions = [offPlatformConversions, remindConversions].some(Boolean)
+  const isEligibleForGrowAndNurture = [canBePromoted(enticeEngage), canBePromoted(remindTraffic), canBePromoted(enticeTraffic)].some(Boolean)
+  const isEligibleForConversions = [canBePromoted(offPlatformConversions), canBePromoted(remindConversions)].some(Boolean)
 
   const isToggleDisabled = campaignType === 'all'
     ? !isEligibleForGrowAndNurture && !priorityEnabled

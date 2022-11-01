@@ -651,3 +651,7 @@ export const getInitialPostsImportStatus = async (artistId) => {
   const { res, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
   return { res, error }
 }
+
+export const canBePromoted = (eligibility) => {
+  return Object.values(eligibility).some(platformEligibility => Object.values(platformEligibility).some(Boolean))
+}

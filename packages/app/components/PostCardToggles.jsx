@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
-
 import PostCardToggle from '@/app/PostCardToggle'
+import { canBePromoted } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   canRunConversions: state.canRunConversions,
@@ -40,8 +40,8 @@ const PostCardToggles = ({
     remindConversions,
   } = promotionEligibility
 
-  const isEligibleForGrowAndNurture = [enticeEngage, remindTraffic, enticeTraffic].some(Boolean)
-  const isEligibleForConversions = [offPlatformConversions, remindConversions].some(Boolean)
+  const isEligibleForGrowAndNurture = [canBePromoted(enticeEngage), canBePromoted(remindTraffic), canBePromoted(enticeTraffic)].some(Boolean)
+  const isEligibleForConversions = [canBePromoted(offPlatformConversions), canBePromoted(remindConversions)].some(Boolean)
 
   return (
     <div
