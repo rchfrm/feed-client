@@ -106,7 +106,7 @@ const getAccountId = (integration = {}, integrationInfo) => {
   if (platform === 'youtube') {
     return integration[userIdKey] ?? integration[channelIdKey] ?? integration[customIdKey]
   }
-  // TODO: Once we've build the functionality to ask the user which advertiser to use, return the real account id.
+  // TODO: Once we've build the functionality to ask the user which advertiser to use, return the real account id
   if (platform === 'tiktok' && Object.prototype.hasOwnProperty.call(integration, 'advertiser_id')) {
     return 'tikTokAccountId'
   }
@@ -214,7 +214,7 @@ export const dummyIntegrationLinks = [
   {
     platform: 'tiktok',
     href: 'not connected',
-    titleVerbose: 'Tiktok profile',
+    titleVerbose: 'TikTok profile',
   },
 ]
 

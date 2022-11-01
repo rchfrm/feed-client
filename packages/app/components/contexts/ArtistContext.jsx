@@ -116,6 +116,7 @@ const artistReducer = (draftState, action) => {
       break
     }
     case 'update-tiktok-integration-account-id': {
+      // TODO: Once we've build the functionality to ask the user which advertiser to use, store the real account id
       draftState.integrations.find((integration) => integration.platform === 'tiktok').accountId = 'tikTokAccountId'
       break
     }
