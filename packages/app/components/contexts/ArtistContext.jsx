@@ -108,7 +108,7 @@ const artistReducer = (draftState, action) => {
       break
     }
     case 'update-facebook-integration-scopes': {
-      draftState.integrations.find(integration => integration.platform === 'facebook').authorization.scopes = payload.scopes
+      draftState.integrations.find((integration) => integration.platform === 'facebook').authorization.scopes = payload.scopes
       break
     }
     case 'set-has-set-up-profile': {

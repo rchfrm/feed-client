@@ -57,33 +57,33 @@ const usePlatformRedirect = () => {
 
     // Exchange the redirect auth code for an access token
     const redirectUrl = `${process.env.react_app_url}${redirectPath}`
-    const { res, error } = await setAccessToken(authCode, platform, redirectUrl)
+    const { error } = await setAccessToken(authCode, platform, redirectUrl)
 
     if (error) {
       setAuthError({ message: error.message })
       return
     }
 
-    // Update facebook granted scopes in artist context
-    if (platform === 'facebook') {
-      setArtist({
-        type: 'update-facebook-integration-scopes',
-        payload: {
-          scopes: res?.scopes,
-        },
-      })
-
-      const missingScopes = getMissingScopes({ grantedScopes: res?.scopes })
-      setMissingScopes(missingScopes)
-    }
-
     // If user has an artist make sure to update the access token in the db
     if (artistId) {
-      const { error } = await updateAccessToken(artistId, platform)
+      const { res, error } = await updateAccessToken(artistId, platform)
 
       if (error) {
         setAuthError({ message: error.message })
         return
+      }
+
+      // Update facebook granted scopes in artist context
+      if (platform === 'facebook') {
+        setArtist({
+          type: 'update-facebook-integration-scopes',
+          payload: {
+            scopes: res?.scopes,
+          },
+        })
+
+        const missingScopes = getMissingScopes({ grantedScopes: res?.scopes })
+        setMissingScopes(missingScopes)
       }
     }
 
