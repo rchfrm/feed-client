@@ -57,20 +57,19 @@ const usePlatformRedirect = () => {
     }
 
     router.replace(window.location.pathname, null)
+
     const { state: storedState, redirectPath } = JSON.parse(getLocalStorage('platformRedirect'))
+    setLocalStorage('platformRedirect', null)
 
     if (state !== storedState) {
-      setLocalStorage('platformRedirect', null)
       return
     }
 
     if (redirectError) {
       setAuthError({ message: errorMessage })
-      setLocalStorage('fbRedirect', null)
       return
     }
 
-    setLocalStorage('platformRedirect', null)
 
     const platform = tikTokAuthCode ? 'tiktok' : 'facebook'
     const authCode = tikTokAuthCode || facebookAuthCode

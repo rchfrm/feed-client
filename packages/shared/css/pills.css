@@ -87,9 +87,13 @@
     padding: 0;
   }
 
-  svg:first-child,
+  svg,
   .icon {
     margin-right: var(--sp-2);
+
+    .button--pill.-x-large & {
+      margin-right: var(--sp-4);
+    }
   }
 
   svg {
