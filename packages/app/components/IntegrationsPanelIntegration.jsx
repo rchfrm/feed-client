@@ -65,7 +65,7 @@ const IntegrationsPanelIntegration = ({
 
   const handleClick = () => {
     if (platform === 'tiktok' && !isPopulated) {
-      handleTikTokAuthRedirect(ROUTES.CONTROLS)
+      handleTikTokAuthRedirect(ROUTES.CONTROLS_INTEGRATIONS)
       return
     }
     updateIntegration(integration, action)

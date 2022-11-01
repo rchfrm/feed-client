@@ -115,6 +115,10 @@ const artistReducer = (draftState, action) => {
       draftState.hasSetUpProfile = payload.hasSetUpProfile
       break
     }
+    case 'update-tiktok-integration-account-id': {
+      draftState.integrations.find((integration) => integration.platform === 'tiktok').accountId = 'tikTokAccountId'
+      break
+    }
     default:
       throw new Error(`Unable to find ${action.type} in artistReducer`)
   }

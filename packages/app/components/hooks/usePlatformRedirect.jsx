@@ -85,6 +85,12 @@ const usePlatformRedirect = () => {
         const missingScopes = getMissingScopes({ grantedScopes: res?.scopes })
         setMissingScopes(missingScopes)
       }
+
+      if (platform === 'tiktok') {
+        setArtist({
+          type: 'update-tiktok-integration-account-id',
+        })
+      }
     }
 
     setIsPlatformRedirect(true)
