@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { AuthContext } from '@/contexts/AuthContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import { parseUrl, getLocalStorage, setLocalStorage } from '@/helpers/utils'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { getMissingScopes, updateAccessToken } from '@/app/helpers/artistHelpers'
 import { setAccessToken } from '@/app/helpers/userHelpers'
 
@@ -17,13 +17,13 @@ const usePlatformRedirect = () => {
   const router = useRouter()
 
   const checkAndHandlePlatformRedirect = async (artistId) => {
+    const queryParams = new URLSearchParams(window.location.search)
     // Try to grab query params from redirect
-    const { query } = parseUrl(router.asPath)
-    const facebookAuthCode = decodeURIComponent(query?.code || '')
-    const tikTokAuthCode = decodeURIComponent(query?.auth_code || '')
-    const state = decodeURIComponent(query?.state)
-    const redirectError = decodeURIComponent(query?.error || '').replace('+', ' ')
-    const errorReason = decodeURIComponent(query?.error_reason || '')
+    const facebookAuthCode = decodeURIComponent(queryParams.get('code') || '')
+    const tikTokAuthCode = decodeURIComponent(queryParams.get('auth_code') || '')
+    const state = decodeURIComponent(queryParams.get('state'))
+    const redirectError = decodeURIComponent(queryParams.get('error') || '').replace('+', ' ')
+    const errorReason = decodeURIComponent(queryParams.get('error_reason') || '')
     const errorMessage = copy.fbRedirectError(errorReason)
 
     /*
@@ -36,7 +36,7 @@ const usePlatformRedirect = () => {
       return
     }
 
-    router.replace(router.pathname, null)
+    router.replace(window.location.pathname, null)
     const { state: storedState, redirectPath } = JSON.parse(getLocalStorage('platformRedirect'))
 
     if (state !== storedState) {
