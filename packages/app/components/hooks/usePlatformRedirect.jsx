@@ -16,9 +16,29 @@ const usePlatformRedirect = () => {
   const { setArtist } = React.useContext(ArtistContext)
   const router = useRouter()
 
+  const updateIntegration = (res, platform) => {
+    if (platform === 'facebook') {
+      setArtist({
+        type: 'update-facebook-integration-scopes',
+        payload: {
+          scopes: res?.scopes,
+        },
+      })
+
+      const missingScopes = getMissingScopes({ grantedScopes: res?.scopes })
+      setMissingScopes(missingScopes)
+    }
+
+    if (platform === 'tiktok') {
+      setArtist({
+        type: 'update-tiktok-integration-account-id',
+      })
+    }
+  }
+
   const checkAndHandlePlatformRedirect = async (artistId) => {
-    const queryParams = new URLSearchParams(window.location.search)
     // Try to grab query params from redirect
+    const queryParams = new URLSearchParams(window.location.search)
     const facebookAuthCode = decodeURIComponent(queryParams.get('code') || '')
     const tikTokAuthCode = decodeURIComponent(queryParams.get('auth_code') || '')
     const state = decodeURIComponent(queryParams.get('state'))
@@ -28,7 +48,7 @@ const usePlatformRedirect = () => {
 
     /*
     Return early if:
-    - No Facebook or TikTok redirect code
+    - No Facebook or TikTok auth code
     - Redirect error
     - The state param from the callback doesn't match the state we passed during the redirect request
     */
@@ -73,24 +93,8 @@ const usePlatformRedirect = () => {
         return
       }
 
-      // Update facebook granted scopes in artist context
-      if (platform === 'facebook') {
-        setArtist({
-          type: 'update-facebook-integration-scopes',
-          payload: {
-            scopes: res?.scopes,
-          },
-        })
-
-        const missingScopes = getMissingScopes({ grantedScopes: res?.scopes })
-        setMissingScopes(missingScopes)
-      }
-
-      if (platform === 'tiktok') {
-        setArtist({
-          type: 'update-tiktok-integration-account-id',
-        })
-      }
+      // Update integration in artist context
+      updateIntegration(res, platform)
     }
 
     setIsPlatformRedirect(true)
