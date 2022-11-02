@@ -70,7 +70,6 @@ const usePlatformRedirect = () => {
       return
     }
 
-
     const platform = tikTokAuthCode ? 'tiktok' : 'facebook'
     const authCode = tikTokAuthCode || facebookAuthCode
 
