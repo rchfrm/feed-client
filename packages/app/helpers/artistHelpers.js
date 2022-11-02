@@ -799,3 +799,57 @@ export const updateDefaultPromotionStatus = async (artistId, postType, defaultPo
 
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
+
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
+export const getProfileInvites = async (artistId) => {
+  const requestUrl = '/profile_invites'
+  const payload = {
+    profileId: artistId,
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Get profile invites',
+  }
+
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} artistId
+ * @param {string} email
+ * @returns {Promise<any>}
+ */
+export const sendProfileInvite = async (artistId, email) => {
+  const requestUrl = '/profile_invites'
+  const payload = {
+    profileId: artistId,
+    userEmail: email,
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Send profile invite',
+  }
+
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} token
+ * @returns {Promise<any>}
+ */
+export const acceptProfileInvite = async (token) => {
+  const requestUrl = `${token}/accept`
+  const payload = null
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Accept profile invite',
+  }
+
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
