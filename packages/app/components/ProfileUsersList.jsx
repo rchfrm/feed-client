@@ -3,6 +3,7 @@ import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ProfileUsersListItem from '@/app/ProfileUsersListItem'
 import Error from '@/elements/Error'
+import Spinner from '@/elements/Spinner'
 import { getProfileInvites } from '@/app/helpers/artistHelpers'
 
 const ProfileUsersList = () => {
@@ -31,6 +32,8 @@ const ProfileUsersList = () => {
     setProfileInvites(res)
     setIsLoading(false)
   }, [])
+
+  if (isLoading) return <Spinner width={25} className="mb-10" />
 
   return (
     <div className="mb-10">
