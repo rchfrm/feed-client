@@ -135,12 +135,12 @@ export const getCurrencySymbol = (currencyCode = 'GBP') => {
 }
 
 /**
-* @param {number} value
-* @param {string} currency
-* @param {string} locale
-* @returns {string}
-*/
-export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
+ * @param {number} value
+ * @param {string} currency
+ * @param {boolean} hideMinorUnits
+ * @returns {string}
+ */
+export const formatCurrency = (value, currency = 'GBP', hideMinorUnits = false) => {
   if (value === null || typeof value === 'undefined' || Number.isNaN(value) || typeof window === 'undefined') return
   const locale = navigator.language
   const currencyToUse = currency === null ? 'GBP' : currency
