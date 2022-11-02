@@ -41,6 +41,8 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const [currentStep, setCurrentStep] = React.useState(0)
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState(null)
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
+  // TODO FD-1426 : Fallback if the artist has no plan
+  // TODO FD-1426 : Don't automatically also upgrade other artists in org if reactivating
   const initPlan = canChooseBasic
     ? artist.plan
     : getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing)
