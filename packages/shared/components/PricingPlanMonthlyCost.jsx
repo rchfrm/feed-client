@@ -4,7 +4,6 @@ import { getCurrencySymbol } from '@/helpers/utils'
 
 export default function PricingPlanMonthlyCost({ amount, currencyCode, isManaged, showAnnualPricing }) {
   const currencySymbol = getCurrencySymbol(currencyCode)
-  console.log('currencySymbol', currencySymbol)
 
   return (
     <div
