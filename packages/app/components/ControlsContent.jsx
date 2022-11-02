@@ -6,7 +6,7 @@ import Error from '@/elements/Error'
 
 import SplitView from '@/app/SplitView'
 import ObjectiveSettings from '@/app/ObjectiveSettings'
-import TargetingBudgetBox from '@/app/TargetingBudgetBox'
+import TargetingBudget from '@/app/TargetingBudget'
 import AdDefaults from '@/app/AdDefaults'
 import TargetingSettings from '@/app/TargetingSettings'
 import LinkBank from '@/app/LinkBank'
@@ -22,7 +22,7 @@ import * as ROUTES from '@/app/constants/routes'
 // One of these components will be shown based on the activeSlug
 const controlsComponents = {
   objective: <ObjectiveSettings />,
-  budget: <TargetingBudgetBox />,
+  budget: <TargetingBudget />,
   ads: <AdDefaults />,
   targeting: <TargetingSettings />,
   links: <LinkBank />,

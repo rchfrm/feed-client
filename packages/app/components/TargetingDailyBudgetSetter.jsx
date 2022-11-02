@@ -5,8 +5,8 @@ import useControlsStore from '@/app/stores/controlsStore'
 
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
-import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
-import TargetingSuggestedBudgetButtons from '@/app/TargetingSuggestedBudgetButtons'
+import TargetingDailyBudgetSlider from '@/app/TargetingDailyBudgetSlider'
+import TargetingDailyBudgetSuggestionButtons from '@/app/TargetingDailyBudgetSuggestionButtons'
 import InputCurrency from '@/elements/InputCurrency'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
@@ -15,7 +15,7 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const TargetingBudgetSetter = ({
+const TargetingDailyBudgetSetter = ({
   budget,
   setBudget,
   currency,
@@ -69,14 +69,14 @@ const TargetingBudgetSetter = ({
                 name="Budget"
                 label={mobileVersion ? 'Custom Budget' : null}
                 className={[
-                  'mt-3 mb-5 w-full',
+                  'mt-3 mb-0.5 w-full',
                 ].join(' ')}
                 currency={currency}
                 autoFocus
               />
             ) : (
               <>
-                <TargetingBudgetSlider
+                <TargetingDailyBudgetSlider
                   sliderStep={sliderStep}
                   sliderValueRange={sliderValueRange}
                   mobileVersion={mobileVersion}
@@ -93,7 +93,7 @@ const TargetingBudgetSetter = ({
                   errorMessage={errorMessage}
                 />
                 {budgetSuggestions && (
-                  <TargetingSuggestedBudgetButtons
+                  <TargetingDailyBudgetSuggestionButtons
                     budgetSuggestions={budgetSuggestions}
                     sliderValueRange={sliderValueRange}
                     setBudget={setBudget}
@@ -109,7 +109,7 @@ const TargetingBudgetSetter = ({
   )
 }
 
-TargetingBudgetSetter.propTypes = {
+TargetingDailyBudgetSetter.propTypes = {
   budget: PropTypes.number,
   setBudget: PropTypes.func,
   currency: PropTypes.string,
@@ -127,7 +127,7 @@ TargetingBudgetSetter.propTypes = {
   onBudgetSuggestionClick: PropTypes.func,
 }
 
-TargetingBudgetSetter.defaultProps = {
+TargetingDailyBudgetSetter.defaultProps = {
   budget: 0,
   setBudget: () => {},
   currency: 'GBP',
@@ -141,5 +141,4 @@ TargetingBudgetSetter.defaultProps = {
   onBudgetSuggestionClick: () => {},
 }
 
-
-export default TargetingBudgetSetter
+export default TargetingDailyBudgetSetter

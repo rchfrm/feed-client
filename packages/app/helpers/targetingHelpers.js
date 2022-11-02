@@ -238,6 +238,12 @@ const formatSettings = (settings, currencyOffset) => {
     draftSettings.countries = countries
     draftSettings.cityKeys = cities.map(({ key }) => key)
     draftSettings.countryCodes = countries.map(({ code }) => code)
+    draftSettings.campaignBudget = {
+      startDate: draftSettings.campaign_budget?.date_from ? new Date(draftSettings.campaign_budget.date_from) : null,
+      endDate: draftSettings.campaign_budget?.date_to ? new Date(draftSettings.campaign_budget.date_to) : null,
+      totalBudget: draftSettings.campaign_budget?.total,
+    }
+    delete draftSettings.campaign_budget
   })
 }
 
@@ -279,12 +285,19 @@ export const saveCampaign = async ({
     })
   }
 
+  const { campaignBudget, ...otherNewSettings } = newSettings
+
   const payload = {
-    ...newSettings,
-    ...(currencyOffset && { budget: newSettings.budget / currencyOffset }),
+    ...otherNewSettings,
+    ...(currencyOffset && { budget: otherNewSettings.budget / currencyOffset }),
     geo_locations: {
       cities: selectedCities,
       countries: selectedCountries,
+    },
+    campaign_budget: {
+      date_from: campaignBudget?.startDate,
+      date_to: campaignBudget?.endDate,
+      total: campaignBudget?.totalBudget,
     },
   }
   const { res: settings, error } = await server.saveTargetingSettings(artistId, payload)
@@ -311,6 +324,20 @@ export const getGeoLocations = (query) => {
   }
 
   return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
+export const getTotalSpentInPeriod = (dailyData, startDate) => {
+  if (!dailyData) return 0
+
+  const dateKeys = Object.keys(dailyData)
+  const startDateIndex = dateKeys.findIndex((key) => key === moment(startDate).format('yyyy-MM-DD'))
+  const endDateIndex = dateKeys.length
+
+  const totalSpent = dateKeys.slice(startDateIndex, endDateIndex).reduce((total, key) => {
+    return total + dailyData[key]
+  }, 0)
+
+  return totalSpent
 }
 
 export const getSpendingData = (dailyData) => {

@@ -7,7 +7,7 @@ import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import TargetingBudgetSlider from '@/app/TargetingBudgetSlider'
+import TargetingDailyBudgetSlider from '@/app/TargetingDailyBudgetSlider'
 import MarkdownText from '@/elements/MarkdownText'
 import Spinner from '@/elements/Spinner'
 
@@ -89,7 +89,7 @@ const ObjectiveSettingsChangeAlertBudget = ({
     <>
       <h2>{controlsPageCopy.alertBudgetTitle}</h2>
       <MarkdownText markdown={controlsPageCopy.alertBudgetDescription} className="text-grey-3 italic" />
-      <TargetingBudgetSlider
+      <TargetingDailyBudgetSlider
         sliderStep={sliderStep}
         sliderValueRange={sliderValueRange}
         initialBudget={initialTargetingState.budget}

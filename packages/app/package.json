@@ -12,13 +12,14 @@
   },
   "dependencies": {
     "@sentry/browser": "^5.13.2",
+    "@stripe/react-stripe-js": "^1.4.0",
+    "@stripe/stripe-js": "^1.13.2",
     "body-scroll-lock": "^3.0.2",
     "chart.js": "^2.9.3",
     "gsap": "^3.2.6",
     "mixpanel-browser": "^2.40.0",
     "nouislider-react": "^3.3.8",
-    "sysend": "^1.3.5",
-    "@stripe/react-stripe-js": "^1.4.0",
-    "@stripe/stripe-js": "^1.13.2"
+    "react-datepicker": "^4.8.0",
+    "sysend": "^1.3.5"
   }
 }
