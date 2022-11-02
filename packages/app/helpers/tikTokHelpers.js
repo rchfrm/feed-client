@@ -2,7 +2,7 @@ import tiktok from '@/app/constants/tiktok'
 import { setLocalStorage } from '@/helpers/utils'
 
 export const getTikTokAuthUrl = (redirectPath, csrfState) => {
-  const redirectUrl = `${process.env.react_app_url}${redirectPath}/`
+  const redirectUrl = `${process.env.react_app_url}${redirectPath}`
 
   return `
 ${tiktok.OAUTH_URL}?
