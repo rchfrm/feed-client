@@ -150,12 +150,6 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         return rejectNewUser({ redirectTo: ROUTES.SIGN_UP, errorMessage: error.message })
       }
 
-      if (user.is_email_verification_needed) {
-        track('recaptcha email verification needed', { userId: user.id })
-        Router.push(ROUTES.CONFIRM_EMAIL)
-        return
-      }
-
       if (inviteToken) {
         const { res: user, error: acceptInviteError } = await acceptProfileInvite(inviteToken)
         setLocalStorage('inviteToken', '')
@@ -177,7 +171,16 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
           return
         }
 
-        Router.push(ROUTES.PROFILE_INVITE_SUCCESS)
+        if (!user.is_email_verification_needed) {
+          Router.push(ROUTES.PROFILE_INVITE_SUCCESS)
+          return
+        }
+      }
+
+      if (user.is_email_verification_needed) {
+        track('recaptcha email verification needed', { userId: user.id })
+        Router.push(ROUTES.CONFIRM_EMAIL)
+        return
       }
 
       trackSignUp({ authProvider: 'password', userId: user.id })
