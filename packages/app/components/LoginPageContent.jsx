@@ -37,7 +37,7 @@ function LoginPageContent({ showEmailLogin, showFacebookLogin }) {
   React.useEffect(() => {
     const { query } = parseUrl(urlString)
     const email = decodeURIComponent(query?.email || '')
-    const token = decodeURIComponent(query?.token || '')
+    const token = decodeURIComponent(query?.profileInvite || '')
 
     if (email) {
       setEmail(email)

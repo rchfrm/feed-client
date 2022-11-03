@@ -30,7 +30,7 @@ const ProfileUsersList = ({ hasSentInvite }) => {
       return
     }
 
-    setProfileInvites(res)
+    setProfileInvites(res.filter((user) => user.status !== 'accepted'))
     setIsLoading(false)
   }, [hasSentInvite])
 

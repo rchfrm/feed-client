@@ -19,8 +19,6 @@ import Error from '@/elements/Error'
 import * as utils from '@/helpers/utils'
 import { trackSignUp, track } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
-import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
-import { acceptProfileInvite } from '@/app/helpers/artistHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 import styles from '@/LoginPage.module.css'
@@ -42,7 +40,6 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
 
   const { getStoredReferrerCode } = useReferralStore(getReferralStoreState, shallow)
   const initialReferralCode = getStoredReferrerCode()
-  const inviteToken = getLocalStorage('inviteToken')
 
   React.useEffect(() => {
     setReferralCode(initialReferralCode)
@@ -150,20 +147,6 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
 
       if (user.is_email_verification_needed) {
         track('recaptcha email verification needed', { userId: user.id })
-        Router.push(ROUTES.CONFIRM_EMAIL)
-        return
-      }
-
-      if (inviteToken) {
-        const { error } = await acceptProfileInvite(inviteToken)
-        setLocalStorage('inviteToken', '')
-
-        if (error) {
-          toggleGlobalLoading(false)
-          setError(error)
-          return
-        }
-
         Router.push(ROUTES.CONFIRM_EMAIL)
         return
       }

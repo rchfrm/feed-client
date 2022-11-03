@@ -83,14 +83,6 @@ const LoginEmailForm = ({ initialEmail, className }) => {
       })
       return
     }
-    const { user, error } = await storeUser()
-    if (error) {
-      toggleGlobalLoading(false)
-      setEmail('')
-      setPassword('')
-      setError(error)
-      return
-    }
 
     if (inviteToken) {
       const { error } = await acceptProfileInvite(inviteToken)
@@ -101,8 +93,14 @@ const LoginEmailForm = ({ initialEmail, className }) => {
         setError(error)
         return
       }
+    }
 
-      Router.push(ROUTES.CONFIRM_EMAIL)
+    const { user, error } = await storeUser()
+    if (error) {
+      toggleGlobalLoading(false)
+      setEmail('')
+      setPassword('')
+      setError(error)
       return
     }
 
