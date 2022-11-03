@@ -1,11 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
 import { sendProfileInvite } from '@/app/helpers/artistHelpers'
 
-const ProfileUsersInviteForm = () => {
+const ProfileUsersInviteForm = ({ setHasSentInvite }) => {
   const [email, setEmail] = React.useState('')
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
@@ -27,6 +28,7 @@ const ProfileUsersInviteForm = () => {
     }
 
     setIsLoading(false)
+    setHasSentInvite(true)
     setError(null)
   }
 
@@ -53,6 +55,10 @@ const ProfileUsersInviteForm = () => {
       </Button>
     </form>
   )
+}
+
+ProfileUsersInviteForm.propTypes = {
+  setHasSentInvite: PropTypes.func.isRequired,
 }
 
 export default ProfileUsersInviteForm
