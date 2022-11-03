@@ -1,32 +1,22 @@
-// * APP VERSION
-
-// IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router, { useRouter } from 'next/router'
-// IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
-// IMPORT ELEMENTS
 import Error from '@/elements/Error'
-// IMPORT COMPONENTS
 import LoginEmailForm from '@/app/LoginEmailForm'
 import LoginSignupButtons from '@/LoginSignupButtons'
-// IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
-import { parseUrl } from '@/helpers/utils'
-// IMPORT CONSTANTS
+import { parseUrl, setLocalStorage } from '@/helpers/utils'
 import * as ROUTES from '@/app/constants/routes'
-// Import copy
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/LoginPageCopy'
-// Import styles
 import styles from '@/LoginPage.module.css'
 
 function LoginPageContent({ showEmailLogin, showFacebookLogin }) {
   const { authError, setAuthError } = React.useContext(AuthContext)
   const [email, setEmail] = React.useState('')
-  const [hasCheckedEmail, setHasCheckedEmail] = React.useState(false)
+  const [hasCheckedQueryParams, setHasCheckedQueryParams] = React.useState(false)
   const { asPath: urlString } = useRouter()
 
   // Handle error
@@ -47,11 +37,17 @@ function LoginPageContent({ showEmailLogin, showFacebookLogin }) {
   React.useEffect(() => {
     const { query } = parseUrl(urlString)
     const email = decodeURIComponent(query?.email || '')
+    const token = decodeURIComponent(query?.token || '')
 
     if (email) {
       setEmail(email)
     }
-    setHasCheckedEmail(true)
+
+    if (token) {
+      setLocalStorage('inviteToken', token)
+    }
+
+    setHasCheckedQueryParams(true)
     // eslint-disable-next-line
   }, [])
 
@@ -76,7 +72,7 @@ function LoginPageContent({ showEmailLogin, showFacebookLogin }) {
       <Error className={styles.error} error={error || authError} />
 
       {/* Email login form */}
-      {showEmailLogin && hasCheckedEmail ? (
+      {showEmailLogin && hasCheckedQueryParams ? (
         <LoginEmailForm
           initialEmail={email}
           className={styles.form}

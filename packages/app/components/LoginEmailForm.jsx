@@ -16,6 +16,8 @@ import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 
 import useLogin from '@/app/hooks/useLogin'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
+import { acceptProfileInvite } from '@/app/helpers/artistHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/LoginPageCopy'
@@ -39,9 +41,10 @@ const LoginEmailForm = ({ initialEmail, className }) => {
   const [error, setError] = React.useState(null)
   // GET LOGIN FUNCTION
   const { loginWithEmail } = useLogin()
+  const inviteToken = getLocalStorage('inviteToken')
 
   // HANDLE CHANGES IN FORM
-  const handleChange = e => {
+  const handleChange = (e) => {
     setError(null)
     switch (e.target.name) {
       case 'email':
@@ -57,7 +60,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
   // END HANDLE CHANGES IN FORM
 
   // HANDLE CLICK ON LOG IN BUTTON
-  const onFormSubmit = async e => {
+  const onFormSubmit = async (e) => {
     e.preventDefault()
     setError(null)
     toggleGlobalLoading(true)
@@ -88,6 +91,21 @@ const LoginEmailForm = ({ initialEmail, className }) => {
       setError(error)
       return
     }
+
+    if (inviteToken) {
+      const { error } = await acceptProfileInvite(inviteToken)
+      setLocalStorage('inviteToken', '')
+
+      if (error) {
+        toggleGlobalLoading(false)
+        setError(error)
+        return
+      }
+
+      Router.push(ROUTES.CONFIRM_EMAIL)
+      return
+    }
+
     if (user.artists.length > 0) {
       const selectedArtist = user.artists[0]
       const { error } = await storeArtist(selectedArtist.id)

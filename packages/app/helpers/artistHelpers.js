@@ -843,7 +843,7 @@ export const sendProfileInvite = async (artistId, email) => {
  * @returns {Promise<any>}
  */
 export const acceptProfileInvite = async (token) => {
-  const requestUrl = `${token}/accept`
+  const requestUrl = `profile_invites/${token}/accept`
   const payload = null
 
   const errorTracking = {
