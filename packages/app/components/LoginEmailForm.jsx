@@ -119,6 +119,12 @@ const LoginEmailForm = ({ initialEmail, className }) => {
       trackLogin({ authProvider: 'password', userId: user.id })
       // REDIRECT
       const initialPage = rejectedPagePath
+
+      if (inviteToken) {
+        Router.push(ROUTES.PROFILE_INVITE_SUCCESS)
+        return
+      }
+
       Router.push(initialPage || ROUTES.HOME)
     } else {
       setNoArtist()
