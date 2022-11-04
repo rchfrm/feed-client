@@ -5,7 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ProfileUsersListItem from '@/app/ProfileUsersListItem'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
-import { getProfileInvites } from '@/app/helpers/artistHelpers'
+import { getPendingProfileInvites } from '@/app/helpers/artistHelpers'
 
 const ProfileUsersList = ({ hasSentInvite }) => {
   const [error, setError] = React.useState(null)
@@ -18,7 +18,7 @@ const ProfileUsersList = ({ hasSentInvite }) => {
     if (isLoading || hasSentInvite) return
     setIsLoading(true)
 
-    const { res, error } = await getProfileInvites(artistId)
+    const { res, error } = await getPendingProfileInvites(artistId)
     if (!isMounted) {
       setIsLoading(false)
       return
@@ -30,7 +30,7 @@ const ProfileUsersList = ({ hasSentInvite }) => {
       return
     }
 
-    setProfileInvites(res.sort((a, b) => a.status.localeCompare(b.status)))
+    setProfileInvites(res)
     setIsLoading(false)
   }, [hasSentInvite])
 
@@ -39,11 +39,11 @@ const ProfileUsersList = ({ hasSentInvite }) => {
   return (
     <div className="mb-10">
       <ul>
-        {Object.values(artist?.users).map(({ id, name, role }) => (
-          <ProfileUsersListItem key={id} user={name} status={role} />
+        {Object.values(artist?.users).map(({ id, name, email, role }) => (
+          <ProfileUsersListItem key={id} user={name || email} status={role} />
         ))}
         {profileInvites.map(({ id, userEmail, status }) => (
-          <ProfileUsersListItem key={id} user={userEmail} status={status} />
+          <ProfileUsersListItem key={id} user={userEmail} status={status} className="text-grey-3 italic" />
         ))}
       </ul>
       <Error error={error} />

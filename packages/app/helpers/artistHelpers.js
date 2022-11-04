@@ -804,10 +804,11 @@ export const updateDefaultPromotionStatus = async (artistId, postType, defaultPo
  * @param {string} artistId
  * @returns {Promise<any>}
  */
-export const getProfileInvites = async (artistId) => {
+export const getPendingProfileInvites = async (artistId) => {
   const requestUrl = '/profile_invites'
   const payload = {
     profileId: artistId,
+    status: 'pending',
   }
 
   const errorTracking = {
