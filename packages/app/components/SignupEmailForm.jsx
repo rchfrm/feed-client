@@ -162,7 +162,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
 
         updateUser(user)
 
-        const selectedArtist = user.artists[0]
+        const selectedArtist = Object.values(user.artists)[0]
         const { error: artistError } = await storeArtist(selectedArtist.id)
 
         if (artistError) {
