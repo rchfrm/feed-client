@@ -30,7 +30,7 @@ const ProfileUsersList = ({ hasSentInvite }) => {
       return
     }
 
-    setProfileInvites(res.filter((user) => user.status !== 'accepted'))
+    setProfileInvites(res.sort((a, b) => a.status.localeCompare(b.status)))
     setIsLoading(false)
   }, [hasSentInvite])
 
