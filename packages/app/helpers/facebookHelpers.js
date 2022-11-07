@@ -65,7 +65,7 @@ export const getFacebookPage = async (pageId) => {
   }
   const errorTracking = {
     category: 'Connect Accounts',
-    action: 'Get Facebook page ID',
+    action: 'Get Facebook page',
   }
   return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }

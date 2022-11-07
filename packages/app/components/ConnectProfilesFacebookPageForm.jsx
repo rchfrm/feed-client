@@ -86,7 +86,4 @@ ConnectProfilesFacebookPageForm.propTypes = {
   setErrors: PropTypes.func.isRequired,
 }
 
-ConnectProfilesFacebookPageForm.defaultProps = {
-}
-
 export default ConnectProfilesFacebookPageForm
