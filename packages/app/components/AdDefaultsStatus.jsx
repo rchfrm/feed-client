@@ -101,7 +101,7 @@ const AdDefaultsStatus = ({
             <p className="mr-1 mb-0">{capitalise(getPostTypePlural(type))}:</p>
             <ToggleSwitch
               name={type}
-              state={Boolean(defaultPostStatus[type])}
+              state={Boolean(defaultPostStatus?.[type])}
               onChange={updateGlobalStatus}
               isLoading={isLoading && type === postType}
             />
