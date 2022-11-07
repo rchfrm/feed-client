@@ -22,6 +22,7 @@ const ConnectProfilesItem = ({
   setSelectedProfile,
   setIsConnecting,
   isConnected,
+  setErrors,
   className,
 }) => {
   const { name, page_id, instagram_username } = profile
@@ -46,6 +47,8 @@ const ConnectProfilesItem = ({
 
     if (error) {
       setIsConnecting(false)
+      setErrors([error])
+      return
     }
 
     Router.push(ROUTES.GET_STARTED)
@@ -85,6 +88,7 @@ ConnectProfilesItem.propTypes = {
   setSelectedProfile: PropTypes.func,
   setIsConnecting: PropTypes.func,
   isConnected: PropTypes.bool.isRequired,
+  setErrors: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

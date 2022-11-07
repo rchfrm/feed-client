@@ -11,7 +11,6 @@ import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
 import ConnectProfilesButtonHelp from '@/app/ConnectProfilesButtonHelp'
-import ConnectProfilesPageForm from '@/app/ConnectProfilesPageForm'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -27,6 +26,7 @@ const ConnectProfilesLoader = ({
   const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [pageLoading, setPageLoading] = React.useState(true)
   const [errors, setErrors] = React.useState([])
+  const [isRequestTooLargeError, setIsRequestTooLargeError] = React.useState(false)
 
   const {
     auth,
@@ -74,6 +74,11 @@ const ConnectProfilesLoader = ({
       if (error.message !== 'user cache is not available') {
         setErrors([...errors, error])
       }
+
+      if (error.message === 'request is too large') {
+        setIsRequestTooLargeError(true)
+      }
+
       setPageLoading(false)
       return
     }
@@ -92,6 +97,7 @@ const ConnectProfilesLoader = ({
       })
     }
 
+
     setAllArtistAccounts(Object.values(artistAccounts).map((artist) => artist))
 
     // Remove profiles that have already been connected
@@ -99,7 +105,7 @@ const ConnectProfilesLoader = ({
     const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
     // Add ad accounts to artists
-    const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
+    const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered })
 
     if (!isMounted()) return
 
@@ -122,6 +128,7 @@ const ConnectProfilesLoader = ({
           artistAccounts={artistAccounts}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
+          setErrors={setErrors}
         />
         <ConnectProfilesButtonHelp
           auth={auth}
@@ -129,14 +136,21 @@ const ConnectProfilesLoader = ({
           setErrors={setErrors}
           isConnecting={isConnecting}
         />
-        <ConnectProfilesPageForm />
       </div>
-      <div className="hidden sm:block col-span-6 lg:col-span-4">
+      <div
+        className={[
+          'col-span-12 sm:col-span-6',
+          !isRequestTooLargeError ? 'hidden sm:block lg:col-span-4' : null,
+        ].join(' ')}
+      >
         <ConnectProfilesConnectMore
           auth={auth}
           errors={errors}
           setErrors={setErrors}
           isConnecting={isConnecting}
+          setSelectedProfile={setSelectedProfile}
+          setIsConnecting={setIsConnecting}
+          isRequestTooLargeError={isRequestTooLargeError}
         />
       </div>
     </div>

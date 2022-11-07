@@ -243,7 +243,7 @@ function ArtistProvider({ children }) {
     // * STOP HERE if there the artist account has already been connected
     if (alreadyConnectFacebookPages.includes(artistAccount.page_id)) {
       setArtistLoading(false)
-      return {}
+      return { error: { message: 'Artist account has already been connected' } }
     }
 
     // Wait to connect the artist

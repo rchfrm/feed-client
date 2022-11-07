@@ -9,6 +9,7 @@ const ConnectProfilesList = ({
   artistAccounts,
   setSelectedProfile,
   setIsConnecting,
+  setErrors,
 }) => {
   return (
     <div className="mb-4">
@@ -21,6 +22,7 @@ const ConnectProfilesList = ({
           artistAccounts={artistAccounts}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
+          setErrors={setErrors}
           className="mb-10"
         />
       )}
@@ -33,6 +35,7 @@ ConnectProfilesList.propTypes = {
   artistAccounts: PropTypes.array.isRequired,
   setSelectedProfile: PropTypes.func.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
+  setErrors: PropTypes.func.isRequired,
 }
 
 ConnectProfilesList.defaultProps = {

@@ -40,4 +40,5 @@ You can revoke these from at any time from Facebook. Feed will never post anythi
 
 **Create and manage ads for your Page**  
 <span className="text-xs">The final one, to allow Feed to turn your most effective Facebook posts and stories into ads.<span>`,
+  requestTooLarge: `It seems like Facebook can't process the amount of pages that you have requested. As an alternative you can search for a single Facebook page and connect it.`,
 }

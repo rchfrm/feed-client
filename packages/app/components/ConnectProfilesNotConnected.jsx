@@ -13,6 +13,7 @@ const ConnectProfilesNotConnected = ({
   artistAccounts,
   setSelectedProfile,
   setIsConnecting,
+  setErrors,
   className,
 }) => {
   const { userLoading } = React.useContext(UserContext)
@@ -44,6 +45,7 @@ const ConnectProfilesNotConnected = ({
                 setSelectedProfile={setSelectedProfile}
                 setIsConnecting={setIsConnecting}
                 isConnected={false}
+                setErrors={setErrors}
                 className="mb-6"
               />
             )
@@ -56,6 +58,9 @@ const ConnectProfilesNotConnected = ({
 
 ConnectProfilesNotConnected.propTypes = {
   artistAccounts: PropTypes.array.isRequired,
+  setSelectedProfile: PropTypes.func.isRequired,
+  setIsConnecting: PropTypes.func.isRequired,
+  setErrors: PropTypes.func.isRequired,
 }
 
 ConnectProfilesNotConnected.defaultProps = {
