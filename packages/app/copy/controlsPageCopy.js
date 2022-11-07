@@ -89,5 +89,5 @@ export default {
   alertNewPixelDescription: `You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway.`,
   alertSelectPixelTitle: 'Select your Facebook Pixel',
   alertSelectPixelDescription: `This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway.`,
-  profileInviteDescription: (profileName) => `Invite someone else to manage **${profileName}** ads. Enter their email below to send them a link.`,
+  profileInviteDescription: (profileName) => `Invite someone else to manage ${profileName ? `**${profileName}**` : 'your'} ads. Enter their email below to send them a link.`,
 }

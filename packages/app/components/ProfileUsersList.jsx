@@ -15,7 +15,7 @@ const ProfileUsersList = ({ hasSentInvite }) => {
   const { artist, artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
-    if (isLoading || hasSentInvite) return
+    if (isLoading || hasSentInvite || !artistId) return
     setIsLoading(true)
 
     const { res: profileInvites, error } = await getPendingProfileInvites(artistId)

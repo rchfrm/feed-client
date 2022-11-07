@@ -251,6 +251,7 @@ ${list.join('\n')}`
       if (section === 'set-budget') return `${setupBaseString} choose your budget`
       if (section === 'targeting') return `${setupBaseString} adjust your targeting`
       if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
+      if (section === 'team') return `${setupBaseString} invite others to manage your ads`
     }
 
     if (hasOverflow) return baseString
