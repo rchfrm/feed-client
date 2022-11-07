@@ -38,7 +38,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
   const [hasEmailError, setHasEmailError] = React.useState(false)
   const [shouldShowReferralCodeInput, setShouldShowReferralCodeInput] = React.useState(false)
 
-  const { runCreateUser, updateUser } = React.useContext(UserContext)
+  const { runCreateUser, storeUser } = React.useContext(UserContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   const { storeArtist } = React.useContext(ArtistContext)
 
@@ -151,7 +151,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
       }
 
       if (inviteToken) {
-        const { res: user, error: acceptInviteError } = await acceptProfileInvite(inviteToken)
+        const { res, error: acceptInviteError } = await acceptProfileInvite(inviteToken)
         setLocalStorage('inviteToken', '')
 
         if (acceptInviteError) {
@@ -160,11 +160,14 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
           return
         }
 
-        updateUser(user)
+        const { user, error: userError } = await storeUser()
+        if (userError) {
+          toggleGlobalLoading(false)
+          setError(error)
+          return
+        }
 
-        const selectedArtist = Object.values(user.artists)[0]
-        const { error: artistError } = await storeArtist(selectedArtist.id)
-
+        const { error: artistError } = await storeArtist(res.profileId)
         if (artistError) {
           toggleGlobalLoading(false)
           setError(error)

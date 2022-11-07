@@ -42,6 +42,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
   // GET LOGIN FUNCTION
   const { loginWithEmail } = useLogin()
   const inviteToken = getLocalStorage('inviteToken')
+  let selectedArtistId = ''
 
   // HANDLE CHANGES IN FORM
   const handleChange = (e) => {
@@ -85,7 +86,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
     }
 
     if (inviteToken) {
-      const { error } = await acceptProfileInvite(inviteToken)
+      const { res, error } = await acceptProfileInvite(inviteToken)
       setLocalStorage('inviteToken', '')
 
       if (error) {
@@ -93,6 +94,8 @@ const LoginEmailForm = ({ initialEmail, className }) => {
         setError(error)
         return
       }
+
+      selectedArtistId = res.profileId
     }
 
     const { user, error } = await storeUser()
@@ -105,9 +108,11 @@ const LoginEmailForm = ({ initialEmail, className }) => {
     }
 
     if (user.artists.length > 0) {
-      const selectedArtist = user.artists[0]
-      const { error } = await storeArtist(selectedArtist.id)
-      // Handle loading artist error
+      if (!inviteToken) {
+        selectedArtistId = user.artists[0].id
+      }
+
+      const { error } = await storeArtist(selectedArtistId)
       if (error) {
         toggleGlobalLoading(false)
         setEmail('')
