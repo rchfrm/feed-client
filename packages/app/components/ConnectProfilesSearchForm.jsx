@@ -49,7 +49,7 @@ const ConnectProfilesSearchForm = ({
         disabled={!facebookPageId}
         onClick={onSubmit}
         loading={isLoading}
-        trackComponentName="ConnectProfilesPageForm"
+        trackComponentName="ConnectProfilesSearchForm"
         className="w-full xxs:w-32 xxs:ml-4 mb-6"
       >
         Search
