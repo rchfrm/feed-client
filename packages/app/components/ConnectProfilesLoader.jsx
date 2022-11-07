@@ -11,6 +11,7 @@ import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
 import ConnectProfilesButtonHelp from '@/app/ConnectProfilesButtonHelp'
+import ConnectProfilesPageForm from '@/app/ConnectProfilesPageForm'
 
 // IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
@@ -128,6 +129,7 @@ const ConnectProfilesLoader = ({
           setErrors={setErrors}
           isConnecting={isConnecting}
         />
+        <ConnectProfilesPageForm />
       </div>
       <div className="hidden sm:block col-span-6 lg:col-span-4">
         <ConnectProfilesConnectMore

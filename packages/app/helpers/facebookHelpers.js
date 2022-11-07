@@ -53,3 +53,19 @@ export const setFacebookAccessToken = async (code, redirectUrl) => {
   }
   return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
+
+/**
+ * @param {string} pageId
+ * @returns {Promise<any>}
+ */
+export const getFacebookPage = async (pageId) => {
+  const requestUrl = '/actions/facebook/page'
+  const payload = {
+    pageId,
+  }
+  const errorTracking = {
+    category: 'Connect Accounts',
+    action: 'Get Facebook page ID',
+  }
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
