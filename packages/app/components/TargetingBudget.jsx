@@ -62,8 +62,8 @@ const TargetingBudget = ({
     || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
 
   const { campaignBudget } = targetingState
-  const dayAfterEndDate = moment(campaignBudget.endDate).add(1, 'days')
-  const hasActiveCampaignBudget = moment().isBefore(dayAfterEndDate, 'day')
+  const dayAfterEndDate = moment(campaignBudget?.endDate).add(1, 'days')
+  const hasActiveCampaignBudget = Boolean(campaignBudget?.endDate) && moment().isBefore(dayAfterEndDate, 'day')
 
   const [budgetType, setBudgetType] = React.useState(hasActiveCampaignBudget ? 'campaign' : 'daily')
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
@@ -106,18 +106,18 @@ const TargetingBudget = ({
         <Spinner width={36} className="h-full" />
       ) : (
         <>
-          <h2 className="mb-6">Budget</h2>
-          <TargetingBudgetTabs
-            budgetType={budgetType}
-            setBudgetType={setBudgetType}
-            hasActiveCampaignBudget={hasActiveCampaignBudget}
-            targetingState={targetingState}
-          />
+          <h2 className="mb-5">Budget</h2>
           <DisabledSection
             section="set-budget"
             isDisabled={isDisabled}
             className="relative mt-4"
           >
+            <TargetingBudgetTabs
+              budgetType={budgetType}
+              setBudgetType={setBudgetType}
+              hasActiveCampaignBudget={hasActiveCampaignBudget}
+              targetingState={targetingState}
+            />
             {isDailyBudget ? (
               <TargetingDailyBudget />
             ) : (

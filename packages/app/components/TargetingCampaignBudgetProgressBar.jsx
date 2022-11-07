@@ -13,7 +13,7 @@ const TargetingCampaignBudgetProgressBar = ({
     startDate,
     endDate,
     totalBudget,
-  } = campaignBudget
+  } = campaignBudget || {}
 
   const daysInPeriod = moment(endDate).diff(moment(startDate).startOf('day'), 'days') + 1
   const daysSinceStartDate = moment().diff(moment(startDate), 'days')
