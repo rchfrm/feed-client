@@ -854,3 +854,19 @@ export const acceptProfileInvite = async (token) => {
 
   return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
+
+export const formatProfileUsers = (profileUsers, profileInvites) => {
+  const formattedProfileUsers = Object.values(profileUsers).reduce((result, profileUser) => {
+    result.push({
+      id: profileUser.id,
+      name: profileUser.name,
+      userEmail: profileUser.email,
+      status: profileUser.role,
+    })
+
+    return result
+  }, [])
+  const sortedProfileUsers = formattedProfileUsers.sort((a, b) => b.status.localeCompare(a.status))
+
+  return [...sortedProfileUsers, ...profileInvites]
+}
