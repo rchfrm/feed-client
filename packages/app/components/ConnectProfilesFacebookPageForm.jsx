@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ConnectProfilesItem from '@/app/ConnectProfilesItem'
 import Button from '@/elements/Button'
-import Error from '@/elements/Error'
 import Input from '@/elements/Input'
 import MarkdownText from '@/elements/MarkdownText'
 import { getFacebookPage } from '@/app/helpers/facebookHelpers'
@@ -15,7 +14,6 @@ const ConnectProfilesFacebookPageForm = ({
   setErrors,
 }) => {
   const [facebookPageId, setFacebookPageId] = React.useState('')
-  const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const [artistAccount, setArtistAccount] = React.useState(null)
 
@@ -28,13 +26,13 @@ const ConnectProfilesFacebookPageForm = ({
     const { res, error } = await getFacebookPage(facebookPageId)
 
     if (error) {
-      setError(error)
+      setErrors([error])
       setIsLoading(false)
       return
     }
 
     setIsLoading(false)
-    setError(null)
+    setErrors(null)
 
     const processedArtists = processArtists({ artists: { [res.id]: { ...res, page_id: res.id } } })
     setArtistAccount(processedArtists[0])
@@ -42,7 +40,6 @@ const ConnectProfilesFacebookPageForm = ({
 
   return (
     <form onSubmit={onSubmit} className="mb-12">
-      <Error error={error} />
       <MarkdownText markdown={copy.requestTooLarge} />
       <div className="flex flex-column xxs:flex-row">
         <Input
