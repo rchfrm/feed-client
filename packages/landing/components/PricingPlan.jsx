@@ -50,14 +50,14 @@ export default function PricingPlan({ plan, showAnnualPricing, currency }) {
           'lg:mb-5',
         ].join(' ')}
       />
-      <PricingPlanMonthlyCost amount={monthlyCost[currency]} showAnnualPricing={showAnnualPricing} currency={currency} />
+      <PricingPlanMonthlyCost amount={monthlyCost[currency]} showAnnualPricing={showAnnualPricing} currencyCode={currency} />
       <PricingPlanServiceFee percentage={serviceFeePercentage} />
       <TryFeed
         buttonText="Get Started"
         className={['w-full', 'mb-5'].join(' ')}
         trackLocation={`PricingPlan${name}`}
       />
-      <PricingPlanFeatures plan={plan} currency={currency} />
+      <PricingPlanFeatures plan={plan} currencyCode={currency} />
     </div>
   )
 }

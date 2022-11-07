@@ -7,7 +7,7 @@ import TargetingBudgetPauseAlertReason from '@/app/TargetingBudgetPauseAlertReas
 import TargetingBudgetPauseAlertShortSpendingPeriod from '@/app/TargetingBudgetPauseAlertShortSpendingPeriod'
 
 const TargetingBudgetPauseAlert = ({
-  togglePauseCampaign,
+  onConfirm,
   budget,
   spendingData,
   currency,
@@ -30,7 +30,7 @@ const TargetingBudgetPauseAlert = ({
       />
     ) : (
       <TargetingBudgetPauseAlertReason
-        togglePauseCampaign={togglePauseCampaign}
+        onConfirm={onConfirm}
         setButtons={setButtons}
         closeAlert={closeAlert}
         budget={budget}
@@ -41,7 +41,7 @@ const TargetingBudgetPauseAlert = ({
 }
 
 TargetingBudgetPauseAlert.propTypes = {
-  togglePauseCampaign: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
   budget: PropTypes.number.isRequired,
   spendingData: PropTypes.shape({
     hasSpentConsecutivelyLessThan30Days: PropTypes.bool.isRequired,

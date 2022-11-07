@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import TargetingSuggestedBudgetButton from '@/app/TargetingSuggestedBudgetButton'
+import TargetingDailyBudgetSuggestionButton from '@/app/TargetingDailyBudgetSuggestionButton'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-const TargetingSuggestedBudgetButtons = ({
+const TargetingDailyBudgetSuggestionButtons = ({
   budgetSuggestions,
   sliderValueRange,
   setBudget,
@@ -37,7 +37,7 @@ const TargetingSuggestedBudgetButtons = ({
           const offset = ((budget - min) / (max - min)) * 100
 
           return (
-            <TargetingSuggestedBudgetButton
+            <TargetingDailyBudgetSuggestionButton
               key={budget}
               budget={budget}
               currency={currencyCode}
@@ -54,14 +54,14 @@ const TargetingSuggestedBudgetButtons = ({
   )
 }
 
-TargetingSuggestedBudgetButtons.propTypes = {
+TargetingDailyBudgetSuggestionButtons.propTypes = {
   budgetSuggestions: PropTypes.array.isRequired,
   sliderValueRange: PropTypes.array.isRequired,
   setBudget: PropTypes.func.isRequired,
   onBudgetSuggestionClick: PropTypes.func.isRequired,
 }
 
-TargetingSuggestedBudgetButtons.defaultProps = {
+TargetingDailyBudgetSuggestionButtons.defaultProps = {
 }
 
-export default TargetingSuggestedBudgetButtons
+export default TargetingDailyBudgetSuggestionButtons

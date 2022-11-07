@@ -5,7 +5,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import { formatCurrency } from '@/helpers/utils'
 
-const TargetingSuggestedBudgetButton = ({
+const TargetingDailyBudgetSuggestionButton = ({
   budget,
   currency,
   currencyOffset,
@@ -43,7 +43,7 @@ const TargetingSuggestedBudgetButton = ({
 }
 
 
-TargetingSuggestedBudgetButton.propTypes = {
+TargetingDailyBudgetSuggestionButton.propTypes = {
   budget: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
   currencyOffset: PropTypes.number.isRequired,
@@ -52,7 +52,7 @@ TargetingSuggestedBudgetButton.propTypes = {
   onBudgetSuggestionClick: PropTypes.func.isRequired,
 }
 
-TargetingSuggestedBudgetButton.defaultProps = {
+TargetingDailyBudgetSuggestionButton.defaultProps = {
 }
 
-export default TargetingSuggestedBudgetButton
+export default TargetingDailyBudgetSuggestionButton

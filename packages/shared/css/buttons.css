@@ -60,7 +60,6 @@ a[type=button] {
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(-0.05em);
 
   .button._loading & {
     opacity: 0;

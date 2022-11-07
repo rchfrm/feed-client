@@ -7,7 +7,7 @@ import TargetingBudgetPauseAlertReasonInput from '@/app/TargetingBudgetPauseAler
 import { track } from '@/helpers/trackingHelpers'
 
 const TargetingBudgetPauseAlertReason = ({
-  togglePauseCampaign,
+  onConfirm,
   budget,
   currency,
   setButtons,
@@ -25,7 +25,7 @@ const TargetingBudgetPauseAlertReason = ({
       {
         text: 'Pause Spending',
         onClick: () => {
-          togglePauseCampaign()
+          onConfirm()
 
           const action = 'pause_spending'
           track(action, {
@@ -46,7 +46,7 @@ const TargetingBudgetPauseAlertReason = ({
     ]
 
     setButtons(buttons)
-  }, [closeAlert, setButtons, togglePauseCampaign, budget, currency, reason, customReason, hasCustomReason, isValidCustomReason])
+  }, [closeAlert, setButtons, onConfirm, budget, currency, reason, customReason, hasCustomReason, isValidCustomReason])
 
   return (
     <>
@@ -68,7 +68,7 @@ const TargetingBudgetPauseAlertReason = ({
 }
 
 TargetingBudgetPauseAlertReason.propTypes = {
-  togglePauseCampaign: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
   budget: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
   setButtons: PropTypes.func.isRequired,
