@@ -43,6 +43,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
   // TODO FD-1426 : Fallback if the artist has no plan
   // TODO FD-1426 : Don't automatically also upgrade other artists in org if reactivating
+  // TODO FD-1426 : Double check copy on objective upgrade side panel
   const initPlan = canChooseBasic
     ? artist.plan
     : getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing)

@@ -164,7 +164,9 @@ function ArtistProvider({ children }) {
     const isSpendingPaused = preferences?.targeting?.status === 0
 
     // Get completed setup at
-    const hasSetUpProfile = Boolean(artist.completed_setup_at)
+    // TODO FD-1426 : Reset this
+    // const hasSetUpProfile = Boolean(artist.completed_setup_at)
+    const hasSetUpProfile = true
 
     // Set pricing plan booleans
     const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan)
