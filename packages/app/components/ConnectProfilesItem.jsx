@@ -88,13 +88,14 @@ ConnectProfilesItem.propTypes = {
   setSelectedProfile: PropTypes.func,
   setIsConnecting: PropTypes.func,
   isConnected: PropTypes.bool.isRequired,
-  setErrors: PropTypes.func.isRequired,
+  setErrors: PropTypes.func,
   className: PropTypes.string,
 }
 
 ConnectProfilesItem.defaultProps = {
   setSelectedProfile: () => {},
   setIsConnecting: () => {},
+  setErrors: () => {},
   className: null,
 }
 

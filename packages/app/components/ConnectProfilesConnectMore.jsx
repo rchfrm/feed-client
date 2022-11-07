@@ -5,7 +5,7 @@ import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
-import ConnectProfilesFacebookPageForm from '@/app/ConnectProfilesFacebookPageForm'
+import ConnectProfilesSearch from '@/app/ConnectProfilesSearch'
 
 import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import MarkdownText from '@/elements/MarkdownText'
@@ -46,7 +46,7 @@ const ConnectProfilesConnectMore = ({
       })}
 
       {isRequestTooLargeError ? (
-        <ConnectProfilesFacebookPageForm
+        <ConnectProfilesSearch
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
           setErrors={setErrors}
@@ -89,14 +89,17 @@ ConnectProfilesConnectMore.propTypes = {
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
   isSidePanel: PropTypes.bool,
-  setSelectedProfile: PropTypes.func.isRequired,
-  setIsConnecting: PropTypes.func.isRequired,
-  isRequestTooLargeError: PropTypes.bool.isRequired,
+  setSelectedProfile: PropTypes.func,
+  setIsConnecting: PropTypes.func,
+  isRequestTooLargeError: PropTypes.bool,
 }
 
 ConnectProfilesConnectMore.defaultProps = {
   errors: [],
   isSidePanel: false,
+  setSelectedProfile: () => {},
+  setIsConnecting: () => {},
+  isRequestTooLargeError: false,
 }
 
 export default ConnectProfilesConnectMore
