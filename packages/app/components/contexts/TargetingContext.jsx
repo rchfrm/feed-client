@@ -282,9 +282,15 @@ const TargetingContextProvider = ({ children }) => {
   // PAUSE CAMPAIGN
   const togglePauseCampaign = React.useCallback(() => {
     const { status } = initialTargetingState
-    const paused = status === 0
-    const newPausedState = paused ? 1 : 0
-    const newSettings = produce(initialTargetingState, draftState => {
+    const isPaused = status === 0
+    const newPausedState = isPaused ? 1 : 0
+    const newSettings = produce(initialTargetingState, (draftState) => {
+      if (isPaused) {
+        draftState.campaignBudget.startDate = null
+        draftState.campaignBudget.endDate = null
+        draftState.campaignBudget.totalBudget = 0
+      }
+
       draftState.status = newPausedState
     })
     saveTargetingSettings(newSettings)
