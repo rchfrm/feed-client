@@ -26,7 +26,7 @@ const ConnectProfilesLoader = ({
   const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [pageLoading, setPageLoading] = React.useState(true)
   const [errors, setErrors] = React.useState([])
-  const [isRequestTooLargeError, setIsRequestTooLargeError] = React.useState(false)
+  const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
 
   const {
     auth,
@@ -75,8 +75,8 @@ const ConnectProfilesLoader = ({
         setErrors([...errors, error])
       }
 
-      if (error.message === 'request is too large') {
-        setIsRequestTooLargeError(true)
+      if (error.message === 'cannot list facebook pages') {
+        setIsCannotListPagesError(true)
       }
 
       setPageLoading(false)
@@ -140,7 +140,7 @@ const ConnectProfilesLoader = ({
       <div
         className={[
           'col-span-12 sm:col-span-6',
-          !isRequestTooLargeError ? 'hidden sm:block lg:col-span-4' : null,
+          !isCannotListPagesError ? 'hidden sm:block lg:col-span-4' : null,
         ].join(' ')}
       >
         <ConnectProfilesConnectMore
@@ -150,7 +150,7 @@ const ConnectProfilesLoader = ({
           isConnecting={isConnecting}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
-          isRequestTooLargeError={isRequestTooLargeError}
+          isCannotListPagesError={isCannotListPagesError}
         />
       </div>
     </div>

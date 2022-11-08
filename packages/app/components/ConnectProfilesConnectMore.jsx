@@ -20,7 +20,7 @@ const ConnectProfilesConnectMore = ({
   isSidePanel,
   setSelectedProfile,
   setIsConnecting,
-  isRequestTooLargeError,
+  isCannotListPagesError,
 }) => {
   const { missingScopes: { ads: missingScopes } } = auth
   const { setSidePanelButton, sidePanelOpen } = React.useContext(SidePanelContext)
@@ -45,7 +45,7 @@ const ConnectProfilesConnectMore = ({
         return <Error error={error} messagePrefix="Error: " key={index} className="mb-10" />
       })}
 
-      {isRequestTooLargeError ? (
+      {isCannotListPagesError ? (
         <ConnectProfilesSearch
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
@@ -91,7 +91,7 @@ ConnectProfilesConnectMore.propTypes = {
   isSidePanel: PropTypes.bool,
   setSelectedProfile: PropTypes.func,
   setIsConnecting: PropTypes.func,
-  isRequestTooLargeError: PropTypes.bool,
+  isCannotListPagesError: PropTypes.bool,
 }
 
 ConnectProfilesConnectMore.defaultProps = {
@@ -99,7 +99,7 @@ ConnectProfilesConnectMore.defaultProps = {
   isSidePanel: false,
   setSelectedProfile: () => {},
   setIsConnecting: () => {},
-  isRequestTooLargeError: false,
+  isCannotListPagesError: false,
 }
 
 export default ConnectProfilesConnectMore
