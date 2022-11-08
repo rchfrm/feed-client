@@ -14,8 +14,8 @@ const ConnectProfilesSearch = ({
 
   return (
     <div className="mb-12">
-      <h3 className="font-bold">Search Facebook Page</h3>
-      <MarkdownText markdown={copy.requestTooLarge} />
+      <h3 className="font-bold">Search for Facebook Page</h3>
+      <MarkdownText markdown={copy.requestTooLarge} className="mb-6" />
       <ConnectProfilesSearchForm
         setArtistAccount={setArtistAccount}
         setErrors={setErrors}
