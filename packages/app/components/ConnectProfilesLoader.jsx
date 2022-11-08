@@ -71,13 +71,13 @@ const ConnectProfilesLoader = ({
     if (error) {
       if (!isMounted()) return
 
-      if (error.message === 'cannot list facebook pages') {
-        setIsCannotListPagesError(true)
+      if (error.message === 'user cache is not available') {
         setPageLoading(false)
         return
       }
 
-      if (error.message === 'user cache is not available') {
+      if (error.message === 'cannot list facebook pages') {
+        setIsCannotListPagesError(true)
         setPageLoading(false)
         return
       }
