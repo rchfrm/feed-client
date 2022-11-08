@@ -29,7 +29,7 @@ const ConnectProfilesSearchForm = ({
     setIsLoading(false)
     setErrors([])
 
-    const processedArtists = processArtists({ artists: { [res.id]: { ...res, page_id: res.id } } })
+    const processedArtists = processArtists({ artists: { [res.page_id]: { ...res } } })
     setArtistAccount(processedArtists[0])
   }
 
