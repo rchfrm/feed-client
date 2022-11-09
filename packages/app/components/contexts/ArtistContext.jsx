@@ -165,8 +165,8 @@ function ArtistProvider({ children }) {
 
     // Get completed setup at
     // TODO FD-1426 : Reset this
-    const hasSetUpProfile = Boolean(artist.completed_setup_at)
-    // const hasSetUpProfile = false
+    // const hasSetUpProfile = Boolean(artist.completed_setup_at)
+    const hasSetUpProfile = true
 
     // Set pricing plan booleans
     const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan)

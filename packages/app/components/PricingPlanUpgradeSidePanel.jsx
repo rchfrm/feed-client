@@ -8,7 +8,7 @@ import PricingPlanUpgradePlan from '@/app/PricingPlanUpgradePlan'
 import PricingPlanUpgradePaymentMethod from '@/app/PricingPlanUpgradePaymentMethod'
 import PricingPlanUpgradePayment from '@/app/PricingPlanUpgradePayment'
 import PricingPlanUpgradeSummary from '@/app/PricingPlanUpgradeSummary'
-import { getPricingPlanString } from '@/app/helpers/billingHelpers'
+import { setInitialPlan } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -41,12 +41,9 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const [currentStep, setCurrentStep] = React.useState(0)
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState(null)
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
-  // TODO FD-1426 : Fallback if the artist has no plan
   // TODO FD-1426 : Don't automatically also upgrade other artists in org if reactivating
   // TODO FD-1426 : Double check copy on objective upgrade side panel
-  const initPlan = canChooseBasic
-    ? artist.plan
-    : getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing)
+  const initPlan = setInitialPlan(artist.plan, canChooseBasic, isUpgradeToPro, isAnnualPricing)
   const [plan, setPlan] = React.useState(initPlan)
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)

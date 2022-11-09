@@ -164,7 +164,6 @@ export const fetchOrgById = async (orgId) => {
   return api.requestWithCatch('get', endpoint, null, errorTracking)
 }
 
-
 // Sort payment methods, putting the default payment first
 const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
   if (paymentMethodsArray.length === 1) return paymentMethodsArray
@@ -221,6 +220,21 @@ export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
   const planPeriod = isAnnualPricing && planPrefix !== 'basic' ? 'annual' : 'monthly'
 
   return `${planPrefix}_${planPeriod}`
+}
+
+// SET INITIAL VALUE FOR PRICING PLAN
+/**
+ * @param {string} artistPlan
+ * @param {boolean} canChooseBasic
+ * @param {boolean} isUpgradeToPro
+ * @param {boolean} isAnnualPricing
+ * @returns {string}
+ */
+export const setInitialPlan = (artistPlan, canChooseBasic, isUpgradeToPro, isAnnualPricing) => {
+  if (canChooseBasic) {
+    return artistPlan || 'growth_monthly'
+  }
+  return getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing)
 }
 
 // FORMAT PRORATIONS DATA

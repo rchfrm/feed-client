@@ -45,7 +45,7 @@ const TargetingDailyBudget = () => {
   } = React.useContext(ArtistContext)
 
   const { organisationArtists } = useBillingStore(getBillingStoreState)
-  const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
+  const isDisabled = !hasSetUpProfile || !organisationArtists || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
