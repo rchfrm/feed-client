@@ -34,6 +34,7 @@ const PricingPlanUpgradePayment = ({
   setProfilesToUpgrade,
   prorationsPreview,
   setProrationsPreview,
+  canChooseBasic,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
@@ -103,14 +104,12 @@ const PricingPlanUpgradePayment = ({
     // Get the current profile
     const currentProfile = organizationArtists.find((profile) => profile.id === artistId)
 
-    // Filter out the current profile
-    const otherProfiles = organizationArtists.filter((profile) => profile.id !== artistId)
-
-    // Filter out profiles with no plan or a pro plan
-    const filteredProfiles = otherProfiles.filter((profile) => {
+    // Filter out the current profile and any with an active pro plan
+    const filteredProfiles = organizationArtists.filter((profile) => {
       const [planPrefix] = profile?.plan?.split('_') || []
 
-      return planPrefix && planPrefix !== 'pro'
+      return profile.id !== artistId
+        && !(planPrefix === 'pro' && profile.status === 'active')
     })
 
     // Make sure that the currently active profile is the first item in the array
@@ -120,12 +119,13 @@ const PricingPlanUpgradePayment = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">Upgrade profile{hasMultipleUpgradableProfiles ? 's' : ''}</h2>
-      <MarkdownText markdown={copy.pricingUpgradePlanIntro({ hasMultipleUpgradableProfiles, hasGrowthPlan, name, plan, currency })} className="mb-8" />
-      {(hasGrowthPlan && hasMultipleUpgradableProfiles) && (
+      <MarkdownText markdown={copy.pricingUpgradePlanIntro({ hasMultipleUpgradableProfiles, name, plan })} className="mb-8" />
+      {(hasMultipleUpgradableProfiles) && (
         <PricingPlanUpgradePaymentProfilesList
           profilesToUpgrade={profilesToUpgrade}
           setProfilesToUpgrade={setProfilesToUpgrade}
           profiles={upgradableProfiles}
+          canChooseBasic={canChooseBasic}
         />
       )}
       <PricingProrationsLoader

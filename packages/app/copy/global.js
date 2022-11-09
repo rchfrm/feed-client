@@ -155,16 +155,11 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
       ${getSuffix(hasBillingAccess, hasCancelledPlan)}
     `
   },
-  pricingUpgradePlanIntro: ({ hasMultipleUpgradableProfiles, hasGrowthPlan, name, plan, currency }) => {
+  pricingUpgradePlanIntro: ({ hasMultipleUpgradableProfiles, name, plan }) => {
     const [planPrefix, planPeriod] = plan?.split('_') || []
-    const monthlyCost = pricingNumbers[planPrefix].monthlyCost[currency]
-    const isAnnualPricing = planPeriod === 'annual'
-    const amount = isAnnualPricing ? monthlyCost * 0.8 : monthlyCost
 
-    if (hasGrowthPlan && hasMultipleUpgradableProfiles) {
-      return `Would you like to upgrade other profiles at the same time?
-
-Each profile on **${capitalise(planPrefix)}** is charged at ${formatCurrency(amount, currency, true)} per month.`
+    if (hasMultipleUpgradableProfiles) {
+      return `Would you like to upgrade other profiles at the same time?`
     }
 
     return `### **Final confirmation**

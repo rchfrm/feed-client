@@ -92,7 +92,18 @@ const PricingProrationsLoader = ({
   useAsyncEffect(async (isMounted) => {
     if (!profilesToUpgrade) return
 
-    const formattedProrations = await getProrations(profilesToUpgrade)
+    // TODO FD-1426 : Do this on initial load also
+    const profilesWithPlan = Object.keys(profilesToUpgrade).reduce((acc, cur) => {
+      const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
+      if (planPrefix === 'none') {
+        acc[cur] = undefined
+      } else {
+        acc[cur] = profilesToUpgrade[cur]
+      }
+      return acc
+    }, {})
+
+    const formattedProrations = await getProrations(profilesWithPlan)
     if (!isMounted() || !formattedProrations) return
 
     setProrationsPreview(formattedProrations)

@@ -41,8 +41,6 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const [currentStep, setCurrentStep] = React.useState(0)
   const [profilesToUpgrade, setProfilesToUpgrade] = React.useState(null)
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
-  // TODO FD-1426 : Don't automatically also upgrade other artists in org if reactivating
-  // TODO FD-1426 : Double check copy on objective upgrade side panel
   const initPlan = setInitialPlan(artist.plan, canChooseBasic, isUpgradeToPro, isAnnualPricing)
   const [plan, setPlan] = React.useState(initPlan)
 
