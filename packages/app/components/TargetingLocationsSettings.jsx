@@ -8,7 +8,6 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import TooltipButton from '@/elements/TooltipButton'
 import MarkdownText from '@/elements/MarkdownText'
 import ToggleSwitch from '@/elements/ToggleSwitch'
-import Error from '@/elements/Error'
 
 import copy from '@/app/copy/targetingPageCopy'
 
@@ -23,7 +22,6 @@ const TargetingLocationsSettings = ({
 
   const propKey = 'use_location_targeting_for_remind'
   const [useGeographic, setUseGeographic] = React.useState(targetingState[propKey] || false)
-  const error = useGeographic ? { message: copy.locationSettingsWarning } : null
 
   // UPDATE TARGETING STATE
   React.useEffect(() => {
@@ -65,7 +63,6 @@ const TargetingLocationsSettings = ({
           />
         </div>
       </div>
-      <Error error={error} className="mb-0" />
     </section>
   )
 }
