@@ -22,7 +22,7 @@ import { getProrationsPreview, upgradeProfiles } from '@/app/helpers/billingHelp
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
-import { formatCurrency } from '@/helpers/utils'
+import {formatCurrency, getLocalStorage} from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
   billingDetails: state.billingDetails,
@@ -37,6 +37,7 @@ const GetStartedPaymentMethod = () => {
     addPaymentMethodToStore,
   } = useBillingStore(getBillingStoreState)
   const { next, setWizardState, wizardState } = React.useContext(WizardContext)
+  const storedPlan = JSON.parse(getLocalStorage('getStartedWizard'))?.plan
 
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -60,6 +61,7 @@ const GetStartedPaymentMethod = () => {
       plan,
       currency: artistCurrency = 'GBP',
       is_managed: isManaged,
+      status,
     },
     artistId,
     updateArtist,
@@ -68,11 +70,11 @@ const GetStartedPaymentMethod = () => {
   const { user: { organizations } } = React.useContext(UserContext)
   const organizationId = Object.values(organizations).find(org => org.role === 'owner')?.id
 
-  const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
+  const isPaymentRequired = status !== 'active'
   const isPaymentIntentRequired = false
   const shouldShowPromoCodeInput = false
 
-  const [planPrefix, planPeriod] = plan.split('_')
+  const [planPrefix, planPeriod] = plan?.split('_') || storedPlan?.split('_') || []
 
   const {
     card,
@@ -87,9 +89,15 @@ const GetStartedPaymentMethod = () => {
       return
     }
 
+    const newPlan = plan || storedPlan
+    if (!newPlan) {
+      return
+    }
+
     setIsLoadingAmountToPay(true)
 
-    const { res, error } = await getProrationsPreview(organizationId, { [artistId]: plan }, promoCode)
+    const { res, error } = await getProrationsPreview(organizationId, { [artistId]: newPlan }, promoCode)
+
     if (error) {
       if (error.message === 'Invalid promo code') {
         setIsValidPromoCode(false)

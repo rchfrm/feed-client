@@ -207,14 +207,6 @@ export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
   return allPaymentMethods.find(({ is_default }) => is_default)
 }
 
-// GET ALL INFO ABOUT ALL ORGS
-export const getAllOrgsInfo = async ({ user }) => {
-  const orgDetails = getOrganizationDetails(user)
-  const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
-  const allOrgsInfo = await Promise.all(fetchOrgPromises)
-  return allOrgsInfo
-}
-
 // GET PRICING PLAN STRING
 export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
   const planPeriod = isAnnualPricing && planPrefix !== 'basic' ? 'annual' : 'monthly'
@@ -284,6 +276,10 @@ export const formatProrationsPreview = ({ profilesToUpgrade, organizationArtists
       isFirstDayOfPeriod,
     },
   }
+}
+
+export const doProrationsMatch = (upgradedProfiles) => {
+  return upgradedProfiles.every(({ currentPayment, nextPayment }) => currentPayment === nextPayment)
 }
 
 // * PROFILE TRANSFER
@@ -445,6 +441,18 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
   }, {})
 
   return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
+}
+
+export const removeProfilesWithNoPlan = (profilesToUpgrade) => {
+  return Object.keys(profilesToUpgrade).reduce((acc, cur) => {
+    const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
+    if (planPrefix === 'none') {
+      acc[cur] = undefined
+    } else {
+      acc[cur] = profilesToUpgrade[cur]
+    }
+    return acc
+  }, {})
 }
 
 export const fetchInvoices = async (organization) => {

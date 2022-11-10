@@ -11,7 +11,7 @@ import PricingProrations from '@/app/PricingProrations'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
-import { getProrationsPreview, formatProrationsPreview } from '@/app/helpers/billingHelpers'
+import {getProrationsPreview, formatProrationsPreview, removeProfilesWithNoPlan} from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -73,9 +73,11 @@ const PricingProrationsLoader = ({
       ...otherProfilesPlans,
     }
 
+    const profilesWithPlan = removeProfilesWithNoPlan(profiles)
+
     // If this prop isn't passed fetch prorations and update local state
     if (!setProfilesToUpgrade) {
-      const formattedProrations = await getProrations(profiles)
+      const formattedProrations = await getProrations(profilesWithPlan)
       if (!isMounted() || !formattedProrations) return
 
       setProrations(formattedProrations)
@@ -92,16 +94,7 @@ const PricingProrationsLoader = ({
   useAsyncEffect(async (isMounted) => {
     if (!profilesToUpgrade) return
 
-    // TODO FD-1426 : Do this on initial load also
-    const profilesWithPlan = Object.keys(profilesToUpgrade).reduce((acc, cur) => {
-      const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
-      if (planPrefix === 'none') {
-        acc[cur] = undefined
-      } else {
-        acc[cur] = profilesToUpgrade[cur]
-      }
-      return acc
-    }, {})
+    const profilesWithPlan = removeProfilesWithNoPlan(profilesToUpgrade)
 
     const formattedProrations = await getProrations(profilesWithPlan)
     if (!isMounted() || !formattedProrations) return
@@ -113,10 +106,7 @@ const PricingProrationsLoader = ({
   if (isLoading) return <Spinner className="h-40 flex items-center" width={28} />
 
   return (
-    <div className={[
-      'w-full',
-    ].join(' ')}
-    >
+    <div className="w-full">
       <PricingProrations
         prorationsPreview={prorationsPreview || prorations}
         plan={plan}

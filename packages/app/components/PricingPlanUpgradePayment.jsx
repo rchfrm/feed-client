@@ -17,7 +17,7 @@ import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 
 import { formatCurrency } from '@/helpers/utils'
-import { upgradeProfiles } from '@/app/helpers/billingHelpers'
+import {removeProfilesWithNoPlan, upgradeProfiles} from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 
 const getBillingStoreState = (state) => ({
@@ -41,7 +41,7 @@ const PricingPlanUpgradePayment = ({
   const [error, setError] = React.useState(null)
 
   const { artistId, artist, setPlan, setStatus } = React.useContext(ArtistContext)
-  const { name, hasGrowthPlan } = artist
+  const { name } = artist
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
   const planIsBasic = plan === 'basic_monthly'
 
@@ -57,7 +57,8 @@ const PricingPlanUpgradePayment = ({
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
-    const { res: { profiles }, error } = await upgradeProfiles(organizationId, profilesToUpgrade)
+    const profilesWithPlan = removeProfilesWithNoPlan(profilesToUpgrade)
+    const { res: { profiles }, error } = await upgradeProfiles(organizationId, profilesWithPlan)
 
     if (error) {
       setError(error)

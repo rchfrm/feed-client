@@ -156,7 +156,7 @@ Please check your inbox to confirm. ${!isAccountPage ? `Or change the email addr
     `
   },
   pricingUpgradePlanIntro: ({ hasMultipleUpgradableProfiles, name, plan }) => {
-    const [planPrefix, planPeriod] = plan?.split('_') || []
+    const [planPrefix] = plan?.split('_') || []
 
     if (hasMultipleUpgradableProfiles) {
       return `Would you like to upgrade other profiles at the same time?`
@@ -222,7 +222,10 @@ ${list.join('\n')}`
     } = prorationsPreview
 
     const list = upgradedProfiles.map(({ name, plan }) => {
-      return `- ${name} is now on <span className="text-insta font-bold">${capitalise(plan)}</span>.`
+      if (plan) {
+        return `- ${name} is now on <span className="text-insta font-bold">${capitalise(plan)}</span>.`
+      }
+      return `- ${name} has no plan.`
     })
 
     return `You have paid ${formatCurrency(amount, currency)}.`
