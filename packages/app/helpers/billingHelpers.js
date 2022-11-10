@@ -124,33 +124,6 @@ export const upgradeProfiles = async (organizationId, profilesToUpgrade, promoCo
 // * BILLING
 // * --------------------
 
-const getOrganizationDetails = (user) => {
-  const { organizations = [] } = user
-  const organizationsArray = Object.values(organizations)
-  return organizationsArray.map(({ id, name, role, _links = {} }) => {
-    const link = get(_links, ['self', 'href'], null)
-    return {
-      id,
-      name,
-      link,
-      role,
-    }
-  })
-}
-
-/**
- * @param {object} org
- * @returns {Promise<any>}
- */
-const fetchOrg = async (org) => {
-  const { link } = org
-  if (!link) return {}
-  return {
-    ...await api.get(org.link),
-    role: org.role,
-  }
-}
-
 /**
  * @param {string} orgId
  * @returns {Promise<object>}
