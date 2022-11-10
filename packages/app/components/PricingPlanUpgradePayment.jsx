@@ -43,7 +43,7 @@ const PricingPlanUpgradePayment = ({
   const { artistId, artist, setPlan, setStatus } = React.useContext(ArtistContext)
   const { name } = artist
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
-  const planIsBasic = plan === 'basic_monthly'
+  const planIsBasic = Object.values(profilesToUpgrade).some((plan) => plan === 'basic_monthly')
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
   const isDisabled = (!planIsBasic && !amount) || Boolean(error)
