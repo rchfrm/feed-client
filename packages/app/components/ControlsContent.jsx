@@ -11,6 +11,7 @@ import AdDefaults from '@/app/AdDefaults'
 import TargetingSettings from '@/app/TargetingSettings'
 import LinkBank from '@/app/LinkBank'
 import IntegrationsPanel from '@/app/IntegrationsPanel'
+import ProfileUsers from '@/app/ProfileUsers'
 
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
@@ -27,6 +28,7 @@ const controlsComponents = {
   targeting: <TargetingSettings />,
   links: <LinkBank />,
   integrations: <IntegrationsPanel />,
+  team: <ProfileUsers />,
 }
 
 const ControlsContent = ({ slug }) => {

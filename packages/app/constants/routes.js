@@ -8,6 +8,7 @@ export const LOGIN_EMAIL = '/login/email'
 export const LOGIN_FACEBOOK = '/login/facebook'
 export const PASSWORD_FORGET = '/forgot-password'
 export const PASSWORD_RESET = '/password-reset'
+export const PROFILE_INVITE_SUCCESS = '/profile-invite-success'
 
 export const FAQS = '/faqs'
 export const FAQS_SLUG = '/faqs/[slug]'
@@ -40,6 +41,7 @@ export const HOME = POSTS
 // Array of RESTRICTED PAGES
 export const restrictedPages = [
   CONFIRM_EMAIL,
+  PROFILE_INVITE_SUCCESS,
   CONNECT_ACCOUNTS,
   THANK_YOU,
   POSTS,

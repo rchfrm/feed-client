@@ -5,6 +5,7 @@ import shallow from 'zustand/shallow'
 
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSignup from '@/app/hooks/useSignup'
 import useReferralStore from '@/app/stores/referralStore'
@@ -19,6 +20,8 @@ import Error from '@/elements/Error'
 import * as utils from '@/helpers/utils'
 import { trackSignUp, track } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
+import { acceptProfileInvite } from '@/app/helpers/artistHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
 import styles from '@/LoginPage.module.css'
@@ -35,11 +38,13 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
   const [hasEmailError, setHasEmailError] = React.useState(false)
   const [shouldShowReferralCodeInput, setShouldShowReferralCodeInput] = React.useState(false)
 
-  const { runCreateUser } = React.useContext(UserContext)
+  const { runCreateUser, storeUser } = React.useContext(UserContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const { storeArtist } = React.useContext(ArtistContext)
 
   const { getStoredReferrerCode } = useReferralStore(getReferralStoreState, shallow)
   const initialReferralCode = getStoredReferrerCode()
+  const inviteToken = getLocalStorage('inviteToken')
 
   React.useEffect(() => {
     setReferralCode(initialReferralCode)
@@ -143,6 +148,36 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
           label: email,
         })
         return rejectNewUser({ redirectTo: ROUTES.SIGN_UP, errorMessage: error.message })
+      }
+
+      if (inviteToken) {
+        const { res, error: acceptInviteError } = await acceptProfileInvite(inviteToken)
+        setLocalStorage('inviteToken', '')
+
+        if (acceptInviteError) {
+          toggleGlobalLoading(false)
+          setError(error)
+          return
+        }
+
+        const { user, error: userError } = await storeUser()
+        if (userError) {
+          toggleGlobalLoading(false)
+          setError(error)
+          return
+        }
+
+        const { error: artistError } = await storeArtist(res.profileId)
+        if (artistError) {
+          toggleGlobalLoading(false)
+          setError(error)
+          return
+        }
+
+        if (!user.is_email_verification_needed) {
+          Router.push(ROUTES.PROFILE_INVITE_SUCCESS)
+          return
+        }
       }
 
       if (user.is_email_verification_needed) {

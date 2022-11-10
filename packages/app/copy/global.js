@@ -251,6 +251,7 @@ ${list.join('\n')}`
       if (section === 'set-budget') return `${setupBaseString} choose your budget`
       if (section === 'targeting') return `${setupBaseString} adjust your targeting`
       if (section === 'promotion-settings') return `${setupBaseString} fill in these fields`
+      if (section === 'team') return `${setupBaseString} invite others to manage your ads`
     }
 
     if (hasOverflow) return baseString
@@ -297,6 +298,7 @@ ${list.join('\n')}`
     }
     if (name === 'links') return 'Add and edit the links that are used in your ads'
     if (name === 'integrations') return 'Connect Feed to other platforms'
+    if (name === 'team') return 'Invite others to manage your ads'
     if (name === 'invoices') return 'Past and upcoming invoices'
     if (name === 'profiles') return 'Profiles that appear on your invoice'
     if (name === 'paymentMethod') return 'Add or remove cards and choose a default'
