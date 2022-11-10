@@ -208,14 +208,6 @@ export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
   return allPaymentMethods.find(({ is_default }) => is_default)
 }
 
-// GET ALL INFO ABOUT ALL ORGS
-export const getAllOrgsInfo = async ({ user }) => {
-  const orgDetails = getOrganizationDetails(user)
-  const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
-  const allOrgsInfo = await Promise.all(fetchOrgPromises)
-  return allOrgsInfo
-}
-
 // GET PRICING PLAN STRING
 export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
   const planPeriod = isAnnualPricing && planPrefix !== 'basic' ? 'annual' : 'monthly'
@@ -284,16 +276,6 @@ export const getOrganizationArtists = async (organizationId) => {
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
-export const createTransferRequest = async (artistId, email) => {
-  const payload = { email }
-  const endpoint = `/artists/${artistId}/transfer`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Create transfer request',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
-}
-
 export const getTransferRequests = async () => {
   const payload = {}
   const endpoint = '/artist_transfers'
@@ -302,26 +284,6 @@ export const getTransferRequests = async () => {
     action: 'Get artist transfers',
   }
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
-}
-
-export const acceptTransferRequest = async (token, organizationId) => {
-  const payload = { organization_id: organizationId }
-  const endpoint = `/artist_transfers/${token}/accept`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Accept artist transfer',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
-}
-
-export const rejectTransferRequest = async (token) => {
-  const payload = {}
-  const endpoint = `/artist_transfers/${token}/reject`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Reject artist transfer',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
 // * USERS AND ORGANIZATION INVITES
