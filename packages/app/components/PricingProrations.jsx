@@ -8,7 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import { formatCurrency } from '@/helpers/utils'
 
 import copy from '@/app/copy/global'
-import {doProrationsMatch} from '@/app/helpers/billingHelpers'
+import { doProrationsMatch } from '@/app/helpers/billingHelpers'
 
 const PricingProrations = ({
   prorationsPreview,

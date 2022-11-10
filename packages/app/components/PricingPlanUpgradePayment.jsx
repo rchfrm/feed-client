@@ -17,7 +17,7 @@ import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 
 import { formatCurrency } from '@/helpers/utils'
-import {removeProfilesWithNoPlan, upgradeProfiles} from '@/app/helpers/billingHelpers'
+import { removeProfilesWithNoPlan, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 
 const getBillingStoreState = (state) => ({

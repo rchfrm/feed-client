@@ -22,7 +22,7 @@ import { getProrationsPreview, upgradeProfiles } from '@/app/helpers/billingHelp
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
-import {formatCurrency, getLocalStorage} from '@/helpers/utils'
+import { formatCurrency, getLocalStorage } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
   billingDetails: state.billingDetails,
@@ -55,9 +55,6 @@ const GetStartedPaymentMethod = () => {
   const {
     artist: {
       hasSetUpProfile,
-      hasGrowthPlan,
-      hasProPlan,
-      hasLegacyPlan,
       plan,
       currency: artistCurrency = 'GBP',
       is_managed: isManaged,
