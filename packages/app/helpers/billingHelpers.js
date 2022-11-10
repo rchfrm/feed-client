@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import moment from 'moment'
 import * as api from '@/helpers/api'
 import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'

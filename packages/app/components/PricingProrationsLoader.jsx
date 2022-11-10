@@ -11,7 +11,7 @@ import PricingProrations from '@/app/PricingProrations'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
-import {getProrationsPreview, formatProrationsPreview, removeProfilesWithNoPlan} from '@/app/helpers/billingHelpers'
+import { getProrationsPreview, formatProrationsPreview, removeProfilesWithNoPlan } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
