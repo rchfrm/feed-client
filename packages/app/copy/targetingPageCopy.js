@@ -93,7 +93,6 @@ We are working on adding custom locations, but it would be really helpful if you
 
   locationSettingsTooltip: `By default, Nurture (retargeting) audiences are global. This means you can reach everyone who has engaged with you before.`,
   locationSettingsIntro: `Apply location targeting to Nurture audiences`,
-  locationSettingsWarning: `Restricting this audience may decrease ad performance.`,
 
   successMessage: (settingsSavedInitial) => {
     if (settingsSavedInitial) {
