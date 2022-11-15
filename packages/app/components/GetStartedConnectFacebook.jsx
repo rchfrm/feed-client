@@ -45,23 +45,23 @@ const GetStartedConnectFacebook = () => {
       return
     }
 
-    const { res, error: getArtistError } = await artistHelpers.getArtistOnSignUp()
+    const { res, error } = await artistHelpers.getArtistOnSignUp()
 
     if (!isMounted()) return
 
-    if (getArtistError) {
-      if (getArtistError.message === 'user cache is not available') {
+    if (error) {
+      if (error.message === 'user cache is not available') {
         setIsLoading(false)
         return
       }
 
-      if (getArtistError.message === 'cannot list facebook pages') {
+      if (error.message === 'cannot list facebook pages') {
         setIsCannotListPagesError(true)
         setIsLoading(false)
         return
       }
 
-      setErrors([getArtistError])
+      setErrors([error])
       setIsLoading(false)
       return
     }
