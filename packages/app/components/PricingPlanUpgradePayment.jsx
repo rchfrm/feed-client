@@ -17,7 +17,7 @@ import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 
 import { formatCurrency } from '@/helpers/utils'
-import { formatProfiles, upgradeProfiles } from '@/app/helpers/billingHelpers'
+import { formatProfilesToUpgrade, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 
 const getBillingStoreState = (state) => ({
@@ -57,7 +57,7 @@ const PricingPlanUpgradePayment = ({
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
-    const profilesWithPlan = formatProfiles(profilesToUpgrade)
+    const profilesWithPlan = formatProfilesToUpgrade(profilesToUpgrade)
     const { res: { profiles }, error } = await upgradeProfiles(organizationId, profilesWithPlan)
 
     if (error) {

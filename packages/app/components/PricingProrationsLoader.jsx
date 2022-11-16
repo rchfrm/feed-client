@@ -11,7 +11,7 @@ import PricingProrations from '@/app/PricingProrations'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
-import { getProrationsPreview, formatProrationsPreview, formatProfiles } from '@/app/helpers/billingHelpers'
+import { getProrationsPreview, formatProrationsPreview, formatProfilesToUpgrade } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -57,7 +57,7 @@ const PricingProrationsLoader = ({
   useAsyncEffect(async (isMounted) => {
     if (!profilesToUpgrade[artistId]) return
 
-    const profilesWithPlan = formatProfiles(profilesToUpgrade, isAnnualPricing)
+    const profilesWithPlan = formatProfilesToUpgrade(profilesToUpgrade, isAnnualPricing)
 
     const formattedProrations = await getProrations(profilesWithPlan)
     if (!isMounted() || !formattedProrations) return

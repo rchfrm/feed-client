@@ -415,7 +415,7 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
   return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
 }
 
-export const formatProfiles = (profilesToUpgrade, isAnnaulPricing) => {
+export const formatProfilesToUpgrade = (profilesToUpgrade, isAnnaulPricing) => {
   return Object.keys(profilesToUpgrade).reduce((acc, cur) => {
     const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
     if (planPrefix === 'none') {
