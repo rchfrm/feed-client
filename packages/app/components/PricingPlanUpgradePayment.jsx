@@ -17,7 +17,7 @@ import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 
 import { formatCurrency } from '@/helpers/utils'
-import { removeProfilesWithNoPlan, upgradeProfiles } from '@/app/helpers/billingHelpers'
+import { formatProfiles, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 
 const getBillingStoreState = (state) => ({
@@ -27,7 +27,6 @@ const getBillingStoreState = (state) => ({
 })
 
 const PricingPlanUpgradePayment = ({
-  plan,
   setCurrentStep,
   setSidePanelButton,
   profilesToUpgrade,
@@ -35,6 +34,7 @@ const PricingPlanUpgradePayment = ({
   prorationsPreview,
   setProrationsPreview,
   canChooseBasic,
+  isAnnualPricing,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
@@ -43,7 +43,7 @@ const PricingPlanUpgradePayment = ({
   const { artistId, artist, setPlan, setStatus } = React.useContext(ArtistContext)
   const { name } = artist
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
-  const planIsBasic = Object.values(profilesToUpgrade).some((plan) => plan === 'basic_monthly')
+  const planIsBasic = Object.values(profilesToUpgrade).some((plan) => plan === 'basic')
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
   const isDisabled = (!planIsBasic && !amount) || Boolean(error)
@@ -57,7 +57,7 @@ const PricingPlanUpgradePayment = ({
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
-    const profilesWithPlan = removeProfilesWithNoPlan(profilesToUpgrade)
+    const profilesWithPlan = formatProfiles(profilesToUpgrade)
     const { res: { profiles }, error } = await upgradeProfiles(organizationId, profilesWithPlan)
 
     if (error) {
@@ -120,7 +120,7 @@ const PricingPlanUpgradePayment = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">Upgrade profile{hasMultipleUpgradableProfiles ? 's' : ''}</h2>
-      <MarkdownText markdown={copy.pricingUpgradePlanIntro({ hasMultipleUpgradableProfiles, name, plan })} className="mb-8" />
+      <MarkdownText markdown={copy.pricingUpgradePlanIntro(hasMultipleUpgradableProfiles, name, profilesToUpgrade[artistId])} className="mb-8" />
       {hasMultipleUpgradableProfiles && (
         <PricingPlanUpgradePaymentProfilesList
           profilesToUpgrade={profilesToUpgrade}
@@ -134,7 +134,7 @@ const PricingPlanUpgradePayment = ({
         setProfilesToUpgrade={setProfilesToUpgrade}
         prorationsPreview={prorationsPreview}
         setProrationsPreview={setProrationsPreview}
-        plan={plan}
+        isAnnualPricing={isAnnualPricing}
       />
       <Error error={error} />
     </div>
@@ -142,20 +142,18 @@ const PricingPlanUpgradePayment = ({
 }
 
 PricingPlanUpgradePayment.propTypes = {
-  plan: PropTypes.string,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
-  profilesToUpgrade: PropTypes.object,
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])),
   setProfilesToUpgrade: PropTypes.func,
   prorationsPreview: PropTypes.object,
   setProrationsPreview: PropTypes.func,
 }
 
 PricingPlanUpgradePayment.defaultProps = {
-  plan: '',
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
-  profilesToUpgrade: null,
+  profilesToUpgrade: {},
   setProfilesToUpgrade: () => {},
   prorationsPreview: null,
   setProrationsPreview: () => {},

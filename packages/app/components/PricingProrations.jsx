@@ -12,10 +12,10 @@ import { doProrationsMatch } from '@/app/helpers/billingHelpers'
 
 const PricingProrations = ({
   prorationsPreview,
-  plan,
+  isAnnualPricing,
 }) => {
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
-  const [, planPeriod] = plan.split('_')
+  const planPeriod = isAnnualPricing ? 'annual' : 'monthly'
 
   const {
     currency,
@@ -56,10 +56,11 @@ const PricingProrations = ({
 
 PricingProrations.propTypes = {
   prorationsPreview: PropTypes.object.isRequired,
-  plan: PropTypes.string.isRequired,
+  isAnnualPricing: PropTypes.bool,
 }
 
 PricingProrations.defaultProps = {
+  isAnnualPricing: false,
 }
 
 export default PricingProrations

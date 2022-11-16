@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import DropdownPill from '@/app/DropdownPill'
-
-import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 const PricingPlanUpgradePaymentProfilesListItem = ({
   profile,
@@ -14,8 +10,6 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   canChooseBasic,
 }) => {
   const { artistId: profileInContextID } = React.useContext(ArtistContext)
-  const [, planPeriod] = profilesToUpgrade[profileInContextID]?.split('_') || []
-  const isAnnualPricing = planPeriod === 'annual'
 
   const [idOfProfileOnBasic, setIdOfProfileOnBasic] = React.useState('')
 
@@ -27,15 +21,15 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   const hasChanged = (isProfileActive && planPrefix === 'none')
     || (isProfileActive && planPrefix !== currentPlanPrefix)
     || (!isProfileActive && planPrefix !== 'none')
-  const isDisabled = idOfProfileOnBasic && idOfProfileOnBasic !== id
+  const isDisabled = Boolean(idOfProfileOnBasic && idOfProfileOnBasic !== id)
 
   React.useEffect(() => {
-    if (!profilesToUpgrade) return
-    const profileWithBasic = Object.keys(profilesToUpgrade).find((id) => {
-      const [planPrefix] = profilesToUpgrade[id].split('_')
-      return planPrefix === 'basic'
+    const profilesToUpgradeIds = Object.keys(profilesToUpgrade)
+    if (!profilesToUpgradeIds.length === 0) return
+    const profileWithBasic = profilesToUpgradeIds.find((id) => {
+      return profilesToUpgrade[id] === 'basic'
     })
-    setIdOfProfileOnBasic(profileWithBasic)
+    setIdOfProfileOnBasic(profileWithBasic || '')
   }, [profilesToUpgrade])
 
   const planOptions = React.useCallback((canChooseBasic) => {
@@ -50,20 +44,13 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   }, [profileInContextID, profile.id, profile.status])
 
   const handleOnChange = (plan) => {
-    const updatedProfilesToUpgrade = Object.keys(profilesToUpgrade).reduce((acc, cur) => {
-      if (cur !== id && plan !== 'basic') {
-        acc[cur] = profilesToUpgrade[cur]
-        return acc
-      }
-      if (cur !== id && plan === 'basic') {
-        acc[cur] = getPricingPlanString('none', isAnnualPricing)
-      } else {
-        acc[cur] = getPricingPlanString(plan, isAnnualPricing)
-      }
-      return acc
-    }, {})
-
-    setProfilesToUpgrade(updatedProfilesToUpgrade)
+    setProfilesToUpgrade({
+      type: 'update-profile-plan',
+      payload: {
+        profileId: id,
+        plan,
+      },
+    })
   }
 
   return (
@@ -82,7 +69,7 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
 
 PricingPlanUpgradePaymentProfilesListItem.propTypes = {
   profile: PropTypes.object.isRequired,
-  profilesToUpgrade: PropTypes.object.isRequired,
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])).isRequired,
   setProfilesToUpgrade: PropTypes.func.isRequired,
   canChooseBasic: PropTypes.bool.isRequired,
 }

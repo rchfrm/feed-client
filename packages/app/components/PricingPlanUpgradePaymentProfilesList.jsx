@@ -25,7 +25,7 @@ const PricingPlanUpgradePaymentProfilesList = ({
 }
 
 PricingPlanUpgradePaymentProfilesList.propTypes = {
-  profilesToUpgrade: PropTypes.objectOf(PropTypes.string).isRequired,
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])).isRequired,
   setProfilesToUpgrade: PropTypes.func.isRequired,
   profiles: PropTypes.array.isRequired,
   canChooseBasic: PropTypes.bool.isRequired,

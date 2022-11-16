@@ -191,14 +191,14 @@ export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
  * @param {string} artistPlan
  * @param {boolean} canChooseBasic
  * @param {boolean} isUpgradeToPro
- * @param {boolean} isAnnualPricing
  * @returns {string}
  */
-export const setInitialPlan = (artistPlan, canChooseBasic, isUpgradeToPro, isAnnualPricing) => {
+export const setInitialPlan = (artistPlan, canChooseBasic, isUpgradeToPro) => {
   if (canChooseBasic) {
-    return artistPlan || 'growth_monthly'
+    const [planPrefix] = artistPlan?.split('_')
+    return planPrefix || 'growth'
   }
-  return getPricingPlanString(isUpgradeToPro ? 'pro' : 'growth', isAnnualPricing)
+  return isUpgradeToPro ? 'pro' : 'growth'
 }
 
 // FORMAT PRORATIONS DATA
@@ -415,13 +415,13 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
   return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
 }
 
-export const removeProfilesWithNoPlan = (profilesToUpgrade) => {
+export const formatProfiles = (profilesToUpgrade, isAnnaulPricing) => {
   return Object.keys(profilesToUpgrade).reduce((acc, cur) => {
     const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
     if (planPrefix === 'none') {
       acc[cur] = undefined
     } else {
-      acc[cur] = profilesToUpgrade[cur]
+      acc[cur] = getPricingPlanString(profilesToUpgrade[cur], isAnnaulPricing)
     }
     return acc
   }, {})
