@@ -121,7 +121,7 @@ const PricingPlanUpgradePayment = ({
     <div>
       <h2 className="mb-8 pr-12">Upgrade profile{hasMultipleUpgradableProfiles ? 's' : ''}</h2>
       <MarkdownText markdown={copy.pricingUpgradePlanIntro({ hasMultipleUpgradableProfiles, name, plan })} className="mb-8" />
-      {(hasMultipleUpgradableProfiles) && (
+      {hasMultipleUpgradableProfiles && (
         <PricingPlanUpgradePaymentProfilesList
           profilesToUpgrade={profilesToUpgrade}
           setProfilesToUpgrade={setProfilesToUpgrade}

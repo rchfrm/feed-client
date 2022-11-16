@@ -13,18 +13,21 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   setProfilesToUpgrade,
   canChooseBasic,
 }) => {
-  const { artistId } = React.useContext(ArtistContext)
-  const [profileWithBasic, setProfileWithBasic] = React.useState(undefined)
+  const { artistId: profileInContextID } = React.useContext(ArtistContext)
+  const [, planPeriod] = profilesToUpgrade[profileInContextID]?.split('_') || []
+  const isAnnualPricing = planPeriod === 'annual'
+
+  const [idOfProfileOnBasic, setIdOfProfileOnBasic] = React.useState('')
+
   const { name, id } = profile
-  const [, planPeriod] = profilesToUpgrade[artistId]?.split('_') || []
   const [planPrefix] = profilesToUpgrade[id]?.split('_') || []
   const [currentPlanPrefix] = profile.plan?.split('_') || []
+
   const isProfileActive = profile.status === 'active'
-  const isAnnualPricing = planPeriod === 'annual'
   const hasChanged = (isProfileActive && planPrefix === 'none')
     || (isProfileActive && planPrefix !== currentPlanPrefix)
     || (!isProfileActive && planPrefix !== 'none')
-  const isDisabled = profileWithBasic && profileWithBasic !== id
+  const isDisabled = idOfProfileOnBasic && idOfProfileOnBasic !== id
 
   React.useEffect(() => {
     if (!profilesToUpgrade) return
@@ -32,19 +35,19 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
       const [planPrefix] = profilesToUpgrade[id].split('_')
       return planPrefix === 'basic'
     })
-    setProfileWithBasic(profileWithBasic)
+    setIdOfProfileOnBasic(profileWithBasic)
   }, [profilesToUpgrade])
 
   const planOptions = React.useCallback((canChooseBasic) => {
     const options = ['growth', 'pro']
-    if (canChooseBasic && profile.id === artistId) {
-      options.push('basic')
+    if (canChooseBasic && profile.id === profileInContextID) {
+      options.unshift('basic')
     }
-    if (profile.id !== artistId && profile.status !== 'active') {
+    if (profile.id !== profileInContextID && profile.status !== 'active') {
       options.push('none')
     }
     return options
-  }, [artistId, profile.id, profile.status])
+  }, [profileInContextID, profile.id, profile.status])
 
   const handleOnChange = (plan) => {
     const updatedProfilesToUpgrade = Object.keys(profilesToUpgrade).reduce((acc, cur) => {

@@ -65,13 +65,13 @@ const GetStartedPaymentMethod = () => {
   } = React.useContext(ArtistContext)
 
   const { user: { organizations } } = React.useContext(UserContext)
-  const organizationId = Object.values(organizations).find(org => org.role === 'owner')?.id
+  const organizationId = Object.values(organizations).find((org) => org.role === 'owner')?.id
 
-  const isPaymentRequired = status !== 'active'
+  const [planPrefix, planPeriod] = plan.split('_')
+
+  const isPaymentRequired = status !== 'active' && planPrefix !== 'basic'
   const isPaymentIntentRequired = false
   const shouldShowPromoCodeInput = false
-
-  const [planPrefix, planPeriod] = plan?.split('_') || storedPlan?.split('_') || []
 
   const {
     card,
@@ -191,9 +191,7 @@ const GetStartedPaymentMethod = () => {
       <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(defaultPaymentMethod, planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency), isManaged)} />
       <Error error={error} />
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
-        {isManaged ? (
-          <></>
-        ) : (
+        {!isManaged && (
           <>
             {shouldShowPaymentMethodForm ? (
               <AddPaymentForm

@@ -8,7 +8,7 @@ import PricingPlanUpgradePlan from '@/app/PricingPlanUpgradePlan'
 import PricingPlanUpgradePaymentMethod from '@/app/PricingPlanUpgradePaymentMethod'
 import PricingPlanUpgradePayment from '@/app/PricingPlanUpgradePayment'
 import PricingPlanUpgradeSummary from '@/app/PricingPlanUpgradeSummary'
-import { setInitialPlan } from '@/app/helpers/billingHelpers'
+import {getPricingPlanString, setInitialPlan} from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -35,7 +35,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const isUpgradeToPro = hasGrowthPlan && !hasCancelledPlan
   // TODO: What isUpgradeToPro used for? Can it be replaced by an array of "pro-only" features?
   const isSettingBudget = section === 'set-budget'
-  const noOrgArtistsActive = organizationArtists.every(artist => artist.status !== 'active')
+  const noOrgArtistsActive = organizationArtists.every((artist) => artist.status !== 'active')
   const canChooseBasic = hasCancelledPlan && isSettingBudget && noOrgArtistsActive
 
   const [currentStep, setCurrentStep] = React.useState(0)
