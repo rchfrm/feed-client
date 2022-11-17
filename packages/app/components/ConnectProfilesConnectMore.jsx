@@ -5,6 +5,7 @@ import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
+import ConnectProfilesSearch from '@/app/ConnectProfilesSearch'
 
 import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import MarkdownText from '@/elements/MarkdownText'
@@ -17,6 +18,9 @@ const ConnectProfilesConnectMore = ({
   errors,
   setErrors,
   isSidePanel,
+  setSelectedProfile,
+  setIsConnecting,
+  isCannotListPagesError,
 }) => {
   const { missingScopes: { ads: missingScopes } } = auth
   const { setSidePanelButton, sidePanelOpen } = React.useContext(SidePanelContext)
@@ -41,31 +45,40 @@ const ConnectProfilesConnectMore = ({
         return <Error error={error} messagePrefix="Error: " key={index} className="mb-10" />
       })}
 
-      {missingScopes.length > 0 && (
-        <MissingScopesMessage
-          scopes={missingScopes}
-          showButton={false}
-        />
-      )}
-
-      {isSidePanel && <h2>Connect more</h2>}
-      <MarkdownText
-        className={[
-          'text-lg',
-          !isSidePanel ? 'font-bold' : null,
-        ].join(' ')}
-        markdown={copy.connectMoreTitle}
-      />
-      <MarkdownText markdown={copy.connectMoreInstructions} className="mb-6" />
-      {isSidePanel && <p className="text-xs italic">Steps 3 and 4 may be reversed by Facebook</p>}
-      {!isSidePanel && (
-        <ConnectFacebookButton
-          errors={errors}
+      {isCannotListPagesError ? (
+        <ConnectProfilesSearch
+          setSelectedProfile={setSelectedProfile}
+          setIsConnecting={setIsConnecting}
           setErrors={setErrors}
-          buttonText="Connect more"
-          trackComponentName="ConnectProfilesConnectMore"
-          className="w-full xs:w-2/3"
         />
+      ) : (
+        <>
+          {missingScopes.length > 0 && (
+            <MissingScopesMessage
+              scopes={missingScopes}
+              showButton={false}
+            />
+          )}
+          {isSidePanel && <h2>Connect more</h2>}
+          <MarkdownText
+            className={[
+              'text-lg',
+              !isSidePanel ? 'font-bold' : null,
+            ].join(' ')}
+            markdown={copy.connectMoreTitle}
+          />
+          <MarkdownText markdown={copy.connectMoreInstructions} className="mb-6" />
+          {isSidePanel && <p className="text-xs italic">Steps 3 and 4 may be reversed by Facebook</p>}
+          {!isSidePanel && (
+            <ConnectFacebookButton
+              errors={errors}
+              setErrors={setErrors}
+              buttonText="Connect more"
+              trackComponentName="ConnectProfilesConnectMore"
+              className="w-full xs:w-2/3"
+            />
+          )}
+        </>
       )}
     </div>
   )
@@ -76,11 +89,17 @@ ConnectProfilesConnectMore.propTypes = {
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
   isSidePanel: PropTypes.bool,
+  setSelectedProfile: PropTypes.func,
+  setIsConnecting: PropTypes.func,
+  isCannotListPagesError: PropTypes.bool,
 }
 
 ConnectProfilesConnectMore.defaultProps = {
   errors: [],
   isSidePanel: false,
+  setSelectedProfile: () => {},
+  setIsConnecting: () => {},
+  isCannotListPagesError: false,
 }
 
 export default ConnectProfilesConnectMore

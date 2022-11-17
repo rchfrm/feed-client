@@ -26,6 +26,7 @@ const ConnectProfilesLoader = ({
   const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [pageLoading, setPageLoading] = React.useState(true)
   const [errors, setErrors] = React.useState([])
+  const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
 
   const {
     auth,
@@ -70,9 +71,18 @@ const ConnectProfilesLoader = ({
     if (error) {
       if (!isMounted()) return
 
-      if (error.message !== 'user cache is not available') {
-        setErrors([...errors, error])
+      if (error.message === 'user cache is not available') {
+        setPageLoading(false)
+        return
       }
+
+      if (error.message === 'cannot list facebook pages') {
+        setIsCannotListPagesError(true)
+        setPageLoading(false)
+        return
+      }
+
+      setErrors([...errors, error])
       setPageLoading(false)
       return
     }
@@ -91,6 +101,7 @@ const ConnectProfilesLoader = ({
       })
     }
 
+
     setAllArtistAccounts(Object.values(artistAccounts).map((artist) => artist))
 
     // Remove profiles that have already been connected
@@ -98,7 +109,7 @@ const ConnectProfilesLoader = ({
     const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
     // Add ad accounts to artists
-    const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
+    const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered })
 
     if (!isMounted()) return
 
@@ -121,6 +132,7 @@ const ConnectProfilesLoader = ({
           artistAccounts={artistAccounts}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
+          setErrors={setErrors}
         />
         <ConnectProfilesButtonHelp
           auth={auth}
@@ -129,12 +141,20 @@ const ConnectProfilesLoader = ({
           isConnecting={isConnecting}
         />
       </div>
-      <div className="hidden sm:block col-span-6 lg:col-span-4">
+      <div
+        className={[
+          'col-span-12 sm:col-span-6',
+          !isCannotListPagesError ? 'hidden sm:block lg:col-span-4' : null,
+        ].join(' ')}
+      >
         <ConnectProfilesConnectMore
           auth={auth}
           errors={errors}
           setErrors={setErrors}
           isConnecting={isConnecting}
+          setSelectedProfile={setSelectedProfile}
+          setIsConnecting={setIsConnecting}
+          isCannotListPagesError={isCannotListPagesError}
         />
       </div>
     </div>

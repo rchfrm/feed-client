@@ -196,7 +196,7 @@ export const removeAlreadyConnectedArtists = (newArtists, userArtists) => {
   })
 }
 
-export const processArtists = async ({ artists }) => {
+export const processArtists = ({ artists }) => {
   const artistsProcessed = Object.values(artists).map((artist) => {
     const {
       instagram_username,
