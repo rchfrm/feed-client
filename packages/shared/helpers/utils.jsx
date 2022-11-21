@@ -547,3 +547,19 @@ export const convertLocalToUTCDate = (date) => {
   date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
   return date
 }
+
+export const validateFile = (blob) => {
+  const maxSize = 5 // MB
+  const allowedFileExtensions = ['png', 'jpeg', 'jpg', 'gif']
+  const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif']
+  const { name, type, size } = blob
+  const fileExtension = name.split('.').pop()
+
+  if (!allowedFileExtensions.includes(fileExtension) || !allowedMimeTypes.includes(type)) {
+    return { message: 'File format must be either PNG or JPG/JPEG' }
+  }
+
+  if (size / (1024 * 1024) > maxSize) {
+    return { message: 'The image size is too big! ( Max. 5MB )' }
+  }
+}
