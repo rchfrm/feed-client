@@ -1,14 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ReactCrop from 'react-image-crop'
 import Error from '@/elements/Error'
-import { validateFile } from '@/helpers/utils'
+import TrashIcon from '@/icons/TrashIcon'
+import { validateFile, getCroppedImageBlob} from '@/app/helpers/fileUploadHelpers'
+import brandColors from '@/constants/brandColors'
+import 'react-image-crop/dist/ReactCrop.css'
 
 const FileUpload = ({ setFile }) => {
   const [fileUrl, setFileUrl] = React.useState('')
   const [isDragging, setIsDragging] = React.useState(false)
+  const [crop, setCrop] = React.useState({
+    unit: '%',
+    x: 25,
+    y: 25,
+    width: 50,
+    height: 50,
+  })
   const [error, setError] = React.useState(null)
 
   const fileInputRef = React.useRef(null)
+  const imageRef = React.useRef(null)
 
   const upload = (blob) => {
     setIsDragging(false)
@@ -57,6 +69,11 @@ const FileUpload = ({ setFile }) => {
     e.preventDefault()
   }
 
+  const onComplete = async (crop) => {
+    const blob = await getCroppedImageBlob(imageRef.current, crop)
+    setFile(blob)
+  }
+
   const reset = () => {
     setFileUrl('')
     setFile(null)
@@ -72,7 +89,7 @@ const FileUpload = ({ setFile }) => {
         onDragOver={onDragOver}
         onDrop={onDrop}
         className={[
-          'relative w-60 h-60 mb-2',
+          'relative h-96 mb-4',
           'flex items-center justify-center',
           'border border-dashed border-black rounded-dialogue',
           !fileUrl ? 'p-5' : null,
@@ -80,14 +97,26 @@ const FileUpload = ({ setFile }) => {
         ].join(' ')}
       >
         <div
-          className="absolute inset-0"
           role="button"
           tabIndex={0}
           onClick={() => fileInputRef.current.click()}
+          className="h-full absolute inset-0"
           aria-label="file upload"
         />
         {fileUrl ? (
-          <img src={fileUrl} alt="" />
+          <>
+            <ReactCrop
+              crop={crop}
+              onChange={setCrop}
+              onComplete={onComplete}
+              className="h-full"
+            >
+              <img src={fileUrl} ref={imageRef} className="h-full" />
+            </ReactCrop>
+            <button onClick={reset} className="absolute top-3 right-3">
+              <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
+            </button>
+          </>
         ) : (
           <p className="mb-0 text-center">Drag and drop file or click to upload</p>
         )}
@@ -99,12 +128,6 @@ const FileUpload = ({ setFile }) => {
         ref={fileInputRef}
         className="hidden"
       />
-      {fileUrl && (
-        <div className="flex flex-column items-start mb-2 text-sm">
-          <button type="button" onClick={() => fileInputRef.current.click()}>Change image</button>
-          <button type="button" onClick={reset}>Delete image</button>
-        </div>
-      )}
       <Error error={error} />
     </div>
   )
