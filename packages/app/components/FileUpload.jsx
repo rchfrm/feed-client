@@ -72,15 +72,15 @@ const FileUpload = ({ setFile }) => {
         onDragOver={onDragOver}
         onDrop={onDrop}
         className={[
-          'relative',
-          'w-60 h-60 mb-2',
-          'border border-dashed border-black rounded-dialogue',
+          'relative w-60 h-60 mb-2',
           'flex items-center justify-center',
+          'border border-dashed border-black rounded-dialogue',
+          !fileUrl ? 'p-5' : null,
           isDragging ? 'bg-grey-1' : null,
         ].join(' ')}
       >
         <div
-          className="absolute top-0 left-0 right-0 bottom-0"
+          className="absolute inset-0"
           role="button"
           tabIndex={0}
           onClick={() => fileInputRef.current.click()}
