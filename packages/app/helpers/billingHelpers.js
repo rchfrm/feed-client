@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import moment from 'moment'
 import * as api from '@/helpers/api'
 import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
@@ -124,33 +123,6 @@ export const upgradeProfiles = async (organizationId, profilesToUpgrade, promoCo
 // * BILLING
 // * --------------------
 
-const getOrganizationDetails = (user) => {
-  const { organizations = [] } = user
-  const organizationsArray = Object.values(organizations)
-  return organizationsArray.map(({ id, name, role, _links = {} }) => {
-    const link = get(_links, ['self', 'href'], null)
-    return {
-      id,
-      name,
-      link,
-      role,
-    }
-  })
-}
-
-/**
- * @param {object} org
- * @returns {Promise<any>}
- */
-const fetchOrg = async (org) => {
-  const { link } = org
-  if (!link) return {}
-  return {
-    ...await api.get(org.link),
-    role: org.role,
-  }
-}
-
 /**
  * @param {string} orgId
  * @returns {Promise<object>}
@@ -206,14 +178,6 @@ export const getBillingDetails = ({ name, payment_status = 'none', customer, rol
 export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
   if (!allPaymentMethods.length) return null
   return allPaymentMethods.find(({ is_default }) => is_default)
-}
-
-// GET ALL INFO ABOUT ALL ORGS
-export const getAllOrgsInfo = async ({ user }) => {
-  const orgDetails = getOrganizationDetails(user)
-  const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
-  const allOrgsInfo = await Promise.all(fetchOrgPromises)
-  return allOrgsInfo
 }
 
 // GET PRICING PLAN STRING
@@ -284,16 +248,6 @@ export const getOrganizationArtists = async (organizationId) => {
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
-export const createTransferRequest = async (artistId, email) => {
-  const payload = { email }
-  const endpoint = `/artists/${artistId}/transfer`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Create transfer request',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
-}
-
 export const getTransferRequests = async () => {
   const payload = {}
   const endpoint = '/artist_transfers'
@@ -302,26 +256,6 @@ export const getTransferRequests = async () => {
     action: 'Get artist transfers',
   }
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
-}
-
-export const acceptTransferRequest = async (token, organizationId) => {
-  const payload = { organization_id: organizationId }
-  const endpoint = `/artist_transfers/${token}/accept`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Accept artist transfer',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
-}
-
-export const rejectTransferRequest = async (token) => {
-  const payload = {}
-  const endpoint = `/artist_transfers/${token}/reject`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Reject artist transfer',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
 // * USERS AND ORGANIZATION INVITES
