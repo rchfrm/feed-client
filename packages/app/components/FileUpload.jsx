@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ReactCrop from 'react-image-crop'
 import Error from '@/elements/Error'
 import TrashIcon from '@/icons/TrashIcon'
-import { validateFile, getCroppedImageBlob} from '@/app/helpers/fileUploadHelpers'
+import { validateFile, getCroppedImageBlob } from '@/app/helpers/fileUploadHelpers'
 import brandColors from '@/constants/brandColors'
 import 'react-image-crop/dist/ReactCrop.css'
 
@@ -24,6 +24,7 @@ const FileUpload = ({ setFile }) => {
 
   const upload = (blob) => {
     setIsDragging(false)
+    setError(null)
 
     if (!blob) {
       return
@@ -48,7 +49,6 @@ const FileUpload = ({ setFile }) => {
 
   const onDrop = (e) => {
     e.preventDefault()
-    setError(null)
 
     const { dataTransfer: { files } } = e
 
@@ -100,7 +100,10 @@ const FileUpload = ({ setFile }) => {
           role="button"
           tabIndex={0}
           onClick={() => fileInputRef.current.click()}
-          className="h-full absolute inset-0"
+          className={[
+            'h-full absolute inset-0',
+            fileUrl ? 'pointer-events-none' : null,
+          ].join(' ')}
           aria-label="file upload"
         />
         {fileUrl ? (
@@ -111,7 +114,7 @@ const FileUpload = ({ setFile }) => {
               onComplete={onComplete}
               className="h-full"
             >
-              <img src={fileUrl} ref={imageRef} className="h-full" />
+              <img src={fileUrl} ref={imageRef} alt="file upload" className="h-full object-contain" />
             </ReactCrop>
             <button onClick={reset} className="absolute top-3 right-3">
               <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
