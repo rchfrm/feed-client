@@ -72,7 +72,7 @@ const PricingProrationsLoader = ({
     <div className="w-full">
       <PricingProrations
         prorationsPreview={prorationsPreview}
-        isAnnualPricin={isAnnualPricing}
+        isAnnualPricing={isAnnualPricing}
       />
       <Error error={error} />
     </div>

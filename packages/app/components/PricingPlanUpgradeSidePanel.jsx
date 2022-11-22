@@ -8,7 +8,7 @@ import PricingPlanUpgradePlan from '@/app/PricingPlanUpgradePlan'
 import PricingPlanUpgradePaymentMethod from '@/app/PricingPlanUpgradePaymentMethod'
 import PricingPlanUpgradePayment from '@/app/PricingPlanUpgradePayment'
 import PricingPlanUpgradeSummary from '@/app/PricingPlanUpgradeSummary'
-import { setInitialPlan } from '@/app/helpers/billingHelpers'
+import { handleInitialize, handleUpdateProfilePlan, setInitialPlan } from '@/app/helpers/billingHelpers'
 import { useImmerReducer } from 'use-immer'
 
 const getBillingStoreState = (state) => ({
@@ -18,44 +18,6 @@ const getBillingStoreState = (state) => ({
   artistCurrency: state.artistCurrency,
   organizationArtists: state.organizationArtists,
 })
-
-const handleInitialize = (draftState, payload) => {
-  const {
-    orgArtists,
-    selectedArtistID,
-    selectedArtistPlan,
-  } = payload
-  if (!orgArtists || !selectedArtistID || !selectedArtistPlan) return draftState
-
-  return orgArtists.reduce((acc, orgArtist) => {
-    if (orgArtist.id === selectedArtistID) {
-      acc[orgArtist.id] = selectedArtistPlan
-    } else if (orgArtist.plan.includes('basic')) {
-      acc[orgArtist.id] = 'growth'
-    } else {
-      const [planPrefix] = orgArtist.plan?.split('_') || 'growth'
-      acc[orgArtist.id] = planPrefix
-    }
-    return acc
-  }, {})
-}
-
-const handleUpdateProfilePlan = (draftState, payload) => {
-  const { profileId, plan } = payload
-  if (!profileId || !plan || !Object.hasOwn(draftState, profileId)) return draftState
-  if (plan === 'basic') {
-    return Object.keys(draftState).reduce((acc, id) => {
-      if (id === profileId) {
-        acc[id] = plan
-      } else {
-        acc[id] = 'none'
-      }
-      return acc
-    }, draftState)
-  }
-  draftState[profileId] = plan
-  return draftState
-}
 
 const profilesToUpgradeReducer = (draftState, action) => {
   const {

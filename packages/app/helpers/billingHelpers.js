@@ -9,6 +9,9 @@ import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 /**
  * @param {string} organizationId
  * @param {string} paymentMethodId
+ * @param {string} currency
+ * @param {boolean} shouldBeDefault
+ * @param {string} promoCode
  * @returns {Promise<any>}
  */
 export const submitPaymentMethod = async ({ organizationId, paymentMethodId, currency, shouldBeDefault = false, promoCode }) => {
@@ -45,7 +48,7 @@ export const setPaymentAsDefault = async (organizationId, paymentMethodId) => {
 // DELETE PAYMENT
 /**
  * @param {string} organizationId
- * @param {string} paymentId
+ * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
 export const deletePaymentMethod = async (organizationId, paymentMethodId) => {
@@ -141,6 +144,45 @@ const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
   if (paymentMethodsArray.length === 1) return paymentMethodsArray
   const methodsWithoutDefault = paymentMethodsArray.filter(({ is_default }) => !is_default)
   return [defaultMethod, ...methodsWithoutDefault]
+}
+
+// Manage profiles to upgrade state
+export const handleInitialize = (draftState, payload) => {
+  const {
+    orgArtists,
+    selectedArtistID,
+    selectedArtistPlan,
+  } = payload
+  if (!orgArtists || !selectedArtistID || !selectedArtistPlan) return draftState
+
+  return orgArtists.reduce((acc, orgArtist) => {
+    if (orgArtist.id === selectedArtistID) {
+      acc[orgArtist.id] = selectedArtistPlan
+    } else if (orgArtist.plan.includes('basic')) {
+      acc[orgArtist.id] = 'growth'
+    } else {
+      const [planPrefix] = orgArtist.plan?.split('_') || 'growth'
+      acc[orgArtist.id] = planPrefix
+    }
+    return acc
+  }, {})
+}
+
+export const handleUpdateProfilePlan = (draftState, payload) => {
+  const { profileId, plan } = payload
+  if (!profileId || !plan || !Object.hasOwn(draftState, profileId)) return draftState
+  if (plan === 'basic') {
+    return Object.keys(draftState).reduce((acc, id) => {
+      if (id === profileId) {
+        acc[id] = plan
+      } else {
+        acc[id] = 'none'
+      }
+      return acc
+    }, draftState)
+  }
+  draftState[profileId] = plan
+  return draftState
 }
 
 // GET ALL BILLING DETAILS
@@ -415,13 +457,13 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
   return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
 }
 
-export const formatProfilesToUpgrade = (profilesToUpgrade, isAnnaulPricing) => {
+export const formatProfilesToUpgrade = (profilesToUpgrade, isAnnualPricing) => {
   return Object.keys(profilesToUpgrade).reduce((acc, cur) => {
     const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
     if (planPrefix === 'none') {
       acc[cur] = undefined
     } else {
-      acc[cur] = getPricingPlanString(profilesToUpgrade[cur], isAnnaulPricing)
+      acc[cur] = getPricingPlanString(profilesToUpgrade[cur], isAnnualPricing)
     }
     return acc
   }, {})

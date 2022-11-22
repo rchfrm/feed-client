@@ -22,7 +22,7 @@ import { getProrationsPreview, upgradeProfiles } from '@/app/helpers/billingHelp
 
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
-import { formatCurrency, getLocalStorage } from '@/helpers/utils'
+import { formatCurrency } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
   billingDetails: state.billingDetails,
@@ -37,7 +37,6 @@ const GetStartedPaymentMethod = () => {
     addPaymentMethodToStore,
   } = useBillingStore(getBillingStoreState)
   const { next, setWizardState, wizardState } = React.useContext(WizardContext)
-  const storedPlan = JSON.parse(getLocalStorage('getStartedWizard'))?.plan
 
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -86,7 +85,7 @@ const GetStartedPaymentMethod = () => {
       return
     }
 
-    const newPlan = plan || storedPlan
+    const newPlan = plan
     if (!newPlan) {
       return
     }
