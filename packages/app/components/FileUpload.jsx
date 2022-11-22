@@ -10,13 +10,7 @@ import 'react-image-crop/dist/ReactCrop.css'
 const FileUpload = ({ setFile }) => {
   const [fileUrl, setFileUrl] = React.useState('')
   const [isDragging, setIsDragging] = React.useState(false)
-  const [crop, setCrop] = React.useState({
-    unit: '%',
-    x: 25,
-    y: 25,
-    width: 50,
-    height: 50,
-  })
+  const [crop, setCrop] = React.useState(null)
   const [error, setError] = React.useState(null)
 
   const fileInputRef = React.useRef(null)
@@ -89,9 +83,9 @@ const FileUpload = ({ setFile }) => {
         onDragOver={onDragOver}
         onDrop={onDrop}
         className={[
-          'relative h-96 mb-4',
+          'relative h-60 mb-4',
           'flex items-center justify-center',
-          'border border-dashed border-black rounded-dialogue',
+          'border-2 border-dashed border-black rounded-dialogue',
           !fileUrl ? 'p-5' : null,
           isDragging ? 'bg-grey-1' : null,
         ].join(' ')}
