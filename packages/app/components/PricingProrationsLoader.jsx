@@ -25,6 +25,7 @@ const PricingProrationsLoader = ({
   promoCode,
   isAnnualPricing,
 }) => {
+  const [internalProrationsPreview, setInternalProrationsPreview] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
@@ -63,6 +64,7 @@ const PricingProrationsLoader = ({
     if (!isMounted() || !formattedProrations) return
 
     setProrationsPreview(formattedProrations)
+    setInternalProrationsPreview(formattedProrations)
     setIsLoading(false)
   }, [profilesToUpgrade])
 
@@ -71,7 +73,7 @@ const PricingProrationsLoader = ({
   return (
     <div className="w-full">
       <PricingProrations
-        prorationsPreview={prorationsPreview}
+        prorationsPreview={prorationsPreview || internalProrationsPreview}
         isAnnualPricing={isAnnualPricing}
       />
       <Error error={error} />
