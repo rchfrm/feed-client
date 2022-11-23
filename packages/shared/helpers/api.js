@@ -97,9 +97,9 @@ export async function request(method, path, options, token) {
     },
   }
 
-  // if (token !== false) {
-  //   req.headers.Authorization = `Bearer ${token}`
-  // }
+  if (token !== false) {
+    req.headers.Authorization = `Bearer ${token}`
+  }
 
   if (options && options.data) {
     req.data = options.data

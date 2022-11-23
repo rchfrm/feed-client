@@ -44,6 +44,7 @@ function LoginPageContent({ showEmailLogin, showFacebookLogin }) {
     }
 
     if (token) {
+      console.log('Storing token in local storage')
       setLocalStorage('inviteToken', token)
     }
 
