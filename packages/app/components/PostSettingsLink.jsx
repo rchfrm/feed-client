@@ -1,21 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useControlsStore from '@/app/stores/controlsStore'
-
 import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
-import PostLinksSelect from '@/app/PostLinksSelect'
-
-import CheckboxInput from '@/elements/CheckboxInput'
+import PostLinkCheckBoxSelect from '@/app/PostLinkCheckBoxSelect'
 import Error from '@/elements/Error'
-
-import { setPostLink, getLinkById } from '@/app/helpers/linksHelpers'
+import { setPostLink } from '@/app/helpers/linksHelpers'
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
-  nestedLinks: state.nestedLinks,
   optimizationPreferences: state.optimizationPreferences,
 })
 
@@ -28,7 +21,7 @@ const PostSettingsLink = ({
   const { linkSpecs } = post
 
   const { linkId, linkHref } = linkSpecs[campaignType] || {}
-  const { defaultLink, nestedLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { defaultLink, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
 
@@ -45,23 +38,6 @@ const PostSettingsLink = ({
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
-
-  // Set current link on select change
-  const updateLink = (linkId) => {
-    setCurrentLink(getLinkById(nestedLinks, linkId))
-  }
-
-  const handleChange = () => {
-    setIsDefaultLink(!isDefaultLink)
-
-    if (!isDefaultLink) {
-      setShouldShowSaveButton(savedLink?.id !== defaultLink?.id)
-    }
-
-    if (isDefaultLink) {
-      setShouldShowSaveButton(savedLink?.id !== currentLink.id)
-    }
-  }
 
   // Save currently selected link and hide save button
   const save = async () => {
@@ -95,27 +71,14 @@ const PostSettingsLink = ({
 
   // Watch for link id changes and show save button if there has been a change
   React.useEffect(() => {
-    const hasChanged = currentLink.id !== savedLink.id
-
-    setShouldShowSaveButton(hasChanged)
-  }, [currentLink.id, savedLink.id])
-
-  // On initial mount and on campaign type change set the current link
-  React.useEffect(() => {
-    const { linkId, linkHref } = linkSpecs[campaignType] || {}
-
-    const link = {
-      id: linkId || defaultLink.id,
-      href: linkHref || defaultLink.href,
+    if (isDefaultLink) {
+      setShouldShowSaveButton(savedLink?.id !== defaultLink?.id)
     }
 
-    setCurrentLink(link)
-    setSavedLink(link)
-
-    if (linkId && linkId !== defaultLink.id) {
-      setIsDefaultLink(false)
+    if (!isDefaultLink) {
+      setShouldShowSaveButton(savedLink?.id !== currentLink.id)
     }
-  }, [campaignType, linkSpecs, defaultLink?.id, defaultLink?.href])
+  }, [isDefaultLink, currentLink.id, savedLink.id, defaultLink?.id])
 
   return (
     <div className="mb-10">
@@ -133,26 +96,17 @@ const PostSettingsLink = ({
           isLoading={isLoading}
         />
       </div>
-      <CheckboxInput
-        buttonLabel={`Use default (${defaultLink.href})`}
-        value="link"
-        checked={isDefaultLink}
-        onChange={handleChange}
-        className="sm:pl-2 break-all"
-        disabled={isDisabled}
+      <PostLinkCheckBoxSelect
+        post={post}
+        campaignType={campaignType}
+        currentLink={currentLink}
+        setCurrentLink={setCurrentLink}
+        isDefaultLink={isDefaultLink}
+        setIsDefaultLink={setIsDefaultLink}
+        setSavedLink={setSavedLink}
+        isDisabled={isDisabled}
+        className="sm:pl-4 break-all"
       />
-      {!isDefaultLink && (
-        <PostLinksSelect
-          currentLinkId={currentLink.id}
-          updateParentLink={updateLink}
-          shouldSaveOnChange={false}
-          componentLocation="post"
-          campaignType={campaignType}
-          includeAddLinkOption
-          disabled={isDisabled}
-          className="sm:pl-4"
-        />
-      )}
       <Error error={error} />
     </div>
   )
