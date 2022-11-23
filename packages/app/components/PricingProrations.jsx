@@ -8,13 +8,14 @@ import MarkdownText from '@/elements/MarkdownText'
 import { formatCurrency } from '@/helpers/utils'
 
 import copy from '@/app/copy/global'
+import { doProrationsMatch } from '@/app/helpers/billingHelpers'
 
 const PricingProrations = ({
   prorationsPreview,
-  plan,
+  isAnnualPricing,
 }) => {
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
-  const [, planPeriod] = plan.split('_')
+  const planPeriod = isAnnualPricing ? 'annual' : 'monthly'
 
   const {
     currency,
@@ -34,6 +35,7 @@ const PricingProrations = ({
   } = prorationsPreview || {}
 
   const subsequentMonthlyAmount = fee ? nextInvoiceAmount - fee : nextInvoiceAmount
+  const prorationsMatchNextInvoice = doProrationsMatch(prorationsPreview.upgradedProfiles)
 
   return (
     <>
@@ -41,7 +43,7 @@ const PricingProrations = ({
         <MarkdownText markdown={copy.pricingUpgradeCurrentPaymentList(prorationsPreview, currency, hasSetUpProfile)} className="mb-6" />
         {!isFirstDayOfPeriod && prorationsAmount > 0 && <p className="text-xs">^Covering the remaining {daysRemainingInPeriod} {daysRemainingInPeriod > 1 ? 'days' : 'day'} of the current billing period.</p>}
       </div>
-      {nextInvoiceAmount > 0 && (
+      {nextInvoiceAmount > 0 && !prorationsMatchNextInvoice && (
         <>
           <MarkdownText markdown={copy.pricingUpgradeNextPaymentList(prorationsPreview, currency)} />
           <p className="text-xs">*Covering the next billing period.</p>
@@ -54,10 +56,11 @@ const PricingProrations = ({
 
 PricingProrations.propTypes = {
   prorationsPreview: PropTypes.object.isRequired,
-  plan: PropTypes.string.isRequired,
+  isAnnualPricing: PropTypes.bool,
 }
 
 PricingProrations.defaultProps = {
+  isAnnualPricing: false,
 }
 
 export default PricingProrations

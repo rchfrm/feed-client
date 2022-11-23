@@ -14,7 +14,7 @@ import TargetingDailyBudgetButtons from '@/app/TargetingDailyBudgetButtons'
 import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
 
 const getBillingStoreState = (state) => ({
-  organisationArtists: state.organisationArtists,
+  organizationArtists: state.organizationArtists,
 })
 
 const TargetingDailyBudget = () => {
@@ -44,8 +44,8 @@ const TargetingDailyBudget = () => {
     },
   } = React.useContext(ArtistContext)
 
-  const { organisationArtists } = useBillingStore(getBillingStoreState)
-  const isDisabled = !hasSetUpProfile || (hasNoPlan && hasAProfileOnGrowthOrPro(organisationArtists))
+  const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const isDisabled = !hasSetUpProfile || !organizationArtists || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)

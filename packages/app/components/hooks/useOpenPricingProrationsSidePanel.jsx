@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { SidePanelContext } from '@/contexts/SidePanelContext'
-
 import PricingProrationsLoader from '@/app/PricingProrationsLoader'
 import Button from '@/elements/Button'
 
@@ -13,12 +11,14 @@ const useOpenPricingProrationsSidePanel = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  const openPricingProrationsSidePanel = React.useCallback((plan, promoCode) => {
+  return React.useCallback((artist, promoCode) => {
+    const { id: artistId, plan } = artist
+    const [planPrefix] = plan.split('_')
     const content = (
       <div>
         <h2 className="mb-8 pr-12">Payment</h2>
         <PricingProrationsLoader
-          plan={plan}
+          profilesToUpgrade={{ [artistId]: planPrefix }}
           promoCode={promoCode}
         />
       </div>
@@ -30,8 +30,6 @@ const useOpenPricingProrationsSidePanel = () => {
     setSidePanelButton(button)
     toggleSidePanel(true)
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
-
-  return openPricingProrationsSidePanel
 }
 
 export default useOpenPricingProrationsSidePanel

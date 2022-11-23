@@ -12,20 +12,20 @@ import brandColors from '@/constants/brandColors'
 import { pricingNumbers, pricingPlans } from '@/constants/pricing'
 
 import { capitalise } from '@/helpers/utils'
-import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 const PricingPlanUpgradePlan = ({
-  plan,
-  setPlan,
+  profilesToUpgrade,
+  setProfilesToUpgrade,
   setCurrentStep,
   setSidePanelButton,
   currencyCode,
   canChooseBasic,
+  isAnnualPricing,
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { name, hasCancelledPlan } = artist
-  const [planPrefix] = plan.split('_')
-  const pricingPlan = pricingPlans.find(({ name }) => name === planPrefix)
+  const artistPlan = profilesToUpgrade[artist.id]
+  const pricingPlan = pricingPlans.find(({ name }) => name === artistPlan)
   const {
     basic: basicPlanNumbers,
     growth: growthPlanNumbers,
@@ -33,7 +33,13 @@ const PricingPlanUpgradePlan = ({
   } = pricingNumbers
 
   const handleChange = (plan) => {
-    setPlan(getPricingPlanString(plan, false))
+    setProfilesToUpgrade({
+      type: 'update-profile-plan',
+      payload: {
+        profileId: artist.id,
+        plan,
+      },
+    })
   }
 
   const next = React.useCallback(() => {
@@ -43,7 +49,7 @@ const PricingPlanUpgradePlan = ({
   React.useEffect(() => {
     const button = (
       <Button version="insta" onClick={next} trackComponentName="PricingPlanUpgradePlan">
-        {hasCancelledPlan ? 'Choose' : 'Update to'} {capitalise(planPrefix)}
+        {hasCancelledPlan ? 'Choose' : 'Update to'} {capitalise(artistPlan)}
         <ArrowAltIcon
           className="ml-3"
           direction="right"
@@ -53,7 +59,7 @@ const PricingPlanUpgradePlan = ({
     )
 
     setSidePanelButton(button)
-  }, [next, setSidePanelButton, planPrefix, hasCancelledPlan])
+  }, [next, setSidePanelButton, artistPlan, hasCancelledPlan])
 
   return (
     <div>
@@ -65,8 +71,8 @@ const PricingPlanUpgradePlan = ({
           name="basic"
           pricingPlan={pricingPlan}
           pricingPlanNumbers={basicPlanNumbers}
-          selectedPlan={planPrefix}
-          isAnnualPricing={false}
+          selectedPlan={artistPlan}
+          isAnnualPricing={isAnnualPricing}
           handleChange={handleChange}
           currencyCode={currencyCode}
           className="mb-4"
@@ -76,8 +82,8 @@ const PricingPlanUpgradePlan = ({
         name="growth"
         pricingPlan={pricingPlan}
         pricingPlanNumbers={growthPlanNumbers}
-        selectedPlan={planPrefix}
-        isAnnualPricing={false}
+        selectedPlan={artistPlan}
+        isAnnualPricing={isAnnualPricing}
         handleChange={handleChange}
         currencyCode={currencyCode}
         className="mb-4"
@@ -86,8 +92,8 @@ const PricingPlanUpgradePlan = ({
         name="pro"
         pricingPlan={pricingPlan}
         pricingPlanNumbers={proPlanNumbers}
-        selectedPlan={planPrefix}
-        isAnnualPricing={false}
+        selectedPlan={artistPlan}
+        isAnnualPricing={isAnnualPricing}
         handleChange={handleChange}
         currencyCode={currencyCode}
       />
@@ -96,16 +102,16 @@ const PricingPlanUpgradePlan = ({
 }
 
 PricingPlanUpgradePlan.propTypes = {
-  plan: PropTypes.string,
-  setPlan: PropTypes.func,
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])),
+  setProfilesToUpgrade: PropTypes.func,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
   currencyCode: PropTypes.string,
 }
 
 PricingPlanUpgradePlan.defaultProps = {
-  plan: '',
-  setPlan: () => {},
+  profilesToUpgrade: {},
+  setProfilesToUpgrade: () => {},
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
   currencyCode: 'GBP',

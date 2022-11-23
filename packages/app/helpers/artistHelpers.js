@@ -729,10 +729,10 @@ export const hasAllProfilesOnNoPlan = (organizationArtists) => {
 }
 
 export const hasAProfileOnGrowthOrPro = (organizationArtists) => {
-  return organizationArtists.some(({ plan }) => {
+  return organizationArtists.some(({ plan, status }) => {
     const [planPrefix] = plan?.split('_') || []
 
-    return planPrefix === 'growth' || planPrefix === 'pro'
+    return (planPrefix === 'growth' || planPrefix === 'pro') && status === 'active'
   })
 }
 

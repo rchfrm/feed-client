@@ -171,7 +171,7 @@ function ArtistProvider({ children }) {
     const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
     const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
     const hasNoPlan = !artist?.plan
-    const hasCancelledPlan = artist.status === 'unpaid' && !hasNoPlan
+    const hasCancelledPlan = artist.status !== 'active'
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
