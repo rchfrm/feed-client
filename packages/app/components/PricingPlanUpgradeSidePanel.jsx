@@ -64,6 +64,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
 
   React.useEffect(() => {
     if (!hasBillingAccess || profilesToUpgrade[artist.id]) return
+
     setProfilesToUpgrade({
       type: 'initialize',
       payload: {

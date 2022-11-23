@@ -9,7 +9,7 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   setProfilesToUpgrade,
   canChooseBasic,
 }) => {
-  const { artistId: profileInContextID } = React.useContext(ArtistContext)
+  const { artistId: profileInContextId } = React.useContext(ArtistContext)
 
   const [idOfProfileOnBasic, setIdOfProfileOnBasic] = React.useState('')
 
@@ -26,22 +26,27 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   React.useEffect(() => {
     const profilesToUpgradeIds = Object.keys(profilesToUpgrade)
     if (!profilesToUpgradeIds.length === 0) return
+
     const profileWithBasic = profilesToUpgradeIds.find((id) => {
       return profilesToUpgrade[id] === 'basic'
     })
+
     setIdOfProfileOnBasic(profileWithBasic || '')
   }, [profilesToUpgrade])
 
   const planOptions = React.useCallback((canChooseBasic) => {
     const options = ['growth', 'pro']
-    if (canChooseBasic && profile.id === profileInContextID) {
+
+    if (canChooseBasic && profile.id === profileInContextId) {
       options.unshift('basic')
     }
-    if (profile.id !== profileInContextID && profile.status !== 'active') {
+
+    if (profile.id !== profileInContextId && profile.status !== 'active') {
       options.push('none')
     }
+
     return options
-  }, [profileInContextID, profile.id, profile.status])
+  }, [profileInContextId, profile.id, profile.status])
 
   const handleOnChange = (plan) => {
     setProfilesToUpgrade({

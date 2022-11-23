@@ -153,6 +153,7 @@ export const handleInitialize = (draftState, payload) => {
     selectedArtistID,
     selectedArtistPlan,
   } = payload
+
   if (!orgArtists || !selectedArtistID || !selectedArtistPlan) return draftState
 
   return orgArtists.reduce((acc, orgArtist) => {
@@ -164,13 +165,16 @@ export const handleInitialize = (draftState, payload) => {
       const [planPrefix] = orgArtist.plan?.split('_') || 'growth'
       acc[orgArtist.id] = planPrefix
     }
+
     return acc
   }, {})
 }
 
 export const handleUpdateProfilePlan = (draftState, payload) => {
   const { profileId, plan } = payload
+
   if (!profileId || !plan || !Object.hasOwn(draftState, profileId)) return draftState
+
   if (plan === 'basic') {
     return Object.keys(draftState).reduce((acc, id) => {
       if (id === profileId) {
@@ -181,6 +185,7 @@ export const handleUpdateProfilePlan = (draftState, payload) => {
       return acc
     }, draftState)
   }
+
   draftState[profileId] = plan
   return draftState
 }
@@ -460,11 +465,13 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
 export const formatProfilesToUpgrade = (profilesToUpgrade, isAnnualPricing) => {
   return Object.keys(profilesToUpgrade).reduce((acc, cur) => {
     const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
+
     if (planPrefix === 'none') {
       acc[cur] = undefined
     } else {
       acc[cur] = getPricingPlanString(profilesToUpgrade[cur], isAnnualPricing)
     }
+
     return acc
   }, {})
 }
