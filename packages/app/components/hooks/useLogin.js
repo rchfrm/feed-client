@@ -11,12 +11,12 @@ import useFbRedirect from '@/app/hooks/useFbRedirect'
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import {acceptProfileInvite, getMissingScopes} from '@/app/helpers/artistHelpers'
+import { acceptProfileInvite, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
-import {getLocalStorage, setLocalStorage} from '@/helpers/utils'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 const useLogin = (initialPathname, initialFullPath, showContent) => {
   const {
