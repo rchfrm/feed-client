@@ -4,15 +4,17 @@ import useControlsStore from '@/app/stores/controlsStore'
 import FileUpload from '@/app/FileUpload'
 import TextArea from '@/elements/TextArea'
 import PostLinkCheckBoxSelect from '@/app/PostLinkCheckBoxSelect'
+import PostCallToActionCheckboxSelect from '@/app/PostCallToActionCheckboxSelect'
 import Button from '@/elements/Button'
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
-  optimizationPreferences: state.optimizationPreferences,
+  postsPreferences: state.postsPreferences,
 })
 
 const AdCreation = () => {
-  const { defaultLink } = useControlsStore(getControlsStoreState)
+  const { defaultLink, postsPreferences } = useControlsStore(getControlsStoreState)
+  const { callToAction: defaultCallToAction } = postsPreferences
 
   const [file, setFile] = React.useState(null)
   const [caption, setCaption] = React.useState('')
@@ -21,6 +23,10 @@ const AdCreation = () => {
     id: defaultLink.id,
     href: defaultLink.href,
   })
+  const [callToActions, setCallToActions] = React.useState([])
+  const [currentCallToAction, setCurrentCallToAction] = React.useState('')
+  const [currentCallToActionId, setCurrentCallToActionId] = React.useState('')
+  const [isDefaultCallToAction, setIsDefaultCallToAction] = React.useState(true)
 
   const { setSidePanelButton } = React.useContext(SidePanelContext)
 
@@ -34,10 +40,11 @@ const AdCreation = () => {
       file,
       caption,
       link: isDefaultLink ? defaultLink?.id : currentLink.id,
+      callToAction: isDefaultCallToAction ? defaultCallToAction : currentCallToAction,
     }
 
     console.log(data)
-  }, [file, caption, isDefaultLink, defaultLink.id, currentLink.id])
+  }, [file, caption, isDefaultLink, defaultLink?.id, currentLink?.id, currentCallToAction, defaultCallToAction, isDefaultCallToAction])
 
   React.useEffect(() => {
     const button = (
@@ -54,7 +61,7 @@ const AdCreation = () => {
   }, [setSidePanelButton, save])
 
   return (
-    <div>
+    <div className="pr-10">
       <h2 className="mb-8">Create ad</h2>
       <p className="font-bold">1. Upload image</p>
       <FileUpload setFile={setFile} />
@@ -71,6 +78,16 @@ const AdCreation = () => {
         setCurrentLink={setCurrentLink}
         isDefaultLink={isDefaultLink}
         setIsDefaultLink={setIsDefaultLink}
+      />
+      <PostCallToActionCheckboxSelect
+        currentCallToAction={currentCallToAction}
+        setCurrentCallToAction={setCurrentCallToAction}
+        currentCallToActionId={currentCallToActionId}
+        setCurrentCallToActionId={setCurrentCallToActionId}
+        isDefaultCallToAction={isDefaultCallToAction}
+        setIsDefaultCallToAction={setIsDefaultCallToAction}
+        callToActions={callToActions}
+        setCallToActions={setCallToActions}
       />
     </div>
   )
