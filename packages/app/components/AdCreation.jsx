@@ -52,13 +52,14 @@ const AdCreation = () => {
         version="green"
         onClick={save}
         trackComponentName="AdCreation"
+        disabled={!file || !caption}
       >
         Save
       </Button>
     )
 
     setSidePanelButton(button)
-  }, [setSidePanelButton, save])
+  }, [setSidePanelButton, save, caption, file])
 
   return (
     <div className="pr-10">
