@@ -653,5 +653,15 @@ export const getInitialPostsImportStatus = async (artistId) => {
 }
 
 export const canBePromoted = (eligibility) => {
-  return Object.values(eligibility).some(platformEligibility => Object.values(platformEligibility).some(Boolean))
+  return Object.values(eligibility).some((platformEligibility) => Object.values(platformEligibility).some(Boolean))
+}
+
+export const createAd = (artistId, formData) => {
+  const endpoint = `/artists/${artistId}/assets/custom`
+  const payload = formData
+  const errorTracking = {
+    category: 'Post',
+    action: 'Create ad',
+  }
+  return requestWithCatch('post', endpoint, payload, errorTracking)
 }

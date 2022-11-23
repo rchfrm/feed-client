@@ -1,11 +1,14 @@
 import React from 'react'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useControlsStore from '@/app/stores/controlsStore'
 import FileUpload from '@/app/FileUpload'
-import TextArea from '@/elements/TextArea'
 import PostLinkCheckBoxSelect from '@/app/PostLinkCheckBoxSelect'
 import PostCallToActionCheckboxSelect from '@/app/PostCallToActionCheckboxSelect'
+import TextArea from '@/elements/TextArea'
 import Button from '@/elements/Button'
+import Error from '@/elements/Error'
+import { createAd } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
@@ -27,7 +30,10 @@ const AdCreation = () => {
   const [currentCallToAction, setCurrentCallToAction] = React.useState('')
   const [currentCallToActionId, setCurrentCallToActionId] = React.useState('')
   const [isDefaultCallToAction, setIsDefaultCallToAction] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
+  const { artistId } = React.useContext(ArtistContext)
   const { setSidePanelButton } = React.useContext(SidePanelContext)
 
   const handleChange = ({ target }) => {
@@ -35,16 +41,23 @@ const AdCreation = () => {
     setCaption(value)
   }
 
-  const save = React.useCallback(() => {
-    const data = {
-      file,
-      caption,
-      link: isDefaultLink ? defaultLink?.id : currentLink.id,
-      callToAction: isDefaultCallToAction ? defaultCallToAction : currentCallToAction,
+  const save = React.useCallback(async () => {
+    setIsLoading(true)
+
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('caption', caption)
+    formData.append('link', isDefaultLink ? defaultLink?.id : currentLink.id)
+    formData.append('callToAction', isDefaultCallToAction ? defaultCallToAction : currentCallToAction)
+
+    const { error } = await createAd(artistId, formData)
+    if (error) {
+      setError(error)
+      setIsLoading(false)
     }
 
-    console.log(data)
-  }, [file, caption, isDefaultLink, defaultLink?.id, currentLink?.id, currentCallToAction, defaultCallToAction, isDefaultCallToAction])
+    setIsLoading(false)
+  }, [file, caption, isDefaultLink, defaultLink?.id, currentLink?.id, currentCallToAction, defaultCallToAction, isDefaultCallToAction, artistId])
 
   React.useEffect(() => {
     const button = (
@@ -53,13 +66,14 @@ const AdCreation = () => {
         onClick={save}
         trackComponentName="AdCreation"
         disabled={!file || !caption}
+        loading={isLoading}
       >
         Save
       </Button>
     )
 
     setSidePanelButton(button)
-  }, [setSidePanelButton, save, caption, file])
+  }, [setSidePanelButton, save, caption, file, isLoading])
 
   return (
     <div className="pr-10">
@@ -90,14 +104,9 @@ const AdCreation = () => {
         callToActions={callToActions}
         setCallToActions={setCallToActions}
       />
+      <Error error={error} />
     </div>
   )
-}
-
-AdCreation.propTypes = {
-}
-
-AdCreation.defaultProps = {
 }
 
 export default AdCreation

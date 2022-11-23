@@ -56,6 +56,7 @@ const PostLinkCheckBoxSelect = ({
         checked={isDefaultLink}
         onChange={handleChange}
         disabled={isDisabled}
+        className="break-all"
       />
       {!isDefaultLink && (
         <PostLinksSelect
