@@ -7,7 +7,7 @@ import useLogin from '@/app/hooks/useLogin'
 import useSignup from '@/app/hooks/useSignup'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
-import {parseUrl, setLocalStorage} from '@/helpers/utils'
+import { parseUrl, setLocalStorage } from '@/helpers/utils'
 
 let userRedirected = false
 
