@@ -16,6 +16,7 @@ const PricingProrations = ({
 }) => {
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
   const planPeriod = isAnnualPricing ? 'annual' : 'monthly'
+  console.log('prorationsPreview', prorationsPreview)
 
   const {
     currency,
