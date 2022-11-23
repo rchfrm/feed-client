@@ -1,16 +1,13 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
 import useAsyncEffect from 'use-async-effect'
-
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
-
 import useLogin from '@/app/hooks/useLogin'
 import useSignup from '@/app/hooks/useSignup'
-
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
+import {parseUrl, setLocalStorage} from '@/helpers/utils'
 
 let userRedirected = false
 
@@ -56,6 +53,16 @@ const InitUser = ({ children }) => {
   // HOOKS
   const { handleExistingUser, handleNoAuthUser, detectSignedInUser } = useLogin(initialPathname, initialFullPath, showContent)
   const { rejectNewUser } = useSignup(initialPathname, initialFullPath)
+
+  // Store query params in local storage
+  React.useEffect(() => {
+    const { query } = parseUrl(initialFullPath)
+    const profileInviteToken = decodeURIComponent(query?.profileInvite || '')
+    if (profileInviteToken) {
+      setLocalStorage('inviteToken', profileInviteToken)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // HANDLE Invalid FB credential
   const handleFbInvalidCredential = (message) => {
