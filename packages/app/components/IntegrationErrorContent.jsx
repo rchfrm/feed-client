@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { requestVerificationEmail } from '@/app/helpers/appServer'
-import { handleFbRedirect } from '@/app/helpers/facebookHelpers'
+import { handleFbAuthRedirect } from '@/app/helpers/facebookHelpers'
 
 import { AuthContext } from '@/contexts/AuthContext'
 
@@ -62,7 +62,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     if (ctaType === 'fb_reauth') {
       const { data: { required_scope: requiredScope = [] } } = integrationError
       const onClick = () => {
-        handleFbRedirect(auth, requiredScope, router.pathname)
+        handleFbAuthRedirect(auth, requiredScope, router.pathname)
       }
 
       return [{

@@ -46,7 +46,7 @@ const useEditIntegration = ({
   // FUNCTION TO OPEN EDIT MODAL
   const openIntegrationModal = React.useCallback((integration, action = 'add', error) => {
     const { platform, title: plaformTitle } = integration
-    const cannotDelete = platform === 'facebook' || platform === 'instagram'
+    const cannotDelete = platform === 'facebook' || platform === 'instagram' || platform === 'tiktok'
     const buttons = cannotDelete
       ? [
         {

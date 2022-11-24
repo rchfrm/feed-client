@@ -139,21 +139,6 @@ export const updateLocation = (artistId, countryCode) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
-// Update access token
-/**
-* @param {string} artistId
-* @returns {Promise<object>} { res, error }
-*/
-export const updateAccessToken = (artistId) => {
-  const requestUrl = `/artists/${artistId}/access_token`
-  const payload = null
-  const errorTracking = {
-    category: 'Artist',
-    action: 'Update access token',
-  }
-  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
-}
-
 /**
  * Create sorted array of artist accounts
  * First show accounts that don't already exists, then sort name alphabetically
@@ -754,10 +739,26 @@ export const updateArtist = (artist, data) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
+// Update access token
+/**
+* @param {string} artistId
+* @param {string} platform
+* @returns {Promise<object>} { res, error }
+*/
+export const updateAccessToken = (artistId, platform) => {
+  const requestUrl = `/artists/${artistId}/${platform}/access_token`
+  const payload = null
+  const errorTracking = {
+    category: 'Artist',
+    action: `Update ${platform} access token`,
+  }
+  return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
 /**
  * @param {string} artistId
  * @param {string} postType
- * @param {boolean} defaultPromotionStatus
+ * @param {object} defaultPromotionStatus
  * @returns {Promise<any>}
  */
 export const batchTogglePromotionEnabled = async (artistId, postType, defaultPostStatus) => {
@@ -778,7 +779,7 @@ export const batchTogglePromotionEnabled = async (artistId, postType, defaultPos
 /**
  * @param {string} artistId
  * @param {string} postType
- * @param {boolean} defaultPromotionStatus
+ * @param {object} defaultPromotionStatus
  * @returns {Promise<any>}
  */
 export const updateDefaultPromotionStatus = async (artistId, postType, defaultPostStatus) => {

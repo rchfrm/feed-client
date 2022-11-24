@@ -3,7 +3,7 @@ import * as queryString from 'query-string'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import useFbRedirect from '@/app/hooks/useFbRedirect'
+import usePlatformRedirect from '@/app/hooks/usePlatformRedirect'
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
@@ -24,7 +24,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
   const { setNoUser, storeUser } = React.useContext(UserContext)
   const { setNoArtist, storeArtist } = React.useContext(ArtistContext)
 
-  const { checkAndHandleFbRedirect } = useFbRedirect()
+  const { checkAndHandlePlatformRedirect } = usePlatformRedirect()
 
   // Handle no auth user
   const handleNoAuthUser = React.useCallback((authError) => {
@@ -94,7 +94,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // if they don't, set setNoArtist, and push them to the Connect Artist page
     if (!invitedArtistId && artists.length === 0) {
       // Check whether we're coming from a manual oauth FB redirect...
-      await checkAndHandleFbRedirect()
+      await checkAndHandlePlatformRedirect()
 
       fireSentryBreadcrumb({
         category: 'login',
@@ -137,7 +137,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     await storeArtist(selectedArtistId, false)
 
     // Check whether we're coming from a manual oauth FB redirect...
-    await checkAndHandleFbRedirect(selectedArtistId)
+    await checkAndHandlePlatformRedirect(selectedArtistId)
 
     // If the user has gained access to a new profile due to accepting
     // an invitation, push to the profile invite success page
@@ -165,7 +165,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       return signupHelpers.redirectPage(ROUTES.HOME, initialPathname, true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser, checkAndHandleFbRedirect])
+  }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser, checkAndHandlePlatformRedirect])
 
   // Detect signed in user
   const handleInitialAuthCheck = React.useCallback(async (authUser, authError) => {

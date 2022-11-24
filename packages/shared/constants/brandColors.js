@@ -56,6 +56,10 @@ const brandColors = {
     bg: '#FA5450',
     text: white,
   },
+  tiktok: {
+    bg: black,
+    text: white,
+  },
 }
 
 export default brandColors
