@@ -13,7 +13,6 @@ import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpe
 import * as ROUTES from '@/app/constants/routes'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
-
 const useLogin = (initialPathname, initialFullPath, showContent) => {
   const {
     setNoAuth,
@@ -49,12 +48,10 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     let invitedArtistId = ''
 
     if (inviteToken) {
-      const { res, error } = await acceptProfileInvite(inviteToken)
-      console.log('error', error)
+      const { res } = await acceptProfileInvite(inviteToken)
       setLocalStorage('inviteToken', '')
 
       if (res) {
-        console.log('res', res)
         invitedArtistId = res.profileId
       }
     }
