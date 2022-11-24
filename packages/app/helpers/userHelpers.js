@@ -28,7 +28,8 @@ export const getUserOrganizations = (user, orgTypes = 'owned') => {
 
 // Set access token
 /**
- * @param {string} code
+ * @param {string} authCode
+ * @param {string} platform
  * @param {string} redirectUrl
  * @returns {Promise<any>}
  */
