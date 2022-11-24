@@ -72,7 +72,12 @@ export default {
   },
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
-  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, planPeriod, amount) => {
+  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, planPeriod, amount, isManaged) => {
+    if (isManaged) {
+      return `#### No payment method needed.
+
+      Simply click next to complete the get started process.`
+    }
     const baseString = defaultPaymentMethod ? 'Confirm your default card' : 'Add a card'
 
     if (planPrefix === 'basic' || planPrefix === 'legacy') {

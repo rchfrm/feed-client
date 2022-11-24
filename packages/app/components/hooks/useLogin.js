@@ -1,21 +1,17 @@
 import React from 'react'
-
 import * as queryString from 'query-string'
-
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import usePlatformRedirect from '@/app/hooks/usePlatformRedirect'
-
 import * as utils from '@/helpers/utils'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-import { getMissingScopes } from '@/app/helpers/artistHelpers'
+import { acceptProfileInvite, getMissingScopes } from '@/app/helpers/artistHelpers'
 import { trackLogin } from '@/helpers/trackingHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
-
 import * as ROUTES from '@/app/constants/routes'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 const useLogin = (initialPathname, initialFullPath, showContent) => {
   const {
@@ -38,8 +34,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     setNoArtist()
     // Check if the user is on an auth only page,
     // if they are push to log in page
-    const userRedirected = signupHelpers.kickToLogin({ initialPathname, initialFullPath, setRejectedPagePath })
-    return userRedirected
+    return signupHelpers.kickToLogin({ initialPathname, initialFullPath, setRejectedPagePath })
   }, [setNoAuth, setNoUser, setNoArtist, setRejectedPagePath, initialPathname, initialFullPath])
 
   // Handle existing user
@@ -48,6 +43,19 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       category: 'login',
       action: 'handleExistingUser',
     })
+
+    const inviteToken = getLocalStorage('inviteToken')
+    let invitedArtistId = ''
+
+    if (inviteToken) {
+      const { res } = await acceptProfileInvite(inviteToken)
+      setLocalStorage('inviteToken', '')
+
+      if (res) {
+        invitedArtistId = res.profileId
+      }
+    }
+
     // If it is a pre-existing user, store their profile in the user context
     const { user, error } = await storeUser()
     if (error) {
@@ -80,13 +88,12 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     }
     if (user.is_email_verification_needed) {
       setNoArtist()
-      const userRedirected = signupHelpers.redirectPage(ROUTES.CONFIRM_EMAIL, initialPathname)
-      return userRedirected
+      return signupHelpers.redirectPage(ROUTES.CONFIRM_EMAIL, initialPathname)
     }
     // Check if they have artists connected to their account or not,
     // if they don't, set setNoArtist, and push them to the Connect Artist page
-    if (artists.length === 0) {
-      // Check whether we're coming from a manual oauth platform redirect...
+    if (!invitedArtistId && artists.length === 0) {
+      // Check whether we're coming from a manual oauth FB redirect...
       await checkAndHandlePlatformRedirect()
 
       fireSentryBreadcrumb({
@@ -98,39 +105,54 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       trackLogin({ authProvider: 'facebook', userId: user.id })
       setNoArtist()
       if (additionalUserInfo) {
-        const userRedirected = signupHelpers.redirectPage(ROUTES.CONNECT_ACCOUNTS, initialPathname)
-        return userRedirected
+        return signupHelpers.redirectPage(ROUTES.CONNECT_ACCOUNTS, initialPathname)
       }
       return
     }
     // If they do have artists, check for artist ID from query string parameter
     // or a previously selected artist ID in local storage
-    const queryStringArtistId = queryString.parse(window.location.search).artistId
-    if (queryStringArtistId) {
-      utils.setLocalStorage('artistId', queryStringArtistId)
+    let selectedArtistId = invitedArtistId
+    if (!selectedArtistId) {
+      const queryStringArtistId = queryString.parse(window.location.search).artistId
+      if (queryStringArtistId) {
+        utils.setLocalStorage('artistId', queryStringArtistId)
+      }
+      const storedArtistId = utils.getLocalStorage('artistId')
+      // Check that the storedArtistId is one the user has access to...
+      const hasAccess = artists.find(({ id }) => id === storedArtistId)
+      // if they don't have access, clear artistId in local storage
+      if (!hasAccess) {
+        utils.setLocalStorage('artistId', '')
+        fireSentryBreadcrumb({
+          category: 'login',
+          action: 'handleExistingUser',
+          label: `no access to artist (id:${storedArtistId})`,
+        })
+      }
+      // If they do have access set it as the selectedArtistId,
+      // otherwise use the first related artist (sorted alphabetically)
+      selectedArtistId = hasAccess ? storedArtistId : artists[0].id
     }
-    const storedArtistId = utils.getLocalStorage('artistId')
-    // Check that the storedArtistId is one the user has access to...
-    const hasAccess = artists.find(({ id }) => id === storedArtistId)
-    // if they don't have access, clear artistId in local storage
-    if (!hasAccess) {
-      utils.setLocalStorage('artistId', '')
+
+    await storeArtist(selectedArtistId, false)
+
+    // Check whether we're coming from a manual oauth FB redirect...
+    await checkAndHandlePlatformRedirect(selectedArtistId)
+
+    // If the user has gained access to a new profile due to accepting
+    // an invitation, push to the profile invite success page
+    if (invitedArtistId) {
       fireSentryBreadcrumb({
         category: 'login',
         action: 'handleExistingUser',
-        label: `no access to artist (id:${storedArtistId})`,
+        label: 'go to profile invite success page',
       })
+      // Track login
+      trackLogin({ method: 'already logged in', userId: user.id })
+      return signupHelpers.redirectPage(ROUTES.PROFILE_INVITE_SUCCESS, initialFullPath)
     }
-    // If they do have access set it as the selectedArtistId,
-    // otherwise use the first related artist (sorted alphabetically)
-    const selectedArtistId = hasAccess ? storedArtistId : artists[0].id
-    await storeArtist(selectedArtistId, false)
 
-    // Check whether we're coming from a manual oauth platform redirect...
-    await checkAndHandlePlatformRedirect(selectedArtistId)
-
-    // Check if they are on either the log-in or sign-up page,
-    // if they are push to the home page
+    // If the user is on either the log-in or sign-up page, push to the home page
     if (ROUTES.signedOutPages.includes(initialPathname)) {
       fireSentryBreadcrumb({
         category: 'login',
@@ -140,11 +162,9 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       // Track login
       trackLogin({ method: 'already logged in', userId: user.id })
       // Redirect to page they tried to access (or home page)
-      const defaultLandingPage = ROUTES.HOME
-      const useRejectedPagePath = true
-      const userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
-      return userRedirected
+      return signupHelpers.redirectPage(ROUTES.HOME, initialPathname, true)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setMissingScopes, setNoArtist, storeArtist, storeUser, initialPathname, handleNoAuthUser, checkAndHandlePlatformRedirect])
 
   // Detect signed in user
@@ -168,8 +188,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       })
     // Store auth
     await storeAuth({ authUser, authToken, authError })
-    const userRedirected = await handleExistingUser({ authUser })
-    return userRedirected
+    return handleExistingUser({ authUser })
   }, [handleExistingUser, storeAuth, handleNoAuthUser])
 
   const detectSignedInUser = React.useCallback((isMounted, fbRedirectError) => {

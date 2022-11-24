@@ -3,7 +3,7 @@ import { sortArtistsAlphabetically } from '@/app/helpers/artistHelpers'
 import * as api from '@/helpers/api'
 
 export const sortUserArtists = (user) => {
-  return produce(user, draft => {
+  return produce(user, (draft) => {
     draft.artists = sortArtistsAlphabetically(Object.values(user.artists))
   })
 }

@@ -181,7 +181,7 @@ export const removeAlreadyConnectedArtists = (newArtists, userArtists) => {
   })
 }
 
-export const processArtists = async ({ artists }) => {
+export const processArtists = ({ artists }) => {
   const artistsProcessed = Object.values(artists).map((artist) => {
     const {
       instagram_username,
@@ -714,10 +714,10 @@ export const hasAllProfilesOnNoPlan = (organizationArtists) => {
 }
 
 export const hasAProfileOnGrowthOrPro = (organizationArtists) => {
-  return organizationArtists.some(({ plan }) => {
+  return organizationArtists.some(({ plan, status }) => {
     const [planPrefix] = plan?.split('_') || []
 
-    return planPrefix === 'growth' || planPrefix === 'pro'
+    return (planPrefix === 'growth' || planPrefix === 'pro') && status === 'active'
   })
 }
 
@@ -799,4 +799,75 @@ export const updateDefaultPromotionStatus = async (artistId, postType, defaultPo
   }
 
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} artistId
+ * @returns {Promise<any>}
+ */
+export const getPendingProfileInvites = async (artistId) => {
+  const requestUrl = '/profile_invites'
+  const payload = {
+    profileId: artistId,
+    status: 'pending',
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Get profile invites',
+  }
+
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} artistId
+ * @param {string} email
+ * @returns {Promise<any>}
+ */
+export const sendProfileInvite = async (artistId, email) => {
+  const requestUrl = '/profile_invites'
+  const payload = {
+    profileId: artistId,
+    userEmail: email,
+  }
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Send profile invite',
+  }
+
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @param {string} token
+ * @returns {Promise<any>}
+ */
+export const acceptProfileInvite = async (token) => {
+  const requestUrl = `profile_invites/${token}/accept`
+  const payload = null
+
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Accept profile invite',
+  }
+
+  return api.requestWithCatch('post', requestUrl, payload, errorTracking)
+}
+
+export const formatProfileUsers = (profileUsers, profileInvites) => {
+  const formattedProfileUsers = Object.values(profileUsers).reduce((result, profileUser) => {
+    result.push({
+      id: profileUser.id,
+      name: profileUser.name,
+      userEmail: profileUser.email,
+      status: profileUser.role,
+    })
+
+    return result
+  }, [])
+  const sortedProfileUsers = formattedProfileUsers.sort((a, b) => b.status.localeCompare(a.status))
+
+  return [...sortedProfileUsers, ...profileInvites]
 }

@@ -60,6 +60,7 @@ const initialState = {
   setTargetingLoading: () => {},
   budgetSlider: {},
   setBudgetSlider: () => {},
+  updateCampaignBudget: () => {},
 }
 
 const TargetingContext = React.createContext(initialState)
@@ -127,6 +128,15 @@ const TargetingContextProvider = ({ children }) => {
     setTargetingState((targetingState) => {
       return produce(targetingState, draftState => {
         draftState.budget = budget
+      })
+    })
+  }, [])
+
+  // FUNCTION TO UPDATE CAMPAIGN BUDGET
+  const updateCampaignBudget = React.useCallback((campaignBudget) => {
+    setTargetingState((targetingState) => {
+      return produce(targetingState, draftState => {
+        draftState.campaignBudget = campaignBudget
       })
     })
   }, [])
@@ -272,9 +282,15 @@ const TargetingContextProvider = ({ children }) => {
   // PAUSE CAMPAIGN
   const togglePauseCampaign = React.useCallback(() => {
     const { status } = initialTargetingState
-    const paused = status === 0
-    const newPausedState = paused ? 1 : 0
-    const newSettings = produce(initialTargetingState, draftState => {
+    const isPaused = status === 0
+    const newPausedState = isPaused ? 1 : 0
+    const newSettings = produce(initialTargetingState, (draftState) => {
+      if (isPaused) {
+        draftState.campaignBudget.startDate = null
+        draftState.campaignBudget.endDate = null
+        draftState.campaignBudget.totalBudget = 0
+      }
+
       draftState.status = newPausedState
     })
     saveTargetingSettings(newSettings)
@@ -373,6 +389,7 @@ const TargetingContextProvider = ({ children }) => {
         targetingLoading,
         budgetSlider,
         setBudgetSlider,
+        updateCampaignBudget,
       }}
     >
       {children}

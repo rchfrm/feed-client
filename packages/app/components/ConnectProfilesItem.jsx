@@ -1,17 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-
 import useBillingStore from '@/app/stores/billingStore'
-
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import ArtistImage from '@/elements/ArtistImage'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
-
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import * as ROUTES from '@/app/constants/routes'
+import { getLocalStorage } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,
@@ -22,18 +19,20 @@ const ConnectProfilesItem = ({
   setSelectedProfile,
   setIsConnecting,
   isConnected,
+  setErrors,
   className,
 }) => {
   const { name, page_id, instagram_username } = profile
   const { user } = React.useContext(UserContext)
   const { connectArtist } = React.useContext(ArtistContext)
   const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  let { plan } = wizardState || {}
 
   const createArtist = async () => {
     setIsConnecting(true)
     setSelectedProfile(profile)
 
-    let plan
     const hasAllProfilesOnLegacyPlan = artistHelpers.hasAllProfilesOnLegacyPlan(organizationArtists)
 
     if (hasAllProfilesOnLegacyPlan) {
@@ -46,6 +45,8 @@ const ConnectProfilesItem = ({
 
     if (error) {
       setIsConnecting(false)
+      setErrors([error])
+      return
     }
 
     Router.push(ROUTES.GET_STARTED)
@@ -85,12 +86,14 @@ ConnectProfilesItem.propTypes = {
   setSelectedProfile: PropTypes.func,
   setIsConnecting: PropTypes.func,
   isConnected: PropTypes.bool.isRequired,
+  setErrors: PropTypes.func,
   className: PropTypes.string,
 }
 
 ConnectProfilesItem.defaultProps = {
   setSelectedProfile: () => {},
   setIsConnecting: () => {},
+  setErrors: () => {},
   className: null,
 }
 

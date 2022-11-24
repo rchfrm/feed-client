@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
@@ -84,6 +85,7 @@ const useSaveTargeting = ({
   spendingPaused,
   isFirstTimeUser = false,
   spendingData = {},
+  setIsCampaignEdit,
 }) => {
   // GET ARTIST CONTEXT
   const { artist: { feedMinBudgetInfo } } = React.useContext(ArtistContext)
@@ -141,7 +143,7 @@ const useSaveTargeting = ({
     if (togglePauseCampaign) {
       const children = (
         <TargetingBudgetPauseAlert
-          togglePauseCampaign={togglePauseCampaign}
+          onConfirm={togglePauseCampaign}
           budget={savedState.budget}
           spendingData={spendingData}
           currency={currencyCode}
@@ -197,6 +199,36 @@ const useSaveTargeting = ({
       return
     }
 
+    if (trigger === 'campaignBudget') {
+      const shouldStartSpendingToday = moment().isSame(moment(savedState.campaignBudget.startDate), 'day')
+      const updatedState = {
+        ...savedState,
+        status: shouldStartSpendingToday ? 1 : 0,
+      }
+
+      if (!savedState.campaignBudget.startDate) {
+        const onConfirm = () => {
+          saveTargetingSettings(updatedState)
+          setIsCampaignEdit(true)
+        }
+
+        const children = (
+          <TargetingBudgetPauseAlert
+            onConfirm={onConfirm}
+            budget={updatedState.budget}
+            spendingData={spendingData}
+            currency={currencyCode}
+            closeAlert={closeAlert}
+          />
+        )
+
+        showAlert({ children })
+        return
+      }
+
+      return saveTargetingSettings(updatedState)
+    }
+
     // TRACK BUDGET CHANGE
     if (trigger === 'budget') {
       track('set_daily_budget', {
@@ -208,7 +240,7 @@ const useSaveTargeting = ({
 
     // Basic save (eg when just changing budget)
     return saveTargetingSettings(savedState)
-  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser, feedMinBudgetInfo, currencyCode, currencyOffset, spendingData])
+  }, [saveTargetingSettings, togglePauseCampaign, targetingState, initialTargetingState, showAlert, closeAlert, spendingPaused, isFirstTimeUser, feedMinBudgetInfo, currencyCode, currencyOffset, spendingData, setIsCampaignEdit])
 
   return saveTargeting
 }

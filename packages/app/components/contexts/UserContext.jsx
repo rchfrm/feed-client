@@ -12,8 +12,8 @@ import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 
 // Read from referralStore
-const getGetStoredReferrerCode = state => state.getStoredReferrerCode
-const getSetArtistsWithNotifications = state => state.setArtistsWithNotifications
+const getGetStoredReferrerCode = (state) => state.getStoredReferrerCode
+const getSetArtistsWithNotifications = (state) => state.setArtistsWithNotifications
 
 const initialUserState = {
   id: '',

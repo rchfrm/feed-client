@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { requiredScopesAds } from '@/helpers/firebaseHelpers'
 import * as utils from '@/helpers/utils'
-
+import * as api from '@/helpers/api'
 import facebook from '@/app/constants/facebook'
 
 export const getFbAuthUrl = ({ redirectPath, requestedPermissions, state, isReauth }) => {
@@ -34,3 +34,18 @@ export const handleFbAuthRedirect = (auth, scopes, redirectPath) => {
   window.location.href = url
 }
 
+/**
+ * @param {string} pageId
+ * @returns {Promise<any>}
+ */
+export const getFacebookPage = async (pageId) => {
+  const requestUrl = '/actions/facebook/page'
+  const payload = {
+    pageId,
+  }
+  const errorTracking = {
+    category: 'Connect Accounts',
+    action: 'Get Facebook page',
+  }
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}

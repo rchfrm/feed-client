@@ -176,7 +176,7 @@ function ArtistProvider({ children }) {
     const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
     const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
     const hasNoPlan = !artist?.plan
-    const hasCancelledPlan = artist.status === 'unpaid' && !hasNoPlan
+    const hasCancelledPlan = artist.status !== 'active'
 
     // Update artist with new info
     const artistUpdated = produce(artist, artistDraft => {
@@ -248,7 +248,7 @@ function ArtistProvider({ children }) {
     // * STOP HERE if there the artist account has already been connected
     if (alreadyConnectFacebookPages.includes(artistAccount.page_id)) {
       setArtistLoading(false)
-      return {}
+      return { error: { message: 'Artist account has already been connected' } }
     }
 
     // Wait to connect the artist

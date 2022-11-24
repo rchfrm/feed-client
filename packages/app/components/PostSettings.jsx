@@ -18,7 +18,7 @@ import DisabledSection from '@/app/DisabledSection'
 
 import MarkdownText from '@/elements/MarkdownText'
 
-import { promotionStatusSlugs } from '@/app/helpers/postsHelpers'
+import { promotionStatusSlugs, canBePromoted } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/PostsPageCopy'
 
@@ -59,8 +59,8 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
     remindConversions,
   } = promotionEligibility
 
-  const isEligibleForGrowAndNurture = [enticeEngage, remindTraffic, enticeTraffic].some(Boolean)
-  const isEligibleForConversions = [offPlatformConversions, remindConversions].some(Boolean)
+  const isEligibleForGrowAndNurture = [canBePromoted(enticeEngage), canBePromoted(remindTraffic), canBePromoted(enticeTraffic)].some(Boolean)
+  const isEligibleForConversions = [canBePromoted(offPlatformConversions), canBePromoted(remindConversions)].some(Boolean)
 
   const isToggleDisabled = campaignType === 'all'
     ? !isEligibleForGrowAndNurture && !priorityEnabled

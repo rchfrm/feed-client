@@ -35,6 +35,7 @@ const SignupPage = ({ testimonies }) => {
   const [error, setError] = React.useState(null)
   const [email, setEmail] = React.useState('')
   const [testimony, setTestimony] = React.useState(null)
+
   const { asPath: urlString } = useRouter()
 
   const isValidReferralCode = async (referralCode) => {

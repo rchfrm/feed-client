@@ -20,7 +20,7 @@ const GetStartedPricingPlans = ({
   objective,
 }) => {
   const { organizationArtists } = useBillingStore(getBillingStoreState)
-  const hasMultipleProfiles = organizationArtists.length > 1
+  const hasMultipleProfiles = organizationArtists.some((artist) => !!artist.plan && artist.status === 'active')
 
   const hasGrowthObjective = objective === 'growth'
   const hasSalesObjective = objective === 'sales'

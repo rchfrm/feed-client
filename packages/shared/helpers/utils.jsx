@@ -135,12 +135,12 @@ export const getCurrencySymbol = (currencyCode = 'GBP') => {
 }
 
 /**
-* @param {number} value
-* @param {string} currency
-* @param {string} locale
-* @returns {string}
-*/
-export const formatCurrency = (value, currency = 'GBP', hideMinorUnits) => {
+ * @param {number} value
+ * @param {string} currency
+ * @param {boolean} hideMinorUnits
+ * @returns {string}
+ */
+export const formatCurrency = (value, currency = 'GBP', hideMinorUnits = false) => {
   if (value === null || typeof value === 'undefined' || Number.isNaN(value) || typeof window === 'undefined') return
   const locale = navigator.language
   const currencyToUse = currency === null ? 'GBP' : currency
@@ -526,4 +526,24 @@ export const shuffleArray = (array) => {
   }
 
   return array
+}
+
+export const convertUTCToLocalDate = (date) => {
+  if (!date) {
+    return date
+  }
+
+  date = new Date(date)
+  date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  return date
+}
+
+export const convertLocalToUTCDate = (date) => {
+  if (!date) {
+    return date
+  }
+
+  date = new Date(date)
+  date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+  return date
 }

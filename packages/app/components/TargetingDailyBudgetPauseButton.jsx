@@ -15,11 +15,10 @@ import { getDataSourceValue } from '@/app/helpers/appServer'
 import { getSpendingData } from '@/app/helpers/targetingHelpers'
 import * as utils from '@/helpers/utils'
 
-const TargetingBudgetSpendingButton = ({
+const TargetingDailyBudgetPauseButton = ({
   togglePauseCampaign,
   isPaused,
   isDisabled,
-  className,
 }) => {
   const [spendingData, setSpendingData] = React.useState(null)
 
@@ -72,7 +71,6 @@ const TargetingBudgetSpendingButton = ({
         'text-white',
         'rounded-full',
         isDisabled ? 'bg-grey-1' : backgroundClasses,
-        className,
       ].join(' ')}
       style={{ paddingBottom: '0.3rem' }}
       role="button"
@@ -84,13 +82,13 @@ const TargetingBudgetSpendingButton = ({
   )
 }
 
-TargetingBudgetSpendingButton.propTypes = {
+TargetingDailyBudgetPauseButton.propTypes = {
   togglePauseCampaign: PropTypes.func.isRequired,
   isPaused: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
 }
 
-TargetingBudgetSpendingButton.defaultProps = {
+TargetingDailyBudgetPauseButton.defaultProps = {
 }
 
-export default TargetingBudgetSpendingButton
+export default TargetingDailyBudgetPauseButton

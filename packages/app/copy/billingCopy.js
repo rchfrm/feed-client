@@ -22,8 +22,6 @@ export default {
   // PROFILES
   profilesIntro: 'The following profiles are part of this billing account, and appear on the same invoice.',
   noProfiles: `It looks like you haven't connected any profiles to this billing account yet.`,
-  transferDescription: `To move a profile to another billing account, send a transfer request by selecting a profile and entering another user's email below.`,
-  resolveTransfers: (transferRequestsNumber) => `Would you like to add the ${transferRequestsNumber > 1 ? 'profiles' : 'profile'} below to your billing account?`,
 
   // USERS & INVITES
   usersInfo: 'Manage the users that have access to the billing settings.',

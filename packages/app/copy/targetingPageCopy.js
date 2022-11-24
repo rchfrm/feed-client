@@ -51,12 +51,26 @@ Do you want to continue?`,
 
     return `${baseString} [Email us](mailto:team@tryfeed.co) if you would like to increase this cap.`
   },
+  hasInsufficientBudgetError: (daysInPeriod, minHard, currency) => `The total budget for your campaign with a duration of ${daysInPeriod} days is too low. The minimum daily budget is ${formatCurrency(minHard, currency)}.`,
   togglePauseWarning: (isPaused) => {
     if (isPaused) return `**This will resume spending on ads.** Are you sure you want to continue?`
 
     return `#### **Are you sure?**
 
 **This will pause all spending on ads.** All ads will stop and won't continue until you unpause.`
+  },
+  budgetTypeSwitchWarning: (budgetType) => {
+    if (budgetType === 'daily') {
+      return `**Daily budget is currently active**
+
+      Pause your current spending to be able to switch to using a campaign budget.
+      `
+    }
+
+    return `**Campaign budget is currently active**
+
+    Cancel your current campaign to be able to switch to using a daily budget.
+    `
   },
 
   shortSpendingPeriodWarning: (daysOfSpending, hasMinimumBudget) => `#### **Are you sure?**
@@ -79,7 +93,6 @@ We are working on adding custom locations, but it would be really helpful if you
 
   locationSettingsTooltip: `By default, Nurture (retargeting) audiences are global. This means you can reach everyone who has engaged with you before.`,
   locationSettingsIntro: `Apply location targeting to Nurture audiences`,
-  locationSettingsWarning: `Restricting this audience may decrease ad performance.`,
 
   successMessage: (settingsSavedInitial) => {
     if (settingsSavedInitial) {

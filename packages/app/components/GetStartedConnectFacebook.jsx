@@ -19,7 +19,8 @@ const GetStartedConnectFacebook = () => {
   const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [isConnecting, setIsConnecting] = React.useState(false)
-  const [error, setError] = React.useState(null)
+  const [errors, setErrors] = React.useState([])
+  const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
 
   const { artistId, connectArtist } = React.useContext(ArtistContext)
 
@@ -39,20 +40,28 @@ const GetStartedConnectFacebook = () => {
   useAsyncEffect(async (isMounted) => {
     if (isConnecting) return
 
-    if (missingScopes.length || error) {
+    if (missingScopes.length || errors.length) {
       setIsLoading(false)
       return
     }
 
-    const { res, error: getArtistError } = await artistHelpers.getArtistOnSignUp()
+    const { res, error } = await artistHelpers.getArtistOnSignUp()
 
     if (!isMounted()) return
 
-    if (getArtistError) {
-      if (getArtistError.message !== 'user cache is not available') {
-        setError(getArtistError)
+    if (error) {
+      if (error.message === 'user cache is not available') {
+        setIsLoading(false)
+        return
       }
 
+      if (error.message === 'cannot list facebook pages') {
+        setIsCannotListPagesError(true)
+        setIsLoading(false)
+        return
+      }
+
+      setErrors([error])
       setIsLoading(false)
       return
     }
@@ -61,14 +70,14 @@ const GetStartedConnectFacebook = () => {
 
     // Error if there are no accounts
     if (Object.keys(artistAccounts).length === 0) {
-      setError({ message: 'No accounts were found' })
+      setErrors([{ message: 'No accounts were found' }])
       setIsLoading(false)
     }
 
     const userArtists = user?.artists || []
     const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
-    const processedArtists = await artistHelpers.processArtists({ artists: artistsFiltered })
+    const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered })
 
     // Handle connecting a single artist
     if (processedArtists.length === 1 && isPlatformRedirect && !artistId) {
@@ -87,7 +96,7 @@ const GetStartedConnectFacebook = () => {
 
       if (error) {
         setIsConnecting(false)
-        setError(error)
+        setErrors([error])
 
         return
       }
@@ -117,7 +126,11 @@ const GetStartedConnectFacebook = () => {
       {Object.keys(artistAccounts).length === 0 ? (
         <GetStartedConnectFacebookNoProfiles
           auth={auth}
-          error={error}
+          errors={errors}
+          isCannotListPagesError={isCannotListPagesError}
+          setIsConnecting={setIsConnecting}
+          setSelectedProfile={setSelectedProfile}
+          setErrors={setErrors}
         />
       ) : (
         <GetStartedConnectFacebookProfiles

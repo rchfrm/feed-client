@@ -9,7 +9,7 @@ import SliderMarker from '@/elements/SliderMarker'
 
 import { formatCurrency } from '@/helpers/utils'
 
-const TargetingBudgetSlider = ({
+const TargetingDailyBudgetSlider = ({
   sliderStep,
   sliderValueRange,
   initialBudget,
@@ -118,7 +118,7 @@ const TargetingBudgetSlider = ({
   )
 }
 
-TargetingBudgetSlider.propTypes = {
+TargetingDailyBudgetSlider.propTypes = {
   sliderStep: PropTypes.number.isRequired,
   sliderValueRange: PropTypes.array.isRequired,
   initialBudget: PropTypes.number,
@@ -132,7 +132,7 @@ TargetingBudgetSlider.propTypes = {
   errorMessage: PropTypes.string,
 }
 
-TargetingBudgetSlider.defaultProps = {
+TargetingDailyBudgetSlider.defaultProps = {
   initialBudget: 0,
   minReccBudget: 0,
   currency: null,
@@ -143,5 +143,4 @@ TargetingBudgetSlider.defaultProps = {
   errorMessage: '',
 }
 
-
-export default TargetingBudgetSlider
+export default TargetingDailyBudgetSlider

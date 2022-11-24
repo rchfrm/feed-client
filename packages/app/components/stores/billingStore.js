@@ -17,7 +17,7 @@ const fetchOrganizationDetails = async (organization) => {
   const billingDetails = billingHelpers.getBillingDetails(organization)
   const defaultPaymentMethod = billingHelpers.getDefaultPaymentMethod(billingDetails.allPaymentMethods)
 
-  let organizationArtists = []
+  let organizationArtists
   const organizationArtistsResponse = await billingHelpers.getOrganizationArtists(organization.id)
 
   if (!organizationArtistsResponse.error) {
@@ -49,7 +49,7 @@ const setupBilling = (set, get) => async (user, artist) => {
   }
   if (!user.id || !artist.id) return
   // Check user has access to the artist's org or is sysadmin
-  const userOrgIds = Object.values(user.organizations).map(org => org.id)
+  const userOrgIds = Object.values(user.organizations).map((org) => org.id)
   const artistOrgId = artist.organization.id
   const userHasAccessToArtistOrg = userOrgIds.includes(artistOrgId)
   const userIsAdmin = user.role === 'admin'
@@ -92,10 +92,10 @@ const setupBilling = (set, get) => async (user, artist) => {
 const addPaymentMethod = (set, get) => (paymentMethod) => {
   const setAsDefault = paymentMethod.is_default
   const { billingDetails } = get()
-  const paymentMethodsUpdated = produce(billingDetails?.allPaymentMethods || [], draftState => {
+  const paymentMethodsUpdated = produce(billingDetails?.allPaymentMethods || [], (draftState) => {
     draftState.push(paymentMethod)
   })
-  const billingDetailsUpdated = produce(billingDetails, draftState => {
+  const billingDetailsUpdated = produce(billingDetails, (draftState) => {
     draftState.allPaymentMethods = paymentMethodsUpdated
   })
   set({
@@ -109,7 +109,7 @@ const addPaymentMethod = (set, get) => (paymentMethod) => {
 // * DELETE PAYMENT METHOD
 const deletePaymentMethod = (set, get) => (paymentMethodId) => {
   const { billingDetails } = get()
-  const billingDetailsUpdated = produce(billingDetails, draftState => {
+  const billingDetailsUpdated = produce(billingDetails, (draftState) => {
     const index = draftState.allPaymentMethods.findIndex(({ id }) => id === paymentMethodId)
     if (index !== -1) draftState.allPaymentMethods.splice(index, 1)
   })
@@ -121,7 +121,7 @@ const updateDefaultPayment = (set, get) => (defaultPaymentMethod) => {
   const { id: newPaymentMethodId } = defaultPaymentMethod
   // Get updated payment methods
   const { billingDetails } = get()
-  const billingDetailsUpdated = produce(billingDetails, draftState => {
+  const billingDetailsUpdated = produce(billingDetails, (draftState) => {
     draftState.allPaymentMethods.forEach((method) => {
       method.is_default = method.id === newPaymentMethodId
     })
@@ -141,7 +141,7 @@ const selectOrganization = (set) => async (user, artist) => {
 
 export const addOrganizationArtist = (set, get) => (artist) => {
   const { organizationArtists } = get()
-  const organizationArtistsUpdated = produce(organizationArtists || [], draftState => {
+  const organizationArtistsUpdated = produce(organizationArtists || [], (draftState) => {
     draftState.push(artist)
   })
   set({
