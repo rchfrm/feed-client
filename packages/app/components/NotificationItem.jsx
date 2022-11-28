@@ -7,8 +7,8 @@ import useNotificationStore from '@/app/stores/notificationsStore'
 
 import { track } from '@/helpers/trackingHelpers'
 
-const getSetAsOpen = state => state.setAsOpen
-const getOpenedNotificationId = state => state.openedNotificationId
+const getSetAsOpen = (state) => state.setAsOpen
+const getOpenedNotificationId = (state) => state.openedNotificationId
 
 const NotificationItem = ({ notification, className }) => {
   const {

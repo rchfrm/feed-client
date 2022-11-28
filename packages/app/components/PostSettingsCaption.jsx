@@ -69,7 +69,7 @@ const PostSettingsCaption = ({
     const caption = adMessage?.message || ''
     // Check if caption already exists for the selected campaign type
     const index = adMessages.findIndex(({ campaignType }) => campaignType === adMessage.campaignType)
-    const updatedCaptions = produce(adMessages, draftState => {
+    const updatedCaptions = produce(adMessages, (draftState) => {
       // If the caption exists, only update it's value
       if (index !== -1) {
         draftState[index].message = caption

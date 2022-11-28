@@ -98,7 +98,7 @@ export const getDataSourceValue = async (dataSources, artistId) => {
     .get(`/artists/${artistId}/data_sources`, {
       name: dataSources.join(','),
     })
-    .then(res => {
+    .then((res) => {
       // convert array to object with data source name as keys
       return res.reduce((obj, dataSource) => {
         obj[dataSource.name] = dataSource
@@ -444,7 +444,7 @@ export const getAllNotifications = async (ids) => {
   }, [])
   const promises = requests.map(async (request) => {
     const data = await api.get(request.url)
-    return data.map(notification => ({
+    return data.map((notification) => ({
       ...notification,
       entityType: request.entityType,
       entityId: request.entityId,

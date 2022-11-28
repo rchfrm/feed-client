@@ -45,7 +45,7 @@ const ChartOverlay = ({
     labels[0],
     labels[middleIdx],
     labels[lastIdx],
-  ].map(label => <li key={label}>{label}</li>)
+  ].map((label) => <li key={label}>{label}</li>)
 
   return (
     <>

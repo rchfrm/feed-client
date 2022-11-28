@@ -29,7 +29,6 @@ export const formatDictionary = (dictionaryArray = []) => {
     const { topic } = entry
     // Handle duplicate
     if (dictionary[topic]) {
-      console.error('duplicate topic: ', topic)
       return dictionary
     }
     // Add topic

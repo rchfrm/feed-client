@@ -34,7 +34,7 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setLocat
     const key = isCountry ? 'countries' : 'cities'
 
     setTargetingState((targetingState) => {
-      return produce(targetingState, draftState => {
+      return produce(targetingState, (draftState) => {
         draftState[key].push(customLocation)
       })
     })

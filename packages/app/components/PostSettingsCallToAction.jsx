@@ -88,7 +88,7 @@ const PostSettingsCallToAction = ({
     // Check if call to action already exists for the selected campaign type
     const index = callToActions.findIndex(({ campaignType }) => campaignType === callToAction.campaignType)
     // Update local state
-    const updatedCallToActions = produce(callToActions, draftState => {
+    const updatedCallToActions = produce(callToActions, (draftState) => {
       // If the call to action exists, only update it's value
       if (index !== -1) {
         draftState[index].value = callToAction.value

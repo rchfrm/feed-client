@@ -44,7 +44,7 @@ const LinkBankEditModalFolder = ({
 
   // UPDATE ALERT MODAL BUTTONS
   React.useEffect(() => {
-    const newButtons = produce(modalButtons, draftButtons => {
+    const newButtons = produce(modalButtons, (draftButtons) => {
       // Is buttons disabled
       const saveEnabled = !!folderProps.name
       // Update save button
@@ -62,7 +62,7 @@ const LinkBankEditModalFolder = ({
   // HANDLE CHANGE ON FORM FIELDS
   const handleInput = React.useCallback((e, prop) => {
     // Update component-level link store
-    const newfolderProps = produce(folderProps, draftProps => {
+    const newfolderProps = produce(folderProps, (draftProps) => {
       draftProps[prop] = e.target.value
     })
     setFolderProps(newfolderProps)

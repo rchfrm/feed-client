@@ -9,7 +9,7 @@ import Section from '@/landing/Section'
 import brandColors from '@/constants/brandColors'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
-const getJoinLink = state => state.joinLink
+const getJoinLink = (state) => state.joinLink
 
 export default function PrimaryCTA({
   trackingLocation,

@@ -1,15 +1,10 @@
-// * ADMIN VERSION
-
 import React from 'react'
-
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/admin/contexts/UserContext'
-
 import { getMissingScopes } from '@/app/helpers/artistHelpers'
 import * as signupHelpers from '@/app/helpers/signupHelpers'
 import { fireSentryBreadcrumb, fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
-
 import * as ROUTES from '@/app/constants/routes'
 
 const useLogin = (initialPathname, initialFullPath, showContent) => {
@@ -31,8 +26,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     setNoUser()
     // Check if the user is on an auth only page,
     // if they are push to log in page
-    const userRedirected = signupHelpers.kickToLogin({ initialPathname, initialFullPath, setRejectedPagePath })
-    return userRedirected
+    return signupHelpers.kickToLogin({ initialPathname, initialFullPath, setRejectedPagePath })
   }, [setNoAuth, setNoUser, setRejectedPagePath, initialPathname, initialFullPath])
 
 
@@ -82,9 +76,9 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       // Redirect to page they tried to access (or home page)
       const defaultLandingPage = ROUTES.HOME
       const useRejectedPagePath = true
-      const userRedirected = signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
-      return userRedirected
+      return signupHelpers.redirectPage(defaultLandingPage, initialPathname, useRejectedPagePath)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setMissingScopes, storeUser, initialPathname, handleNoAuthUser, setUserLoading])
 
   // * DETECT SIGNED IN USER
@@ -109,8 +103,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       })
     // STORE AUTH
     await storeAuth({ authUser, authToken, authError })
-    const userRedirected = await handleExistingUser({ authUser })
-    return userRedirected
+    return handleExistingUser({ authUser })
   }, [handleExistingUser, storeAuth, handleNoAuthUser])
 
   const detectSignedInUser = React.useCallback((isMounted, fbRedirectError) => {

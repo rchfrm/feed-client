@@ -17,7 +17,7 @@ export default function FaqContent({ faq }) {
       ].join(' ')}
     >
       <h3 className={['leading-tight', 'font-bold', 'mb-8'].join(' ')}>{question}</h3>
-      {answer.map(contentBlock => {
+      {answer.map((contentBlock) => {
         const {
           id,
           copy,

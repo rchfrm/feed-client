@@ -21,6 +21,7 @@ const ChartDoughnut = ({
     const { bg: color } = brandColors[currentPlatform]
     setDisplayData([value])
     setDataColors([color])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentDataSource])
 
   return (

@@ -19,7 +19,7 @@ import * as ROUTES from '@/app/constants/routes'
 // IMPORT STYLES
 import styles from '@/app/TheHeader.module.css'
 
-const getTotalActiveNotifications = state => state.totalActiveNotifications
+const getTotalActiveNotifications = (state) => state.totalActiveNotifications
 
 function TheHeaderContents({
   windowWidth,

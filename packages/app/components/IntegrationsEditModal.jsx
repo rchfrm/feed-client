@@ -62,7 +62,7 @@ const IntegrationsEditModal = ({
   React.useEffect(() => {
     // Stop here if not deletable
     if (cannotDelete) return
-    const newButtons = produce(modalButtons, draftButtons => {
+    const newButtons = produce(modalButtons, (draftButtons) => {
       // Update save/delete button
       draftButtons[0].onClick = () => runSaveIntegration(integration, link, action)
       draftButtons[0].disabled = action === 'delete' ? false : !saveEnabled

@@ -11,7 +11,7 @@ import { removeProtocolFromUrl, enforceUrlProtocol, parseUrl } from '@/helpers/u
 import { track } from '@/helpers/trackingHelpers'
 import brandColors from '@/constants/brandColors'
 
-const getDefaultLink = state => state.defaultLink
+const getDefaultLink = (state) => state.defaultLink
 
 const PostCardSettingsLink = ({
   postId,

@@ -174,7 +174,7 @@ export const sortArtistsAlphabetically = (artists) => {
  * @returns {object}
  */
 export const removeAlreadyConnectedArtists = (newArtists, userArtists) => {
-  return produce(newArtists, draftState => {
+  return produce(newArtists, (draftState) => {
     userArtists.forEach(({ facebook_page_id }) => {
       delete draftState[facebook_page_id]
     })
@@ -214,7 +214,7 @@ export const processArtists = ({ artists }) => {
  * @returns {object}
  */
 export const sanitiseArtistAccountUrls = (artistAccount) => {
-  return produce(artistAccount, draftState => {
+  return produce(artistAccount, (draftState) => {
     // Loop over artist props
     Object.entries(artistAccount).forEach(([key, value]) => {
       if (value === '') {

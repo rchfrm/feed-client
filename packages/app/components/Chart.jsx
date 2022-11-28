@@ -217,7 +217,7 @@ const Chart = ({
 
     if (chartLineData) {
       const [lineChartPeriodDates, periodValues] = insightsHelpers.getChartData(chartLineData, granularity)
-      const startingIndex = lineChartPeriodDates.findIndex(date => date === periodDates[0])
+      const startingIndex = lineChartPeriodDates.findIndex((date) => date === periodDates[0])
 
       const data = {
         ...baseBarConfig,
@@ -254,13 +254,13 @@ const Chart = ({
     // DEFINE CHART OPTIONS
     const sumPreviousAndNewValues = (chartData, index) => {
       let total = 0
-      chartData.forEach(dataset => {
+      chartData.forEach((dataset) => {
         total += dataset.data[index]
       })
       return total
     }
 
-    const newChartOptions = produce(baseChartConfig, draftConfig => {
+    const newChartOptions = produce(baseChartConfig, (draftConfig) => {
       // Edit Y axes
       draftConfig.scales.yAxes[0].ticks.max = newChartBarLimit.max
       draftConfig.scales.yAxes[0].ticks.min = newChartBarLimit.min

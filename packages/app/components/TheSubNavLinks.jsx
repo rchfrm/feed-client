@@ -45,7 +45,7 @@ const links = [
   },
 ]
 
-const getTotalActiveNotifications = state => state.totalActiveNotifications
+const getTotalActiveNotifications = (state) => state.totalActiveNotifications
 
 const NOTIFICATION_LINK_TEXT = ({ title }) => {
   // FETCH NOTIFICATIONS

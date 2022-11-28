@@ -10,7 +10,7 @@ export const getAllFaqQuestionsQuery = () => `
   }
 `
 
-export const getAllFaqQuestionsByCategoryQuery = category => `
+export const getAllFaqQuestionsByCategoryQuery = (category) => `
   query {
     allFaqArticles(filter: {category: {eq: "${category}"}}) {
       slug

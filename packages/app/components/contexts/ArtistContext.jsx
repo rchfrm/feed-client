@@ -13,7 +13,7 @@ import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
 import { trackGoogleProfileCreated } from 'shared/helpers/trackGoogleHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 
-const updateIsControlsLoading = state => state.setIsControlsLoading
+const updateIsControlsLoading = (state) => state.setIsControlsLoading
 
 const getBillingStoreState = (state) => ({
   addOrganizationArtist: state.addOrganizationArtist,
@@ -179,7 +179,7 @@ function ArtistProvider({ children }) {
     const hasCancelledPlan = artist.status !== 'active'
 
     // Update artist with new info
-    const artistUpdated = produce(artist, artistDraft => {
+    const artistUpdated = produce(artist, (artistDraft) => {
       artistDraft.isMusician = isMusician
       artistDraft.spotifyConnected = spotifyConnected
       artistDraft.missingDefaultLink = missingDefaultLink
@@ -245,7 +245,7 @@ function ArtistProvider({ children }) {
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
 
-    // * STOP HERE if there the artist account has already been connected
+    // * STOP HERE if the artist account has already been connected
     if (alreadyConnectFacebookPages.includes(artistAccount.page_id)) {
       setArtistLoading(false)
       return { error: { message: 'Artist account has already been connected' } }
@@ -293,6 +293,7 @@ function ArtistProvider({ children }) {
     } else {
       track('add_profile')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storeArtist, storeUser])
 
   const updateBudget = React.useCallback((majorUnitAmount) => {

@@ -22,22 +22,13 @@ export const initMixpanel = (disabled) => {
 
 export const updateMixpanel = (user) => {
   const { role } = user
+  // eslint-disable-next-line no-unused-vars
   userType = role
 }
 
 // TRACK MIXPANEL EVENTS
 export const trackMixpanel = (action, payload) => {
   if (!isMixpanelSetup) return
-  // Also LOG track if admin
-  if (userType === 'admin') {
-    console.group()
-    console.info('MIXPANEL SEND')
-    console.info('ACTION: ', action)
-    if (payload) {
-      console.info(payload)
-    }
-    console.groupEnd()
-  }
   mixpanel.track(action, payload)
 }
 
@@ -77,7 +68,6 @@ export const mixpanelExternalLinkClick = ({
 }) => {
   // Call this to go to page
   const goToPage = () => {
-    console.info('goToPage', url)
     if (useNewTab) return window.open(url)
     window.location.href = url
   }
@@ -93,10 +83,4 @@ export const mixpanelExternalLinkClick = ({
     // Go to page after succesful track
     goToPage()
   })
-}
-
-// REGISTER SUPER PROPERTIES
-export const mixpanelRegister = (details) => {
-  if (!isMixpanelSetup) return
-  mixpanel.register(details)
 }

@@ -95,8 +95,8 @@ const PostLinksSelect = ({
     // Add 'Deleted from link bank' select option if a post is an adcreative and the link id doesn't exist in the linkbank anymore
     if (linkType === 'adcreative') {
       const linkBankIds = nestedLinks.reduce((result, { links }) => {
-        const activeLinks = links.filter(link => link.href)
-        activeLinks.forEach(activeLink => {
+        const activeLinks = links.filter((link) => link.href)
+        activeLinks.forEach((activeLink) => {
           result[activeLink.id] = true
         })
         return result
