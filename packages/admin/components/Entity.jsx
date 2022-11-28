@@ -134,8 +134,8 @@ const Category = ({ entityType, id }) => {
 }
 
 const Entity = ({ entity, propsToDisplay }) => {
-  const [artistActivationStatus, setArtistActivationStatus] = React.useState(entity.status)
-  const [artistCampaignStatus, setArtistCampaignStatus] = React.useState(entity.preferences.targeting.status)
+  const [artistActivationStatus, setArtistActivationStatus] = React.useState(entity?.status)
+  const [artistCampaignStatus, setArtistCampaignStatus] = React.useState(entity?.preferences?.targeting?.status)
   const entityInfo = getEntityInfo(entity)
   if (!entity) {
     return null
