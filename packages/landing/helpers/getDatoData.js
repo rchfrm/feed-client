@@ -30,8 +30,7 @@ const getDatoData = async (query, cachedFilename, forceFetch) => {
     const cachedDataPath = path.resolve(currentPath, cachedFile)
     const cachedDataExists = fs.existsSync(cachedDataPath)
     if (cachedDataExists) {
-      const cachedData = JSON.parse(fs.readFileSync(cachedDataPath, 'utf8'))
-      return cachedData
+      return JSON.parse(fs.readFileSync(cachedDataPath, 'utf8'))
     }
   }
 
@@ -44,12 +43,11 @@ const getDatoData = async (query, cachedFilename, forceFetch) => {
 
   // Handle errors...
   if (status !== 200) {
-    const errorMessage = statusText
-    throw new Error(errorMessage)
+    throw new Error(statusText)
   }
 
   if (data.errors) {
-    const errorMessage = data.errors.map(error => error.message).join(',')
+    const errorMessage = data.errors.map((error) => error.message).join(',')
     throw new Error(errorMessage)
   }
 

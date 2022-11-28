@@ -83,7 +83,7 @@ const Slider = ({
               ghostsReady.current = true
             }
           }}
-          instanceRef={instance => {
+          instanceRef={(instance) => {
             if (instance && !sliderRef.current) {
               sliderRef.current = instance
               if (setSliderInstance) setSliderInstance(instance)

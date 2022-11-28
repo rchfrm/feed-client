@@ -31,7 +31,7 @@ const MailchimpForm = ({
   const [acceptGDPR, setAcceptGDPR] = React.useState(false)
   const groupNumber = getGroupNumber(trackLocation)
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     switch (e.target.name) {
       case 'EMAIL':
         setEmail(e.target.value)

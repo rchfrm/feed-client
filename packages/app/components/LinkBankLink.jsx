@@ -67,6 +67,7 @@ const LinkBankLink = ({
     updateLinks(action, { newLink: savedLink, oldLink: link })
     setLinkBankError(null)
     return { savedLink }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedFolders])
 
   const { isDefaultLink } = link

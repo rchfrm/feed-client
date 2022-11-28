@@ -28,18 +28,16 @@ const getValueFromDirection = (values, direction) => {
 
 // RUN THE ANIMATION
 const startAnimation = (el, animateFrom, animateTo, animProps) => {
-  // Set intially
+  // Set initially
   gsap.set(el, animateFrom)
   // Animate
-  const animation = gsap.to(el, { ...animateTo, ...animProps })
-  return animation
+  return gsap.to(el, { ...animateTo, ...animProps })
 }
 
 // GET WHICH PROPS TO ANIMATE TO AND FROM
 const getElProps = (animateToFrom, direction) => {
   return Object.entries(animateToFrom).reduce((props, [elPropKey, elPropValue]) => {
-    const propValue = elPropValue[direction]
-    props[elPropKey] = propValue
+    props[elPropKey] = elPropValue[direction]
     return props
   }, {})
 }
@@ -47,8 +45,7 @@ const getElProps = (animateToFrom, direction) => {
 // GET THE ANIMATION OPTIONS
 const getAnimationProps = (options, direction) => {
   return Object.entries(options).reduce((props, [propKey, propValue]) => {
-    const value = Array.isArray(propValue) ? getValueFromDirection(propValue, direction) : propValue
-    props[propKey] = value
+    props[propKey] = Array.isArray(propValue) ? getValueFromDirection(propValue, direction) : propValue
     return props
   }, {})
 }
@@ -82,7 +79,6 @@ const useAnimateOnMount = ({
     throw Error('You cannot use wait if enter or exit is defined.')
   }
   enter = wait || enter
-  exit = wait || exit
 
   // ANIMATE
   const animate = ({ el, visible }) => {
@@ -169,6 +165,7 @@ const useAnimateOnMount = ({
       debug(debugName, 'Rendered', devMode)
       didRender.current = true
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible, debugName])
 
   // EXPORT
