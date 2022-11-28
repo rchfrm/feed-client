@@ -13,7 +13,7 @@ import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
 import { trackGoogleProfileCreated } from 'shared/helpers/trackGoogleHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 
-const updateIsControlsLoading = state => state.setIsControlsLoading
+const updateIsControlsLoading = (state) => state.setIsControlsLoading
 
 const getBillingStoreState = (state) => ({
   addOrganizationArtist: state.addOrganizationArtist,
@@ -179,7 +179,7 @@ function ArtistProvider({ children }) {
     const hasCancelledPlan = artist.status !== 'active'
 
     // Update artist with new info
-    const artistUpdated = produce(artist, artistDraft => {
+    const artistUpdated = produce(artist, (artistDraft) => {
       artistDraft.isMusician = isMusician
       artistDraft.spotifyConnected = spotifyConnected
       artistDraft.missingDefaultLink = missingDefaultLink

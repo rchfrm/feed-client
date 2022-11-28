@@ -45,8 +45,7 @@ const PlatformIcon = ({
     case 'tiktok':
       return <TikTokIcon fill={color} className={className} style={style} title={title || platform} />
     default:
-      console.error('Could not find platform icon')
-      return null
+      throw new Error('Could not find platform icon')
   }
 }
 

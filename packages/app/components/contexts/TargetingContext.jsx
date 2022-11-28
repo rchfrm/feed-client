@@ -13,7 +13,7 @@ import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import * as budgetHelpers from '@/app/helpers/budgetHelpers'
 
 // Read from controls store
-const setSpending = state => state.updateSpending
+const setSpending = (state) => state.updateSpending
 
 const initialState = {
   targetingState: {},
@@ -126,7 +126,7 @@ const TargetingContextProvider = ({ children }) => {
   // FUNCTION TO UPDATE BUDGET
   const updateTargetingBudget = React.useCallback((budget) => {
     setTargetingState((targetingState) => {
-      return produce(targetingState, draftState => {
+      return produce(targetingState, (draftState) => {
         draftState.budget = budget
       })
     })
@@ -135,7 +135,7 @@ const TargetingContextProvider = ({ children }) => {
   // FUNCTION TO UPDATE CAMPAIGN BUDGET
   const updateCampaignBudget = React.useCallback((campaignBudget) => {
     setTargetingState((targetingState) => {
-      return produce(targetingState, draftState => {
+      return produce(targetingState, (draftState) => {
         draftState.campaignBudget = campaignBudget
       })
     })

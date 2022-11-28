@@ -77,7 +77,7 @@ const BillingPaymentMethodsSummary = ({
       updateBillingStoreOrgDefaultPayment(newDefaultPaymentMethod)
     }
     setDefaultPaymentMethod(newDefaultPaymentMethod)
-    const updatedPaymentMethods = allPaymentMethods.map(pm => {
+    const updatedPaymentMethods = allPaymentMethods.map((pm) => {
       if (pm.id === newDefaultPaymentMethod.id) {
         return newDefaultPaymentMethod
       }
@@ -101,19 +101,19 @@ const BillingPaymentMethodsSummary = ({
     if (organization.id === billingStoreOrg.id) {
       deleteBillingStorePaymentMethod(paymentMethodId)
     }
-    const updatedPaymentMethods = allPaymentMethods.filter(pm => pm.id !== paymentMethodId)
+    const updatedPaymentMethods = allPaymentMethods.filter((pm) => pm.id !== paymentMethodId)
     setAllPaymentMethods(updatedPaymentMethods)
     setError(null)
     track('billing_delete_payment_method', { organizationId: organization.id })
   }, [organization.id, billingStoreOrg.id, allPaymentMethods, setAllPaymentMethods, deleteBillingStorePaymentMethod])
 
-  const addMethodToState = React.useCallback(paymentMethod => {
+  const addMethodToState = React.useCallback((paymentMethod) => {
     if (organization.id === billingStoreOrg.id) {
       addBillingStoreOrgPaymentMethod(paymentMethod)
     }
     let updatedPaymentMethods = [...allPaymentMethods, paymentMethod]
     if (paymentMethod.is_default) {
-      updatedPaymentMethods = allPaymentMethods.map(pm => {
+      updatedPaymentMethods = allPaymentMethods.map((pm) => {
         if (pm.id === paymentMethod.id) {
           return paymentMethod
         }

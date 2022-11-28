@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 export default function FaqsRelated({ slug, faqs }) {
-  const filteredFaqs = faqs.filter(faq => faq.slug !== slug)
+  const filteredFaqs = faqs.filter((faq) => faq.slug !== slug)
   if (filteredFaqs.length === 0) {
     return null
   }

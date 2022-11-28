@@ -38,7 +38,7 @@ const ResultsPostsChart = ({
     setMaxValue(hasNoProfiles ? highestValue : highestValue + 1)
   }, [yourAverage, globalAverage, metricType, posts, hasNoProfiles])
 
-  const postsChartRef = React.useCallback(node => {
+  const postsChartRef = React.useCallback((node) => {
     const isMobile = width < 800
 
     // On mobile scroll to far right to show most recents posts first

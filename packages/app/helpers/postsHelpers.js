@@ -653,5 +653,5 @@ export const getInitialPostsImportStatus = async (artistId) => {
 }
 
 export const canBePromoted = (eligibility) => {
-  return Object.values(eligibility).some(platformEligibility => Object.values(platformEligibility).some(Boolean))
+  return Object.values(eligibility).some((platformEligibility) => Object.values(platformEligibility).some(Boolean))
 }

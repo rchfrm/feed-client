@@ -3,49 +3,14 @@ import mixpanel from 'mixpanel-browser'
 
 // INIT
 // ---------
-const isDevelopment = process.env.NODE_ENV === 'development'
-const token = process.env.mixpanel_token
-let isMixpanelSetup = false
-
-export const initMixpanel = () => {
-  mixpanel.init(
-    token,
-    {
-      api_host: 'https://api-eu.mixpanel.com',
-      loaded: () => {
-        isMixpanelSetup = true
-      },
-    },
-  )
-}
+const isMixpanelSetup = false
 
 // TRACK MIXPANEL EVENTS
 export const mixpanelTrack = (action, payload, callback = () => {}) => {
-  // Only LOG track if in dev
-  if (isDevelopment) {
-    console.group()
-    console.info('MIXPANEL SEND')
-    console.info('ACTION: ', action)
-    console.info(payload)
-    console.groupEnd()
-    // Run callback
-    callback()
-    return
-  }
   mixpanel.track(action, payload, callback)
 }
 
 // SPECIAL EVENTS
-
-// Log in
-export const mixpanelLogin = (userId) => {
-  mixpanel.identify(userId)
-}
-
-// Sign Out
-export const mixpanelSignOut = () => {
-  mixpanel.reset()
-}
 
 // Internal link click
 export const mixpanelInternalLinkClick = (url, payload = {}) => {
@@ -77,9 +42,4 @@ export const mixpanelExternalLinkClick = (url, payload = {}, responseWait = 300)
     // Go to page after succesful track
     goToPage()
   })
-}
-
-// REGISTER SUPER PROPERTIES
-export const mixpanelRegister = (details) => {
-  mixpanel.register(details)
 }

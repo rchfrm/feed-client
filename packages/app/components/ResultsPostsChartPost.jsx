@@ -19,7 +19,7 @@ const ResultsPostsChartPost = ({
   const isDesktopLayout = useBreakpointTest('sm')
 
   React.useEffect(() => {
-    const postIndex = lastThirtyDays.findIndex(day => day === post.publishedTime)
+    const postIndex = lastThirtyDays.findIndex((day) => day === post.publishedTime)
 
     // Calculate position on x-axis based on the post object index within the last 30 days array
     const left = postIndex * (100 / lastThirtyDays.length)

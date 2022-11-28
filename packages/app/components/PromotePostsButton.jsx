@@ -24,7 +24,7 @@ function PromotePostsButton({
   }, [artistId, artist.daily_budget])
 
   // HANDLE BUTTON CLICK
-  const handleClick = e => {
+  const handleClick = (e) => {
     e.preventDefault()
     // eslint-disable-next-line
     Router.push(ROUTES[linkDestination])

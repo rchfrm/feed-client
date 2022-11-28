@@ -6,6 +6,7 @@ const isAnyDefined = (...args) => args.some((a) => !isUndefined(a))
 const noop = () => { }
 const debug = (name, msg, devMode) => {
   if (!devMode) return
+  // eslint-disable-next-line no-console
   console.debug(name, msg)
 }
 

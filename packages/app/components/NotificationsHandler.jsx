@@ -9,7 +9,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 
 import { getUserOrganizations } from '@/app/helpers/userHelpers'
 
-const getFetchAndSetNotifications = state => state.fetchAndSetNotifications
+const getFetchAndSetNotifications = (state) => state.fetchAndSetNotifications
 
 const NotificationsHandler = ({}) => {
   // READ CONTEXTS

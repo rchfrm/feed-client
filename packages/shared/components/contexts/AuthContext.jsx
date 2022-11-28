@@ -1,9 +1,7 @@
 import React from 'react'
 import { useImmerReducer } from 'use-immer'
-// IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
-
 import useReferralStore from '@/app/stores/referralStore'
 
 const initialAuthState = {
@@ -40,7 +38,7 @@ const authReducer = (draftState, action) => {
   }
 }
 
-const getClearUsedReferralCode = state => state.clearUsedReferralCode
+const getClearUsedReferralCode = (state) => state.clearUsedReferralCode
 
 const AuthContext = React.createContext(initialAuthState)
 AuthContext.displayName = 'AuthContext'
@@ -81,8 +79,7 @@ function AuthProvider({ children }) {
       }
     }
     if (!authToken) {
-      console.error('Missing auth token')
-      return
+      throw new Error('Missing auth token')
     }
     setAuthLoading(true)
     const { email, providerData } = authUser

@@ -239,10 +239,10 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
 
   // Define function to update posts with missing links
   // and export to posts store
-  const setUpdatePostsWithMissingLinks = usePostsStore(React.useCallback(state => state.setUpdatePostsWithMissingLinks, []))
+  const setUpdatePostsWithMissingLinks = usePostsStore(React.useCallback((state) => state.setUpdatePostsWithMissingLinks, []))
   React.useEffect(() => {
     const updatePostsWithMissingLinks = (missingLinkIds = []) => {
-      const updatedPosts = produce(posts, draftPosts => {
+      const updatedPosts = produce(posts, (draftPosts) => {
         draftPosts.forEach((post) => {
           Object.values(post.linkSpecs).forEach((linkSpec, index) => {
             const { linkId } = linkSpec

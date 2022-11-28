@@ -641,7 +641,7 @@ export const formatChartDailyData = (data, platform) => {
 
   // Otherwise keep ad spend daily data as is and reduce growth daily data to match the ad spend daily data date range
   const earliestAdSpendDate = adSpendData.earliest.date
-  const growthDataAfterAdSpendStart = growthDateKeys.filter(dateKey => dateKey >= earliestAdSpendDate)
+  const growthDataAfterAdSpendStart = growthDateKeys.filter((dateKey) => dateKey >= earliestAdSpendDate)
   const growthEarliestAdSpendDateIndex = growthDateKeys.findIndex((dateKey) => dateKey === growthDataAfterAdSpendStart[0])
   const reducedGrowthDailyData = reduceDailyDataPeriod(growthData.dailyData, growthEarliestAdSpendDateIndex, growthDateKeys.length)
 

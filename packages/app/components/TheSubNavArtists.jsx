@@ -56,7 +56,7 @@ const ARTIST_SELECT_OPTIONS = ({
   )
 }
 
-const getArtistsWithNotifications = state => state.artistsWithNotifications
+const getArtistsWithNotifications = (state) => state.artistsWithNotifications
 
 const TheSubNavArtists = ({ className }) => {
   const { user } = React.useContext(UserContext)

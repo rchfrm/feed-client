@@ -5,13 +5,13 @@ import FaqList from '@/app/FaqList'
 
 const createFaqsByCategoryObject = (categories, faqs) => {
   return categories.reduce((acc, category) => {
-    acc[category] = faqs.filter(faq => faq.category === category)
+    acc[category] = faqs.filter((faq) => faq.category === category)
     return acc
   }, {})
 }
 
 export default function FaqCategories({ faqs }) {
-  const categories = filterUnique(faqs.map(faq => faq.category))
+  const categories = filterUnique(faqs.map((faq) => faq.category))
   const faqsByCategory = createFaqsByCategoryObject(categories, faqs)
   return (
     <div
@@ -21,7 +21,7 @@ export default function FaqCategories({ faqs }) {
         'sm:gap-4',
       ].join(' ')}
     >
-      {categories.map(category => {
+      {categories.map((category) => {
         return <FaqList key={category} category={category} faqs={faqsByCategory[category]} />
       })}
     </div>
