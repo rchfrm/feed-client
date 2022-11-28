@@ -49,6 +49,7 @@ const InsightsProjection = ({
     const { bg: bgColor, text: textColor } = brandColors[platform]
     setBackgroundColor(bgColor)
     setTextColor(textColor)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId, data.source])
 
   if (loading || !sentence) return null

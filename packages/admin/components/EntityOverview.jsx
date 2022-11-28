@@ -10,7 +10,7 @@ import EntityConnections from '@/admin/EntityConnections'
 
 import * as ROUTES from '@/admin/constants/routes'
 
-export const getEntityInfo = entity => {
+export const getEntityInfo = (entity) => {
   if (entity?.payment_status) {
     return {
       type: 'organization',

@@ -47,15 +47,15 @@ const Category = ({ entityType, id }) => {
   }, [category, categoryIsPending])
 
 
-  const handleTypeChange = e => {
+  const handleTypeChange = (e) => {
     setSelectedCategoryType(e.target.value)
   }
 
-  const handleIndustryChange = e => {
+  const handleIndustryChange = (e) => {
     setSelectedCategoryIndustry(e.target.value)
   }
 
-  const handleClick = async e => {
+  const handleClick = async (e) => {
     e.preventDefault()
     if (
       !selectedCategoryType
@@ -69,7 +69,7 @@ const Category = ({ entityType, id }) => {
     await saveEntityCategory(entityType, id, {
       type: selectedCategoryType,
       industry: selectedCategoryIndustry,
-    }).catch(error => setError(error))
+    }).catch((error) => setError(error))
   }
 
   // Loading and error state
@@ -79,7 +79,7 @@ const Category = ({ entityType, id }) => {
   if (categoryError || optionsError) {
     return <CategoryWrapper entityType={entityType}><p>{categoryError.message}</p></CategoryWrapper>
   }
-  const typeSelectOptions = options.type.map(option => {
+  const typeSelectOptions = options.type.map((option) => {
     const { name, id } = option
     return {
       name,
@@ -92,7 +92,7 @@ const Category = ({ entityType, id }) => {
       value: 'none',
     })
   }
-  const industrySelectOptions = options.industry.map(option => {
+  const industrySelectOptions = options.industry.map((option) => {
     const { name, id } = option
     return {
       name,

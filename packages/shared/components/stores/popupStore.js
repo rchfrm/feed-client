@@ -6,7 +6,7 @@ const defaultState = {
   contentType: '',
 }
 
-const usePopupStore = create(set => ({
+const usePopupStore = create((set) => ({
   content: defaultState.content,
   caption: defaultState.caption,
   contentType: defaultState.contentType,

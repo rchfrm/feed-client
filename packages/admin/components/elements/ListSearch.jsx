@@ -16,7 +16,7 @@ const ListSearch = ({
 }) => {
   const [inputValue, setInputValue] = React.useState('')
   const [searchTerm, setSearchTerm] = React.useState('')
-  const updateSearch = debounce(value => setSearchTerm(value), 300)
+  const updateSearch = debounce((value) => setSearchTerm(value), 300)
   const handleChange = React.useCallback(({ target: { value } }) => {
     setInputValue(value)
     updateSearch(value)

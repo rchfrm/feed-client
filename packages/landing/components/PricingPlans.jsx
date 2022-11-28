@@ -12,7 +12,7 @@ const {
 } = pricingCopy
 
 export default function PricingPlans() {
-  const { maxSpendMultiple, monthlyCost } = pricingPlans.find(plan => plan.name === 'pro')
+  const { maxSpendMultiple, monthlyCost } = pricingPlans.find((plan) => plan.name === 'pro')
   const [showAnnualPricing, setShowAnnualPricing] = React.useState(false)
   const [currency, setCurrency] = React.useState('GBP')
   const [maxSpend, setMaxSpend] = React.useState(monthlyCost[currency] * maxSpendMultiple)

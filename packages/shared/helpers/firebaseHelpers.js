@@ -32,7 +32,7 @@ export const requiredScopesSignup = [
 ]
 
 // The scopes required after a user account has been created
-export const requiredScopesAccount = produce(requiredScopesSignup, draft => {
+export const requiredScopesAccount = produce(requiredScopesSignup, (draft) => {
   const index = draft.findIndex((scope) => scope === 'email')
   if (index !== -1) draft.splice(index, 1)
 })
@@ -109,7 +109,7 @@ export const loginWithFacebook = () => {
 */
 export const linkFacebookAccount = (requestedPermissions) => {
   const scopeRequests = requestedPermissions || requiredScopesAccount
-  scopeRequests.forEach(scope => {
+  scopeRequests.forEach((scope) => {
     fbProvider.addScope(scope)
   })
   return auth.currentUser.linkWithRedirect(fbProvider)
@@ -121,7 +121,7 @@ export const linkFacebookAccount = (requestedPermissions) => {
  */
 export const reauthFacebook = (requestedPermissions) => {
   const scopeRequests = requestedPermissions || requiredScopesAccount
-  scopeRequests.forEach(scope => {
+  scopeRequests.forEach((scope) => {
     fbProvider.addScope(scope)
   })
   fbProvider.setCustomParameters({ auth_type: 'rerequest' })

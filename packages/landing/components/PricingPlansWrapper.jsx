@@ -13,7 +13,7 @@ export default function PricingPlansWrapper({
   showAnnualPricing,
   currency,
 }) {
-  const growthPlanIndex = plans.findIndex(plan => plan.name === 'growth')
+  const growthPlanIndex = plans.findIndex((plan) => plan.name === 'growth')
   const isDesktop = useBreakpointTest('sm')
 
   if (isDesktop) {
@@ -25,7 +25,7 @@ export default function PricingPlansWrapper({
           'gap-4',
         ].join(' ')}
       >
-        {plans.map(plan => {
+        {plans.map((plan) => {
           return (
             <div
               key={plan.name}
@@ -61,7 +61,7 @@ export default function PricingPlansWrapper({
         spaceBetween: 20,
       }}
     >
-      {plans.map(plan => {
+      {plans.map((plan) => {
         return (
           <li
             key={plan.name}

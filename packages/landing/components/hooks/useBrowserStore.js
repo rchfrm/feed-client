@@ -9,10 +9,10 @@ const useBrowserStore = () => {
   // Connect to the store on mount, disconnect on unmount,
   // catch state-changes in a reference
   React.useEffect(() => browserStore.subscribe(
-    browser => {
+    (browser) => {
       setBrowser(browser)
     },
-    state => state.browser,
+    (state) => state.browser,
   ), [])
 
   // browser = { width, height, breakpoint, device }
