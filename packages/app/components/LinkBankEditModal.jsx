@@ -47,7 +47,7 @@ const LinkBankEditModal = ({
   // UPDATE MODAL SAVE BUTTON
   const { setButtons } = useAlertModal()
   React.useEffect(() => {
-    const newButtons = produce(modalButtons, draftButtons => {
+    const newButtons = produce(modalButtons, (draftButtons) => {
       // Update save button
       draftButtons[0].onClick = () => runSaveLink(linkProps, action, link)
       draftButtons[0].disabled = !saveEnabled
@@ -74,7 +74,7 @@ const LinkBankEditModal = ({
       }
     }
     // Update component-level link store
-    const newLinkProps = produce(linkProps, draftProps => {
+    const newLinkProps = produce(linkProps, (draftProps) => {
       draftProps[prop] = e.target.value
     })
     setLinkProps(newLinkProps)

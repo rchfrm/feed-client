@@ -14,6 +14,9 @@ import useEditIntegration from '@/app/hooks/useEditIntegration'
 import useControlsStore from '@/app/stores/controlsStore'
 
 import { formatAndFilterIntegrations } from '@/helpers/integrationHelpers'
+import { handleTikTokAuthRedirect } from '@/app/helpers/tikTokHelpers'
+
+import * as ROUTES from '@/app/constants/routes'
 
 const getControlsStoreState = (state) => ({
   fetchAndUpdateLinks: state.fetchAndUpdateLinks,
@@ -27,7 +30,7 @@ const IntegrationsPanelIntegration = ({
   isDisabled,
   className,
 }) => {
-  const { title, accountId, color } = integration
+  const { title, platform, accountId, color } = integration
   const isPopulated = !!accountId
   const backgroundColor = isPopulated ? color.bg : brandColors.bgColor
   const borderColor = isPopulated ? color.bg : brandColors.textColor
@@ -40,6 +43,7 @@ const IntegrationsPanelIntegration = ({
 
   // EDIT FUNCTION
   const action = isPopulated ? 'delete' : 'add'
+
   const updateIntegration = useEditIntegration({
     artistId,
     location,
@@ -58,7 +62,15 @@ const IntegrationsPanelIntegration = ({
       await fetchAndUpdateLinks(artistWithFormattedIntegrations)
     },
   })
-  // GET BUTTON SIZE
+
+  const handleClick = () => {
+    if (platform === 'tiktok' && !isPopulated) {
+      handleTikTokAuthRedirect(ROUTES.CONTROLS_INTEGRATIONS)
+      return
+    }
+    updateIntegration(integration, action)
+  }
+
   const useLargeButtons = useBreakpointTest('xs')
   return (
     <li
@@ -69,9 +81,7 @@ const IntegrationsPanelIntegration = ({
       <ButtonPill
         className={['w-full'].join(' ')}
         size={useLargeButtons ? 'x-large' : 'large'}
-        onClick={() => {
-          updateIntegration(integration, action)
-        }}
+        onClick={handleClick}
         style={{
           backgroundColor: isPopulated && isDisabled ? brandColors.grey : backgroundColor,
           color: textColor,

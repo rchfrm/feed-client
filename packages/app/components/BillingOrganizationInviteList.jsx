@@ -11,8 +11,8 @@ const BillingOrganizationInviteList = ({
     return null
   }
 
-  const removeOrganizationInvite = orgInvite => {
-    const updatedOrgInvites = organizationInvites.filter(oi => oi.token !== orgInvite.token)
+  const removeOrganizationInvite = (orgInvite) => {
+    const updatedOrgInvites = organizationInvites.filter((oi) => oi.token !== orgInvite.token)
     setOrgInvites(updatedOrgInvites)
   }
 

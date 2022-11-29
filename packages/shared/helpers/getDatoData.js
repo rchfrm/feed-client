@@ -47,7 +47,7 @@ const getDatoData = async (query, cachedFilename, forceFetch) => {
   }
 
   if (data.errors) {
-    const errorMessage = data.errors.map(error => error.message).join(',')
+    const errorMessage = data.errors.map((error) => error.message).join(',')
     throw new Error(errorMessage)
   }
 

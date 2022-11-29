@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import produce from 'immer'
 
 const getSortedList = (list, sortBy, sortDirection) => {
-  return produce(list, draftList => {
+  return produce(list, (draftList) => {
     draftList.sort((a, b) => {
       const aValue = a[sortBy]
       const bValue = b[sortBy]

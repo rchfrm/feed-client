@@ -11,7 +11,7 @@ import PricingProrations from '@/app/PricingProrations'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 
-import { getProrationsPreview, formatProrationsPreview } from '@/app/helpers/billingHelpers'
+import { getProrationsPreview, formatProrationsPreview, formatProfilesToUpgrade } from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -20,13 +20,12 @@ const getBillingStoreState = (state) => ({
 
 const PricingProrationsLoader = ({
   profilesToUpgrade,
-  setProfilesToUpgrade,
   prorationsPreview,
   setProrationsPreview,
-  plan,
   promoCode,
+  isAnnualPricing,
 }) => {
-  const [prorations, setProrations] = React.useState(null)
+  const [internalProrationsPreview, setInternalProrationsPreview] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
 
@@ -57,58 +56,25 @@ const PricingProrationsLoader = ({
   }
 
   useAsyncEffect(async (isMounted) => {
-    // Filter out the current profile
-    const otherProfiles = organizationArtists.filter((profile) => profile.id !== artistId)
+    if (!profilesToUpgrade[artistId]) return
 
-    // Create plans object keyed by profile id
-    const otherProfilesPlans = otherProfiles.reduce((result, { id, plan }) => {
-      return {
-        ...result,
-        [id]: plan,
-      }
-    }, {})
+    const profilesWithPlan = formatProfilesToUpgrade(profilesToUpgrade, isAnnualPricing)
 
-    const profiles = {
-      [artistId]: plan,
-      ...otherProfilesPlans,
-    }
-
-    // If this prop isn't passed fetch prorations and update local state
-    if (!setProfilesToUpgrade) {
-      const formattedProrations = await getProrations(profiles)
-      if (!isMounted() || !formattedProrations) return
-
-      setProrations(formattedProrations)
-      setIsLoading(false)
-
-      return
-    }
-
-    // Otherwise update parent state
-    setProfilesToUpgrade(profiles)
-  }, [artistId, organizationArtists, setProfilesToUpgrade, plan])
-
-  // Watch for changes of the profilesToUpgrade object
-  useAsyncEffect(async (isMounted) => {
-    if (!profilesToUpgrade) return
-
-    const formattedProrations = await getProrations(profilesToUpgrade)
+    const formattedProrations = await getProrations(profilesWithPlan)
     if (!isMounted() || !formattedProrations) return
 
     setProrationsPreview(formattedProrations)
+    setInternalProrationsPreview(formattedProrations)
     setIsLoading(false)
   }, [profilesToUpgrade])
 
   if (isLoading) return <Spinner className="h-40 flex items-center" width={28} />
 
   return (
-    <div className={[
-      'w-full',
-    ].join(' ')}
-    >
+    <div className="w-full">
       <PricingProrations
-        prorationsPreview={prorationsPreview || prorations}
-        plan={plan}
+        prorationsPreview={prorationsPreview || internalProrationsPreview}
+        isAnnualPricing={isAnnualPricing}
       />
       <Error error={error} />
     </div>
@@ -117,17 +83,16 @@ const PricingProrationsLoader = ({
 
 PricingProrationsLoader.propTypes = {
   profilesToUpgrade: PropTypes.object,
-  setProfilesToUpgrade: PropTypes.func,
   prorationsPreview: PropTypes.object,
   setProrationsPreview: PropTypes.func,
-  plan: PropTypes.string.isRequired,
+  isAnnualPricing: PropTypes.bool,
 }
 
 PricingProrationsLoader.defaultProps = {
-  profilesToUpgrade: null,
-  setProfilesToUpgrade: null,
+  profilesToUpgrade: {},
   prorationsPreview: null,
-  setProrationsPreview: null,
+  setProrationsPreview: () => {},
+  isAnnualPricing: false,
 }
 
 export default PricingProrationsLoader

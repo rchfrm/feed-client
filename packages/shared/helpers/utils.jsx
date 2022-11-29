@@ -46,7 +46,7 @@ export const removeItemFromArray = ({ array, item, index }) => {
 }
 
 export const sortArrayByKey = (arr, key, sortDirection = 'asc') => {
-  return produce(arr, draftArr => {
+  return produce(arr, (draftArr) => {
     draftArr.sort((a, b) => {
       const aValue = a[key]
       const bValue = b[key]
@@ -61,14 +61,14 @@ export const filterArtistUrls = (artist) => {
   const artistKeys = Object.keys(artist)
   // Create an array of links
   const links = []
-  artistKeys.forEach(key => {
+  artistKeys.forEach((key) => {
     if (key.indexOf('_url') >= 0) {
       links.push(key)
     }
   })
   // Turn the array into an object of link names and values
   let linksObj = {}
-  links.forEach(link => {
+  links.forEach((link) => {
     linksObj = {
       ...linksObj,
       [link]: artist[link],
@@ -102,7 +102,7 @@ export const hexToRGBA = (hex, opacity) => {
 
 export const maxArrayValue = (array) => {
   let max = array[0]
-  array.forEach(item => {
+  array.forEach((item) => {
     if (item > max) {
       max = item
     }
@@ -112,7 +112,7 @@ export const maxArrayValue = (array) => {
 
 export const minArrayValue = (array) => {
   let min = array[0]
-  array.forEach(item => {
+  array.forEach((item) => {
     if (item < min) {
       min = item
     }
@@ -120,7 +120,7 @@ export const minArrayValue = (array) => {
   return min
 }
 
-export const filterUnique = array => {
+export const filterUnique = (array) => {
   return array.filter((value, index, self) => {
     return self.indexOf(value) === index
   })
@@ -164,7 +164,7 @@ export const formatNumber = (number, options = {}, locale = navigator.language) 
   return new Intl.NumberFormat(locale, options).format(number)
 }
 
-export const addCommasToNumber = number => {
+export const addCommasToNumber = (number) => {
   if (typeof number !== 'number') return number
   const numberArray = Array.from(number.toString()).reverse()
   return numberArray.reduce((acc, digit, index) => {
@@ -296,7 +296,7 @@ export const translate = (phrase) => {
   newPhrase = newPhrase.replace('reach', 'reached')
   newPhrase = newPhrase.replace('ad_spend', 'spent')
   const wordArray = newPhrase.split('_')
-  const capitalisedArray = wordArray.map(word => {
+  const capitalisedArray = wordArray.map((word) => {
     switch (word) {
       case 'facebook':
       case 'instagram':
@@ -439,7 +439,7 @@ export const parseUrl = (urlString) => {
 }
 
 export const getNestedObjectByValue = (object, value) => {
-  return Object.keys(object).find(key => Object.values(object[key]).includes(value))
+  return Object.keys(object).find((key) => Object.values(object[key]).includes(value))
 }
 
 export const getStringFromChildrenProp = (children) => {
@@ -455,7 +455,7 @@ export const getStringFromChildrenProp = (children) => {
     return children.props.children
   }
 
-  const getString = (children) => children.filter(child => typeof child === 'string').join('')
+  const getString = (children) => children.filter((child) => typeof child === 'string').join('')
 
   if (children?.props?.children && Array.isArray(children?.props?.children)) {
     return getString(children.props.children)

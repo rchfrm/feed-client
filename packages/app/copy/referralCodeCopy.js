@@ -12,9 +12,6 @@ export default {
 
   invalidCodeCopy: `Sorry, this referral code does not exist.`,
 
-  // Explain to users what their referral code is
-  explanation: `This is your referral code. Share it with others to let them jump the queue and sign up to Feed.`,
-
   // Explain about sharing link
   sharingLinkExplanation: (currencyCode) => `Share your referral code with others to get **${getReferralAmount(currencyCode)}!**`,
 

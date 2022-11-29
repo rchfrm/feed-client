@@ -7,7 +7,7 @@ import LoginEmailForm from '@/app/LoginEmailForm'
 import LoginSignupButtons from '@/LoginSignupButtons'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
-import { parseUrl, setLocalStorage } from '@/helpers/utils'
+import { parseUrl } from '@/helpers/utils'
 import * as ROUTES from '@/app/constants/routes'
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/LoginPageCopy'
@@ -37,18 +37,13 @@ function LoginPageContent({ showEmailLogin, showFacebookLogin }) {
   React.useEffect(() => {
     const { query } = parseUrl(urlString)
     const email = decodeURIComponent(query?.email || '')
-    const token = decodeURIComponent(query?.profileInvite || '')
 
     if (email) {
       setEmail(email)
     }
 
-    if (token) {
-      setLocalStorage('inviteToken', token)
-    }
-
     setHasCheckedQueryParams(true)
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // CONTINUE WITH FACEBOOK

@@ -115,7 +115,7 @@ const ChartLine = ({ data, maintainAspectRatio }) => {
       return createChartData(dataSource)
     })
 
-    const newChartOptions = produce(baseChartConfig, draftConfig => {
+    const newChartOptions = produce(baseChartConfig, (draftConfig) => {
       // Edit aspect ratio
       if (!maintainAspectRatio) {
         draftConfig.maintainAspectRatio = false

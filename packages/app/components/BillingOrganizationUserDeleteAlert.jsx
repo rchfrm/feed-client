@@ -16,7 +16,7 @@ const BillingOrganizationUserDeleteAlert = ({
 }) => {
   // HANDLE ALERT
   const { showAlert } = useAlertModal()
-  const isOpen = useAlertStore(state => state.isOpen)
+  const isOpen = useAlertStore((state) => state.isOpen)
   const alertButtons = React.useMemo(() => {
     return [
       {

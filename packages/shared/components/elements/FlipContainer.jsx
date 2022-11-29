@@ -44,7 +44,7 @@ const FlipContainer = ({
     >
       {/* INNER */}
       <Transition in={isFlipped} timeout={transitionDuration}>
-        {state => (
+        {(state) => (
           <div
             className={[
               'relative',

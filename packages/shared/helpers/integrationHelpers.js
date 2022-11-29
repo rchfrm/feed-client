@@ -74,6 +74,16 @@ export const getIntegrationInfo = (integration) => {
         color: brandColors[platform],
         editable: true,
       }
+    case 'tiktok':
+      return {
+        title: 'TikTok',
+        titleVerbose: 'TikTok profile',
+        baseUrl: 'https://tiktok.com/',
+        placeholderUrl: 'https://tiktok.com/<username>',
+        accountIdKey: 'username',
+        color: brandColors[platform],
+        editable: true,
+      }
     default:
       return {}
   }
@@ -95,6 +105,10 @@ const getAccountId = (integration = {}, integrationInfo) => {
   // Handle YouTube
   if (platform === 'youtube') {
     return integration[userIdKey] ?? integration[channelIdKey] ?? integration[customIdKey]
+  }
+  // TODO: Once we've build the functionality to ask the user which advertiser to use, return the real account id
+  if (platform === 'tiktok' && Object.prototype.hasOwnProperty.call(integration, 'advertiser_id')) {
+    return 'tikTokAccountId'
   }
   // Handle the rest
   return integration[accountIdKey]
@@ -125,6 +139,7 @@ const integrationPlaceholders = {
   soundcloud: null,
   twitter: null,
   youtube: null,
+  tiktok: null,
 }
 
 export const dummyIntegrations = [
@@ -156,6 +171,11 @@ export const dummyIntegrations = [
   {
     platform: 'youtube',
     title: 'Youtube',
+    color: '',
+  },
+  {
+    platform: 'tiktok',
+    title: 'TikTok',
     color: '',
   },
 ]
@@ -190,6 +210,11 @@ export const dummyIntegrationLinks = [
     platform: 'youtube',
     href: 'not connected',
     titleVerbose: 'Youtube account',
+  },
+  {
+    platform: 'tiktok',
+    href: 'not connected',
+    titleVerbose: 'TikTok profile',
   },
 ]
 

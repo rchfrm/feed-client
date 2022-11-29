@@ -16,7 +16,7 @@ const resetScroll = () => {
 
 const getPostsWithLoadingTrigger = (posts, loadAtIndex) => {
   if (!posts.length || posts.length < loadAtIndex) return posts
-  return produce(posts, draftPosts => {
+  return produce(posts, (draftPosts) => {
     const insertLoaderAt = posts.length - loadAtIndex + 1
     draftPosts[insertLoaderAt].loadTrigger = true
   })

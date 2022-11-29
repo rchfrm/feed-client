@@ -108,7 +108,7 @@ const setArtistsWithNotifications = (set) => (userArtists) => {
 const updateNotification = (set, get) => (notificationId, prop, value) => {
   const { notifications, openedNotificationId } = get()
   const notificationIndex = notifications.findIndex(({ id }) => id === notificationId)
-  const notificationsUpdated = produce(notifications, draftNotifications => {
+  const notificationsUpdated = produce(notifications, (draftNotifications) => {
     if (notificationIndex === -1) return
     draftNotifications[notificationIndex][prop] = value
   })

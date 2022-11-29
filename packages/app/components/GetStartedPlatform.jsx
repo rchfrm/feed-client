@@ -152,7 +152,7 @@ const GetStartedPlatform = () => {
               <>
                 <div className="flex flex-column items-center">
                   <div className="flex-wrap">
-                    {primaryPlatforms.map(primaryPlatform => {
+                    {primaryPlatforms.map((primaryPlatform) => {
                       return (
                         <GetStartedPlatformButton
                           key={primaryPlatform.value}

@@ -49,6 +49,7 @@ const ChartNumber = ({
     const newSubtitle = dataType === 'daily' ? `${basicSubtitle} so far` : basicSubtitle
     setTitle(newTitle)
     setSubtitle(newSubtitle)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.source, artistId])
 
   const classes = [styles.chartNumber__container]

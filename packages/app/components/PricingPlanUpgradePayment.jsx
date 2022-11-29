@@ -17,7 +17,7 @@ import Error from '@/elements/Error'
 import brandColors from '@/constants/brandColors'
 
 import { formatCurrency } from '@/helpers/utils'
-import { upgradeProfiles } from '@/app/helpers/billingHelpers'
+import { formatProfilesToUpgrade, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 
 const getBillingStoreState = (state) => ({
@@ -27,22 +27,23 @@ const getBillingStoreState = (state) => ({
 })
 
 const PricingPlanUpgradePayment = ({
-  plan,
   setCurrentStep,
   setSidePanelButton,
   profilesToUpgrade,
   setProfilesToUpgrade,
   prorationsPreview,
   setProrationsPreview,
+  canChooseBasic,
+  isAnnualPricing,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { artistId, artist, setPlan, setStatus } = React.useContext(ArtistContext)
-  const { name, hasGrowthPlan } = artist
+  const { name } = artist
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
-  const planIsBasic = plan === 'basic_monthly'
+  const planIsBasic = Object.values(profilesToUpgrade).some((plan) => plan === 'basic')
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
   const isDisabled = (!planIsBasic && !amount) || Boolean(error)
@@ -56,7 +57,8 @@ const PricingPlanUpgradePayment = ({
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
-    const { res: { profiles }, error } = await upgradeProfiles(organizationId, profilesToUpgrade)
+    const profilesWithPlan = formatProfilesToUpgrade(profilesToUpgrade)
+    const { res: { profiles }, error } = await upgradeProfiles(organizationId, profilesWithPlan)
 
     if (error) {
       setError(error)
@@ -103,14 +105,12 @@ const PricingPlanUpgradePayment = ({
     // Get the current profile
     const currentProfile = organizationArtists.find((profile) => profile.id === artistId)
 
-    // Filter out the current profile
-    const otherProfiles = organizationArtists.filter((profile) => profile.id !== artistId)
-
-    // Filter out profiles with no plan or a pro plan
-    const filteredProfiles = otherProfiles.filter((profile) => {
+    // Filter out the current profile and any with an active pro plan
+    const filteredProfiles = organizationArtists.filter((profile) => {
       const [planPrefix] = profile?.plan?.split('_') || []
 
-      return planPrefix && planPrefix !== 'pro'
+      return profile.id !== artistId
+        && !(planPrefix === 'pro' && profile.status === 'active')
     })
 
     // Make sure that the currently active profile is the first item in the array
@@ -120,12 +120,13 @@ const PricingPlanUpgradePayment = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">Upgrade profile{hasMultipleUpgradableProfiles ? 's' : ''}</h2>
-      <MarkdownText markdown={copy.pricingUpgradePlanIntro({ hasMultipleUpgradableProfiles, hasGrowthPlan, name, plan, currency })} className="mb-8" />
-      {(hasGrowthPlan && hasMultipleUpgradableProfiles) && (
+      <MarkdownText markdown={copy.pricingUpgradePlanIntro(hasMultipleUpgradableProfiles, name, profilesToUpgrade[artistId])} className="mb-8" />
+      {hasMultipleUpgradableProfiles && (
         <PricingPlanUpgradePaymentProfilesList
           profilesToUpgrade={profilesToUpgrade}
           setProfilesToUpgrade={setProfilesToUpgrade}
           profiles={upgradableProfiles}
+          canChooseBasic={canChooseBasic}
         />
       )}
       <PricingProrationsLoader
@@ -133,7 +134,7 @@ const PricingPlanUpgradePayment = ({
         setProfilesToUpgrade={setProfilesToUpgrade}
         prorationsPreview={prorationsPreview}
         setProrationsPreview={setProrationsPreview}
-        plan={plan}
+        isAnnualPricing={isAnnualPricing}
       />
       <Error error={error} />
     </div>
@@ -141,20 +142,18 @@ const PricingPlanUpgradePayment = ({
 }
 
 PricingPlanUpgradePayment.propTypes = {
-  plan: PropTypes.string,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
-  profilesToUpgrade: PropTypes.object,
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])),
   setProfilesToUpgrade: PropTypes.func,
   prorationsPreview: PropTypes.object,
   setProrationsPreview: PropTypes.func,
 }
 
 PricingPlanUpgradePayment.defaultProps = {
-  plan: '',
   setCurrentStep: () => {},
   setSidePanelButton: () => {},
-  profilesToUpgrade: null,
+  profilesToUpgrade: {},
   setProfilesToUpgrade: () => {},
   prorationsPreview: null,
   setProrationsPreview: () => {},

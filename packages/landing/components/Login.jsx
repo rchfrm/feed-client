@@ -9,7 +9,7 @@ import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 // Global info store
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
-const getLoginLink = state => state.loginLink
+const getLoginLink = (state) => state.loginLink
 
 export default function Login({ className, trackLocation }) {
   const loginLink = useGlobalInfoStore(getLoginLink)

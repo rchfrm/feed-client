@@ -231,7 +231,7 @@ export const updateLocationOptionsState = ({ locationOptionsArray, selectedCitie
 // ----------------------
 const formatSettings = (settings, currencyOffset) => {
   // Format settings
-  return produce(settings, draftSettings => {
+  return produce(settings, (draftSettings) => {
     const { cities, countries } = draftSettings.geo_locations
     draftSettings.budget = currencyOffset ? Math.round(draftSettings.budget * currencyOffset) : 0
     draftSettings.cities = cities
@@ -250,7 +250,6 @@ const formatSettings = (settings, currencyOffset) => {
 export const fetchTargetingState = async (artistId, currencyOffset) => {
   if (!artistId) {
     const errorMessage = 'Cannot fetch targeting state because no artist ID has been provided'
-    console.error(errorMessage)
     return { error: { message: errorMessage } }
   }
   const { res: settings, error } = await server.getTargetingSettings(artistId)
@@ -343,13 +342,13 @@ export const getTotalSpentInPeriod = (dailyData, startDate) => {
 export const getSpendingData = (dailyData) => {
   if (!dailyData) return null
 
-  const latestDayOfSpend = Object.keys(dailyData).filter(date => dailyData[date] > 0).pop()
-  const latestDayOf0Spend = Object.keys(dailyData).filter(date => date < latestDayOfSpend && dailyData[date] === 0).pop()
+  const latestDayOfSpend = Object.keys(dailyData).filter((date) => dailyData[date] > 0).pop()
+  const latestDayOf0Spend = Object.keys(dailyData).filter((date) => date < latestDayOfSpend && dailyData[date] === 0).pop()
   const firstDayOfData = Object.keys(dailyData)[0]
   const startOfCurrentSpendingPeriod = latestDayOf0Spend
     ? moment(latestDayOf0Spend, 'YYYY-MM-DD').add(1, 'day').format('YYYY-MM-DD')
     : firstDayOfData
-  const lengthOfCurrentSpendingPeriod = Object.keys(dailyData).filter(date => date >= startOfCurrentSpendingPeriod).length
+  const lengthOfCurrentSpendingPeriod = Object.keys(dailyData).filter((date) => date >= startOfCurrentSpendingPeriod).length
   return {
     hasSpentConsecutivelyLessThan30Days: lengthOfCurrentSpendingPeriod < 30,
     daysOfSpending: lengthOfCurrentSpendingPeriod,

@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Favicons from '@/elements/Favicons'
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
-const getGlobalInfo = state => state
+const getGlobalInfo = (state) => state
 const siteUrl = 'https://tryfeed.co'
 
 const TheHead = () => {

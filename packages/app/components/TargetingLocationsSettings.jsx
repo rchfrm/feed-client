@@ -26,7 +26,7 @@ const TargetingLocationsSettings = ({
   // UPDATE TARGETING STATE
   React.useEffect(() => {
     setTargetingState((targetingState) => {
-      return produce(targetingState, draftState => {
+      return produce(targetingState, (draftState) => {
         draftState[propKey] = useGeographic
       })
     })

@@ -27,7 +27,7 @@ const ArtistIntegrationLinks = ({ artistId, integrations }) => {
       accessToken = adminIntegration.access_token
     } else {
       const accountsObject = get(adminIntegration, ['authorization', 'accounts'], {})
-      const account = Object.values(accountsObject).filter(x => x.id === id)[0]
+      const account = Object.values(accountsObject).filter((x) => x.id === id)[0]
       accessToken = account ? account.access_token : ''
     }
     if (!accessToken) {
@@ -52,7 +52,7 @@ const ArtistIntegrationLinks = ({ artistId, integrations }) => {
         onClick,
       }]
     }, [])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [integrations, artistId])
 
   // Stop here if no auth

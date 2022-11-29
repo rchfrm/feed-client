@@ -4,7 +4,7 @@ import TheFooterColophon from '@/landing/TheFooterColophon'
 import copy from '@/landing/copy/LandingPageCopy'
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
-const getGlobalInfo = state => state
+const getGlobalInfo = (state) => state
 
 const { footer: { socials, legalCopy } } = copy
 

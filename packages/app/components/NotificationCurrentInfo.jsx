@@ -14,9 +14,9 @@ import useNotificationStore from '@/app/stores/notificationsStore'
 import NotificationCurrentInfoContent from '@/app/NotificationCurrentInfoContent'
 import NotificationCurrentInfoButton from '@/app/NotificationCurrentInfoButton'
 
-const getOpenedNotification = state => state.openedNotification
-const getCloseNotification = state => state.closeNotification
-const getCompleteNotification = state => state.completeNotification
+const getOpenedNotification = (state) => state.openedNotification
+const getCloseNotification = (state) => state.closeNotification
+const getCompleteNotification = (state) => state.completeNotification
 
 const NotificationCurrentInfo = ({ containerRef }) => {
   const isDesktopLayout = useBreakpointTest('md')

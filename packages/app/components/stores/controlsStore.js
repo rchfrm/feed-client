@@ -150,7 +150,7 @@ const formatServerLinks = ({ folders, defaultLinkId, artist }) => {
   // Update links in integration folder
   const integrationLinks = formatIntegrationLinks({ artist, folders })
   const integrationsFolderIndex = folders.findIndex(({ id }) => id === integrationsFolderId)
-  const foldersUpdatedIntegrations = produce(folders, draftFolders => {
+  const foldersUpdatedIntegrations = produce(folders, (draftFolders) => {
     // Replace integration links with formatted integration links
     draftFolders[integrationsFolderIndex].links = integrationLinks
     // Make sure all links have names
@@ -282,7 +282,7 @@ const getUpdatedFolders = (set, get) => (action, { newFolder, oldFolder }) => {
 // UPDATE OPEN FOLDER STATE
 const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
   const { folderStates, artistId } = get()
-  const newState = produce(folderStates, draftState => {
+  const newState = produce(folderStates, (draftState) => {
     // Handle not yet ready fodler
     if (!draftState[folderId]) {
       draftState[folderId] = {}
@@ -298,7 +298,7 @@ const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
 const updatePreferences = (set, get) => (preferences) => {
   const controlsStore = get()
 
-  const newState = produce(controlsStore, draftState => {
+  const newState = produce(controlsStore, (draftState) => {
     Object.entries(preferences).forEach(([key, value]) => {
       Object.entries(value).forEach(([k, v]) => {
         draftState[key][k] = v

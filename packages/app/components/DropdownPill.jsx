@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 import { capitalise } from '@/helpers/utils'
+import brandColors from '@/constants/brandColors'
 
 const DropdownPill = ({
   items,
@@ -49,7 +50,7 @@ const DropdownPill = ({
           'flex items-center',
           'px-2 py-1 text-xs',
           'border-2 border-solid rounded-full',
-          disabled ? 'pointer-events-none' : null,
+          disabled ? 'pointer-events-none border-grey-2 text-grey-2' : null,
           className,
         ].join(' ')}
       >
@@ -62,6 +63,7 @@ const DropdownPill = ({
         >
           <ArrowIcon
             direction="right"
+            fill={disabled ? brandColors.grey : undefined}
             className="w-2 h-2"
           />
         </div>

@@ -11,7 +11,7 @@ import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 // Global info store
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 
-const getJoinLink = state => state.joinLink
+const getJoinLink = (state) => state.joinLink
 
 export default function TryFeed({ className, buttonText, trackLocation }) {
   // Track link before outbound

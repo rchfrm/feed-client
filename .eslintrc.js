@@ -31,7 +31,7 @@ module.exports = {
     'no-shadow': 'off',
     'import/no-extraneous-dependencies': 'off',
     'max-len': 'off',
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': 'error',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-param-reassign': 'off',
     'no-empty-pattern': 'off',

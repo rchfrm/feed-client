@@ -54,24 +54,23 @@ const GetStartedPaymentMethod = () => {
   const {
     artist: {
       hasSetUpProfile,
-      hasGrowthPlan,
-      hasProPlan,
-      hasLegacyPlan,
       plan,
       currency: artistCurrency = 'GBP',
+      is_managed: isManaged,
+      status,
     },
     artistId,
     updateArtist,
   } = React.useContext(ArtistContext)
 
   const { user: { organizations } } = React.useContext(UserContext)
-  const organizationId = Object.values(organizations).find(org => org.role === 'owner')?.id
-
-  const isPaymentRequired = (hasGrowthPlan || hasProPlan) && !hasLegacyPlan
-  const isPaymentIntentRequired = false
-  const shouldShowPromoCodeInput = false
+  const organizationId = Object.values(organizations).find((org) => org.role === 'owner')?.id
 
   const [planPrefix, planPeriod] = plan.split('_')
+
+  const isPaymentRequired = status !== 'active' && planPrefix !== 'basic'
+  const isPaymentIntentRequired = false
+  const shouldShowPromoCodeInput = false
 
   const {
     card,
@@ -82,13 +81,19 @@ const GetStartedPaymentMethod = () => {
 
   // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
-    if (!isPaymentRequired || (promoCode && !isValidPromoCode)) {
+    if (!isPaymentRequired || (promoCode && !isValidPromoCode) || isManaged) {
+      return
+    }
+
+    const newPlan = plan
+    if (!newPlan) {
       return
     }
 
     setIsLoadingAmountToPay(true)
 
-    const { res, error } = await getProrationsPreview(organizationId, { [artistId]: plan }, promoCode)
+    const { res, error } = await getProrationsPreview(organizationId, { [artistId]: newPlan }, promoCode)
+
     if (error) {
       if (error.message === 'Invalid promo code') {
         setIsValidPromoCode(false)
@@ -155,7 +160,7 @@ const GetStartedPaymentMethod = () => {
   }
 
   const handleNext = async () => {
-    if (defaultPaymentMethod && !shouldShowPaymentMethodForm) {
+    if ((defaultPaymentMethod && !shouldShowPaymentMethodForm) || isManaged) {
       await upgradeProfilePlans()
 
       return
@@ -182,34 +187,38 @@ const GetStartedPaymentMethod = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6">
-      <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(defaultPaymentMethod, planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency))} />
+      <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(defaultPaymentMethod, planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency), isManaged)} />
       <Error error={error} />
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
-        {shouldShowPaymentMethodForm ? (
-          <AddPaymentForm
-            addMethodToState={addPaymentMethodToStore}
-            organizationId={organizationId}
-            setAddPaymentMethod={setAddPaymentMethod}
-            setSuccess={setSuccess}
-            shouldBeDefault
-            shouldShowLabels={false}
-            isFormValid={isFormValid}
-            setIsFormValid={setIsFormValid}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            isPaymentIntentRequired={isPaymentIntentRequired}
-            promoCode={promoCode}
-          />
-        ) : (
+        {!isManaged && (
           <>
-            <p className="mb-4 font-bold text-center">Your current default card:</p>
-            <BillingPaymentCard
-              currency={currency}
-              card={card}
-              billingDetails={billingDetails}
-              isDefault={is_default}
-              className="max-w-sm mb-6 mx-auto"
-            />
+            {shouldShowPaymentMethodForm ? (
+              <AddPaymentForm
+                addMethodToState={addPaymentMethodToStore}
+                organizationId={organizationId}
+                setAddPaymentMethod={setAddPaymentMethod}
+                setSuccess={setSuccess}
+                shouldBeDefault
+                shouldShowLabels={false}
+                isFormValid={isFormValid}
+                setIsFormValid={setIsFormValid}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                isPaymentIntentRequired={isPaymentIntentRequired}
+                promoCode={promoCode}
+              />
+            ) : (
+              <>
+                <p className="mb-4 font-bold text-center">Your current default card:</p>
+                <BillingPaymentCard
+                  currency={currency}
+                  card={card}
+                  billingDetails={billingDetails}
+                  isDefault={is_default}
+                  className="max-w-sm mb-6 mx-auto"
+                />
+              </>
+            )}
           </>
         )}
         {defaultPaymentMethod && (

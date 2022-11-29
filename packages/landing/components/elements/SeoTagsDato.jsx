@@ -44,7 +44,7 @@ const getMetaTags = ({ pageTitle, pageDescription }) => {
   ]
 }
 
-const getGlobalInfo = state => state
+const getGlobalInfo = (state) => state
 
 const SeoTagsDato = ({
   metaTags,

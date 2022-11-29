@@ -1,42 +1,72 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import DropdownPill from '@/app/DropdownPill'
-
-import { getPricingPlanString } from '@/app/helpers/billingHelpers'
 
 const PricingPlanUpgradePaymentProfilesListItem = ({
   profile,
   profilesToUpgrade,
   setProfilesToUpgrade,
+  canChooseBasic,
 }) => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId: profileInContextId } = React.useContext(ArtistContext)
+
+  const [idOfProfileOnBasic, setIdOfProfileOnBasic] = React.useState('')
+
   const { name, id } = profile
-  const [, planPeriod] = profilesToUpgrade[artistId]?.split('_') || []
   const [planPrefix] = profilesToUpgrade[id]?.split('_') || []
-  const [selectedPlan, setSelectedPlan] = React.useState(planPrefix || 'growth')
-  const isAnnualPricing = planPeriod === 'annual'
+  const [currentPlanPrefix] = profile.plan?.split('_') || []
+
+  const isProfileActive = profile.status === 'active'
+  const hasChanged = (isProfileActive && planPrefix === 'none')
+    || (isProfileActive && planPrefix !== currentPlanPrefix)
+    || (!isProfileActive && planPrefix !== 'none')
+  const isDisabled = Boolean(idOfProfileOnBasic && idOfProfileOnBasic !== id)
+
+  React.useEffect(() => {
+    const profilesToUpgradeIds = Object.keys(profilesToUpgrade)
+    if (!profilesToUpgradeIds.length === 0) return
+
+    const profileWithBasic = profilesToUpgradeIds.find((id) => {
+      return profilesToUpgrade[id] === 'basic'
+    })
+
+    setIdOfProfileOnBasic(profileWithBasic || '')
+  }, [profilesToUpgrade])
+
+  const planOptions = React.useCallback((canChooseBasic) => {
+    const options = ['growth', 'pro']
+
+    if (canChooseBasic && profile.id === profileInContextId) {
+      options.unshift('basic')
+    }
+
+    if (profile.id !== profileInContextId && profile.status !== 'active') {
+      options.push('none')
+    }
+
+    return options
+  }, [profileInContextId, profile.id, profile.status])
 
   const handleOnChange = (plan) => {
-    setSelectedPlan(plan)
-
-    // Update the 'profiles to upgrade' state
-    setProfilesToUpgrade((profilesToUpgrade) => ({
-      ...profilesToUpgrade,
-      [id]: getPricingPlanString(plan, isAnnualPricing),
-    }))
+    setProfilesToUpgrade({
+      type: 'update-profile-plan',
+      payload: {
+        profileId: id,
+        plan,
+      },
+    })
   }
 
   return (
     <div className="flex items-center mb-4">
       <div className="mr-2">{name}</div>
       <DropdownPill
-        items={['growth', 'pro']}
-        selectedItem={selectedPlan}
+        items={planOptions(canChooseBasic)}
+        selectedItem={planPrefix}
         handleItemClick={handleOnChange}
-        className={selectedPlan === 'growth' ? 'border-black' : 'border-insta'}
+        className={hasChanged ? 'border-insta' : 'border-black'}
+        disabled={isDisabled}
       />
     </div>
   )
@@ -44,8 +74,9 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
 
 PricingPlanUpgradePaymentProfilesListItem.propTypes = {
   profile: PropTypes.object.isRequired,
-  profilesToUpgrade: PropTypes.object.isRequired,
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])).isRequired,
   setProfilesToUpgrade: PropTypes.func.isRequired,
+  canChooseBasic: PropTypes.bool.isRequired,
 }
 
 PricingPlanUpgradePaymentProfilesListItem.defaultProps = {

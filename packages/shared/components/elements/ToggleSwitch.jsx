@@ -122,7 +122,7 @@ const ToggleSwitch = ({
     cssSetter.current(xClamped)
   }, [name, onChange, handleTap, animateSwitch, disabled])
   // Drag binder
-  const dragBind = useDrag(state => onDrag(state), {
+  const dragBind = useDrag((state) => onDrag(state), {
     axis: 'x',
     domTarget: switchEl.current,
     eventOptions: { passive: false },

@@ -33,7 +33,7 @@ const ConfirmEmailEmailSuccess = ({
 
   React.useEffect(() => {
     if (!isReauthenticateNeeded) {
-      setIntervalId(setInterval(() => setSeconds(prevSecond => prevSecond - 1), 1000))
+      setIntervalId(setInterval(() => setSeconds((prevSecond) => prevSecond - 1), 1000))
     }
     return () => clearInterval(intervalId)
     // eslint-disable-next-line

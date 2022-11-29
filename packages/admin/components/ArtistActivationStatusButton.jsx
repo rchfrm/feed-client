@@ -9,19 +9,16 @@ const ArtistActivationStatusButton = ({ artistId, artistStatus, setArtistsStatus
   const [loading, setLoading] = React.useState(false)
   // Define button props
   const buttonProps = React.useMemo(() => {
-    if (artistStatus === 'trial' || artistStatus === 'inactive' || artistStatus === 'suspend') {
+    if (artistStatus !== 'active') {
       return {
         text: 'Activate Account',
         action: 'activate',
       }
     }
-    if (artistStatus === 'active') {
-      return {
-        text: 'Suspend Account',
-        action: 'suspend',
-      }
+    return {
+      text: 'Suspend Account',
+      action: 'suspend',
     }
-    return { text: '' }
   }, [artistStatus])
 
   const updateStatus = React.useCallback(async (artistId, statusType) => {

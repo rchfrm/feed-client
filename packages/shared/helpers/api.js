@@ -22,7 +22,7 @@ async function requestWithRetries(req) {
     try {
       if (attempt > 0) {
         // eslint-disable-next-line no-await-in-loop
-        await new Promise(resolve => setTimeout(resolve, retryConfig.retryDelay))
+        await new Promise((resolve) => setTimeout(resolve, retryConfig.retryDelay))
       }
       // eslint-disable-next-line no-await-in-loop
       return await axiosInstance.request(req)
@@ -86,7 +86,7 @@ export async function request(method, path, options, token) {
     : `${host.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
 
   if (query) {
-    url += `?${Object.keys(query).map(key => `${key}=${query[key]}`).join('&')}`
+    url += `?${Object.keys(query).map((key) => `${key}=${query[key]}`).join('&')}`
   }
 
   const req = {
@@ -177,8 +177,12 @@ export function deleteRequest(path, data, token) {
   * * Makes requests  and returns errors as if the request were successful with an `error.message` key filled out
 */
 export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
-  if (!requestType) return console.error('Please include a request type')
-  if (!url) return console.error('Please include a url')
+  if (!requestType) {
+    throw new Error('Please include a request type')
+  }
+  if (!url) {
+    throw new Error('Please include a url')
+  }
   const requestTypes = { get, patch, post, delete: deleteRequest }
   const res = await requestTypes[requestType](url, payload, token)
     .catch((error) => { return { error } })

@@ -72,6 +72,7 @@ const useOnScroll = ({
       window.removeEventListener('scroll', debouncedCallback, { passive: true })
       debouncedCallback.cancel()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [throttle])
 
   return scrollProps
