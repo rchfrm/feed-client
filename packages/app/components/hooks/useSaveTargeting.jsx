@@ -106,7 +106,6 @@ const useSaveTargeting = ({
     if (isFirstTimeUser) {
       const unpausedTargetingState = {
         ...savedState,
-        status: 1,
       }
       // TRACK
       track('set_daily_budget', {

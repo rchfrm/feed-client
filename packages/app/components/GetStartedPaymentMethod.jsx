@@ -2,10 +2,12 @@ import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 
 import useBillingStore from '@/app/stores/billingStore'
+import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 
 import AddPaymentForm from '@/app/AddPaymentForm'
 import BillingPaymentCard from '@/app/BillingPaymentCard'
@@ -37,6 +39,8 @@ const GetStartedPaymentMethod = () => {
     addPaymentMethodToStore,
   } = useBillingStore(getBillingStoreState)
   const { next, setWizardState, wizardState } = React.useContext(WizardContext)
+  const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
+  const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
 
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -140,6 +144,7 @@ const GetStartedPaymentMethod = () => {
       }
 
       updateArtist(artistUpdated)
+      await saveTargeting('', { ...targetingState, status: 1 })
     }
   }
 
