@@ -45,10 +45,14 @@ const PostCallToActionCheckboxSelect = ({
   const isPostActive = promotionStatus === 'active'
 
   useAsyncEffect(async (isMounted) => {
-    if (!post || post?.callToActions) return
+    if (!post || post?.callToActions) {
+      return
+    }
 
     const { res: callToActions, error } = await getPostCallToActions(artistId, postId)
-    if (!isMounted) return
+    if (!isMounted) {
+      return
+    }
 
     if (error) {
       return
@@ -63,7 +67,9 @@ const PostCallToActionCheckboxSelect = ({
   }
 
   React.useEffect(() => {
-    if (!callToActions) return
+    if (!callToActions) {
+      return
+    }
 
     const postCallToAction = callToActions?.find((callToAction) => callToAction.campaignType === campaignType) || {}
     const callToAction = postCallToAction?.value || defaultCallToAction || ''
