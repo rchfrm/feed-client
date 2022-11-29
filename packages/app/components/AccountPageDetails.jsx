@@ -248,8 +248,6 @@ const AccountPageDetails = () => {
         <ReferralCodeWidget
           label="My referral code"
           className="mb-5"
-          useSmallText
-          putTextAfter
         />
 
         <Input

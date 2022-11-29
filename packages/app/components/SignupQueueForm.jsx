@@ -170,7 +170,7 @@ const SignupQueueForm = ({ className }) => {
             updateValue={(value) => {
               setValues((values) => {
                 const valid = testValidInput(type, value)
-                return produce(values, draftValues => {
+                return produce(values, (draftValues) => {
                   draftValues[id] = {
                     value,
                     valid,
@@ -181,7 +181,7 @@ const SignupQueueForm = ({ className }) => {
             }}
             onBlur={() => {
               setValues((values) => {
-                return produce(values, draftValues => {
+                return produce(values, (draftValues) => {
                   if (!draftValues[id]) return
                   draftValues[id].error = !valid && required
                 })

@@ -77,7 +77,7 @@ const TargetingSettings = () => {
             initialStateRaw={initialTargetingState.genders}
             onChange={(state) => {
               setTargetingState((targetingState) => {
-                return produce(targetingState, draftState => {
+                return produce(targetingState, (draftState) => {
                   draftState.genders = state
                 })
               })
@@ -90,7 +90,7 @@ const TargetingSettings = () => {
             initialStateRaw={initialTargetingState.platforms}
             onChange={(state) => {
               setTargetingState((targetingState) => {
-                return produce(targetingState, draftState => {
+                return produce(targetingState, (draftState) => {
                   draftState.platforms = state
                 })
               })

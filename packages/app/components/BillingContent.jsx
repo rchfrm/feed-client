@@ -136,7 +136,7 @@ const BillingContent = () => {
 
   const billingComponents = {
     invoices: <BillingInvoiceSection organization={organization} organizationArtists={orgArtists} />,
-    profiles: <BillingProfilesSummary organization={organization} organizationArtists={orgArtists} setOrgArtists={setOrgArtists} />,
+    profiles: <BillingProfilesSummary organizationArtists={orgArtists} />,
     paymentMethod: <BillingPaymentMethodsSummary organization={organization} defaultPaymentMethod={defaultPaymentMethod} />,
     users: <BillingUsersSummary organization={organization} orgLoading={orgLoading} />,
   }

@@ -52,7 +52,7 @@ const BillingUsersSummary = ({
 
     setIsLoading(true)
     const { error: serverError } = await billingHelpers.deleteOrganizationUser(organization.id, orgUser.id)
-    const updatedOrgUsers = orgUsers.filter(user => user.id !== orgUser.id)
+    const updatedOrgUsers = orgUsers.filter((user) => user.id !== orgUser.id)
     setIsLoading(false)
     if (serverError) {
       setError(serverError)
@@ -61,7 +61,7 @@ const BillingUsersSummary = ({
     setOrgUsers(updatedOrgUsers)
   }, [orgUsers, organization.id])
 
-  const makeDisplayName = orgUser => {
+  const makeDisplayName = (orgUser) => {
     const names = []
 
     const firstName = (orgUser.first_name || '').trim()
@@ -81,13 +81,13 @@ const BillingUsersSummary = ({
     return names.length > 0 ? names.join(' ') : ''
   }
 
-  const makeNameAndRoleElement = user => {
+  const makeNameAndRoleElement = (user) => {
     const orgUser = organization.users[user.id]
     if (!orgUser) return
     return <span>{makeDisplayName(user)} – <strong>{orgUser.role}</strong></span>
   }
 
-  const makeDeleteButton = orgUser => {
+  const makeDeleteButton = (orgUser) => {
     const orgUserDetails = organization.users[orgUser.id]
     if (!orgUserDetails) return
     const shouldShowDeleteButton = user.id !== orgUser.id && orgUserDetails.role !== 'owner'

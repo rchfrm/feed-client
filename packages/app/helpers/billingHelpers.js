@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import moment from 'moment'
 import * as api from '@/helpers/api'
 import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
@@ -10,6 +9,9 @@ import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 /**
  * @param {string} organizationId
  * @param {string} paymentMethodId
+ * @param {string} currency
+ * @param {boolean} shouldBeDefault
+ * @param {string} promoCode
  * @returns {Promise<any>}
  */
 export const submitPaymentMethod = async ({ organizationId, paymentMethodId, currency, shouldBeDefault = false, promoCode }) => {
@@ -46,7 +48,7 @@ export const setPaymentAsDefault = async (organizationId, paymentMethodId) => {
 // DELETE PAYMENT
 /**
  * @param {string} organizationId
- * @param {string} paymentId
+ * @param {string} paymentMethodId
  * @returns {Promise<any>}
  */
 export const deletePaymentMethod = async (organizationId, paymentMethodId) => {
@@ -124,33 +126,6 @@ export const upgradeProfiles = async (organizationId, profilesToUpgrade, promoCo
 // * BILLING
 // * --------------------
 
-const getOrganizationDetails = (user) => {
-  const { organizations = [] } = user
-  const organizationsArray = Object.values(organizations)
-  return organizationsArray.map(({ id, name, role, _links = {} }) => {
-    const link = get(_links, ['self', 'href'], null)
-    return {
-      id,
-      name,
-      link,
-      role,
-    }
-  })
-}
-
-/**
- * @param {object} org
- * @returns {Promise<any>}
- */
-const fetchOrg = async (org) => {
-  const { link } = org
-  if (!link) return {}
-  return {
-    ...await api.get(org.link),
-    role: org.role,
-  }
-}
-
 /**
  * @param {string} orgId
  * @returns {Promise<object>}
@@ -164,12 +139,55 @@ export const fetchOrgById = async (orgId) => {
   return api.requestWithCatch('get', endpoint, null, errorTracking)
 }
 
-
 // Sort payment methods, putting the default payment first
 const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
   if (paymentMethodsArray.length === 1) return paymentMethodsArray
   const methodsWithoutDefault = paymentMethodsArray.filter(({ is_default }) => !is_default)
   return [defaultMethod, ...methodsWithoutDefault]
+}
+
+// Manage profiles to upgrade state
+export const handleInitialize = (draftState, payload) => {
+  const {
+    orgArtists,
+    selectedArtistID,
+    selectedArtistPlan,
+  } = payload
+
+  if (!orgArtists || !selectedArtistID || !selectedArtistPlan) return draftState
+
+  return orgArtists.reduce((acc, orgArtist) => {
+    if (orgArtist.id === selectedArtistID) {
+      acc[orgArtist.id] = selectedArtistPlan
+    } else if (orgArtist.plan.includes('basic')) {
+      acc[orgArtist.id] = 'growth'
+    } else {
+      const [planPrefix] = orgArtist.plan?.split('_') || 'growth'
+      acc[orgArtist.id] = planPrefix
+    }
+
+    return acc
+  }, {})
+}
+
+export const handleUpdateProfilePlan = (draftState, payload) => {
+  const { profileId, plan } = payload
+
+  if (!profileId || !plan || !Object.hasOwn(draftState, profileId)) return draftState
+
+  if (plan === 'basic') {
+    return Object.keys(draftState).reduce((acc, id) => {
+      if (id === profileId) {
+        acc[id] = plan
+      } else {
+        acc[id] = 'none'
+      }
+      return acc
+    }, draftState)
+  }
+
+  draftState[profileId] = plan
+  return draftState
 }
 
 // GET ALL BILLING DETAILS
@@ -208,19 +226,26 @@ export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
   return allPaymentMethods.find(({ is_default }) => is_default)
 }
 
-// GET ALL INFO ABOUT ALL ORGS
-export const getAllOrgsInfo = async ({ user }) => {
-  const orgDetails = getOrganizationDetails(user)
-  const fetchOrgPromises = orgDetails.map((org) => fetchOrg(org))
-  const allOrgsInfo = await Promise.all(fetchOrgPromises)
-  return allOrgsInfo
-}
-
 // GET PRICING PLAN STRING
 export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
   const planPeriod = isAnnualPricing && planPrefix !== 'basic' ? 'annual' : 'monthly'
 
   return `${planPrefix}_${planPeriod}`
+}
+
+// SET INITIAL VALUE FOR PRICING PLAN
+/**
+ * @param {string} artistPlan
+ * @param {boolean} canChooseBasic
+ * @param {boolean} isUpgradeToPro
+ * @returns {string}
+ */
+export const setInitialPlan = (artistPlan, canChooseBasic, isUpgradeToPro) => {
+  if (canChooseBasic) {
+    const [planPrefix] = artistPlan?.split('_')
+    return planPrefix || 'growth'
+  }
+  return isUpgradeToPro ? 'pro' : 'growth'
 }
 
 // FORMAT PRORATIONS DATA
@@ -272,6 +297,10 @@ export const formatProrationsPreview = ({ profilesToUpgrade, organizationArtists
   }
 }
 
+export const doProrationsMatch = (upgradedProfiles) => {
+  return upgradedProfiles.every(({ currentPayment, nextPayment }) => currentPayment === nextPayment)
+}
+
 // * PROFILE TRANSFER
 // * --------------------
 export const getOrganizationArtists = async (organizationId) => {
@@ -284,16 +313,6 @@ export const getOrganizationArtists = async (organizationId) => {
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
 }
 
-export const createTransferRequest = async (artistId, email) => {
-  const payload = { email }
-  const endpoint = `/artists/${artistId}/transfer`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Create transfer request',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
-}
-
 export const getTransferRequests = async () => {
   const payload = {}
   const endpoint = '/artist_transfers'
@@ -302,26 +321,6 @@ export const getTransferRequests = async () => {
     action: 'Get artist transfers',
   }
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
-}
-
-export const acceptTransferRequest = async (token, organizationId) => {
-  const payload = { organization_id: organizationId }
-  const endpoint = `/artist_transfers/${token}/accept`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Accept artist transfer',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
-}
-
-export const rejectTransferRequest = async (token) => {
-  const payload = {}
-  const endpoint = `/artist_transfers/${token}/reject`
-  const errorTracking = {
-    category: 'Billing',
-    action: 'Reject artist transfer',
-  }
-  return api.requestWithCatch('post', endpoint, payload, errorTracking)
 }
 
 // * USERS AND ORGANIZATION INVITES
@@ -431,6 +430,20 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
   }, {})
 
   return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
+}
+
+export const formatProfilesToUpgrade = (profilesToUpgrade, isAnnualPricing) => {
+  return Object.keys(profilesToUpgrade).reduce((acc, cur) => {
+    const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
+
+    if (planPrefix === 'none') {
+      acc[cur] = undefined
+    } else {
+      acc[cur] = getPricingPlanString(profilesToUpgrade[cur], isAnnualPricing)
+    }
+
+    return acc
+  }, {})
 }
 
 export const fetchInvoices = async (organization) => {

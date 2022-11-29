@@ -36,8 +36,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
   }
   // INITIAL ANIMATION
   const setDisplay = (state, node) => {
-    const display = state ? 'block' : 'none'
-    node.style.display = display
+    node.style.display = state ? 'block' : 'none'
   }
   // ANIMATE
   const animationPromise = React.useRef()
@@ -53,7 +52,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
     const xPercent = animationType.current === 'desktop' && !state ? -100 : 0
     const ease = Power2.easeOut
     const duration = state ? 0.4 : 0.3
-    // Desktop extra animtations
+    // Desktop extra animations
     if (animationType.current === 'desktop') {
       // Animate page buttons
       const ThePageButtons = document.getElementById('ThePageButtons')
@@ -91,7 +90,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
       // Hide the subnav background
       TheSubNavBackground.style.display = 'none'
       if (!ThePageButtons || !TheLogo || !TheSubNavButton) return
-      // Reset the side bar
+      // Reset the sidebar
       gsap.set([ThePageButtons, TheLogo, TheSubNavButton], { x: 0 })
       return
     }
@@ -127,11 +126,12 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
 
   // HANDLE WINDOW RESIZE
   const onResize = () => {
-    // Set animation tpye based on screen width
+    // Set animation type based on screen width
     setAnimationType()
-    // Reset inital position of els
+    // Reset initial position of els
     if (!open) resetEls()
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(onResize, [windowWidth])
 
   // DRAGGING

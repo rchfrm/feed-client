@@ -19,7 +19,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
     setIsFormComplete(hasValidEmail)
   }, [email])
   const [loading, setLoading] = React.useState(false)
-  const handleChange = e => {
+  const handleChange = (e) => {
     setSuccess('')
     setError(null)
     switch (e.target.name) {

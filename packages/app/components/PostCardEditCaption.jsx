@@ -73,7 +73,7 @@ const PostCardEditCaption = ({
     setVisibleCaption('ad')
     // Check if caption already exists for the selected campaign type
     const index = adMessages.findIndex(({ campaignType }) => campaignType === newAdMessages.campaignType)
-    const updatedCaptions = produce(adMessages, draftState => {
+    const updatedCaptions = produce(adMessages, (draftState) => {
       // If the caption exists, only update it's value
       if (index !== -1) {
         draftState[index].message = newCaption

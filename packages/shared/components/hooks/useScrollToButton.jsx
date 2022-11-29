@@ -14,7 +14,7 @@ const useScrollToButton = (buttonOptions, currentButton) => {
 
   // Update button refs
   React.useEffect(() => {
-    setButtonRefs(buttonRefs => (
+    setButtonRefs((buttonRefs) => (
       Array(buttonOptions.length).fill().map((_, i) => buttonRefs[i] || React.createRef())
     ))
   }, [buttonOptions.length])

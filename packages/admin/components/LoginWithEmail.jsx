@@ -36,7 +36,7 @@ function LoginWithEmail({ className }) {
   const { loginWithEmail } = useLogin()
 
   // HANDLE CHANGES IN FORM
-  const handleChange = e => {
+  const handleChange = (e) => {
     setError(null)
     switch (e.target.name) {
       case 'email':
@@ -52,7 +52,7 @@ function LoginWithEmail({ className }) {
   // END HANDLE CHANGES IN FORM
 
   // HANDLE CLICK ON LOG IN BUTTON
-  const onFormSubmit = async e => {
+  const onFormSubmit = async (e) => {
     e.preventDefault()
     setError(null)
     toggleGlobalLoading(true)

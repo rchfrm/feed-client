@@ -16,7 +16,7 @@ const PageQuerySetter = ({
 }) => {
   const [typedQueries, setTypedQueries] = React.useState(filledQueries)
   const handleChange = React.useCallback((index, value) => {
-    const newQueries = produce(typedQueries, draftQueries => {
+    const newQueries = produce(typedQueries, (draftQueries) => {
       draftQueries[index] = value
     })
     setTypedQueries(newQueries)

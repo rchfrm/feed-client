@@ -185,7 +185,6 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add', for
     await server.updateFolder(artistId, folder, 'delete', force)
     return { res: deleteLinkRes }
   }
-  console.error('No action defined in saveLink')
 }
 
 // DEFAULT LINK
@@ -220,7 +219,7 @@ export const setPostLink = async ({ artistId, linkId, assetId, campaignType }) =
 
 // EDITING DEFAULT LINK
 export const afterEditDefaultLink = ({ newLink, defaultLink }) => {
-  return produce(defaultLink, draftDefaultLink => {
+  return produce(defaultLink, (draftDefaultLink) => {
     draftDefaultLink.name = newLink.name
     draftDefaultLink.href = newLink.href
     draftDefaultLink.folder_id = newLink.folder_id
@@ -242,14 +241,14 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks, defaultLink }) =>
   const isDefaultLink = newLink.id === defaultLink.id
 
   // Add the default link prop to the new link
-  const newLinkUpdated = produce(newLink, newLinkDraft => { newLinkDraft.isDefaultLink = isDefaultLink })
+  const newLinkUpdated = produce(newLink, (newLinkDraft) => { newLinkDraft.isDefaultLink = isDefaultLink })
 
   // UPDATE DEFAULT LINK (if needed)
   const defaultLinkUpdated = isDefaultLink ? afterEditDefaultLink({ newLink, defaultLink }) : null
 
   // Edit link in same folder
   if (!hasMovedFolder) {
-    const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
+    const nestedLinksUpdated = produce(nestedLinks, (draftNestedLinks) => {
       const folderIndex = draftNestedLinks.findIndex((folder) => folder.id === newLinkFolderId)
       const linkIndex = draftNestedLinks[folderIndex].links.findIndex((link) => link.id === linkId)
       // Update link
@@ -264,7 +263,7 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks, defaultLink }) =>
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
   const newFolderIndex = nestedLinks.findIndex(({ id }) => id === newFolderId)
   // REBUILD STATE
-  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, (draftNestedLinks) => {
     // Add to new folder (if exists)
     if (newFolderIndex > -1) {
       draftNestedLinks[newFolderIndex].links.push(newLinkUpdated)
@@ -296,7 +295,7 @@ export const afterDeleteLink = ({ oldLink, nestedLinks }) => {
     linkDomain,
   })
   // REBUILD STATE
-  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, (draftNestedLinks) => {
     // Remove link from folder
     const oldFolderLinks = draftNestedLinks[oldFolderIndex].links
     draftNestedLinks[oldFolderIndex].links = oldFolderLinks.filter(({ id }) => id !== oldLink.id)
@@ -314,7 +313,7 @@ export const afterAddLink = ({ newLink, nestedLinks }) => {
     linkDomain,
   })
   // REBUILD STATE
-  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, (draftNestedLinks) => {
     // Add to folder (if exists)
     if (newFolderIndex > -1) {
       draftNestedLinks[newFolderIndex].links.push(newLink)
@@ -335,7 +334,7 @@ export const afterAddLink = ({ newLink, nestedLinks }) => {
 export const afterEditFolder = ({ newFolder, nestedLinks }) => {
   const { id: folderId } = newFolder
   const folderIndex = nestedLinks.findIndex(({ id }) => id === folderId)
-  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, (draftNestedLinks) => {
     // Edit folder name
     draftNestedLinks[folderIndex].name = newFolder.name
   })
@@ -346,7 +345,7 @@ export const afterEditFolder = ({ newFolder, nestedLinks }) => {
 export const afterDeleteFolder = ({ oldFolder, nestedLinks }) => {
   const { id: oldFolderId } = oldFolder
   const oldFolderIndex = nestedLinks.findIndex(({ id }) => id === oldFolderId)
-  const nestedLinksUpdated = produce(nestedLinks, draftNestedLinks => {
+  const nestedLinksUpdated = produce(nestedLinks, (draftNestedLinks) => {
     // Remove folder
     draftNestedLinks.splice(oldFolderIndex, 1)
   })

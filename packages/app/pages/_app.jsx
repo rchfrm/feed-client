@@ -22,20 +22,24 @@ const registerServiceWorker = () => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
         .then((registration) => {
+          // eslint-disable-next-line no-console
           console.info('service worker registered')
           registration.addEventListener('updatefound', () => {
           // If updatefound is fired, it means that there's
           // a new service worker being installed.
             const installingWorker = registration.installing
+            // eslint-disable-next-line no-console
             console.info('A new service worker is being installed:', installingWorker)
           // You can listen for changes to the installing service worker's
           // state via installingWorker.onstatechange
           })
         })
         .catch((error) => {
+          // eslint-disable-next-line no-console
           console.info('Service worker registration failed:', error)
         })
     } else {
+      // eslint-disable-next-line no-console
       console.info('Service workers are not supported.')
     }
   })
@@ -85,6 +89,7 @@ function Feed({ Component, pageProps }) {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

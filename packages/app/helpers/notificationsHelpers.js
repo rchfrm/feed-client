@@ -10,7 +10,7 @@ import Router from 'next/router'
 
 import { mixpanelExternalLinkClick } from '@/helpers/mixpanelHelpers'
 import { track } from '@/helpers/trackingHelpers'
-import { handleFbRedirect } from '@/app/helpers/facebookHelpers'
+import { handleFbAuthRedirect } from '@/app/helpers/facebookHelpers'
 
 import * as appServer from '@/app/helpers/appServer'
 import { requestWithCatch } from '@/helpers/api'
@@ -29,7 +29,6 @@ export const formatDictionary = (dictionaryArray = []) => {
     const { topic } = entry
     // Handle duplicate
     if (dictionary[topic]) {
-      console.error('duplicate topic: ', topic)
       return dictionary
     }
     // Add topic
@@ -87,7 +86,7 @@ export const getAction = ({
   // Handle relink FB
   if (ctaType === 'fb_reauth') {
     const { required_scope: requiredScope = [] } = data
-    return () => handleFbRedirect(auth, requiredScope, ROUTES.NOTIFICATIONS)
+    return () => handleFbAuthRedirect(auth, requiredScope, ROUTES.NOTIFICATIONS)
   }
 
   // Handle no method or link

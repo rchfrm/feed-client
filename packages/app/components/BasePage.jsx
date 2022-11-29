@@ -14,7 +14,7 @@ import MarkdownText from '@/elements/MarkdownText'
 // IMPORT COPY
 import copy from '@/app/copy/global'
 
-const getControlsLoading = state => state.isControlsLoading
+const getControlsLoading = (state) => state.isControlsLoading
 
 const BasePage = ({
   headerConfig, // heading

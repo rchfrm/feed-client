@@ -33,7 +33,7 @@ const TargetingAgeSlider = ({ ageMin, ageMax, setTargetingState, className }) =>
         onChange={({ values }) => {
           const [ageMin, ageMax] = values
           setTargetingState((targetingState) => {
-            return produce(targetingState, draftState => {
+            return produce(targetingState, (draftState) => {
               draftState.age_min = ageMin
               draftState.age_max = ageMax
             })

@@ -4,10 +4,6 @@ import { gsap } from 'gsap'
 const isUndefined = (arg) => arg === undefined
 const isAnyDefined = (...args) => args.some((a) => !isUndefined(a))
 const noop = () => { }
-const debug = (name, msg, devMode) => {
-  if (!devMode) return
-  console.debug(name, msg)
-}
 
 const defaultAnimationProps = {
   duration: 0.3,
@@ -27,18 +23,16 @@ const getValueFromDirection = (values, direction) => {
 
 // RUN THE ANIMATION
 const startAnimation = (el, animateFrom, animateTo, animProps) => {
-  // Set intially
+  // Set initially
   gsap.set(el, animateFrom)
   // Animate
-  const animation = gsap.to(el, { ...animateTo, ...animProps })
-  return animation
+  return gsap.to(el, { ...animateTo, ...animProps })
 }
 
 // GET WHICH PROPS TO ANIMATE TO AND FROM
 const getElProps = (animateToFrom, direction) => {
   return Object.entries(animateToFrom).reduce((props, [elPropKey, elPropValue]) => {
-    const propValue = elPropValue[direction]
-    props[elPropKey] = propValue
+    props[elPropKey] = elPropValue[direction]
     return props
   }, {})
 }
@@ -46,8 +40,7 @@ const getElProps = (animateToFrom, direction) => {
 // GET THE ANIMATION OPTIONS
 const getAnimationProps = (options, direction) => {
   return Object.entries(options).reduce((props, [propKey, propValue]) => {
-    const value = Array.isArray(propValue) ? getValueFromDirection(propValue, direction) : propValue
-    props[propKey] = value
+    props[propKey] = Array.isArray(propValue) ? getValueFromDirection(propValue, direction) : propValue
     return props
   }, {})
 }
@@ -81,7 +74,6 @@ const useAnimateOnMount = ({
     throw Error('You cannot use wait if enter or exit is defined.')
   }
   enter = wait || enter
-  exit = wait || exit
 
   // ANIMATE
   const animate = ({ el, visible }) => {
@@ -103,12 +95,10 @@ const useAnimateOnMount = ({
     const animation = animateVisible(domRef.current)
     animationInstance.current = animation
     if (enter) {
-      debug(debugName, 'Registering onfinish enter animation', devMode)
       animation.then(() => enter())
     }
   }
   const handleExitAnimationEnd = (exitCb) => {
-    debug(debugName, 'Exit animation finished', devMode)
     exitCb()
   }
 
@@ -131,14 +121,12 @@ const useAnimateOnMount = ({
 
   // SHOW
   const showPresence = () => {
-    debug(debugName, 'Switching to visible', devMode)
     aboutToExit.current = false
     setVariant('visible')
   }
 
   // TOGGLE
   const togglePresence = (exitCb = noop) => {
-    debug(debugName, `Toggled variant, currently ${variant}`, devMode)
     if (isVisible) {
       hidePresence(exitCb)
     } else {
@@ -148,16 +136,13 @@ const useAnimateOnMount = ({
 
   React.useLayoutEffect(() => {
     if (!domRef.current) {
-      debug(debugName, 'ref is now undefined!', devMode)
       return
     }
     const shouldAnimateFirstRender = !didRender.current && animateFirstRender
     if (shouldAnimateFirstRender) {
-      debug(debugName, 'Animating first render', devMode)
       return playEnterAnimation()
     }
     if (isVisible) {
-      debug(debugName, 'Playing enter animation', devMode)
       playEnterAnimation()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -165,7 +150,6 @@ const useAnimateOnMount = ({
 
   React.useLayoutEffect(() => {
     if (!didRender.current && isVisible) {
-      debug(debugName, 'Rendered', devMode)
       didRender.current = true
     }
   }, [isVisible, debugName, devMode])

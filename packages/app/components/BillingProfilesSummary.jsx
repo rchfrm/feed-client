@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BillingProfilesTransferList from '@/app/BillingProfilesTransferList'
-import BillingTransferProfile from '@/app/BillingTransferProfile'
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/billingCopy'
 import { capitalise } from '@/helpers/utils'
@@ -10,11 +8,10 @@ import brandColors from '@/constants/brandColors'
 import Spinner from '@/elements/Spinner'
 import useAsyncEffect from 'use-async-effect'
 import { getTransferRequests } from '@/app/helpers/billingHelpers'
+import Error from '@/elements/Error'
 
 const BillingProfilesSummary = ({
-  organization,
   organizationArtists,
-  setOrgArtists,
   className,
 }) => {
   const [isLoading, setIsLoading] = React.useState(true)
@@ -34,11 +31,6 @@ const BillingProfilesSummary = ({
     setTransferRequests(transferRequests)
     setIsLoading(false)
   }, [])
-
-  const removeTransferRequest = transferRequest => {
-    const updatedTransferRequests = transferRequests.filter(tr => tr.token !== transferRequest.token)
-    setTransferRequests(updatedTransferRequests)
-  }
 
   if (isLoading) {
     return (
@@ -60,6 +52,7 @@ const BillingProfilesSummary = ({
     <div className={[className].join(' ')}>
       {/* INTRO */}
       <h2 className="font-body font-bold mb-6">Profiles</h2>
+      <Error error={error} />
       {/* SUMMARY */}
       <div className="mb-10">
         {organizationArtists.length === 0 ? (
@@ -103,27 +96,12 @@ const BillingProfilesSummary = ({
           </>
         )}
       </div>
-      {/* TRANSFER REQUESTS */}
-      {filteredTransferRequests.length !== 0 && (
-        <BillingProfilesTransferList
-          error={error}
-          organizationId={organization.id}
-          transferRequests={filteredTransferRequests}
-          removeTransferRequest={removeTransferRequest}
-          setOrgArtists={setOrgArtists}
-        />
-      )}
-      <BillingTransferProfile
-        organizationArtists={organizationArtists}
-      />
     </div>
   )
 }
 
 BillingProfilesSummary.propTypes = {
-  organization: PropTypes.object.isRequired,
   organizationArtists: PropTypes.array.isRequired,
-  setOrgArtists: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

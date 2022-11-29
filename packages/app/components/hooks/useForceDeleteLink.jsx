@@ -15,7 +15,7 @@ const useForceDeleteLink = () => {
   const { showAlert, closeAlert } = useAlertModal()
   // SIDE PANEL CONTEXT
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
-  const updatePostsWithMissingLinks = usePostsStore(useCallback(state => state.updatePostsWithMissingLinks, []))
+  const updatePostsWithMissingLinks = usePostsStore(useCallback((state) => state.updatePostsWithMissingLinks, []))
   // FUNCTION TO SHOW MODAL
   const showForceDeleteModal = React.useCallback((runDeleteItem, linkIds, itemType) => {
     const buttons = [

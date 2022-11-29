@@ -15,15 +15,13 @@ export const getArticleDates = (article) => {
 // GET AUTHOR
 export const getArticleAuthor = (article) => {
   const { authors } = article
-  const author = authors.length ? authors[0].name : ''
-  return author
+  return authors.length ? authors[0].name : ''
 }
 
 // SORT ARTICLES
 export const sortArticles = (articles, sortBy, sortOrder) => {
   const sortKey = sortBy === 'date' ? 'publishDateRaw' : null
   if (!sortKey) {
-    console.error(`Cannort sort by ${sortBy}`)
     return articles
   }
   return sortArrayByKey(articles, sortKey, sortOrder)

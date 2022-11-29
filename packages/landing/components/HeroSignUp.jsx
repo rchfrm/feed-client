@@ -57,7 +57,7 @@ export default function HeroSignUp() {
       return
     }
 
-    if (['facebook.com', 'password'].every(signInMethod => signInMethods.indexOf(signInMethod) > -1)) {
+    if (['facebook.com', 'password'].every((signInMethod) => signInMethods.indexOf(signInMethod) > -1)) {
       mixpanelExternalLinkClick(loginLink, { location: trackLocation })
     }
   }

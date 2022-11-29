@@ -56,7 +56,7 @@ const useSwipeDismiss = ({
     setter(x)
   }
 
-  return useDrag(state => onDrag(state), dragConfig.current)
+  return useDrag((state) => onDrag(state), dragConfig.current)
 }
 
 export default useSwipeDismiss

@@ -17,7 +17,7 @@ import * as ROUTES from '@/app/constants/routes'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { mixpanelSignOut } from '@/helpers/mixpanelHelpers'
 
-const controlsStoreClearAll = state => state.clearAll
+const controlsStoreClearAll = (state) => state.clearAll
 
 const useSignOut = () => {
   const { setNoAuth, clearRejectedPathPath } = React.useContext(AuthContext)

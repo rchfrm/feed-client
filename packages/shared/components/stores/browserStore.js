@@ -21,7 +21,7 @@ const breakpointValues = Object.values(breakpointsKeyedByName).reduce((arr, size
   return [...arr, size]
 }, [])
 
-const browserStore = create(set => ({
+const browserStore = create((set) => ({
   browser: {
     width: 0,
     height: 0,

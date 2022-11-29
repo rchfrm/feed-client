@@ -35,7 +35,7 @@ const SelectCurrency = (props) => {
   const [options, setOptions] = React.useState([])
   React.useEffect(() => {
     if (!topChoice) return setOptions(selectOptionsSorted)
-    const optionsReSorted = produce(selectOptionsSorted, draftState => {
+    const optionsReSorted = produce(selectOptionsSorted, (draftState) => {
       const index = draftState.findIndex(({ value }) => value === topChoice)
       const topChoiceItem = index !== -1 ? draftState[index] : null
       if (!topChoiceItem) return
