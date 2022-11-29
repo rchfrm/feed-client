@@ -36,7 +36,7 @@ const AdCreation = () => {
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
-  const { setSidePanelButton } = React.useContext(SidePanelContext)
+  const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
 
   const handleChange = ({ target }) => {
     const { value } = target
@@ -70,7 +70,8 @@ const AdCreation = () => {
     }
 
     setIsLoading(false)
-  }, [file, message, isDefaultLink, currentLink?.id, currentCallToAction, isDefaultCallToAction, artistId, campaignType])
+    toggleSidePanel(false)
+  }, [file, message, isDefaultLink, currentLink?.id, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel])
 
   React.useEffect(() => {
     const button = (
