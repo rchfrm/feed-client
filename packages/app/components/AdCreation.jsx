@@ -12,15 +12,17 @@ import { createAd } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
-  postsPreferences: state.postsPreferences,
+  optimizationPreferences: state.optimizationPreferences,
 })
 
 const AdCreation = () => {
-  const { defaultLink, postsPreferences } = useControlsStore(getControlsStoreState)
-  const { callToAction: defaultCallToAction } = postsPreferences
+  const { defaultLink, optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
+  const hasSalesObjective = objective === 'sales'
+  const campaignType = hasSalesObjective ? 'conversions' : 'all'
 
   const [file, setFile] = React.useState(null)
-  const [caption, setCaption] = React.useState('')
+  const [message, setMessage] = React.useState('')
   const [isDefaultLink, setIsDefaultLink] = React.useState(true)
   const [currentLink, setCurrentLink] = React.useState({
     id: defaultLink.id,
@@ -38,17 +40,28 @@ const AdCreation = () => {
 
   const handleChange = ({ target }) => {
     const { value } = target
-    setCaption(value)
+    setMessage(value)
   }
 
   const save = React.useCallback(async () => {
     setIsLoading(true)
 
     const formData = new FormData()
+    const data = {
+      message,
+      linkSpecs: isDefaultLink ? null : {
+        [campaignType]: {
+          type: 'linkbank',
+          data: { id: currentLink.id },
+        },
+      },
+      callToAction: isDefaultCallToAction ? null : {
+        callToAction: currentCallToAction,
+        options: { campaignType },
+      },
+    }
     formData.append('file', file)
-    formData.append('caption', caption)
-    formData.append('link', isDefaultLink ? defaultLink?.id : currentLink.id)
-    formData.append('callToAction', isDefaultCallToAction ? defaultCallToAction : currentCallToAction)
+    formData.append('data', JSON.stringify(data))
 
     const { error } = await createAd(artistId, formData)
     if (error) {
@@ -57,7 +70,7 @@ const AdCreation = () => {
     }
 
     setIsLoading(false)
-  }, [file, caption, isDefaultLink, defaultLink?.id, currentLink?.id, currentCallToAction, defaultCallToAction, isDefaultCallToAction, artistId])
+  }, [file, message, isDefaultLink, currentLink?.id, currentCallToAction, isDefaultCallToAction, artistId, campaignType])
 
   React.useEffect(() => {
     const button = (
@@ -65,7 +78,7 @@ const AdCreation = () => {
         version="green"
         onClick={save}
         trackComponentName="AdCreation"
-        disabled={!file || !caption}
+        disabled={!file || !message}
         loading={isLoading}
       >
         Save
@@ -73,7 +86,7 @@ const AdCreation = () => {
     )
 
     setSidePanelButton(button)
-  }, [setSidePanelButton, save, caption, file, isLoading])
+  }, [setSidePanelButton, save, message, file, isLoading])
 
   return (
     <div className="pr-10">
@@ -82,19 +95,21 @@ const AdCreation = () => {
       <FileUpload setFile={setFile} />
       <p className="font-bold">2. Enter a caption</p>
       <TextArea
-        name="caption"
-        value={caption}
+        name="message"
+        value={message}
         handleChange={handleChange}
         placeholder="Type a caption for your ad..."
       />
       <p className="font-bold">3. Link and CTA</p>
       <PostLinkCheckBoxSelect
+        campaignType={campaignType}
         currentLink={currentLink}
         setCurrentLink={setCurrentLink}
         isDefaultLink={isDefaultLink}
         setIsDefaultLink={setIsDefaultLink}
       />
       <PostCallToActionCheckboxSelect
+        campaignType={campaignType}
         currentCallToAction={currentCallToAction}
         setCurrentCallToAction={setCurrentCallToAction}
         currentCallToActionId={currentCallToActionId}
