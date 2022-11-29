@@ -93,7 +93,7 @@ function PostsAll({
 
   return (
     <section className={styles.postsSection}>
-      <AdCreationButton />
+      <AdCreationButton className="hidden" />
       <ul
         id="PostsAll__scroller"
         className={[

@@ -36,7 +36,6 @@ const PostCallToActionCheckboxSelect = ({
 
   const { artistId } = React.useContext(ArtistContext)
 
-  // Get global default call to actions for both campaign types from store
   const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
   const { callToAction: defaultPostsCallToAction } = postsPreferences
   const { callToAction: defaultConversionsCallToAction } = conversionsPreferences
@@ -45,7 +44,6 @@ const PostCallToActionCheckboxSelect = ({
 
   const isPostActive = promotionStatus === 'active'
 
-  // Get post level call to actions
   useAsyncEffect(async (isMounted) => {
     if (!post || post?.callToActions) return
 
@@ -64,12 +62,10 @@ const PostCallToActionCheckboxSelect = ({
     setIsDefaultCallToAction(!isDefaultCallToAction)
   }
 
-  // On initial mount and on campaign type change set the call to action
   React.useEffect(() => {
     if (!callToActions) return
 
     const postCallToAction = callToActions?.find((callToAction) => callToAction.campaignType === campaignType) || {}
-    // Initial value is post level call to action, or default call to action
     const callToAction = postCallToAction?.value || defaultCallToAction || ''
 
     setCurrentCallToAction(callToAction)

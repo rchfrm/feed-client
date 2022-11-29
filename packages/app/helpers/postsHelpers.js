@@ -663,5 +663,6 @@ export const createAd = (artistId, formData) => {
     category: 'Post',
     action: 'Create ad',
   }
+
   return requestWithCatch('post', endpoint, payload, errorTracking)
 }
