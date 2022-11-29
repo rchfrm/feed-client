@@ -37,7 +37,6 @@ const FileUpload = ({ setFile }) => {
 
   const onChange = (e) => {
     const { target: { files } } = e
-
     upload(files[0])
   }
 
@@ -45,17 +44,18 @@ const FileUpload = ({ setFile }) => {
     e.preventDefault()
 
     const { dataTransfer: { files } } = e
-
     upload(files[0])
   }
 
   const onDragEnter = (e) => {
     e.preventDefault()
+
     setIsDragging(true)
   }
 
   const onDragLeave = (e) => {
     e.preventDefault()
+
     setIsDragging(false)
   }
 
@@ -132,9 +132,6 @@ const FileUpload = ({ setFile }) => {
 
 FileUpload.propTypes = {
   setFile: PropTypes.func.isRequired,
-}
-
-FileUpload.defaultProps = {
 }
 
 export default FileUpload
