@@ -51,7 +51,6 @@ const FileUpload = ({ setFile }) => {
     e.preventDefault()
 
     const { dataTransfer: { files } } = e
-
     upload(files[0])
   }
 
