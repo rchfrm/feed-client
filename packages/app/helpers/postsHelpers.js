@@ -657,7 +657,7 @@ export const canBePromoted = (eligibility) => {
 }
 
 export const createAd = (artistId, formData) => {
-  const endpoint = `/artists/${artistId}/assets/custom`
+  const endpoint = `/artists/${artistId}/custom_assets`
   const payload = formData
   const errorTracking = {
     category: 'Post',

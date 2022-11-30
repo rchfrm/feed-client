@@ -46,16 +46,19 @@ const AdCreation = () => {
     const formData = new FormData()
     const data = {
       message,
-      linkSpecs: isDefaultLink ? null : {
-        [campaignType]: {
+      ...(!isDefaultLink && {
+        link: {
           type: 'linkbank',
-          data: { id: currentLink.id },
+          linkId: currentLink.id,
+          campaignType,
         },
-      },
-      callToAction: isDefaultCallToAction ? null : {
-        callToAction: currentCallToAction,
-        options: { campaignType },
-      },
+      }),
+      ...(!isDefaultCallToAction && {
+        callToAction: {
+          callToAction: currentCallToAction,
+          campaignType,
+        },
+      }),
     }
     formData.append('file', file)
     formData.append('data', JSON.stringify(data))
