@@ -12,14 +12,11 @@ import { createAd } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
-  optimizationPreferences: state.optimizationPreferences,
 })
 
 const AdCreation = () => {
-  const { defaultLink, optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { objective } = optimizationPreferences
-  const hasSalesObjective = objective === 'sales'
-  const campaignType = hasSalesObjective ? 'conversions' : 'all'
+  const { defaultLink } = useControlsStore(getControlsStoreState)
+  const campaignType = 'all'
 
   const [file, setFile] = React.useState(null)
   const [message, setMessage] = React.useState('')
