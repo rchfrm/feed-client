@@ -50,13 +50,13 @@ const FileUpload = ({ setFile }) => {
   const onDragEnter = (e) => {
     e.preventDefault()
 
-    setIsDragging(true)
+    setIsDragging((isDragging) => !isDragging)
   }
 
   const onDragLeave = (e) => {
     e.preventDefault()
 
-    setIsDragging(false)
+    setIsDragging((isDragging) => !isDragging)
   }
 
   const onDragOver = (e) => {
