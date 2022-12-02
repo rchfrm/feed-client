@@ -41,12 +41,12 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
       options.unshift('basic')
     }
 
-    if (profile.id !== profileInContextId && profile.status !== 'active') {
+    if (profile.id !== profileInContextId && (profile.status !== 'active' || !profile.plan)) {
       options.push('none')
     }
 
     return options
-  }, [profileInContextId, profile.id, profile.status])
+  }, [profile.id, profile.status, profile.plan, profileInContextId])
 
   const handleOnChange = (plan) => {
     setProfilesToUpgrade({

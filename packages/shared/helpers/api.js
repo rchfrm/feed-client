@@ -22,7 +22,7 @@ async function requestWithRetries(req) {
     try {
       if (attempt > 0) {
         // eslint-disable-next-line no-await-in-loop
-        await new Promise(resolve => setTimeout(resolve, retryConfig.retryDelay))
+        await new Promise((resolve) => setTimeout(resolve, retryConfig.retryDelay))
       }
       // eslint-disable-next-line no-await-in-loop
       return await axiosInstance.request(req)
@@ -86,7 +86,7 @@ export async function request(method, path, options, token) {
     : `${host.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
 
   if (query) {
-    url += `?${Object.keys(query).map(key => `${key}=${query[key]}`).join('&')}`
+    url += `?${Object.keys(query).map((key) => `${key}=${query[key]}`).join('&')}`
   }
 
   const req = {
