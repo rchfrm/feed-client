@@ -102,19 +102,15 @@ const useSaveTargeting = ({
     const isPaused = status === 0
     const savedState = newState || targetingState
 
-    // If first time user, UNPAUSE and SET SETTINGS with no warning
+    // If first time user, SET SETTINGS with no warning
     if (isFirstTimeUser) {
-      const unpausedTargetingState = {
-        ...savedState,
-        status: 1,
-      }
-      // TRACK
       track('set_daily_budget', {
         budget: savedState.budget / currencyOffset,
         currencyCode,
       })
+
       trackGoogleBudgetSet()
-      return saveTargetingSettings(unpausedTargetingState)
+      return saveTargetingSettings(savedState)
     }
 
     if (isPaused && togglePauseCampaign) {
