@@ -1,20 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useAsyncEffect from 'use-async-effect'
 import produce from 'immer'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useControlsStore from '@/app/stores/controlsStore'
-
-import CallToActionSelector from '@/app/CallToActionSelector'
 import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
-
-import CheckboxInput from '@/elements/CheckboxInput'
+import PostCallToActionCheckboxSelect from '@/app/PostCallToActionCheckboxSelect'
 import Error from '@/elements/Error'
-
-import { getPostCallToActions, setPostCallToAction } from '@/app/helpers/postsHelpers'
-import { capitalise } from '@/helpers/utils'
+import { setPostCallToAction } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   postsPreferences: state.postsPreferences,
@@ -28,16 +20,12 @@ const PostSettingsCallToAction = ({
   updatePost,
   isDisabled,
 }) => {
-  const {
-    id: postId,
-    promotionStatus,
-  } = post
+  const { id: postId } = post
 
   const [callToActions, setCallToActions] = React.useState(post.callToActions)
   const [savedCallToAction, setSavedCallToAction] = React.useState('')
   const [currentCallToAction, setCurrentCallToAction] = React.useState('')
   const [currentCallToActionId, setCurrentCallToActionId] = React.useState('')
-
   const [isDefaultCallToAction, setIsDefaultCallToAction] = React.useState(true)
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
@@ -50,39 +38,9 @@ const PostSettingsCallToAction = ({
   const { callToAction: defaultPostsCallToAction } = postsPreferences
   const { callToAction: defaultConversionsCallToAction } = conversionsPreferences
   const defaultCallToAction = campaignType === 'all' ? defaultPostsCallToAction : defaultConversionsCallToAction || defaultPostsCallToAction
-  const defaultCallToActionString = capitalise(defaultCallToAction.toLowerCase().split('_').join(' '))
-
-  const isPostActive = promotionStatus === 'active'
 
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
-
-  // Get post level call to actions
-  useAsyncEffect(async (isMounted) => {
-    if (post.callToActions) return
-
-    const { res: callToActions, error } = await getPostCallToActions(artistId, postId)
-    if (!isMounted) return
-
-    if (error) {
-      return
-    }
-
-    setCallToActions(callToActions)
-    updatePost('update-call-to-actions', { callToActions })
-  }, [])
-
-  const handleChange = () => {
-    setIsDefaultCallToAction(!isDefaultCallToAction)
-
-    if (!isDefaultCallToAction) {
-      setShouldShowSaveButton(savedCallToAction !== defaultCallToAction)
-    }
-
-    if (isDefaultCallToAction) {
-      setShouldShowSaveButton(savedCallToAction !== currentCallToAction)
-    }
-  }
 
   const updatePostState = (callToAction) => {
     // Check if call to action already exists for the selected campaign type
@@ -135,27 +93,14 @@ const PostSettingsCallToAction = ({
 
   // Watch for call to action changes and show save button if there has been a change
   React.useEffect(() => {
-    const hasChanged = currentCallToAction !== savedCallToAction
-
-    setShouldShowSaveButton(hasChanged)
-  }, [currentCallToAction, savedCallToAction])
-
-  // On initial mount and on campaign type change set the call to action
-  React.useEffect(() => {
-    if (!callToActions) return
-
-    const postCallToAction = callToActions?.find((callToAction) => callToAction.campaignType === campaignType) || {}
-    // Initial value is post level call to action, or default call to action
-    const callToAction = postCallToAction?.value || defaultCallToAction || ''
-
-    setCurrentCallToAction(callToAction)
-    setCurrentCallToActionId(postCallToAction?.id || '')
-    setSavedCallToAction(callToAction)
-
-    if (postCallToAction?.value && postCallToAction?.value !== defaultCallToAction) {
-      setIsDefaultCallToAction(false)
+    if (isDefaultCallToAction) {
+      setShouldShowSaveButton(savedCallToAction !== defaultCallToAction)
     }
-  }, [campaignType, callToActions, defaultCallToAction])
+
+    if (!isDefaultCallToAction) {
+      setShouldShowSaveButton(savedCallToAction !== currentCallToAction)
+    }
+  }, [isDefaultCallToAction, currentCallToAction, savedCallToAction, defaultCallToAction])
 
   return (
     <div className="mb-10">
@@ -173,26 +118,22 @@ const PostSettingsCallToAction = ({
           isLoading={isLoading}
         />
       </div>
-      <CheckboxInput
-        buttonLabel={`Use default (${defaultCallToActionString})`}
-        value="cta"
-        checked={isDefaultCallToAction}
-        onChange={handleChange}
-        disabled={isDisabled}
-        className="sm:pl-2"
+      <PostCallToActionCheckboxSelect
+        post={post}
+        campaignType={campaignType}
+        currentCallToAction={currentCallToAction}
+        setCurrentCallToAction={setCurrentCallToAction}
+        currentCallToActionId={currentCallToActionId}
+        setCurrentCallToActionId={setCurrentCallToActionId}
+        isDefaultCallToAction={isDefaultCallToAction}
+        setIsDefaultCallToAction={setIsDefaultCallToAction}
+        setSavedCallToAction={setSavedCallToAction}
+        callToActions={callToActions}
+        setCallToActions={setCallToActions}
+        updatePost={updatePost}
+        isDisabled={isDisabled}
+        className="sm:pl-4"
       />
-      {!isDefaultCallToAction && (
-        <CallToActionSelector
-          callToAction={currentCallToAction}
-          setCallToAction={setCurrentCallToAction}
-          callToActionId={currentCallToActionId}
-          postId={postId}
-          isPostActive={isPostActive}
-          campaignType={campaignType}
-          disabled={isDisabled}
-          className="sm:pl-4"
-        />
-      )}
       <Error error={error} />
     </div>
   )

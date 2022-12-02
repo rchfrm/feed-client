@@ -1,14 +1,9 @@
-// IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import produce from 'immer'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import PostCard from '@/app/PostCard'
-// IMPORT ASSETS
-// IMPORT STYLES
+import AdCreationButton from '@/app/AdCreationButton'
 import styles from '@/app/PostsPage.module.css'
 
 // Reset posts scroll position
@@ -94,11 +89,11 @@ function PostsAll({
     }
   }, [posts.length, loadMore, loadedAll, lastPostId])
 
-  // GET ARTIST ID
   const { artistId } = React.useContext(ArtistContext)
 
   return (
     <section className={styles.postsSection}>
+      <AdCreationButton className="hidden" />
       <ul
         id="PostsAll__scroller"
         className={[
