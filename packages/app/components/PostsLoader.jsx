@@ -1,247 +1,81 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
-import usePostsStore from '@/app/stores/postsStore'
+import PostsList from '@/app/PostsList'
+
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
-import PostsAll from '@/app/PostsAll'
-import PostsNone from '@/app/PostsNone'
-import { formatPostsResponse, getCursor, getPosts } from '@/app/helpers/postsHelpers'
-import { track } from '@/helpers/trackingHelpers'
-import produce from 'immer'
+import { formatPostsResponse, getPosts } from '@/app/helpers/postsHelpers'
 
-const postsInitialState = []
-
-const postsReducer = (draftState, postsAction) => {
-  const { type: actionType, payload = {} } = postsAction
-  const {
-    newPosts,
-    postIndex,
-    promotionEnabled,
-    promotableStatus,
-    linkSpecs,
-    adMessages,
-    callToActions,
-    priorityEnabled,
-  } = payload
-
-  switch (actionType) {
-    case 'replace-posts':
-      return newPosts
-    case 'reset-posts':
-      return postsInitialState
-    case 'add-posts':
-      draftState.push(...newPosts)
-      break
-    case 'toggle-promotion':
-      draftState[postIndex].promotionEnabled = promotionEnabled
-      draftState[postIndex].promotableStatus = promotableStatus
-      break
-    case 'toggle-conversion':
-      draftState[postIndex].conversionsEnabled = promotionEnabled
-      draftState[postIndex].promotableStatus = promotableStatus
-      break
-    case 'update-link-specs':
-      draftState[postIndex].linkSpecs = linkSpecs
-      break
-    case 'update-call-to-actions':
-      draftState[postIndex].callToActions = callToActions
-      break
-    case 'update-captions':
-      draftState[postIndex].adMessages = adMessages
-      break
-    case 'toggle-priority':
-      draftState[postIndex].priorityEnabled = priorityEnabled
-      break
-    default:
-      return draftState
-  }
-}
-
-const PostsLoader = ({ sortBy, filterBy }) => {
-  const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
-  const [isLoadingMore, setIsLoadingMore] = React.useState(false)
+const PostsLoader = ({
+  title,
+  status,
+  limit,
+  posts,
+  setPosts,
+}) => {
+  const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const cursor = React.useRef('')
-  const isInitialLoad = React.useRef(true)
-  const isEndOfAssets = React.useRef(false)
-  const limit = 10
-
-  const { artistId, artistLoading } = React.useContext(ArtistContext)
-  const { toggleGlobalLoading } = React.useContext(InterfaceContext)
-
-  React.useEffect(() => {
-    if (!artistId) return
-
-    isInitialLoad.current = true
-    cursor.current = null
-    isEndOfAssets.current = false
-  }, [artistId, sortBy, filterBy])
+  const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
-    if (!artistId || isEndOfAssets.current) {
+    if (!artistId) {
       return
     }
 
-    const { res: posts, error } = await getPosts({ limit, artistId, sortBy, filterBy, cursor: cursor.current })
+    setIsLoading(true)
+
+    const { res: posts, error } = await getPosts({ limit, artistId, filterBy: { promotion_status: status }, cursor: cursor.current })
     if (!isMounted) {
       return
     }
 
     if (error) {
       setError(error)
-      toggleGlobalLoading(false)
-      return
-    }
-
-    if (!posts || !posts.length) {
-      isEndOfAssets.current = true
-      setIsLoadingMore(false)
-
-      if (isInitialLoad.current) {
-        setPosts({ type: 'reset-posts' })
-      }
-
-      isInitialLoad.current = false
+      setIsLoading(false)
       return
     }
 
     const postsFormatted = formatPostsResponse(posts)
-    const lastPost = posts[posts.length - 1]
-    if (lastPost._links.after) {
-      const nextCursor = getCursor(lastPost)
-      cursor.current = nextCursor
-    }
-
-    if (isLoadingMore) {
-      setIsLoadingMore(false)
-      setPosts({
-        type: 'add-posts',
-        payload: {
-          newPosts: postsFormatted,
-        },
-      })
-      return
-    }
 
     setPosts({
-      type: 'replace-posts',
+      type: 'set-posts',
       payload: {
-        newPosts: postsFormatted,
-      },
-    })
-    isInitialLoad.current = false
-  }, [artistId, sortBy, filterBy, isLoadingMore])
-
-  const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all', postId) => {
-    const postIndex = posts.findIndex(({ id }) => postId === id)
-    const newPromotionState = promotionEnabled
-
-    setPosts({
-      type: campaignType === 'all' ? 'toggle-promotion' : 'toggle-conversion',
-      payload: {
-        promotionEnabled,
-        promotableStatus,
-        postIndex,
+        status: status[0],
+        posts: postsFormatted,
       },
     })
 
-    const { postType, platform, organicMetrics = {}, paidMetrics = {} } = posts[postIndex]
-
-    track('post_promotion_status', {
-      status: newPromotionState ? 'eligible' : 'ineligible',
-      postType,
-      platform,
-      campaignType,
-      es: paidMetrics.engagementScore ?? organicMetrics.engagementScore,
-    })
-
-    return newPromotionState
-  }, [posts, setPosts])
-
-  const loadMorePosts = React.useCallback(() => {
-    setIsLoadingMore(true)
-  }, [])
-
-  const updatePost = React.useCallback((action, payload) => {
-    setPosts({ type: action, payload })
-  }, [setPosts])
-
-  const setUpdatePostsWithMissingLinks = usePostsStore(React.useCallback((state) => state.setUpdatePostsWithMissingLinks, []))
-
-  React.useEffect(() => {
-    const updatePostsWithMissingLinks = (missingLinkIds = []) => {
-      const updatedPosts = produce(posts, (draftPosts) => {
-        draftPosts.forEach((post) => {
-          Object.values(post.linkSpecs).forEach((linkSpec, index) => {
-            const { linkId } = linkSpec
-            if (linkId && missingLinkIds.includes(linkId) && post.linkType !== 'adcreative') {
-              delete post.linkSpecs[index]
-            }
-          })
-        })
-      })
-
-      setPosts({
-        type: 'replace-posts',
-        payload: { newPosts: updatedPosts },
-      })
-    }
-
-    setUpdatePostsWithMissingLinks((missingLinkIds) => {
-      updatePostsWithMissingLinks(missingLinkIds)
-    })
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts, setUpdatePostsWithMissingLinks])
-
-  if (artistLoading) {
-    return null
-  }
-
-  if (!isInitialLoad.current && !posts.length) {
-    return (
-      <PostsNone
-        filterBy={filterBy}
-      />
-    )
-  }
-
-  if (isInitialLoad.current) {
-    return (
-      <div className="pt-10 pb-10">
-        <Spinner />
-      </div>
-    )
-  }
+    setPosts(postsFormatted)
+    setIsLoading(false)
+  }, [artistId])
 
   return (
-    <div>
-      <PostsAll
-        posts={posts}
-        loadMorePosts={loadMorePosts}
-        isLoadingMore={isLoadingMore}
-        hasLoadedAll={isEndOfAssets.current}
-      />
-      {isLoadingMore && (
-        <div className={['pt-20 py-10'].join(' ')}>
-          <div className="mx-auto w-20">
-            <Spinner />
-          </div>
-        </div>
-      )}
+    <div className="mb-10 rounded-dialogue bg-grey-1">
+      <div className="px-5 rounded-dialogue rounded-b-none py-3 bg-grey-2">
+        <h2 className="mb-0">{title}</h2>
+      </div>
+      <div className="p-5">
+        {isLoading ? (
+          <Spinner width={25} />
+        ) : (
+          <PostsList posts={posts} />
+        )}
+      </div>
       <Error error={error} />
     </div>
   )
 }
 
 PostsLoader.propTypes = {
-  sortBy: PropTypes.string.isRequired,
-  filterBy: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  status: PropTypes.array.isRequired,
+  limit: PropTypes.number.isRequired,
+  posts: PropTypes.array.isRequired,
+  setPosts: PropTypes.func.isRequired,
 }
 
 export default PostsLoader
