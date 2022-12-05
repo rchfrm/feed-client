@@ -101,7 +101,6 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
               <PostCardSettingsToggle
                 post={post}
                 postId={postId}
-                postToggleSetterType="single"
                 campaignType={campaignType}
                 toggleCampaign={toggleCampaign}
                 artistId={artistId}

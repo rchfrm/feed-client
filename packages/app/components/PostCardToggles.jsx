@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useControlsStore from '@/app/stores/controlsStore'
 import PostCardToggle from '@/app/PostCardToggle'
 import { canBePromoted } from '@/app/helpers/postsHelpers'
@@ -12,7 +11,6 @@ const getControlsStoreState = (state) => ({
 const PostCardToggles = ({
   artistId,
   post,
-  postToggleSetterType,
   postIndex,
   toggleCampaign,
   updatePost,
@@ -52,7 +50,6 @@ const PostCardToggles = ({
       {/* GROWTH TOGGLE */}
       <PostCardToggle
         post={post}
-        postToggleSetterType={postToggleSetterType}
         postIndex={postIndex}
         campaignType="all"
         artistId={artistId}
@@ -68,7 +65,6 @@ const PostCardToggles = ({
       {hasSalesObjective && (
         <PostCardToggle
           post={post}
-          postToggleSetterType={postToggleSetterType}
           postIndex={postIndex}
           campaignType="conversions"
           artistId={artistId}
@@ -89,7 +85,6 @@ const PostCardToggles = ({
 PostCardToggles.propTypes = {
   artistId: PropTypes.string.isRequired,
   post: PropTypes.object.isRequired,
-  postToggleSetterType: PropTypes.string.isRequired,
   postIndex: PropTypes.number,
   toggleCampaign: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,

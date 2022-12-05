@@ -570,6 +570,36 @@ export const setPostCallToAction = async ({ artistId, callToAction, assetId, cam
   return { res }
 }
 
+/**
+* @param {number} limit
+* @param {string} artistId
+* @param {string} sortBy
+* @param {object} filterBy
+* @param {string} [cursor]
+* @returns {Promise<any>}
+*/
+export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor }) => {
+  const endpoint = `/artists/${artistId}/assets`
+  let formattedFilterQuery = null
+
+  if (filterBy) {
+    formattedFilterQuery = utils.addArrayCastTypeToQuery(filterBy)
+  }
+
+  const payload = {
+    limit,
+    ...(cursor && { after: cursor }),
+    ...(sortBy && { order_by: sortBy }),
+    ...formattedFilterQuery,
+  }
+  const errorTracking = {
+    category: 'Posts',
+    action: 'Get all posts',
+  }
+
+  return requestWithCatch('get', endpoint, payload, errorTracking)
+}
+
 // GET SINGLE POST
 /**
  * @param {string} artistId

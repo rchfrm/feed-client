@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { SidePanelContext } from '@/contexts/SidePanelContext'
-
 import Button from '@/elements/Button'
 
 // eslint-disable-next-line
@@ -34,7 +32,6 @@ const usePostsSidePanel = () => {
   const goToPostSettings = React.useCallback(({
     post,
     postIndex,
-    postToggleSetterType,
     updatePost,
     artistId,
     toggleCampaign,
@@ -45,7 +42,6 @@ const usePostsSidePanel = () => {
       <PostCardSettings
         post={post}
         postIndex={postIndex}
-        postToggleSetterType={postToggleSetterType}
         updatePost={updatePost}
         artistId={artistId}
         toggleCampaign={toggleCampaign}

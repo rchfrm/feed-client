@@ -6,90 +6,92 @@ import PostCard from '@/app/PostCard'
 import AdCreationButton from '@/app/AdCreationButton'
 import styles from '@/app/PostsPage.module.css'
 
-// Reset posts scroll position
-const resetScroll = () => {
-  if (typeof document === 'undefined') return
-  const scroller = document.getElementById('PostsAll__scroller')
-  if (!scroller) return
-  scroller.scrollLeft = 0
-}
-
 const getPostsWithLoadingTrigger = (posts, loadAtIndex) => {
-  if (!posts.length || posts.length < loadAtIndex) return posts
+  if (!posts.length || posts.length < loadAtIndex) {
+    return posts
+  }
+
   return produce(posts, (draftPosts) => {
     const insertLoaderAt = posts.length - loadAtIndex + 1
     draftPosts[insertLoaderAt].loadTrigger = true
   })
 }
 
-// Render list of posts and track the one that's currently visible
-function PostsAll({
+const PostsAll = ({
   posts,
   updatePost,
   toggleCampaign,
-  postToggleSetterType,
   loadMorePosts,
-  loadingMore,
-  loadedAll,
+  isLoadingMore,
+  hasLoadedAll,
   isMissingDefaultLink,
-}) {
-  // Reset the scroll position when this component first mounts
-  React.useEffect(resetScroll, [])
+}) => {
+  const { artistId } = React.useContext(ArtistContext)
 
-  // Add LOAD TRIGGER el at 5th from end
+  const intersectionRoot = React.useRef(null)
+  const loadTrigger = React.useRef(null)
+  const observer = React.useRef(null)
+
   const loadAtIndex = 5
   const lastPostId = React.useMemo(() => {
-    if (!posts || !posts.length) return ''
+    if (!posts || !posts.length) {
+      return ''
+    }
+
     const lastPost = posts[posts.length - 1]
     return lastPost.id
   }, [posts])
+
   const postsWithLoadingTrigger = React.useMemo(() => {
     return getPostsWithLoadingTrigger(posts, loadAtIndex)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts])
-  // Create ref for intersection root
-  const intersectionRoot = React.useRef(null)
 
-  // LOAD MORE Watch the load trigger for intersection
   const loadMore = React.useCallback((entries) => {
     const target = entries[0]
-    if (target.isIntersecting && !loadingMore && !loadedAll) {
+    if (target.isIntersecting && !isLoadingMore && !hasLoadedAll) {
       loadMorePosts()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadingMore, loadMorePosts, loadedAll, lastPostId])
+  }, [isLoadingMore, loadMorePosts, hasLoadedAll, lastPostId])
 
-  // Setup intersection observer
-  const loadTrigger = React.useRef(null)
-  const observer = React.useRef(null)
   React.useEffect(() => {
-    // Handle no posts
     if (!posts.length) {
       if (loadTrigger.current && observer.current) {
         observer.current.unobserve(loadTrigger.current)
       }
       return
     }
-    // Observer options
-    const options = { rootMargin: '0px', threshold: 0 }
-    // Create observer
-    observer.current = new IntersectionObserver(loadMore, options)
-    // observe the loader
+
+    observer.current = new IntersectionObserver(loadMore, {
+      rootMargin: '0px', threshold: 0,
+    })
+
     if (loadTrigger && loadTrigger.current) {
       observer.current.observe(loadTrigger.current)
     }
 
-    // clean up
     const loadTriggerEl = loadTrigger.current
     const observerCache = observer.current
+
     return () => {
       if (loadTriggerEl) {
         observerCache.unobserve(loadTriggerEl)
       }
     }
-  }, [posts.length, loadMore, loadedAll, lastPostId])
+  }, [posts.length, loadMore, hasLoadedAll, lastPostId])
 
-  const { artistId } = React.useContext(ArtistContext)
+  React.useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
+    }
+    const scroller = document.getElementById('PostsAll__scroller')
+
+    if (!scroller) {
+      return
+    }
+    scroller.scrollLeft = 0
+  }, [])
 
   return (
     <section className={styles.postsSection}>
@@ -114,7 +116,6 @@ function PostsAll({
               postIndex={index}
               updatePost={updatePost}
               toggleCampaign={toggleCampaign}
-              postToggleSetterType={postToggleSetterType}
               isMissingDefaultLink={isMissingDefaultLink}
               artistId={artistId}
               className={[
@@ -123,16 +124,14 @@ function PostsAll({
                 'col-span-12 sm:col-span-6 lg:col-span-4',
               ].join(' ')}
             >
-              {post.loadTrigger && !loadedAll && (
+              {post.loadTrigger && !hasLoadedAll && (
                 <div ref={loadTrigger} />
               )}
             </PostCard>
           )
         })}
       </ul>
-
-      {/* Show loaded all */}
-      {!loadingMore && loadedAll && (
+      {!isLoadingMore && hasLoadedAll && (
         <div className="col-span-12 w-full mt-10 p-5 text-center">
           <p className="h4">Loaded all Posts</p>
         </div>
@@ -145,18 +144,15 @@ PostsAll.propTypes = {
   posts: PropTypes.array.isRequired,
   updatePost: PropTypes.func.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
-  postToggleSetterType: PropTypes.string,
   loadMorePosts: PropTypes.func.isRequired,
-  loadingMore: PropTypes.bool,
-  loadedAll: PropTypes.bool,
+  isLoadingMore: PropTypes.bool,
+  hasLoadedAll: PropTypes.bool,
   isMissingDefaultLink: PropTypes.bool.isRequired,
 }
 
 PostsAll.defaultProps = {
-  postToggleSetterType: '',
-  loadingMore: false,
-  loadedAll: false,
+  isLoadingMore: false,
+  hasLoadedAll: false,
 }
-
 
 export default PostsAll

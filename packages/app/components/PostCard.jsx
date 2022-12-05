@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useControlsStore from '@/app/stores/controlsStore'
-
 import PostCardHeader from '@/app/PostCardHeader'
 import PostCardMedia from '@/app/PostCardMedia'
 import PostCardScore from '@/app/PostCardScore'
@@ -19,13 +17,11 @@ const PostCard = ({
   postIndex,
   updatePost,
   toggleCampaign,
-  postToggleSetterType,
   isMissingDefaultLink,
   artistId,
   className,
   children,
 }) => {
-  // Extract some variables
   const { postPromotable, promotionStatus, promotionEnabled, postType } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
 
@@ -73,7 +69,6 @@ const PostCard = ({
           <PostCardToggles
             artistId={artistId}
             post={post}
-            postToggleSetterType={postToggleSetterType}
             postIndex={postIndex}
             toggleCampaign={toggleCampaign}
             updatePost={updatePost}
@@ -92,7 +87,6 @@ const PostCard = ({
           post={post}
           postIndex={postIndex}
           postPromotable={postPromotable}
-          postToggleSetterType={postToggleSetterType}
           artistId={artistId}
           toggleCampaign={toggleCampaign}
           updatePost={updatePost}
@@ -111,7 +105,6 @@ PostCard.propTypes = {
   postIndex: PropTypes.number.isRequired,
   updatePost: PropTypes.func.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
-  postToggleSetterType: PropTypes.string.isRequired,
   isMissingDefaultLink: PropTypes.bool.isRequired,
   artistId: PropTypes.string.isRequired,
   className: PropTypes.string,

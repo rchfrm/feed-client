@@ -1,20 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Button from '@/elements/Button'
-
 import GearIcon from '@/icons/GearIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
-
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
-
 import brandColors from '@/constants/brandColors'
 
 const PostCardActionButtons = ({
   post,
   postIndex,
   postPromotable,
-  postToggleSetterType,
   artistId,
   toggleCampaign,
   updatePost,
@@ -22,9 +17,8 @@ const PostCardActionButtons = ({
   isMissingDefaultLink,
   className,
 }) => {
-  // Get functions to open sidepanel
   const { goToPostSettings, goToPostMetrics } = usePostsSidePanel()
-  // RENDER
+
   return (
     <div
       className={[
@@ -42,7 +36,6 @@ const PostCardActionButtons = ({
           goToPostSettings({
             post,
             postIndex,
-            postToggleSetterType,
             updatePost,
             artistId,
             toggleCampaign,
@@ -84,7 +77,6 @@ PostCardActionButtons.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
   postPromotable: PropTypes.bool.isRequired,
-  postToggleSetterType: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,

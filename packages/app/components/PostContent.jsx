@@ -85,7 +85,6 @@ const PostContent = ({ post, updatePost }) => {
           <PostCardToggles
             artistId={artistId}
             post={post}
-            postToggleSetterType="single"
             toggleCampaign={toggleCampaign}
             updatePost={updatePost}
             priorityEnabled={post.priorityEnabled}

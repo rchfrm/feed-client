@@ -1,18 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-
-import * as ROUTES from '@/app/constants/routes'
-
+import { SidePanelContext } from '@/contexts/SidePanelContext'
 import PostCardLabel from '@/app/PostCardLabel'
-
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostCardDisableHandler from '@/app/PostCardDisableHandler'
 import PostCardToggleAlert from '@/app/PostCardToggleAlert'
-
-import { SidePanelContext } from '@/contexts/SidePanelContext'
-
 import { updatePost, setPostPriority, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
+import * as ROUTES from '@/app/constants/routes'
 
 // CALL TO CHANGE STATE
 const runChangeState = ({ artistId, postId, promotionEnabled, campaignType }) => {
@@ -21,7 +16,6 @@ const runChangeState = ({ artistId, postId, promotionEnabled, campaignType }) =>
 
 const PostCardToggle = ({
   post,
-  postToggleSetterType,
   postIndex,
   campaignType,
   artistId,
@@ -141,7 +135,6 @@ const PostCardToggle = ({
       {!sidePanelOpen && postPromotable && promotionStatus === 'active' && (
         <PostCardDisableHandler
           post={post}
-          postToggleSetterType={postToggleSetterType}
           artistId={artistId}
           toggleCampaign={toggleCampaign}
           isEnabled={currentState}
@@ -165,7 +158,6 @@ const PostCardToggle = ({
 
 PostCardToggle.propTypes = {
   post: PropTypes.object.isRequired,
-  postToggleSetterType: PropTypes.string.isRequired,
   postIndex: PropTypes.number,
   campaignType: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,

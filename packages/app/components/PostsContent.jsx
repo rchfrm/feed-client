@@ -2,41 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
-import PostsSorter from '@/app/PostsSorter'
-import PostsFiltersHandler from '@/app/PostsFiltersHandler'
 import PostsLoader from '@/app/PostsLoader'
-import PostsRefreshButton from '@/app/PostsRefreshButton'
 import PostsNoArtists from '@/app/PostsNoArtists'
 import PostsInitialImport from '@/app/PostsInitialImport'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
-import { sortTypes } from '@/app/helpers/postsHelpers'
-
 const PostsContent = ({ dummyPostsImages }) => {
-  // Has default link been set
   const { artistId } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
 
-  const defaultSortBy = sortTypes.find(({ id }) => id === 'published_time').id
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
-  const [sortBy, setSortBy] = React.useState('')
-  const [filterBy, setFilterBy] = React.useState({})
   const hasArtists = user.artists.length > 0
-  // GET REFRESH POSTS FUNCTION
-  const [refreshPosts, setRefreshPosts] = React.useState(() => {})
 
-  const testNewUser = (user) => {
-    const { created_at } = user
-    const createdAtMoment = moment(created_at)
+  const testIsNewUser = (user) => {
     const now = moment()
-    const minuteDiff = now.diff(createdAtMoment, 'minutes')
+    const { created_at } = user
+    const minuteDiff = now.diff(moment(created_at), 'minutes')
+
     return minuteDiff <= 30
   }
 
   const isNewUser = React.useMemo(() => {
-    return testNewUser(user)
+    return testIsNewUser(user)
   }, [user])
 
   React.useEffect(() => {
@@ -46,49 +35,13 @@ const PostsContent = ({ dummyPostsImages }) => {
   }, [isNewUser])
 
   return (
-    // LOAD POSTS
     hasArtists ? (
       canLoadPosts ? (
         <div className="relative">
-          {/* BUTTONS */}
-          <div className="relative iphone8:flex justify-start">
-            {/* REFRESH BUTTON (desktop) */}
-            {refreshPosts && (
-              <PostsRefreshButton
-                refreshPosts={refreshPosts}
-                className={[
-                  'ml-auto',
-                  'absolute right-0 bottom-0 mb-8',
-                  'iphone8:static iphone8:-mb-1',
-                ].join(' ')}
-                style={{ transform: 'translateY(1.5rem)' }}
-              />
-            )}
-          </div>
-          <div className="grid grid-cols-12 gap-x-6">
-            {/* SORT */}
-            <PostsSorter
-              sortTypes={sortTypes}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              defaultSortState={defaultSortBy}
-              disabled={!hasArtists}
-              className="col-span-12 sm:col-span-4"
-            />
-            {/* FILTERS */}
-            <PostsFiltersHandler
-              setFilterBy={setFilterBy}
-              disabled={!hasArtists}
-              className="col-span-12 sm:col-span-8"
-            />
-          </div>
-          {sortBy && (
-            <PostsLoader
-              setRefreshPosts={setRefreshPosts}
-              sortBy={sortBy}
-              filterBy={filterBy}
-            />
-          )}
+          <PostsLoader
+            sortBy=""
+            filterBy=""
+          />
         </div>
       ) : (
         <PostsInitialImport
