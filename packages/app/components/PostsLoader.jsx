@@ -61,29 +61,6 @@ const postsReducer = (draftState, postsAction) => {
   }
 }
 
-const shouldUpdatePosts = (newProps, oldProps) => {
-  const { artistId: newArtistId, sortBy: newSortBy, filterBy: newFilterBy, isLoadingMore } = newProps
-  const { artistId: oldArtistId, sortBy: oldSortBy, filterBy: oldFilterBy, isLoadingMore: isAlreadyLoadingMore } = oldProps
-
-  if (isLoadingMore && !isAlreadyLoadingMore) {
-    return true
-  }
-
-  if (newArtistId !== oldArtistId) {
-    return true
-  }
-
-  if (newSortBy !== oldSortBy) {
-    return true
-  }
-
-  if (newFilterBy !== oldFilterBy) {
-    return true
-  }
-
-  return false
-}
-
 const PostsLoader = ({ sortBy, filterBy }) => {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const [visiblePost, setVisiblePost] = React.useState(0)
@@ -159,7 +136,7 @@ const PostsLoader = ({ sortBy, filterBy }) => {
       },
     })
     isInitialLoad.current = false
-  }, [shouldUpdatePosts])
+  }, [artistId, sortBy, filterBy, isLoadingMore])
 
   const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all', postId) => {
     const postIndex = posts.findIndex(({ id }) => postId === id)
@@ -195,7 +172,6 @@ const PostsLoader = ({ sortBy, filterBy }) => {
     setPosts({ type: action, payload })
   }, [setPosts])
 
-
   const setUpdatePostsWithMissingLinks = usePostsStore(React.useCallback((state) => state.setUpdatePostsWithMissingLinks, []))
 
   React.useEffect(() => {
@@ -228,7 +204,7 @@ const PostsLoader = ({ sortBy, filterBy }) => {
     return null
   }
 
-  if (!isLoadingMore && !posts.length) {
+  if (!isInitialLoad.current && !posts.length) {
     return (
       <PostsNone
         filterBy={filterBy}
