@@ -61,14 +61,20 @@ export const deletePaymentMethod = async (organizationId, paymentMethodId) => {
   return api.requestWithCatch('delete', endpoint, payload, errorTracking)
 }
 
-// GET STRIPE CLIENT SECRET
+// GET STRIPE CLIENT SECRETS
 /**
  * @param {string} organizationId
+ * @param {string} type
  * @returns {Promise<any>}
  */
-export const getStripeClientSecret = async (organizationId) => {
+export const getStripeClientSecret = async (organizationId, type) => {
+  const validTypes = ['setup', 'payment']
+  const isValidType = validTypes.includes(type)
+  if (!isValidType) {
+    throw new Error(`Provide valid type, one of: ${validTypes.join(', ')}`)
+  }
   const payload = null
-  const endpoint = `/organizations/${organizationId}/billing/payments/client_secret`
+  const endpoint = `/organizations/${organizationId}/billing/payments/${type}_intent/secret`
   const errorTracking = {
     category: 'Billing',
     action: 'Get Stripe client secret',

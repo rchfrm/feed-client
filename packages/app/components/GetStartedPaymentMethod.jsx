@@ -73,7 +73,6 @@ const GetStartedPaymentMethod = () => {
   const [planPrefix, planPeriod] = plan.split('_')
 
   const isPaymentRequired = status !== 'active' && planPrefix !== 'basic'
-  const isPaymentIntentRequired = false
   const shouldShowPromoCodeInput = false
 
   const {
@@ -209,7 +208,6 @@ const GetStartedPaymentMethod = () => {
                 setIsFormValid={setIsFormValid}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
-                isPaymentIntentRequired={isPaymentIntentRequired}
                 promoCode={promoCode}
               />
             ) : (

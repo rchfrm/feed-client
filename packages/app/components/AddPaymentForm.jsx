@@ -13,6 +13,8 @@ import InputBase from '@/elements/InputBase'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
 import { track } from '@/helpers/trackingHelpers'
 import brandColors from '@/constants/brandColors'
+import useAsyncEffect from 'use-async-effect'
+import { getStripeClientSecret } from '@/app/helpers/billingHelpers'
 
 const STRIPE_ELEMENT_OPTIONS = {
   style: {
@@ -46,6 +48,7 @@ const FORM = ({
   setIsLoading,
   isPaymentIntentRequired,
   promoCode,
+  setupIntentSecret,
 }) => {
   const elements = useElements()
   const stripe = useStripe()
@@ -72,17 +75,18 @@ const FORM = ({
   // * HANDLE FORM
   // --------------
   const onSubmit = React.useCallback(async () => {
-    if (!isFormValid || isLoading) return
+    if (!isFormValid || isLoading || !setupIntentSecret) return
 
     setIsLoading(true)
 
     // Create payment method with Stripe
     const cardElement = elements.getElement(CardElement)
-    const { paymentMethod, error: stripeError } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
-      billing_details: {
-        name,
+    const { setupIntent, error: stripeError } = await stripe.confirmCardSetup(setupIntentSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name,
+        },
       },
     })
 
@@ -91,11 +95,10 @@ const FORM = ({
       setError(error)
       setIsLoading(false)
       elements.getElement('card').focus()
-
       return
     }
 
-    const stripePaymentMethodId = paymentMethod?.id
+    const stripePaymentMethodId = setupIntent.payment_method
 
     // Store payment method in DB
     const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
@@ -112,6 +115,7 @@ const FORM = ({
       return
     }
 
+    // TODO Get payment intent if something to pay now, otherwise nothing more needs to be done
     // If payment intent is required
     if (isPaymentIntentRequired) {
       // Get stripe client secret
@@ -135,21 +139,21 @@ const FORM = ({
     }
 
     // Fix setup intent if not success
-    const { setup_intent: setupIntent } = paymentMethodDb
-    if (setupIntent.status !== 'succeeded') {
-      const res = await stripe.confirmCardSetup(setupIntent.client_secret, {
-        payment_method: stripePaymentMethodId,
-      }).catch((error) => {
-        setError(error)
-      })
-      // Handle failure
-      if (res?.setupIntent?.status !== 'succeeded') {
-        // Delete payment method
-        await billingHelpers.deletePaymentMethod(organizationId, stripePaymentMethodId)
-        setIsLoading(false)
-        return
-      }
-    }
+    // const { setup_intent: setupIntent } = paymentMethodDb
+    // if (setupIntent.status !== 'succeeded') {
+    //   const res = await stripe.confirmCardSetup(setupIntent.client_secret, {
+    //     payment_method: stripePaymentMethodId,
+    //   }).catch((error) => {
+    //     setError(error)
+    //   })
+    //   // Handle failure
+    //   if (res?.setupIntent?.status !== 'succeeded') {
+    //     // Delete payment method
+    //     await billingHelpers.deletePaymentMethod(organizationId, stripePaymentMethodId)
+    //     setIsLoading(false)
+    //     return
+    //   }
+    // }
 
     // Set card as default (if necessary)
     if (shouldBeDefault) {
@@ -170,7 +174,7 @@ const FORM = ({
     setSuccess(true)
     // Track
     track('billing_finish_add_payment', { organizationId, shouldBeDefault })
-  }, [isFormValid, isLoading, setIsLoading, elements, stripe, name, organizationId, shouldBeDefault, promoCode, isPaymentIntentRequired, addMethodToState, setPaymentMethod, setSuccess, error])
+  }, [isFormValid, isLoading, setupIntentSecret, setIsLoading, elements, stripe, name, organizationId, shouldBeDefault, promoCode, isPaymentIntentRequired, addMethodToState, setPaymentMethod, setSuccess, error])
 
   React.useEffect(() => {
     setAddPaymentMethod(() => onSubmit)
@@ -214,10 +218,6 @@ const FORM = ({
   )
 }
 
-// Make sure to call `loadStripe` outside a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(process.env.stripe_provider)
-
 const AddPaymentForm = ({
   organizationId,
   setPaymentMethod,
@@ -233,6 +233,17 @@ const AddPaymentForm = ({
   isPaymentIntentRequired,
   promoCode,
 }) => {
+  const [stripePromise] = React.useState(() => loadStripe(process.env.stripe_provider))
+  const [setupIntentSecret, setSetupIntentSecret] = React.useState('')
+
+  useAsyncEffect(async () => {
+    if (!organizationId) return
+    const { res } = await getStripeClientSecret(organizationId, 'setup')
+    setSetupIntentSecret(res.clientSecret)
+  }, () => {
+    setSetupIntentSecret('')
+  }, [])
+
   return (
     <Elements stripe={stripePromise}>
       {/* Defined above... */}
@@ -250,12 +261,14 @@ const AddPaymentForm = ({
         setIsLoading={setIsLoading}
         isPaymentIntentRequired={isPaymentIntentRequired}
         promoCode={promoCode}
+        setupIntentSecret={setupIntentSecret}
       />
     </Elements>
   )
 }
 
 AddPaymentForm.propTypes = {
+  organizationId: PropTypes.string,
   setPaymentMethod: PropTypes.func,
   setSuccess: PropTypes.func,
   shouldBeDefault: PropTypes.bool,
@@ -271,6 +284,7 @@ AddPaymentForm.propTypes = {
 }
 
 AddPaymentForm.defaultProps = {
+  organizationId: '',
   shouldBeDefault: false,
   shouldShowLabels: true,
   setPaymentMethod: () => {},
