@@ -22,7 +22,6 @@ const PostCard = ({
         thumbnails={post.thumbnails}
         caption={post.message}
         postType={postType}
-        className="mb-2"
       />
       {children}
     </div>

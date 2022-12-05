@@ -32,28 +32,30 @@ const postsReducer = (draftState, postsAction) => {
     case 'set-posts':
       draftState[status] = posts
       break
-    case 'reset-posts':
-      return postsInitialState
+    case 'add-posts':
+      draftState[status].push(posts)
+      break
     case 'toggle-promotion':
       draftState[postIndex].promotionEnabled = promotionEnabled
-      draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'toggle-conversion':
       draftState[postIndex].conversionsEnabled = promotionEnabled
       draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'update-link-specs':
-      draftState[postIndex].linkSpecs = linkSpecs
+      draftState[status][postIndex].linkSpecs = linkSpecs
       break
     case 'update-call-to-actions':
-      draftState[postIndex].callToActions = callToActions
+      draftState[status][postIndex].callToActions = callToActions
       break
     case 'update-captions':
-      draftState[postIndex].adMessages = adMessages
+      draftState[status][postIndex].adMessages = adMessages
       break
     case 'toggle-priority':
       draftState[postIndex].priorityEnabled = priorityEnabled
       break
+    case 'reset-posts':
+      return postsInitialState
     default:
       return draftState
   }
@@ -95,6 +97,7 @@ const Posts = ({ dummyPostsImages }) => {
             limit={5}
             posts={posts.active}
             setPosts={setPosts}
+            className="border-2 border-solid border-green"
           />
           <PostsLoader
             title="Queue"
@@ -106,7 +109,7 @@ const Posts = ({ dummyPostsImages }) => {
           <PostsLoader
             title="Library"
             status={['inactive', 'archived', 'rejected']}
-            limit={10}
+            limit={5}
             posts={posts.inactive}
             setPosts={setPosts}
           />
