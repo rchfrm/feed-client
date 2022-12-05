@@ -63,7 +63,6 @@ const postsReducer = (draftState, postsAction) => {
 
 const PostsLoader = ({ sortBy, filterBy }) => {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
-  const [visiblePost, setVisiblePost] = React.useState(0)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
 
@@ -72,7 +71,7 @@ const PostsLoader = ({ sortBy, filterBy }) => {
   const isEndOfAssets = React.useRef(false)
   const limit = 10
 
-  const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
 
   React.useEffect(() => {
@@ -224,14 +223,9 @@ const PostsLoader = ({ sortBy, filterBy }) => {
     <div>
       <PostsAll
         posts={posts}
-        visiblePost={visiblePost}
-        setVisiblePost={setVisiblePost}
-        updatePost={updatePost}
-        toggleCampaign={toggleCampaign}
         loadMorePosts={loadMorePosts}
         isLoadingMore={isLoadingMore}
         hasLoadedAll={isEndOfAssets.current}
-        isMissingDefaultLink={artist.missingDefaultLink}
       />
       {isLoadingMore && (
         <div className={['pt-20 py-10'].join(' ')}>

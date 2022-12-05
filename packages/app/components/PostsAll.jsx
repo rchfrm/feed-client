@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import produce from 'immer'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostCard from '@/app/PostCard'
 import AdCreationButton from '@/app/AdCreationButton'
-import styles from '@/app/PostsPage.module.css'
 
 const getPostsWithLoadingTrigger = (posts, loadAtIndex) => {
   if (!posts.length || posts.length < loadAtIndex) {
@@ -19,15 +17,10 @@ const getPostsWithLoadingTrigger = (posts, loadAtIndex) => {
 
 const PostsAll = ({
   posts,
-  updatePost,
-  toggleCampaign,
   loadMorePosts,
   isLoadingMore,
   hasLoadedAll,
-  isMissingDefaultLink,
 }) => {
-  const { artistId } = React.useContext(ArtistContext)
-
   const intersectionRoot = React.useRef(null)
   const loadTrigger = React.useRef(null)
   const observer = React.useRef(null)
@@ -94,34 +87,27 @@ const PostsAll = ({
   }, [])
 
   return (
-    <section className={styles.postsSection}>
+    <section className="">
       <AdCreationButton className="hidden" />
       <ul
-        id="PostsAll__scroller"
         className={[
           'sm:grid',
           'grid-cols-12',
           'gap-y-10',
           'gap-x-6',
           'grid-flow-row-dense',
-          styles.postsScroller,
         ].join(' ')}
         ref={intersectionRoot}
       >
-        {postsWithLoadingTrigger.map((post, index) => {
+        {postsWithLoadingTrigger.map((post) => {
           return (
             <PostCard
               key={post.id}
               post={post}
-              postIndex={index}
-              updatePost={updatePost}
-              toggleCampaign={toggleCampaign}
-              isMissingDefaultLink={isMissingDefaultLink}
-              artistId={artistId}
               className={[
                 'mx-auto max-w-sm mb-12',
                 'sm:max-w-none sm:mx-0 sm:mb-0',
-                'col-span-12 sm:col-span-6 lg:col-span-4',
+                'col-span-4 sm:col-span-3 lg:col-span-2',
               ].join(' ')}
             >
               {post.loadTrigger && !hasLoadedAll && (
@@ -142,12 +128,9 @@ const PostsAll = ({
 
 PostsAll.propTypes = {
   posts: PropTypes.array.isRequired,
-  updatePost: PropTypes.func.isRequired,
-  toggleCampaign: PropTypes.func.isRequired,
   loadMorePosts: PropTypes.func.isRequired,
   isLoadingMore: PropTypes.bool,
   hasLoadedAll: PropTypes.bool,
-  isMissingDefaultLink: PropTypes.bool.isRequired,
 }
 
 PostsAll.defaultProps = {
