@@ -29,7 +29,7 @@ const PostsLoader = ({
 
     setIsLoading(true)
 
-    const { res: posts, error } = await getPosts({ limit, artistId, filterBy: { promotion_status: status }, cursor: cursor.current })
+    const { res: posts, error } = await getPosts({ limit, artistId, filterBy: { promotion_status: [status] }, cursor: cursor.current })
     if (!isMounted) {
       return
     }
@@ -45,7 +45,7 @@ const PostsLoader = ({
     setPosts({
       type: 'set-posts',
       payload: {
-        status: status[0],
+        status,
         posts: postsFormatted,
       },
     })
@@ -99,6 +99,7 @@ const PostsLoader = ({
         ) : (
           <PostsList
             posts={posts}
+            status={status}
             className={isOpen ? 'opacity-1' : 'opacity-0'}
           />
         )}

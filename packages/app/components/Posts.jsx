@@ -93,7 +93,7 @@ const Posts = ({ dummyPostsImages }) => {
         <div className="relative">
           <PostsLoader
             title="Active"
-            status={['active']}
+            status="active"
             limit={5}
             posts={posts.active}
             setPosts={setPosts}
@@ -101,14 +101,14 @@ const Posts = ({ dummyPostsImages }) => {
           />
           <PostsLoader
             title="Queue"
-            status={['in_review']}
+            status="in_review"
             limit={5}
             posts={posts.in_review}
             setPosts={setPosts}
           />
           <PostsLoader
             title="Library"
-            status={['inactive', 'archived', 'rejected']}
+            status="inactive"
             limit={5}
             posts={posts.inactive}
             setPosts={setPosts}

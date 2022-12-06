@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
+import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
 
-const PostsList = ({ posts, isSmall, className }) => {
+const PostsList = ({ posts, status, isSmall, className }) => {
   if ((!posts || !posts.length) && !isSmall) {
     return 'No posts'
   }
@@ -28,12 +29,18 @@ const PostsList = ({ posts, isSmall, className }) => {
           />
         )
       })}
+      {status !== 'inactive' && !isSmall && (
+        <PostCardCreateAdButton
+          className="col-span-6 sm:col-span-3 lg:col-span-2"
+        />
+      )}
     </ul>
   )
 }
 
 PostsList.propTypes = {
   posts: PropTypes.array.isRequired,
+  status: PropTypes.string.isRequired,
   isSmall: PropTypes.bool,
   className: PropTypes.string,
 }

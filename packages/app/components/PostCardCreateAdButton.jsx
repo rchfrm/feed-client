@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import AdCreation from '@/app/AdCreation'
-import Button from '@/elements/Button'
 import PlusIcon from '@/icons/PlusIcon'
 import brandColors from '@/constants/brandColors'
 
-const AdCreationButton = ({ className }) => {
+const PostCardCreateAdButton = ({ className }) => {
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
 
   const openSidePanel = () => {
@@ -15,24 +14,28 @@ const AdCreationButton = ({ className }) => {
   }
 
   return (
-    <Button
-      version="green"
+    <button
       onClick={openSidePanel}
       trackComponentName="AdCreationButton"
-      className={[className, 'mb-5'].join(' ')}
+      className={[
+        'flex items-center justify-center',
+        'rounded-dialogue border-3 border-solid border-fb',
+        'bg-white text-fb font-bold',
+        className,
+      ].join(' ')}
     >
-      <PlusIcon className="h-4 w-4 mr-2" fill={brandColors.white} />
+      <PlusIcon className="h-4 w-4 mr-2" fill={brandColors.facebook.bg} />
       Create ad
-    </Button>
+    </button>
   )
 }
 
-AdCreationButton.propTypes = {
+PostCardCreateAdButton.propTypes = {
   className: PropTypes.string,
 }
 
-AdCreationButton.defaultProps = {
+PostCardCreateAdButton.defaultProps = {
   className: null,
 }
 
-export default AdCreationButton
+export default PostCardCreateAdButton
