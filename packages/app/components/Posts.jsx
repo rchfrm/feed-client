@@ -33,7 +33,7 @@ const postsReducer = (draftState, postsAction) => {
       draftState[status] = posts
       break
     case 'add-posts':
-      draftState[status].push(posts)
+      draftState[status].push(...posts)
       break
     case 'toggle-promotion':
       draftState[postIndex].promotionEnabled = promotionEnabled

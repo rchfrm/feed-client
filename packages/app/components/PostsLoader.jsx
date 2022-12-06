@@ -8,7 +8,7 @@ import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 import ExpandIcon from '@/icons/ExpandIcon'
 import CollapseIcon from '@/icons/CollapseIcon'
-import { formatPostsResponse, getPosts } from '@/app/helpers/postsHelpers'
+import { formatPostsResponse, getPosts, getCursor } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
   title,
@@ -19,17 +19,23 @@ const PostsLoader = ({
 }) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
+  const [isLoadingMore, setIsLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const cursor = React.useRef('')
+  const isInitialLoad = React.useRef(true)
+  const hasLoadedAll = React.useRef(false)
+
   const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
-    if (!artistId) {
+    if (!artistId || (!isInitialLoad.current && !isLoadingMore)) {
       return
     }
 
-    setIsLoading(true)
+    if (!isLoadingMore) {
+      setIsLoading(true)
+    }
 
     const { res: posts, error } = await getPosts({ limit, artistId, filterBy: { promotion_status: [status] }, cursor: cursor.current })
     if (!isMounted) {
@@ -42,7 +48,33 @@ const PostsLoader = ({
       return
     }
 
+    if (!posts || !posts.length) {
+      hasLoadedAll.current = true
+      isInitialLoad.current = false
+      setIsLoadingMore(false)
+
+      return
+    }
+
     const postsFormatted = formatPostsResponse(posts)
+    const lastPost = posts[posts.length - 1]
+    if (lastPost._links.after) {
+      const nextCursor = getCursor(lastPost)
+      cursor.current = nextCursor
+    }
+
+    if (isLoadingMore) {
+      setPosts({
+        type: 'add-posts',
+        payload: {
+          status,
+          posts: postsFormatted,
+        },
+      })
+      setIsLoadingMore(false)
+
+      return
+    }
 
     setPosts({
       type: 'set-posts',
@@ -52,9 +84,10 @@ const PostsLoader = ({
       },
     })
 
+    isInitialLoad.current = false
     setPosts(postsFormatted)
     setIsLoading(false)
-  }, [artistId])
+  }, [artistId, isLoadingMore])
 
   const handleClick = () => {
     setIsOpen((isOpen) => !isOpen)
@@ -100,7 +133,13 @@ const PostsLoader = ({
             className="mb-5"
           />
         )}
-        <PostsPagination />
+        <PostsPagination
+          posts={posts}
+          isLoading={isLoading}
+          isLoadingMore={isLoadingMore}
+          setIsLoadingMore={setIsLoadingMore}
+          hasLoadedAll={hasLoadedAll.current}
+        />
       </div>
       <Error error={error} />
     </div>
