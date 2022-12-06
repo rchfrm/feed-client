@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsList from '@/app/PostsList'
+import PostsPagination from '@/app/PostsPagination'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 import ExpandIcon from '@/icons/ExpandIcon'
@@ -84,16 +85,22 @@ const PostsLoader = ({
         </div>
         {isOpen ? <CollapseIcon /> : <ExpandIcon />}
       </button>
-      <div className="p-5">
+      <div className={[
+        'p-5',
+        'transition ease-in-out delay-200 transition-opacity',
+        isOpen ? 'opacity-1' : 'opacity-0',
+      ].join(' ')}
+      >
         {isLoading ? (
           <Spinner width={25} />
         ) : (
           <PostsList
             posts={posts}
             status={status}
-            className={isOpen ? 'opacity-1' : 'opacity-0'}
+            className="mb-5"
           />
         )}
+        <PostsPagination />
       </div>
       <Error error={error} />
     </div>

@@ -12,7 +12,6 @@ const PostsList = ({ posts, status, isSmall, className }) => {
     <ul
       className={[
         isSmall ? 'flex' : 'grid grid-cols-12 gap-6 grid-flow-row-dense',
-        'transition ease-in-out delay-200 transition-opacity',
         'mb-0',
         className,
       ].join(' ')}
