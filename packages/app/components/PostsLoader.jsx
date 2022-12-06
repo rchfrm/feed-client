@@ -5,7 +5,8 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsList from '@/app/PostsList'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
-import ArrowIcon from '@/icons/ArrowIcon'
+import ExpandIcon from '@/icons/ExpandIcon'
+import CollapseIcon from '@/icons/CollapseIcon'
 import { formatPostsResponse, getPosts } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
@@ -81,17 +82,7 @@ const PostsLoader = ({
             isSmall
           />
         </div>
-        <div
-          className={[
-            'transition-transform duration-100 transform origin-center',
-            isOpen ? null : 'rotate-180',
-          ].join(' ')}
-        >
-          <ArrowIcon
-            className="w-3 h-3"
-            direction="up"
-          />
-        </div>
+        {isOpen ? <CollapseIcon /> : <ExpandIcon />}
       </button>
       <div className="p-5">
         {isLoading ? (
