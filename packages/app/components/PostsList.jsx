@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
 import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
 
-const PostsList = ({ posts, status, isSmall, className }) => {
-  if ((!posts || !posts.length) && !isSmall) {
+const PostsList = ({ posts, status, className }) => {
+  if ((!posts || !posts.length)) {
     return 'No posts'
   }
 
   return (
     <ul
       className={[
-        isSmall ? 'flex' : 'grid grid-cols-12 gap-6 grid-flow-row-dense',
+        'grid grid-cols-12 gap-6 grid-flow-row-dense',
         'mb-0',
         className,
       ].join(' ')}
@@ -22,13 +22,12 @@ const PostsList = ({ posts, status, isSmall, className }) => {
             key={post.id}
             post={post}
             className={[
-              isSmall ? 'h-10 w-10 rounded-full overflow-hidden mb-0 mr-2' : null,
               'col-span-6 sm:col-span-3 lg:col-span-2',
             ].join(' ')}
           />
         )
       })}
-      {status !== 'inactive' && !isSmall && (
+      {status !== 'inactive' && (
         <PostCardCreateAdButton
           className="col-span-6 sm:col-span-3 lg:col-span-2"
         />
@@ -40,12 +39,10 @@ const PostsList = ({ posts, status, isSmall, className }) => {
 PostsList.propTypes = {
   posts: PropTypes.array.isRequired,
   status: PropTypes.string.isRequired,
-  isSmall: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostsList.defaultProps = {
-  isSmall: false,
   className: null,
 }
 

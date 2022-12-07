@@ -105,6 +105,7 @@ const Posts = ({ dummyPostsImages }) => {
             limit={5}
             posts={posts.in_review}
             setPosts={setPosts}
+            className="border border-solid border-grey-2 bg-grey-1"
           />
           <PostsLoader
             title="Library"
@@ -112,6 +113,7 @@ const Posts = ({ dummyPostsImages }) => {
             limit={5}
             posts={posts.inactive}
             setPosts={setPosts}
+            className="border border-solid border-grey-2 bg-grey-1"
           />
         </div>
       ) : (

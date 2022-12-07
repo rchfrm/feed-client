@@ -19,12 +19,12 @@ const PostCardCreateAdButton = ({ className }) => {
       trackComponentName="AdCreationButton"
       className={[
         'flex items-center justify-center',
-        'rounded-dialogue border-3 border-solid border-fb',
-        'bg-white text-fb font-bold',
+        'rounded-dialogue border-2 border-solid border-green',
+        'bg-white font-bold',
         className,
       ].join(' ')}
     >
-      <PlusIcon className="h-4 w-4 mr-2" fill={brandColors.facebook.bg} />
+      <PlusIcon className="h-4 w-4 mr-2" fill={brandColors.textColor} />
       Create ad
     </button>
   )

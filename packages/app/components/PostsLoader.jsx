@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsList from '@/app/PostsList'
-import PostsPagination from '@/app/PostsPagination'
+import PostsLoadMore from '@/app/PostsLoadMore'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 import ExpandIcon from '@/icons/ExpandIcon'
@@ -16,8 +16,9 @@ const PostsLoader = ({
   limit,
   posts,
   setPosts,
+  className,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(true)
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -51,6 +52,7 @@ const PostsLoader = ({
     if (!posts || !posts.length) {
       hasLoadedAll.current = true
       isInitialLoad.current = false
+      setIsLoading(false)
       setIsLoadingMore(false)
 
       return
@@ -95,27 +97,20 @@ const PostsLoader = ({
 
   return (
     <div className={[
-      'mb-10 rounded-dialogue bg-grey-1',
-      isOpen ? 'max-h-[1200px]' : 'max-h-16 overflow-hidden',
+      'mb-5 rounded-dialogue',
+      isOpen ? 'max-h-[1200px]' : 'max-h-[74px] overflow-hidden',
       'transition-all duration-700 ease-in-out',
+      className,
     ].join(' ')}
     >
       <button
         onClick={handleClick}
         className={[
-          'w-full flex justify-between items-center px-5',
-          'rounded-dialogue py-3 bg-grey-2',
+          'w-full flex justify-between items-center p-5',
           isOpen ? 'rounded-b-none' : null,
         ].join(' ')}
       >
-        <div className="flex h-10 items-center">
-          <h2 className="mb-0 mr-5">{title}</h2>
-          <PostsList
-            posts={posts}
-            className={isOpen ? 'opacity-0' : 'opacity-1'}
-            isSmall
-          />
-        </div>
+        <h2 className="mb-0 mr-5">{status === 'active' ? posts.length : null} {title}</h2>
         {isOpen ? <CollapseIcon /> : <ExpandIcon />}
       </button>
       <div className={[
@@ -133,7 +128,7 @@ const PostsLoader = ({
             className="mb-5"
           />
         )}
-        <PostsPagination
+        <PostsLoadMore
           posts={posts}
           isLoading={isLoading}
           isLoadingMore={isLoadingMore}
@@ -148,7 +143,7 @@ const PostsLoader = ({
 
 PostsLoader.propTypes = {
   title: PropTypes.string.isRequired,
-  status: PropTypes.array.isRequired,
+  status: PropTypes.string.isRequired,
   limit: PropTypes.number.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,

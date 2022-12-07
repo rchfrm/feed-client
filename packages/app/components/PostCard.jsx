@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostCardMedia from '@/app/PostCardMedia'
+import PostCardActions from '@/app/PostCardActions'
 
 const PostCard = ({
   post,
@@ -12,6 +13,7 @@ const PostCard = ({
   return (
     <div
       className={[
+        'relative',
         className,
       ].join(' ')}
     >
@@ -23,6 +25,7 @@ const PostCard = ({
         caption={post.message}
         postType={postType}
       />
+      <PostCardActions />
       {children}
     </div>
   )
