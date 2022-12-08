@@ -1,29 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import shallow from 'zustand/shallow'
-
 import useBillingStore from '@/app/stores/billingStore'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import PricingPlanUpgradePaymentProfilesList from '@/app/PricingPlanUpgradePaymentProfilesList'
 import PricingProrationsLoader from '@/app/PricingProrationsLoader'
-
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 import Error from '@/elements/Error'
-
 import brandColors from '@/constants/brandColors'
-
 import { formatCurrency } from '@/helpers/utils'
 import { formatProfilesToUpgrade, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
+import { useStripe } from '@stripe/react-stripe-js'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
   organizationArtists: state.organizationArtists,
   updateOrganizationArtists: state.updateOrganizationArtists,
+  defaultPaymentMethod: state.defaultPaymentMethod,
 })
 
 const PricingPlanUpgradePayment = ({
@@ -37,13 +33,15 @@ const PricingPlanUpgradePayment = ({
   isAnnualPricing,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
+  const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { artistId, artist, setPlan, setStatus } = React.useContext(ArtistContext)
   const { name } = artist
-  const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
   const planIsBasic = Object.values(profilesToUpgrade).some((plan) => plan === 'basic')
+
+  const stripe = useStripe()
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
   const isDisabled = (!planIsBasic && !amount) || Boolean(error)
@@ -52,13 +50,14 @@ const PricingPlanUpgradePayment = ({
     organizationArtists,
     organization,
     updateOrganizationArtists,
+    defaultPaymentMethod,
   } = useBillingStore(getBillingStoreState, shallow)
   const { id: organizationId } = organization
 
   const upgradePlan = React.useCallback(async () => {
     setIsLoading(true)
     const profilesWithPlan = formatProfilesToUpgrade(profilesToUpgrade)
-    const { res: { profiles }, error } = await upgradeProfiles(organizationId, profilesWithPlan)
+    const { res: { clientSecret, profiles }, error } = await upgradeProfiles(organizationId, profilesWithPlan)
 
     if (error) {
       setError(error)
@@ -73,9 +72,27 @@ const PricingPlanUpgradePayment = ({
     // Update organization artists in billing store
     updateOrganizationArtists(profiles)
 
+    if (profileUpdated.plan === 'active' || !clientSecret) {
+      setCurrentStep((currentStep) => currentStep + 1)
+      setIsLoading(false)
+      return
+    }
+
+    const { error: confirmPaymentError } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: defaultPaymentMethod.id,
+    })
+
+    if (confirmPaymentError) {
+      setError(confirmPaymentError)
+      setIsLoading(false)
+      return
+    }
+
+    setStatus('active')
+
     setCurrentStep((currentStep) => currentStep + 1)
     setIsLoading(false)
-  }, [organizationId, profilesToUpgrade, setStatus, setPlan, updateOrganizationArtists, setCurrentStep, artistId])
+  }, [profilesToUpgrade, organizationId, setStatus, setPlan, updateOrganizationArtists, stripe, defaultPaymentMethod.id, artistId, setCurrentStep])
 
   React.useEffect(() => {
     const button = (

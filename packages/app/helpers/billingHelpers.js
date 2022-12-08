@@ -115,6 +115,7 @@ export const isValidPromoCode = (promoCode) => {
  * @returns {Promise<any>}
  */
 export const upgradeProfiles = async (organizationId, profilesToUpgrade, promoCode = '') => {
+  // TODO FD-1523 : If this returns a clientSecret, use confirmCardPayment
   const payload = {
     profilePlans: profilesToUpgrade,
   }
