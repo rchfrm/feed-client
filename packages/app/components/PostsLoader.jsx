@@ -4,13 +4,12 @@ import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsContainer from '@/app/PostsContainer'
 import Error from '@/elements/Error'
-import { postsSections, formatPostsResponse, getPosts, getCursor } from '@/app/helpers/postsHelpers'
+import { postsConfig, formatPostsResponse, getPosts, getCursor } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
-  section,
+  status,
   posts,
   setPosts,
-  action,
   className,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
@@ -46,7 +45,7 @@ const PostsLoader = ({
     const { res: posts, error } = await getPosts({
       limit,
       artistId,
-      filterBy: { promotion_status: [postsSections[section].status] },
+      filterBy: postsConfig[status].filterBy,
       cursor: cursor.current,
     })
     if (!isMounted) {
@@ -79,7 +78,7 @@ const PostsLoader = ({
       setPosts({
         type: 'add-posts',
         payload: {
-          section,
+          status,
           posts: postsFormatted,
         },
       })
@@ -91,7 +90,7 @@ const PostsLoader = ({
     setPosts({
       type: 'set-posts',
       payload: {
-        section,
+        status,
         posts: postsFormatted,
       },
     })
@@ -104,9 +103,9 @@ const PostsLoader = ({
   return (
     <>
       <PostsContainer
-        section={section}
+        status={status}
         posts={posts}
-        action={action}
+        setPosts={setPosts}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}
         setIsLoadingMore={setIsLoadingMore}
@@ -119,10 +118,14 @@ const PostsLoader = ({
 }
 
 PostsLoader.propTypes = {
-  section: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
-  action: PropTypes.func.isRequired,
+  className: PropTypes.string,
+}
+
+PostsLoader.defaultProps = {
+  className: null,
 }
 
 export default PostsLoader

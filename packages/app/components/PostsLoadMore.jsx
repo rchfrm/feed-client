@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
 import brandColors from '@/constants/brandColors'
 
-const PostsPagination = ({
+const PostsLoadMore = ({
   isLoading,
   isLoadingMore,
   setIsLoadingMore,
@@ -27,11 +27,11 @@ const PostsPagination = ({
   )
 }
 
-PostsPagination.propTypes = {
+PostsLoadMore.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   isLoadingMore: PropTypes.bool.isRequired,
   setIsLoadingMore: PropTypes.func.isRequired,
   hasLoadedAll: PropTypes.bool.isRequired,
 }
 
-export default PostsPagination
+export default PostsLoadMore

@@ -4,12 +4,11 @@ import PostCardMedia from '@/app/PostCardMedia'
 import PostCardActions from '@/app/PostCardActions'
 
 const PostCard = ({
-  index,
   post,
-  section,
-  action,
+  index,
+  status,
+  setPosts,
   className,
-  children,
 }) => {
   return (
     <div
@@ -25,28 +24,28 @@ const PostCard = ({
         thumbnails={post.thumbnails}
         caption={post.message}
         postType={post.postType}
-        fallbackClassName={section === 'active' || section === 'rejected' ? 'bg-grey-1' : 'bg-white'}
+        fallbackClassName={status === 'active' || status === 'rejected' ? 'bg-grey-1' : 'bg-white'}
       />
       <PostCardActions
         post={post}
         index={index}
-        section={section}
-        action={action}
+        status={status}
+        setPosts={setPosts}
       />
-      {children}
     </div>
   )
 }
 
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
+  setPosts: PropTypes.func.isRequired,
   className: PropTypes.string,
-  children: PropTypes.node,
 }
 
 PostCard.defaultProps = {
   className: null,
-  children: null,
 }
 
 export default PostCard

@@ -5,12 +5,12 @@ import PostsLoadMore from '@/app/PostsLoadMore'
 import Spinner from '@/elements/Spinner'
 import ExpandIcon from '@/icons/ExpandIcon'
 import CollapseIcon from '@/icons/CollapseIcon'
-import { postsSections } from '@/app/helpers/postsHelpers'
+import { postsConfig } from '@/app/helpers/postsHelpers'
 
-const PostsLoader = ({
-  section,
+const PostsContainer = ({
+  status,
   posts,
-  action,
+  setPosts,
   isLoading,
   isLoadingMore,
   setIsLoadingMore,
@@ -18,7 +18,7 @@ const PostsLoader = ({
   className,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false)
-  const shouldShowPostsAmount = section === 'active' || section === 'rejected'
+  const shouldShowPostsAmount = status === 'active' || status === 'rejected'
 
   const handleClick = () => {
     setIsOpen((isOpen) => !isOpen)
@@ -29,6 +29,7 @@ const PostsLoader = ({
       'mb-5 rounded-dialogue',
       isOpen ? 'max-h-[1200px]' : 'max-h-[74px] overflow-hidden',
       'transition-all duration-700 ease-in-out',
+      'border border-solid',
       className,
     ].join(' ')}
     >
@@ -39,7 +40,7 @@ const PostsLoader = ({
           isOpen ? 'rounded-b-none' : null,
         ].join(' ')}
       >
-        <h2 className="mb-0 mr-5">{shouldShowPostsAmount ? posts.length : null} {postsSections[section].title}</h2>
+        <h2 className="mb-0 mr-5">{shouldShowPostsAmount ? posts.length : null} {postsConfig[status].name}</h2>
         {isOpen ? <CollapseIcon /> : <ExpandIcon />}
       </button>
       <div className={[
@@ -53,13 +54,12 @@ const PostsLoader = ({
         ) : (
           <PostsList
             posts={posts}
-            section={section}
-            action={action}
+            status={status}
+            setPosts={setPosts}
             className="mb-5"
           />
         )}
         <PostsLoadMore
-          posts={posts}
           isLoading={isLoading}
           isLoadingMore={isLoadingMore}
           setIsLoadingMore={setIsLoadingMore}
@@ -70,9 +70,19 @@ const PostsLoader = ({
   )
 }
 
-PostsLoader.propTypes = {
-  section: PropTypes.string.isRequired,
+PostsContainer.propTypes = {
+  status: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
+  setPosts: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  isLoadingMore: PropTypes.bool.isRequired,
+  setIsLoadingMore: PropTypes.func.isRequired,
+  hasLoadedAll: PropTypes.bool.isRequired,
+  className: PropTypes.string,
 }
 
-export default PostsLoader
+PostsContainer.defaultProps = {
+  className: null,
+}
+
+export default PostsContainer

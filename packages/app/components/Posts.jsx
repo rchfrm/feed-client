@@ -10,7 +10,7 @@ import PostsLoader from '@/app/PostsLoader'
 
 const postsInitialState = {
   active: [],
-  inReview: [],
+  pending: [],
   inactive: [],
   archived: [],
   rejected: [],
@@ -19,42 +19,26 @@ const postsInitialState = {
 const postsReducer = (draftState, postsAction) => {
   const { type: actionType, payload = {} } = postsAction
   const {
-    section,
+    index,
+    status,
+    post,
     posts,
-    postIndex,
-    promotionEnabled,
-    promotableStatus,
-    linkSpecs,
-    adMessages,
-    callToActions,
-    priorityEnabled,
   } = payload
 
   switch (actionType) {
     case 'set-posts':
-      draftState[section] = posts
+      draftState[status] = posts
       break
     case 'add-posts':
-      draftState[section].push(...posts)
+      draftState[status].push(...posts)
       break
-    case 'toggle-promotion':
-      draftState[postIndex].promotionEnabled = promotionEnabled
+    case 'add-to-queue':
+      draftState[status].splice(index, 1)
+      draftState.pending.push(post)
       break
-    case 'toggle-conversion':
-      draftState[postIndex].conversionsEnabled = promotionEnabled
-      draftState[postIndex].promotableStatus = promotableStatus
-      break
-    case 'update-link-specs':
-      draftState[section][postIndex].linkSpecs = linkSpecs
-      break
-    case 'update-call-to-actions':
-      draftState[section][postIndex].callToActions = callToActions
-      break
-    case 'update-captions':
-      draftState[section][postIndex].adMessages = adMessages
-      break
-    case 'toggle-priority':
-      draftState[postIndex].priorityEnabled = priorityEnabled
+    case 'prioritize':
+      draftState[status].splice(index, 1)
+      draftState.pending.unshift(post)
       break
     case 'reset-posts':
       return postsInitialState
@@ -94,39 +78,34 @@ const Posts = ({ dummyPostsImages }) => {
       canLoadPosts ? (
         <div className="relative">
           <PostsLoader
-            section="active"
+            status="active"
             posts={posts.active}
             setPosts={setPosts}
-            action={() => {}}
-            className="border-2 border-solid border-green"
+            className="border-green"
           />
           <PostsLoader
-            section="rejected"
+            status="rejected"
             posts={posts.rejected}
             setPosts={setPosts}
-            action={() => {}}
-            className="border border-solid border-red"
+            className="border-red"
           />
           <PostsLoader
-            section="inReview"
-            posts={posts.inReview}
+            status="pending"
+            posts={posts.pending}
             setPosts={setPosts}
-            action={() => {}}
-            className="border border-solid border-grey-2 bg-grey-1"
+            className="border-grey-2 bg-grey-1"
           />
           <PostsLoader
-            section="inactive"
+            status="inactive"
             posts={posts.inactive}
             setPosts={setPosts}
-            action={() => {}}
-            className="border border-solid border-grey-2 bg-grey-1"
+            className="border-grey-2 bg-grey-1"
           />
           <PostsLoader
-            section="archived"
+            status="archived"
             posts={posts.archived}
             setPosts={setPosts}
-            action={() => {}}
-            className="border border-solid border-grey-2 bg-grey-1"
+            className="border-grey-2 bg-grey-1"
           />
         </div>
       ) : (

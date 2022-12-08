@@ -3,7 +3,12 @@ import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
 import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
 
-const PostsList = ({ posts, section, action, className }) => {
+const PostsList = ({
+  posts,
+  status,
+  setPosts,
+  className,
+}) => {
   if ((!posts || !posts.length)) {
     return 'No posts'
   }
@@ -20,17 +25,17 @@ const PostsList = ({ posts, section, action, className }) => {
         return (
           <PostCard
             key={post.id}
-            index={index}
             post={post}
-            section={section}
-            action={action}
+            index={index}
+            status={status}
+            setPosts={setPosts}
             className={[
               'col-span-6 sm:col-span-3 lg:col-span-2',
             ].join(' ')}
           />
         )
       })}
-      {section === 'inReview' && (
+      {status === 'pending' && (
         <PostCardCreateAdButton
           className="col-span-6 sm:col-span-3 lg:col-span-2"
         />
@@ -41,7 +46,8 @@ const PostsList = ({ posts, section, action, className }) => {
 
 PostsList.propTypes = {
   posts: PropTypes.array.isRequired,
-  section: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  setPosts: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

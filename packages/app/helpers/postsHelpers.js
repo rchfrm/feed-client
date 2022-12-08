@@ -60,30 +60,30 @@ export const postTypes = [
   },
 ]
 
-export const postsSections = {
+export const postsConfig = {
   active: {
-    title: 'Active',
-    status: 'active',
+    name: 'Active',
+    filterBy: { promotion_status: 'active' },
     action: 'View results',
   },
-  inReview: {
-    title: 'Queue',
-    status: 'in_review',
+  pending: {
+    name: 'Queue',
+    filterBy: { promotion_status: 'inactive', promotion_enabled: [true] },
     action: 'Edit ad or push to front',
   },
   inactive: {
-    title: 'Library',
-    status: 'inactive',
+    name: 'Library',
+    filterBy: { promotion_status: 'inactive', promotion_enabled: [false] },
     action: 'Add to queue',
   },
   archived: {
-    title: 'Archive',
-    status: 'archived',
+    name: 'Archive',
+    filterBy: { promotion_status: 'archived' },
     action: 'Reactivate',
   },
   rejected: {
-    title: 'Rejected',
-    status: 'rejected',
+    name: 'Rejected',
+    filterBy: { promotion_status: 'rejected' },
     action: 'Edit ad',
   },
 }
