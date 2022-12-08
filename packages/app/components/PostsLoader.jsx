@@ -2,12 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import PostsList from '@/app/PostsList'
-import PostsLoadMore from '@/app/PostsLoadMore'
-import Spinner from '@/elements/Spinner'
+import PostsContainer from '@/app/PostsContainer'
 import Error from '@/elements/Error'
-import ExpandIcon from '@/icons/ExpandIcon'
-import CollapseIcon from '@/icons/CollapseIcon'
 import { formatPostsResponse, getPosts, getCursor } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
@@ -18,7 +14,6 @@ const PostsLoader = ({
   setPosts,
   className,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(true)
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -28,6 +23,16 @@ const PostsLoader = ({
   const hasLoadedAll = React.useRef(false)
 
   const { artistId } = React.useContext(ArtistContext)
+
+  React.useEffect(() => {
+    if (!artistId) {
+      return
+    }
+
+    isInitialLoad.current = true
+    cursor.current = null
+    hasLoadedAll.current = false
+  }, [artistId])
 
   useAsyncEffect(async (isMounted) => {
     if (!artistId || (!isInitialLoad.current && !isLoadingMore)) {
@@ -91,53 +96,20 @@ const PostsLoader = ({
     setIsLoading(false)
   }, [artistId, isLoadingMore])
 
-  const handleClick = () => {
-    setIsOpen((isOpen) => !isOpen)
-  }
-
   return (
-    <div className={[
-      'mb-5 rounded-dialogue',
-      isOpen ? 'max-h-[1200px]' : 'max-h-[74px] overflow-hidden',
-      'transition-all duration-700 ease-in-out',
-      className,
-    ].join(' ')}
-    >
-      <button
-        onClick={handleClick}
-        className={[
-          'w-full flex justify-between items-center p-5',
-          isOpen ? 'rounded-b-none' : null,
-        ].join(' ')}
-      >
-        <h2 className="mb-0 mr-5">{status === 'active' ? posts.length : null} {title}</h2>
-        {isOpen ? <CollapseIcon /> : <ExpandIcon />}
-      </button>
-      <div className={[
-        'p-5',
-        'transition ease-in-out delay-200 transition-opacity',
-        isOpen ? 'opacity-1' : 'opacity-0',
-      ].join(' ')}
-      >
-        {isLoading ? (
-          <Spinner width={25} />
-        ) : (
-          <PostsList
-            posts={posts}
-            status={status}
-            className="mb-5"
-          />
-        )}
-        <PostsLoadMore
-          posts={posts}
-          isLoading={isLoading}
-          isLoadingMore={isLoadingMore}
-          setIsLoadingMore={setIsLoadingMore}
-          hasLoadedAll={hasLoadedAll.current}
-        />
-      </div>
+    <>
+      <PostsContainer
+        title={title}
+        status={status}
+        posts={posts}
+        isLoading={isLoading}
+        isLoadingMore={isLoadingMore}
+        setIsLoadingMore={setIsLoadingMore}
+        hasLoadedAll={hasLoadedAll.current}
+        className={className}
+      />
       <Error error={error} />
-    </div>
+    </>
   )
 }
 

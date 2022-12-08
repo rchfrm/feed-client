@@ -27,7 +27,7 @@ const PostsList = ({ posts, status, className }) => {
           />
         )
       })}
-      {status !== 'inactive' && (
+      {status === 'in_review' && (
         <PostCardCreateAdButton
           className="col-span-6 sm:col-span-3 lg:col-span-2"
         />
