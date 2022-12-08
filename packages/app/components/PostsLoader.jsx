@@ -4,20 +4,20 @@ import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsContainer from '@/app/PostsContainer'
 import Error from '@/elements/Error'
-import { formatPostsResponse, getPosts, getCursor } from '@/app/helpers/postsHelpers'
+import { postsSections, formatPostsResponse, getPosts, getCursor } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
-  title,
-  status,
-  limit,
+  section,
   posts,
   setPosts,
+  action,
   className,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
 
+  const limit = 5
   const cursor = React.useRef('')
   const isInitialLoad = React.useRef(true)
   const hasLoadedAll = React.useRef(false)
@@ -43,7 +43,12 @@ const PostsLoader = ({
       setIsLoading(true)
     }
 
-    const { res: posts, error } = await getPosts({ limit, artistId, filterBy: { promotion_status: [status] }, cursor: cursor.current })
+    const { res: posts, error } = await getPosts({
+      limit,
+      artistId,
+      filterBy: { promotion_status: [postsSections[section].status] },
+      cursor: cursor.current,
+    })
     if (!isMounted) {
       return
     }
@@ -74,7 +79,7 @@ const PostsLoader = ({
       setPosts({
         type: 'add-posts',
         payload: {
-          status,
+          section,
           posts: postsFormatted,
         },
       })
@@ -86,7 +91,7 @@ const PostsLoader = ({
     setPosts({
       type: 'set-posts',
       payload: {
-        status,
+        section,
         posts: postsFormatted,
       },
     })
@@ -99,9 +104,9 @@ const PostsLoader = ({
   return (
     <>
       <PostsContainer
-        title={title}
-        status={status}
+        section={section}
         posts={posts}
+        action={action}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}
         setIsLoadingMore={setIsLoadingMore}
@@ -114,11 +119,10 @@ const PostsLoader = ({
 }
 
 PostsLoader.propTypes = {
-  title: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
-  limit: PropTypes.number.isRequired,
+  section: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
+  action: PropTypes.func.isRequired,
 }
 
 export default PostsLoader

@@ -60,6 +60,34 @@ export const postTypes = [
   },
 ]
 
+export const postsSections = {
+  active: {
+    title: 'Active',
+    status: 'active',
+    action: 'View results',
+  },
+  inReview: {
+    title: 'Queue',
+    status: 'in_review',
+    action: 'Edit ad or push to front',
+  },
+  inactive: {
+    title: 'Library',
+    status: 'inactive',
+    action: 'Add to queue',
+  },
+  archived: {
+    title: 'Archive',
+    status: 'archived',
+    action: 'Reactivate',
+  },
+  rejected: {
+    title: 'Rejected',
+    status: 'rejected',
+    action: 'Edit ad',
+  },
+}
+
 // POST SORT TYPES
 export const sortTypes = [
   {

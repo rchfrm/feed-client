@@ -10,14 +10,16 @@ import PostsLoader from '@/app/PostsLoader'
 
 const postsInitialState = {
   active: [],
-  in_review: [],
+  inReview: [],
   inactive: [],
+  archived: [],
+  rejected: [],
 }
 
 const postsReducer = (draftState, postsAction) => {
   const { type: actionType, payload = {} } = postsAction
   const {
-    status,
+    section,
     posts,
     postIndex,
     promotionEnabled,
@@ -30,10 +32,10 @@ const postsReducer = (draftState, postsAction) => {
 
   switch (actionType) {
     case 'set-posts':
-      draftState[status] = posts
+      draftState[section] = posts
       break
     case 'add-posts':
-      draftState[status].push(...posts)
+      draftState[section].push(...posts)
       break
     case 'toggle-promotion':
       draftState[postIndex].promotionEnabled = promotionEnabled
@@ -43,13 +45,13 @@ const postsReducer = (draftState, postsAction) => {
       draftState[postIndex].promotableStatus = promotableStatus
       break
     case 'update-link-specs':
-      draftState[status][postIndex].linkSpecs = linkSpecs
+      draftState[section][postIndex].linkSpecs = linkSpecs
       break
     case 'update-call-to-actions':
-      draftState[status][postIndex].callToActions = callToActions
+      draftState[section][postIndex].callToActions = callToActions
       break
     case 'update-captions':
-      draftState[status][postIndex].adMessages = adMessages
+      draftState[section][postIndex].adMessages = adMessages
       break
     case 'toggle-priority':
       draftState[postIndex].priorityEnabled = priorityEnabled
@@ -92,27 +94,38 @@ const Posts = ({ dummyPostsImages }) => {
       canLoadPosts ? (
         <div className="relative">
           <PostsLoader
-            title="Active"
-            status="active"
-            limit={5}
+            section="active"
             posts={posts.active}
             setPosts={setPosts}
+            action={() => {}}
             className="border-2 border-solid border-green"
           />
           <PostsLoader
-            title="Queue"
-            status="in_review"
-            limit={5}
-            posts={posts.in_review}
+            section="rejected"
+            posts={posts.rejected}
             setPosts={setPosts}
+            action={() => {}}
+            className="border border-solid border-red"
+          />
+          <PostsLoader
+            section="inReview"
+            posts={posts.inReview}
+            setPosts={setPosts}
+            action={() => {}}
             className="border border-solid border-grey-2 bg-grey-1"
           />
           <PostsLoader
-            title="Library"
-            status="inactive"
-            limit={5}
+            section="inactive"
             posts={posts.inactive}
             setPosts={setPosts}
+            action={() => {}}
+            className="border border-solid border-grey-2 bg-grey-1"
+          />
+          <PostsLoader
+            section="archived"
+            posts={posts.archived}
+            setPosts={setPosts}
+            action={() => {}}
             className="border border-solid border-grey-2 bg-grey-1"
           />
         </div>

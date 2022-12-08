@@ -4,12 +4,13 @@ import PostCardMedia from '@/app/PostCardMedia'
 import PostCardActions from '@/app/PostCardActions'
 
 const PostCard = ({
+  index,
   post,
+  section,
+  action,
   className,
   children,
 }) => {
-  const { postType } = post
-
   return (
     <div
       className={[
@@ -23,9 +24,14 @@ const PostCard = ({
         videoFallback={post.videoFallback}
         thumbnails={post.thumbnails}
         caption={post.message}
-        postType={postType}
+        postType={post.postType}
       />
-      <PostCardActions />
+      <PostCardActions
+        post={post}
+        index={index}
+        section={section}
+        action={action}
+      />
       {children}
     </div>
   )

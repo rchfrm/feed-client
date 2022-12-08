@@ -5,18 +5,20 @@ import PostsLoadMore from '@/app/PostsLoadMore'
 import Spinner from '@/elements/Spinner'
 import ExpandIcon from '@/icons/ExpandIcon'
 import CollapseIcon from '@/icons/CollapseIcon'
+import { postsSections } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
-  title,
-  status,
+  section,
   posts,
+  action,
   isLoading,
   isLoadingMore,
   setIsLoadingMore,
   hasLoadedAll,
   className,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(true)
+  const [isOpen, setIsOpen] = React.useState(false)
+  const shouldShowPostsAmount = section === 'active' || section === 'rejected'
 
   const handleClick = () => {
     setIsOpen((isOpen) => !isOpen)
@@ -37,7 +39,7 @@ const PostsLoader = ({
           isOpen ? 'rounded-b-none' : null,
         ].join(' ')}
       >
-        <h2 className="mb-0 mr-5">{status === 'active' ? posts.length : null} {title}</h2>
+        <h2 className="mb-0 mr-5">{shouldShowPostsAmount ? posts.length : null} {postsSections[section].title}</h2>
         {isOpen ? <CollapseIcon /> : <ExpandIcon />}
       </button>
       <div className={[
@@ -51,7 +53,8 @@ const PostsLoader = ({
         ) : (
           <PostsList
             posts={posts}
-            status={status}
+            section={section}
+            action={action}
             className="mb-5"
           />
         )}
@@ -68,8 +71,7 @@ const PostsLoader = ({
 }
 
 PostsLoader.propTypes = {
-  title: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  section: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
 }
 
