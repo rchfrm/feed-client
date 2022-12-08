@@ -66,6 +66,11 @@ export const postsConfig = {
     filterBy: { promotion_status: 'active' },
     action: 'View results',
   },
+  rejected: {
+    name: 'Rejected',
+    filterBy: { promotion_status: 'rejected' },
+    action: 'Edit ad',
+  },
   pending: {
     name: 'Queue',
     filterBy: { promotion_status: 'inactive', promotion_enabled: [true] },
@@ -80,11 +85,6 @@ export const postsConfig = {
     name: 'Archive',
     filterBy: { promotion_status: 'archived' },
     action: 'Reactivate',
-  },
-  rejected: {
-    name: 'Rejected',
-    filterBy: { promotion_status: 'rejected' },
-    action: 'Edit ad',
   },
 }
 
