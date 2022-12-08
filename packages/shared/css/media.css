@@ -50,7 +50,7 @@
    left: 0;
    width: 100%;
    height: 100%;
-   background-color: var(--white);
+   background-color: var(--grey-light);
    border-radius: var(--dialogue-radius);
 
    display: flex;

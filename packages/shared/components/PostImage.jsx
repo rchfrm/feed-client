@@ -104,6 +104,7 @@ const PostImage = ({
   onFinishedSelection,
   brokenImageColor,
   className,
+  fallbackClassName,
 }) => {
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
@@ -244,7 +245,7 @@ const PostImage = ({
       {/* Test for broken videos */}
       {mediaTest}
       {/* Thumbnail fallback */}
-      {(thumbError || !thumbnailImageSrc) && <MediaFallback brokenImageColor={brokenImageColor} />}
+      {(thumbError || !thumbnailImageSrc) && <MediaFallback brokenImageColor={brokenImageColor} className={fallbackClassName} />}
       {/* Show broken play button */}
       {videoError && <div className={styles.playIconBg}>{playIcon}</div>}
       {/* Show play icon */}
@@ -315,6 +316,7 @@ PostImage.propTypes = {
   onFinishedSelection: PropTypes.func,
   brokenImageColor: PropTypes.string,
   className: PropTypes.string,
+  fallbackClassName: PropTypes.string,
 }
 
 PostImage.defaultProps = {
@@ -330,6 +332,7 @@ PostImage.defaultProps = {
   onFinishedSelection: () => {},
   brokenImageColor: brandColors.green,
   className: null,
+  fallbackClassName: null,
 }
 
 

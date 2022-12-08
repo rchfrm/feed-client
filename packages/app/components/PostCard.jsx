@@ -25,6 +25,7 @@ const PostCard = ({
         thumbnails={post.thumbnails}
         caption={post.message}
         postType={post.postType}
+        fallbackClassName={section === 'active' || section === 'rejected' ? 'bg-grey-1' : 'bg-white'}
       />
       <PostCardActions
         post={post}

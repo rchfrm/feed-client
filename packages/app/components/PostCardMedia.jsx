@@ -10,6 +10,7 @@ const PostCardMedia = ({
   caption,
   postType,
   className,
+  fallbackClassName,
   style,
 }) => {
   const [hasMedia, setHasMedia] = React.useState(!!media)
@@ -68,6 +69,7 @@ const PostCardMedia = ({
                   setSelectedThumbnail(thumbnail)
                   setReady(true)
                 }}
+                fallbackClassName={fallbackClassName}
               />
             </div>
           </>
@@ -85,6 +87,7 @@ PostCardMedia.propTypes = {
   caption: PropTypes.string,
   postType: PropTypes.string,
   className: PropTypes.string,
+  fallbackClassName: PropTypes.string,
 }
 
 PostCardMedia.defaultProps = {
@@ -95,6 +98,7 @@ PostCardMedia.defaultProps = {
   caption: '',
   postType: '',
   className: null,
+  fallbackClassName: null,
 }
 
 export default PostCardMedia
