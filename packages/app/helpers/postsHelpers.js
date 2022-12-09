@@ -1,64 +1,10 @@
 import get from 'lodash/get'
 import moment from 'moment'
-import slugify from 'slugify'
 
 import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
 import { requestWithCatch } from '@/helpers/api'
 import brandColors from '@/constants/brandColors'
-
-// TRANSLATE PROMOTION NAME
-export const translatePromotionName = (promotionStatus, format) => {
-  let title
-  switch (promotionStatus) {
-    case 'active':
-      title = 'running'
-      break
-    case 'inactive':
-      title = 'not run'
-      break
-    case 'archived':
-      title = 'inactive'
-      break
-    default:
-      title = promotionStatus
-  }
-  if (format === 'capitalize') return utils.capitalise(title)
-  if (format === 'slugify') return slugify(title)
-  return title
-}
-
-// POST TYPE FILTERS
-export const postTypes = [
-  {
-    id: 'all',
-    title: translatePromotionName('all', 'capitalize'),
-    slug: translatePromotionName('all', 'slugify'),
-    color: brandColors.black,
-    activeTextColor: brandColors.white,
-  },
-  {
-    id: 'active',
-    title: translatePromotionName('active', 'capitalize'),
-    slug: translatePromotionName('active', 'slugify'),
-    color: brandColors.green,
-    activeTextColor: brandColors.white,
-  },
-  {
-    id: 'archived',
-    title: translatePromotionName('archived', 'capitalize'),
-    slug: translatePromotionName('archived', 'slugify'),
-    color: brandColors.black,
-    activeTextColor: brandColors.white,
-  },
-  {
-    id: 'inactive',
-    title: translatePromotionName('inactive', 'capitalize'),
-    slug: translatePromotionName('inactive', 'slugify'),
-    color: brandColors.greyDark,
-    activeTextColor: brandColors.white,
-  },
-]
 
 export const postsConfig = {
   active: {
@@ -73,12 +19,12 @@ export const postsConfig = {
   },
   pending: {
     name: 'Queue',
-    filterBy: { promotion_status: 'inactive', promotion_enabled: [true] },
+    filterBy: { promotion_status: 'inactive', promotion_enabled: true },
     action: 'Edit ad or push to front',
   },
   inactive: {
     name: 'Library',
-    filterBy: { promotion_status: 'inactive', promotion_enabled: [false] },
+    filterBy: { promotion_status: 'inactive', promotion_enabled: false },
     action: 'Add to queue',
   },
   archived: {
@@ -88,7 +34,47 @@ export const postsConfig = {
   },
 }
 
-// POST SORT TYPES
+export const filterTypes = [
+  {
+    type: 'platform',
+    options: [
+      {
+        title: 'All platforms',
+        slug: 'all',
+      },
+      {
+        title: 'Facebook',
+        slug: 'facebook',
+      },
+      {
+        title: 'Instagram',
+        slug: 'instagram',
+      },
+    ],
+  },
+  {
+    type: 'internal_type',
+    options: [
+      {
+        title: 'All post types',
+        slug: 'all',
+      },
+      {
+        title: 'Posts',
+        slug: 'post',
+      },
+      {
+        title: 'Stories',
+        slug: 'story',
+      },
+      {
+        title: 'Reels',
+        slug: 'reels',
+      },
+    ],
+  },
+]
+
 export const sortTypes = [
   {
     id: 'published_time',
@@ -105,8 +91,6 @@ export const sortTypes = [
     activeTextColor: 'white',
   },
 ]
-
-export const filters = ['promotion_status', 'platform', 'internal_type', 'promotion_enabled']
 
 export const promotionStatusSlugs = {
   active: 'active',
@@ -139,61 +123,6 @@ export const promotionStatus = [
   },
 ]
 
-export const filterTypes = [
-  {
-    slug: 'promotion_status',
-    title: 'Status',
-    options: promotionStatus,
-  },
-  {
-    slug: 'platform',
-    title: 'Platform',
-    options: [
-      {
-        slug: 'facebook',
-        title: 'Facebook',
-      },
-      {
-        slug: 'instagram',
-        title: 'Instagram',
-      },
-    ],
-  },
-  {
-    slug: 'internal_type',
-    title: 'Post Type',
-    options: [
-      {
-        slug: 'post',
-        title: 'Post',
-      },
-      {
-        slug: 'story',
-        title: 'Story',
-      },
-      {
-        slug: 'reels',
-        title: 'Reels',
-      },
-    ],
-  },
-  {
-    slug: 'promotion_enabled',
-    title: 'Promotable',
-    options: [
-      {
-        slug: true,
-        title: 'Yes',
-      },
-      {
-        slug: false,
-        title: 'No',
-      },
-    ],
-  },
-]
-
-// CAMPAIGN TYPES
 export const campaignTypes = [
   {
     title: 'Grow & Nurture',
@@ -205,7 +134,6 @@ export const campaignTypes = [
   },
 ]
 
-// DUMMY POST DATA
 export const dummyPosts = [
   {
     publishedTime: moment(),
@@ -253,11 +181,6 @@ export const postOptions = [
 const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
 export const growthGradient = createGradient(brandColors.blue)
 export const conversionsGradient = createGradient(brandColors.red)
-
-export const getPostTypesTitle = (id) => {
-  const { title } = postTypes.find(({ id: typeId }) => id === typeId) || {}
-  return title
-}
 
 // TOGGLE POST STATUS ON SERVER
 export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false, campaignType }) => {
@@ -608,17 +531,12 @@ export const setPostCallToAction = async ({ artistId, callToAction, assetId, cam
 */
 export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor }) => {
   const endpoint = `/artists/${artistId}/assets`
-  let formattedFilterQuery = null
-
-  if (filterBy) {
-    formattedFilterQuery = utils.addArrayCastTypeToQuery(filterBy)
-  }
 
   const payload = {
     limit,
     ...(cursor && { after: cursor }),
     ...(sortBy && { order_by: sortBy }),
-    ...formattedFilterQuery,
+    ...filterBy,
   }
   const errorTracking = {
     category: 'Posts',

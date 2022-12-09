@@ -12,13 +12,14 @@ const PostsLoader = ({
   setPosts,
   className,
 }) => {
+  const [sortBy, setSortBy] = React.useState('')
+  const [filterBy, setFilterBy] = React.useState({})
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const limit = 5
   const cursor = React.useRef('')
-  const isInitialLoad = React.useRef(true)
   const hasLoadedAll = React.useRef(false)
 
   const { artistId } = React.useContext(ArtistContext)
@@ -28,13 +29,12 @@ const PostsLoader = ({
       return
     }
 
-    isInitialLoad.current = true
     cursor.current = null
     hasLoadedAll.current = false
   }, [artistId])
 
   useAsyncEffect(async (isMounted) => {
-    if (!artistId || (!isInitialLoad.current && !isLoadingMore)) {
+    if (!artistId) {
       return
     }
 
@@ -45,8 +45,11 @@ const PostsLoader = ({
     const { res: posts, error } = await getPosts({
       limit,
       artistId,
-      filterBy: postsConfig[status].filterBy,
-      cursor: cursor.current,
+      filterBy: {
+        ...postsConfig[status].filterBy,
+        ...filterBy,
+      },
+      ...(isLoadingMore && { cursor: cursor.current }),
     })
     if (!isMounted) {
       return
@@ -58,18 +61,9 @@ const PostsLoader = ({
       return
     }
 
-    if (!posts || !posts.length) {
-      hasLoadedAll.current = true
-      isInitialLoad.current = false
-      setIsLoading(false)
-      setIsLoadingMore(false)
-
-      return
-    }
-
     const postsFormatted = formatPostsResponse(posts)
     const lastPost = posts[posts.length - 1]
-    if (lastPost._links.after) {
+    if (lastPost?._links.after) {
       const nextCursor = getCursor(lastPost)
       cursor.current = nextCursor
     }
@@ -95,10 +89,9 @@ const PostsLoader = ({
       },
     })
 
-    isInitialLoad.current = false
     setPosts(postsFormatted)
     setIsLoading(false)
-  }, [artistId, isLoadingMore])
+  }, [artistId, isLoadingMore, sortBy, filterBy])
 
   return (
     <>
@@ -106,6 +99,9 @@ const PostsLoader = ({
         status={status}
         posts={posts}
         setPosts={setPosts}
+        filterBy={filterBy}
+        setSortBy={setSortBy}
+        setFilterBy={setFilterBy}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}
         setIsLoadingMore={setIsLoadingMore}

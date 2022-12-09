@@ -9,10 +9,6 @@ const PostsList = ({
   setPosts,
   className,
 }) => {
-  if ((!posts || !posts.length)) {
-    return 'No posts'
-  }
-
   return (
     <ul
       className={[

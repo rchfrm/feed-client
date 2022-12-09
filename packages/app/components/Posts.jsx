@@ -1,11 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import moment from 'moment'
 import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import PostsInitialImport from '@/app/PostsInitialImport'
-import PostsNoArtists from '@/app/PostsNoArtists'
 import PostsLoader from '@/app/PostsLoader'
 
 const postsInitialState = {
@@ -47,7 +45,7 @@ const postsReducer = (draftState, postsAction) => {
   }
 }
 
-const Posts = ({ dummyPostsImages }) => {
+const Posts = () => {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const { artistId } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
@@ -81,13 +79,13 @@ const Posts = ({ dummyPostsImages }) => {
             status="active"
             posts={posts.active}
             setPosts={setPosts}
-            className="border-green"
+            className="border-2 border-green"
           />
           <PostsLoader
             status="rejected"
             posts={posts.rejected}
             setPosts={setPosts}
-            className="border-red"
+            className="border-2 border-red"
           />
           <PostsLoader
             status="pending"
@@ -115,15 +113,9 @@ const Posts = ({ dummyPostsImages }) => {
         />
       )
     ) : (
-      <PostsNoArtists dummyPostsImages={dummyPostsImages} />
+      <p>No artists...</p>
     )
   )
-}
-
-Posts.propTypes = {
-  dummyPostsImages: PropTypes.arrayOf(
-    PropTypes.object.isRequired,
-  ).isRequired,
 }
 
 export default Posts

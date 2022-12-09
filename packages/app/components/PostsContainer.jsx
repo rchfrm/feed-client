@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import PostsFilter from '@/app/PostsFilter'
 import PostsList from '@/app/PostsList'
 import PostsLoadMore from '@/app/PostsLoadMore'
 import Spinner from '@/elements/Spinner'
@@ -11,13 +12,16 @@ const PostsContainer = ({
   status,
   posts,
   setPosts,
+  // setSortBy,
+  filterBy,
+  setFilterBy,
   isLoading,
   isLoadingMore,
   setIsLoadingMore,
   hasLoadedAll,
   className,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(true)
   const shouldShowPostsAmount = status === 'active' || status === 'rejected'
 
   const handleClick = () => {
@@ -26,10 +30,9 @@ const PostsContainer = ({
 
   return (
     <div className={[
-      'mb-5 rounded-dialogue',
-      isOpen ? 'max-h-[1200px]' : 'max-h-[74px] overflow-hidden',
+      'mb-5 rounded-dialogue border border-solid',
       'transition-all duration-700 ease-in-out',
-      'border border-solid',
+      isOpen ? 'max-h-[1200px]' : 'max-h-[74px] overflow-hidden',
       className,
     ].join(' ')}
     >
@@ -43,6 +46,10 @@ const PostsContainer = ({
         <h2 className="mb-0 mr-5">{shouldShowPostsAmount ? posts.length : null} {postsConfig[status].name}</h2>
         {isOpen ? <CollapseIcon /> : <ExpandIcon />}
       </button>
+      <PostsFilter
+        filterBy={filterBy}
+        setFilterBy={setFilterBy}
+      />
       <div className={[
         'p-5',
         'transition ease-in-out delay-200 transition-opacity',
@@ -74,6 +81,8 @@ PostsContainer.propTypes = {
   status: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
+  // setSortBy: PropTypes.func.isRequired,
+  setFilterBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isLoadingMore: PropTypes.bool.isRequired,
   setIsLoadingMore: PropTypes.func.isRequired,
