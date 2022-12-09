@@ -79,7 +79,8 @@ export const getStripeClientSecret = async (organizationId, type) => {
     category: 'Billing',
     action: 'Get Stripe client secret',
   }
-  return api.requestWithCatch('get', endpoint, payload, errorTracking)
+  const requestType = type === 'setup' ? 'post' : 'get'
+  return api.requestWithCatch(requestType, endpoint, payload, errorTracking)
 }
 
 // GET PRORATIONS PREVIEW
