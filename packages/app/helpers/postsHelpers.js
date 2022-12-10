@@ -14,7 +14,7 @@ export const postsConfig = {
   },
   rejected: {
     name: 'Rejected',
-    filterBy: { promotion_status: 'rejected' },
+    filterBy: { promotion_status: 'rejected', promotion_enabled: true },
     action: 'Edit ad',
   },
   pending: {
@@ -24,7 +24,7 @@ export const postsConfig = {
   },
   inactive: {
     name: 'Library',
-    filterBy: { promotion_status: 'inactive', promotion_enabled: false },
+    filterBy: { promotion_status: ['inactive', 'rejected'], promotion_enabled: false },
     action: 'Add to queue',
   },
   archived: {

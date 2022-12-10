@@ -12,7 +12,6 @@ const PostsContainer = ({
   status,
   posts,
   setPosts,
-  // setSortBy,
   filterBy,
   setFilterBy,
   isLoading,
@@ -57,7 +56,9 @@ const PostsContainer = ({
       ].join(' ')}
       >
         {isLoading ? (
-          <Spinner width={25} />
+          <div className="h-32 w-full flex items-center">
+            <Spinner width={30} />
+          </div>
         ) : (
           <PostsList
             posts={posts}
@@ -67,6 +68,7 @@ const PostsContainer = ({
           />
         )}
         <PostsLoadMore
+          posts={posts}
           isLoading={isLoading}
           isLoadingMore={isLoadingMore}
           setIsLoadingMore={setIsLoadingMore}
@@ -81,7 +83,6 @@ PostsContainer.propTypes = {
   status: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
-  // setSortBy: PropTypes.func.isRequired,
   setFilterBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isLoadingMore: PropTypes.bool.isRequired,

@@ -16,11 +16,11 @@ const PostsLoader = ({
   const [filterBy, setFilterBy] = React.useState({})
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
+  const [hasLoadedAll, setHasLoadedAll] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const limit = 5
   const cursor = React.useRef('')
-  const hasLoadedAll = React.useRef(false)
 
   const { artistId } = React.useContext(ArtistContext)
 
@@ -30,7 +30,7 @@ const PostsLoader = ({
     }
 
     cursor.current = null
-    hasLoadedAll.current = false
+    setHasLoadedAll(false)
   }, [artistId])
 
   useAsyncEffect(async (isMounted) => {
@@ -59,6 +59,10 @@ const PostsLoader = ({
       setError(error)
       setIsLoading(false)
       return
+    }
+
+    if (isLoadingMore && !posts.length) {
+      setHasLoadedAll(true)
     }
 
     const postsFormatted = formatPostsResponse(posts)
@@ -100,12 +104,13 @@ const PostsLoader = ({
         posts={posts}
         setPosts={setPosts}
         filterBy={filterBy}
-        setSortBy={setSortBy}
         setFilterBy={setFilterBy}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
         isLoading={isLoading}
         isLoadingMore={isLoadingMore}
         setIsLoadingMore={setIsLoadingMore}
-        hasLoadedAll={hasLoadedAll.current}
+        hasLoadedAll={hasLoadedAll}
         className={className}
       />
       <Error error={error} />
