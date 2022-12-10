@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
+import usePrevious from 'use-previous'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsContainer from '@/app/PostsContainer'
 import Error from '@/elements/Error'
@@ -23,6 +24,7 @@ const PostsLoader = ({
   const cursor = React.useRef('')
 
   const { artistId } = React.useContext(ArtistContext)
+  const previousIsLoadingMore = usePrevious(isLoadingMore)
 
   React.useEffect(() => {
     if (!artistId) {
@@ -34,7 +36,7 @@ const PostsLoader = ({
   }, [artistId])
 
   useAsyncEffect(async (isMounted) => {
-    if (!artistId) {
+    if (!artistId || (!isLoadingMore && previousIsLoadingMore)) {
       return
     }
 
@@ -94,7 +96,7 @@ const PostsLoader = ({
     })
 
     setIsLoading(false)
-  }, [artistId, isLoadingMore, sortBy, filterBy])
+  }, [artistId, filterBy, sortBy, isLoadingMore])
 
   return (
     <>
