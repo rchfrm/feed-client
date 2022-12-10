@@ -93,7 +93,6 @@ const PostsLoader = ({
       },
     })
 
-    setPosts(postsFormatted)
     setIsLoading(false)
   }, [artistId, isLoadingMore, sortBy, filterBy])
 

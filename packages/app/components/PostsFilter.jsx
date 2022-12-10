@@ -8,7 +8,7 @@ const PostsFilter = ({
   setFilterBy,
 }) => {
   return (
-    <div className="flex justify-between px-5 text-xs">
+    <div className="flex justify-between mb-5 text-xs">
       <div className="flex items-center">
         <p className="mb-0 font-bold">Show:</p>
         {filterTypes.map(({ type, options }) => (

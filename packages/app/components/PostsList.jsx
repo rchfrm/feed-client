@@ -1,14 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
+import PostsNone from '@/app/PostsNone'
 import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
 
 const PostsList = ({
   posts,
   status,
   setPosts,
+  filterBy,
   className,
 }) => {
+  if (!posts.length) {
+    return (
+      <PostsNone
+        filterBy={filterBy}
+      />
+    )
+  }
+
   return (
     <ul
       className={[

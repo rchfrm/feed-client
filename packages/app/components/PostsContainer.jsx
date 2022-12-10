@@ -31,7 +31,7 @@ const PostsContainer = ({
     <div className={[
       'mb-5 rounded-dialogue border border-solid',
       'transition-all duration-700 ease-in-out',
-      isOpen ? 'max-h-[1200px]' : 'max-h-[74px] overflow-hidden',
+      isOpen ? 'max-h-[1200px]' : 'max-h-[73px] overflow-hidden',
       className,
     ].join(' ')}
     >
@@ -45,16 +45,16 @@ const PostsContainer = ({
         <h2 className="mb-0 mr-5">{shouldShowPostsAmount ? posts.length : null} {postsConfig[status].name}</h2>
         {isOpen ? <CollapseIcon /> : <ExpandIcon />}
       </button>
-      <PostsFilter
-        filterBy={filterBy}
-        setFilterBy={setFilterBy}
-      />
       <div className={[
-        'p-5',
+        'mb-5 px-5',
         'transition ease-in-out delay-200 transition-opacity',
         isOpen ? 'opacity-1' : 'opacity-0',
       ].join(' ')}
       >
+        <PostsFilter
+          filterBy={filterBy}
+          setFilterBy={setFilterBy}
+        />
         {isLoading ? (
           <div className="h-32 w-full flex items-center">
             <Spinner width={30} />
@@ -64,6 +64,7 @@ const PostsContainer = ({
             posts={posts}
             status={status}
             setPosts={setPosts}
+            filterBy={filterBy}
             className="mb-5"
           />
         )}
