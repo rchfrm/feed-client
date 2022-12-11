@@ -26,7 +26,7 @@ const PostsContainer = ({
   const [isOpen, setIsOpen] = React.useState(true)
   const shouldShowPostsAmount = status === 'active' || status === 'rejected'
 
-  const handleClick = () => {
+  const toggle = () => {
     setIsOpen((isOpen) => !isOpen)
   }
 
@@ -39,7 +39,7 @@ const PostsContainer = ({
     ].join(' ')}
     >
       <button
-        onClick={handleClick}
+        onClick={toggle}
         className={[
           'w-full flex justify-between items-center p-5',
           isOpen ? 'rounded-b-none' : null,

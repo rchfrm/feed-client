@@ -14,10 +14,8 @@ const PostCardCreateAdButton = ({ className }) => {
   }
 
   return (
-    // <>
     <button
       onClick={openSidePanel}
-      trackComponentName="AdCreationButton"
       className={[
         'relative rounded-dialogue border-2 border-solid border-green',
         'bg-white font-bold',
@@ -30,7 +28,6 @@ const PostCardCreateAdButton = ({ className }) => {
         Create ad
       </div>
     </button>
-    // </>
   )
 }
 
