@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 import ThreeDotsIcon from '@/icons/ThreeDots'
@@ -9,6 +10,10 @@ import PencilIcon from '@/icons/PencilIcon'
 import RefreshIcon from '@/icons/RefreshIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
 import { setPostPriority, updatePost, formatPostsResponse } from '@/app/helpers/postsHelpers'
+
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
 
 const PostCardActions = ({
   post,
@@ -23,8 +28,18 @@ const PostCardActions = ({
   const { artistId } = React.useContext(ArtistContext)
   const { goToPostSettings, goToPostMetrics } = usePostsSidePanel()
 
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective } = optimizationPreferences
+  const hasSalesObjective = objective === 'sales'
+
   const enablePromotion = async () => {
-    const { res, error } = await updatePost({ artistId, postId: post.id, promotionEnabled: true, campaignType: 'all' })
+    const { res, error } = await updatePost({
+      artistId,
+      postId: post.id,
+      promotionEnabled: true,
+      ...(hasSalesObjective && { conversionsEnabled: true }),
+      campaignType: 'all',
+    })
     if (error) {
       return
     }
@@ -40,15 +55,16 @@ const PostCardActions = ({
       },
     })
 
-    return updatedPost
+    setIsOpen(false)
   }
 
   const checkAndEnablePromotion = async ({
-    promotion_enabled,
-    conversions_enabled,
-    priority_enabled,
+    promotionEnabled,
+    conversionsEnabled,
+    priorityEnabled,
   }) => {
-    if (!priority_enabled || promotion_enabled || conversions_enabled) {
+    if (!priorityEnabled || promotionEnabled || conversionsEnabled) {
+      setIsOpen(false)
       return
     }
 
