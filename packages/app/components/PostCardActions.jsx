@@ -183,7 +183,7 @@ const PostCardActions = ({
           ].join(' ')}
         >
           <li>
-            <button onClick={action?.fn} className="flex items-center mb-3 whitespace-nowrap font-bold border-b border-solid border-grey-2">
+            <button onClick={action?.fn} className="flex items-center pb-2 mb-2 whitespace-nowrap font-bold border-b border-solid border-grey-2">
               {action?.icon}
               {action?.name}
             </button>
