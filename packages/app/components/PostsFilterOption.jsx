@@ -31,10 +31,10 @@ const PostsFilterOption = ({
     <button
       onClick={() => handleClick(type, slug)}
       className={[
-        'mr-2 py-1 px-2',
+        'mr-2 last:mr-0 py-1 px-2',
         'rounded-dialogue border border-solid border-grey-2',
         'hover:bg-black hover:text-white',
-        isActive ? 'bg-black text-white' : 'bg-white',
+        isActive ? 'bg-black text-white font-bold' : 'text-grey-3 bg-white',
       ].join(' ')}
     >
       {title}

@@ -266,6 +266,18 @@ select {
   .select--container._disabled & {
     border: 2px solid var(--grey-dark);
   }
+
+  &.select--small {
+    height: 26px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: var(--font-xs);
+    border-width: 1px;
+
+    & + .select--arrow {
+      right: var(--sp-2)
+    }
+  }
 }
 
 /* Select arrow and spinner */

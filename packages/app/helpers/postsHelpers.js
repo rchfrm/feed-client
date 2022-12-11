@@ -77,18 +77,12 @@ export const filterTypes = [
 
 export const sortTypes = [
   {
-    id: 'published_time',
-    slug: 'published_time',
-    title: 'Date',
-    color: brandColors.black,
-    activeTextColor: 'white',
+    value: 'published_time',
+    name: 'Date',
   },
   {
-    id: 'normalized_score',
-    slug: 'normalized_score',
-    title: 'Score',
-    color: brandColors.black,
-    activeTextColor: 'white',
+    value: 'normalized_score',
+    name: 'Score',
   },
 ]
 

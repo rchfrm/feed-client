@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostsFilter from '@/app/PostsFilter'
+import PostsSorter from '@/app/PostsSorter'
 import PostsList from '@/app/PostsList'
 import PostsLoadMore from '@/app/PostsLoadMore'
 import Spinner from '@/elements/Spinner'
@@ -14,6 +15,8 @@ const PostsContainer = ({
   setPosts,
   filterBy,
   setFilterBy,
+  sortBy,
+  setSortBy,
   isLoading,
   isLoadingMore,
   setIsLoadingMore,
@@ -51,10 +54,16 @@ const PostsContainer = ({
         isOpen ? 'opacity-1' : 'opacity-0',
       ].join(' ')}
       >
-        <PostsFilter
-          filterBy={filterBy}
-          setFilterBy={setFilterBy}
-        />
+        <div className="flex justify-between mb-5 text-xs">
+          <PostsFilter
+            filterBy={filterBy}
+            setFilterBy={setFilterBy}
+          />
+          <PostsSorter
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+          />
+        </div>
         {isLoading ? (
           <div className="h-32 w-full flex items-center">
             <Spinner width={30} />
@@ -84,7 +93,10 @@ PostsContainer.propTypes = {
   status: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
+  filterBy: PropTypes.object.isRequired,
   setFilterBy: PropTypes.func.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  setSortBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isLoadingMore: PropTypes.bool.isRequired,
   setIsLoadingMore: PropTypes.func.isRequired,

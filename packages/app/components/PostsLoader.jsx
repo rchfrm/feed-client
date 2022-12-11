@@ -13,7 +13,7 @@ const PostsLoader = ({
   setPosts,
   className,
 }) => {
-  const [sortBy, setSortBy] = React.useState('')
+  const [sortBy, setSortBy] = React.useState('published_time')
   const [filterBy, setFilterBy] = React.useState({})
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
@@ -51,6 +51,7 @@ const PostsLoader = ({
         ...postsConfig[status].filterBy,
         ...filterBy,
       },
+      sortBy,
       ...(isLoadingMore && { cursor: cursor.current }),
     })
     if (!isMounted) {

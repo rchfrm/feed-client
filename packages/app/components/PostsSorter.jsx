@@ -1,49 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import BaseFilters from '@/BaseFilters'
+import Select from '@/elements/Select'
+import { sortTypes } from '@/app/helpers/postsHelpers'
 
 const PostsSorter = ({
-  sortTypes,
   sortBy,
   setSortBy,
-  defaultSortState,
-  disabled,
-  className,
 }) => {
+  const handleChange = ({ target }) => {
+    setSortBy(target.value)
+  }
+
   return (
-    <BaseFilters
-      options={sortTypes}
-      activeOptionId={sortBy}
-      defaultOptionId={defaultSortState}
-      setActiveOptionId={setSortBy}
-      labelText="Sort"
-      useSetQuery
-      useSetLocalStorage
-      useSlug
-      querySlug="sort_by"
-      trackProps={{
-        action: 'adjust_sort',
-        page: 'posts',
-      }}
-      disabled={disabled}
-      className={className}
-    />
+    <div className="flex items-center">
+      <p className="mr-3 mb-0 font-bold">Sort: </p>
+      <Select
+        options={sortTypes}
+        selectedValue={sortBy}
+        name="sort"
+        handleChange={handleChange}
+        version="small box"
+        className="w-16 mb-0 bg-white"
+      />
+    </div>
   )
 }
 
 PostsSorter.propTypes = {
-  sortTypes: PropTypes.array.isRequired,
   sortBy: PropTypes.string.isRequired,
   setSortBy: PropTypes.func.isRequired,
-  defaultSortState: PropTypes.string.isRequired,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
 }
 
 PostsSorter.defaultProps = {
-  disabled: false,
-  className: null,
 }
 
 export default PostsSorter
