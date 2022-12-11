@@ -185,7 +185,9 @@ const PostCardActions = ({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={[
-          'w-6 h-6 flex justify-center items-center bg-grey-1 rounded-dialogue',
+          'w-6 h-6',
+          'flex justify-center items-center',
+          'bg-grey-1 rounded-dialogue',
         ].join(' ')}
       >
         <ThreeDotsIcon />
@@ -199,7 +201,14 @@ const PostCardActions = ({
           ].join(' ')}
         >
           <li>
-            <button onClick={action?.fn} className="flex items-center pb-2 mb-2 whitespace-nowrap font-bold border-b border-solid border-grey-2">
+            <button
+              onClick={action?.fn}
+              className={[
+                'flex items-center',
+                'pb-2 mb-2 whitespace-nowrap font-bold',
+                'border-b border-solid border-grey-2',
+              ].join(' ')}
+            >
               {action?.icon}
               {action?.name}
             </button>

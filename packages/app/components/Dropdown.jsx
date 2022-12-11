@@ -9,7 +9,6 @@ const Dropdown = ({
   handleItemClick,
   className,
   buttonClassName,
-  hasArrowIcon,
   disabled,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -42,7 +41,7 @@ const Dropdown = ({
   }, [isOpen])
 
   return (
-    <div className={className} ref={dropdownRef}>
+    <div className={[className, 'relative'].join(' ')} ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={[
@@ -51,7 +50,7 @@ const Dropdown = ({
           disabled ? 'pointer-events-none' : null,
         ].join(' ')}
       >
-        {hasArrowIcon && !disabled && (
+        {!disabled && (
           <div className={[
             'mr-1',
             'transition-transform duration-100 transform origin-center',
@@ -69,8 +68,8 @@ const Dropdown = ({
       {isOpen && (
         <ul
           className={[
-            'absolute z-10 top-2 left-2 px-4 py-3',
-            'border border-solid border-black',
+            'absolute z-10 top-2 left-2 p-2',
+            'border-2 border-solid border-black',
             'bg-white rounded-dialogue',
           ].join(' ')}
         >
@@ -78,7 +77,7 @@ const Dropdown = ({
             <li key={item}>
               <button
                 onClick={() => onClick(item)}
-                className="mb-1 whitespace-nowrap"
+                className="font-semibold"
               >
                 {capitalise(item)}
               </button>
@@ -96,14 +95,12 @@ Dropdown.propTypes = {
   handleItemClick: PropTypes.func.isRequired,
   className: PropTypes.string,
   buttonClassName: PropTypes.string,
-  hasArrowIcon: PropTypes.bool,
   disabled: PropTypes.bool.isRequired,
 }
 
 Dropdown.defaultProps = {
   className: null,
   buttonClassName: null,
-  hasArrowIcon: false,
 }
 
 export default Dropdown

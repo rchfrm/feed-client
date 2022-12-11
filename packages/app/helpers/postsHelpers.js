@@ -94,29 +94,6 @@ export const promotionStatusSlugs = {
   notRun: 'inactive',
 }
 
-export const promotionStatus = [
-  {
-    slug: promotionStatusSlugs.active,
-    title: 'Running',
-  },
-  {
-    slug: promotionStatusSlugs.inReview,
-    title: 'In Review',
-  },
-  {
-    slug: promotionStatusSlugs.inActive,
-    title: 'Inactive',
-  },
-  {
-    slug: promotionStatusSlugs.rejected,
-    title: 'Rejected',
-  },
-  {
-    slug: promotionStatusSlugs.notRun,
-    title: 'Not Run',
-  },
-]
-
 export const campaignTypes = [
   {
     title: 'Grow & Nurture',
