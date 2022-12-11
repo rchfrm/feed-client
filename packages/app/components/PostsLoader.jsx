@@ -98,8 +98,13 @@ const PostsLoader = ({
     setIsLoading(false)
   }, [artistId, filterBy, sortBy, isLoadingMore])
 
+  if (status === 'rejected' && !posts.length) {
+    return
+  }
+
   return (
     <>
+      <Error error={error} />
       <PostsContainer
         status={status}
         posts={posts}
@@ -114,7 +119,6 @@ const PostsLoader = ({
         hasLoadedAll={hasLoadedAll}
         className={className}
       />
-      <Error error={error} />
     </>
   )
 }
