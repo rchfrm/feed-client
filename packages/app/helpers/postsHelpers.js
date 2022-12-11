@@ -531,12 +531,17 @@ export const setPostCallToAction = async ({ artistId, callToAction, assetId, cam
 */
 export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor }) => {
   const endpoint = `/artists/${artistId}/assets`
+  let formattedFilterQuery = null
+
+  if (filterBy) {
+    formattedFilterQuery = utils.addArrayCastTypeToQuery(filterBy)
+  }
 
   const payload = {
     limit,
     ...(cursor && { after: cursor }),
     ...(sortBy && { order_by: sortBy }),
-    ...filterBy,
+    ...formattedFilterQuery,
   }
   const errorTracking = {
     category: 'Posts',
