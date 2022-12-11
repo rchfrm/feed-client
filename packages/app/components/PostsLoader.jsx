@@ -26,14 +26,14 @@ const PostsLoader = ({
   const { artistId } = React.useContext(ArtistContext)
   const previousIsLoadingMore = usePrevious(isLoadingMore)
 
-  React.useEffect(() => {
-    if (!artistId) {
-      return
-    }
+  const setCursor = (posts) => {
+    const lastPost = posts[posts.length - 1]
 
-    cursor.current = null
-    setHasLoadedAll(false)
-  }, [artistId])
+    if (lastPost?._links.after) {
+      const nextCursor = getCursor(lastPost)
+      cursor.current = nextCursor
+    }
+  }
 
   useAsyncEffect(async (isMounted) => {
     if (!artistId || (!isLoadingMore && previousIsLoadingMore)) {
@@ -68,12 +68,8 @@ const PostsLoader = ({
       setHasLoadedAll(true)
     }
 
+    setCursor(posts)
     const postsFormatted = formatPostsResponse(posts)
-    const lastPost = posts[posts.length - 1]
-    if (lastPost?._links.after) {
-      const nextCursor = getCursor(lastPost)
-      cursor.current = nextCursor
-    }
 
     if (isLoadingMore) {
       setPosts({
@@ -98,6 +94,15 @@ const PostsLoader = ({
 
     setIsLoading(false)
   }, [artistId, filterBy, sortBy, isLoadingMore])
+
+  React.useEffect(() => {
+    if (!artistId) {
+      return
+    }
+
+    cursor.current = null
+    setHasLoadedAll(false)
+  }, [artistId])
 
   if (status === 'rejected' && !posts.length) {
     return
