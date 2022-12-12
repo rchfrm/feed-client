@@ -19,7 +19,7 @@ const PostsInitialImport = ({
   const isMounted = useIsMounted()
 
   const checkInitialPostsImportStatus = async () => {
-    if (!isMounted) return
+    if (! isMounted) return
 
     const { res, error } = await getInitialPostsImportStatus(artistId)
 
@@ -38,9 +38,9 @@ const PostsInitialImport = ({
   }
 
   React.useEffect(() => {
-    if (!artistId) return
+    if (! artistId) return
 
-    if (!intervalId) {
+    if (! intervalId) {
       checkInitialPostsImportStatus()
     }
 
@@ -49,7 +49,7 @@ const PostsInitialImport = ({
   }, [intervalId, artistId])
 
   React.useEffect(() => {
-    if (!initialLoading && !intervalId) {
+    if (! initialLoading && ! intervalId) {
       setIntervalId(setInterval(checkInitialPostsImportStatus, 2000))
     }
     // eslint-disable-next-line

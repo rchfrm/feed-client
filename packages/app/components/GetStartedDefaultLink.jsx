@@ -114,7 +114,7 @@ const GetStartedDefaultLink = () => {
 
     const { isValid, reason } = res
 
-    if (!isValid) {
+    if (! isValid) {
       setError({ message: copy.invalidLinkReason(reason) })
       return
     }
@@ -127,7 +127,7 @@ const GetStartedDefaultLink = () => {
     if (e) e.preventDefault()
 
     // If there's no connected profile yet validate the link and store the data in local storage
-    if (!artistId) {
+    if (! artistId) {
       await validateAndStoreLink()
 
       return
@@ -142,7 +142,7 @@ const GetStartedDefaultLink = () => {
     const currentLink = existingLink || link
 
     // Edit the link if the link already exists in the linkbank and it's not an integration link
-    if (currentLink.id && !hasGrowthObjective) {
+    if (currentLink.id && ! hasGrowthObjective) {
       action = 'edit'
     }
 
@@ -155,7 +155,7 @@ const GetStartedDefaultLink = () => {
 
     let savedLink = ''
 
-    if (hasGrowthObjective && !isFacebookOrInstagram) {
+    if (hasGrowthObjective && ! isFacebookOrInstagram) {
       // Save the link in the linkbank as integration link
       const { savedLink: integrationLink, error } = await saveIntegrationLink({ platform }, currentLink.href)
 
@@ -181,7 +181,7 @@ const GetStartedDefaultLink = () => {
       savedLink = linkBankLink
     }
 
-    if (!savedLink) {
+    if (! savedLink) {
       setIsLoading(false)
       return
     }

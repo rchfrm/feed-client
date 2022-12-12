@@ -23,7 +23,7 @@ const ResultsOrganicGrowthChartLoader = ({ dailyData, setDailyData }) => {
   // Get follower growth data
   useAsyncEffect(async (isMounted) => {
     // Make sure to fetch the data only once
-    if (!isMounted() || dailyData) return
+    if (! isMounted() || dailyData) return
 
     setIsLoading(true)
 

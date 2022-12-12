@@ -24,7 +24,7 @@ const PostsFilter = ({ title, filterType, initialFilters, setFiltersState }) => 
   }
 
   const onClick = () => {
-    setIsOpen(!isOpen)
+    setIsOpen(! isOpen)
   }
 
   return (

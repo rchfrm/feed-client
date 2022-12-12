@@ -46,7 +46,7 @@ const TargetingBudgetPauseAlertReasonSelect = ({
 
     newOptions.forEach((option) => {
       // Add all general reasons and one objective specific reason
-      if (!option?.objective || option?.objective === objective) {
+      if (! option?.objective || option?.objective === objective) {
         if (option.objective === 'growth') {
           const platformName = getPlatformNameByValue(platform)
 

@@ -24,7 +24,7 @@ const ObjectiveSettingsDefaultLink = ({
 }) => {
   const { updateLinks, updatePreferences } = useControlsStore(getControlsStoreState)
   const { id: defaultLinkId } = defaultLink || {}
-  const hasDefaultLink = !!defaultLinkId
+  const hasDefaultLink = !! defaultLinkId
   const hasGrowthObjective = objective === 'growth'
   const hasSalesObjective = objective === 'sales'
 
@@ -58,13 +58,13 @@ const ObjectiveSettingsDefaultLink = ({
         onSuccess={onSuccess}
         includeAddLinkOption
         includeIntegrationLinks={hasGrowthObjective}
-        includeLooseLinks={!hasGrowthObjective}
+        includeLooseLinks={! hasGrowthObjective}
         hasSalesObjective={hasSalesObjective}
         componentLocation="defaultLink"
         label={label}
         className="mb-14"
       />
-      {!hasDefaultLink && (
+      {! hasDefaultLink && (
         <div
           className={[
             'absolute top-0 right-0',

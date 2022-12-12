@@ -19,12 +19,12 @@ const PostCardMedia = ({
   className,
   style,
 }) => {
-  const [hasMedia, setHasMedia] = React.useState(!!media)
+  const [hasMedia, setHasMedia] = React.useState(!! media)
   const [selectedThumbnail, setSelectedThumbnail] = React.useState({})
   const [ready, setReady] = React.useState(false)
 
   React.useEffect(() => {
-    setHasMedia(!!media)
+    setHasMedia(!! media)
   }, [media])
 
   // TOGGLE CAPTION
@@ -41,7 +41,7 @@ const PostCardMedia = ({
       <div
         className={[
           'w-full relative bg-grey-1',
-          !ready && hasMedia ? 'opacity-0' : 'opacity-1',
+          ! ready && hasMedia ? 'opacity-0' : 'opacity-1',
         ].join(' ')}
         style={{ paddingTop: '100%' }}
       >
@@ -90,7 +90,7 @@ const PostCardMedia = ({
         {hasMedia && caption && postType !== 'story' && (
           <button
             aria-label={isCaptionVisible ? 'Close Caption' : 'Show Caption'}
-            onClick={() => setIsCaptionVisible(!isCaptionVisible)}
+            onClick={() => setIsCaptionVisible(! isCaptionVisible)}
             className="absolute bottom-0 right-0 px-6 py-5"
             style={{ zIndex: 3 }}
           >
@@ -101,7 +101,7 @@ const PostCardMedia = ({
             )}
           </button>
         )}
-        {(!hasMedia || isCaptionVisible) && (
+        {(! hasMedia || isCaptionVisible) && (
           <PostCardCaption
             caption={caption}
             style={{ zIndex: 2 }}

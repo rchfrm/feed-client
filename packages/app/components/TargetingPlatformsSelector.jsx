@@ -11,7 +11,7 @@ import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import copy from '@/app/copy/targetingPageCopy'
 
 const translateArrayToKey = (array) => {
-  if (!array.length) return 'both'
+  if (! array.length) return 'both'
   return array[0]
 }
 

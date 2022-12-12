@@ -251,7 +251,7 @@ const getLandingPageViews = (adsSummaryMetrics) => {
 // by adding the various action props
 const getPaidEngagementsDrilldown = (adsSummaryMetrics) => {
   const { actions } = adsSummaryMetrics
-  if (!actions) return null
+  if (! actions) return null
   return {
     views: get(actions, 'video_view', null),
     clicks: get(actions, 'link_click', null),
@@ -264,7 +264,7 @@ const getPaidEngagementsDrilldown = (adsSummaryMetrics) => {
 
 // Get dates when post first ran and last ran
 const getPostAdDates = (ads) => {
-  if (!ads) return [null, null]
+  if (! ads) return [null, null]
   const adDates = Object.values(ads).map(({ created_at }) => {
     return created_at
   })
@@ -288,7 +288,7 @@ const formatPublishedTime = (time) => {
 // Get nested metric
 const getNestedMetric = (post, metric) => {
   const metricValues = get(post, ['metrics', metric, 'data'], null)
-  if (!metricValues) return null
+  if (! metricValues) return null
   // Get first metric value
   return Object.values(metricValues)[0]
 }
@@ -329,7 +329,7 @@ export const getPostAdMessageData = (post) => {
 
 // Get ad preview links
 const getAdPreviewLinks = (post) => {
-  if (!post?.ads) return null
+  if (! post?.ads) return null
 
   const sortedAds = Object.values(post.ads).sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
 
@@ -346,7 +346,7 @@ const getAdPreviewLinks = (post) => {
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
-    if (!post) return null
+    if (! post) return null
 
     const { message, ads_summary: adsSummary = {}, ads } = post
     const shortMessage = utils.abbreviatePostText(message)
@@ -469,7 +469,7 @@ export const formatPostsMinimal = (posts) => {
 export const getCursor = (post = {}) => {
   const { _links: { after = {} } } = post
   const { href: afterHref } = after
-  if (!afterHref) return
+  if (! afterHref) return
   return afterHref.split('after=')[1]
 }
 
@@ -511,7 +511,7 @@ export const getPostMetricsContent = (metricsType, postType) => {
 
 // UPDATE CAPTION
 export const updatePostCaption = async ({ artistId, assetId, adMessageId, campaignType, caption }) => {
-  const isUpdating = !!adMessageId
+  const isUpdating = !! adMessageId
   const endpointBase = `/artists/${artistId}/assets/${assetId}/ad_messages`
   const requestType = isUpdating ? 'patch' : 'post'
   const endpoint = isUpdating ? `${endpointBase}/${adMessageId}` : endpointBase
@@ -550,7 +550,7 @@ export const setPostPriority = ({ artistId, assetId, priorityEnabled }) => {
 
 // UPDATE POST CALL TO ACTION
 export const setPostCallToAction = async ({ artistId, callToAction, assetId, campaignType, callToActionId }) => {
-  const isUpdating = !!callToActionId
+  const isUpdating = !! callToActionId
   const endpointBase = `/artists/${artistId}/assets/${assetId}/call_to_actions`
   const requestType = isUpdating ? 'patch' : 'post'
   const endpoint = isUpdating ? `${endpointBase}/${callToActionId}` : endpointBase

@@ -19,12 +19,12 @@ const ProfileStatusMobile = ({ backgroundStyle }) => {
 
   const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
 
-  if (!profileSetupStatus) return <div className="h-7 w-full" />
+  if (! profileSetupStatus) return <div className="h-7 w-full" />
 
   return (
     <FadeInOut show unmountOnExit>
       <div className="opacity-0">
-        {!hasSetUpProfile ? (
+        {! hasSetUpProfile ? (
           <ProfileStatusMobileIncomplete backgroundStyle={backgroundStyle} />
         ) : (
           <ProfileStatusMobileCompleted backgroundStyle={backgroundStyle} />

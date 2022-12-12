@@ -39,7 +39,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { hasGrowthPlan, hasCancelledPlan } = artist
   const [, planPeriod] = artist?.plan?.split('_') || []
   const isAnnualPricing = planPeriod === 'annual'
-  const isUpgradeToPro = hasGrowthPlan && !hasCancelledPlan
+  const isUpgradeToPro = hasGrowthPlan && ! hasCancelledPlan
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
 
@@ -50,7 +50,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     defaultPaymentMethod,
     organizationArtists,
   } = useBillingStore(getBillingStoreState)
-  const hasBillingAccess = !orgLoading && !!organization.id
+  const hasBillingAccess = ! orgLoading && !! organization.id
   const noOrgArtistsActive = organizationArtists.every((artist) => artist.status !== 'active')
   const currencyCode = defaultPaymentMethod?.currency || artistCurrency
   const isSettingBudget = section === 'set-budget'
@@ -63,7 +63,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const initPlan = setInitialPlan(artist.plan, canChooseBasic, isUpgradeToPro)
 
   React.useEffect(() => {
-    if (!hasBillingAccess || profilesToUpgrade[artist.id]) return
+    if (! hasBillingAccess || profilesToUpgrade[artist.id]) return
 
     setProfilesToUpgrade({
       type: 'initialize',
@@ -78,15 +78,15 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   // Define steps of plan upgrade flow
   const pricingPlanUpgradeSteps = React.useMemo(() => {
     const steps = [<PricingPlanUpgradeIntro key={0} />]
-    if (!hasBillingAccess) {
+    if (! hasBillingAccess) {
       return steps
     }
 
-    if (!isUpgradeToPro) {
+    if (! isUpgradeToPro) {
       steps.push(<PricingPlanUpgradePlan key={1} />)
     }
 
-    if (!defaultPaymentMethod) {
+    if (! defaultPaymentMethod) {
       steps.push(<PricingPlanUpgradePaymentMethod key={2} />)
     }
 

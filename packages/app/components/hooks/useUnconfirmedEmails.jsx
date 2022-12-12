@@ -8,8 +8,8 @@ const useUnconfirmedEmails = (user) => {
     contact_email_verified: contactEmailVerified,
   } = user
 
-  const emailToVerify = pendingEmail || (!emailVerified && authEmail) || ''
-  const contactEmailToVerify = pendingContactEmail || (!contactEmailVerified && contactEmail) || ''
+  const emailToVerify = pendingEmail || (! emailVerified && authEmail) || ''
+  const contactEmailToVerify = pendingContactEmail || (! contactEmailVerified && contactEmail) || ''
   const unconfirmedEmails = [
     { type: 'email', email: emailToVerify },
     { type: 'contactEmail', email: contactEmailToVerify },

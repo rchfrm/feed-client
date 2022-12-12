@@ -33,7 +33,7 @@ const TargetingBudgetPauseAlertShortSpendingPeriod = ({
   const hasSalesObjective = objective === 'sales'
 
   const { daysOfSpending } = spendingData || {}
-  const hasMinimumBudget = (!hasSalesObjective && budget === minHard) || (hasSalesObjective && budget <= minRecommendedStories)
+  const hasMinimumBudget = (! hasSalesObjective && budget === minHard) || (hasSalesObjective && budget <= minRecommendedStories)
   const alertCopy = copy.shortSpendingPeriodWarning(daysOfSpending, hasMinimumBudget)
 
   React.useEffect(() => {

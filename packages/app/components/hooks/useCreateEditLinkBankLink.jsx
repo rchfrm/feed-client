@@ -212,11 +212,11 @@ const useCreateEditLinkBankLink = ({
       },
     ]
     // Is this the default link?
-    const isDefaultLink = !!(item && item.id === defaultLink.id)
+    const isDefaultLink = !! (item && item.id === defaultLink.id)
     // Does the folder contain the default link?
     const isDefaultLinkInFolder = itemType !== 'folder' ? false : testFolderContainsDefault(item)
     // Add delete button if editing link/folder
-    if (action === 'edit' && !isDefaultLink && !isDefaultLinkInFolder) {
+    if (action === 'edit' && ! isDefaultLink && ! isDefaultLinkInFolder) {
       // Make save button half width
       buttons[0].width = 'half'
       // Add delete

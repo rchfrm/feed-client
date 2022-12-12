@@ -29,7 +29,7 @@ const PostLinkCheckBoxSelect = ({
   }
 
   const handleChange = () => {
-    setIsDefaultLink(!isDefaultLink)
+    setIsDefaultLink(! isDefaultLink)
   }
 
   React.useEffect(() => {
@@ -58,7 +58,7 @@ const PostLinkCheckBoxSelect = ({
         disabled={isDisabled}
         className="break-all"
       />
-      {!isDefaultLink && (
+      {! isDefaultLink && (
         <PostLinksSelect
           currentLinkId={currentLink.id}
           updateParentLink={updateLink}

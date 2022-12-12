@@ -15,7 +15,7 @@ const FullbleedImage = ({
   const container = React.useRef(null)
   const [imageSize, setImageSize] = React.useState({})
 
-  const useRelative = !className || (!className.includes('absolute') && !className.includes('fixed'))
+  const useRelative = ! className || (! className.includes('absolute') && ! className.includes('fixed'))
 
   // HANDLE RESIZE
   const { width, height } = useOnResize()

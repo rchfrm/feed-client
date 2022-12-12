@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import CopyTextButton from '@/elements/CopyTextButton'
 
 const getInnerText = (value, isLink, isEmail) => {
-  if (!isLink && !isEmail) return value
+  if (! isLink && ! isEmail) return value
   if (isLink) {
     return (
       <a href={value} target="_blank" rel="noreferrer noopener">{value}</a>

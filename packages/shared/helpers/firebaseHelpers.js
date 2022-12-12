@@ -15,7 +15,7 @@ const config = {
   appId: process.env.firebase_app_id,
 }
 
-if (!app.apps.length) {
+if (! app.apps.length) {
   app.initializeApp(config)
 }
 
@@ -44,6 +44,7 @@ export const requiredScopesAds = [
   'pages_manage_ads',
   'pages_manage_metadata',
   'pages_read_user_content',
+  'business_management',
 ]
 
 export const dofetchSignInMethodsForEmail = async (email) => {
@@ -145,7 +146,7 @@ export const redirectResult = async () => {
 
 
 export const getVerifyIdToken = () => {
-  if (!auth || !auth.currentUser) return false
+  if (! auth || ! auth.currentUser) return false
   return auth.currentUser.getIdToken()
 }
 
@@ -155,7 +156,7 @@ export const getVerifyIdToken = () => {
    * @returns {Promise<string>}
    */
 export const getIdTokenOrFail = (forceRefresh = false) => {
-  if (!auth || !auth.currentUser) throw new Error('no login session found')
+  if (! auth || ! auth.currentUser) throw new Error('no login session found')
   return auth.currentUser.getIdToken(forceRefresh)
 }
 

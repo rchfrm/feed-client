@@ -72,7 +72,7 @@ const GetStartedDailyBudget = () => {
 
   // If minReccBudget isn't set yet reinitialise targeting context state
   useAsyncEffect(async (isMounted) => {
-    if (minReccBudget || !isMounted()) return
+    if (minReccBudget || ! isMounted()) return
 
     const state = await targetingHelpers.fetchTargetingState(artistId, currencyOffset)
     const { error } = state
@@ -96,13 +96,13 @@ const GetStartedDailyBudget = () => {
   }
 
   React.useEffect(() => {
-    if (!minBaseUnroundedMajor || !objective) return
+    if (! minBaseUnroundedMajor || ! objective) return
 
     const suggestions = targetingHelpers.getBudgetSuggestions(objective, minBaseUnroundedMajor)
     setBudgetSuggestions(suggestions)
   }, [minBaseUnroundedMajor, objective])
 
-  if (!minReccBudget || !budgetSuggestions.length) return <Spinner />
+  if (! minReccBudget || ! budgetSuggestions.length) return <Spinner />
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">

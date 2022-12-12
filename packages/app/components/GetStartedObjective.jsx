@@ -70,18 +70,18 @@ const GetStartedObjective = () => {
     }
 
     // If there's no connected account yet store the data in local storage
-    if (!artistId) {
+    if (! artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({
         ...wizardState,
         objective,
-        ...(!isGrowth && { platform: 'website' }),
+        ...(! isGrowth && { platform: 'website' }),
         defaultLink: null,
       }))
 
       updatePreferences({
         optimizationPreferences: {
           objective,
-          ...(!isGrowth && { platform: 'website' }),
+          ...(! isGrowth && { platform: 'website' }),
         },
         postsPreferences: {
           defaultLinkId: null,
@@ -97,7 +97,7 @@ const GetStartedObjective = () => {
     // Otherwise save the data in the db
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
-      ...(!isGrowth && { platform: 'website' }),
+      ...(! isGrowth && { platform: 'website' }),
       defaultLink: null,
     })
 
@@ -118,7 +118,7 @@ const GetStartedObjective = () => {
   }
 
   React.useEffect(() => {
-    if (!selectedObjective) return
+    if (! selectedObjective) return
 
     handleNextStep(selectedObjective)
     // eslint-disable-next-line react-hooks/exhaustive-deps

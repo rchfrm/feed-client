@@ -20,7 +20,7 @@ const NotificationsHandler = ({}) => {
   const fetchAndSetNotifications = useNotificationsStore(getFetchAndSetNotifications)
   // Fetch notifications when artist changes
   React.useEffect(() => {
-    if (!artistId || !user.id) return
+    if (! artistId || ! user.id) return
     const { id: userId } = user
     const orgs = getUserOrganizations(user)
     const organizationIds = orgs.map(({ id }) => id)

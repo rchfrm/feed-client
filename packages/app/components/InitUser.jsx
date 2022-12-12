@@ -30,7 +30,7 @@ const InitUser = ({ children }) => {
 
   // After user has loaded the first time...
   React.useEffect(() => {
-    if (!userLoading) {
+    if (! userLoading) {
       setInitialUserLoading(userLoading)
     }
   }, [userLoading])
@@ -88,7 +88,7 @@ const InitUser = ({ children }) => {
     // Destructure redirect result
     const { user: authUser, error, credential, additionalUserInfo, operationType } = redirectResult
     // * Handle no redirect
-    if (!authUser && !error) {
+    if (! authUser && ! error) {
       userRedirected = detectSignedInUser(isMounted)
       return
     }
@@ -129,7 +129,7 @@ const InitUser = ({ children }) => {
             description: `Error with firebaseHelpers.getVerifyIdToken(): ${error.message}`,
           })
         })
-      if (!authToken) return
+      if (! authToken) return
       const { profile: authProfile } = additionalUserInfo
       // Store Firebase's auth user in context
       await storeAuth({ authUser, authToken, authProfile })
@@ -169,7 +169,7 @@ const InitUser = ({ children }) => {
     showContent()
   }, [])
   // Show spinner while waiting
-  if (!ready || initialUserLoading) return null
+  if (! ready || initialUserLoading) return null
   // Show the page
   return children
 }

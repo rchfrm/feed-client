@@ -53,7 +53,7 @@ const ControlsContent = ({ slug }) => {
     )
   }
 
-  if (globalLoading || (hasArtists && !Object.keys(initialTargetingState).length > 0)) return <Spinner />
+  if (globalLoading || (hasArtists && ! Object.keys(initialTargetingState).length > 0)) return <Spinner />
 
   return (
     <SplitView

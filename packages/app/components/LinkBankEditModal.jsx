@@ -27,20 +27,20 @@ const LinkBankEditModal = ({
   const [hasHrefError, setHasHrefError] = React.useState(false)
   const [showHrefError, setShowHrefError] = React.useState(false)
   React.useEffect(() => {
-    const hasError = !utils.testValidUrl(linkProps.href, true)
+    const hasError = ! utils.testValidUrl(linkProps.href, true)
     setHasHrefError(hasError)
   }, [linkProps.href])
   // MAKE SURE THERE IS A NAME
   const [hasNameError, setHasNameError] = React.useState(false)
   const [showNameError, setShowNameError] = React.useState(false)
   React.useEffect(() => {
-    setHasNameError(!linkProps.name)
+    setHasNameError(! linkProps.name)
   }, [linkProps.name])
 
   // IS SAVING ENABLED
   const [saveEnabled, setSaveEnabled] = React.useState(false)
   React.useEffect(() => {
-    const saveEnabled = !hasNameError && !hasHrefError
+    const saveEnabled = ! hasNameError && ! hasHrefError
     setSaveEnabled(saveEnabled)
   }, [hasNameError, hasHrefError])
 
@@ -50,7 +50,7 @@ const LinkBankEditModal = ({
     const newButtons = produce(modalButtons, (draftButtons) => {
       // Update save button
       draftButtons[0].onClick = () => runSaveLink(linkProps, action, link)
-      draftButtons[0].disabled = !saveEnabled
+      draftButtons[0].disabled = ! saveEnabled
       // Update delete button
       if (draftButtons[1].id === 'delete') {
         draftButtons[1].onClick = () => runSaveLink(linkProps, 'delete', link)
@@ -109,7 +109,7 @@ const LinkBankEditModal = ({
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          if (!saveEnabled) return
+          if (! saveEnabled) return
           runSaveLink(linkProps, action)
         }}
         noValidate
@@ -124,7 +124,7 @@ const LinkBankEditModal = ({
           value={linkProps.href}
           handleChange={(e) => {
             handleInput(e, 'href')
-            if (showHrefError && !hasHrefError) {
+            if (showHrefError && ! hasHrefError) {
               setShowHrefError(false)
             }
           }}
@@ -174,14 +174,14 @@ const LinkBankEditModal = ({
                 required
               />
               {/* Close new folder input */}
-              {!linkProps.folderName && (
+              {! linkProps.folderName && (
                 <p
                   className={[
                     'absolute absolute--center-y right-0 mr-4 pt-16',
                     'text-sm',
                   ].join(' ')}
                 >
-                  {!!savedFolders.length && (
+                  {!! savedFolders.length && (
                     <a
                       className="text-grey-3 -hover--green"
                       role="button"
@@ -212,7 +212,7 @@ const LinkBankEditModal = ({
         <p className="-mt-2 text-sm">* This link will be added to your saved links.</p>
       )}
       {/* CANNOT DELETE DEFAULT */}
-      {isDefaultLink && !error && (
+      {isDefaultLink && ! error && (
         <Error
           error={{ message: 'This is the default link. If you want to remove it please choose another default link.' }}
         />

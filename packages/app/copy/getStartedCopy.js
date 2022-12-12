@@ -113,7 +113,7 @@ You will be invoiced separately by Facebook for the ad spend.`
   inSufficientBudget: (minBudget) => `Budget must be at least ${minBudget} to set your objective to sales.`,
   reviewDescription: 'Feed has submitted your ads for approval!',
   objectiveSummary: (objective, platform, isDesktopLayout) => {
-    if (!objective) {
+    if (! objective) {
       return isDesktopLayout ? 'Grow, sell or drive traffic' : 'Objective'
     }
 

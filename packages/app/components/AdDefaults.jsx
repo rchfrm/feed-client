@@ -32,12 +32,12 @@ const AdDefaults = () => {
   return (
     <div>
       <h2>Promotion Settings</h2>
-      <DisabledSection section="promotion-settings" isDisabled={!hasSetUpProfile}>
+      <DisabledSection section="promotion-settings" isDisabled={! hasSetUpProfile}>
         {/* GLOBAL POST STATUS */}
         <AdSettingsSection
           header="Automated post selection"
           section="default-promotion"
-          hasPlanRestriction={!hasGrowthPlan}
+          hasPlanRestriction={! hasGrowthPlan}
           copy={copy.globalToggleIntro}
         >
           <AdDefaultsStatus
@@ -71,7 +71,7 @@ const AdDefaults = () => {
         <AdSettingsSection
           header="Facebook Pixel"
           section="facebook-pixel"
-          hasPlanRestriction={!hasGrowthPlan}
+          hasPlanRestriction={! hasGrowthPlan}
           copy={copy.facebookPixelIntro}
         >
           <AdDefaultsPixelSelector />

@@ -85,7 +85,7 @@ const WizardContextProvider = ({
   }
 
   React.useEffect(() => {
-    if (!profileSetupStatus || profileSetupStatus === profileStatus.confirmSetup || currentStep) return
+    if (! profileSetupStatus || profileSetupStatus === profileStatus.confirmSetup || currentStep) return
 
     const firstIncompleteStepIndex = steps.findIndex((step) => {
       return step.name === profileSetupStatus
@@ -112,12 +112,12 @@ const WizardContextProvider = ({
         <Spinner />
       ) : (
         <>
-          {!isLastStep && navigation}
+          {! isLastStep && navigation}
           <h2>{steps[currentStep].title}</h2>
           <ProgressBar percentage={((currentStep + 1) / (lastStep + 1)) * 100} className="mb-8" />
           {children[currentStep]}
           <div className="w-full mt-auto flex justify-between">
-            {(hasBackButton && !isFirstStep) ? (
+            {(hasBackButton && ! isFirstStep) ? (
               <a
                 role="button"
                 onClick={back}

@@ -25,12 +25,12 @@ const GetStartedSummarySentence = ({ className }) => {
       <div className={[
         'flex items-center',
         'sm:mr-0 mb-10',
-        isLastStep && !isDesktopLayout ? 'flex-column' : 'flex-wrap',
+        isLastStep && ! isDesktopLayout ? 'flex-column' : 'flex-wrap',
         className,
       ].join(' ')}
       >
         <GetStartedSummarySentenceObjective />
-        {!hasLegacyPlan && <GetStartedSummarySentencePricingPlan />}
+        {! hasLegacyPlan && <GetStartedSummarySentencePricingPlan />}
         <GetStartedSummarySentencePosts />
         <GetStartedSummarySentenceAdAccount />
         <GetStartedSummarySentenceTargeting />

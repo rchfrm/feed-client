@@ -49,7 +49,7 @@ const BillingOrganizationUserDeleteAlert = ({
 
   // HANDLE CLOSING THE ALERT BY AN OUTSIDE CLICK
   React.useEffect(() => {
-    if (!isOpen) {
+    if (! isOpen) {
       setConfirmAlert('')
     }
   }, [setConfirmAlert, isOpen])

@@ -45,7 +45,7 @@ const BillingUsersSummary = ({
   const handleUserDelete = React.useCallback(async (orgUser, forceDelete) => {
     setSelectedOrgUser(orgUser)
 
-    if (!forceDelete) {
+    if (! forceDelete) {
       setConfirmAlert('user-delete')
       return
     }
@@ -83,13 +83,13 @@ const BillingUsersSummary = ({
 
   const makeNameAndRoleElement = (user) => {
     const orgUser = organization.users[user.id]
-    if (!orgUser) return
+    if (! orgUser) return
     return <span>{makeDisplayName(user)} – <strong>{orgUser.role}</strong></span>
   }
 
   const makeDeleteButton = (orgUser) => {
     const orgUserDetails = organization.users[orgUser.id]
-    if (!orgUserDetails) return
+    if (! orgUserDetails) return
     const shouldShowDeleteButton = user.id !== orgUser.id && orgUserDetails.role !== 'owner'
     if (shouldShowDeleteButton) {
       return (

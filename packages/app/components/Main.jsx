@@ -51,7 +51,7 @@ function Main({ children }) {
   } = useControlsStore(getControlsStoreState)
 
   useAsyncEffect(async () => {
-    if (!artistId) return
+    if (! artistId) return
 
     clearAll()
 
@@ -87,7 +87,7 @@ function Main({ children }) {
 
   // Update profile setup status in controls store
   useAsyncEffect(async () => {
-    if (!user.id || (user.artists.length && !artistId) || (artistId && controlsLoading)) return
+    if (! user.id || (user.artists.length && ! artistId) || (artistId && controlsLoading)) return
 
     // Fetch enabled posts only once
     if (isFirstRender.current && artistId) {

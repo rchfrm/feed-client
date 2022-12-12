@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 
 const Error = ({ error, messagePrefix, className }) => {
-  if (!error) return null
+  if (! error) return null
   const { message } = error
   let errorMessage = message
 

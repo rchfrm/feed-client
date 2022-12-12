@@ -21,7 +21,7 @@ const PricingPlanUpgradeSummary = ({
     setSidePanelButton(button)
   }, [closeSidePanel, setSidePanelButton])
 
-  if (!prorationsPreview) return
+  if (! prorationsPreview) return
 
   return (
     <div>

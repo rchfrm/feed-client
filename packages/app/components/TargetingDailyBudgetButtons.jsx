@@ -29,11 +29,11 @@ const TargetingDailyBudgetButtons = ({
     updateTargetingBudget(initialTargetingState.budget)
     budgetSlider.noUiSlider.reset(initialTargetingState.budget)
   }
-  const isDisabled = !!disableSaving || !showBudgetSave
+  const isDisabled = !! disableSaving || ! showBudgetSave
 
   return (
     <div className="flex">
-      {!showCustomBudget && (
+      {! showCustomBudget && (
         <Button
           version="small"
           className={[

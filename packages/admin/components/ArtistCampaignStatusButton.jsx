@@ -30,7 +30,7 @@ export default function ArtistCampaignStatusButton({ artistId, artistStatus, set
     // Turn off loading
     setLoading(false)
     // Handle error
-    if (!updatedArtist) return
+    if (! updatedArtist) return
     const { status } = updatedArtist
     setArtistStatus(status)
   }, [setArtistStatus])

@@ -11,7 +11,7 @@ const SearchResultsList = ({
 }) => {
   const ListItem = listItem
 
-  if (hasFetchedData && query && searchResults.length === 0 && !isLoading) {
+  if (hasFetchedData && query && searchResults.length === 0 && ! isLoading) {
     return <p>No search results found.</p>
   }
 

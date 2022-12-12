@@ -8,7 +8,7 @@ import brandColors from '@/constants/brandColors'
 
 const GetStartedPlatformShowMoreButton = ({ shouldShowMore, setShouldShowMore }) => {
   const toggleShowMore = () => {
-    setShouldShowMore(!shouldShowMore)
+    setShouldShowMore(! shouldShowMore)
   }
 
   return (

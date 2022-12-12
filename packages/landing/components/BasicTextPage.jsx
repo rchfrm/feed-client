@@ -21,7 +21,7 @@ const BasicTextPage = ({
     <article
       className={[
         'mx-auto',
-        !isFullWidth ? 'sm:max-w-3xl' : null,
+        ! isFullWidth ? 'sm:max-w-3xl' : null,
         'p-5 xs:p-8 sm:p-6',
         'py-10 xs:py-14 sm:py-20',
       ].join(' ')}

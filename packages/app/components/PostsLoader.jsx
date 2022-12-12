@@ -70,7 +70,7 @@ const postsReducer = (draftState, postsAction) => {
 
 // ASYNC FUNCTION TO RETRIEVE UNPROMOTED POSTS
 const fetchPosts = async ({ sortBy, filterBy, artistId, limit, isEndOfAssets, cursor }) => {
-  if (!artistId) return
+  if (! artistId) return
   // Stop here if at end of posts
   if (isEndOfAssets.current) return
   // Get posts
@@ -82,7 +82,7 @@ const fetchPosts = async ({ sortBy, filterBy, artistId, limit, isEndOfAssets, cu
 const updateDataConditions = (newProps, oldProps) => {
   const { artistId: newArtistId, sortBy: newSortBy, filterBy: newFilterBy, loadingMore } = newProps
   const { artistId: oldArtistId, sortBy: oldSortBy, filterBy: oldFilterBy, loadingMore: alreadyLoadingMore } = oldProps
-  if (loadingMore && !alreadyLoadingMore) return true
+  if (loadingMore && ! alreadyLoadingMore) return true
   if (newArtistId !== oldArtistId) return true
   if (newSortBy !== oldSortBy) return true
   if (newFilterBy !== oldFilterBy) return true
@@ -109,7 +109,7 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
 
   // When changing artist or promotion status...
   React.useEffect(() => {
-    if (!artistId) return
+    if (! artistId) return
     // Reset initial load
     initialLoad.current = true
     // Remove after cursor
@@ -135,7 +135,7 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
       // Turn off global loading
       toggleGlobalLoading(false)
       // Handle result...
-      if (!posts || !posts.length) {
+      if (! posts || ! posts.length) {
         isEndOfAssets.current = true
         setLoadingMore(false)
         // Handle no posts on initial load
@@ -267,7 +267,7 @@ function PostsLoader({ setRefreshPosts, sortBy, filterBy }) {
   if (artistLoading) return null
 
   // Show no posts message if no posts
-  if (!isPending && !loadingMore && !posts.length) {
+  if (! isPending && ! loadingMore && ! posts.length) {
     return (
       <PostsNone
         filterBy={filterBy}

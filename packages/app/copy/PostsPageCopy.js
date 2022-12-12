@@ -182,7 +182,7 @@ Feed will turn this post into an ad straight away. Once it has been approved, so
 Would you like to continue?`
   },
   conversionsToggleAlert: (canRunConversions) => {
-    if (!canRunConversions) {
+    if (! canRunConversions) {
       return 'Would you like to set-up conversion campaigns now?'
     }
   },
@@ -201,7 +201,7 @@ Would you like to continue?`
 
     if (post.postType === 'story') return `${base} this is a story.`
     if (post.postType === 'reels') return `${base} this is a reel.`
-    if (!post.postPromotable) return `${base} the post is not promotable.`
+    if (! post.postPromotable) return `${base} the post is not promotable.`
 
     return ''
   },

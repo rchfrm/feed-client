@@ -24,7 +24,7 @@ const useScrollToButton = (buttonOptions, currentButton) => {
   React.useEffect(() => {
     const buttonIndex = buttonOptions.findIndex(({ id }) => id === currentButton)
     const { current: button } = buttonRefs[buttonIndex] || {}
-    if (!button) return
+    if (! button) return
     const { current: container } = containerRef
     const { width: containerWidth, left: containerLeft } = container.getBoundingClientRect()
     const { width: buttonWidth, left: buttonLeft } = button.getBoundingClientRect()

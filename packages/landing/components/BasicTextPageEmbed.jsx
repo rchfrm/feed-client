@@ -8,7 +8,7 @@ const BasicTextPageEmbed = ({
   otherEmbed,
   className,
 }) => {
-  if (!externalVideo && !otherEmbed) return null
+  if (! externalVideo && ! otherEmbed) return null
   return (
     <div
       className={[

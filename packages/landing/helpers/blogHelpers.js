@@ -21,7 +21,7 @@ export const getArticleAuthor = (article) => {
 // SORT ARTICLES
 export const sortArticles = (articles, sortBy, sortOrder) => {
   const sortKey = sortBy === 'date' ? 'publishDateRaw' : null
-  if (!sortKey) {
+  if (! sortKey) {
     return articles
   }
   return sortArrayByKey(articles, sortKey, sortOrder)

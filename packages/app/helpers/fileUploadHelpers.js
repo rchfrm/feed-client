@@ -5,7 +5,7 @@ export const validateFile = (blob) => {
   const { name, type, size } = blob
   const fileExtension = name.split('.').pop()
 
-  if (!allowedFileExtensions.includes(fileExtension) || !allowedMimeTypes.includes(type)) {
+  if (! allowedFileExtensions.includes(fileExtension) || ! allowedMimeTypes.includes(type)) {
     return { message: 'File format must be either PNG or JPG/JPEG' }
   }
 
@@ -48,7 +48,7 @@ export const getCroppedImageBlob = (image, crop) => {
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')
 
-  if (!context) {
+  if (! context) {
     return null
   }
 

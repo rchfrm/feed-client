@@ -35,7 +35,7 @@ const NotificationsList = ({
 
   // NAVIGATE UP AND DOWN
   const navigateNotification = React.useCallback(({ key }) => {
-    if (!openedNotificationId) return
+    if (! openedNotificationId) return
     const direction = key === 'ArrowDown' ? 'down' : 'up'
     const openedNotificationIndex = notifications.findIndex(({ id }) => id === openedNotificationId)
     const atStart = openedNotificationIndex === 0
@@ -55,7 +55,7 @@ const NotificationsList = ({
   // SETUP KEYBOARD CONTROLS
   const isDesktopLayout = useBreakpointTest('md')
   React.useEffect(() => {
-    if (!isDesktopLayout) {
+    if (! isDesktopLayout) {
       Mousetrap.unbind('up')
       Mousetrap.unbind('down')
       Mousetrap.unbind('backspace')
@@ -73,7 +73,7 @@ const NotificationsList = ({
   }, [navigateNotification, isDesktopLayout, closeNotification, dismissNotification])
 
   const visibleNotifications = React.useMemo(() => {
-    return notifications.filter(({ hidden }) => !hidden)
+    return notifications.filter(({ hidden }) => ! hidden)
   }, [notifications])
 
   return (
@@ -83,7 +83,7 @@ const NotificationsList = ({
         className,
       ].join(' ')}
     >
-      {!visibleNotifications.length && !hasError ? (
+      {! visibleNotifications.length && ! hasError ? (
         // No notifications
         <MarkdownText markdown={copy.noNotificationsCopy} />
       )

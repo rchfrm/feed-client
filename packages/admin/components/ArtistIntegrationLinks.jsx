@@ -16,7 +16,7 @@ const getButtonName = (buttonType) => {
 const ArtistIntegrationLinks = ({ artistId, integrations }) => {
   // Trigger auth error if artist has no authorization
   const { authorization } = integrations.facebook || {}
-  const hasAuth = !!authorization
+  const hasAuth = !! authorization
 
   const [error, setError] = React.useState(null)
   // RUN TO OPEN LINK
@@ -30,7 +30,7 @@ const ArtistIntegrationLinks = ({ artistId, integrations }) => {
       const account = Object.values(accountsObject).filter((x) => x.id === id)[0]
       accessToken = account ? account.access_token : ''
     }
-    if (!accessToken) {
+    if (! accessToken) {
       setError({ message: `could not determine access token for ${type} ${id}` })
       return
     }
@@ -40,9 +40,9 @@ const ArtistIntegrationLinks = ({ artistId, integrations }) => {
   }
   // GET BUTTON LINKS
   const buttons = React.useMemo(() => {
-    if (!integrations.facebook) return []
+    if (! integrations.facebook) return []
     return Object.entries(integrations.facebook).reduce((buttons, [type, id]) => {
-      if (!id) return buttons
+      if (! id) return buttons
       const title = getButtonName(type)
       const buttonType = type === 'page_id' ? 'page' : 'user'
       const onClick = () => getApiKeyAndLaunchGraphExplorer(id, buttonType)
@@ -56,14 +56,14 @@ const ArtistIntegrationLinks = ({ artistId, integrations }) => {
   }, [integrations, artistId])
 
   // Stop here if no auth
-  if (!hasAuth) {
+  if (! hasAuth) {
     return <Error className="pt-4" error={{ message: 'Artist does not have Facebook authorization' }} />
   }
 
   return (
     <div>
       {error && <Error className="pt-4" error={error} />}
-      {!!buttons.length && (
+      {!! buttons.length && (
         <ul className="mt-4">
           {buttons.map(({ title, id, onClick }) => {
             return (

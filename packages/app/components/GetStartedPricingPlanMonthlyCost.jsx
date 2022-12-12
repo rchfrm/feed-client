@@ -35,7 +35,7 @@ const GetStartedPricingPlanMonthlyCost = ({
           className={[
             'text-2xl sm:text-7xl font-display font-bold',
             'mb-0 pr-2',
-            showAnnualPricing && amount > 0 && !isDisabled ? 'text-green' : null,
+            showAnnualPricing && amount > 0 && ! isDisabled ? 'text-green' : null,
           ].join(' ')}
         >
           {showAnnualPricing ? amount * 0.8 : amount}

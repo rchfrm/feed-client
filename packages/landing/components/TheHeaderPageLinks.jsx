@@ -11,7 +11,7 @@ const TheHeaderPageLinks = ({ onHomePage, toggleLinks }) => {
   const { navigation: { headerLinks } } = copy
   return headerLinks.map(({ href, text }, index) => {
     let newHref = href
-    if (!onHomePage && href.startsWith('#')) {
+    if (! onHomePage && href.startsWith('#')) {
       newHref = `/${href}`
     }
     return (

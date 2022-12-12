@@ -167,12 +167,12 @@ export const getExistingAudienceData = (data) => {
     copy = resultsCopy.existingAudienceFallback(adsReachCurrValue, adsReachPrevValue)
   }
 
-  if (!adsReachPrevValue && adsReachCurrValue) {
+  if (! adsReachPrevValue && adsReachCurrValue) {
     currPeriod = adsReachCurrValue
     copy = resultsCopy.existingAudienceFallback(adsReachCurrValue)
   }
 
-  if (!currPeriod) return null
+  if (! currPeriod) return null
 
   return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
 }
@@ -208,25 +208,25 @@ export const getNewAudienceData = (data) => {
       copy = resultsCopy.newAudienceUnawareFallbackReach(reach.curr_period, reach.prev_period)
     }
 
-    if (engaged.curr_period >= 250 && !engaged.prev_period) {
+    if (engaged.curr_period >= 250 && ! engaged.prev_period) {
       currPeriod = engaged.curr_period
       copy = resultsCopy.newAudienceUnawareFallbackEngaged(engaged.curr_period)
     }
 
-    if (engaged.curr_period < 250 && !reach.prev_period) {
+    if (engaged.curr_period < 250 && ! reach.prev_period) {
       currPeriod = reach.curr_period
       copy = resultsCopy.newAudienceUnawareFallbackReach(reach.curr_period)
     }
   }
 
-  if (!currPeriod) return null
+  if (! currPeriod) return null
 
   return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
 }
 
 export const getOptimisationsEvents = (data) => {
   return Object.entries(data).reduce((array, [key, value]) => {
-    if (!value?.curr_period?.count) return array
+    if (! value?.curr_period?.count) return array
     return [...array, { ...value, event: key }]
   }, [])
 }
@@ -263,7 +263,7 @@ export const getConversionData = (data) => {
     return makeStatsObject({ chartType, isPurchase, prevPeriod, currPeriod, copy })
   }
 
-  if (!omni_purchase.prev_period.value && omni_purchase.curr_period.value) {
+  if (! omni_purchase.prev_period.value && omni_purchase.curr_period.value) {
     isPurchase = true
     currPeriod = omni_purchase.curr_period.value
     copy = resultsCopy.conversionFallbackSales(formatCurrency(currPeriod, currency))
@@ -286,7 +286,7 @@ export const getConversionData = (data) => {
     return makeStatsObject({ chartType, currPeriod, copy })
   }
 
-  if (!landing_page_views.prev_period && landing_page_views.curr_period) {
+  if (! landing_page_views.prev_period && landing_page_views.curr_period) {
     currPeriod = landing_page_views.curr_period
     copy = resultsCopy.conversionFallbackLandingPageViews(currPeriod, facebookPixelEvent)
     return makeStatsObject({ chartType, currPeriod, copy })
@@ -299,7 +299,7 @@ export const getConversionData = (data) => {
     return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
   }
 
-  if (!unique_outbound_clicks.prev_period && unique_outbound_clicks.curr_period) {
+  if (! unique_outbound_clicks.prev_period && unique_outbound_clicks.curr_period) {
     currPeriod = unique_outbound_clicks.curr_period
     copy = resultsCopy.conversionFallbackOutboundClicks(currPeriod, facebookPixelEvent)
     return makeStatsObject({ chartType, currPeriod, copy })
@@ -319,7 +319,7 @@ export const getConversionData = (data) => {
     return makeStatsObject({ chartType, prevPeriod, currPeriod, copy })
   }
 
-  if (reach.curr_period && !reach.prev_period) {
+  if (reach.curr_period && ! reach.prev_period) {
     currPeriod = reach.curr_period
     copy = resultsCopy.conversionFallbackReach(currPeriod, facebookPixelEvent)
     return makeStatsObject({ chartType, currPeriod, copy })
@@ -366,7 +366,7 @@ export const getPlatformData = (adData, aggregatedAdData, platform) => {
 
   const platformGrowthKey = `${platform}_growth`
 
-  if (!adData[platformGrowthKey]) {
+  if (! adData[platformGrowthKey]) {
     return null
   }
 
@@ -457,7 +457,7 @@ const getBestPerformingPlatform = (igData, fbData) => {
 }
 
 export const formatBenchmarkData = (organicData, hasNoProfiles) => {
-  if (!organicData) return null
+  if (! organicData) return null
 
   const { data } = organicData
   const igData = getGrowthAndFollowersCount('instagram', data)

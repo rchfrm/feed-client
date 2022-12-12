@@ -35,7 +35,7 @@ const useCheckObjectiveChangeStatus = (objective, platform) => {
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const facebookPixelId = facebookIntegration?.pixel_id
-  const hasSufficientBudget = !hasSalesObjective || (hasSalesObjective && dailyBudget >= minRecommendedStories)
+  const hasSufficientBudget = ! hasSalesObjective || (hasSalesObjective && dailyBudget >= minRecommendedStories)
 
   // Define objective change steps
   const objectiveChangeSteps = React.useMemo(() => [
@@ -66,7 +66,7 @@ const useCheckObjectiveChangeStatus = (objective, platform) => {
   ], [facebookPixelId, hasSufficientBudget, integrationLink?.accountId, objective, platform])
 
   const getObjectiveChangeSteps = () => {
-    return objectiveChangeSteps.filter(({ isComplete }) => !isComplete)
+    return objectiveChangeSteps.filter(({ isComplete }) => ! isComplete)
   }
 
   return { getObjectiveChangeSteps }

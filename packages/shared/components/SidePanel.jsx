@@ -25,11 +25,11 @@ function SidePanel({
   // TOGGLE SHOWING
   const [show, setShow] = React.useState(false)
   React.useEffect(() => {
-    if (!isOpen) {
+    if (! isOpen) {
       setShow(false)
       return
     }
-    setShow(!!(isOpen && content))
+    setShow(!! (isOpen && content))
   }, [isOpen, content])
 
   // Define close function
@@ -89,7 +89,7 @@ function SidePanel({
     await Promise.all(animatePromises)
     done()
     // After closing, empty contents
-    if (!show) setContent(null)
+    if (! show) setContent(null)
   }
 
   // SCROLLTOP when opening

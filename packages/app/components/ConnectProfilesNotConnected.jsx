@@ -30,7 +30,7 @@ const ConnectProfilesNotConnected = ({
       <h2>Connect more</h2>
       <DisabledSection
         section="connect-accounts"
-        isDisabled={!hasGrowthPlan}
+        isDisabled={! hasGrowthPlan}
       >
         <ul
           className={[

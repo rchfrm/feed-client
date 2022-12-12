@@ -9,7 +9,7 @@ const useCombinedRefs = (...refs) => {
 
   React.useEffect(() => {
     refs.forEach((ref) => {
-      if (!ref) return
+      if (! ref) return
 
       if (typeof ref === 'function') {
         ref(targetRef.current)

@@ -31,13 +31,13 @@ const ResetPasswordContent = () => {
   const [isTesting, setIsTesting] = React.useState(true)
   const [error, setError] = React.useState(null)
   useAsyncEffect(async (isMounted) => {
-    if (!code) {
+    if (! code) {
       setError({ message: badCodeErrorMessage })
       setIsTesting(false)
       return
     }
     const { res: email, error } = await firebaseHelpers.verifyPasswordResetCode(code)
-    if (!isMounted()) return
+    if (! isMounted()) return
     setIsTesting(false)
     if (error) {
       setError(error)
@@ -75,7 +75,7 @@ const ResetPasswordContent = () => {
         </p>
       )}
       {/* FORM */}
-      {!error && email && !isSuccessful && (
+      {! error && email && ! isSuccessful && (
         <>
           <p>Reset your password for <strong>{email}</strong>:</p>
           <form
@@ -94,7 +94,7 @@ const ResetPasswordContent = () => {
               <Button
                 version="black"
                 type="submit"
-                disabled={!password}
+                disabled={! password}
                 loading={isSubmitting}
                 trackComponentName="ResetPasswordContent"
               >
@@ -105,7 +105,7 @@ const ResetPasswordContent = () => {
         </>
       )}
       {/* Handle success */}
-      {isSuccessful && !error && (
+      {isSuccessful && ! error && (
         <>
           <Success message={getSuccessMessage(email)} />
           <div>

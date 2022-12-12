@@ -39,7 +39,7 @@ const InitUser = ({ children }) => {
 
   // After user has loaded the first time...
   React.useEffect(() => {
-    if (!userLoading) {
+    if (! userLoading) {
       setInitialUserLoading(userLoading)
     }
   }, [userLoading])
@@ -89,7 +89,7 @@ const InitUser = ({ children }) => {
   // HANDLE INITIAL LOGGED IN TEST
   const handleInitialAuthCheck = async (authUser, authError) => {
     // If no auth user, handle that
-    if (!authUser) return handleNoAuthUser(authError)
+    if (! authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
     const authToken = await firebaseHelpers.getVerifyIdToken()
       .catch((error) => {
@@ -103,7 +103,7 @@ const InitUser = ({ children }) => {
   const detectSignedInUser = (isMounted, fbRedirectError) => {
     const unsubscribe = firebaseHelpers.auth.onAuthStateChanged(async (authUser) => {
       await handleInitialAuthCheck(authUser, fbRedirectError)
-      if (!isMounted()) return
+      if (! isMounted()) return
       showContent(isMounted)
       unsubscribe()
     })
@@ -117,7 +117,7 @@ const InitUser = ({ children }) => {
     showContent(isMounted)
   }, [])
   // Show spinner while waiting
-  if (!ready || initialUserLoading) return null
+  if (! ready || initialUserLoading) return null
   // Show the page
   return children
 }

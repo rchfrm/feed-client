@@ -21,9 +21,9 @@ export default {
     const totalPendingReferrals = totalReferrals - totalCompleteReferrals
     const referralAmountString = getReferralAmount(currencyCode)
     // No referrals of any kind
-    if (!totalReferrals && !totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend through the platform, you'll get **${referralAmountString}** in credit!`
+    if (! totalReferrals && ! totalCompleteReferrals) return `Make your first referral to Feed by sharing your unique link. Once they sign up and spend through the platform, you'll get **${referralAmountString}** in credit!`
     // Only incomplete referrals
-    if (totalReferrals && !totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent some budget through the platform, we'll give you **${referralAmountString}** in credit.`
+    if (totalReferrals && ! totalCompleteReferrals) return `Thank you for referring ${totalReferredText} to Feed! Once they have spent some budget through the platform, we'll give you **${referralAmountString}** in credit.`
     // Only complete referrals
     if (totalPendingReferrals === 0) return `Thanks for referring ${totalReferredText} to Feed! Keep sharing your unique link to ${upcomingBenefit}.`
     // Mix of complete and incomplete referrals

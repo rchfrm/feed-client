@@ -57,7 +57,7 @@ const TargetingBudget = ({
   } = React.useContext(ArtistContext)
 
   const { organizationArtists } = useBillingStore(getBillingStoreState)
-  const isDisabled = !hasSetUpProfile
+  const isDisabled = ! hasSetUpProfile
     || hasCancelledPlan
     || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
 
@@ -72,8 +72,8 @@ const TargetingBudget = ({
   const growthTierMaxDailyBudget = Math.round(minBaseUnrounded * 9)
   const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
-  const mayHitGrowthTierMaxBudget = hasGrowthPlan && !hasProPlan && targetingState.budget > growthTierMaxDailyBudget
-  const mayHitProTierMaxBudget = hasProPlan && !hasLegacyPlan && targetingState.budget > proTierMaxDailyBudget
+  const mayHitGrowthTierMaxBudget = hasGrowthPlan && ! hasProPlan && targetingState.budget > growthTierMaxDailyBudget
+  const mayHitProTierMaxBudget = hasProPlan && ! hasLegacyPlan && targetingState.budget > proTierMaxDailyBudget
 
   const budgetData = {
     currency: currencyCode,
@@ -83,14 +83,14 @@ const TargetingBudget = ({
   }
 
   React.useEffect(() => {
-    if (!hasSetUpProfile) return
+    if (! hasSetUpProfile) return
 
-    if (!hasBudgetBelowMinRecommendedStories && (!isDailyBudget || (!mayHitGrowthTierMaxBudget && !mayHitProTierMaxBudget))) {
+    if (! hasBudgetBelowMinRecommendedStories && (! isDailyBudget || (! mayHitGrowthTierMaxBudget && ! mayHitProTierMaxBudget))) {
       setShouldShowWarning(false)
       return
     }
 
-    if ((hasBudgetBelowMinRecommendedStories || (isDailyBudget && (mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget))) && !isDisabled) {
+    if ((hasBudgetBelowMinRecommendedStories || (isDailyBudget && (mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget))) && ! isDisabled) {
       setShouldShowWarning(true)
     }
   }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile, isDailyBudget, isDisabled])
@@ -142,7 +142,7 @@ const TargetingBudget = ({
                 copy={copy.budgetFooter(hasProPlan, budgetData)}
                 section="budget"
                 version="small"
-                isButton={!hasProPlan}
+                isButton={! hasProPlan}
                 className="mt-5"
               />
             )

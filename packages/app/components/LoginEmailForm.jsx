@@ -37,7 +37,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
   // DEFINE PAGE STATE
   const [email, setEmail] = React.useState(initialEmail)
   const [password, setPassword] = React.useState('')
-  const [isEmailEdit, setIsEmailEdit] = React.useState(!initialEmail)
+  const [isEmailEdit, setIsEmailEdit] = React.useState(! initialEmail)
   const [error, setError] = React.useState(null)
   // GET LOGIN FUNCTION
   const { loginWithEmail } = useLogin()
@@ -108,7 +108,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
     }
 
     if (user.artists.length > 0) {
-      if (!inviteToken) {
+      if (! inviteToken) {
         selectedArtistId = user.artists[0].id
       }
 
@@ -147,7 +147,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
     >
 
       <Error error={userError || error} />
-      <h2 className="mb-4 text-xl">Enter your {!initialEmail ? 'email &' : ''} password</h2>
+      <h2 className="mb-4 text-xl">Enter your {! initialEmail ? 'email &' : ''} password</h2>
       <MarkdownText className={[styles.tcText, 'small--text', 'mb-4'].join(' ')} markdown={copy.tcText('logging in')} />
       {isEmailEdit ? (
         <Input

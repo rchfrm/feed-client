@@ -31,7 +31,7 @@ const TargetingDailyBudgetSuggestionButtons = ({
       style={{ width: 'calc(100% - 24px)', margin: '0 auto 24px' }}
     >
       {budgetSuggestions.map((budget, index) => {
-        if (isDesktopLayout || (!isDesktopLayout && index !== 0)) {
+        if (isDesktopLayout || (! isDesktopLayout && index !== 0)) {
           const min = minSliderValue / currencyOffset
           const max = maxSliderValue / currencyOffset
           const offset = ((budget - min) / (max - min)) * 100

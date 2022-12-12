@@ -8,7 +8,7 @@ import { track } from '@/helpers/trackingHelpers'
 
 const PixelCopierModal = ({ pixelId, pixelEmbed, trackLocation }) => {
   // SHOULD WE SHOW TWO OPTIONS?
-  const hasEmbedOption = !!pixelEmbed
+  const hasEmbedOption = !! pixelEmbed
   // HANDLE TWO OPTIONS
   const labelOptions = [
     {

@@ -51,7 +51,7 @@ const PostCardDisableHandler = ({
     artistId,
     postId,
     promotionEnabled: getPromotionStatus(cachedPromotableStatus),
-    disabled: !reverseStatus,
+    disabled: ! reverseStatus,
     campaignType,
     onResolve: ({ res: postUpdated, error }) => {
       setShouldShowAlert(false)
@@ -73,7 +73,7 @@ const PostCardDisableHandler = ({
   }, [previousPromotableStatus])
 
   React.useEffect(() => {
-    if (postToggleSetterType === 'single' && !isEnabled && previousEnabled) {
+    if (postToggleSetterType === 'single' && ! isEnabled && previousEnabled) {
       showAlert()
     }
   }, [isEnabled, previousEnabled, postToggleSetterType, showAlert])

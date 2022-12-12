@@ -79,7 +79,7 @@ const nextConfig = {
   async redirects() {
     // FETCH GLOBAL DATA
     const cacheDirExists = fs.existsSync('./tempData')
-    if (!cacheDirExists) {
+    if (! cacheDirExists) {
       await fs.mkdirSync('./tempData')
     }
     await fetchGlobalInfo()

@@ -4,7 +4,7 @@ import { formatCurrency, capitalise } from '@/helpers/utils'
 import { pricingNumbers } from '@/constants/pricing'
 
 const getListOfSources = (isMusician, hasSpotify) => {
-  if (!hasSpotify || !isMusician) return 'Facebook and Instagram followers'
+  if (! hasSpotify || ! isMusician) return 'Facebook and Instagram followers'
   return 'Facebook and Instagram followers and Spotify listeners'
 }
 
@@ -45,7 +45,7 @@ Do you want to continue?`,
 
     const baseString = `By spending ${formatCurrency(dailyBudget, currency)} a day, you are likely to exceed the <span className="text-insta font-bold">${capitalise(plan)}</span> spend cap of ${formatCurrency(planMaxMonthlySpend, currency, true)} per month.`
 
-    if (!hasProPlan) {
+    if (! hasProPlan) {
       return `${baseString} Upgrade to Pro to increase the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)}`
     }
 

@@ -20,15 +20,15 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, isAnnu
         ].join(' ')}
         >
           <p className="text-2xl pr-1 mb-0">{currencySymbol}</p>
-          {isAnnualPricing && !isBasic && (
+          {isAnnualPricing && ! isBasic && (
             <p className="self-start line-through text-xs text-grey-3">{monthlyCost}</p>
           )}
           <p className={[
             'mr-1 mb-0 text-2xl font-bold',
-            isAnnualPricing && !isBasic ? 'text-green' : null,
+            isAnnualPricing && ! isBasic ? 'text-green' : null,
           ].join(' ')}
           >
-            {isAnnualPricing && !isBasic ? monthlyCost * 0.8 : monthlyCost}
+            {isAnnualPricing && ! isBasic ? monthlyCost * 0.8 : monthlyCost}
           </p>
         </div>
 

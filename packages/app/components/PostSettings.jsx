@@ -63,9 +63,9 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   const isEligibleForConversions = [canBePromoted(offPlatformConversions), canBePromoted(remindConversions)].some(Boolean)
 
   const isToggleDisabled = campaignType === 'all'
-    ? !isEligibleForGrowAndNurture && !priorityEnabled
-    : (!isEligibleForConversions && !priorityEnabled)
-  const isSectionDisabled = (campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled) || !postPromotable
+    ? ! isEligibleForGrowAndNurture && ! priorityEnabled
+    : (! isEligibleForConversions && ! priorityEnabled)
+  const isSectionDisabled = (campaignType === 'all' ? ! isPromotionEnabled : ! isConversionsEnabled) || ! postPromotable
 
   const { sales: salesPreviewLink, ...growAndNurturePreviewLinks } = adPreviewLinks || {}
   const hasPreviewLinkForSelectedCampaignType = (campaignType === 'all' && Object.keys(growAndNurturePreviewLinks).length > 0) || (campaignType === 'conversions' && salesPreviewLink)
@@ -88,12 +88,12 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
           <PostCardSettingsTabs
             campaignType={campaignType}
             setCampaignType={setCampaignType}
-            isDisabled={!postPromotable}
+            isDisabled={! postPromotable}
           />
         )}
         {isDesktopLayout && (
           <>
-            {!postPromotable && (
+            {! postPromotable && (
               <PostUnpromotable className="w-1/2 mb-10" />
             )}
             {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
@@ -107,8 +107,8 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
                 artistId={artistId}
                 isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
                 setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-                isDisabled={isToggleDisabled || !postPromotable}
-                showAlertModal={isConversionsCampaign && (!canRunConversions)}
+                isDisabled={isToggleDisabled || ! postPromotable}
+                showAlertModal={isConversionsCampaign && (! canRunConversions)}
                 className="pl-4"
               />
               <PostCardSettingsPromotionStatus
@@ -128,7 +128,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
         )}
         <DisabledSection
           section="single-post-page"
-          isDisabled={!hasGrowthPlan && !isSectionDisabled}
+          isDisabled={! hasGrowthPlan && ! isSectionDisabled}
           className="brightness-100"
         >
           <PostSettingsLink

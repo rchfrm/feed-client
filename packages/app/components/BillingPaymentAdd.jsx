@@ -38,7 +38,7 @@ const BillingPaymentAdd = ({
             />
             <Button
               version="black"
-              disabled={!isFormValid}
+              disabled={! isFormValid}
               onClick={addPaymentMethod}
               trackComponentName="BillingPaymentAdd"
               loading={isLoading}

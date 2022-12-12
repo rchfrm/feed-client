@@ -202,7 +202,7 @@ const useSaveTargeting = ({
         status: shouldStartSpendingToday ? 1 : 0,
       }
 
-      if (!savedState.campaignBudget.startDate) {
+      if (! savedState.campaignBudget.startDate) {
         const onConfirm = () => {
           saveTargetingSettings(updatedState)
           setIsCampaignEdit(true)

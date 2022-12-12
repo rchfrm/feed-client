@@ -14,12 +14,12 @@ const useShareLink = ({
 
   // Test if share is support
   React.useEffect(() => {
-    setIsShareSupported(!!navigator.share)
+    setIsShareSupported(!! navigator.share)
   }, [])
 
   // Set up copy fallback
   React.useEffect(() => {
-    if (isShareSupported || !copyButtonFallback) return
+    if (isShareSupported || ! copyButtonFallback) return
     const clipboard = new ClipboardJS(copyButtonFallback, { text: () => url })
     clipboard.on('success', onSuccess.bind(null, 'copy'))
     return () => {
@@ -29,7 +29,7 @@ const useShareLink = ({
 
   // Share function
   const shareLink = React.useCallback(() => {
-    if (!isShareSupported) return
+    if (! isShareSupported) return
     navigator.share({
       title,
       text: text || title,

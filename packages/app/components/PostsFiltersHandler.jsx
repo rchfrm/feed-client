@@ -69,7 +69,7 @@ const PostsFiltersHandler = ({ setFilterBy, disabled, className }) => {
     const currentFilterStorage = JSON.parse(utils.getLocalStorage('filterBy'))
     const storedFilter = currentFilterQuery || currentFilterStorage
 
-    if (!storedFilter) return
+    if (! storedFilter) return
 
     const formattedFilters = Object.entries(storedFilter).reduce((result, [key, value]) => {
       // If filter value is not an array yet, push the value into an array

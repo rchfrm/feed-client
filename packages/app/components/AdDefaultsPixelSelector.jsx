@@ -22,7 +22,7 @@ const AdDefaultsPixelSelector = ({
         setErrorFetching={setErrorFetching}
       />
       {/* SHOW RED DOT IF NO PIXEL SELECTED */}
-      {!activePixelId && !errorFetching && (
+      {! activePixelId && ! errorFetching && (
         <div
           className={[
             'absolute top-0 right-0',
