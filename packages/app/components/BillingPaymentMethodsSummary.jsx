@@ -81,8 +81,11 @@ const BillingPaymentMethodsSummary = ({
       if (pm.id === newDefaultPaymentMethod.id) {
         return newDefaultPaymentMethod
       }
-      pm.is_default = false
-      return pm
+      const updatedPaymentMethod = {
+        ...pm,
+        is_default: false,
+      }
+      return updatedPaymentMethod
     })
     setAllPaymentMethods(updatedPaymentMethods)
     setError(null)
@@ -117,8 +120,11 @@ const BillingPaymentMethodsSummary = ({
         if (pm.id === paymentMethod.id) {
           return paymentMethod
         }
-        pm.is_default = false
-        return pm
+        const updatedPaymentMethod = {
+          ...pm,
+          is_default: false,
+        }
+        return updatedPaymentMethod
       })
       setDefaultPaymentMethod(paymentMethod)
     }
