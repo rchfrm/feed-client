@@ -14,6 +14,7 @@ import { formatCurrency } from '@/helpers/utils'
 import { formatProfilesToUpgrade, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 import { useStripe } from '@stripe/react-stripe-js'
+import * as billingHelpers from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -69,10 +70,9 @@ const PricingPlanUpgradePayment = ({
     setStatus(profileUpdated.status)
     setPlan(profileUpdated.plan)
 
-    // Update organization artists in billing store
-    updateOrganizationArtists(profiles)
 
     if (profileUpdated.plan === 'active' || !clientSecret) {
+      updateOrganizationArtists(profiles)
       setCurrentStep((currentStep) => currentStep + 1)
       setIsLoading(false)
       return
@@ -83,16 +83,24 @@ const PricingPlanUpgradePayment = ({
     })
 
     if (confirmPaymentError) {
+      updateOrganizationArtists(profiles)
       setError(confirmPaymentError)
       setIsLoading(false)
       return
     }
 
     setStatus('active')
+    const upgradedProfilesWithActiveStatus = profiles.map((profile) => {
+      if (profilesWithPlan[profile.id]) {
+        profile.status = 'active'
+      }
+      return profile
+    })
+    updateOrganizationArtists(upgradedProfilesWithActiveStatus)
 
     setCurrentStep((currentStep) => currentStep + 1)
     setIsLoading(false)
-  }, [profilesToUpgrade, organizationId, setStatus, setPlan, updateOrganizationArtists, stripe, defaultPaymentMethod.id, artistId, setCurrentStep])
+  }, [profilesToUpgrade, organizationId, setStatus, setPlan, updateOrganizationArtists, stripe, defaultPaymentMethod.id, setCurrentStep, artistId])
 
   React.useEffect(() => {
     const button = (

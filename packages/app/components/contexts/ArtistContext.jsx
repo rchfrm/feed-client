@@ -88,6 +88,7 @@ const artistReducer = (draftState, action) => {
     }
     case 'set-status': {
       draftState.status = payload.status
+      draftState.hasCancelledPlan = draftState.status !== 'active' && !draftState.hasNoPlan
       break
     }
     case 'update-post-preferences': {
