@@ -63,7 +63,7 @@ const PostCardActions = ({
     conversionsEnabled,
     priorityEnabled,
   }) => {
-    if (!priorityEnabled || promotionEnabled || conversionsEnabled) {
+    if (! priorityEnabled || promotionEnabled || conversionsEnabled) {
       setIsOpen(false)
       return
     }
@@ -153,7 +153,7 @@ const PostCardActions = ({
   }, [index])
 
   const close = ({ target }) => {
-    if (!dropdownRef.current) {
+    if (! dropdownRef.current) {
       return
     }
 
@@ -183,7 +183,7 @@ const PostCardActions = ({
   return (
     <div className="absolute right-2 bottom-2 z-10" ref={dropdownRef}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(! isOpen)}
         className={[
           'w-6 h-6',
           'flex justify-center items-center',

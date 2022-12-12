@@ -24,7 +24,7 @@ const PostsFilterOption = ({
   }
 
   React.useEffect(() => {
-    setIsActive(filterBy[type] === slug || (slug === 'all' && !filterBy[type]))
+    setIsActive(filterBy[type] === slug || (slug === 'all' && ! filterBy[type]))
   }, [filterBy, slug, type])
 
   return (

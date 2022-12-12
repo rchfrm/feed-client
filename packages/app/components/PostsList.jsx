@@ -11,7 +11,7 @@ const PostsList = ({
   filterBy,
   className,
 }) => {
-  if (!posts.length) {
+  if (! posts.length) {
     return (
       <PostsNone
         filterBy={filterBy}

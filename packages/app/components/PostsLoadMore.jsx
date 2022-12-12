@@ -10,7 +10,7 @@ const PostsLoadMore = ({
   setIsLoadingMore,
   hasLoadedAll,
 }) => {
-  const shouldShowButton = posts.length > 0 && !hasLoadedAll && !isLoading
+  const shouldShowButton = posts.length > 0 && ! hasLoadedAll && ! isLoading
 
   const handleClick = () => {
     setIsLoadingMore(true)

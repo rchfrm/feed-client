@@ -66,7 +66,7 @@ const Posts = () => {
   }, [user])
 
   React.useEffect(() => {
-    if (!isNewUser) {
+    if (! isNewUser) {
       setCanLoadPosts(true)
     }
   }, [isNewUser])
