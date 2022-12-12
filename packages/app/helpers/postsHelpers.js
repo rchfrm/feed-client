@@ -34,6 +34,37 @@ export const postsConfig = {
   },
 }
 
+export const promotionStatusSlugs = {
+  active: 'active',
+  inReview: 'in_review',
+  inActive: 'archived',
+  rejected: 'rejected',
+  notRun: 'inactive',
+}
+
+export const promotionStatus = [
+  {
+    slug: promotionStatusSlugs.active,
+    title: 'Running',
+  },
+  {
+    slug: promotionStatusSlugs.inReview,
+    title: 'In Review',
+  },
+  {
+    slug: promotionStatusSlugs.inActive,
+    title: 'Inactive',
+  },
+  {
+    slug: promotionStatusSlugs.rejected,
+    title: 'Rejected',
+  },
+  {
+    slug: promotionStatusSlugs.notRun,
+    title: 'Not Run',
+  },
+]
+
 export const filterTypes = [
   {
     type: 'platform',
@@ -85,14 +116,6 @@ export const sortTypes = [
     name: 'Score',
   },
 ]
-
-export const promotionStatusSlugs = {
-  active: 'active',
-  inReview: 'in_review',
-  inActive: 'archived',
-  rejected: 'rejected',
-  notRun: 'inactive',
-}
 
 export const campaignTypes = [
   {
