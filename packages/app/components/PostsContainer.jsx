@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { gsap, Power2 } from 'gsap'
+import useOnResize from '@/landing/hooks/useOnResize'
 import PostsFilter from '@/app/PostsFilter'
 import PostsSorter from '@/app/PostsSorter'
 import PostsList from '@/app/PostsList'
@@ -23,20 +25,41 @@ const PostsContainer = ({
   hasLoadedAll,
   className,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(true)
+  const [isOpen, setIsOpen] = React.useState(false)
   const shouldShowPostsAmount = status === 'active' || status === 'rejected'
+
+  const { width } = useOnResize()
+  const containerRef = React.useRef(null)
+  const contentRef = React.useRef(null)
 
   const toggle = () => {
     setIsOpen((isOpen) => !isOpen)
   }
 
+  const animate = React.useCallback((isOpen) => {
+    if (containerRef.current) {
+      const ease = Power2.easeInOut
+      const duration = 0.1
+      const minHeight = '73px'
+      const maxHeight = isOpen ? `${contentRef.current.clientHeight + 100}px` : minHeight
+
+      gsap.to(containerRef.current, { maxHeight, ease, duration })
+    }
+  }, [])
+
+  React.useEffect(() => {
+    animate(isOpen)
+  }, [isOpen, animate, posts, width])
+
   return (
-    <div className={[
-      'mb-5 rounded-dialogue border border-solid',
-      'transition-all duration-700 ease-in-out',
-      isOpen ? 'max-h-[1200px]' : 'max-h-[73px] overflow-hidden',
-      className,
-    ].join(' ')}
+    <div
+      className={[
+        'mb-5 rounded-dialogue border border-solid',
+        'transition-all duration-700 ease-in-out',
+        'overflow-hidden',
+        className,
+      ].join(' ')}
+      ref={containerRef}
     >
       <button
         onClick={toggle}
@@ -48,11 +71,13 @@ const PostsContainer = ({
         <h2 className="mb-0 mr-5">{shouldShowPostsAmount ? posts.length : null} {postsConfig[status].name}</h2>
         {isOpen ? <CollapseIcon /> : <ExpandIcon />}
       </button>
-      <div className={[
-        'mb-5 px-5',
-        'transition ease-in-out delay-200 transition-opacity',
-        isOpen ? 'opacity-1' : 'opacity-0',
-      ].join(' ')}
+      <div
+        className={[
+          'mb-5 px-5',
+          'transition ease-in-out delay-200 transition-opacity',
+          isOpen ? 'opacity-1' : 'opacity-0',
+        ].join(' ')}
+        ref={contentRef}
       >
         <div className="flex justify-between mb-5 text-xs">
           <PostsFilter
