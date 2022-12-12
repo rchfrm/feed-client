@@ -55,6 +55,11 @@ module.exports = {
     'react/button-has-type': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/no-danger': 'off',
+    'space-unary-ops': ['error', {
+      overrides: {
+        '!': true,
+      },
+    }],
     // A11y things
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/media-has-caption': 'off',

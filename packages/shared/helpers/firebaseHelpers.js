@@ -44,6 +44,7 @@ export const requiredScopesAds = [
   'pages_manage_ads',
   'pages_manage_metadata',
   'pages_read_user_content',
+  'business_management',
 ]
 
 export const dofetchSignInMethodsForEmail = async (email) => {
