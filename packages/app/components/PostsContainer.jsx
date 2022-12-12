@@ -90,7 +90,7 @@ const PostsContainer = ({
           />
         </div>
         {isLoading ? (
-          <div className="h-32 w-full flex items-center">
+          <div className="h-16 w-full flex items-center">
             <Spinner width={30} />
           </div>
         ) : (

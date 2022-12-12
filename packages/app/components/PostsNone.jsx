@@ -17,7 +17,7 @@ const PostsNone = ({ filterBy }) => {
   const copyMarkdown = getCopy(filterBy)
 
   return (
-    <MarkdownText markdown={copyMarkdown} className="mt-5 py-5" />
+    <MarkdownText markdown={copyMarkdown} className="h-16 flex items-center" />
   )
 }
 
