@@ -109,7 +109,7 @@ const PostImage = ({
   // Remove empty and duplicate thumbnail options
   const thumbnails = React.useMemo(() => {
     return thumbnailOptions.reduce((thumbs, thumb) => {
-      if (!thumb) return thumbs
+      if (! thumb) return thumbs
       if (thumbs.includes(thumb)) return thumbs
       return [...thumbs, thumb]
     }, [])
@@ -150,7 +150,7 @@ const PostImage = ({
 
   // Trigger use fallback if no thumb src
   React.useEffect(() => {
-    if (!thumbnailOptions.length) {
+    if (! thumbnailOptions.length) {
       onUseFallback()
       onFinish()
     }
@@ -159,7 +159,7 @@ const PostImage = ({
   // Swap to backup thumb src if first errors
   React.useEffect(() => {
     // Stop here if no thumb error or if finished
-    if (!thumbError || isFinished) return
+    if (! thumbError || isFinished) return
     // Try swapping thumb src for backup
     activeThumbIndex.current += 1
     const nextThumbSrc = thumbnails[activeThumbIndex.current]
@@ -176,7 +176,7 @@ const PostImage = ({
   // Swap to backup video src if first errors
   React.useEffect(() => {
     // Stop here if no video error
-    if (!videoError) return
+    if (! videoError) return
     // Try swapping media src for backup
     if (videoFallback && (activeMediaSrc !== videoFallback)) {
       setActiveMediaSrc(videoFallback)
@@ -205,7 +205,7 @@ const PostImage = ({
     if (videoError) {
       return <PlayBrokenIcon className={[styles.playIcon, styles._broken].join(' ')} color={brandColors.bgColor} />
     }
-    if ((mediaType === 'video' || mediaType === 'youtube_embed') && !videoError) {
+    if ((mediaType === 'video' || mediaType === 'youtube_embed') && ! videoError) {
       return <PlayIcon className={styles.playIcon} color={brandColors.bgColor} />
     }
     return null
@@ -245,11 +245,11 @@ const PostImage = ({
       {/* Test for broken videos */}
       {mediaTest}
       {/* Thumbnail fallback */}
-      {(thumbError || !thumbnailImageSrc) && <MediaFallback brokenImageColor={brokenImageColor} className={fallbackClassName} />}
+      {(thumbError || ! thumbnailImageSrc) && <MediaFallback brokenImageColor={brokenImageColor} className={fallbackClassName} />}
       {/* Show broken play button */}
       {videoError && <div className={styles.playIconBg}>{playIcon}</div>}
       {/* Show play icon */}
-      {(playIcon && !videoError) && (
+      {(playIcon && ! videoError) && (
         <button
           className={styles.playIconBg}
           aria-label="Play video"
@@ -259,7 +259,7 @@ const PostImage = ({
         </button>
       )}
       {/* Enlarge media button */}
-      {!videoError && !thumbError && !playIcon && (
+      {! videoError && ! thumbError && ! playIcon && (
         <button
           className={styles.enlargeImageButton}
           aria-label="Enlarge image"
@@ -267,7 +267,7 @@ const PostImage = ({
         />
       )}
       {/* Thumbnail */}
-      {thumbnailImageSrc && !thumbError && (
+      {thumbnailImageSrc && ! thumbError && (
         <img
           className="center--image"
           src={thumbnailImageSrc}

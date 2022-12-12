@@ -52,7 +52,7 @@ const NewsletterScrollButton = ({
   const [unstick, setUnstick] = React.useState(false)
   const [unstickAt, setUnstickAt] = React.useState(0)
   React.useEffect(() => {
-    if (!newsletterEl) return
+    if (! newsletterEl) return
     const observer = new IntersectionObserver((entries) => {
       const [entry] = entries
       setUnstick(entry.isIntersecting)

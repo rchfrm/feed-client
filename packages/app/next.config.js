@@ -44,7 +44,7 @@ const isDev = build_env === 'development'
 // Show warning if using the live DB locally
 const show_live_warning = isDev && REACT_APP_API_URL === REACT_APP_API_URL_LIVE
 // Stop here if no API URL
-if (!REACT_APP_API_URL) {
+if (! REACT_APP_API_URL) {
   throw Error('NO API URL SPECIFIED')
 }
 

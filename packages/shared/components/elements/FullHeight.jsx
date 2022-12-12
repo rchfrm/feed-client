@@ -12,7 +12,7 @@ const FullHeight = React.forwardRef(({ id, className, heightPercent, Element, ch
   const animationFrame = React.useRef()
   React.useEffect(() => {
     const { current: containerEl } = containerRef
-    if (!windowHeight || !containerEl) return
+    if (! windowHeight || ! containerEl) return
     const height = windowHeight * (heightPercent / 100)
     animationFrame.current = window.requestAnimationFrame(() => {
       containerEl.style.height = `${height}px`

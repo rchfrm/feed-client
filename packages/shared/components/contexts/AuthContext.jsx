@@ -74,11 +74,11 @@ function AuthProvider({ children }) {
     if (authError) {
       setAuthError(authError)
 
-      if (!authUser) {
+      if (! authUser) {
         return
       }
     }
-    if (!authToken) {
+    if (! authToken) {
       throw new Error('Missing auth token')
     }
     setAuthLoading(true)
@@ -120,7 +120,7 @@ function AuthProvider({ children }) {
   // UPDATE
   React.useEffect(() => {
     // Save rejected page path in local storage when it changes
-    if (!rejectedPagePath) return
+    if (! rejectedPagePath) return
     setLocalStorage('rejectedPagePath', rejectedPagePath)
   }, [rejectedPagePath])
   // CLEAR STORED REJECTED PAGE

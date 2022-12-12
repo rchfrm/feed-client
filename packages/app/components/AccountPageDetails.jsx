@@ -22,7 +22,7 @@ import useAnimateScroll from '@/hooks/useAnimateScroll'
 const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEmail }) => {
   const changedEmails = []
   if (email !== initialEmail) changedEmails.push('authEmail')
-  if ((contactEmail && !initialContactEmail) || (contactEmail !== initialContactEmail && initialContactEmail)) changedEmails.push('contactEmail')
+  if ((contactEmail && ! initialContactEmail) || (contactEmail !== initialContactEmail && initialContactEmail)) changedEmails.push('contactEmail')
   return changedEmails
 }
 
@@ -65,16 +65,16 @@ const AccountPageDetails = () => {
   const [useCustomContactEmail, setUseCustomContactEmail] = React.useState(false)
   React.useEffect(() => {
     // Stop here if not using email auth
-    if (!hasEmailAuth) return
+    if (! hasEmailAuth) return
     // Check whether user has custom email set
-    const usingContactEmail = !!(initialContactEmail && initialContactEmail !== initialEmail)
+    const usingContactEmail = !! (initialContactEmail && initialContactEmail !== initialEmail)
     setUseCustomContactEmail(usingContactEmail)
   // eslint-disable-next-line
   }, [])
 
   // CLEAR CONTACT EMAIL if DISABLING
   React.useEffect(() => {
-    if (!useCustomContactEmail) {
+    if (! useCustomContactEmail) {
       setContactEmail('')
     }
   }, [useCustomContactEmail])
@@ -108,17 +108,17 @@ const AccountPageDetails = () => {
     const newErrors = []
 
     // Stop here if No name
-    if (!firstName || !lastName) {
+    if (! firstName || ! lastName) {
       newErrors.push({ message: 'Please provide a name and surname.' })
     }
 
     // Stop here if No email
-    if (!email) {
+    if (! email) {
       newErrors.push({ message: 'Please provide an email.' })
     }
 
     // No custom email
-    if (useCustomContactEmail && !contactEmail) {
+    if (useCustomContactEmail && ! contactEmail) {
       newErrors.push({ message: 'Please provide a contact email or choose to use your account email.' })
     }
 
@@ -136,7 +136,7 @@ const AccountPageDetails = () => {
     }
 
     // Show alert before changing email
-    if (changedEmails.includes('authEmail') && !forceSubmit) {
+    if (changedEmails.includes('authEmail') && ! forceSubmit) {
       setConfirmAlert('email')
       return
     }
@@ -151,7 +151,7 @@ const AccountPageDetails = () => {
       track('update_account_password')
     }
     // Update user
-    const newContactEmail = !useCustomContactEmail || !contactEmail ? null : contactEmail
+    const newContactEmail = ! useCustomContactEmail || ! contactEmail ? null : contactEmail
     const userUpdatePromise = accountDetailsChanged ? server.patchUser({ firstName, lastName, email, contactEmail: newContactEmail }) : null
     // When all is done...
     const [userUpdateResponse, passwordChangedRes] = await Promise.all([userUpdatePromise, passwordUpdatePromise])
@@ -213,13 +213,13 @@ const AccountPageDetails = () => {
   // Watch changes in form data and set button
   React.useEffect(() => {
     // Stop here if the form hasn't been updated
-    if (!formUpdated.current) return
+    if (! formUpdated.current) return
     // Set the button state
     if (passwordOne !== passwordTwo) {
       setFormDisabled(true)
       return
     }
-    if (!firstName || !lastName || !email) {
+    if (! firstName || ! lastName || ! email) {
       setFormDisabled(true)
       return
     }

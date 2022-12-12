@@ -66,7 +66,7 @@ const TheSubNavArtists = ({ className }) => {
   const { organizationArtists } = useBillingStore(getBillingStoreState)
   const otherOrganizationProfiles = organizationArtists.filter(({ id }) => id !== artistId)
   const hasAllOtherProfilesOnNoPlan = artistHelpers.hasAllProfilesOnNoPlan(otherOrganizationProfiles)
-  const isDisabled = !hasGrowthPlan && hasAllOtherProfilesOnNoPlan && role !== 'admin'
+  const isDisabled = ! hasGrowthPlan && hasAllOtherProfilesOnNoPlan && role !== 'admin'
 
   const updateArtist = (artistId) => {
     storeArtist(artistId)
@@ -90,7 +90,7 @@ const TheSubNavArtists = ({ className }) => {
   if (sortedArtists.length > maxArtists) {
     return (
       <div className={[styles.artistsOuter, styles._selectType, 'relative', className].join(' ')}>
-        {!!otherArtistNotifications.length && (
+        {!! otherArtistNotifications.length && (
           <NotificationDot size="medium" style={{ top: '1.5rem', right: '-0.25rem' }} />
         )}
         <ARTIST_SELECT_OPTIONS
@@ -121,7 +121,7 @@ const TheSubNavArtists = ({ className }) => {
         {sortedArtists.map(({ id, name, facebook_page_id }) => {
           const isActiveProfile = id === artistId
           const activeClass = isActiveProfile ? styles._active : ''
-          const disabledClass = isDisabled && !isActiveProfile ? 'pointer-events-none opacity-30' : null
+          const disabledClass = isDisabled && ! isActiveProfile ? 'pointer-events-none opacity-30' : null
           const hasNotification = otherArtistNotifications.includes(id)
 
           return (

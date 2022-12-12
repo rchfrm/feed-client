@@ -40,13 +40,13 @@ const LinkBank = () => {
   }, [setSidePanelLoading, isControlsLoading])
   // Load links on mount
   useAsyncEffect(async () => {
-    if (!isControlsLoading) return
+    if (! isControlsLoading) return
     setSidePanelLoading(true)
     await fetchData()
     setSidePanelLoading(false)
   }, [isControlsLoading])
 
-  if (artistId && isControlsLoading && !linkBankError) return null
+  if (artistId && isControlsLoading && ! linkBankError) return null
 
   return (
     <section>
@@ -56,13 +56,13 @@ const LinkBank = () => {
       )}
       <DisabledSection
         section="linkbank"
-        isDisabled={!hasGrowthPlan || !hasSetUpProfile}
+        isDisabled={! hasGrowthPlan || ! hasSetUpProfile}
       >
         <section className="mb-10">
           <LinkBankList
             looseLinks={hasSetUpProfile ? looseLinks : dummyLinks}
             linkFolders={linkFolders}
-            isDisabled={!hasSetUpProfile}
+            isDisabled={! hasSetUpProfile}
           />
         </section>
         <section>

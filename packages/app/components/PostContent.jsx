@@ -54,11 +54,11 @@ const PostContent = ({ post, updatePost }) => {
   }
 
   React.useEffect(() => {
-    if (!post) return
+    if (! post) return
 
     const isMobile = width < 992
 
-    if (!isMobile) {
+    if (! isMobile) {
       setHeader({ text: post?.message || 'post' })
       return
     }

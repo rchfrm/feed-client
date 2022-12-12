@@ -58,7 +58,7 @@ const GetStartedFacebookPixel = () => {
   useAsyncEffect(async (isMounted) => {
     const { res: pixels = [], error } = await getArtistPixels(artistId)
 
-    if (!isMounted()) return
+    if (! isMounted()) return
 
     if (error) {
       setError(error)
@@ -70,12 +70,12 @@ const GetStartedFacebookPixel = () => {
   }, [artistId])
 
   useAsyncEffect(async (isMounted) => {
-    if (!pixels) return
+    if (! pixels) return
 
-    if (!getCurrentPixelId(artist)) {
+    if (! getCurrentPixelId(artist)) {
       if (pixels.length === 1) {
         await saveFacebookPixel(pixels[0].id)
-        if (!isMounted()) return
+        if (! isMounted()) return
 
         return
       }

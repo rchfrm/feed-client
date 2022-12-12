@@ -33,14 +33,14 @@ const Input = ({
   // Auto focus input if needed
   const inputElement = React.useRef(null)
   React.useEffect(() => {
-    if (!autoFocus) return
+    if (! autoFocus) return
     if (inputElement.current) {
       inputElement.current.focus()
     }
   }, [autoFocus])
 
   const onChange = React.useCallback((e) => {
-    if (!handleChange && !updateValue) {
+    if (! handleChange && ! updateValue) {
       throw new Error(`Please provide an function to update the value in ${name}.`)
     }
     if (handleChange && updateValue) {
@@ -75,7 +75,7 @@ const Input = ({
       success={success}
       disabled={disabled}
     >
-      {!!prefix && (
+      {!! prefix && (
         <div className="input--prefix">
           <span>{prefix}</span>
         </div>
@@ -94,7 +94,7 @@ const Input = ({
         value={value}
         readOnly={readOnly || disabled}
         required={required}
-        autoComplete={!autoComplete ? 'off' : ''}
+        autoComplete={! autoComplete ? 'off' : ''}
       />
     </InputBase>
   )

@@ -54,7 +54,7 @@ const GetStartedLocation = () => {
   }
 
   const handleNext = async () => {
-    if (!countryCode) return
+    if (! countryCode) return
 
     // Skip API request if country code hasn't changed
     if (countryCode === artist.country_code) {

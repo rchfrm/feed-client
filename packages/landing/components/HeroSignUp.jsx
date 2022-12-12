@@ -30,7 +30,7 @@ export default function HeroSignUp() {
   const fetchSignInMethodsAndRedirect = async () => {
     setError(null)
 
-    if (!email) {
+    if (! email) {
       mixpanelExternalLinkClick(joinLink, { location: trackLocation })
       return
     }
@@ -42,7 +42,7 @@ export default function HeroSignUp() {
       return
     }
 
-    if (!signInMethods.length) {
+    if (! signInMethods.length) {
       mixpanelExternalLinkClick(joinLink, { queryParams: { email }, location: trackLocation })
       return
     }

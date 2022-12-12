@@ -36,7 +36,7 @@ const ChartContainer = ({
     const minDaysData = 4
     const minDaysMoment = moment().subtract(minDaysData, 'days')
     // If earliest data point is younger than ${4} days, show large number
-    return !earliestDataPoint || earliestMoment.isAfter(minDaysMoment)
+    return ! earliestDataPoint || earliestMoment.isAfter(minDaysMoment)
       ? 'number'
     // Else show bar chart
       : 'bar'

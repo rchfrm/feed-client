@@ -39,7 +39,7 @@ const NotificationsContent = () => {
   React.useEffect(() => {
     const { query } = parseUrl(urlString)
     const id = query?.id
-    if (!id) return
+    if (! id) return
     setInitialNotificationId(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -47,10 +47,10 @@ const NotificationsContent = () => {
   // OPEN INITIAL NOTIFICATION
   React.useEffect(() => {
     // Stop here if no ID in URL
-    if (!initialNotificationId || loading) return
+    if (! initialNotificationId || loading) return
     const initialNotification = notifications.find(({ id }) => id === initialNotificationId)
     // Stop here if no initial notification
-    if (!initialNotification) return
+    if (! initialNotification) return
     const { id, entityType, entityId } = initialNotification
     setAsOpen(id, entityType, entityId)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,7 +74,7 @@ const NotificationsContent = () => {
       <Error error={notificationsError} />
       <NotificationsList
         notifications={notifications}
-        hasError={!!notificationsError}
+        hasError={!! notificationsError}
       />
       <NotificationCurrentInfo containerRef={containerRef} />
     </div>

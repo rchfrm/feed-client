@@ -43,7 +43,7 @@ const PostCardSettingsToggle = ({
     setIsLoading(false)
     // Return to previous value if erroring
     if (error) {
-      setIsEnabled(!newState)
+      setIsEnabled(! newState)
       return
     }
     // Update post list state

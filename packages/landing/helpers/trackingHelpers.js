@@ -25,7 +25,7 @@ export default function track({
 }) {
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
-  if (!isBrowser) return
+  if (! isBrowser) return
 
   let event_label = label
   if (description) {

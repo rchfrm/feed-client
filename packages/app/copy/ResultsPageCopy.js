@@ -265,7 +265,7 @@ export default {
   headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
     const resultsTypeString = `**<span className="green--underline">${capitalise(resultsType)}</span>** insights`
 
-    if (!isLast30Days && (!dateFrom || !dateTo)) {
+    if (! isLast30Days && (! dateFrom || ! dateTo)) {
       return resultsTypeString
     }
 

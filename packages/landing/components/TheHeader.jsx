@@ -23,7 +23,7 @@ export default function TheHeader() {
   const hamburgerBreakpoint = 'sm'
   const [linksOpen, setLinksOpen] = React.useState(false)
   const toggleLinks = React.useCallback((newState) => {
-    const state = typeof newState === 'boolean' ? newState : !linksOpen
+    const state = typeof newState === 'boolean' ? newState : ! linksOpen
     setLinksOpen(state)
   }, [linksOpen])
 

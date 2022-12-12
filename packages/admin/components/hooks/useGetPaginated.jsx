@@ -56,7 +56,7 @@ const useGetPaginated = (serverFunction = '', args = []) => {
     // When fetch finishes
     onResolve: (newItems) => {
       // Handle result...
-      if (!newItems || !newItems.length) {
+      if (! newItems || ! newItems.length) {
         setFinishedLoading(true)
         return
       }
@@ -70,10 +70,10 @@ const useGetPaginated = (serverFunction = '', args = []) => {
       // Update cursor
       const finalItem = newItems[newItems.length - 1]
       const { after: afterLink } = finalItem._links || {}
-      if (!afterLink) return setFinishedLoading(true)
+      if (! afterLink) return setFinishedLoading(true)
       const { href: cursorHref } = afterLink
       const [, cursor] = cursorHref.split('after=')
-      if (!cursor) return setFinishedLoading(true)
+      if (! cursor) return setFinishedLoading(true)
       setCursor(cursor)
     },
   })

@@ -36,11 +36,11 @@ const PostsLoader = ({
   }
 
   useAsyncEffect(async (isMounted) => {
-    if (!artistId || (!isLoadingMore && previousIsLoadingMore)) {
+    if (! artistId || (! isLoadingMore && previousIsLoadingMore)) {
       return
     }
 
-    if (!isLoadingMore) {
+    if (! isLoadingMore) {
       setIsLoading(true)
     }
 
@@ -54,7 +54,7 @@ const PostsLoader = ({
       sortBy,
       ...(isLoadingMore && { cursor: cursor.current }),
     })
-    if (!isMounted) {
+    if (! isMounted) {
       return
     }
 
@@ -64,7 +64,7 @@ const PostsLoader = ({
       return
     }
 
-    if (isLoadingMore && !posts.length) {
+    if (isLoadingMore && ! posts.length) {
       setHasLoadedAll(true)
     }
 
@@ -96,7 +96,7 @@ const PostsLoader = ({
   }, [artistId, filterBy, sortBy, isLoadingMore])
 
   React.useEffect(() => {
-    if (!artistId) {
+    if (! artistId) {
       return
     }
 
@@ -104,7 +104,7 @@ const PostsLoader = ({
     setHasLoadedAll(false)
   }, [artistId])
 
-  if (status === 'rejected' && !posts.length) {
+  if (status === 'rejected' && ! posts.length) {
     return
   }
 

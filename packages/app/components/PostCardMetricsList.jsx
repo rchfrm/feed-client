@@ -19,7 +19,7 @@ const PostCardMetricsList = ({
   // CREATE ARRAY OF METRICS
   const maxMetrics = 6
   const metricsArray = React.useMemo(() => {
-    if (!metrics) return []
+    if (! metrics) return []
     const metricsFormatted = utils.getDataArray(metricsContent, metrics, { preserveRawNumber: true })
       // remove empty items from array
       .filter(({ value }) => value)
@@ -29,7 +29,7 @@ const PostCardMetricsList = ({
   }, [metrics, metricsContent])
 
   // HANDLE NO VALID METRICS
-  if (!metricsArray.length) {
+  if (! metricsArray.length) {
     return (
       <div
         className={[

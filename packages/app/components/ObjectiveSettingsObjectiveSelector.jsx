@@ -44,7 +44,7 @@ const ObjectiveSettingsObjectiveSelector = ({
       value,
     }))
 
-    if (!hasProPlan) {
+    if (! hasProPlan) {
       options = options.filter((option) => option.value !== 'sales')
     }
 

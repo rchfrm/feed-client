@@ -31,7 +31,7 @@ const IntegrationsPanelIntegration = ({
   className,
 }) => {
   const { title, platform, accountId, color } = integration
-  const isPopulated = !!accountId
+  const isPopulated = !! accountId
   const backgroundColor = isPopulated ? color.bg : brandColors.bgColor
   const borderColor = isPopulated ? color.bg : brandColors.textColor
   const textColor = isPopulated ? color.text : brandColors.textColor
@@ -64,7 +64,7 @@ const IntegrationsPanelIntegration = ({
   })
 
   const handleClick = () => {
-    if (platform === 'tiktok' && !isPopulated) {
+    if (platform === 'tiktok' && ! isPopulated) {
       handleTikTokAuthRedirect(ROUTES.CONTROLS_INTEGRATIONS)
       return
     }

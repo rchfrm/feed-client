@@ -89,7 +89,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       action: 'handleInitialAuthCheck',
     })
     // If no auth user, handle that
-    if (!authUser) return handleNoAuthUser(authError)
+    if (! authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
     const authToken = await firebaseHelpers.getVerifyIdToken()
       .catch((error) => {
@@ -117,7 +117,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
         action: 'firebaseHelpers.auth.onAuthStateChanged',
       })
       const userRedirected = await handleInitialAuthCheck(authUser, fbRedirectError)
-      if (!isMounted()) return userRedirected
+      if (! isMounted()) return userRedirected
       showContent(isMounted)
       unsubscribe()
       return userRedirected

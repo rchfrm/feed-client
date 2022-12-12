@@ -112,7 +112,7 @@ const LinkBankLink = ({
             </span>
             )}
             {/* DELETE BUTTON */}
-            {!isDefaultLink && editModeOn && (
+            {! isDefaultLink && editModeOn && (
             <a
               className="text-sm text-red no-underline ml-4 pr-6 pt-3 -mt-3"
               role="button"

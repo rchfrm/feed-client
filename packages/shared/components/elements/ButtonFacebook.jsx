@@ -23,7 +23,7 @@ const ButtonFacebook = ({
   React.useEffect(() => {
     const timeout = setTimeout(() => {
       const { current: buttonEl } = buttonRef
-      const buttonRemoved = !buttonEl || !buttonEl.getBoundingClientRect().height
+      const buttonRemoved = ! buttonEl || ! buttonEl.getBoundingClientRect().height
       setButtonRemoved(buttonRemoved)
     }, 500)
     return () => {

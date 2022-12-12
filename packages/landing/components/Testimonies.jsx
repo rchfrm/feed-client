@@ -33,7 +33,7 @@ const Testimonies = ({
         <ul className={[
           'mb-0',
           'swiper-wrapper',
-          !isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-10 box-border px-10 mb-0' : null,
+          ! isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-10 box-border px-10 mb-0' : null,
         ].join(' ')}
         >
           {testimonies.map((testimony) => {
@@ -59,7 +59,7 @@ const Testimonies = ({
           'absolute',
           'bottom-6',
           '-translate-x-1/2',
-          !isSwiperActive ? 'hidden' : null,
+          ! isSwiperActive ? 'hidden' : null,
         ].join(' ')}
       />
     </Section>

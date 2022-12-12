@@ -20,12 +20,12 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   const isProfileActive = profile.status === 'active'
   const hasChanged = (isProfileActive && planPrefix === 'none')
     || (isProfileActive && planPrefix !== currentPlanPrefix)
-    || (!isProfileActive && planPrefix !== 'none')
+    || (! isProfileActive && planPrefix !== 'none')
   const isDisabled = Boolean(idOfProfileOnBasic && idOfProfileOnBasic !== id)
 
   React.useEffect(() => {
     const profilesToUpgradeIds = Object.keys(profilesToUpgrade)
-    if (!profilesToUpgradeIds.length === 0) return
+    if (! profilesToUpgradeIds.length === 0) return
 
     const profileWithBasic = profilesToUpgradeIds.find((id) => {
       return profilesToUpgrade[id] === 'basic'

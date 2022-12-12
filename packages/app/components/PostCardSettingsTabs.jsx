@@ -13,7 +13,7 @@ const PostCardSettingsTabs = ({ campaignType, setCampaignType, isDisabled }) => 
             key={slug}
             className={[
               'mr-5',
-              isActive && !isDisabled ? 'text-black' : null,
+              isActive && ! isDisabled ? 'text-black' : null,
               isDisabled ? 'text-grey-2 pointer-events-none' : null,
             ].join(' ')}
           >

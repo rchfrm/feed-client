@@ -7,11 +7,11 @@ import PageQuerySetter from '@/admin/PageQuerySetter'
 
 const User = ({ router: { pathname, query } }) => {
   const { id } = query
-  const pageRequiresLoading = !!(id)
+  const pageRequiresLoading = !! (id)
   return (
     <BasePage
       header="user"
-      staticPage={!pageRequiresLoading}
+      staticPage={! pageRequiresLoading}
     >
       {pageRequiresLoading ? (
         <UsersLoader

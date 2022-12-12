@@ -37,7 +37,7 @@ const MailchimpForm = ({
         setEmail(e.target.value)
         break
       case 'gdpr[9737]':
-        setEmailCheckbox(!emailCheckbox)
+        setEmailCheckbox(! emailCheckbox)
         break
       default:
         break
@@ -83,7 +83,7 @@ const MailchimpForm = ({
                   name="gdpr[9737]"
                   checked={acceptGDPR}
                   onChange={() => {
-                    setAcceptGDPR(!acceptGDPR)
+                    setAcceptGDPR(! acceptGDPR)
                   }}
                 />
               </fieldset>

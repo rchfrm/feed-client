@@ -32,7 +32,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
   }
 
   const onFormSubmit = async (e) => {
-    if (!isFormComplete) return
+    if (! isFormComplete) return
     e.preventDefault()
     setLoading(true)
     await firebaseHelpers.sendPasswordResetEmail(email)
@@ -65,7 +65,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
 
       <div className="flex justify-end">
         <Button
-          disabled={!isFormComplete}
+          disabled={! isFormComplete}
           version="black"
           type="input"
           loading={loading}

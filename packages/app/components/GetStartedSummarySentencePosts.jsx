@@ -28,12 +28,12 @@ const GetStartedSummarySentencePosts = () => {
   const section = getStartedSections.postPromotion
   const isActive = steps[currentStep].section === section
   const isComplete = posts.length > 0
-  const isInActive = !isActive && !isComplete
+  const isInActive = ! isActive && ! isComplete
   const lastStep = steps.length - 1
   const isLastStep = currentStep === lastStep
 
   useAsyncEffect(async (isMounted) => {
-    if (!artistId) return
+    if (! artistId) return
 
     // Fetch posts which are opted in for promotion
     const res = await server.getPosts({
@@ -45,7 +45,7 @@ const GetStartedSummarySentencePosts = () => {
       limit: 3,
     })
 
-    if (!isMounted()) return
+    if (! isMounted()) return
 
     const formattedRecentPosts = formatPostsMinimal(res)
 
@@ -53,7 +53,7 @@ const GetStartedSummarySentencePosts = () => {
   }, [])
 
   React.useEffect(() => {
-    if (!enabledPosts.length) {
+    if (! enabledPosts.length) {
       return
     }
 

@@ -33,20 +33,20 @@ const AdDefaultsStatus = ({
   const { setSidePanelLoading } = React.useContext(SidePanelContext)
 
   useAsyncEffect(async (isMounted) => {
-    if (!shouldUpdatePostStatus) {
+    if (! shouldUpdatePostStatus) {
       return
     }
 
     setIsLoading(true)
 
     const { res: { success } } = await batchTogglePromotionEnabled(artistId, postType, pendingDefaultPostStatus)
-    if (!isMounted() || !success) {
+    if (! isMounted() || ! success) {
       setIsLoading(false)
       return
     }
 
     const { res: artist, error } = await updateDefaultPromotionStatus(artistId, postType, pendingDefaultPostStatus)
-    if (!isMounted()) {
+    if (! isMounted()) {
       setIsLoading(false)
       return
     }

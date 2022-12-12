@@ -25,7 +25,7 @@ const PostCardPromotionStatus = ({
   const isSmallSize = size === 'small'
 
   React.useEffect(() => {
-    if (!promotionEnabled || !postPromotable) {
+    if (! promotionEnabled || ! postPromotable) {
       setStatus('disabled')
       setTitle('Disabled')
       return
@@ -72,7 +72,7 @@ const PostCardPromotionStatus = ({
           'border-2 border-solid rounded-full',
           'mb-0',
           isSmallSize ? 'text-xs' : null,
-          !promotionEnabled ? 'text-grey-3 bg-grey-2' : 'bg-white',
+          ! promotionEnabled ? 'text-grey-3 bg-grey-2' : 'bg-white',
         ].join(' ')}
         style={{
           borderColor: promotionEnabled ? brandColors[color] : brandColors.grey,

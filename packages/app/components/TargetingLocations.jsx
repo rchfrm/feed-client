@@ -42,7 +42,7 @@ const TargetingLocations = ({
       />
       <DisabledSection
         section="custom-locations"
-        isDisabled={!hasGrowthPlan && hasSetUpProfile}
+        isDisabled={! hasGrowthPlan && hasSetUpProfile}
       >
         <TargetingLocationsSearch />
       </DisabledSection>

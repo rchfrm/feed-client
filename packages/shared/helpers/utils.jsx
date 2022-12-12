@@ -7,7 +7,7 @@ import getSymbolFromCurrency from 'currency-symbol-map'
 import get from 'lodash/get'
 
 export const capitalise = (string) => {
-  if (!string) return
+  if (! string) return
 
   return string[0].toUpperCase() + string.slice(1)
 }
@@ -180,7 +180,7 @@ export const addCommasToNumber = (number) => {
 
 // Abbreviate number
 export const abbreviateNumber = (number) => {
-  if (!number) { return 0 }
+  if (! number) { return 0 }
 
   if (number < 10) {
     return number
@@ -215,7 +215,7 @@ export const getDataArray = (propsToDisplay, data, options = {}) => {
     // STOP HERE if no data matching key
     if (rawValue === null) return arr
     // STOP HERE if data === 0 and not forcing to show zeroes
-    if (rawValue === 0 && !showZeroValues) return arr
+    if (rawValue === 0 && ! showZeroValues) return arr
     // Convert dates (if necessary)
     const isDate = dateKeys.includes(detailName)
     const value = preserveRawNumber ? rawValue
@@ -348,7 +348,7 @@ export const removeWWWFromUrl = (url) => {
  * @returns {string}
  */
 export const enforceUrlProtocol = (url, forceSSH = false) => {
-  if (!url) return ''
+  if (! url) return ''
   const protocolTest = /^https?:\/\//i
   const containsProtocol = protocolTest.test(url)
   if (containsProtocol) return url
@@ -362,11 +362,11 @@ export const enforceUrlProtocol = (url, forceSSH = false) => {
  * @returns {boolean}
  */
 export const testValidUrl = (urlString = '', addUrlProtocol) => {
-  if (!urlString) return false
+  if (! urlString) return false
   const url = addUrlProtocol ? enforceUrlProtocol(urlString) : urlString
   const expression = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i
   const regex = new RegExp(expression)
-  return !!url.match(regex)
+  return !! url.match(regex)
 }
 
 export const testValidEmail = (email) => {
@@ -412,9 +412,9 @@ export const getLocalStorage = (key) => {
  * }
  */
 export const parseUrl = (urlString) => {
-  if (!urlString) return {}
+  if (! urlString) return {}
   const { pathname, query, host } = url.parse(urlString)
-  if (!query) {
+  if (! query) {
     return {
       pathname,
       host,
@@ -443,7 +443,7 @@ export const getNestedObjectByValue = (object, value) => {
 }
 
 export const getStringFromChildrenProp = (children) => {
-  if (!children) {
+  if (! children) {
     return ''
   }
 
@@ -481,7 +481,7 @@ export const addArrayCastTypeToQuery = (object) => {
 export const isObject = (value) => {
   return (
     typeof value === 'object'
-    && !Array.isArray(value)
+    && ! Array.isArray(value)
     && value !== null
   )
 }
@@ -527,7 +527,7 @@ export const shuffleArray = (array) => {
 }
 
 export const convertUTCToLocalDate = (date) => {
-  if (!date) {
+  if (! date) {
     return date
   }
 
@@ -537,7 +537,7 @@ export const convertUTCToLocalDate = (date) => {
 }
 
 export const convertLocalToUTCDate = (date) => {
-  if (!date) {
+  if (! date) {
     return date
   }
 

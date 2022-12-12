@@ -46,10 +46,10 @@ const LinkBankEditModalFolder = ({
   React.useEffect(() => {
     const newButtons = produce(modalButtons, (draftButtons) => {
       // Is buttons disabled
-      const saveEnabled = !!folderProps.name
+      const saveEnabled = !! folderProps.name
       // Update save button
       draftButtons[0].onClick = () => runSaveFolder(folderProps, action, folder)
-      draftButtons[0].disabled = !saveEnabled
+      draftButtons[0].disabled = ! saveEnabled
       // Update delete button
       if (draftButtons[1].id === 'delete') {
         draftButtons[1].onClick = confirmDelete
@@ -90,7 +90,7 @@ const LinkBankEditModalFolder = ({
         />
       </form>
       {/* CANNOT DELETE DEFAULT */}
-      {isDefaultLinkInFolder && !error && (
+      {isDefaultLinkInFolder && ! error && (
         <Error
           error={{ message: 'This folder includes the default link. If you want to remove it please choose another default link.' }}
         />

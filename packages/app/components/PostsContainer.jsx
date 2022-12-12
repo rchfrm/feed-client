@@ -33,7 +33,7 @@ const PostsContainer = ({
   const contentRef = React.useRef(null)
 
   const toggle = () => {
-    setIsOpen((isOpen) => !isOpen)
+    setIsOpen((isOpen) => ! isOpen)
   }
 
   const animate = React.useCallback((isOpen) => {

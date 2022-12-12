@@ -8,7 +8,7 @@ const useSwiperWithBreakpoint = ({ containerEl, paginationEl, breakpoint, items 
   const { width } = useOnResize()
 
   const initiateSwiper = React.useCallback(() => {
-    if (!mySwiper && containerEl) {
+    if (! mySwiper && containerEl) {
       const swiper = new Swiper(containerEl, {
         // Optional parameters
         loop: true,

@@ -20,7 +20,7 @@ const fetchOrganizationDetails = async (organization) => {
   let organizationArtists
   const organizationArtistsResponse = await billingHelpers.getOrganizationArtists(organization.id)
 
-  if (!organizationArtistsResponse.error) {
+  if (! organizationArtistsResponse.error) {
     organizationArtists = organizationArtistsResponse.res.artists
   } else {
     organizationArtists = Object.values((organization || {}).artists || {})
@@ -43,18 +43,18 @@ const resetStore = (set) => () => {
 // * INITIAL SETUP
 const setupBilling = (set, get) => async (user, artist) => {
   if (typeof get !== 'function') return
-  if (user.id && !user.artists.length) {
+  if (user.id && ! user.artists.length) {
     resetStore(set)()
     return
   }
-  if (!user.id || !artist.id) return
+  if (! user.id || ! artist.id) return
   // Check user has access to the artist's org or is sysadmin
   const userOrgIds = Object.values(user.organizations).map((org) => org.id)
   const artistOrgId = artist.organization.id
   const userHasAccessToArtistOrg = userOrgIds.includes(artistOrgId)
   const userIsAdmin = user.role === 'admin'
 
-  if (!userHasAccessToArtistOrg && !userIsAdmin) {
+  if (! userHasAccessToArtistOrg && ! userIsAdmin) {
     resetStore(set)()
     return
   }
@@ -62,7 +62,7 @@ const setupBilling = (set, get) => async (user, artist) => {
   // If changing artist, check it's org is actually different first
   const currentOrg = get().organization
   const orgHasChanged = currentOrg.id !== artistOrgId
-  if (!orgHasChanged) {
+  if (! orgHasChanged) {
     set({ loading: false })
     return
   }

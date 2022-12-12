@@ -26,7 +26,7 @@ const ResultsNoSpendStats = ({
   return (
     data && (
       organicMetricTypes.map(({ name }) => {
-        if ((isDesktopLayout && data[name]) || (!isDesktopLayout && metricType === name)) {
+        if ((isDesktopLayout && data[name]) || (! isDesktopLayout && metricType === name)) {
           const ResultsStats = components[name]
 
           return (

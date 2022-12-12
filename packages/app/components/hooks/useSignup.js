@@ -55,7 +55,7 @@ const useSignup = (initialPathname) => {
         setAuthLoading(false)
         throw new Error(error.message)
       })
-    if (!authUser) return
+    if (! authUser) return
     const token = await authUser.user.getIdToken()
       .catch((error) => {
         setAuthLoading(false)

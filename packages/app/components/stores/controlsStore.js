@@ -87,7 +87,7 @@ const getSavedFolders = (nestedLinks) => {
   return nestedLinks.reduce((savedFolders, folder) => {
     const { id, type, is_default, name, links } = folder
     const totalLinks = links.length
-    if (!totalLinks) return savedFolders
+    if (! totalLinks) return savedFolders
     if (type === 'folder' && is_default) return savedFolders
     return [...savedFolders, {
       id,
@@ -242,7 +242,7 @@ const fetchData = (set, get) => async (action, artist) => {
 // UPDATE AFTER INTEGRATION CHANGES
 const updateLinksWithIntegrations = (set, get) => (artist) => {
   const { nestedLinks } = get()
-  if (!nestedLinks.length) return
+  if (! nestedLinks.length) return
   const { defaultLinkId } = getPreferences(artist, 'posts')
   // Get updated nested links
   const nestedLinksUpdated = formatServerLinks({ folders: nestedLinks, defaultLinkId, artist })
@@ -284,7 +284,7 @@ const updateFolderStates = (set, get) => (folderId, isOpen = true) => {
   const { folderStates, artistId } = get()
   const newState = produce(folderStates, (draftState) => {
     // Handle not yet ready fodler
-    if (!draftState[folderId]) {
+    if (! draftState[folderId]) {
       draftState[folderId] = {}
     }
     draftState[folderId].open = isOpen

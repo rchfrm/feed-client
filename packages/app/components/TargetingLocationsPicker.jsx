@@ -87,7 +87,7 @@ const TargetingLocationsPicker = ({
     >
       {countriesArray.map((country) => {
         const { code, cities } = country
-        const hasCities = !!cities.length
+        const hasCities = !! cities.length
         const initiallyPicked = initialCountryCodes.includes(code)
         return (
         // COUNTRY

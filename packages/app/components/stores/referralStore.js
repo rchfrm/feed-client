@@ -32,7 +32,7 @@ const validityTest = (code) => {
 
 // Query API if code is valid
 const truthTest = async (code, hasValidCode) => {
-  if (!hasValidCode) return false
+  if (! hasValidCode) return false
   const { error } = await testReferralCode(code)
   if (error) return false
   return true

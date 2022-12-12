@@ -18,12 +18,12 @@ const ProfileStatus = ({ className }) => {
 
   const { profileSetupStatus } = useControlsStore(getControlsStoreState)
 
-  if (!profileSetupStatus) return null
+  if (! profileSetupStatus) return null
 
   return (
     <FadeInOut show unmountOnExit>
       <div className={[className, 'opacity-0'].join(' ')}>
-        {!hasSetUpProfile ? (
+        {! hasSetUpProfile ? (
           <ProfileStatusIncomplete />
         ) : (
           <ProfileStatusCompleted />

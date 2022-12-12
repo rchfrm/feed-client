@@ -35,7 +35,7 @@ export const getAvailablePlatforms = (availableDataSources) => {
 }
 
 export const getInitialPlatform = (availablePlatforms) => {
-  if (!availablePlatforms) return
+  if (! availablePlatforms) return
   // Does the artist have insta
   const instaIndex = availablePlatforms.findIndex(({ id: platformId }) => platformId === 'instagram')
   // If the artist has insta, use this
@@ -58,7 +58,7 @@ export const getAvailableSources = (allSources) => {
       platform,
     } = insightDataSources[sourceName]
     // Ignore is not visible or a breakdown
-    if (!visible || breakdown) return sources
+    if (! visible || breakdown) return sources
     return [...sources, {
       title,
       name,
@@ -71,14 +71,14 @@ export const getAvailableSources = (allSources) => {
 }
 
 export const getInitialDataSource = (availableDataSources, currentPlatform) => {
-  if (!currentPlatform) return 'instagram_follower_count'
+  if (! currentPlatform) return 'instagram_follower_count'
   // Filter out non-platform related sources
   const filteredSources = availableDataSources.filter(({ name: sourceName }) => {
     const { platform } = insightDataSources[sourceName]
     return platform === currentPlatform
   })
   // Stop here if current platform doesn't exist in data sources
-  if (!filteredSources.length) return
+  if (! filteredSources.length) return
   // Find first filter that matches the
   const followersSourceIndex = filteredSources.findIndex(({ name: sourceName }) => {
     return sourceName.includes('follower')
@@ -284,7 +284,7 @@ export const getChartData = (data, granularity) => {
   // Add the latest date / value to end of array so today's data
   // is shown even if part way through the week or month
   if (
-    !isCumulative
+    ! isCumulative
     && granularity !== 'days'
     && mostRecentData !== dates[dates.length - 1]
     && dailyData[mostRecentData] !== values[values.length - 1]

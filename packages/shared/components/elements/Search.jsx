@@ -39,7 +39,7 @@ const Search = ({
   }
 
   useAsyncEffect(async () => {
-    if (!debouncedQuery) {
+    if (! debouncedQuery) {
       setSearchResults([])
       setHasFetchedData(false)
 

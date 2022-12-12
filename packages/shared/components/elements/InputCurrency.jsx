@@ -45,7 +45,7 @@ const InputCurrency = ({
   // Auto focus input if needed
   const inputElement = React.useRef(null)
   React.useEffect(() => {
-    if (!autoFocus) return
+    if (! autoFocus) return
     if (inputElement.current) {
       inputElement.current.focus()
     }
@@ -80,7 +80,7 @@ const InputCurrency = ({
         placeholder={placeholder}
         defaultValue={value}
         required={required}
-        autoComplete={!autoComplete ? 'off' : ''}
+        autoComplete={! autoComplete ? 'off' : ''}
       />
     </InputBase>
   )

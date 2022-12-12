@@ -47,12 +47,12 @@ const PixelSelector = ({
   // LOAD AVAILABLE PIXELS
   const [availablePixels, setAvailablePixels] = React.useState([])
   useAsyncEffect(async (isMounted) => {
-    if (!artistId) {
+    if (! artistId) {
       setLoading(false)
       return
     }
     const { res: pixels = [], error } = await getArtistPixels(artistId)
-    if (!isMounted()) return
+    if (! isMounted()) return
     setLoading(false)
     if (error) {
       const errorUpdated = { message: `Failed to fetch pixels: ${error.message}` }
@@ -68,9 +68,9 @@ const PixelSelector = ({
   }, [artistId])
 
   React.useEffect(() => {
-    if (!availablePixels.length) return
+    if (! availablePixels.length) return
 
-    if (!activePixelId) {
+    if (! activePixelId) {
       setActivePixelId(availablePixels[0].value)
     }
   }, [activePixelId, setActivePixelId, availablePixels])
@@ -87,7 +87,7 @@ const PixelSelector = ({
   // SELECT PIXEL
   const selectPixel = React.useCallback(async (pixelId) => {
     // Skip API request and only update parent pixel value
-    if (!shouldSaveOnChange) {
+    if (! shouldSaveOnChange) {
       setActivePixelId(pixelId)
       return
     }
@@ -173,7 +173,7 @@ const PixelSelector = ({
   }
 
   // Add "create new" option if there are no active pixels
-  if (!availablePixels.length && !loading) {
+  if (! availablePixels.length && ! loading) {
     noPixelOptions.unshift({
       value: '_new',
       name: '+ Create a new pixel',
@@ -206,14 +206,14 @@ const PixelSelector = ({
       {error && (
         <Error error={error} />
       )}
-      {!errorFetching && (
+      {! errorFetching && (
         <Select
           loading={loading}
           className={selectClassName}
           handleChange={handleChange}
           name="Choose link"
           options={selectOptions}
-          placeholder={!activePixelId || loading || (!hasNoPixelOption && activePixelId === '-1') ? 'Choose a pixel to use' : null}
+          placeholder={! activePixelId || loading || (! hasNoPixelOption && activePixelId === '-1') ? 'Choose a pixel to use' : null}
           selectedValue={activePixelId}
           version="box"
         />

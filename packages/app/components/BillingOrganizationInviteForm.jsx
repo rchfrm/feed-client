@@ -58,7 +58,7 @@ const FORM = ({
       />
       <Button
         version="black"
-        disabled={!email}
+        disabled={! email}
         onClick={onSubmit}
         loading={isLoading}
         trackComponentName="BillingOrganizationInviteForm"

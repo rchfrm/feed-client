@@ -45,12 +45,12 @@ const PostCallToActionCheckboxSelect = ({
   const isPostActive = promotionStatus === 'active'
 
   useAsyncEffect(async (isMounted) => {
-    if (!post || post?.callToActions) {
+    if (! post || post?.callToActions) {
       return
     }
 
     const { res: callToActions, error } = await getPostCallToActions(artistId, postId)
-    if (!isMounted) {
+    if (! isMounted) {
       return
     }
 
@@ -63,11 +63,11 @@ const PostCallToActionCheckboxSelect = ({
   }, [])
 
   const handleChange = () => {
-    setIsDefaultCallToAction(!isDefaultCallToAction)
+    setIsDefaultCallToAction(! isDefaultCallToAction)
   }
 
   React.useEffect(() => {
-    if (!callToActions) {
+    if (! callToActions) {
       return
     }
 
@@ -92,7 +92,7 @@ const PostCallToActionCheckboxSelect = ({
         onChange={handleChange}
         disabled={isDisabled}
       />
-      {!isDefaultCallToAction && (
+      {! isDefaultCallToAction && (
         <CallToActionSelector
           callToAction={currentCallToAction}
           setCallToAction={setCurrentCallToAction}

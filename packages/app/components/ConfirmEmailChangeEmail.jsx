@@ -37,12 +37,12 @@ const ConfirmEmailChangeEmail = ({
   // RUN CHANGE EMAIL
   const isMounted = useIsMounted()
   useAsyncEffect(async () => {
-    if (!submitForm || loading) return
+    if (! submitForm || loading) return
     setLoading(true)
     // Patch user
     const patchPayload = contactEmail ? { contactEmail: email } : { email }
     const { res: userUpdated, error: errorPatchingUser } = await patchUser(patchPayload)
-    if (!isMounted) return
+    if (! isMounted) return
     setLoading(false)
     if (errorPatchingUser) {
       setError(errorPatchingUser)
@@ -54,7 +54,7 @@ const ConfirmEmailChangeEmail = ({
     setPendingEmail(email)
     // Redirect to verify page, with delay
     const timer = setTimeout(() => {
-      if (!isMounted) return
+      if (! isMounted) return
       backToVerify()
     }, 2000)
     return () => {
@@ -65,7 +65,7 @@ const ConfirmEmailChangeEmail = ({
   // HANDLE FORM
   const onSubmit = (e) => {
     e.preventDefault()
-    if (!isFormValid) return
+    if (! isFormValid) return
     setSubmitForm(true)
   }
 
@@ -103,7 +103,7 @@ const ConfirmEmailChangeEmail = ({
             />
             <Button
               version="black"
-              disabled={!isFormValid}
+              disabled={! isFormValid}
               type="sumbit"
               loading={loading}
               className="w-full"

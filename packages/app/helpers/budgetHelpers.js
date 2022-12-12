@@ -50,7 +50,7 @@ const roundUpAmount = (amount) => {
 
 const getFbMinMultipleCalc = (fbMin, serviceFee) => (fbMultiple, rounded = true) => {
   const amount = (fbMultiple * fbMin) / (1 - serviceFee)
-  if (!rounded) return amount
+  if (! rounded) return amount
   return roundUpAmount(amount)
 }
 
@@ -58,7 +58,7 @@ const getFbMinMultipleCalc = (fbMin, serviceFee) => (fbMultiple, rounded = true)
 // ---------------------
 
 export const calcFeedMinBudgetInfo = (artist) => {
-  if (!artist || !artist.min_daily_budget_info) return
+  if (! artist || ! artist.min_daily_budget_info) return
   // Service Feed
   const serviceFee = 10 / 100
   // Extra info from artist
@@ -128,7 +128,7 @@ export const calcFeedMinBudgetInfo = (artist) => {
 
 
 const testForSelectedCountries = (locationOptionsArray) => {
-  return !!locationOptionsArray.find(({ selected }) => selected)
+  return !! locationOptionsArray.find(({ selected }) => selected)
 }
 
 const countCountriesSpannedByCities = (locationOptionsArray) => {
@@ -147,9 +147,9 @@ export const calcLocationsCost = (budgetInfo, locationOptions) => {
   const hasSelectedCountry = testForSelectedCountries(locationOptionsArray)
   // If no countries are selected, count how many countries the selected cities span
   // (no need to do this if at least one country has been selected)
-  const countriesWithSelectedCities = !hasSelectedCountry ? countCountriesSpannedByCities(locationOptionsArray) : undefined
+  const countriesWithSelectedCities = ! hasSelectedCountry ? countCountriesSpannedByCities(locationOptionsArray) : undefined
   // If no country selected and selected cities span only 1 country, then no cost
-  if (!hasSelectedCountry && countriesWithSelectedCities <= 1) return 0
+  if (! hasSelectedCountry && countriesWithSelectedCities <= 1) return 0
   // Calc cost of locations
   let ignoreCountry = true
   const locationCost = locationOptionsArray.reduce((cost, { selected: countrySelected, totalCitiesSelected }) => {
@@ -170,7 +170,7 @@ export const calcLocationsCost = (budgetInfo, locationOptions) => {
 }
 
 export const calcMinReccBudget = (budgetInfo, locationOptions) => {
-  if (!Object.keys(budgetInfo).length || !Object.keys(locationOptions).length) return null
+  if (! Object.keys(budgetInfo).length || ! Object.keys(locationOptions).length) return null
 
   const { minorUnit: { minRecommendedBase } } = budgetInfo
   const locationCost = calcLocationsCost(budgetInfo, locationOptions)

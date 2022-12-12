@@ -62,7 +62,7 @@ const SwiperBlock = ({
   // CONTROL SWIPER FROM PARENT
   React.useEffect(() => {
     if (disable) return
-    if (typeof goToSlide !== 'number' || !mySwiper.current) return
+    if (typeof goToSlide !== 'number' || ! mySwiper.current) return
     if (currentSlide.current === goToSlide) return
     mySwiper.current.slideTo(goToSlide)
   }, [goToSlide, disable])

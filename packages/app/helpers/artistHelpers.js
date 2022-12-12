@@ -233,7 +233,7 @@ export const sanitiseArtistAccountUrls = (artistAccount) => {
  * @returns {object} integration
  */
 export const getArtistIntegrationByPlatform = (artist, platformId) => {
-  if (!artist || !artist.id) return null
+  if (! artist || ! artist.id) return null
   return artist.integrations.find(({ platform }) => platform === platformId)
 }
 
@@ -346,7 +346,7 @@ export const testIfMusician = (artistCategories = []) => {
  */
 export const testIfSpotifyConnected = (integrations) => {
   const spotifyIntegration = getArtistIntegrationByPlatform({ integrations }, 'spotify')
-  return !!spotifyIntegration?.accountId
+  return !! spotifyIntegration?.accountId
 }
 
 /**
@@ -391,7 +391,7 @@ export const getMissingScopes = ({ grantedScopes, artist }) => {
   const authorizedScopes = (grantedScopes || facebookIntegration?.authorization.scopes).filter((scope) => scope !== 'public_profile')
 
   const filterRequiredScopes = (requiredScopes) => {
-    return requiredScopes.filter((scope) => !authorizedScopes.includes(scope))
+    return requiredScopes.filter((scope) => ! authorizedScopes.includes(scope))
   }
 
   return {
@@ -595,7 +595,7 @@ export const getPlatform = (platform) => {
 }
 
 export const getPlatformNameByValue = (platform) => {
-  if (!platform) return null
+  if (! platform) return null
 
   return platforms.find(({ value }) => platform === value).name
 }
@@ -616,7 +616,7 @@ export const profileStatus = {
 }
 
 export const getObjectiveString = (objective, platform) => {
-  if (!objective || !platform) return null
+  if (! objective || ! platform) return null
 
   const objectiveString = objectives.find(({ value }) => objective === value).name
 
@@ -680,25 +680,25 @@ export const getStartedSections = {
 }
 
 export const hasGrowthPlan = (plan) => {
-  if (!plan) return false
+  if (! plan) return false
 
   return plan.includes('growth') || plan.includes('pro') || plan.includes('legacy')
 }
 
 export const hasProPlan = (plan) => {
-  if (!plan) return false
+  if (! plan) return false
 
   return plan.includes('pro') || plan.includes('legacy')
 }
 
 export const hasLegacyPlan = (plan) => {
-  if (!plan) return false
+  if (! plan) return false
 
   return plan.includes('legacy')
 }
 
 export const hasAllProfilesOnLegacyPlan = (organizationArtists) => {
-  if (!organizationArtists.length) {
+  if (! organizationArtists.length) {
     return false
   }
 
@@ -706,11 +706,11 @@ export const hasAllProfilesOnLegacyPlan = (organizationArtists) => {
 }
 
 export const hasAllProfilesOnNoPlan = (organizationArtists) => {
-  if (!organizationArtists.length) {
+  if (! organizationArtists.length) {
     return false
   }
 
-  return organizationArtists.every(({ plan }) => !plan)
+  return organizationArtists.every(({ plan }) => ! plan)
 }
 
 export const hasAProfileOnGrowthOrPro = (organizationArtists) => {

@@ -19,7 +19,7 @@ const PendingEmailWarning = ({
   const unconfirmedEmails = useUnconfirmedEmails(user)
 
   // Stop here if no emails need verifying
-  if (!unconfirmedEmails.length) return null
+  if (! unconfirmedEmails.length) return null
   const warningCopy = copy.unverifiedEmails({ emails: unconfirmedEmails.map(({ email }) => email), isNewUser, isAccountPage })
   return (
     <div

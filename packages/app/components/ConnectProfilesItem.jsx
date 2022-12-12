@@ -71,7 +71,7 @@ const ConnectProfilesItem = ({
         <div className="font-bold font-body text-md text-left">{name}
           {instagram_username && <span className="block mb-0 font-normal"> (@{instagram_username})</span>}
         </div>
-        {!isConnected && (
+        {! isConnected && (
           <div className="flex-1">
             <ArrowAltIcon direction="right" className="ml-4" />
           </div>

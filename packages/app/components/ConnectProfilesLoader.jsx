@@ -69,7 +69,7 @@ const ConnectProfilesLoader = ({
     const { res, error } = await artistHelpers.getArtistOnSignUp()
 
     if (error) {
-      if (!isMounted()) return
+      if (! isMounted()) return
 
       if (error.message === 'user cache is not available') {
         setPageLoading(false)
@@ -106,12 +106,12 @@ const ConnectProfilesLoader = ({
 
     // Remove profiles that have already been connected
     const userArtists = user?.artists || []
-    const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
+    const artistsFiltered = ! user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
     // Add ad accounts to artists
     const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered })
 
-    if (!isMounted()) return
+    if (! isMounted()) return
 
     setArtistAccounts(processedArtists)
 
@@ -144,7 +144,7 @@ const ConnectProfilesLoader = ({
       <div
         className={[
           'col-span-12 sm:col-span-6',
-          !isCannotListPagesError ? 'hidden sm:block lg:col-span-4' : null,
+          ! isCannotListPagesError ? 'hidden sm:block lg:col-span-4' : null,
         ].join(' ')}
       >
         <ConnectProfilesConnectMore

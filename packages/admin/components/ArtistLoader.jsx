@@ -34,7 +34,7 @@ const ArtistLoader = ({ id }) => {
   }, [finishedLoading, toggleGlobalLoading])
 
 
-  if (!artists[0]) {
+  if (! artists[0]) {
     return (
       <section className="content">
         <p>Loading...</p>

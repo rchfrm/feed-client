@@ -41,9 +41,9 @@ const PricingProrations = ({
     <>
       <div className="mb-8">
         <MarkdownText markdown={copy.pricingUpgradeCurrentPaymentList(prorationsPreview, currency, hasSetUpProfile)} className="mb-6" />
-        {!isFirstDayOfPeriod && prorationsAmount > 0 && <p className="text-xs">^Covering the remaining {daysRemainingInPeriod} {daysRemainingInPeriod > 1 ? 'days' : 'day'} of the current billing period.</p>}
+        {! isFirstDayOfPeriod && prorationsAmount > 0 && <p className="text-xs">^Covering the remaining {daysRemainingInPeriod} {daysRemainingInPeriod > 1 ? 'days' : 'day'} of the current billing period.</p>}
       </div>
-      {nextInvoiceAmount > 0 && !prorationsMatchNextInvoice && (
+      {nextInvoiceAmount > 0 && ! prorationsMatchNextInvoice && (
         <>
           <MarkdownText markdown={copy.pricingUpgradeNextPaymentList(prorationsPreview, currency)} />
           <p className="text-xs">*Covering the next billing period.</p>

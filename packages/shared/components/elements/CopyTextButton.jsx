@@ -21,7 +21,7 @@ const CopyTextButton = ({
     setSuccess(true)
     onCopied(text)
     setTimeout(() => {
-      if (!button.current) return
+      if (! button.current) return
       setSuccess(false)
     }, 800)
   }, [onCopied, text])

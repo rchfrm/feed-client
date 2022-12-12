@@ -13,12 +13,12 @@ const PostCardMedia = ({
   fallbackClassName,
   style,
 }) => {
-  const [hasMedia, setHasMedia] = React.useState(!!media)
+  const [hasMedia, setHasMedia] = React.useState(!! media)
   const [selectedThumbnail, setSelectedThumbnail] = React.useState({})
   const [ready, setReady] = React.useState(false)
 
   React.useEffect(() => {
-    setHasMedia(!!media)
+    setHasMedia(!! media)
   }, [media])
 
   return (
@@ -32,7 +32,7 @@ const PostCardMedia = ({
       <div
         className={[
           'w-full relative bg-grey-1',
-          !ready && hasMedia ? 'opacity-0' : 'opacity-1',
+          ! ready && hasMedia ? 'opacity-0' : 'opacity-1',
         ].join(' ')}
         style={{ paddingTop: '100%' }}
       >

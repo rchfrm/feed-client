@@ -72,7 +72,7 @@ const BillingContent = () => {
     // Check if information needs to be loaded, ie. it's not already
     // loading or the selected org is the same as the one in state
     if (
-      !selectedOrgId // No org has been selected
+      ! selectedOrgId // No org has been selected
       || orgLoading // The org is already being fetched
       || (selectedOrgId && selectedOrgId === organization?.id) // The selected org isn't different to the one in state
     ) {
@@ -123,7 +123,7 @@ const BillingContent = () => {
 
   if (orgLoading) return <Spinner />
 
-  if (!organization) {
+  if (! organization) {
     return (
       <div>
         {/* NO ARTIST COPY */}

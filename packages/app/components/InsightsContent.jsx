@@ -28,7 +28,7 @@ const InsightsContent = () => {
 
   // GET AVAILABLE DATA SOURCES
   const availableDataSources = React.useMemo(() => {
-    if (!artistId || artistLoading) return []
+    if (! artistId || artistLoading) return []
     const { _embedded: { dataSources } } = artist
     const allSources = Object.values(dataSources).map((name) => name)
     return insightsHelpers.getAvailableSources(allSources)
@@ -40,7 +40,7 @@ const InsightsContent = () => {
   const [defaultPlatform, setDefaultPlatform] = React.useState('')
   React.useEffect(() => {
     // Stop here if no data sources
-    if (!availableDataSources.length) return
+    if (! availableDataSources.length) return
     const availablePlatforms = insightsHelpers.getAvailablePlatforms(availableDataSources)
     const defaultPlatform = insightsHelpers.getInitialPlatform(availablePlatforms)
     setAvailablePlatforms(availablePlatforms)
@@ -66,14 +66,14 @@ const InsightsContent = () => {
 
   // Set page ready after page has loaded
   React.useEffect(() => {
-    if (!initialLoading) {
+    if (! initialLoading) {
       setTimeout(() => {
         setPageReady(true)
       }, 100)
     }
   }, [initialLoading])
 
-  if (!hasGrowthPlan) {
+  if (! hasGrowthPlan) {
     return (
       <DisabledActionPrompt
         version="border"
@@ -83,7 +83,7 @@ const InsightsContent = () => {
     )
   }
 
-  if (artistLoading || !availablePlatforms || !availableDataSources.length) return null
+  if (artistLoading || ! availablePlatforms || ! availableDataSources.length) return null
 
   const containerClasses = [styles.pageContainer]
 
@@ -132,7 +132,7 @@ const InsightsContent = () => {
       )}
 
       {/* OUTRO TEXT TEXT */}
-      {!initialLoading && (
+      {! initialLoading && (
         <div>
           <div className="text--block h4--text mb-8">
             <p>Can't see one of your accounts?</p>

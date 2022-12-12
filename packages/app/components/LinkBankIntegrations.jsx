@@ -30,12 +30,12 @@ const LinkBankIntegrations = ({
               className={[
                 'mb-6',
                 'last:mb-0',
-                !href ? 'text-grey-3' : null,
+                ! href ? 'text-grey-3' : null,
               ].join(' ')}
             >
               <p className="flex items-top mb-0">
                 <span
-                  className={['mr-5', !href ? 'opacity-50' : null].join(' ')}
+                  className={['mr-5', ! href ? 'opacity-50' : null].join(' ')}
                   style={{
                     transform: 'translateY(0.1rem)',
                   }}

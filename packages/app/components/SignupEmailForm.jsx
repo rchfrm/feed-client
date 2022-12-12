@@ -52,7 +52,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
   }, [])
 
   const passwordStatus = React.useMemo(() => {
-    if (!password) {
+    if (! password) {
       return {
         success: false,
         error: false,
@@ -61,7 +61,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
     const success = password.length >= 6
     return {
       success,
-      error: !success,
+      error: ! success,
     }
   }, [password])
 
@@ -78,7 +78,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
 
     if (name === 'email') {
       const hasValidEmail = utils.testValidEmail(value)
-      setHasEmailError(!hasValidEmail)
+      setHasEmailError(! hasValidEmail)
       setEmail(e.target.value)
     }
 
@@ -98,7 +98,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
     e.preventDefault()
 
     // Stop here if not complete
-    if (!formComplete) return
+    if (! formComplete) return
 
     toggleGlobalLoading(true)
     fireSentryBreadcrumb({
@@ -110,7 +110,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
     if (referralCode && referralCode !== initialReferralCode) {
       const isValid = await isValidReferralCode(referralCode)
 
-      if (!isValid) {
+      if (! isValid) {
         toggleGlobalLoading(false)
         return
       }
@@ -129,7 +129,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         })
       })
 
-    if (!signupRes) return
+    if (! signupRes) return
 
     window.grecaptcha.enterprise.ready(async () => {
       // Generate reCAPTCHA token to evaluate user interaction risks
@@ -174,7 +174,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
           return
         }
 
-        if (!user.is_email_verification_needed) {
+        if (! user.is_email_verification_needed) {
           Router.push(ROUTES.PROFILE_INVITE_SUCCESS)
           return
         }
@@ -202,7 +202,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
   }
 
   const toggleReferralCodeInput = () => {
-    setShouldShowReferralCodeInput((shouldShowReferralCodeInput) => !shouldShowReferralCodeInput)
+    setShouldShowReferralCodeInput((shouldShowReferralCodeInput) => ! shouldShowReferralCodeInput)
   }
 
   React.useEffect(() => {
@@ -229,7 +229,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         label="Email"
         value={email}
         error={hasEmailError}
-        autoFocus={!initialEmail}
+        autoFocus={! initialEmail}
         required
       />
       <Input
@@ -269,14 +269,14 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
       <Button
         className={[styles.signupButton, 'w-full xs:w-1/2 ml-auto'].join(' ')}
         version="green wide"
-        disabled={!formComplete}
+        disabled={! formComplete}
         type="submit"
         trackComponentName="SignupEmailForm"
       >
         Next
         <ArrowAltIcon
           className="ml-3 h-6"
-          fill={!formComplete ? brandColors.greyDark : brandColors.white}
+          fill={! formComplete ? brandColors.greyDark : brandColors.white}
           direction="right"
         />
       </Button>

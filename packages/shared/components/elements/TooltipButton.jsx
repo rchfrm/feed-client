@@ -18,15 +18,15 @@ const TooltipButton = (props) => {
   const buttonRef = React.useRef(null)
   const toggleMessage = (e) => {
     e.preventDefault()
-    setShowMessage(!showMessage)
+    setShowMessage(! showMessage)
     track('tooltip_clicked', {
-      action: !showMessage ? 'show' : 'hide',
+      action: ! showMessage ? 'show' : 'hide',
       label: trackLabel,
       location: trackLocation,
     })
   }
   const closeMessage = ({ target }) => {
-    if (!buttonRef.current || !messageRef.current) return
+    if (! buttonRef.current || ! messageRef.current) return
     // Ignore if clicking on tooltip button
     if (buttonRef.current.contains(target)) return
     // Ignore if clicking within message

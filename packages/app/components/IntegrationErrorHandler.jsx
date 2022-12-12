@@ -45,25 +45,25 @@ const IntegrationErrorHandler = () => {
 
   const checkError = React.useCallback((integrationError) => {
     // Stop here if there are no artists associated with an account
-    if (!user.artists || !user.artists.length || !integrationError) return
+    if (! user.artists || ! user.artists.length || ! integrationError) return
 
     // Stop here if running locally
     if (isDevelopment) return
 
-    if (!artist || !artistId) return
+    if (! artist || ! artistId) return
     // Test whether user owns artist
     const { artists: userArtists } = user
     const { role: artistRole } = userArtists.find(({ id }) => id === artistId) || {}
     const artistOwned = artistRole === 'owner' || artistRole === 'sysadmin' || artistRole === 'collaborator'
     // Stop here if artist is not owned
-    if (!artistOwned) return
+    if (! artistOwned) return
 
     return integrationError
   }, [artist, artistId, user, isDevelopment])
 
   React.useEffect(() => {
-    if (!notificationsLoading) {
-      const [integrationError] = notifications.filter(({ isComplete, type, hidden }) => type === 'alert' && !isComplete && !hidden)
+    if (! notificationsLoading) {
+      const [integrationError] = notifications.filter(({ isComplete, type, hidden }) => type === 'alert' && ! isComplete && ! hidden)
 
       if (integrationError) {
         setIntegrationError(checkError(integrationError))
@@ -73,10 +73,10 @@ const IntegrationErrorHandler = () => {
   }, [notifications, checkError, notificationsLoading])
 
   const checkAndShowUserError = () => {
-    if (!user.artists || !user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL || !hasSetUpProfile) return
+    if (! user.artists || ! user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL || ! hasSetUpProfile) return
 
     // Handle email not confirmed
-    if (!integrationError && hasPendingEmail && unconfirmedEmails.length) {
+    if (! integrationError && hasPendingEmail && unconfirmedEmails.length) {
       const email = unconfirmedEmails[0]
       const topic = 'email_not_confirmed'
       const error = {
@@ -91,7 +91,7 @@ const IntegrationErrorHandler = () => {
   }
 
   React.useEffect(() => {
-    if (isDevelopment || !isLoggedIn || globalLoading || !hasCheckedArtistErrors) {
+    if (isDevelopment || ! isLoggedIn || globalLoading || ! hasCheckedArtistErrors) {
       return
     }
     checkAndShowUserError()
@@ -99,13 +99,13 @@ const IntegrationErrorHandler = () => {
   }, [isLoggedIn, globalLoading, hasCheckedArtistErrors])
 
   const hasErrorWithAccessToken = React.useMemo(() => {
-    if (!integrationError) return false
+    if (! integrationError) return false
     const { topic } = integrationError
     return topic === 'facebook-expired-access-token'
   }, [integrationError])
 
   const errorRequiresReAuth = React.useMemo(() => {
-    if (!integrationError) return false
+    if (! integrationError) return false
     const { ctaType } = integrationError
     return ctaType === 'fb_reauth'
   }, [integrationError])
@@ -113,18 +113,18 @@ const IntegrationErrorHandler = () => {
   // Decide whether to show integration error
   React.useEffect(() => {
     // Don't show error message if no error
-    if (!integrationError) return
+    if (! integrationError) return
     // Don't show error message about access token if there is an access token
     // (because it will be sent to server to fix error)
     if (accessToken && hasErrorWithAccessToken) return
     // Handle integration error
     const { hidden } = integrationError
-    setShowError(!hidden)
+    setShowError(! hidden)
   }, [integrationError, accessToken, hasErrorWithAccessToken])
 
   // Show error if there are network errors
   React.useEffect(() => {
-    const showError = !!(networkError)
+    const showError = !! (networkError)
     setShowError(showError)
   }, [networkError])
 
@@ -138,8 +138,8 @@ const IntegrationErrorHandler = () => {
     // It's already run once.
     if (
       redirectType === 'signIn'
-      || !errorRequiresReAuth
-      || !accessToken
+      || ! errorRequiresReAuth
+      || ! accessToken
       || accessTokenUpdated.current
     ) {
       return
@@ -157,13 +157,13 @@ const IntegrationErrorHandler = () => {
   // Function to hide integration error
   const hideIntegrationErrors = React.useCallback(() => {
     const { isDismissible, hidden } = integrationError
-    if (isDismissible && !hidden) {
+    if (isDismissible && ! hidden) {
       dismissNotification()
     }
     setShowError(false)
   }, [dismissNotification, integrationError])
 
-  if (!showError) return null
+  if (! showError) return null
 
   return (
     <IntegrationErrorContent

@@ -23,7 +23,7 @@ const ArrowLine = ({
       xmlns="http://www.w3.org/2000/svg"
     >
       {/* CAP */}
-      {!hideCap && (
+      {! hideCap && (
         <>
           <path d="M7 1L1.5 8" stroke={fill} strokeWidth={strokeWidth} strokeLinecap="round" />
           <path d="M7 1L12.5 8" stroke={fill} strokeWidth={strokeWidth} strokeLinecap="round" />

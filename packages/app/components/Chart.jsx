@@ -114,7 +114,7 @@ const Chart = ({
   const [granularity, setGranularity] = React.useState('')
   // PLACEHOLDER CHART BUILDER
   const showPlaceholder = (loading) => {
-    const buildDummyChart = !loading || !chartDataSets.length
+    const buildDummyChart = ! loading || ! chartDataSets.length
     // Get dummy data
     const {
       dataArray,
@@ -126,7 +126,7 @@ const Chart = ({
     setChartBarLimit(chartLimit)
     // DEFINE DATA SET
     // If loading, use previous. If error show dummy
-    const dataSet = !buildDummyChart ? chartDataSets[0] : {
+    const dataSet = ! buildDummyChart ? chartDataSets[0] : {
       ...baseBarConfig,
       label: 'loading',
       data: dataArray,
@@ -161,7 +161,7 @@ const Chart = ({
     }
     const { source: currentDataSource, platform: currentPlatform } = chartBarData
     // Stop if no data source
-    if (!chartBarData.source) return
+    if (! chartBarData.source) return
     // Define relevant moments
     const earliestMoment = moment(chartBarData.earliest.date, 'YYYY-MM-DD')
     const latestMoment = moment(chartBarData.mostRecent.date, 'YYYY-MM-DD')

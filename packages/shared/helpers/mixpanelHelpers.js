@@ -28,7 +28,7 @@ export const updateMixpanel = (user) => {
 
 // TRACK MIXPANEL EVENTS
 export const trackMixpanel = (action, payload) => {
-  if (!isMixpanelSetup) return
+  if (! isMixpanelSetup) return
   mixpanel.track(action, payload)
 }
 
@@ -36,25 +36,25 @@ export const trackMixpanel = (action, payload) => {
 
 // Sign Up
 export const mixpanelSignUp = (userId) => {
-  if (!isMixpanelSetup) return
+  if (! isMixpanelSetup) return
   mixpanel.alias(userId)
 }
 
 // Log in
 export const mixpanelIdentify = (userId) => {
-  if (!isMixpanelSetup) return
+  if (! isMixpanelSetup) return
   mixpanel.identify(userId)
 }
 
 // Sign Out
 export const mixpanelSignOut = () => {
-  if (!isMixpanelSetup) return
+  if (! isMixpanelSetup) return
   mixpanel.reset()
 }
 
 // View page
 export const mixpanelPageView = (path) => {
-  if (!isMixpanelSetup) return
+  if (! isMixpanelSetup) return
   trackMixpanel('page_view', { path })
 }
 
@@ -72,7 +72,7 @@ export const mixpanelExternalLinkClick = ({
     window.location.href = url
   }
   // If mixpanel is not setup, just go to page
-  if (!isMixpanelSetup) return goToPage()
+  if (! isMixpanelSetup) return goToPage()
   // Start timer ro run page change if mixpanel is too slow
   const waitTimer = setTimeout(goToPage, useNewTab ? 0 : responseWait)
   // Track click

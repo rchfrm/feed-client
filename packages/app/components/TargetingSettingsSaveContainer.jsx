@@ -21,7 +21,7 @@ const TargetingSettingsSaveContainer = ({
 }) => {
   const { setSidePanelButton, sidePanelOpen: isSidepanelOpen } = React.useContext(SidePanelContext)
   const isDesktopLayout = useBreakpointTest('md')
-  const isMobileAndIsSidePanelOpen = !isDesktopLayout && isSidepanelOpen
+  const isMobileAndIsSidePanelOpen = ! isDesktopLayout && isSidepanelOpen
   // GET SAVE FUNCTION
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
@@ -33,7 +33,7 @@ const TargetingSettingsSaveContainer = ({
         isMobileAndIsSidePanelOpen ? 'border-white border-solid border-0 border-t-4' : null,
       ].join(' ')}
       onClick={() => saveTargeting('settings')}
-      disabled={!!disableSaving}
+      disabled={!! disableSaving}
       trackComponentName="TargetingSettingsSaveContainer"
     >
       {disableSaving ? (

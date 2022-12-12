@@ -15,10 +15,10 @@ const NotificationCurrentInfoContent = ({
   buttonEl,
   sidepanelLayout,
 }) => {
-  const hasButton = !sidepanelLayout
+  const hasButton = ! sidepanelLayout
   return (
     <div className="flex flex-column">
-      {!sidepanelLayout && isComplete && (
+      {! sidepanelLayout && isComplete && (
         <TickIcon
           className="absolute top-0 right-0 h-4 w-auto mr-5 mt-4"
           fill={brandColors.green}
