@@ -82,7 +82,7 @@ const GetStartedPlatform = () => {
     }
 
     // If there's no connected account yet store the data in local storage
-    if (!artistId) {
+    if (! artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({
         ...wizardState,
         platform,
@@ -134,7 +134,7 @@ const GetStartedPlatform = () => {
   }
 
   React.useEffect(() => {
-    if (!selectedPlatform) return
+    if (! selectedPlatform) return
 
     handleNextStep(selectedPlatform)
     // eslint-disable-next-line react-hooks/exhaustive-deps

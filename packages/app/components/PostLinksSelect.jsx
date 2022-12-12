@@ -71,7 +71,7 @@ const PostLinksSelect = ({
     // Add FOLDERS as option group
     const baseOptions = linkFolders.reduce((options, { links, name, id }) => {
       // Don't show empty folders
-      if (!links.length) return options
+      if (! links.length) return options
       const groupLinks = links.map(({ name, id }) => {
         return { name, value: id }
       })
@@ -102,7 +102,7 @@ const PostLinksSelect = ({
         return result
       }, {})
 
-      if (!linkBankIds[currentLinkId]) {
+      if (! linkBankIds[currentLinkId]) {
         setIsDeletedLink(true)
         const option = { name: 'Deleted from link bank', value: currentLinkId }
         baseOptions.push(option)
@@ -115,7 +115,7 @@ const PostLinksSelect = ({
         name: 'Integrations',
         value: '_integrations',
         options: integrationLinks.reduce((arr, { href, titleVerbose, id }) => {
-          if (!href) return arr
+          if (! href) return arr
           const option = { name: titleVerbose, value: id }
           return [...arr, option]
         }, []),
@@ -123,7 +123,7 @@ const PostLinksSelect = ({
       baseOptions.push(integrationsGroup)
     }
     // If no DEFAULT or no NEW LINK, stop here
-    if (!includeDefaultLink && !includeAddLinkOption) {
+    if (! includeDefaultLink && ! includeAddLinkOption) {
       setLoading(false)
       return baseOptions
     }
@@ -155,10 +155,10 @@ const PostLinksSelect = ({
 
   // HANDLE SETTING SELECTED LINK
   const updatePostLink = React.useCallback(async (selectedOptionValue, forceRun = false) => {
-    if (loading && !forceRun) return
+    if (loading && ! forceRun) return
     setLoading(true)
 
-    if (isPostActive && !forceRun) {
+    if (isPostActive && ! forceRun) {
       // Set function to run when confirming alert
       setOnAlertConfirm(() => () => updatePostLink(selectedOptionValue, true))
       // Show alert
@@ -166,7 +166,7 @@ const PostLinksSelect = ({
       return
     }
     // Skip API request and only update parent link value
-    if (!shouldSaveOnChange) {
+    if (! shouldSaveOnChange) {
       updateParentLink(selectedOptionValue)
       setLoading(false)
       return
@@ -179,7 +179,7 @@ const PostLinksSelect = ({
       assetId: postItemId,
       campaignType,
     })
-    if (!isMounted) return
+    if (! isMounted) return
     // Handle error
     setShowAlert(false)
     if (error) {

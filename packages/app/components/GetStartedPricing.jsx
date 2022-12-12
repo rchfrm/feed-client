@@ -58,7 +58,7 @@ const GetStartedPricing = () => {
     }
 
     // If there's no artist id available, store the data in local storage
-    if (!artistId) {
+    if (! artistId) {
       setLocalStorage('getStartedWizard', JSON.stringify({
         ...wizardState,
         plan: pricingPlanString,
@@ -88,7 +88,7 @@ const GetStartedPricing = () => {
   }, [next, artistId, getPricingPlanString, showAnnualPricing])
 
   React.useEffect(() => {
-    if (!selectedPricingPlan) return
+    if (! selectedPricingPlan) return
 
     handleNextStep(selectedPricingPlan)
   }, [selectedPricingPlan, handleNextStep])
@@ -109,7 +109,7 @@ const GetStartedPricing = () => {
         ? <Spinner />
         : (
           <>
-            {!hasMultipleProfiles && (
+            {! hasMultipleProfiles && (
               <GetStartedPricingPlansHeader
                 currency={currency}
                 setCurrency={setCurrency}

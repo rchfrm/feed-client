@@ -67,7 +67,7 @@ const TargetingLocationsSearchResultsItem = ({ item: location, onClick: setLocat
 
   const checkIfLocationAlreadyExists = (customLocation) => {
     const flattenedLocations = Object.values(locationOptions).reduce((result, locationOption) => {
-      if (!locationOption.cities) {
+      if (! locationOption.cities) {
         return locationOption
       }
 

@@ -23,7 +23,7 @@ const PostCardPriorityButtonAlert = ({
   const { showAlert, closeAlert } = useAlertModal()
 
   React.useEffect(() => {
-    if (!show) return closeAlert()
+    if (! show) return closeAlert()
     const buttons = [
       {
         text: 'Continue',

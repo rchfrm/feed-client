@@ -49,7 +49,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
     const target = document.getElementById('TheSubNav')
     const { width: navWidth } = target.getBoundingClientRect()
     const { scaleX } = getScales(state)
-    const xPercent = animationType.current === 'desktop' && !state ? -100 : 0
+    const xPercent = animationType.current === 'desktop' && ! state ? -100 : 0
     const ease = Power2.easeOut
     const duration = state ? 0.4 : 0.3
     // Desktop extra animations
@@ -79,7 +79,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
   // Reset els after animation
   const resetEls = () => {
     const TheSubNav = document.getElementById('TheSubNav')
-    if (!TheSubNav) return
+    if (! TheSubNav) return
     if (animationType.current === 'desktop') {
       const ThePageButtons = document.getElementById('ThePageButtons')
       const TheLogo = document.getElementById('TheLogo')
@@ -89,7 +89,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
       gsap.set(TheSubNav, { x: 0, scaleX: 1, scaleY: 1, xPercent: -100 })
       // Hide the subnav background
       TheSubNavBackground.style.display = 'none'
-      if (!ThePageButtons || !TheLogo || !TheSubNavButton) return
+      if (! ThePageButtons || ! TheLogo || ! TheSubNavButton) return
       // Reset the sidebar
       gsap.set([ThePageButtons, TheLogo, TheSubNavButton], { x: 0 })
       return
@@ -110,7 +110,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
       const secondAnimation = state ? animateContents(state, delay) : animateContainer(state)
       secondAnimation.then(() => {
         // Reset props after hidden animation
-        if (!state) {
+        if (! state) {
           resetEls()
         }
         resolve()
@@ -129,7 +129,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
     // Set animation type based on screen width
     setAnimationType()
     // Reset initial position of els
-    if (!open) resetEls()
+    if (! open) resetEls()
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(onResize, [windowWidth])
@@ -140,13 +140,13 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
     touchTargetId: 'TheSubNav__contents',
     hide: () => toggle(false),
     reset: () => animateContainer(true),
-    disableCondition: !isMobile.current || animationType.current === 'desktop',
+    disableCondition: ! isMobile.current || animationType.current === 'desktop',
   })
 
   // TOGGLE BODY SCROLL
   React.useEffect(() => {
     // Disable for desktops
-    if (!isMobile.current) return
+    if (! isMobile.current) return
     const scrollEl = document.getElementById('TheSubNav')
     if (open) {
       disableBodyScroll(scrollEl)

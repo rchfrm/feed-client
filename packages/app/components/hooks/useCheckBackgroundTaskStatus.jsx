@@ -8,7 +8,7 @@ const useCheckBackgroundTaskStatus = ({ artistId, action, completionKey, hasComp
   const isMounted = useIsMounted()
 
   const checkBackgroundTaskStatus = async () => {
-    if (!isMounted) return
+    if (! isMounted) return
 
     const { res, error } = await action(artistId)
 
@@ -28,7 +28,7 @@ const useCheckBackgroundTaskStatus = ({ artistId, action, completionKey, hasComp
   }
 
   React.useEffect(() => {
-    if (!initialLoading && !intervalRef.current && !hasCompleted) {
+    if (! initialLoading && ! intervalRef.current && ! hasCompleted) {
       const intervalId = setInterval(checkBackgroundTaskStatus, 2000)
       intervalRef.current = intervalId
     }
@@ -36,7 +36,7 @@ const useCheckBackgroundTaskStatus = ({ artistId, action, completionKey, hasComp
   }, [initialLoading, hasCompleted])
 
   React.useEffect(() => {
-    if (!intervalRef.current) {
+    if (! intervalRef.current) {
       checkBackgroundTaskStatus()
     }
 

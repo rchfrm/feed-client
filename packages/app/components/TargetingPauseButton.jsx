@@ -20,7 +20,7 @@ const TargetingPauseButton = ({
   return (
     <div
       className={[
-        !alignLeft ? 'flex justify-end' : null,
+        ! alignLeft ? 'flex justify-end' : null,
         className,
       ].join(' ')}
     >

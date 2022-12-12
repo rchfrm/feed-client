@@ -15,7 +15,7 @@ const CheckboxButtons = ({
 }) => {
   const classNames = ['checkbox--buttons', className].join(' ')
   const onChange = React.useCallback((val, checked) => {
-    const newValues = !checked ? [...selectedValues, val] : pull([...selectedValues], val)
+    const newValues = ! checked ? [...selectedValues, val] : pull([...selectedValues], val)
     setSelectedValues(newValues)
   }, [selectedValues, setSelectedValues])
   return (

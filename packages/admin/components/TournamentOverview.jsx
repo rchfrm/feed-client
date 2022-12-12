@@ -59,7 +59,7 @@ const TournamentOverview = ({
           )}
         </div>
         {/* Link to tournament page */}
-        {!singleTournament && (
+        {! singleTournament && (
           <>
             <p>
               <TournamentLink

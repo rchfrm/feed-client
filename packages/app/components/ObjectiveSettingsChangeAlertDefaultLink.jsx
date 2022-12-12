@@ -63,11 +63,11 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
     const currentLink = existingLink || link
 
     // Edit the link if the link already exists in the linkbank and it's not an integration link
-    if (currentLink.id && !hasGrowthObjective) {
+    if (currentLink.id && ! hasGrowthObjective) {
       action = 'edit'
     }
 
-    if (hasGrowthObjective && !isFacebookOrInstagram) {
+    if (hasGrowthObjective && ! isFacebookOrInstagram) {
       // Save the link in the linkbank as integration link
       return saveIntegrationLink({ platform }, currentLink.href)
     }

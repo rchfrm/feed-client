@@ -11,9 +11,9 @@ import brandColors from '@/constants/brandColors'
 
 const getButtonText = (isShareSupported, success, shareText, copyText) => {
   if (isShareSupported && success) return 'Shared!'
-  if (!isShareSupported && success) return 'Copied!'
+  if (! isShareSupported && success) return 'Copied!'
   if (isShareSupported) return shareText
-  if (!isShareSupported) return copyText
+  if (! isShareSupported) return copyText
 }
 
 const ButtonShare = ({
@@ -33,7 +33,7 @@ const ButtonShare = ({
   const onSuccess = React.useCallback((shareType) => {
     setSuccess(true)
     setTimeout(() => {
-      if (!button.current) return
+      if (! button.current) return
       setSuccess(false)
     }, 800)
     // shareType = 'copy' | 'share'

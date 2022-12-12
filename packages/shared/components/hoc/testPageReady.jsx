@@ -17,7 +17,7 @@ const testPageReady = (packageType) => (Component) => {
 
     React.useEffect(() => {
       if (authLoading) return
-      if (!initialToken) {
+      if (! initialToken) {
         if (currentPath !== ROUTES.LOGIN) {
           setRejectedPagePath(initialFullPath)
           kickToLogin(ROUTES.LOGIN)

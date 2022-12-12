@@ -31,7 +31,7 @@ const ResultsPostsChart = ({
   const lastThirtyDays = [...new Array(30)].map((_, index) => moment().startOf('day').subtract(index, 'days').format('YYYY-MM-DD')).reverse()
 
   React.useEffect(() => {
-    if (!posts.length) return
+    if (! posts.length) return
 
     const highestValue = Math.max(...posts.map((post) => post[metricType]), yourAverage, globalAverage)
 
@@ -42,7 +42,7 @@ const ResultsPostsChart = ({
     const isMobile = width < 800
 
     // On mobile scroll to far right to show most recents posts first
-    if (isMobile && !hasScrolledLeft && node !== null) {
+    if (isMobile && ! hasScrolledLeft && node !== null) {
       setTimeout(() => {
         node.scrollLeft = 1000
       }, 0)
@@ -50,7 +50,7 @@ const ResultsPostsChart = ({
       setHasScrolledLeft(true)
     }
 
-    if (!isMobile && hasScrolledLeft) {
+    if (! isMobile && hasScrolledLeft) {
       setHasScrolledLeft(false)
     }
   }, [width, hasScrolledLeft])

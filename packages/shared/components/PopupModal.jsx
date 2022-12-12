@@ -74,7 +74,7 @@ const PopupModal = () => {
   const captionEl = React.useRef(null)
   React.useEffect(() => {
     // Stop here if no popup
-    if (!content || !innerEl.current) return
+    if (! content || ! innerEl.current) return
     onResize({
       innerEl: innerEl.current,
       captionEl: captionEl.current,

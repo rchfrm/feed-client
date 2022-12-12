@@ -31,7 +31,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   React.useEffect(() => {
     const { current: containerEl } = containerRef
     const { current: desktopEl } = desktopBox
-    if (!isDesktopLayout || !containerEl || !openedNotification || !desktopEl) return
+    if (! isDesktopLayout || ! containerEl || ! openedNotification || ! desktopEl) return
     const containerProps = containerEl.getBoundingClientRect()
     const scrollTop = window.scrollY
     // Calc postiion props
@@ -57,11 +57,11 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   const dismissNotification = useDismissNotification(openedNotification)
 
   const infoButtonAndContent = React.useMemo(() => {
-    if (!openedNotification) return {}
+    if (! openedNotification) return {}
     // Fallback to 'Ok' if a notification is actionable but no ctaText is provided by Dato
     const { isActionable } = openedNotification
     let { ctaText } = openedNotification
-    if (!ctaText && isActionable) {
+    if (! ctaText && isActionable) {
       ctaText = 'Ok'
     }
     const button = (
@@ -76,7 +76,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
         onAction={openedNotification.onAction}
         onComplete={() => completeNotification(openedNotification.id)}
         dismissNotification={dismissNotification}
-        sidepanelLayout={!isDesktopLayout}
+        sidepanelLayout={! isDesktopLayout}
       />
     )
     const content = (
@@ -86,7 +86,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
         date={openedNotification.dateLong}
         isComplete={openedNotification.isComplete}
         buttonEl={button}
-        sidepanelLayout={!isDesktopLayout}
+        sidepanelLayout={! isDesktopLayout}
       />
     )
     return { content, button }
@@ -104,7 +104,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
       return
     }
     // OPEN SIDEPANEL if MOBILE
-    const sidepanelOpen = !!content
+    const sidepanelOpen = !! content
     if (sidepanelOpen === isSidepanelOpen || isDesktopLayout) return
     setSidePanelContent(content)
     toggleSidePanel(sidepanelOpen)
@@ -134,9 +134,9 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   })
   // Trigger animation
   React.useEffect(() => {
-    if (!isDesktopLayout) return
+    if (! isDesktopLayout) return
     // SHOW CONTENT
-    if (openedNotification && !openedNotification.hidden) {
+    if (openedNotification && ! openedNotification.hidden) {
       animatedDiv.showPresence()
       return
     }
@@ -146,7 +146,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
   }, [openedNotification, isDesktopLayout])
 
   // STOP HERE if NO NOTIFICATION or mobile
-  if (!isDesktopLayout) return null
+  if (! isDesktopLayout) return null
 
   return (
     <div

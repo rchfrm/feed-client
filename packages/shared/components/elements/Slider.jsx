@@ -33,9 +33,9 @@ const Slider = ({
   hasError,
 }) => {
   const sliderRef = React.useRef(null)
-  const hasGhosts = !!ghosts.length
+  const hasGhosts = !! ghosts.length
   const [ghostPositions, setGhostPositions] = React.useState([])
-  const ghostsReady = React.useRef(!hasGhosts)
+  const ghostsReady = React.useRef(! hasGhosts)
 
   return (
     <div className={[
@@ -78,13 +78,13 @@ const Slider = ({
           onUpdate={(values, handle, unencoded, isTap, positions) => {
             onChange({ values, handle, unencoded, isTap, positions })
             // Set initial marker position
-            if (!ghostsReady.current && hasGhosts) {
+            if (! ghostsReady.current && hasGhosts) {
               setGhostPositions(positions)
               ghostsReady.current = true
             }
           }}
           instanceRef={(instance) => {
-            if (instance && !sliderRef.current) {
+            if (instance && ! sliderRef.current) {
               sliderRef.current = instance
               if (setSliderInstance) setSliderInstance(instance)
             }

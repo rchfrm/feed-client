@@ -86,7 +86,7 @@ const ChartLine = ({ data, maintainAspectRatio }) => {
     const { source: currentDataSource, platform: currentPlatform } = data
 
     // Stop if no data source
-    if (!data.source) return
+    if (! data.source) return
 
     // Define relevant moments
     const earliestMoment = moment(data.earliest.date, 'YYYY-MM-DD')
@@ -117,7 +117,7 @@ const ChartLine = ({ data, maintainAspectRatio }) => {
 
     const newChartOptions = produce(baseChartConfig, (draftConfig) => {
       // Edit aspect ratio
-      if (!maintainAspectRatio) {
+      if (! maintainAspectRatio) {
         draftConfig.maintainAspectRatio = false
       }
     })

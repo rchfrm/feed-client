@@ -11,9 +11,9 @@ const PostItemMetricsListItem = ({
   className,
 }) => {
   const drilldownMetricsFormatted = React.useMemo(() => {
-    if (!drilldownMetrics) return null
+    if (! drilldownMetrics) return null
     return Object.entries(drilldownMetrics).reduce((arr, [key, value]) => {
-      if (!value) return arr
+      if (! value) return arr
       return [...arr, { key, value }]
     }, [])
   }, [drilldownMetrics])

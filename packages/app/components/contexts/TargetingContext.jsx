@@ -111,7 +111,7 @@ const TargetingContextProvider = ({ children }) => {
   // FORMATTED BUDGET
   const [budgetFormatted, setBudgetFormatted] = React.useState(initialState.budgetFormatted)
   React.useEffect(() => {
-    if (!targetingState.budget) return
+    if (! targetingState.budget) return
     const budgetOffset = targetingState.budget / currencyOffset
     setBudgetFormatted(utils.formatCurrency(budgetOffset, currency))
   }, [targetingState.budget, currency, currencyOffset])
@@ -119,7 +119,7 @@ const TargetingContextProvider = ({ children }) => {
   // INITIAL FLOW?
   const [isFirstTimeUser, setIsFirstTimeUse] = React.useState(false)
   React.useEffect(() => {
-    if (!initialTargetingState.budget) return setIsFirstTimeUse(true)
+    if (! initialTargetingState.budget) return setIsFirstTimeUse(true)
     setIsFirstTimeUse(false)
   }, [initialTargetingState.budget])
 
@@ -188,7 +188,7 @@ const TargetingContextProvider = ({ children }) => {
   React.useEffect(() => {
     // Update locations object with state of selected cities and countries
     const locationOptionsArray = Object.values(locationOptions)
-    if (!locationOptionsArray.length) return
+    if (! locationOptionsArray.length) return
     const locationOptionsWithState = targetingHelpers.updateLocationOptionsState({ locationOptionsArray, selectedCities, selectedCountries })
     setLocationOptions(locationOptionsWithState)
     // Update min budget based on selected countries and cities
@@ -219,7 +219,7 @@ const TargetingContextProvider = ({ children }) => {
     // Set targeting state
     setInitialTargetingState(targetingState)
     setTargetingState(targetingState)
-    updateSpending((targetingState.budget / currencyOffset), !targetingState.status)
+    updateSpending((targetingState.budget / currencyOffset), ! targetingState.status)
     setSettingsReady(true)
   }, [feedMinBudgetInfo, createLocationOptions, updateSpending, currencyOffset, artistId])
 
@@ -231,7 +231,7 @@ const TargetingContextProvider = ({ children }) => {
       minHard: minHardBudget,
     } = {} } = feedMinBudgetInfo
     const isBudgetTooSmall = targetingState.budget < minHardBudget
-    const noLocations = !selectedCountries.length && !selectedCities.length
+    const noLocations = ! selectedCountries.length && ! selectedCities.length
     // Disable with budget reason
     if (isBudgetTooSmall) return setDisableSaving('budget')
     // Disable with location reason
@@ -272,7 +272,7 @@ const TargetingContextProvider = ({ children }) => {
       setInitialTargetingState(savedState)
       updateSpendingPaused(savedState.status)
       updateBudget(savedState.budget / currencyOffset)
-      updateSpending((savedState.budget / currencyOffset), !savedState.status)
+      updateSpending((savedState.budget / currencyOffset), ! savedState.status)
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
@@ -337,7 +337,7 @@ const TargetingContextProvider = ({ children }) => {
     // Fetch and initialise targeting state
     if (artistId) {
       const state = await targetingHelpers.fetchTargetingState(artistId, currencyOffset)
-      if (!isMounted()) return
+      if (! isMounted()) return
 
       const { error } = state
       initPage(state, error)

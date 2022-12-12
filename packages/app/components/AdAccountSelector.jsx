@@ -27,7 +27,7 @@ const AdAccountSelector = ({
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
-    if (!artistId) {
+    if (! artistId) {
       setIsLoading(false)
       return
     }
@@ -43,7 +43,7 @@ const AdAccountSelector = ({
     setIsLoading(true)
 
     const { res, error } = await getAdAccounts(artistId)
-    if (!isMounted()) return
+    if (! isMounted()) return
 
     if (error) {
       setError(error)
@@ -61,7 +61,7 @@ const AdAccountSelector = ({
     setIsLoading(true)
 
     // Skip API request and only update parent call to action value
-    if (!shouldSaveOnChange) {
+    if (! shouldSaveOnChange) {
       setAdAccountId(selectedOptionValue)
       setIsLoading(false)
       return
@@ -92,7 +92,7 @@ const AdAccountSelector = ({
   }
 
   React.useEffect(() => {
-    if (!adAccountId) {
+    if (! adAccountId) {
       setAdAccountId(adAccountOptions[0]?.value)
     }
   }, [adAccountId, setAdAccountId, adAccountOptions])

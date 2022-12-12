@@ -148,7 +148,7 @@ const BillingPaymentMethodsSummary = ({
         <BillingPaymentAdd
           addMethodToState={addMethodToState}
           organization={organization}
-          shouldBeDefault={!defaultPaymentMethod}
+          shouldBeDefault={! defaultPaymentMethod}
         />
       </div>
     </div>

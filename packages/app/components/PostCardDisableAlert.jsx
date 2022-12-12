@@ -21,7 +21,7 @@ const PostCardDisableAlert = ({
   // SHOW ALERT
   const { showAlert, closeAlert } = useAlertModal()
   React.useEffect(() => {
-    if (!show) return closeAlert()
+    if (! show) return closeAlert()
     const buttons = [
       {
         text: 'Ok',

@@ -19,7 +19,7 @@ const TargetingLocationsSentence = ({
   return (
     <div className={[className].join(' ')}>
       <MarkdownText markdown={copy.locationsDescription(artistIsMusician, spotifyConnected)} />
-      {artistIsMusician && !spotifyConnected && (
+      {artistIsMusician && ! spotifyConnected && (
         <div className="text--block text-red">
           <p>
             To include Spotify listener data in your audience, add your Spotify artist profile in

@@ -74,7 +74,7 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
       )}
 
       {/* Link to single entity page */}
-      {!isSingleEntity && (
+      {! isSingleEntity && (
         <Link
           href={{
             pathname,

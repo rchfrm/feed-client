@@ -18,7 +18,7 @@ const SplitView = ({
   className,
 }) => {
   const isDesktopLayout = useBreakpointTest(breakpoint)
-  const [activeOption, setActiveOption] = React.useState(!basePath ? options[0].name : slug)
+  const [activeOption, setActiveOption] = React.useState(! basePath ? options[0].name : slug)
 
   return (
     <div className={className}>

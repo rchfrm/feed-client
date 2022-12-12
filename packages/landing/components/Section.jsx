@@ -6,7 +6,7 @@ const Section = ({ children, className, fullWidth, id }) => {
     <section
       id={id}
       className={[
-        !fullWidth ? standardWidthClasses : null,
+        ! fullWidth ? standardWidthClasses : null,
         'py-15',
         className,
       ].join(' ')}

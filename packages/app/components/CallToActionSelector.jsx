@@ -36,7 +36,7 @@ const CallToActionSelector = ({
 
   // Get all call to actions and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
+    if (! isMounted()) return
     const { res: callToActions } = await getCallToActions()
     const options = callToActions.map(({ id, name }) => ({ name, value: id }))
     setCallToActionOptions(options)
@@ -44,10 +44,10 @@ const CallToActionSelector = ({
   }, [])
 
   const updateCallToAction = React.useCallback(async (selectedOptionValue, forceRun = false) => {
-    if (loading && !forceRun) return
+    if (loading && ! forceRun) return
     setLoading(true)
 
-    if (isPostActive && !forceRun) {
+    if (isPostActive && ! forceRun) {
       // Set function to run when confirming alert
       setOnAlertConfirm(() => () => updateCallToAction(selectedOptionValue, true))
       // Show alert
@@ -55,7 +55,7 @@ const CallToActionSelector = ({
       return
     }
     // Skip API request and only update parent call to action value
-    if (!shouldSaveOnChange) {
+    if (! shouldSaveOnChange) {
       setCallToAction(selectedOptionValue)
       setLoading(false)
       return
@@ -93,7 +93,7 @@ const CallToActionSelector = ({
   }
 
   React.useEffect(() => {
-    if (!callToAction) {
+    if (! callToAction) {
       setCallToAction(callToActionOptions[0]?.value)
     }
   }, [callToAction, setCallToAction, callToActionOptions])

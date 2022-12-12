@@ -138,21 +138,21 @@ const GetStartedPostsSelection = () => {
   }
 
   useAsyncEffect(async (isMounted) => {
-    if (!canLoadPosts) return
+    if (! canLoadPosts) return
 
     // If there are already posts no need to do anything
     if (posts.length) {
       return
     }
 
-    if (!isMounted()) return
+    if (! isMounted()) return
 
     // Otherwise there are no enabled posts yet and we try to fetch the first 10 enabled posts sorted by normalized score
     await handlePosts(postType, 10)
   }, [canLoadPosts])
 
   React.useEffect(() => {
-    if (posts.length > 0 && !hasEnabledPosts) {
+    if (posts.length > 0 && ! hasEnabledPosts) {
       setPosts({
         type: 'batch-toggle-promotion',
         payload: {
@@ -167,13 +167,13 @@ const GetStartedPostsSelection = () => {
 
   if (initialLoading) return null
 
-  if (canLoadPosts && !posts.length && !isLoading) {
+  if (canLoadPosts && ! posts.length && ! isLoading) {
     return noPostsCopy.all()
   }
 
   return (
     <div className="flex flex-1 flex-column mb-6">
-      {!canLoadPosts ? (
+      {! canLoadPosts ? (
         <GetStartedPostsSelectionAnalysePosts />
       ) : (
         posts.length > 0 ? (

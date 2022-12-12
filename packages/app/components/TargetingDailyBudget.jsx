@@ -45,7 +45,7 @@ const TargetingDailyBudget = () => {
   } = React.useContext(ArtistContext)
 
   const { organizationArtists } = useBillingStore(getBillingStoreState)
-  const isDisabled = !hasSetUpProfile || !organizationArtists || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
+  const isDisabled = ! hasSetUpProfile || ! organizationArtists || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
@@ -61,7 +61,7 @@ const TargetingDailyBudget = () => {
         )}
         <TargetingDailyBudgetPauseButton
           togglePauseCampaign={togglePauseCampaign}
-          isPaused={!targetingState.status}
+          isPaused={! targetingState.status}
           isDisabled={isDisabled}
         />
       </div>

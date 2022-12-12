@@ -16,7 +16,7 @@ const ResultsGrowthStats = ({ data }) => {
   const { value, percentile, quartile, copy, hasGrowth } = data
 
   const getCopy = () => {
-    if (!quartile) {
+    if (! quartile) {
       return 'Followers'
     }
 

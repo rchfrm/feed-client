@@ -36,7 +36,7 @@ const ResultsContent = ({
 
   const isDesktopLayout = useBreakpointTest('sm')
 
-  if (!adData) return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
+  if (! adData) return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
 
   return (
     <div>
@@ -66,7 +66,7 @@ const ResultsContent = ({
               tabs={adMetricTypes}
               activeTab={metricType}
               setActiveTab={setMetricType}
-              shouldHideTab={!hasSalesObjective && !hasGrowthObjective}
+              shouldHideTab={! hasSalesObjective && ! hasGrowthObjective}
               tabToHideIndex={2}
               hasNoProfiles={hasNoProfiles}
               className={isDesktopLayout ? 'order-2' : 'order-1'}

@@ -66,11 +66,11 @@ const BaseFilters = ({
   const [buttonRefs, containerRef] = useScrollToButton(options, activeOptionId)
   // CHANGE ACTIVE COLOR
   React.useEffect(() => {
-    if (!activeOptionId || !options.length) return
+    if (! activeOptionId || ! options.length) return
     // Find active option color
     const { color: activeColor } = options.find(({ id }) => id === activeOptionId) || {}
     // Set hover color
-    if (!containerRef.current) return
+    if (! containerRef.current) return
     containerRef.current.style.setProperty('--active-color', activeColor)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOptionId, options])
@@ -91,12 +91,12 @@ const BaseFilters = ({
   // SET ACTIVE OPTION BASED ON QUERY STRING and LOCAL STORAGE
   React.useEffect(() => {
     // If not using query string, don't do anything
-    if (!useSetQuery && !useSetLocalStorage) return
+    if (! useSetQuery && ! useSetLocalStorage) return
     // Set current filter using query string
     const currentFilterQuery = router.query[querySlug]
     const currentFilterStorage = utils.getLocalStorage(querySlug)
     // If no filter query or storage query, use default
-    if (!currentFilterQuery && !currentFilterStorage) {
+    if (! currentFilterQuery && ! currentFilterStorage) {
       setActiveOptionId(defaultOptionId)
       return
     }
@@ -104,9 +104,9 @@ const BaseFilters = ({
     const storedFilter = currentFilterQuery || currentFilterStorage
     const activeId = useSlug ? getIdFromSlug(options, storedFilter) : storedFilter
     // Test if active ID is valid
-    const isIdValid = !!options.find(({ id }) => id === activeId)
+    const isIdValid = !! options.find(({ id }) => id === activeId)
     // If stored ID is not valid, use default option
-    if (!isIdValid) {
+    if (! isIdValid) {
       setActiveOptionId(defaultOptionId)
       return
     }
@@ -118,9 +118,9 @@ const BaseFilters = ({
   // UPDATE QUERY AND LOCAL STORAGE when active option changes
   React.useEffect(() => {
     const paths = [ROUTES.POSTS, ROUTES.INSIGHTS]
-    if (!paths.includes(router.pathname) || disabled) return
+    if (! paths.includes(router.pathname) || disabled) return
 
-    if (!activeOptionId) return
+    if (! activeOptionId) return
     const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
     const currentFilterQuery = router.query[querySlug]
     if (currentFilterQuery === filterName) return
@@ -134,7 +134,7 @@ const BaseFilters = ({
   }, [activeOptionId, router])
 
   const trackFilter = React.useCallback((activeOptionId) => {
-    if (!trackProps) return
+    if (! trackProps) return
     const filterName = useSlug ? getSlugFromId(options, activeOptionId) : activeOptionId
     const { action, ...props } = trackProps
     track(action, {
@@ -143,7 +143,7 @@ const BaseFilters = ({
     })
   }, [trackProps, options, useSlug])
 
-  if (!options.length) return null
+  if (! options.length) return null
 
   return (
     <div className={[
@@ -212,7 +212,7 @@ BaseFilters.propTypes = {
   useSetQuery: PropTypes.bool,
   useSetLocalStorage: PropTypes.bool,
   querySlug: (props, propName, componentName) => {
-    if ((props.useSetQuery || props.useSetLocalStorage) && !props[propName]) {
+    if ((props.useSetQuery || props.useSetLocalStorage) && ! props[propName]) {
       return new Error(`Please provide a value for the ${propName}! in ${componentName}`)
     }
   },

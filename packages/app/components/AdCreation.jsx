@@ -46,14 +46,14 @@ const AdCreation = () => {
     const formData = new FormData()
     const data = {
       message,
-      ...(!isDefaultLink && {
+      ...(! isDefaultLink && {
         link: {
           type: 'linkbank',
           linkId: currentLink.id,
           campaignType,
         },
       }),
-      ...(!isDefaultCallToAction && {
+      ...(! isDefaultCallToAction && {
         callToAction: {
           callToAction: currentCallToAction,
           campaignType,
@@ -79,7 +79,7 @@ const AdCreation = () => {
         version="green"
         onClick={save}
         trackComponentName="AdCreation"
-        disabled={!file || !message}
+        disabled={! file || ! message}
         loading={isLoading}
       >
         Save

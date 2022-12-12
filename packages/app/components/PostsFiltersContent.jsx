@@ -60,7 +60,7 @@ const PostsFiltersContent = ({
       <p className="font-bold text-base">Filter</p>
       <div className="flex flex-wrap border-solid border-0 border-t-2 pt-5">
         {Object.entries(filters).map(([key, value], index) => {
-          if (!value.length) return
+          if (! value.length) return
 
           const filter = postsHelpers.filterTypes[index]
           const filterName = filter.title

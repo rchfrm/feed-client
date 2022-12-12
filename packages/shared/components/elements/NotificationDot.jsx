@@ -16,7 +16,7 @@ const NotificationDot = ({
   return (
     <div
       className={[
-        !isInline ? 'absolute' : null,
+        ! isInline ? 'absolute' : null,
         getSizeClass(size),
         'bg-red rounded-full',
         className,

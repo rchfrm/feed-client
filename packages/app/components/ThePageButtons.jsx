@@ -18,9 +18,9 @@ const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }
   // CONTROLS PAGE
   if (icon === 'controls') {
     // No budget
-    if (!hasBudget && !missingDefaultLink) return true
+    if (! hasBudget && ! missingDefaultLink) return true
     // Spending paused
-    if (isSpendingPaused && !missingDefaultLink) return true
+    if (isSpendingPaused && ! missingDefaultLink) return true
   }
   // POSTS PAGE
   if (icon === 'posts' && missingDefaultLink) return true
@@ -77,7 +77,7 @@ const ThePageButtons = () => {
   ]
 
   // Don't show buttons if no logged in
-  if (!isLoggedIn || user.is_email_verification_needed || isGetStartedPage) return null
+  if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage) return null
 
   return (
     <div

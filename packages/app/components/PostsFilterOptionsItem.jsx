@@ -19,12 +19,12 @@ const PostsFilterOptionsItem = ({
   }, [filters, value])
 
   const onClick = () => {
-    const filterAction = !isActive ? addFilter : removeFilter
+    const filterAction = ! isActive ? addFilter : removeFilter
     filterAction(value)
-    setIsActive(!isActive)
+    setIsActive(! isActive)
 
     setFiltersState({
-      type: !isActive ? 'add-filter' : 'remove-filter',
+      type: ! isActive ? 'add-filter' : 'remove-filter',
       payload: {
         filterType: filterType.slug,
         filterValue: value,

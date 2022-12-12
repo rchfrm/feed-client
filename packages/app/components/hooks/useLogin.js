@@ -92,7 +92,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     }
     // Check if they have artists connected to their account or not,
     // if they don't, set setNoArtist, and push them to the Connect Artist page
-    if (!invitedArtistId && artists.length === 0) {
+    if (! invitedArtistId && artists.length === 0) {
       // Check whether we're coming from a manual oauth FB redirect...
       await checkAndHandlePlatformRedirect()
 
@@ -112,7 +112,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
     // If they do have artists, check for artist ID from query string parameter
     // or a previously selected artist ID in local storage
     let selectedArtistId = invitedArtistId
-    if (!selectedArtistId) {
+    if (! selectedArtistId) {
       const queryStringArtistId = queryString.parse(window.location.search).artistId
       if (queryStringArtistId) {
         utils.setLocalStorage('artistId', queryStringArtistId)
@@ -121,7 +121,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       // Check that the storedArtistId is one the user has access to...
       const hasAccess = artists.find(({ id }) => id === storedArtistId)
       // if they don't have access, clear artistId in local storage
-      if (!hasAccess) {
+      if (! hasAccess) {
         utils.setLocalStorage('artistId', '')
         fireSentryBreadcrumb({
           category: 'login',
@@ -174,7 +174,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
       action: 'handleInitialAuthCheck',
     })
     // If no auth user, handle that
-    if (!authUser) return handleNoAuthUser(authError)
+    if (! authUser) return handleNoAuthUser(authError)
     // If there is, store the user in auth context
     const authToken = await firebaseHelpers.getVerifyIdToken()
       .catch((error) => {
@@ -202,7 +202,7 @@ const useLogin = (initialPathname, initialFullPath, showContent) => {
         action: 'firebaseHelpers.auth.onAuthStateChanged',
       })
       const userRedirected = await handleInitialAuthCheck(authUser, fbRedirectError)
-      if (!isMounted()) return userRedirected
+      if (! isMounted()) return userRedirected
       showContent(isMounted)
       unsubscribe()
       return userRedirected

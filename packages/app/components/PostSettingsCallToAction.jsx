@@ -97,7 +97,7 @@ const PostSettingsCallToAction = ({
       setShouldShowSaveButton(savedCallToAction !== defaultCallToAction)
     }
 
-    if (!isDefaultCallToAction) {
+    if (! isDefaultCallToAction) {
       setShouldShowSaveButton(savedCallToAction !== currentCallToAction)
     }
   }, [isDefaultCallToAction, currentCallToAction, savedCallToAction, defaultCallToAction])

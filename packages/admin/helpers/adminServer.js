@@ -24,7 +24,7 @@ export const getEndpoint = async (endpoint) => {
 
 const isValidEntityType = (entityType) => {
   const allowedEntityTypes = ['artist', 'user', 'organization']
-  if (!allowedEntityTypes.includes(entityType)) throw new Error('Invalid entity type provided')
+  if (! allowedEntityTypes.includes(entityType)) throw new Error('Invalid entity type provided')
 }
 
 export const getEntityCategory = async ({ entityType, entityId }) => {

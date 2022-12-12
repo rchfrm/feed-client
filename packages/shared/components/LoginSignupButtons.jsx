@@ -26,7 +26,7 @@ const LoginSignupButtons = ({
       >
         {buttonPrefix} Facebook
       </ButtonFacebook>
-      {!isFacebookLogin && (
+      {! isFacebookLogin && (
         <Button
           className={styles.emailButton}
           onClick={onEmailClick}

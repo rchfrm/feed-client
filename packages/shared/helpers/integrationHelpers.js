@@ -100,7 +100,7 @@ export const getIntegrationUrl = (integration, baseUrl) => {
 // Get account ID from integration
 const getAccountId = (integration = {}, integrationInfo) => {
   const { platform } = integration
-  if (!platform) return null
+  if (! platform) return null
   const { accountIdKey, channelIdKey, userIdKey, customIdKey } = integrationInfo || getIntegrationInfo({ platform })
   // Handle YouTube
   if (platform === 'youtube') {
@@ -228,7 +228,7 @@ export const formatAndFilterIntegrations = (integrations, isMusician, ignoreEmpt
   const integrationsArray = Object.entries(integrationsMerged).reduce((filteredIntegrations, [platform, integration]) => {
     const integrationInfo = getIntegrationInfo({ platform })
     const accountId = getAccountId({ ...integration, platform }, integrationInfo)
-    const isEmpty = !accountId
+    const isEmpty = ! accountId
     if (ignoreEmpty && isEmpty) return filteredIntegrations
     // Else add to list with title and url
     return [...filteredIntegrations, {
@@ -280,7 +280,7 @@ export const getIntegrationRegex = (platform, trim) => {
 // TEST FOR VALID INTEGRATION LINK
 export const testValidIntegration = (url, platform) => {
   const regexExpression = getIntegrationRegex(platform)
-  if (!regexExpression) return false
+  if (! regexExpression) return false
   const reqexTest = new RegExp(regexExpression)
   return url.match(reqexTest)
 }

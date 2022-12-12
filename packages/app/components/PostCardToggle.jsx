@@ -53,7 +53,7 @@ const PostCardToggle = ({
     conversions_enabled,
   }) => {
     // Deprioritize post if opted out for Grow & Nurture and Conversions and post is prioritized
-    if (priorityEnabled && !promotion_enabled && !conversions_enabled) {
+    if (priorityEnabled && ! promotion_enabled && ! conversions_enabled) {
       const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled })
 
       // Update post list state
@@ -77,7 +77,7 @@ const PostCardToggle = ({
     setIsLoading(false)
     // Return to previous value if erroring
     if (error) {
-      setCurrentState(!newState)
+      setCurrentState(! newState)
       return
     }
     // Update post list state
@@ -110,7 +110,7 @@ const PostCardToggle = ({
             disabled ? 'opacity-50' : 'opacity-100',
           ].join(' ')}
           style={{
-            background: !isConversionsCampaign ? growthGradient : conversionsGradient,
+            background: ! isConversionsCampaign ? growthGradient : conversionsGradient,
           }}
         />
         {/* TITLE */}
@@ -118,7 +118,7 @@ const PostCardToggle = ({
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
-          {!isConversionsCampaign ? hasSalesObjective ? 'Grow & Nurture' : 'Promotable' : 'Sales'}
+          {! isConversionsCampaign ? hasSalesObjective ? 'Grow & Nurture' : 'Promotable' : 'Sales'}
         </strong>
         {/* RUNNING LABEL */}
         {isActive && (
@@ -138,7 +138,7 @@ const PostCardToggle = ({
         />
       </div>
       {/* DISABLE ALERT */}
-      {!sidePanelOpen && postPromotable && promotionStatus === 'active' && (
+      {! sidePanelOpen && postPromotable && promotionStatus === 'active' && (
         <PostCardDisableHandler
           post={post}
           postToggleSetterType={postToggleSetterType}

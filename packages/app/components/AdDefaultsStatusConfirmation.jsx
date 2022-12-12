@@ -36,7 +36,7 @@ const AdDefaultsStatusConfirmation = ({
   }, [postType])
 
   React.useEffect(() => {
-    if (!confirmationOpen) return closeAlert()
+    if (! confirmationOpen) return closeAlert()
     showAlert({
       children: alertContent,
       buttons: [

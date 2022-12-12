@@ -39,7 +39,7 @@ const GetStartedAdAccount = () => {
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
     const { res, error } = await getAdAccounts(artistId)
-    if (!isMounted()) return
+    if (! isMounted()) return
 
     if (error) {
       setIsLoading(false)
@@ -78,7 +78,7 @@ const GetStartedAdAccount = () => {
   }
 
   const handleNext = async () => {
-    if (!adAccountId) return
+    if (! adAccountId) return
 
     // Skip API request if ad account hasn't changed
     if (adAccountId === facebookIntegration?.adaccount_id) {
@@ -91,9 +91,9 @@ const GetStartedAdAccount = () => {
   }
 
   useAsyncEffect(async () => {
-    if (!adAccounts.length) return
+    if (! adAccounts.length) return
 
-    if (!adAccountId) {
+    if (! adAccountId) {
       // If there's only one ad account save and go to next step
       if (adAccounts.length === 1) {
         await saveAdAccount(adAccounts[0]?.id)

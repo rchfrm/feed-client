@@ -40,7 +40,7 @@ const PostsContent = ({ dummyPostsImages }) => {
   }, [user])
 
   React.useEffect(() => {
-    if (!isNewUser) {
+    if (! isNewUser) {
       setCanLoadPosts(true)
     }
   }, [isNewUser])
@@ -72,13 +72,13 @@ const PostsContent = ({ dummyPostsImages }) => {
               sortBy={sortBy}
               setSortBy={setSortBy}
               defaultSortState={defaultSortBy}
-              disabled={!hasArtists}
+              disabled={! hasArtists}
               className="col-span-12 sm:col-span-4"
             />
             {/* FILTERS */}
             <PostsFiltersHandler
               setFilterBy={setFilterBy}
-              disabled={!hasArtists}
+              disabled={! hasArtists}
               className="col-span-12 sm:col-span-8"
             />
           </div>

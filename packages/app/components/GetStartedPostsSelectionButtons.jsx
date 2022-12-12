@@ -64,7 +64,7 @@ const GetStartedPostsSelectionButtons = ({
   }
 
   // Show fixed buttons if on mobile
-  if (!isDesktopLayout) {
+  if (! isDesktopLayout) {
     return (
       <GetStartedPostsSelectionButtonsMobile
         loadMore={loadMore}

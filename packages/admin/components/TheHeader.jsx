@@ -16,7 +16,7 @@ const links = [
 
 const TheHeader = () => {
   const isLoggedIn = useLoggedInTest()
-  if (!isLoggedIn) return null
+  if (! isLoggedIn) return null
   return (
     <header className={[].join(' ')}>
       <nav className={['flex', 'flex-wrap', styles.links].join(' ')}>

@@ -11,7 +11,7 @@ export default {
   unverifiedEmails: ({ emails = [], isAccountPage }) => {
     return `It looks like you have ${emails.length === 1 ? `an unverified email: **${emails[0]}**` : `some unverified emails: ${emails.join(', ')}`}.
 
-Please check your inbox to confirm. ${!isAccountPage ? `Or change the email address on the [Account Page](${ROUTES.ACCOUNT}).` : ''}`
+Please check your inbox to confirm. ${! isAccountPage ? `Or change the email address on the [Account Page](${ROUTES.ACCOUNT}).` : ''}`
   },
   fbRedirectError: (errorReason) => {
     if (errorReason === 'user_denied') {
@@ -168,11 +168,11 @@ ${name} will be upgraded to <span className="text-insta font-bold">${capitalise(
     const { upgradedProfiles, period: { isFirstDayOfPeriod } } = prorationsPreview
 
     const list = upgradedProfiles.map(({ name, plan, currentPayment }) => {
-      if (!plan || (!currentPayment && plan === 'pro') || (!currentPayment && !hasSetUpProfile)) return
+      if (! plan || (! currentPayment && plan === 'pro') || (! currentPayment && ! hasSetUpProfile)) return
 
-      if (!currentPayment) return `- No charge for ${name}`
+      if (! currentPayment) return `- No charge for ${name}`
 
-      return `- ${formatCurrency(currentPayment, currency)} ${hasSetUpProfile ? `to upgrade ${name} to` : `to set up ${name} on`} <span className="text-insta font-bold">${capitalise(plan)}</span>${!isFirstDayOfPeriod ? '^' : ''}`
+      return `- ${formatCurrency(currentPayment, currency)} ${hasSetUpProfile ? `to upgrade ${name} to` : `to set up ${name} on`} <span className="text-insta font-bold">${capitalise(plan)}</span>${! isFirstDayOfPeriod ? '^' : ''}`
     })
 
     return `**To pay today:**
@@ -197,7 +197,7 @@ ${list.join('\n')}`
     const daysPassedInPeriod = daysInPeriod - daysRemainingInPeriod
 
     const list = upgradedProfiles.map(({ name, plan, nextPayment }) => {
-      if (!plan) return
+      if (! plan) return
 
       return `- ${formatCurrency(nextPayment, currency)} for ${name} on <span className="text-insta font-bold">${capitalise(plan)}</span>*`
     })
@@ -240,7 +240,7 @@ ${list.join('\n')}`
     const planBaseString = `Upgrade to <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span>`
     const baseString = hasCancelledPlan ? noPlanBaseString : planBaseString
 
-    if (!hasSetUpProfile) {
+    if (! hasSetUpProfile) {
       if (section === 'objective') return `${setupBaseString} choose your objective`
       if (section === 'linkbank') return `${setupBaseString} add to the link bank`
       if (section === 'integrations') return `${setupBaseString} integrate other platforms`

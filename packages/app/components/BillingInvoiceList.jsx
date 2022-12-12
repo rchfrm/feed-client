@@ -25,7 +25,7 @@ const BillingInvoiceList = ({
 
     setError(error)
 
-    if (!error) {
+    if (! error) {
       setInvoices(invoices)
     }
     setIsLoading(false)

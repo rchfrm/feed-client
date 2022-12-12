@@ -49,7 +49,7 @@ const ObjectiveSettings = () => {
       return
     }
 
-    if (objectiveChangeSteps.length > 0 && !forceRun) {
+    if (objectiveChangeSteps.length > 0 && ! forceRun) {
       setShouldShowAlert(true)
       return
     }
@@ -59,7 +59,7 @@ const ObjectiveSettings = () => {
 
     setIsLoading(true)
 
-    if (hasGrowthObjective && !link) {
+    if (hasGrowthObjective && ! link) {
       link = getLinkByPlatform(nestedLinks, platform)
     }
 
@@ -108,12 +108,12 @@ const ObjectiveSettings = () => {
       <h2>Objective</h2>
       <DisabledSection
         section="objective"
-        isDisabled={!hasSetUpProfile}
+        isDisabled={! hasSetUpProfile}
       >
         <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', hasGrowthPlan ? 'mb-12' : 'mb-4'].join(' ')} />
         <DisabledSection
           section="objective-traffic"
-          isDisabled={!hasGrowthPlan && hasSetUpProfile}
+          isDisabled={! hasGrowthPlan && hasSetUpProfile}
         >
           <div className="relative mb-4">
             <ObjectiveSettingsObjectiveSelector
@@ -130,7 +130,7 @@ const ObjectiveSettings = () => {
               isLoading={isLoading && isObjectiveChange}
               error={error}
             />
-            {hasGrowthPlan && !hasProPlan && (
+            {hasGrowthPlan && ! hasProPlan && (
               <DisabledActionPrompt
                 section="objective-sales"
                 version="small"

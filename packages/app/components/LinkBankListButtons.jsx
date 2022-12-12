@@ -45,7 +45,7 @@ const LinkBankListButtons = ({
           className={[isDisabled ? 'bg-grey-2' : null].join(' ')}
           onClick={() => {
             setEditModeOn((isOn) => {
-              return !isOn
+              return ! isOn
             })
           }}
           trackComponentName="LinkBankListButtons"

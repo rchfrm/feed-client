@@ -38,7 +38,7 @@ export const getNextBudgetUpgrade = (currentBudget) => {
 // Get slider config
 const getSliderRange = (defaultMin, defaultMax, sliderStep, initialBudget) => {
   // If no initial budget use defaults
-  if (!initialBudget) {
+  if (! initialBudget) {
     return [defaultMin, defaultMax]
   }
   // Budget less than default min
@@ -86,7 +86,7 @@ export const getSummary = {
   genders: (targetingState) => {
     const { genders } = targetingState
     const totalGenders = genders.length
-    if (!totalGenders) return 'All'
+    if (! totalGenders) return 'All'
     return genders.reduce((str, gender, index) => {
       const isLast = index === totalGenders - 1
       const name = utils.capitalise(gender)
@@ -97,7 +97,7 @@ export const getSummary = {
   platforms: (targetingState) => {
     const { platforms } = targetingState
     const totalPlatforms = platforms.length
-    if (!totalPlatforms) return 'Both'
+    if (! totalPlatforms) return 'Both'
     return platforms.reduce((str, gender, index) => {
       const isLast = index === totalPlatforms - 1
       const name = utils.capitalise(gender)
@@ -107,12 +107,12 @@ export const getSummary = {
   },
   countries: (targetingState) => {
     const { countries } = targetingState
-    if (!countries || !countries.length) return '-'
+    if (! countries || ! countries.length) return '-'
     return countries.map(({ name }) => name).join(', ')
   },
   cities: (targetingState) => {
     const { cities } = targetingState
-    if (!cities || !cities.length) return '-'
+    if (! cities || ! cities.length) return '-'
     return cities.map(({ name }) => name).join(', ')
   },
 }
@@ -248,7 +248,7 @@ const formatSettings = (settings, currencyOffset) => {
 }
 
 export const fetchTargetingState = async (artistId, currencyOffset) => {
-  if (!artistId) {
+  if (! artistId) {
     const errorMessage = 'Cannot fetch targeting state because no artist ID has been provided'
     return { error: { message: errorMessage } }
   }
@@ -326,7 +326,7 @@ export const getGeoLocations = (query) => {
 }
 
 export const getTotalSpentInPeriod = (dailyData, startDate) => {
-  if (!dailyData) return 0
+  if (! dailyData) return 0
 
   const dateKeys = Object.keys(dailyData)
   const startDateIndex = dateKeys.findIndex((key) => key === moment(startDate).format('yyyy-MM-DD'))
@@ -340,7 +340,7 @@ export const getTotalSpentInPeriod = (dailyData, startDate) => {
 }
 
 export const getSpendingData = (dailyData) => {
-  if (!dailyData) return null
+  if (! dailyData) return null
 
   const latestDayOfSpend = Object.keys(dailyData).filter((date) => dailyData[date] > 0).pop()
   const latestDayOf0Spend = Object.keys(dailyData).filter((date) => date < latestDayOfSpend && dailyData[date] === 0).pop()

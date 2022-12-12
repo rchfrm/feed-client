@@ -10,7 +10,7 @@ const PricingPeriodToggle = ({
   buttonPillClassName,
 }) => {
   const handleToggle = () => {
-    setShowAnnualPricing(!showAnnualPricing)
+    setShowAnnualPricing(! showAnnualPricing)
   }
 
   const handlePillClick = () => {
@@ -21,7 +21,7 @@ const PricingPeriodToggle = ({
     <div className={['relative', className].join(' ')}>
       <p
         className={[
-          !showAnnualPricing ? 'bold' : null,
+          ! showAnnualPricing ? 'bold' : null,
           'xs:w-16 mb-0',
           'text-right',
         ].join(' ')}

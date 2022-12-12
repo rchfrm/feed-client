@@ -81,9 +81,9 @@ const PostCardSettings = ({
   const isEligibleForConversions = [canBePromoted(offPlatformConversions), canBePromoted(remindConversions)].some(Boolean)
 
   const isToggleDisabled = campaignType === 'all'
-    ? !isEligibleForGrowAndNurture && !priorityEnabled
-    : (!isEligibleForConversions && !priorityEnabled)
-  const isSectionDisabled = campaignType === 'all' ? !isPromotionEnabled : !isConversionsEnabled
+    ? ! isEligibleForGrowAndNurture && ! priorityEnabled
+    : (! isEligibleForConversions && ! priorityEnabled)
+  const isSectionDisabled = campaignType === 'all' ? ! isPromotionEnabled : ! isConversionsEnabled
 
   const noCaptionEditReason = copy.captionNotEditableReason(post)
 
@@ -140,7 +140,7 @@ const PostCardSettings = ({
               isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
               setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
               isDisabled={isToggleDisabled}
-              showAlertModal={isConversionsCampaign && (!canRunConversions)}
+              showAlertModal={isConversionsCampaign && (! canRunConversions)}
             />
             <PostCardSettingsPromotionStatus
               promotionEnabled={promotionEnabled}
@@ -157,7 +157,7 @@ const PostCardSettings = ({
           <AdSettingsSection
             header="Link"
             section="post-link"
-            hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
+            hasPlanRestriction={! hasGrowthPlan && ! isSectionDisabled}
             copy={copy.postLinkSetting}
             isDisabled={isSectionDisabled}
           >
@@ -175,7 +175,7 @@ const PostCardSettings = ({
           <AdSettingsSection
             header="Call to Action"
             section="post-cta"
-            hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
+            hasPlanRestriction={! hasGrowthPlan && ! isSectionDisabled}
             copy={copy.postCallToActionSetting}
             isDisabled={isSectionDisabled}
           >
@@ -194,7 +194,7 @@ const PostCardSettings = ({
           <AdSettingsSection
             header="Caption"
             section="post-caption"
-            hasPlanRestriction={!hasGrowthPlan && !isSectionDisabled}
+            hasPlanRestriction={! hasGrowthPlan && ! isSectionDisabled}
             copy={noCaptionEditReason || copy.editCaption}
             isDisabled={isSectionDisabled}
             className={noCaptionEditReason && 'text-red'}
@@ -204,7 +204,7 @@ const PostCardSettings = ({
               postIndex={postIndex}
               postAdMessages={adMessages}
               updatePost={updatePost}
-              isEditable={!noCaptionEditReason}
+              isEditable={! noCaptionEditReason}
               campaignType={campaignType}
               isDisabled={isSectionDisabled}
             />

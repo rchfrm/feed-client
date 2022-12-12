@@ -10,7 +10,7 @@ const ArtistImage = ({ pageId, size, name, className }) => {
   const [error, setError] = React.useState(false)
 
   React.useEffect(() => {
-    if (!pageId) return
+    if (! pageId) return
     const src = `//graph.facebook.com/${pageId}/picture?type=${size}`
     setSrc(src)
     setError(false)
@@ -20,7 +20,7 @@ const ArtistImage = ({ pageId, size, name, className }) => {
     setError(true)
   }
 
-  if (error || !pageId) return <ProfileIcon className={className} fill={brandColors.greyDark} />
+  if (error || ! pageId) return <ProfileIcon className={className} fill={brandColors.greyDark} />
 
   return (
     <img className={className} alt={name} src={src} onError={onError} />

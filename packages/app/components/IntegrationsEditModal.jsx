@@ -36,10 +36,10 @@ const IntegrationsEditModal = ({
   const [hrefValid, setHrefValid] = React.useState(false)
   React.useEffect(() => {
     const sanitisedLink = utils.enforceUrlProtocol(link, true)
-    const hasError = !testValidIntegration(sanitisedLink, platform)
-    setHrefValid(!hasError)
+    const hasError = ! testValidIntegration(sanitisedLink, platform)
+    setHrefValid(! hasError)
     setHasHrefError(hasError)
-    if (!hasError) {
+    if (! hasError) {
       setShowHrefError(false)
     }
   }, [link, platform])
@@ -47,7 +47,7 @@ const IntegrationsEditModal = ({
   // IS SAVING ENABLED
   const [saveEnabled, setSaveEnabled] = React.useState(false)
   React.useEffect(() => {
-    const saveEnabled = !!link && !hasHrefError
+    const saveEnabled = !! link && ! hasHrefError
     setSaveEnabled(saveEnabled)
   }, [link, hasHrefError])
 
@@ -65,7 +65,7 @@ const IntegrationsEditModal = ({
     const newButtons = produce(modalButtons, (draftButtons) => {
       // Update save/delete button
       draftButtons[0].onClick = () => runSaveIntegration(integration, link, action)
-      draftButtons[0].disabled = action === 'delete' ? false : !saveEnabled
+      draftButtons[0].disabled = action === 'delete' ? false : ! saveEnabled
     })
     setButtons(newButtons)
   // eslint-disable-next-line
@@ -75,14 +75,14 @@ const IntegrationsEditModal = ({
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        if (!saveEnabled) return
+        if (! saveEnabled) return
         runSaveIntegration(integration, link, action)
         closeAlert()
       }}
       noValidate
     >
       <Error error={error} />
-      {action === 'add' && !cannotDelete ? (
+      {action === 'add' && ! cannotDelete ? (
         <Input
           className="mb-5"
           placeholder={placeholderUrl}
@@ -93,7 +93,7 @@ const IntegrationsEditModal = ({
           handleChange={(e) => {
             const { target: { value } } = e
             setLink(value)
-            if (showHrefError && !hasHrefError) {
+            if (showHrefError && ! hasHrefError) {
               setShowHrefError(false)
             }
           }}

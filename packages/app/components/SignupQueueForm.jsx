@@ -65,7 +65,7 @@ const formElements = [
 ]
 
 const testValidInput = (type, value) => {
-  if (!type) return !!value
+  if (! type) return !! value
   if (type === 'url') return testValidUrl(value, true)
   if (type === 'email') return testValidEmail(value)
 }
@@ -78,11 +78,11 @@ const SignupQueueForm = ({ className }) => {
   React.useEffect(() => {
     const hasEmptyRequired = formElements.some(({ required, id }) => {
       const { valid } = values[id] || {}
-      if (required && !valid) return true
+      if (required && ! valid) return true
       return false
     })
 
-    setIsFormValid(!hasEmptyRequired && acceptGDPR)
+    setIsFormValid(! hasEmptyRequired && acceptGDPR)
   }, [values, acceptGDPR])
   return (
     <form
@@ -99,7 +99,7 @@ const SignupQueueForm = ({ className }) => {
       onSubmit={(e) => {
         e.preventDefault()
         // Stop here if form not valid
-        if (!isFormValid) return
+        if (! isFormValid) return
         // TRACK
         track('join_waiting_list')
         // Submit form
@@ -182,8 +182,8 @@ const SignupQueueForm = ({ className }) => {
             onBlur={() => {
               setValues((values) => {
                 return produce(values, (draftValues) => {
-                  if (!draftValues[id]) return
-                  draftValues[id].error = !valid && required
+                  if (! draftValues[id]) return
+                  draftValues[id].error = ! valid && required
                 })
               })
             }}
@@ -201,7 +201,7 @@ const SignupQueueForm = ({ className }) => {
           name="gdpr[9737]"
           checked={acceptGDPR}
           onChange={() => {
-            setAcceptGDPR(!acceptGDPR)
+            setAcceptGDPR(! acceptGDPR)
           }}
         />
       </fieldset>
@@ -216,7 +216,7 @@ const SignupQueueForm = ({ className }) => {
         <Button
           type="submit"
           className="w-full sm:w-auto"
-          disabled={!isFormValid}
+          disabled={! isFormValid}
           trackComponentName="SignupQueueForm"
         >
           Join the queue

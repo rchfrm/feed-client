@@ -69,12 +69,12 @@ const LinkBankFolder = ({
   // Update local storage when changing open state
   const updateFolderStates = useControlsStore(getUpdateFolderStates)
   React.useEffect(() => {
-    if (!initialStateSet) return
+    if (! initialStateSet) return
     updateFolderStates(folderId, isOpen)
   // eslint-disable-next-line
   }, [isOpen])
 
-  if (!initialStateSet) return null
+  if (! initialStateSet) return null
 
   return (
     <Accordion
@@ -85,7 +85,7 @@ const LinkBankFolder = ({
       allowZeroExpanded
       preExpanded={isOpen ? [folderId] : []}
       onChange={([openFolderId]) => {
-        setIsOpen(!!openFolderId)
+        setIsOpen(!! openFolderId)
       }}
     >
       <AccordionItem uuid={folderId}>

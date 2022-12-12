@@ -12,7 +12,7 @@ import Entity from '@/admin/Entity'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 
 const UsersLoader = ({ id }) => {
-  const isSingleUser = !!id
+  const isSingleUser = !! id
 
   const propsToDisplay = [
     'email',
@@ -57,7 +57,7 @@ const UsersLoader = ({ id }) => {
   // GET DATA ARRAY BASED ON PAGE TYPE
   const usersArray = isSingleUser ? users : sortedUsers
 
-  if (!usersArray) {
+  if (! usersArray) {
     return (
       <section className="content">
         <p>Loading...</p>

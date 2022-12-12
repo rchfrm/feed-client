@@ -18,7 +18,7 @@ const GetStartedPaymentMethodPromoCode = ({
   const [shouldShowPromoCodeInput, setShouldShowPromoCodeInput] = React.useState(Boolean(promoCode))
 
   const toggleCouponCodeInput = () => {
-    setShouldShowPromoCodeInput((shouldShowPromoCodeInput) => !shouldShowPromoCodeInput)
+    setShouldShowPromoCodeInput((shouldShowPromoCodeInput) => ! shouldShowPromoCodeInput)
   }
 
   return (

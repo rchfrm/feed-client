@@ -37,7 +37,7 @@ const ReferralCodeProgress = ({
 
   // Get footnotes
   const footnotes = tiers.reduce((obj, { footnoteSymbol, footnote }) => {
-    if (!footnoteSymbol || obj[footnoteSymbol]) return obj
+    if (! footnoteSymbol || obj[footnoteSymbol]) return obj
     obj[footnoteSymbol] = {
       symbol: footnoteSymbol,
       footnote,

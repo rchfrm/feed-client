@@ -32,7 +32,7 @@ const SplitViewOptions = ({
   const goToSpecificSetting = (name, hasDefaultSidePanelButton) => {
     setActiveOption(name)
 
-    if (!shouldUseSidePanelOnMobile) return
+    if (! shouldUseSidePanelOnMobile) return
 
     if (isDesktopLayout) {
       if (basePath) {

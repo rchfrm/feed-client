@@ -33,7 +33,7 @@ const PostCardEditCaption = ({
   const [visibleCaption, setVisibleCaption] = React.useState('ad')
   const [useEditMode, setUseEditMode] = React.useState(false)
   const [adMessages, setAdMessages] = React.useState(postAdMessages)
-  const hasAdMessage = !!adMessages
+  const hasAdMessage = !! adMessages
   const [newCaption, setNewCaption] = React.useState('')
   const [adMessageId, setAdMessageId] = React.useState('')
   const [savedNewCaption, setSavedNewCaption] = React.useState('')
@@ -42,7 +42,7 @@ const PostCardEditCaption = ({
   const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
-    if (adMessages || !isMounted) return
+    if (adMessages || ! isMounted) return
 
     const { res, error } = await getPostAdMessages(artistId, post.id)
 
@@ -80,7 +80,7 @@ const PostCardEditCaption = ({
         return
       }
       // An empty caption means we did a reset to the original, so remove it from the array
-      if (!newCaption) {
+      if (! newCaption) {
         draftState.splice(index, 1)
         return
       }
@@ -101,11 +101,11 @@ const PostCardEditCaption = ({
   const [showAlert, setShowAlert] = React.useState(false)
   const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const updatePostDb = React.useCallback(async (newCaption, forceRun = false) => {
-    if (isLoading && !forceRun) return
+    if (isLoading && ! forceRun) return
     setIsLoading(true)
     // Stop here if a warning needs to be shown
     const shouldShowAlert = post.promotionStatus === 'active'
-    if (shouldShowAlert && !forceRun) {
+    if (shouldShowAlert && ! forceRun) {
       // Set function to run when confirming alert
       setOnAlertConfirm(() => () => updatePostDb(newCaption, true))
       // Show alert
@@ -126,7 +126,7 @@ const PostCardEditCaption = ({
     setError(error)
     setShowAlert(false)
     // Success!
-    if (!error) {
+    if (! error) {
       updateState(updatedAdMessages)
       // Track
       track('edit_caption_complete', {
@@ -199,7 +199,7 @@ const PostCardEditCaption = ({
               </a>
             )}
             {/* EDIT/SAVE BUTTON */}
-            {!isDisabled && (
+            {! isDisabled && (
               <Button
                 label={useEditMode ? 'Save new caption' : 'Edit caption'}
                 version="green x-small"
@@ -221,7 +221,7 @@ const PostCardEditCaption = ({
                 }}
                 trackComponentName="PostCardEditCaption"
               >
-                {!useEditMode && (
+                {! useEditMode && (
                   <PencilIcon fill={brandColors.bgColor} className="mr-1" style={{ height: '1rem' }} />
                 )}
                 {useEditMode ? 'Save' : 'Edit'}

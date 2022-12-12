@@ -51,8 +51,8 @@ const ResultsFallbackChart = ({
             className={[
               'flex h-7 mb-1',
               index === 0
-                ? !currPeriod ? 'rounded-full opacity-50' : 'rounded-l-full opacity-50'
-                : !prevPeriod ? 'rounded-full' : 'rounded-r-full',
+                ? ! currPeriod ? 'rounded-full opacity-50' : 'rounded-l-full opacity-50'
+                : ! prevPeriod ? 'rounded-full' : 'rounded-r-full',
             ].join(' ')}
             style={{ backgroundColor: color }}
           />

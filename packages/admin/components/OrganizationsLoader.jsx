@@ -6,7 +6,7 @@ import Entity from '@/admin/Entity'
 import ListSearch from '@/admin/elements/ListSearch'
 
 const OrganizationsLoader = ({ id }) => {
-  const isSingleOrg = !!id
+  const isSingleOrg = !! id
 
   const propsToDisplay = [
     'billing_enabled',
@@ -41,7 +41,7 @@ const OrganizationsLoader = ({ id }) => {
   // GET DATA ARRAY BASED ON PAGE TYPE
   const orgArray = isSingleOrg ? organizations : searchedOrgs
 
-  if (!orgArray) {
+  if (! orgArray) {
     return (
       <section>
         Loading...
@@ -68,7 +68,7 @@ const OrganizationsLoader = ({ id }) => {
   }
   return (
     <section className="content">
-      {!finishedLoading ? <p>Loading...</p> : <p>Finished loading all organisations</p>}
+      {! finishedLoading ? <p>Loading...</p> : <p>Finished loading all organisations</p>}
       <p>Total loaded: {organizations.length}</p>
       <p>Total filtered & searched: {searchedOrgs.length}</p>
 
