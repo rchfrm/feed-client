@@ -39,9 +39,10 @@ const PostsContainer = ({
   const animate = React.useCallback((isOpen) => {
     if (containerRef.current) {
       const ease = Power2.easeInOut
-      const duration = 0.1
       const minHeight = '73px'
-      const maxHeight = isOpen ? `${contentRef.current.clientHeight + 100}px` : minHeight
+      const contentHeight = contentRef.current.clientHeight + 100
+      const duration = contentHeight * 0.001
+      const maxHeight = isOpen ? `${contentHeight}px` : minHeight
 
       gsap.to(containerRef.current, { maxHeight, ease, duration })
     }
@@ -55,7 +56,6 @@ const PostsContainer = ({
     <div
       className={[
         'mb-5 rounded-dialogue border border-solid',
-        'transition-all duration-700 ease-in-out',
         'overflow-hidden',
         className,
       ].join(' ')}
