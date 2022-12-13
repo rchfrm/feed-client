@@ -33,7 +33,7 @@ const DefaultLinkInput = ({
 
   const [placeholder, setPlaceholder] = React.useState(defaultPlaceholder)
   const { looseLinks } = splitLinks(nestedLinks)
-  const shouldShowButton = !hasGrowthObjective && looseLinks.length > 0
+  const shouldShowButton = ! hasGrowthObjective && looseLinks.length > 0
 
   const handleChange = (e) => {
     if (error) {
@@ -54,15 +54,15 @@ const DefaultLinkInput = ({
   }, [hasGrowthObjective, objective, platform])
 
   React.useEffect(() => {
-    if (!hasGrowthObjective) {
-      setIsDisabled(!link.href)
+    if (! hasGrowthObjective) {
+      setIsDisabled(! link.href)
       return
     }
 
     const sanitisedLink = enforceUrlProtocol(link.href, true)
-    const hasError = !testValidIntegration(sanitisedLink, platform)
+    const hasError = ! testValidIntegration(sanitisedLink, platform)
 
-    setIsDisabled(!link.href || hasError)
+    setIsDisabled(! link.href || hasError)
   }, [hasGrowthObjective, objective, platform, link, setIsDisabled])
 
   React.useEffect(() => {

@@ -52,7 +52,7 @@ const TargetingSettings = () => {
         />
         {/* INTRO */}
         <h2>Targeting</h2>
-        <DisabledSection section="targeting" isDisabled={!hasSetUpProfile}>
+        <DisabledSection section="targeting" isDisabled={! hasSetUpProfile}>
           <MarkdownText
             markdown={copy.settingsIntro}
             className={[

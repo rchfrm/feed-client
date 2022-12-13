@@ -24,7 +24,7 @@ const getDatoData = async (query, cachedFilename, forceFetch) => {
   const currentPath = process.cwd()
   const cachedFile = `${cachedDataDir}${cachedFilename}.json`
   // Return cached data (if running locally and cached version exists)
-  if (!fetchLiveData && !forceFetch) {
+  if (! fetchLiveData && ! forceFetch) {
     // Check if cached data exists
     const cachedDataPath = path.resolve(currentPath, cachedFile)
     const cachedDataExists = fs.existsSync(cachedDataPath)

@@ -21,7 +21,7 @@ const PixelCreatorModal = ({
   // ENABLE/DISABLE
   React.useEffect(() => {
     // Update state
-    const isDisabled = !pixelName
+    const isDisabled = ! pixelName
     setDisabled(isDisabled)
     // Update buttons
     const newButtons = produce(modalButtons, (draftButtons) => {

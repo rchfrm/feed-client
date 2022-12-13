@@ -9,7 +9,7 @@ const ProfileUsersInvite = ({ hasSentInvite, setHasSentInvite }) => {
   const { artist } = React.useContext(ArtistContext)
 
   React.useEffect(() => {
-    if (!hasSentInvite) return
+    if (! hasSentInvite) return
 
     const timeout = setTimeout(() => {
       setHasSentInvite(false)

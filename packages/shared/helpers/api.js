@@ -28,7 +28,7 @@ async function requestWithRetries(req) {
       return await axiosInstance.request(req)
     } catch (err) {
       // rethrow the error if there's no request
-      if (!err.request) throw err
+      if (! err.request) throw err
 
       // rethrow the error if it's not an allowable retry method
       if (retryConfig.httpMethodsToRetry.indexOf(req.method.toUpperCase()) === -1) throw err
@@ -43,7 +43,7 @@ async function requestWithRetries(req) {
       // error if there's no response
       const status = err.response ? err.response.status : 503
       const isStatusMatch = retryConfig.statusCodesToRetry.filter(([min, max]) => min <= status && status <= max).length > 0
-      if (!isStatusMatch) throw err
+      if (! isStatusMatch) throw err
 
       // rethrow the error if it's the last attempt
       if (attempt === retryConfig.retry - 1) throw err
@@ -177,10 +177,10 @@ export function deleteRequest(path, data, token) {
   * * Makes requests  and returns errors as if the request were successful with an `error.message` key filled out
 */
 export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
-  if (!requestType) {
+  if (! requestType) {
     throw new Error('Please include a request type')
   }
-  if (!url) {
+  if (! url) {
     throw new Error('Please include a url')
   }
   const requestTypes = { get, patch, post, delete: deleteRequest }
@@ -194,7 +194,7 @@ export const requestWithCatch = async (requestType, url, payload = null, trackEr
     if (trackError) {
       const { category, action, ignoreErrorCodes = [] } = trackError
       // Ignore error codes
-      if (!ignoreErrorCodes.includes(code || message)) {
+      if (! ignoreErrorCodes.includes(code || message)) {
         // Sentry error
         fireSentryError({
           category,

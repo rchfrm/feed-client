@@ -25,7 +25,7 @@ const TargetingCampaignBudget = ({
   currencyOffset,
   hasActiveCampaignBudget,
 }) => {
-  const [isCampaignEdit, setIsCampaignEdit] = React.useState(!hasActiveCampaignBudget)
+  const [isCampaignEdit, setIsCampaignEdit] = React.useState(! hasActiveCampaignBudget)
   const [spendingData, setSpendingData] = React.useState(null)
   const [totalSpent, setTotalSpent] = React.useState(0)
 

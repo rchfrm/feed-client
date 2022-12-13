@@ -11,7 +11,7 @@ export default function TotalSpendLoader({ artistId, artistCurrency }) {
   const [error, setError] = React.useState()
 
   useAsyncEffect(async () => {
-    if (!artistId) {
+    if (! artistId) {
       setIsLoading(false)
       return
     }
@@ -27,7 +27,7 @@ export default function TotalSpendLoader({ artistId, artistCurrency }) {
       setError(error)
       return
     }
-    if (!res || !res[0] || !res[0].daily_data) {
+    if (! res || ! res[0] || ! res[0].daily_data) {
       setData(0)
       setIsLoading(false)
       return

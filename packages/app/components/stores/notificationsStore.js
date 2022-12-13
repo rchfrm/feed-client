@@ -41,8 +41,8 @@ const initialState = {
 const countActiveNotifications = (notifications) => {
   return notifications.reduce((total, { hidden, isRead, isDismissible, isComplete }) => {
     if (hidden) return total
-    if (!isRead) return total + 1
-    if (!isDismissible && !isComplete) return total + 1
+    if (! isRead) return total + 1
+    if (! isDismissible && ! isComplete) return total + 1
     return total
   }, 0)
 }
@@ -96,7 +96,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
 const setArtistsWithNotifications = (set) => (userArtists) => {
   // Get array of artist IDs with notifcations
   const artistIds = userArtists.reduce((ids, { id, notification_count }) => {
-    if (!notification_count) return ids
+    if (! notification_count) return ids
     return [...ids, id]
   }, [])
   // Set state
@@ -135,7 +135,7 @@ const setAsOpen = (set, get) => (notificationId, entityType, entityId) => {
   } = openedNotification
   set({ openedNotification, openedNotificationId })
   // Set notification as read (in store)
-  if (!isRead) {
+  if (! isRead) {
     setAsRead(notificationId, entityType, entityId)
     track('notification_marked_read', {
       title,
@@ -180,7 +180,7 @@ const setAsDismissed = (set, get) => (notificationId, entityType, entityId, isAc
     closeNotification(set)()
   }
   // Set as dismissed on server (if not actionable)
-  if (!isActionable) {
+  if (! isActionable) {
     dismissOnServer(notificationId, entityType, entityId)
   }
 }

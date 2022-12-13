@@ -34,7 +34,7 @@ const GetStartedObjectiveButton = ({
           fill={isDisabled ? brandColors.greyDark : brandColors.white}
         />
       </Button>
-      {(!selectedPlan || isDisabled) && (
+      {(! selectedPlan || isDisabled) && (
         <GetStartedObjectiveButtonFooter
           plan={plan}
           selectedPlan={selectedPlan}

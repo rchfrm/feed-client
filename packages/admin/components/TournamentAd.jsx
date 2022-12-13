@@ -28,7 +28,7 @@ const TournamentAd = ({ ad, winner, className }) => {
     fetcher,
   )
 
-  if (!adData) return null
+  if (! adData) return null
   if (error) return <Error error={error} />
 
   return (

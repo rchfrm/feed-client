@@ -59,7 +59,7 @@ const PostCardToggles = ({
         isEnabled={promotionEnabled}
         toggleCampaign={toggleCampaign}
         updatePost={updatePost}
-        disabled={!isEligibleForGrowAndNurture && !priorityEnabled}
+        disabled={! isEligibleForGrowAndNurture && ! priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
         hasSalesObjective={hasSalesObjective}
@@ -74,11 +74,11 @@ const PostCardToggles = ({
           artistId={artistId}
           isEnabled={conversionsEnabled}
           toggleCampaign={toggleCampaign}
-          disabled={!isEligibleForConversions && !priorityEnabled}
+          disabled={! isEligibleForConversions && ! priorityEnabled}
           updatePost={updatePost}
           isActive={isRunningInConversions}
           className={togglesClassName}
-          showAlertModal={!canRunConversions}
+          showAlertModal={! canRunConversions}
           hasSalesObjective={hasSalesObjective}
         />
       )}

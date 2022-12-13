@@ -42,7 +42,7 @@ const PostSettingsCaption = ({
     if (post.adMessages) return
 
     const { res: adMessages, error } = await getPostAdMessages(artistId, postId)
-    if (!isMounted) return
+    if (! isMounted) return
 
     if (error) {
       setError(error)
@@ -54,9 +54,9 @@ const PostSettingsCaption = ({
   }, [])
 
   const handleChange = () => {
-    setIsDefaultAdMessage(!isDefaultAdMessage)
+    setIsDefaultAdMessage(! isDefaultAdMessage)
 
-    if (!isDefaultAdMessage) {
+    if (! isDefaultAdMessage) {
       setShouldShowSaveButton(savedCaption !== post?.message)
     }
 
@@ -76,7 +76,7 @@ const PostSettingsCaption = ({
         return
       }
       // An empty caption means we did a reset to the original, so remove it from the array
-      if (!caption) {
+      if (! caption) {
         draftState.splice(index, 1)
         return
       }
@@ -126,7 +126,7 @@ const PostSettingsCaption = ({
 
   // On initial mount and on campaign type change set the ad message
   React.useEffect(() => {
-    if (!adMessages) return
+    if (! adMessages) return
 
     const postAdMessage = adMessages?.find((adMessage) => adMessage.campaignType === campaignType) || {}
     const adMessage = postAdMessage?.message || post?.message
@@ -156,7 +156,7 @@ const PostSettingsCaption = ({
           isLoading={isLoading}
         />
       </div>
-      {!noCaptionEditReason ? (
+      {! noCaptionEditReason ? (
         <CheckboxInput
           buttonLabel="Use original post caption"
           value="caption"
@@ -168,7 +168,7 @@ const PostSettingsCaption = ({
       ) : (
         <MarkdownText markdown={noCaptionEditReason} className={['sm:pl-4', isDisabled ? 'text-grey-2' : 'text-red'].join(' ')} />
       )}
-      {(!isDefaultAdMessage || noCaptionEditReason) && (
+      {(! isDefaultAdMessage || noCaptionEditReason) && (
         <div
           className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
         >

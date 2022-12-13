@@ -20,7 +20,7 @@ const FileUpload = ({ setFile }) => {
     setIsDragging(false)
     setError(null)
 
-    if (!blob) {
+    if (! blob) {
       return
     }
 
@@ -50,13 +50,13 @@ const FileUpload = ({ setFile }) => {
   const onDragEnter = (e) => {
     e.preventDefault()
 
-    setIsDragging((isDragging) => !isDragging)
+    setIsDragging((isDragging) => ! isDragging)
   }
 
   const onDragLeave = (e) => {
     e.preventDefault()
 
-    setIsDragging((isDragging) => !isDragging)
+    setIsDragging((isDragging) => ! isDragging)
   }
 
   const onDragOver = (e) => {
@@ -86,7 +86,7 @@ const FileUpload = ({ setFile }) => {
           'relative h-60 mb-4',
           'flex items-center justify-center',
           'border-2 border-dashed border-black rounded-dialogue',
-          !fileUrl ? 'p-5' : null,
+          ! fileUrl ? 'p-5' : null,
           isDragging ? 'bg-grey-1' : null,
         ].join(' ')}
       >

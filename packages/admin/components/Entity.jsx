@@ -40,7 +40,7 @@ const Category = ({ entityType, id }) => {
   const [error, setError] = React.useState()
 
   React.useEffect(() => {
-    if (!categoryIsPending) {
+    if (! categoryIsPending) {
       setSelectedCategoryType(category.type || undefined)
       setSelectedCategoryIndustry(category.industry || undefined)
     }
@@ -58,9 +58,9 @@ const Category = ({ entityType, id }) => {
   const handleClick = async (e) => {
     e.preventDefault()
     if (
-      !selectedCategoryType
+      ! selectedCategoryType
       || selectedCategoryType === 'none'
-      || !selectedCategoryIndustry
+      || ! selectedCategoryIndustry
       || selectedCategoryIndustry === 'none'
     ) {
       setError({ message: 'Select a Type and Industry' })
@@ -86,7 +86,7 @@ const Category = ({ entityType, id }) => {
       value: id,
     }
   })
-  if (!category.type) {
+  if (! category.type) {
     typeSelectOptions.unshift({
       name: '---',
       value: 'none',
@@ -99,7 +99,7 @@ const Category = ({ entityType, id }) => {
       value: id,
     }
   })
-  if (!category.industry) {
+  if (! category.industry) {
     industrySelectOptions.unshift({
       name: '---',
       value: 'none',
@@ -137,7 +137,7 @@ const Entity = ({ entity, propsToDisplay }) => {
   const [artistActivationStatus, setArtistActivationStatus] = React.useState(entity?.status)
   const [artistCampaignStatus, setArtistCampaignStatus] = React.useState(entity?.preferences?.targeting?.status)
   const entityInfo = getEntityInfo(entity)
-  if (!entity) {
+  if (! entity) {
     return null
   }
   return (

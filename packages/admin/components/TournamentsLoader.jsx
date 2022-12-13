@@ -15,7 +15,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import * as server from '@/helpers/sharedServer'
 
 const fetcher = async (artistId, campaignId, adsetId, tournamentId) => {
-  if (!artistId) return []
+  if (! artistId) return []
   // Get single tournament
   if (tournamentId) {
     // Get tournament
@@ -49,20 +49,20 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
 
   // Define loader type
   const singleTournament = React.useMemo(() => {
-    return !!tournamentId
+    return !! tournamentId
   }, [tournamentId])
 
   // Prepare filters
   const [activeFilter, setActiveFilter] = React.useState('all')
   const statusTypes = React.useMemo(() => {
-    if (!tournaments || singleTournament) return []
+    if (! tournaments || singleTournament) return []
     return tournaments.map(({ status }) => status)
   }, [tournaments, singleTournament])
 
   // Filter tournaments (based on active filter), &&
   const filteredTournaments = React.useMemo(() => {
     // Stop if no data
-    if (!tournaments) return []
+    if (! tournaments) return []
     // If only one tournament, or showing all tournaments
     if (tournaments.length === 1 || activeFilter === 'all') return tournaments
     // Filter tournaments (if neededd)
@@ -91,15 +91,15 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
   // Turn off global loading when finished
   const { toggleGlobalLoading } = React.useContext(InterfaceContext)
   React.useEffect(() => {
-    const loading = !tournaments && !error
+    const loading = ! tournaments && ! error
     toggleGlobalLoading(loading)
   }, [tournaments, toggleGlobalLoading, error])
 
   // Stop here before data is ready
-  if (!tournaments) return null
+  if (! tournaments) return null
 
   // Stop here if no tournaments
-  if (tournaments && !tournaments.length) {
+  if (tournaments && ! tournaments.length) {
     return (
       <p>No Tournaments found</p>
     )
@@ -111,7 +111,7 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
     <section className="tournaments">
       <h1>{singleTournament ? 'Tournament' : 'Tournaments'}</h1>
       {/* FILTERS */}
-      {!!statusTypes.length && (
+      {!! statusTypes.length && (
         <TournamentFilters
           statusTypes={statusTypes}
           activeFilter={activeFilter}
@@ -120,7 +120,7 @@ const TournamentsLoader = ({ artistId, campaignId, adsetId, tournamentId }) => {
       )}
       {/* ALL TOURNAMENTS */}
       <div>
-        {!singleTournament && (
+        {! singleTournament && (
           <p>Visible tournaments: {filteredTournaments.length}</p>
         )}
         {/* If showing a single tournament, just show it */}

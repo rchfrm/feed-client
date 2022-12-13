@@ -66,7 +66,7 @@ function TheHeaderContents({
   // FETCH NOTIFICATIONS
   const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
   const isGetStartedPage = pathname === ROUTES.GET_STARTED
-  const hasSideNav = isLoggedIn && user?.id && !user.is_email_verification_needed && !isGetStartedPage
+  const hasSideNav = isLoggedIn && user?.id && ! user.is_email_verification_needed && ! isGetStartedPage
 
   return (
     <>
@@ -74,7 +74,7 @@ function TheHeaderContents({
       <header className={[
         styles.TheHeader,
         subNavOpen ? styles._subNavOpen : '',
-        !hasSideNav ? styles.hasNoSideNav : '',
+        ! hasSideNav ? styles.hasNoSideNav : '',
         mobileHeader ? 'relative' : null,
       ].join(' ')}
       >
@@ -91,7 +91,7 @@ function TheHeaderContents({
           title="home"
           className={[
             styles.logoContainer,
-            !hasSideNav ? styles.hasNoSideNav : '',
+            ! hasSideNav ? styles.hasNoSideNav : '',
           ].join(' ')}
         >
           <FeedLogo
@@ -104,11 +104,11 @@ function TheHeaderContents({
         <PageHeader className={styles.pageTitle} />
         {hasSideNav && (
           <>
-            {!mobileHeader && <ProfileStatus />}
+            {! mobileHeader && <ProfileStatus />}
             <TheSubNavButton
               toggleSubNav={toggleSubNav}
               navOpen={subNavOpen}
-              hasNotifactions={!!totalNotificationsUnread}
+              hasNotifactions={!! totalNotificationsUnread}
               className={[styles.subNavButton].join(' ')}
             />
           </>

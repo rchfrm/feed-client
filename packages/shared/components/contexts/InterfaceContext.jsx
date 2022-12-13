@@ -42,20 +42,20 @@ const reducer = (draftState, action) => {
 
   switch (actionType) {
     case 'toggleSubNav':
-      draftState.subNavOpen = typeof payload.state === 'boolean' ? payload.state : !draftState.subNavOpen
+      draftState.subNavOpen = typeof payload.state === 'boolean' ? payload.state : ! draftState.subNavOpen
       break
     case 'toggleGlobalLoading':
-      draftState.globalLoading = typeof payload.state === 'boolean' ? payload.state : !draftState.globalLoading
+      draftState.globalLoading = typeof payload.state === 'boolean' ? payload.state : ! draftState.globalLoading
       break
     case 'toggleGlobalLoadingSpinner':
-      draftState.showSpinner = typeof payload.state === 'boolean' ? payload.state : !draftState.showSpinner
+      draftState.showSpinner = typeof payload.state === 'boolean' ? payload.state : ! draftState.showSpinner
       break
     case 'setHeader':
       draftState.header.visible = typeof payload.visible === 'boolean' ? payload.visible : draftState.header.visible
       draftState.header.text = payload.text ? payload.text : draftState.header.text
       break
     case 'toggleRouteChanging':
-      draftState.routeChanging = typeof payload.state === 'boolean' ? payload.state : !draftState.routeChanging
+      draftState.routeChanging = typeof payload.state === 'boolean' ? payload.state : ! draftState.routeChanging
       break
     default:
       return draftState
@@ -88,7 +88,7 @@ const InterfaceContextProvider = ({ children }) => {
 
   // Hide spinner when global loading is false
   React.useEffect(() => {
-    if (!globalLoading) toggleGlobalLoadingSpinner(false)
+    if (! globalLoading) toggleGlobalLoadingSpinner(false)
   }, [globalLoading, toggleGlobalLoadingSpinner])
 
   // Set global loading to true when route changes

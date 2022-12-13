@@ -33,7 +33,7 @@ const IntegrationsPanel = ({
   return (
     <section>
       <h2>Integrations</h2>
-      <DisabledSection section="integrations" isDisabled={!hasSetUpProfile}>
+      <DisabledSection section="integrations" isDisabled={! hasSetUpProfile}>
         <MarkdownText markdown={copy.sidepanelIntro} className="mb-8" />
         <ul className="sm:grid grid-cols-2 gap-4">
           {integrations.map((integration) => {
@@ -46,7 +46,7 @@ const IntegrationsPanel = ({
                 integration={integration}
                 setArtist={setArtist}
                 location={location}
-                isDisabled={!hasSetUpProfile}
+                isDisabled={! hasSetUpProfile}
                 className="mb-8 mr-8 sm:mb-0 sm:mr-0 last:mb-0"
               />
             )

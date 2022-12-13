@@ -48,12 +48,12 @@ const ButtonApp = React.forwardRef(({
   const Wrapper = wrapper || (href ? 'a' : 'button')
   // Handle hrefs
   const linkType = href ? getLinkType(href) : null
-  const targetType = linkType === 'external' && !target ? '_blank' : '_self'
+  const targetType = linkType === 'external' && ! target ? '_blank' : '_self'
   const rel = linkType === 'external' ? 'noopener noreferrer' : null
 
   // ON CLICK
   const onButtonClick = React.useCallback((e) => {
-    if (!isExternalLink) {
+    if (! isExternalLink) {
       track({
         action: 'button_click',
         category: 'generic',

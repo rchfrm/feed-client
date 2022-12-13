@@ -46,7 +46,7 @@ const BillingProfilesSummary = ({
     return result
   }, {})
 
-  const filteredTransferRequests = transferRequests.filter(({ profile_id }) => !currentArtistIdsHashTable[profile_id])
+  const filteredTransferRequests = transferRequests.filter(({ profile_id }) => ! currentArtistIdsHashTable[profile_id])
 
   return (
     <div className={[className].join(' ')}>

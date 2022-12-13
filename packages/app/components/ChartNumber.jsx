@@ -35,7 +35,7 @@ const ChartNumber = ({
       return
     }
     const { source, platform, currency, dataType } = data
-    if (!source) return
+    if (! source) return
     const { mostRecent: { value: mostRecentValue }, dailyData } = data
     const calculatedValue = dataType === 'daily' ? combineDailyData(dailyData) : mostRecentValue
     const { bg: color } = brandColors[platform]

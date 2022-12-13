@@ -56,12 +56,12 @@ const PricingProrationsLoader = ({
   }
 
   useAsyncEffect(async (isMounted) => {
-    if (!profilesToUpgrade[artistId]) return
+    if (! profilesToUpgrade[artistId]) return
 
     const profilesWithPlan = formatProfilesToUpgrade(profilesToUpgrade, isAnnualPricing)
 
     const formattedProrations = await getProrations(profilesWithPlan)
-    if (!isMounted() || !formattedProrations) return
+    if (! isMounted() || ! formattedProrations) return
 
     setProrationsPreview(formattedProrations)
     setInternalProrationsPreview(formattedProrations)

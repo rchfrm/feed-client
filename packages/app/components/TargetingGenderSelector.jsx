@@ -6,7 +6,7 @@ import PillOptions from '@/elements/PillOptions'
 import TargetingSectionHeader from '@/app/TargetingSectionHeader'
 
 const translateArrayToKey = (array) => {
-  if (!array.length) return 'all'
+  if (! array.length) return 'all'
   return array[0]
 }
 
@@ -49,7 +49,7 @@ const TargetingGenderSelector = ({
 
   // UPDATE STATE
   const setOption = React.useCallback((key) => {
-    if (!key) return
+    if (! key) return
     const gendersArray = translateKeyToArray(key)
     onChange(gendersArray)
   }, [onChange])

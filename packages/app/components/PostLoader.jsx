@@ -65,10 +65,10 @@ const PostLoader = ({ postId }) => {
   const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
-    if (!artistId) return
+    if (! artistId) return
 
     const { res, error } = await getPostById(artistId, postId)
-    if (!isMounted()) return
+    if (! isMounted()) return
 
     if (error) {
       if (error.message === 'Not Found' || error.error === 'Not Found') {

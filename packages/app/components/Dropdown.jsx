@@ -17,7 +17,7 @@ const Dropdown = ({
   const dropdownRef = React.useRef(null)
 
   const close = ({ target }) => {
-    if (!dropdownRef.current) return
+    if (! dropdownRef.current) return
     // Don't close if clicking on dropdown button or items
     if (dropdownRef.current.contains(target)) return
 
@@ -45,14 +45,14 @@ const Dropdown = ({
   return (
     <div className={[className, 'relative'].join(' ')} ref={dropdownRef}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(! isOpen)}
         className={[
           buttonClassName,
           'flex items-center',
           disabled ? 'pointer-events-none' : null,
         ].join(' ')}
       >
-        {!disabled && (
+        {! disabled && (
           <div className={[
             'mr-1',
             'transition-transform duration-100 transform origin-center',

@@ -17,7 +17,7 @@ const DropdownPill = ({
   const dropdownRef = React.useRef(null)
 
   const close = ({ target }) => {
-    if (!dropdownRef.current) return
+    if (! dropdownRef.current) return
     // Don't close if clicking on dropdown button or items
     if (dropdownRef.current.contains(target)) return
 
@@ -45,7 +45,7 @@ const DropdownPill = ({
   return (
     <div className="relative" ref={dropdownRef}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(! isOpen)}
         className={[
           'flex items-center',
           'px-2 py-1 text-xs',

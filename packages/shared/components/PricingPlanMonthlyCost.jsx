@@ -35,7 +35,7 @@ export default function PricingPlanMonthlyCost({ amount, currencyCode, isManaged
       >
         {showAnnualPricing ? amount * 0.8 : amount}
       </p>
-      <p className="small--p">per month {!isManaged && 'per profile'}</p>
+      <p className="small--p">per month {! isManaged && 'per profile'}</p>
     </div>
   )
 }

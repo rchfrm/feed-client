@@ -24,7 +24,7 @@ const PageQuerySetter = ({
 
   const onSubmit = React.useCallback((e) => {
     e.preventDefault()
-    if (!typedQueries.length) return
+    if (! typedQueries.length) return
     const newUrl = typedQueries.reduce((url, query, index) => {
       const { queryName } = queries[index]
       const prefix = index === 0 ? '?' : '&'
@@ -51,7 +51,7 @@ const PageQuerySetter = ({
       <Button
         type="submit"
         className="mb-0"
-        disabled={!typedQueries.length === queries.length}
+        disabled={! typedQueries.length === queries.length}
         trackComponentName="PageQuerySetter"
       >
         {submitText}

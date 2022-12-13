@@ -52,17 +52,17 @@ const BasePage = ({
     const hasArtists = user.artists.length
     // Turn off global loading when:
     // User has no artists (ie, login or signup)
-    if (user.artists && !hasArtists) return toggleGlobalLoading(false)
+    if (user.artists && ! hasArtists) return toggleGlobalLoading(false)
     // Page is not artist sensitive and page is not controls sensitive and it's not an auth page (ie, login or signup)
-    if (!artistRequired && !controlsRequired && !authPage) {
+    if (! artistRequired && ! controlsRequired && ! authPage) {
       toggleGlobalLoading(false)
     }
     // Page is artist sensitive and artist has been loaded and page is not controls sensitive
-    if (artistRequired && !artistLoading && !controlsRequired) {
+    if (artistRequired && ! artistLoading && ! controlsRequired) {
       toggleGlobalLoading(false)
     }
     // Page is controls sensitive and links have been loaded
-    if (controlsRequired && !controlsLoading) {
+    if (controlsRequired && ! controlsLoading) {
       toggleGlobalLoading(false)
     }
   }, [artistLoading, artistRequired, authPage, toggleGlobalLoading, user, controlsRequired, controlsLoading])
@@ -72,7 +72,7 @@ const BasePage = ({
       <Head>
         <meta property="og:title" content={`Feed | ${capitalise(headerConfig.text)}`} />
       </Head>
-      {user.artists.length === 0 && artistRequired && !hasNoProfilesPage ? (
+      {user.artists.length === 0 && artistRequired && ! hasNoProfilesPage ? (
         <div>
           {/* NO ARTIST COPY */}
           <div className="p-5 bg-grey-1 rounded-dialogue max-w-xl mb-4">

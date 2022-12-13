@@ -102,7 +102,7 @@ const ResultsStats = ({
         </div>
       )}
 
-      {(!hasInstagramGrowthObjective && !hasSpotifyGrowthObjective) && !hasSalesObjective && (isDesktopLayout || metricType === 'growth') && (
+      {(! hasInstagramGrowthObjective && ! hasSpotifyGrowthObjective) && ! hasSalesObjective && (isDesktopLayout || metricType === 'growth') && (
         <ResultsConversionsActivator
           className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
         />

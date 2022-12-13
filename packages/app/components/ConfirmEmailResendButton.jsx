@@ -25,7 +25,7 @@ const ConfirmEmailResendButton = ({
   }, [setEmailResent, setError, emailType])
   // RESET BUTTON after 5s
   React.useEffect(() => {
-    if (!emailResent) return
+    if (! emailResent) return
     const timeout = setTimeout(() => {
       setEmailResent(false)
     }, 5000)

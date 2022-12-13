@@ -82,8 +82,8 @@ const artistReducer = (draftState, action) => {
       draftState.plan = payload.plan
       draftState.hasGrowthPlan = artistHelpers.hasGrowthPlan(payload.plan)
       draftState.hasProPlan = artistHelpers.hasProPlan(payload.plan)
-      draftState.hasNoPlan = !payload.plan
-      draftState.hasCancelledPlan = draftState.status === 'unpaid' && !draftState.hasNoPlan
+      draftState.hasNoPlan = ! payload.plan
+      draftState.hasCancelledPlan = draftState.status === 'unpaid' && ! draftState.hasNoPlan
       break
     }
     case 'set-status': {
@@ -108,7 +108,11 @@ const artistReducer = (draftState, action) => {
       break
     }
     case 'update-facebook-integration-scopes': {
-      draftState.integrations.find((integration) => integration.platform === 'facebook').authorization.scopes = payload.scopes
+      const facebookIntegration = draftState.integrations.find((integration) => integration.platform === 'facebook')
+      if (! facebookIntegration.authorization) {
+        facebookIntegration.authorization = {}
+      }
+      facebookIntegration.authorization.scopes = payload.scopes
       break
     }
     case 'set-has-set-up-profile': {
@@ -154,7 +158,7 @@ function ArtistProvider({ children }) {
     const isMusician = artistHelpers.testIfMusician(artistCategories)
 
     // Test whether default link is set
-    const missingDefaultLink = !artistHelpers.getDefaultLinkId(artist)
+    const missingDefaultLink = ! artistHelpers.getDefaultLinkId(artist)
 
     // Format integrations
     const integrationsFormatted = formatAndFilterIntegrations(artist.integrations, isMusician)
@@ -175,7 +179,7 @@ function ArtistProvider({ children }) {
     const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan)
     const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
     const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
-    const hasNoPlan = !artist?.plan
+    const hasNoPlan = ! artist?.plan
     const hasCancelledPlan = artist.status !== 'active'
 
     // Update artist with new info
@@ -195,7 +199,7 @@ function ArtistProvider({ children }) {
     })
 
     // Set hasBudget state
-    setHasBudget(!!artist.daily_budget)
+    setHasBudget(!! artist.daily_budget)
 
     setArtist({
       type: 'set-artist',
@@ -229,7 +233,7 @@ function ArtistProvider({ children }) {
       }
     }
 
-    if (!artist) return
+    if (! artist) return
 
     await updateArtist(artist)
 
@@ -285,7 +289,7 @@ function ArtistProvider({ children }) {
     setArtistLoading(false)
 
     // TRACK
-    const newUser = !oldUser.artists.length
+    const newUser = ! oldUser.artists.length
 
     if (newUser) {
       track('create_profile')
@@ -309,7 +313,7 @@ function ArtistProvider({ children }) {
     setArtist({
       type: 'set-spending-paused',
       payload: {
-        isSpendingPaused: !spendingStatus,
+        isSpendingPaused: ! spendingStatus,
       },
     })
   }, [setArtist])
@@ -363,7 +367,7 @@ function ArtistProvider({ children }) {
 
   // Update artist ID
   React.useEffect(() => {
-    if (!artist || !artist.id) return
+    if (! artist || ! artist.id) return
     const { id, currency } = artist
     // Set artist
     setArtistId(id)
@@ -374,7 +378,7 @@ function ArtistProvider({ children }) {
   // WHEN ARTIST CHANGES...
   // ----------------------
   React.useEffect(() => {
-    if (!artistId) return
+    if (! artistId) return
     // Store artist id in local storage
     utils.setLocalStorage('artistId', artistId)
   // eslint-disable-next-line

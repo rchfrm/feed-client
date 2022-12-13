@@ -48,7 +48,7 @@ const ResultsTopPerformingPost = ({
     setIsLoading(true)
 
     const { res, error } = await getPostById(artistId, post.id)
-    if (!isMounted()) return
+    if (! isMounted()) return
 
     if (error) {
       setIsLoading(false)

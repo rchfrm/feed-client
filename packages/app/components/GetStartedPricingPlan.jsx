@@ -41,7 +41,7 @@ const GetStartedPricingPlan = ({
         'flex flex-row items-center justify-between sm:block',
         'py-2 px-3 xs:py-3 sm:p-6',
         'mb-6 sm:mb-0',
-        !isDesktop && isRecommended ? 'pb-12 xs:pb-12' : null,
+        ! isDesktop && isRecommended ? 'pb-12 xs:pb-12' : null,
         'border-solid rounded-dialogue',
         isRecommended ? 'border-[5px] border-insta' : 'border-3 border-black',
         isDisabled ? 'border-grey-2' : null,

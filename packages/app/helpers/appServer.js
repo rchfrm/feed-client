@@ -49,7 +49,7 @@ export const updateIntegration = async (artistId, integrations) => {
   const integrationsPayload = integrations.reduce((obj, integration) => {
     const { platform, value, accountIdKey } = integration
     // For deleting
-    if (!value) {
+    if (! value) {
       obj[platform] = null
       return obj
     }
@@ -184,7 +184,7 @@ export const updateAccessToken = async (artistIds, accessToken) => {
   const errors = results.filter((res) => {
     const { status } = res
     const errorMessage = get(res, 'reason.response.data.error', null)
-    return status === 'rejected' && !errorMessage.includes('does not have access to page id')
+    return status === 'rejected' && ! errorMessage.includes('does not have access to page id')
   })
   // If there are errors, pass the first one
   if (errors.length) {
@@ -357,7 +357,7 @@ export const setLinkAsDefault = (artistId, linkId, hasSalesObjective = false) =>
  */
 export const verifyEmail = (token, useDummy) => {
   const requestUrl = '/accounts/verify-email'
-  const payload = { token: !token && useDummy ? 'nonFalsey' : token }
+  const payload = { token: ! token && useDummy ? 'nonFalsey' : token }
   const errorTracking = {
     category: 'Sign Up',
     action: 'Verify Email',
@@ -426,7 +426,7 @@ export const getAllNotifications = async (ids) => {
   ]
   const requests = notificationTypes.reduce((requestUrls, { type, idKey }) => {
     const id = ids[idKey]
-    if (!id) return requestUrls
+    if (! id) return requestUrls
     // Handle multiple organization IDs
     if (idKey === 'organizationIds') {
       const urls = ids[idKey].map((id) => ({

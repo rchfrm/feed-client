@@ -69,7 +69,7 @@ const AccountPageDetailsEmail = ({
       <Input
         name="email"
         label={hasEmailAuth ? 'Email' : 'Contact Email'}
-        tooltipMessage={!hasEmailAuth ? contactEmailTooltipMessage : ''}
+        tooltipMessage={! hasEmailAuth ? contactEmailTooltipMessage : ''}
         placeholder=""
         value={email}
         handleChange={handleChange}
@@ -78,10 +78,10 @@ const AccountPageDetailsEmail = ({
         disabled={loading}
       />
       {/* PENDING EMAIL MESSAGE */}
-      {(!emailVerified || pendingEmail) && (
+      {(! emailVerified || pendingEmail) && (
         <PENDING_EMAIL_NOTICE
           email={pendingEmail || userEmail}
-          isPending={!!pendingEmail}
+          isPending={!! pendingEmail}
           emailType={hasEmailAuth ? 'account email' : 'contact email'}
           loading={loading}
           className={hasEmailAuth ? 'mb-4' : 'mb-12'}
@@ -89,18 +89,18 @@ const AccountPageDetailsEmail = ({
       )}
       {/* CONTACT EMAIL */}
       {hasEmailAuth && (
-        <div className={!useCustomContactEmail ? 'mb-8' : null}>
+        <div className={! useCustomContactEmail ? 'mb-8' : null}>
           {/* CHOOSE SAME EMAIL */}
           <CheckboxInput
             label="Contact email"
             buttonLabel="Use my account email"
             value="Y"
             tooltipMessage={contactEmailTooltipMessage}
-            checked={!useCustomContactEmail}
+            checked={! useCustomContactEmail}
             required
             disabled={loading}
             onChange={() => {
-              setUseCustomContactEmail(!useCustomContactEmail)
+              setUseCustomContactEmail(! useCustomContactEmail)
             }}
           />
           {/* CONTACT EMAIL INPUT */}
@@ -112,12 +112,12 @@ const AccountPageDetailsEmail = ({
                 value={useCustomContactEmail ? contactEmail : email}
                 handleChange={handleChange}
                 type="email"
-                disabled={loading || !useCustomContactEmail}
+                disabled={loading || ! useCustomContactEmail}
               />
-              {(pendingContactEmail || (!contactEmailVerified && userContactEmail)) && (
+              {(pendingContactEmail || (! contactEmailVerified && userContactEmail)) && (
                 <PENDING_EMAIL_NOTICE
                   email={pendingContactEmail || userContactEmail}
-                  isPending={!!pendingContactEmail}
+                  isPending={!! pendingContactEmail}
                   emailType="contact email"
                   loading={loading}
                   className="mb-8"

@@ -142,7 +142,7 @@ export const fetchOrgById = async (orgId) => {
 // Sort payment methods, putting the default payment first
 const sortPaymentMethods = (paymentMethodsArray, defaultMethod) => {
   if (paymentMethodsArray.length === 1) return paymentMethodsArray
-  const methodsWithoutDefault = paymentMethodsArray.filter(({ is_default }) => !is_default)
+  const methodsWithoutDefault = paymentMethodsArray.filter(({ is_default }) => ! is_default)
   return [defaultMethod, ...methodsWithoutDefault]
 }
 
@@ -154,7 +154,7 @@ export const handleInitialize = (draftState, payload) => {
     selectedArtistPlan,
   } = payload
 
-  if (!orgArtists || !selectedArtistID || !selectedArtistPlan) return draftState
+  if (! orgArtists || ! selectedArtistID || ! selectedArtistPlan) return draftState
 
   const hasMultipleActiveProfiles = orgArtists.filter((artist) => {
     return artist.status === 'active'
@@ -181,7 +181,7 @@ export const handleInitialize = (draftState, payload) => {
 export const handleUpdateProfilePlan = (draftState, payload) => {
   const { profileId, plan } = payload
 
-  if (!profileId || !plan || !Object.hasOwn(draftState, profileId)) return draftState
+  if (! profileId || ! plan || ! Object.hasOwn(draftState, profileId)) return draftState
 
   if (plan === 'basic') {
     return Object.keys(draftState).reduce((acc, id) => {
@@ -201,7 +201,7 @@ export const handleUpdateProfilePlan = (draftState, payload) => {
 // GET ALL BILLING DETAILS
 export const getBillingDetails = ({ name, payment_status = 'none', customer, role }) => {
   // If no payment status setup
-  if (payment_status === 'none' || !customer) {
+  if (payment_status === 'none' || ! customer) {
     return {
       name,
       role,
@@ -230,7 +230,7 @@ export const getBillingDetails = ({ name, payment_status = 'none', customer, rol
 
 // GET DEFAULT PAYMENT METHOD
 export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
-  if (!allPaymentMethods.length) return null
+  if (! allPaymentMethods.length) return null
   return allPaymentMethods.find(({ is_default }) => is_default)
 }
 
@@ -274,7 +274,7 @@ export const formatProrationsPreview = ({ profilesToUpgrade, organizationArtists
   const daysInPeriod = periodEnd.diff(periodStart, 'days')
   const today = moment()
   const daysRemainingInPeriod = periodEnd.startOf('day').diff(today.startOf('day'), 'days')
-  const isFirstDayOfPeriod = (!currentPeriodStart && !currentPeriodEnd) || daysRemainingInPeriod === daysInPeriod
+  const isFirstDayOfPeriod = (! currentPeriodStart && ! currentPeriodEnd) || daysRemainingInPeriod === daysInPeriod
 
   const upgradedProfiles = Object.keys(profilesToUpgrade).reduce((array, id) => {
     const profile = organizationArtists.find((profile) => profile.id === id)
@@ -426,7 +426,7 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
       amount: profileAmounts[id],
     }
 
-    if (!result[planPrefix]) {
+    if (! result[planPrefix]) {
       result[planPrefix] = [value]
 
       return result

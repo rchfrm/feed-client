@@ -32,12 +32,12 @@ const DisabledActionPrompt = ({
 
   const ref = React.useRef()
   const hasOverflow = useHasOverflow(ref)
-  const shouldSetHeight = !copy && version !== 'border' && hasSetUpProfile
+  const shouldSetHeight = ! copy && version !== 'border' && hasSetUpProfile
 
   const onClick = () => {
-    if (!isButton) return
+    if (! isButton) return
 
-    if (!hasSetUpProfile && section !== 'connect-accounts') {
+    if (! hasSetUpProfile && section !== 'connect-accounts') {
       Router.push(ROUTES.GET_STARTED)
 
       return

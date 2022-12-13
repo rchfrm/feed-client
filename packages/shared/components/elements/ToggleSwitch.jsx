@@ -70,9 +70,9 @@ const ToggleSwitch = ({
   }, [sidePanelOpen])
 
   const animateSwitch = React.useCallback((forceState) => {
-    if (!containerElWidth || !switchElWidth) return
+    if (! containerElWidth || ! switchElWidth) return
 
-    const newState = typeof forceState === 'boolean' ? forceState : !state
+    const newState = typeof forceState === 'boolean' ? forceState : ! state
     const { current: switchCircle } = switchEl
     const maxMove = ((containerElWidth - switchElWidth) / 2) - 5
     const xDirection = newState ? 1 : -1
@@ -86,7 +86,7 @@ const ToggleSwitch = ({
 
   // Handle Tapping
   const handleTap = React.useCallback(() => {
-    const newState = !state
+    const newState = ! state
     onChange(newState, name)
   }, [name, state, onChange])
 
@@ -134,7 +134,7 @@ const ToggleSwitch = ({
   const [showSpinner, setShowSpinner] = React.useState(false)
   const spinnerTimeout = React.useRef()
   React.useEffect(() => {
-    if (!isLoading) {
+    if (! isLoading) {
       clearTimeout(spinnerTimeout.current)
       setShowSpinner(false)
       return
@@ -163,7 +163,7 @@ const ToggleSwitch = ({
       {/* Background */}
       <div className={styles.background} />
       {/* Buttons */}
-      {!disabled && (
+      {! disabled && (
         <>
           <ToggleSwitchClicker
             name={name}

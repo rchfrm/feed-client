@@ -19,7 +19,7 @@ const TargetingBudgetTabsAlert = ({
   const { showAlert, closeAlert } = useAlertModal()
 
   React.useEffect(() => {
-    if (!show) {
+    if (! show) {
       return closeAlert()
     }
 

@@ -36,7 +36,7 @@ const DefaultLinkForm = ({
     if (isLoading) return
 
     // Render either a select element or text input field based on this boolean
-    setShouldShowSelect(!hasGrowthObjective && looseLinks.length > 0)
+    setShouldShowSelect(! hasGrowthObjective && looseLinks.length > 0)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -47,7 +47,7 @@ const DefaultLinkForm = ({
       setLink({})
     }
 
-    setShouldShowSelect((shouldShowSelect) => !shouldShowSelect)
+    setShouldShowSelect((shouldShowSelect) => ! shouldShowSelect)
   }
 
   return (

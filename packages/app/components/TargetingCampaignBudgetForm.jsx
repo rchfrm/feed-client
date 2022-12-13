@@ -69,7 +69,7 @@ const TargetingCampaignBudgetForm = ({
       setEndDate(moment(value).add(1, 'days').toDate())
     }
 
-    if (!endDate || moment(value).isAfter(moment(endDate))) {
+    if (! endDate || moment(value).isAfter(moment(endDate))) {
       endDateRef.current.setOpen(true)
     }
   }
@@ -95,7 +95,7 @@ const TargetingCampaignBudgetForm = ({
   }
 
   React.useEffect(() => {
-    const formValid = !!(totalBudget && startDate && endDate)
+    const formValid = !! (totalBudget && startDate && endDate)
     setIsFormValid(formValid)
   }, [startDate, endDate, totalBudget])
 
@@ -110,7 +110,7 @@ const TargetingCampaignBudgetForm = ({
           className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
           currency={currency}
         />
-        {!hasActiveCampaignBudget && (
+        {! hasActiveCampaignBudget && (
           <InputDatePicker
             label="Start date"
             value={startDate}
@@ -154,12 +154,12 @@ const TargetingCampaignBudgetForm = ({
           className="h-8 mb-5 rounded-full"
           onClick={onSubmit}
           trackComponentName="TargetingCampaignBudgetForm"
-          disabled={!isFormValid || !hasSufficientBudget}
+          disabled={! isFormValid || ! hasSufficientBudget}
         >
           {getButtonText()} campaign
         </Button>
       </div>
-      {isFormValid && !hasSufficientBudget && (
+      {isFormValid && ! hasSufficientBudget && (
         <Error className="text-sm" error={{ message: copy.hasInsufficientBudgetError(daysInPeriod, minHard, currencyCode) }} />
       )}
     </form>

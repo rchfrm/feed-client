@@ -33,7 +33,7 @@ const ResultsPostsChartContent = ({
   // Get recents posts
   useAsyncEffect(async (isMounted) => {
     // Make sure to fetch the data only once
-    if (!isMounted() || posts.length || !globalAverage) return
+    if (! isMounted() || posts.length || ! globalAverage) return
 
     setIsLoading(true)
 
