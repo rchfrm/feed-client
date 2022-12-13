@@ -1,7 +1,7 @@
 import React from 'react'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import PostCardSettings from '@/app/PostCardSettings'
-import PostCardMetrics from '@/app/PostMetrics'
+import PostMetrics from '@/app/PostMetrics'
 import PostDetails from '@/app/PostDetails'
 import Button from '@/elements/Button'
 
@@ -51,7 +51,7 @@ const usePostsSidePanel = () => {
   const goToPostMetrics = React.useCallback(({ metrics, postType }) => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent((
-      <PostCardMetrics
+      <PostMetrics
         metrics={metrics}
         postType={postType}
         className="md:max-w-none max-w-lg"

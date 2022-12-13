@@ -162,8 +162,8 @@ export const postOptions = [
     title: 'Details',
   },
   {
-    name: 'insights',
-    title: 'Insights',
+    name: 'metrics',
+    title: 'Metrics',
   },
   {
     name: 'settings',

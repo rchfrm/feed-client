@@ -99,7 +99,6 @@ const PostCardActionsMenu = ({
 
   const openMetrics = () => {
     const metrics = {
-      organic: post.organicMetrics,
       paid: post.paidMetrics,
     }
 
