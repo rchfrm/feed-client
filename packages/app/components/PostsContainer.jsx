@@ -56,7 +56,7 @@ const PostsContainer = ({
     <div
       className={[
         'mb-5 rounded-dialogue border border-solid',
-        'overflow-hidden',
+        ! isOpen ? 'overflow-hidden' : null,
         className,
       ].join(' ')}
       ref={containerRef}
