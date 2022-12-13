@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostCardMetricsListItem from '@/app/PostCardMetricsListItem'
+import PostMetricsListItem from '@/app/PostMetricsListItem'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import * as utils from '@/helpers/utils'
 
-const PostCardMetricsList = ({
+const PostMetricsList = ({
   metrics,
   metricsContent,
   metricsType,
@@ -59,7 +59,7 @@ const PostCardMetricsList = ({
         // Get drilldown metrics
         const drilldownMetrics = metrics.drilldowns ? metrics.drilldowns[key] : null
         return (
-          <PostCardMetricsListItem
+          <PostMetricsListItem
             key={key}
             id={key}
             title={name}
@@ -76,14 +76,14 @@ const PostCardMetricsList = ({
 }
 
 
-PostCardMetricsList.propTypes = {
+PostMetricsList.propTypes = {
   metrics: PropTypes.object,
   metricsContent: PropTypes.array.isRequired,
   metricsType: PropTypes.string,
   className: PropTypes.string,
 }
 
-PostCardMetricsList.defaultProps = {
+PostMetricsList.defaultProps = {
   metrics: null,
   metricsType: '',
   className: null,
@@ -91,4 +91,4 @@ PostCardMetricsList.defaultProps = {
 
 
 
-export default React.memo(PostCardMetricsList)
+export default React.memo(PostMetricsList)

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import PostCardMetrics from '@/app/PostCardMetrics'
+import PostMetrics from '@/app/PostMetrics'
 
 const PostInsights = ({ post }) => {
   const { postType, promotionStatus } = post
@@ -16,7 +16,7 @@ const PostInsights = ({ post }) => {
   }
 
   return (
-    <PostCardMetrics
+    <PostMetrics
       metrics={metrics}
       postType={postType}
       shouldShowTitle={isDesktopLayout}

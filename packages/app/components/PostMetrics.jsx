@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import AdSettingsSection from '@/app/AdSettingsSection'
-import PostCardMetricsScore from '@/app/PostCardMetricsScore'
-import PostCardMetricsList from '@/app/PostCardMetricsList'
+import PostMetricsScore from '@/app/PostMetricsScore'
+import PostMetricsList from '@/app/PostMetricsList'
 
 import { getPostMetricsContent } from '@/app/helpers/postsHelpers'
 
@@ -24,7 +24,7 @@ const metricsType = [
   },
 ]
 
-const PostCardMetrics = ({
+const PostMetrics = ({
   metrics,
   postType,
   shouldShowTitle,
@@ -51,7 +51,7 @@ const PostCardMetrics = ({
                 className="md:grid grid-cols-12 items-center pt-4"
               >
                 <div className="col-span-4">
-                  <PostCardMetricsScore
+                  <PostMetricsScore
                     score={type === 'organic' ? typeMetrics.normalizedScore : typeMetrics.engagementScore}
                     metricsType={type}
                     className={[
@@ -61,7 +61,7 @@ const PostCardMetrics = ({
                     ].join(' ')}
                   />
                 </div>
-                <PostCardMetricsList
+                <PostMetricsList
                   metrics={typeMetrics}
                   metricsContent={getPostMetricsContent(type, postType)}
                   metricsType={type}
@@ -76,16 +76,16 @@ const PostCardMetrics = ({
   )
 }
 
-PostCardMetrics.propTypes = {
+PostMetrics.propTypes = {
   metrics: PropTypes.object.isRequired,
   postType: PropTypes.string.isRequired,
   shouldShowTitle: PropTypes.bool,
   className: PropTypes.string,
 }
 
-PostCardMetrics.defaultProps = {
+PostMetrics.defaultProps = {
   shouldShowTitle: true,
   className: null,
 }
 
-export default PostCardMetrics
+export default PostMetrics

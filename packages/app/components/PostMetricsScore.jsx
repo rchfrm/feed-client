@@ -5,7 +5,7 @@ import StarIcon from '@/icons/StarIcon'
 
 import brandColors from '@/constants/brandColors'
 
-const PostCardMetricsScore = ({
+const PostMetricsScore = ({
   score,
   className,
 }) => {
@@ -37,14 +37,14 @@ const PostCardMetricsScore = ({
   )
 }
 
-PostCardMetricsScore.propTypes = {
+PostMetricsScore.propTypes = {
   score: PropTypes.number,
   className: PropTypes.string,
 }
 
-PostCardMetricsScore.defaultProps = {
+PostMetricsScore.defaultProps = {
   score: null,
   className: null,
 }
 
-export default PostCardMetricsScore
+export default PostMetricsScore

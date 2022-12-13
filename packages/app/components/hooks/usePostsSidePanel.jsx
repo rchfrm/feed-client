@@ -1,7 +1,7 @@
 import React from 'react'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import PostCardSettings from '@/app/PostCardSettings'
-import PostCardMetrics from '@/app/PostCardMetrics'
+import PostCardMetrics from '@/app/PostMetrics'
 import PostDetails from '@/app/PostDetails'
 import Button from '@/elements/Button'
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import * as utils from '@/helpers/utils'
 
-const PostItemMetricsListItem = ({
+const PostMetricsListItem = ({
   title,
   value,
   drilldownMetrics,
@@ -53,7 +53,7 @@ const PostItemMetricsListItem = ({
   )
 }
 
-PostItemMetricsListItem.propTypes = {
+PostMetricsListItem.propTypes = {
   title: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([
     PropTypes.string,
@@ -63,9 +63,9 @@ PostItemMetricsListItem.propTypes = {
   className: PropTypes.string,
 }
 
-PostItemMetricsListItem.defaultProps = {
+PostMetricsListItem.defaultProps = {
   drilldownMetrics: null,
   className: '',
 }
 
-export default PostItemMetricsListItem
+export default PostMetricsListItem
