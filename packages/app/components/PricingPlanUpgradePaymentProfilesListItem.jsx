@@ -41,7 +41,7 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
       options.unshift('basic')
     }
 
-    if (profile.id !== profileInContextId && (profile.status !== 'active' || !profile.plan)) {
+    if (profile.id !== profileInContextId && (profile.status !== 'active' || ! profile.plan)) {
       options.push('none')
     }
 

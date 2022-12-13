@@ -159,7 +159,7 @@ export const handleInitialize = (draftState, payload) => {
   const hasMultipleActiveProfiles = orgArtists.filter((artist) => {
     return artist.status === 'active'
       && Boolean(artist.plan)
-      && !artist.plan.includes('basic')
+      && ! artist.plan.includes('basic')
   }).length > 0
 
   return orgArtists.reduce((acc, orgArtist) => {
@@ -167,7 +167,7 @@ export const handleInitialize = (draftState, payload) => {
       acc[orgArtist.id] = selectedArtistPlan
     } else if (orgArtist.plan?.includes('basic')) {
       acc[orgArtist.id] = 'growth'
-    } else if (hasMultipleActiveProfiles && !orgArtist.plan) {
+    } else if (hasMultipleActiveProfiles && ! orgArtist.plan) {
       acc[orgArtist.id] = 'none'
     } else {
       const [planPrefix] = orgArtist.plan?.split('_') || ['growth']
