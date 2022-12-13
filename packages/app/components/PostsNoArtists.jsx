@@ -4,20 +4,19 @@ import PropTypes from 'prop-types'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import NoArtistsConnectAccountsBlock from '@/app/NoArtistsConnectAccountsBlock'
-import PostsNoArtistsDummyAll from '@/app/PostsNoArtistsDummyAll'
+import PostsNoArtistsContainer from '@/app/PostsNoArtistsContainer'
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 import Error from '@/elements/Error'
 
 const PostsNoArtists = ({ dummyPostsImages }) => {
+  const [postOne, postTwo, ...otherPosts] = dummyPostsImages
   const { authError, setAuthError } = React.useContext(AuthContext)
   const [errors, setErrors] = React.useState([authError])
 
-  // Set initial error (if any)
   React.useEffect(() => {
     setErrors([authError])
   }, [authError])
 
-  // Clear auth error when leaving page
   React.useEffect(() => {
     return () => {
       setAuthError(null)
@@ -38,10 +37,28 @@ const PostsNoArtists = ({ dummyPostsImages }) => {
         />
       </div>
       <div className="relative mb-20">
-        <PostsNoArtistsDummyAll
-          dummyPostsImages={dummyPostsImages}
-          errors={errors}
-          setErrors={setErrors}
+        <PostsNoArtistsContainer
+          status="active"
+          dummyPostsImages={[postOne, postTwo]}
+          filterBy={{ platform: 'facebook', internal_type: 'story' }}
+          sortBy="published_time"
+          isOpen
+          className="border-green border-2"
+        />
+        <PostsNoArtistsContainer
+          status="pending"
+          isOpen={false}
+        />
+        <PostsNoArtistsContainer
+          status="inactive"
+          dummyPostsImages={otherPosts}
+          filterBy={{ platform: 'instagram', internal_type: 'post' }}
+          sortBy="normalized_score"
+          isOpen
+        />
+        <PostsNoArtistsContainer
+          status="archived"
+          isOpen={false}
         />
         <div
           className="absolute bg-black z-10 opacity-50"

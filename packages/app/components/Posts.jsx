@@ -3,6 +3,7 @@ import moment from 'moment'
 import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
+import PostsNoArtists from '@/app/PostsNoArtists'
 import PostsInitialImport from '@/app/PostsInitialImport'
 import PostsLoader from '@/app/PostsLoader'
 
@@ -45,7 +46,7 @@ const postsReducer = (draftState, postsAction) => {
   }
 }
 
-const Posts = () => {
+const Posts = ({ dummyPostsImages }) => {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const { artistId } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
@@ -113,7 +114,7 @@ const Posts = () => {
         />
       )
     ) : (
-      <p>No artists...</p>
+      <PostsNoArtists dummyPostsImages={dummyPostsImages} />
     )
   )
 }
