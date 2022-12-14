@@ -15,16 +15,23 @@ const PostToggle = ({
   isEnabled,
   disabled,
   shouldShowConversionsAlert,
-  shouldShowDisableAlert,
   className,
 }) => {
   const [currentState, setCurrentState] = React.useState(isEnabled)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
+  const [hasChanged, setHasChanged] = React.useState(false)
+
+  const { postPromotable, promotionStatus } = post
+  const shouldShowDisableAlert = postPromotable && promotionStatus === 'active' && hasChanged
 
   const isConversionsCampaign = campaignType === 'conversions'
   const { id: postId } = post
   const { artistId } = React.useContext(ArtistContext)
+
+  React.useEffect(() => {
+    setHasChanged(false)
+  }, [campaignType])
 
   React.useEffect(() => {
     setCurrentState(isEnabled)
@@ -57,6 +64,7 @@ const PostToggle = ({
     }
 
     setIsLoading(true)
+    setHasChanged(true)
     setCurrentState(newState)
 
     const { res: updatedPost, error } = await togglePromotionEnabled({ artistId, postId, promotionEnabled: newState, campaignType })
@@ -126,7 +134,6 @@ PostToggle.propTypes = {
   setPost: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   shouldShowConversionsAlert: PropTypes.bool,
-  shouldShowDisableAlert: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -134,7 +141,6 @@ PostToggle.defaultProps = {
   disabled: false,
   isEnabled: false,
   shouldShowConversionsAlert: false,
-  shouldShowDisableAlert: false,
   className: null,
 }
 

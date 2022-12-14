@@ -16,7 +16,6 @@ const PostContentToggle = ({
   hasSalesObjective,
 }) => {
   const isConversionsCampaign = campaignType === 'conversions'
-  const { postPromotable, promotionStatus } = post
 
   return (
     <div
@@ -58,7 +57,6 @@ const PostContentToggle = ({
         isEnabled={isEnabled}
         disabled={disabled}
         shouldShowConversionsAlert={shouldShowConversionsAlert}
-        shouldShowDisableAlert={postPromotable && promotionStatus === 'active'}
       />
     </div>
   )

@@ -11,13 +11,6 @@ const PostSettingsToggle = ({
   shouldShowConversionsAlert,
   className,
 }) => {
-  const { postPromotable, promotionStatus } = post
-  const [hasChanged, setHasChanged] = React.useState(false)
-
-  React.useEffect(() => {
-    setHasChanged(false)
-  }, [campaignType])
-
   return (
     <div className="flex flex-column w-1/2">
       <h3 className={[
@@ -40,7 +33,6 @@ const PostSettingsToggle = ({
           setPost={updatePost}
           isEnabled={isEnabled}
           shouldShowConversionsAlert={shouldShowConversionsAlert}
-          shouldShowDisableAlert={postPromotable && promotionStatus === 'active' && hasChanged}
           className="mr-4"
         />
         <p
