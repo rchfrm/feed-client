@@ -1,14 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
-import { SidePanelContext } from '@/contexts/SidePanelContext'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostContentLabel from '@/app/PostContentLabel'
-import PostDisableHandler from '@/app/PostDisableHandler'
-import PostToggleAlert from '@/app/PostToggleAlert'
-import ToggleSwitch from '@/elements/ToggleSwitch'
-import * as ROUTES from '@/app/constants/routes'
-import { updatePost, setPostPriority, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
+import PostToggle from '@/app/PostToggle'
+import { growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
 const PostContentToggle = ({
   campaignType,
@@ -21,71 +15,8 @@ const PostContentToggle = ({
   className,
   hasSalesObjective,
 }) => {
-  const [currentState, setCurrentState] = React.useState(isEnabled)
-  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(false)
-
   const isConversionsCampaign = campaignType === 'conversions'
-  const { id: postId, postPromotable, promotionStatus, priorityEnabled } = post
-
-  const { sidePanelOpen } = React.useContext(SidePanelContext)
-  const { artistId } = React.useContext(ArtistContext)
-
-  React.useEffect(() => {
-    setCurrentState(isEnabled)
-  }, [isEnabled])
-
-  const checkAndDeprioritize = React.useCallback(async ({
-    promotion_enabled,
-    conversions_enabled,
-  }) => {
-    // Deprioritize post if opted out for Grow & Nurture and Conversions and post is prioritized
-    if (priorityEnabled && ! promotion_enabled && ! conversions_enabled) {
-      const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled })
-
-      const { priority_enabled } = updatedPost
-      const payload = { priorityEnabled: priority_enabled }
-      setPost({
-        type: 'toggle-priority',
-        payload,
-      })
-    }
-  }, [artistId, postId, priorityEnabled, setPost])
-
-  const onChange = React.useCallback(async (newState) => {
-    if (showAlertModal) {
-      setShouldShowAlert(true)
-      return
-    }
-
-    setIsLoading(true)
-    setCurrentState(newState)
-
-    const { res: updatedPost, error } = await updatePost({ artistId, postId, promotionEnabled: newState, campaignType })
-
-    if (error) {
-      setCurrentState(! newState)
-      setIsLoading(false)
-      return
-    }
-
-    const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
-    setPost({
-      type: isConversionsCampaign ? 'toggle-conversion' : 'toggle-promotion',
-      payload: {
-        promotionEnabled: isConversionsCampaign ? conversions_enabled : promotion_enabled,
-        promotableStatus: promotable_status,
-      },
-    })
-    checkAndDeprioritize(updatedPost)
-    setIsLoading(false)
-  }, [artistId, postId, campaignType, isConversionsCampaign, showAlertModal, checkAndDeprioritize, setPost])
-
-  const goToControlsPage = () => {
-    Router.push({
-      pathname: ROUTES.CONTROLS,
-    })
-  }
+  const { postPromotable, promotionStatus } = post
 
   return (
     <div
@@ -120,34 +51,15 @@ const PostContentToggle = ({
           />
         )}
       </div>
-      <div>
-        <ToggleSwitch
-          state={currentState}
-          onChange={onChange}
-          isLoading={isLoading}
-          disabled={disabled}
-        />
-      </div>
-      {! sidePanelOpen && postPromotable && promotionStatus === 'active' && (
-        <PostDisableHandler
-          post={post}
-          updatePost={setPost}
-          artistId={artistId}
-          isEnabled={currentState}
-          setIsEnabled={setCurrentState}
-          campaignType={campaignType}
-        />
-      )}
-      {/* TOGGLE ALERT */}
-      {shouldShowAlert && (
-        <PostToggleAlert
-          show={shouldShowAlert}
-          onAlertConfirm={goToControlsPage}
-          onCancel={() => {
-            setShouldShowAlert(false)
-          }}
-        />
-      )}
+      <PostToggle
+        campaignType={campaignType}
+        post={post}
+        setPost={setPost}
+        isEnabled={isEnabled}
+        disabled={disabled}
+        showAlertModal={showAlertModal}
+        shouldShowDisableAlert={postPromotable && promotionStatus === 'active'}
+      />
     </div>
   )
 }
