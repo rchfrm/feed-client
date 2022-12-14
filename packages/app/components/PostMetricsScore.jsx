@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import StarIcon from '@/icons/StarIcon'
-
 import brandColors from '@/constants/brandColors'
 
 const PostMetricsScore = ({

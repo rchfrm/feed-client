@@ -1,14 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import AdSettingsSection from '@/app/AdSettingsSection'
 import PostMetricsScore from '@/app/PostMetricsScore'
 import PostMetricsList from '@/app/PostMetricsList'
-
 import { getPostMetricsContent } from '@/app/helpers/postsHelpers'
-
 import sidePanelStyles from '@/SidePanel.module.css'
-
 import copy from '@/app/copy/PostsPageCopy'
 
 const metricsType = [
