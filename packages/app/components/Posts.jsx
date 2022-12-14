@@ -20,8 +20,12 @@ const postsReducer = (draftState, postsAction) => {
   const {
     index,
     status,
+    newStatus,
     post,
     posts,
+    linkSpecs,
+    adMessages,
+    callToActions,
   } = payload
 
   switch (actionType) {
@@ -31,13 +35,26 @@ const postsReducer = (draftState, postsAction) => {
     case 'add-posts':
       draftState[status].push(...posts)
       break
-    case 'add-to-queue':
+    case 'toggle-promotion':
       draftState[status].splice(index, 1)
-      draftState.pending.push(post)
+      draftState[newStatus].push(post)
       break
-    case 'prioritize':
+    case 'toggle-conversion':
       draftState[status].splice(index, 1)
-      draftState.pending.unshift(post)
+      draftState[newStatus].push(post)
+      break
+    case 'toggle-priority':
+      draftState[status].splice(index, 1)
+      draftState[newStatus].unshift(post)
+      break
+    case 'update-link-specs':
+      draftState[status][index].linkSpecs = linkSpecs
+      break
+    case 'update-call-to-actions':
+      draftState[status][index].callToActions = callToActions
+      break
+    case 'update-ad-messages':
+      draftState[status][index].adMessages = adMessages
       break
     case 'reset-posts':
       return postsInitialState

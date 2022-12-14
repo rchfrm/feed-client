@@ -26,15 +26,17 @@ const usePostsSidePanel = () => {
 
   const goToPostSettings = React.useCallback(({
     post,
-    updatePost,
-    toggleCampaign,
+    index,
+    status,
+    setPosts,
   }) => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent((
       <PostSettings
         post={post}
-        updatePost={updatePost}
-        toggleCampaign={toggleCampaign}
+        index={index}
+        status={status}
+        setPost={setPosts}
       />
     ))
     setSidePanelContentLabel('Post Settings')

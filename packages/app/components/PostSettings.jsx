@@ -23,7 +23,9 @@ const getControlsStoreState = (state) => ({
 
 const PostSettings = ({
   post,
-  updatePost,
+  index,
+  status,
+  setPost,
   className,
 }) => {
   const {
@@ -41,7 +43,7 @@ const PostSettings = ({
   const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
 
-  const { artistId, artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
+  const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
   const isDesktopLayout = useBreakpointTest('sm')
 
   const { canRunConversions, optimizationPreferences } = useControlsStore(getControlsStoreState)
@@ -78,6 +80,17 @@ const PostSettings = ({
     }
   }, [isConversionsCampaign, promotionEnabled, conversionsEnabled])
 
+  const updatePost = ({ type, payload }) => {
+    setPost({
+      type,
+      payload: {
+        index,
+        status,
+        ...payload,
+      },
+    })
+  }
+
   return (
     <div>
       <h2 className="hidden sm:block mb-8">Post settings</h2>
@@ -101,7 +114,6 @@ const PostSettings = ({
                 postId={postId}
                 campaignType={campaignType}
                 updatePost={updatePost}
-                artistId={artistId}
                 isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
                 setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
                 isDisabled={isToggleDisabled || ! postPromotable}
@@ -154,11 +166,15 @@ const PostSettings = ({
 
 PostSettings.propTypes = {
   post: PropTypes.object.isRequired,
-  updatePost: PropTypes.func.isRequired,
+  index: PropTypes.number,
+  status: PropTypes.string,
+  setPost: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 PostSettings.defaultProps = {
+  index: 0,
+  status: '',
   className: null,
 }
 

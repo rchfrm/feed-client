@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostDisableHandler from '@/app/PostDisableHandler'
 import PostToggleAlert from '@/app/PostToggleAlert'
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import * as ROUTES from '@/app/constants/routes'
-import { updatePost as update } from '@/app/helpers/postsHelpers'
+import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 const PostSettingsToggle = ({
   post,
   postId,
   campaignType,
   updatePost,
-  artistId,
   isEnabled,
   setIsEnabled,
   isDisabled,
@@ -23,7 +23,9 @@ const PostSettingsToggle = ({
   const [isLoading, setIsLoading] = React.useState(false)
   const [hasChanged, setHasChanged] = React.useState(false)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+
   const isConversionsCampaign = campaignType === 'conversions'
+  const { artistId } = React.useContext(ArtistContext)
 
   const onChange = React.useCallback(async (newState) => {
     if (showAlertModal) {
@@ -34,7 +36,7 @@ const PostSettingsToggle = ({
     setHasChanged(true)
     setIsEnabled(newState)
 
-    const { res: updatedPost, error } = await update({ artistId, postId, promotionEnabled: newState, campaignType })
+    const { res, error } = await postsHelpers.updatePost({ artistId, postId, promotionEnabled: newState, campaignType })
 
     if (error) {
       setIsEnabled(! newState)
@@ -42,12 +44,16 @@ const PostSettingsToggle = ({
       return
     }
 
-    const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
+    const [updatedPost] = postsHelpers.formatPostsResponse([res])
+    const { promotionEnabled, conversionsEnabled, promotableStatus } = updatedPost
+
     updatePost({
       type: isConversionsCampaign ? 'toggle-conversion' : 'toggle-promotion',
       payload: {
-        promotionEnabled: isConversionsCampaign ? conversions_enabled : promotion_enabled,
-        promotableStatus: promotable_status,
+        promotionEnabled: isConversionsCampaign ? conversionsEnabled : promotionEnabled,
+        promotableStatus,
+        newStatus: promotionEnabled ? 'pending' : 'inactive',
+        post: updatedPost,
       },
     })
     setIsLoading(false)
@@ -124,7 +130,6 @@ PostSettingsToggle.propTypes = {
   postId: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
-  artistId: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,

@@ -47,7 +47,7 @@ const PostDisableHandler = ({
     promotionEnabled: getPromotionStatus(cachedPromotableStatus),
     disabled: ! reverseStatus,
     campaignType,
-    onResolve: ({ res: postUpdated, error }) => {
+    onResolve: ({ res, error }) => {
       setShouldShowAlert(false)
       setReverseStatus(false)
 
@@ -55,15 +55,19 @@ const PostDisableHandler = ({
         return
       }
 
-      const { promotion_enabled, conversions_enabled, promotable_status } = postUpdated
+      const [updatedPost] = postsHelpers.formatPostsResponse([res])
+      const { promotionEnabled, conversionsEnabled, promotableStatus } = updatedPost
+
       updatePost({
         type: isConversionsCampaign ? 'toggle-conversion' : 'toggle-promotion',
         payload: {
-          promotionEnabled: isConversionsCampaign ? conversions_enabled : promotion_enabled,
-          promotableStatus: promotable_status,
+          promotionEnabled: isConversionsCampaign ? conversionsEnabled : promotionEnabled,
+          promotableStatus,
+          newStatus: updatedPost.promotionEnabled ? 'pending' : 'inactive',
+          post: updatedPost,
         },
       })
-      setIsEnabled(isConversionsCampaign ? conversions_enabled : promotion_enabled)
+      setIsEnabled(isConversionsCampaign ? conversionsEnabled : promotionEnabled)
     },
   })
 

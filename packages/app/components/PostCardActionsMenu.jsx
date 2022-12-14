@@ -45,10 +45,11 @@ const PostCardActionsMenu = ({
     const [updatedPost] = formatPostsResponse([res])
 
     setPosts({
-      type: 'add-to-queue',
+      type: 'toggle-promotion',
       payload: {
         index,
         status,
+        newStatus: updatedPost.promotionEnabled ? 'pending' : 'inactive',
         post: updatedPost,
       },
     })
@@ -78,10 +79,11 @@ const PostCardActionsMenu = ({
     const [updatedPost] = formatPostsResponse([res])
 
     setPosts({
-      type: 'prioritize',
+      type: 'toggle-priority',
       payload: {
         index,
         status,
+        newStatus: updatedPost.priorityEnabled ? 'pending' : 'inactive',
         post: updatedPost,
       },
     })
@@ -92,8 +94,9 @@ const PostCardActionsMenu = ({
   const openSettings = () => {
     goToPostSettings({
       post,
-      updatePost: () => {},
-      toggleCampaign: () => {},
+      index,
+      status,
+      setPosts,
     })
   }
 

@@ -42,7 +42,7 @@ const PostContent = ({ post, setPost }) => {
   const postComponents = {
     details: <PostDetails post={post} className="md:pl-16" />,
     metrics: <PostMetrics metrics={metrics} postType={postType} shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
-    settings: <PostSettings post={post} updatePost={setPost} className="md:pl-16" />,
+    settings: <PostSettings post={post} setPost={setPost} className="md:pl-16" />,
   }
 
   React.useEffect(() => {

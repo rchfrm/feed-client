@@ -10,11 +10,6 @@ import ToggleSwitch from '@/elements/ToggleSwitch'
 import * as ROUTES from '@/app/constants/routes'
 import { updatePost, setPostPriority, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
-// CALL TO CHANGE STATE
-const runChangeState = ({ artistId, postId, promotionEnabled, campaignType }) => {
-  return updatePost({ artistId, postId, promotionEnabled, campaignType })
-}
-
 const PostContentToggle = ({
   campaignType,
   post,
@@ -66,7 +61,7 @@ const PostContentToggle = ({
     setIsLoading(true)
     setCurrentState(newState)
 
-    const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState, campaignType })
+    const { res: updatedPost, error } = await updatePost({ artistId, postId, promotionEnabled: newState, campaignType })
 
     if (error) {
       setCurrentState(! newState)
