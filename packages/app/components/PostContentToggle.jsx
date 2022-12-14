@@ -11,7 +11,7 @@ const PostContentToggle = ({
   isEnabled,
   isActive,
   disabled,
-  showAlertModal,
+  shouldShowConversionsAlert,
   className,
   hasSalesObjective,
 }) => {
@@ -24,7 +24,7 @@ const PostContentToggle = ({
         'relative w-full',
         'flex justify-between items-center',
         'rounded-dialogue',
-        showAlertModal ? 'border-2 border-solid border-red' : null,
+        shouldShowConversionsAlert ? 'border-2 border-solid border-red' : null,
         className,
       ].join(' ')}
     >
@@ -57,7 +57,7 @@ const PostContentToggle = ({
         setPost={setPost}
         isEnabled={isEnabled}
         disabled={disabled}
-        showAlertModal={showAlertModal}
+        shouldShowConversionsAlert={shouldShowConversionsAlert}
         shouldShowDisableAlert={postPromotable && promotionStatus === 'active'}
       />
     </div>
@@ -71,7 +71,7 @@ PostContentToggle.propTypes = {
   setPost: PropTypes.func.isRequired,
   isActive: PropTypes.bool,
   disabled: PropTypes.bool,
-  showAlertModal: PropTypes.bool,
+  shouldShowConversionsAlert: PropTypes.bool,
   className: PropTypes.string,
   hasSalesObjective: PropTypes.bool.isRequired,
 }
@@ -81,7 +81,7 @@ PostContentToggle.defaultProps = {
   className: null,
   isEnabled: false,
   isActive: false,
-  showAlertModal: false,
+  shouldShowConversionsAlert: false,
 }
 
 export default PostContentToggle

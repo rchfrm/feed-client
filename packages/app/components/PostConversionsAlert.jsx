@@ -9,18 +9,17 @@ const getControlsStoreState = (state) => ({
   canRunConversions: state.canRunConversions,
 })
 
-const PostToggleAlert = ({
+const PostConversionsAlert = ({
   show,
   onAlertConfirm,
   onCancel,
 }) => {
   const { canRunConversions } = useControlsStore(getControlsStoreState)
-  // Define alert contents
+
   const alertContents = React.useMemo(() => {
     return <MarkdownText markdown={copy.conversionsToggleAlert(canRunConversions)} />
   }, [canRunConversions])
 
-  // SHOW ALERT
   const { showAlert, closeAlert } = useAlertModal()
 
   React.useEffect(() => {
@@ -48,18 +47,17 @@ const PostToggleAlert = ({
     })
   }, [show, onAlertConfirm, onCancel, alertContents, showAlert, closeAlert])
 
-  // HIDE ALERT WHEN UNMOUNTING
   React.useEffect(() => {
     return closeAlert
   }, [closeAlert])
-  // NO RENDER
+
   return null
 }
 
-PostToggleAlert.propTypes = {
+PostConversionsAlert.propTypes = {
   show: PropTypes.bool.isRequired,
   onAlertConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 }
 
-export default PostToggleAlert
+export default PostConversionsAlert

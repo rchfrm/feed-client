@@ -117,7 +117,7 @@ const PostSettings = ({
                 isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
                 setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
                 isDisabled={isToggleDisabled || ! postPromotable}
-                showAlertModal={isConversionsCampaign && (! canRunConversions)}
+                shouldShowConversionsAlert={isConversionsCampaign && (! canRunConversions)}
                 className="pl-4"
               />
               <PostSettingsPromotionStatus

@@ -65,7 +65,7 @@ const PostContentToggles = ({
           disabled={! isEligibleForConversions && ! priorityEnabled}
           isActive={isRunningInConversions}
           className={togglesClassName}
-          showAlertModal={! canRunConversions}
+          shouldShowConversionsAlert={! canRunConversions}
           hasSalesObjective={hasSalesObjective}
         />
       )}

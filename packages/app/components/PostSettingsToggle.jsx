@@ -8,7 +8,7 @@ const PostSettingsToggle = ({
   updatePost,
   isEnabled,
   isDisabled,
-  showAlertModal,
+  shouldShowConversionsAlert,
   className,
 }) => {
   const { postPromotable, promotionStatus } = post
@@ -39,14 +39,14 @@ const PostSettingsToggle = ({
           post={post}
           setPost={updatePost}
           isEnabled={isEnabled}
-          showAlertModal={showAlertModal}
+          shouldShowConversionsAlert={shouldShowConversionsAlert}
           shouldShowDisableAlert={postPromotable && promotionStatus === 'active' && hasChanged}
           className="mr-4"
         />
         <p
           className={[
             'mb-0',
-            showAlertModal ? 'text-red' : null,
+            shouldShowConversionsAlert ? 'text-red' : null,
             isDisabled ? 'text-grey-2' : null,
           ].join(' ')}
         >
@@ -63,12 +63,12 @@ PostSettingsToggle.propTypes = {
   updatePost: PropTypes.func.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-  showAlertModal: PropTypes.bool,
+  shouldShowConversionsAlert: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostSettingsToggle.defaultProps = {
-  showAlertModal: false,
+  shouldShowConversionsAlert: false,
   className: null,
 }
 

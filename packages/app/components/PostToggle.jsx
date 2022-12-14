@@ -4,7 +4,7 @@ import Router from 'next/router'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostDisableHandler from '@/app/PostDisableHandler'
-import PostToggleAlert from '@/app/PostToggleAlert'
+import PostConversionsAlert from '@/app/PostConversionsAlert'
 import * as ROUTES from '@/app/constants/routes'
 import { togglePromotionEnabled, setPostPriority } from '@/app/helpers/postsHelpers'
 
@@ -14,7 +14,7 @@ const PostToggle = ({
   setPost,
   isEnabled,
   disabled,
-  showAlertModal,
+  shouldShowConversionsAlert,
   shouldShowDisableAlert,
   className,
 }) => {
@@ -51,7 +51,7 @@ const PostToggle = ({
   }, [artistId, postId, setPost, post.priorityEnabled])
 
   const onChange = React.useCallback(async (newState) => {
-    if (showAlertModal) {
+    if (shouldShowConversionsAlert) {
       setShouldShowAlert(true)
       return
     }
@@ -80,7 +80,7 @@ const PostToggle = ({
     })
     checkAndDeprioritize(updatedPost)
     setIsLoading(false)
-  }, [artistId, postId, campaignType, isConversionsCampaign, showAlertModal, checkAndDeprioritize, setPost])
+  }, [artistId, postId, campaignType, isConversionsCampaign, shouldShowConversionsAlert, checkAndDeprioritize, setPost])
 
   const goToControlsPage = () => {
     Router.push({
@@ -107,7 +107,7 @@ const PostToggle = ({
         />
       )}
       {shouldShowAlert && (
-        <PostToggleAlert
+        <PostConversionsAlert
           show={shouldShowAlert}
           onAlertConfirm={goToControlsPage}
           onCancel={() => {
@@ -125,7 +125,7 @@ PostToggle.propTypes = {
   isEnabled: PropTypes.bool,
   setPost: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  showAlertModal: PropTypes.bool,
+  shouldShowConversionsAlert: PropTypes.bool,
   shouldShowDisableAlert: PropTypes.bool,
   className: PropTypes.string,
 }
@@ -133,7 +133,7 @@ PostToggle.propTypes = {
 PostToggle.defaultProps = {
   disabled: false,
   isEnabled: false,
-  showAlertModal: false,
+  shouldShowConversionsAlert: false,
   shouldShowDisableAlert: false,
   className: null,
 }
