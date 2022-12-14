@@ -28,7 +28,7 @@ const EditBlock = ({
           'bg-insta',
           'rounded-full',
         ].join(' ')}
-        onClick={() => setIsEditMode(!isEditMode)}
+        onClick={() => setIsEditMode(! isEditMode)}
         trackComponentName={trackComponentName}
       >
         <PencilIcon fill={brandColors.white} />

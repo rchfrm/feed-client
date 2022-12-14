@@ -75,7 +75,7 @@ export const splitLinks = (nestedLinks = []) => {
 }
 
 const formatLinkForComparison = (link) => {
-  if (!link) return
+  if (! link) return
 
   return link
     .replace(/\/?(\?.*)?$/, '') // remove utm tags & query params
@@ -85,7 +85,7 @@ const formatLinkForComparison = (link) => {
 
 // Get link by ID
 export const getLinkById = (linkFolders, linkId) => {
-  if (!linkId) return null
+  if (! linkId) return null
 
   const allLinks = linkFolders.reduce((arr, { links }) => {
     return [...arr, ...links]
@@ -107,7 +107,7 @@ export const getLinkByHref = (linkFolders, linkHref) => {
     return [...arr, ...links]
   }, [])
   return allLinks.find(({ href }) => {
-    if (!href) return null
+    if (! href) return null
 
     return formatLinkForComparison(href) === formatLinkForComparison(linkHref)
   })
@@ -155,7 +155,7 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add', for
   const { href, name, folderName, folder_id: folderId, id: linkId } = link
   // ADD link
   const hrefSanitised = utils.enforceUrlProtocol(href)
-  const createNewFolder = !!folderName
+  const createNewFolder = !! folderName
   let { folder_id } = link
   // ADD or EDIT
   if (action === 'add' || action === 'edit') {
@@ -181,7 +181,7 @@ export const saveLink = async (artistId, link, savedFolders, action = 'add', for
     if (error) return { error }
     // If deleting last link of folder, also delete the folder
     const folder = savedFolders.find(({ id }) => id === folderId)
-    if (!folder || folder.totalLinks > 1) return { res: deleteLinkRes }
+    if (! folder || folder.totalLinks > 1) return { res: deleteLinkRes }
     await server.updateFolder(artistId, folder, 'delete', force)
     return { res: deleteLinkRes }
   }
@@ -247,7 +247,7 @@ export const afterEditLink = ({ newLink, oldLink, nestedLinks, defaultLink }) =>
   const defaultLinkUpdated = isDefaultLink ? afterEditDefaultLink({ newLink, defaultLink }) : null
 
   // Edit link in same folder
-  if (!hasMovedFolder) {
+  if (! hasMovedFolder) {
     const nestedLinksUpdated = produce(nestedLinks, (draftNestedLinks) => {
       const folderIndex = draftNestedLinks.findIndex((folder) => folder.id === newLinkFolderId)
       const linkIndex = draftNestedLinks[folderIndex].links.findIndex((link) => link.id === linkId)

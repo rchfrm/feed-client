@@ -22,7 +22,7 @@ const ResultsEngagedAudienceChartLoader = ({
   // Get follower growth data
   useAsyncEffect(async (isMounted) => {
     // Make sure to fetch the data only once
-    if (!isMounted() || dailyEngageData) return
+    if (! isMounted() || dailyEngageData) return
 
     setIsLoading(true)
 

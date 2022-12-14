@@ -6,7 +6,7 @@ const AdminGridItem = ({ children, forceFullWidth, className }) => {
     <li
       className={[
         'col-span-12',
-        `${!forceFullWidth ? 'sm:col-span-6' : ''}`,
+        `${! forceFullWidth ? 'sm:col-span-6' : ''}`,
         className,
       ].join(' ')}
     >

@@ -56,7 +56,7 @@ const ObjectiveSettingsChangeAlert = ({
 
   // Set alert content and buttons
   React.useEffect(() => {
-    if (!shouldShowAlert) return closeAlert()
+    if (! shouldShowAlert) return closeAlert()
 
     const buttons = [
       {
@@ -90,7 +90,7 @@ const ObjectiveSettingsChangeAlert = ({
     }
 
     // Save objective changes and close alert if it's the last step, the step data is saved and there were no errors
-    if ((isLastStep && !shouldSave && !hasError) || forceSave) {
+    if ((isLastStep && ! shouldSave && ! hasError) || forceSave) {
       await save({ objective, platform, savedLink }, [], true)
 
       closeAlert(false)
@@ -99,7 +99,7 @@ const ObjectiveSettingsChangeAlert = ({
     }
 
     // Go to next step
-    if (!shouldSave && !isLastStep) {
+    if (! shouldSave && ! isLastStep) {
       setCurrentStep((currentStep) => currentStep + 1)
     }
   }, [shouldSave, forceSave])

@@ -17,7 +17,7 @@ const TheLoadingOverlay = () => {
   } = React.useContext(InterfaceContext)
   // If loading lasts more than 300ms show the spinner
   React.useEffect(() => {
-    if (!globalLoading) return
+    if (! globalLoading) return
     // Only show spinner if loading page takes longer than 300ms
     const waitForLoad = setTimeout(() => {
       toggleGlobalLoadingSpinner(true)

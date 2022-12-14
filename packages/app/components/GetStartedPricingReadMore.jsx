@@ -34,7 +34,7 @@ const GetStartedPricingReadMore = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">{capitalise(name)}</h2>
-      {isDisabled && !isDesktop && <MarkdownText markdown={getStartedCopy.disabledPricingPlan(name, objective)} className="mb-4" />}
+      {isDisabled && ! isDesktop && <MarkdownText markdown={getStartedCopy.disabledPricingPlan(name, objective)} className="mb-4" />}
       <PricingPlanMonthlyCost amount={amount} currencyCode={currencyCode} />
       {isBasicPlan && <PricingPlanServiceFee percentage={serviceFeePercentage} />}
       <p className="text-2xl mb-8">{description}</p>

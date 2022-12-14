@@ -45,7 +45,7 @@ const PricingPlanUpgradePayment = ({
   const stripe = useStripe()
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
-  const isDisabled = (!planIsBasic && !amount) || Boolean(error)
+  const isDisabled = (! planIsBasic && ! amount) || Boolean(error)
 
   const {
     organizationArtists,
@@ -135,7 +135,7 @@ const PricingPlanUpgradePayment = ({
       const [planPrefix] = profile?.plan?.split('_') || []
 
       return profile.id !== artistId
-        && !(planPrefix === 'pro' && profile.status === 'active')
+        && ! (planPrefix === 'pro' && profile.status === 'active')
     })
 
     // Make sure that the currently active profile is the first item in the array

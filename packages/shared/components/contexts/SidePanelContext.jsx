@@ -42,14 +42,14 @@ const SidePanelContextProvider = ({ children }) => {
   }, [])
 
   const toggleSidePanel = React.useCallback((state) => {
-    const newState = typeof state === 'boolean' ? state : !sidePanelOpen
+    const newState = typeof state === 'boolean' ? state : ! sidePanelOpen
     // TRACK
     track('sidepanel_toggle', {
       content: sidePanelContentLabel.current,
-      action: !newState ? 'close' : 'open',
+      action: ! newState ? 'close' : 'open',
     })
     // Closing
-    if (!newState) return closeSidePanel()
+    if (! newState) return closeSidePanel()
     // Opening
     setSidePanelOpen(newState)
   }, [setSidePanelOpen, closeSidePanel, sidePanelOpen, sidePanelContentLabel])

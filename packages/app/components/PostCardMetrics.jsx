@@ -40,7 +40,7 @@ const PostCardMetrics = ({
       <div className={className}>
         {metricsType.map(({ type, header, description }) => {
           const typeMetrics = metrics[type]
-          if (!typeMetrics) return null
+          if (! typeMetrics) return null
           return (
             <AdSettingsSection
               key={type}

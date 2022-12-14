@@ -22,7 +22,7 @@ const NotificationCurrentInfoButton = ({
   // Notifications should be either dismissible, dismissible with CTA or actionable, but never dismissible and actionable.
   // Once an actionable notification is complete, it can be dismissed.
   const canDismiss = (isActionable && isComplete) || isDismissible
-  const isFacebookButton = buttonType === 'facebook' && !isComplete
+  const isFacebookButton = buttonType === 'facebook' && ! isComplete
 
   const onClick = React.useCallback(async () => {
     setLoading(true)
@@ -40,9 +40,9 @@ const NotificationCurrentInfoButton = ({
 
   return (
     <div className="mt-auto">
-      {(isActionable && !isComplete) || (isDismissible && ctaLink) ? (
+      {(isActionable && ! isComplete) || (isDismissible && ctaLink) ? (
         <ButtonType
-          className={!sidepanelLayout ? 'w-full rounded-none' : null}
+          className={! sidepanelLayout ? 'w-full rounded-none' : null}
           version={isFacebookButton ? null : 'green'}
           loading={loading}
           onClick={onClick}
@@ -55,7 +55,7 @@ const NotificationCurrentInfoButton = ({
 
       {canDismiss && (
         <Button
-          className={!sidepanelLayout ? 'w-full rounded-t-none' : null}
+          className={! sidepanelLayout ? 'w-full rounded-t-none' : null}
           version="black"
           onClick={dismissNotification}
           trackComponentName="NotificationCurrentInfoButton"

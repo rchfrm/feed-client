@@ -19,10 +19,10 @@ export default function HomePage({ pageData }) {
     features,
     featuredArticles,
   } = pageData
-  const hasTestimonies = !!testimonies && testimonies.length > 0
-  const hasPartners = !!partners && partners.length > 0
-  const hasFeatures = !!features && features.length > 0
-  const hasFeaturedArticles = !!featuredArticles && featuredArticles.length > 0
+  const hasTestimonies = !! testimonies && testimonies.length > 0
+  const hasPartners = !! partners && partners.length > 0
+  const hasFeatures = !! features && features.length > 0
+  const hasFeaturedArticles = !! featuredArticles && featuredArticles.length > 0
   return (
     <>
       <Hero

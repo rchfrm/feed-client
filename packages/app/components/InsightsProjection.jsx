@@ -38,7 +38,7 @@ const InsightsProjection = ({
   React.useEffect(() => {
     const { projection, cumulative, platform } = data
     // If no projection or not cumulative, stop here
-    if (!projection || !cumulative) return setSentence('')
+    if (! projection || ! cumulative) return setSentence('')
     const { annualized: { predicted, growth } } = projection
     // Stop here if negative growth
     if (growth <= 0) return setSentence('')
@@ -52,7 +52,7 @@ const InsightsProjection = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId, data.source])
 
-  if (loading || !sentence) return null
+  if (loading || ! sentence) return null
 
   return (
     <div className={[className, styles.projectionContainer].join(' ')}>

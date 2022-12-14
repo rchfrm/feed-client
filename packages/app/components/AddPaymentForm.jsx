@@ -55,7 +55,7 @@ const FORM = ({
 
   // WAIT FOR STRIPE TO LOAD
   React.useEffect(() => {
-    if (!stripe || !elements) {
+    if (! stripe || ! elements) {
       setIsLoading(true)
       return
     }
@@ -65,7 +65,7 @@ const FORM = ({
   // TEST FORM IS VALID
   const [cardComplete, setCardComplete] = React.useState(false)
   React.useEffect(() => {
-    const formValid = !!(name && elements && stripe && cardComplete)
+    const formValid = !! (name && elements && stripe && cardComplete)
     setIsFormValid(formValid)
   }, [name, cardComplete, elements, stripe, setIsFormValid])
 
@@ -124,7 +124,7 @@ const FORM = ({
 
   // HANDLE FORM
   const onSubmit = React.useCallback(async () => {
-    if (!isFormValid || isLoading) return
+    if (! isFormValid || isLoading) return
 
     setIsLoading(true)
 

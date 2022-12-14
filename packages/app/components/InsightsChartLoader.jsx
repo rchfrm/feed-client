@@ -28,10 +28,10 @@ const fetchData = async ({ currentDataSource, currentPlatform, artistId, dates }
   const projectionPromise = server.getDataSourceProjection(currentDataSource, artistId)
   const [data, projections] = await Promise.all([dataPromise, projectionPromise])
   // Stop here if no data
-  if (!data || !Object.keys(data).length) return 'no-data'
+  if (! data || ! Object.keys(data).length) return 'no-data'
   // Get the actual data for the requested source
   const { daily_data: dailyData } = data[currentDataSource]
-  if (!dailyData || !Object.keys(dailyData).length) return 'no-data'
+  if (! dailyData || ! Object.keys(dailyData).length) return 'no-data'
   const projection = formatProjection(projections)
   const formattedData = formatServerData({
     dailyData,
@@ -86,7 +86,7 @@ function InsightsChartLoader({
 
   // Set initial page loading and global loading after first data is retrieved
   React.useEffect(() => {
-    if (!chartLoading) {
+    if (! chartLoading) {
       setInitialLoading(chartLoading)
       toggleGlobalLoading(false)
     }
@@ -95,7 +95,7 @@ function InsightsChartLoader({
 
   if (initialLoading) return null
 
-  if (!data) return null
+  if (! data) return null
 
   if (data === 'no-data') {
     return (

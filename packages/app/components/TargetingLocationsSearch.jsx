@@ -12,7 +12,7 @@ const TargetingLocationsSearch = () => {
   const { name } = location || {}
 
   return (
-    !location ? (
+    ! location ? (
       <>
         <p className="text-lg">Search for another location</p>
         <Search

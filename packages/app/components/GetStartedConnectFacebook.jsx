@@ -47,7 +47,7 @@ const GetStartedConnectFacebook = () => {
 
     const { res, error } = await artistHelpers.getArtistOnSignUp()
 
-    if (!isMounted()) return
+    if (! isMounted()) return
 
     if (error) {
       if (error.message === 'user cache is not available') {
@@ -75,12 +75,12 @@ const GetStartedConnectFacebook = () => {
     }
 
     const userArtists = user?.artists || []
-    const artistsFiltered = !user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
+    const artistsFiltered = ! user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
     const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered })
 
     // Handle connecting a single artist
-    if (processedArtists.length === 1 && isPlatformRedirect && !artistId) {
+    if (processedArtists.length === 1 && isPlatformRedirect && ! artistId) {
       setArtistAccounts(processedArtists)
       setSelectedProfile(processedArtists[0])
 
@@ -92,7 +92,7 @@ const GetStartedConnectFacebook = () => {
 
       const { error } = await connectArtist(artistAccountSanitised, user, plan) || {}
 
-      if (!isMounted()) return
+      if (! isMounted()) return
 
       if (error) {
         setIsConnecting(false)

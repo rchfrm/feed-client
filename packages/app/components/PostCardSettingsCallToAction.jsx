@@ -38,7 +38,7 @@ const PostCardSettingsCallToAction = ({
   const isPostActive = postPromotionStatus === 'active'
 
   useAsyncEffect(async (isMounted) => {
-    if (postCallToActions || !isMounted) return
+    if (postCallToActions || ! isMounted) return
 
     const { res, error } = await getPostCallToActions(artistId, postId)
 

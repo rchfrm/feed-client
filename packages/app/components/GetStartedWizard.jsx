@@ -163,11 +163,11 @@ const GetStartedWizard = () => {
 
   React.useEffect(() => {
     // Filter out the steps that should be skipped
-    setSteps(initialSteps.filter((step) => !step.shouldSkip))
+    setSteps(initialSteps.filter((step) => ! step.shouldSkip))
   }, [initialSteps])
 
   React.useEffect(() => {
-    if (!artistId) return
+    if (! artistId) return
 
     const { hasSetUpProfile } = artist
 
@@ -181,10 +181,10 @@ const GetStartedWizard = () => {
   // Once a profile has been created we use the data in localstorage to patch the newly created profile with these values
   useAsyncEffect(async (isMounted) => {
     if (
-      !isMounted()
-      || !artistId
+      ! isMounted()
+      || ! artistId
       || [objective, platform, defaultLink].every(Boolean)
-      || !wizardState
+      || ! wizardState
       || isControlsLoading
     ) {
       return
@@ -219,7 +219,7 @@ const GetStartedWizard = () => {
       const existingLink = getLinkByHref(nestedLinks, storedDefaultLink?.href)
       const currentLink = existingLink || storedDefaultLink
 
-      if (!currentLink) return
+      if (! currentLink) return
 
       if (existingLink) {
         action = 'edit'

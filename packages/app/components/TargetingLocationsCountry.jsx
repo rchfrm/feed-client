@@ -37,7 +37,7 @@ const TargetingLocationsCountry = ({
             checkboxClassname="mb-0"
           />
           <AccordionItemHeading
-            className={['w-full', !expanded || !hasCities ? 'pb-2' : null].join(' ')}
+            className={['w-full', ! expanded || ! hasCities ? 'pb-2' : null].join(' ')}
             style={{ transform: 'translateY(-0.1em)' }}
           >
             <AccordionItemButton>
@@ -62,7 +62,7 @@ const TargetingLocationsCountry = ({
                     <strong className="text-red"><em>{'< 1%'} of audience</em></strong>
                   )}
                 </p>
-                {!expanded && hasCities && !!totalCitiesSelected && (
+                {! expanded && hasCities && !! totalCitiesSelected && (
                   <div
                     className={[
                       'absolute top-0 left-0 whitespace-nowrap mt-6 pt-1 text-xs',

@@ -31,7 +31,7 @@ const ArtistActivationStatusButton = ({ artistId, artistStatus, setArtistsStatus
     // Turn off loading
     setLoading(false)
     // Handle error
-    if (!updatedArtist) return
+    if (! updatedArtist) return
     const { status: updatedStatus } = updatedArtist
     setArtistsStatus(updatedStatus)
   // eslint-disable-next-line

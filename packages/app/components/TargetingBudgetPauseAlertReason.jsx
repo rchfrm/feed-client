@@ -35,7 +35,7 @@ const TargetingBudgetPauseAlertReason = ({
             ...(hasCustomReason ? ({ customReason }) : {}),
           })
         },
-        disabled: !reason || (reason === 'other' && !isValidCustomReason),
+        disabled: ! reason || (reason === 'other' && ! isValidCustomReason),
         color: 'red',
       },
       {

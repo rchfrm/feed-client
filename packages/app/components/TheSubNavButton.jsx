@@ -27,7 +27,7 @@ const TheSubNavButton = ({
 
   React.useEffect(() => {
     const { facebook_page_id } = artist
-    if (!artistId || !facebook_page_id) return
+    if (! artistId || ! facebook_page_id) return
     setFbPageId(facebook_page_id)
   // eslint-disable-next-line
   }, [artistId])
@@ -45,7 +45,7 @@ const TheSubNavButton = ({
       className={[className, styles.button].join(' ')}
       aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
     >
-      {((hasNotifactions && !navOpen && !artistLoading) || hasPendingEmail) && (
+      {((hasNotifactions && ! navOpen && ! artistLoading) || hasPendingEmail) && (
         <NotificationDot size="medium" style={{ top: '-0.1rem', right: '-0.1rem', zIndex: 3 }} />
       )}
       <FlipContainer
@@ -72,7 +72,7 @@ const TheSubNavButton = ({
         innerClass={styles.inner}
         frontClass={[
           styles.frontIcon,
-          !artistId && !artistLoading ? 'bg-black rounded-full' : null,
+          ! artistId && ! artistLoading ? 'bg-black rounded-full' : null,
         ].join(' ')}
         backClass={styles.backIcon}
       />

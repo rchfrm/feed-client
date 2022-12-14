@@ -2,10 +2,10 @@ import React from 'react'
 import { gsap } from 'gsap'
 
 const isUndefined = (arg) => arg === undefined
-const isAnyDefined = (...args) => args.some((a) => !isUndefined(a))
+const isAnyDefined = (...args) => args.some((a) => ! isUndefined(a))
 const noop = () => { }
 const debug = (name, msg, devMode) => {
-  if (!devMode) return
+  if (! devMode) return
   // eslint-disable-next-line no-console
   console.debug(name, msg)
 }
@@ -96,7 +96,7 @@ const useAnimateOnMount = ({
   })
 
   const playEnterAnimation = () => {
-    if (!domRef.current) return
+    if (! domRef.current) return
     const animation = animateVisible(domRef.current)
     animationInstance.current = animation
     if (enter) {
@@ -144,11 +144,11 @@ const useAnimateOnMount = ({
   }
 
   React.useLayoutEffect(() => {
-    if (!domRef.current) {
+    if (! domRef.current) {
       debug(debugName, 'ref is now undefined!', devMode)
       return
     }
-    const shouldAnimateFirstRender = !didRender.current && animateFirstRender
+    const shouldAnimateFirstRender = ! didRender.current && animateFirstRender
     if (shouldAnimateFirstRender) {
       debug(debugName, 'Animating first render', devMode)
       return playEnterAnimation()
@@ -161,7 +161,7 @@ const useAnimateOnMount = ({
   }, [isVisible, debugName, animateFirstRender])
 
   React.useLayoutEffect(() => {
-    if (!didRender.current && isVisible) {
+    if (! didRender.current && isVisible) {
       debug(debugName, 'Rendered', devMode)
       didRender.current = true
     }

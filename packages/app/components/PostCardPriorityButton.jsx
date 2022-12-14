@@ -33,7 +33,7 @@ const PostCardPriorityButton = ({
 
   const isPostActive = promotionStatus === 'active'
   const isPostArchived = promotionStatus === 'archived'
-  const isDisabled = (isPostActive && !currentState) || !hasGrowthPlan
+  const isDisabled = (isPostActive && ! currentState) || ! hasGrowthPlan
 
   // Update internal state when outside state changes
   React.useEffect(() => {
@@ -47,7 +47,7 @@ const PostCardPriorityButton = ({
   }) => {
     const campaignType = 'all'
     // Opt in post for Grow & Nurture if prioritized and Grow & Nurture and Conversions are both opted out
-    if (priority_enabled && !promotion_enabled && !conversions_enabled) {
+    if (priority_enabled && ! promotion_enabled && ! conversions_enabled) {
       const { res: updatedPost } = await updatePost({ artistId, postId, promotionEnabled: true, campaignType })
 
       // Update post list state
@@ -83,10 +83,10 @@ const PostCardPriorityButton = ({
         <ChevronDoubleUpCircleIcon
           fill={currentState ? brandColors.instagram.bg : brandColors.white}
           stroke={currentState ? brandColors.white : brandColors.greyDark}
-          className={[!hasGrowthPlan ? '-mr-1' : null, 'w-6 h-6'].join(' ')}
+          className={[! hasGrowthPlan ? '-mr-1' : null, 'w-6 h-6'].join(' ')}
         />
       </button>
-      {!hasGrowthPlan && (
+      {! hasGrowthPlan && (
         <button onClick={() => openPricingPlanUpgradeSidePanel('priority-post')}>
           <LockIcon
             fill={brandColors.instagram.bg}

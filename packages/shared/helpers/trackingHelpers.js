@@ -17,7 +17,7 @@ export const track = (action, props) => {
   if (typeof action !== 'string') return
   // Stop here if not browser
   const isBrowser = typeof window !== 'undefined'
-  if (!isBrowser) return
+  if (! isBrowser) return
 
   // TRACK IN MIXPANEL
   mixpanelHelpers.trackMixpanel(action, props)
@@ -52,7 +52,7 @@ export const trackSignUp = ({ authProvider, userId }) => {
 // Setup PWA install tracker
 export const trackPWA = () => {
   const isBrowser = typeof window !== 'undefined'
-  if (!isBrowser) return
+  if (! isBrowser) return
   window.addEventListener('beforeinstallprompt', (event) => {
     event.userChoice.then((result) => {
       track(result.outcome === 'dismissed' ? 'decline_install_pwa' : 'install_pwa')

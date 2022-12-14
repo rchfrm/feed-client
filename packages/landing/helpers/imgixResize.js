@@ -51,7 +51,7 @@ export const getSrc = ({ image, width, ratio, format, blur }) => {
     return `${size(image.url, width, format)} ${w}w`
   }
   // If width is an integer...
-  const crop = !!ratio
+  const crop = !! ratio
   const height = crop ? width / ratio : null
   const fit = crop ? 'crop' : null
   return `${resize(image.url, { w: width, h: height, fit, blur }, format)} ${width}w`

@@ -40,7 +40,7 @@ const ArtistsLoader = () => {
   // Search state
   const [searchedArtists, setSearchedArtists] = React.useState(filteredArtists)
 
-  if (!artists) {
+  if (! artists) {
     return (
       <section className="content">
         <p>Loading...</p>
@@ -59,7 +59,7 @@ const ArtistsLoader = () => {
 
   return (
     <section className="content">
-      {!finishedLoading ? <p>Loading...</p> : <p>Finished loading all artists</p>}
+      {! finishedLoading ? <p>Loading...</p> : <p>Finished loading all artists</p>}
       <p>Total loaded: {artists.length}</p>
       <p>Total filtered & searched: {searchedArtists.length}</p>
 
@@ -73,7 +73,7 @@ const ArtistsLoader = () => {
       />
 
       {/* SEARCH */}
-      {!!artists.length && (
+      {!! artists.length && (
       <ListSearch
         className="pt-2"
         fullList={filteredArtists}

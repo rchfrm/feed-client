@@ -23,7 +23,7 @@ const ResultsAdGrowthChartLoader = ({
   // Get follower growth data
   useAsyncEffect(async (isMounted) => {
     // Make sure to fetch the data only once
-    if (!isMounted() || dailyGrowthData) return
+    if (! isMounted() || dailyGrowthData) return
 
     setIsLoading(true)
 

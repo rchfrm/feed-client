@@ -28,7 +28,7 @@ const TargetingDailyBudgetCustomBudgetButton = ({
         className,
       ].join(' ')}
       role="button"
-      onClick={() => setShowCustomBudget(!showCustomBudget)}
+      onClick={() => setShowCustomBudget(! showCustomBudget)}
     >
       {showCustomBudget ? 'Return to slider view' : 'Enter custom budget'}
     </a>

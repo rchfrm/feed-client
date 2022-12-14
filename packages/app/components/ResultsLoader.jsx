@@ -26,7 +26,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
   const { artistId, artist: { start_spending_at } } = React.useContext(ArtistContext)
 
   const hasStartedSpending = Boolean(start_spending_at)
-  const hasNoProfiles = !user.artists.length
+  const hasNoProfiles = ! user.artists.length
 
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
 
@@ -35,7 +35,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
       return 'no-profiles'
     }
 
-    if (hasStartedSpending && !isSpendingPaused) {
+    if (hasStartedSpending && ! isSpendingPaused) {
       return 'paid'
     }
 
@@ -71,7 +71,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
   }
 
   useAsyncEffect(async (isMounted) => {
-    if (!isMounted()) return
+    if (! isMounted()) return
     setIsLoading(true)
 
     if (resultsType !== 'paid') {
@@ -94,7 +94,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
 
   return (
     <>
-      {!hasNoProfiles ? (
+      {! hasNoProfiles ? (
         <ResultsHeader
           hasStartedSpending={hasStartedSpending}
           dateRange={adData?.dateRange}

@@ -32,7 +32,7 @@ const ConfirmEmailEmailSuccess = ({
   }, [intervalId, seconds, onContinue])
 
   React.useEffect(() => {
-    if (!isReauthenticateNeeded) {
+    if (! isReauthenticateNeeded) {
       setIntervalId(setInterval(() => setSeconds((prevSecond) => prevSecond - 1), 1000))
     }
     return () => clearInterval(intervalId)

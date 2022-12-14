@@ -52,7 +52,7 @@ const usePlatformRedirect = () => {
     - Redirect error
     - The state param from the callback doesn't match the state we passed during the redirect request
     */
-    if (!facebookAuthCode && !tikTokAuthCode) {
+    if (! facebookAuthCode && ! tikTokAuthCode) {
       return
     }
 

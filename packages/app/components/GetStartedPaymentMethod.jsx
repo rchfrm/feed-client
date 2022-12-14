@@ -48,7 +48,7 @@ const GetStartedPaymentMethod = () => {
 
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
-  const [shouldShowPaymentMethodForm, setShouldShowPaymentMethodForm] = React.useState(Boolean(!defaultPaymentMethod))
+  const [shouldShowPaymentMethodForm, setShouldShowPaymentMethodForm] = React.useState(Boolean(! defaultPaymentMethod))
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingAmountToPay, setIsLoadingAmountToPay] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
@@ -91,7 +91,7 @@ const GetStartedPaymentMethod = () => {
 
   // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
-    if (!isPaymentRequired || (promoCode && !isValidPromoCode) || isManaged || !plan) {
+    if (! isPaymentRequired || (promoCode && ! isValidPromoCode) || isManaged || ! plan) {
       return
     }
 
@@ -130,11 +130,11 @@ const GetStartedPaymentMethod = () => {
   }, [isValidPromoCode])
 
   const togglePaymentMethodForm = () => {
-    setShouldShowPaymentMethodForm((shouldShowPaymentMethodForm) => setShouldShowPaymentMethodForm(!shouldShowPaymentMethodForm))
+    setShouldShowPaymentMethodForm((shouldShowPaymentMethodForm) => setShouldShowPaymentMethodForm(! shouldShowPaymentMethodForm))
   }
 
   const checkAndUpdateCompletedSetupAt = async () => {
-    if (!hasSetUpProfile) {
+    if (! hasSetUpProfile) {
       const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
 
       if (error) {
@@ -160,7 +160,7 @@ const GetStartedPaymentMethod = () => {
     setStatus(profileUpdated.status)
     setPlan(profileUpdated.plan)
 
-    if (profileUpdated.plan === 'active' || !clientSecret) {
+    if (profileUpdated.plan === 'active' || ! clientSecret) {
       updateOrganizationArtists(profiles)
       await checkAndUpdateCompletedSetupAt()
       setIsLoading(false)
@@ -194,7 +194,7 @@ const GetStartedPaymentMethod = () => {
   }
 
   const handleNext = async () => {
-    if ((defaultPaymentMethod && !shouldShowPaymentMethodForm) || isManaged) {
+    if ((defaultPaymentMethod && ! shouldShowPaymentMethodForm) || isManaged) {
       await upgradeProfilePlans()
 
       return
@@ -224,7 +224,7 @@ const GetStartedPaymentMethod = () => {
       <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(defaultPaymentMethod, planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency), isManaged)} />
       <Error error={error} />
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
-        {!isManaged && (
+        {! isManaged && (
           <>
             {shouldShowPaymentMethodForm ? (
               <AddPaymentForm

@@ -37,7 +37,7 @@ const PostCardActionButtons = ({
         className="h-11 w-1/2 mr-1"
         version="green"
         label="Edit Settings"
-        disabled={!postPromotable}
+        disabled={! postPromotable}
         onClick={() => {
           goToPostSettings({
             post,

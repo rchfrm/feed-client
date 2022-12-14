@@ -41,7 +41,7 @@ const PostCardSettingsLink = ({
 
   const handleSuccess = (newLinkSpecs) => {
     const { linkId, linkHref } = newLinkSpecs[campaignType] || {}
-    const isDefaultLink = !linkId
+    const isDefaultLink = ! linkId
     const newLinkId = linkId || defaultPostLinkId
     const newLinkHref = linkHref || defaultLink.href
     updateLinkState({ postIndex, linkSpecs: newLinkSpecs })

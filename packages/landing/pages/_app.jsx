@@ -19,9 +19,9 @@ const FeedLanding = ({ Component, pageProps }) => {
   // TRACK PAGE VIEWS
   const previousPathname = React.useRef(null)
   React.useEffect(() => {
-    if (!isTrackingSetup.current) return
+    if (! isTrackingSetup.current) return
     const { pathname } = new URL(window.location.href)
-    const pathChanged = !previousPathname || previousPathname.current !== pathname
+    const pathChanged = ! previousPathname || previousPathname.current !== pathname
     if (pathChanged) {
       trackPageView(pathname)
       previousPathname.current = pathname

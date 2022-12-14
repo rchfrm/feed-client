@@ -41,14 +41,14 @@ const SignupPage = ({ testimonies }) => {
   const isValidReferralCode = async (referralCode) => {
     const isValid = testCodeValidity(referralCode)
 
-    if (!isValid) {
+    if (! isValid) {
       setError({ message: copy.invalidCodeCopy })
       return false
     }
 
     const isTrue = await testCodeTruth(referralCode)
 
-    if (!isTrue) {
+    if (! isTrue) {
       setError({ message: copy.invalidCodeCopy })
       return false
     }
@@ -72,27 +72,27 @@ const SignupPage = ({ testimonies }) => {
       setEmail(email)
     }
     // If no code in query just behave as normal
-    if (!initialReferralCode) {
+    if (! initialReferralCode) {
       setChecking(false)
       return
     }
 
     const isValid = await isValidReferralCode(initialReferralCode)
 
-    if (!isValid) {
+    if (! isValid) {
       setChecking(false)
     }
   }, [])
 
   // Pick and set a random testimony
   React.useEffect(() => {
-    if (!testimonies.length || testimony) return
+    if (! testimonies.length || testimony) return
 
     setTestimony(testimonies[Math.floor(Math.random() * testimonies.length)])
   }, [testimonies, testimony])
 
   // STOP HERE IF CHECKING QUERY CODE
-  if (checking || !testimony) return <Spinner />
+  if (checking || ! testimony) return <Spinner />
 
   return (
     <>

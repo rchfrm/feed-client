@@ -34,7 +34,7 @@ const Select = ({
   const classes = ['input--container', 'select--container', className]
 
   // Add error class
-  if (highlight && !selectedValue) {
+  if (highlight && ! selectedValue) {
     classes.push('_error')
   }
 
@@ -84,7 +84,7 @@ const Select = ({
             style={style}
             value={selectedValue}
             required={required}
-            autoComplete={!autoComplete ? 'off' : ''}
+            autoComplete={! autoComplete ? 'off' : ''}
             disabled={disabled || loading}
           >
             {/* PLACEHOLDER */}

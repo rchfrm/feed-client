@@ -28,13 +28,13 @@ const PixelEventSelector = ({
 
   // Get all Facebook Pixel Events on first load and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
-    if (!artistId) {
+    if (! artistId) {
       setIsLoading(false)
       return
     }
     const { res: { event_total_counts: events } } = await getFacebookPixelEvents(artistId, pixelId)
 
-    if (!isMounted()) {
+    if (! isMounted()) {
       setIsLoading(false)
       return
     }
@@ -54,7 +54,7 @@ const PixelEventSelector = ({
     setIsLoading(true)
 
     // Skip API request and only update parent call to action value
-    if (!shouldSaveOnChange) {
+    if (! shouldSaveOnChange) {
       setPixelEvent(selectedOptionValue)
       setIsLoading(false)
       return
@@ -85,7 +85,7 @@ const PixelEventSelector = ({
   }
 
   React.useEffect(() => {
-    if (!pixelEvent) {
+    if (! pixelEvent) {
       setPixelEvent(facebookPixelEventOptions[0]?.value)
     }
   }, [pixelEvent, setPixelEvent, facebookPixelEventOptions])

@@ -42,7 +42,7 @@ const TargetingDailyBudgetPauseButton = ({
 
   const onClick = async () => {
     // Get ad spend data if pausing daily budget
-    if (!isPaused) {
+    if (! isPaused) {
       const dataSource = 'facebook_ad_spend_feed'
       const response = await getDataSourceValue([dataSource], artistId)
       const dailySpendData = response[dataSource]?.daily_data

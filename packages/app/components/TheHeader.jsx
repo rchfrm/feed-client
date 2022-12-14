@@ -19,7 +19,7 @@ function TheHeader() {
   const isDesktopLayout = useBreakpointTest('md')
   React.useEffect(() => {
     // Show peek header or not
-    setMobileHeader(!isDesktopLayout)
+    setMobileHeader(! isDesktopLayout)
     // Show page title below header, or not
   }, [isDesktopLayout])
 

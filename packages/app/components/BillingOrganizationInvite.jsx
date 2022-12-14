@@ -13,7 +13,7 @@ const BillingOrganizationInvite = ({
   const [success, setSuccess] = React.useState(false)
 
   React.useEffect(() => {
-    if (!success) return
+    if (! success) return
 
     const timeout = setTimeout(() => {
       setSuccess(false)

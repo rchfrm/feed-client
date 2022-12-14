@@ -158,7 +158,7 @@ const AlertModal = () => {
                       }}
                       style={{
                         borderTop: '1px solid white',
-                        ...(firstButton && !width === 'half' && { borderTop: 'none' }),
+                        ...(firstButton && ! width === 'half' && { borderTop: 'none' }),
                       }}
                       href={href}
                       disabled={disabled}

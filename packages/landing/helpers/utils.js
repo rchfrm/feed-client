@@ -48,7 +48,7 @@ export const sortArrayByKey = (arr, key, sortDirection = 'asc') => {
  * }
  */
 export const parseUrl = (urlString) => {
-  if (!urlString) return {}
+  if (! urlString) return {}
   const {
     host,
     protocol,
@@ -62,7 +62,7 @@ export const parseUrl = (urlString) => {
     pathname,
     basicUrl,
   }
-  if (!query) {
+  if (! query) {
     return {
       ...res,
       queryString: '',
@@ -91,7 +91,7 @@ export const parseUrl = (urlString) => {
  * @returns {string}
  */
 export const enforceUrlProtocol = (url, forceSSH = false) => {
-  if (!url) return ''
+  if (! url) return ''
   const protocolTest = /^https?:\/\//i
   const containsProtocol = protocolTest.test(url)
   if (containsProtocol) return url
@@ -106,11 +106,11 @@ export const enforceUrlProtocol = (url, forceSSH = false) => {
  * @returns {boolean}
  */
 export const testValidUrl = (urlString = '', addUrlProtocol) => {
-  if (!urlString) return false
+  if (! urlString) return false
   const url = addUrlProtocol ? enforceUrlProtocol(urlString) : urlString
   const expression = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i
   const regex = new RegExp(expression)
-  return !!url.match(regex)
+  return !! url.match(regex)
 }
 
 // TEST VALID EMAIL

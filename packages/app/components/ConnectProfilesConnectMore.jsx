@@ -27,7 +27,7 @@ const ConnectProfilesConnectMore = ({
   const isDesktopLayout = useBreakpointTest('sm')
 
   React.useEffect(() => {
-    if (!sidePanelOpen || isDesktopLayout) return
+    if (! sidePanelOpen || isDesktopLayout) return
 
     setSidePanelButton(<ConnectFacebookButton
       errors={errors}
@@ -63,13 +63,13 @@ const ConnectProfilesConnectMore = ({
           <MarkdownText
             className={[
               'text-lg',
-              !isSidePanel ? 'font-bold' : null,
+              ! isSidePanel ? 'font-bold' : null,
             ].join(' ')}
             markdown={copy.connectMoreTitle}
           />
           <MarkdownText markdown={copy.connectMoreInstructions} className="mb-6" />
           {isSidePanel && <p className="text-xs italic">Steps 3 and 4 may be reversed by Facebook</p>}
-          {!isSidePanel && (
+          {! isSidePanel && (
             <ConnectFacebookButton
               errors={errors}
               setErrors={setErrors}

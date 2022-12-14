@@ -46,7 +46,7 @@ const SignupPageAddReferral = ({
       <form
         onSubmit={async (e) => {
           e.preventDefault()
-          if (!hasValidCode) return
+          if (! hasValidCode) return
           setIsLoading(true)
           const isTrue = await testCodeTruth(code)
           setIsLoading(false)
@@ -73,7 +73,7 @@ const SignupPageAddReferral = ({
             type="submit"
             version="green x-small"
             loading={isLoading}
-            disabled={!hasValidCode}
+            disabled={! hasValidCode}
             trackComponentName="SignupPageAddReferral"
           >
             Submit

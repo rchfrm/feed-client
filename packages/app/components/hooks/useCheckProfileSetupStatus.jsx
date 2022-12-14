@@ -52,7 +52,7 @@ const useCheckProfileSetupStatus = () => {
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
   const facebookPixelId = facebookIntegration?.pixel_id
-  const hasSufficientBudget = (!hasSalesObjective && Boolean(dailyBudget)) || (hasSalesObjective && dailyBudget >= minRecommendedStories)
+  const hasSufficientBudget = (! hasSalesObjective && Boolean(dailyBudget)) || (hasSalesObjective && dailyBudget >= minRecommendedStories)
 
   // Get user context value
   const { user } = React.useContext(UserContext)
@@ -109,7 +109,7 @@ const useCheckProfileSetupStatus = () => {
   ], [adAccountId, artist.country_code, defaultLink?.href, locations, facebookPixelId, hasSufficientBudget, objective, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
-    return profileSetupConditions.find((condition) => !condition.isComplete)?.name
+    return profileSetupConditions.find((condition) => ! condition.isComplete)?.name
   }
 
   return { getProfileSetupStatus, profileSetupConditions }

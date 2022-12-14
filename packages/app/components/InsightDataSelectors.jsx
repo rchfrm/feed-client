@@ -20,7 +20,7 @@ const InsightDataSelectors = ({
 
   // Return array of data sources that match the current platform
   const platformSources = React.useMemo(() => {
-    if (!currentPlatform) return availableDataSources
+    if (! currentPlatform) return availableDataSources
     return insightsHelpers.getPlatformSources(availableDataSources, currentPlatform)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPlatform])
@@ -39,7 +39,7 @@ const InsightDataSelectors = ({
   }, [platformSources])
 
   React.useEffect(() => {
-    if (!availableDataSources || !availableDataSources.length || !currentDataSource) return
+    if (! availableDataSources || ! availableDataSources.length || ! currentDataSource) return
     const { platform } = availableDataSources.find(({ name }) => name === currentDataSource) || {}
     setCurrentPlatform(platform || 'facebook')
   }, [currentDataSource, availableDataSources, setCurrentPlatform])

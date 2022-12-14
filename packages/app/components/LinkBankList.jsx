@@ -16,7 +16,7 @@ const LinkBankList = ({
   }, [looseLinks, linkFolders])
   return (
     <div>
-      {!mergedLinks.length && (
+      {! mergedLinks.length && (
         <p className="pb-2 text-lg">You don't have any links saved yet.</p>
       )}
       <LinkBankListButtons
@@ -26,7 +26,7 @@ const LinkBankList = ({
         totalLinks={mergedLinks.length}
         isDisabled={isDisabled}
       />
-      {!!mergedLinks.length && (
+      {!! mergedLinks.length && (
         <ul>
           {mergedLinks.map((item) => {
             const { id, links } = item
@@ -45,7 +45,7 @@ const LinkBankList = ({
             }
             // FOLDER
             // Don't show if empty
-            if (!links.length) return null
+            if (! links.length) return null
             return (
               <LinkBankFolder
                 key={id}

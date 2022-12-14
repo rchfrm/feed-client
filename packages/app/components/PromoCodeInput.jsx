@@ -34,12 +34,12 @@ const PromoCodeInput = ({
 
   // Make 'apply promo code' request on change
   useAsyncEffect(async () => {
-    if (!debouncedPromoCode) {
+    if (! debouncedPromoCode) {
       return
     }
 
     const isValid = isValidPromoCode(debouncedPromoCode)
-    if (!isValid) {
+    if (! isValid) {
       setValidationError({ message: 'Invalid promo code format' })
       setIsValidPromoCode(false)
 
@@ -51,7 +51,7 @@ const PromoCodeInput = ({
 
   // Show success message
   React.useEffect(() => {
-    if (!hasAppliedPromoCode) return
+    if (! hasAppliedPromoCode) return
 
     const timeout = setTimeout(() => {
       setHasAppliedPromoCode(false)

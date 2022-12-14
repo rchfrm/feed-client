@@ -26,7 +26,7 @@ const TheFooterColophon = ({
                 <Link href={href}>
                   <a className="underline">{title}</a>
                 </Link>
-                {!isLast && ' | '}
+                {! isLast && ' | '}
               </React.Fragment>
             )
           })}

@@ -1,26 +1,21 @@
-// IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import produce from 'immer'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import PostCard from '@/app/PostCard'
-// IMPORT ASSETS
-// IMPORT STYLES
+import AdCreationButton from '@/app/AdCreationButton'
 import styles from '@/app/PostsPage.module.css'
 
 // Reset posts scroll position
 const resetScroll = () => {
   if (typeof document === 'undefined') return
   const scroller = document.getElementById('PostsAll__scroller')
-  if (!scroller) return
+  if (! scroller) return
   scroller.scrollLeft = 0
 }
 
 const getPostsWithLoadingTrigger = (posts, loadAtIndex) => {
-  if (!posts.length || posts.length < loadAtIndex) return posts
+  if (! posts.length || posts.length < loadAtIndex) return posts
   return produce(posts, (draftPosts) => {
     const insertLoaderAt = posts.length - loadAtIndex + 1
     draftPosts[insertLoaderAt].loadTrigger = true
@@ -44,7 +39,7 @@ function PostsAll({
   // Add LOAD TRIGGER el at 5th from end
   const loadAtIndex = 5
   const lastPostId = React.useMemo(() => {
-    if (!posts || !posts.length) return ''
+    if (! posts || ! posts.length) return ''
     const lastPost = posts[posts.length - 1]
     return lastPost.id
   }, [posts])
@@ -58,7 +53,7 @@ function PostsAll({
   // LOAD MORE Watch the load trigger for intersection
   const loadMore = React.useCallback((entries) => {
     const target = entries[0]
-    if (target.isIntersecting && !loadingMore && !loadedAll) {
+    if (target.isIntersecting && ! loadingMore && ! loadedAll) {
       loadMorePosts()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,7 +64,7 @@ function PostsAll({
   const observer = React.useRef(null)
   React.useEffect(() => {
     // Handle no posts
-    if (!posts.length) {
+    if (! posts.length) {
       if (loadTrigger.current && observer.current) {
         observer.current.unobserve(loadTrigger.current)
       }
@@ -94,11 +89,11 @@ function PostsAll({
     }
   }, [posts.length, loadMore, loadedAll, lastPostId])
 
-  // GET ARTIST ID
   const { artistId } = React.useContext(ArtistContext)
 
   return (
     <section className={styles.postsSection}>
+      <AdCreationButton className="hidden" />
       <ul
         id="PostsAll__scroller"
         className={[
@@ -128,7 +123,7 @@ function PostsAll({
                 'col-span-12 sm:col-span-6 lg:col-span-4',
               ].join(' ')}
             >
-              {post.loadTrigger && !loadedAll && (
+              {post.loadTrigger && ! loadedAll && (
                 <div ref={loadTrigger} />
               )}
             </PostCard>
@@ -137,7 +132,7 @@ function PostsAll({
       </ul>
 
       {/* Show loaded all */}
-      {!loadingMore && loadedAll && (
+      {! loadingMore && loadedAll && (
         <div className="col-span-12 w-full mt-10 p-5 text-center">
           <p className="h4">Loaded all Posts</p>
         </div>

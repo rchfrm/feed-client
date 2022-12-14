@@ -38,7 +38,7 @@ const BillingPaymentCard = ({
         ].join(' ')}
         onClick={(e) => {
           e.preventDefault()
-          if (!isButton) return
+          if (! isButton) return
           onClick()
         }}
         aria-label={isButton ? 'Select' : null}
@@ -76,7 +76,7 @@ const BillingPaymentCard = ({
         </div>
       </ElWrapper>
       {/* DELETE BUTTON */}
-      {allowDelete && !isDefault && (
+      {allowDelete && ! isDefault && (
         <button
           className="absolute bottom-0 right-0 m-4 p-1 pl-2 pt-2"
           onClick={(e) => {

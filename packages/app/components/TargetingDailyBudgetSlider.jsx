@@ -27,7 +27,7 @@ const TargetingDailyBudgetSlider = ({
   const { setDisableDrag } = React.useContext(SidePanelContext)
 
   React.useEffect(() => {
-    if (!mobileVersion) return
+    if (! mobileVersion) return
     const disableDrag = () => setDisableDrag(true)
     const enableDrag = () => setDisableDrag(false)
     const { current: containerEl } = containerRef
@@ -48,7 +48,7 @@ const TargetingDailyBudgetSlider = ({
 
   // DEFINE START VALUE
   // If budget is not set, use min recc, else round budget to nearest whole number
-  const startingBudget = !initialBudget ? minReccBudget : Math.round(initialBudget)
+  const startingBudget = ! initialBudget ? minReccBudget : Math.round(initialBudget)
   const startValue = React.useRef(startingBudget)
   const initialMarkerPosition = React.useRef(null)
 
@@ -56,7 +56,7 @@ const TargetingDailyBudgetSlider = ({
   const valueRange = React.useMemo(() => {
     const [min, max] = sliderValueRange
     const initialBudget = startValue.current
-    const budgetDivisibleByStep = !(initialBudget % sliderStep)
+    const budgetDivisibleByStep = ! (initialBudget % sliderStep)
     if (budgetDivisibleByStep || initialBudget <= min) return { min, max }
     // If budget is not divisble by step, use custom range with custom step for budget
     const customSnap = Math.floor(100 * (initialBudget / max))

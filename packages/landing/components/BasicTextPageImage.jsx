@@ -11,7 +11,7 @@ const BasicTextPageCopy = ({ image, breakoutWidth, className }) => {
       'mb-10 xs:mb-12 sm:mb-16',
       className,
       styles.image,
-      !breakoutWidth ? styles._breakoutWidth : null,
+      ! breakoutWidth ? styles._breakoutWidth : null,
     ].join(' ')}
     >
       <Image data={image.responsiveImage} />

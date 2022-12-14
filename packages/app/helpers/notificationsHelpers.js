@@ -90,7 +90,7 @@ export const getAction = ({
   }
 
   // Handle no method or link
-  if (!apiEndpoint && !ctaLink) return () => {}
+  if (! apiEndpoint && ! ctaLink) return () => {}
   // Handle link
   if (ctaLink) {
     let link = ctaLink
@@ -136,7 +136,7 @@ const getKeysAndSubstringsFromTemplate = (template) => {
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const match = RE_TEMPLATE.exec(template)
-    if (!match) {
+    if (! match) {
       break
     }
 

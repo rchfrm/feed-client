@@ -39,7 +39,7 @@ const GetStartedSummarySentenceSection = ({
   const [borderColor, setBorderColor] = React.useState('')
 
   const isActive = steps[currentStep].section === section
-  const isInActive = !isActive && !isComplete
+  const isInActive = ! isActive && ! isComplete
 
   const setSectionColor = (color) => {
     const newColor = color || getObjectiveColor(objective, platform)
@@ -55,7 +55,7 @@ const GetStartedSummarySentenceSection = ({
   }
 
   React.useEffect(() => {
-    if (!hasBorder) return
+    if (! hasBorder) return
 
     if (isComplete) {
       setSectionColor(color)
@@ -88,7 +88,7 @@ const GetStartedSummarySentenceSection = ({
 
   const goToSection = () => {
     // We can't navigate to a section that isn't completed yet
-    if (!isComplete) {
+    if (! isComplete) {
       return
     }
 
@@ -104,14 +104,14 @@ const GetStartedSummarySentenceSection = ({
       className={[
         'flex items-center',
         isInActive ? 'text-grey-2 pointer-events-none' : 'text-black',
-        isLastStep && !isDesktopLayout ? 'flex-column mb-2' : null,
+        isLastStep && ! isDesktopLayout ? 'flex-column mb-2' : null,
       ].join(' ')}
     >
       {text && (
         <span
           className={[
             'whitespace-pre xs:mb-2',
-            isLastStep && !isDesktopLayout ? 'text-xs mb-2' : null,
+            isLastStep && ! isDesktopLayout ? 'text-xs mb-2' : null,
           ].join(' ')}
         >
           {isDesktopLayout || isLastStep ? text : '>'}
@@ -120,8 +120,8 @@ const GetStartedSummarySentenceSection = ({
       <span
         className={[
           hasBorder && isDesktopLayout ? 'mb-2 py-1 px-3 border-2 border-solid rounded-full' : null,
-          isComplete && !isDesktopLayout ? 'font-bold' : null,
-          isLastStep && !isDesktopLayout ? 'text-xl' : null,
+          isComplete && ! isDesktopLayout ? 'font-bold' : null,
+          isLastStep && ! isDesktopLayout ? 'text-xl' : null,
           className,
         ].join(' ')}
         style={{ [isDesktopLayout ? 'borderColor' : 'color']: borderColor }}

@@ -2,7 +2,7 @@ import React from 'react'
 import { gsap } from 'gsap'
 
 const isUndefined = (arg) => arg === undefined
-const isAnyDefined = (...args) => args.some((a) => !isUndefined(a))
+const isAnyDefined = (...args) => args.some((a) => ! isUndefined(a))
 const noop = () => { }
 
 const defaultAnimationProps = {
@@ -91,7 +91,7 @@ const useAnimateOnMount = ({
   })
 
   const playEnterAnimation = () => {
-    if (!domRef.current) return
+    if (! domRef.current) return
     const animation = animateVisible(domRef.current)
     animationInstance.current = animation
     if (enter) {
@@ -135,10 +135,10 @@ const useAnimateOnMount = ({
   }
 
   React.useLayoutEffect(() => {
-    if (!domRef.current) {
+    if (! domRef.current) {
       return
     }
-    const shouldAnimateFirstRender = !didRender.current && animateFirstRender
+    const shouldAnimateFirstRender = ! didRender.current && animateFirstRender
     if (shouldAnimateFirstRender) {
       return playEnterAnimation()
     }
@@ -149,7 +149,7 @@ const useAnimateOnMount = ({
   }, [isVisible, debugName, animateFirstRender])
 
   React.useLayoutEffect(() => {
-    if (!didRender.current && isVisible) {
+    if (! didRender.current && isVisible) {
       didRender.current = true
     }
   }, [isVisible, debugName, devMode])

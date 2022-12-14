@@ -7,11 +7,11 @@ import PageQuerySetter from '@/admin/PageQuerySetter'
 
 const Tournament = ({ router: { pathname, query } }) => {
   const { artistId, tournamentId, campaignId, adsetId } = query
-  const pageRequiresLoading = !!(artistId && tournamentId && campaignId && adsetId)
+  const pageRequiresLoading = !! (artistId && tournamentId && campaignId && adsetId)
   return (
     <BasePage
       header="tournament"
-      staticPage={!pageRequiresLoading}
+      staticPage={! pageRequiresLoading}
     >
       {pageRequiresLoading ? (
         <TournamentsLoader

@@ -5,9 +5,9 @@ import { removeItemFromArray } from '@/helpers/utils'
 
 
 const getFilteredList = (fullList, activeFilters, filterTest) => {
-  if (!fullList) return []
+  if (! fullList) return []
   // If no active filters, return all items in list
-  if (!activeFilters.length) return fullList
+  if (! activeFilters.length) return fullList
   // Return all items in list that test positive for all active filters
   return fullList.filter((item) => {
     return activeFilters.every((filter) => filterTest(item, filter))
@@ -40,7 +40,7 @@ const ListFilters = ({
     const filterIndex = activeFilters.indexOf(filter)
     const isFilterActive = filterIndex > -1
     // Add filter to active list
-    if (!isFilterActive) {
+    if (! isFilterActive) {
       setActiveFilters([...activeFilters, filter])
       return
     }

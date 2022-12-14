@@ -8,7 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import brandColors from '@/constants/brandColors'
 
 const Success = ({ message, messagePrefix, className }) => {
-  if (!message) return null
+  if (! message) return null
   const fullMessage = `${messagePrefix}${message}`
   const classes = ['success--message', className].join(' ')
   return (

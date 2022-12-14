@@ -33,8 +33,8 @@ import * as ROUTES from '@/app/constants/routes'
 const getEmailType = ({ query, emailVerified, pendingEmail, contactEmailVerified, pendingContactEmail, contactEmail }) => {
   const queryType = query?.type
   if (queryType) return queryType
-  if (!emailVerified || pendingEmail) return 'email'
-  if ((contactEmail && !contactEmailVerified) || pendingContactEmail) return 'contactEmail'
+  if (! emailVerified || pendingEmail) return 'email'
+  if ((contactEmail && ! contactEmailVerified) || pendingContactEmail) return 'contactEmail'
   return 'none'
 }
 
@@ -69,7 +69,7 @@ const ConfirmEmailPage = ({
   const { query } = parseUrl(urlString)
   // GET VERIFACTION CODE FROM URL
   const initialVerificationCode = query?.token
-  const [hasInitialVerificationCode, setHasInitialVerificationCode] = React.useState(!!initialVerificationCode)
+  const [hasInitialVerificationCode, setHasInitialVerificationCode] = React.useState(!! initialVerificationCode)
 
   // GET EMAIL TYPE THAT NEEDS VERIFYING
   // & GET WHICH FLOW
@@ -79,7 +79,7 @@ const ConfirmEmailPage = ({
     const emailType = getEmailType({ query, emailVerified, pendingEmail, contactEmailVerified, pendingContactEmail, contactEmail })
     const { email } = unconfirmedEmails.find((email) => email.type === emailType) || {}
 
-    if (!email) return
+    if (! email) return
 
     setEmail(email)
     setEmailType(emailType)
@@ -99,9 +99,9 @@ const ConfirmEmailPage = ({
     // Stop here because pending email
     if (pendingEmail || pendingContactEmail) return
     // Stop here because one of the emails isn't verified
-    if (!emailVerified || (contactEmail && !contactEmailVerified)) return
+    if (! emailVerified || (contactEmail && ! contactEmailVerified)) return
     // Stop here because don't yet know the email type
-    if (!emailType) return
+    if (! emailType) return
     // If you've reached this bit, you're successful
     if (successTriggered.current) return
     successTriggered.current = true
@@ -111,15 +111,15 @@ const ConfirmEmailPage = ({
 
   // BROADCAST SUCCESS
   React.useEffect(() => {
-    if (isSuccessful && !hasBroadcasted) {
+    if (isSuccessful && ! hasBroadcasted) {
       broadcastMessage({ success: true, emailType, user })
     }
   }, [isSuccessful, broadcastMessage, hasBroadcasted, emailType, user])
 
   // LISTEN FOR SUCCESS IN ANOTHER TAB
   React.useEffect(() => {
-    if (!messagePayload) return
-    if (messagePayload.success && !hasBroadcasted) {
+    if (! messagePayload) return
+    if (messagePayload.success && ! hasBroadcasted) {
       // Trigger success
       onSuccessContinue()
       // Update user from server
@@ -134,11 +134,11 @@ const ConfirmEmailPage = ({
   const [error, setError] = React.useState(null)
   const isMounted = useIsMounted()
   useAsyncEffect(async () => {
-    if (!checkCode || checking) return
+    if (! checkCode || checking) return
     setChecking(true)
     const useDummy = true
     const { res, error } = await verifyEmail(verificationCode, useDummy)
-    if (!isMounted) return
+    if (! isMounted) return
     if (error) {
       setCheckCode(false)
       setChecking(false)
@@ -163,7 +163,7 @@ const ConfirmEmailPage = ({
   const [isChangeEmail, setIsChangeEmail] = React.useState(Boolean(query?.isEdit))
 
   // STOP HERE if checking code from URL query or waiting for user to load
-  if (!isSuccessful && (hasInitialVerificationCode || userLoading)) return null
+  if (! isSuccessful && (hasInitialVerificationCode || userLoading)) return null
 
   // SHOW SUCCESS MESSAGE
   if (isSuccessful) {

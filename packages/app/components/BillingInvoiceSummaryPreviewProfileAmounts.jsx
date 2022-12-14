@@ -16,7 +16,7 @@ const BillingInvoiceSummaryPreviewProfileAmounts = ({
   const hasMultipleProfiles = organizationArtists.length > 1
 
   React.useEffect(() => {
-    if (!invoice.profileAmounts || Object.keys(invoice.profileAmounts) === 0) {
+    if (! invoice.profileAmounts || Object.keys(invoice.profileAmounts) === 0) {
       return
     }
 

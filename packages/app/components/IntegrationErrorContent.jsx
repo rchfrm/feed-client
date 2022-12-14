@@ -118,7 +118,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
   }, [closeAlert, integrationError, auth, router.pathname])
 
   React.useEffect(() => {
-    if (!auth.token) {
+    if (! auth.token) {
       closeAlert()
       return
     }
