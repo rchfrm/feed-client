@@ -1,17 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-
 import * as ROUTES from '@/app/constants/routes'
-
-import PostCardLabel from '@/app/PostCardLabel'
-
+import PostContentLabel from '@/app/PostContentLabel'
 import ToggleSwitch from '@/elements/ToggleSwitch'
-import PostCardDisableHandler from '@/app/PostCardDisableHandler'
-import PostCardToggleAlert from '@/app/PostCardToggleAlert'
-
+import PostDisableHandler from '@/app/PostDisableHandler'
+import PostToggleAlert from '@/app/PostToggleAlert'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
-
 import { updatePost, setPostPriority, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
 // CALL TO CHANGE STATE
@@ -19,7 +14,7 @@ const runChangeState = ({ artistId, postId, promotionEnabled, campaignType }) =>
   return updatePost({ artistId, postId, promotionEnabled, campaignType })
 }
 
-const PostCardToggle = ({
+const PostContentToggle = ({
   post,
   postToggleSetterType,
   postIndex,
@@ -122,7 +117,7 @@ const PostCardToggle = ({
         </strong>
         {/* RUNNING LABEL */}
         {isActive && (
-          <PostCardLabel
+          <PostContentLabel
             copy="running"
             campaignType={campaignType}
           />
@@ -139,7 +134,7 @@ const PostCardToggle = ({
       </div>
       {/* DISABLE ALERT */}
       {! sidePanelOpen && postPromotable && promotionStatus === 'active' && (
-        <PostCardDisableHandler
+        <PostDisableHandler
           post={post}
           postToggleSetterType={postToggleSetterType}
           artistId={artistId}
@@ -151,7 +146,7 @@ const PostCardToggle = ({
       )}
       {/* TOGGLE ALERT */}
       {shouldShowAlert && (
-        <PostCardToggleAlert
+        <PostToggleAlert
           show={shouldShowAlert}
           onAlertConfirm={goToControlsPage}
           onCancel={() => {
@@ -163,7 +158,7 @@ const PostCardToggle = ({
   )
 }
 
-PostCardToggle.propTypes = {
+PostContentToggle.propTypes = {
   post: PropTypes.object.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
   postIndex: PropTypes.number,
@@ -179,7 +174,7 @@ PostCardToggle.propTypes = {
   hasSalesObjective: PropTypes.bool.isRequired,
 }
 
-PostCardToggle.defaultProps = {
+PostContentToggle.defaultProps = {
   postIndex: null,
   disabled: false,
   className: null,
@@ -188,4 +183,4 @@ PostCardToggle.defaultProps = {
   showAlertModal: false,
 }
 
-export default PostCardToggle
+export default PostContentToggle

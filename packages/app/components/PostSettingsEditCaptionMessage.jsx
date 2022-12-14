@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import TextareaAutosize from 'react-textarea-autosize'
 
-const PostCardEditCaptionMessage = ({
+const PostSettingsEditCaptionMessage = ({
   message,
   setMessage,
   hasAutoFocus,
@@ -25,14 +25,14 @@ const PostCardEditCaptionMessage = ({
   )
 }
 
-PostCardEditCaptionMessage.propTypes = {
+PostSettingsEditCaptionMessage.propTypes = {
   hasAutoFocus: PropTypes.bool,
   className: PropTypes.string,
 }
 
-PostCardEditCaptionMessage.defaultProps = {
+PostSettingsEditCaptionMessage.defaultProps = {
   hasAutoFocus: true,
   className: null,
 }
 
-export default PostCardEditCaptionMessage
+export default PostSettingsEditCaptionMessage

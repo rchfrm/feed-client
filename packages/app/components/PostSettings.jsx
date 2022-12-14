@@ -1,25 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useControlsStore from '@/app/stores/controlsStore'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-
-import PostCardSettingsTabs from '@/app/PostCardSettingsTabs'
-import PostCardSettingsToggle from '@/app/PostCardSettingsToggle'
-import PostCardSettingsPromotionStatus from '@/app/PostCardSettingsPromotionStatus'
-import PostCardSettingsPreview from '@/app/PostCardSettingsPreview'
+import PostSettingsTabs from '@/app/PostSettingsTabs'
+import PostSettingsToggle from '@/app/PostSettingsToggle'
+import PostSettingsPromotionStatus from '@/app/PostSettingsPromotionStatus'
+import PostSettingsPreview from '@/app/PostSettingsPreview'
 import PostSettingsLink from '@/app/PostSettingsLink'
 import PostSettingsCallToAction from '@/app/PostSettingsCallToAction'
 import PostSettingsCaption from '@/app/PostSettingsCaption'
 import PostUnpromotable from '@/app/PostUnpromotable'
 import DisabledSection from '@/app/DisabledSection'
-
 import MarkdownText from '@/elements/MarkdownText'
-
 import { promotionStatusSlugs, canBePromoted } from '@/app/helpers/postsHelpers'
-
 import copy from '@/app/copy/PostsPageCopy'
 
 const getControlsStoreState = (state) => ({
@@ -27,7 +21,12 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const PostSettings = ({ post, updatePost, toggleCampaign }) => {
+const PostSettings = ({
+  post,
+  updatePost,
+  toggleCampaign,
+  className,
+}) => {
   const {
     id: postId,
     promotionEnabled,
@@ -81,11 +80,11 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
   }, [isConversionsCampaign, promotionEnabled, conversionsEnabled])
 
   return (
-    <>
-      <h2 className="hidden sm:block mb-8">Promotion settings</h2>
-      <div className="md:pl-16">
+    <div>
+      <h2 className="hidden sm:block mb-8">Post settings</h2>
+      <div className={className}>
         {hasSalesObjective && (
-          <PostCardSettingsTabs
+          <PostSettingsTabs
             campaignType={campaignType}
             setCampaignType={setCampaignType}
             isDisabled={! postPromotable}
@@ -98,7 +97,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
             )}
             {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
             <div className="flex">
-              <PostCardSettingsToggle
+              <PostSettingsToggle
                 post={post}
                 postId={postId}
                 campaignType={campaignType}
@@ -110,7 +109,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
                 showAlertModal={isConversionsCampaign && (! canRunConversions)}
                 className="pl-4"
               />
-              <PostCardSettingsPromotionStatus
+              <PostSettingsPromotionStatus
                 promotionEnabled={promotionEnabled}
                 promotionStatus={promotionStatus}
                 postPromotable={postPromotable}
@@ -118,7 +117,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
               />
             </div>
             {shouldShowPreview && (
-              <PostCardSettingsPreview
+              <PostSettingsPreview
                 previewLinks={adPreviewLinks}
                 campaignType={campaignType}
               />
@@ -150,7 +149,7 @@ const PostSettings = ({ post, updatePost, toggleCampaign }) => {
           />
         </DisabledSection>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -158,9 +157,6 @@ PostSettings.propTypes = {
   post: PropTypes.object.isRequired,
   updatePost: PropTypes.func.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
-}
-
-PostSettings.defaultProps = {
 }
 
 export default PostSettings

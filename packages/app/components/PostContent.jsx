@@ -6,14 +6,14 @@ import useOnResize from '@/landing/hooks/useOnResize'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import SplitView from '@/app/SplitView'
-import RadioButtonTabs from '@/app/RadioButtonTabs'
 import PostMedia from '@/app/PostMedia'
-import PostMediaMobile from '@/app/PostMediaMobile'
 import PostDetails from '@/app/PostDetails'
 import PostMetrics from '@/app/PostMetrics'
 import PostSettings from '@/app/PostSettings'
-import PostCardToggles from '@/app/PostCardToggles'
-import PostCardUnpromotable from '@/app/PostCardUnpromotable'
+import PostContentMediaMobile from '@/app/PostContentMediaMobile'
+import PostContentToggles from '@/app/PostContentToggles'
+import PostContentUnpromotable from '@/app/PostContentUnpromotable'
+import RadioButtonTabs from '@/app/RadioButtonTabs'
 import { postOptions } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
@@ -53,7 +53,7 @@ const PostContent = ({ post, updatePost }) => {
   const postComponents = {
     details: <PostDetails post={post} className="md:pl-16" />,
     metrics: <PostMetrics metrics={metrics} postType={postType} shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
-    settings: <PostSettings post={post} updatePost={updatePost} toggleCampaign={toggleCampaign} />,
+    settings: <PostSettings post={post} updatePost={updatePost} toggleCampaign={toggleCampaign} className="md:pl-16" />,
   }
 
   React.useEffect(() => {
@@ -81,11 +81,11 @@ const PostContent = ({ post, updatePost }) => {
       />
     ) : (
       <>
-        <PostMediaMobile
+        <PostContentMediaMobile
           post={post}
         />
         {post.postPromotable ? (
-          <PostCardToggles
+          <PostContentToggles
             artistId={artistId}
             post={post}
             toggleCampaign={toggleCampaign}
@@ -96,7 +96,7 @@ const PostContent = ({ post, updatePost }) => {
             hasSalesObjective={hasSalesObjective}
           />
         ) : (
-          <PostCardUnpromotable
+          <PostContentUnpromotable
             hasSalesObjective={hasSalesObjective}
             className="py-3 px-4 mb-10"
           />
@@ -116,9 +116,6 @@ const PostContent = ({ post, updatePost }) => {
 PostContent.propTypes = {
   post: PropTypes.object.isRequired,
   updatePost: PropTypes.func.isRequired,
-}
-
-PostContent.defaultProps = {
 }
 
 export default PostContent

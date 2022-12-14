@@ -11,7 +11,7 @@ const PostDetails = ({ post, className }) => {
 
   return (
     <div>
-      <h2 className="hidden sm:block mb-8">Source post details</h2>
+      <h2 className="hidden sm:block mb-8">Post source details</h2>
       <div className={className}>
         <div className="sm:flex">
           <div className="mb-6 w-1/2">

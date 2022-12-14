@@ -5,7 +5,7 @@ import useAsyncEffect from 'use-async-effect'
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
 
-import PostCardEditAlert from '@/app/PostCardEditAlert'
+import PostEditAlert from '@/app/PostEditAlert'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
@@ -114,7 +114,7 @@ const CallToActionSelector = ({
       />
       {/* ALERT */}
       {showAlert && (
-        <PostCardEditAlert
+        <PostEditAlert
           type="call to action"
           postId={postId}
           show={showAlert}

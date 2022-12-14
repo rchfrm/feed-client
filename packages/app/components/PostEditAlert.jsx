@@ -1,15 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import MarkdownText from '@/elements/MarkdownText'
-
 import useAlertModal from '@/hooks/useAlertModal'
-
 import { track } from '@/helpers/trackingHelpers'
-
 import copy from '@/app/copy/PostsPageCopy'
 
-const PostCardEditCaptionAlert = ({
+const PostEditAlert = ({
   type,
   show,
   newValue,
@@ -62,7 +58,7 @@ const PostCardEditCaptionAlert = ({
   return null
 }
 
-PostCardEditCaptionAlert.propTypes = {
+PostEditAlert.propTypes = {
   type: PropTypes.string.isRequired,
   show: PropTypes.bool.isRequired,
   newValue: PropTypes.string,
@@ -72,9 +68,9 @@ PostCardEditCaptionAlert.propTypes = {
   onAlertConfirm: PropTypes.func.isRequired,
 }
 
-PostCardEditCaptionAlert.defaultProps = {
+PostEditAlert.defaultProps = {
   newValue: '',
   originalValue: '',
 }
 
-export default PostCardEditCaptionAlert
+export default PostEditAlert

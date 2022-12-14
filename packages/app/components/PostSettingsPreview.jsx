@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-
 import { capitalise } from '@/helpers/utils'
 
-const PostCardSettingsPreview = ({
+const PostSettingsPreview = ({
   previewLinks,
   campaignType,
 }) => {
@@ -46,13 +45,13 @@ const PostCardSettingsPreview = ({
   )
 }
 
-PostCardSettingsPreview.propTypes = {
+PostSettingsPreview.propTypes = {
   previewLinks: PropTypes.object,
   campaignType: PropTypes.string.isRequired,
 }
 
-PostCardSettingsPreview.defaultProps = {
+PostSettingsPreview.defaultProps = {
   previewLinks: null,
 }
 
-export default PostCardSettingsPreview
+export default PostSettingsPreview

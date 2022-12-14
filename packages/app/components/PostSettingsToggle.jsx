@@ -1,17 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-
-import * as ROUTES from '@/app/constants/routes'
-
-import PostCardDisableHandler from '@/app/PostCardDisableHandler'
-import PostCardToggleAlert from '@/app/PostCardToggleAlert'
-
+import PostDisableHandler from '@/app/PostDisableHandler'
+import PostToggleAlert from '@/app/PostToggleAlert'
 import ToggleSwitch from '@/elements/ToggleSwitch'
-
+import * as ROUTES from '@/app/constants/routes'
 import { updatePost } from '@/app/helpers/postsHelpers'
 
-const PostCardSettingsToggle = ({
+const PostSettingsToggle = ({
   post,
   postId,
   campaignType,
@@ -94,7 +90,7 @@ const PostCardSettingsToggle = ({
           {isEnabled ? 'Enabled' : 'Disabled'}
         </p>
         {postPromotable && promotionStatus === 'active' && hasChanged && (
-          <PostCardDisableHandler
+          <PostDisableHandler
             post={post}
             artistId={artistId}
             toggleCampaign={toggleCampaign}
@@ -103,9 +99,8 @@ const PostCardSettingsToggle = ({
             campaignType={campaignType}
           />
         )}
-        {/* TOGGLE ALERT */}
         {shouldShowAlert && (
-          <PostCardToggleAlert
+          <PostToggleAlert
             show={shouldShowAlert}
             onAlertConfirm={goToControlsPage}
             onCancel={() => {
@@ -118,7 +113,7 @@ const PostCardSettingsToggle = ({
   )
 }
 
-PostCardSettingsToggle.propTypes = {
+PostSettingsToggle.propTypes = {
   post: PropTypes.object.isRequired,
   postId: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
@@ -131,9 +126,9 @@ PostCardSettingsToggle.propTypes = {
   className: PropTypes.string,
 }
 
-PostCardSettingsToggle.defaultProps = {
+PostSettingsToggle.defaultProps = {
   showAlertModal: false,
   className: null,
 }
 
-export default PostCardSettingsToggle
+export default PostSettingsToggle

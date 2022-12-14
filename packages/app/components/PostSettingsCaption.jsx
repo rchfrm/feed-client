@@ -2,18 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import produce from 'immer'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
-import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
-
+import PostSettingsEditCaptionMessage from '@/app/PostSettingsEditCaptionMessage'
 import CheckboxInput from '@/elements/CheckboxInput'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
-
 import { getPostAdMessages, updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
-
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostSettingsCaption = ({
@@ -172,7 +167,7 @@ const PostSettingsCaption = ({
         <div
           className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
         >
-          <PostCardEditCaptionMessage
+          <PostSettingsEditCaptionMessage
             message={caption}
             setMessage={setCaption}
             hasAutoFocus={false}

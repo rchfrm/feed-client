@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
-import PostCardToggle from '@/app/PostCardToggle'
+import PostContentToggle from '@/app/PostContentToggle'
 import { canBePromoted } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   canRunConversions: state.canRunConversions,
 })
 
-const PostCardToggles = ({
+const PostContentToggles = ({
   artistId,
   post,
   postToggleSetterType,
@@ -50,7 +50,7 @@ const PostCardToggles = ({
       ].join(' ')}
     >
       {/* GROWTH TOGGLE */}
-      <PostCardToggle
+      <PostContentToggle
         post={post}
         postToggleSetterType={postToggleSetterType}
         postIndex={postIndex}
@@ -66,7 +66,7 @@ const PostCardToggles = ({
       />
       {/* CONVERT TOGGLE */}
       {hasSalesObjective && (
-        <PostCardToggle
+        <PostContentToggle
           post={post}
           postToggleSetterType={postToggleSetterType}
           postIndex={postIndex}
@@ -86,7 +86,7 @@ const PostCardToggles = ({
   )
 }
 
-PostCardToggles.propTypes = {
+PostContentToggles.propTypes = {
   artistId: PropTypes.string.isRequired,
   post: PropTypes.object.isRequired,
   postToggleSetterType: PropTypes.string.isRequired,
@@ -99,10 +99,10 @@ PostCardToggles.propTypes = {
   hasSalesObjective: PropTypes.bool.isRequired,
 }
 
-PostCardToggles.defaultProps = {
+PostContentToggles.defaultProps = {
   togglesClassName: null,
   className: null,
   postIndex: null,
 }
 
-export default PostCardToggles
+export default PostContentToggles

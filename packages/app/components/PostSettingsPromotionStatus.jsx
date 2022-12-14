@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import PostPromotionStatus from '@/app/PostPromotionStatus'
 
-import PostCardPromotionStatus from '@/app/PostCardPromotionStatus'
-
-const PostCardSettingsPromotionStatus = ({
+const PostSettingsPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
   postPromotable,
@@ -17,7 +16,7 @@ const PostCardSettingsPromotionStatus = ({
       >
         Status
       </h3>
-      <PostCardPromotionStatus
+      <PostPromotionStatus
         promotionEnabled={promotionEnabled}
         promotionStatus={promotionStatus}
         postPromotable={postPromotable}
@@ -27,15 +26,15 @@ const PostCardSettingsPromotionStatus = ({
   )
 }
 
-PostCardSettingsPromotionStatus.propTypes = {
+PostSettingsPromotionStatus.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
   postPromotable: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
-PostCardSettingsPromotionStatus.defaultProps = {
+PostSettingsPromotionStatus.defaultProps = {
   className: null,
 }
 
-export default PostCardSettingsPromotionStatus
+export default PostSettingsPromotionStatus

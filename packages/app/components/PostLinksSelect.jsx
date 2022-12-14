@@ -6,7 +6,7 @@ import shallow from 'zustand/shallow'
 import useIsMounted from '@/hooks/useIsMounted'
 import useControlsStore from '@/app/stores/controlsStore'
 import useCreateEditLinkBankLink from '@/app/hooks/useCreateEditLinkBankLink'
-import PostCardEditAlert from '@/app/PostCardEditAlert'
+import PostEditAlert from '@/app/PostEditAlert'
 
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
@@ -261,7 +261,7 @@ const PostLinksSelect = ({
       />
       {/* ALERT */}
       {showAlert && (
-        <PostCardEditAlert
+        <PostEditAlert
           type="link"
           postId={postItemId}
           show={showAlert}

@@ -1,18 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import MarkdownText from '@/elements/MarkdownText'
 import useAlertModal from '@/hooks/useAlertModal'
-
 import useControlsStore from '@/app/stores/controlsStore'
-
 import copy from '@/app/copy/PostsPageCopy'
 
 const getControlsStoreState = (state) => ({
   canRunConversions: state.canRunConversions,
 })
 
-const PostCardToggleAlert = ({
+const PostToggleAlert = ({
   show,
   onAlertConfirm,
   onCancel,
@@ -59,13 +56,10 @@ const PostCardToggleAlert = ({
   return null
 }
 
-PostCardToggleAlert.propTypes = {
+PostToggleAlert.propTypes = {
   show: PropTypes.bool.isRequired,
   onAlertConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 }
 
-PostCardToggleAlert.defaultProps = {
-}
-
-export default PostCardToggleAlert
+export default PostToggleAlert

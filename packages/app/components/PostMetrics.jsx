@@ -32,7 +32,7 @@ const PostMetrics = ({
         'md:max-w-none',
       ].join(' ')}
     >
-      {shouldShowTitle && <h2 className={sidePanelStyles.SidePanel__Header}>Post Metrics</h2>}
+      {shouldShowTitle && <h2 className={sidePanelStyles.SidePanel__Header}>Post results</h2>}
       <div className={className}>
         {metricsType.map(({ type, header, description }) => {
           const typeMetrics = metrics[type]

@@ -7,7 +7,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 
 import copy from '@/app/copy/PostsPageCopy'
 
-const PostCardDisableAlert = ({
+const PostDisableAlert = ({
   show,
   onConfirm,
   onCancel,
@@ -54,14 +54,11 @@ const PostCardDisableAlert = ({
   return null
 }
 
-PostCardDisableAlert.propTypes = {
+PostDisableAlert.propTypes = {
   show: PropTypes.bool.isRequired,
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
 }
 
-PostCardDisableAlert.defaultProps = {
-}
-
-export default PostCardDisableAlert
+export default PostDisableAlert

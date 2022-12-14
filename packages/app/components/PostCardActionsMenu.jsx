@@ -92,8 +92,8 @@ const PostCardActionsMenu = ({
   const openSettings = () => {
     goToPostSettings({
       post,
-      postIndex: index,
-      artistId,
+      updatePost: () => {},
+      toggleCampaign: () => {},
     })
   }
 

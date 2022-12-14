@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import usePrevious from 'use-previous'
 import { useAsync } from 'react-async'
-import PostCardDisableAlert from '@/app/PostCardDisableAlert'
+import PostDisableAlert from '@/app/PostDisableAlert'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 const getPromotionStatus = (promotableStatus) => {
@@ -11,7 +11,7 @@ const getPromotionStatus = (promotableStatus) => {
   return null
 }
 
-const PostCardDisableHandler = ({
+const PostDisableHandler = ({
   post,
   artistId,
   toggleCampaign,
@@ -75,7 +75,7 @@ const PostCardDisableHandler = ({
   }, [isEnabled, previousEnabled, showAlert])
 
   return (
-    <PostCardDisableAlert
+    <PostDisableAlert
       show={shouldShowAlert}
       onConfirm={onConfirm}
       onCancel={onCancel}
@@ -84,7 +84,7 @@ const PostCardDisableHandler = ({
   )
 }
 
-PostCardDisableHandler.propTypes = {
+PostDisableHandler.propTypes = {
   post: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
@@ -93,7 +93,4 @@ PostCardDisableHandler.propTypes = {
   campaignType: PropTypes.string.isRequired,
 }
 
-PostCardDisableHandler.defaultProps = {
-}
-
-export default PostCardDisableHandler
+export default PostDisableHandler

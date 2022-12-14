@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
-const PostCardLabel = ({
+const PostContentLabel = ({
   copy,
   campaignType,
   className,
@@ -26,16 +26,16 @@ const PostCardLabel = ({
   )
 }
 
-PostCardLabel.propTypes = {
+PostContentLabel.propTypes = {
   campaignType: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
-PostCardLabel.defaultProps = {
+PostContentLabel.defaultProps = {
   campaignType: 'all',
   className: null,
   style: {},
 }
 
-export default React.memo(PostCardLabel)
+export default React.memo(PostContentLabel)

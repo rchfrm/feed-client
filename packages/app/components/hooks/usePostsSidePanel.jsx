@@ -1,6 +1,6 @@
 import React from 'react'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
-import PostCardSettings from '@/app/PostCardSettings'
+import PostSettings from '@/app/PostSettings'
 import PostMetrics from '@/app/PostMetrics'
 import PostDetails from '@/app/PostDetails'
 import Button from '@/elements/Button'
@@ -26,21 +26,15 @@ const usePostsSidePanel = () => {
 
   const goToPostSettings = React.useCallback(({
     post,
-    postIndex,
     updatePost,
-    artistId,
     toggleCampaign,
-    isMissingDefaultLink,
   }) => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent((
-      <PostCardSettings
+      <PostSettings
         post={post}
-        postIndex={postIndex}
         updatePost={updatePost}
-        artistId={artistId}
         toggleCampaign={toggleCampaign}
-        isMissingDefaultLink={isMissingDefaultLink}
       />
     ))
     setSidePanelContentLabel('Post Settings')

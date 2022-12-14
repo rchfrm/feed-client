@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostCardPromotionStatus from '@/app/PostCardPromotionStatus'
+import PostPromotionStatus from '@/app/PostPromotionStatus'
 import PostCardMedia from '@/app/PostCardMedia'
 import PostScore from '@/app/PostScore'
 
-const PostMediaMobile = ({ post }) => {
+const PostContentMediaMobile = ({ post }) => {
   const {
     promotionEnabled,
     promotionStatus,
@@ -22,7 +22,7 @@ const PostMediaMobile = ({ post }) => {
     <div className="grid grid-cols-12">
       <div className="col-span-8 col-start-3 relative mb-10">
         <div className="absolute transform -translate-x-1/2 left-1/2 -top-2 z-10">
-          <PostCardPromotionStatus
+          <PostPromotionStatus
             promotionEnabled={promotionEnabled}
             promotionStatus={promotionStatus}
             size="small"
@@ -46,11 +46,11 @@ const PostMediaMobile = ({ post }) => {
   )
 }
 
-PostMediaMobile.propTypes = {
+PostContentMediaMobile.propTypes = {
   post: PropTypes.object.isRequired,
 }
 
-PostMediaMobile.defaultProps = {
+PostContentMediaMobile.defaultProps = {
 }
 
-export default PostMediaMobile
+export default PostContentMediaMobile
