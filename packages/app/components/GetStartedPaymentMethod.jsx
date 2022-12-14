@@ -162,7 +162,9 @@ const GetStartedPaymentMethod = () => {
 
     if (profileUpdated.plan === 'active' || !clientSecret) {
       updateOrganizationArtists(profiles)
+      await checkAndUpdateCompletedSetupAt()
       setIsLoading(false)
+      next()
       return
     }
 
@@ -185,8 +187,6 @@ const GetStartedPaymentMethod = () => {
       return profile
     })
     updateOrganizationArtists(upgradedProfilesWithActiveStatus)
-
-    setIsLoading(false)
 
     await checkAndUpdateCompletedSetupAt()
     setIsLoading(false)

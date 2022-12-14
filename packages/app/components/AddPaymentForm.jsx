@@ -75,12 +75,11 @@ const FORM = ({
     elements.getElement('card').focus()
   }, [elements, setError, setIsLoading])
 
-  const confirmSetup = async (cardEl) => {
+  const confirmSetup = React.useCallback(async (cardEl) => {
     const { res, error: setupIntentSecretError } = await billingHelpers.getStripeClientSecret(organizationId, 'setup')
     if (setupIntentSecretError) {
       return { error: setupIntentSecretError }
     }
-    console.log('res', res)
 
     const { setupIntent, error: setupIntentError } = await stripe.confirmCardSetup(res.clientSecret, {
       payment_method: {
@@ -93,12 +92,11 @@ const FORM = ({
     if (setupIntentError) {
       return { error: setupIntentError }
     }
-    console.log('setupIntent', setupIntent)
 
     return { paymentMethodId: setupIntent.payment_method }
-  }
+  }, [name, organizationId, stripe])
 
-  const confirmPayment = async (cardEl) => {
+  const confirmPayment = React.useCallback(async (cardEl) => {
     if (!profilePlans) {
       const error = { message: 'If payment is required, then profile plans also need to be supplied' }
       return { error }
@@ -122,7 +120,7 @@ const FORM = ({
     }
 
     return { paymentMethodId: paymentIntent.payment_method }
-  }
+  }, [name, organizationId, profilePlans, promoCode, stripe])
 
   // HANDLE FORM
   const onSubmit = React.useCallback(async () => {
