@@ -25,11 +25,13 @@ import { getProrationsPreview, upgradeProfiles } from '@/app/helpers/billingHelp
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
 import { formatCurrency } from '@/helpers/utils'
+import { useStripe } from '@stripe/react-stripe-js'
 
 const getBillingStoreState = (state) => ({
   billingDetails: state.billingDetails,
   defaultPaymentMethod: state.defaultPaymentMethod,
   addPaymentMethodToStore: state.addPaymentMethod,
+  updateOrganizationArtists: state.updateOrganizationArtists,
 })
 
 const GetStartedPaymentMethod = () => {
@@ -37,9 +39,11 @@ const GetStartedPaymentMethod = () => {
     defaultPaymentMethod,
     billingDetails: { allPaymentMethods },
     addPaymentMethodToStore,
+    updateOrganizationArtists,
   } = useBillingStore(getBillingStoreState)
   const { next, setWizardState, wizardState } = React.useContext(WizardContext)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
+  const stripe = useStripe()
   const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
 
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
@@ -63,6 +67,8 @@ const GetStartedPaymentMethod = () => {
       is_managed: isManaged,
       status,
     },
+    setStatus,
+    setPlan,
     artistId,
     updateArtist,
   } = React.useContext(ArtistContext)
@@ -143,14 +149,44 @@ const GetStartedPaymentMethod = () => {
 
   const upgradeProfilePlans = async () => {
     setIsLoading(true)
-    const { error } = await upgradeProfiles(organizationId, profilePlans, promoCode)
-
+    const { res: { clientSecret, profiles }, error } = await upgradeProfiles(organizationId, profilePlans, promoCode)
     if (error) {
       setError(error)
       setIsLoading(false)
-
       return
     }
+
+    const profileUpdated = profiles.find((profile) => profile.id === artistId)
+    setStatus(profileUpdated.status)
+    setPlan(profileUpdated.plan)
+
+    if (profileUpdated.plan === 'active' || !clientSecret) {
+      updateOrganizationArtists(profiles)
+      setIsLoading(false)
+      return
+    }
+
+    const { error: confirmPaymentError } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: defaultPaymentMethod.id,
+    })
+
+    if (confirmPaymentError) {
+      updateOrganizationArtists(profiles)
+      setError(confirmPaymentError)
+      setIsLoading(false)
+      return
+    }
+
+    setStatus('active')
+    const upgradedProfilesWithActiveStatus = profiles.map((profile) => {
+      if (['incomplete', 'past_due'].includes(profile.status)) {
+        profile.status = 'active'
+      }
+      return profile
+    })
+    updateOrganizationArtists(upgradedProfilesWithActiveStatus)
+
+    setIsLoading(false)
 
     await checkAndUpdateCompletedSetupAt()
     setIsLoading(false)
