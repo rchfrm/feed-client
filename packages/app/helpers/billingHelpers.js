@@ -116,7 +116,6 @@ export const isValidPromoCode = (promoCode) => {
  * @returns {Promise<any>}
  */
 export const upgradeProfiles = async (organizationId, profilesToUpgrade, promoCode = '') => {
-  // TODO FD-1523 : If this returns a clientSecret, use confirmCardPayment
   const payload = {
     profilePlans: profilesToUpgrade,
   }
@@ -243,14 +242,18 @@ export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
 
 // SET INITIAL VALUE FOR PRICING PLAN
 /**
- * @param {string} artistPlan
+ * @param {Object} artist
  * @param {boolean} canChooseBasic
  * @param {boolean} isUpgradeToPro
  * @returns {string}
  */
-export const setInitialPlan = (artistPlan, canChooseBasic, isUpgradeToPro) => {
+export const setInitialPlan = (artist, canChooseBasic, isUpgradeToPro) => {
+  const { plan, status } = artist
+  const [planPrefix] = plan?.split('_')
+  if (plan && status === 'incomplete') {
+    return planPrefix
+  }
   if (canChooseBasic) {
-    const [planPrefix] = artistPlan?.split('_')
     return planPrefix || 'growth'
   }
   return isUpgradeToPro ? 'pro' : 'growth'

@@ -73,6 +73,7 @@ const GetStartedPaymentMethod = () => {
   const [planPrefix, planPeriod] = plan.split('_')
 
   const isPaymentRequired = status !== 'active' && planPrefix !== 'basic'
+  const profilePlans = { [artistId]: plan }
   const shouldShowPromoCodeInput = false
 
   const {
@@ -84,31 +85,24 @@ const GetStartedPaymentMethod = () => {
 
   // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
-    if (!isPaymentRequired || (promoCode && !isValidPromoCode) || isManaged) {
-      return
-    }
-
-    const newPlan = plan
-    if (!newPlan) {
+    if (!isPaymentRequired || (promoCode && !isValidPromoCode) || isManaged || !plan) {
       return
     }
 
     setIsLoadingAmountToPay(true)
 
-    const { res, error } = await getProrationsPreview(organizationId, { [artistId]: newPlan }, promoCode)
+    const { res, error } = await getProrationsPreview(organizationId, profilePlans, promoCode)
 
     if (error) {
       if (error.message === 'Invalid promo code') {
         setIsValidPromoCode(false)
         setPromoCodeError(error)
         setIsLoadingAmountToPay(false)
-
         return
       }
 
       setError(error)
       setIsLoadingAmountToPay(false)
-
       return
     }
 
@@ -149,7 +143,7 @@ const GetStartedPaymentMethod = () => {
 
   const upgradeProfilePlans = async () => {
     setIsLoading(true)
-    const { error } = await upgradeProfiles(organizationId, { [artistId]: plan }, promoCode)
+    const { error } = await upgradeProfiles(organizationId, profilePlans, promoCode)
 
     if (error) {
       setError(error)
@@ -209,6 +203,8 @@ const GetStartedPaymentMethod = () => {
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
                 promoCode={promoCode}
+                isPaymentRequired={isPaymentRequired}
+                profilePlans={profilePlans}
               />
             ) : (
               <>

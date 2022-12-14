@@ -173,8 +173,8 @@ function ArtistProvider({ children }) {
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
     // Set pricing plan booleans
-    const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan)
-    const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
+    const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan) && artist.status === 'active'
+    const hasProPlan = artistHelpers.hasProPlan(artist?.plan) && artist.status === 'active'
     const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
     const hasNoPlan = !artist?.plan
     const hasCancelledPlan = artist.status !== 'active'

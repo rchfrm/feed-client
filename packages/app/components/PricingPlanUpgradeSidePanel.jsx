@@ -62,7 +62,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
 
   const [profilesToUpgrade, setProfilesToUpgrade] = useImmerReducer(profilesToUpgradeReducer, {})
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
-  const initPlan = setInitialPlan(artist.plan, canChooseBasic, isUpgradeToPro)
+  const initPlan = setInitialPlan(artist, canChooseBasic, isUpgradeToPro)
   const [stripePromise] = React.useState(() => loadStripe(process.env.stripe_provider))
 
   React.useEffect(() => {
