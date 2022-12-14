@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import PostMetricsListItem from '@/app/PostMetricsListItem'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
+import PostMetricsListItem from '@/app/PostMetricsListItem'
 import * as utils from '@/helpers/utils'
 
 const PostMetricsList = ({
@@ -88,7 +85,5 @@ PostMetricsList.defaultProps = {
   metricsType: '',
   className: null,
 }
-
-
 
 export default React.memo(PostMetricsList)

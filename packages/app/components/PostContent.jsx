@@ -1,13 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useControlsStore from '@/app/stores/controlsStore'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useOnResize from '@/landing/hooks/useOnResize'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-
 import SplitView from '@/app/SplitView'
 import RadioButtonTabs from '@/app/RadioButtonTabs'
 import PostMedia from '@/app/PostMedia'
@@ -17,7 +14,6 @@ import PostMetrics from '@/app/PostMetrics'
 import PostSettings from '@/app/PostSettings'
 import PostCardToggles from '@/app/PostCardToggles'
 import PostCardUnpromotable from '@/app/PostCardUnpromotable'
-
 import { postOptions } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({

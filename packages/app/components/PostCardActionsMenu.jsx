@@ -180,6 +180,13 @@ const PostCardActionsMenu = ({
           {action?.name}
         </button>
       </li>
+      {status === 'archived' && (
+        <li>
+          <button onClick={openMetrics} className="mb-2 whitespace-nowrap">
+            Results
+          </button>
+        </li>
+      )}
       <li>
         <button onClick={openSettings} className="mb-2 whitespace-nowrap">
           Settings
