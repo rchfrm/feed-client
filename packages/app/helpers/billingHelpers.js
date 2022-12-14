@@ -70,7 +70,7 @@ export const deletePaymentMethod = async (organizationId, paymentMethodId) => {
 export const getStripeClientSecret = async (organizationId, type) => {
   const validTypes = ['setup', 'payment']
   const isValidType = validTypes.includes(type)
-  if (!isValidType) {
+  if (! isValidType) {
     throw new Error(`Provide valid type, one of: ${validTypes.join(', ')}`)
   }
   const payload = null

@@ -97,7 +97,7 @@ const FORM = ({
   }, [name, organizationId, stripe])
 
   const confirmPayment = React.useCallback(async (cardEl) => {
-    if (!profilePlans) {
+    if (! profilePlans) {
       const error = { message: 'If payment is required, then profile plans also need to be supplied' }
       return { error }
     }

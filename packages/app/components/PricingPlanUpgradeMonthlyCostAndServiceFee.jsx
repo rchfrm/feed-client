@@ -36,7 +36,7 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, isAnnu
       </div>
       <div className={[
         'flex flex-col xs:flex-row items-center xs:mr-8',
-        isBasic && !disabled ? 'text-black' : 'text-grey-3',
+        isBasic && ! disabled ? 'text-black' : 'text-grey-3',
       ].join(' ')}
       >
         <p className="mr-2 mb-0 text-2xl">{serviceFeePercentage * 100}%</p>

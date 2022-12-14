@@ -14,7 +14,6 @@ import { formatCurrency } from '@/helpers/utils'
 import { formatProfilesToUpgrade, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
 import { useStripe } from '@stripe/react-stripe-js'
-import * as billingHelpers from '@/app/helpers/billingHelpers'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -71,7 +70,7 @@ const PricingPlanUpgradePayment = ({
     setPlan(profileUpdated.plan)
 
 
-    if (profileUpdated.plan === 'active' || !clientSecret) {
+    if (profileUpdated.plan === 'active' || ! clientSecret) {
       updateOrganizationArtists(profiles)
       setCurrentStep((currentStep) => currentStep + 1)
       setIsLoading(false)
