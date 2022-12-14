@@ -45,7 +45,10 @@ const PostSettingsCaption = ({
     }
 
     setAdMessages(adMessages)
-    updatePost('update-ad-messages', { adMessages })
+    updatePost({
+      type: 'update-ad-messages',
+      payload: { adMessages },
+    })
   }, [])
 
   const handleChange = () => {
@@ -82,7 +85,10 @@ const PostSettingsCaption = ({
     setCurrentAdMessage(adMessage)
     setSavedCaption(adMessage?.message)
     setAdMessages(updatedCaptions)
-    updatePost('update-ad-messages', { adMessages: updatedCaptions })
+    updatePost({
+      type: 'update-ad-messages',
+      payload: { adMessages: updatedCaptions },
+    })
   }
 
   // Save current ad message and hide save button

@@ -3,12 +3,9 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { useImmerReducer } from 'use-immer'
 import Router from 'next/router'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import PostContent from '@/app/PostContent'
 import Spinner from '@/elements/Spinner'
-
 import { getPostById } from '@/app/helpers/postsHelpers'
 import * as ROUTES from '@/app/constants/routes'
 
@@ -89,17 +86,14 @@ const PostLoader = ({ postId }) => {
     setIsLoading(false)
   }, [artistId])
 
-  // Define function to update post
-  const updatePost = React.useCallback((action, payload) => {
-    setPost({ type: action, payload })
-  }, [setPost])
-
-  if (isLoading) return <Spinner />
+  if (isLoading) {
+    return <Spinner />
+  }
 
   return (
     <PostContent
       post={post}
-      updatePost={updatePost}
+      setPost={setPost}
     />
   )
 }

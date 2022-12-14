@@ -58,7 +58,12 @@ const PostSettingsCallToAction = ({
     setCallToActions(updatedCallToActions)
     setSavedCallToAction(callToAction.value)
 
-    updatePost('update-call-to-actions', { callToActions: updatedCallToActions })
+    updatePost({
+      type: 'update-call-to-actions',
+      payload: {
+        callToActions: updatedCallToActions,
+      },
+    })
   }
 
   // Save currently selected call to action and hide save button

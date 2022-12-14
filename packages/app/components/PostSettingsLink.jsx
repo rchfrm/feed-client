@@ -60,7 +60,10 @@ const PostSettingsLink = ({
 
     setSavedLink(currentLink)
     setShouldShowSaveButton(false)
-    updatePost('update-link-specs', { linkSpecs })
+    updatePost({
+      type: 'update-link-specs',
+      payload: { linkSpecs },
+    })
 
     if (currentLink.id === defaultLink?.id) {
       setIsDefaultLink(true)

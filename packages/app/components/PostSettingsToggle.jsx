@@ -5,13 +5,13 @@ import PostDisableHandler from '@/app/PostDisableHandler'
 import PostToggleAlert from '@/app/PostToggleAlert'
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import * as ROUTES from '@/app/constants/routes'
-import { updatePost } from '@/app/helpers/postsHelpers'
+import { updatePost as update } from '@/app/helpers/postsHelpers'
 
 const PostSettingsToggle = ({
   post,
   postId,
   campaignType,
-  toggleCampaign,
+  updatePost,
   artistId,
   isEnabled,
   setIsEnabled,
@@ -30,22 +30,28 @@ const PostSettingsToggle = ({
       setShouldShowAlert(true)
       return
     }
-    // Start loading
     setIsLoading(true)
     setHasChanged(true)
-    // Update state passed to toggle component
     setIsEnabled(newState)
-    const { res: updatedPost, error } = await updatePost({ artistId, postId, promotionEnabled: newState, campaignType })
-    setIsLoading(false)
-    // Return to previous value if erroring
+
+    const { res: updatedPost, error } = await update({ artistId, postId, promotionEnabled: newState, campaignType })
+
     if (error) {
       setIsEnabled(! newState)
+      setIsLoading(false)
       return
     }
-    // Update post list state
+
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
-    toggleCampaign(isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType, postId)
-  }, [artistId, postId, toggleCampaign, campaignType, setIsEnabled, isConversionsCampaign, showAlertModal])
+    updatePost({
+      type: isConversionsCampaign ? 'toggle-conversion' : 'toggle-promotion',
+      payload: {
+        promotionEnabled: isConversionsCampaign ? conversions_enabled : promotion_enabled,
+        promotableStatus: promotable_status,
+      },
+    })
+    setIsLoading(false)
+  }, [artistId, postId, updatePost, campaignType, setIsEnabled, isConversionsCampaign, showAlertModal])
 
   const goToControlsPage = () => {
     Router.push({
@@ -93,7 +99,7 @@ const PostSettingsToggle = ({
           <PostDisableHandler
             post={post}
             artistId={artistId}
-            toggleCampaign={toggleCampaign}
+            updatePost={updatePost}
             isEnabled={isEnabled}
             setIsEnabled={setIsEnabled}
             campaignType={campaignType}
@@ -117,7 +123,7 @@ PostSettingsToggle.propTypes = {
   post: PropTypes.object.isRequired,
   postId: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
-  toggleCampaign: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   artistId: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,

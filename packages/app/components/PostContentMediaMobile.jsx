@@ -9,6 +9,7 @@ const PostContentMediaMobile = ({ post }) => {
   const {
     promotionEnabled,
     promotionStatus,
+    postPromotable,
     media,
     mediaType,
     thumbnails,
@@ -25,6 +26,7 @@ const PostContentMediaMobile = ({ post }) => {
           <PostPromotionStatus
             promotionEnabled={promotionEnabled}
             promotionStatus={promotionStatus}
+            postPromotable={postPromotable}
             size="small"
           />
         </div>

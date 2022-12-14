@@ -14,7 +14,7 @@ const getPromotionStatus = (promotableStatus) => {
 const PostDisableHandler = ({
   post,
   artistId,
-  toggleCampaign,
+  updatePost,
   isEnabled,
   setIsEnabled,
   campaignType,
@@ -39,11 +39,9 @@ const PostDisableHandler = ({
     setReverseStatus(true)
   }, [])
 
-  // REVERSE DISABLE POST (Set the post back to the previous enabled state)
   useAsync({
     promiseFn: postsHelpers.updatePost,
     watch: reverseStatus,
-    // The variable(s) to pass to promiseFn
     artistId,
     postId,
     promotionEnabled: getPromotionStatus(cachedPromotableStatus),
@@ -51,14 +49,20 @@ const PostDisableHandler = ({
     campaignType,
     onResolve: ({ res: postUpdated, error }) => {
       setShouldShowAlert(false)
-      // Reset reversed status
       setReverseStatus(false)
-      // Hide warning
-      if (error) return
-      // Update post list state
+
+      if (error) {
+        return
+      }
+
       const { promotion_enabled, conversions_enabled, promotable_status } = postUpdated
-      toggleCampaign(isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType, postId)
-      // Update local toggle state
+      updatePost({
+        type: isConversionsCampaign ? 'toggle-conversion' : 'toggle-promotion',
+        payload: {
+          promotionEnabled: isConversionsCampaign ? conversions_enabled : promotion_enabled,
+          promotableStatus: promotable_status,
+        },
+      })
       setIsEnabled(isConversionsCampaign ? conversions_enabled : promotion_enabled)
     },
   })
@@ -87,7 +91,7 @@ const PostDisableHandler = ({
 PostDisableHandler.propTypes = {
   post: PropTypes.object.isRequired,
   artistId: PropTypes.string.isRequired,
-  toggleCampaign: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,

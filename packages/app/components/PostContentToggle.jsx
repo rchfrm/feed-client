@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-import * as ROUTES from '@/app/constants/routes'
+import { SidePanelContext } from '@/contexts/SidePanelContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostContentLabel from '@/app/PostContentLabel'
-import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostDisableHandler from '@/app/PostDisableHandler'
 import PostToggleAlert from '@/app/PostToggleAlert'
-import { SidePanelContext } from '@/contexts/SidePanelContext'
+import ToggleSwitch from '@/elements/ToggleSwitch'
+import * as ROUTES from '@/app/constants/routes'
 import { updatePost, setPostPriority, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
 // CALL TO CHANGE STATE
@@ -15,33 +16,29 @@ const runChangeState = ({ artistId, postId, promotionEnabled, campaignType }) =>
 }
 
 const PostContentToggle = ({
-  post,
-  postToggleSetterType,
-  postIndex,
   campaignType,
-  artistId,
+  post,
+  setPost,
   isEnabled,
-  toggleCampaign,
-  updatePost: updatePostsState,
   isActive,
   disabled,
   showAlertModal,
   className,
   hasSalesObjective,
 }) => {
-  // Store INTERNAL STATE based on promotionEnabled
   const [currentState, setCurrentState] = React.useState(isEnabled)
-  const isConversionsCampaign = campaignType === 'conversions'
-  const { sidePanelOpen } = React.useContext(SidePanelContext)
-  const { id: postId, postPromotable, promotionStatus, priorityEnabled } = post
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
-  // Update internal state when outside state changes
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  const isConversionsCampaign = campaignType === 'conversions'
+  const { id: postId, postPromotable, promotionStatus, priorityEnabled } = post
+
+  const { sidePanelOpen } = React.useContext(SidePanelContext)
+  const { artistId } = React.useContext(ArtistContext)
+
   React.useEffect(() => {
     setCurrentState(isEnabled)
   }, [isEnabled])
-
-  // UPDATE ON SERVER
-  const [isLoading, setIsLoading] = React.useState(false)
 
   const checkAndDeprioritize = React.useCallback(async ({
     promotion_enabled,
@@ -51,35 +48,43 @@ const PostContentToggle = ({
     if (priorityEnabled && ! promotion_enabled && ! conversions_enabled) {
       const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled })
 
-      // Update post list state
       const { priority_enabled } = updatedPost
-      const payload = { postIndex, priorityEnabled: priority_enabled }
-      updatePostsState('toggle-priority', payload)
+      const payload = { priorityEnabled: priority_enabled }
+      setPost({
+        type: 'toggle-priority',
+        payload,
+      })
     }
-  }, [artistId, postId, postIndex, priorityEnabled, updatePostsState])
+  }, [artistId, postId, priorityEnabled, setPost])
 
-  // ON CHANGING THE TOGGLE SWITCH
   const onChange = React.useCallback(async (newState) => {
     if (showAlertModal) {
       setShouldShowAlert(true)
       return
     }
-    // Start loading
+
     setIsLoading(true)
-    // Update state passed to toggle component
     setCurrentState(newState)
+
     const { res: updatedPost, error } = await runChangeState({ artistId, postId, promotionEnabled: newState, campaignType })
-    setIsLoading(false)
-    // Return to previous value if erroring
+
     if (error) {
       setCurrentState(! newState)
+      setIsLoading(false)
       return
     }
-    // Update post list state
+
     const { promotion_enabled, conversions_enabled, promotable_status } = updatedPost
-    toggleCampaign(isConversionsCampaign ? conversions_enabled : promotion_enabled, promotable_status, campaignType, postId)
+    setPost({
+      type: isConversionsCampaign ? 'toggle-conversion' : 'toggle-promotion',
+      payload: {
+        promotionEnabled: isConversionsCampaign ? conversions_enabled : promotion_enabled,
+        promotableStatus: promotable_status,
+      },
+    })
     checkAndDeprioritize(updatedPost)
-  }, [artistId, postId, toggleCampaign, campaignType, isConversionsCampaign, showAlertModal, checkAndDeprioritize])
+    setIsLoading(false)
+  }, [artistId, postId, campaignType, isConversionsCampaign, showAlertModal, checkAndDeprioritize, setPost])
 
   const goToControlsPage = () => {
     Router.push({
@@ -98,7 +103,6 @@ const PostContentToggle = ({
       ].join(' ')}
     >
       <div className="mb-0 flex items-center">
-        {/* DOT */}
         <div
           className={[
             'w-4 h-4 rounded-full',
@@ -108,14 +112,12 @@ const PostContentToggle = ({
             background: ! isConversionsCampaign ? growthGradient : conversionsGradient,
           }}
         />
-        {/* TITLE */}
         <strong
           className="capitalize ml-4"
           style={{ transform: 'translate(-1px, 0px)' }}
         >
           {! isConversionsCampaign ? hasSalesObjective ? 'Grow & Nurture' : 'Promotable' : 'Sales'}
         </strong>
-        {/* RUNNING LABEL */}
         {isActive && (
           <PostContentLabel
             copy="running"
@@ -123,7 +125,6 @@ const PostContentToggle = ({
           />
         )}
       </div>
-      {/* TOGGLE SWITCH or LIGHTBULB ICON */}
       <div>
         <ToggleSwitch
           state={currentState}
@@ -132,13 +133,11 @@ const PostContentToggle = ({
           disabled={disabled}
         />
       </div>
-      {/* DISABLE ALERT */}
       {! sidePanelOpen && postPromotable && promotionStatus === 'active' && (
         <PostDisableHandler
           post={post}
-          postToggleSetterType={postToggleSetterType}
+          updatePost={setPost}
           artistId={artistId}
-          toggleCampaign={toggleCampaign}
           isEnabled={currentState}
           setIsEnabled={setCurrentState}
           campaignType={campaignType}
@@ -160,13 +159,9 @@ const PostContentToggle = ({
 
 PostContentToggle.propTypes = {
   post: PropTypes.object.isRequired,
-  postToggleSetterType: PropTypes.string.isRequired,
-  postIndex: PropTypes.number,
   campaignType: PropTypes.string.isRequired,
-  artistId: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool,
-  toggleCampaign: PropTypes.func.isRequired,
-  updatePost: PropTypes.func.isRequired,
+  setPost: PropTypes.func.isRequired,
   isActive: PropTypes.bool,
   disabled: PropTypes.bool,
   showAlertModal: PropTypes.bool,
@@ -175,7 +170,6 @@ PostContentToggle.propTypes = {
 }
 
 PostContentToggle.defaultProps = {
-  postIndex: null,
   disabled: false,
   className: null,
   isEnabled: false,

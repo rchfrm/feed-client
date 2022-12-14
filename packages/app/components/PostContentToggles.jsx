@@ -10,18 +10,13 @@ const getControlsStoreState = (state) => ({
 })
 
 const PostContentToggles = ({
-  artistId,
   post,
-  postToggleSetterType,
-  postIndex,
-  toggleCampaign,
-  updatePost,
+  setPost,
   priorityEnabled,
   togglesClassName,
   className,
   hasSalesObjective,
 }) => {
-  // Get conversions store values
   const { canRunConversions } = useControlsStore(getControlsStoreState)
 
   const {
@@ -51,14 +46,10 @@ const PostContentToggles = ({
     >
       {/* GROWTH TOGGLE */}
       <PostContentToggle
-        post={post}
-        postToggleSetterType={postToggleSetterType}
-        postIndex={postIndex}
         campaignType="all"
-        artistId={artistId}
+        post={post}
+        setPost={setPost}
         isEnabled={promotionEnabled}
-        toggleCampaign={toggleCampaign}
-        updatePost={updatePost}
         disabled={! isEligibleForGrowAndNurture && ! priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
         className={togglesClassName}
@@ -67,15 +58,11 @@ const PostContentToggles = ({
       {/* CONVERT TOGGLE */}
       {hasSalesObjective && (
         <PostContentToggle
-          post={post}
-          postToggleSetterType={postToggleSetterType}
-          postIndex={postIndex}
           campaignType="conversions"
-          artistId={artistId}
+          post={post}
+          setPost={setPost}
           isEnabled={conversionsEnabled}
-          toggleCampaign={toggleCampaign}
           disabled={! isEligibleForConversions && ! priorityEnabled}
-          updatePost={updatePost}
           isActive={isRunningInConversions}
           className={togglesClassName}
           showAlertModal={! canRunConversions}
@@ -87,12 +74,8 @@ const PostContentToggles = ({
 }
 
 PostContentToggles.propTypes = {
-  artistId: PropTypes.string.isRequired,
   post: PropTypes.object.isRequired,
-  postToggleSetterType: PropTypes.string.isRequired,
-  postIndex: PropTypes.number,
-  toggleCampaign: PropTypes.func.isRequired,
-  updatePost: PropTypes.func.isRequired,
+  setPost: PropTypes.func.isRequired,
   priorityEnabled: PropTypes.bool.isRequired,
   togglesClassName: PropTypes.string,
   className: PropTypes.string,
@@ -102,7 +85,6 @@ PostContentToggles.propTypes = {
 PostContentToggles.defaultProps = {
   togglesClassName: null,
   className: null,
-  postIndex: null,
 }
 
 export default PostContentToggles

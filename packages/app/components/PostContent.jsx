@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import useControlsStore from '@/app/stores/controlsStore'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useOnResize from '@/landing/hooks/useOnResize'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import SplitView from '@/app/SplitView'
 import PostMedia from '@/app/PostMedia'
@@ -20,14 +19,13 @@ const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const PostContent = ({ post, updatePost }) => {
+const PostContent = ({ post, setPost }) => {
   const [activeTab, setActiveTab] = React.useState(postOptions[0].name)
 
   const breakpoint = 'sm'
   const { width } = useOnResize()
 
   const { setHeader } = React.useContext(InterfaceContext)
-  const { artistId } = React.useContext(ArtistContext)
   const isDesktopLayout = useBreakpointTest(breakpoint)
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
@@ -41,19 +39,10 @@ const PostContent = ({ post, updatePost }) => {
     paid: hidePaidMetrics ? null : post.paidMetrics,
   }
 
-  // Define function for toggling promotion campaign or conversions campaign
-  const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all') => {
-    updatePost(campaignType === 'all' ? 'toggle-promotion' : 'toggle-conversion',
-      {
-        promotionEnabled,
-        promotableStatus,
-      })
-  }, [updatePost])
-
   const postComponents = {
     details: <PostDetails post={post} className="md:pl-16" />,
     metrics: <PostMetrics metrics={metrics} postType={postType} shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
-    settings: <PostSettings post={post} updatePost={updatePost} toggleCampaign={toggleCampaign} className="md:pl-16" />,
+    settings: <PostSettings post={post} updatePost={setPost} className="md:pl-16" />,
   }
 
   React.useEffect(() => {
@@ -81,15 +70,11 @@ const PostContent = ({ post, updatePost }) => {
       />
     ) : (
       <>
-        <PostContentMediaMobile
-          post={post}
-        />
+        <PostContentMediaMobile post={post} />
         {post.postPromotable ? (
           <PostContentToggles
-            artistId={artistId}
             post={post}
-            toggleCampaign={toggleCampaign}
-            updatePost={updatePost}
+            setPost={setPost}
             priorityEnabled={post.priorityEnabled}
             togglesClassName="py-2 px-4 mb-2 last:mb-10 border-2 border-solid border-grey-3"
             className="mb-2"
@@ -115,7 +100,7 @@ const PostContent = ({ post, updatePost }) => {
 
 PostContent.propTypes = {
   post: PropTypes.object.isRequired,
-  updatePost: PropTypes.func.isRequired,
+  setPost: PropTypes.func.isRequired,
 }
 
 export default PostContent

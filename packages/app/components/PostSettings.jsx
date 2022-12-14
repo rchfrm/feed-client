@@ -24,7 +24,6 @@ const getControlsStoreState = (state) => ({
 const PostSettings = ({
   post,
   updatePost,
-  toggleCampaign,
   className,
 }) => {
   const {
@@ -101,7 +100,7 @@ const PostSettings = ({
                 post={post}
                 postId={postId}
                 campaignType={campaignType}
-                toggleCampaign={toggleCampaign}
+                updatePost={updatePost}
                 artistId={artistId}
                 isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
                 setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
@@ -156,7 +155,11 @@ const PostSettings = ({
 PostSettings.propTypes = {
   post: PropTypes.object.isRequired,
   updatePost: PropTypes.func.isRequired,
-  toggleCampaign: PropTypes.func.isRequired,
+  className: PropTypes.string,
+}
+
+PostSettings.defaultProps = {
+  className: null,
 }
 
 export default PostSettings

@@ -59,7 +59,10 @@ const PostCallToActionCheckboxSelect = ({
     }
 
     setCallToActions(callToActions)
-    updatePost('update-call-to-actions', { callToActions })
+    updatePost({
+      type: 'update-call-to-actions',
+      payload: { callToActions },
+    })
   }, [])
 
   const handleChange = () => {
