@@ -6,7 +6,7 @@ import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostDisableHandler from '@/app/PostDisableHandler'
 import PostToggleAlert from '@/app/PostToggleAlert'
 import * as ROUTES from '@/app/constants/routes'
-import { updatePost, setPostPriority, formatPostsResponse } from '@/app/helpers/postsHelpers'
+import { togglePromotionEnabled, setPostPriority } from '@/app/helpers/postsHelpers'
 
 const PostToggle = ({
   campaignType,
@@ -36,9 +36,7 @@ const PostToggle = ({
   }) => {
     // Deprioritize post if opted out for Grow & Nurture and Conversions and post is prioritized
     if (post.priorityEnabled && ! promotionEnabled && ! conversionsEnabled) {
-      const { res } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: post.priorityEnabled })
-
-      const [updatedPost] = formatPostsResponse([res])
+      const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: post.priorityEnabled })
       const { priorityEnabled } = updatedPost
 
       setPost({
@@ -61,7 +59,7 @@ const PostToggle = ({
     setIsLoading(true)
     setCurrentState(newState)
 
-    const { res, error } = await updatePost({ artistId, postId, promotionEnabled: newState, campaignType })
+    const { res: updatedPost, error } = await togglePromotionEnabled({ artistId, postId, promotionEnabled: newState, campaignType })
 
     if (error) {
       setCurrentState(! newState)
@@ -69,7 +67,6 @@ const PostToggle = ({
       return
     }
 
-    const [updatedPost] = formatPostsResponse([res])
     const { promotionEnabled, conversionsEnabled, promotableStatus } = updatedPost
 
     setPost({

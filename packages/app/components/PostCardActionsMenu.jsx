@@ -8,7 +8,7 @@ import ChevronDoubleUpIcon from '@/icons/ChevronDoubleUpIcon'
 import PencilIcon from '@/icons/PencilIcon'
 import RefreshIcon from '@/icons/RefreshIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
-import { setPostPriority, updatePost, formatPostsResponse } from '@/app/helpers/postsHelpers'
+import { setPostPriority, togglePromotionEnabled } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -31,7 +31,7 @@ const PostCardActionsMenu = ({
   const hasSalesObjective = objective === 'sales'
 
   const enablePromotion = async () => {
-    const { res, error } = await updatePost({
+    const { res: updatedPost, error } = await togglePromotionEnabled({
       artistId,
       postId: post.id,
       promotionEnabled: true,
@@ -41,8 +41,6 @@ const PostCardActionsMenu = ({
     if (error) {
       return
     }
-
-    const [updatedPost] = formatPostsResponse([res])
 
     setPosts({
       type: 'toggle-promotion',
@@ -71,12 +69,10 @@ const PostCardActionsMenu = ({
   }
 
   const prioritize = async () => {
-    const { res, error } = await setPostPriority({ artistId, assetId: post.id, priorityEnabled: post.priorityEnabled })
+    const { res: updatedPost, error } = await setPostPriority({ artistId, assetId: post.id, priorityEnabled: post.priorityEnabled })
     if (error) {
       return
     }
-
-    const [updatedPost] = formatPostsResponse([res])
 
     setPosts({
       type: 'toggle-priority',

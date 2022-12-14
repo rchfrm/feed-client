@@ -40,14 +40,14 @@ const PostDisableHandler = ({
   }, [])
 
   useAsync({
-    promiseFn: postsHelpers.updatePost,
+    promiseFn: postsHelpers.togglePromotionEnabled,
     watch: reverseStatus,
     artistId,
     postId,
     promotionEnabled: getPromotionStatus(cachedPromotableStatus),
     disabled: ! reverseStatus,
     campaignType,
-    onResolve: ({ res, error }) => {
+    onResolve: ({ res: updatedPost, error }) => {
       setShouldShowAlert(false)
       setReverseStatus(false)
 
@@ -55,7 +55,6 @@ const PostDisableHandler = ({
         return
       }
 
-      const [updatedPost] = postsHelpers.formatPostsResponse([res])
       const { promotionEnabled, conversionsEnabled, promotableStatus } = updatedPost
 
       updatePost({
