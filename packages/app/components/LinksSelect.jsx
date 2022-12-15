@@ -20,7 +20,7 @@ const getControlsStoreState = (state) => ({
   conversionsPreferences: state.conversionsPreferences,
 })
 
-const PostLinksSelect = ({
+const LinksSelect = ({
   currentLinkId,
   linkType,
   selectClassName,
@@ -279,7 +279,7 @@ const PostLinksSelect = ({
   )
 }
 
-PostLinksSelect.propTypes = {
+LinksSelect.propTypes = {
   currentLinkId: PropTypes.string,
   linkType: PropTypes.string,
   selectClassName: PropTypes.string,
@@ -304,7 +304,7 @@ PostLinksSelect.propTypes = {
   campaignType: PropTypes.string,
 }
 
-PostLinksSelect.defaultProps = {
+LinksSelect.defaultProps = {
   currentLinkId: defaultPostLinkId,
   onSelect: () => {},
   linkType: '',
@@ -328,4 +328,4 @@ PostLinksSelect.defaultProps = {
   campaignType: '',
 }
 
-export default PostLinksSelect
+export default LinksSelect

@@ -11,7 +11,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import { getCallToActions } from '@/app/helpers/adDefaultsHelpers'
 
-const CallToActionSelector = ({
+const CallToActionSelect = ({
   onSelect,
   onSuccess,
   callToAction,
@@ -132,7 +132,7 @@ const CallToActionSelector = ({
   )
 }
 
-CallToActionSelector.propTypes = {
+CallToActionSelect.propTypes = {
   onSelect: PropTypes.func,
   onSuccess: PropTypes.func,
   callToAction: PropTypes.string,
@@ -148,7 +148,7 @@ CallToActionSelector.propTypes = {
   hasSalesObjective: PropTypes.bool,
 }
 
-CallToActionSelector.defaultProps = {
+CallToActionSelect.defaultProps = {
   onSelect: () => {},
   onSuccess: () => {},
   callToAction: '',
@@ -163,4 +163,4 @@ CallToActionSelector.defaultProps = {
   hasSalesObjective: false,
 }
 
-export default CallToActionSelector
+export default CallToActionSelect

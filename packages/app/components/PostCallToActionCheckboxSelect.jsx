@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
-import CallToActionSelector from '@/app/CallToActionSelector'
+import CallToActionSelect from '@/app/CallToActionSelect'
 import CheckboxInput from '@/elements/CheckboxInput'
 import { getPostCallToActions } from '@/app/helpers/postsHelpers'
 import { capitalise } from '@/helpers/utils'
@@ -99,7 +99,7 @@ const PostCallToActionCheckboxSelect = ({
         disabled={isDisabled}
       />
       {! isDefaultCallToAction && (
-        <CallToActionSelector
+        <CallToActionSelect
           callToAction={currentCallToAction}
           setCallToAction={setCurrentCallToAction}
           callToActionId={currentCallToActionId}
