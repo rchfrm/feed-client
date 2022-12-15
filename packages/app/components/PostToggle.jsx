@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ToggleSwitch from '@/elements/ToggleSwitch'
-import PostDisableHandler from '@/app/PostDisableHandler'
-import PostConversionsAlert from '@/app/PostConversionsAlert'
-import * as ROUTES from '@/app/constants/routes'
 import { togglePromotionEnabled, setPostPriority } from '@/app/helpers/postsHelpers'
 
 const PostToggle = ({
@@ -15,26 +11,17 @@ const PostToggle = ({
   isEnabled,
   setIsEnabled,
   disabled,
-  shouldShowConversionsAlert,
   className,
 }) => {
-  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
-  const [hasChanged, setHasChanged] = React.useState(false)
 
-  const { id: postId, postPromotable, promotionStatus } = post
-  const shouldShowDisableAlert = postPromotable && promotionStatus === 'active' && hasChanged
+  const { id: postId } = post
   const isConversionsCampaign = campaignType === 'conversions'
-
   const { artistId } = React.useContext(ArtistContext)
-
-  React.useEffect(() => {
-    setHasChanged(false)
-  }, [campaignType])
 
   const checkAndDeprioritize = React.useCallback(async (status, updatedPost) => {
     const { promotionEnabled, conversionsEnabled } = updatedPost
-    // Deprioritize post if opted out for Grow & Nurture and Conversions and post is prioritized
+
     if (post.priorityEnabled && ! promotionEnabled && ! conversionsEnabled) {
       const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: false })
       const { priorityEnabled } = updatedPost
@@ -53,13 +40,7 @@ const PostToggle = ({
   }, [artistId, postId, setPost, post.priorityEnabled])
 
   const onChange = React.useCallback(async (newState) => {
-    if (shouldShowConversionsAlert) {
-      setShouldShowAlert(true)
-      return
-    }
-
     setIsLoading(true)
-    setHasChanged(true)
     setIsEnabled(newState)
 
     const { res: updatedPost, error } = await togglePromotionEnabled({
@@ -91,13 +72,7 @@ const PostToggle = ({
     })
     checkAndDeprioritize(newStatus, updatedPost)
     setIsLoading(false)
-  }, [artistId, postId, campaignType, shouldShowConversionsAlert, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign])
-
-  const goToControlsPage = () => {
-    Router.push({
-      pathname: ROUTES.CONTROLS,
-    })
-  }
+  }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign])
 
   return (
     <div className={className}>
@@ -107,25 +82,6 @@ const PostToggle = ({
         isLoading={isLoading}
         disabled={disabled}
       />
-      {shouldShowDisableAlert && (
-        <PostDisableHandler
-          post={post}
-          updatePost={setPost}
-          artistId={artistId}
-          isEnabled={isEnabled}
-          setIsEnabled={setIsEnabled}
-          campaignType={campaignType}
-        />
-      )}
-      {shouldShowAlert && (
-        <PostConversionsAlert
-          show={shouldShowAlert}
-          onAlertConfirm={goToControlsPage}
-          onCancel={() => {
-            setShouldShowAlert(false)
-          }}
-        />
-      )}
     </div>
   )
 }
@@ -136,14 +92,12 @@ PostToggle.propTypes = {
   isEnabled: PropTypes.bool,
   setPost: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  shouldShowConversionsAlert: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostToggle.defaultProps = {
   disabled: false,
   isEnabled: false,
-  shouldShowConversionsAlert: false,
   className: null,
 }
 

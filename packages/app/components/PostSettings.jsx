@@ -17,7 +17,6 @@ import { promotionStatusSlugs, canBePromoted } from '@/app/helpers/postsHelpers'
 import copy from '@/app/copy/PostsPageCopy'
 
 const getControlsStoreState = (state) => ({
-  canRunConversions: state.canRunConversions,
   optimizationPreferences: state.optimizationPreferences,
 })
 
@@ -46,7 +45,7 @@ const PostSettings = ({
   const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
   const isDesktopLayout = useBreakpointTest('sm')
 
-  const { canRunConversions, optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
   const isConversionsCampaign = campaignType === 'conversions'
@@ -118,7 +117,6 @@ const PostSettings = ({
                 isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
                 setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
                 isDisabled={isToggleDisabled || ! postPromotable}
-                shouldShowConversionsAlert={isConversionsCampaign && (! canRunConversions)}
                 className="pl-4"
               />
               <PostSettingsPromotionStatus

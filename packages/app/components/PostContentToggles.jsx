@@ -1,13 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import useControlsStore from '@/app/stores/controlsStore'
 import PostContentToggle from '@/app/PostContentToggle'
 import { canBePromoted } from '@/app/helpers/postsHelpers'
-
-const getControlsStoreState = (state) => ({
-  canRunConversions: state.canRunConversions,
-})
 
 const PostContentToggles = ({
   post,
@@ -34,7 +28,6 @@ const PostContentToggles = ({
 
   const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
-  const { canRunConversions } = useControlsStore(getControlsStoreState)
 
   const isEligibleForGrowAndNurture = [canBePromoted(enticeEngage), canBePromoted(remindTraffic), canBePromoted(enticeTraffic)].some(Boolean)
   const isEligibleForConversions = [canBePromoted(offPlatformConversions), canBePromoted(remindConversions)].some(Boolean)
@@ -45,7 +38,6 @@ const PostContentToggles = ({
         className,
       ].join(' ')}
     >
-      {/* GROWTH TOGGLE */}
       <PostContentToggle
         campaignType="all"
         post={post}
@@ -56,7 +48,6 @@ const PostContentToggles = ({
         isActive={promotionStatus === 'active' && promotionEnabled}
         hasSalesObjective={hasSalesObjective}
       />
-      {/* CONVERT TOGGLE */}
       {hasSalesObjective && (
         <PostContentToggle
           campaignType="conversions"
@@ -66,7 +57,6 @@ const PostContentToggles = ({
           setIsEnabled={setIsConversionsEnabled}
           disabled={! isEligibleForConversions && ! priorityEnabled}
           isActive={isRunningInConversions}
-          shouldShowConversionsAlert={! canRunConversions}
           hasSalesObjective={hasSalesObjective}
         />
       )}

@@ -9,7 +9,6 @@ const PostSettingsToggle = ({
   isEnabled,
   setIsEnabled,
   isDisabled,
-  shouldShowConversionsAlert,
   className,
 }) => {
   return (
@@ -34,13 +33,11 @@ const PostSettingsToggle = ({
           setPost={updatePost}
           isEnabled={isEnabled}
           setIsEnabled={setIsEnabled}
-          shouldShowConversionsAlert={shouldShowConversionsAlert}
           className="mr-4"
         />
         <p
           className={[
             'mb-0',
-            shouldShowConversionsAlert ? 'text-red font-bold' : null,
             isDisabled ? 'text-grey-2' : null,
           ].join(' ')}
         >
@@ -57,12 +54,10 @@ PostSettingsToggle.propTypes = {
   updatePost: PropTypes.func.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-  shouldShowConversionsAlert: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostSettingsToggle.defaultProps = {
-  shouldShowConversionsAlert: false,
   className: null,
 }
 
