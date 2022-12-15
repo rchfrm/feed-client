@@ -25,7 +25,6 @@ const PostToggle = ({
   const { postPromotable, promotionStatus } = post
   const shouldShowDisableAlert = postPromotable && promotionStatus === 'active' && hasChanged
 
-  const isConversionsCampaign = campaignType === 'conversions'
   const { id: postId } = post
   const { artistId } = React.useContext(ArtistContext)
 
@@ -49,7 +48,6 @@ const PostToggle = ({
       setPost({
         type: 'toggle-priority',
         payload: {
-          priorityEnabled,
           newStatus: priorityEnabled ? 'pending' : 'inactive',
           post: updatedPost,
         },
@@ -75,20 +73,18 @@ const PostToggle = ({
       return
     }
 
-    const { promotionEnabled, conversionsEnabled, promotableStatus } = updatedPost
+    const { promotionEnabled, conversionsEnabled } = updatedPost
 
     setPost({
-      type: isConversionsCampaign ? 'toggle-conversion' : 'toggle-promotion',
+      type: 'toggle-promotion',
       payload: {
-        promotionEnabled: isConversionsCampaign ? conversionsEnabled : promotionEnabled,
-        promotableStatus,
-        newStatus: promotionEnabled ? 'pending' : 'inactive',
+        newStatus: promotionEnabled || conversionsEnabled ? 'pending' : 'inactive',
         post: updatedPost,
       },
     })
     checkAndDeprioritize(updatedPost)
     setIsLoading(false)
-  }, [artistId, postId, campaignType, isConversionsCampaign, shouldShowConversionsAlert, checkAndDeprioritize, setPost])
+  }, [artistId, postId, campaignType, shouldShowConversionsAlert, checkAndDeprioritize, setPost])
 
   const goToControlsPage = () => {
     Router.push({

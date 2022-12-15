@@ -39,10 +39,6 @@ const postsReducer = (draftState, postsAction) => {
       draftState[status].splice(index, 1)
       draftState[newStatus].push(post)
       break
-    case 'toggle-conversion':
-      draftState[status].splice(index, 1)
-      draftState[newStatus].push(post)
-      break
     case 'toggle-priority':
       draftState[status].splice(index, 1)
       draftState[newStatus].unshift(post)

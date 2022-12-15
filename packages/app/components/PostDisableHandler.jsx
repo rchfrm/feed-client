@@ -55,14 +55,12 @@ const PostDisableHandler = ({
         return
       }
 
-      const { promotionEnabled, conversionsEnabled, promotableStatus } = updatedPost
+      const { promotionEnabled, conversionsEnabled } = updatedPost
 
       updatePost({
-        type: isConversionsCampaign ? 'toggle-conversion' : 'toggle-promotion',
+        type: 'toggle-promotion',
         payload: {
-          promotionEnabled: isConversionsCampaign ? conversionsEnabled : promotionEnabled,
-          promotableStatus,
-          newStatus: updatedPost.promotionEnabled ? 'pending' : 'inactive',
+          newStatus: promotionEnabled || conversionsEnabled ? 'pending' : 'inactive',
           post: updatedPost,
         },
       })

@@ -42,12 +42,14 @@ const PostCardActionsMenu = ({
       return
     }
 
+    const { promotionEnabled } = updatedPost
+
     setPosts({
       type: 'toggle-promotion',
       payload: {
         index,
         status,
-        newStatus: updatedPost.promotionEnabled ? 'pending' : 'inactive',
+        newStatus: promotionEnabled ? 'pending' : 'inactive',
         post: updatedPost,
       },
     })
@@ -74,12 +76,14 @@ const PostCardActionsMenu = ({
       return
     }
 
+    const { priorityEnabled } = updatedPost
+
     setPosts({
       type: 'toggle-priority',
       payload: {
         index,
         status,
-        newStatus: updatedPost.priorityEnabled ? 'pending' : 'inactive',
+        newStatus: priorityEnabled ? 'pending' : 'inactive',
         post: updatedPost,
       },
     })
