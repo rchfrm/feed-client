@@ -5,7 +5,6 @@ import produce from 'immer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
 import PostSettingsEditCaptionMessage from '@/app/PostSettingsEditCaptionMessage'
-import PostEditAlert from '@/app/PostEditAlert'
 import CheckboxInput from '@/elements/CheckboxInput'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
@@ -27,15 +26,12 @@ const PostSettingsCaption = ({
 
   const [isDefaultAdMessage, setIsDefaultAdMessage] = React.useState(true)
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
-  const [showAlert, setShowAlert] = React.useState(false)
-  const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => {})
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
   const noCaptionEditReason = copy.captionNotEditableReason(post)
 
-  // Get post ad messages
   useAsyncEffect(async (isMounted) => {
     if (post.adMessages) return
 
@@ -105,18 +101,11 @@ const PostSettingsCaption = ({
   }
 
   // Save current ad message and hide save button
-  const save = async (forceRun = false) => {
+  const save = async () => {
     setIsLoading(true)
 
     const isResetCaption = caption === null
     const action = isResetCaption ? resetPostCaption : updatePostCaption
-
-    const shouldShowAlert = post.promotionStatus === 'active'
-    if (shouldShowAlert && ! forceRun) {
-      setOnAlertConfirm(() => save(true))
-      setShowAlert(true)
-      return
-    }
 
     const { res: adMessage, error } = await action({
       artistId,
@@ -129,7 +118,6 @@ const PostSettingsCaption = ({
     if (error) {
       setError(error)
       setIsLoading(false)
-
       return
     }
 
@@ -201,19 +189,6 @@ const PostSettingsCaption = ({
           />
         </div>
       )}
-      <PostEditAlert
-        type="caption"
-        postId={post.id}
-        show={showAlert}
-        newValue=""
-        originalValue={currentAdMessage}
-        onAlertConfirm={onAlertConfirm}
-        onCancel={() => {
-          setIsLoading(false)
-          setShowAlert(false)
-          // reset state value
-        }}
-      />
       <Error error={error} />
     </div>
   )
@@ -224,9 +199,6 @@ PostSettingsCaption.propTypes = {
   campaignType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-}
-
-PostSettingsCaption.defaultProps = {
 }
 
 export default PostSettingsCaption

@@ -1,14 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-
 import Select from '@/elements/Select'
 import Error from '@/elements/Error'
-
-import PostEditAlert from '@/app/PostEditAlert'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import { getCallToActions } from '@/app/helpers/adDefaultsHelpers'
 
 const CallToActionSelect = ({
@@ -18,7 +13,6 @@ const CallToActionSelect = ({
   setCallToAction,
   callToActionId,
   postId,
-  isPostActive,
   campaignType,
   className,
   label,
@@ -29,38 +23,32 @@ const CallToActionSelect = ({
   const [callToActionOptions, setCallToActionOptions] = React.useState([])
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(null)
-  const [showAlert, setShowAlert] = React.useState(false)
-  const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const { artistId } = React.useContext(ArtistContext)
-  const [selectedOptionValue, setSelectedOptionValue] = React.useState(callToAction)
 
-  // Get all call to actions and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
-    if (! isMounted()) return
     const { res: callToActions } = await getCallToActions()
+    if (! isMounted()) {
+      return
+    }
+
     const options = callToActions.map(({ id, name }) => ({ name, value: id }))
     setCallToActionOptions(options)
     setLoading(false)
   }, [])
 
-  const updateCallToAction = React.useCallback(async (selectedOptionValue, forceRun = false) => {
-    if (loading && ! forceRun) return
-    setLoading(true)
-
-    if (isPostActive && ! forceRun) {
-      // Set function to run when confirming alert
-      setOnAlertConfirm(() => () => updateCallToAction(selectedOptionValue, true))
-      // Show alert
-      setShowAlert(true)
+  const save = React.useCallback(async (selectedOptionValue) => {
+    if (loading) {
       return
     }
-    // Skip API request and only update parent call to action value
+
+    setLoading(true)
+
     if (! shouldSaveOnChange) {
       setCallToAction(selectedOptionValue)
       setLoading(false)
       return
     }
-    // Make API request
+
     const { res, error } = await onSelect({
       artistId,
       callToAction: selectedOptionValue,
@@ -70,26 +58,27 @@ const CallToActionSelect = ({
       callToActionId,
     })
 
-    setShowAlert(false)
-    // Handle error
+
     if (error) {
       setError(error)
       setLoading(false)
       return
     }
-    // Handle success
+
     onSuccess(res)
     setError(null)
     setLoading(false)
-  }, [setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess, postId, campaignType, callToActionId, isPostActive, loading, hasSalesObjective])
+  }, [setCallToAction, shouldSaveOnChange, artistId, onSelect, onSuccess, postId, campaignType, callToActionId, loading, hasSalesObjective])
 
   const handleChange = (e) => {
     const { target: { value } } = e
-    // Do nothing if value is current value
-    if (value === callToAction) return
+
+    if (value === callToAction) {
+      return
+    }
+
     const selectedOptionValue = callToActionOptions.find((callToActionOption) => callToActionOption.value === value).value
-    setSelectedOptionValue(selectedOptionValue)
-    updateCallToAction(selectedOptionValue)
+    save(selectedOptionValue)
   }
 
   React.useEffect(() => {
@@ -112,22 +101,6 @@ const CallToActionSelect = ({
         options={callToActionOptions}
         disabled={disabled}
       />
-      {/* ALERT */}
-      {showAlert && (
-        <PostEditAlert
-          type="call to action"
-          postId={postId}
-          show={showAlert}
-          newValue={selectedOptionValue}
-          originalValue={callToAction}
-          onAlertConfirm={onAlertConfirm}
-          onCancel={() => {
-            setLoading(false)
-            setShowAlert(false)
-            setSelectedOptionValue(callToAction)
-          }}
-        />
-      )}
     </div>
   )
 }
@@ -139,7 +112,6 @@ CallToActionSelect.propTypes = {
   setCallToAction: PropTypes.func.isRequired,
   callToActionId: PropTypes.string,
   postId: PropTypes.string,
-  isPostActive: PropTypes.bool,
   campaignType: PropTypes.string,
   className: PropTypes.string,
   label: PropTypes.string,
@@ -154,7 +126,6 @@ CallToActionSelect.defaultProps = {
   callToAction: '',
   callToActionId: '',
   postId: '',
-  isPostActive: false,
   campaignType: '',
   className: '',
   label: '',

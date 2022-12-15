@@ -29,11 +29,7 @@ const PostCallToActionCheckboxSelect = ({
   isDisabled,
   className,
 }) => {
-  const {
-    id: postId,
-    promotionStatus,
-  } = post || {}
-
+  const { id: postId } = post || {}
   const { artistId } = React.useContext(ArtistContext)
 
   const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
@@ -41,8 +37,6 @@ const PostCallToActionCheckboxSelect = ({
   const { callToAction: defaultConversionsCallToAction } = conversionsPreferences
   const defaultCallToAction = campaignType === 'all' ? defaultPostsCallToAction : defaultConversionsCallToAction || defaultPostsCallToAction
   const defaultCallToActionString = capitalise(defaultCallToAction.toLowerCase().split('_').join(' '))
-
-  const isPostActive = promotionStatus === 'active'
 
   useAsyncEffect(async (isMounted) => {
     if (! post || post?.callToActions) {
@@ -104,7 +98,6 @@ const PostCallToActionCheckboxSelect = ({
           setCallToAction={setCurrentCallToAction}
           callToActionId={currentCallToActionId}
           postId={postId}
-          isPostActive={isPostActive}
           campaignType={campaignType}
           disabled={isDisabled}
         />
