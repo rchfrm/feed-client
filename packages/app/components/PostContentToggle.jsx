@@ -9,6 +9,7 @@ const PostContentToggle = ({
   post,
   setPost,
   isEnabled,
+  setIsEnabled,
   isActive,
   disabled,
   shouldShowConversionsAlert,
@@ -23,7 +24,8 @@ const PostContentToggle = ({
         'relative w-full',
         'flex justify-between items-center',
         'rounded-dialogue',
-        shouldShowConversionsAlert ? 'border-2 border-solid border-red' : null,
+        'py-2 px-4 mb-2 last:mb-10 border-2 border-solid',
+        shouldShowConversionsAlert ? 'border-red' : 'border-grey-3',
         className,
       ].join(' ')}
     >
@@ -55,6 +57,7 @@ const PostContentToggle = ({
         post={post}
         setPost={setPost}
         isEnabled={isEnabled}
+        setIsEnabled={setIsEnabled}
         disabled={disabled}
         shouldShowConversionsAlert={shouldShowConversionsAlert}
       />

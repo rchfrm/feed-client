@@ -22,7 +22,7 @@ const PostSettingsCallToAction = ({
 }) => {
   const { id: postId } = post
 
-  const [callToActions, setCallToActions] = React.useState(post.callToActions)
+  const [callToActions, setCallToActions] = React.useState(post.callToActions || [])
   const [savedCallToAction, setSavedCallToAction] = React.useState('')
   const [currentCallToAction, setCurrentCallToAction] = React.useState('')
   const [currentCallToActionId, setCurrentCallToActionId] = React.useState('')
@@ -61,6 +61,7 @@ const PostSettingsCallToAction = ({
     updatePost({
       type: 'update-call-to-actions',
       payload: {
+        postId,
         callToActions: updatedCallToActions,
       },
     })

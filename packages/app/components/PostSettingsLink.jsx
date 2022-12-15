@@ -18,7 +18,7 @@ const PostSettingsLink = ({
   updatePost,
   isDisabled,
 }) => {
-  const { linkSpecs } = post
+  const { id: postId, linkSpecs } = post
 
   const { linkId, linkHref } = linkSpecs[campaignType] || {}
   const { defaultLink, optimizationPreferences } = useControlsStore(getControlsStoreState)
@@ -62,7 +62,10 @@ const PostSettingsLink = ({
     setShouldShowSaveButton(false)
     updatePost({
       type: 'update-link-specs',
-      payload: { linkSpecs },
+      payload: {
+        postId,
+        linkSpecs,
+      },
     })
 
     if (currentLink.id === defaultLink?.id) {

@@ -47,10 +47,17 @@ const PostSettingsCaption = ({
       return
     }
 
+    if (! adMessages.length) {
+      return
+    }
+
     setAdMessages(adMessages)
     updatePost({
       type: 'update-ad-messages',
-      payload: { adMessages },
+      payload: {
+        postId,
+        adMessages,
+      },
     })
   }, [])
 
@@ -90,7 +97,10 @@ const PostSettingsCaption = ({
     setAdMessages(updatedCaptions)
     updatePost({
       type: 'update-ad-messages',
-      payload: { adMessages: updatedCaptions },
+      payload: {
+        postId,
+        adMessages: updatedCaptions,
+      },
     })
   }
 

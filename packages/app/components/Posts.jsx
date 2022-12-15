@@ -16,19 +16,22 @@ const postsInitialState = {
 }
 
 const postsReducer = (draftState, postsAction) => {
-  const { type: actionType, payload = {} } = postsAction
+  const { type, payload = {} } = postsAction
+
   const {
-    index,
+    posts,
+    post,
+    postId,
     status,
     newStatus,
-    post,
-    posts,
     linkSpecs,
     adMessages,
     callToActions,
   } = payload
 
-  switch (actionType) {
+  const index = draftState[status].findIndex((draftPost) => draftPost.id === postId)
+
+  switch (type) {
     case 'set-posts':
       draftState[status] = posts
       break

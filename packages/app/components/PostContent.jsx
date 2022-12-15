@@ -76,7 +76,6 @@ const PostContent = ({ post, setPost }) => {
             post={post}
             setPost={setPost}
             priorityEnabled={post.priorityEnabled}
-            togglesClassName="py-2 px-4 mb-2 last:mb-10 border-2 border-solid border-grey-3"
             className="mb-2"
             hasSalesObjective={hasSalesObjective}
           />

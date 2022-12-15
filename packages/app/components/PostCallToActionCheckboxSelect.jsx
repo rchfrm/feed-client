@@ -54,14 +54,17 @@ const PostCallToActionCheckboxSelect = ({
       return
     }
 
-    if (error) {
+    if (error || ! callToActions.length) {
       return
     }
 
     setCallToActions(callToActions)
     updatePost({
       type: 'update-call-to-actions',
-      payload: { callToActions },
+      payload: {
+        postId,
+        callToActions,
+      },
     })
   }, [])
 

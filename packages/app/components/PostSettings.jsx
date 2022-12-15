@@ -23,8 +23,7 @@ const getControlsStoreState = (state) => ({
 
 const PostSettings = ({
   post,
-  index,
-  status,
+  status: initialStatus,
   setPost,
   className,
 }) => {
@@ -42,6 +41,7 @@ const PostSettings = ({
   const [campaignType, setCampaignType] = React.useState('all')
   const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
+  const [status, setStatus] = React.useState(initialStatus)
 
   const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
   const isDesktopLayout = useBreakpointTest('sm')
@@ -65,7 +65,7 @@ const PostSettings = ({
   const isToggleDisabled = campaignType === 'all'
     ? ! isEligibleForGrowAndNurture && ! priorityEnabled
     : (! isEligibleForConversions && ! priorityEnabled)
-  const isSectionDisabled = (campaignType === 'all' ? ! isPromotionEnabled : ! isConversionsEnabled) || ! postPromotable
+  const isSectionDisabled = campaignType === 'all' ? ! isPromotionEnabled : ! isConversionsEnabled
 
   const { sales: salesPreviewLink, ...growAndNurturePreviewLinks } = adPreviewLinks || {}
   const hasPreviewLinkForSelectedCampaignType = (campaignType === 'all' && Object.keys(growAndNurturePreviewLinks).length > 0) || (campaignType === 'conversions' && salesPreviewLink)
@@ -81,11 +81,12 @@ const PostSettings = ({
   }, [isConversionsCampaign, promotionEnabled, conversionsEnabled])
 
   const updatePost = ({ type, payload }) => {
+    setStatus((status) => payload.newStatus || status)
+
     setPost({
       type,
       payload: {
-        index,
-        status,
+        status: payload.status || status,
         ...payload,
       },
     })
@@ -166,14 +167,12 @@ const PostSettings = ({
 
 PostSettings.propTypes = {
   post: PropTypes.object.isRequired,
-  index: PropTypes.number,
   status: PropTypes.string,
   setPost: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
 PostSettings.defaultProps = {
-  index: 0,
   status: '',
   className: null,
 }

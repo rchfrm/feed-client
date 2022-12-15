@@ -475,7 +475,7 @@ export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
 
 // UPDATE POST PRIORITY
 export const setPostPriority = async ({ artistId, assetId, priorityEnabled }) => {
-  const action = priorityEnabled ? 'deprioritize' : 'prioritize'
+  const action = priorityEnabled ? 'prioritize' : 'deprioritize'
   const endpoint = `/artists/${artistId}/assets/${assetId}/${action}`
   const payload = null
   const errorTracking = {
@@ -483,7 +483,7 @@ export const setPostPriority = async ({ artistId, assetId, priorityEnabled }) =>
     action: `${utils.capitalise(action)} post`,
   }
 
-  const { res, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+  const { res, error } = await requestWithCatch('post', endpoint, payload, errorTracking)
   const [formattedPost] = formatPostsResponse([res])
 
   return { res: formattedPost, error }
@@ -650,13 +650,17 @@ export const createAd = (artistId, formData) => {
  * @param {string} campaignType
  * @returns {Promise<any>}
  */
-export const togglePromotionEnabled = async ({ artistId, postId, promotionEnabled, disabled = false, campaignType }) => {
+export const togglePromotionEnabled = async ({ artistId, postId, promotionEnabled, conversionsEnabled, disabled = false, campaignType }) => {
   if (disabled) {
     return
   }
 
   const endpoint = `/artists/${artistId}/assets/${postId}`
-  const payload = { [campaignType === 'all' ? 'promotion_enabled' : 'conversions_enabled']: promotionEnabled }
+  const payload = {
+    ...(Array.isArray(campaignType) && { promotion_enabled: promotionEnabled, conversions_enabled: conversionsEnabled }),
+    ...(campaignType === 'all' && { promotion_enabled: promotionEnabled }),
+    ...(campaignType === 'conversions' && { conversions_enabled: conversionsEnabled }),
+  }
   const errorTracking = {
     category: 'Posts',
     action: 'Toggle promotion enabled',

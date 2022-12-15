@@ -13,12 +13,9 @@ const PostContentToggles = ({
   post,
   setPost,
   priorityEnabled,
-  togglesClassName,
   className,
   hasSalesObjective,
 }) => {
-  const { canRunConversions } = useControlsStore(getControlsStoreState)
-
   const {
     promotionStatus,
     promotionEnabled,
@@ -35,6 +32,10 @@ const PostContentToggles = ({
     remindConversions,
   } = promotionEligibility
 
+  const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
+  const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
+  const { canRunConversions } = useControlsStore(getControlsStoreState)
+
   const isEligibleForGrowAndNurture = [canBePromoted(enticeEngage), canBePromoted(remindTraffic), canBePromoted(enticeTraffic)].some(Boolean)
   const isEligibleForConversions = [canBePromoted(offPlatformConversions), canBePromoted(remindConversions)].some(Boolean)
 
@@ -49,10 +50,10 @@ const PostContentToggles = ({
         campaignType="all"
         post={post}
         setPost={setPost}
-        isEnabled={promotionEnabled}
+        isEnabled={isPromotionEnabled}
+        setIsEnabled={setIsPromotionEnabled}
         disabled={! isEligibleForGrowAndNurture && ! priorityEnabled}
         isActive={promotionStatus === 'active' && promotionEnabled}
-        className={togglesClassName}
         hasSalesObjective={hasSalesObjective}
       />
       {/* CONVERT TOGGLE */}
@@ -61,10 +62,10 @@ const PostContentToggles = ({
           campaignType="conversions"
           post={post}
           setPost={setPost}
-          isEnabled={conversionsEnabled}
+          isEnabled={isConversionsEnabled}
+          setIsEnabled={setIsConversionsEnabled}
           disabled={! isEligibleForConversions && ! priorityEnabled}
           isActive={isRunningInConversions}
-          className={togglesClassName}
           shouldShowConversionsAlert={! canRunConversions}
           hasSalesObjective={hasSalesObjective}
         />
@@ -77,13 +78,11 @@ PostContentToggles.propTypes = {
   post: PropTypes.object.isRequired,
   setPost: PropTypes.func.isRequired,
   priorityEnabled: PropTypes.bool.isRequired,
-  togglesClassName: PropTypes.string,
   className: PropTypes.string,
   hasSalesObjective: PropTypes.bool.isRequired,
 }
 
 PostContentToggles.defaultProps = {
-  togglesClassName: null,
   className: null,
 }
 

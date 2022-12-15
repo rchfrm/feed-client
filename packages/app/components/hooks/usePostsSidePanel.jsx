@@ -26,7 +26,6 @@ const usePostsSidePanel = () => {
 
   const goToPostSettings = React.useCallback(({
     post,
-    index,
     status,
     setPosts,
   }) => {
@@ -34,7 +33,6 @@ const usePostsSidePanel = () => {
     setSidePanelContent((
       <PostSettings
         post={post}
-        index={index}
         status={status}
         setPost={setPosts}
       />

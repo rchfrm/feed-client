@@ -20,6 +20,7 @@ const postReducer = (draftState, postsAction) => {
   const {
     post,
     promotionEnabled,
+    conversionsEnabled,
     promotableStatus,
     priorityEnabled,
     linkSpecs,
@@ -32,10 +33,7 @@ const postReducer = (draftState, postsAction) => {
       return post
     case 'toggle-promotion':
       draftState.promotionEnabled = promotionEnabled
-      draftState.promotableStatus = promotableStatus
-      break
-    case 'toggle-conversion':
-      draftState.conversionsEnabled = promotionEnabled
+      draftState.conversionsEnabled = conversionsEnabled
       draftState.promotableStatus = promotableStatus
       break
     case 'toggle-priority':

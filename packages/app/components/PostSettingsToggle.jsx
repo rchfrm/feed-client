@@ -7,6 +7,7 @@ const PostSettingsToggle = ({
   campaignType,
   updatePost,
   isEnabled,
+  setIsEnabled,
   isDisabled,
   shouldShowConversionsAlert,
   className,
@@ -32,13 +33,14 @@ const PostSettingsToggle = ({
           post={post}
           setPost={updatePost}
           isEnabled={isEnabled}
+          setIsEnabled={setIsEnabled}
           shouldShowConversionsAlert={shouldShowConversionsAlert}
           className="mr-4"
         />
         <p
           className={[
             'mb-0',
-            shouldShowConversionsAlert ? 'text-red' : null,
+            shouldShowConversionsAlert ? 'text-red font-bold' : null,
             isDisabled ? 'text-grey-2' : null,
           ].join(' ')}
         >

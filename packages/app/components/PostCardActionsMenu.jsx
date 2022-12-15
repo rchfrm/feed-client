@@ -23,6 +23,7 @@ const PostCardActionsMenu = ({
 }) => {
   const [action, setAction] = React.useState(null)
 
+  const { id: postId } = post
   const { artistId } = React.useContext(ArtistContext)
   const { goToPostSettings, goToPostMetrics, goToPostDetails } = usePostsSidePanel()
 
@@ -33,10 +34,10 @@ const PostCardActionsMenu = ({
   const enablePromotion = async () => {
     const { res: updatedPost, error } = await togglePromotionEnabled({
       artistId,
-      postId: post.id,
+      postId,
       promotionEnabled: true,
       ...(hasSalesObjective && { conversionsEnabled: true }),
-      campaignType: 'all',
+      campaignType: ['all', 'conversions'],
     })
     if (error) {
       return
@@ -47,9 +48,9 @@ const PostCardActionsMenu = ({
     setPosts({
       type: 'toggle-promotion',
       payload: {
-        index,
         status,
         newStatus: promotionEnabled ? 'pending' : 'inactive',
+        postId,
         post: updatedPost,
       },
     })
@@ -71,7 +72,7 @@ const PostCardActionsMenu = ({
   }
 
   const prioritize = async () => {
-    const { res: updatedPost, error } = await setPostPriority({ artistId, assetId: post.id, priorityEnabled: post.priorityEnabled })
+    const { res: updatedPost, error } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: true })
     if (error) {
       return
     }
@@ -81,9 +82,9 @@ const PostCardActionsMenu = ({
     setPosts({
       type: 'toggle-priority',
       payload: {
-        index,
         status,
         newStatus: priorityEnabled ? 'pending' : 'inactive',
+        postId,
         post: updatedPost,
       },
     })
@@ -94,7 +95,6 @@ const PostCardActionsMenu = ({
   const openSettings = () => {
     goToPostSettings({
       post,
-      index,
       status,
       setPosts,
     })

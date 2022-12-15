@@ -13,43 +13,40 @@ const PostToggle = ({
   post,
   setPost,
   isEnabled,
+  setIsEnabled,
   disabled,
   shouldShowConversionsAlert,
   className,
 }) => {
-  const [currentState, setCurrentState] = React.useState(isEnabled)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [hasChanged, setHasChanged] = React.useState(false)
 
-  const { postPromotable, promotionStatus } = post
+  const { id: postId, postPromotable, promotionStatus } = post
   const shouldShowDisableAlert = postPromotable && promotionStatus === 'active' && hasChanged
+  const isConversionsCampaign = campaignType === 'conversions'
 
-  const { id: postId } = post
   const { artistId } = React.useContext(ArtistContext)
 
   React.useEffect(() => {
     setHasChanged(false)
   }, [campaignType])
 
-  React.useEffect(() => {
-    setCurrentState(isEnabled)
-  }, [isEnabled])
-
-  const checkAndDeprioritize = React.useCallback(async ({
-    promotionEnabled,
-    conversionsEnabled,
-  }) => {
+  const checkAndDeprioritize = React.useCallback(async (status, updatedPost) => {
+    const { promotionEnabled, conversionsEnabled } = updatedPost
     // Deprioritize post if opted out for Grow & Nurture and Conversions and post is prioritized
     if (post.priorityEnabled && ! promotionEnabled && ! conversionsEnabled) {
-      const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: post.priorityEnabled })
+      const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: false })
       const { priorityEnabled } = updatedPost
 
       setPost({
         type: 'toggle-priority',
         payload: {
+          status,
           newStatus: priorityEnabled ? 'pending' : 'inactive',
+          postId,
           post: updatedPost,
+          priorityEnabled,
         },
       })
     }
@@ -63,28 +60,38 @@ const PostToggle = ({
 
     setIsLoading(true)
     setHasChanged(true)
-    setCurrentState(newState)
+    setIsEnabled(newState)
 
-    const { res: updatedPost, error } = await togglePromotionEnabled({ artistId, postId, promotionEnabled: newState, campaignType })
+    const { res: updatedPost, error } = await togglePromotionEnabled({
+      artistId,
+      postId,
+      [isConversionsCampaign ? 'conversionsEnabled' : 'promotionEnabled']: newState,
+      campaignType,
+    })
 
     if (error) {
-      setCurrentState(! newState)
+      setIsEnabled(! newState)
       setIsLoading(false)
       return
     }
 
-    const { promotionEnabled, conversionsEnabled } = updatedPost
+    const { promotionEnabled, conversionsEnabled, promotableStatus } = updatedPost
+    const newStatus = promotionEnabled || conversionsEnabled ? 'pending' : 'inactive'
 
     setPost({
       type: 'toggle-promotion',
       payload: {
-        newStatus: promotionEnabled || conversionsEnabled ? 'pending' : 'inactive',
+        newStatus,
+        postId,
         post: updatedPost,
+        promotionEnabled,
+        conversionsEnabled,
+        promotableStatus,
       },
     })
-    checkAndDeprioritize(updatedPost)
+    checkAndDeprioritize(newStatus, updatedPost)
     setIsLoading(false)
-  }, [artistId, postId, campaignType, shouldShowConversionsAlert, checkAndDeprioritize, setPost])
+  }, [artistId, postId, campaignType, shouldShowConversionsAlert, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign])
 
   const goToControlsPage = () => {
     Router.push({
@@ -95,7 +102,7 @@ const PostToggle = ({
   return (
     <div className={className}>
       <ToggleSwitch
-        state={currentState}
+        state={isEnabled}
         onChange={onChange}
         isLoading={isLoading}
         disabled={disabled}
@@ -105,8 +112,8 @@ const PostToggle = ({
           post={post}
           updatePost={setPost}
           artistId={artistId}
-          isEnabled={currentState}
-          setIsEnabled={setCurrentState}
+          isEnabled={isEnabled}
+          setIsEnabled={setIsEnabled}
           campaignType={campaignType}
         />
       )}
