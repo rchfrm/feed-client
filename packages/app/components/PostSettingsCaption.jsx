@@ -1,15 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useAsyncEffect from 'use-async-effect'
 import produce from 'immer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
-import PostSettingsEditCaptionMessage from '@/app/PostSettingsEditCaptionMessage'
-import CheckboxInput from '@/elements/CheckboxInput'
+import PostCaptionCheckboxTextArea from '@/app/PostCaptionCheckboxTextArea'
 import Error from '@/elements/Error'
-import MarkdownText from '@/elements/MarkdownText'
-import { getPostAdMessages, updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
-import copy from '@/app/copy/PostsPageCopy'
+import { updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
 
 const PostSettingsCaption = ({
   post,
@@ -30,44 +26,6 @@ const PostSettingsCaption = ({
   const [error, setError] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
-  const noCaptionEditReason = copy.captionNotEditableReason(post)
-
-  useAsyncEffect(async (isMounted) => {
-    if (post.adMessages) return
-
-    const { res: adMessages, error } = await getPostAdMessages(artistId, postId)
-    if (! isMounted) return
-
-    if (error) {
-      setError(error)
-      return
-    }
-
-    if (! adMessages.length) {
-      return
-    }
-
-    setAdMessages(adMessages)
-    updatePost({
-      type: 'update-ad-messages',
-      payload: {
-        postId,
-        adMessages,
-      },
-    })
-  }, [])
-
-  const handleChange = () => {
-    setIsDefaultAdMessage(! isDefaultAdMessage)
-
-    if (! isDefaultAdMessage) {
-      setShouldShowSaveButton(savedCaption !== post?.message)
-    }
-
-    if (isDefaultAdMessage) {
-      setShouldShowSaveButton(savedCaption !== caption)
-    }
-  }
 
   const updatePostState = (adMessage) => {
     const caption = adMessage?.message || ''
@@ -100,7 +58,6 @@ const PostSettingsCaption = ({
     })
   }
 
-  // Save current ad message and hide save button
   const save = async () => {
     setIsLoading(true)
 
@@ -126,28 +83,15 @@ const PostSettingsCaption = ({
     setIsLoading(false)
   }
 
-  // Watch for ad message changes and show save button if there has been a change
   React.useEffect(() => {
-    const hasChanged = caption !== savedCaption
-
-    setShouldShowSaveButton(hasChanged)
-  }, [caption, savedCaption])
-
-  // On initial mount and on campaign type change set the ad message
-  React.useEffect(() => {
-    if (! adMessages) return
-
-    const postAdMessage = adMessages?.find((adMessage) => adMessage.campaignType === campaignType) || {}
-    const adMessage = postAdMessage?.message || post?.message
-
-    setCurrentAdMessage(postAdMessage)
-    setCaption(adMessage)
-    setSavedCaption(adMessage)
-
-    if (adMessage !== post?.message) {
-      setIsDefaultAdMessage(false)
+    if (isDefaultAdMessage) {
+      setShouldShowSaveButton(savedCaption !== post?.message)
     }
-  }, [campaignType, adMessages, post?.message])
+
+    if (! isDefaultAdMessage) {
+      setShouldShowSaveButton(savedCaption !== caption)
+    }
+  }, [isDefaultAdMessage, caption, savedCaption, post?.message])
 
   return (
     <div className="mb-10">
@@ -165,30 +109,21 @@ const PostSettingsCaption = ({
           isLoading={isLoading}
         />
       </div>
-      {! noCaptionEditReason ? (
-        <CheckboxInput
-          buttonLabel="Use original post caption"
-          value="caption"
-          checked={isDefaultAdMessage}
-          onChange={handleChange}
-          className="sm:pl-2"
-          disabled={isDisabled}
-        />
-      ) : (
-        <MarkdownText markdown={noCaptionEditReason} className={['sm:pl-4', isDisabled ? 'text-grey-2' : 'text-red'].join(' ')} />
-      )}
-      {(! isDefaultAdMessage || noCaptionEditReason) && (
-        <div
-          className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
-        >
-          <PostSettingsEditCaptionMessage
-            message={caption}
-            setMessage={setCaption}
-            hasAutoFocus={false}
-            className={isDisabled || noCaptionEditReason ? 'text-grey-2 pointer-events-none' : null}
-          />
-        </div>
-      )}
+      <PostCaptionCheckboxTextArea
+        post={post}
+        campaignType={campaignType}
+        adMessages={adMessages}
+        setAdMessages={setAdMessages}
+        caption={caption}
+        setCaption={setCaption}
+        updatePost={updatePost}
+        setSavedCaption={setSavedCaption}
+        setCurrentAdMessage={setCurrentAdMessage}
+        isDefaultAdMessage={isDefaultAdMessage}
+        setIsDefaultAdMessage={setIsDefaultAdMessage}
+        setError={setError}
+        isDisabled={isDisabled}
+      />
       <Error error={error} />
     </div>
   )
