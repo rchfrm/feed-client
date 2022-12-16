@@ -114,7 +114,7 @@ const PostCaptionCheckboxTextArea = ({
 PostCaptionCheckboxTextArea.propTypes = {
   post: PropTypes.object.isRequired,
   campaignType: PropTypes.string.isRequired,
-  adMessages: PropTypes.array.isRequired,
+  adMessages: PropTypes.array,
   setAdMessages: PropTypes.func.isRequired,
   caption: PropTypes.string.isRequired,
   setCaption: PropTypes.func.isRequired,
@@ -125,6 +125,10 @@ PostCaptionCheckboxTextArea.propTypes = {
   setIsDefaultAdMessage: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+}
+
+PostCaptionCheckboxTextArea.defaultProps = {
+  adMessages: [],
 }
 
 export default PostCaptionCheckboxTextArea

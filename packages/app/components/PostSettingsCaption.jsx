@@ -15,7 +15,7 @@ const PostSettingsCaption = ({
 }) => {
   const { id: postId } = post
 
-  const [adMessages, setAdMessages] = React.useState(post.adMessages)
+  const [adMessages, setAdMessages] = React.useState(post?.adMessages || [])
   const [currentAdMessage, setCurrentAdMessage] = React.useState({})
   const [caption, setCaption] = React.useState('')
   const [savedCaption, setSavedCaption] = React.useState('')
