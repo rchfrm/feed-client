@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import PostPromotionStatus from '@/app/PostPromotionStatus'
 import PostCardMedia from '@/app/PostCardMedia'
 import PostScore from '@/app/PostScore'

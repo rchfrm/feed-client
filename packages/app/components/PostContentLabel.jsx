@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
 const PostContentLabel = ({

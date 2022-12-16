@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import PlatformIcon from '@/icons/PlatformIcon'
 import LinkIcon from '@/icons/LinkIcon'
-
 import { capitalise } from '@/helpers/utils'
 
 const PostDetails = ({ post, className }) => {

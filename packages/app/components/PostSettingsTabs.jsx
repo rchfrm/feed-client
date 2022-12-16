@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { campaignTypes, growthGradient, conversionsGradient } from '@/app/helpers/postsHelpers'
 
 const PostSettingsTabs = ({ campaignType, setCampaignType, isDisabled }) => {
