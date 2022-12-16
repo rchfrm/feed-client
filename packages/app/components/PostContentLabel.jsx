@@ -27,6 +27,7 @@ const PostContentLabel = ({
 }
 
 PostContentLabel.propTypes = {
+  copy: PropTypes.string.isRequired,
   campaignType: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,

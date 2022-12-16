@@ -32,7 +32,4 @@ PostSettingsSaveButton.propTypes = {
   isLoading: PropTypes.bool.isRequired,
 }
 
-PostSettingsSaveButton.defaultProps = {
-}
-
 export default PostSettingsSaveButton

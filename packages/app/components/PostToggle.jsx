@@ -89,7 +89,8 @@ const PostToggle = ({
 PostToggle.propTypes = {
   post: PropTypes.object.isRequired,
   campaignType: PropTypes.string.isRequired,
-  isEnabled: PropTypes.bool,
+  isEnabled: PropTypes.bool.isRequired,
+  setIsEnabled: PropTypes.func.isRequired,
   setPost: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   className: PropTypes.string,
@@ -97,7 +98,6 @@ PostToggle.propTypes = {
 
 PostToggle.defaultProps = {
   disabled: false,
-  isEnabled: false,
   className: null,
 }
 

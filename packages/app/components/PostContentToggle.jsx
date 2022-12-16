@@ -66,6 +66,7 @@ PostContentToggle.propTypes = {
   post: PropTypes.object.isRequired,
   campaignType: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool,
+  setIsEnabled: PropTypes.func.isRequired,
   setPost: PropTypes.func.isRequired,
   isActive: PropTypes.bool,
   disabled: PropTypes.bool,

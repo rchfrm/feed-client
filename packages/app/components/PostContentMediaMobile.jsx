@@ -52,7 +52,4 @@ PostContentMediaMobile.propTypes = {
   post: PropTypes.object.isRequired,
 }
 
-PostContentMediaMobile.defaultProps = {
-}
-
 export default PostContentMediaMobile

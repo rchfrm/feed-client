@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import TextareaAutosize from 'react-textarea-autosize'
 
 const PostSettingsEditCaptionMessage = ({
@@ -26,6 +25,8 @@ const PostSettingsEditCaptionMessage = ({
 }
 
 PostSettingsEditCaptionMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+  setMessage: PropTypes.func.isRequired,
   hasAutoFocus: PropTypes.bool,
   className: PropTypes.string,
 }

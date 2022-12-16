@@ -31,7 +31,4 @@ PostsSorter.propTypes = {
   setSortBy: PropTypes.func.isRequired,
 }
 
-PostsSorter.defaultProps = {
-}
-
 export default PostsSorter

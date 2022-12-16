@@ -125,7 +125,4 @@ PostSettingsLink.propTypes = {
   isDisabled: PropTypes.bool.isRequired,
 }
 
-PostSettingsLink.defaultProps = {
-}
-
 export default PostSettingsLink

@@ -152,7 +152,4 @@ PostSettingsCallToAction.propTypes = {
   isDisabled: PropTypes.bool.isRequired,
 }
 
-PostSettingsCallToAction.defaultProps = {
-}
-
 export default PostSettingsCallToAction
