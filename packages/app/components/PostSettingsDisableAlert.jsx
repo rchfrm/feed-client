@@ -5,7 +5,7 @@ import useAlertModal from '@/hooks/useAlertModal'
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostSettingsDisableAlert = ({
-  show,
+  shouldShowAlert,
   onConfirm,
   onCancel,
   campaignType,
@@ -17,7 +17,10 @@ const PostSettingsDisableAlert = ({
   }, [campaignType])
 
   React.useEffect(() => {
-    if (! show) return closeAlert()
+    if (! shouldShowAlert) {
+      return closeAlert()
+    }
+
     const buttons = [
       {
         text: 'Ok',
@@ -36,11 +39,12 @@ const PostSettingsDisableAlert = ({
         color: 'red',
       },
     ]
+
     showAlert({
       children: alertContents,
       buttons,
     })
-  }, [show, onConfirm, onCancel, alertContents, showAlert, closeAlert])
+  }, [shouldShowAlert, onConfirm, onCancel, alertContents, showAlert, closeAlert])
 
   React.useEffect(() => {
     return closeAlert
@@ -50,7 +54,7 @@ const PostSettingsDisableAlert = ({
 }
 
 PostSettingsDisableAlert.propTypes = {
-  show: PropTypes.bool.isRequired,
+  shouldShowAlert: PropTypes.bool.isRequired,
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
