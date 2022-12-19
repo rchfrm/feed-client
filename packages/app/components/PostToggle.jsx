@@ -85,6 +85,15 @@ const PostToggle = ({
     setIsLoading(false)
   }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign, isPostActive])
 
+  const onConfirm = () => {
+    onAlertConfirm()
+    setShouldShowAlert(false)
+  }
+
+  const onCancel = () => {
+    setShouldShowAlert(false)
+  }
+
   return (
     <div className={className}>
       <ToggleSwitch
@@ -95,11 +104,8 @@ const PostToggle = ({
       />
       <PostSettingsDisableAlert
         shouldShowAlert={shouldShowAlert}
-        onConfirm={() => {
-          onAlertConfirm()
-          setShouldShowAlert(false)
-        }}
-        onCancel={() => setShouldShowAlert(false)}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
         campaignType={campaignType}
       />
     </div>
