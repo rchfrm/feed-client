@@ -3,16 +3,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 import useAlertModal from '@/hooks/useAlertModal'
-import { track } from '@/helpers/trackingHelpers'
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostSettingsEditAlert = ({
   type,
-  show,
-  oldValue,
-  newValue,
-  onAlertConfirm,
-  postId,
+  shouldShowAlert,
+  onConfirm,
   onCancel,
 }) => {
   const { showAlert, closeAlert } = useAlertModal()
@@ -22,7 +18,7 @@ const PostSettingsEditAlert = ({
   }, [type])
 
   React.useEffect(() => {
-    if (! show) {
+    if (! shouldShowAlert) {
       return closeAlert()
     }
 
@@ -30,7 +26,7 @@ const PostSettingsEditAlert = ({
       {
         text: 'Continue',
         onClick: () => {
-          onAlertConfirm()
+          onConfirm()
           closeAlert()
         },
         color: 'black',
@@ -38,10 +34,6 @@ const PostSettingsEditAlert = ({
       {
         text: 'Cancel',
         onClick: () => {
-          track(`edit_${type}_cancel`, {
-            postId,
-            oldValue,
-          })
           onCancel()
         },
         color: 'red',
@@ -51,7 +43,7 @@ const PostSettingsEditAlert = ({
       children: alertContents,
       buttons,
     })
-  }, [show, newValue, onAlertConfirm, postId, oldValue, onCancel, alertContents, showAlert, closeAlert, type])
+  }, [shouldShowAlert, onConfirm, onCancel, alertContents, showAlert, closeAlert, type])
 
   React.useEffect(() => {
     return closeAlert
@@ -62,17 +54,9 @@ const PostSettingsEditAlert = ({
 
 PostSettingsEditAlert.propTypes = {
   type: PropTypes.string.isRequired,
-  show: PropTypes.bool.isRequired,
-  newValue: PropTypes.string,
-  oldValue: PropTypes.string,
+  shouldShowAlert: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
-  postId: PropTypes.string.isRequired,
-  onAlertConfirm: PropTypes.func.isRequired,
-}
-
-PostSettingsEditAlert.defaultProps = {
-  newValue: '',
-  oldValue: '',
+  onConfirm: PropTypes.func.isRequired,
 }
 
 export default PostSettingsEditAlert

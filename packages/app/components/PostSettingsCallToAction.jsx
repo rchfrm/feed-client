@@ -5,6 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
 import PostCallToActionCheckboxSelect from '@/app/PostCallToActionCheckboxSelect'
+import PostSettingsEditAlert from '@/app/PostSettingsEditAlert'
 import Error from '@/elements/Error'
 import { setPostCallToAction } from '@/app/helpers/postsHelpers'
 
@@ -20,7 +21,8 @@ const PostSettingsCallToAction = ({
   updatePost,
   isDisabled,
 }) => {
-  const { id: postId } = post
+  const { id: postId, promotionStatus } = post
+  const isPostActive = promotionStatus === 'active'
 
   const [callToActions, setCallToActions] = React.useState(post.callToActions || [])
   const [savedCallToAction, setSavedCallToAction] = React.useState('')
@@ -30,6 +32,8 @@ const PostSettingsCallToAction = ({
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+  const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
 
   const { artistId } = React.useContext(ArtistContext)
 
@@ -67,8 +71,14 @@ const PostSettingsCallToAction = ({
     })
   }
 
-  // Save currently selected call to action and hide save button
-  const save = async () => {
+  const save = async (forceRun = false) => {
+    if (isPostActive && ! forceRun) {
+      setOnAlertConfirm(() => () => save(true))
+      setShouldShowAlert(true)
+
+      return
+    }
+
     setIsLoading(true)
 
     const { res: callToAction, error } = await setPostCallToAction({
@@ -97,7 +107,6 @@ const PostSettingsCallToAction = ({
     setIsLoading(false)
   }
 
-  // Watch for call to action changes and show save button if there has been a change
   React.useEffect(() => {
     if (isDefaultCallToAction) {
       setShouldShowSaveButton(savedCallToAction !== defaultCallToAction)
@@ -119,7 +128,7 @@ const PostSettingsCallToAction = ({
           Call to action
         </p>
         <PostSettingsSaveButton
-          onClick={save}
+          onClick={() => save()}
           shouldShow={shouldShowSaveButton}
           isLoading={isLoading}
         />
@@ -141,6 +150,17 @@ const PostSettingsCallToAction = ({
         className="sm:pl-4"
       />
       <Error error={error} />
+      <PostSettingsEditAlert
+        type={campaignType}
+        shouldShowAlert={shouldShowAlert}
+        onConfirm={() => {
+          onAlertConfirm()
+          setShouldShowAlert(false)
+        }}
+        onCancel={() => {
+          setShouldShowAlert(false)
+        }}
+      />
     </div>
   )
 }
