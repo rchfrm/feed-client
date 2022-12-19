@@ -4,6 +4,7 @@ import produce from 'immer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
 import PostCaptionCheckboxTextArea from '@/app/PostCaptionCheckboxTextArea'
+import PostSettingsEditAlert from '@/app/PostSettingsEditAlert'
 import Error from '@/elements/Error'
 import { updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
 
@@ -13,7 +14,8 @@ const PostSettingsCaption = ({
   updatePost,
   isDisabled,
 }) => {
-  const { id: postId } = post
+  const { id: postId, promotionStatus } = post
+  const isPostActive = promotionStatus === 'active'
 
   const [adMessages, setAdMessages] = React.useState(post?.adMessages || [])
   const [currentAdMessage, setCurrentAdMessage] = React.useState({})
@@ -24,6 +26,8 @@ const PostSettingsCaption = ({
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+  const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
 
   const { artistId } = React.useContext(ArtistContext)
 
@@ -58,7 +62,14 @@ const PostSettingsCaption = ({
     })
   }
 
-  const save = async () => {
+  const save = async (forceRun = false) => {
+    if (isPostActive && ! forceRun) {
+      setOnAlertConfirm(() => () => save(true))
+      setShouldShowAlert(true)
+
+      return
+    }
+
     setIsLoading(true)
 
     const isResetCaption = caption === null
@@ -104,7 +115,7 @@ const PostSettingsCaption = ({
           Caption
         </p>
         <PostSettingsSaveButton
-          onClick={save}
+          onClick={() => save()}
           shouldShow={shouldShowSaveButton}
           isLoading={isLoading}
         />
@@ -125,6 +136,15 @@ const PostSettingsCaption = ({
         isDisabled={isDisabled}
       />
       <Error error={error} />
+      <PostSettingsEditAlert
+        type="caption"
+        shouldShowAlert={shouldShowAlert}
+        onConfirm={() => {
+          onAlertConfirm()
+          setShouldShowAlert(false)
+        }}
+        onCancel={() => setShouldShowAlert(false)}
+      />
     </div>
   )
 }
