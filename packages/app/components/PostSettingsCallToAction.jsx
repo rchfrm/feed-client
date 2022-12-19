@@ -151,15 +151,13 @@ const PostSettingsCallToAction = ({
       />
       <Error error={error} />
       <PostSettingsEditAlert
-        type={campaignType}
+        type="call to action"
         shouldShowAlert={shouldShowAlert}
         onConfirm={() => {
           onAlertConfirm()
           setShouldShowAlert(false)
         }}
-        onCancel={() => {
-          setShouldShowAlert(false)
-        }}
+        onCancel={() => setShouldShowAlert(false)}
       />
     </div>
   )

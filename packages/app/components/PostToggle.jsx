@@ -99,9 +99,7 @@ const PostToggle = ({
           onAlertConfirm()
           setShouldShowAlert(false)
         }}
-        onCancel={() => {
-          setShouldShowAlert(false)
-        }}
+        onCancel={() => setShouldShowAlert(false)}
         campaignType={campaignType}
       />
     </div>
