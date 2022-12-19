@@ -84,6 +84,20 @@ const PostSettingsLink = ({
     setIsLoading(false)
   }
 
+  const onConfirm = () => {
+    onAlertConfirm()
+    setShouldShowAlert(false)
+  }
+
+  const onCancel = () => {
+    setCurrentLink(savedLink)
+
+    if (isDefaultLink) {
+      setIsDefaultLink((defaultLink) => ! defaultLink)
+    }
+    setShouldShowAlert(false)
+  }
+
   React.useEffect(() => {
     if (isDefaultLink) {
       setShouldShowSaveButton(savedLink?.id !== defaultLink?.id)
@@ -125,11 +139,8 @@ const PostSettingsLink = ({
       <PostSettingsEditAlert
         type="link"
         shouldShowAlert={shouldShowAlert}
-        onConfirm={() => {
-          onAlertConfirm()
-          setShouldShowAlert(false)
-        }}
-        onCancel={() => setShouldShowAlert(false)}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
     </div>
   )

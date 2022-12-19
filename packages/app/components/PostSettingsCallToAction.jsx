@@ -107,6 +107,21 @@ const PostSettingsCallToAction = ({
     setIsLoading(false)
   }
 
+  const onConfirm = () => {
+    onAlertConfirm()
+    setShouldShowAlert(false)
+  }
+
+  const onCancel = () => {
+    setCurrentCallToAction(savedCallToAction)
+    setCurrentCallToActionId(savedCallToAction.id)
+
+    if (isDefaultCallToAction) {
+      setIsDefaultCallToAction((defaultCallToAction) => ! defaultCallToAction)
+    }
+    setShouldShowAlert(false)
+  }
+
   React.useEffect(() => {
     if (isDefaultCallToAction) {
       setShouldShowSaveButton(savedCallToAction !== defaultCallToAction)
@@ -153,11 +168,8 @@ const PostSettingsCallToAction = ({
       <PostSettingsEditAlert
         type="call to action"
         shouldShowAlert={shouldShowAlert}
-        onConfirm={() => {
-          onAlertConfirm()
-          setShouldShowAlert(false)
-        }}
-        onCancel={() => setShouldShowAlert(false)}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
     </div>
   )

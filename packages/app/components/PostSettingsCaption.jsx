@@ -94,6 +94,20 @@ const PostSettingsCaption = ({
     setIsLoading(false)
   }
 
+  const onConfirm = () => {
+    onAlertConfirm()
+    setShouldShowAlert(false)
+  }
+
+  const onCancel = () => {
+    setCaption(savedCaption)
+
+    if (isDefaultAdMessage) {
+      setIsDefaultAdMessage((defaultAdMessage) => ! defaultAdMessage)
+    }
+    setShouldShowAlert(false)
+  }
+
   React.useEffect(() => {
     if (isDefaultAdMessage) {
       setShouldShowSaveButton(savedCaption !== post?.message)
@@ -139,11 +153,8 @@ const PostSettingsCaption = ({
       <PostSettingsEditAlert
         type="caption"
         shouldShowAlert={shouldShowAlert}
-        onConfirm={() => {
-          onAlertConfirm()
-          setShouldShowAlert(false)
-        }}
-        onCancel={() => setShouldShowAlert(false)}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
       />
     </div>
   )
