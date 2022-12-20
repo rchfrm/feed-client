@@ -25,11 +25,13 @@ import { getProrationsPreview, upgradeProfiles } from '@/app/helpers/billingHelp
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
 import { formatCurrency } from '@/helpers/utils'
+import { useStripe } from '@stripe/react-stripe-js'
 
 const getBillingStoreState = (state) => ({
   billingDetails: state.billingDetails,
   defaultPaymentMethod: state.defaultPaymentMethod,
   addPaymentMethodToStore: state.addPaymentMethod,
+  updateOrganizationArtists: state.updateOrganizationArtists,
 })
 
 const GetStartedPaymentMethod = () => {
@@ -37,9 +39,11 @@ const GetStartedPaymentMethod = () => {
     defaultPaymentMethod,
     billingDetails: { allPaymentMethods },
     addPaymentMethodToStore,
+    updateOrganizationArtists,
   } = useBillingStore(getBillingStoreState)
   const { next, setWizardState, wizardState } = React.useContext(WizardContext)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
+  const stripe = useStripe()
   const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
 
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
@@ -63,6 +67,8 @@ const GetStartedPaymentMethod = () => {
       is_managed: isManaged,
       status,
     },
+    setStatus,
+    setPlan,
     artistId,
     updateArtist,
   } = React.useContext(ArtistContext)
@@ -73,7 +79,7 @@ const GetStartedPaymentMethod = () => {
   const [planPrefix, planPeriod] = plan.split('_')
 
   const isPaymentRequired = status !== 'active' && planPrefix !== 'basic'
-  const isPaymentIntentRequired = false
+  const profilePlans = React.useMemo(() => ({ [artistId]: plan }), [artistId, plan])
   const shouldShowPromoCodeInput = false
 
   const {
@@ -85,31 +91,24 @@ const GetStartedPaymentMethod = () => {
 
   // Get amount to pay on mount or when a valid promo code is provided
   useAsyncEffect(async () => {
-    if (! isPaymentRequired || (promoCode && ! isValidPromoCode) || isManaged) {
-      return
-    }
-
-    const newPlan = plan
-    if (! newPlan) {
+    if (! isPaymentRequired || (promoCode && ! isValidPromoCode) || isManaged || ! plan) {
       return
     }
 
     setIsLoadingAmountToPay(true)
 
-    const { res, error } = await getProrationsPreview(organizationId, { [artistId]: newPlan }, promoCode)
+    const { res, error } = await getProrationsPreview(organizationId, profilePlans, promoCode)
 
     if (error) {
       if (error.message === 'Invalid promo code') {
         setIsValidPromoCode(false)
         setPromoCodeError(error)
         setIsLoadingAmountToPay(false)
-
         return
       }
 
       setError(error)
       setIsLoadingAmountToPay(false)
-
       return
     }
 
@@ -150,14 +149,44 @@ const GetStartedPaymentMethod = () => {
 
   const upgradeProfilePlans = async () => {
     setIsLoading(true)
-    const { error } = await upgradeProfiles(organizationId, { [artistId]: plan }, promoCode)
-
+    const { res: { clientSecret, profiles }, error } = await upgradeProfiles(organizationId, profilePlans, promoCode)
     if (error) {
       setError(error)
       setIsLoading(false)
-
       return
     }
+
+    const profileUpdated = profiles.find((profile) => profile.id === artistId)
+    setStatus(profileUpdated.status)
+    setPlan(profileUpdated.plan)
+
+    if (profileUpdated.plan === 'active' || ! clientSecret) {
+      updateOrganizationArtists(profiles)
+      await checkAndUpdateCompletedSetupAt()
+      setIsLoading(false)
+      next()
+      return
+    }
+
+    const { error: confirmPaymentError } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: defaultPaymentMethod.id,
+    })
+
+    if (confirmPaymentError) {
+      updateOrganizationArtists(profiles)
+      setError(confirmPaymentError)
+      setIsLoading(false)
+      return
+    }
+
+    setStatus('active')
+    const upgradedProfilesWithActiveStatus = profiles.map((profile) => {
+      if (['incomplete', 'past_due'].includes(profile.status)) {
+        profile.status = 'active'
+      }
+      return profile
+    })
+    updateOrganizationArtists(upgradedProfilesWithActiveStatus)
 
     await checkAndUpdateCompletedSetupAt()
     setIsLoading(false)
@@ -209,8 +238,9 @@ const GetStartedPaymentMethod = () => {
                 setIsFormValid={setIsFormValid}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
-                isPaymentIntentRequired={isPaymentIntentRequired}
                 promoCode={promoCode}
+                isPaymentRequired={isPaymentRequired}
+                profilePlans={profilePlans}
               />
             ) : (
               <>

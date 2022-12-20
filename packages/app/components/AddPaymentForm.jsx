@@ -34,6 +34,7 @@ const STRIPE_ELEMENT_OPTIONS = {
 // THE FORM
 const FORM = ({
   organizationId,
+  setError,
   setPaymentMethod,
   setSuccess,
   shouldBeDefault,
@@ -44,13 +45,13 @@ const FORM = ({
   setIsFormValid,
   isLoading,
   setIsLoading,
-  isPaymentIntentRequired,
+  isPaymentRequired,
+  profilePlans,
   promoCode,
 }) => {
   const elements = useElements()
   const stripe = useStripe()
   const [name, setName] = React.useState('')
-  const [error, setError] = React.useState(null)
 
   // WAIT FOR STRIPE TO LOAD
   React.useEffect(() => {
@@ -68,98 +69,84 @@ const FORM = ({
     setIsFormValid(formValid)
   }, [name, cardComplete, elements, stripe, setIsFormValid])
 
+  const handleError = React.useCallback((error) => {
+    setError(error)
+    setIsLoading(false)
+    elements.getElement('card').focus()
+  }, [elements, setError, setIsLoading])
 
-  // * HANDLE FORM
-  // --------------
+  const confirmSetup = React.useCallback(async (cardEl) => {
+    const { res, error: setupIntentSecretError } = await billingHelpers.getStripeClientSecret(organizationId, 'setup')
+    if (setupIntentSecretError) {
+      return { error: setupIntentSecretError }
+    }
+
+    const { setupIntent, error: setupIntentError } = await stripe.confirmCardSetup(res.clientSecret, {
+      payment_method: {
+        card: cardEl,
+        billing_details: {
+          name,
+        },
+      },
+    })
+    if (setupIntentError) {
+      return { error: setupIntentError }
+    }
+
+    return { paymentMethodId: setupIntent.payment_method }
+  }, [name, organizationId, stripe])
+
+  const confirmPayment = React.useCallback(async (cardEl) => {
+    if (! profilePlans) {
+      const error = { message: 'If payment is required, then profile plans also need to be supplied' }
+      return { error }
+    }
+
+    const { res, error: upgradeProfileError } = await billingHelpers.upgradeProfiles(organizationId, profilePlans, promoCode)
+    if (upgradeProfileError) {
+      return { error: upgradeProfileError }
+    }
+
+    const { paymentIntent, error: confirmCardPaymentError } = await stripe.confirmCardPayment(res.clientSecret, {
+      payment_method: {
+        card: cardEl,
+        billing_details: {
+          name,
+        },
+      },
+    })
+    if (confirmCardPaymentError) {
+      return { error: confirmCardPaymentError }
+    }
+
+    return { paymentMethodId: paymentIntent.payment_method }
+  }, [name, organizationId, profilePlans, promoCode, stripe])
+
+  // HANDLE FORM
   const onSubmit = React.useCallback(async () => {
     if (! isFormValid || isLoading) return
 
     setIsLoading(true)
 
-    // Create payment method with Stripe
     const cardElement = elements.getElement(CardElement)
-    const { paymentMethod, error: stripeError } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
-      billing_details: {
-        name,
-      },
-    })
 
-    // Handle error creating payment method
-    if (stripeError) {
-      setError(error)
-      setIsLoading(false)
-      elements.getElement('card').focus()
+    const { paymentMethodId, error } = isPaymentRequired
+      ? await confirmPayment(cardElement)
+      : await confirmSetup(cardElement)
 
-      return
+    if (error) {
+      return handleError(error)
     }
 
-    const stripePaymentMethodId = paymentMethod?.id
-
-    // Store payment method in DB
+    // Store payment method in db
     const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
       organizationId,
-      paymentMethodId: stripePaymentMethodId,
+      paymentMethodId,
       shouldBeDefault,
       promoCode,
     })
-
-    // Handle error storing payment method in DB
     if (serverError) {
-      setError(serverError)
-      setIsLoading(false)
-      return
-    }
-
-    // If payment intent is required
-    if (isPaymentIntentRequired) {
-      // Get stripe client secret
-      const { res, error: getStripeClientSecretError } = await billingHelpers.getStripeClientSecret(organizationId)
-
-      if (getStripeClientSecretError) {
-        setError(getStripeClientSecretError)
-        setIsLoading(false)
-        return
-      }
-
-      const { error: confirmCardPaymentError } = await stripe.confirmCardPayment(res.clientSecret, { payment_method: stripePaymentMethodId })
-
-      if (confirmCardPaymentError) {
-        setError(confirmCardPaymentError)
-        setIsLoading(false)
-        elements.getElement('card').focus()
-
-        return
-      }
-    }
-
-    // Fix setup intent if not success
-    const { setup_intent: setupIntent } = paymentMethodDb
-    if (setupIntent.status !== 'succeeded') {
-      const res = await stripe.confirmCardSetup(setupIntent.client_secret, {
-        payment_method: stripePaymentMethodId,
-      }).catch((error) => {
-        setError(error)
-      })
-      // Handle failure
-      if (res?.setupIntent?.status !== 'succeeded') {
-        // Delete payment method
-        await billingHelpers.deletePaymentMethod(organizationId, stripePaymentMethodId)
-        setIsLoading(false)
-        return
-      }
-    }
-
-    // Set card as default (if necessary)
-    if (shouldBeDefault) {
-      const { error } = await billingHelpers.setPaymentAsDefault(organizationId, stripePaymentMethodId)
-      if (error) {
-        await billingHelpers.deletePaymentMethod(organizationId, stripePaymentMethodId)
-        setError(error)
-        setIsLoading(false)
-        return
-      }
+      return handleError(serverError)
     }
 
     // Handle success
@@ -170,7 +157,7 @@ const FORM = ({
     setSuccess(true)
     // Track
     track('billing_finish_add_payment', { organizationId, shouldBeDefault })
-  }, [isFormValid, isLoading, setIsLoading, elements, stripe, name, organizationId, shouldBeDefault, promoCode, isPaymentIntentRequired, addMethodToState, setPaymentMethod, setSuccess, error])
+  }, [isFormValid, isLoading, setIsLoading, elements, isPaymentRequired, confirmPayment, confirmSetup, organizationId, shouldBeDefault, promoCode, setError, addMethodToState, setPaymentMethod, setSuccess, handleError])
 
   React.useEffect(() => {
     setAddPaymentMethod(() => onSubmit)
@@ -184,7 +171,6 @@ const FORM = ({
         onSubmit(e)
       }}
     >
-      <Error error={error} />
 
       {/* NAME */}
       <Input
@@ -214,10 +200,6 @@ const FORM = ({
   )
 }
 
-// Make sure to call `loadStripe` outside a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(process.env.stripe_provider)
-
 const AddPaymentForm = ({
   organizationId,
   setPaymentMethod,
@@ -230,13 +212,19 @@ const AddPaymentForm = ({
   setIsFormValid,
   isLoading,
   setIsLoading,
-  isPaymentIntentRequired,
+  isPaymentRequired,
+  profilePlans,
   promoCode,
 }) => {
+  const [stripePromise] = React.useState(() => loadStripe(process.env.stripe_provider))
+  const [error, setError] = React.useState(null)
+
   return (
     <Elements stripe={stripePromise}>
+      <Error error={error} />
       {/* Defined above... */}
       <FORM
+        setError={setError}
         organizationId={organizationId}
         setPaymentMethod={setPaymentMethod}
         setSuccess={setSuccess}
@@ -248,7 +236,8 @@ const AddPaymentForm = ({
         setIsFormValid={setIsFormValid}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
-        isPaymentIntentRequired={isPaymentIntentRequired}
+        isPaymentRequired={isPaymentRequired}
+        profilePlans={profilePlans}
         promoCode={promoCode}
       />
     </Elements>
@@ -256,6 +245,7 @@ const AddPaymentForm = ({
 }
 
 AddPaymentForm.propTypes = {
+  organizationId: PropTypes.string,
   setPaymentMethod: PropTypes.func,
   setSuccess: PropTypes.func,
   shouldBeDefault: PropTypes.bool,
@@ -266,16 +256,19 @@ AddPaymentForm.propTypes = {
   setIsFormValid: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setIsLoading: PropTypes.func.isRequired,
-  isPaymentIntentRequired: PropTypes.bool,
+  isPaymentRequired: PropTypes.bool,
+  profilePlans: PropTypes.objectOf(PropTypes.string),
   promoCode: PropTypes.string,
 }
 
 AddPaymentForm.defaultProps = {
-  shouldBeDefault: false,
-  shouldShowLabels: true,
+  organizationId: '',
   setPaymentMethod: () => {},
   setSuccess: () => {},
-  isPaymentIntentRequired: false,
+  shouldBeDefault: false,
+  shouldShowLabels: true,
+  isPaymentRequired: false,
+  profilePlans: undefined,
   promoCode: '',
 }
 

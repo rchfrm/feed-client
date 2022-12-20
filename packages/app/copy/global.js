@@ -231,7 +231,11 @@ ${list.join('\n')}`
     // TODO: Add message to use feature from initial prompt that opened the upgrade flow. "Close this window to..."
   },
   pricingProfileFootnote: '^ A profile is a Facebook page and Instagram account for the same person, brand or company',
-  disabledReason: (section, hasSetUpProfile, hasOverflow, hasCancelledPlan) => {
+  disabledReason: (section, hasSetUpProfile, hasOverflow, hasCancelledPlan, plan, status) => {
+    if (plan && status === 'incomplete') {
+      const [planPrefix] = plan.split('_')
+      return `Finish upgrade to <span className="text-insta font-bold">${capitalise(planPrefix)}</span>`
+    }
     const shouldUpgradeToPro = section === 'objective-sales'
     const setupBaseString = 'Continue set-up to'
     const noPlanBaseString = section === 'set-budget'

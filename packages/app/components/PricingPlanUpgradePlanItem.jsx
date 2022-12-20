@@ -20,22 +20,36 @@ const PricingPlanUpgradePlanItem = ({
   handleChange,
   currencyCode,
   className,
+  disabled,
 }) => {
   return (
     <>
-      <div className={['flex items-center justify-between', className].join(' ')}>
+      <div className={[
+        'flex',
+        'items-center',
+        'justify-between',
+        className,
+        disabled ? 'pointer-events-none' : '',
+      ].join(' ')}
+      >
         <RadioButton
           value={name}
           name={name}
           label={capitalise(name)}
           onChange={handleChange}
           checked={selectedPlan === name}
-          className="mb-0 font-bold text-xl"
+          className={[
+            'mb-0',
+            'font-bold',
+            'text-xl',
+            disabled ? 'text-grey-3' : '',
+          ].join(' ')}
         />
         <PricingPlanUpgradeMonthlyCostAndServiceFee
           currencyCode={currencyCode}
           plan={pricingPlanNumbers}
           isAnnualPricing={isAnnualPricing}
+          disabled={disabled}
         />
       </div>
       {selectedPlan === name && (
@@ -58,11 +72,13 @@ PricingPlanUpgradePlanItem.propTypes = {
   handleChange: PropTypes.func.isRequired,
   currencyCode: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
 }
 
 PricingPlanUpgradePlanItem.defaultProps = {
   className: null,
   currencyCode: 'GBP',
+  disabled: false,
 }
 
 export default PricingPlanUpgradePlanItem
