@@ -32,7 +32,13 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, isAnnu
           </p>
         </div>
 
-        <p className={`mb-0 text-xs ${disabled ? 'text-grey-3' : ''}`}>per month</p>
+        <p className={[
+          'mb-0 text-xs',
+          disabled ? 'text-grey-3' : '',
+        ].join(' ')}
+        >
+          per month
+        </p>
       </div>
       <div className={[
         'flex flex-col xs:flex-row items-center xs:mr-8',
