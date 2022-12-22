@@ -1,44 +1,42 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-
-import ThePageButtonsIcon from '@/app/ThePageButtonsIcon'
-import ActiveLink from '@/elements/ActiveLink'
-
+import ThePageButton from '@/app/ThePageButton'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
-import useBrowserStore from '@/hooks/useBrowserStore'
-
-import styles from '@/app/ThePageButtons.module.css'
-
 import * as ROUTES from '@/app/constants/routes'
 
 const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }) => {
-  // CONTROLS PAGE
   if (icon === 'controls') {
-    // No budget
-    if (! hasBudget && ! missingDefaultLink) return true
-    // Spending paused
-    if (isSpendingPaused && ! missingDefaultLink) return true
+    if (! hasBudget && ! missingDefaultLink) {
+      return true
+    }
+
+    if (isSpendingPaused && ! missingDefaultLink) {
+      return true
+    }
   }
-  // POSTS PAGE
-  if (icon === 'posts' && missingDefaultLink) return true
-  // No badge
+
+  if (icon === 'posts' && missingDefaultLink) {
+    return true
+  }
+  return false
+}
+
+const testIfActive = (pathname, href, matchingHrefs) => {
+  if (pathname === href) return true
+  if (matchingHrefs?.includes(pathname)) return true
   return false
 }
 
 const ThePageButtons = () => {
   const isLoggedIn = useLoggedInTest()
   const { user } = React.useContext(UserContext)
-  const { device = {} } = useBrowserStore()
-  const { isMobile, isIOS } = device
 
   const { pathname } = useRouter()
   const isGetStartedPage = pathname === ROUTES.GET_STARTED
-  // Get currency from artist
+
   const {
-    artistLoading,
     hasBudget,
     artist: {
       missingDefaultLink,
@@ -76,49 +74,45 @@ const ThePageButtons = () => {
     },
   ]
 
-  // Don't show buttons if no logged in
-  if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage) return null
+  if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage) {
+    return null
+  }
 
   return (
     <div
       id="ThePageButtons"
       className={[
-        styles.container,
-        artistLoading ? styles._artistLoading : null,
-        isIOS && isMobile ? styles.ios_mobile : null,
+        'fixed md:top-0 left-0 bottom-0 z-100',
+        'w-full md:w-auto',
+        'md:pt-32 px-2 bg-black',
       ].join(' ')}
     >
-      <nav className={styles.inner}>
+      <nav className={[
+        'flex flex-row md:flex-col',
+        'justify-between xs:justify-center md:justify-between',
+        'p-2 md:p-0',
+      ].join(' ')}
+      >
         {links.map(({ href, title, icon, matchingHrefs }) => {
           const showBadge = showBadgeTest({ icon, hasBudget, missingDefaultLink, isSpendingPaused })
+          const isActive = testIfActive(pathname, href, matchingHrefs)
+
           return (
-            <div className={styles.link} key={href}>
-              <ActiveLink href={href} activeClass={styles._active} matchingHrefs={matchingHrefs}>
-                <a className={[
-                  'relative',
-                  styles.linkAnchor,
-                  icon === 'posts' ? styles.linkAnchor_posts : null,
-                  icon === 'referral' ? styles.linkAnchor_referral : null,
-                ].join(' ')}
-                >
-                  <ThePageButtonsIcon
-                    icon={icon}
-                    className={[styles.linkIcon].join(' ')}
-                    showBadge={showBadge}
-                  />
-                  <p className={styles.linkTitle}>{ title }</p>
-                </a>
-              </ActiveLink>
+            <div className={['text-xs text-center py-0 px-5 mx-2 md:p-0 md:my-3 md:mx-0 w-auto md:w-12'].join(' ')} key={href}>
+              <ThePageButton
+                title={title}
+                icon={icon}
+                href={href}
+                matchingHrefs={matchingHrefs}
+                isActive={isActive}
+                showBadge={showBadge}
+              />
             </div>
           )
         })}
       </nav>
     </div>
   )
-}
-
-ThePageButtons.propTypes = {
-
 }
 
 export default ThePageButtons

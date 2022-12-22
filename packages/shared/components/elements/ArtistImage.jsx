@@ -20,7 +20,7 @@ const ArtistImage = ({ pageId, size, name, className }) => {
     setError(true)
   }
 
-  if (error || ! pageId) return <ProfileIcon className={className} fill={brandColors.greyDark} />
+  if (error || ! pageId) return <ProfileIcon className={className} fill={brandColors.grey} />
 
   return (
     <img className={className} alt={name} src={src} onError={onError} />
