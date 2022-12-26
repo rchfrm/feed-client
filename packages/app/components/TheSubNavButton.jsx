@@ -39,12 +39,9 @@ const TheSubNavButton = ({
       id="TheSubNavButton"
       role="button"
       onClick={runToggle}
-      className={[className, 'no-underline'].join(' ')}
+      className={[className, 'relative no-underline'].join(' ')}
       aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
     >
-      {((hasNotifactions && ! navOpen && ! artistLoading) || hasPendingEmail) && (
-        <NotificationDot size="medium" style={{ top: '-0.1rem', right: '-0.1rem', zIndex: 3 }} />
-      )}
       <FlipContainer
         frontContent={(
           <figure>
@@ -64,7 +61,7 @@ const TheSubNavButton = ({
             <CloseCircle fill={brandColors.black} className="w-4/5 h-auto" />
           </div>
         )}
-        containerClass="overflow-hidden"
+        containerClass="w-full relative overflow-hidden"
         isFlipped={navOpen}
         innerClass="pt-[100%] rounded-full"
         frontClass={[
@@ -80,6 +77,9 @@ const TheSubNavButton = ({
       >
         {navOpen ? 'close' : 'menu'}
       </p>
+      {((hasNotifactions && ! navOpen && ! artistLoading) || hasPendingEmail) && (
+        <NotificationDot size="medium" className="absolute -top-1 -right-1 z-5" />
+      )}
     </a>
   )
 }

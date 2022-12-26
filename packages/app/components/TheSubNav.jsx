@@ -51,12 +51,10 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
 
     // Desktop extra animations
     if (animationType.current === 'desktop') {
-      // Animate page buttons
-      const ThePageButtons = document.getElementById('ThePageButtons')
-      const TheLogo = document.getElementById('TheLogo')
-      const TheSubNavButton = document.getElementById('TheSubNavButton')
+      // Animate side anvifation
+      const SideNav = document.getElementById('SideNav')
       const xMove = state ? navWidth : 0
-      gsap.to([ThePageButtons, TheLogo, TheSubNavButton], { x: xMove, duration, ease })
+      gsap.to(SideNav, { x: xMove, duration, ease })
 
       // Fade in sub nav background
       const TheSubNavBackground = document.getElementById('TheSubNavBackground')

@@ -1,10 +1,16 @@
 import React from 'react'
-import { useRouter } from 'next/router'
-import SideNavButton from '@/app/SideNavButton'
+import Router, { useRouter } from 'next/router'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
+import useNotificationsStore from '@/app/stores/notificationsStore'
+import FeedLogo from '@/icons/FeedLogo'
+import SideNavButton from '@/app/SideNavButton'
+import TheSubNavButton from '@/app/TheSubNavButton'
 import * as ROUTES from '@/app/constants/routes'
+
+const getTotalActiveNotifications = (state) => state.totalActiveNotifications
 
 const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }) => {
   if (icon === 'controls') {
@@ -23,18 +29,14 @@ const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }
   return false
 }
 
-const testIfActive = (pathname, href, matchingHrefs) => {
-  if (pathname === href) return true
-  if (matchingHrefs?.includes(pathname)) return true
-  return false
-}
-
 const SideNav = () => {
   const isLoggedIn = useLoggedInTest()
   const { user } = React.useContext(UserContext)
+  const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
 
   const { pathname } = useRouter()
   const isGetStartedPage = pathname === ROUTES.GET_STARTED
+  const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
 
   const {
     hasBudget,
@@ -74,22 +76,56 @@ const SideNav = () => {
     },
   ]
 
+  const testIfActive = (pathname, href, matchingHrefs) => {
+    if (pathname === href) {
+      return true
+    }
+
+    if (matchingHrefs?.includes(pathname)) {
+      return true
+    }
+
+    return false
+  }
+
+  const goHome = () => {
+    if (pathname === ROUTES.HOME) {
+      return
+    }
+
+    Router.push(ROUTES.HOME)
+  }
+
+  React.useEffect(() => {
+    toggleSubNav(false)
+  }, [toggleSubNav])
+
   if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage) {
     return null
   }
 
   return (
     <div
-      id="ThePageButtons"
+      id="SideNav"
       className={[
-        'fixed md:top-0 left-0 bottom-0 z-100',
-        'w-full md:w-auto',
-        'md:pt-32 px-2 bg-black',
+        'hidden md:flex',
+        'fixed top-0 left-0 bottom-0 z-100 w-auto',
+        'flex-col justify-between',
+        'py-2 px-2 bg-black',
       ].join(' ')}
     >
+      <a
+        id="TheLogo"
+        onClick={goHome}
+        role="button"
+        title="home"
+        className={['flex justify-center'].join(' ')}
+      >
+        <FeedLogo className="w-10" id="sideNav" />
+      </a>
       <nav className={[
         'flex flex-row md:flex-col',
-        'justify-between xs:justify-center md:justify-between',
+        'justify-between',
         'p-2 md:p-0',
       ].join(' ')}
       >
@@ -98,7 +134,7 @@ const SideNav = () => {
           const isActive = testIfActive(pathname, href, matchingHrefs)
 
           return (
-            <div className={['text-xs text-center py-0 px-5 mx-2 md:p-0 md:my-3 md:mx-0 w-auto md:w-12'].join(' ')} key={href}>
+            <div className={['text-xs text-center md:p-0 my-3 mx-0 w-12'].join(' ')} key={href}>
               <SideNavButton
                 title={title}
                 icon={icon}
@@ -111,6 +147,12 @@ const SideNav = () => {
           )
         })}
       </nav>
+      <TheSubNavButton
+        toggleSubNav={toggleSubNav}
+        navOpen={subNavOpen}
+        hasNotifactions={!! totalNotificationsUnread}
+        className={['flex flex-col justify-center w-10 mx-auto'].join(' ')}
+      />
     </div>
   )
 }
