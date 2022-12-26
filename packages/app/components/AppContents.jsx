@@ -6,7 +6,7 @@ import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
 import { SidePanelContextProvider } from '@/contexts/SidePanelContext'
 import Main from '@/app/Main'
 import TheLoadingOverlay from '@/TheLoadingOverlay'
-import TheHeader from '@/app/TheHeader'
+import Header from '@/app/Header'
 import SideNav from '@/app/SideNav'
 import TheFooter from '@/app/TheFooter'
 import PopupModal from '@/PopupModal'
@@ -22,7 +22,7 @@ const AppContents = ({ children }) => {
           <ArtistProvider>
             <TargetingContextProvider>
               <SidePanelContextProvider>
-                <TheHeader />
+                <Header />
 
                 <TheLoadingOverlay />
 
