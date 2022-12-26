@@ -53,7 +53,7 @@ const NOTIFICATION_LINK_TEXT = ({ title }) => {
   )
 }
 
-const TheSubNavLinks = ({ className }) => {
+const SubNavLinks = ({ className }) => {
   const { hasPendingEmail } = React.useContext(UserContext)
   return (
     <>
@@ -94,12 +94,12 @@ const TheSubNavLinks = ({ className }) => {
   )
 }
 
-TheSubNavLinks.propTypes = {
+SubNavLinks.propTypes = {
   className: PropTypes.string,
 }
 
-TheSubNavLinks.defaultProps = {
+SubNavLinks.defaultProps = {
   className: '',
 }
 
-export default TheSubNavLinks
+export default SubNavLinks

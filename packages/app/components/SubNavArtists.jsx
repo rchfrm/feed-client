@@ -7,7 +7,7 @@ import useNotificationsStore from '@/app/stores/notificationsStore'
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
 import NotificationDot from '@/elements/NotificationDot'
-import TheSubNavConnectProfiles from '@/app/TheSubNavConnectProfiles'
+import SubNavConnectProfiles from '@/app/SubNavConnectProfiles'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
@@ -49,7 +49,7 @@ const ARTIST_SELECT_OPTIONS = ({
 
 const getArtistsWithNotifications = (state) => state.artistsWithNotifications
 
-const TheSubNavArtists = ({ className }) => {
+const SubNavArtists = ({ className }) => {
   const { user } = React.useContext(UserContext)
   const { artists: allArtists, role } = user
   const { artistId, storeArtist, artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
@@ -75,7 +75,7 @@ const TheSubNavArtists = ({ className }) => {
   }, [user])
 
   // If no artists, don't show artist links
-  if (sortedArtists.length === 1) return <TheSubNavConnectProfiles className="mb-5 md:mb-2" />
+  if (sortedArtists.length === 1) return <SubNavConnectProfiles className="mb-5 md:mb-2" />
 
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
@@ -99,7 +99,7 @@ const TheSubNavArtists = ({ className }) => {
           />
         )}
         <div className="mb-0 md:pt-3 md:mb-3 h4--text">
-          <TheSubNavConnectProfiles />
+          <SubNavConnectProfiles />
         </div>
       </div>
     )
@@ -149,25 +149,25 @@ const TheSubNavArtists = ({ className }) => {
         )}
         {sortedArtists.length > 0 && (
           <li className="md:hidden pt-3 text-lg">
-            <TheSubNavConnectProfiles />
+            <SubNavConnectProfiles />
           </li>
         )}
       </ul>
       {sortedArtists.length > 0 && (
         <div className="hidden md:block pt-5 pb-3 text-lg">
-          <TheSubNavConnectProfiles />
+          <SubNavConnectProfiles />
         </div>
       )}
     </div>
   )
 }
 
-TheSubNavArtists.propTypes = {
+SubNavArtists.propTypes = {
   className: PropTypes.string,
 }
 
-TheSubNavArtists.defaultProps = {
+SubNavArtists.defaultProps = {
   className: '',
 }
 
-export default TheSubNavArtists
+export default SubNavArtists

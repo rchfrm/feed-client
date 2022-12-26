@@ -11,7 +11,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import brandColors from '@/constants/brandColors'
 
-const TheSubNavButton = ({
+const SubNavButton = ({
   toggleSubNav,
   navOpen,
   hasNotifactions,
@@ -36,7 +36,6 @@ const TheSubNavButton = ({
 
   return (
     <a
-      id="TheSubNavButton"
       role="button"
       onClick={runToggle}
       className={[className, 'relative no-underline'].join(' ')}
@@ -84,15 +83,15 @@ const TheSubNavButton = ({
   )
 }
 
-TheSubNavButton.propTypes = {
+SubNavButton.propTypes = {
   toggleSubNav: PropTypes.func.isRequired,
   navOpen: PropTypes.bool.isRequired,
   hasNotifactions: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
-TheSubNavButton.defaultProps = {
+SubNavButton.defaultProps = {
   className: '',
 }
 
-export default TheSubNavButton
+export default SubNavButton

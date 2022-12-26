@@ -4,11 +4,11 @@ import { Transition } from 'react-transition-group'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import useSwipeDismiss from '@/hooks/useSwipeDismiss'
 import FullHeight from '@/elements/FullHeight'
-import TheSubNavArtists from '@/app/TheSubNavArtists'
-import TheSubNavLinks from '@/app/TheSubNavLinks'
+import SubNavArtists from '@/app/SubNavArtists'
+import SubNavLinks from '@/app/SubNavLinks'
 import SignOutLink from '@/app/SignOutLink'
 
-const TheSubNav = ({ open, toggle, windowWidth }) => {
+const SubNav = ({ open, toggle, windowWidth }) => {
   const contentsElement = React.useRef()
   const isMobile = React.useRef(false)
 
@@ -42,7 +42,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
 
   // Panel animation
   const animateContainer = React.useCallback((state) => {
-    const target = document.getElementById('TheSubNav')
+    const target = document.getElementById('SubNav')
     const { width: navWidth } = target.getBoundingClientRect()
     const { scaleX } = getScales(state)
     const xPercent = animationType.current === 'desktop' && ! state ? -100 : 0
@@ -51,16 +51,16 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
 
     // Desktop extra animations
     if (animationType.current === 'desktop') {
-      // Animate side anvifation
+      // Animate side navigation
       const SideNav = document.getElementById('SideNav')
       const xMove = state ? navWidth : 0
       gsap.to(SideNav, { x: xMove, duration, ease })
 
       // Fade in sub nav background
-      const TheSubNavBackground = document.getElementById('TheSubNavBackground')
-      TheSubNavBackground.style.display = 'block'
+      const SubNavBackground = document.getElementById('SubNavBackground')
+      SubNavBackground.style.display = 'block'
       const bgOpacity = state ? 0.2 : 0
-      gsap.to(TheSubNavBackground, { opacity: bgOpacity, duration, ease })
+      gsap.to(SubNavBackground, { opacity: bgOpacity, duration, ease })
     }
 
     // Animate container
@@ -77,23 +77,21 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
 
   // Reset elements after animation
   const resetEls = () => {
-    const TheSubNav = document.getElementById('TheSubNav')
-    if (! TheSubNav) return
+    const SubNav = document.getElementById('SubNav')
+    if (! SubNav) return
     if (animationType.current === 'desktop') {
-      const ThePageButtons = document.getElementById('ThePageButtons')
-      const TheLogo = document.getElementById('TheLogo')
-      const TheSubNavButton = document.getElementById('TheSubNavButton')
-      const TheSubNavBackground = document.getElementById('TheSubNavBackground')
+      const SideNav = document.getElementById('SideNav')
+      const SubNavBackground = document.getElementById('SubNavBackground')
       // Reset the subnav
-      gsap.set(TheSubNav, { x: 0, scaleX: 1, scaleY: 1, xPercent: -100 })
+      gsap.set(SubNav, { x: 0, scaleX: 1, scaleY: 1, xPercent: -100 })
       // Hide the subnav background
-      TheSubNavBackground.style.display = 'none'
-      if (! ThePageButtons || ! TheLogo || ! TheSubNavButton) return
+      SubNavBackground.style.display = 'none'
+      if (! SideNav) return
       // Reset the sidebar
-      gsap.set([ThePageButtons, TheLogo, TheSubNavButton], { x: 0 })
+      gsap.set([SideNav], { x: 0 })
       return
     }
-    gsap.set(TheSubNav, { x: 0, scaleX: 0, scaleY: 1, xPercent: 0 })
+    gsap.set(SubNav, { x: 0, scaleX: 0, scaleY: 1, xPercent: 0 })
   }
 
   // Run all animations
@@ -138,8 +136,8 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
 
   // Dragging
   const dragBind = useSwipeDismiss({
-    movingTargetId: 'TheSubNav',
-    touchTargetId: 'TheSubNav__contents',
+    movingTargetId: 'SubNav',
+    touchTargetId: 'SubNav__contents',
     hide: () => toggle(false),
     reset: () => animateContainer(true),
     disableCondition: ! isMobile.current || animationType.current === 'desktop',
@@ -151,7 +149,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
     if (! isMobile.current) {
       return
     }
-    const scrollEl = document.getElementById('TheSubNav')
+    const scrollEl = document.getElementById('SubNav')
     if (open) {
       disableBodyScroll(scrollEl)
     } else {
@@ -172,23 +170,23 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
     >
       <>
         <FullHeight
-          id="TheSubNav"
+          id="SubNav"
           className={[
             'page--content',
             'fixed left-0 top-0 z-[27]',
             'w-full md:w-auto pb-10 pt-30 md:pt-30 md:p-10',
-            'bg-black text-grey-2 overflow-auto font-display hidden origin-right',
+            'bg-black text-grey-2 overflow-auto font-display hidden origin-left',
           ].join(' ')}
         >
           <div
-            id="TheSubNav__contents"
+            id="SubNav__contents"
             className="h-full opacity-0"
             ref={contentsElement}
             {...dragBind()}
           >
             <div className="flex flex-col justify-center md:justify-between w-full min-h-full">
-              <TheSubNavLinks />
-              <TheSubNavArtists />
+              <SubNavLinks />
+              <SubNavArtists />
             </div>
             <p className="mb-6 text-sm opacity-70 hover:opacity-100 block md:hidden">
               <SignOutLink />
@@ -196,7 +194,7 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
           </div>
         </FullHeight>
         <div
-          id="TheSubNavBackground"
+          id="SubNavBackground"
           className={['fixed top-0 left-0 w-full h-full bg-black opacity-10 hidden z-[13]'].join(' ')}
           role="button"
           aria-label="Close navigation"
@@ -207,4 +205,4 @@ const TheSubNav = ({ open, toggle, windowWidth }) => {
   )
 }
 
-export default TheSubNav
+export default SubNav

@@ -7,8 +7,8 @@ import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useNotificationsStore from '@/app/stores/notificationsStore'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import FeedLogo from '@/icons/FeedLogo'
-import TheSubNavButton from '@/app/TheSubNavButton'
-import TheSubNav from '@/app/TheSubNav'
+import SubNavButton from '@/app/SubNavButton'
+import SubNav from '@/app/SubNav'
 import * as ROUTES from '@/app/constants/routes'
 
 const getTotalActiveNotifications = (state) => state.totalActiveNotifications
@@ -47,7 +47,7 @@ const Header = () => {
       }}
     >
       <header className={[
-        'absolute md:hidden top-0 left-0 right-0',
+        'relative md:hidden top-0 left-0 right-0',
         '-mx-6 sm:-mx-8 px-4 py-1 h-15',
         'flex justify-between items-center',
         'bg-black z-[28]',
@@ -60,7 +60,7 @@ const Header = () => {
         >
           <FeedLogo className="w-8" id="header" />
         </a>
-        <TheSubNavButton
+        <SubNavButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}
           hasNotifactions={!! totalNotificationsUnread}
@@ -68,7 +68,7 @@ const Header = () => {
         />
       </header>
 
-      <TheSubNav
+      <SubNav
         open={subNavOpen && isLoggedIn}
         toggle={toggleSubNav}
         windowWidth={windowWidth}

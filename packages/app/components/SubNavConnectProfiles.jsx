@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Link from 'next/link'
 import * as ROUTES from '@/app/constants/routes'
 
-const TheSubNavConnectProfiles = ({ className }) => {
+const SubNavConnectProfiles = ({ className }) => {
   return (
     <div className={['h4--text', className].join(' ')}>
       <p className={['mb-0'].join(' ')}>
@@ -22,12 +22,12 @@ const TheSubNavConnectProfiles = ({ className }) => {
   )
 }
 
-TheSubNavConnectProfiles.propTypes = {
+SubNavConnectProfiles.propTypes = {
   className: PropTypes.string,
 }
 
-TheSubNavConnectProfiles.defaultProps = {
+SubNavConnectProfiles.defaultProps = {
   className: null,
 }
 
-export default TheSubNavConnectProfiles
+export default SubNavConnectProfiles
