@@ -16,7 +16,7 @@ const getIcon = (icon) => {
   if (icon === 'faqs') return FaqIcon
 }
 
-const ThePageButtonsIcon = ({ icon, className, showBadge, isActive, isHover }) => {
+const SideNavButtonIcon = ({ icon, className, showBadge, isActive, isHover }) => {
   const Icon = getIcon(icon, isActive)
 
   return (
@@ -34,15 +34,15 @@ const ThePageButtonsIcon = ({ icon, className, showBadge, isActive, isHover }) =
   )
 }
 
-ThePageButtonsIcon.propTypes = {
+SideNavButtonIcon.propTypes = {
   icon: PropTypes.string.isRequired,
   className: PropTypes.string,
   showBadge: PropTypes.bool,
 }
 
-ThePageButtonsIcon.defaultProps = {
+SideNavButtonIcon.defaultProps = {
   className: '',
   showBadge: false,
 }
 
-export default ThePageButtonsIcon
+export default SideNavButtonIcon

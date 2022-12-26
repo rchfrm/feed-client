@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import ThePageButton from '@/app/ThePageButton'
+import SideNavButton from '@/app/SideNavButton'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
@@ -29,7 +29,7 @@ const testIfActive = (pathname, href, matchingHrefs) => {
   return false
 }
 
-const ThePageButtons = () => {
+const SideNav = () => {
   const isLoggedIn = useLoggedInTest()
   const { user } = React.useContext(UserContext)
 
@@ -99,7 +99,7 @@ const ThePageButtons = () => {
 
           return (
             <div className={['text-xs text-center py-0 px-5 mx-2 md:p-0 md:my-3 md:mx-0 w-auto md:w-12'].join(' ')} key={href}>
-              <ThePageButton
+              <SideNavButton
                 title={title}
                 icon={icon}
                 href={href}
@@ -115,4 +115,4 @@ const ThePageButtons = () => {
   )
 }
 
-export default ThePageButtons
+export default SideNav

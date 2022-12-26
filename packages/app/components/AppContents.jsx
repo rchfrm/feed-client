@@ -1,17 +1,13 @@
 import React from 'react'
-// IMPORT CONTEXTS
 import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
-
 import { UserProvider } from '@/app/contexts/UserContext'
 import { ArtistProvider } from '@/app/contexts/ArtistContext'
 import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
 import { SidePanelContextProvider } from '@/contexts/SidePanelContext'
-
-// IMPORT COMPONENTS
 import Main from '@/app/Main'
 import TheLoadingOverlay from '@/TheLoadingOverlay'
 import TheHeader from '@/app/TheHeader'
-import ThePageButtons from '@/app/ThePageButtons'
+import SideNav from '@/app/SideNav'
 import TheFooter from '@/app/TheFooter'
 import PopupModal from '@/PopupModal'
 import AlertModal from '@/AlertModal'
@@ -34,7 +30,7 @@ const AppContents = ({ children }) => {
                   {children}
                 </Main>
 
-                <ThePageButtons />
+                <SideNav />
 
                 {/* SITEWIDE MODALS */}
                 <PopupModal />
@@ -51,6 +47,5 @@ const AppContents = ({ children }) => {
     </div>
   )
 }
-
 
 export default AppContents
