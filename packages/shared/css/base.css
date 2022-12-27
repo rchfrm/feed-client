@@ -25,7 +25,7 @@ html._live_warning {
 body {
   overflow-y: scroll;
 
-  &.nav-open {
+  &.__body-no-scroll {
     overflow: hidden;
   }
 }

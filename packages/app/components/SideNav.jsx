@@ -96,10 +96,6 @@ const SideNav = () => {
     Router.push(ROUTES.HOME)
   }
 
-  React.useEffect(() => {
-    toggleSubNav(false)
-  }, [toggleSubNav])
-
   if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage) {
     return null
   }

@@ -80,10 +80,6 @@ const SubNav = ({ open, toggle, windowWidth }) => {
       setDisplay(state, node)
     }
 
-    const body = document.querySelector('body')
-    const action = state ? 'add' : 'remove'
-    body.classList[action]('nav-open')
-
     animationPromise.current = new Promise((resolve) => {
       // Define order
       const firstAnimation = state ? animateContainer(state) : animateContent(state)
@@ -129,15 +125,12 @@ const SubNav = ({ open, toggle, windowWidth }) => {
 
   // Toggle body scroll
   React.useEffect(() => {
-    // Disable for desktops
-    if (! isMobile.current) {
-      return
-    }
-    const scrollEl = document.getElementById('SubNav')
+    const scrollElement = document.getElementById('SubNav')
+
     if (open) {
-      disableBodyScroll(scrollEl)
+      disableBodyScroll(scrollElement)
     } else {
-      enableBodyScroll(scrollEl)
+      enableBodyScroll(scrollElement)
     }
   }, [open])
 
