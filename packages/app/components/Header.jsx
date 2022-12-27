@@ -8,7 +8,8 @@ import useNotificationsStore from '@/app/stores/notificationsStore'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import FeedLogo from '@/icons/FeedLogo'
-import SubNavButton from '@/app/SubNavButton'
+import SubNavMenuButton from '@/app/SubNavMenuButton'
+import SubNavProfileButton from '@/app/SubNavProfileButton'
 import SubNav from '@/app/SubNav'
 import * as ROUTES from '@/app/constants/routes'
 
@@ -59,18 +60,25 @@ const Header = () => {
         'bg-black z-[12]',
       ].join(' ')}
       >
-        <a
-          onClick={goHome}
-          role="button"
-          title="home"
-        >
-          <FeedLogo className="w-8" id="header" />
-        </a>
-        <SubNavButton
+        <div className="flex items-center">
+          <a
+            onClick={goHome}
+            role="button"
+            title="home"
+            className="mr-4"
+          >
+            <FeedLogo className="w-8" id="header" />
+          </a>
+          <SubNavMenuButton
+            toggleSubNav={toggleSubNav}
+            navOpen={subNavOpen}
+          />
+        </div>
+        <SubNavProfileButton
           toggleSubNav={toggleSubNav}
           navOpen={subNavOpen}
           hasNotifactions={!! totalNotificationsUnread}
-          className={['flex flex-col justify-center w-8 h-8'].join(' ')}
+          className={['flex flex-col justify-center w-8 h-8 pointer-events-none'].join(' ')}
         />
       </header>
 

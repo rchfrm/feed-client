@@ -9,7 +9,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import brandColors from '@/constants/brandColors'
 
-const SubNavButton = ({
+const SubNavProfileButton = ({
   toggleSubNav,
   navOpen,
   hasNotifactions,
@@ -66,15 +66,15 @@ const SubNavButton = ({
   )
 }
 
-SubNavButton.propTypes = {
+SubNavProfileButton.propTypes = {
   toggleSubNav: PropTypes.func.isRequired,
   navOpen: PropTypes.bool.isRequired,
   hasNotifactions: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
-SubNavButton.defaultProps = {
+SubNavProfileButton.defaultProps = {
   className: '',
 }
 
-export default SubNavButton
+export default SubNavProfileButton

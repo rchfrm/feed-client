@@ -7,7 +7,7 @@ import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useNotificationsStore from '@/app/stores/notificationsStore'
 import FeedLogo from '@/icons/FeedLogo'
 import SideNavButton from '@/app/SideNavButton'
-import SubNavButton from '@/app/SubNavButton'
+import SubNavProfileButton from '@/app/SubNavProfileButton'
 import * as ROUTES from '@/app/constants/routes'
 
 const getTotalActiveNotifications = (state) => state.totalActiveNotifications
@@ -142,7 +142,7 @@ const SideNav = () => {
           )
         })}
       </nav>
-      <SubNavButton
+      <SubNavProfileButton
         toggleSubNav={toggleSubNav}
         navOpen={subNavOpen}
         hasNotifactions={!! totalNotificationsUnread}

@@ -151,12 +151,12 @@ const SubNav = ({ open, toggle, windowWidth }) => {
           className={[
             'page--content',
             'fixed left-0 top-0 z-[14]',
-            'w-4/5 md:w-auto pb-10 pt-10 md:p-10',
+            'w-5/6 md:w-auto pb-10 pt-10 md:p-10',
             'bg-black text-grey-2 font-display hidden origin-left',
           ].join(' ')}
         >
           <button onClick={toggle}>
-            <CloseCircle className="absolute top-20 -right-[22px] md:-right-[86px] w-12 h-12" fill={brandColors.textColor} />
+            <CloseCircle className="absolute top-20 -right-[22px] md:-right-[86px] w-12 h-12" fill={brandColors.blackHover} />
           </button>
           <div
             id="SubNavContent"
