@@ -6,6 +6,7 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useNotificationsStore from '@/app/stores/notificationsStore'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import FeedLogo from '@/icons/FeedLogo'
 import SubNavButton from '@/app/SubNavButton'
 import SubNav from '@/app/SubNav'
@@ -22,10 +23,15 @@ const Header = () => {
   const isLoggedIn = useLoggedInTest()
   const { pathname } = useRouter()
   const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
+  const { artistId, artistLoading } = React.useContext(ArtistContext)
 
   React.useEffect(() => {
     setMobileHeader(! isDesktopLayout)
   }, [isDesktopLayout])
+
+  React.useEffect(() => {
+    toggleSubNav(false)
+  }, [artistId, artistLoading, toggleSubNav])
 
   const goHome = () => {
     if (pathname === ROUTES.HOME) {

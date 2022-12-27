@@ -117,7 +117,7 @@ const SubNav = ({ open, toggle, windowWidth }) => {
   // Dragging
   const dragBind = useSwipeDismiss({
     movingTargetId: 'SubNav',
-    touchTargetId: 'SubNav__contents',
+    touchTargetId: 'SubNavContent',
     hide: () => toggle(false),
     reset: () => animateContainer(true),
     disableCondition: ! isMobile.current || animationType.current === 'desktop',
@@ -151,7 +151,7 @@ const SubNav = ({ open, toggle, windowWidth }) => {
           className={[
             'page--content',
             'fixed left-0 top-0 z-[14]',
-            'w-4/5 md:w-auto pb-10 pt-30 md:pt-30 md:p-10',
+            'w-4/5 md:w-auto pb-10 pt-10 md:p-10',
             'bg-black text-grey-2 font-display hidden origin-left',
           ].join(' ')}
         >
@@ -159,16 +159,16 @@ const SubNav = ({ open, toggle, windowWidth }) => {
             <CloseCircle className="absolute top-20 -right-[22px] md:-right-[86px] w-12 h-12" fill={brandColors.textColor} />
           </button>
           <div
-            id="SubNav__contents"
-            className="h-full opacity-0"
+            id="SubNavContent"
+            className="h-full opacity-0 flex flex-col"
             ref={contentElement}
             {...dragBind()}
           >
-            <div className="flex flex-col justify-center md:justify-between w-full min-h-full">
+            <div className="flex flex-col justify-center md:justify-between w-full h-full">
               <SubNavLinks />
               <SubNavArtists />
             </div>
-            <p className="mb-6 text-sm opacity-70 hover:opacity-100 block md:hidden">
+            <p className="mb-0 text-sm opacity-70 hover:opacity-100 md:hidden">
               <SignOutLink />
             </p>
           </div>

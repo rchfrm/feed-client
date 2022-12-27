@@ -105,7 +105,7 @@ const SideNav = () => {
       id="SideNav"
       className={[
         'hidden md:flex',
-        'fixed top-0 left-0 bottom-0 z-[14] w-auto',
+        'fixed top-0 left-0 bottom-0 z-[22] w-auto',
         'flex-col justify-between',
         'py-2 px-2 bg-black',
       ].join(' ')}

@@ -57,7 +57,7 @@ const SubNavLinks = ({ className }) => {
   const { hasPendingEmail } = React.useContext(UserContext)
   return (
     <>
-      <nav className={[className, 'ml-1 mb-5 md:mb-0 font-medium'].join(' ')}>
+      <nav className={[className, 'ml-1 mb-5 font-medium'].join(' ')}>
         <ul className={[
           'h4--text mb-0',
         ].join(' ')}
