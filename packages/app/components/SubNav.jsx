@@ -80,6 +80,10 @@ const SubNav = ({ open, toggle, windowWidth }) => {
       setDisplay(state, node)
     }
 
+    const body = document.querySelector('body')
+    const action = state ? 'add' : 'remove'
+    body.classList[action]('nav-open')
+
     animationPromise.current = new Promise((resolve) => {
       // Define order
       const firstAnimation = state ? animateContainer(state) : animateContent(state)
