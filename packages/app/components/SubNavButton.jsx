@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
-import FlipContainer from '@/elements/FlipContainer'
 import ArtistImage from '@/elements/ArtistImage'
 import NotificationDot from '@/elements/NotificationDot'
-import CloseCircle from '@/icons/CloseCircle'
 import HamburgerIcon from '@/icons/HamburgerIcon'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -29,52 +27,37 @@ const SubNavButton = ({
   // eslint-disable-next-line
   }, [artistId])
 
-  const runToggle = () => {
-    if (artistLoading) return
+  const toggle = () => {
+    if (artistLoading) {
+      return
+    }
     toggleSubNav()
   }
 
   return (
     <a
       role="button"
-      onClick={runToggle}
-      className={[className, 'relative no-underline'].join(' ')}
+      onClick={toggle}
+      className={[className, 'relative'].join(' ')}
       aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
     >
-      <FlipContainer
-        frontContent={(
-          <figure>
-            {artistLoading ? (
-              <Spinner className="w-4/5 h-auto mx-auto my-0" />
-            ) : (
-              artistId ? (
-                <ArtistImage pageId={fbPageId} name={artist.name} className="w-full h-auto overflow-hidden" />
-              ) : (
-                <HamburgerIcon fill={brandColors.white} className="w-full h-auto overflow-hidden" />
-              )
-            )}
-          </figure>
+      <figure className="rounded-full overflow-hidden">
+        {artistLoading ? (
+          <Spinner className="w-4/5 h-auto mx-auto my-0" />
+        ) : (
+          artistId ? (
+            <ArtistImage pageId={fbPageId} name={artist.name} className="w-full h-auto" />
+          ) : (
+            <HamburgerIcon fill={brandColors.white} className="w-full h-auto" />
+          )
         )}
-        backContent={(
-          <div className="flex justify-center items-center">
-            <CloseCircle fill={brandColors.black} className="w-4/5 h-auto" />
-          </div>
-        )}
-        containerClass="w-full relative overflow-hidden"
-        isFlipped={navOpen}
-        innerClass="pt-[100%] rounded-full"
-        frontClass={[
-          'flex justify-center items-center overflow-hidden rounded-full',
-          ! artistId && ! artistLoading ? 'bg-black rounded-full' : null,
-        ].join(' ')}
-        backClass="flex justify-center items-center overflow-hidden rounded-full border-2 border-solid border-grey-2"
-      />
+      </figure>
       <p className={[
         'hidden md:block mb-0 pt-2 text-xs text-center hover:text-green',
         globalLoading ? 'text-black' : 'text-grey-2',
       ].join(' ')}
       >
-        {navOpen ? 'close' : 'menu'}
+        menu
       </p>
       {((hasNotifactions && ! navOpen && ! artistLoading) || hasPendingEmail) && (
         <NotificationDot size="medium" className="absolute -top-1 -right-1 z-5" />
