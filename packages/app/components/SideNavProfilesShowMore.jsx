@@ -23,7 +23,7 @@ const SideNavProfilesShowMore = () => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMousLeave}
     >
-      <ChevronIcon direction="down" className="w-2" fill={isHover ? brandColors.green : brandColors.white} />
+      <ChevronIcon direction="down" fill={isHover ? brandColors.green : brandColors.white} />
     </button>
   )
 }

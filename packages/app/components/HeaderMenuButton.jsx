@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import HamburgerIcon from '@/icons/HamburgerIcon'
+import ListIcon from '@/icons/ListIcon'
 import brandColors from '@/constants/brandColors'
 
 const HeaderMenuButton = ({ toggle }) => {
@@ -26,7 +26,7 @@ const HeaderMenuButton = ({ toggle }) => {
       className="flex items-center h-8 text-white no-underline px-3 py-2 rounded-full bg-blackHover hover:text-green"
     >
       <figure className="mr-2">
-        <HamburgerIcon fill={isHover ? brandColors.green : brandColors.white} className="w-full h-auto" />
+        <ListIcon fill={isHover ? brandColors.green : brandColors.white} className="w-full h-auto" />
       </figure>
       Menu
     </button>

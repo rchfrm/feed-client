@@ -47,7 +47,7 @@ const HeaderProfileButton = ({
       className={['relative h-8 flex rounded-full bg-blackHover p-1', hasMultipleArtists ? 'pl-3 pr-1' : null].join(' ')}
     >
       {hasMultipleArtists && (
-        <ChevronIcon direction="down" className="w-2 mr-3" fill={isHover ? brandColors.green : brandColors.white} />
+        <ChevronIcon direction="down" className="mr-2" fill={isHover ? brandColors.green : brandColors.white} />
       )}
       <figure className="w-6 h-6 rounded-full overflow-hidden">
         {artistLoading ? (

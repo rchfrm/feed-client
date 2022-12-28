@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import JoystickIcon from '@/icons/JoystickIcon'
-import EmailIcon from '@/icons/EmailIcon'
-import GearIcon from '@/icons/GearIcon'
-import InsightsIcon from '@/icons/InsightsIcon'
-import StarIcon from '@/icons/StarIcon'
+import SettingsIcon from '@/icons/SettingsIcon'
+import NotificationIcon from '@/icons/NotificationIcon'
+import CreditCardIcon from '@/icons/CreditCardIcon'
+import DocumentIcon from '@/icons/DocumentIcon'
+import LogOutIcon from '@/icons/LogOutIcon'
 import brandColors from '@/constants/brandColors'
 
 const getIcon = (icon) => {
-  if (icon === 'settings') return GearIcon
-  if (icon === 'notifications') return EmailIcon
-  if (icon === 'billing') return JoystickIcon
-  if (icon === 'terms') return InsightsIcon
-  if (icon === 'signout') return StarIcon
+  if (icon === 'settings') return SettingsIcon
+  if (icon === 'notifications') return NotificationIcon
+  if (icon === 'billing') return CreditCardIcon
+  if (icon === 'terms') return DocumentIcon
+  if (icon === 'signout') return LogOutIcon
 }
 
 const SideNavLinkIcon = ({
