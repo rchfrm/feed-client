@@ -5,20 +5,16 @@ import ArtistImage from '@/elements/ArtistImage'
 import NotificationDot from '@/elements/NotificationDot'
 import HamburgerIcon from '@/icons/HamburgerIcon'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import brandColors from '@/constants/brandColors'
 
-const SubNavProfileButton = ({
-  toggleSubNav,
-  isSubNavOpen,
+const SideNavProfileButton = ({
   hasNotifications,
   className,
 }) => {
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
   const [fbPageId, setFbPageId] = React.useState('')
   const { hasPendingEmail } = React.useContext(UserContext)
-  const { globalLoading } = React.useContext(InterfaceContext)
 
   React.useEffect(() => {
     const { facebook_page_id } = artist
@@ -30,20 +26,10 @@ const SubNavProfileButton = ({
   // eslint-disable-next-line
   }, [artistId])
 
-  const toggle = () => {
-    if (artistLoading) {
-      return
-    }
-
-    toggleSubNav()
-  }
-
   return (
-    <a
-      role="button"
-      onClick={toggle}
+    <button
+      onClick={() => {}}
       className={[className, 'relative'].join(' ')}
-      aria-label={isSubNavOpen ? 'Close navigation' : 'Open navigation'}
     >
       <figure className="rounded-full overflow-hidden">
         {artistLoading ? (
@@ -56,29 +42,20 @@ const SubNavProfileButton = ({
           )
         )}
       </figure>
-      <p className={[
-        'hidden md:block mb-0 pt-2 text-xs text-center hover:text-green',
-        globalLoading ? 'text-black' : 'text-grey-2',
-      ].join(' ')}
-      >
-        menu
-      </p>
-      {((hasNotifications && ! isSubNavOpen && ! artistLoading) || hasPendingEmail) && (
+      {((hasNotifications && ! artistLoading) || hasPendingEmail) && (
         <NotificationDot size="medium" className="absolute -top-1 -right-1 z-5" />
       )}
-    </a>
+    </button>
   )
 }
 
-SubNavProfileButton.propTypes = {
-  toggleSubNav: PropTypes.func.isRequired,
-  isSubNavOpen: PropTypes.bool.isRequired,
+SideNavProfileButton.propTypes = {
   hasNotifications: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
-SubNavProfileButton.defaultProps = {
+SideNavProfileButton.defaultProps = {
   className: '',
 }
 
-export default SubNavProfileButton
+export default SideNavProfileButton

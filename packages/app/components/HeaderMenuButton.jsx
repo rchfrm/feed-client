@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import HamburgerIcon from '@/icons/HamburgerIcon'
 import brandColors from '@/constants/brandColors'
 
-const SubNavMenuButton = ({ toggleSubNav }) => {
+const HeaderMenuButton = ({ toggleSubNav }) => {
   const toggle = () => {
     toggleSubNav()
   }
@@ -21,8 +21,8 @@ const SubNavMenuButton = ({ toggleSubNav }) => {
   )
 }
 
-SubNavMenuButton.propTypes = {
+HeaderMenuButton.propTypes = {
   toggleSubNav: PropTypes.func.isRequired,
 }
 
-export default SubNavMenuButton
+export default HeaderMenuButton

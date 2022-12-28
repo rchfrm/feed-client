@@ -1,16 +1,14 @@
 import React from 'react'
-import Router, { useRouter } from 'next/router'
 import PeekElement from 'react-peek-element'
 import useBrowserStore from '@/hooks/useBrowserStore'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useNotificationsStore from '@/app/stores/notificationsStore'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import FeedLogo from '@/icons/FeedLogo'
-import SubNavMenuButton from '@/app/SubNavMenuButton'
-import SubNavProfileButton from '@/app/SubNavProfileButton'
-import SubNav from '@/app/SubNav'
-import * as ROUTES from '@/app/constants/routes'
+import LogoButton from '@/app/LogoButton'
+import HeaderMenu from '@/app/HeaderMenu'
+import HeaderMenuButton from '@/app/HeaderMenuButton'
+import SideNavProfileButton from '@/app/HeaderProfileButton'
 
 const getTotalActiveNotifications = (state) => state.totalActiveNotifications
 
@@ -19,21 +17,12 @@ const Header = () => {
 
   const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
   const isLoggedIn = useLoggedInTest()
-  const { pathname } = useRouter()
   const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
   const { artistId, artistLoading } = React.useContext(ArtistContext)
 
   React.useEffect(() => {
     toggleSubNav(false)
   }, [artistId, artistLoading, toggleSubNav])
-
-  const goHome = () => {
-    if (pathname === ROUTES.HOME) {
-      return
-    }
-
-    Router.push(ROUTES.HOME)
-  }
 
   if (artistLoading) {
     return null
@@ -54,27 +43,20 @@ const Header = () => {
       ].join(' ')}
       >
         <div className="flex items-center">
-          <a
-            onClick={goHome}
-            role="button"
-            title="home"
-            className="mr-4"
-          >
-            <FeedLogo className="w-8" id="header" />
-          </a>
-          <SubNavMenuButton
+          <LogoButton className="w-8 mr-3" id="header" />
+          <HeaderMenuButton
             toggleSubNav={toggleSubNav}
             navOpen={subNavOpen}
           />
         </div>
-        <SubNavProfileButton
+        <SideNavProfileButton
           toggleSubNav={toggleSubNav}
           isSubNavOpen={subNavOpen}
           hasNotifications={!! totalNotificationsUnread}
           className={['flex flex-col justify-center w-8 h-8 pointer-events-none'].join(' ')}
         />
       </header>
-      <SubNav
+      <HeaderMenu
         isOpen={subNavOpen && isLoggedIn}
         toggle={toggleSubNav}
         windowWidth={windowWidth}

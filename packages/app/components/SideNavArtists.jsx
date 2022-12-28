@@ -7,7 +7,7 @@ import useNotificationsStore from '@/app/stores/notificationsStore'
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
 import NotificationDot from '@/elements/NotificationDot'
-import SubNavConnectProfiles from '@/app/SubNavConnectProfiles'
+import SideNavProfilesConnectMore from '@/app/SideNavProfilesConnectMore'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
@@ -75,7 +75,7 @@ const SubNavArtists = ({ className }) => {
   }, [user])
 
   // If no artists, don't show artist links
-  if (sortedArtists.length === 1) return <SubNavConnectProfiles className="mb-5 md:mb-2" />
+  if (sortedArtists.length === 1) return <SideNavProfilesConnectMore className="mb-5 md:mb-2" />
 
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
@@ -99,7 +99,7 @@ const SubNavArtists = ({ className }) => {
           />
         )}
         <div className="mb-0 md:pt-3 md:mb-3 h4--text">
-          <SubNavConnectProfiles />
+          <SideNavProfilesConnectMore />
         </div>
       </div>
     )
@@ -149,13 +149,13 @@ const SubNavArtists = ({ className }) => {
         )}
         {sortedArtists.length > 0 && (
           <li className="md:hidden pt-3 text-lg">
-            <SubNavConnectProfiles />
+            <SideNavProfilesConnectMore />
           </li>
         )}
       </ul>
       {sortedArtists.length > 0 && (
         <div className="hidden md:block pt-5 pb-3 text-lg">
-          <SubNavConnectProfiles />
+          <SideNavProfilesConnectMore />
         </div>
       )}
     </div>
