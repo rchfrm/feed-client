@@ -66,7 +66,7 @@ const Header = () => {
         <SubNavProfileButton
           toggleSubNav={toggleSubNav}
           isSubNavOpen={subNavOpen}
-          hasNotifactions={!! totalNotificationsUnread}
+          hasNotifications={!! totalNotificationsUnread}
           className={['flex flex-col justify-center w-8 h-8 pointer-events-none'].join(' ')}
         />
       </header>

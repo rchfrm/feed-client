@@ -146,7 +146,7 @@ const SideNav = () => {
       <SubNavProfileButton
         toggleSubNav={toggleSubNav}
         isSubNavOpen={subNavOpen}
-        hasNotifactions={!! totalNotificationsUnread}
+        hasNotifications={!! totalNotificationsUnread}
         className={['flex flex-col justify-center w-10 mx-auto'].join(' ')}
       />
     </div>

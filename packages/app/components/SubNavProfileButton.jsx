@@ -12,7 +12,7 @@ import brandColors from '@/constants/brandColors'
 const SubNavProfileButton = ({
   toggleSubNav,
   isSubNavOpen,
-  hasNotifactions,
+  hasNotifications,
   className,
 }) => {
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
@@ -63,7 +63,7 @@ const SubNavProfileButton = ({
       >
         menu
       </p>
-      {((hasNotifactions && ! isSubNavOpen && ! artistLoading) || hasPendingEmail) && (
+      {((hasNotifications && ! isSubNavOpen && ! artistLoading) || hasPendingEmail) && (
         <NotificationDot size="medium" className="absolute -top-1 -right-1 z-5" />
       )}
     </a>
@@ -73,7 +73,7 @@ const SubNavProfileButton = ({
 SubNavProfileButton.propTypes = {
   toggleSubNav: PropTypes.func.isRequired,
   isSubNavOpen: PropTypes.bool.isRequired,
-  hasNotifactions: PropTypes.bool.isRequired,
+  hasNotifications: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
