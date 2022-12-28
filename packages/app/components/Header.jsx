@@ -35,6 +35,10 @@ const Header = () => {
     Router.push(ROUTES.HOME)
   }
 
+  if (artistLoading) {
+    return null
+  }
+
   return (
     <PeekElement
       usePlaceHolder
@@ -71,7 +75,7 @@ const Header = () => {
         />
       </header>
       <SubNav
-        open={subNavOpen && isLoggedIn}
+        isOpen={subNavOpen && isLoggedIn}
         toggle={toggleSubNav}
         windowWidth={windowWidth}
       />

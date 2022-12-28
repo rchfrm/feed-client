@@ -11,7 +11,7 @@ import SubNavLinks from '@/app/SubNavLinks'
 import SignOutLink from '@/app/SignOutLink'
 import brandColors from '@/constants/brandColors'
 
-const SubNav = ({ open, toggle, windowWidth }) => {
+const SubNav = ({ isOpen, toggle, windowWidth }) => {
   const contentElement = React.useRef()
   const animationType = React.useRef('')
   const animationPromise = React.useRef()
@@ -108,7 +108,7 @@ const SubNav = ({ open, toggle, windowWidth }) => {
   // Handle window resize
   const onResize = () => {
     // Reset initial position of elements
-    if (! open) {
+    if (! isOpen) {
       resetElements()
     }
   }
@@ -128,16 +128,16 @@ const SubNav = ({ open, toggle, windowWidth }) => {
   React.useEffect(() => {
     const scrollElement = document.getElementById('SubNav')
 
-    if (open) {
+    if (isOpen) {
       disableBodyScroll(scrollElement)
     } else {
       enableBodyScroll(scrollElement)
     }
-  }, [open])
+  }, [isOpen])
 
   return (
     <Transition
-      in={open}
+      in={isOpen}
       onEnter={(node) => toggleAnimation(true, node)}
       onExit={() => toggleAnimation(false)}
       onExited={(node) => setDisplay(false, node)}
@@ -187,7 +187,7 @@ const SubNav = ({ open, toggle, windowWidth }) => {
 }
 
 SubNav.propTypes = {
-  open: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
   windowWidth: PropTypes.number.isRequired,
 }

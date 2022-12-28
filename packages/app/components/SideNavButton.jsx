@@ -52,9 +52,13 @@ SideNavButton.propTypes = {
   title: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
   href: PropTypes.string.isRequired,
-  matchingHrefs: PropTypes.bool.isRequired,
+  matchingHrefs: PropTypes.array,
   isActive: PropTypes.bool.isRequired,
   shouldShowBadge: PropTypes.bool.isRequired,
+}
+
+SideNavButton.defaultProps = {
+  matchingHrefs: [],
 }
 
 export default SideNavButton
