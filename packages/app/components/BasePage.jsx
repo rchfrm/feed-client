@@ -26,7 +26,7 @@ const BasePage = ({
   children,
 }) => {
   // Get interface context
-  const { setHeader, toggleSubNav, toggleGlobalLoading } = React.useContext(InterfaceContext)
+  const { setHeader, toggleMenu, toggleGlobalLoading } = React.useContext(InterfaceContext)
   // Get user context
   const { user } = React.useContext(UserContext)
   // ON MOUNT
@@ -44,8 +44,8 @@ const BasePage = ({
   // Hide nav when page mounts
   React.useEffect(() => {
     if (mounted) return
-    toggleSubNav(false)
-  }, [toggleSubNav, mounted])
+    toggleMenu(false)
+  }, [toggleMenu, mounted])
   const { artistLoading } = React.useContext(ArtistContext)
   const controlsLoading = useControlsStore(getControlsLoading)
   React.useEffect(() => {

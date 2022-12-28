@@ -8,10 +8,10 @@ const SideNavProfilesConnectMore = () => {
       <a className={[
         'flex justify-center items-center',
         'h-12 w-full',
-        'border-b border-solid border-grey-3 text-white no-underline',
+        'border-b border-solid border-grey-3 text-white no-underline text-2xl',
       ].join(' ')}
       >
-        <strong className="text-2xl">+</strong>
+        +
       </a>
     </Link>
   )

@@ -25,16 +25,22 @@ const SideNavProfileButton = ({
       onClick={() => updateArtist(artistId)}
       className={[
         className,
-        'relative',
-        isActive ? 'border-3 border-solid border-green rounded-full' : null,
+        'relative flex justify-center items-center w-full h-20',
+        'hover:bg-blackHover',
+        isActive ? 'bg-blackHover' : null,
       ].join(' ')}
     >
-      <figure className="rounded-full overflow-hidden">
-        <ArtistImage pageId={pageId} name={name} className="w-full h-auto" />
+      <figure
+        className={[
+          'rounded-full overflow-hidden',
+          isActive ? 'border-3 border-solid border-green rounded-full' : null,
+        ].join(' ')}
+      >
+        <ArtistImage pageId={pageId} name={name} className="w-12 h-auto" />
+        {((hasNotifications && ! artistLoading) || hasPendingEmail) && (
+          <NotificationDot size="medium" className="absolute top-2 right-2 z-5" />
+        )}
       </figure>
-      {((hasNotifications && ! artistLoading) || hasPendingEmail) && (
-        <NotificationDot size="medium" className="absolute -top-1 -right-1 z-5" />
-      )}
     </button>
   )
 }

@@ -1,20 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
+import ChevronIcon from '@/icons/ChevronIcon'
 import Spinner from '@/elements/Spinner'
 import ArtistImage from '@/elements/ArtistImage'
 import NotificationDot from '@/elements/NotificationDot'
-import HamburgerIcon from '@/icons/HamburgerIcon'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { UserContext } from '@/app/contexts/UserContext'
+import { sortArtistsAlphabetically } from '@/app/helpers/artistHelpers'
 import brandColors from '@/constants/brandColors'
 
 const HeaderProfileButton = ({
   hasNotifications,
-  className,
 }) => {
+  const [isHover, setIsHover] = React.useState(false)
+  const { hasPendingEmail, user } = React.useContext(UserContext)
+  const { artists: allArtists } = user
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
   const [fbPageId, setFbPageId] = React.useState('')
-  const { hasPendingEmail } = React.useContext(UserContext)
+
+  const sortedArtists = sortArtistsAlphabetically(allArtists)
+  const hasMultipleArtists = sortedArtists.length > 1
+
+  const handleMouseEnter = () => {
+    setIsHover(true)
+  }
+
+  const handleMousLeave = () => {
+    setIsHover(false)
+  }
 
   React.useEffect(() => {
     const { facebook_page_id } = artist
@@ -29,21 +42,22 @@ const HeaderProfileButton = ({
   return (
     <button
       onClick={() => {}}
-      className={[className, 'relative'].join(' ')}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMousLeave}
+      className={['relative h-8 flex rounded-full bg-blackHover p-1', hasMultipleArtists ? 'pl-3 pr-1' : null].join(' ')}
     >
-      <figure className="rounded-full overflow-hidden">
+      {hasMultipleArtists && (
+        <ChevronIcon direction="down" className="w-2 mr-3" fill={isHover ? brandColors.green : brandColors.white} />
+      )}
+      <figure className="w-6 h-6 rounded-full overflow-hidden">
         {artistLoading ? (
           <Spinner className="w-4/5 h-auto mx-auto my-0" />
         ) : (
-          artistId ? (
-            <ArtistImage pageId={fbPageId} name={artist.name} className="w-full h-auto" />
-          ) : (
-            <HamburgerIcon fill={brandColors.white} className="w-full h-auto" />
-          )
+          <ArtistImage pageId={fbPageId} name={artist.name} className="w-6 h-6" />
         )}
       </figure>
       {((hasNotifications && ! artistLoading) || hasPendingEmail) && (
-        <NotificationDot size="medium" className="absolute -top-1 -right-1 z-5" />
+        <NotificationDot size="small" className="absolute top-0 right-0 z-5" />
       )}
     </button>
   )
@@ -51,11 +65,6 @@ const HeaderProfileButton = ({
 
 HeaderProfileButton.propTypes = {
   hasNotifications: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-}
-
-HeaderProfileButton.defaultProps = {
-  className: '',
 }
 
 export default HeaderProfileButton

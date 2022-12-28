@@ -8,7 +8,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import LogoButton from '@/app/LogoButton'
 import HeaderMenu from '@/app/HeaderMenu'
 import HeaderMenuButton from '@/app/HeaderMenuButton'
-import SideNavProfileButton from '@/app/HeaderProfileButton'
+import HeaderProfileButton from '@/app/HeaderProfileButton'
 
 const getTotalActiveNotifications = (state) => state.totalActiveNotifications
 
@@ -17,12 +17,12 @@ const Header = () => {
 
   const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
   const isLoggedIn = useLoggedInTest()
-  const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
+  const { isMenuOpen, toggleMenu } = React.useContext(InterfaceContext)
   const { artistId, artistLoading } = React.useContext(ArtistContext)
 
   React.useEffect(() => {
-    toggleSubNav(false)
-  }, [artistId, artistLoading, toggleSubNav])
+    toggleMenu(false)
+  }, [artistId, artistLoading, toggleMenu])
 
   if (artistLoading) {
     return null
@@ -32,7 +32,7 @@ const Header = () => {
     <PeekElement
       usePlaceHolder
       config={{
-        childProps: { style: { zIndex: 14, transform: subNavOpen ? 'none' : null }, className: 'peek-element' },
+        childProps: { style: { zIndex: 14, transform: isMenuOpen ? 'none' : null }, className: 'peek-element' },
       }}
     >
       <header className={[
@@ -45,20 +45,16 @@ const Header = () => {
         <div className="flex items-center">
           <LogoButton className="w-8 mr-3" id="header" />
           <HeaderMenuButton
-            toggleSubNav={toggleSubNav}
-            navOpen={subNavOpen}
+            toggle={toggleMenu}
           />
         </div>
-        <SideNavProfileButton
-          toggleSubNav={toggleSubNav}
-          isSubNavOpen={subNavOpen}
+        <HeaderProfileButton
           hasNotifications={!! totalNotificationsUnread}
-          className={['flex flex-col justify-center w-8 h-8 pointer-events-none'].join(' ')}
         />
       </header>
       <HeaderMenu
-        isOpen={subNavOpen && isLoggedIn}
-        toggle={toggleSubNav}
+        isOpen={isMenuOpen && isLoggedIn}
+        toggle={toggleMenu}
         windowWidth={windowWidth}
       />
     </PeekElement>
