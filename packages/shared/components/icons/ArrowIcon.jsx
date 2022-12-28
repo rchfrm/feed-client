@@ -52,7 +52,7 @@ ArrowIcon.defaultProps = {
   className: '',
   fill: brandColors.textColor,
   style: {},
-  direction: 'down',
+  direction: '',
 }
 
 

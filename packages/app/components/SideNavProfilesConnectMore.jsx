@@ -1,33 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Link from 'next/link'
 import * as ROUTES from '@/app/constants/routes'
 
-const SideNavProfilesConnectMore = ({ className }) => {
+const SideNavProfilesConnectMore = () => {
   return (
-    <div className={['h4--text', className].join(' ')}>
-      <p className={['mb-0'].join(' ')}>
-        <Link
-          href={{
-            pathname: ROUTES.CONNECT_ACCOUNTS,
-          }}
-        >
-          <a className="inline-flex no-underline">
-            <strong className="pr-2" style={{ transform: 'translateY(0.095rem)' }}>+ </strong>
-            <strong>connect more accounts</strong>
-          </a>
-        </Link>
-      </p>
-    </div>
+    <Link href={{ pathname: ROUTES.CONNECT_ACCOUNTS }}>
+      <a className={[
+        'flex justify-center items-center',
+        'h-12 w-full',
+        'border-b border-solid border-grey-3 text-white no-underline',
+      ].join(' ')}
+      >
+        <strong className="text-2xl">+</strong>
+      </a>
+    </Link>
   )
-}
-
-SideNavProfilesConnectMore.propTypes = {
-  className: PropTypes.string,
-}
-
-SideNavProfilesConnectMore.defaultProps = {
-  className: null,
 }
 
 export default SideNavProfilesConnectMore

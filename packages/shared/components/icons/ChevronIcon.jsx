@@ -4,18 +4,37 @@ import brandColors from '@/constants/brandColors'
 
 const { black } = brandColors
 
+const getRotation = (direction) => {
+  switch (direction) {
+    case 'down':
+      return 90
+    case 'up':
+      return -90
+    case 'left':
+      return 180
+    default:
+      return 0
+  }
+}
+
 const ChevronIcon = ({
   fill,
   className,
   style,
+  direction,
 }) => {
+  const rotation = getRotation(direction)
+
   return (
     <svg
       width="15"
       height="26"
       viewBox="0 0 15 26"
       className={className}
-      style={style}
+      style={{
+        ...style,
+        ...(rotation && { transform: `rotate(${rotation}deg)` }),
+      }}
     >
       <path
         fillRule="evenodd"
@@ -31,12 +50,14 @@ ChevronIcon.propTypes = {
   fill: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
+  direction: PropTypes.string,
 }
 
 ChevronIcon.defaultProps = {
   fill: black,
   className: '',
   style: null,
+  direction: '',
 }
 
 export default ChevronIcon
