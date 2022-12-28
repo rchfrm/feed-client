@@ -12,7 +12,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 const getTotalActiveNotifications = (state) => state.totalActiveNotifications
 
-const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }) => {
+const shouldShowBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }) => {
   if (icon === 'controls') {
     if (! hasBudget && ! missingDefaultLink) {
       return true
@@ -26,6 +26,7 @@ const showBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }
   if (icon === 'posts' && missingDefaultLink) {
     return true
   }
+
   return false
 }
 
@@ -125,7 +126,7 @@ const SideNav = () => {
       ].join(' ')}
       >
         {links.map(({ href, title, icon, matchingHrefs }) => {
-          const showBadge = showBadgeTest({ icon, hasBudget, missingDefaultLink, isSpendingPaused })
+          const shouldShowBadge = shouldShowBadgeTest({ icon, hasBudget, missingDefaultLink, isSpendingPaused })
           const isActive = testIfActive(pathname, href, matchingHrefs)
 
           return (
@@ -136,7 +137,7 @@ const SideNav = () => {
                 href={href}
                 matchingHrefs={matchingHrefs}
                 isActive={isActive}
-                showBadge={showBadge}
+                shouldShowBadge={shouldShowBadge}
               />
             </div>
           )
@@ -144,7 +145,7 @@ const SideNav = () => {
       </nav>
       <SubNavProfileButton
         toggleSubNav={toggleSubNav}
-        navOpen={subNavOpen}
+        isSubNavOpen={subNavOpen}
         hasNotifactions={!! totalNotificationsUnread}
         className={['flex flex-col justify-center w-10 mx-auto'].join(' ')}
       />

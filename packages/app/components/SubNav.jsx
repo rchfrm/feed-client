@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
@@ -183,6 +184,12 @@ const SubNav = ({ open, toggle, windowWidth }) => {
       </>
     </Transition>
   )
+}
+
+SubNav.propTypes = {
+  open: PropTypes.string.isRequired,
+  toggle: PropTypes.func.isRequired,
+  windowWidth: PropTypes.number.isRequired,
 }
 
 export default SubNav

@@ -2,7 +2,6 @@ import React from 'react'
 import Router, { useRouter } from 'next/router'
 import PeekElement from 'react-peek-element'
 import useBrowserStore from '@/hooks/useBrowserStore'
-import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useNotificationsStore from '@/app/stores/notificationsStore'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -17,18 +16,12 @@ const getTotalActiveNotifications = (state) => state.totalActiveNotifications
 
 const Header = () => {
   const { width: windowWidth } = useBrowserStore()
-  const [mobileHeader, setMobileHeader] = React.useState(null)
 
   const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
-  const isDesktopLayout = useBreakpointTest('md')
   const isLoggedIn = useLoggedInTest()
   const { pathname } = useRouter()
   const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
   const { artistId, artistLoading } = React.useContext(ArtistContext)
-
-  React.useEffect(() => {
-    setMobileHeader(! isDesktopLayout)
-  }, [isDesktopLayout])
 
   React.useEffect(() => {
     toggleSubNav(false)
@@ -40,10 +33,6 @@ const Header = () => {
     }
 
     Router.push(ROUTES.HOME)
-  }
-
-  if (typeof mobileHeader !== 'boolean') {
-    return null
   }
 
   return (
@@ -76,12 +65,11 @@ const Header = () => {
         </div>
         <SubNavProfileButton
           toggleSubNav={toggleSubNav}
-          navOpen={subNavOpen}
+          isSubNavOpen={subNavOpen}
           hasNotifactions={!! totalNotificationsUnread}
           className={['flex flex-col justify-center w-8 h-8 pointer-events-none'].join(' ')}
         />
       </header>
-
       <SubNav
         open={subNavOpen && isLoggedIn}
         toggle={toggleSubNav}

@@ -1,8 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SideNavButtonIcon from '@/app/SideNavButtonIcon'
 import ActiveLink from '@/elements/ActiveLink'
 
-const SideNavButton = ({ title, icon, href, matchingHrefs, isActive, showBadge }) => {
+const SideNavButton = ({
+  title,
+  icon,
+  href,
+  matchingHrefs,
+  isActive,
+  shouldShowBadge,
+}) => {
   const [isHover, setIsHover] = React.useState(false)
 
   const handleMouseEnter = () => {
@@ -28,16 +36,25 @@ const SideNavButton = ({ title, icon, href, matchingHrefs, isActive, showBadge }
         >
           <SideNavButtonIcon
             icon={icon}
-            className="flex justify-center items-end my-0 mx-auto w-6 h-6 my-1"
-            showBadge={showBadge}
+            shouldShowBadge={shouldShowBadge}
             isActive={isActive}
             isHover={isHover}
+            className="flex justify-center items-end my-0 mx-auto w-6 h-6 my-1"
           />
           <p className="mb-0">{ title }</p>
         </a>
       </ActiveLink>
     </div>
   )
+}
+
+SideNavButton.propTypes = {
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+  href: PropTypes.string.isRequired,
+  matchingHrefs: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  shouldShowBadge: PropTypes.bool.isRequired,
 }
 
 export default SideNavButton

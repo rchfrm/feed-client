@@ -11,7 +11,7 @@ import brandColors from '@/constants/brandColors'
 
 const SubNavProfileButton = ({
   toggleSubNav,
-  navOpen,
+  isSubNavOpen,
   hasNotifactions,
   className,
 }) => {
@@ -22,7 +22,10 @@ const SubNavProfileButton = ({
 
   React.useEffect(() => {
     const { facebook_page_id } = artist
-    if (! artistId || ! facebook_page_id) return
+    if (! artistId || ! facebook_page_id) {
+      return
+    }
+
     setFbPageId(facebook_page_id)
   // eslint-disable-next-line
   }, [artistId])
@@ -31,6 +34,7 @@ const SubNavProfileButton = ({
     if (artistLoading) {
       return
     }
+
     toggleSubNav()
   }
 
@@ -39,7 +43,7 @@ const SubNavProfileButton = ({
       role="button"
       onClick={toggle}
       className={[className, 'relative'].join(' ')}
-      aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
+      aria-label={isSubNavOpen ? 'Close navigation' : 'Open navigation'}
     >
       <figure className="rounded-full overflow-hidden">
         {artistLoading ? (
@@ -59,7 +63,7 @@ const SubNavProfileButton = ({
       >
         menu
       </p>
-      {((hasNotifactions && ! navOpen && ! artistLoading) || hasPendingEmail) && (
+      {((hasNotifactions && ! isSubNavOpen && ! artistLoading) || hasPendingEmail) && (
         <NotificationDot size="medium" className="absolute -top-1 -right-1 z-5" />
       )}
     </a>
@@ -68,7 +72,7 @@ const SubNavProfileButton = ({
 
 SubNavProfileButton.propTypes = {
   toggleSubNav: PropTypes.func.isRequired,
-  navOpen: PropTypes.bool.isRequired,
+  isSubNavOpen: PropTypes.bool.isRequired,
   hasNotifactions: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }

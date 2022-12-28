@@ -16,12 +16,18 @@ const getIcon = (icon) => {
   if (icon === 'faqs') return FaqIcon
 }
 
-const SideNavButtonIcon = ({ icon, className, showBadge, isActive, isHover }) => {
+const SideNavButtonIcon = ({
+  icon,
+  isActive,
+  isHover,
+  shouldShowBadge,
+  className,
+}) => {
   const Icon = getIcon(icon, isActive)
 
   return (
     <>
-      {showBadge && <NotificationDot style={{ top: '-0.3rem', right: '0.3rem' }} />}
+      {shouldShowBadge && <NotificationDot style={{ top: '-0.3rem', right: '0.3rem' }} />}
       <figure
         className={className}
       >
@@ -36,13 +42,15 @@ const SideNavButtonIcon = ({ icon, className, showBadge, isActive, isHover }) =>
 
 SideNavButtonIcon.propTypes = {
   icon: PropTypes.string.isRequired,
+  shouldShowBadge: PropTypes.bool,
+  isActive: PropTypes.bool.isRequired,
+  isHover: PropTypes.bool.isRequired,
   className: PropTypes.string,
-  showBadge: PropTypes.bool,
 }
 
 SideNavButtonIcon.defaultProps = {
   className: '',
-  showBadge: false,
+  shouldShowBadge: false,
 }
 
 export default SideNavButtonIcon
