@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import SideNavProfileButton from '@/app/SideNavProfileButton'
+import ProfileButton from '@/app/ProfileButton'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
-const SideNavProfiles = ({ artistsWithNotifications }) => {
+const SideNavProfileButtons = ({ artistsWithNotifications }) => {
   const { user } = React.useContext(UserContext)
   const { artists: allArtists } = user
   const { artistId, artistLoading } = React.useContext(ArtistContext)
@@ -17,7 +17,7 @@ const SideNavProfiles = ({ artistsWithNotifications }) => {
       const hasNotification = artistsWithNotifications.includes(id)
 
       return (
-        <SideNavProfileButton
+        <ProfileButton
           key={id}
           name={name}
           pageId={facebook_page_id}
@@ -30,8 +30,8 @@ const SideNavProfiles = ({ artistsWithNotifications }) => {
   )
 }
 
-SideNavProfiles.propTypes = {
+SideNavProfileButtons.propTypes = {
   artistsWithNotifications: PropTypes.array.isRequired,
 }
 
-export default SideNavProfiles
+export default SideNavProfileButtons

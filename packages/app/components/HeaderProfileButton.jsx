@@ -11,6 +11,8 @@ import brandColors from '@/constants/brandColors'
 
 const HeaderProfileButton = ({
   hasNotifications,
+  shouldShowMore,
+  setShouldShowMore,
 }) => {
   const [isHover, setIsHover] = React.useState(false)
   const { hasPendingEmail, user } = React.useContext(UserContext)
@@ -29,6 +31,10 @@ const HeaderProfileButton = ({
     setIsHover(false)
   }
 
+  const handleClick = () => {
+    setShouldShowMore((shouldShowMore) => ! shouldShowMore)
+  }
+
   React.useEffect(() => {
     const { facebook_page_id } = artist
     if (! artistId || ! facebook_page_id) {
@@ -41,13 +47,17 @@ const HeaderProfileButton = ({
 
   return (
     <button
-      onClick={() => {}}
+      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMousLeave}
       className={['relative h-8 flex rounded-full bg-anthracite p-1', hasMultipleArtists ? 'pl-3 pr-1' : null].join(' ')}
     >
       {hasMultipleArtists && (
-        <ChevronIcon direction="down" className="mr-2" fill={isHover ? brandColors.green : brandColors.white} />
+        <ChevronIcon
+          direction={shouldShowMore ? 'up' : 'down'}
+          className="mr-2"
+          fill={isHover ? brandColors.green : brandColors.white}
+        />
       )}
       <figure className="w-6 h-6 rounded-full overflow-hidden">
         {artistLoading ? (
@@ -65,6 +75,8 @@ const HeaderProfileButton = ({
 
 HeaderProfileButton.propTypes = {
   hasNotifications: PropTypes.bool.isRequired,
+  shouldShowMore: PropTypes.bool.isRequired,
+  setShouldShowMore: PropTypes.func.isRequired,
 }
 
 export default HeaderProfileButton

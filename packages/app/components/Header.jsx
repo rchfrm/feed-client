@@ -9,13 +9,18 @@ import LogoButton from '@/app/LogoButton'
 import HeaderMenu from '@/app/HeaderMenu'
 import HeaderMenuButton from '@/app/HeaderMenuButton'
 import HeaderProfileButton from '@/app/HeaderProfileButton'
+import ProfilesList from '@/app/ProfilesList'
 
-const getTotalActiveNotifications = (state) => state.totalActiveNotifications
+const getNotificationsStoreState = (state) => ({
+  totalActiveNotifications: state.totalActiveNotifications,
+  artistsWithNotifications: state.artistsWithNotifications,
+})
 
 const Header = () => {
+  const [shouldShowMore, setShouldShowMore] = React.useState(false)
   const { width: windowWidth } = useBrowserStore()
 
-  const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
+  const { totalActiveNotifications, artistsWithNotifications } = useNotificationsStore(getNotificationsStoreState)
   const isLoggedIn = useLoggedInTest()
   const { isMenuOpen, toggleMenu } = React.useContext(InterfaceContext)
   const { artistId, artistLoading } = React.useContext(ArtistContext)
@@ -49,8 +54,18 @@ const Header = () => {
           />
         </div>
         <HeaderProfileButton
-          hasNotifications={!! totalNotificationsUnread}
+          hasNotifications={!! totalActiveNotifications}
+          shouldShowMore={shouldShowMore}
+          setShouldShowMore={setShouldShowMore}
         />
+        {shouldShowMore && (
+          <ProfilesList
+            artistsWithNotifications={artistsWithNotifications}
+            shouldShowMore={shouldShowMore}
+            setShouldShowMore={setShouldShowMore}
+            className="top-20 right-6"
+          />
+        )}
       </header>
       <HeaderMenu
         isOpen={isMenuOpen && isLoggedIn}
