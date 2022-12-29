@@ -44,7 +44,7 @@ const HeaderProfileButton = ({
       onClick={() => {}}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMousLeave}
-      className={['relative h-8 flex rounded-full bg-blackHover p-1', hasMultipleArtists ? 'pl-3 pr-1' : null].join(' ')}
+      className={['relative h-8 flex rounded-full bg-anthracite p-1', hasMultipleArtists ? 'pl-3 pr-1' : null].join(' ')}
     >
       {hasMultipleArtists && (
         <ChevronIcon direction="down" className="mr-2" fill={isHover ? brandColors.green : brandColors.white} />

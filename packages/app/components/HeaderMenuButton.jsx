@@ -23,7 +23,7 @@ const HeaderMenuButton = ({ toggle }) => {
       onClick={toggleMenu}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMousLeave}
-      className="flex items-center h-8 text-white no-underline px-3 py-2 rounded-full bg-blackHover hover:text-green"
+      className="flex items-center h-8 text-white no-underline px-3 py-2 rounded-full bg-anthracite hover:text-green"
     >
       <figure className="mr-2">
         <ListIcon fill={isHover ? brandColors.green : brandColors.white} className="w-full h-auto" />

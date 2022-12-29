@@ -26,8 +26,8 @@ const SideNavProfileButton = ({
       className={[
         className,
         'relative flex justify-center items-center w-full h-20',
-        'hover:bg-blackHover',
-        isActive ? 'bg-blackHover' : null,
+        'hover:bg-anthracite',
+        isActive ? 'bg-anthracite' : null,
       ].join(' ')}
     >
       <figure

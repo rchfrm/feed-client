@@ -5,7 +5,7 @@ import { Transition } from 'react-transition-group'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import useSwipeDismiss from '@/hooks/useSwipeDismiss'
 import FullHeight from '@/elements/FullHeight'
-import CloseCircle from '@/icons/CloseCircle'
+import CrossIcon from '@/icons/CrossIcon'
 import HeaderMenuLinks from '@/app/HeaderMenuLinks'
 import brandColors from '@/constants/brandColors'
 
@@ -13,6 +13,7 @@ const HeaderMenu = ({ isOpen, toggle, windowWidth }) => {
   const containerElement = React.useRef(null)
   const contentElement = React.useRef(null)
   const backGroundElement = React.useRef(null)
+  const closeButtonElement = React.useRef(null)
   const animationPromise = React.useRef(null)
 
   // Initial animation
@@ -42,7 +43,7 @@ const HeaderMenu = ({ isOpen, toggle, windowWidth }) => {
     const duration = state ? 0.4 : 0
 
     // Fade in content
-    return gsap.to(contentElement.current, { opacity, y: 0, duration, delay, ease: Power1.easeOut })
+    return gsap.to([contentElement.current, closeButtonElement.current], { opacity, y: 0, duration, delay, ease: Power1.easeOut })
   }
 
   // Reset background element after animation
@@ -133,8 +134,12 @@ const HeaderMenu = ({ isOpen, toggle, windowWidth }) => {
           ].join(' ')}
           ref={containerElement}
         >
-          <button onClick={toggle}>
-            <CloseCircle className="absolute top-20 -right-[22px] md:-right-[86px] w-12 h-12" fill={brandColors.blackHover} />
+          <button
+            onClick={toggle}
+            className="absolute top-20 -right-[22px] flex justify-center items-center w-12 h-12 bg-anthracite rounded-full"
+            ref={closeButtonElement}
+          >
+            <CrossIcon className="w-8 h-8" fill={brandColors.white} />
           </button>
           <div
             id="navContent"
