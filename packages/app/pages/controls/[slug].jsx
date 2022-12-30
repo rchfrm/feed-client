@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { useRouter } from 'next/router'
-
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 import ControlsContent from '@/app/ControlsContent'
@@ -20,6 +18,7 @@ const Page = () => {
       artistRequired
       controlsRequired
       hasNoProfilesPage
+      hasPrimaryLinks
     >
       <ControlsContent slug={slug} />
     </BasePage>

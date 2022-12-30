@@ -10,6 +10,7 @@ const Page = () => (
   <BasePage
     headerConfig={headerConfig}
     artistRequired
+    hasPrimaryLinks
   >
     <InsightsContent />
   </BasePage>

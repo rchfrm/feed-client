@@ -13,6 +13,7 @@ const Page = ({ allDummyPosts }) => (
     headerConfig={headerConfig}
     artistRequired
     hasNoProfilesPage
+    hasPrimaryLinks
   >
     <Posts dummyPostsImages={allDummyPosts} />
   </BasePage>
