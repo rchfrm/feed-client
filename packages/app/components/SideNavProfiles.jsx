@@ -37,6 +37,7 @@ const SideNavProfiles = () => {
             artistId={artistId}
             hasNotifications={!! totalActiveNotifications}
             isActive
+            hasSpinner
           />
           <div className="px-4" ref={containerRef}>
             <SideNavProfilesShowMore shouldShowMore={shouldShowMore} setShouldShowMore={setShouldShowMore} />

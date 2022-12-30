@@ -4,6 +4,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import ArtistImage from '@/elements/ArtistImage'
 import NotificationDot from '@/elements/NotificationDot'
+import Spinner from '@/elements/Spinner'
 
 const ProfileButton = ({
   name,
@@ -13,6 +14,7 @@ const ProfileButton = ({
   isActive,
   isExpanded,
   isLast,
+  hasSpinner,
   setShouldShowMore,
   className,
 }) => {
@@ -44,10 +46,14 @@ const ProfileButton = ({
         <figure
           className={[
             'rounded-full overflow-hidden flex-shrink-0',
-            isActive ? 'border-3 border-solid border-green rounded-full' : null,
+            isActive && ! artistLoading ? 'border-3 border-solid border-green rounded-full' : null,
           ].join(' ')}
         >
-          <ArtistImage pageId={pageId} name={name} className={[isExpanded ? 'w-6 h-6' : 'w-12 h-12'].join(' ')} />
+          {artistLoading && hasSpinner ? (
+            <Spinner className="w-4/5 h-auto mx-auto my-0" />
+          ) : (
+            <ArtistImage pageId={pageId} name={name} className={[isExpanded ? 'w-6 h-6' : 'w-12 h-12'].join(' ')} />
+          )}
           {((hasNotifications && ! artistLoading) || hasPendingEmail) && (
             <NotificationDot
               size={isExpanded ? 'small' : 'medium'}
@@ -75,6 +81,7 @@ ProfileButton.propTypes = {
   isExpanded: PropTypes.bool,
   isLast: PropTypes.bool,
   setShouldShowMore: PropTypes.func,
+  hasSpinner: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -85,6 +92,7 @@ ProfileButton.defaultProps = {
   isExpanded: false,
   isLast: false,
   setShouldShowMore: () => {},
+  hasSpinner: false,
   className: '',
 }
 

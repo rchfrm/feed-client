@@ -49,7 +49,7 @@ const ProfilesList = ({
   }, [shouldShowMore])
 
   React.useEffect(() => {
-    setProfiles(sortedArtists.filter((profile) => profile.name.toLowerCase().includes(searchValue)))
+    setProfiles(sortedArtists.filter((profile) => profile.name.toLowerCase().includes(searchValue.toLowerCase())))
   }, [searchValue, sortedArtists])
 
   if (! profiles.length && ! searchValue) {
@@ -69,13 +69,18 @@ const ProfilesList = ({
       <div
         className={[
           'w-[200px] py-2',
-          'overflow-y-scroll bg-black rounded-dialogue',
-          isDesktopLayout ? 'max-h-[90vh]' : 'max-h-[80vh]',
+          'bg-black rounded-dialogue',
         ].join(' ')}
         ref={containerRef}
       >
         <ProfilesListSearch value={searchValue} setValue={setSearchValue} />
-        <div className="mt-2">
+        <div
+          className={[
+            'mt-2',
+            'overflow-y-scroll bg-black',
+            isDesktopLayout ? 'max-h-[85vh]' : 'max-h-[75vh]',
+          ].join(' ')}
+        >
           {profiles.map(({ id, name, facebook_page_id }, index) => {
             const hasNotification = artistsWithNotifications.includes(id)
             const isLast = index + 1 === profiles.length

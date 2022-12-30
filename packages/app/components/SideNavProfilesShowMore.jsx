@@ -29,7 +29,7 @@ const SideNavProfilesShowMore = ({ shouldShowMore, setShouldShowMore }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMousLeave}
     >
-      <ChevronIcon direction={shouldShowMore ? 'up' : 'down'} fill={isHover ? brandColors.green : brandColors.grey} />
+      <ChevronIcon direction={shouldShowMore ? 'up' : 'down'} fill={isHover || shouldShowMore ? brandColors.green : brandColors.grey} />
     </button>
   )
 }

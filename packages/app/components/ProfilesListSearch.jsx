@@ -17,7 +17,7 @@ const ProfilesListSearch = ({ value, setValue }) => {
         placeholder="Search"
         value={value}
         handleChange={handleChange}
-        className="mb-0 bg-white"
+        className="mb-0 bg-white rounded-[10px]"
       />
     </div>
   )

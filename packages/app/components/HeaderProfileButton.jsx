@@ -56,12 +56,12 @@ const HeaderProfileButton = ({
         <ChevronIcon
           direction={shouldShowMore ? 'up' : 'down'}
           className="mr-2"
-          fill={isHover ? brandColors.green : brandColors.white}
+          fill={isHover || shouldShowMore ? brandColors.green : brandColors.white}
         />
       )}
       <figure className="w-6 h-6 rounded-full overflow-hidden">
         {artistLoading ? (
-          <Spinner className="w-4/5 h-auto mx-auto my-0" />
+          <Spinner />
         ) : (
           <ArtistImage pageId={fbPageId} name={artist.name} className="w-6 h-6" />
         )}
