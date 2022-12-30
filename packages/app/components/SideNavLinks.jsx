@@ -4,13 +4,17 @@ import useSignOut from '@/app/hooks/useSignOut'
 import SideNavLink from '@/app/SideNavLink'
 import { secondaryLinks } from '@/app/helpers/navHelpers'
 
-const SideNavLinks = () => {
+const SideNavLinks = ({ isExpanded }) => {
   const { pathname } = useRouter()
   const signOut = useSignOut()
 
   return (
-    <nav className="flex flex-col justify-between items-center">
-      {secondaryLinks.map(({ href, icon, isSignOut, isExternal, isMobile }) => {
+    <nav className={[
+      'flex flex-col px-4',
+      isExpanded ? null : 'items-center',
+    ].join(' ')}
+    >
+      {secondaryLinks.map(({ href, icon, title, isSignOut, isExternal, isMobile }) => {
         const isActive = pathname === href
         if (isMobile) {
           return
@@ -19,11 +23,13 @@ const SideNavLinks = () => {
         return (
           <div className={['text-xs text-center mb-4 w-10'].join(' ')} key={icon}>
             <SideNavLink
-              icon={icon}
               href={href}
+              icon={icon}
+              title={title}
               action={isSignOut ? signOut : null}
               isActive={isActive}
               isExternal={isExternal}
+              isExpanded={isExpanded}
             />
           </div>
         )

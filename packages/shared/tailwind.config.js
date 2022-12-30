@@ -100,4 +100,5 @@ module.exports = (contentFiles) => ({
   plugins: [
     lineClampPlugin,
   ],
+  important: '#container',
 })

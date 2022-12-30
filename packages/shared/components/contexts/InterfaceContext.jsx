@@ -6,6 +6,7 @@ import { subPages } from '@/app/constants/routes'
 
 const initialState = {
   isMenuOpen: false,
+  isNavExpanded: false,
   header: {
     visible: true,
     text: '',
@@ -23,6 +24,7 @@ const initialContext = {
   toggleGlobalLoadingSpinner: () => {},
   // Getters
   isMenuOpen: initialState.isMenuOpen,
+  isNavExpanded: initialState.isNavExpanded,
   header: initialState.header,
   globalLoading: initialState.globalLoading,
   showSpinner: initialState.showSpinner,
@@ -41,6 +43,9 @@ const reducer = (draftState, action) => {
   switch (actionType) {
     case 'toggleMenu':
       draftState.isMenuOpen = typeof payload.state === 'boolean' ? payload.state : ! draftState.isMenuOpen
+      break
+    case 'toggleNav':
+      draftState.isNavExpanded = typeof payload.state === 'boolean' ? payload.state : ! draftState.isNavExpanded
       break
     case 'toggleGlobalLoading':
       draftState.globalLoading = typeof payload.state === 'boolean' ? payload.state : ! draftState.globalLoading
@@ -62,10 +67,14 @@ const reducer = (draftState, action) => {
 
 const InterfaceContextProvider = ({ children }) => {
   const [interfaceState, setInterfaceState] = useImmerReducer(reducer, initialState)
-  const { isMenuOpen, header, globalLoading, showSpinner, routeChanging } = interfaceState
+  const { isMenuOpen, isNavExpanded, header, globalLoading, showSpinner, routeChanging } = interfaceState
 
   const toggleMenu = React.useCallback((state) => {
     setInterfaceState({ type: 'toggleMenu', payload: { state } })
+  }, [setInterfaceState])
+
+  const toggleNav = React.useCallback((state) => {
+    setInterfaceState({ type: 'toggleNav', payload: { state } })
   }, [setInterfaceState])
 
   const setHeader = React.useCallback(({ visible, text }) => {
@@ -138,6 +147,7 @@ const InterfaceContextProvider = ({ children }) => {
       value={{
         // Setters
         toggleMenu,
+        toggleNav,
         setHeader,
         toggleGlobalLoading,
         toggleGlobalLoadingSpinner,
@@ -146,6 +156,7 @@ const InterfaceContextProvider = ({ children }) => {
         globalLoading,
         showSpinner,
         isMenuOpen,
+        isNavExpanded,
         header,
         routeChanging,
       }}

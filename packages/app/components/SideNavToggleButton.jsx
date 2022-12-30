@@ -2,7 +2,7 @@ import React from 'react'
 import ChevronDoubleIcon from '@/icons/ChevronDoubleIcon'
 import brandColors from '@/constants/brandColors'
 
-const SideNavToggleButton = ({ isExpanded, setIsExpanded }) => {
+const SideNavToggleButton = ({ isExpanded, toggleNav }) => {
   const [isHover, setIsHover] = React.useState(false)
 
   const handleMouseEnter = () => {
@@ -14,7 +14,7 @@ const SideNavToggleButton = ({ isExpanded, setIsExpanded }) => {
   }
 
   const handleClick = () => {
-    setIsExpanded((isExpanded) => setIsExpanded(! isExpanded))
+    toggleNav()
   }
 
   return (

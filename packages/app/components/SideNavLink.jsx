@@ -4,11 +4,13 @@ import SideNavLinkIcon from '@/app/SideNavLinkIcon'
 import ActiveLink from '@/elements/ActiveLink'
 
 const SideNavLink = ({
-  icon,
   href,
+  icon,
+  title,
   action,
   isActive,
   isExternal,
+  isExpanded,
 }) => {
   const [isHover, setIsHover] = React.useState(false)
 
@@ -29,7 +31,7 @@ const SideNavLink = ({
         <ActiveLink href={href} activeClass="text-green">
           <a
             className={[
-              'relative no-underline',
+              'flex items-center relative no-underline',
             ].join(' ')}
             target={isExternal ? '_blank' : ''}
           >
@@ -39,12 +41,21 @@ const SideNavLink = ({
               isHover={isHover}
               className="flex justify-center items-end my-0 mx-auto w-6 h-6 my-1"
             />
+            {isExpanded && (
+              <p className={[
+                'ml-2 mb-0',
+                isActive || isHover ? 'text-green' : 'text-grey-2',
+              ].join(' ')}
+              >
+                {title}
+              </p>
+            )}
           </a>
         </ActiveLink>
       ) : (
         <button
           onClick={action}
-          className="relative hover:text-green"
+          className="flex mx-auto items-center relative hover:text-green"
         >
           <SideNavLinkIcon
             icon={icon}
@@ -52,6 +63,15 @@ const SideNavLink = ({
             isHover={isHover}
             className="flex justify-center items-end my-0 mx-auto w-6 h-6 my-1"
           />
+          {isExpanded && (
+            <p className={[
+              'ml-2 mb-0 flex-shrink-0',
+              isActive || isHover ? 'text-green' : 'text-grey-2',
+            ].join(' ')}
+            >
+                {title}
+            </p>
+          )}
         </button>
       )}
     </div>

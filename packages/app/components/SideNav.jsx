@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { UserContext } from '@/app/contexts/UserContext'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import LogoButton from '@/app/LogoButton'
 import SideNavProfiles from '@/app/SideNavProfiles'
@@ -9,11 +10,12 @@ import SideNavToggleButton from '@/app/SideNavToggleButton'
 import * as ROUTES from '@/app/constants/routes'
 
 const SideNav = () => {
-  const [isExpanded, setIsExpanded] = React.useState(false)
+  // const [isExpanded, setIsExpanded] = React.useState(false)
   const isLoggedIn = useLoggedInTest()
   const { user } = React.useContext(UserContext)
   const { pathname } = useRouter()
   const isGetStartedPage = pathname === ROUTES.GET_STARTED
+  const { isNavExpanded, toggleNav } = React.useContext(InterfaceContext)
 
   if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage) {
     return null
@@ -23,19 +25,23 @@ const SideNav = () => {
     <div
       className={[
         'hidden md:flex flex-col justify-between',
-        'fixed top-0 left-0 bottom-0 z-[22] w-20',
+        'fixed top-0 left-0 bottom-0 z-[22]',
+        isNavExpanded ? 'w-[200px]' : 'w-20',
+        'md:transition-all md:duration-500',
         'bg-black',
       ].join(' ')}
     >
       <div>
         <SideNavToggleButton
-          isExpanded={isExpanded}
-          setIsExpanded={setIsExpanded}
+          isExpanded={isNavExpanded}
+          toggleNav={toggleNav}
         />
         <LogoButton className="w-full h-20" id="sideNav" />
-        <SideNavProfiles />
+        <SideNavProfiles
+          isExpanded={isNavExpanded}
+        />
       </div>
-      <SideNavLinks />
+      <SideNavLinks isExpanded={isNavExpanded} />
     </div>
   )
 }

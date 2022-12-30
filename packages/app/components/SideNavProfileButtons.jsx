@@ -5,7 +5,10 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ProfileButton from '@/app/ProfileButton'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
-const SideNavProfileButtons = ({ artistsWithNotifications }) => {
+const SideNavProfileButtons = ({
+  artistsWithNotifications,
+  isExpanded,
+}) => {
   const { user } = React.useContext(UserContext)
   const { artists: allArtists } = user
   const { artistId, artistLoading } = React.useContext(ArtistContext)
@@ -24,6 +27,7 @@ const SideNavProfileButtons = ({ artistsWithNotifications }) => {
           artistId={id}
           hasNotifications={hasNotification}
           isActive={isActive}
+          isExpanded={isExpanded}
         />
       )
     })

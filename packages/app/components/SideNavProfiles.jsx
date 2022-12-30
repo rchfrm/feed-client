@@ -14,7 +14,7 @@ const getNotificationsStoreState = (state) => ({
   artistsWithNotifications: state.artistsWithNotifications,
 })
 
-const SideNavProfiles = () => {
+const SideNavProfiles = ({ isExpanded }) => {
   const [shouldShowMore, setShouldShowMore] = React.useState(false)
 
   const { user } = React.useContext(UserContext)
@@ -28,7 +28,10 @@ const SideNavProfiles = () => {
   return (
     <>
       {sortedArtists.length <= maxProfiles ? (
-        <SideNavProfileButtons artistsWithNotifications={artistsWithNotifications} />
+        <SideNavProfileButtons
+          artistsWithNotifications={artistsWithNotifications}
+          isExpanded={isExpanded}
+        />
       ) : (
         <>
           <ProfileButton
@@ -37,10 +40,15 @@ const SideNavProfiles = () => {
             artistId={artistId}
             hasNotifications={!! totalActiveNotifications}
             isActive
+            isExpanded={isExpanded}
             hasSpinner
           />
           <div className="px-4" ref={containerRef}>
-            <SideNavProfilesShowMore shouldShowMore={shouldShowMore} setShouldShowMore={setShouldShowMore} />
+            <SideNavProfilesShowMore
+              shouldShowMore={shouldShowMore}
+              setShouldShowMore={setShouldShowMore}
+              isExpanded={isExpanded}
+            />
             {shouldShowMore && (
               <SideNavProfilesList
                 artistsWithNotifications={artistsWithNotifications}
@@ -53,7 +61,9 @@ const SideNavProfiles = () => {
         </>
       )}
       <div className="px-4">
-        <SideNavProfilesConnectMore />
+        <SideNavProfilesConnectMore
+          isExpanded={isExpanded}
+        />
       </div>
     </>
   )
