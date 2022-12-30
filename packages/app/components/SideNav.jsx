@@ -5,9 +5,11 @@ import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import LogoButton from '@/app/LogoButton'
 import SideNavProfiles from '@/app/SideNavProfiles'
 import SideNavLinks from '@/app/SideNavLinks'
+import SideNavToggleButton from '@/app/SideNavToggleButton'
 import * as ROUTES from '@/app/constants/routes'
 
 const SideNav = () => {
+  const [isExpanded, setIsExpanded] = React.useState(false)
   const isLoggedIn = useLoggedInTest()
   const { user } = React.useContext(UserContext)
   const { pathname } = useRouter()
@@ -26,6 +28,10 @@ const SideNav = () => {
       ].join(' ')}
     >
       <div>
+        <SideNavToggleButton
+          isExpanded={isExpanded}
+          setIsExpanded={setIsExpanded}
+        />
         <LogoButton className="w-full h-20" id="sideNav" />
         <SideNavProfiles />
       </div>
