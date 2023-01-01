@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ChevronDoubleIcon from '@/icons/ChevronDoubleIcon'
 import brandColors from '@/constants/brandColors'
 
@@ -32,6 +33,11 @@ const SideNavToggleButton = ({ isExpanded, toggleNav }) => {
       />
     </button>
   )
+}
+
+SideNavToggleButton.propTypes = {
+  isExpanded: PropTypes.bool.isRequired,
+  toggleNav: PropTypes.func.isRequired,
 }
 
 export default SideNavToggleButton

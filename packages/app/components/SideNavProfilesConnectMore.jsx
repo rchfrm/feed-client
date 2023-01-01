@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Link from 'next/link'
 import * as ROUTES from '@/app/constants/routes'
 
@@ -20,6 +21,10 @@ const SideNavProfilesConnectMore = ({ isExpanded }) => {
       </a>
     </Link>
   )
+}
+
+SideNavProfilesConnectMore.propTypes = {
+  isExpanded: PropTypes.bool.isRequired,
 }
 
 export default SideNavProfilesConnectMore

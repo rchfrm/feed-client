@@ -36,6 +36,7 @@ const SideNavProfileButtons = ({
 
 SideNavProfileButtons.propTypes = {
   artistsWithNotifications: PropTypes.array.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
 }
 
 export default SideNavProfileButtons

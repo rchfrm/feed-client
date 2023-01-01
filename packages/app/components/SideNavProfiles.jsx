@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useNotificationsStore from '@/app/stores/notificationsStore'
@@ -67,6 +68,10 @@ const SideNavProfiles = ({ isExpanded }) => {
       </div>
     </>
   )
+}
+
+SideNavProfiles.propTypes = {
+  isExpanded: PropTypes.bool.isRequired,
 }
 
 export default SideNavProfiles

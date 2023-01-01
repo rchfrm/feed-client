@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import useSignOut from '@/app/hooks/useSignOut'
 import SideNavLink from '@/app/SideNavLink'
@@ -36,6 +37,10 @@ const SideNavLinks = ({ isExpanded }) => {
       })}
     </nav>
   )
+}
+
+SideNavLinks.propTypes = {
+  isExpanded: PropTypes.bool.isRequired,
 }
 
 export default SideNavLinks

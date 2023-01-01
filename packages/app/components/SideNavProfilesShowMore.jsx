@@ -46,6 +46,7 @@ const SideNavProfilesShowMore = ({
 SideNavProfilesShowMore.propTypes = {
   shouldShowMore: PropTypes.bool.isRequired,
   setShouldShowMore: PropTypes.func.isRequired,
+  isExpanded: PropTypes.bool.isRequired,
 }
 
 export default SideNavProfilesShowMore
