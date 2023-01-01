@@ -31,7 +31,7 @@ const ProfileButton = ({
       onClick={updateArtist}
       className={[
         className,
-        'relative',
+        'relative transition-width duration-500',
         'hover:bg-anthracite hover:text-green text-grey-2 -mt-[1px]',
         isExpanded ? 'w-full h-12 px-4' : 'w-20 h-20 justify-center',
         isActive ? 'bg-anthracite' : null,
@@ -64,9 +64,14 @@ const ProfileButton = ({
             />
           )}
         </figure>
-        {isExpanded && (
-          <p className="ml-2 mb-0 text-left line-clamp-2 break-word">{name}</p>
-        )}
+        <p
+          className={[
+            'mb-0 text-left line-clamp-2 break-word transition-opacity',
+            isExpanded ? 'opacity-1 w-auto delay-300 ml-2' : 'opacity-0 w-0 mr-0',
+          ].join(' ')}
+        >
+          {name}
+        </p>
       </div>
     </button>
   )

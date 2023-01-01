@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useHover from '@/app/hooks/useHover'
 import SideNavLinkIcon from '@/app/SideNavLinkIcon'
 import ActiveLink from '@/elements/ActiveLink'
 
@@ -12,21 +13,10 @@ const SideNavLink = ({
   isExternal,
   isExpanded,
 }) => {
-  const [isHover, setIsHover] = React.useState(false)
-
-  const handleMouseEnter = () => {
-    setIsHover(true)
-  }
-
-  const handleMousLeave = () => {
-    setIsHover(false)
-  }
+  const [hoverRef, isHover] = useHover()
 
   return (
-    <div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMousLeave}
-    >
+    <div ref={hoverRef}>
       {href ? (
         <ActiveLink href={href} activeClass="text-green">
           <a
@@ -41,15 +31,14 @@ const SideNavLink = ({
               isHover={isHover}
               className="flex justify-center items-end my-0 mx-auto w-6 h-6 my-1"
             />
-            {isExpanded && (
-              <p className={[
-                'ml-2 mb-0',
-                isActive || isHover ? 'text-green' : 'text-grey-2',
-              ].join(' ')}
-              >
-                {title}
-              </p>
-            )}
+            <p className={[
+              'ml-2 mb-0 transition-opacity',
+              isActive || isHover ? 'text-green' : 'text-grey-2',
+              isExpanded ? 'opacity-1 delay-300' : 'opacity-0 delay-100 w-0',
+            ].join(' ')}
+            >
+              {title}
+            </p>
           </a>
         </ActiveLink>
       ) : (
@@ -63,15 +52,15 @@ const SideNavLink = ({
             isHover={isHover}
             className="flex justify-center items-end my-0 mx-auto w-6 h-6 my-1"
           />
-          {isExpanded && (
-            <p className={[
-              'ml-2 mb-0 flex-shrink-0',
+          <p
+            className={[
+              'ml-2 mb-0 flex-shrink-0 transition-opacity',
               isActive || isHover ? 'text-green' : 'text-grey-2',
+              isExpanded ? 'opacity-1 delay-300' : 'opacity-0 delay-100 w-0',
             ].join(' ')}
-            >
-                {title}
-            </p>
-          )}
+          >
+            {title}
+          </p>
         </button>
       )}
     </div>

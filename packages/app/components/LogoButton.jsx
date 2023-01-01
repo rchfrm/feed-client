@@ -3,7 +3,7 @@ import Router, { useRouter } from 'next/router'
 import FeedLogo from '@/icons/FeedLogo'
 import * as ROUTES from '@/app/constants/routes'
 
-const LogoButton = ({ id, className }) => {
+const LogoButton = ({ id, className, hasWordmark }) => {
   const { pathname } = useRouter()
 
   const goHome = () => {
@@ -20,7 +20,7 @@ const LogoButton = ({ id, className }) => {
       title="home"
       className={[className, 'flex justify-center items-center'].join(' ')}
     >
-      <FeedLogo id={id} />
+      <FeedLogo id={id} hasWordmark={hasWordmark} />
     </button>
   )
 }

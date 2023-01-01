@@ -85,6 +85,7 @@ module.exports = (contentFiles) => ({
       },
       transitionProperty: {
         height: 'height',
+        width: 'width',
       },
       borderWidth: {
         3: '3px',

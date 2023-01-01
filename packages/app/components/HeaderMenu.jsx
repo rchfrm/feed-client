@@ -4,17 +4,20 @@ import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import useSwipeDismiss from '@/hooks/useSwipeDismiss'
+import useOnResize from '@/landing/hooks/useOnResize'
 import FullHeight from '@/elements/FullHeight'
+import FeedLogo from '@/icons/FeedLogo'
 import CrossIcon from '@/icons/CrossIcon'
 import HeaderMenuLinks from '@/app/HeaderMenuLinks'
 import brandColors from '@/constants/brandColors'
 
-const HeaderMenu = ({ isOpen, toggle, windowWidth }) => {
+const HeaderMenu = ({ isOpen, toggle }) => {
   const containerElement = React.useRef(null)
   const contentElement = React.useRef(null)
   const backGroundElement = React.useRef(null)
   const closeButtonElement = React.useRef(null)
   const animationPromise = React.useRef(null)
+  const { width } = useOnResize()
 
   // Initial animation
   const setDisplay = (state, node) => {
@@ -88,12 +91,15 @@ const HeaderMenu = ({ isOpen, toggle, windowWidth }) => {
 
   // Handle window resize
   const onResize = () => {
-    if (! isOpen) {
-      resetElements()
+    const isMobile = width < 992
+
+    if (isMobile || ! isOpen) {
+      return
     }
+    toggle()
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(onResize, [windowWidth])
+  React.useEffect(onResize, [width])
 
   // Dragging
   const dragBind = useSwipeDismiss({
@@ -147,6 +153,7 @@ const HeaderMenu = ({ isOpen, toggle, windowWidth }) => {
             ref={contentElement}
             {...dragBind()}
           >
+            <FeedLogo id="headerMenu" hasWordmark />
             <div className="flex flex-col justify-center w-full h-full">
               <HeaderMenuLinks />
             </div>
@@ -167,7 +174,6 @@ const HeaderMenu = ({ isOpen, toggle, windowWidth }) => {
 HeaderMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  windowWidth: PropTypes.number.isRequired,
 }
 
 export default HeaderMenu

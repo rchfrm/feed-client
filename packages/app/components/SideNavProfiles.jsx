@@ -55,7 +55,7 @@ const SideNavProfiles = ({ isExpanded }) => {
                 artistsWithNotifications={artistsWithNotifications}
                 shouldShowMore={shouldShowMore}
                 setShouldShowMore={setShouldShowMore}
-                className="top-6 left-24"
+                className={['top-6', isExpanded ? 'left-[216px]' : 'left-24'].join(' ')}
               />
             )}
           </div>

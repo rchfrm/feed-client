@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useHover from '@/app/hooks/useHover'
 import ChevronIcon from '@/icons/ChevronIcon'
 import brandColors from '@/constants/brandColors'
 
@@ -8,15 +9,7 @@ const SideNavProfilesShowMore = ({
   setShouldShowMore,
   isExpanded,
 }) => {
-  const [isHover, setIsHover] = React.useState(false)
-
-  const handleMouseEnter = () => {
-    setIsHover(true)
-  }
-
-  const handleMousLeave = () => {
-    setIsHover(false)
-  }
+  const [hoverRef, isHover] = useHover()
 
   const handleClick = () => {
     setShouldShowMore((shouldShowMore) => ! shouldShowMore)
@@ -29,16 +22,20 @@ const SideNavProfilesShowMore = ({
         'h-12 w-full mb-0',
         'border-b border-solid border-grey-3',
         'hover:text-green text-grey-2',
-        isExpanded ? 'justify-start' : 'justify-center',
+        isExpanded ? null : 'justify-center',
       ].join(' ')}
       onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMousLeave}
+      ref={hoverRef}
     >
-      {isExpanded && (
-        <p className="text-base mr-2 mb-0">More accounts</p>
-      )}
-      <ChevronIcon direction={shouldShowMore ? 'up' : 'down'} fill={isHover || shouldShowMore ? brandColors.green : brandColors.grey} />
+      <p
+        className={[
+          'text-base mb-0',
+          isExpanded ? 'opacity-1 w-auto delay-300 mr-2 transition-opacity' : 'opacity-0 w-0 mr-0',
+        ].join(' ')}
+      >
+        More accounts
+      </p>
+      <ChevronIcon direction={shouldShowMore ? 'up' : 'down'} fill={isHover ? brandColors.green : brandColors.grey} />
     </button>
   )
 }

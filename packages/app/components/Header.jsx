@@ -1,6 +1,5 @@
 import React from 'react'
 import PeekElement from 'react-peek-element'
-import useBrowserStore from '@/hooks/useBrowserStore'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useNotificationsStore from '@/app/stores/notificationsStore'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
@@ -18,7 +17,6 @@ const getNotificationsStoreState = (state) => ({
 
 const Header = () => {
   const [shouldShowMore, setShouldShowMore] = React.useState(false)
-  const { width: windowWidth } = useBrowserStore()
 
   const { totalActiveNotifications, artistsWithNotifications } = useNotificationsStore(getNotificationsStoreState)
   const isLoggedIn = useLoggedInTest()
@@ -70,7 +68,6 @@ const Header = () => {
       <HeaderMenu
         isOpen={isMenuOpen && isLoggedIn}
         toggle={toggleMenu}
-        windowWidth={windowWidth}
       />
     </PeekElement>
   )

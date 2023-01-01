@@ -1,19 +1,12 @@
 import React from 'react'
 import moment from 'moment'
-
+import useHover from '@/app/hooks/useHover'
 import { formatCurrency } from '@/helpers/utils'
 
 const ResultsSpendBlock = ({ value, date, currency }) => {
-  const [isHovering, setIsHovering] = React.useState(false)
+  const [hoverRef, isHover] = useHover()
   const valueString = formatCurrency(value, currency)
 
-  const handleMouseEnter = () => {
-    setIsHovering(true)
-  }
-
-  const handleMousLeave = () => {
-    setIsHovering(false)
-  }
   return (
     <div
       className={[
@@ -22,10 +15,9 @@ const ResultsSpendBlock = ({ value, date, currency }) => {
         value ? 'bg-green' : 'bg-grey-1',
       ].join(' ')}
       style={{ width: '29px', height: '29px' }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMousLeave}
+      ref={hoverRef}
     >
-      {isHovering && (
+      {isHover && (
         <div
           className="absolute transform -translate-x-1/2 border-solid text-xs bg-white border-2 border-black py-1 p-2 z-10 rounded-dialogue text-center"
           style={{ top: '120%', left: '50%' }}

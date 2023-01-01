@@ -6,22 +6,20 @@ import brandColors from '@/constants/brandColors'
 const PlusIcon = ({ fill, className, style }) => {
   return (
     <svg
-      width="384"
-      height="384"
-      viewBox="0 0 384 384"
       fill="none"
+      viewBox="0 0 24 24"
+      height="24"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       style={style}
     >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M169 0C160.716 0 154 6.71573 154 15V154H15C6.71573 154 2.66639e-06 160.716 2.66639e-06 169L0 215C-3.62117e-07 223.284 6.71573 230 15 230H154V369C154 377.284 160.716 384 169 384H215C223.284 384 230 377.284 230 369V230H369C377.284 230 384 223.284 384 215V169C384 160.716 377.284 154 369 154H230V15C230 6.71573 223.284 0 215 0H169Z"
+        xmlns="http://www.w3.org/2000/svg"
+        d="M12 4C12.5523 4 13 4.44772 13 5V11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H13V19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19V13H5C4.44772 13 4 12.5523 4 12C4 11.4477 4.44772 11 5 11H11V5C11 4.44772 11.4477 4 12 4Z"
         fill={fill}
       />
     </svg>
-
   )
 }
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useHover from '@/app/hooks/useHover'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import ChevronIcon from '@/icons/ChevronIcon'
@@ -14,7 +15,7 @@ const HeaderProfileButton = ({
   shouldShowMore,
   setShouldShowMore,
 }) => {
-  const [isHover, setIsHover] = React.useState(false)
+  const [hoverRef, isHover] = useHover()
   const { hasPendingEmail, user } = React.useContext(UserContext)
   const { artists: allArtists } = user
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
@@ -22,14 +23,6 @@ const HeaderProfileButton = ({
 
   const sortedArtists = sortArtistsAlphabetically(allArtists)
   const hasMultipleArtists = sortedArtists.length > 1
-
-  const handleMouseEnter = () => {
-    setIsHover(true)
-  }
-
-  const handleMousLeave = () => {
-    setIsHover(false)
-  }
 
   const handleClick = () => {
     setShouldShowMore((shouldShowMore) => ! shouldShowMore)
@@ -48,9 +41,8 @@ const HeaderProfileButton = ({
   return (
     <button
       onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMousLeave}
       className={['relative h-8 flex rounded-full bg-anthracite p-1', hasMultipleArtists ? 'pl-3 pr-1' : null].join(' ')}
+      ref={hoverRef}
     >
       {hasMultipleArtists && (
         <ChevronIcon
