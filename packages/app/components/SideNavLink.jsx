@@ -68,11 +68,13 @@ const SideNavLink = ({
 }
 
 SideNavLink.propTypes = {
-  icon: PropTypes.string.isRequired,
   href: PropTypes.string,
+  icon: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   action: PropTypes.func,
   isActive: PropTypes.bool.isRequired,
   isExternal: PropTypes.bool,
+  isExpanded: PropTypes.bool.isRequired,
 }
 
 SideNavLink.defaultProps = {

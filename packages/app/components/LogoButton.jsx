@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Router, { useRouter } from 'next/router'
 import FeedLogo from '@/icons/FeedLogo'
 import * as ROUTES from '@/app/constants/routes'
@@ -23,6 +24,17 @@ const LogoButton = ({ id, className, hasWordmark }) => {
       <FeedLogo id={id} hasWordmark={hasWordmark} />
     </button>
   )
+}
+
+LogoButton.propTypes = {
+  id: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  hasWordmark: PropTypes.bool,
+}
+
+LogoButton.defaultProps = {
+  className: null,
+  hasWordmark: false,
 }
 
 export default LogoButton

@@ -58,7 +58,7 @@ ChevronIcon.defaultProps = {
   fill: black,
   className: '',
   style: null,
-  direction: '',
+  direction: 'right',
 }
 
 export default ChevronIcon

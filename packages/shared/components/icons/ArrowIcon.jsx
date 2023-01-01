@@ -52,8 +52,7 @@ ArrowIcon.defaultProps = {
   className: '',
   fill: brandColors.textColor,
   style: {},
-  direction: '',
+  direction: 'down',
 }
 
-
-export default React.memo(ArrowIcon)
+export default ArrowIcon

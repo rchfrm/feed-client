@@ -41,4 +41,3 @@ CreditCardIcon.defaultProps = {
 }
 
 export default CreditCardIcon
-

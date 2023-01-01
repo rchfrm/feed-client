@@ -46,4 +46,3 @@ SettingsIcon.defaultProps = {
 }
 
 export default SettingsIcon
-

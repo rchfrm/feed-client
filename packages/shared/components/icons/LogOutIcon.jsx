@@ -48,4 +48,3 @@ LogOutIcon.defaultProps = {
 }
 
 export default LogOutIcon
-

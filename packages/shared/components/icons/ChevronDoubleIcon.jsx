@@ -51,7 +51,7 @@ ChevronDoubleIcon.propTypes = {
 ChevronDoubleIcon.defaultProps = {
   className: 'fill-black',
   style: null,
-  direction: '',
+  direction: 'right',
 }
 
 export default ChevronDoubleIcon

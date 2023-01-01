@@ -41,4 +41,3 @@ NotificationIcon.defaultProps = {
 }
 
 export default NotificationIcon
-

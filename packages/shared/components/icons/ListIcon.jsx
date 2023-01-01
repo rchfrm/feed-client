@@ -41,4 +41,3 @@ ListIcon.defaultProps = {
 }
 
 export default ListIcon
-

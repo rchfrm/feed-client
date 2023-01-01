@@ -35,5 +35,4 @@ PlusIcon.defaultProps = {
   style: null,
 }
 
-
 export default PlusIcon

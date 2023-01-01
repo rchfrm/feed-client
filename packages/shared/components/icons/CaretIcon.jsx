@@ -58,8 +58,7 @@ CaretIcon.defaultProps = {
   fill: black,
   className: '',
   style: null,
-  direction: '',
+  direction: 'left',
 }
 
 export default CaretIcon
-
