@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { UserContext } from '@/app/contexts/UserContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import ProfilesConnectMore from '@/app/ProfilesConnectMore'
 import ProfilesListSearch from '@/app/ProfilesListSearch'
 import ProfileButton from '@/app/ProfileButton'
 import CaretIcon from '@/icons/CaretIcon'
@@ -12,6 +13,7 @@ const ProfilesList = ({
   artistsWithNotifications,
   shouldShowMore,
   setShouldShowMore,
+  hasConnectMore,
   className,
 }) => {
   const { user } = React.useContext(UserContext)
@@ -73,6 +75,11 @@ const ProfilesList = ({
         ].join(' ')}
         ref={containerRef}
       >
+        {hasConnectMore && (
+          <div className="px-4">
+            <ProfilesConnectMore className="h-8 mb-2 justify-between" isExpanded />
+          </div>
+        )}
         <ProfilesListSearch value={searchValue} setValue={setSearchValue} />
         <div
           className={[
@@ -111,10 +118,12 @@ ProfilesList.propTypes = {
   artistsWithNotifications: PropTypes.array.isRequired,
   shouldShowMore: PropTypes.bool.isRequired,
   setShouldShowMore: PropTypes.func.isRequired,
+  hasConnectMore: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ProfilesList.defaultProps = {
+  hasConnectMore: false,
   className: null,
 }
 

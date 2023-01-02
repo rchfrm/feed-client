@@ -62,6 +62,7 @@ const Header = () => {
             shouldShowMore={shouldShowMore}
             setShouldShowMore={setShouldShowMore}
             className="top-20 right-6"
+            hasConnectMore
           />
         )}
       </header>

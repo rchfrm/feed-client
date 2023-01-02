@@ -20,7 +20,7 @@ const SideNavProfilesShowMore = ({
       className={[
         'flex items-center',
         'h-12 w-full mb-0',
-        'border-b border-solid border-grey-3',
+        'border-b border-solid border-anthracite',
         'hover:text-green text-grey-2',
         isExpanded ? null : 'justify-center',
       ].join(' ')}
@@ -31,11 +31,12 @@ const SideNavProfilesShowMore = ({
         className={[
           'text-base mb-0',
           isExpanded ? 'opacity-1 w-auto delay-300 mr-2 transition-opacity' : 'opacity-0 w-0 mr-0',
+          shouldShowMore ? 'text-green' : null,
         ].join(' ')}
       >
         More accounts
       </p>
-      <ChevronIcon direction={shouldShowMore ? 'up' : 'down'} fill={isHover ? brandColors.green : brandColors.grey} />
+      <ChevronIcon direction={shouldShowMore ? 'up' : 'down'} fill={isHover || shouldShowMore ? brandColors.green : brandColors.grey} />
     </button>
   )
 }

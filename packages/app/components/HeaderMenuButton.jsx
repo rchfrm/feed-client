@@ -14,10 +14,10 @@ const HeaderMenuButton = ({ toggle }) => {
   return (
     <button
       onClick={toggleMenu}
-      className="flex items-center w-22 h-8 text-white no-underline px-3 py-2 rounded-full bg-anthracite hover:text-green"
+      className="flex items-center w-24 h-8 text-white no-underline px-3 py-2 rounded-full bg-anthracite hover:text-green"
       ref={hoverRef}
     >
-      <figure>
+      <figure className="mr-2">
         <ListIcon fill={isHover ? brandColors.green : brandColors.white} className="w-full h-auto" />
       </figure>
       Menu

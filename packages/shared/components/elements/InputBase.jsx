@@ -1,44 +1,6 @@
-// IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import TickIcon from '@/icons/TickIcon'
-import FacebookIcon from '@/icons/FacebookIcon'
-import InstagramIcon from '@/icons/InstagramIcon'
 import TooltipButton from '@/elements/TooltipButton'
-import brandColors from '@/constants/brandColors'
-import Spinner from '@/elements/Spinner'
-
-const getIconEl = (icon, success) => {
-  if (success) {
-    return (
-      <div className="input--icon">
-        <TickIcon fill={brandColors.successColor} width="20" />
-      </div>
-    )
-  }
-  if (icon === 'facebook') {
-    return (
-      <div className="input--icon">
-        <FacebookIcon fill={brandColors.textColor} width="20" />
-      </div>
-    )
-  }
-  if (icon === 'instagram') {
-    return (
-      <div className="input--icon">
-        <InstagramIcon fill={brandColors.textColor} width="20" />
-      </div>
-    )
-  }
-  if (icon === 'spinner') {
-    return (
-      <Spinner className="absolute top-4 left-4 w-6 h-6" />
-    )
-  }
-
-  return null
-}
 
 const InputBase = ({
   name,
@@ -47,7 +9,6 @@ const InputBase = ({
   readOnly,
   required,
   className,
-  icon,
   error,
   errorMessage,
   success,
@@ -68,14 +29,9 @@ const InputBase = ({
   if (readOnly) {
     containerClasses.push('_readOnly')
   }
-  // Get icon (if needed)
-  const iconEl = getIconEl(icon, success)
-  if (iconEl) {
-    containerClasses.push('_hasIcon')
-  }
 
   return (
-    <div className={containerClasses.join(' ')}>
+    <div className={[containerClasses].join(' ')}>
       <label
         className="inputLabel"
         htmlFor={name}
@@ -99,8 +55,6 @@ const InputBase = ({
         {/* INPUT */}
         <div className="input--inner">
           {children}
-          {/* ICON */}
-          {iconEl}
         </div>
       </label>
     </div>
@@ -114,7 +68,6 @@ InputBase.propTypes = {
   readOnly: PropTypes.bool,
   required: PropTypes.bool,
   className: PropTypes.string,
-  icon: PropTypes.string,
   error: PropTypes.bool,
   errorMessage: PropTypes.string,
   success: PropTypes.bool,
@@ -128,7 +81,6 @@ InputBase.defaultProps = {
   tooltipMessage: '',
   required: false,
   className: '',
-  icon: '',
   error: false,
   errorMessage: '',
   success: false,

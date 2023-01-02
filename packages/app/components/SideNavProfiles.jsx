@@ -4,9 +4,9 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useNotificationsStore from '@/app/stores/notificationsStore'
 import ProfileButton from '@/app/ProfileButton'
+import ProfilesConnectMore from '@/app/ProfilesConnectMore'
 import SideNavProfileButtons from '@/app/SideNavProfileButtons'
 import SideNavProfilesShowMore from '@/app/SideNavProfilesShowMore'
-import SideNavProfilesConnectMore from '@/app/SideNavProfilesConnectMore'
 import SideNavProfilesList from '@/app/ProfilesList'
 import { sortArtistsAlphabetically } from '@/app/helpers/artistHelpers'
 
@@ -62,8 +62,9 @@ const SideNavProfiles = ({ isExpanded }) => {
         </>
       )}
       <div className="px-4">
-        <SideNavProfilesConnectMore
+        <ProfilesConnectMore
           isExpanded={isExpanded}
+          className="h-12"
         />
       </div>
     </>

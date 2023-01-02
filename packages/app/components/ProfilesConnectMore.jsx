@@ -6,7 +6,7 @@ import PlusIcon from '@/icons/PlusIcon'
 import * as ROUTES from '@/app/constants/routes'
 import brandColors from '@/constants/brandColors'
 
-const SideNavProfilesConnectMore = ({ isExpanded }) => {
+const ProfilesConnectMore = ({ isExpanded, className }) => {
   const [hoverRef, isHover] = useHover()
 
   return (
@@ -14,10 +14,11 @@ const SideNavProfilesConnectMore = ({ isExpanded }) => {
       <a
         className={[
           'flex items-center',
-          'h-12 w-full',
-          'border-b border-solid border-grey-3 text-grey-2 no-underline',
+          'w-full',
+          'border-b border-solid border-anthracite text-grey-2 no-underline',
           'hover:text-green text-grey-2',
           isExpanded ? null : 'justify-center',
+          className,
         ].join(' ')}
         ref={hoverRef}
       >
@@ -34,8 +35,8 @@ const SideNavProfilesConnectMore = ({ isExpanded }) => {
   )
 }
 
-SideNavProfilesConnectMore.propTypes = {
+ProfilesConnectMore.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
 }
 
-export default SideNavProfilesConnectMore
+export default ProfilesConnectMore
