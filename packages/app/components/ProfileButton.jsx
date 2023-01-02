@@ -50,7 +50,7 @@ const ProfileButton = ({
           ].join(' ')}
         >
           {artistLoading && hasSpinner ? (
-            <Spinner className="w-4/5 h-auto mx-auto my-0" />
+            <Spinner className={[isExpanded ? 'w-6' : 'w-12'].join(' ')} />
           ) : (
             <ArtistImage pageId={pageId} name={name} className={[isExpanded ? 'w-6 h-6' : 'w-12 h-12'].join(' ')} />
           )}

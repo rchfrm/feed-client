@@ -26,7 +26,6 @@ const HeaderMenu = ({ isOpen, toggle }) => {
 
   // Container animation
   const animateContainer = React.useCallback((state) => {
-    const scaleX = 1
     const xPercent = ! state ? -100 : 0
     const ease = Power2.easeOut
     const duration = state ? 0.4 : 0.3
@@ -37,7 +36,7 @@ const HeaderMenu = ({ isOpen, toggle }) => {
     gsap.to(backGroundElement.current, { opacity, duration, ease })
 
     // Slide container
-    return gsap.to(containerElement.current, { scaleX, x: 0, y: 0, xPercent, duration, ease })
+    return gsap.to(containerElement.current, { xPercent, duration, ease })
   }, [])
 
   // Content animation
@@ -46,7 +45,7 @@ const HeaderMenu = ({ isOpen, toggle }) => {
     const duration = state ? 0.4 : 0
 
     // Fade in content
-    return gsap.to([contentElement.current, closeButtonElement.current], { opacity, y: 0, duration, delay, ease: Power1.easeOut })
+    return gsap.to([contentElement.current, closeButtonElement.current], { opacity, duration, delay, ease: Power1.easeOut })
   }
 
   // Reset background element after animation
@@ -55,7 +54,7 @@ const HeaderMenu = ({ isOpen, toggle }) => {
       return
     }
 
-    gsap.set(containerElement.current, { x: 0, scaleX: 1, scaleY: 1, xPercent: -100 })
+    gsap.set(containerElement.current, { xPercent: -100 })
     backGroundElement.current.style.display = 'none'
   }
 
@@ -89,17 +88,19 @@ const HeaderMenu = ({ isOpen, toggle }) => {
     done()
   }
 
-  // Handle window resize
-  const onResize = () => {
+  React.useEffect(() => {
     const isMobile = width < 992
 
     if (isMobile || ! isOpen) {
       return
     }
+
     toggle()
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(onResize, [width])
+  }, [width, isOpen, toggle])
+
+  React.useEffect(() => {
+    resetElements()
+  }, [])
 
   // Dragging
   const dragBind = useSwipeDismiss({
@@ -134,9 +135,9 @@ const HeaderMenu = ({ isOpen, toggle }) => {
           id="navContainer"
           className={[
             'page--content',
-            'fixed left-0 top-0 z-[14]',
+            'hidden fixed left-0 top-0 z-[14]',
             'w-5/6 md:w-auto pb-10 pt-10 md:p-10',
-            'bg-black text-grey-2 font-display hidden origin-left',
+            'bg-black text-grey-2 font-display origin-left',
           ].join(' ')}
           ref={containerElement}
         >
