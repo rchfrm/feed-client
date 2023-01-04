@@ -39,6 +39,7 @@ module.exports = (contentFiles) => ({
         blue: '#5BC0EB',
         purple: '#CC7CFD',
         anthracite: '#353938',
+        blackHover: '#343434',
         greenHover: '#05C7A4',
         redHover: '#F73F3B',
         yellowHover: '#FFDA1A',

@@ -1,14 +1,17 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import PeekElement from 'react-peek-element'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useNotificationsStore from '@/app/stores/notificationsStore'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { UserContext } from '@/app/contexts/UserContext'
 import LogoButton from '@/app/LogoButton'
 import HeaderMenu from '@/app/HeaderMenu'
 import HeaderMenuButton from '@/app/HeaderMenuButton'
 import HeaderProfileButton from '@/app/HeaderProfileButton'
 import ProfilesList from '@/app/ProfilesList'
+import * as ROUTES from '@/app/constants/routes'
 
 const getNotificationsStoreState = (state) => ({
   totalActiveNotifications: state.totalActiveNotifications,
@@ -18,8 +21,12 @@ const getNotificationsStoreState = (state) => ({
 const Header = () => {
   const [shouldShowMore, setShouldShowMore] = React.useState(false)
 
-  const { totalActiveNotifications, artistsWithNotifications } = useNotificationsStore(getNotificationsStoreState)
   const isLoggedIn = useLoggedInTest()
+  const { user } = React.useContext(UserContext)
+  const { pathname } = useRouter()
+  const isGetStartedPage = pathname === ROUTES.GET_STARTED
+
+  const { totalActiveNotifications, artistsWithNotifications } = useNotificationsStore(getNotificationsStoreState)
   const { isMenuOpen, toggleMenu } = React.useContext(InterfaceContext)
   const { artistId, artistLoading } = React.useContext(ArtistContext)
 
@@ -27,7 +34,7 @@ const Header = () => {
     toggleMenu(false)
   }, [artistId, artistLoading, toggleMenu])
 
-  if (artistLoading) {
+  if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage || artistLoading) {
     return null
   }
 

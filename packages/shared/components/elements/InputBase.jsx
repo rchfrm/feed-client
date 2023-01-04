@@ -31,7 +31,7 @@ const InputBase = ({
   }
 
   return (
-    <div className={[containerClasses].join(' ')}>
+    <div className={containerClasses.join(' ')}>
       <label
         className="inputLabel"
         htmlFor={name}
