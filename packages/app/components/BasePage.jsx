@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
-import PrimaryLinks from '@/app/PrimaryLinks'
+import SecondaryLinks from '@/app/SecondaryLinks'
 import { capitalise } from '@/helpers/utils'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -17,7 +17,7 @@ const BasePage = ({
   artistRequired,
   controlsRequired,
   hasNoProfilesPage,
-  hasPrimaryLinks,
+  hasSecondaryLinks,
   staticPage,
   authPage,
   children,
@@ -77,7 +77,7 @@ const BasePage = ({
         </div>
       ) : (
         <>
-          {hasPrimaryLinks && <PrimaryLinks />}
+          {hasSecondaryLinks && <SecondaryLinks />}
           {children}
         </>
       )}
@@ -90,7 +90,7 @@ BasePage.propTypes = {
   artistRequired: PropTypes.bool,
   controlsRequired: PropTypes.bool,
   hasNoProfilesPage: PropTypes.bool,
-  hasPrimaryLinks: PropTypes.bool,
+  hasSecondaryLinks: PropTypes.bool,
   staticPage: PropTypes.bool,
   authPage: PropTypes.bool,
   children: PropTypes.node.isRequired,
@@ -103,7 +103,7 @@ BasePage.defaultProps = {
   artistRequired: false,
   controlsRequired: false,
   hasNoProfilesPage: false,
-  hasPrimaryLinks: false,
+  hasSecondaryLinks: false,
 }
 
 

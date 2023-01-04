@@ -6,7 +6,7 @@ import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import useOnResize from '@/landing/hooks/useOnResize'
 import LogoButton from '@/app/LogoButton'
 import SideNavProfiles from '@/app/SideNavProfiles'
-import SideNavLinks from '@/app/SideNavLinks'
+import SideNavPrimaryLinks from '@/app/SideNavPrimaryLinks'
 import SideNavToggleButton from '@/app/SideNavToggleButton'
 import * as ROUTES from '@/app/constants/routes'
 
@@ -57,7 +57,7 @@ const SideNav = () => {
           isExpanded={isNavExpanded}
         />
       </div>
-      <SideNavLinks isExpanded={isNavExpanded} />
+      <SideNavPrimaryLinks isExpanded={isNavExpanded} />
     </div>
   )
 }

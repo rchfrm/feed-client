@@ -17,7 +17,7 @@ const getIcon = (icon) => {
   if (icon === 'signout') return LogOutIcon
 }
 
-const SideNavLinkIcon = ({
+const SideNavPrimaryLinkIcon = ({
   icon,
   isActive,
   isHover,
@@ -35,15 +35,15 @@ const SideNavLinkIcon = ({
   )
 }
 
-SideNavLinkIcon.propTypes = {
+SideNavPrimaryLinkIcon.propTypes = {
   icon: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   isHover: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
-SideNavLinkIcon.defaultProps = {
+SideNavPrimaryLinkIcon.defaultProps = {
   className: '',
 }
 
-export default SideNavLinkIcon
+export default SideNavPrimaryLinkIcon

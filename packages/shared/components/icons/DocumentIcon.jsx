@@ -41,4 +41,3 @@ DocumentIcon.defaultProps = {
 }
 
 export default DocumentIcon
-

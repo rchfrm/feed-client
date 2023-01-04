@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import useSignOut from '@/app/hooks/useSignOut'
-import SideNavLink from '@/app/SideNavLink'
+import SideNavPrimaryLink from '@/app/SideNavPrimaryLink'
 import { secondaryLinks } from '@/app/helpers/navHelpers'
 
-const SideNavLinks = ({ isExpanded }) => {
+const SideNavPrimaryLinks = ({ isExpanded }) => {
   const { pathname } = useRouter()
   const signOut = useSignOut()
 
@@ -23,7 +23,7 @@ const SideNavLinks = ({ isExpanded }) => {
 
         return (
           <div className={['text-xs text-center mb-4 w-10'].join(' ')} key={icon}>
-            <SideNavLink
+            <SideNavPrimaryLink
               href={href}
               icon={icon}
               title={title}
@@ -39,8 +39,8 @@ const SideNavLinks = ({ isExpanded }) => {
   )
 }
 
-SideNavLinks.propTypes = {
+SideNavPrimaryLinks.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
 }
 
-export default SideNavLinks
+export default SideNavPrimaryLinks

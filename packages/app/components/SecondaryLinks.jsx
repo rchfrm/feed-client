@@ -2,7 +2,7 @@ import React from 'react'
 import ActiveLink from '@/elements/ActiveLink'
 import { primaryLinks } from '@/app/helpers/navHelpers'
 
-const PrimaryLinks = () => {
+const SecondaryLinks = () => {
   return (
     <nav>
       <ul className={[
@@ -25,4 +25,4 @@ const PrimaryLinks = () => {
   )
 }
 
-export default PrimaryLinks
+export default SecondaryLinks

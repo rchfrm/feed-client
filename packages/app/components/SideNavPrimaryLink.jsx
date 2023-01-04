@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
-import SideNavLinkIcon from '@/app/SideNavLinkIcon'
+import SideNavPrimaryLinkIcon from '@/app/SideNavPrimaryLinkIcon'
 import ActiveLink from '@/elements/ActiveLink'
 
-const SideNavLink = ({
+const SideNavPrimaryLink = ({
   href,
   icon,
   title,
@@ -25,7 +25,7 @@ const SideNavLink = ({
             ].join(' ')}
             target={isExternal ? '_blank' : ''}
           >
-            <SideNavLinkIcon
+            <SideNavPrimaryLinkIcon
               icon={icon}
               isActive={isActive}
               isHover={isHover}
@@ -46,7 +46,7 @@ const SideNavLink = ({
           onClick={action}
           className="flex mx-auto items-center relative hover:text-green"
         >
-          <SideNavLinkIcon
+          <SideNavPrimaryLinkIcon
             icon={icon}
             isActive={isActive}
             isHover={isHover}
@@ -67,7 +67,7 @@ const SideNavLink = ({
   )
 }
 
-SideNavLink.propTypes = {
+SideNavPrimaryLink.propTypes = {
   href: PropTypes.string,
   icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -77,10 +77,10 @@ SideNavLink.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
 }
 
-SideNavLink.defaultProps = {
+SideNavPrimaryLink.defaultProps = {
   href: '',
   action: null,
   isExternal: false,
 }
 
-export default SideNavLink
+export default SideNavPrimaryLink

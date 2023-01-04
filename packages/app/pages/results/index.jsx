@@ -17,7 +17,7 @@ const Page = ({ allDummyPosts }) => {
       artistRequired
       controlsRequired
       hasNoProfilesPage
-      hasPrimaryLinks
+      hasSecondaryLinks
     >
       <ResultsPage dummyPostsImages={allDummyPosts} />
     </BasePage>
