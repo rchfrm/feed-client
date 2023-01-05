@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -16,28 +17,44 @@ const postsInitialState = {
 }
 
 const postsReducer = (draftState, postsAction) => {
-  const { type: actionType, payload = {} } = postsAction
+  const { type, payload = {} } = postsAction
+
   const {
-    index,
-    status,
-    post,
     posts,
+    post,
+    postId,
+    status,
+    newStatus,
+    linkSpecs,
+    adMessages,
+    callToActions,
   } = payload
 
-  switch (actionType) {
+  const index = draftState[status].findIndex((draftPost) => draftPost.id === postId)
+
+  switch (type) {
     case 'set-posts':
       draftState[status] = posts
       break
     case 'add-posts':
       draftState[status].push(...posts)
       break
-    case 'add-to-queue':
+    case 'toggle-promotion':
       draftState[status].splice(index, 1)
-      draftState.pending.push(post)
+      draftState[newStatus].push(post)
       break
-    case 'prioritize':
+    case 'toggle-priority':
       draftState[status].splice(index, 1)
-      draftState.pending.unshift(post)
+      draftState[newStatus].unshift(post)
+      break
+    case 'update-link-specs':
+      draftState[status][index].linkSpecs = linkSpecs
+      break
+    case 'update-call-to-actions':
+      draftState[status][index].callToActions = callToActions
+      break
+    case 'update-ad-messages':
+      draftState[status][index].adMessages = adMessages
       break
     case 'reset-posts':
       return postsInitialState
@@ -117,6 +134,12 @@ const Posts = ({ dummyPostsImages }) => {
       <PostsNoArtists dummyPostsImages={dummyPostsImages} />
     )
   )
+}
+
+Posts.propTypes = {
+  dummyPostsImages: PropTypes.arrayOf(
+    PropTypes.object.isRequired,
+  ).isRequired,
 }
 
 export default Posts

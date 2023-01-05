@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import CallToActionSelector from '@/app/CallToActionSelector'
+import CallToActionSelect from '@/app/CallToActionSelect'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import { setDefaultCallToAction } from '@/app/helpers/adDefaultsHelpers'
@@ -53,7 +53,7 @@ const AdDefaultsCallToAction = ({
         className,
       ].join(' ')}
     >
-      <CallToActionSelector
+      <CallToActionSelect
         onSelect={setDefaultCallToAction}
         onSuccess={handleSuccess}
         callToAction={callToAction}

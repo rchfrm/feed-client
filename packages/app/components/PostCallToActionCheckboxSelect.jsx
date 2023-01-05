@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
-import CallToActionSelector from '@/app/CallToActionSelector'
+import CallToActionSelect from '@/app/CallToActionSelect'
 import CheckboxInput from '@/elements/CheckboxInput'
 import { getPostCallToActions } from '@/app/helpers/postsHelpers'
 import { capitalise } from '@/helpers/utils'
@@ -29,11 +29,7 @@ const PostCallToActionCheckboxSelect = ({
   isDisabled,
   className,
 }) => {
-  const {
-    id: postId,
-    promotionStatus,
-  } = post || {}
-
+  const { id: postId } = post || {}
   const { artistId } = React.useContext(ArtistContext)
 
   const { postsPreferences, conversionsPreferences } = useControlsStore(getControlsStoreState)
@@ -41,8 +37,6 @@ const PostCallToActionCheckboxSelect = ({
   const { callToAction: defaultConversionsCallToAction } = conversionsPreferences
   const defaultCallToAction = campaignType === 'all' ? defaultPostsCallToAction : defaultConversionsCallToAction || defaultPostsCallToAction
   const defaultCallToActionString = capitalise(defaultCallToAction.toLowerCase().split('_').join(' '))
-
-  const isPostActive = promotionStatus === 'active'
 
   useAsyncEffect(async (isMounted) => {
     if (! post || post?.callToActions) {
@@ -54,12 +48,18 @@ const PostCallToActionCheckboxSelect = ({
       return
     }
 
-    if (error) {
+    if (error || ! callToActions.length) {
       return
     }
 
     setCallToActions(callToActions)
-    updatePost('update-call-to-actions', { callToActions })
+    updatePost({
+      type: 'update-call-to-actions',
+      payload: {
+        postId,
+        callToActions,
+      },
+    })
   }, [])
 
   const handleChange = () => {
@@ -93,12 +93,11 @@ const PostCallToActionCheckboxSelect = ({
         disabled={isDisabled}
       />
       {! isDefaultCallToAction && (
-        <CallToActionSelector
+        <CallToActionSelect
           callToAction={currentCallToAction}
           setCallToAction={setCurrentCallToAction}
           callToActionId={currentCallToActionId}
           postId={postId}
-          isPostActive={isPostActive}
           campaignType={campaignType}
           disabled={isDisabled}
         />

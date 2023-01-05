@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import PostLinksSelect from '@/app/PostLinksSelect'
+import LinksSelect from '@/app/LinksSelect'
 import DefaultLinkInput from '@/app/DefaultLinkInput'
 
 import { splitLinks } from '@/app/helpers/linksHelpers'
@@ -53,7 +53,7 @@ const DefaultLinkForm = ({
   return (
     <div className="flex w-full">
       {shouldShowSelect ? (
-        <PostLinksSelect
+        <LinksSelect
           currentLinkId={link.id}
           updateParentLink={updateLink}
           shouldSaveOnChange={false}

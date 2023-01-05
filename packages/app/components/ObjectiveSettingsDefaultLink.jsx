@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import PostLinksSelect from '@/app/PostLinksSelect'
+import LinksSelect from '@/app/LinksSelect'
 
 import { track } from '@/helpers/trackingHelpers'
 
@@ -52,7 +52,7 @@ const ObjectiveSettingsDefaultLink = ({
         className,
       ].join(' ')}
     >
-      <PostLinksSelect
+      <LinksSelect
         currentLinkId={defaultLinkId}
         onSelect={setDefaultLink}
         onSuccess={onSuccess}

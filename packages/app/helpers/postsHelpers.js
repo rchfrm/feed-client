@@ -1,7 +1,5 @@
 import get from 'lodash/get'
 import moment from 'moment'
-
-import * as server from '@/app/helpers/appServer'
 import * as utils from '@/helpers/utils'
 import { requestWithCatch } from '@/helpers/api'
 import brandColors from '@/constants/brandColors'
@@ -175,12 +173,6 @@ export const postOptions = [
 const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
 export const growthGradient = createGradient(brandColors.blue)
 export const conversionsGradient = createGradient(brandColors.red)
-
-// TOGGLE POST STATUS ON SERVER
-export const updatePost = async ({ artistId, postId, promotionEnabled, disabled = false, campaignType }) => {
-  if (disabled) return
-  return server.togglePromotionEnabled(artistId, postId, promotionEnabled, campaignType)
-}
 
 const getPaidClicks = (adsSummaryMetrics) => {
   const outboundClicks = get(adsSummaryMetrics, ['outbound_clicks', 'outbound_click'], 0)
@@ -482,15 +474,19 @@ export const resetPostCaption = ({ artistId, assetId, adMessageId }) => {
 }
 
 // UPDATE POST PRIORITY
-export const setPostPriority = ({ artistId, assetId, priorityEnabled }) => {
-  const action = priorityEnabled ? 'deprioritize' : 'prioritize'
+export const setPostPriority = async ({ artistId, assetId, priorityEnabled }) => {
+  const action = priorityEnabled ? 'prioritize' : 'deprioritize'
   const endpoint = `/artists/${artistId}/assets/${assetId}/${action}`
   const payload = null
   const errorTracking = {
     category: 'Post priority',
     action: `${utils.capitalise(action)} post`,
   }
-  return requestWithCatch('post', endpoint, payload, errorTracking)
+
+  const { res, error } = await requestWithCatch('post', endpoint, payload, errorTracking)
+  const [formattedPost] = formatPostsResponse([res])
+
+  return { res: formattedPost, error }
 }
 
 // UPDATE POST CALL TO ACTION
@@ -542,7 +538,10 @@ export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor 
     action: 'Get all posts',
   }
 
-  return requestWithCatch('get', endpoint, payload, errorTracking)
+  const { res, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+  const formattedPosts = formatPostsResponse(res)
+
+  return { res, formattedPosts, error }
 }
 
 // GET SINGLE POST
@@ -560,6 +559,7 @@ export const getPostById = async (artistId, assetId) => {
   }
   const { res, error } = await requestWithCatch('get', endpoint, payload, errorTracking)
   const [formattedPost] = formatPostsResponse([res])
+
   return { res: formattedPost, error }
 }
 
@@ -640,4 +640,34 @@ export const createAd = (artistId, formData) => {
   }
 
   return requestWithCatch('post', endpoint, payload, errorTracking)
+}
+
+/**
+ * @param {string} artistId
+ * @param {string} postId
+ * @param {boolean} promotionEnabled
+ * @param {boolean} disabled
+ * @param {string} campaignType
+ * @returns {Promise<any>}
+ */
+export const togglePromotionEnabled = async ({ artistId, postId, promotionEnabled, conversionsEnabled, disabled = false, campaignType }) => {
+  if (disabled) {
+    return
+  }
+
+  const endpoint = `/artists/${artistId}/assets/${postId}`
+  const payload = {
+    ...(Array.isArray(campaignType) && { promotion_enabled: promotionEnabled, conversions_enabled: conversionsEnabled }),
+    ...(campaignType === 'all' && { promotion_enabled: promotionEnabled }),
+    ...(campaignType === 'conversions' && { conversions_enabled: conversionsEnabled }),
+  }
+  const errorTracking = {
+    category: 'Posts',
+    action: 'Toggle promotion enabled',
+  }
+
+  const { res, error } = await requestWithCatch('patch', endpoint, payload, errorTracking)
+  const [formattedPost] = formatPostsResponse([res])
+
+  return { res: formattedPost, error }
 }

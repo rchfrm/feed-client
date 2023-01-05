@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import PlatformIcon from '@/icons/PlatformIcon'
 import LinkIcon from '@/icons/LinkIcon'
-
 import { capitalise } from '@/helpers/utils'
 
 const PostDetails = ({ post, className }) => {
@@ -11,7 +9,7 @@ const PostDetails = ({ post, className }) => {
 
   return (
     <div>
-      <h2 className="hidden sm:block mb-8">Source post details</h2>
+      <h2 className="hidden sm:block mb-8">Post source details</h2>
       <div className={className}>
         <div className="sm:flex">
           <div className="mb-6 w-1/2">

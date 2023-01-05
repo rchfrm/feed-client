@@ -11,7 +11,7 @@ import GetStartedPostsSelectionButtonsMobile from '@/app/GetStartedPostsSelectio
 import Button from '@/elements/Button'
 import ArrowAltIcon from '@/icons/ArrowAltIcon'
 
-import { updatePost } from '@/app/helpers/postsHelpers'
+import { togglePromotionEnabled } from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 
 const GetStartedPostsSelectionButtons = ({
@@ -52,7 +52,7 @@ const GetStartedPostsSelectionButtons = ({
     }
 
     const postPromises = posts.map(({ id, promotionEnabled }) => {
-      return updatePost({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
+      return togglePromotionEnabled({ artistId, postId: id, promotionEnabled, campaignType: 'all' })
     })
 
     // Patch promotion enabled value in the db

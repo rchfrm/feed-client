@@ -5,7 +5,7 @@ import usePrevious from 'use-previous'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsContainer from '@/app/PostsContainer'
 import Error from '@/elements/Error'
-import { postsConfig, formatPostsResponse, getPosts, getCursor } from '@/app/helpers/postsHelpers'
+import { postsConfig, getPosts, getCursor } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
   status,
@@ -44,7 +44,7 @@ const PostsLoader = ({
       setIsLoading(true)
     }
 
-    const { res: posts, error } = await getPosts({
+    const { res: posts, formattedPosts, error } = await getPosts({
       limit,
       artistId,
       filterBy: {
@@ -69,14 +69,13 @@ const PostsLoader = ({
     }
 
     setCursor(posts)
-    const postsFormatted = formatPostsResponse(posts)
 
     if (isLoadingMore) {
       setPosts({
         type: 'add-posts',
         payload: {
           status,
-          posts: postsFormatted,
+          posts: formattedPosts,
         },
       })
       setIsLoadingMore(false)
@@ -88,7 +87,7 @@ const PostsLoader = ({
       type: 'set-posts',
       payload: {
         status,
-        posts: postsFormatted,
+        posts: formattedPosts,
       },
     })
 
