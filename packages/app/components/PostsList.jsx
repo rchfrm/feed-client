@@ -54,6 +54,7 @@ PostsList.propTypes = {
   posts: PropTypes.array.isRequired,
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
+  filterBy: PropTypes.object.isRequired,
   className: PropTypes.string,
 }
 

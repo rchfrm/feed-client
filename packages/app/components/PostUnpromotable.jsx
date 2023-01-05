@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import DoubleExclamationCircleIcon from '@/icons/DoubleExclamationCircleIcon'
 
 const PostUnpromotable = ({ className }) => {

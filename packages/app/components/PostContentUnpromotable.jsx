@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const PostCardUnpromotable = ({ hasSalesObjective, className }) => {
+const PostContentUnpromotable = ({ hasSalesObjective, className }) => {
   return (
     <div
       className={[
@@ -17,13 +17,13 @@ const PostCardUnpromotable = ({ hasSalesObjective, className }) => {
   )
 }
 
-PostCardUnpromotable.propTypes = {
+PostContentUnpromotable.propTypes = {
   hasSalesObjective: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
-PostCardUnpromotable.defaultProps = {
+PostContentUnpromotable.defaultProps = {
   className: null,
 }
 
-export default PostCardUnpromotable
+export default PostContentUnpromotable

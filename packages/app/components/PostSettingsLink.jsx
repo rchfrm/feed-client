@@ -4,6 +4,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
 import PostLinkCheckBoxSelect from '@/app/PostLinkCheckBoxSelect'
+import PostSettingsEditAlert from '@/app/PostSettingsEditAlert'
 import Error from '@/elements/Error'
 import { setPostLink } from '@/app/helpers/linksHelpers'
 
@@ -18,14 +19,14 @@ const PostSettingsLink = ({
   updatePost,
   isDisabled,
 }) => {
-  const { linkSpecs } = post
+  const { id: postId, promotionStatus, linkSpecs } = post
+  const isPostActive = promotionStatus === 'active'
 
   const { linkId, linkHref } = linkSpecs[campaignType] || {}
   const { defaultLink, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
 
-  // Initial value is post level link, or default link
   const [currentLink, setCurrentLink] = React.useState({
     id: linkId || defaultLink.id,
     href: linkHref || defaultLink.href,
@@ -36,11 +37,19 @@ const PostSettingsLink = ({
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+  const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
 
   const { artistId } = React.useContext(ArtistContext)
 
-  // Save currently selected link and hide save button
-  const save = async () => {
+  const save = async (forceRun = false) => {
+    if (isPostActive && ! forceRun) {
+      setOnAlertConfirm(() => () => save(true))
+      setShouldShowAlert(true)
+
+      return
+    }
+
     setIsLoading(true)
 
     const { res: linkSpecs, error } = await setPostLink({
@@ -60,7 +69,13 @@ const PostSettingsLink = ({
 
     setSavedLink(currentLink)
     setShouldShowSaveButton(false)
-    updatePost('update-link-specs', { linkSpecs })
+    updatePost({
+      type: 'update-link-specs',
+      payload: {
+        postId,
+        linkSpecs,
+      },
+    })
 
     if (currentLink.id === defaultLink?.id) {
       setIsDefaultLink(true)
@@ -69,7 +84,20 @@ const PostSettingsLink = ({
     setIsLoading(false)
   }
 
-  // Watch for link id changes and show save button if there has been a change
+  const onConfirm = () => {
+    onAlertConfirm()
+    setShouldShowAlert(false)
+  }
+
+  const onCancel = () => {
+    setCurrentLink(savedLink)
+
+    if (isDefaultLink) {
+      setIsDefaultLink((defaultLink) => ! defaultLink)
+    }
+    setShouldShowAlert(false)
+  }
+
   React.useEffect(() => {
     if (isDefaultLink) {
       setShouldShowSaveButton(savedLink?.id !== defaultLink?.id)
@@ -91,7 +119,7 @@ const PostSettingsLink = ({
           Link
         </p>
         <PostSettingsSaveButton
-          onClick={save}
+          onClick={() => save()}
           shouldShow={shouldShowSaveButton}
           isLoading={isLoading}
         />
@@ -108,6 +136,12 @@ const PostSettingsLink = ({
         className="sm:pl-4 break-all"
       />
       <Error error={error} />
+      <PostSettingsEditAlert
+        type="link"
+        shouldShowAlert={shouldShowAlert}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+      />
     </div>
   )
 }
@@ -117,9 +151,6 @@ PostSettingsLink.propTypes = {
   campaignType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-}
-
-PostSettingsLink.defaultProps = {
 }
 
 export default PostSettingsLink

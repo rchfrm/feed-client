@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useControlsStore from '@/app/stores/controlsStore'
-import PostLinksSelect from '@/app/PostLinksSelect'
+import LinksSelect from '@/app/LinksSelect'
 import CheckboxInput from '@/elements/CheckboxInput'
 import { getLinkById } from '@/app/helpers/linksHelpers'
 
@@ -59,7 +59,7 @@ const PostLinkCheckBoxSelect = ({
         className="break-all"
       />
       {! isDefaultLink && (
-        <PostLinksSelect
+        <LinksSelect
           currentLinkId={currentLink.id}
           updateParentLink={updateLink}
           shouldSaveOnChange={false}

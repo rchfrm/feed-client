@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { AuthContext } from '@/contexts/AuthContext'
-
 import NoArtistsConnectAccountsBlock from '@/app/NoArtistsConnectAccountsBlock'
 import PostsNoArtistsContainer from '@/app/PostsNoArtistsContainer'
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
@@ -87,9 +85,6 @@ PostsNoArtists.propTypes = {
   dummyPostsImages: PropTypes.arrayOf(
     PropTypes.object.isRequired,
   ).isRequired,
-}
-
-PostsNoArtists.defaultProps = {
 }
 
 export default PostsNoArtists

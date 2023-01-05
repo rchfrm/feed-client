@@ -1,18 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import PlayIcon from '@/icons/PlayIcon'
 import PauseIcon from '@/icons/PauseIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import QueueIcon from '@/icons/QueueIcon'
 import QueueAltIcon from '@/icons/QueueAltIcon'
 import DoubleExclamationCircleIcon from '@/icons/DoubleExclamationCircleIcon'
-
 import * as postsHelpers from '@/app/helpers/postsHelpers'
-
 import brandColors from '@/constants/brandColors'
 
-const PostCardPromotionStatus = ({
+const PostPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
   postPromotable,
@@ -93,7 +90,7 @@ const PostCardPromotionStatus = ({
   )
 }
 
-PostCardPromotionStatus.propTypes = {
+PostPromotionStatus.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
   postPromotable: PropTypes.bool.isRequired,
@@ -101,9 +98,9 @@ PostCardPromotionStatus.propTypes = {
   className: PropTypes.string,
 }
 
-PostCardPromotionStatus.defaultProps = {
+PostPromotionStatus.defaultProps = {
   size: 'regular',
   className: null,
 }
 
-export default PostCardPromotionStatus
+export default PostPromotionStatus
