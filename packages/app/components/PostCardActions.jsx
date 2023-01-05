@@ -25,7 +25,7 @@ const PostCardActions = ({
 
     setIsOpen(false)
     setIsPostActionsOpen(false)
-  },[setIsPostActionsOpen])
+  }, [setIsPostActionsOpen])
 
   React.useEffect(() => {
     if (isOpen) {
