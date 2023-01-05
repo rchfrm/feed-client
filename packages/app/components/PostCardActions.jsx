@@ -13,7 +13,7 @@ const PostCardActions = ({
   const [isOpen, setIsOpen] = React.useState(false)
   const dropdownRef = React.useRef(null)
 
-  const close = ({ target }) => {
+  const close = React.useCallback(({ target }) => {
     if (! dropdownRef.current) {
       return
     }
@@ -25,7 +25,7 @@ const PostCardActions = ({
 
     setIsOpen(false)
     setIsPostActionsOpen(false)
-  }
+  },[setIsPostActionsOpen])
 
   React.useEffect(() => {
     if (isOpen) {
@@ -37,7 +37,7 @@ const PostCardActions = ({
     return () => {
       window.removeEventListener('click', close)
     }
-  }, [isOpen])
+  }, [isOpen, close])
 
   return (
     <div className="absolute right-2 bottom-2 z-10" ref={dropdownRef}>
