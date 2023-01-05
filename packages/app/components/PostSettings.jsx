@@ -71,14 +71,6 @@ const PostSettings = ({
   const { active, inReview, rejected } = promotionStatusSlugs
   const shouldShowPreview = [active, inReview, rejected].includes(promotionStatus) && hasPreviewLinkForSelectedCampaignType
 
-  React.useEffect(() => {
-    if (isConversionsCampaign) {
-      setIsConversionsEnabled(conversionsEnabled)
-    } else {
-      setIsPromotionEnabled(promotionEnabled)
-    }
-  }, [isConversionsCampaign, promotionEnabled, conversionsEnabled])
-
   const updatePost = ({ type, payload }) => {
     setStatus((status) => payload.newStatus || status)
 

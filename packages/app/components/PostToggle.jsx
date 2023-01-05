@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ToggleSwitch from '@/elements/ToggleSwitch'
+import PostSettingsDisableAlert from '@/app/PostSettingsDisableAlert'
 import { togglePromotionEnabled, setPostPriority } from '@/app/helpers/postsHelpers'
 
 const PostToggle = ({
@@ -13,10 +14,13 @@ const PostToggle = ({
   disabled,
   className,
 }) => {
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+  const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const { id: postId } = post
+  const { id: postId, promotionStatus } = post
   const isConversionsCampaign = campaignType === 'conversions'
+  const isPostActive = promotionStatus === 'active'
   const { artistId } = React.useContext(ArtistContext)
 
   const checkAndDeprioritize = React.useCallback(async (status, updatedPost) => {
@@ -39,19 +43,26 @@ const PostToggle = ({
     }
   }, [artistId, postId, setPost, post.priorityEnabled])
 
-  const onChange = React.useCallback(async (newState) => {
+  const save = React.useCallback(async (value, forceRun = false) => {
+    if (isPostActive && ! forceRun) {
+      setOnAlertConfirm(() => () => save(value, true))
+      setShouldShowAlert(true)
+
+      return
+    }
+
+    setIsEnabled(value)
     setIsLoading(true)
-    setIsEnabled(newState)
 
     const { res: updatedPost, error } = await togglePromotionEnabled({
       artistId,
       postId,
-      [isConversionsCampaign ? 'conversionsEnabled' : 'promotionEnabled']: newState,
+      [isConversionsCampaign ? 'conversionsEnabled' : 'promotionEnabled']: value,
       campaignType,
     })
 
     if (error) {
-      setIsEnabled(! newState)
+      setIsEnabled(! value)
       setIsLoading(false)
       return
     }
@@ -72,15 +83,30 @@ const PostToggle = ({
     })
     checkAndDeprioritize(newStatus, updatedPost)
     setIsLoading(false)
-  }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign])
+  }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign, isPostActive])
+
+  const onConfirm = () => {
+    onAlertConfirm()
+    setShouldShowAlert(false)
+  }
+
+  const onCancel = () => {
+    setShouldShowAlert(false)
+  }
 
   return (
     <div className={className}>
       <ToggleSwitch
         state={isEnabled}
-        onChange={onChange}
+        onChange={save}
         isLoading={isLoading}
         disabled={disabled}
+      />
+      <PostSettingsDisableAlert
+        shouldShowAlert={shouldShowAlert}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        campaignType={campaignType}
       />
     </div>
   )
