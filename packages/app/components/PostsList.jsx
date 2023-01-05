@@ -9,6 +9,7 @@ const PostsList = ({
   status,
   setPosts,
   filterBy,
+  setIsPostActionsOpen,
   className,
 }) => {
   if (! posts.length) {
@@ -35,6 +36,7 @@ const PostsList = ({
             index={index}
             status={status}
             setPosts={setPosts}
+            setIsPostActionsOpen={setIsPostActionsOpen}
             className={[
               'col-span-6 sm:col-span-3 lg:col-span-2',
             ].join(' ')}
@@ -54,6 +56,8 @@ PostsList.propTypes = {
   posts: PropTypes.array.isRequired,
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
+  filterBy: PropTypes.object.isRequired,
+  setIsPostActionsOpen: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
