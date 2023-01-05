@@ -6,13 +6,13 @@ import LinkIcon from '@/icons/LinkIcon'
 
 import { capitalise } from '@/helpers/utils'
 
-const PostDetails = ({ post }) => {
+const PostDetails = ({ post, className }) => {
   const { platform, message, permalinkUrl, publishedTime } = post
 
   return (
-    <>
+    <div>
       <h2 className="hidden sm:block mb-8">Source post details</h2>
-      <div className="md:pl-16">
+      <div className={className}>
         <div className="sm:flex">
           <div className="mb-6 w-1/2">
             <p className="mb-2 text-lg font-bold">Platform</p>
@@ -49,15 +49,17 @@ const PostDetails = ({ post }) => {
           </div>
         )}
       </div>
-    </>
+    </div>
   )
 }
 
 PostDetails.propTypes = {
   post: PropTypes.object.isRequired,
+  className: PropTypes.string,
 }
 
 PostDetails.defaultProps = {
+  className: null,
 }
 
 export default PostDetails
