@@ -8,6 +8,7 @@ const PostCard = ({
   index,
   status,
   setPosts,
+  setIsPostActionsOpen,
   className,
 }) => {
   return (
@@ -32,6 +33,7 @@ const PostCard = ({
         index={index}
         status={status}
         setPosts={setPosts}
+        setIsPostActionsOpen={setIsPostActionsOpen}
       />
     </div>
   )
@@ -42,6 +44,7 @@ PostCard.propTypes = {
   index: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
+  setIsPostActionsOpen: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
