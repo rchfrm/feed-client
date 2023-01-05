@@ -26,6 +26,7 @@ const PostsContainer = ({
   className,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false)
+  const [isPostActionsOpen, setIsPostActionsOpen] = React.useState(false)
   const shouldShowPostsAmount = status === 'active' || status === 'rejected'
 
   const { width } = useOnResize()
@@ -56,7 +57,7 @@ const PostsContainer = ({
     <div
       className={[
         'mb-5 rounded-dialogue border border-solid',
-        'overflow-hidden',
+        ! isPostActionsOpen ? 'overflow-hidden' : null,
         className,
       ].join(' ')}
       ref={containerRef}
@@ -99,6 +100,7 @@ const PostsContainer = ({
             status={status}
             setPosts={setPosts}
             filterBy={filterBy}
+            setIsPostActionsOpen={setIsPostActionsOpen}
             className="mb-5"
           />
         )}

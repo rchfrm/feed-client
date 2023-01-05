@@ -8,6 +8,7 @@ const PostCardActions = ({
   index,
   status,
   setPosts,
+  setIsPostActionsOpen,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const dropdownRef = React.useRef(null)
@@ -18,10 +19,12 @@ const PostCardActions = ({
     }
 
     if (dropdownRef.current.contains(target)) {
+      setIsPostActionsOpen(true)
       return
     }
 
     setIsOpen(false)
+    setIsPostActionsOpen(false)
   }
 
   React.useEffect(() => {
