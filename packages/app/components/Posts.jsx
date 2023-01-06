@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import moment from 'moment'
 import { useImmerReducer } from 'use-immer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -63,7 +62,7 @@ const postsReducer = (draftState, postsAction) => {
   }
 }
 
-const Posts = ({ dummyPostsImages }) => {
+const Posts = () => {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const { artistId } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
@@ -131,15 +130,9 @@ const Posts = ({ dummyPostsImages }) => {
         />
       )
     ) : (
-      <PostsNoArtists dummyPostsImages={dummyPostsImages} />
+      <PostsNoArtists />
     )
   )
-}
-
-Posts.propTypes = {
-  dummyPostsImages: PropTypes.arrayOf(
-    PropTypes.object.isRequired,
-  ).isRequired,
 }
 
 export default Posts
