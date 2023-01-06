@@ -63,7 +63,7 @@ const postsReducer = (draftState, postsAction) => {
   }
 }
 
-const Posts = ({ dummyPostsImages }) => {
+const Posts = () => {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
   const { artistId } = React.useContext(ArtistContext)
   const { user } = React.useContext(UserContext)
@@ -131,7 +131,7 @@ const Posts = ({ dummyPostsImages }) => {
         />
       )
     ) : (
-      <PostsNoArtists dummyPostsImages={dummyPostsImages} />
+      <PostsNoArtists />
     )
   )
 }

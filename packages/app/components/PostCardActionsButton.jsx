@@ -3,9 +3,13 @@ import PropTypes from 'prop-types'
 import ThreeDotsIcon from '@/icons/ThreeDots'
 
 const PostCardActionsButton = ({ isOpen, setIsOpen }) => {
+  const handleClick = () => {
+    setIsOpen(! isOpen)
+  }
+
   return (
     <button
-      onClick={() => setIsOpen(! isOpen)}
+      onClick={handleClick}
       className={[
         'w-6 h-6',
         'flex justify-center items-center',
