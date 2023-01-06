@@ -39,10 +39,10 @@ const PostsNoArtistsContainer = ({
       </div>
       <div className="mb-5 px-5 transition ease-in-out delay-200 transition-opacity opacity-1">
         <div className="flex items-center mb-5">
-          <LockIcon className="w-4 h-auto mr-1" fill={brandColors.red} />
+          <LockIcon className="w-4 h-auto mr-2 md:mr-1 flex-shrink-0" fill={brandColors.red} />
           <p className="mb-0">
             {isActive ? 'Your active ads will appear here. ' : "You'll find the ads Feed has lined up to promote here. "}
-            <Button version="text" className="decoration-green" onClick={goToGetStartedPage}> Continue set up</Button>
+            <Button version="text" className="h-4 decoration-green" onClick={goToGetStartedPage}> Continue set up</Button>
             {isActive ? ' to start your first campaign. ' : ' to start adding to the queue.'}
           </p>
         </div>
