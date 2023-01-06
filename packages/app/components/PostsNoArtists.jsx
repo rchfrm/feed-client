@@ -25,23 +25,22 @@ const PostsNoArtists = () => {
       <div className="relative mb-20">
         <PostsNoArtistsContainer
           status="active"
-          filterBy={{ platform: 'facebook', internal_type: 'story' }}
-          sortBy="published_time"
+          className="border-green"
           isOpen
-          className="border-green border-2"
         />
         <PostsNoArtistsContainer
           status="pending"
-          filterBy={{ platform: 'instagram', internal_type: 'post' }}
-          sortBy="normalized_score"
+          className="bg-grey-1 border-grey-2"
           isOpen
         />
         <PostsNoArtistsContainer
           status="inactive"
+          className="bg-grey-1 border-grey-2"
           isOpen={false}
         />
         <PostsNoArtistsContainer
           status="archived"
+          className="bg-grey-1 border-grey-2"
           isOpen={false}
         />
       </div>
