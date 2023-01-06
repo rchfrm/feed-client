@@ -42,12 +42,11 @@ const usePostsSidePanel = () => {
   // eslint-disable-next-line
   }, [setSidePanelButton, setSidePanelContent, setSidePanelContentLabel, toggleSidePanel])
 
-  const goToPostMetrics = React.useCallback(({ metrics, postType }) => {
+  const goToPostMetrics = React.useCallback((metrics) => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent((
       <PostMetrics
         metrics={metrics}
-        postType={postType}
         className="md:max-w-none max-w-lg"
       />
     ))
