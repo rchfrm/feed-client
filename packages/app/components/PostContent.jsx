@@ -33,13 +33,8 @@ const PostContent = ({ post, updatePost }) => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
-  const { postType, promotionStatus } = post
+  const { promotionStatus } = post
   const hidePaidMetrics = promotionStatus === 'inactive'
-
-  const metrics = {
-    organic: post.organicMetrics,
-    paid: hidePaidMetrics ? null : post.paidMetrics,
-  }
 
   // Define function for toggling promotion campaign or conversions campaign
   const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all') => {
@@ -52,7 +47,7 @@ const PostContent = ({ post, updatePost }) => {
 
   const postComponents = {
     details: <PostDetails post={post} className="md:pl-16" />,
-    metrics: <PostMetrics metrics={metrics} postType={postType} shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
+    results: <PostMetrics metrics={hidePaidMetrics ? null : post.paidMetrics} shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
     settings: <PostSettings post={post} updatePost={updatePost} toggleCampaign={toggleCampaign} />,
   }
 

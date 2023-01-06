@@ -98,12 +98,7 @@ const PostCardActionsMenu = ({
   }
 
   const openMetrics = () => {
-    const metrics = {
-      paid: post.paidMetrics,
-    }
-
-    const { postType } = post
-    goToPostMetrics({ metrics, postType })
+    goToPostMetrics(post.paidMetrics)
   }
 
   const openDetails = () => {

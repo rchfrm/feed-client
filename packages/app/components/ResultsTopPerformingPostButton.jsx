@@ -11,12 +11,7 @@ const ResultsTopPerformingPostButton = ({
   const { goToPostMetrics } = usePostsSidePanel()
 
   const openPostMetricsSidePanel = () => {
-    const metrics = {
-      organic: postData.organicMetrics,
-      paid: postData.paidMetrics,
-    }
-    const { postType } = postData
-    goToPostMetrics({ metrics, postType })
+    goToPostMetrics(postData.paidMetrics)
   }
 
   return (

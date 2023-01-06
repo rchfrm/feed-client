@@ -6,26 +6,24 @@ import * as utils from '@/helpers/utils'
 
 const PostMetricsList = ({
   metrics,
-  metricsContent,
-  metricsType,
+  content,
   className,
 }) => {
-  // GET CURRENCY
   const { artistCurrency } = React.useContext(ArtistContext)
 
-  // CREATE ARRAY OF METRICS
   const maxMetrics = 6
   const metricsArray = React.useMemo(() => {
-    if (! metrics) return []
-    const metricsFormatted = utils.getDataArray(metricsContent, metrics, { preserveRawNumber: true })
-      // remove empty items from array
-      .filter(({ value }) => value)
-      // restrict number of items
-      .slice(0, maxMetrics)
-    return metricsFormatted
-  }, [metrics, metricsContent])
+    if (! metrics) {
+      return []
+    }
 
-  // HANDLE NO VALID METRICS
+    const metricsFormatted = utils.getDataArray(content, metrics, { preserveRawNumber: true })
+      .filter(({ value }) => value)
+      .slice(0, maxMetrics)
+
+    return metricsFormatted
+  }, [metrics, content])
+
   if (! metricsArray.length) {
     return (
       <div
@@ -35,7 +33,7 @@ const PostMetricsList = ({
           className,
         ].join(' ')}
       >
-        <p className="mb-0">{utils.capitalise(metricsType)} metrics will appear here soon</p>
+        <p className="mb-0">Paid metrics will appear here soon</p>
       </div>
     )
   }
@@ -47,21 +45,17 @@ const PostMetricsList = ({
         className,
       ].join(' ')}
     >
-      {/* METRICS */}
       {metricsArray.map(({ name, key, value }) => {
-        // Parse value
         const parsedValue = key === 'spend'
           ? utils.formatCurrency(value, artistCurrency)
           : utils.formatNumber(value)
-        // Get drilldown metrics
+
         const drilldownMetrics = metrics.drilldowns ? metrics.drilldowns[key] : null
         return (
           <PostMetricsListItem
             key={key}
-            id={key}
             title={name}
             value={parsedValue}
-            metricsType={metricsType}
             drilldownMetrics={drilldownMetrics}
             artistCurrency={artistCurrency}
             className="border-solid border-green border-b-2 last:border-none"
@@ -72,18 +66,15 @@ const PostMetricsList = ({
   )
 }
 
-
 PostMetricsList.propTypes = {
   metrics: PropTypes.object,
-  metricsContent: PropTypes.array.isRequired,
-  metricsType: PropTypes.string,
+  content: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 
 PostMetricsList.defaultProps = {
   metrics: null,
-  metricsType: '',
   className: null,
 }
 
-export default React.memo(PostMetricsList)
+export default PostMetricsList

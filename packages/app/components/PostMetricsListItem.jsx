@@ -10,12 +10,16 @@ const PostMetricsListItem = ({
   className,
 }) => {
   const drilldownMetricsFormatted = React.useMemo(() => {
-    if (! drilldownMetrics) return null
+    if (! drilldownMetrics) {
+      return null
+    }
+
     return Object.entries(drilldownMetrics).reduce((arr, [key, value]) => {
       if (! value) return arr
       return [...arr, { key, value }]
     }, [])
   }, [drilldownMetrics])
+
   return (
     <li
       className={[
@@ -28,7 +32,6 @@ const PostMetricsListItem = ({
         <p className="mb-0">{title}</p>
         <p className="mb-0 font-bold">{value}</p>
       </div>
-      {/* DRILLDOWNS */}
       {drilldownMetricsFormatted && (
         <ul className="pt-2 text-sm mb-0">
           {drilldownMetricsFormatted.map(({ key, value }) => {
@@ -36,6 +39,7 @@ const PostMetricsListItem = ({
             const parsedValue = title === 'spend'
               ? utils.formatCurrency(value, artistCurrency)
               : utils.formatNumber(value)
+
             return (
               <li
                 key={key}
