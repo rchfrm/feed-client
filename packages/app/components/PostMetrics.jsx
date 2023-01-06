@@ -18,7 +18,7 @@ const PostMetrics = ({
         'md:max-w-none',
       ].join(' ')}
     >
-      {shouldShowTitle && <h2 className={sidePanelStyles.SidePanel__Header}>Post Results</h2>}
+      {shouldShowTitle && <h2 className={sidePanelStyles.SidePanel__Header}>Post results</h2>}
       <div className={className}>
         <AdSettingsSection
           header="Paid Metrics"
