@@ -162,8 +162,8 @@ export const postOptions = [
     title: 'Details',
   },
   {
-    name: 'insights',
-    title: 'Insights',
+    name: 'results',
+    title: 'Results',
   },
   {
     name: 'settings',
@@ -307,8 +307,8 @@ export const formatPostsResponse = (posts) => {
       post.display?.thumbnail_url,
       ...thumbnailUrls,
     ]
-    // Organic metrics
-    const organicMetrics = {
+    // Organic results
+    const organicResults = {
       comments: post.comments,
       impressions: post.impressions,
       likes: post.likes,
@@ -323,9 +323,9 @@ export const formatPostsResponse = (posts) => {
       taps_back: getNestedMetric(post, 'taps_back'),
       exits: getNestedMetric(post, 'exits'),
     }
-    // Paid metrics
+    // Paid results
     const adsSummaryMetrics = adsSummary.metrics || {}
-    const paidMetrics = adsSummary ? {
+    const paidResults = adsSummary ? {
       spend: adsSummaryMetrics.spend,
       reach: adsSummaryMetrics.reach,
       impressions: adsSummaryMetrics.impressions,
@@ -375,8 +375,8 @@ export const formatPostsResponse = (posts) => {
       mediaType,
       videoFallback,
       thumbnails,
-      organicMetrics,
-      paidMetrics,
+      organicResults,
+      paidResults,
       publishedTime,
       firstRan,
       lastRan,
@@ -418,41 +418,16 @@ export const getCursor = (post = {}) => {
   return afterHref.split('after=')[1]
 }
 
-// GET POST METRIC CONFIG
-export const getPostMetricsContent = (metricsType, postType) => {
-  // ORGANIC METRICS
-  if (metricsType === 'organic') {
-    if (postType === 'story' || postType === 'reels') {
-      return [
-        'replies',
-        'taps_forward',
-        'taps_back',
-        'exits',
-      ]
-    }
-    return [
-      'reach',
-      'likes',
-      'comments',
-      'video_views',
-      'shares',
-      'saves',
-      'taps_forward',
-      'taps_back',
-      'replies',
-    ]
-  }
-  // PAID METRICS
-  return [
-    'spend',
-    'reach',
-    'landing_page_views',
-    'clicks',
-    'video_views',
-    'engagements',
-    'impressions',
-  ]
-}
+// GET POST RESULTS CONFIG
+export const postResultsConfig = [
+  'spend',
+  'reach',
+  'landing_page_views',
+  'clicks',
+  'video_views',
+  'engagements',
+  'impressions',
+]
 
 // UPDATE CAPTION
 export const updatePostCaption = async ({ artistId, assetId, adMessageId, campaignType, caption }) => {

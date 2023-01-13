@@ -116,12 +116,8 @@ Facebook’s approval process usually takes less than 24 hours, and the post wil
 
 Are you sure you want to continue?`,
 
-  // METRICS SIDEPANEL
-  metricsDescription: {
-    paid: 'Performance data showing how well this post did as an ad. Metrics and score are aggregated across the difference audiences that see the ad.',
-    organic: 'Performance data showing how well this post performed with your existing following.',
-  },
-
+  // RESULTS SIDEPANEL
+  resultsDescription: 'Performance data showing how well this post did as an ad. Results and score are aggregated across the difference audiences that see the ad.',
 
   // LINKS
   confirmDeleteFolder: `**Are you sure**?

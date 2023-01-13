@@ -24,7 +24,7 @@ const PostCardActionsMenu = ({
   const [action, setAction] = React.useState(null)
 
   const { artistId } = React.useContext(ArtistContext)
-  const { goToPostSettings, goToPostMetrics, goToPostDetails } = usePostsSidePanel()
+  const { goToPostSettings, goToPostResults, goToPostDetails } = usePostsSidePanel()
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
@@ -97,14 +97,8 @@ const PostCardActionsMenu = ({
     })
   }
 
-  const openMetrics = () => {
-    const metrics = {
-      organic: post.organicMetrics,
-      paid: post.paidMetrics,
-    }
-
-    const { postType } = post
-    goToPostMetrics({ metrics, postType })
+  const openResults = () => {
+    goToPostResults(post.paidResults)
   }
 
   const openDetails = () => {
@@ -117,7 +111,7 @@ const PostCardActionsMenu = ({
     if (status === 'active') {
       return {
         name: 'View results',
-        fn: openMetrics,
+        fn: openResults,
         icon: <InsightsIcon className="h-3 w-3 mr-1" />,
       }
     }
@@ -181,6 +175,13 @@ const PostCardActionsMenu = ({
           {action?.name}
         </button>
       </li>
+      {status === 'archived' && (
+        <li>
+          <button onClick={openResults} className="mb-2 whitespace-nowrap">
+            Results
+          </button>
+        </li>
+      )}
       <li>
         <button onClick={openSettings} className="mb-2 whitespace-nowrap">
           Settings

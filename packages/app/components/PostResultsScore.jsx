@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import StarIcon from '@/icons/StarIcon'
-
 import brandColors from '@/constants/brandColors'
 
-const PostCardMetricsScore = ({
+const PostResultsScore = ({
   score,
   className,
 }) => {
@@ -37,14 +35,14 @@ const PostCardMetricsScore = ({
   )
 }
 
-PostCardMetricsScore.propTypes = {
+PostResultsScore.propTypes = {
   score: PropTypes.number,
   className: PropTypes.string,
 }
 
-PostCardMetricsScore.defaultProps = {
+PostResultsScore.defaultProps = {
   score: null,
   className: null,
 }
 
-export default PostCardMetricsScore
+export default PostResultsScore

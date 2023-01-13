@@ -15,7 +15,7 @@ const PostMediaMobile = ({ post }) => {
     postType,
     videoFallback,
     message,
-    organicMetrics,
+    organicResults,
   } = post
 
   return (
@@ -37,7 +37,7 @@ const PostMediaMobile = ({ post }) => {
           caption={message}
         />
         <PostScore
-          score={organicMetrics.normalizedScore}
+          score={organicResults.normalizedScore}
           className="transform -translate-x-1/2 left-1/2 -bottom-4"
           size="small"
         />

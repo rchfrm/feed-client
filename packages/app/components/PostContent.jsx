@@ -1,23 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useControlsStore from '@/app/stores/controlsStore'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useOnResize from '@/landing/hooks/useOnResize'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
-
 import SplitView from '@/app/SplitView'
 import RadioButtonTabs from '@/app/RadioButtonTabs'
 import PostMedia from '@/app/PostMedia'
 import PostMediaMobile from '@/app/PostMediaMobile'
 import PostDetails from '@/app/PostDetails'
-import PostInsights from '@/app/PostInsights'
+import PostResults from '@/app/PostResults'
 import PostSettings from '@/app/PostSettings'
 import PostCardToggles from '@/app/PostCardToggles'
 import PostCardUnpromotable from '@/app/PostCardUnpromotable'
-
 import { postOptions } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
@@ -37,6 +33,8 @@ const PostContent = ({ post, updatePost }) => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
+  const { promotionStatus } = post
+  const hidePaidResults = promotionStatus === 'inactive'
 
   // Define function for toggling promotion campaign or conversions campaign
   const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all') => {
@@ -49,7 +47,7 @@ const PostContent = ({ post, updatePost }) => {
 
   const postComponents = {
     details: <PostDetails post={post} className="md:pl-16" />,
-    insights: <PostInsights post={post} />,
+    results: <PostResults results={hidePaidResults ? null : post.paidResults} shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
     settings: <PostSettings post={post} updatePost={updatePost} toggleCampaign={toggleCampaign} />,
   }
 
