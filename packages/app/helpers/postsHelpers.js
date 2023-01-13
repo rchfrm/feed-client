@@ -299,8 +299,8 @@ export const formatPostsResponse = (posts) => {
       post.display?.thumbnail_url,
       ...thumbnailUrls,
     ]
-    // Organic metrics
-    const organicMetrics = {
+    // Organic results
+    const organicResults = {
       comments: post.comments,
       impressions: post.impressions,
       likes: post.likes,
@@ -315,9 +315,9 @@ export const formatPostsResponse = (posts) => {
       taps_back: getNestedMetric(post, 'taps_back'),
       exits: getNestedMetric(post, 'exits'),
     }
-    // Paid metrics
+    // Paid results
     const adsSummaryMetrics = adsSummary.metrics || {}
-    const paidMetrics = adsSummary ? {
+    const paidResults = adsSummary ? {
       spend: adsSummaryMetrics.spend,
       reach: adsSummaryMetrics.reach,
       impressions: adsSummaryMetrics.impressions,
@@ -367,8 +367,8 @@ export const formatPostsResponse = (posts) => {
       mediaType,
       videoFallback,
       thumbnails,
-      organicMetrics,
-      paidMetrics,
+      organicResults,
+      paidResults,
       publishedTime,
       firstRan,
       lastRan,
