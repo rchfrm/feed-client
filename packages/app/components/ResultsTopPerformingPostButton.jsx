@@ -8,10 +8,10 @@ import Button from '@/elements/Button'
 const ResultsTopPerformingPostButton = ({
   postData,
 }) => {
-  const { goToPostMetrics } = usePostsSidePanel()
+  const { goToPostResults } = usePostsSidePanel()
 
-  const openPostMetricsSidePanel = () => {
-    goToPostMetrics(postData.paidMetrics)
+  const openPostResultsSidePanel = () => {
+    goToPostResults(postData.paidResults)
   }
 
   return (
@@ -23,7 +23,7 @@ const ResultsTopPerformingPostButton = ({
         'bg-white border-solid border-black border-2',
         'text-xs sm:text-base text-black',
       ].join(' ')}
-      onClick={openPostMetricsSidePanel}
+      onClick={openPostResultsSidePanel}
       trackComponentName="ResultsPostStats"
     >
       View more

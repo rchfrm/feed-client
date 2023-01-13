@@ -2,23 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as utils from '@/helpers/utils'
 
-const PostMetricsListItem = ({
+const PostResultsListItem = ({
   title,
   value,
-  drilldownMetrics,
+  drilldownResults,
   artistCurrency,
   className,
 }) => {
-  const drilldownMetricsFormatted = React.useMemo(() => {
-    if (! drilldownMetrics) {
+  const drilldownResultsFormatted = React.useMemo(() => {
+    if (! drilldownResults) {
       return null
     }
 
-    return Object.entries(drilldownMetrics).reduce((arr, [key, value]) => {
+    return Object.entries(drilldownResults).reduce((arr, [key, value]) => {
       if (! value) return arr
       return [...arr, { key, value }]
     }, [])
-  }, [drilldownMetrics])
+  }, [drilldownResults])
 
   return (
     <li
@@ -32,9 +32,9 @@ const PostMetricsListItem = ({
         <p className="mb-0">{title}</p>
         <p className="mb-0 font-bold">{value}</p>
       </div>
-      {drilldownMetricsFormatted && (
+      {drilldownResultsFormatted && (
         <ul className="pt-2 text-sm mb-0">
-          {drilldownMetricsFormatted.map(({ key, value }) => {
+          {drilldownResultsFormatted.map(({ key, value }) => {
             const title = utils.capitalise(key)
             const parsedValue = title === 'spend'
               ? utils.formatCurrency(value, artistCurrency)
@@ -56,19 +56,19 @@ const PostMetricsListItem = ({
   )
 }
 
-PostMetricsListItem.propTypes = {
+PostResultsListItem.propTypes = {
   title: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
-  drilldownMetrics: PropTypes.object,
+  drilldownResults: PropTypes.object,
   className: PropTypes.string,
 }
 
-PostMetricsListItem.defaultProps = {
-  drilldownMetrics: null,
+PostResultsListItem.defaultProps = {
+  drilldownResults: null,
   className: '',
 }
 
-export default PostMetricsListItem
+export default PostResultsListItem

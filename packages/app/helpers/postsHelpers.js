@@ -410,8 +410,8 @@ export const getCursor = (post = {}) => {
   return afterHref.split('after=')[1]
 }
 
-// GET POST METRIC CONFIG
-export const metricsConfig = [
+// GET POST RESULTS CONFIG
+export const postResultsConfig = [
   'spend',
   'reach',
   'landing_page_views',

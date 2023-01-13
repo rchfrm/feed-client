@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import StarIcon from '@/icons/StarIcon'
 import brandColors from '@/constants/brandColors'
 
-const PostMetricsScore = ({
+const PostResultsScore = ({
   score,
   className,
 }) => {
@@ -35,14 +35,14 @@ const PostMetricsScore = ({
   )
 }
 
-PostMetricsScore.propTypes = {
+PostResultsScore.propTypes = {
   score: PropTypes.number,
   className: PropTypes.string,
 }
 
-PostMetricsScore.defaultProps = {
+PostResultsScore.defaultProps = {
   score: null,
   className: null,
 }
 
-export default PostMetricsScore
+export default PostResultsScore
