@@ -50,7 +50,7 @@ const ARTIST_SELECT_OPTIONS = ({
       options={artistOptions}
       name="Selected Profile"
       label="Selected Profile"
-      version="box white small sans"
+      version="box white sans"
       disabled={isDisabled}
     />
   )

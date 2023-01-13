@@ -12,7 +12,7 @@ export const getPostTypePlural = (type) => {
 export default {
   noPostsCopy: {
     // If no posts when filtering to all
-    all: () => `Looks like you haven’t posted on Facebook or Instagram yet. When you do start posting, your posts will appear here.`,
+    all: () => `No posts.`,
 
     // If no posts when filtered
     filtered: () => {

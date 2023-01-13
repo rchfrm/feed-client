@@ -1,11 +1,11 @@
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import PostsContent from '@/app/PostsContent'
+import Posts from '@/app/Posts'
 import getDatoData from '@/helpers/getDatoData'
 import query from '@/app/graphQl/dummyPostsQuery'
 
 const headerConfig = {
-  text: 'posts',
+  text: 'ads',
 }
 
 const Page = ({ allDummyPosts }) => (
@@ -14,7 +14,7 @@ const Page = ({ allDummyPosts }) => (
     artistRequired
     hasNoProfilesPage
   >
-    <PostsContent dummyPostsImages={allDummyPosts} />
+    <Posts dummyPostsImages={allDummyPosts} />
   </BasePage>
 )
 

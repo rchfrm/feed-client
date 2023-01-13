@@ -35,7 +35,6 @@ const getControlsStoreState = (state) => ({
 const PostCardSettings = ({
   post,
   postIndex,
-  postToggleSetterType,
   updatePost,
   artistId,
   toggleCampaign,
@@ -133,7 +132,6 @@ const PostCardSettings = ({
             <PostCardSettingsToggle
               post={post}
               postId={postId}
-              postToggleSetterType={postToggleSetterType}
               campaignType={campaignType}
               artistId={artistId}
               toggleCampaign={toggleCampaign}
@@ -218,7 +216,6 @@ const PostCardSettings = ({
 PostCardSettings.propTypes = {
   post: PropTypes.object.isRequired,
   postIndex: PropTypes.number.isRequired,
-  postToggleSetterType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   artistId: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,

@@ -48,7 +48,7 @@ const PostContent = ({ post, updatePost }) => {
   }, [updatePost])
 
   const postComponents = {
-    details: <PostDetails post={post} />,
+    details: <PostDetails post={post} className="md:pl-16" />,
     insights: <PostInsights post={post} />,
     settings: <PostSettings post={post} updatePost={updatePost} toggleCampaign={toggleCampaign} />,
   }
@@ -85,7 +85,6 @@ const PostContent = ({ post, updatePost }) => {
           <PostCardToggles
             artistId={artistId}
             post={post}
-            postToggleSetterType="single"
             toggleCampaign={toggleCampaign}
             updatePost={updatePost}
             priorityEnabled={post.priorityEnabled}

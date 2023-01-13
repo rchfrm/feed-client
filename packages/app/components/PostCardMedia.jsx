@@ -1,13 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import PostImage from '@/PostImage'
-import PostCardCaption from '@/app/PostCardCaption'
-
-import CommentIcon from '@/icons/CommentIcon'
-import CloseCircle from '@/icons/CloseCircle'
-
-import brandColors from '@/constants/brandColors'
 
 const PostCardMedia = ({
   media,
@@ -17,6 +10,7 @@ const PostCardMedia = ({
   caption,
   postType,
   className,
+  fallbackClassName,
   style,
 }) => {
   const [hasMedia, setHasMedia] = React.useState(!! media)
@@ -26,9 +20,6 @@ const PostCardMedia = ({
   React.useEffect(() => {
     setHasMedia(!! media)
   }, [media])
-
-  // TOGGLE CAPTION
-  const [isCaptionVisible, setIsCaptionVisible] = React.useState(false)
 
   return (
     <div
@@ -45,10 +36,8 @@ const PostCardMedia = ({
         ].join(' ')}
         style={{ paddingTop: '100%' }}
       >
-        {/* POST IMAGE (if there is media) */}
         {hasMedia && (
           <>
-            {/* BLURRED BG (if there is a thumbnail and it's not square) */}
             {selectedThumbnail.src && selectedThumbnail.ratio !== 1 && (
               <div
                 className="absolute w-full h-full blurred--image--bg"
@@ -61,11 +50,9 @@ const PostCardMedia = ({
                 }}
               />
             )}
-            {/* THUMBNAIL */}
             <div
               className={[
                 'absolute top-0 left-0 w-full h-full',
-                // Landscape thumb
                 selectedThumbnail.src && selectedThumbnail.ratio > 1 ? 'px-3' : null,
               ].join(' ')}
             >
@@ -82,30 +69,10 @@ const PostCardMedia = ({
                   setSelectedThumbnail(thumbnail)
                   setReady(true)
                 }}
+                fallbackClassName={fallbackClassName}
               />
             </div>
           </>
-        )}
-        {/* CAPTION BUTTON */}
-        {hasMedia && caption && postType !== 'story' && (
-          <button
-            aria-label={isCaptionVisible ? 'Close Caption' : 'Show Caption'}
-            onClick={() => setIsCaptionVisible(! isCaptionVisible)}
-            className="absolute bottom-0 right-0 px-6 py-5"
-            style={{ zIndex: 3 }}
-          >
-            {isCaptionVisible ? (
-              <CloseCircle className="w-5 h-auto" />
-            ) : (
-              <CommentIcon className="w-6 h-auto" fillBubble={brandColors.blue} />
-            )}
-          </button>
-        )}
-        {(! hasMedia || isCaptionVisible) && (
-          <PostCardCaption
-            caption={caption}
-            style={{ zIndex: 2 }}
-          />
         )}
       </div>
     </div>
@@ -120,6 +87,7 @@ PostCardMedia.propTypes = {
   caption: PropTypes.string,
   postType: PropTypes.string,
   className: PropTypes.string,
+  fallbackClassName: PropTypes.string,
 }
 
 PostCardMedia.defaultProps = {
@@ -130,6 +98,7 @@ PostCardMedia.defaultProps = {
   caption: '',
   postType: '',
   className: null,
+  fallbackClassName: null,
 }
 
 export default PostCardMedia

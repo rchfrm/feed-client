@@ -4,13 +4,9 @@ import PropTypes from 'prop-types'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import NoArtistsConnectAccountsBlock from '@/app/NoArtistsConnectAccountsBlock'
-import PostsSorter from '@/app/PostsSorter'
-import PostsFiltersHandler from '@/app/PostsFiltersHandler'
 import PostsNoArtistsDummyAll from '@/app/PostsNoArtistsDummyAll'
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
 import Error from '@/elements/Error'
-
-import { sortTypes } from '@/app/helpers/postsHelpers'
 
 const PostsNoArtists = ({ dummyPostsImages }) => {
   const { authError, setAuthError } = React.useContext(AuthContext)
@@ -42,23 +38,6 @@ const PostsNoArtists = ({ dummyPostsImages }) => {
         />
       </div>
       <div className="relative mb-20">
-        <div className="grid grid-cols-12 gap-x-6">
-          {/* SORT */}
-          <PostsSorter
-            sortTypes={sortTypes}
-            sortBy="published_time"
-            setSortBy={() => {}}
-            defaultSortState=""
-            disabled
-            className="col-start-1 col-span-12 sm:col-span-4"
-          />
-          {/* FILTERS */}
-          <PostsFiltersHandler
-            setFilterBy={() => {}}
-            disabled
-            className="row-span-1 col-span-12 sm:col-span-8"
-          />
-        </div>
         <PostsNoArtistsDummyAll
           dummyPostsImages={dummyPostsImages}
           errors={errors}

@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import ArrowIcon from '@/icons/ArrowIcon'
-
 import { capitalise } from '@/helpers/utils'
 
 const Dropdown = ({

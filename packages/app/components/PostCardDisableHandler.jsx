@@ -1,11 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import usePrevious from 'use-previous'
 import { useAsync } from 'react-async'
-
 import PostCardDisableAlert from '@/app/PostCardDisableAlert'
-
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 
 const getPromotionStatus = (promotableStatus) => {
@@ -16,7 +13,6 @@ const getPromotionStatus = (promotableStatus) => {
 
 const PostCardDisableHandler = ({
   post,
-  postToggleSetterType,
   artistId,
   toggleCampaign,
   isEnabled,
@@ -73,10 +69,10 @@ const PostCardDisableHandler = ({
   }, [previousPromotableStatus])
 
   React.useEffect(() => {
-    if (postToggleSetterType === 'single' && ! isEnabled && previousEnabled) {
+    if (! isEnabled && previousEnabled) {
       showAlert()
     }
-  }, [isEnabled, previousEnabled, postToggleSetterType, showAlert])
+  }, [isEnabled, previousEnabled, showAlert])
 
   return (
     <PostCardDisableAlert
@@ -90,7 +86,6 @@ const PostCardDisableHandler = ({
 
 PostCardDisableHandler.propTypes = {
   post: PropTypes.object.isRequired,
-  postToggleSetterType: PropTypes.string.isRequired,
   artistId: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
   isEnabled: PropTypes.bool.isRequired,

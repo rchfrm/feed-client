@@ -14,7 +14,6 @@ import { updatePost } from '@/app/helpers/postsHelpers'
 const PostCardSettingsToggle = ({
   post,
   postId,
-  postToggleSetterType,
   campaignType,
   toggleCampaign,
   artistId,
@@ -97,7 +96,6 @@ const PostCardSettingsToggle = ({
         {postPromotable && promotionStatus === 'active' && hasChanged && (
           <PostCardDisableHandler
             post={post}
-            postToggleSetterType={postToggleSetterType}
             artistId={artistId}
             toggleCampaign={toggleCampaign}
             isEnabled={isEnabled}
@@ -123,7 +121,6 @@ const PostCardSettingsToggle = ({
 PostCardSettingsToggle.propTypes = {
   post: PropTypes.object.isRequired,
   postId: PropTypes.string.isRequired,
-  postToggleSetterType: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
   toggleCampaign: PropTypes.func.isRequired,
   artistId: PropTypes.string.isRequired,
