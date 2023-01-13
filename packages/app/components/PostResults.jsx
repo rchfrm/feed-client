@@ -20,10 +20,7 @@ const PostResults = ({
     >
       {shouldShowTitle && <h2 className={sidePanelStyles.SidePanel__Header}>Post results</h2>}
       <div className={className}>
-        <AdSettingsSection
-          header="Paid Results"
-          copy={copy.resultsDescription}
-        >
+        <AdSettingsSection copy={copy.resultsDescription}>
           <div className="md:grid grid-cols-12 items-center pt-4">
             <div className="col-span-4">
               <PostResultsScore

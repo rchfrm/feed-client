@@ -24,7 +24,7 @@ const AdSettingsSection = ({
     ].join(' ')}
     >
       <div className={isDisabled ? 'text-grey-2' : null}>
-        <h3 className="font-body font-bold text-lg mb-3">{header}</h3>
+        {header && <h3 className="font-body font-bold text-lg mb-3">{header}</h3>}
         <DisabledSection
           section={section}
           isDisabled={hasPlanRestriction && hasSetUpProfile}
@@ -40,7 +40,7 @@ const AdSettingsSection = ({
 
 AdSettingsSection.propTypes = {
   children: PropTypes.node.isRequired,
-  header: PropTypes.string.isRequired,
+  header: PropTypes.string,
   copy: PropTypes.string,
   section: PropTypes.string,
   hasPlanRestriction: PropTypes.bool,
@@ -49,6 +49,7 @@ AdSettingsSection.propTypes = {
 }
 
 AdSettingsSection.defaultProps = {
+  header: '',
   copy: '',
   section: '',
   hasPlanRestriction: false,
