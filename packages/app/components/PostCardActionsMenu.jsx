@@ -90,7 +90,11 @@ const PostCardActionsMenu = ({
   }
 
   const openSettings = () => {
-    goToPostResults(post.paidResults)
+    goToPostSettings({
+      post,
+      postIndex: index,
+      artistId,
+    })
   }
 
   const openResults = () => {
