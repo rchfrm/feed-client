@@ -9,7 +9,7 @@ import useSignOut from '@/app/hooks/useSignOut'
 const SignOutLink = ({ className }) => {
   const signOut = useSignOut()
   return (
-    <a className={className} role="button" version="sign-out" onClick={signOut}>
+    <a className={[className, 'no-underline'].join(' ')} role="button" version="sign-out" onClick={signOut}>
       sign out
     </a>
   )

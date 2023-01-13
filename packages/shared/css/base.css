@@ -68,8 +68,14 @@ body {
 }
 
 #page--container {
+  padding-top: var(--sp-6);
+
+  @media (--sm) {
+    padding-top: var(--sp-8);
+  }
+
   @media (--md) {
-    padding: 0 var(--sp-33) 0 var(--sp-13)
+    padding: 0 var(--sp-20);
   }
 }
 

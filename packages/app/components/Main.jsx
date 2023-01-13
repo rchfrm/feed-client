@@ -100,7 +100,7 @@ function Main({ children }) {
   }, [profileSetupConditions, artistId, user, controlsLoading])
 
   return (
-    <main id="page--container" className="md:ml-10">
+    <main id="page--container">
       <InitUser>
         {children}
         <IntegrationErrorHandler />

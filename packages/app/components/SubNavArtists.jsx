@@ -1,23 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useBillingStore from '@/app/stores/billingStore'
-
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useNotificationsStore from '@/app/stores/notificationsStore'
-
 import ArtistImage from '@/elements/ArtistImage'
 import Select from '@/elements/Select'
 import NotificationDot from '@/elements/NotificationDot'
-
-import TheSubNavConnectProfiles from '@/app/TheSubNavConnectProfiles'
+import SubNavConnectProfiles from '@/app/SubNavConnectProfiles'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
-
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-
-import styles from '@/app/TheSubNav.module.css'
 
 const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,
@@ -32,7 +24,6 @@ const ARTIST_SELECT_OPTIONS = ({
 }) => {
   const artistOptions = React.useMemo(() => {
     return artists.map(({ id, name: artistName }) => {
-      // Add asterix if Artist has notifcation
       const name = artistsWithNotifications.includes(id) ? `${artistName} *` : artistName
       return { value: id, name }
     })
@@ -44,7 +35,7 @@ const ARTIST_SELECT_OPTIONS = ({
 
   return (
     <Select
-      className={styles.artistSelect}
+      className="mb-5"
       handleChange={handleChange}
       selectedValue={currentArtistId}
       options={artistOptions}
@@ -58,7 +49,7 @@ const ARTIST_SELECT_OPTIONS = ({
 
 const getArtistsWithNotifications = (state) => state.artistsWithNotifications
 
-const TheSubNavArtists = ({ className }) => {
+const SubNavArtists = ({ className }) => {
   const { user } = React.useContext(UserContext)
   const { artists: allArtists, role } = user
   const { artistId, storeArtist, artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
@@ -84,12 +75,12 @@ const TheSubNavArtists = ({ className }) => {
   }, [user])
 
   // If no artists, don't show artist links
-  if (sortedArtists.length === 1) return <TheSubNavConnectProfiles className="mb-5 md:mb-2" />
+  if (sortedArtists.length === 1) return <SubNavConnectProfiles className="mb-5 md:mb-2" />
 
   // Show select component if too many artists
   if (sortedArtists.length > maxArtists) {
     return (
-      <div className={[styles.artistsOuter, styles._selectType, 'relative', className].join(' ')}>
+      <div className="relative flex flex-col">
         {!! otherArtistNotifications.length && (
           <NotificationDot size="medium" style={{ top: '1.5rem', right: '-0.25rem' }} />
         )}
@@ -108,7 +99,7 @@ const TheSubNavArtists = ({ className }) => {
           />
         )}
         <div className="mb-0 md:pt-3 md:mb-3 h4--text">
-          <TheSubNavConnectProfiles />
+          <SubNavConnectProfiles />
         </div>
       </div>
     )
@@ -116,11 +107,10 @@ const TheSubNavArtists = ({ className }) => {
 
   // Else show more explicit selector
   return (
-    <div className={[styles.artistsOuter, className].join(' ')}>
-      <ul className={[styles.artistLinks].join(' ')}>
+    <div className={[className, 'flex flex-col -mt-4'].join(' ')}>
+      <ul className={['relative mb-5 w-auto md:pb-0 md:mb-0'].join(' ')}>
         {sortedArtists.map(({ id, name, facebook_page_id }) => {
           const isActiveProfile = id === artistId
-          const activeClass = isActiveProfile ? styles._active : ''
           const disabledClass = isDisabled && ! isActiveProfile ? 'pointer-events-none opacity-30' : null
           const hasNotification = otherArtistNotifications.includes(id)
 
@@ -128,20 +118,24 @@ const TheSubNavArtists = ({ className }) => {
             <li
               key={id}
               className={[
-                styles.artistLink,
-                activeClass,
                 disabledClass,
-                'text-lg',
+                'text-lg mb-5',
+                isActiveProfile ? 'opacity-100' : 'opacity-50',
               ].join(' ')}
             >
-              <a className={['relative', styles.artistLink_button].join(' ')} role="button" onClick={() => updateArtist(id)}>
+              <a className={['relative flex items-center no-underline'].join(' ')} role="button" onClick={() => updateArtist(id)}>
                 {hasNotification && (
                   <NotificationDot className="ml-8" style={{ top: '0rem', left: '-0.25rem' }} />
                 )}
-                <figure className={['overflow-hidden', 'rounded-full', styles.artistLink_image].join(' ')}>
+                <figure
+                  className={[
+                    'overflow-hidden h-8 w-8 mr-5 rounded-full',
+                    isActiveProfile ? 'opacity-100 border-2 border-solid border-white' : 'opacity-50',
+                  ].join(' ')}
+                >
                   <ArtistImage className="h-auto w-full" pageId={facebook_page_id} />
                 </figure>
-                <figcaption className={styles.artistLink_name}>{name}</figcaption>
+                <figcaption>{name}</figcaption>
               </a>
             </li>
           )
@@ -155,25 +149,25 @@ const TheSubNavArtists = ({ className }) => {
         )}
         {sortedArtists.length > 0 && (
           <li className="md:hidden pt-3 text-lg">
-            <TheSubNavConnectProfiles />
+            <SubNavConnectProfiles />
           </li>
         )}
       </ul>
       {sortedArtists.length > 0 && (
         <div className="hidden md:block pt-5 pb-3 text-lg">
-          <TheSubNavConnectProfiles />
+          <SubNavConnectProfiles />
         </div>
       )}
     </div>
   )
 }
 
-TheSubNavArtists.propTypes = {
+SubNavArtists.propTypes = {
   className: PropTypes.string,
 }
 
-TheSubNavArtists.defaultProps = {
+SubNavArtists.defaultProps = {
   className: '',
 }
 
-export default TheSubNavArtists
+export default SubNavArtists

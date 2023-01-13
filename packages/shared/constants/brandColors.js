@@ -1,5 +1,6 @@
 const white = '#F4F4F4'
 const black = '#0D1311'
+const blackHover = '#353938'
 const green = '#03D8B2'
 const purple = '#CC7CFD'
 const yellow = '#FDE74C'
@@ -14,6 +15,7 @@ const brandColors = {
   // Base colors
   white,
   black,
+  blackHover,
   green,
   purple,
   yellow,

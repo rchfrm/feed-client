@@ -1,18 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useNotificationsStore from '@/app/stores/notificationsStore'
-
 import { UserContext } from '@/app/contexts/UserContext'
-
 import SignOutLink from '@/app/SignOutLink'
 import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
-
-import styles from '@/app/TheSubNav.module.css'
-
 import * as ROUTES from '@/app/constants/routes'
-
 
 const { ACCOUNT, PRICING, FAQS, NOTIFICATIONS, BILLING } = ROUTES
 const termsLink = 'https://tryfeed.co/legal/terms-of-service'
@@ -48,8 +41,8 @@ const links = [
 const getTotalActiveNotifications = (state) => state.totalActiveNotifications
 
 const NOTIFICATION_LINK_TEXT = ({ title }) => {
-  // FETCH NOTIFICATIONS
   const totalActiveNotifications = useNotificationsStore(getTotalActiveNotifications)
+
   return (
     <>
       {title}
@@ -60,13 +53,12 @@ const NOTIFICATION_LINK_TEXT = ({ title }) => {
   )
 }
 
-const TheSubNavLinks = ({ className }) => {
+const SubNavLinks = ({ className }) => {
   const { hasPendingEmail } = React.useContext(UserContext)
   return (
     <>
-      <nav className={[styles.links, className].join(' ')}>
+      <nav className={[className, 'ml-1 mb-5 font-medium'].join(' ')}>
         <ul className={[
-          styles.linksList,
           'h4--text mb-0',
         ].join(' ')}
         >
@@ -74,13 +66,13 @@ const TheSubNavLinks = ({ className }) => {
             const titleText = title === 'notifications' ? <NOTIFICATION_LINK_TEXT title={title} /> : title
             const showDot = href === ACCOUNT && hasPendingEmail
             return (
-              <li className={[styles.linkItem].join(' ')} key={href}>
+              <li className="mb-6" key={href}>
                 {external
-                  ? <a className={styles.a} href={href}>{titleText}</a>
+                  ? <a className="no-underline text-grey-2" href={href}>{titleText}</a>
                   : (
                     <>
                       <ActiveLink href={href}>
-                        <a className={['relative', styles.a].join(' ')}>
+                        <a className={['relative no-underline text-grey-2'].join(' ')}>
                           {titleText}
                           {/* PENDING EMAIL WARNING */}
                           {showDot && (
@@ -94,7 +86,7 @@ const TheSubNavLinks = ({ className }) => {
             )
           })}
         </ul>
-        <p className={[styles.linkItem, styles.signOutLink_desktop].join(' ')}>
+        <p className={['mb-6 text-sm opacity-70 hover:opacity-100 hidden md:block'].join(' ')}>
           <SignOutLink />
         </p>
       </nav>
@@ -102,13 +94,12 @@ const TheSubNavLinks = ({ className }) => {
   )
 }
 
-TheSubNavLinks.propTypes = {
+SubNavLinks.propTypes = {
   className: PropTypes.string,
 }
 
-TheSubNavLinks.defaultProps = {
+SubNavLinks.defaultProps = {
   className: '',
 }
 
-
-export default TheSubNavLinks
+export default SubNavLinks
