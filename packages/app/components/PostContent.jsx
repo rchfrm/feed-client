@@ -10,7 +10,7 @@ import RadioButtonTabs from '@/app/RadioButtonTabs'
 import PostMedia from '@/app/PostMedia'
 import PostMediaMobile from '@/app/PostMediaMobile'
 import PostDetails from '@/app/PostDetails'
-import PostMetrics from '@/app/PostMetrics'
+import PostResults from '@/app/PostResults'
 import PostSettings from '@/app/PostSettings'
 import PostCardToggles from '@/app/PostCardToggles'
 import PostCardUnpromotable from '@/app/PostCardUnpromotable'
@@ -34,7 +34,7 @@ const PostContent = ({ post, updatePost }) => {
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
   const { promotionStatus } = post
-  const hidePaidMetrics = promotionStatus === 'inactive'
+  const hidePaidResults = promotionStatus === 'inactive'
 
   // Define function for toggling promotion campaign or conversions campaign
   const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all') => {
@@ -47,7 +47,7 @@ const PostContent = ({ post, updatePost }) => {
 
   const postComponents = {
     details: <PostDetails post={post} className="md:pl-16" />,
-    results: <PostMetrics metrics={hidePaidMetrics ? null : post.paidMetrics} shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
+    results: <PostResults results={hidePaidResults ? null : post.paidResults} shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
     settings: <PostSettings post={post} updatePost={updatePost} toggleCampaign={toggleCampaign} />,
   }
 

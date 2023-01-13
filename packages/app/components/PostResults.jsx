@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import AdSettingsSection from '@/app/AdSettingsSection'
-import PostMetricsScore from '@/app/PostMetricsScore'
-import PostMetricsList from '@/app/PostMetricsList'
-import { metricsConfig } from '@/app/helpers/postsHelpers'
+import PostResultsScore from '@/app/PostResultsScore'
+import PostResultsList from '@/app/PostResultsList'
+import { postResultsConfig } from '@/app/helpers/postsHelpers'
 import sidePanelStyles from '@/SidePanel.module.css'
 import copy from '@/app/copy/PostsPageCopy'
 
-const PostMetrics = ({
-  metrics,
+const PostResults = ({
+  results,
   shouldShowTitle,
   className,
 }) => {
@@ -21,13 +21,13 @@ const PostMetrics = ({
       {shouldShowTitle && <h2 className={sidePanelStyles.SidePanel__Header}>Post results</h2>}
       <div className={className}>
         <AdSettingsSection
-          header="Paid Metrics"
-          copy={copy.metricsDescription}
+          header="Paid Results"
+          copy={copy.resultsDescription}
         >
           <div className="md:grid grid-cols-12 items-center pt-4">
             <div className="col-span-4">
-              <PostMetricsScore
-                score={metrics?.engagementScore}
+              <PostResultsScore
+                score={results?.engagementScore}
                 className={[
                   'mb-8 mx-auto',
                   'xs:mx-0',
@@ -35,9 +35,9 @@ const PostMetrics = ({
                 ].join(' ')}
               />
             </div>
-            <PostMetricsList
-              metrics={metrics}
-              content={metricsConfig}
+            <PostResultsList
+              results={results}
+              content={postResultsConfig}
               className="col-span-7 col-start-6"
             />
           </div>
@@ -47,15 +47,15 @@ const PostMetrics = ({
   )
 }
 
-PostMetrics.propTypes = {
-  metrics: PropTypes.object.isRequired,
+PostResults.propTypes = {
+  results: PropTypes.object.isRequired,
   shouldShowTitle: PropTypes.bool,
   className: PropTypes.string,
 }
 
-PostMetrics.defaultProps = {
+PostResults.defaultProps = {
   shouldShowTitle: true,
   className: null,
 }
 
-export default PostMetrics
+export default PostResults

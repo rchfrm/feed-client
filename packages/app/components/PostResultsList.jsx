@@ -1,30 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import PostMetricsListItem from '@/app/PostMetricsListItem'
+import PostResultsListItem from '@/app/PostResultsListItem'
 import * as utils from '@/helpers/utils'
 
-const PostMetricsList = ({
-  metrics,
+const PostResultsList = ({
+  results,
   content,
   className,
 }) => {
   const { artistCurrency } = React.useContext(ArtistContext)
 
-  const maxMetrics = 6
-  const metricsArray = React.useMemo(() => {
-    if (! metrics) {
+  const maxResults = 6
+  const resultsArray = React.useMemo(() => {
+    if (! results) {
       return []
     }
 
-    const metricsFormatted = utils.getDataArray(content, metrics, { preserveRawNumber: true })
+    const resultsFormatted = utils.getDataArray(content, results, { preserveRawNumber: true })
       .filter(({ value }) => value)
-      .slice(0, maxMetrics)
+      .slice(0, maxResults)
 
-    return metricsFormatted
-  }, [metrics, content])
+    return resultsFormatted
+  }, [results, content])
 
-  if (! metricsArray.length) {
+  if (! resultsArray.length) {
     return (
       <div
         className={[
@@ -33,7 +33,7 @@ const PostMetricsList = ({
           className,
         ].join(' ')}
       >
-        <p className="mb-0">Paid metrics will appear here soon</p>
+        <p className="mb-0">Paid results will appear here soon</p>
       </div>
     )
   }
@@ -45,18 +45,18 @@ const PostMetricsList = ({
         className,
       ].join(' ')}
     >
-      {metricsArray.map(({ name, key, value }) => {
+      {resultsArray.map(({ name, key, value }) => {
         const parsedValue = key === 'spend'
           ? utils.formatCurrency(value, artistCurrency)
           : utils.formatNumber(value)
 
-        const drilldownMetrics = metrics.drilldowns ? metrics.drilldowns[key] : null
+        const drilldownResults = results.drilldowns ? results.drilldowns[key] : null
         return (
-          <PostMetricsListItem
+          <PostResultsListItem
             key={key}
             title={name}
             value={parsedValue}
-            drilldownMetrics={drilldownMetrics}
+            drilldownResults={drilldownResults}
             artistCurrency={artistCurrency}
             className="border-solid border-green border-b-2 last:border-none"
           />
@@ -66,15 +66,15 @@ const PostMetricsList = ({
   )
 }
 
-PostMetricsList.propTypes = {
-  metrics: PropTypes.object,
+PostResultsList.propTypes = {
+  results: PropTypes.object,
   content: PropTypes.array.isRequired,
   className: PropTypes.string,
 }
 
-PostMetricsList.defaultProps = {
-  metrics: null,
+PostResultsList.defaultProps = {
+  results: null,
   className: null,
 }
 
-export default PostMetricsList
+export default PostResultsList

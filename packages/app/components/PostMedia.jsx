@@ -12,7 +12,7 @@ const PostMedia = ({ post }) => {
     postType,
     videoFallback,
     message,
-    organicMetrics,
+    organicResults,
   } = post
 
   return (
@@ -27,7 +27,7 @@ const PostMedia = ({ post }) => {
         className="mb-2"
       />
       <PostScore
-        score={organicMetrics.normalizedScore}
+        score={organicResults.normalizedScore}
         className="right-4 bottom-4"
       />
     </div>
