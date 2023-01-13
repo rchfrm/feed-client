@@ -1,13 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useIsMounted from '@/hooks/useIsMounted'
-
 import MarkdownText from '@/elements/MarkdownText'
 import Spinner from '@/elements/Spinner'
-
 import { getInitialPostsImportStatus } from '@/app/helpers/postsHelpers'
-
 import copy from '@/app/copy/PostsPageCopy'
 
 const PostsInitialImport = ({
@@ -71,9 +67,6 @@ const PostsInitialImport = ({
 PostsInitialImport.propTypes = {
   artistId: PropTypes.string.isRequired,
   setCanLoadPosts: PropTypes.func.isRequired,
-}
-
-PostsInitialImport.defaultProps = {
 }
 
 export default PostsInitialImport

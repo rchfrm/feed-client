@@ -1,20 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useAsyncEffect from 'use-async-effect'
 import produce from 'immer'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import PostSettingsSaveButton from '@/app/PostSettingsSaveButton'
-import PostCardEditCaptionMessage from '@/app/PostCardEditCaptionMessage'
-
-import CheckboxInput from '@/elements/CheckboxInput'
+import PostCaptionCheckboxTextArea from '@/app/PostCaptionCheckboxTextArea'
+import PostSettingsEditAlert from '@/app/PostSettingsEditAlert'
 import Error from '@/elements/Error'
-import MarkdownText from '@/elements/MarkdownText'
-
-import { getPostAdMessages, updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
-
-import copy from '@/app/copy/PostsPageCopy'
+import { updatePostCaption, resetPostCaption } from '@/app/helpers/postsHelpers'
 
 const PostSettingsCaption = ({
   post,
@@ -22,9 +14,10 @@ const PostSettingsCaption = ({
   updatePost,
   isDisabled,
 }) => {
-  const { id: postId } = post
+  const { id: postId, promotionStatus } = post
+  const isPostActive = promotionStatus === 'active'
 
-  const [adMessages, setAdMessages] = React.useState(post.adMessages)
+  const [adMessages, setAdMessages] = React.useState(post?.adMessages || [])
   const [currentAdMessage, setCurrentAdMessage] = React.useState({})
   const [caption, setCaption] = React.useState('')
   const [savedCaption, setSavedCaption] = React.useState('')
@@ -33,37 +26,10 @@ const PostSettingsCaption = ({
   const [shouldShowSaveButton, setShouldShowSaveButton] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+  const [onAlertConfirm, setOnAlertConfirm] = React.useState(() => () => {})
 
   const { artistId } = React.useContext(ArtistContext)
-  const noCaptionEditReason = copy.captionNotEditableReason(post)
-
-  // Get post ad messages
-  useAsyncEffect(async (isMounted) => {
-    if (post.adMessages) return
-
-    const { res: adMessages, error } = await getPostAdMessages(artistId, postId)
-    if (! isMounted) return
-
-    if (error) {
-      setError(error)
-      return
-    }
-
-    setAdMessages(adMessages)
-    updatePost('update-ad-messages', { adMessages })
-  }, [])
-
-  const handleChange = () => {
-    setIsDefaultAdMessage(! isDefaultAdMessage)
-
-    if (! isDefaultAdMessage) {
-      setShouldShowSaveButton(savedCaption !== post?.message)
-    }
-
-    if (isDefaultAdMessage) {
-      setShouldShowSaveButton(savedCaption !== caption)
-    }
-  }
 
   const updatePostState = (adMessage) => {
     const caption = adMessage?.message || ''
@@ -87,11 +53,23 @@ const PostSettingsCaption = ({
     setCurrentAdMessage(adMessage)
     setSavedCaption(adMessage?.message)
     setAdMessages(updatedCaptions)
-    updatePost('update-ad-messages', { adMessages: updatedCaptions })
+    updatePost({
+      type: 'update-ad-messages',
+      payload: {
+        postId,
+        adMessages: updatedCaptions,
+      },
+    })
   }
 
-  // Save current ad message and hide save button
-  const save = async () => {
+  const save = async (forceRun = false) => {
+    if (isPostActive && ! forceRun) {
+      setOnAlertConfirm(() => () => save(true))
+      setShouldShowAlert(true)
+
+      return
+    }
+
     setIsLoading(true)
 
     const isResetCaption = caption === null
@@ -108,7 +86,6 @@ const PostSettingsCaption = ({
     if (error) {
       setError(error)
       setIsLoading(false)
-
       return
     }
 
@@ -117,28 +94,29 @@ const PostSettingsCaption = ({
     setIsLoading(false)
   }
 
-  // Watch for ad message changes and show save button if there has been a change
-  React.useEffect(() => {
-    const hasChanged = caption !== savedCaption
+  const onConfirm = () => {
+    onAlertConfirm()
+    setShouldShowAlert(false)
+  }
 
-    setShouldShowSaveButton(hasChanged)
-  }, [caption, savedCaption])
+  const onCancel = () => {
+    setCaption(savedCaption)
 
-  // On initial mount and on campaign type change set the ad message
-  React.useEffect(() => {
-    if (! adMessages) return
-
-    const postAdMessage = adMessages?.find((adMessage) => adMessage.campaignType === campaignType) || {}
-    const adMessage = postAdMessage?.message || post?.message
-
-    setCurrentAdMessage(postAdMessage)
-    setCaption(adMessage)
-    setSavedCaption(adMessage)
-
-    if (adMessage !== post?.message) {
-      setIsDefaultAdMessage(false)
+    if (isDefaultAdMessage) {
+      setIsDefaultAdMessage((defaultAdMessage) => ! defaultAdMessage)
     }
-  }, [campaignType, adMessages, post?.message])
+    setShouldShowAlert(false)
+  }
+
+  React.useEffect(() => {
+    if (isDefaultAdMessage) {
+      setShouldShowSaveButton(savedCaption !== post?.message)
+    }
+
+    if (! isDefaultAdMessage) {
+      setShouldShowSaveButton(savedCaption !== caption)
+    }
+  }, [isDefaultAdMessage, caption, savedCaption, post?.message])
 
   return (
     <div className="mb-10">
@@ -151,36 +129,33 @@ const PostSettingsCaption = ({
           Caption
         </p>
         <PostSettingsSaveButton
-          onClick={save}
+          onClick={() => save()}
           shouldShow={shouldShowSaveButton}
           isLoading={isLoading}
         />
       </div>
-      {! noCaptionEditReason ? (
-        <CheckboxInput
-          buttonLabel="Use original post caption"
-          value="caption"
-          checked={isDefaultAdMessage}
-          onChange={handleChange}
-          className="sm:pl-2"
-          disabled={isDisabled}
-        />
-      ) : (
-        <MarkdownText markdown={noCaptionEditReason} className={['sm:pl-4', isDisabled ? 'text-grey-2' : 'text-red'].join(' ')} />
-      )}
-      {(! isDefaultAdMessage || noCaptionEditReason) && (
-        <div
-          className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue"
-        >
-          <PostCardEditCaptionMessage
-            message={caption}
-            setMessage={setCaption}
-            hasAutoFocus={false}
-            className={isDisabled || noCaptionEditReason ? 'text-grey-2 pointer-events-none' : null}
-          />
-        </div>
-      )}
+      <PostCaptionCheckboxTextArea
+        post={post}
+        campaignType={campaignType}
+        adMessages={adMessages}
+        setAdMessages={setAdMessages}
+        caption={caption}
+        setCaption={setCaption}
+        updatePost={updatePost}
+        setSavedCaption={setSavedCaption}
+        setCurrentAdMessage={setCurrentAdMessage}
+        isDefaultAdMessage={isDefaultAdMessage}
+        setIsDefaultAdMessage={setIsDefaultAdMessage}
+        setError={setError}
+        isDisabled={isDisabled}
+      />
       <Error error={error} />
+      <PostSettingsEditAlert
+        type="caption"
+        shouldShowAlert={shouldShowAlert}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+      />
     </div>
   )
 }
@@ -190,9 +165,6 @@ PostSettingsCaption.propTypes = {
   campaignType: PropTypes.string.isRequired,
   updatePost: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-}
-
-PostSettingsCaption.defaultProps = {
 }
 
 export default PostSettingsCaption

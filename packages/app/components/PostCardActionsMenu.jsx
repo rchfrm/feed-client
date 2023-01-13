@@ -8,7 +8,7 @@ import ChevronDoubleUpIcon from '@/icons/ChevronDoubleUpIcon'
 import PencilIcon from '@/icons/PencilIcon'
 import RefreshIcon from '@/icons/RefreshIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
-import { setPostPriority, updatePost, formatPostsResponse } from '@/app/helpers/postsHelpers'
+import { setPostPriority, togglePromotionEnabled } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -23,6 +23,7 @@ const PostCardActionsMenu = ({
 }) => {
   const [action, setAction] = React.useState(null)
 
+  const { id: postId } = post
   const { artistId } = React.useContext(ArtistContext)
   const { goToPostSettings, goToPostResults, goToPostDetails } = usePostsSidePanel()
 
@@ -31,24 +32,25 @@ const PostCardActionsMenu = ({
   const hasSalesObjective = objective === 'sales'
 
   const enablePromotion = async () => {
-    const { res, error } = await updatePost({
+    const { res: updatedPost, error } = await togglePromotionEnabled({
       artistId,
-      postId: post.id,
+      postId,
       promotionEnabled: true,
       ...(hasSalesObjective && { conversionsEnabled: true }),
-      campaignType: 'all',
+      campaignType: ['all', 'conversions'],
     })
     if (error) {
       return
     }
 
-    const [updatedPost] = formatPostsResponse([res])
+    const { promotionEnabled } = updatedPost
 
     setPosts({
-      type: 'add-to-queue',
+      type: 'toggle-promotion',
       payload: {
-        index,
         status,
+        newStatus: promotionEnabled ? 'pending' : 'inactive',
+        postId,
         post: updatedPost,
       },
     })
@@ -70,18 +72,19 @@ const PostCardActionsMenu = ({
   }
 
   const prioritize = async () => {
-    const { res, error } = await setPostPriority({ artistId, assetId: post.id, priorityEnabled: post.priorityEnabled })
+    const { res: updatedPost, error } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: true })
     if (error) {
       return
     }
 
-    const [updatedPost] = formatPostsResponse([res])
+    const { priorityEnabled } = updatedPost
 
     setPosts({
-      type: 'prioritize',
+      type: 'toggle-priority',
       payload: {
-        index,
         status,
+        newStatus: priorityEnabled ? 'pending' : 'inactive',
+        postId,
         post: updatedPost,
       },
     })
@@ -92,8 +95,8 @@ const PostCardActionsMenu = ({
   const openSettings = () => {
     goToPostSettings({
       post,
-      postIndex: index,
-      artistId,
+      status,
+      setPosts,
     })
   }
 

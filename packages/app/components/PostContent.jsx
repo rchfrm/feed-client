@@ -3,31 +3,29 @@ import PropTypes from 'prop-types'
 import useControlsStore from '@/app/stores/controlsStore'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useOnResize from '@/landing/hooks/useOnResize'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import SplitView from '@/app/SplitView'
-import RadioButtonTabs from '@/app/RadioButtonTabs'
 import PostMedia from '@/app/PostMedia'
-import PostMediaMobile from '@/app/PostMediaMobile'
 import PostDetails from '@/app/PostDetails'
 import PostResults from '@/app/PostResults'
 import PostSettings from '@/app/PostSettings'
-import PostCardToggles from '@/app/PostCardToggles'
-import PostCardUnpromotable from '@/app/PostCardUnpromotable'
+import PostContentMediaMobile from '@/app/PostContentMediaMobile'
+import PostContentToggles from '@/app/PostContentToggles'
+import PostContentUnpromotable from '@/app/PostContentUnpromotable'
+import RadioButtonTabs from '@/app/RadioButtonTabs'
 import { postOptions } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
-const PostContent = ({ post, updatePost }) => {
+const PostContent = ({ post, setPost }) => {
   const [activeTab, setActiveTab] = React.useState(postOptions[0].name)
 
   const breakpoint = 'sm'
   const { width } = useOnResize()
 
   const { setHeader } = React.useContext(InterfaceContext)
-  const { artistId } = React.useContext(ArtistContext)
   const isDesktopLayout = useBreakpointTest(breakpoint)
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
@@ -36,19 +34,10 @@ const PostContent = ({ post, updatePost }) => {
   const { promotionStatus } = post
   const hidePaidResults = promotionStatus === 'inactive'
 
-  // Define function for toggling promotion campaign or conversions campaign
-  const toggleCampaign = React.useCallback(async (promotionEnabled, promotableStatus, campaignType = 'all') => {
-    updatePost(campaignType === 'all' ? 'toggle-promotion' : 'toggle-conversion',
-      {
-        promotionEnabled,
-        promotableStatus,
-      })
-  }, [updatePost])
-
   const postComponents = {
     details: <PostDetails post={post} className="md:pl-16" />,
+    settings: <PostSettings post={post} setPost={setPost} className="md:pl-16" />,
     results: <PostResults results={hidePaidResults ? null : post.paidResults} shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
-    settings: <PostSettings post={post} updatePost={updatePost} toggleCampaign={toggleCampaign} />,
   }
 
   React.useEffect(() => {
@@ -76,22 +65,17 @@ const PostContent = ({ post, updatePost }) => {
       />
     ) : (
       <>
-        <PostMediaMobile
-          post={post}
-        />
+        <PostContentMediaMobile post={post} />
         {post.postPromotable ? (
-          <PostCardToggles
-            artistId={artistId}
+          <PostContentToggles
             post={post}
-            toggleCampaign={toggleCampaign}
-            updatePost={updatePost}
+            setPost={setPost}
             priorityEnabled={post.priorityEnabled}
-            togglesClassName="py-2 px-4 mb-2 last:mb-10 border-2 border-solid border-grey-3"
             className="mb-2"
             hasSalesObjective={hasSalesObjective}
           />
         ) : (
-          <PostCardUnpromotable
+          <PostContentUnpromotable
             hasSalesObjective={hasSalesObjective}
             className="py-3 px-4 mb-10"
           />
@@ -110,10 +94,7 @@ const PostContent = ({ post, updatePost }) => {
 
 PostContent.propTypes = {
   post: PropTypes.object.isRequired,
-  updatePost: PropTypes.func.isRequired,
-}
-
-PostContent.defaultProps = {
+  setPost: PropTypes.func.isRequired,
 }
 
 export default PostContent

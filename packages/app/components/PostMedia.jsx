@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import PostCardMedia from '@/app/PostCardMedia'
 import PostScore from '@/app/PostScore'
 
@@ -36,9 +35,6 @@ const PostMedia = ({ post }) => {
 
 PostMedia.propTypes = {
   post: PropTypes.object.isRequired,
-}
-
-PostMedia.defaultProps = {
 }
 
 export default PostMedia

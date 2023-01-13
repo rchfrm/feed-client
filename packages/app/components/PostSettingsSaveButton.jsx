@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Button from '@/elements/Button'
 
 const PostSettingsSaveButton = ({
@@ -30,9 +29,6 @@ PostSettingsSaveButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   shouldShow: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
-}
-
-PostSettingsSaveButton.defaultProps = {
 }
 
 export default PostSettingsSaveButton

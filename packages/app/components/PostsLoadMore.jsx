@@ -31,6 +31,7 @@ const PostsLoadMore = ({
 }
 
 PostsLoadMore.propTypes = {
+  posts: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isLoadingMore: PropTypes.bool.isRequired,
   setIsLoadingMore: PropTypes.func.isRequired,
