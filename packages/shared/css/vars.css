@@ -10,13 +10,6 @@
   --grey: #C8CBCA;
   --grey-dark: #7F8382;
   --offwhite: #F4F4F4;
-  --red-text: #4F2615;
-  --red-dark: #A74231;
-  --red: #FA5450;
-  --red-light: #FD777C;
-  --red-border: #FF94A0;
-  --red-bg-dark: #FFBFCB;
-  --red-bg-light: #FFEFF4;
   --green-text: #033131;
   --green-dark: #0C7F70;
   --green: #19C89C;
@@ -32,6 +25,13 @@
   --yellow-bg-dark: #FFEEC7;
   --yellow-bg-light: #FFFAF2;
   --yellow-contrast: #373B0F;
+  --red-text: #4F2615;
+  --red-dark: #A74231;
+  --red: #FA5450;
+  --red-light: #FD777C;
+  --red-border: #FF94A0;
+  --red-bg-dark: #FFBFCB;
+  --red-bg-light: #FFEFF4;
 
   /* Social Media Palette */
   --color-fb: #26547C;

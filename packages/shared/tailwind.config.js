@@ -38,22 +38,11 @@ module.exports = (contentFiles) => ({
           dark: '#7F8382',
         },
         offwhite: '#F4F4F4',
-        red: {
-          text: '#4F2615',
-          dark: '#A74231',
-          DEFAULT: '#FA5450',
-          light: '#FD777C',
-          border: '#FF94A0',
-          bg: {
-            dark: '#FFBFCB',
-            light: '#FFEFF4',
-          },
-        },
         green: {
           text: '#033131',
-          dark: '#033131',
+          dark: '#0C7F70',
           DEFAULT: '#19C89C',
-          light: '#FD777C',
+          light: '#48D7AA',
           border: '#78E5BC',
           bg: {
             dark: '#ABF0D2',
@@ -72,6 +61,17 @@ module.exports = (contentFiles) => ({
             light: '#FFFAF2',
           },
           contrast: '#373B0F',
+        },
+        red: {
+          text: '#4F2615',
+          dark: '#A74231',
+          DEFAULT: '#FA5450',
+          light: '#FD777C',
+          border: '#FF94A0',
+          bg: {
+            dark: '#FFBFCB',
+            light: '#FFEFF4',
+          },
         },
         fb: '#26547C',
         insta: '#E75A7C',

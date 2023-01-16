@@ -6,20 +6,13 @@ const greyDark = '#7F8382'
 const offwhite = '#F4F4F4'
 const white = '#FFFFFF'
 const greenText = '#033131'
-const greenDark = '#033131'
+const greenDark = '#0C7F70'
 const green = '#19C89C'
 const greenLight = '#48D7AA'
 const greenBorder = '#78E5BC'
 const greenBgDark = '#ABF0D2'
 const greenBgLight = '#DFFAEC'
 const greenContrast = '#022222'
-const redText = '#4F2615'
-const redDark = '#A74231'
-const red = '#FA5450'
-const redLight = '#FD777C'
-const redBorder = '#FF94A0'
-const redBgDark = '#FFBFCB'
-const redBgLight = '#FFEFF4'
 const yellowText = '#373B0F'
 const yellowDark = '#9D9D2B'
 const yellow = '#FDE74C'
@@ -28,6 +21,13 @@ const yellowBorder = '#FFE79D'
 const yellowBgDark = '#FFEEC7'
 const yellowBgLight = '#FFFAF2'
 const yellowContrast = '#373B0F'
+const redText = '#4F2615'
+const redDark = '#A74231'
+const red = '#FA5450'
+const redLight = '#FD777C'
+const redBorder = '#FF94A0'
+const redBgDark = '#FFBFCB'
+const redBgLight = '#FFEFF4'
 
 const brandColors = {
   // Base colors
@@ -38,14 +38,6 @@ const brandColors = {
   greyDark,
   offwhite,
   white,
-  // Reds
-  redText,
-  redDark,
-  red,
-  redLight,
-  redBorder,
-  redBgDark,
-  redBgLight,
   // Greens
   greenText,
   greenDark,
@@ -64,6 +56,14 @@ const brandColors = {
   yellowBgDark,
   yellowBgLight,
   yellowContrast,
+  // Reds
+  redText,
+  redDark,
+  red,
+  redLight,
+  redBorder,
+  redBgDark,
+  redBgLight,
   // Platform colors
   facebook: {
     bg: '#26547C',
