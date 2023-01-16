@@ -35,7 +35,7 @@ ShareIcon.propTypes = {
 }
 
 ShareIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: null,
   style: null,
 }

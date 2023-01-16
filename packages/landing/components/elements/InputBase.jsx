@@ -11,21 +11,21 @@ const getIconEl = (icon, success) => {
   if (success) {
     return (
       <div className="input--icon">
-        <TickIcon fill={brandColors.successColor} width="20" />
+        <TickIcon fill={brandColors.green} width="20" />
       </div>
     )
   }
   if (icon === 'facebook') {
     return (
       <div className="input--icon">
-        <FacebookIcon fill={brandColors.textColor} width="20" />
+        <FacebookIcon fill={brandColors.black} width="20" />
       </div>
     )
   }
   if (icon === 'instagram') {
     return (
       <div className="input--icon">
-        <InstagramIcon fill={brandColors.textColor} width="20" />
+        <InstagramIcon fill={brandColors.black} width="20" />
       </div>
     )
   }

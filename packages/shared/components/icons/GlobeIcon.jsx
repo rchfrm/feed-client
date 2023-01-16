@@ -53,7 +53,7 @@ GlobeIcon.propTypes = {
 }
 
 GlobeIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   title: 'Website',
   className: '',
   style: null,

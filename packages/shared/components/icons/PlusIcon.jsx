@@ -30,7 +30,7 @@ PlusIcon.propTypes = {
 }
 
 PlusIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: null,
   style: null,
 }

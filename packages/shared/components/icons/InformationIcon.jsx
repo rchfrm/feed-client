@@ -18,7 +18,7 @@ InformationIcon.propTypes = {
 }
 
 InformationIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: null,
 }
 

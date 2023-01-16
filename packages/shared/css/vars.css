@@ -4,20 +4,30 @@
 
 :root {
   /* Color Palette */
-  --offwhite: #F4F4F4;
   --black: #0D1311;
   --anthracite: #353938;
-  --black-hover: #353938;
-  --green: #03D8B2;
-  --green-hover: #05C7A4;
-  --red: #FA5450;
-  --red-hover: #F73F3B;
-  --yellow: #FDE74C;
-  --yellow-hover: #FFDA1A;
-  --blue: #5BC0EB;
   --grey-light: #E7E9E8;
   --grey: #C8CBCA;
   --grey-dark: #7F8382;
+  --offwhite: #F4F4F4;
+  --red-text: #4F2615;
+  --red-dark: #A74231;
+  --red: #FA5450;
+  --red-light: #FD777C;
+  --red-border: #FF94A0;
+  --red-bg-dark: #FFBFCB;
+  --red-bg-light: #FFEFF4;
+  --green-text: #033131;
+  --green-dark: #0C7F70;
+  --green: #19C89C;
+  --green-light: #48D7AA;
+  --green-border: #78E5BC;
+  --green-bg-dark: #ABF0D2;
+  --green-bg-light: #DFFAEC;
+  --green-contrast: #022222;
+  --blue: #5BC0EB;
+  --yellow: #FDE74C;
+  --yellow-hover: #FFDA1A;
   --purple: #CC7CFD;
   --pink: #E75A7C;
   --pink-hover: #D34A6B;

@@ -28,7 +28,7 @@ ThreeDotsIcon.propTypes = {
 
 ThreeDotsIcon.defaultProps = {
   className: '',
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   style: null,
 }
 

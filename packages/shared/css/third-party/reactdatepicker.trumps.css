@@ -107,7 +107,7 @@
          }
 
          &.react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range) {
-            background-color: var(--black-hover) !important;
+            background-color: var(--anthracite) !important;
             color: var(--green);
          }
       }

@@ -30,7 +30,7 @@ PlayIcon.propTypes = {
 }
 
 PlayIcon.defaultProps = {
-  color: brandColors.textColor,
+  color: brandColors.black,
   className: '',
 }
 

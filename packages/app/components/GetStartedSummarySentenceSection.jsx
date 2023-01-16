@@ -63,7 +63,7 @@ const GetStartedSummarySentenceSection = ({
     }
 
     if (isActive) {
-      setBorderColor(brandColors.textColor)
+      setBorderColor(brandColors.black)
       return
     }
 

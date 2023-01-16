@@ -88,12 +88,12 @@ a[type=button] {
 
   @mixin canHover {
     &:hover {
-      background-color: var(--black-hover);
+      background-color: var(--anthracite);
     }
   }
 
   &:focus {
-    background-color: var(--black-hover);
+    background-color: var(--anthracite);
   }
 }
 
@@ -103,12 +103,12 @@ a[type=button] {
 
   @mixin canHover {
     &:hover {
-      background-color: var(--green-hover);
+      background-color: var(--green-light);
     }
   }
 
   &:focus {
-    background-color: var(--green-hover);
+    background-color: var(--green-light);
   }
 }
 
@@ -145,12 +145,12 @@ a[type=button] {
 
   @mixin canHover {
     &:hover {
-      background-color: var(--red-hover);
+      background-color: var(--red-light);
     }
   }
 
   &:focus {
-    background-color: var(--red-hover);
+    background-color: var(--red-light);
   }
 }
 
@@ -313,12 +313,12 @@ a[type=button] {
 
   @mixin canHover {
     &:hover {
-      border-color: var(--black-hover);
+      border-color: var(--anthracite);
     }
   }
 
   &:focus {
-    border-color: var(--black-hover);
+    border-color: var(--anthracite);
   }
 }
 
@@ -329,12 +329,12 @@ a[type=button] {
 
   @mixin canHover {
     &:hover {
-      border-color: var(--green-hover);
+      border-color: var(--green-light);
     }
   }
 
   &:focus {
-    border-color: var(--green-hover);
+    border-color: var(--green-light);
   }
 }
 

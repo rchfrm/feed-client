@@ -27,7 +27,7 @@ ProfileIcon.propTypes = {
 }
 
 ProfileIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: '',
 }
 

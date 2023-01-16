@@ -32,9 +32,9 @@ const IntegrationsPanelIntegration = ({
 }) => {
   const { title, platform, accountId, color } = integration
   const isPopulated = !! accountId
-  const backgroundColor = isPopulated ? color.bg : brandColors.bgColor
-  const borderColor = isPopulated ? color.bg : brandColors.textColor
-  const textColor = isPopulated ? color.text : brandColors.textColor
+  const backgroundColor = isPopulated ? color.bg : brandColors.offwhite
+  const borderColor = isPopulated ? color.bg : brandColors.black
+  const textColor = isPopulated ? color.text : brandColors.black
   const ChainIcon = isPopulated ? ChainLinkedIcon : ChainUnlinkedIcon
 
   const { fetchAndUpdateLinks } = useControlsStore(getControlsStoreState)
@@ -94,7 +94,7 @@ const IntegrationsPanelIntegration = ({
       >
         <ChainIcon
           className="flex-shrink-0 ml-2"
-          fill={isPopulated ? textColor : brandColors.textColor}
+          fill={isPopulated ? textColor : brandColors.black}
         />
         {title}
         <div className="w-5 mx-2 invisible" />

@@ -1,40 +1,54 @@
-const offwhite = '#F4F4F4'
 const black = '#0D1311'
 const anthracite = '#353938'
-const blackHover = '#353938'
-const green = '#03D8B2'
-const purple = '#CC7CFD'
-const yellow = '#FDE74C'
-const blue = '#5BC0EB'
-const red = '#FA5450'
-const redLight = '#E75A7C'
 const greyLight = '#E7E9E8'
 const grey = '#C8CBCA'
 const greyDark = '#7F8382'
+const offwhite = '#F4F4F4'
+const greenText = '#033131'
+const greenDark = '#033131'
+const green = '#19C89C'
+const greenLight = '#48D7AA'
+const greenBorder = '#78E5BC'
+const greenBgDark = '#ABF0D2'
+const greenBgLight = '#DFFAEC'
+const greenContrast = '#022222'
+const redText = '#4F2615'
+const redDark = '#A74231'
+const red = '#FA5450'
+const redLight = '#FD777C'
+const redBorder = '#FF94A0'
+const redBgDark = '#FFBFCB'
+const redBgLight = '#FFEFF4'
+const blue = '#5BC0EB'
+const yellow = '#FDE74C'
 
 const brandColors = {
   // Base colors
-  offwhite,
   black,
   anthracite,
-  blackHover,
-  green,
-  purple,
-  yellow,
-  blue,
-  red,
-  redLight,
   greyLight,
   grey,
   greyDark,
-  // Interface colors
-  bgColor: offwhite,
-  textColor: black,
-  successColor: green,
-  loaderColor: green,
-  errorColor: red,
-  disabledColorBg: greyLight,
-  disabledColorText: greyDark,
+  offwhite,
+  // red
+  redText,
+  redDark,
+  red,
+  redLight,
+  redBorder,
+  redBgDark,
+  redBgLight,
+  // green
+  greenText,
+  greenDark,
+  green,
+  greenLight,
+  greenBorder,
+  greenBgDark,
+  greenBgLight,
+  greenContrast,
+  blue,
+  yellow,
   // Platform colors
   facebook: {
     bg: '#26547C',

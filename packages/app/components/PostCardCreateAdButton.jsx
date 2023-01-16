@@ -24,7 +24,7 @@ const PostCardCreateAdButton = ({ className }) => {
       style={{ paddingTop: '100%' }}
     >
       <div className="absolute inset-0 flex items-center justify-center">
-        <PlusIcon className="h-4 w-4 mr-2" fill={brandColors.textColor} />
+        <PlusIcon className="h-4 w-4 mr-2" fill={brandColors.black} />
         Create ad
       </div>
     </button>

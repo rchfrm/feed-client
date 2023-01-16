@@ -28,7 +28,7 @@ ExpandIcon.propTypes = {
 }
 
 ExpandIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: null,
   style: null,
 }

@@ -31,7 +31,7 @@ EmailIcon.propTypes = {
 }
 
 EmailIcon.defaultProps = {
-  color: brandColors.textColor,
+  color: brandColors.black,
   className: null,
   style: null,
 }

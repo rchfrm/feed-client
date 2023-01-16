@@ -32,7 +32,7 @@ TickIcon.propTypes = {
 }
 
 TickIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: null,
   style: null,
 }
