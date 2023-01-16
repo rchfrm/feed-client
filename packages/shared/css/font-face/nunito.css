@@ -1,0 +1,24 @@
+@font-face {
+    font-family: Nunito;
+    src: url('/fonts/Nunito-Regular.woff');
+    font-style: normal;
+    font-weight:normal;
+  }
+  @font-face {
+    font-family: Nunito;
+    src: url('/fonts/Nunito-Medium.woff');
+    font-style: normal;
+    font-weight: 500;
+  }
+  @font-face {
+    font-family: Nunito;
+    src: url('/fonts/Nunito-SemiBold.woff');
+    font-style: normal;
+    font-weight: 600;
+  }
+  @font-face {
+    font-family: Nunito;
+    src: url('/fonts/Nunito-Bold.woff');
+    font-style: normal;
+    font-weight: bold;
+  }

@@ -15,8 +15,8 @@ module.exports = (contentFiles) => ({
       xl: '1600px',
     },
     fontFamily: {
-      display: ['SpaceGrotesk', 'sans-serif'],
-      body: ['Inter', 'serif'],
+      display: ['Inter', 'sans-serif'],
+      body: ['Nunito', 'sans-serif'],
       mono: ['monospace'],
     },
     borderRadius: {

@@ -41,8 +41,8 @@
   --color-sc: #FDE74C;
 
   /* Font */
-  --font: 'Inter', serif;
-  --font-display: 'SpaceGrotesk', serif;
+  --font: 'Nunito', sans-serif;
+  --font-display: 'Inter', sans-serif;
   --base-font-size: 16px;
   --bold: 600;
   --bold-display: 600;
