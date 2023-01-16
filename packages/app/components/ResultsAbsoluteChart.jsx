@@ -58,7 +58,7 @@ const ResultsAbsoluteChart = ({
       <div style={{ width: `${prevPeriodProportion}%` }}>
         <div
           ref={prevPeriodChartRef}
-          className="flex justify-center items-center h-7 bg-yellow opacity-50 rounded-full mb-1"
+          className="flex justify-center items-center h-7 bg-yellow-light opacity-50 rounded-full mb-1"
           style={{ backgroundColor: color, transform: 'scale(0)' }}
         >
           {tooltipMessage && (
@@ -75,7 +75,7 @@ const ResultsAbsoluteChart = ({
       <div style={{ width: `${currentPeriodProportion}%` }}>
         <div
           ref={nextPeriodChartRef}
-          className="flex justify-center items-center h-7 bg-yellow rounded-full mb-1"
+          className="flex justify-center items-center h-7 bg-yellow-light rounded-full mb-1"
           style={{ backgroundColor: color, transform: 'scale(0)' }}
         >
           {tooltipMessage && (

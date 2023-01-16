@@ -70,7 +70,7 @@
 .noUi-tooltip {
   background: none;
   border: none;
-  color: var(--text-color);
+  color: var(--black);
 }
 
 .noUi-horizontal .noUi-tooltip {

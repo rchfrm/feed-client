@@ -37,8 +37,8 @@ const BAR = ({ useMask, percentComplete, style }) => {
       <defs>
         <linearGradient id="paint0_linear" x1="29.7931" y1="0" x2="29.7931" y2={height} gradientUnits="userSpaceOnUse">
           <stop stopColor={brandColors.red} />
-          <stop offset="0.5" stopColor={brandColors.yellow} />
-          <stop offset="1" stopColor={brandColors.yellow} />
+          <stop offset="0.5" stopColor={brandColors.yellowLight} />
+          <stop offset="1" stopColor={brandColors.yellowLight} />
         </linearGradient>
       </defs>
     </svg>

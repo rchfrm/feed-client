@@ -1,14 +1,5 @@
-// IMPORT PACKAGES
 import React from 'react'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
-// IMPORT CONSTANTS
-import brandColors from '@/landing/constants/brandColors'
-// IMPORT HELPERS
-// IMPORT STYLES
+import brandColors from '@/constants/brandColors'
 
 function Checkbox({ color, selected, width }) {
   const bgColor = selected ? color : brandColors.greyLight

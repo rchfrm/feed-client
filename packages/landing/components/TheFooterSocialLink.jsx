@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-
-import brandColors from '@/landing/constants/brandColors'
 import SocialMediaIcon from '@/landing/icons/SocialMediaIcon'
 import Anchor from '@/landing/elements/Anchor'
+import brandColors from '@/constants/brandColors'
 
 export default function TheFooterSocialLink({ link, index }) {
   return (

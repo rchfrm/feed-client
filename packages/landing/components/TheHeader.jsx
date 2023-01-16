@@ -57,16 +57,13 @@ export default function TheHeader() {
         ].join(' ')}
         >
           <Link href="/">
-            <a title="home" aria-label="Go Home">
+            <a title="home" aria-label="Go Home" className="w-40">
               <FeedLogo
-                className={[
-                  'w-40',
-                ].join(' ')}
                 style={{
                   width: '100%',
                   height: 'auto',
                 }}
-                showWordmark
+                hasWordmark
               />
             </a>
           </Link>

@@ -4,6 +4,7 @@ const greyLight = '#E7E9E8'
 const grey = '#C8CBCA'
 const greyDark = '#7F8382'
 const offwhite = '#F4F4F4'
+const white = '#FFFFFF'
 const greenText = '#033131'
 const greenDark = '#033131'
 const green = '#19C89C'
@@ -36,7 +37,8 @@ const brandColors = {
   grey,
   greyDark,
   offwhite,
-  // red
+  white,
+  // Reds
   redText,
   redDark,
   red,
@@ -44,7 +46,7 @@ const brandColors = {
   redBorder,
   redBgDark,
   redBgLight,
-  // green
+  // Greens
   greenText,
   greenDark,
   green,
@@ -53,7 +55,7 @@ const brandColors = {
   greenBgDark,
   greenBgLight,
   greenContrast,
-  // yellow
+  // Yellows
   yellowText,
   yellowDark,
   yellow,

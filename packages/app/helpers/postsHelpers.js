@@ -170,7 +170,7 @@ export const postOptions = [
 ]
 
 // CAMPAIGN TYPE GRADIENTS
-const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellow} 100%)`
+const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandColors.yellowLight} 100%)`
 export const growthGradient = createGradient(brandColors.blue)
 export const conversionsGradient = createGradient(brandColors.red)
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import brandColors from '@/landing/constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 export default function CrossIcon({ fill, className }) {
   return (

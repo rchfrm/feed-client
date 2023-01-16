@@ -2,7 +2,7 @@
 body {
   font-family: var(--font);
   font-size: var(--base-font-size);
-  color: var(--text-color);
+  color: var(--black);
   line-height: 1.4;
 }
 
@@ -200,6 +200,6 @@ p,
 
 /* SELECTED TEXT COLOR */
 ::selection {
-  color: var(--text-color);
+  color: var(--black);
   background: var(--yellow);
 }
