@@ -6,7 +6,7 @@ const ProfileStatusMobileBar = ({ children, backgroundStyle, onClick, className 
     <button
       onClick={onClick}
       className={[
-        'relative h-7 flex items-center justify-center w-full text-white text-xs',
+        'relative h-7 flex items-center justify-center w-full text-offwhite text-xs',
         className,
       ].join(' ')}
       style={{ ...backgroundStyle, left: '50%' }}

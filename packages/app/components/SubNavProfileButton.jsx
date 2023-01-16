@@ -52,7 +52,7 @@ const SubNavProfileButton = ({
           artistId ? (
             <ArtistImage pageId={fbPageId} name={artist.name} className="w-full h-auto" />
           ) : (
-            <HamburgerIcon fill={brandColors.white} className="w-full h-auto" />
+            <HamburgerIcon fill={brandColors.offwhite} className="w-full h-auto" />
           )
         )}
       </figure>

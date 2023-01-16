@@ -62,7 +62,7 @@ const ResultsAbsoluteChart = ({
           style={{ backgroundColor: color, transform: 'scale(0)' }}
         >
           {tooltipMessage && (
-            <p className="mb-0 text-white text-xs">{formatNumber(prevPeriod)}</p>
+            <p className="mb-0 text-offwhite text-xs">{formatNumber(prevPeriod)}</p>
           )}
         </div>
         {tooltipMessage ? (
@@ -79,7 +79,7 @@ const ResultsAbsoluteChart = ({
           style={{ backgroundColor: color, transform: 'scale(0)' }}
         >
           {tooltipMessage && (
-            <p className="mb-0 text-white text-xs">{formatNumber(absoluteGrowth)}</p>
+            <p className="mb-0 text-offwhite text-xs">{formatNumber(absoluteGrowth)}</p>
           )}
         </div>
         <div className="text-center text-xs font-bold">

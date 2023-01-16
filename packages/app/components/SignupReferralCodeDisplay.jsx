@@ -39,7 +39,7 @@ const SignupReferralCodeDisplay = ({ className }) => {
       <Button
         version="x-small"
         className={[
-          'bg-white text-black border-solid border border-black',
+          'bg-offwhite text-black border-solid border border-black',
           'iphone8:ml-3',
         ].join(' ')}
         onClick={clearUsedReferralCode}

@@ -146,7 +146,7 @@ const HeaderMenu = ({ isOpen, toggle }) => {
             className="absolute top-20 -right-[22px] flex justify-center items-center w-12 h-12 bg-anthracite rounded-full"
             ref={closeButtonElement}
           >
-            <CrossIcon className="w-8 h-8" fill={brandColors.white} />
+            <CrossIcon className="w-8 h-8" fill={brandColors.offwhite} />
           </button>
           <div
             id="navContent"

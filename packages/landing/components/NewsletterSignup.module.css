@@ -6,7 +6,7 @@
 
 .emailInput {
   width: 100%;
-  background-color: var(--white);
+  background-color: var(--offwhite);
   border-top: none;
   border-right: none;
   border-left: none;
@@ -27,7 +27,7 @@
 
   input {
     background-color: var(--green);
-    color: var(--white);
+    color: var(--offwhite);
     font-weight: var(--bold-display);
     width: var(--sp-48);
   }

@@ -48,7 +48,7 @@ const HeaderProfileButton = ({
         <ChevronIcon
           direction={shouldShowMore ? 'up' : 'down'}
           className="mr-2"
-          fill={isHover || shouldShowMore ? brandColors.green : brandColors.white}
+          fill={isHover || shouldShowMore ? brandColors.green : brandColors.offwhite}
         />
       )}
       <figure className="w-6 h-6 rounded-full overflow-hidden">

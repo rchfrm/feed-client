@@ -114,8 +114,8 @@ const GetStartedSummarySentencePosts = () => {
                 isDesktopLayout || isLastStep ? 'w-10 h-10 mx-1' : 'w-5 h-5 mx-0.5',
               ].join(' ')}
               circleFill={isInActive ? brandColors.grey : brandColors.black}
-              dotFill={isInActive ? brandColors.textColor : brandColors.white}
-              strokeFill={isInActive ? brandColors.white : brandColors.grey}
+              dotFill={isInActive ? brandColors.textColor : brandColors.offwhite}
+              strokeFill={isInActive ? brandColors.offwhite : brandColors.grey}
             />
           ))
         )}

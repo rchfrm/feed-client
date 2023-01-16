@@ -18,7 +18,7 @@ const ProfilesListSearch = ({ value, setValue }) => {
         placeholder="Search"
         value={value}
         handleChange={handleChange}
-        className="mb-0 bg-white rounded-[10px]"
+        className="mb-0 bg-offwhite rounded-[10px]"
         hasIcon
       />
       <SearchIcon className="absolute top-2 right-4 w-5 h-5" />

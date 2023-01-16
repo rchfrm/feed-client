@@ -39,7 +39,7 @@ export default function TheHeader() {
         'left-0',
         'z-50',
         'w-full',
-        'bg-white',
+        'bg-offwhite',
         styles.theHeader,
       ].join(' ')}
     >

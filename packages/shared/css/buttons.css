@@ -67,7 +67,7 @@ a[type=button] {
 }
 
 .button--basic {
-  color: var(--white);
+  color: var(--offwhite);
   padding: 0 1.3em;
   height: var(--button-height);
   font-weight: var(--bold);
@@ -233,7 +233,7 @@ a[type=button] {
 
 .button--toggle {
   background-color: var(--success-color);
-  color: var(--white);
+  color: var(--offwhite);
 
   .button--innerText {
     transform: none;
@@ -241,7 +241,7 @@ a[type=button] {
 
   svg {
     * {
-      fill: var(--white);
+      fill: var(--offwhite);
     }
   }
 
@@ -252,7 +252,7 @@ a[type=button] {
   }
 
   &._off {
-    background-color: var(--white);
+    background-color: var(--offwhite);
     border: 2px solid var(--grey);
   }
 
@@ -357,7 +357,7 @@ a[type=button] {
 
 .button--facebook {
   background-color: var(--color-fb-button);
-  color: var(--white);
+  color: var(--offwhite);
 }
 
 .integration-setup {
@@ -376,12 +376,12 @@ a[type=button] {
 
 .connected {
   background-color: var(--black);
-  color: var(--white);
+  color: var(--offwhite);
 }
 
 .button_sign-out {
   background-color: transparent;
-  color: var(--white);
+  color: var(--offwhite);
   border: none;
   font-weight: var(--bold);
   font-size: 1.25em;

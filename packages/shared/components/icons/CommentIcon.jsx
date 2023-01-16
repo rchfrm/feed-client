@@ -56,7 +56,7 @@ CommentIcon.propTypes = {
 
 CommentIcon.defaultProps = {
   fillBubble: brandColors.green,
-  fillDot: brandColors.white,
+  fillDot: brandColors.offwhite,
   className: null,
   style: null,
 }

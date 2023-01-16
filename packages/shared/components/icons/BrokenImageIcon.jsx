@@ -40,7 +40,7 @@ BrokenImageIcon.defaultProps = {
   className: '',
   circleFill: brandColors.green,
   dotFill: brandColors.textColor,
-  strokeFill: brandColors.white,
+  strokeFill: brandColors.offwhite,
 }
 
 

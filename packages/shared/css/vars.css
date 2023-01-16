@@ -4,7 +4,7 @@
 
 :root {
   /* Color Palette */
-  --white: #F4F4F4;
+  --offwhite: #F4F4F4;
   --black: #0D1311;
   --anthracite: #353938;
   --black-hover: #353938;
@@ -27,7 +27,7 @@
   --color-twitter: var(--blue);
   --color-sc: var(--yellow);
   /* APP COLORS */
-  --bg-color: var(--white);
+  --bg-color: var(--offwhite);
   --text-color: var(--black);
   --success-color: var(--green);
   --error-color: var(--red);

@@ -11,10 +11,10 @@ const SubNavMenuButton = ({ toggleSubNav }) => {
   return (
     <button
       onClick={toggle}
-      className="flex items-center h-8 text-white no-underline px-3 py-2 rounded-full bg-blackHover"
+      className="flex items-center h-8 text-offwhite no-underline px-3 py-2 rounded-full bg-blackHover"
     >
       <figure className="mr-2">
-        <HamburgerIcon fill={brandColors.white} className="w-full h-auto" />
+        <HamburgerIcon fill={brandColors.offwhite} className="w-full h-auto" />
       </figure>
       Menu
     </button>

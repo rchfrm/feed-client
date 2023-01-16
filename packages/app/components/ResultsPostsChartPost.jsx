@@ -59,7 +59,7 @@ const ResultsPostsChartPost = ({
         postType={post.postType}
       />
       <div
-        className="absolute bg-white px-1 rounded-dialogue border border-solid border-1"
+        className="absolute bg-offwhite px-1 rounded-dialogue border border-solid border-1"
         style={{
           left: '50%',
           bottom: '-8px',

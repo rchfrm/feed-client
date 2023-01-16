@@ -116,7 +116,7 @@
 .chartRightMid,
 .chartRightMin {
   position: absolute;
-  background-color: var(--white);
+  background-color: var(--offwhite);
   padding: 0.25em;
   z-index: 3;
   border-radius: 5px;

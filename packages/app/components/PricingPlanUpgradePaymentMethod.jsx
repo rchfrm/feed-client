@@ -53,7 +53,7 @@ const PricingPlanUpgradePaymentMethod = ({
         <ArrowAltIcon
           className="ml-3"
           direction="right"
-          fill={brandColors.white}
+          fill={brandColors.offwhite}
         />
       </Button>
     )

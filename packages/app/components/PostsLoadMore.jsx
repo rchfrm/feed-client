@@ -21,7 +21,7 @@ const PostsLoadMore = ({
       {shouldShowButton && (
         <button
           onClick={handleClick}
-          className="w-24 h-8 py-2 px-4 rounded-dialogue border border-solid border-black bg-white text-xs"
+          className="w-24 h-8 py-2 px-4 rounded-dialogue border border-solid border-black bg-offwhite text-xs"
         >
           {isLoadingMore ? <Spinner width={14} fill={brandColors.textColor} /> : 'Load more'}
         </button>

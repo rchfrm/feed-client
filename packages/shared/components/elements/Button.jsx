@@ -116,7 +116,7 @@ Button.defaultProps = {
   type: 'button',
   success: false,
   loading: false,
-  spinnerFill: brandColors.white,
+  spinnerFill: brandColors.offwhite,
   style: {},
   className: '',
   href: null,

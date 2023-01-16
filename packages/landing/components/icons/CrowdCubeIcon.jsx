@@ -96,7 +96,7 @@ CrowdCubeIcon.propTypes = {
 }
 
 CrowdCubeIcon.defaultProps = {
-  bgFill: brandColors.white,
+  bgFill: brandColors.offwhite,
   logoFill: brandColors.instagram.bg,
   className: null,
 }

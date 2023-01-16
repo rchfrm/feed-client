@@ -47,7 +47,7 @@ const TargetingDailyBudgetButtons = ({
         >
           <RefreshIcon
             className={['w-4 h-auto'].join(' ')}
-            fill={brandColors.white}
+            fill={brandColors.offwhite}
             style={{ marginRight: 0 }}
           />
         </Button>

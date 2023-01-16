@@ -250,11 +250,11 @@ select {
   padding: 1em;
 }
 
-.select--white {
-  color: var(--white);
+.select--offwhite {
+  color: var(--offwhite);
   
   &.select--box {
-    border: 2px solid var(--white);
+    border: 2px solid var(--offwhite);
   }
 
   option {
@@ -299,9 +299,9 @@ select {
   right: var(--sp-5);
   transform: translateY(50%);
   width: 0.8em;
-  .select--white + & {
+  .select--offwhite + & {
     path {
-      fill: var(--white);
+      fill: var(--offwhite);
     }
   }
 }
@@ -415,7 +415,7 @@ select {
 
   &.-white {
     &::after {
-      background-color: var(--white);
+      background-color: var(--offwhite);
       transform: scale(0.4) translateZ(0);
     } 
   }

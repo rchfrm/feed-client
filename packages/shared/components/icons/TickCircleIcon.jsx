@@ -38,7 +38,7 @@ TickCircleIcon.propTypes = {
 TickCircleIcon.defaultProps = {
   className: '',
   fill: brandColors.green,
-  tickFill: brandColors.white,
+  tickFill: brandColors.offwhite,
   style: {},
 }
 

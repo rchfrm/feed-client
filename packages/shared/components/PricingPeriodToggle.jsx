@@ -48,7 +48,7 @@ const PricingPeriodToggle = ({
           'small--p',
           'bold',
           'ml-1 xs:ml-0',
-          'text-white',
+          'text-offwhite',
           buttonPillClassName,
         ].join(' ')}
         onClick={handlePillClick}

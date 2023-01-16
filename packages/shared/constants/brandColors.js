@@ -1,4 +1,4 @@
-const white = '#F4F4F4'
+const offwhite = '#F4F4F4'
 const black = '#0D1311'
 const anthracite = '#353938'
 const blackHover = '#353938'
@@ -14,7 +14,7 @@ const greyDark = '#7F8382'
 
 const brandColors = {
   // Base colors
-  white,
+  offwhite,
   black,
   anthracite,
   blackHover,
@@ -28,7 +28,7 @@ const brandColors = {
   grey,
   greyDark,
   // Interface colors
-  bgColor: white,
+  bgColor: offwhite,
   textColor: black,
   successColor: green,
   loaderColor: green,
@@ -38,11 +38,11 @@ const brandColors = {
   // Platform colors
   facebook: {
     bg: '#26547C',
-    text: white,
+    text: offwhite,
   },
   instagram: {
     bg: '#E75A7C',
-    text: white,
+    text: offwhite,
   },
   twitter: {
     bg: '#5BC0EB',
@@ -58,11 +58,11 @@ const brandColors = {
   },
   youtube: {
     bg: '#FA5450',
-    text: white,
+    text: offwhite,
   },
   tiktok: {
     bg: black,
-    text: white,
+    text: offwhite,
   },
 }
 

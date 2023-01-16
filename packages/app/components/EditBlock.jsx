@@ -31,7 +31,7 @@ const EditBlock = ({
         onClick={() => setIsEditMode(! isEditMode)}
         trackComponentName={trackComponentName}
       >
-        <PencilIcon fill={brandColors.white} />
+        <PencilIcon fill={brandColors.offwhite} />
         Edit
       </Button>
     </div>

@@ -19,7 +19,7 @@ const ResultsSpendBlock = ({ value, date, currency }) => {
     >
       {isHover && (
         <div
-          className="absolute transform -translate-x-1/2 border-solid text-xs bg-white border-2 border-black py-1 p-2 z-10 rounded-dialogue text-center"
+          className="absolute transform -translate-x-1/2 border-solid text-xs bg-offwhite border-2 border-black py-1 p-2 z-10 rounded-dialogue text-center"
           style={{ top: '120%', left: '50%' }}
         >
           <span

@@ -19,7 +19,7 @@ const CrowdCubeBanner = () => {
         <span
           className={[
             'inline-block',
-            'border-2 border-solid border-white rounded-full',
+            'border-2 border-solid border-offwhite rounded-full',
             'px-4 py-2',
             'mr-5',
           ].join(' ')}

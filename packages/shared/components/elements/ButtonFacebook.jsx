@@ -60,9 +60,9 @@ const ButtonFacebook = ({
       version={['facebook', 'icon', version].join(' ')}
       ref={buttonRef}
       icon={(
-        <FacebookIcon fill={brandColors.white} />
+        <FacebookIcon fill={brandColors.offwhite} />
       )}
-      spinnerFill={brandColors.white}
+      spinnerFill={brandColors.offwhite}
       trackComponentName={trackComponentName}
     >
       {children}

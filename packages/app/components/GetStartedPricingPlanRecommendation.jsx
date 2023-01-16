@@ -17,10 +17,10 @@ const GetStartedPricingPlanRecommendation = () => {
       'w-full h-8 p-3',
       'ring-[5px] ring-insta',
       'rounded-b-dialogue sm:rounded-t-dialogue sm:rounded-b-none bg-insta',
-      'text-xs text-white italic',
+      'text-xs text-offwhite italic',
     ].join(' ')}
     >
-      <LightbulbIcon className="h-4 w-4 mr-1" fill={brandColors.white} />
+      <LightbulbIcon className="h-4 w-4 mr-1" fill={brandColors.offwhite} />
       Recommended based on your settings
     </div>
   )

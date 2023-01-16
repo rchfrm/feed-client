@@ -20,7 +20,7 @@ const PostsSorter = ({
         name="sort"
         handleChange={handleChange}
         version="small box"
-        className="w-16 mb-0 bg-white"
+        className="w-16 mb-0 bg-offwhite"
       />
     </div>
   )

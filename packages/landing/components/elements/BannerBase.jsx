@@ -21,7 +21,7 @@ const BannerBase = ({
       rel={link ? 'noopener noreferrer' : null}
       className={[
         'block',
-        'bg-insta text-white',
+        'bg-insta text-offwhite',
         'p-4',
         textLeft ? 'text-left' : 'text-center',
         'font-display xs:text-lg lg:text-xl',

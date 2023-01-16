@@ -35,7 +35,7 @@ const ProfileStatusMobileObjective = ({ backgroundStyle }) => {
       backgroundStyle={backgroundStyle}
       className="bg-green"
     >
-      <PlayIcon color={brandColors.white} className="w-2 h-auto mr-2" />
+      <PlayIcon color={brandColors.offwhite} className="w-2 h-auto mr-2" />
       Driving {objectiveString}
     </ProfileStatusMobileBar>
   )

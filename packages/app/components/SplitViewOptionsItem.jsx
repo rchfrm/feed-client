@@ -48,7 +48,7 @@ const SplitViewOptionsItem = ({
         'flex items-center no-underline',
         'p-4',
         ! isLast && ! isActive ? 'border-solid border-grey-1 border-b-2' : null,
-        isActive ? 'bg-insta text-white' : null,
+        isActive ? 'bg-insta text-offwhite' : null,
       ].join(' ')}
       onClick={() => goToSpecificSetting(name, hasDefaultSidePanelButton)}
     >
@@ -58,7 +58,7 @@ const SplitViewOptionsItem = ({
         'flex justify-center items-center mr-4',
         'shrink-0',
         'rounded-full',
-        'border border-solid border-black bg-white',
+        'border border-solid border-black bg-offwhite',
       ].join(' ')}
       >
         {isActive && <span className="w-4 h-4 block rounded-full bg-green" />}

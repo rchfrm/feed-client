@@ -79,7 +79,7 @@ const ResultsExistingAudienceChart = ({ data }) => {
         <span className="absolute text-green text-xs" style={{ bottom: '100%', right: '5px' }}>
           {maxValue}%
         </span>
-        {highestValue < 25 && <span className="absolute right-0 bottom-0 h-16 bg-white" style={{ borderRight: `2px dashed ${brandColors.green}`, width: '2px' }} />}
+        {highestValue < 25 && <span className="absolute right-0 bottom-0 h-16 bg-offwhite" style={{ borderRight: `2px dashed ${brandColors.green}`, width: '2px' }} />}
       </div>
     )
   )

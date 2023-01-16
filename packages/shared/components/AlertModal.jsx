@@ -116,7 +116,7 @@ const AlertModal = () => {
             <div
               className={[
                 'relative',
-                'rounded-dialogue bg-white',
+                'rounded-dialogue bg-offwhite',
                 'mx-8 sm:mx-20 max-w-lg',
                 'overflow-auto',
                 styles.content,
@@ -162,7 +162,7 @@ const AlertModal = () => {
                       }}
                       href={href}
                       disabled={disabled}
-                      fbButtonFallbackClassName="p-4 text-white mb-0"
+                      fbButtonFallbackClassName="p-4 text-offwhite mb-0"
                       trackComponentName="AlertModal"
                       fallbackCta={text}
                     >

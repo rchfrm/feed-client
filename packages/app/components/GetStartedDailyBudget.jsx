@@ -157,7 +157,7 @@ const GetStartedDailyBudget = () => {
           <ArrowAltIcon
             className="ml-3"
             direction="right"
-            fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.white}
+            fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.offwhite}
           />
         </Button>
       </div>

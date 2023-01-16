@@ -70,7 +70,7 @@ const Dropdown = ({
           className={[
             'absolute z-10 top-2 left-2 p-2',
             'border-2 border-solid border-black',
-            'bg-white rounded-dialogue',
+            'bg-offwhite rounded-dialogue',
           ].join(' ')}
         >
           {items.map((item) => (

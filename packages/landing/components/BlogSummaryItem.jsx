@@ -53,7 +53,7 @@ const BlogSummaryItem = ({ blog, className }) => {
           </div>
         </figure>
       </Anchor>
-      <h3 className={['bg-white', 'pointer-events-none', 'mb-0'].join(' ')}><strong>{title}</strong></h3>
+      <h3 className={['bg-offwhite', 'pointer-events-none', 'mb-0'].join(' ')}><strong>{title}</strong></h3>
       {excerpt && (
         <MarkdownText className={['mb-0'].join(' ')} markdown={excerpt} />
       )}

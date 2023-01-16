@@ -8,7 +8,7 @@
   outline: 0;
   border: none;
   background-color: var(--color-fb);
-  border: 2px solid var(--white);
+  border: 2px solid var(--offwhite);
   box-shadow: none;
   height: var(--sp-5) !important;
   cursor: grab;
@@ -58,7 +58,7 @@
   background: linear-gradient(90deg, var(--grey-light) 0%, var(--grey-dark));
 
   .slider-track-color-white & {
-    background: var(--white);
+    background: var(--offwhite);
   }
 }
 

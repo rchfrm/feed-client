@@ -8,7 +8,7 @@ const PostScore = ({ score, size, className }) => {
     <div className={[
       'absolute',
       'flex justify-center items-center',
-      'rounded-full bg-white border-3 border-solid border-insta',
+      'rounded-full bg-offwhite border-3 border-solid border-insta',
       'font-bold',
       isSmall ? 'w-10 h-10' : 'w-16 h-16 text-2xl',
       className,
@@ -19,7 +19,7 @@ const PostScore = ({ score, size, className }) => {
         className={[
           'absolute -right-1 -bottom-1',
           'flex justify-center items-center',
-          'bg-white rounded-full',
+          'bg-offwhite rounded-full',
           'font-normal text-grey-3',
           isSmall ? 'w-4 h-4' : 'w-6 h-6 text-sm',
         ].join(' ')}

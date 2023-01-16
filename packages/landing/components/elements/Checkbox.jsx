@@ -19,7 +19,7 @@ function Checkbox({ color, selected, width }) {
         width: `${width}px`,
         height: `${width}px`,
         backgroundColor: bgColor,
-        border: `1px solid ${brandColors.white}`,
+        border: `1px solid ${brandColors.offwhite}`,
         borderRadius: 3,
       }}
     />

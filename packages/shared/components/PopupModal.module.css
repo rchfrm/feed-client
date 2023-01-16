@@ -74,7 +74,7 @@
   z-index: 2;
 
   svg {
-    border: 1px solid var(--white);
+    border: 1px solid var(--offwhite);
     border-radius: 50%;
   }
 }

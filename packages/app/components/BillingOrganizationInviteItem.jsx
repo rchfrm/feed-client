@@ -61,7 +61,7 @@ const BillingOrganizationInviteItem = ({
           onClick={handleAccept}
           trackComponentName="BillingOrganizationInviteItem"
         >
-          <TickIcon className="h-4 w-auto mr-2" fill={brandColors.white} />
+          <TickIcon className="h-4 w-auto mr-2" fill={brandColors.offwhite} />
           Accept
         </Button>
         <Button
@@ -72,7 +72,7 @@ const BillingOrganizationInviteItem = ({
           onClick={handleReject}
           trackComponentName="BillingOrganizationInviteItem"
         >
-          <CrossIcon className="h-5 w-auto mr-2" fill={brandColors.white} />
+          <CrossIcon className="h-5 w-auto mr-2" fill={brandColors.offwhite} />
           Reject
         </Button>
       </div>

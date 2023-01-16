@@ -20,7 +20,7 @@ const TertiaryCTA = React.forwardRef(({
     >
       <NewsletterSignup
         className={[
-          'bg-white',
+          'bg-offwhite',
           'border-2',
           'border-green',
           'border-solid',

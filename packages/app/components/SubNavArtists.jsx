@@ -130,7 +130,7 @@ const SubNavArtists = ({ className }) => {
                 <figure
                   className={[
                     'overflow-hidden h-8 w-8 mr-5 rounded-full',
-                    isActiveProfile ? 'opacity-100 border-2 border-solid border-white' : 'opacity-50',
+                    isActiveProfile ? 'opacity-100 border-2 border-solid border-offwhite' : 'opacity-50',
                   ].join(' ')}
                 >
                   <ArtistImage className="h-auto w-full" pageId={facebook_page_id} />
