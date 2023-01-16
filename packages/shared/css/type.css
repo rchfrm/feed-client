@@ -22,7 +22,7 @@ a {
   &.-hover--insta {
     @mixin canHover {
       &:hover {
-        color: var(--pink-hover)
+        color: var(--color-insta)
       }
     }
   }

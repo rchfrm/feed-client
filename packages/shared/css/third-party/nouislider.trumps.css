@@ -46,7 +46,7 @@
 .noUi-handle.-ghost {
   position: absolute;
   top: -6px;
-  background-color: var(--purple);
+  background-color: var(--yellow);
   opacity: 0.5;
 }
 

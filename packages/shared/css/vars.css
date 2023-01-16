@@ -32,15 +32,12 @@
   --yellow-bg-dark: #FFEEC7;
   --yellow-bg-light: #FFFAF2;
   --yellow-contrast: #373B0F;
-  --blue: #5BC0EB;
-  --purple: #CC7CFD;
-  --pink: #E75A7C;
-  --pink-hover: #D34A6B;
+
   /* Social Media Palette */
   --color-fb: #26547C;
-  --color-insta: var(--pink);
-  --color-twitter: var(--blue);
-  --color-sc: var(--yellow);
+  --color-insta: #E75A7C;
+  --color-twitter: #5BC0EB;
+  --color-sc: #FDE74C;
 
   /* Font */
   --font: 'Inter', serif;

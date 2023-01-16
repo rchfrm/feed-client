@@ -380,7 +380,7 @@ select {
 
     .checkbox--button.-highlighted &,
     .radio--button.-highlighted & {
-      border: 1px solid var(--purple);
+      border: 1px solid var(--yellow);
     }
 
     .checkbox--button.-disabled &,

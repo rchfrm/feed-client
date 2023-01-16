@@ -112,31 +112,31 @@ a[type=button] {
   }
 }
 
-.button--blue {
-  background-color: var(--blue);
+.button--green {
+  background-color: var(--green);
 
   @mixin canHover {
     &:hover {
-      background-color: var(--blue);
+      background-color: var(--green);
     }
   }
 
   &:focus {
-    background-color: var(--blue);
+    background-color: var(--green);
   }
 }
 
 .button--insta {
-  background-color: var(--pink);
+  background-color: var(--color-insta);
 
   @mixin canHover {
     &:hover {
-      background-color: var(--pink);
+      background-color: var(--color-insta);
     }
   }
 
   &:focus {
-    background-color: var(--pink);
+    background-color: var(--color-insta);
   }
 }
 
@@ -169,17 +169,17 @@ a[type=button] {
   }
 }
 
-.button--pink {
-  background-color: var(--pink);
+.button--color-insta {
+  background-color: var(--color-insta);
 
   @mixin canHover {
     &:hover {
-      background-color: var(--pink-hover);
+      background-color: var(--color-insta);
     }
   }
 
   &:focus {
-    background-color: var(--pink-hover);
+    background-color: var(--color-insta);
   }
 }
 

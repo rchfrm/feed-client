@@ -41,7 +41,7 @@
   }
 
   &.-highlighted {
-    background-color: color-mod(var(--purple) alpha(0.25));
+    background-color: color-mod(var(--yellow) alpha(0.25));
   }
 
   &.-active {
