@@ -59,6 +59,7 @@ export default function TheHeader() {
           <Link href="/">
             <a title="home" aria-label="Go Home" className="w-40">
               <FeedLogo
+                id="landing"
                 style={{
                   width: '100%',
                   height: 'auto',

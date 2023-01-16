@@ -250,7 +250,7 @@ select {
   padding: 1em;
 }
 
-.select--offwhite {
+.select--white {
   color: var(--offwhite);
   
   &.select--box {
@@ -299,7 +299,7 @@ select {
   right: var(--sp-5);
   transform: translateY(50%);
   width: 0.8em;
-  .select--offwhite + & {
+  .select--white + & {
     path {
       fill: var(--offwhite);
     }
