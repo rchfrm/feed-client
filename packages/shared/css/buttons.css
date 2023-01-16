@@ -112,17 +112,17 @@ a[type=button] {
   }
 }
 
-.button--green {
-  background-color: var(--green);
+.button--blue {
+  background-color: var(--color-twitter);
 
   @mixin canHover {
     &:hover {
-      background-color: var(--green);
+      background-color: var(--color-twitter);
     }
   }
 
   &:focus {
-    background-color: var(--green);
+    background-color: var(--color-twitter);
   }
 }
 

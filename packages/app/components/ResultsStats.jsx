@@ -67,7 +67,7 @@ const ResultsStats = ({
           {newAudienceData ? (
             <ResultsNewAudienceStats data={newAudienceData} />
           ) : (
-            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-yellow-light" />
+            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-twitter" />
           )}
         </div>
       )}

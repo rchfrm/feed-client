@@ -25,7 +25,7 @@ const ResultsReachStats = ({ data }) => {
         </div>
         <p
           className="text-3xl ml-2 mb-0 sm:text-6xl sm:ml-0 sm:mb-5 text-center font-bold"
-          style={{ color: brandColors.yellowLight }}
+          style={{ color: brandColors.twitter.bg }}
         >
           {value.toFixed(1)}%
         </p>
@@ -33,7 +33,7 @@ const ResultsReachStats = ({ data }) => {
       <ResultsPercentileChart
         percentile={percentile}
         quartile={quartile}
-        color={brandColors.yellowLight}
+        color={brandColors.twitter.bg}
       />
     </>
   )
