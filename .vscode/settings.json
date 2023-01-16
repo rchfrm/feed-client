@@ -8,7 +8,7 @@
     "**/.svn": true,
     "**/CVS": true,
     "**/dist": true,
-    "**/fonts/": false,
+    "**/fonts/": true,
     "**/node_modules/": true,
     "**/scripts_mpsrc/": true,
     "**/wire/": true,

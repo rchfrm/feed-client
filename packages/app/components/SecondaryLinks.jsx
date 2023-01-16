@@ -8,7 +8,7 @@ const SecondaryLinks = () => {
       <ul className={[
         'flex justify-center w-full',
         'mb-8 xs:mb-10 md:mb-14 px-auto',
-        'text-grey-dark font-bold iphone8:text-xl md:text-2xl',
+        'text-grey-dark font-display font-bold iphone8:text-xl md:text-2xl',
       ].join(' ')}
       >
         {primaryLinks.map(({ href, title, matchingHrefs }) => (

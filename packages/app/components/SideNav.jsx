@@ -37,7 +37,7 @@ const SideNav = () => {
     <div
       className={[
         'hidden md:flex flex-col justify-between',
-        'fixed top-0 left-0 bottom-0 z-[22]',
+        'fixed top-0 left-0 bottom-0 z-[22] font-display',
         isNavExpanded ? 'w-[200px]' : 'w-20',
         'md:transition-all md:duration-500',
         'bg-black',
