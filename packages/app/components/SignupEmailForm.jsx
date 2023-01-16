@@ -10,7 +10,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useSignup from '@/app/hooks/useSignup'
 import useReferralStore from '@/app/stores/referralStore'
 
-import ArrowAltIcon from 'shared/components/icons/ArrowAltIcon'
+import ArrowIcon from 'shared/components/icons/ArrowIcon'
 import brandColors from '@/constants/brandColors'
 
 import Input from '@/elements/Input'
@@ -274,8 +274,8 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         trackComponentName="SignupEmailForm"
       >
         Next
-        <ArrowAltIcon
-          className="ml-3 h-6"
+        <ArrowIcon
+          className="ml-1 w-7 h-auto"
           fill={! formComplete ? brandColors.greyDark : brandColors.offwhite}
           direction="right"
         />

@@ -6,7 +6,7 @@ import { gsap, Power2 } from 'gsap'
 import ResultsAbsoluteChartTooltip from '@/app/ResultsAbsoluteChartTooltip'
 
 import PlusIcon from '@/icons/PlusIcon'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import { formatNumber, formatCurrency } from '@/helpers/utils'
 
@@ -21,7 +21,7 @@ const ResultsAbsoluteChart = ({
 }) => {
   const icons = {
     plus: PlusIcon,
-    arrow: ArrowAltIcon,
+    arrow: ArrowIcon,
   }
   const ChartIcon = icons[icon]
   const prevPeriod = data.find((o) => o.type === 'prev').value

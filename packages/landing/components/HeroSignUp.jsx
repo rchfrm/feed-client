@@ -3,7 +3,7 @@ import Button from '@/elements/Button'
 import Input from '@/elements/Input'
 import Error from '@/elements/Error'
 import brandColors from 'shared/constants/brandColors'
-import ArrowAltIcon from 'shared/components/icons/ArrowAltIcon'
+import ArrowIcon from 'shared/components/icons/ArrowIcon'
 
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
@@ -107,8 +107,8 @@ export default function HeroSignUp() {
           trackComponentName="HeroSignUp"
         >
           Get started
-          <ArrowAltIcon
-            className="ml-3 h-6"
+          <ArrowIcon
+            className="w-8 h-auto ml-1"
             fill={brandColors.offwhite}
             direction="right"
           />

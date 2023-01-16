@@ -18,7 +18,7 @@ const PricingCurrencySelect = ({ currency, setCurrency, className }) => {
     <div
       className={[
         'flex',
-        'items-center',
+        'items-center relative',
         className,
       ].join(' ')}
     >
@@ -27,12 +27,8 @@ const PricingCurrencySelect = ({ currency, setCurrency, className }) => {
         handleChange={handleChange}
         name="PricingCurrencySelect"
         options={options}
-        version="small"
-        className={[
-          'w-full',
-          'm-w-100',
-          'mb-0',
-        ].join(' ')}
+        version="small box"
+        className="w-16 mb-0"
       />
     </div>
   )

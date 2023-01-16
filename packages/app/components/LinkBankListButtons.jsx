@@ -35,7 +35,7 @@ const LinkBankListButtons = ({
         onClick={() => addLink()}
         trackComponentName="LinkBankListButtons"
       >
-        <PlusIcon style={{ height: '0.75rem' }} fill={brandColors.offwhite} />
+        <PlusIcon fill={brandColors.offwhite} />
         {totalLinks > 0 ? 'Add' : 'Add a link'}
       </Button>
       {/* EDIT */}
@@ -57,7 +57,7 @@ const LinkBankListButtons = ({
             </>
           ) : (
             <>
-              <PencilIcon fill={brandColors.offwhite} style={{ height: '1rem' }} />
+              <PencilIcon fill={brandColors.offwhite} />
               Edit
             </>
           )}

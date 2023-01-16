@@ -9,7 +9,7 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import GetStartedPostsSelectionButtonsMobile from '@/app/GetStartedPostsSelectionButtonsMobile'
 
 import Button from '@/elements/Button'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import { togglePromotionEnabled } from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
@@ -104,8 +104,8 @@ const GetStartedPostsSelectionButtons = ({
         trackComponentName="GetStartedPostsSelectionButtons"
       >
         Save
-        <ArrowAltIcon
-          className="ml-3"
+        <ArrowIcon
+          className="w-7 h-auto ml-3"
           direction="right"
           fill="white"
         />

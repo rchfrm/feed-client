@@ -47,9 +47,8 @@ const CopyTextButton = ({
         className={[
           'button--copy-text',
           'inline-flex relative',
+          'justify-between items-center',
           size === 'large' ? 'h-buttonHeight' : null,
-          size === 'large' ? 'items-center' : 'items-baseline',
-          'justify-between',
           size === 'large' ? '-large' : null,
           type === 'code' ? '-copy-code' : null,
           success ? '-success' : null,
@@ -73,9 +72,7 @@ const CopyTextButton = ({
         {success && (
           <span className="success-message">Copied!</span>
         )}
-        <ClipboardIcon
-          className="icon"
-        />
+        <ClipboardIcon className="w-4 h-auto" />
       </a>
     </>
   )

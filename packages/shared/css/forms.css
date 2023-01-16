@@ -280,7 +280,9 @@ select {
     border-width: 1px;
 
     & + .select--arrow {
-      right: var(--sp-2)
+      top: 0;
+      right: 0;
+      width: 24px;
     }
   }
 }
@@ -296,9 +298,10 @@ select {
 
 /* Select arrow */
 .select--arrow {
-  right: var(--sp-5);
+  top: var(--sp-3);
+  right: var(--sp-2);
   transform: translateY(50%);
-  width: 0.8em;
+  width: 32px;
   .select--white + & {
     path {
       fill: var(--offwhite);
@@ -380,7 +383,7 @@ select {
 
     .checkbox--button.-highlighted &,
     .radio--button.-highlighted & {
-      border: 1px solid var(--yellow);
+      border: 1px solid var(--green);
     }
 
     .checkbox--button.-disabled &,

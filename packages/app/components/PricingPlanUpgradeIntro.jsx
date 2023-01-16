@@ -4,7 +4,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PricingPlanUpgradeIntroPlan from '@/app/PricingPlanUpgradeIntroPlan'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import copy from '@/app/copy/global'
 import brandColors from '@/constants/brandColors'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
@@ -42,7 +42,7 @@ const PricingPlanUpgradeIntro = ({
     const button = (
       <Button version="insta" onClick={onClick} trackComponentName="PricingPlanUpgradeIntro">
         {buttonText()}
-        <ArrowAltIcon
+        <ArrowIcon
           className="ml-3"
           direction="right"
           fill={brandColors.offwhite}

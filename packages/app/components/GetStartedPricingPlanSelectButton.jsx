@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import { capitalise } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
@@ -26,9 +26,9 @@ const GetStartedPricingPlanSelectButton = ({
       onClick={() => setSelectedPricingPlan(name)}
     >
       <span className="hidden sm:block">Select {title}</span>
-      <ArrowAltIcon
+      <ArrowIcon
         direction="right"
-        className="w-6 h-6 sm:w-auto sm:h-auto"
+        className="w-7 h-auto sm:w-auto sm:h-auto"
         fill={isDisabled ? brandColors.grey : brandColors.black}
       />
     </button>

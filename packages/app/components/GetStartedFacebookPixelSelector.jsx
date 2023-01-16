@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import PixelSelector from '@/app/PixelSelector'
 
 import Button from '@/elements/Button'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 const GetStartedFacebookPixelSelector = ({
   isLoading,
@@ -29,8 +29,8 @@ const GetStartedFacebookPixelSelector = ({
         trackComponentName="GetStartedFacebookPixelSelector"
       >
         Save
-        <ArrowAltIcon
-          className="ml-3"
+        <ArrowIcon
+          className="w-7 h-auto ml-3"
           direction="right"
           fill="white"
         />

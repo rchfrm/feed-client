@@ -7,7 +7,7 @@ import Select from '@/elements/Select'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import countries from '@/constants/countries'
 
@@ -97,8 +97,8 @@ const GetStartedLocation = () => {
           trackComponentName="GetStartedLocation"
         >
           Save
-          <ArrowAltIcon
-            className="ml-3"
+          <ArrowIcon
+            className="w-7 h-auto ml-3"
             direction="right"
             fill="white"
           />

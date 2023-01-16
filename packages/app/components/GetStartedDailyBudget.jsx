@@ -13,7 +13,7 @@ import TargetingDailyBudgetCustomBudgetButton from '@/app/TargetingDailyBudgetCu
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 
 import Button from '@/elements/Button'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
 
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
@@ -154,8 +154,8 @@ const GetStartedDailyBudget = () => {
           disabled={hasInsufficientBudget}
         >
           Save
-          <ArrowAltIcon
-            className="ml-3"
+          <ArrowIcon
+            className="w-7 h-auto ml-3"
             direction="right"
             fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.offwhite}
           />

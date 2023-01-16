@@ -4,7 +4,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
 import PlusIcon from '@/icons/PlusIcon'
-import ChevronDoubleUpIcon from '@/icons/ChevronDoubleUpIcon'
+import ChevronDoubleIcon from '@/icons/ChevronDoubleIcon'
 import PencilIcon from '@/icons/PencilIcon'
 import RefreshIcon from '@/icons/RefreshIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
@@ -115,7 +115,7 @@ const PostCardActionsMenu = ({
       return {
         name: 'View results',
         fn: openResults,
-        icon: <InsightsIcon className="h-3 w-3 mr-1" />,
+        icon: <InsightsIcon className="w-5 h-auto mr-1" />,
       }
     }
 
@@ -123,7 +123,7 @@ const PostCardActionsMenu = ({
       return {
         name: 'Edit ad',
         fn: openSettings,
-        icon: <PencilIcon className="h-4 w-4 mr-1" />,
+        icon: <PencilIcon className="w-5 h-auto mr-1" />,
       }
     }
 
@@ -131,7 +131,7 @@ const PostCardActionsMenu = ({
       return {
         name: 'Push to front',
         fn: prioritize,
-        icon: <ChevronDoubleUpIcon className="h-4 w-4 mr-1" />,
+        icon: <ChevronDoubleIcon direction="up" className="w-5 h-auto mr-1" />,
       }
     }
 
@@ -139,7 +139,7 @@ const PostCardActionsMenu = ({
       return {
         name: 'Reactivate',
         fn: prioritize,
-        icon: <RefreshIcon className="h-3 w-3 mr-1" />,
+        icon: <RefreshIcon className="w-5 h-auto mr-1" />,
       }
     }
 
@@ -147,7 +147,7 @@ const PostCardActionsMenu = ({
       return {
         name: 'Add to queue',
         fn: enablePromotion,
-        icon: <PlusIcon className="h-3 w-3 mr-1" />,
+        icon: <PlusIcon className="w-5 h-auto mr-1" />,
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

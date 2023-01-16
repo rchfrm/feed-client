@@ -5,7 +5,7 @@ import useBillingStore from '@/app/stores/billingStore'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ArtistImage from '@/elements/ArtistImage'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import * as ROUTES from '@/app/constants/routes'
 import { getLocalStorage } from '@/helpers/utils'
@@ -73,7 +73,7 @@ const ConnectProfilesItem = ({
         </div>
         {! isConnected && (
           <div className="flex-1">
-            <ArrowAltIcon direction="right" className="ml-4" />
+            <ArrowIcon direction="right" className="ml-4" />
           </div>
         )}
       </Wrapper>

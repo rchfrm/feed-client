@@ -5,7 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
-import ArrowIcon from '@/icons/ArrowIcon'
+import CaretIcon from '@/icons/CaretIcon'
 
 import IntegrationsPanelIntegration from '@/app/IntegrationsPanelIntegration'
 import DisabledSection from '@/app/DisabledSection'
@@ -60,7 +60,7 @@ const IntegrationsPanel = ({
               onClick={goBack}
               trackComponentName="IntegrationsPanel"
             >
-              <ArrowIcon
+              <CaretIcon
                 fill={brandColors.offwhite}
                 direction="left"
                 style={{ width: '0.5rem' }}

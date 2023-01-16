@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import CloseCircle from '@/icons/CloseCircle'
+import CloseCircleIcon from '@/icons/CloseCircleIcon'
 
 const ButtonCloseCircle = ({ onClick, size, label, className, style, svgClassname }) => {
   return (
@@ -12,7 +12,7 @@ const ButtonCloseCircle = ({ onClick, size, label, className, style, svgClassnam
       label={label}
       aria-label={label}
     >
-      <CloseCircle className={svgClassname} />
+      <CloseCircleIcon className={svgClassname} />
     </button>
   )
 }

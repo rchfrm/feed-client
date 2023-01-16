@@ -5,7 +5,7 @@ import GetStartedObjectiveButtonFooter from '@/app/GetStartedObjectiveButtonFoot
 
 import Button from '@/elements/Button'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import brandColors from '@/constants/brandColors'
 
@@ -28,8 +28,8 @@ const GetStartedObjectiveButton = ({
         disabled={isDisabled}
       >
         {name}
-        <ArrowAltIcon
-          className="ml-3"
+        <ArrowIcon
+          className="w-7 h-auto ml-3"
           direction="right"
           fill={isDisabled ? brandColors.greyDark : brandColors.offwhite}
         />

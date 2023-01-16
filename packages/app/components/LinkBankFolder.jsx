@@ -11,7 +11,7 @@ import {
 } from 'react-accessible-accordion'
 
 import FolderIcon from '@/icons/FolderIcon'
-import ArrowHeadIcon from '@/icons/ArrowHeadIcon'
+import CaretIcon from '@/icons/CaretIcon'
 
 import LinkBankLink from '@/app/LinkBankLink'
 
@@ -96,13 +96,11 @@ const LinkBankFolder = ({
                 <AccordionItemButton>
                   <p
                     className={[
-                      'flex items-baseline',
+                      'flex items-center',
                       'mb-3',
                     ].join(' ')}
                   >
-                    <span className="h-4 mr-3">
-                      <FolderIcon className="w-auto h-full" />
-                    </span>
+                    <FolderIcon className="mr-2" />
                     {editModeOn ? (
                       <a
                         role="button"
@@ -115,12 +113,10 @@ const LinkBankFolder = ({
                         <FOLDER_NAME name={folder.name} editModeOn={editModeOn} />
                       </a>
                     ) : <FOLDER_NAME name={folder.name} editModeOn={editModeOn} />}
-                    <ArrowHeadIcon
-                      className="ml-3"
+                    <CaretIcon
+                      className="w-7 h-auto"
                       style={{
-                        height: '0.5rem',
-                        width: 'auto',
-                        transform: expanded ? 'rotate(0deg) translateY(-0.05rem)' : 'rotate(-90deg) translateX(0.1rem)',
+                        transform: expanded ? 'rotate(180deg) translateY(-0.05rem)' : 'rotate(-90deg) translateX(0.1rem)',
                       }}
                     />
                   </p>

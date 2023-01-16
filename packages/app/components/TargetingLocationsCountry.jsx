@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ArrowHeadIcon from '@/icons/ArrowHeadIcon'
+import CaretIcon from '@/icons/CaretIcon'
 
 import CheckboxButtons from '@/elements/CheckboxButtons'
 
@@ -45,7 +45,7 @@ const TargetingLocationsCountry = ({
                 <div className="flex items-top">
                   <p className="mb-0"><strong>{name}</strong></p>
                   {hasCities && (
-                    <ArrowHeadIcon
+                    <CaretIcon
                       className="ml-2"
                       style={{
                         height: '6px',

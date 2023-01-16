@@ -11,7 +11,7 @@ import PricingProrationsLoader from '@/app/PricingProrationsLoader'
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import Error from '@/elements/Error'
 
 import brandColors from '@/constants/brandColors'
@@ -90,7 +90,7 @@ const PricingPlanUpgradePayment = ({
           ? `Confirm (${formatCurrency(amount, currency, true)})`
           : `Pay ${formatCurrency(amount, currency)}`
         )}
-        <ArrowAltIcon
+        <ArrowIcon
           className="ml-3"
           direction="right"
           fill={isDisabled ? brandColors.greyDark : brandColors.offwhite}

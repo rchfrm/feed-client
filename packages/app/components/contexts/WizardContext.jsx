@@ -8,7 +8,7 @@ import ProgressBar from '@/app/ProgressBar'
 import ChevronIcon from '@/icons/ChevronIcon'
 import Spinner from '@/elements/Spinner'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import brandColors from '@/constants/brandColors'
 import { isObject } from '@/helpers/utils'
@@ -123,7 +123,7 @@ const WizardContextProvider = ({
                 onClick={back}
                 className="flex text-grey no-underline"
               >
-                <ArrowAltIcon
+                <ArrowIcon
                   className="w-3 mr-3"
                   direction="left"
                   fill={brandColors.grey}
@@ -138,7 +138,7 @@ const WizardContextProvider = ({
             >
               Let me see the app first
               <ChevronIcon
-                className="h-3 ml-2"
+                className="w-4 h-auto"
               />
             </a>
           </div>
