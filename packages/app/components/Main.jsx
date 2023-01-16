@@ -101,7 +101,7 @@ function Main({ children }) {
       id="page--container"
       className={[
         'self-end transition-all duration-500',
-        isNavExpanded ? 'w-[calc(100%-120px)]' : 'w-full',
+        isNavExpanded ? '!w-[calc(100%-120px)]' : '!w-full',
       ].join(' ')}
     >
       <InitUser>
