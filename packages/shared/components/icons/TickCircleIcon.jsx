@@ -6,23 +6,22 @@ import brandColors from '@/constants/brandColors'
 const TickCircleIcon = ({
   className,
   fill,
-  tickFill,
   style,
 }) => {
   return (
     <svg
-      className={className}
-      width="25"
-      height="26"
-      viewBox="0 0 25 26"
       fill="none"
-      style={style}
+      viewBox="0 0 24 24"
+      height="24"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={style}
     >
-      <circle cx="12.5" cy="13" r="12.5" fill={fill} />
       <path
-        d="M10.7604 18.507C10.5372 18.507 10.328 18.4222 10.1746 18.2666L6.52047 14.447C6.17179 14.1216 6.15784 13.5699 6.49257 13.2162C6.81336 12.8626 7.35729 12.8484 7.70597 13.1879L10.3838 15.126C10.5372 15.2675 10.7743 15.2392 10.8999 15.0694L17.2071 7.84157C17.486 7.45961 18.0299 7.37473 18.4065 7.67181C18.7831 7.95474 18.8668 8.50646 18.5739 8.88841L11.4438 18.1534C11.2904 18.3514 11.0672 18.4788 10.8301 18.4929C10.8022 18.507 10.7883 18.507 10.7604 18.507Z"
-        fill={tickFill}
+        xmlns="http://www.w3.org/2000/svg"
+        d="M12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM16.6644 8.75259C17.0771 9.11951 17.1143 9.75158 16.7474 10.1644L11.4141 16.1644C11.2243 16.3779 10.9523 16.5 10.6667 16.5C10.381 16.5 10.109 16.3779 9.91926 16.1644L7.25259 13.1644C6.88567 12.7516 6.92285 12.1195 7.33564 11.7526C7.74842 11.3857 8.38049 11.4229 8.74741 11.8356L10.6667 13.9948L15.2526 8.83564C15.6195 8.42285 16.2516 8.38567 16.6644 8.75259Z"
+        fill={fill}
       />
     </svg>
   )
@@ -31,14 +30,12 @@ const TickCircleIcon = ({
 TickCircleIcon.propTypes = {
   className: PropTypes.string,
   fill: PropTypes.string,
-  tickFill: PropTypes.string,
   style: PropTypes.object,
 }
 
 TickCircleIcon.defaultProps = {
   className: '',
   fill: brandColors.green,
-  tickFill: brandColors.offwhite,
   style: {},
 }
 

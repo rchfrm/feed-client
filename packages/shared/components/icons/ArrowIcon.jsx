@@ -25,18 +25,22 @@ const ArrowIcon = ({
   const rotation = getRotation(direction)
   return (
     <svg
-      className={className}
-      width="500"
-      height="388"
-      viewBox="0 0 500 388"
       fill="none"
+      viewBox="0 0 24 24"
+      height="24"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
       style={{
         ...style,
         ...(rotation && { transform: `rotate(${rotation}deg)` }),
       }}
     >
-      <path d="M250.251 0H500L250.251 388L0 0H250.251Z" fill={fill} />
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M12 4C12.5523 4 13 4.44772 13 5V16.5858L17.2929 12.2929C17.6834 11.9024 18.3166 11.9024 18.7071 12.2929C19.0976 12.6834 19.0976 13.3166 18.7071 13.7071L12.7071 19.7071C12.3166 20.0976 11.6834 20.0976 11.2929 19.7071L5.29289 13.7071C4.90237 13.3166 4.90237 12.6834 5.29289 12.2929C5.68342 11.9024 6.31658 11.9024 6.70711 12.2929L11 16.5858V5C11 4.44772 11.4477 4 12 4Z"
+        fill={fill}
+      />
     </svg>
   )
 }
@@ -55,4 +59,4 @@ ArrowIcon.defaultProps = {
   direction: 'down',
 }
 
-export default ArrowIcon
+export default React.memo(ArrowIcon)
