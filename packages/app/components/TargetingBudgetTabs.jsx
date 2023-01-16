@@ -31,7 +31,7 @@ const TargetingBudgetTabs = ({
             key={type}
             className={[
               'w-44 text-sm xxs:text-base p-3 xxs:p-4',
-              type === budgetType ? 'border-solid border-green border-t-3 font-bold' : 'bg-gradient-to-t from-grey-1 text-grey-2 hover:text-grey-3 transition-colors duration-200',
+              type === budgetType ? 'border-solid border-green border-t-3 font-bold' : 'bg-gradient-to-t from-grey-light text-grey hover:text-grey-dark transition-colors duration-200',
             ].join(' ')}
             onClick={() => handleClick(type)}
           >

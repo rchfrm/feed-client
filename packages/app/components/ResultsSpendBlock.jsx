@@ -12,7 +12,7 @@ const ResultsSpendBlock = ({ value, date, currency }) => {
       className={[
         'relative shrink-0 cursor-pointer',
         'mr-1 mb-1 rounded-dialogue',
-        value ? 'bg-green' : 'bg-grey-1',
+        value ? 'bg-green' : 'bg-grey-light',
       ].join(' ')}
       style={{ width: '29px', height: '29px' }}
       ref={hoverRef}

@@ -31,7 +31,7 @@ const HeaderMenuLinks = () => {
                 <ActiveLink href={href}>
                   <a
                     target={isExternal ? '_blank' : ''}
-                    className={['relative no-underline text-grey-2 hover:text-green'].join(' ')}
+                    className={['relative no-underline text-grey hover:text-green'].join(' ')}
                   >
                     {title}
                     {title === 'notifications' && totalActiveNotifications > 0 && (

@@ -32,7 +32,7 @@ const ProfileButton = ({
       className={[
         className,
         'relative transition-width duration-500',
-        'hover:bg-anthracite hover:text-green text-grey-2 -mt-[1px]',
+        'hover:bg-anthracite hover:text-green text-grey -mt-[1px]',
         isExpanded ? 'w-full h-12 px-4' : 'w-20 h-20 justify-center',
         isActive ? 'bg-anthracite' : null,
       ].join(' ')}

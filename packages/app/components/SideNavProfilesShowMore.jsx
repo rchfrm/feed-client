@@ -21,7 +21,7 @@ const SideNavProfilesShowMore = ({
         'flex items-center',
         'h-12 w-full mb-0',
         'border-b border-solid border-anthracite',
-        'hover:text-green text-grey-2',
+        'hover:text-green text-grey',
         isExpanded ? null : 'justify-center',
       ].join(' ')}
       onClick={handleClick}

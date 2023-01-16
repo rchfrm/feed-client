@@ -30,7 +30,7 @@ const LinkBankIntegrations = ({
               className={[
                 'mb-6',
                 'last:mb-0',
-                ! href ? 'text-grey-3' : null,
+                ! href ? 'text-grey-dark' : null,
               ].join(' ')}
             >
               <p className="flex items-top mb-0">
@@ -61,7 +61,7 @@ const LinkBankIntegrations = ({
                   {/* LINK PREVIEW */}
                   {href ? (
                     <a
-                      className="block pt-1 text-xs text-grey-3 truncate w-full"
+                      className="block pt-1 text-xs text-grey-dark truncate w-full"
                       href={href}
                       target="_blank"
                       rel="noreferrer noopener"
@@ -69,7 +69,7 @@ const LinkBankIntegrations = ({
                       {removeProtocolFromUrl(href)}
                     </a>
                   ) : (
-                    <span className="block pt-1 text-xs text-grey-3 truncate w-full">
+                    <span className="block pt-1 text-xs text-grey-dark truncate w-full">
                       not connected
                     </span>
                   )}

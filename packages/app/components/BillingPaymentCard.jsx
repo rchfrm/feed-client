@@ -32,8 +32,8 @@ const BillingPaymentCard = ({
         className={[
           'flex flex-column justify-between',
           'w-full iphone8:h-48',
-          'bg-grey-1 rounded-dialogue p-4',
-          `border-2 border-solid ${isSelected ? 'border-green' : 'border-grey-1'}`,
+          'bg-grey-light rounded-dialogue p-4',
+          `border-2 border-solid ${isSelected ? 'border-green' : 'border-grey-light'}`,
           className,
         ].join(' ')}
         onClick={(e) => {

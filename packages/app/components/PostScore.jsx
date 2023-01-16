@@ -20,7 +20,7 @@ const PostScore = ({ score, size, className }) => {
           'absolute -right-1 -bottom-1',
           'flex justify-center items-center',
           'bg-offwhite rounded-full',
-          'font-normal text-grey-3',
+          'font-normal text-grey-dark',
           isSmall ? 'w-4 h-4' : 'w-6 h-6 text-sm',
         ].join(' ')}
         style={{ fontSize: isSmall ? '9px' : null }}

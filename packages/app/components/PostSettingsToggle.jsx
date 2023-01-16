@@ -14,7 +14,7 @@ const PostSettingsToggle = ({
   return (
     <div className="flex flex-column w-1/2">
       <h3 className={[
-        isDisabled ? 'text-grey-2' : null,
+        isDisabled ? 'text-grey' : null,
         'font-bold text-lg',
       ].join(' ')}
       >
@@ -38,7 +38,7 @@ const PostSettingsToggle = ({
         <p
           className={[
             'mb-0',
-            isDisabled ? 'text-grey-2' : null,
+            isDisabled ? 'text-grey' : null,
           ].join(' ')}
         >
           {isEnabled ? 'Enabled' : 'Disabled'}

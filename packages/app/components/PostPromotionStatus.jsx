@@ -69,7 +69,7 @@ const PostPromotionStatus = ({
           'border-2 border-solid rounded-full',
           'mb-0',
           isSmallSize ? 'text-xs' : null,
-          ! promotionEnabled ? 'text-grey-3 bg-grey-2' : 'bg-offwhite',
+          ! promotionEnabled ? 'text-grey-dark bg-grey' : 'bg-offwhite',
         ].join(' ')}
         style={{
           borderColor: promotionEnabled ? brandColors[color] : brandColors.grey,

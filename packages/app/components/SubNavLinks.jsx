@@ -68,11 +68,11 @@ const SubNavLinks = ({ className }) => {
             return (
               <li className="mb-6" key={href}>
                 {external
-                  ? <a className="no-underline text-grey-2" href={href}>{titleText}</a>
+                  ? <a className="no-underline text-grey" href={href}>{titleText}</a>
                   : (
                     <>
                       <ActiveLink href={href}>
-                        <a className={['relative no-underline text-grey-2'].join(' ')}>
+                        <a className={['relative no-underline text-grey'].join(' ')}>
                           {titleText}
                           {/* PENDING EMAIL WARNING */}
                           {showDot && (

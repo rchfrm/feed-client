@@ -183,7 +183,7 @@ const LinkBankEditModal = ({
                 >
                   {!! savedFolders.length && (
                     <a
-                      className="text-grey-3 -hover--green"
+                      className="text-grey-dark -hover--green"
                       role="button"
                       onClick={() => {
                         const e = { target: { value: link ? link.folder_id : '' } }

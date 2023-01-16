@@ -87,7 +87,7 @@ const FileUpload = ({ setFile }) => {
           'flex items-center justify-center',
           'border-2 border-dashed border-black rounded-dialogue',
           ! fileUrl ? 'p-5' : null,
-          isDragging ? 'bg-grey-1' : null,
+          isDragging ? 'bg-grey-light' : null,
         ].join(' ')}
       >
         <div

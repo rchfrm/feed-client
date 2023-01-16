@@ -61,7 +61,7 @@ const ResultsExistingAudienceChart = ({ data }) => {
           />
           <div
             ref={organicReachRef}
-            className="absolute h-12 w-1 top-0 bg-grey-3"
+            className="absolute h-12 w-1 top-0 bg-grey-dark"
           />
         </div>
         <div
@@ -73,7 +73,7 @@ const ResultsExistingAudienceChart = ({ data }) => {
         >
           {adsReachProportion}%
         </div>
-        <span className="absolute left-0 text-grey-3 text-xs" style={{ bottom: '100%' }}>
+        <span className="absolute left-0 text-grey-dark text-xs" style={{ bottom: '100%' }}>
           {organicReachProportion}%
         </span>
         <span className="absolute text-green text-xs" style={{ bottom: '100%', right: '5px' }}>

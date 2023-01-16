@@ -23,7 +23,7 @@ const CheckboxInput = (props) => {
           <span
             className={[
               'inputLabel__text',
-              disabled ? 'text-grey-2' : null,
+              disabled ? 'text-grey' : null,
             ].join(' ')}
           >
             <span>

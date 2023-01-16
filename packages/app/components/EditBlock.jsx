@@ -16,7 +16,7 @@ const EditBlock = ({
     <div className={[
       'w-full',
       'flex items-center justify-between',
-      'text-grey-3',
+      'text-grey-dark',
       className,
     ].join(' ')}
     >

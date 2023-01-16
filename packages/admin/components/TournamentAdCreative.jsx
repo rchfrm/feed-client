@@ -60,7 +60,7 @@ const TournamentAdCreative = ({ adCreative }) => {
           />
         </div>
         {message && (
-          <figcaption className="small--p bg-grey-1 p-2 rounded-dialogue self-start flex-1">{message}</figcaption>
+          <figcaption className="small--p bg-grey-light p-2 rounded-dialogue self-start flex-1">{message}</figcaption>
         )}
       </div>
       {/* Ad Link */}

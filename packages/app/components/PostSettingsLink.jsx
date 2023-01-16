@@ -113,7 +113,7 @@ const PostSettingsLink = ({
       <div className="flex justify-between">
         <p className={[
           'text-lg font-bold',
-          isDisabled ? 'text-grey-2' : null,
+          isDisabled ? 'text-grey' : null,
         ].join(' ')}
         >
           Link

@@ -50,7 +50,7 @@ const DropdownPill = ({
           'flex items-center',
           'px-2 py-1 text-xs',
           'border-2 border-solid rounded-full',
-          disabled ? 'pointer-events-none border-grey-2 text-grey-2' : null,
+          disabled ? 'pointer-events-none border-grey text-grey' : null,
           className,
         ].join(' ')}
       >

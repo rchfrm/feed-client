@@ -21,7 +21,7 @@ const GetStartedPricingPlanSelectButton = ({
         'px-0 sm:px-4 py-2 sm:mb-5',
         'sm:border-2 sm:border-green sm:border-solid sm:rounded-dialogue',
         'font-bold',
-        isDisabled ? 'pointer-events-none grayscale border-grey-2 text-grey-2' : null,
+        isDisabled ? 'pointer-events-none grayscale border-grey text-grey' : null,
       ].join(' ')}
       onClick={() => setSelectedPricingPlan(name)}
     >

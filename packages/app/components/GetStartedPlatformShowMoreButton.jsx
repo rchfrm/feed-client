@@ -17,7 +17,7 @@ const GetStartedPlatformShowMoreButton = ({ shouldShowMore, setShouldShowMore })
         version="text"
         onClick={toggleShowMore}
         trackComponentName="GetStartedPlatform"
-        className="h-5 mb-4 text-grey-3 text-sm no-underline"
+        className="h-5 mb-4 text-grey-dark text-sm no-underline"
       >
         {shouldShowMore ? 'Hide' : 'Show more'}
         <span className={[

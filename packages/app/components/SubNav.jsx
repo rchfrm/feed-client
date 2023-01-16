@@ -153,7 +153,7 @@ const SubNav = ({ isOpen, toggle, windowWidth }) => {
             'page--content',
             'fixed left-0 top-0 z-[14]',
             'w-5/6 md:w-auto pb-10 pt-10 md:p-10',
-            'bg-black text-grey-2 font-display hidden origin-left',
+            'bg-black text-grey font-display hidden origin-left',
           ].join(' ')}
         >
           <button onClick={toggle}>
@@ -176,7 +176,7 @@ const SubNav = ({ isOpen, toggle, windowWidth }) => {
         </FullHeight>
         <div
           id="SubNavBackground"
-          className={['fixed top-0 left-0 w-full h-full bg-grey-3 hidden z-[13]'].join(' ')}
+          className={['fixed top-0 left-0 w-full h-full bg-grey-dark hidden z-[13]'].join(' ')}
           role="button"
           aria-label="Close navigation"
           onClick={() => toggle(false)}

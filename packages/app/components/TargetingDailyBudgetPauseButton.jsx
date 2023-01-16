@@ -70,7 +70,7 @@ const TargetingDailyBudgetPauseButton = ({
         'px-3 py-1',
         'text-offwhite',
         'rounded-full',
-        isDisabled ? 'bg-grey-1' : backgroundClasses,
+        isDisabled ? 'bg-grey-light' : backgroundClasses,
       ].join(' ')}
       style={{ paddingBottom: '0.3rem' }}
       role="button"

@@ -103,7 +103,7 @@ const GetStartedSummarySentenceSection = ({
       onClick={goToSection}
       className={[
         'flex items-center',
-        isInActive ? 'text-grey-2 pointer-events-none' : 'text-black',
+        isInActive ? 'text-grey pointer-events-none' : 'text-black',
         isLastStep && ! isDesktopLayout ? 'flex-column mb-2' : null,
       ].join(' ')}
     >

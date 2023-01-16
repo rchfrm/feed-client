@@ -110,7 +110,7 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
   return (
     <>
       <h2>{copy.alertLinkTitle(objective, platform)}</h2>
-      <MarkdownText markdown={copy.alertLinkDescription(objective, platform)} className="text-grey-3 italic" />
+      <MarkdownText markdown={copy.alertLinkDescription(objective, platform)} className="text-grey-dark italic" />
       <Error error={error} />
       <DefaultLinkForm
         link={link}

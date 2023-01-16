@@ -45,7 +45,7 @@ const LabelOptions = ({
               className={[
                 'inputLabel__text',
                 'mb-0',
-                isActive ? 'text-black' : 'text-grey-3',
+                isActive ? 'text-black' : 'text-grey-dark',
               ].join(' ')}
               onClick={() => {
                 setActiveOptionId(id)

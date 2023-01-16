@@ -19,7 +19,7 @@ const TestimonyItem = ({ testimony, isSwiperActive, className }) => {
       className={[
         className,
         'col-span-6 sm:col-span-4 flex',
-        'text-grey-3 text-xs',
+        'text-grey-dark text-xs',
         isSwiperActive ? 'flex-column justify-center' : null,
       ].join(' ')}
     >

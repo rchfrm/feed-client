@@ -171,7 +171,7 @@ const PostCardActionsMenu = ({
           className={[
             'flex items-center',
             'pb-2 mb-2 whitespace-nowrap font-bold',
-            'border-b border-solid border-grey-2',
+            'border-b border-solid border-grey',
           ].join(' ')}
         >
           {action?.icon}

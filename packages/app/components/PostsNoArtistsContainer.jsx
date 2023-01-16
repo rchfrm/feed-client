@@ -35,7 +35,7 @@ const PostsNoArtistsContainer = ({
           isOpen ? 'rounded-b-none' : null,
         ].join(' ')}
       >
-        <h2 className={['mb-0 mr-5', isActive ? 'text-grey-3' : 'text-black'].join(' ')}>{shouldShowPostsAmount ? 0 : null} {postsConfig[status].name}</h2>
+        <h2 className={['mb-0 mr-5', isActive ? 'text-grey-dark' : 'text-black'].join(' ')}>{shouldShowPostsAmount ? 0 : null} {postsConfig[status].name}</h2>
       </div>
       <div className="mb-5 px-5 transition ease-in-out delay-200 transition-opacity opacity-1">
         <div className="flex items-center mb-5">
@@ -56,7 +56,7 @@ const PostsNoArtistsContainer = ({
               >
                 <div className={[
                   'absolute w-full h-full top-0',
-                  status === 'pending' ? 'bg-grey-2' : 'bg-grey-1',
+                  status === 'pending' ? 'bg-grey' : 'bg-grey-light',
                 ].join(' ')}
                 />
               </div>

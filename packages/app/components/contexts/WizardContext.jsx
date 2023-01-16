@@ -121,7 +121,7 @@ const WizardContextProvider = ({
               <a
                 role="button"
                 onClick={back}
-                className="flex text-grey-2 no-underline"
+                className="flex text-grey no-underline"
               >
                 <ArrowAltIcon
                   className="w-3 mr-3"

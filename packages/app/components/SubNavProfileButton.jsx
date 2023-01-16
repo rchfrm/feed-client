@@ -58,7 +58,7 @@ const SubNavProfileButton = ({
       </figure>
       <p className={[
         'hidden md:block mb-0 pt-2 text-xs text-center hover:text-green',
-        globalLoading ? 'text-black' : 'text-grey-2',
+        globalLoading ? 'text-black' : 'text-grey',
       ].join(' ')}
       >
         menu

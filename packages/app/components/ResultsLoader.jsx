@@ -106,7 +106,7 @@ const ResultsLoader = ({ dummyPostsImages }) => {
         <div className="grid grid-cols-12 gap-x-6 mb-12">
           <NoArtistsConnectAccountsBlock
             page="results"
-            className="col-span-12 sm:col-span-6 lg:col-span-4 p-6 bg-grey-1"
+            className="col-span-12 sm:col-span-6 lg:col-span-4 p-6 bg-grey-light"
           />
         </div>
       )}

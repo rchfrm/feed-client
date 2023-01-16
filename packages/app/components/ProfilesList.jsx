@@ -107,7 +107,7 @@ const ProfilesList = ({
           })}
         </div>
         {searchValue && profiles.length === 0 && (
-          <div className="h-12 p-4 text-center text-grey-3">No results</div>
+          <div className="h-12 p-4 text-center text-grey-dark">No results</div>
         )}
       </div>
     </div>

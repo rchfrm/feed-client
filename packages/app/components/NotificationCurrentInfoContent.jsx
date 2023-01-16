@@ -27,7 +27,7 @@ const NotificationCurrentInfoContent = ({
       <div className="p-4 sm:p-5">
         <p
           className={[
-            'text-sm text-grey-3',
+            'text-sm text-grey-dark',
             'mb-3',
             sidepanelLayout ? 'mt-3' : null,
           ].join(' ')}

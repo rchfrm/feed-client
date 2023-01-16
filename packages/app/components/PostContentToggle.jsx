@@ -23,7 +23,7 @@ const PostContentToggle = ({
         'relative w-full',
         'flex justify-between items-center',
         'rounded-dialogue',
-        'py-2 px-4 mb-2 last:mb-10 border-2 border-solid border-grey-3',
+        'py-2 px-4 mb-2 last:mb-10 border-2 border-solid border-grey-dark',
         className,
       ].join(' ')}
     >

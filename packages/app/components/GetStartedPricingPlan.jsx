@@ -44,7 +44,7 @@ const GetStartedPricingPlan = ({
         ! isDesktop && isRecommended ? 'pb-12 xs:pb-12' : null,
         'border-solid rounded-dialogue',
         isRecommended ? 'border-[5px] border-insta' : 'border-3 border-black',
-        isDisabled ? 'border-grey-2' : null,
+        isDisabled ? 'border-grey' : null,
       ].join(' ')}
     >
       {isRecommended && (

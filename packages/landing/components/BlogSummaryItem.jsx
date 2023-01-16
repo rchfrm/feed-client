@@ -48,7 +48,7 @@ const BlogSummaryItem = ({ blog, className }) => {
             {image ? (
               <Image data={image.responsiveImage} />
             ) : (
-              <div className={['absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'bg-grey-2'].join(' ')} />
+              <div className={['absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'bg-grey'].join(' ')} />
             )}
           </div>
         </figure>

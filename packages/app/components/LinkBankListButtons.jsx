@@ -31,7 +31,7 @@ const LinkBankListButtons = ({
       {/* ADD */}
       <Button
         version="x-small black icon"
-        className={[isDisabled ? 'bg-grey-2' : null, 'mr-5'].join(' ')}
+        className={[isDisabled ? 'bg-grey' : null, 'mr-5'].join(' ')}
         onClick={() => addLink()}
         trackComponentName="LinkBankListButtons"
       >
@@ -42,7 +42,7 @@ const LinkBankListButtons = ({
       {totalLinks > 0 && (
         <Button
           version="x-small green icon"
-          className={[isDisabled ? 'bg-grey-2' : null].join(' ')}
+          className={[isDisabled ? 'bg-grey' : null].join(' ')}
           onClick={() => {
             setEditModeOn((isOn) => {
               return ! isOn

@@ -11,7 +11,7 @@ export default function FaqsRelated({ slug, faqs }) {
     <div
       className={[
         'border-t',
-        'border-grey-2',
+        'border-grey',
         'border-solid',
         'pt-6',
         'md:col-span-4',

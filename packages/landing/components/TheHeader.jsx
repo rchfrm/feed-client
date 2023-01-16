@@ -102,7 +102,7 @@ export default function TheHeader() {
           ) : (
             <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>
               <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} />
-              <div className="mx-12 mt-10 py-4 border-t border-solid border-grey-2">
+              <div className="mx-12 mt-10 py-4 border-t border-solid border-grey">
                 <Login
                   className="mb-1"
                   trackLocation="header"

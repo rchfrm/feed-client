@@ -31,7 +31,7 @@ const SideNavButton = ({
           className={[
             'relative no-underline',
             'hover:text-green',
-            isActive || isHover ? 'text-green' : 'text-grey-2',
+            isActive || isHover ? 'text-green' : 'text-grey',
           ].join(' ')}
         >
           <SideNavButtonIcon

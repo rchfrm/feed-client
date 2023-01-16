@@ -33,9 +33,9 @@ module.exports = (contentFiles) => ({
         black: '#0D1311',
         anthracite: '#353938',
         grey: {
-          1: '#E7E9E8',
-          2: '#C8CBCA',
-          3: '#7F8382',
+          light: '#E7E9E8',
+          DEFAULT: '#C8CBCA',
+          dark: '#7F8382',
         },
         offwhite: '#F4F4F4',
         green: '#03D8B2',

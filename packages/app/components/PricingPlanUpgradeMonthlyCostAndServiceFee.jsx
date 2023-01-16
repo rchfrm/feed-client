@@ -16,12 +16,12 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, isAnnu
       <div className="flex flex-col xs:flex-row items-center mr-3 xs:mr-8">
         <div className={[
           'flex',
-          isBasic ? 'text-grey-3' : 'text-black',
+          isBasic ? 'text-grey-dark' : 'text-black',
         ].join(' ')}
         >
           <p className="text-2xl pr-1 mb-0">{currencySymbol}</p>
           {isAnnualPricing && ! isBasic && (
-            <p className="self-start line-through text-xs text-grey-3">{monthlyCost}</p>
+            <p className="self-start line-through text-xs text-grey-dark">{monthlyCost}</p>
           )}
           <p className={[
             'mr-1 mb-0 text-2xl font-bold',
@@ -36,7 +36,7 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, isAnnu
       </div>
       <div className={[
         'flex flex-col xs:flex-row items-center xs:mr-8',
-        isBasic ? 'text-black' : 'text-grey-3',
+        isBasic ? 'text-black' : 'text-grey-dark',
       ].join(' ')}
       >
         <p className="mr-2 mb-0 text-2xl">{serviceFeePercentage * 100}%</p>

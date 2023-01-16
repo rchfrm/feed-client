@@ -53,7 +53,7 @@ const NotificationItem = ({ notification, className }) => {
       <div
         className={[
           'absolute w-full top-0 left-0',
-          isActive ? 'bg-green' : 'bg-grey-2',
+          isActive ? 'bg-green' : 'bg-grey',
         ].join(' ')}
         style={{
           height: isActive ? 2 : 1,
@@ -68,7 +68,7 @@ const NotificationItem = ({ notification, className }) => {
         className={[
           'absolute top-0 right-0 mt-3 mr-3',
           'md:mr-0',
-          'text-sm text-grey-3',
+          'text-sm text-grey-dark',
         ].join(' ')}
         style={{ paddingTop: '0.05rem' }}
       >
@@ -81,7 +81,7 @@ const NotificationItem = ({ notification, className }) => {
       {/* DESCRIPTION */}
       <p className="text-sm block mb-2 truncate">{summary}</p>
       {/* READ MORE */}
-      <p className="text-sm text-grey-3 block mb-0">
+      <p className="text-sm text-grey-dark block mb-0">
         Read more
       </p>
     </button>

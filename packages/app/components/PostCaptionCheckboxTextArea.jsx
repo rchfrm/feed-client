@@ -89,10 +89,10 @@ const PostCaptionCheckboxTextArea = ({
           disabled={isDisabled}
         />
       ) : (
-        <MarkdownText markdown={noCaptionEditReason} className={['sm:pl-4', isDisabled ? 'text-grey-2' : 'text-red'].join(' ')} />
+        <MarkdownText markdown={noCaptionEditReason} className={['sm:pl-4', isDisabled ? 'text-grey' : 'text-red'].join(' ')} />
       )}
       {(! isDefaultAdMessage || noCaptionEditReason) && (
-        <div className="bg-grey-1 sm:ml-4 p-4 rounded-dialogue">
+        <div className="bg-grey-light sm:ml-4 p-4 rounded-dialogue">
           <TextareaAutosize
             cacheMeasurements
             maxRows={8}
@@ -102,7 +102,7 @@ const PostCaptionCheckboxTextArea = ({
             }}
             className={[
               'w-full',
-              isDisabled || noCaptionEditReason ? 'text-grey-2 pointer-events-none' : null,
+              isDisabled || noCaptionEditReason ? 'text-grey pointer-events-none' : null,
             ].join(' ')}
           />
         </div>

@@ -24,7 +24,7 @@ const PendingEmailWarning = ({
   return (
     <div
       className={[
-        'p-5 bg-grey-1 rounded-dialogue max-w-xl',
+        'p-5 bg-grey-light rounded-dialogue max-w-xl',
         className,
       ].join(' ')}
     >

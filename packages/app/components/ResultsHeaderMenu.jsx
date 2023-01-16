@@ -29,7 +29,7 @@ const ResultsHeaderMenu = ({
     <Dropdown
       items={['organic', 'paid']}
       handleItemClick={handleItemClick}
-      buttonClassName="w-full xs:w-auto px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-1 text-left"
+      buttonClassName="w-full xs:w-auto px-4 py-3 mb-6 sm:mb-0 rounded-button bg-grey-light text-left"
       disabled={! hasStartedSpending}
     >
       <MarkdownText markdown={copy.headerMenuText(resultsType, isLast30Days, dateFrom, dateTo)} className="mb-0" />

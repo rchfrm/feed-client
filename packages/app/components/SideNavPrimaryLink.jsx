@@ -33,7 +33,7 @@ const SideNavPrimaryLink = ({
             />
             <p className={[
               'ml-2 mb-0 transition-opacity',
-              isActive || isHover ? 'text-green' : 'text-grey-2',
+              isActive || isHover ? 'text-green' : 'text-grey',
               isExpanded ? 'opacity-1 delay-300' : 'opacity-0 delay-100 w-0',
             ].join(' ')}
             >
@@ -55,7 +55,7 @@ const SideNavPrimaryLink = ({
           <p
             className={[
               'ml-2 mb-0 flex-shrink-0 transition-opacity',
-              isActive || isHover ? 'text-green' : 'text-grey-2',
+              isActive || isHover ? 'text-green' : 'text-grey',
               isExpanded ? 'opacity-1 delay-300' : 'opacity-0 delay-100 w-0',
             ].join(' ')}
           >

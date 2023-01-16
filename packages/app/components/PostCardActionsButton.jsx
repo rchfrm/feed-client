@@ -13,7 +13,7 @@ const PostCardActionsButton = ({ isOpen, setIsOpen }) => {
       className={[
         'w-6 h-6',
         'flex justify-center items-center',
-        'bg-grey-1 rounded-dialogue',
+        'bg-grey-light rounded-dialogue',
       ].join(' ')}
     >
       <ThreeDotsIcon />
