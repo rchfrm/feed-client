@@ -1,101 +1,33 @@
 import React from 'react'
-import Router, { useRouter } from 'next/router'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { useRouter } from 'next/router'
 import { UserContext } from '@/app/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
-import useNotificationsStore from '@/app/stores/notificationsStore'
-import FeedLogo from '@/icons/FeedLogo'
-import SideNavButton from '@/app/SideNavButton'
-import SubNavProfileButton from '@/app/SubNavProfileButton'
+import useOnResize from '@/landing/hooks/useOnResize'
+import LogoButton from '@/app/LogoButton'
+import SideNavProfiles from '@/app/SideNavProfiles'
+import SideNavPrimaryLinks from '@/app/SideNavPrimaryLinks'
+import SideNavToggleButton from '@/app/SideNavToggleButton'
 import * as ROUTES from '@/app/constants/routes'
 
-const getTotalActiveNotifications = (state) => state.totalActiveNotifications
-
-const shouldShowBadgeTest = ({ icon, hasBudget, missingDefaultLink, isSpendingPaused }) => {
-  if (icon === 'controls') {
-    if (! hasBudget && ! missingDefaultLink) {
-      return true
-    }
-
-    if (isSpendingPaused && ! missingDefaultLink) {
-      return true
-    }
-  }
-
-  if (icon === 'posts' && missingDefaultLink) {
-    return true
-  }
-
-  return false
-}
-
 const SideNav = () => {
+  const { width } = useOnResize()
   const isLoggedIn = useLoggedInTest()
   const { user } = React.useContext(UserContext)
-  const { subNavOpen, toggleSubNav } = React.useContext(InterfaceContext)
-
+  const contentElement = React.useRef(null)
   const { pathname } = useRouter()
   const isGetStartedPage = pathname === ROUTES.GET_STARTED
-  const totalNotificationsUnread = useNotificationsStore(getTotalActiveNotifications)
+  const { isNavExpanded, toggleNav } = React.useContext(InterfaceContext)
 
-  const {
-    hasBudget,
-    artist: {
-      missingDefaultLink,
-      isSpendingPaused,
-    } = {},
-  } = React.useContext(ArtistContext)
+  React.useEffect(() => {
+    const isMobile = width < 992
 
-  const links = [
-    {
-      href: ROUTES.POSTS,
-      title: 'posts',
-      icon: 'posts',
-      matchingHrefs: [ROUTES.POST],
-    },
-    {
-      href: ROUTES.CONTROLS,
-      title: 'controls',
-      icon: 'controls',
-      matchingHrefs: ROUTES.controlsPages,
-    },
-    {
-      href: ROUTES.RESULTS,
-      title: 'results',
-      icon: 'results',
-    },
-    {
-      href: ROUTES.INSIGHTS,
-      title: 'insights',
-      icon: 'insights',
-    },
-    {
-      href: ROUTES.FAQS,
-      title: 'FAQs',
-      icon: 'faqs',
-    },
-  ]
-
-  const testIfActive = (pathname, href, matchingHrefs) => {
-    if (pathname === href) {
-      return true
-    }
-
-    if (matchingHrefs?.includes(pathname)) {
-      return true
-    }
-
-    return false
-  }
-
-  const goHome = () => {
-    if (pathname === ROUTES.HOME) {
+    if (! isNavExpanded || ! isMobile) {
       return
     }
 
-    Router.push(ROUTES.HOME)
-  }
+    toggleNav()
+  }, [width, isNavExpanded, toggleNav])
 
   if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage) {
     return null
@@ -103,52 +35,29 @@ const SideNav = () => {
 
   return (
     <div
-      id="SideNav"
       className={[
-        'hidden md:flex',
-        'fixed top-0 left-0 bottom-0 z-[22] w-auto',
-        'flex-col justify-between',
-        'py-2 px-2 bg-black',
+        'hidden md:flex flex-col justify-between',
+        'fixed top-0 left-0 bottom-0 z-[22]',
+        isNavExpanded ? 'w-[200px]' : 'w-20',
+        'md:transition-all md:duration-500',
+        'bg-black',
       ].join(' ')}
     >
-      <a
-        onClick={goHome}
-        role="button"
-        title="home"
-        className={['flex justify-center'].join(' ')}
-      >
-        <FeedLogo className="w-10" id="sideNav" />
-      </a>
-      <nav className={[
-        'flex flex-row md:flex-col',
-        'justify-between',
-        'p-2 md:p-0',
-      ].join(' ')}
-      >
-        {links.map(({ href, title, icon, matchingHrefs }) => {
-          const shouldShowBadge = shouldShowBadgeTest({ icon, hasBudget, missingDefaultLink, isSpendingPaused })
-          const isActive = testIfActive(pathname, href, matchingHrefs)
-
-          return (
-            <div className={['text-xs text-center md:p-0 my-3 mx-0 w-12'].join(' ')} key={href}>
-              <SideNavButton
-                title={title}
-                icon={icon}
-                href={href}
-                matchingHrefs={matchingHrefs}
-                isActive={isActive}
-                shouldShowBadge={shouldShowBadge}
-              />
-            </div>
-          )
-        })}
-      </nav>
-      <SubNavProfileButton
-        toggleSubNav={toggleSubNav}
-        isSubNavOpen={subNavOpen}
-        hasNotifications={!! totalNotificationsUnread}
-        className={['flex flex-col justify-center w-10 mx-auto'].join(' ')}
-      />
+      <div ref={contentElement}>
+        <SideNavToggleButton
+          isExpanded={isNavExpanded}
+          toggleNav={toggleNav}
+        />
+        <LogoButton
+          id="sideNav"
+          className={['w-full transition-all duration-500', isNavExpanded ? 'h-30' : 'h-20'].join(' ')}
+          hasWordmark={isNavExpanded}
+        />
+        <SideNavProfiles
+          isExpanded={isNavExpanded}
+        />
+      </div>
+      <SideNavPrimaryLinks isExpanded={isNavExpanded} />
     </div>
   )
 }

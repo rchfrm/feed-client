@@ -6,6 +6,7 @@
   /* Color Palette */
   --white: #F4F4F4;
   --black: #0D1311;
+  --anthracite: #353938;
   --black-hover: #353938;
   --green: #03D8B2;
   --green-hover: #05C7A4;
@@ -44,28 +45,28 @@
   --bold-display: 600;
 
   /* FONT SIZES */
-  --text-xs: 0.75rem;	/* 12px */
-  --text-sm: 0.875rem;	/* 14px */
-  --text-base: 1rem;	/* 16px */
-  --text-lg: 1.125rem;	/* 18px */
-  --text-xl: 1.25rem;	/* 20px */
-  --text-2xl: 1.5rem;	/* 24px */
-  --text-3xl: 1.875rem;	/* 30px */
-  --text-4xl: 2.25rem;	/* 36px */
-  --text-5xl: 3rem;	/* 48px */
-  --text-6xl: 4rem;	/* 64px */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem;  /* 14px */
+  --text-base: 1rem;  /* 16px */
+  --text-lg: 1.125rem;  /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem;  /* 36px */
+  --text-5xl: 3rem; /* 48px */
+  --text-6xl: 4rem; /* 64px */
 
   /* Base Spacing Units */
   /* https://tailwindcss.com/docs/customizing-spacing/#default-spacing-scale */
-  --sp-1:	0.25rem; /* 4px */
-  --sp-2:	0.5rem; /* 8px */
-  --sp-3:	0.75rem; /* 12px */
-  --sp-4:	1rem; /* 16px */
-  --sp-5:	1.25rem; /* 20px */
-  --sp-6:	1.5rem; /* 24px */
-  --sp-7:	1.75rem; /* 28px */
-  --sp-8:	2rem; /* 32px */
-  --sp-9:	2.25rem; /* 36px */
+  --sp-1: 0.25rem; /* 4px */
+  --sp-2: 0.5rem; /* 8px */
+  --sp-3: 0.75rem; /* 12px */
+  --sp-4: 1rem; /* 16px */
+  --sp-5: 1.25rem; /* 20px */
+  --sp-6: 1.5rem; /* 24px */
+  --sp-7: 1.75rem; /* 28px */
+  --sp-8: 2rem; /* 32px */
+  --sp-9: 2.25rem; /* 36px */
   --sp-10: 2.5rem; /* 40px */
   --sp-11: 2.75rem; /* 44px */
   --sp-12: 3rem; /* 48px */

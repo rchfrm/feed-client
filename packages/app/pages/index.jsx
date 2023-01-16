@@ -11,6 +11,7 @@ const Page = () => (
     headerConfig={headerConfig}
     artistRequired
     hasNoProfilesPage
+    hasSecondaryLinks
   >
     <Posts />
   </BasePage>

@@ -1,9 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import brandColors from '@/constants/brandColors'
 
-const PlusIcon = ({ fill, className, style }) => {
+const { black } = brandColors
+
+const CreditCardIcon = ({
+  fill,
+  className,
+  style,
+}) => {
   return (
     <svg
       fill="none"
@@ -16,23 +21,23 @@ const PlusIcon = ({ fill, className, style }) => {
     >
       <path
         xmlns="http://www.w3.org/2000/svg"
-        d="M12 4C12.5523 4 13 4.44772 13 5V11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H13V19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19V13H5C4.44772 13 4 12.5523 4 12C4 11.4477 4.44772 11 5 11H11V5C11 4.44772 11.4477 4 12 4Z"
+        d="M22 6C22 4.89543 21.1046 4 20 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V6ZM20 8H4L4 6L20 6V8ZM4 11H20V18L4 18L4 11Z"
         fill={fill}
       />
     </svg>
   )
 }
 
-PlusIcon.propTypes = {
+CreditCardIcon.propTypes = {
   fill: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
-PlusIcon.defaultProps = {
-  fill: brandColors.textColor,
-  className: null,
+CreditCardIcon.defaultProps = {
+  fill: black,
+  className: '',
   style: null,
 }
 
-export default PlusIcon
+export default CreditCardIcon

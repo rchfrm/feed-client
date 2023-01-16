@@ -22,7 +22,7 @@ const Input = ({
   readOnly,
   required,
   className,
-  icon,
+  hasIcon,
   error,
   errorMessage,
   success,
@@ -69,7 +69,6 @@ const Input = ({
         className,
         prefix ? '-has-prefix' : null,
       ].join(' ')}
-      icon={icon}
       error={error}
       errorMessage={errorMessage}
       success={success}
@@ -82,7 +81,7 @@ const Input = ({
       )}
       <El
         ref={inputElement}
-        className={['input', `input--${version}`].join(' ')}
+        className={['input', `input--${version}`, hasIcon ? 'pr-8' : null].join(' ')}
         name={name}
         type={type}
         onChange={onChange}
@@ -121,7 +120,7 @@ Input.propTypes = {
   width: PropTypes.number,
   required: PropTypes.bool,
   className: PropTypes.string,
-  icon: PropTypes.string,
+  hasIcon: PropTypes.bool,
   error: PropTypes.bool,
   errorMessage: PropTypes.string,
   success: PropTypes.bool,
@@ -147,7 +146,7 @@ Input.defaultProps = {
   width: 100,
   required: false,
   className: '',
-  icon: '',
+  hasIcon: false,
   error: false,
   errorMessage: '',
   success: false,

@@ -1,5 +1,4 @@
 import React from 'react'
-
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 import ControlsContent from '@/app/ControlsContent'
@@ -15,6 +14,7 @@ const Page = () => {
       artistRequired
       controlsRequired
       hasNoProfilesPage
+      hasSecondaryLinks
     >
       <ControlsContent />
     </BasePage>

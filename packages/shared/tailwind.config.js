@@ -38,6 +38,7 @@ module.exports = (contentFiles) => ({
         yellow: '#FDE74C',
         blue: '#5BC0EB',
         purple: '#CC7CFD',
+        anthracite: '#353938',
         blackHover: '#353938',
         greenHover: '#05C7A4',
         redHover: '#F73F3B',
@@ -85,6 +86,7 @@ module.exports = (contentFiles) => ({
       },
       transitionProperty: {
         height: 'height',
+        width: 'width',
       },
       borderWidth: {
         3: '3px',
@@ -100,4 +102,5 @@ module.exports = (contentFiles) => ({
   plugins: [
     lineClampPlugin,
   ],
+  important: '#container',
 })

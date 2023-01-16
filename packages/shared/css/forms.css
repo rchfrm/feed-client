@@ -128,6 +128,7 @@ textarea {
 /* INPUT/TEXAREA BOX */
 .select--box,
 .input--box,
+.input--box-small,
 .input--textarea {
   display: block;
   border: 2px solid var(--text-color);
@@ -144,6 +145,10 @@ textarea {
   .input--container._error & {
     border: 2px solid var(--error-color);
   }
+}
+
+.input--box-small {
+  height: var(--sp-9);
 }
 
 /* TEXTAREA */

@@ -1,13 +1,12 @@
 import React from 'react'
 import Router, { useRouter } from 'next/router'
-
 import { useImmerReducer } from 'use-immer'
-
 import * as utils from '@/helpers/utils'
 import { subPages } from '@/app/constants/routes'
 
 const initialState = {
-  subNavOpen: false,
+  isMenuOpen: false,
+  isNavExpanded: false,
   header: {
     visible: true,
     text: '',
@@ -19,12 +18,13 @@ const initialState = {
 
 const initialContext = {
   // Setters
-  toggleSubNav: () => {},
+  toggleMenu: () => {},
   setHeader: () => {},
   toggleGlobalLoading: () => {},
   toggleGlobalLoadingSpinner: () => {},
   // Getters
-  subNavOpen: initialState.subNavOpen,
+  isMenuOpen: initialState.isMenuOpen,
+  isNavExpanded: initialState.isNavExpanded,
   header: initialState.header,
   globalLoading: initialState.globalLoading,
   showSpinner: initialState.showSpinner,
@@ -41,8 +41,11 @@ const reducer = (draftState, action) => {
   } = action
 
   switch (actionType) {
-    case 'toggleSubNav':
-      draftState.subNavOpen = typeof payload.state === 'boolean' ? payload.state : ! draftState.subNavOpen
+    case 'toggleMenu':
+      draftState.isMenuOpen = typeof payload.state === 'boolean' ? payload.state : ! draftState.isMenuOpen
+      break
+    case 'toggleNav':
+      draftState.isNavExpanded = typeof payload.state === 'boolean' ? payload.state : ! draftState.isNavExpanded
       break
     case 'toggleGlobalLoading':
       draftState.globalLoading = typeof payload.state === 'boolean' ? payload.state : ! draftState.globalLoading
@@ -64,10 +67,14 @@ const reducer = (draftState, action) => {
 
 const InterfaceContextProvider = ({ children }) => {
   const [interfaceState, setInterfaceState] = useImmerReducer(reducer, initialState)
-  const { subNavOpen, header, globalLoading, showSpinner, routeChanging } = interfaceState
+  const { isMenuOpen, isNavExpanded, header, globalLoading, showSpinner, routeChanging } = interfaceState
 
-  const toggleSubNav = React.useCallback((state) => {
-    setInterfaceState({ type: 'toggleSubNav', payload: { state } })
+  const toggleMenu = React.useCallback((state) => {
+    setInterfaceState({ type: 'toggleMenu', payload: { state } })
+  }, [setInterfaceState])
+
+  const toggleNav = React.useCallback((state) => {
+    setInterfaceState({ type: 'toggleNav', payload: { state } })
   }, [setInterfaceState])
 
   const setHeader = React.useCallback(({ visible, text }) => {
@@ -96,6 +103,7 @@ const InterfaceContextProvider = ({ children }) => {
   const { pathname, queryString } = utils.parseUrl(urlString)
   const previousPathname = React.useRef(pathname)
   const previousQuery = React.useRef(queryString)
+
   // Call this when route change ends
   const handleRouteEnd = React.useCallback((newUrl) => {
     const { pathname, queryString } = utils.parseUrl(newUrl)
@@ -105,6 +113,7 @@ const InterfaceContextProvider = ({ children }) => {
     previousPathname.current = pathname
     previousQuery.current = queryString
   }, [toggleRouteChanging])
+
   // Call this when route change starts
   const handleRouteChange = React.useCallback((newUrl) => {
     // Get new pathname
@@ -116,12 +125,13 @@ const InterfaceContextProvider = ({ children }) => {
     // Don't trigger loading if nav-ing to one of the subpages
     if (subPages.includes(routerPathname)) return
     // close sub nav
-    toggleSubNav(false)
+    toggleMenu(false)
     // If same page, no loading
     if (newPathname === previousPathname.current) return
     // Set global loading
     toggleGlobalLoading(true)
-  }, [toggleGlobalLoading, toggleSubNav, toggleRouteChanging, routerPathname])
+  }, [toggleGlobalLoading, toggleMenu, toggleRouteChanging, routerPathname])
+
   // Listen for route changing
   React.useEffect(() => {
     Router.events.on('routeChangeStart', handleRouteChange)
@@ -136,7 +146,8 @@ const InterfaceContextProvider = ({ children }) => {
     <InterfaceContext.Provider
       value={{
         // Setters
-        toggleSubNav,
+        toggleMenu,
+        toggleNav,
         setHeader,
         toggleGlobalLoading,
         toggleGlobalLoadingSpinner,
@@ -144,7 +155,8 @@ const InterfaceContextProvider = ({ children }) => {
         // Getters
         globalLoading,
         showSpinner,
-        subNavOpen,
+        isMenuOpen,
+        isNavExpanded,
         header,
         routeChanging,
       }}
