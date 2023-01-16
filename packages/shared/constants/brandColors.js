@@ -19,8 +19,14 @@ const redLight = '#FD777C'
 const redBorder = '#FF94A0'
 const redBgDark = '#FFBFCB'
 const redBgLight = '#FFEFF4'
-const blue = '#5BC0EB'
+const yellowText = '#373B0F'
+const yellowDark = '#9D9D2B'
 const yellow = '#FDE74C'
+const yellowLight = '#FFE574'
+const yellowBorder = '#FFE79D'
+const yellowBgDark = '#FFEEC7'
+const yellowBgLight = '#FFFAF2'
+const yellowContrast = '#373B0F'
 
 const brandColors = {
   // Base colors
@@ -47,8 +53,15 @@ const brandColors = {
   greenBgDark,
   greenBgLight,
   greenContrast,
-  blue,
+  // yellow
+  yellowText,
+  yellowDark,
   yellow,
+  yellowLight,
+  yellowBorder,
+  yellowBgDark,
+  yellowBgLight,
+  yellowContrast,
   // Platform colors
   facebook: {
     bg: '#26547C',

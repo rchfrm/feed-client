@@ -29,14 +29,14 @@ a[type=button] {
 
   &:disabled,
   &[disabled] {
-    color: var(--disabled-color-text);
-    background-color: var(--disabled-color-bg);
+    color: var(--grey-dark);
+    background-color: var(--grey-light);
     cursor: not-allowed;
     cursor: default;
 
     @mixin canHover {
       &:hover {
-        background-color: var(--disabled-color-bg);
+        background-color: var(--grey-light);
       }
     }
   }
@@ -99,7 +99,7 @@ a[type=button] {
 
 .button--green,
 .button--success {
-  background-color: var(--success-color);
+  background-color: var(--green);
 
   @mixin canHover {
     &:hover {
@@ -141,7 +141,7 @@ a[type=button] {
 }
 
 .button--red {
-  background-color: var(--error-color);
+  background-color: var(--red);
 
   @mixin canHover {
     &:hover {
@@ -232,7 +232,7 @@ a[type=button] {
 }
 
 .button--toggle {
-  background-color: var(--success-color);
+  background-color: var(--green);
   color: var(--offwhite);
 
   .button--innerText {
@@ -324,7 +324,7 @@ a[type=button] {
 
 .button--outline-green {
   color: var(--black);
-  border: 3px solid var(--success-color);
+  border: 3px solid var(--green);
   font-weight: normal;
 
   @mixin canHover {
@@ -356,7 +356,7 @@ a[type=button] {
 }
 
 .button--facebook {
-  background-color: var(--color-fb-button);
+  background-color: var(--color-fb);
   color: var(--offwhite);
 }
 

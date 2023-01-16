@@ -45,7 +45,7 @@ const ResultsNewAudienceStats = ({ data }) => {
             )}
             <p
               className="text-3xl mb-1 sm:text-6xl text-center font-bold"
-              style={{ color: brandColors.blue }}
+              style={{ color: brandColors.yellow }}
             >
               {abbreviateNumber(mainValue)}
             </p>
@@ -54,9 +54,9 @@ const ResultsNewAudienceStats = ({ data }) => {
         </div>
       </div>
       {isMainChart ? (
-        <ResultsAbsoluteChart data={chartData} color={brandColors.blue} icon="plus" />
+        <ResultsAbsoluteChart data={chartData} color={brandColors.yellow} icon="plus" />
       ) : (
-        <ResultsFallbackChart data={chartData} color={brandColors.blue} />
+        <ResultsFallbackChart data={chartData} color={brandColors.yellow} />
       )}
     </>
   )

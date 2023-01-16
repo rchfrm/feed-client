@@ -24,7 +24,7 @@ const ResultsTopPerformingPostStats = ({
       <p className="text-xs italic line-clamp-2">{postData?.message}</p>
       <ul className="xs:pl-4">
         <li className="mb-4">
-          <span className="font-bold underline underline-offset-4 decoration-2 decoration-blue">{formatNumber(post.reach)}</span> people reached
+          <span className="font-bold underline underline-offset-4 decoration-2 decoration-yellow">{formatNumber(post.reach)}</span> people reached
         </li>
         {metricType === 'engagement' && (
           <>

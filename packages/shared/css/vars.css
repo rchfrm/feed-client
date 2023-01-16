@@ -25,27 +25,22 @@
   --green-bg-dark: #ABF0D2;
   --green-bg-light: #DFFAEC;
   --green-contrast: #022222;
+  --yellow-text: #373B0F;
+  --yellow-dark: #9D9D2B;
+  --yellow-light: #FFE574;
+  --yellow-border: #FFE79D;
+  --yellow-bg-dark: #FFEEC7;
+  --yellow-bg-light: #FFFAF2;
+  --yellow-contrast: #373B0F;
   --blue: #5BC0EB;
-  --yellow: #FDE74C;
-  --yellow-hover: #FFDA1A;
   --purple: #CC7CFD;
   --pink: #E75A7C;
   --pink-hover: #D34A6B;
-  /* SM Palette */
+  /* Social Media Palette */
   --color-fb: #26547C;
   --color-insta: var(--pink);
   --color-twitter: var(--blue);
   --color-sc: var(--yellow);
-  /* APP COLORS */
-  --bg-color: var(--offwhite);
-  --text-color: var(--black);
-  --success-color: var(--green);
-  --error-color: var(--red);
-  --loader-color: var(--green);
-  --disabled-color-bg: var(--grey-light);
-  --disabled-color-text: var(--grey-dark);
-  --placeholder-color-text: var(--grey-dark);
-  --color-fb-button: var(--color-fb);
 
   /* Font */
   --font: 'Inter', serif;
