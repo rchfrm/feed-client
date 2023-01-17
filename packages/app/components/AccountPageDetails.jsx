@@ -303,7 +303,7 @@ const AccountPageDetails = () => {
           className="w-1/2 mt-10"
           type="submit"
           isDisabled={formDisabled}
-          is:oading={loading}
+          isLoading={loading}
           trackComponentName="AccountPageDetails"
         >
           Save changes
