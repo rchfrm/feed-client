@@ -43,7 +43,7 @@ const Button = ({
         active:border-2 active:border-green-dark active:border-dashed
         disabled:bg-grey-light
       `,
-      text: '',
+      text: 'inline',
     },
   }
 
@@ -65,8 +65,9 @@ const Button = ({
       className={[
         'relative',
         'rounded-dialogue',
-        isTextButton ? 'inline' : [classes.size[size], 'flex justify-center items-center'].join(' '),
         classes.version[version],
+        ! isTextButton ? classes.size[size] : null,
+        ! isTextButton ? 'flex justify-center items-center' : null,
         isDisabled ? 'cursor-not-allowed' : null,
         className,
       ].join(' ')}
@@ -82,9 +83,9 @@ const Button = ({
       <span
         className={[
           'flex items-center',
+          isTextButton ? 'underline' : 'font-bold',
           isDisabled ? 'opacity-50' : null,
           isLoading ? 'invisible' : null,
-          isTextButton ? 'underline' : 'font-bold',
         ].join(' ')}
       >
         {children}
