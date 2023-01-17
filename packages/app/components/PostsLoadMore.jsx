@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ButtonNew from '@/elements/ButtonNew'
 import Spinner from '@/elements/Spinner'
 import brandColors from '@/constants/brandColors'
 
@@ -19,12 +20,13 @@ const PostsLoadMore = ({
   return (
     <div>
       {shouldShowButton && (
-        <button
+        <ButtonNew
+          version="secondary"
+          size="small"
           onClick={handleClick}
-          className="w-24 h-8 py-2 px-4 rounded-dialogue border border-solid border-black bg-offwhite text-xs"
         >
           {isLoadingMore ? <Spinner width={14} fill={brandColors.black} /> : 'Load more'}
-        </button>
+        </ButtonNew>
       )}
     </div>
   )

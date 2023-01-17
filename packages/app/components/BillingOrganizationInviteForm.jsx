@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
@@ -56,16 +56,15 @@ const FORM = ({
         placeholder="Email address"
         required
       />
-      <Button
-        version="black"
-        disabled={! email}
+      <ButtonNew
+        isDisabled={! email}
         onClick={onSubmit}
-        loading={isLoading}
+        isLoading={isLoading}
         trackComponentName="BillingOrganizationInviteForm"
         className="w-full"
       >
         Send
-      </Button>
+      </ButtonNew>
     </form>
   )
 }

@@ -548,19 +548,16 @@ export const objectives = [
   {
     name: 'Audience growth',
     value: 'growth',
-    color: 'green',
     plan: 'basic',
   },
   {
     name: 'Website visits',
     value: 'traffic',
-    color: 'twitter',
     plan: 'growth',
   },
   {
     name: 'Website sales',
     value: 'sales',
-    color: 'insta',
     plan: 'pro',
   },
 ]

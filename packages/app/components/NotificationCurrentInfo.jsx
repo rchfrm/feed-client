@@ -76,7 +76,6 @@ const NotificationCurrentInfo = ({ containerRef }) => {
         onAction={openedNotification.onAction}
         onComplete={() => completeNotification(openedNotification.id)}
         dismissNotification={dismissNotification}
-        sidepanelLayout={! isDesktopLayout}
       />
     )
     const content = (

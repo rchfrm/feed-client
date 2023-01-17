@@ -22,7 +22,7 @@ const Button = ({
     size: {
       small: 'h-8 p-2 text-[13px]',
       medium: 'h-12 p-3 text-[13px]',
-      large: 'h-12 w-auto p-3.5',
+      large: 'h-12 p-3.5',
     },
     version: {
       primary: `
@@ -32,6 +32,7 @@ const Button = ({
         disabled:bg-grey
       `,
       secondary: `
+        bg-offwhite
         border-green border-solid border-2
         hover:bg-green-bg-light
         active:border-4 active::bg-green-bg-light
@@ -98,7 +99,7 @@ Button.propTypes = {
   type: PropTypes.string,
   version: PropTypes.string,
   size: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   className: PropTypes.string,
@@ -110,6 +111,7 @@ Button.defaultProps = {
   type: 'button',
   version: 'primary',
   size: 'large',
+  onClick: () => {},
   isDisabled: false,
   isLoading: false,
   className: '',

@@ -3,7 +3,7 @@ import { SidePanelContext } from '@/contexts/SidePanelContext'
 import PostSettings from '@/app/PostSettings'
 import PostResults from '@/app/PostResults'
 import PostDetails from '@/app/PostDetails'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 
 const usePostsSidePanel = () => {
   const {
@@ -14,14 +14,13 @@ const usePostsSidePanel = () => {
   } = React.useContext(SidePanelContext)
 
   const CLOSE_BUTTON = (
-    <Button
+    <ButtonNew
       onClick={() => toggleSidePanel(false)}
-      version="green"
-      className="border-solid border-0 border-t-4"
+      className="w-full rounded-none"
       trackComponentName="usePostsSidePanel"
     >
       Done
-    </Button>
+    </ButtonNew>
   )
 
   const goToPostSettings = React.useCallback(({

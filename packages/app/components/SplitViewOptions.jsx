@@ -1,13 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-
 import { SidePanelContext } from '@/contexts/SidePanelContext'
-
 import SplitViewOptionsItem from '@/app/SplitViewOptionsItem'
-
-import Button from '@/elements/Button'
-
+import ButtonNew from '@/elements/ButtonNew'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 const SplitViewOptions = ({
@@ -45,7 +41,7 @@ const SplitViewOptions = ({
     // Open content in side-panel if mobile
     const content = contentComponents[name]
     // Set a sidepanel button unless the component has a custom sidepanel button itself
-    const button = hasDefaultSidePanelButton ? <Button version="green" onClick={() => toggleSidePanel(false)} trackComponentName="ControlsContentOptions">Done</Button> : null
+    const button = hasDefaultSidePanelButton ? <ButtonNew version="green" onClick={() => toggleSidePanel(false)} trackComponentName="ControlsContentOptions">Done</ButtonNew> : null
 
     setSidePanelContent(content)
     setSidePanelContentLabel(`${basePath} ${name}`)

@@ -14,7 +14,7 @@ import ArrowIcon from 'shared/components/icons/ArrowIcon'
 import brandColors from '@/constants/brandColors'
 
 import Input from '@/elements/Input'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
@@ -245,15 +245,14 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         required
       />
       <div className={['w-full', shouldShowReferralCodeInput ? 'mb-4' : 'mb-10'].join(' ')}>
-        <Button
+        <ButtonNew
           version="text"
-          type="button"
           onClick={toggleReferralCodeInput}
           className={['-mt-2 h-5'].join(' ')}
           trackComponentName="SignupEmailForm"
         >
           {shouldShowReferralCodeInput ? 'Hide' : 'Enter a'} referral code
-        </Button>
+        </ButtonNew>
       </div>
       {shouldShowReferralCodeInput && (
         <div className="w-full mb-2">
@@ -266,20 +265,19 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
           />
         </div>
       )}
-      <Button
-        className={[styles.signupButton, 'w-full xs:w-1/2 ml-auto'].join(' ')}
-        version="green wide"
-        disabled={! formComplete}
+      <ButtonNew
         type="submit"
+        isDisabled={! formComplete}
+        className={[styles.signupButton, 'w-full xs:w-1/2 ml-auto'].join(' ')}
         trackComponentName="SignupEmailForm"
       >
         Next
         <ArrowIcon
           className="ml-1 w-7 h-auto"
-          fill={! formComplete ? brandColors.greyDark : brandColors.offwhite}
+          fill={brandColors.black}
           direction="right"
         />
-      </Button>
+      </ButtonNew>
     </form>
   )
 }
