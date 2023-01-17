@@ -108,7 +108,6 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   postCallToActionSetting: 'Which call to action should be used when this post is made into an ad?',
   editCaption: "Edit the text used in this ad. The text of the original post <span className='bold underline'>won't</span> be affected.",
-
   confirmEdit: (type) => `**Update ${type}**
 
 Editing the ${type} will put this post back into review, and it will temporarily move to 'Inactive'.
