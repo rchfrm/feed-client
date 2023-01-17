@@ -235,6 +235,12 @@ const PostLinksSelect = ({
     updatePostLink(value)
   }
 
+  const onCancel = React.useCallback(() => {
+    setLoading(false)
+    setShowAlert(false)
+    setSelectedOptionValue(currentLinkId)
+  }, [currentLinkId])
+
   React.useEffect(() => {
     setSelectedOptionValue(currentLinkId)
   }, [currentLinkId])
@@ -268,11 +274,7 @@ const PostLinksSelect = ({
           newValue={selectedOptionValue}
           originalValue={currentLinkId}
           onAlertConfirm={onAlertConfirm}
-          onCancel={() => {
-            setLoading(false)
-            setShowAlert(false)
-            setSelectedOptionValue(currentLinkId)
-          }}
+          onCancel={onCancel}
         />
       )}
     </div>

@@ -270,20 +270,21 @@ const PostCardEditCaption = ({
           </a>
         )}
       </p>
-      {/* ALERT */}
-      <PostCardEditAlert
-        type="caption"
-        postId={post.id}
-        show={showAlert}
-        newValue={newCaption}
-        originalValue={originalCaption}
-        onAlertConfirm={onAlertConfirm}
-        onCancel={() => {
-          setIsLoading(false)
-          setUseEditMode(false)
-          setShowAlert(false)
-        }}
-      />
+      {showAlert && (
+        <PostCardEditAlert
+          type="caption"
+          postId={post.id}
+          show={showAlert}
+          newValue={newCaption}
+          originalValue={originalCaption}
+          onAlertConfirm={onAlertConfirm}
+          onCancel={() => {
+            setIsLoading(false)
+            setUseEditMode(false)
+            setShowAlert(false)
+          }}
+        />
+      )}
     </div>
   )
 }
