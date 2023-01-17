@@ -1,12 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import GetStartedObjectiveButtonFooter from '@/app/GetStartedObjectiveButtonFooter'
-
-import Button from '@/elements/Button'
-
+import ButtonNew from '@/elements/ButtonNew'
 import ArrowIcon from '@/icons/ArrowIcon'
-
 import brandColors from '@/constants/brandColors'
 
 const GetStartedObjectiveButton = ({
@@ -19,21 +15,20 @@ const GetStartedObjectiveButton = ({
 
   return (
     <div className="flex flex-col w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0">
-      <Button
+      <ButtonNew
         key={value}
-        version={color}
         onClick={() => setSelectedObjective(value)}
-        className="mb-1"
+        className={['mb-1', `bg-${color}`].join(' ')}
         trackComponentName="GetStartedObjectiveButton"
-        disabled={isDisabled}
+        isDisabled={isDisabled}
       >
         {name}
         <ArrowIcon
-          className="w-7 h-auto ml-3"
+          className="w-7 h-auto ml-1"
           direction="right"
-          fill={isDisabled ? brandColors.greyDark : brandColors.offwhite}
+          fill={isDisabled ? brandColors.greyDark : brandColors.black}
         />
-      </Button>
+      </ButtonNew>
       {(! selectedPlan || isDisabled) && (
         <GetStartedObjectiveButtonFooter
           plan={plan}

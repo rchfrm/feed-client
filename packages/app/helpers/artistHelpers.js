@@ -554,7 +554,7 @@ export const objectives = [
   {
     name: 'Website visits',
     value: 'traffic',
-    color: 'blue',
+    color: 'twitter',
     plan: 'growth',
   },
   {

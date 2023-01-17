@@ -1,21 +1,16 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
-
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useControlsStore from '@/app/stores/controlsStore'
-
 import AdAccountSelector from '@/app/AdAccountSelector'
-
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Error from '@/elements/Error'
 import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
-
 import { setAdAccount, getArtistIntegrationByPlatform, getAdAccounts } from '@/app/helpers/artistHelpers'
-
 import copy from '@/app/copy/getStartedCopy'
+import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -117,20 +112,19 @@ const GetStartedAdAccount = () => {
           adAccounts={adAccounts}
           className="w-full mb-12"
         />
-        <Button
-          version="green"
+        <ButtonNew
           onClick={handleNext}
-          loading={isLoading}
+          isLoading={isLoading}
           className="w-full sm:w-48"
           trackComponentName="GetStartedAdAccount"
         >
           Save
           <ArrowIcon
-            className="w-7 h-auto ml-3"
+            className="w-7 h-auto ml-1"
             direction="right"
-            fill="white"
+            fill={brandColors.black}
           />
-        </Button>
+        </ButtonNew>
       </div>
     </div>
   )

@@ -13,7 +13,7 @@ const Button = ({
   onClick,
   isLoading,
   isDisabled,
-  componentName,
+  trackComponentName,
   className,
 }) => {
   const isTextButton = version === 'text'
@@ -52,7 +52,7 @@ const Button = ({
 
     track('button_click', {
       buttonText,
-      componentName,
+      componentName: trackComponentName,
     })
 
     onClick(e)
@@ -102,14 +102,14 @@ Button.propTypes = {
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   className: PropTypes.string,
-  componentName: PropTypes.string.isRequired,
+  trackComponentName: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 }
 
 Button.defaultProps = {
   type: 'button',
   version: 'primary',
-  size: 'medium',
+  size: 'large',
   isDisabled: false,
   isLoading: false,
   className: '',

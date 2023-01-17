@@ -1,23 +1,17 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
-
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import useControlsStore from '@/app/stores/controlsStore'
-
 import TargetingDailyBudgetSetter from '@/app/TargetingDailyBudgetSetter'
 import TargetingDailyBudgetCustomBudgetButton from '@/app/TargetingDailyBudgetCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
-
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
-
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
-
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
 
@@ -145,21 +139,20 @@ const GetStartedDailyBudget = () => {
             />
           </div>
         </div>
-        <Button
-          version="green"
+        <ButtonNew
           onClick={() => handleNext(budget)}
-          loading={targetingLoading}
+          isLoading={targetingLoading}
           className="w-full sm:w-48 mb-4"
           trackComponentName="GetStartedDailyBudget"
-          disabled={hasInsufficientBudget}
+          isDisabled={hasInsufficientBudget}
         >
           Save
           <ArrowIcon
-            className="w-7 h-auto ml-3"
+            className="w-7 h-auto ml-1"
             direction="right"
-            fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.offwhite}
+            fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.black}
           />
-        </Button>
+        </ButtonNew>
       </div>
     </div>
   )

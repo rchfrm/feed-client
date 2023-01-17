@@ -1,27 +1,21 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
-
 import useBillingStore from '@/app/stores/billingStore'
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
-
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
-
 import AddPaymentForm from '@/app/AddPaymentForm'
 import BillingPaymentCard from '@/app/BillingPaymentCard'
 import GetStartedPaymentMethodPromoCode from '@/app/GetStartedPaymentMethodPromoCode'
 import GetStartedPaymentMethodProrationsButton from '@/app/GetStartedPaymentMethodProrationsButton'
-
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowIcon from '@/icons/ArrowIcon'
 import Error from '@/elements/Error'
-
 import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 import { getProrationsPreview, upgradeProfiles } from '@/app/helpers/billingHelpers'
-
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
 import { formatCurrency } from '@/helpers/utils'
@@ -194,7 +188,7 @@ const GetStartedPaymentMethod = () => {
     <div className="flex flex-1 flex-column mb-6">
       <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(defaultPaymentMethod, planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency), isManaged)} />
       <Error error={error} />
-      <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto">
+      <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto text-center">
         {! isManaged && (
           <>
             {shouldShowPaymentMethodForm ? (
@@ -227,15 +221,15 @@ const GetStartedPaymentMethod = () => {
           </>
         )}
         {defaultPaymentMethod && (
-          <Button
+          <ButtonNew
             version="text"
             type="button"
             onClick={togglePaymentMethodForm}
-            className="w-full h-5 mb-3 text-sm"
+            className="h-5 mb-3 mx-auto text-sm"
             trackComponentName="GetStartedPaymentMethod"
           >
             {shouldShowPaymentMethodForm ? 'Cancel' : 'Add a new card '}
-          </Button>
+          </ButtonNew>
         )}
         {isPaymentRequired && (
           <>
@@ -254,20 +248,19 @@ const GetStartedPaymentMethod = () => {
             <GetStartedPaymentMethodProrationsButton promoCode={promoCode} />
           </>
         )}
-        <Button
-          version="green"
+        <ButtonNew
           onClick={handleNext}
-          loading={isLoading || isLoadingAmountToPay}
+          isLoading={isLoading || isLoadingAmountToPay}
           className="w-full sm:w-48 mt-12 mx-auto"
           trackComponentName="GetStartedPaymentMethod"
         >
           {isPaymentRequired ? `Pay ${formatCurrency(amountToPay, artistCurrency)}` : 'Next'}
           <ArrowIcon
-            className="w-7 h-auto ml-3"
+            className="w-7 h-auto ml-1"
             direction="right"
-            fill={brandColors.offwhite}
+            fill={brandColors.black}
           />
-        </Button>
+        </ButtonNew>
       </div>
     </div>
   )
