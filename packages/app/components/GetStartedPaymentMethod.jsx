@@ -10,7 +10,7 @@ import AddPaymentForm from '@/app/AddPaymentForm'
 import BillingPaymentCard from '@/app/BillingPaymentCard'
 import GetStartedPaymentMethodPromoCode from '@/app/GetStartedPaymentMethodPromoCode'
 import GetStartedPaymentMethodProrationsButton from '@/app/GetStartedPaymentMethodProrationsButton'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowIcon from '@/icons/ArrowIcon'
 import Error from '@/elements/Error'
@@ -221,7 +221,7 @@ const GetStartedPaymentMethod = () => {
           </>
         )}
         {defaultPaymentMethod && (
-          <ButtonNew
+          <Button
             type="button"
             version="text"
             onClick={togglePaymentMethodForm}
@@ -229,7 +229,7 @@ const GetStartedPaymentMethod = () => {
             trackComponentName="GetStartedPaymentMethod"
           >
             {shouldShowPaymentMethodForm ? 'Cancel' : 'Add a new card '}
-          </ButtonNew>
+          </Button>
         )}
         {isPaymentRequired && (
           <>
@@ -248,7 +248,7 @@ const GetStartedPaymentMethod = () => {
             <GetStartedPaymentMethodProrationsButton promoCode={promoCode} />
           </>
         )}
-        <ButtonNew
+        <Button
           onClick={handleNext}
           isLoading={isLoading || isLoadingAmountToPay}
           className="w-full sm:w-48 mt-12 mx-auto"
@@ -260,7 +260,7 @@ const GetStartedPaymentMethod = () => {
             direction="right"
             fill={brandColors.black}
           />
-        </ButtonNew>
+        </Button>
       </div>
     </div>
   )

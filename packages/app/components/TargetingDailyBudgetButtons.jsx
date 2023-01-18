@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
@@ -32,7 +32,7 @@ const TargetingDailyBudgetButtons = ({
   return (
     <div className="flex">
       {! showCustomBudget && (
-        <ButtonNew
+        <Button
           size="small"
           version="tertiary"
           className={[
@@ -46,9 +46,9 @@ const TargetingDailyBudgetButtons = ({
             className={['w-4 h-auto'].join(' ')}
             style={{ marginRight: 0 }}
           />
-        </ButtonNew>
+        </Button>
       )}
-      <ButtonNew
+      <Button
         size="small"
         version="secondary"
         className={[
@@ -59,7 +59,7 @@ const TargetingDailyBudgetButtons = ({
         trackComponentName="TargetingDailyBudgetButtons"
       >
         Save
-      </ButtonNew>
+      </Button>
     </div>
   )
 }

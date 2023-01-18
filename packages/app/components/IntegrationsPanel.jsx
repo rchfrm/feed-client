@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowIcon from '@/icons/ArrowIcon'
 
@@ -53,7 +53,7 @@ const IntegrationsPanel = ({
         </ul>
         {goBack && (
           <div className="mt-10">
-            <ButtonNew
+            <Button
               size="small"
               className="mr-5"
               onClick={goBack}
@@ -64,7 +64,7 @@ const IntegrationsPanel = ({
                 className="w-4 h-auto"
               />
               Back
-            </ButtonNew>
+            </Button>
           </div>
         )}
       </DisabledSection>

@@ -14,7 +14,7 @@ import ArrowIcon from 'shared/components/icons/ArrowIcon'
 import brandColors from '@/constants/brandColors'
 
 import Input from '@/elements/Input'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import * as utils from '@/helpers/utils'
@@ -245,14 +245,14 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         required
       />
       <div className={['w-full', shouldShowReferralCodeInput ? 'mb-4' : 'mb-10'].join(' ')}>
-        <ButtonNew
+        <Button
           version="text"
           onClick={toggleReferralCodeInput}
           className={['-mt-2 h-5'].join(' ')}
           trackComponentName="SignupEmailForm"
         >
           {shouldShowReferralCodeInput ? 'Hide' : 'Enter a'} referral code
-        </ButtonNew>
+        </Button>
       </div>
       {shouldShowReferralCodeInput && (
         <div className="w-full mb-2">
@@ -265,7 +265,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
           />
         </div>
       )}
-      <ButtonNew
+      <Button
         type="submit"
         isDisabled={! formComplete}
         className={[styles.signupButton, 'w-full xs:w-1/2 ml-auto'].join(' ')}
@@ -277,7 +277,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
           fill={brandColors.black}
           direction="right"
         />
-      </ButtonNew>
+      </Button>
     </form>
   )
 }

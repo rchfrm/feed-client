@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Input from '@/elements/Input'
 import { getFacebookPage } from '@/app/helpers/facebookHelpers'
 import { processArtists } from '@/app/helpers/artistHelpers'
@@ -44,7 +44,7 @@ const ConnectProfilesSearchForm = ({
         className="mb-4 xxs:mb-0 xxs:flex-1"
         required
       />
-      <ButtonNew
+      <Button
         onClick={onSubmit}
         isLoading={isLoading}
         isDisabled={! facebookPageId}
@@ -52,7 +52,7 @@ const ConnectProfilesSearchForm = ({
         className="w-full xxs:w-32 xxs:ml-4 mb-6"
       >
         Search
-      </ButtonNew>
+      </Button>
     </form>
   )
 }

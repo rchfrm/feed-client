@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 
 const TargetingCampaignBudgetEditButton = ({ setIsCampaignEdit }) => {
@@ -10,14 +10,14 @@ const TargetingCampaignBudgetEditButton = ({ setIsCampaignEdit }) => {
   }
 
   return (
-    <ButtonNew
+    <Button
       size="small"
       onClick={toggleIsCampaignEdit}
       trackComponentName="TargetingCampaignBudgetEditButton"
     >
       <PencilIcon className="w-4 h-auto mr-1" />
       Edit
-    </ButtonNew>
+    </Button>
   )
 }
 

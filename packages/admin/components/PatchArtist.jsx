@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Error from '@/elements/Error'
 import Select from '@/elements/Select'
 import Input from '@/elements/Input'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 import * as server from '@/admin/helpers/adminServer'
 
@@ -61,14 +61,14 @@ const PatchArtist = ({ artistId, artistName, integrations }) => {
           name={patchOption.value}
         />
         <Error error={error} />
-        <ButtonNew
+        <Button
           type="submit"
           isLoading={isLoading}
           isDisabled={! inputValue}
           trackComponentName="PatchArtist"
         >
           Update
-        </ButtonNew>
+        </Button>
       </form>
     </div>
   )

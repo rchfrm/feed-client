@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 
 const NotificationCurrentInfoButton = ({
@@ -50,14 +50,14 @@ const NotificationCurrentInfoButton = ({
       ) : null}
 
       {canDismiss && (
-        <ButtonNew
+        <Button
           version="tertiary"
           className="w-full rounded-t-none"
           onClick={dismissNotification}
           trackComponentName="NotificationCurrentInfoButton"
         >
           Dismiss
-        </ButtonNew>
+        </Button>
       )}
     </div>
   )

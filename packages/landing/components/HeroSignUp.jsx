@@ -1,5 +1,5 @@
 import React from 'react'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Input from '@/elements/Input'
 import Error from '@/elements/Error'
 import brandColors from 'shared/constants/brandColors'
@@ -94,7 +94,7 @@ export default function HeroSignUp() {
             'xs:mb-0',
           ].join(' ')}
         />
-        <ButtonNew
+        <Button
           onClick={fetchSignInMethodsAndRedirect}
           className={[
             'py-4',
@@ -111,7 +111,7 @@ export default function HeroSignUp() {
             fill={brandColors.offwhite}
             direction="right"
           />
-        </ButtonNew>
+        </Button>
       </div>
       <Error error={error} className="absolute" />
     </div>

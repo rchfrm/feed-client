@@ -1,4 +1,4 @@
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -36,14 +36,14 @@ export default function ArtistCampaignStatusButton({ artistId, artistStatus, set
   }, [setArtistStatus])
   return (
     <div>
-      <ButtonNew
+      <Button
         size="small"
         isLoading={loading}
         onClick={() => updateStatus(artistId, buttonProps.newStatus)}
         trackComponentName="ArtistCampaignStatusButton"
       >
         {loading ? 'Loading...' : buttonProps.text}
-      </ButtonNew>
+      </Button>
       <Error error={error} />
     </div>
   )

@@ -7,7 +7,7 @@ import { Transition } from 'react-transition-group'
 
 import FullHeight from '@/elements/FullHeight'
 import MarkdownText from '@/elements/MarkdownText'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 
 import useAlertStore from '@/stores/alertStore'
@@ -121,10 +121,10 @@ const AlertModal = () => {
                   const { text, version, width, onClick, isFacebookButton, disabled, shouldCloseOnConfirm = true } = buttonConfig
                   const isFirstButton = index === 0
                   const isLastButton = index === buttons.length - 1
-                  const Button = isFacebookButton ? ButtonFacebook : ButtonNew
+                  const ButtonType = isFacebookButton ? ButtonFacebook : Button
 
                   return (
-                    <Button
+                    <ButtonType
                       key={index}
                       version={version}
                       className={[
@@ -146,7 +146,7 @@ const AlertModal = () => {
                       fallbackCta={text}
                     >
                       {text}
-                    </Button>
+                    </ButtonType>
                   )
                 })}
               </div>

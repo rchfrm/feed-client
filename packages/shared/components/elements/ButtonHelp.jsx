@@ -5,7 +5,7 @@ import LightbulbIcon from '@/icons/LightbulbIcon'
 
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import MarkdownText from '@/elements/MarkdownText'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 import { track } from '@/helpers/trackingHelpers'
 
@@ -32,7 +32,7 @@ const ButtonHelp = React.forwardRef(({
   }, [content, contentHeader])
 
   const toggleHelp = React.useCallback(() => {
-    const button = <ButtonNew className="w-full rounded-none" onClick={() => toggleSidePanel(false)}>Done</ButtonNew>
+    const button = <Button className="w-full rounded-none" onClick={() => toggleSidePanel(false)}>Done</Button>
     setSidePanelContentLabel('Help Panel')
     setSidePanelContent(SidePanelContent)
     setSidePanelButton(button)

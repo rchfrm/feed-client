@@ -5,7 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useOpenPricingProrationsSidePanel from '@/app/hooks/useOpenPricingProrationsSidePanel'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 const GetStartedPaymentMethodProrationsButton = ({ promoCode }) => {
   const { artist } = React.useContext(ArtistContext)
@@ -15,14 +15,14 @@ const GetStartedPaymentMethodProrationsButton = ({ promoCode }) => {
   const openProrationsSidePanel = () => openPricingProrationsSidePanel(artist, promoCode)
 
   return (
-    <ButtonNew
+    <Button
       version="text"
       onClick={openProrationsSidePanel}
       trackComponentName="GetStartedPaymentMethodProrationsButton"
       className="text-sm"
     >
       View payment breakdown
-    </ButtonNew>
+    </Button>
   )
 }
 

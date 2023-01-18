@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
 import copy from '@/app/copy/global'
@@ -16,7 +16,7 @@ const PricingPlanUpgradeSummary = ({
   }, [toggleSidePanel])
 
   React.useEffect(() => {
-    const button = <ButtonNew className="w-full rounded-none" onClick={closeSidePanel} trackComponentName="PricingPlanUpgradeSummary">Ok</ButtonNew>
+    const button = <Button className="w-full rounded-none" onClick={closeSidePanel} trackComponentName="PricingPlanUpgradeSummary">Ok</Button>
 
     setSidePanelButton(button)
   }, [closeSidePanel, setSidePanelButton])

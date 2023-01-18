@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Error from '@/elements/Error'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import TickIcon from '@/icons/TickIcon'
 import CrossIcon from '@/icons/CrossIcon'
 
@@ -52,7 +52,7 @@ const BillingOrganizationInviteItem = ({
       <Error error={error} />
       <h4 className="font-display m-0">{copy.invited(organizationInvite.inviting_user_name)}</h4>
       <div className="flex justify-between lg:w-1/2 mt-5">
-        <ButtonNew
+        <Button
           size="small"
           label="Accept"
           isLoading={loadingAccept}
@@ -62,8 +62,8 @@ const BillingOrganizationInviteItem = ({
         >
           <TickIcon className="h-5 w-auto mr-2" />
           Accept
-        </ButtonNew>
-        <ButtonNew
+        </Button>
+        <Button
           size="small"
           version="secondary"
           label="Reject"
@@ -74,7 +74,7 @@ const BillingOrganizationInviteItem = ({
         >
           <CrossIcon className="h-5 w-auto mr-2" />
           Reject
-        </ButtonNew>
+        </Button>
       </div>
     </div>
   )

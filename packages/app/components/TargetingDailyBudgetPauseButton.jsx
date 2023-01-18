@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import PlayIcon from '@/icons/PlayIcon'
 import PauseIcon from '@/icons/PauseIcon'
 
@@ -63,7 +63,7 @@ const TargetingDailyBudgetPauseButton = ({
   }, [spendingData])
 
   return (
-    <ButtonNew
+    <Button
       size="small"
       isDisabled={isDisabled}
       style={{ paddingBottom: '0.3rem' }}
@@ -71,7 +71,7 @@ const TargetingDailyBudgetPauseButton = ({
     >
       {Icon}
       {utils.capitalise(action)}
-    </ButtonNew>
+    </Button>
   )
 }
 

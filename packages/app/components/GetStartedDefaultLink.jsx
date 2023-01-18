@@ -9,7 +9,7 @@ import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
 import DefaultLinkForm from '@/app/DefaultLinkForm'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowIcon from '@/icons/ArrowIcon'
 
@@ -216,7 +216,7 @@ const GetStartedDefaultLink = () => {
           isLoading={isLoading}
           className="w-full"
         />
-        <ButtonNew
+        <Button
           type="submit"
           className="w-full sm:w-48 mt-8"
           trackComponentName="GetStartedDefaultLink"
@@ -228,7 +228,7 @@ const GetStartedDefaultLink = () => {
             className="w-7 h-auto ml-1"
             direction="right"
           />
-        </ButtonNew>
+        </Button>
       </form>
     </div>
   )

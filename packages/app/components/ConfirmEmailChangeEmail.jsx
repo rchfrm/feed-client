@@ -9,7 +9,7 @@ import useIsMounted from '@/hooks/useIsMounted'
 import Error from '@/elements/Error'
 import Success from '@/elements/Success'
 import Input from '@/elements/Input'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 import { testValidEmail } from '@/helpers/utils'
 import { patchUser } from '@/helpers/sharedServer'
@@ -101,7 +101,7 @@ const ConfirmEmailChangeEmail = ({
               autoFocus
               className="mb-4"
             />
-            <ButtonNew
+            <Button
               type="submit"
               isDisabled={! isFormValid}
               isLoading={loading}
@@ -109,18 +109,18 @@ const ConfirmEmailChangeEmail = ({
               trackComponentName="ConfirmEmailChangeEmail"
             >
               submit
-            </ButtonNew>
+            </Button>
           </form>
           {/* BACK BUTTON */}
           <div>
-            <ButtonNew
+            <Button
               size="small"
               version="text"
               onClick={backToVerify}
               trackComponentName="ConfirmEmailChangeEmail"
             >
               Cancel
-            </ButtonNew>
+            </Button>
           </div>
         </>
       )}

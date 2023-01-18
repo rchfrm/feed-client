@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import copy from '@/landing/copy/LandingPageCopy'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
@@ -16,7 +16,7 @@ export default function Login({ className, trackLocation }) {
 
   return (
     <div className={className}>
-      <ButtonNew
+      <Button
         version="text"
         onClick={() => {
           mixpanelExternalLinkClick(loginLink, { location: trackLocation })
@@ -24,7 +24,7 @@ export default function Login({ className, trackLocation }) {
         trackComponentName="Login"
       >
         {copy.navigation.secondaryCTAText}
-      </ButtonNew>
+      </Button>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 const PostSettingsSaveButton = ({
   onClick,
@@ -9,7 +9,7 @@ const PostSettingsSaveButton = ({
 }) => {
   return (
     shouldShow && (
-      <ButtonNew
+      <Button
         size="small"
         onClick={onClick}
         className="w-20"
@@ -17,7 +17,7 @@ const PostSettingsSaveButton = ({
         trackComponentName="PostSettingsSaveButton"
       >
         Save
-      </ButtonNew>
+      </Button>
     )
   )
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PricingPlanUpgradeIntroPlan from '@/app/PricingPlanUpgradeIntroPlan'
 import MarkdownText from '@/elements/MarkdownText'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 import copy from '@/app/copy/global'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
@@ -39,7 +39,7 @@ const PricingPlanUpgradeIntro = ({
     }
 
     const button = (
-      <ButtonNew
+      <Button
         onClick={onClick}
         className="w-full rounded-none"
         trackComponentName="PricingPlanUpgradeIntro"
@@ -49,7 +49,7 @@ const PricingPlanUpgradeIntro = ({
           className="ml-1"
           direction="right"
         />
-      </ButtonNew>
+      </Button>
     )
 
     setSidePanelButton(button)

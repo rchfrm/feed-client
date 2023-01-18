@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import usePostsSidePanel from '@/app/hooks/usePostsSidePanel'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 const ResultsTopPerformingPostButton = ({
   postData,
@@ -13,14 +13,14 @@ const ResultsTopPerformingPostButton = ({
   }
 
   return (
-    <ButtonNew
+    <Button
       size="small"
       version="secondary"
       onClick={openPostResultsSidePanel}
       trackComponentName="ResultsPostStats"
     >
       View more
-    </ButtonNew>
+    </Button>
   )
 }
 

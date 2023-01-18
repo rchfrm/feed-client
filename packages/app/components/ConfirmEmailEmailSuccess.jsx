@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Success from '@/elements/Success'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 
 import ConfirmEmailSuccessReauthenticate from '@/app/ConfirmEmailSuccessReauthenticate'
@@ -55,7 +55,7 @@ const ConfirmEmailEmailSuccess = ({
       ) : (
         <div className="flex items-center justify-end pt-2">
           <p className="mr-6 mb-0">{seconds}s</p>
-          <ButtonNew
+          <Button
             size="small"
             className="w-1/3"
             onClick={() => {
@@ -64,7 +64,7 @@ const ConfirmEmailEmailSuccess = ({
             trackComponentName="ConfirmEmailEmailSuccess"
           >
             Continue
-          </ButtonNew>
+          </Button>
         </div>
       )}
     </div>

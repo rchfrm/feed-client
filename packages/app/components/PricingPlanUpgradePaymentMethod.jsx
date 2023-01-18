@@ -5,7 +5,7 @@ import useBillingStore from '@/app/stores/billingStore'
 
 import AddPaymentForm from '@/app/AddPaymentForm'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 const getBillingStoreState = (state) => ({
@@ -46,7 +46,7 @@ const PricingPlanUpgradePaymentMethod = ({
 
   React.useEffect(() => {
     const button = (
-      <ButtonNew
+      <Button
         className="w-full rounded-none"
         onClick={savePaymentMethod}
         trackComponentName="PricingPlanUpgradeIntro"
@@ -56,7 +56,7 @@ const PricingPlanUpgradePaymentMethod = ({
           className="ml-1"
           direction="right"
         />
-      </ButtonNew>
+      </Button>
     )
 
     setSidePanelButton(button)

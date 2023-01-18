@@ -4,7 +4,7 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import Select from '@/elements/Select'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 import ArrowIcon from '@/icons/ArrowIcon'
@@ -89,7 +89,7 @@ const GetStartedLocation = () => {
           placeholder="Select country"
           className="w-full mb-12"
         />
-        <ButtonNew
+        <Button
           onClick={handleNext}
           isLoading={isLoading}
           className="w-full sm:w-48"
@@ -100,7 +100,7 @@ const GetStartedLocation = () => {
             className="w-7 h-auto ml-1"
             direction="right"
           />
-        </ButtonNew>
+        </Button>
       </div>
     </div>
   )

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PencilIcon from '@/icons/PencilIcon'
 import brandColors from '@/constants/brandColors'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 const EditBlock = ({
   value,
@@ -21,7 +21,7 @@ const EditBlock = ({
     ].join(' ')}
     >
       <p className="break-all mb-0">{value}</p>
-      <ButtonNew
+      <Button
         size="small"
         className={[
           'text-offwhite',
@@ -31,7 +31,7 @@ const EditBlock = ({
       >
         <PencilIcon className="w-4 h-auto mr-1" fill={brandColors.offwhite} />
         Edit
-      </ButtonNew>
+      </Button>
     </div>
   )
 }

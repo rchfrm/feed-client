@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import brandColors from '@/constants/brandColors'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import FacebookIcon from '@/icons/FacebookIcon'
 
 const ButtonFacebook = ({
@@ -49,7 +49,7 @@ const ButtonFacebook = ({
   }
 
   return (
-    <ButtonNew
+    <Button
       href={href}
       onClick={onClick}
       className={[className, 'relative bg-fb hover:bg-fb hover:bg-opacity-90 text-offwhite'].join(' ')}
@@ -59,7 +59,7 @@ const ButtonFacebook = ({
     >
       <FacebookIcon className="w-5 h-auto absolute top-50 left-4" fill={brandColors.offwhite} />
       {children}
-    </ButtonNew>
+    </Button>
   )
 }
 

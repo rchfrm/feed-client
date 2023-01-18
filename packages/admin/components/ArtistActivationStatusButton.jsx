@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import * as server from '@/admin/helpers/adminServer'
 
@@ -39,14 +39,14 @@ const ArtistActivationStatusButton = ({ artistId, artistStatus, setArtistsStatus
 
   return (
     <div>
-      <ButtonNew
+      <Button
         size="small"
         isLoading={loading}
         onClick={() => updateStatus(artistId, buttonProps.action)}
         trackComponentName="ArtistActivationStatusButton"
       >
         {buttonProps.text}
-      </ButtonNew>
+      </Button>
       <Error error={error} />
     </div>
   )

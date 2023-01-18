@@ -9,7 +9,7 @@ import AccountPageDetailsEmail from '@/app/AccountPageDetailsEmail'
 import AccountPageDetailsConfirmAlert from '@/app/AccountPageDetailsConfirmAlert'
 import PendingEmailWarning from '@/app/PendingEmailWarning'
 import Input from '@/elements/Input'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import useAnimateScroll from '@/hooks/useAnimateScroll'
 
@@ -299,7 +299,7 @@ const AccountPageDetails = () => {
           </>
         )}
 
-        <ButtonNew
+        <Button
           type="submit"
           className="w-1/2 mt-10"
           isDisabled={formDisabled}
@@ -307,7 +307,7 @@ const AccountPageDetails = () => {
           trackComponentName="AccountPageDetails"
         >
           Save changes
-        </ButtonNew>
+        </Button>
       </form>
 
       {/* ALERT (for changing email) */}

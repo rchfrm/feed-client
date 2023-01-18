@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Link from 'next/link'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import copy from '@/landing/copy/LandingPageCopy'
 
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
@@ -20,7 +20,7 @@ export default function TryFeed({ className, buttonText, trackLocation }) {
   return (
     <div className={className}>
       <Link href={joinLink}>
-        <ButtonNew
+        <Button
           className={[className, 'bg-insta hover:bg-insta hover:bg-opacity-90 text-offwhite'].join(' ')}
           onClick={() => {
             mixpanelExternalLinkClick(joinLink, { location: trackLocation })
@@ -28,7 +28,7 @@ export default function TryFeed({ className, buttonText, trackLocation }) {
           trackComponentName="TryFeed"
         >
           {buttonText}
-        </ButtonNew>
+        </Button>
       </Link>
     </div>
   )

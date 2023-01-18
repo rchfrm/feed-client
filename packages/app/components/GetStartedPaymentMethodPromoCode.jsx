@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PromoCodeInput from '@/app/PromoCodeInput'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 const GetStartedPaymentMethodPromoCode = ({
   promoCode,
@@ -35,14 +35,14 @@ const GetStartedPaymentMethodPromoCode = ({
           setError={setError}
         />
       )}
-      <ButtonNew
+      <Button
         version="text"
         onClick={toggleCouponCodeInput}
         className="mb-3 text-sm"
         trackComponentName="GetStartedPaymentMethodPromoCode"
       >
         {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} promo code
-      </ButtonNew>
+      </Button>
     </>
   )
 }

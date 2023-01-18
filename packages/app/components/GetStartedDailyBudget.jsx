@@ -8,7 +8,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import TargetingDailyBudgetSetter from '@/app/TargetingDailyBudgetSetter'
 import TargetingDailyBudgetCustomBudgetButton from '@/app/TargetingDailyBudgetCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
@@ -139,7 +139,7 @@ const GetStartedDailyBudget = () => {
             />
           </div>
         </div>
-        <ButtonNew
+        <Button
           onClick={() => handleNext(budget)}
           isLoading={targetingLoading}
           className="w-full sm:w-48 mb-4"
@@ -152,7 +152,7 @@ const GetStartedDailyBudget = () => {
             direction="right"
             fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.black}
           />
-        </ButtonNew>
+        </Button>
       </div>
     </div>
   )

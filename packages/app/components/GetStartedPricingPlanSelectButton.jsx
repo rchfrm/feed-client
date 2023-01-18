@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 import { capitalise } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
@@ -14,7 +14,7 @@ const GetStartedPricingPlanSelectButton = ({
   const title = capitalise(name)
 
   return (
-    <ButtonNew
+    <Button
       version="secondary"
       onClick={() => setSelectedPricingPlan(name)}
       className="sm:w-full sm:mb-5"
@@ -27,7 +27,7 @@ const GetStartedPricingPlanSelectButton = ({
         className="w-7 h-auto sm:w-auto sm:h-auto ml-1"
         fill={isDisabled ? brandColors.grey : brandColors.black}
       />
-    </ButtonNew>
+    </Button>
   )
 }
 

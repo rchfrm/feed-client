@@ -2,7 +2,7 @@ import React from 'react'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import PricingPlanUpgradeSidePanel from '@/app/PricingPlanUpgradeSidePanel'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 const useOpenPricingPlanUpgradeSidePanel = () => {
   const {
@@ -14,7 +14,7 @@ const useOpenPricingPlanUpgradeSidePanel = () => {
 
   return React.useCallback((section) => {
     const content = <PricingPlanUpgradeSidePanel section={section} />
-    const button = <ButtonNew className="w-full rounded-none" onClick={() => toggleSidePanel(false)} trackComponentName="PricingPlanUpgradeSidePanel">Done</ButtonNew>
+    const button = <Button className="w-full rounded-none" onClick={() => toggleSidePanel(false)} trackComponentName="PricingPlanUpgradeSidePanel">Done</Button>
 
     setSidePanelContent(content)
     setSidePanelContentLabel('Upgrade pricing plan')

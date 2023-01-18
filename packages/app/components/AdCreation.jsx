@@ -6,7 +6,7 @@ import FileUpload from '@/app/FileUpload'
 import PostLinkCheckBoxSelect from '@/app/PostLinkCheckBoxSelect'
 import PostCallToActionCheckboxSelect from '@/app/PostCallToActionCheckboxSelect'
 import TextArea from '@/elements/TextArea'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import { createAd } from '@/app/helpers/postsHelpers'
 
@@ -75,7 +75,7 @@ const AdCreation = () => {
 
   React.useEffect(() => {
     const button = (
-      <ButtonNew
+      <Button
         onClick={save}
         trackComponentName="AdCreation"
         className="w-full rounded-none"
@@ -83,7 +83,7 @@ const AdCreation = () => {
         isLoading={isLoading}
       >
         Save
-      </ButtonNew>
+      </Button>
     )
 
     setSidePanelButton(button)

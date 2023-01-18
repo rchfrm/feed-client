@@ -2,7 +2,7 @@
 import React from 'react'
 // IMPORT ELEMENTS
 import Input from '@/elements/Input'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 // IMPORT HELPERS
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
@@ -64,7 +64,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
       />
 
       <div className="flex justify-end">
-        <ButtonNew
+        <Button
           type="submit"
           className="w-full md:w-1/2"
           isDisabled={! isFormComplete}
@@ -72,7 +72,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
           trackComponentName="ForgotPasswordForm"
         >
           Submit
-        </ButtonNew>
+        </Button>
       </div>
 
       <Error error={error} />

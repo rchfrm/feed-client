@@ -10,7 +10,7 @@ import { UserContext } from '@/admin/contexts/UserContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Input from '@/elements/Input'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 // HOOKS
 import useLogin from '@/admin/hooks/useLogin'
@@ -126,14 +126,14 @@ function LoginWithEmail({ className }) {
         <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot Password?</a></Link>
       </p>
 
-      <ButtonNew
+      <Button
         type="input"
         className="w-full md:w-1/2"
         onClick={onFormSubmit}
         trackComponentName="LoginWithEmail"
       >
         log in.
-      </ButtonNew>
+      </Button>
 
     </form>
   )

@@ -4,7 +4,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import GetStartedPostsSelectionButtonsMobile from '@/app/GetStartedPostsSelectionButtonsMobile'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 import { togglePromotionEnabled } from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
@@ -80,7 +80,7 @@ const GetStartedPostsSelectionButtons = ({
       ].join(' ')}
     >
       {shouldShowLoadMoreButton && (
-        <ButtonNew
+        <Button
           version="secondary"
           onClick={loadMore}
           isLoading={isLoadingMorePosts}
@@ -89,9 +89,9 @@ const GetStartedPostsSelectionButtons = ({
           trackComponentName="GetStartedPostsSelectionButtons"
         >
           Load more...
-        </ButtonNew>
+        </Button>
       )}
-      <ButtonNew
+      <Button
         onClick={handleNext}
         isLoading={isLoading}
         className={[shouldAdjustLayout ? 'w-full' : 'w-56 mx-2'].join(' ')}
@@ -103,7 +103,7 @@ const GetStartedPostsSelectionButtons = ({
           direction="right"
           fill={brandColors.black}
         />
-      </ButtonNew>
+      </Button>
     </div>
   )
 }

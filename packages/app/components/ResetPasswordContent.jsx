@@ -8,7 +8,7 @@ import Link from 'next/link'
 import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Success from '@/elements/Success'
 
 import { parseUrl } from '@/helpers/utils'
@@ -91,14 +91,14 @@ const ResetPasswordContent = () => {
               disabled={isSubmitting}
             />
             <div className="flex justify-end">
-              <ButtonNew
+              <Button
                 type="submit"
                 disabled={! password}
                 isLoading={isSubmitting}
                 trackComponentName="ResetPasswordContent"
               >
                 Submit
-              </ButtonNew>
+              </Button>
             </div>
           </form>
         </>
@@ -109,13 +109,13 @@ const ResetPasswordContent = () => {
           <Success message={getSuccessMessage(email)} />
           <div>
             <Link href={ROUTES.LOGIN_EMAIL}>
-              <ButtonNew
+              <Button
                 size="small"
                 className="w-full"
                 trackComponentName="ResetPasswordContent"
               >
                 Login
-              </ButtonNew>
+              </Button>
             </Link>
           </div>
         </>

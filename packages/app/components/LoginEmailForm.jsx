@@ -11,7 +11,7 @@ import { InterfaceContext } from '@/contexts/InterfaceContext'
 import EditBlock from '@/app/EditBlock'
 
 import Input from '@/elements/Input'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -189,7 +189,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
         <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot Password?</a></Link>
       </p>
 
-      <ButtonNew
+      <Button
         type="submit"
         onClick={onFormSubmit}
         isDisabled={false}
@@ -197,7 +197,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
         trackComponentName="LoginEmailForm"
       >
         Log in
-      </ButtonNew>
+      </Button>
 
     </form>
   )

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import PencilIcon from '@/icons/PencilIcon'
 import PlusIcon from '@/icons/PlusIcon'
 import TickIcon from '@/icons/TickIcon'
@@ -27,7 +27,7 @@ const LinkBankListButtons = ({
       ].join(' ')}
     >
       {/* ADD */}
-      <ButtonNew
+      <Button
         size="small"
         className="mr-5"
         onClick={() => addLink()}
@@ -36,10 +36,10 @@ const LinkBankListButtons = ({
       >
         <PlusIcon className="w-4 h-auto mr-1" />
         {totalLinks > 0 ? 'Add' : 'Add a link'}
-      </ButtonNew>
+      </Button>
       {/* EDIT */}
       {totalLinks > 0 && (
-        <ButtonNew
+        <Button
           size="small"
           version="secondary"
           onClick={() => {
@@ -61,7 +61,7 @@ const LinkBankListButtons = ({
               Edit
             </>
           )}
-        </ButtonNew>
+        </Button>
       )}
     </div>
   )

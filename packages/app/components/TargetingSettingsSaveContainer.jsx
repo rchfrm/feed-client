@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
@@ -26,7 +26,7 @@ const TargetingSettingsSaveContainer = ({
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
   const saveButton = React.useMemo(() => (
-    <ButtonNew
+    <Button
       className={[
         'w-full',
         isMobileAndIsSidePanelOpen ? 'border-offwhite border-solid border-0 border-t-4' : null,
@@ -38,7 +38,7 @@ const TargetingSettingsSaveContainer = ({
       {disableSaving ? (
         getSaveDisabledReason(disableSaving)
       ) : copy.saveSettingsButton}
-    </ButtonNew>
+    </Button>
   ), [disableSaving, saveTargeting, isMobileAndIsSidePanelOpen])
 
   React.useEffect(() => {

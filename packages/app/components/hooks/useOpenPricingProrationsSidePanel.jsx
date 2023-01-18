@@ -1,7 +1,7 @@
 import React from 'react'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import PricingProrationsLoader from '@/app/PricingProrationsLoader'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 const useOpenPricingProrationsSidePanel = () => {
   const {
@@ -23,7 +23,7 @@ const useOpenPricingProrationsSidePanel = () => {
         />
       </div>
     )
-    const button = <ButtonNew className="w-full rounded-none" onClick={() => toggleSidePanel(false)}>Close</ButtonNew>
+    const button = <Button className="w-full rounded-none" onClick={() => toggleSidePanel(false)}>Close</Button>
 
     setSidePanelContent(content)
     setSidePanelContentLabel('Pricing prorations')

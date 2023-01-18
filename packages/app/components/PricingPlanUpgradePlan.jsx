@@ -5,7 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PricingPlanUpgradePlanItem from '@/app/PricingPlanUpgradePlanItem'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 import { pricingNumbers, pricingPlans } from '@/constants/pricing'
@@ -47,7 +47,7 @@ const PricingPlanUpgradePlan = ({
 
   React.useEffect(() => {
     const button = (
-      <ButtonNew
+      <Button
         className="w-full rounded-none"
         onClick={next}
         trackComponentName="PricingPlanUpgradePlan"
@@ -57,7 +57,7 @@ const PricingPlanUpgradePlan = ({
           className="ml-1"
           direction="right"
         />
-      </ButtonNew>
+      </Button>
     )
 
     setSidePanelButton(button)

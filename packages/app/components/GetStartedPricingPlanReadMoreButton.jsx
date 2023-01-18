@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import PlusIcon from '@/icons/PlusIcon'
 import StarIcon from '@/icons/StarIcon'
 import InsightsIcon from '@/icons/InsightsIcon'
@@ -36,14 +36,14 @@ const GetStartedPricingPlanReadMoreButton = ({
         <Icon className="w-3 h-3" fill={brandColors.offwhite} />
       </div>
       <div>
-        <ButtonNew
+        <Button
           version="text"
           onClick={() => handleSidePanel(plan, isDisabled)}
           className="h-4 mr-1"
           trackComponentName="GetStartedPricingPlanReadMoreButton"
         >
           Read more
-        </ButtonNew>
+        </Button>
         about the {title} plan
       </div>
     </div>

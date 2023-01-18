@@ -9,7 +9,7 @@ import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import InputDatePicker from '@/app/InputDatePicker'
 
 import InputCurrency from '@/elements/InputCurrency'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 
 import copy from '@/app/copy/targetingPageCopy'
@@ -138,7 +138,7 @@ const TargetingCampaignBudgetForm = ({
       </div>
       <div className="flex justify-between">
         {hasActiveCampaignBudget && (
-          <ButtonNew
+          <Button
             type="submit"
             size="small"
             version="secondary"
@@ -146,9 +146,9 @@ const TargetingCampaignBudgetForm = ({
             trackComponentName="TargetingCampaignBudgetForm"
           >
             Back
-          </ButtonNew>
+          </Button>
         )}
-        <ButtonNew
+        <Button
           type="submit"
           size="small"
           // className="h-8 mb-5 rounded-full"
@@ -157,7 +157,7 @@ const TargetingCampaignBudgetForm = ({
           isDisabled={! isFormValid || ! hasSufficientBudget}
         >
           {getButtonText()} campaign
-        </ButtonNew>
+        </Button>
       </div>
       {isFormValid && ! hasSufficientBudget && (
         <Error className="text-sm" error={{ message: copy.hasInsufficientBudgetError(daysInPeriod, minHard, currencyCode) }} />

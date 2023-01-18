@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
@@ -56,7 +56,7 @@ const FORM = ({
         placeholder="Email address"
         required
       />
-      <ButtonNew
+      <Button
         isDisabled={! email}
         onClick={onSubmit}
         isLoading={isLoading}
@@ -64,7 +64,7 @@ const FORM = ({
         className="w-full"
       >
         Send
-      </ButtonNew>
+      </Button>
     </form>
   )
 }

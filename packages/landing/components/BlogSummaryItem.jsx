@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Image } from 'react-datocms'
 import MarkdownText from '@/landing/elements/MarkdownText'
 import Anchor from '@/landing/elements/Anchor'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import { blogSlug } from '@/landing/copy/LandingPageCopy'
 
 const BlogSummaryItem = ({ blog, className }) => {
@@ -58,14 +58,14 @@ const BlogSummaryItem = ({ blog, className }) => {
         <MarkdownText className={['mb-0'].join(' ')} markdown={excerpt} />
       )}
       <Link href={link}>
-        <ButtonNew
+        <Button
           version="text"
           href={link}
           label={`Read more about ${title}`}
           trackComponentName="BlogSummaryItem"
         >
           <strong>Read more</strong>
-        </ButtonNew>
+        </Button>
       </Link>
     </li>
   )

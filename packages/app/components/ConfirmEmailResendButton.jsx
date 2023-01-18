@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Success from '@/elements/Success'
 
 import { requestVerificationEmail } from '@/app/helpers/appServer'
@@ -39,7 +39,7 @@ const ConfirmEmailResendButton = ({
       {emailResent ? (
         <Success message="Email sent" className="mb-0" />
       ) : (
-        <ButtonNew
+        <Button
           version="text"
           onClick={resendEmail}
           className="ml-1"
@@ -48,7 +48,7 @@ const ConfirmEmailResendButton = ({
           trackComponentName="ConfirmEmailResendButton"
         >
           {buttonText}
-        </ButtonNew>
+        </Button>
       )}
     </>
   )

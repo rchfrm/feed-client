@@ -4,7 +4,7 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
 import AdAccountSelector from '@/app/AdAccountSelector'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
@@ -112,7 +112,7 @@ const GetStartedAdAccount = () => {
           adAccounts={adAccounts}
           className="w-full mb-12"
         />
-        <ButtonNew
+        <Button
           onClick={handleNext}
           isLoading={isLoading}
           className="w-full sm:w-48"
@@ -124,7 +124,7 @@ const GetStartedAdAccount = () => {
             direction="right"
             fill={brandColors.black}
           />
-        </ButtonNew>
+        </Button>
       </div>
     </div>
   )

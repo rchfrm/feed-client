@@ -2,7 +2,7 @@ import React from 'react'
 import Router from 'next/router'
 import PropTypes from 'prop-types'
 import LockIcon from '@/icons/LockIcon'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import { postsConfig } from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 import * as ROUTES from '@/app/constants/routes'
@@ -42,7 +42,7 @@ const PostsNoArtistsContainer = ({
           <LockIcon className="w-4 h-auto mr-2 md:mr-1 flex-shrink-0" fill={brandColors.red} />
           <p className="mb-0">
             {isActive ? 'Your active ads will appear here. ' : "You'll find the ads Feed has lined up to promote here. "}
-            <ButtonNew version="text" className="decoration-green" onClick={goToGetStartedPage}> Continue set up</ButtonNew>
+            <Button version="text" className="decoration-green" onClick={goToGetStartedPage}> Continue set up</Button>
             {isActive ? ' to start your first campaign. ' : ' to start adding to the queue.'}
           </p>
         </div>

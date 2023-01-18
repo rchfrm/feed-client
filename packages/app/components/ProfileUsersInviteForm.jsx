@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import Input from '@/elements/Input'
 import { sendProfileInvite } from '@/app/helpers/artistHelpers'
@@ -43,7 +43,7 @@ const ProfileUsersInviteForm = ({ setHasSentInvite }) => {
         placeholder="Email address"
         required
       />
-      <ButtonNew
+      <Button
         onClick={onSubmit}
         isDisabled={! email}
         isLoading={isLoading}
@@ -51,7 +51,7 @@ const ProfileUsersInviteForm = ({ setHasSentInvite }) => {
         className="w-full"
       >
         Send
-      </ButtonNew>
+      </Button>
     </form>
   )
 }

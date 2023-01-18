@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import EmailIcon from '@/icons/EmailIcon'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 import styles from '@/LoginPage.module.css'
@@ -23,14 +23,14 @@ const LoginSignupButtons = ({
         {buttonPrefix} Facebook
       </ButtonFacebook>
       {! isFacebookLogin && (
-        <ButtonNew
+        <Button
           onClick={onEmailClick}
           className="relative w-full"
           trackComponentName="LoginSignupButtons"
         >
           <EmailIcon className="absolute top-50 left-4" />
           {buttonPrefix} email
-        </ButtonNew>
+        </Button>
       )}
     </div>
   )

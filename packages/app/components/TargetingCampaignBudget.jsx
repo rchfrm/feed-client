@@ -12,7 +12,7 @@ import TargetingCampaignBudgetEditButton from '@/app/TargetingCampaignBudgetEdit
 import TargetingCampaignBudgetForm from '@/app/TargetingCampaignBudgetForm'
 import TargetingBudgetStatus from '@/app/TargetingBudgetStatus'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { getSpendingData, getTotalSpentInPeriod } from '@/app/helpers/targetingHelpers'
@@ -87,14 +87,14 @@ const TargetingCampaignBudget = ({
             currency={currency}
           />
           <div className="flex justify-between">
-            <ButtonNew
+            <Button
               size="small"
               version="secondary"
               onClick={onCancel}
               trackComponentName="TargetingCampaignBudget"
             >
               Cancel
-            </ButtonNew>
+            </Button>
             <TargetingCampaignBudgetEditButton
               setIsCampaignEdit={setIsCampaignEdit}
             />

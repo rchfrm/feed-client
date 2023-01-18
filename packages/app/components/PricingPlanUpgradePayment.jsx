@@ -9,7 +9,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PricingPlanUpgradePaymentProfilesList from '@/app/PricingPlanUpgradePaymentProfilesList'
 import PricingProrationsLoader from '@/app/PricingProrationsLoader'
 
-import ButtonNew from '@/elements/ButtonNew'
+import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
 import ArrowIcon from '@/icons/ArrowIcon'
 import Error from '@/elements/Error'
@@ -77,7 +77,7 @@ const PricingPlanUpgradePayment = ({
 
   React.useEffect(() => {
     const button = (
-      <ButtonNew
+      <Button
         onClick={upgradePlan}
         className="w-full rounded-none"
         isDisabled={isDisabled}
@@ -92,7 +92,7 @@ const PricingPlanUpgradePayment = ({
           className="ml-1"
           direction="right"
         />
-      </ButtonNew>
+      </Button>
     )
 
     setSidePanelButton(button)
