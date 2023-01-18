@@ -7,7 +7,7 @@ import { useAsync } from 'react-async'
 import { getCategoryOptions, getEntityCategory, saveEntityCategory } from '@/admin/helpers/adminServer'
 import Select from '@/elements/Select'
 import { capitalise } from '@/helpers/utils'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Error from '@/elements/Error'
 import TotalSpendLoader from '@/admin/TotalSpendLoader'
 import ArtistActivationStatusButton from '@/admin/ArtistActivationStatusButton'
@@ -121,13 +121,12 @@ const Category = ({ entityType, id }) => {
         name="industry"
         handleChange={handleIndustryChange}
       />
-      <Button
-        version="green"
+      <ButtonNew
         onClick={handleClick}
         trackComponentName="Entity"
       >
         Save
-      </Button>
+      </ButtonNew>
       <Error error={error} />
     </CategoryWrapper>
   )

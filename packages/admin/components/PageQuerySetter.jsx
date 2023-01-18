@@ -5,7 +5,7 @@ import Router from 'next/router'
 import produce from 'immer'
 
 import Input from '@/elements/Input'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 
 const PageQuerySetter = ({
   intro,
@@ -48,14 +48,14 @@ const PageQuerySetter = ({
           />
         )
       })}
-      <Button
+      <ButtonNew
         type="submit"
         className="mb-0"
-        disabled={! typedQueries.length === queries.length}
+        isDisabled={! typedQueries.length === queries.length}
         trackComponentName="PageQuerySetter"
       >
         {submitText}
-      </Button>
+      </ButtonNew>
     </form>
   )
 }

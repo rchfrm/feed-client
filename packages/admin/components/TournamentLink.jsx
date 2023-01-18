@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Link from 'next/link'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 
 import * as ROUTES from '@/admin/constants/routes'
 
@@ -33,9 +33,9 @@ const TournamentLink = ({
       {linkType === 'anchor' ? (
         <a>{buttonText}</a>
       ) : (
-        <Button className={buttonClass} version="black small" wrapper="a" trackComponentName="TournamentLink">
+        <ButtonNew className={buttonClass} version="small" wrapper="a" trackComponentName="TournamentLink">
           {buttonText}
-        </Button>
+        </ButtonNew>
       )}
     </Link>
   )
