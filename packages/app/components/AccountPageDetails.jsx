@@ -300,8 +300,8 @@ const AccountPageDetails = () => {
         )}
 
         <ButtonNew
-          className="w-1/2 mt-10"
           type="submit"
+          className="w-1/2 mt-10"
           isDisabled={formDisabled}
           isLoading={loading}
           trackComponentName="AccountPageDetails"

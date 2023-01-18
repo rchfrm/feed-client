@@ -21,8 +21,8 @@ const PostsLoadMore = ({
     <div>
       {shouldShowButton && (
         <ButtonNew
-          version="secondary"
           size="small"
+          version="secondary"
           onClick={handleClick}
         >
           {isLoadingMore ? <Spinner width={14} fill={brandColors.black} /> : 'Load more'}

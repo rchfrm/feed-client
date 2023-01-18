@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
@@ -26,20 +26,19 @@ const TargetingSettingsSaveContainer = ({
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
   const saveButton = React.useMemo(() => (
-    <Button
-      version="green"
+    <ButtonNew
       className={[
         'w-full',
         isMobileAndIsSidePanelOpen ? 'border-offwhite border-solid border-0 border-t-4' : null,
       ].join(' ')}
       onClick={() => saveTargeting('settings')}
-      disabled={!! disableSaving}
+      isDisabled={!! disableSaving}
       trackComponentName="TargetingSettingsSaveContainer"
     >
       {disableSaving ? (
         getSaveDisabledReason(disableSaving)
       ) : copy.saveSettingsButton}
-    </Button>
+    </ButtonNew>
   ), [disableSaving, saveTargeting, isMobileAndIsSidePanelOpen])
 
   React.useEffect(() => {

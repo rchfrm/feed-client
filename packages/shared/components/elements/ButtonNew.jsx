@@ -7,8 +7,9 @@ import brandColors from '@/constants/brandColors'
 
 const Button = ({
   type,
-  version,
   size,
+  color,
+  version,
   children,
   onClick,
   isLoading,
@@ -19,33 +20,25 @@ const Button = ({
   const isTextButton = version === 'text'
 
   const classes = {
-    size: {
-      small: 'h-8 p-2 text-[13px]',
-      medium: 'h-12 p-3 text-[13px]',
-      large: 'h-12 p-3.5',
+    small: 'h-8 p-2 text-[13px]',
+    medium: 'h-12 p-3 text-[13px]',
+    large: 'h-12 p-3.5',
+    green: {
+      primary: 'bg-green hover:bg-green-light active:border-2 active:border-green-dark active:border-dashed disabled:bg-grey',
+      secondary: 'bg-offwhite border-green border-solid border-2 hover:bg-green-bg-light active:border-4 active:bg-green-bg-light disabled:border-grey-dark disabled:bg-offwhite',
+      tertiary: 'bg-green-bg-light hover:bg-green-bg-dark active:border-2 active:border-green-dark active:border-dashed disabled:bg-grey-light',
     },
-    version: {
-      primary: `
-        bg-green
-        hover:bg-green-light
-        active:border-2 active:border-green-dark active:border-dashed
-        disabled:bg-grey
-      `,
-      secondary: `
-        bg-offwhite
-        border-green border-solid border-2
-        hover:bg-green-bg-light
-        active:border-4 active::bg-green-bg-light
-        disabled:border-grey-dark disabled:bg-offwhite
-      `,
-      tertiary: `
-        bg-green-bg-light
-        hover:bg-green-bg-dark
-        active:border-2 active:border-green-dark active:border-dashed
-        disabled:bg-grey-light
-      `,
-      text: 'inline',
+    yellow: {
+      primary: 'bg-yellow hover:bg-yellow-light active:border-2 active:border-yellow-dark active:border-dashed disabled:bg-grey',
+      secondary: 'bg-offwhite border-yellow border-solid border-2 hover:bg-yellow-bg-light active:border-4 active:bg-yellow-bg-light disabled:border-grey-dark disabled:bg-offwhite',
+      tertiary: 'bg-yellow-bg-light hover:bg-yellow-bg-dark active:border-2 active:border-yellow-dark active:border-dashed disabled:bg-grey-light',
     },
+    red: {
+      primary: 'bg-red hover:bg-red-light active:border-2 active:border-red-dark active:border-dashed disabled:bg-grey',
+      secondary: 'bg-offwhite border-red border-solid border-2 hover:bg-red-bg-light active:border-4 active:bg-red-bg-light disabled:border-grey-dark disabled:bg-offwhite',
+      tertiary: 'bg-red-bg-light hover:bg-red-bg-dark active:border-2 active:border-red-dark active:border-dashed disabled:bg-grey-light',
+    },
+    text: 'inline',
   }
 
   const onButtonClick = (e) => {
@@ -66,8 +59,8 @@ const Button = ({
       className={[
         'relative',
         'rounded-dialogue',
-        classes.version[version],
-        ! isTextButton ? classes.size[size] : null,
+        classes[color][version],
+        ! isTextButton ? classes[size] : null,
         ! isTextButton ? 'flex justify-center items-center' : null,
         isDisabled ? 'cursor-not-allowed' : null,
         className,
@@ -97,8 +90,9 @@ const Button = ({
 
 Button.propTypes = {
   type: PropTypes.string,
-  version: PropTypes.string,
   size: PropTypes.string,
+  color: PropTypes.string,
+  version: PropTypes.string,
   onClick: PropTypes.func,
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
@@ -109,8 +103,9 @@ Button.propTypes = {
 
 Button.defaultProps = {
   type: 'button',
-  version: 'primary',
   size: 'large',
+  color: 'green',
+  version: 'primary',
   onClick: () => {},
   isDisabled: false,
   isLoading: false,

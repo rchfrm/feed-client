@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
+import ButtonNew from '@/elements/ButtonNew'
 import PlayIcon from '@/icons/PlayIcon'
 import PauseIcon from '@/icons/PauseIcon'
 
@@ -33,10 +34,9 @@ const TargetingDailyBudgetPauseButton = ({
     targetingState,
   })
   const action = isPaused ? 'resume' : 'pause'
-  const backgroundClasses = isPaused ? 'bg-green button--green' : 'bg-red button--red'
   const icons = {
-    pause: <PauseIcon color={brandColors.offwhite} className="w-6 h-auto mr-2" />,
-    resume: <PlayIcon color={brandColors.offwhite} className="w-5 h-auto mr-2" />,
+    pause: <PauseIcon color={brandColors.offwhite} className="w-5 h-auto" />,
+    resume: <PlayIcon color={brandColors.offwhite} className="w-5 h-auto" />,
   }
   const Icon = icons[action]
 
@@ -63,22 +63,15 @@ const TargetingDailyBudgetPauseButton = ({
   }, [spendingData])
 
   return (
-    <a
-      className={[
-        'flex flex-row items-center',
-        'no-underline',
-        'px-3 py-1',
-        'text-offwhite',
-        'rounded-full',
-        isDisabled ? 'bg-grey-light' : backgroundClasses,
-      ].join(' ')}
+    <ButtonNew
+      size="small"
+      isDisabled={isDisabled}
       style={{ paddingBottom: '0.3rem' }}
-      role="button"
       onClick={onClick}
     >
       {Icon}
       {utils.capitalise(action)}
-    </a>
+    </ButtonNew>
   )
 }
 

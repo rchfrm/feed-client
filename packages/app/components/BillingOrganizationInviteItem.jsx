@@ -2,10 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Error from '@/elements/Error'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import TickIcon from '@/icons/TickIcon'
 import CrossIcon from '@/icons/CrossIcon'
-import brandColors from '@/constants/brandColors'
 
 import copy from '@/app/copy/billingCopy'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
@@ -53,28 +52,29 @@ const BillingOrganizationInviteItem = ({
       <Error error={error} />
       <h4 className="font-display m-0">{copy.invited(organizationInvite.inviting_user_name)}</h4>
       <div className="flex justify-between lg:w-1/2 mt-5">
-        <Button
-          version="green x-small"
+        <ButtonNew
+          size="small"
           label="Accept"
-          loading={loadingAccept}
+          isLoading={loadingAccept}
           className="w-1/2 mr-1 md:mr-2"
           onClick={handleAccept}
           trackComponentName="BillingOrganizationInviteItem"
         >
-          <TickIcon className="h-4 w-auto mr-2" fill={brandColors.offwhite} />
+          <TickIcon className="h-5 w-auto mr-2" />
           Accept
-        </Button>
-        <Button
-          version="red x-small"
+        </ButtonNew>
+        <ButtonNew
+          size="small"
+          version="secondary"
           label="Reject"
-          loading={loadingReject}
+          isLoading={loadingReject}
           className="w-1/2 ml-1 md:ml-2"
           onClick={handleReject}
           trackComponentName="BillingOrganizationInviteItem"
         >
-          <CrossIcon className="h-5 w-auto mr-2" fill={brandColors.offwhite} />
+          <CrossIcon className="h-5 w-auto mr-2" />
           Reject
-        </Button>
+        </ButtonNew>
       </div>
     </div>
   )

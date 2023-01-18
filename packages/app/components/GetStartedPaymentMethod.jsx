@@ -222,8 +222,8 @@ const GetStartedPaymentMethod = () => {
         )}
         {defaultPaymentMethod && (
           <ButtonNew
-            version="text"
             type="button"
+            version="text"
             onClick={togglePaymentMethodForm}
             className="h-5 mb-3 mx-auto text-sm"
             trackComponentName="GetStartedPaymentMethod"
