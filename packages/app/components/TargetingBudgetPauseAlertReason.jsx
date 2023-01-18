@@ -36,12 +36,11 @@ const TargetingBudgetPauseAlertReason = ({
           })
         },
         disabled: ! reason || (reason === 'other' && ! isValidCustomReason),
-        color: 'red',
       },
       {
         text: 'Cancel',
         onClick: closeAlert,
-        color: 'black',
+        version: 'secondary',
       },
     ]
 

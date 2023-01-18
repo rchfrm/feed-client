@@ -5,10 +5,9 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PricingPlanUpgradePlanItem from '@/app/PricingPlanUpgradePlanItem'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import ArrowIcon from '@/icons/ArrowIcon'
 
-import brandColors from '@/constants/brandColors'
 import { pricingNumbers, pricingPlans } from '@/constants/pricing'
 
 import { capitalise } from '@/helpers/utils'
@@ -48,14 +47,17 @@ const PricingPlanUpgradePlan = ({
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={next} trackComponentName="PricingPlanUpgradePlan">
+      <ButtonNew
+        className="w-full rounded-none"
+        onClick={next}
+        trackComponentName="PricingPlanUpgradePlan"
+      >
         {hasCancelledPlan ? 'Choose' : 'Update to'} {capitalise(artistPlan)}
         <ArrowIcon
-          className="ml-3"
+          className="ml-1"
           direction="right"
-          fill={brandColors.offwhite}
         />
-      </Button>
+      </ButtonNew>
     )
 
     setSidePanelButton(button)

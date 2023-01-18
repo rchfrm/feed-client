@@ -5,7 +5,7 @@ import { track } from '@/helpers/trackingHelpers'
 import { getStringFromChildrenProp } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
-const Button = ({
+const Button = React.forwardRef(({
   type,
   size,
   color,
@@ -16,7 +16,9 @@ const Button = ({
   isDisabled,
   trackComponentName,
   className,
-}) => {
+  href,
+  spinnerFill,
+}, ref) => {
   const isTextButton = version === 'text'
 
   const classes = {
@@ -61,23 +63,25 @@ const Button = ({
         'rounded-dialogue',
         classes[color][version],
         ! isTextButton ? classes[size] : null,
-        ! isTextButton ? 'flex justify-center items-center' : null,
+        ! isTextButton ? 'flex justify-center items-center' : 'underline',
         isDisabled ? 'cursor-not-allowed' : null,
         className,
       ].join(' ')}
       disabled={isDisabled}
+      href={href}
+      ref={ref}
     >
       {isLoading && (
         <Spinner
           width={size === 'small' ? 15 : 20}
-          fill={brandColors.black}
+          fill={spinnerFill}
           className="absolute left-1/2 -translate-x-1/2"
         />
       )}
       <span
         className={[
           'flex items-center',
-          isTextButton ? 'underline' : 'font-bold',
+          ! isTextButton ? 'font-bold' : null,
           isDisabled ? 'opacity-50' : null,
           isLoading ? 'invisible' : null,
         ].join(' ')}
@@ -86,7 +90,9 @@ const Button = ({
       </span>
     </button>
   )
-}
+})
+
+Button.displayName = 'Button'
 
 Button.propTypes = {
   type: PropTypes.string,
@@ -97,6 +103,8 @@ Button.propTypes = {
   isDisabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   className: PropTypes.string,
+  href: PropTypes.string,
+  spinnerFill: PropTypes.string,
   trackComponentName: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 }
@@ -110,6 +118,8 @@ Button.defaultProps = {
   isDisabled: false,
   isLoading: false,
   className: '',
+  href: '',
+  spinnerFill: brandColors.black,
 }
 
 export default Button

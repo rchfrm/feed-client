@@ -10,17 +10,16 @@ buttons: [
   {
     text: 'Ok',
     onClick: 'dismiss',
-    color: 'black',
   },
   {
     text: 'Connect facebook',
     onClick: () => { console.info('how are you?') },
-    facebookButton: true,
+    isFacebookButton: true,
   },
   {
     text: 'External link',
     href: 'https://www.home.com,
-    color: 'green',
+    version: 'secondary',
   }
 ]
 */

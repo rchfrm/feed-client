@@ -52,20 +52,18 @@ const useEditIntegration = ({
         {
           text: 'OK',
           onClick: closeAlert,
-          color: 'green',
         },
       ]
       : [
         {
           text: action === 'add' ? 'Save' : `Disconnect ${plaformTitle}`,
           onClick: () => {},
-          color: action === 'add' ? 'green' : 'red',
           id: action === 'add' ? 'save' : 'delete',
         },
         {
           text: 'Cancel',
           onClick: closeAlert,
-          color: 'black',
+          version: 'secondary',
         },
       ]
     const children = (

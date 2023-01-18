@@ -25,14 +25,13 @@ const BillingOrganizationUserDeleteAlert = ({
           setConfirmAlert('')
           onConfirm(user, true)
         },
-        color: 'green',
       },
       {
         text: 'Cancel',
         onClick: () => {
           setConfirmAlert('')
         },
-        color: 'black',
+        version: 'secondary',
       },
     ]
   }, [setConfirmAlert, onConfirm, user])

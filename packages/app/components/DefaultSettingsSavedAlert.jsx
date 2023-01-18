@@ -24,7 +24,6 @@ const DefaultSettingsSavedAlert = ({ show, setShowAlert }) => {
           closeAlert()
           setShowAlert(false)
         },
-        color: 'green',
       },
     ]
     showAlert({

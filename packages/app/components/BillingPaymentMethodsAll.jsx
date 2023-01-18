@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import MarkdownText from '@/elements/MarkdownText'
 import BillingPaymentCard from '@/app/BillingPaymentCard'
 import copy from '@/app/copy/billingCopy'
@@ -42,15 +42,14 @@ const BillingPaymentMethodsAll = ({
         })}
       </div>
       {defaultPaymentMethod.id !== selectedMethodId && (
-        <Button
-          version="black"
+        <ButtonNew
           onClick={setMethodAsDefault}
           trackComponentName="BillingPaymentMethodsAll"
-          loading={loading}
+          isLoading={loading}
           className="w-full mb-10"
         >
           Set as default
-        </Button>
+        </ButtonNew>
       )}
     </div>
   )

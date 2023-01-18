@@ -43,13 +43,12 @@ const TargetingBudgetPauseAlertShortSpendingPeriod = ({
         onClick: () => {
           setShouldShowShortSpendingPeriodWarning(false)
         },
-        color: 'red',
         shouldCloseOnConfirm: false,
       },
       {
         text: 'Cancel',
         onClick: closeAlert,
-        color: 'black',
+        version: 'tertiary',
       },
     ]
 

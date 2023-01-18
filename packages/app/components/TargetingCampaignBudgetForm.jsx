@@ -9,7 +9,7 @@ import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import InputDatePicker from '@/app/InputDatePicker'
 
 import InputCurrency from '@/elements/InputCurrency'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Error from '@/elements/Error'
 
 import copy from '@/app/copy/targetingPageCopy'
@@ -101,13 +101,13 @@ const TargetingCampaignBudgetForm = ({
 
   return (
     <form>
-      <div className="mb-12 xs:mb-8 xs:flex -mx-1">
+      <div className="mb-12 xs:mb-8 xs:flex items-end -mx-1">
         <InputCurrency
           name="total-budget"
           label="Total budget"
           value={totalBudget}
           handleChange={handleTotalBudgetChange}
-          className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
+          className="w-full mb-5 xs:mb-0 mx-1"
           currency={currency}
         />
         {! hasActiveCampaignBudget && (
@@ -118,7 +118,7 @@ const TargetingCampaignBudgetForm = ({
             endDate={endDate}
             minDate={moment().toDate()}
             onChange={handleStartDateChange}
-            className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
+            className="w-full mb-5 xs:mb-0 mx-1"
             selectsStart
           />
         )}
@@ -130,7 +130,7 @@ const TargetingCampaignBudgetForm = ({
           minDate={moment(startDate).add(1, 'days').toDate()}
           maxDate={moment(startDate).add(180, 'days').toDate()}
           onChange={handleEndDateChange}
-          className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
+          className="w-full mb-5 xs:mb-0 mx-1"
           placeholderText="End date"
           ref={endDateRef}
           selectsEnd
@@ -138,26 +138,26 @@ const TargetingCampaignBudgetForm = ({
       </div>
       <div className="flex justify-between">
         {hasActiveCampaignBudget && (
-          <Button
+          <ButtonNew
             type="submit"
-            version="black small"
-            className="h-8 rounded-full"
+            size="small"
+            version="secondary"
             onClick={() => setIsCampaignEdit(false)}
             trackComponentName="TargetingCampaignBudgetForm"
           >
             Back
-          </Button>
+          </ButtonNew>
         )}
-        <Button
+        <ButtonNew
           type="submit"
-          version="green small"
-          className="h-8 mb-5 rounded-full"
+          size="small"
+          // className="h-8 mb-5 rounded-full"
           onClick={onSubmit}
           trackComponentName="TargetingCampaignBudgetForm"
-          disabled={! isFormValid || ! hasSufficientBudget}
+          isDisabled={! isFormValid || ! hasSufficientBudget}
         >
           {getButtonText()} campaign
-        </Button>
+        </ButtonNew>
       </div>
       {isFormValid && ! hasSufficientBudget && (
         <Error className="text-sm" error={{ message: copy.hasInsufficientBudgetError(daysInPeriod, minHard, currencyCode) }} />

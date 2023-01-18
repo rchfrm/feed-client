@@ -15,7 +15,6 @@ export const FAQS_SLUG = '/faqs/[slug]'
 export const PRICING = 'https://tryfeed.co/pricing'
 
 export const CONNECT_ACCOUNTS = '/connect-accounts'
-export const THANK_YOU = '/thank-you'
 export const POSTS = '/'
 export const POST = '/posts/[id]'
 export const INSIGHTS = '/insights'
@@ -44,7 +43,6 @@ export const restrictedPages = [
   CONFIRM_EMAIL,
   PROFILE_INVITE_SUCCESS,
   CONNECT_ACCOUNTS,
-  THANK_YOU,
   POSTS,
   POST,
   CONTROLS,

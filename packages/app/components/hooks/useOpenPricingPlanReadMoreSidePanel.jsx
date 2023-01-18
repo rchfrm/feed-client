@@ -3,7 +3,7 @@ import React from 'react'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 import GetStartedPricingReadMore from '@/app/GetStartedPricingReadMore'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 
 const useOpenPricingPlanReadMoreSidePanel = () => {
   const {
@@ -22,7 +22,7 @@ const useOpenPricingPlanReadMoreSidePanel = () => {
         isDisabled={isDisabled}
       />
     )
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+    const button = <ButtonNew className="w-full rounded-none" onClick={() => toggleSidePanel(false)}>Done</ButtonNew>
 
     setSidePanelContent(content)
     setSidePanelContentLabel('Read more about pricing plan')

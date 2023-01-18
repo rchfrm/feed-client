@@ -42,19 +42,18 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     } = integrationError
     // Link button
     if (ctaType === 'link_ext') {
-      const facebookButton = buttonType === 'facebook'
+      const isFacebookButton = buttonType === 'facebook'
       return [
         {
           text: ctaText,
           onClick: () => {},
-          color: facebookButton ? 'facebook' : 'green',
           href: ctaLink,
-          facebookButton,
+          isFacebookButton,
         },
         {
           text: 'Cancel',
           onClick: closeAlert,
-          color: 'black',
+          version: 'secondary',
         },
       ]
     }
@@ -68,7 +67,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       return [{
         text: ctaText,
         onClick,
-        facebookButton: true,
+        isFacebookButton: true,
       }]
     }
     // Edit email and email confirmation buttons
@@ -86,12 +85,11 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         {
           text: ctaText,
           onClick: goToConfirmEmailPage,
-          color: 'green',
         },
         {
           text: 'Resend link',
           onClick: resendConfirmationLink,
-          color: 'black',
+          version: 'secondary',
         },
       ]
     }
@@ -100,12 +98,11 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         {
           text: ctaText,
           onClick: onAction,
-          color: 'green',
         },
         {
           text: 'Dismiss',
           onClick: () => {},
-          color: 'black',
+          version: 'secondary',
         },
       ]
     }
@@ -113,7 +110,6 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     return [{
       text: ctaText || 'Ok',
       onClick: closeAlert,
-      color: 'black',
     }]
   }, [closeAlert, integrationError, auth, router.pathname])
 

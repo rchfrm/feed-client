@@ -34,7 +34,6 @@ const useCreateNewPixel = ({
       {
         text: 'Save pixel',
         onClick: () => {}, // updated in modal
-        color: 'green',
         id: 'save',
         disabled: true,
       },
@@ -44,7 +43,7 @@ const useCreateNewPixel = ({
           closeAlert()
           onCancel()
         },
-        color: 'black',
+        version: 'secondary',
       },
     ]
     const children = <PixelCreatorModal modalButtons={buttons} createPixel={createPixel} error={error} />

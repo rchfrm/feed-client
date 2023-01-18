@@ -65,6 +65,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
 
       <div className="flex justify-end">
         <ButtonNew
+          type="submit"
           className="w-full md:w-1/2"
           isDisabled={! isFormComplete}
           isLoading={loading}

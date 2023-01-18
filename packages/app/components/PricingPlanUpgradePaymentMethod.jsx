@@ -5,10 +5,8 @@ import useBillingStore from '@/app/stores/billingStore'
 
 import AddPaymentForm from '@/app/AddPaymentForm'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import ArrowIcon from '@/icons/ArrowIcon'
-
-import brandColors from '@/constants/brandColors'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -48,14 +46,17 @@ const PricingPlanUpgradePaymentMethod = ({
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={savePaymentMethod} trackComponentName="PricingPlanUpgradeIntro">
+      <ButtonNew
+        className="w-full rounded-none"
+        onClick={savePaymentMethod}
+        trackComponentName="PricingPlanUpgradeIntro"
+      >
         Save
         <ArrowIcon
-          className="ml-3"
+          className="ml-1"
           direction="right"
-          fill={brandColors.offwhite}
         />
-      </Button>
+      </ButtonNew>
     )
 
     setSidePanelButton(button)

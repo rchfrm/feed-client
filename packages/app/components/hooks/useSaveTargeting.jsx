@@ -24,12 +24,11 @@ const getWarningButtons = ({
       {
         text: 'Resume Spending',
         onClick: onConfirm,
-        color: 'green',
       },
       {
         text: 'Cancel',
         onClick: closeAlert,
-        color: 'black',
+        version: 'secondary',
       },
     ]
   }
@@ -49,7 +48,6 @@ const getWarningButtons = ({
           // TRACK change settings
           track('change_targeting_settings', savedState)
         },
-        color: 'red',
       },
       {
         text: 'Save and Keep Paused',
@@ -58,7 +56,7 @@ const getWarningButtons = ({
           // TRACK change settings
           track('change_targeting_settings', savedState)
         },
-        color: 'green',
+        version: 'secondary',
       },
     ]
   }
@@ -67,12 +65,11 @@ const getWarningButtons = ({
       text: 'Save Settings',
       // CONFIRM SAVE SETTINGS
       onClick: onConfirm,
-      color: 'green',
     },
     {
       text: 'Cancel',
       onClick: closeAlert,
-      color: 'black',
+      version: 'secondary',
     },
   ]
 }

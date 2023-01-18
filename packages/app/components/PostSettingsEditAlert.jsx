@@ -28,14 +28,13 @@ const PostSettingsEditAlert = ({
           onConfirm()
           closeAlert()
         },
-        color: 'black',
       },
       {
         text: 'Cancel',
         onClick: () => {
           onCancel()
         },
-        color: 'red',
+        version: 'secondary',
       },
     ]
     showAlert({

@@ -41,7 +41,6 @@ const NotificationCurrentInfoButton = ({
       {(isActionable && ! isComplete) || (isDismissible && ctaLink) ? (
         <ButtonType
           className="w-full rounded-none"
-          version={isFacebookButton ? null : 'primary'}
           isLoading={loading}
           onClick={onClick}
           trackComponentName="NotificationCurrentInfoButton"

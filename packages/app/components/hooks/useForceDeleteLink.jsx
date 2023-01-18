@@ -29,12 +29,11 @@ const useForceDeleteLink = () => {
           // After force deleting update posts that used these links
           updatePostsWithMissingLinks(linkIds)
         },
-        color: 'red',
       },
       {
         text: 'Cancel',
         onClick: closeAlert,
-        color: 'black',
+        version: 'secondary',
       },
     ]
     const children = <MarkdownText markdown={copy.confirmDeleteUsedLinkFolder(itemType)} />

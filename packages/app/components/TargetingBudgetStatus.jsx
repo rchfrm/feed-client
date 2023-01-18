@@ -8,7 +8,7 @@ const TargetingBudgetStatus = ({
 }) => {
   return (
     <div className={[
-      'flex items-center mb-0 px-3 py-1',
+      'inline-block mb-0 px-3 py-2',
       'font-bold',
       'border-solid border-2 rounded-full',
       className,

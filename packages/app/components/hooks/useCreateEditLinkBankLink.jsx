@@ -154,7 +154,6 @@ const useCreateEditLinkBankLink = ({
             },
           })
         },
-        color: 'green',
       },
       {
         text: 'Save as Link',
@@ -162,7 +161,7 @@ const useCreateEditLinkBankLink = ({
           setSidePanelLoading(true)
           updateLinkOnServer(newLink, action, oldLink)
         },
-        color: 'black',
+        version: 'secondary',
       },
     ]
     const children = <MarkdownText markdown={copy.checkSaveAsIntegration(platform)} />
@@ -199,7 +198,6 @@ const useCreateEditLinkBankLink = ({
       {
         text: isPostLink ? 'Set and save' : 'Save',
         onClick: () => {},
-        color: 'green',
         id: 'save',
       },
       {
@@ -208,7 +206,7 @@ const useCreateEditLinkBankLink = ({
           closeAlert()
           onCancel()
         },
-        color: 'black',
+        version: 'secondary',
       },
     ]
     // Is this the default link?

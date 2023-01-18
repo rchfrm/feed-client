@@ -20,7 +20,6 @@ const PixelCopier = ({
   const alertButtons = [{
     text: 'Done',
     onClick: closeAlert,
-    color: 'black',
   }]
 
   // OPEN MODAL

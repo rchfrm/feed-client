@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import AddPaymentForm from '@/app/AddPaymentForm'
 import BillingPaymentAddSuccess from '@/app/BillingPaymentAddSuccess'
 import copy from '@/app/copy/billingCopy'
@@ -36,16 +36,15 @@ const BillingPaymentAdd = ({
               isLoading={isLoading}
               setIsLoading={setIsLoading}
             />
-            <Button
-              version="black"
-              disabled={! isFormValid}
+            <ButtonNew
               onClick={addPaymentMethod}
+              isDisabled={! isFormValid}
               trackComponentName="BillingPaymentAdd"
-              loading={isLoading}
+              isLoading={isLoading}
               className="w-full"
             >
               Submit
-            </Button>
+            </ButtonNew>
           </div>
         )}
       </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import Router from 'next/router'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Success from '@/elements/Success'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import MarkdownText from '@/elements/MarkdownText'
 import * as ROUTES from '@/app/constants/routes'
 
@@ -40,8 +40,8 @@ const ProfileUsersInviteAccepted = () => {
       <MarkdownText markdown={`You've been added to ${artist.name}'s team and can now manage their ads.`} />
       <div className="flex items-center justify-end pt-2">
         <p className="mr-6 mb-0">{seconds}s</p>
-        <Button
-          version="black small"
+        <ButtonNew
+          size="small"
           className="w-1/3"
           onClick={() => {
             onContinue()
@@ -49,7 +49,7 @@ const ProfileUsersInviteAccepted = () => {
           trackComponentName="ProfileUsersInviteAccepted"
         >
           Continue
-        </Button>
+        </ButtonNew>
       </div>
     </div>
   )

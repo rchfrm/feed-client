@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import CaretIcon from '@/icons/CaretIcon'
 
 import brandColors from '@/constants/brandColors'
@@ -13,11 +13,11 @@ const GetStartedPlatformShowMoreButton = ({ shouldShowMore, setShouldShowMore })
 
   return (
     <div>
-      <Button
+      <ButtonNew
         version="text"
         onClick={toggleShowMore}
         trackComponentName="GetStartedPlatform"
-        className="h-5 mb-4 text-grey-dark text-sm no-underline"
+        className="mb-4 text-grey-dark text-sm font-bold no-underline"
       >
         {shouldShowMore ? 'Hide' : 'Show more'}
         <span className={[
@@ -31,7 +31,7 @@ const GetStartedPlatformShowMoreButton = ({ shouldShowMore, setShouldShowMore })
             fill={brandColors.greyDark}
           />
         </span>
-      </Button>
+      </ButtonNew>
     </div>
   )
 }

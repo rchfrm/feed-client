@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import PencilIcon from '@/icons/PencilIcon'
-
-import brandColors from '@/constants/brandColors'
 
 const TargetingCampaignBudgetEditButton = ({ setIsCampaignEdit }) => {
   const toggleIsCampaignEdit = () => {
@@ -12,15 +10,14 @@ const TargetingCampaignBudgetEditButton = ({ setIsCampaignEdit }) => {
   }
 
   return (
-    <Button
-      version="green small"
-      className="h-8 rounded-full flex items-center"
+    <ButtonNew
+      size="small"
       onClick={toggleIsCampaignEdit}
       trackComponentName="TargetingCampaignBudgetEditButton"
     >
-      <PencilIcon fill={brandColors.offwhite} className="w-4 mr-1" />
+      <PencilIcon className="w-4 h-auto mr-1" />
       Edit
-    </Button>
+    </ButtonNew>
   )
 }
 

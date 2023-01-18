@@ -15,7 +15,7 @@ const LoginSignupButtons = ({
   return (
     <div className={styles.loginButtons}>
       <ButtonFacebook
-        className={styles.facebookButton}
+        className="w-full mb-8"
         onClick={onFacebookClick}
         fallbackCta={`${buttonPrefix} Facebook`}
         trackComponentName="LoginSignupButtons"

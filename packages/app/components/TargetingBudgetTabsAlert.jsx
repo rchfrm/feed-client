@@ -30,7 +30,6 @@ const TargetingBudgetTabsAlert = ({
           setShouldShowAlert(false)
           closeAlert()
         },
-        color: 'black',
       },
     ]
 

@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PricingPlanUpgradeIntroPlan from '@/app/PricingPlanUpgradeIntroPlan'
 import MarkdownText from '@/elements/MarkdownText'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import ArrowIcon from '@/icons/ArrowIcon'
 import copy from '@/app/copy/global'
-import brandColors from '@/constants/brandColors'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 const PricingPlanUpgradeIntro = ({
@@ -40,14 +39,17 @@ const PricingPlanUpgradeIntro = ({
     }
 
     const button = (
-      <Button version="insta" onClick={onClick} trackComponentName="PricingPlanUpgradeIntro">
+      <ButtonNew
+        onClick={onClick}
+        className="w-full rounded-none"
+        trackComponentName="PricingPlanUpgradeIntro"
+      >
         {buttonText()}
         <ArrowIcon
-          className="ml-3"
+          className="ml-1"
           direction="right"
-          fill={brandColors.offwhite}
         />
-      </Button>
+      </ButtonNew>
     )
 
     setSidePanelButton(button)

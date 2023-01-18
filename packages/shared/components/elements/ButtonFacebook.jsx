@@ -1,18 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import brandColors from '@/constants/brandColors'
-
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import FacebookIcon from '@/icons/FacebookIcon'
 
 const ButtonFacebook = ({
   className,
   href,
   onClick,
-  version,
   children,
-  fbButtonFallbackClassName,
   fallbackCta,
   trackComponentName,
 }) => {
@@ -34,7 +30,7 @@ const ButtonFacebook = ({
   // Fallback
   if (buttonRemoved) {
     return (
-      <div className={`text--block ${fbButtonFallbackClassName}`}>
+      <div className="text--block">
         <p>It looks like your ad-blocker removed a button.</p>
         <p>
           <a
@@ -53,20 +49,17 @@ const ButtonFacebook = ({
   }
 
   return (
-    <Button
-      onClick={onClick}
+    <ButtonNew
       href={href}
-      className={className}
-      version={['facebook', 'icon', version].join(' ')}
+      onClick={onClick}
+      className={[className, 'relative bg-fb hover:bg-fb hover:bg-opacity-90 text-offwhite'].join(' ')}
       ref={buttonRef}
-      icon={(
-        <FacebookIcon fill={brandColors.offwhite} />
-      )}
       spinnerFill={brandColors.offwhite}
       trackComponentName={trackComponentName}
     >
+      <FacebookIcon className="w-5 h-auto absolute top-50 left-4" fill={brandColors.offwhite} />
       {children}
-    </Button>
+    </ButtonNew>
   )
 }
 
@@ -75,9 +68,7 @@ ButtonFacebook.propTypes = {
   onClick: PropTypes.func,
   href: PropTypes.string,
   fallbackCta: PropTypes.string.isRequired,
-  version: PropTypes.string,
   children: PropTypes.node.isRequired,
-  fbButtonFallbackClassName: PropTypes.string,
   trackComponentName: PropTypes.string,
 }
 
@@ -85,8 +76,6 @@ ButtonFacebook.defaultProps = {
   className: '',
   onClick: () => {},
   href: '',
-  version: null,
-  fbButtonFallbackClassName: '',
   trackComponentName: '',
 }
 
