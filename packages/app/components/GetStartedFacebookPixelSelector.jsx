@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import PixelSelector from '@/app/PixelSelector'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 const GetStartedFacebookPixelSelector = ({
@@ -21,20 +21,18 @@ const GetStartedFacebookPixelSelector = ({
         shouldShowPixelCopier={false}
         className="w-full mb-4"
       />
-      <Button
-        version="green"
+      <ButtonNew
         onClick={() => saveFacebookPixel(facebookPixel)}
-        loading={isLoading}
+        isLoading={isLoading}
         className="w-full sm:w-48"
         trackComponentName="GetStartedFacebookPixelSelector"
       >
         Save
         <ArrowIcon
-          className="w-7 h-auto ml-3"
+          className="w-7 h-auto ml-1"
           direction="right"
-          fill="white"
         />
-      </Button>
+      </ButtonNew>
     </>
   )
 }

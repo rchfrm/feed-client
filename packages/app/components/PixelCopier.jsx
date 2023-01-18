@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import useAlertModal from '@/hooks/useAlertModal'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 
 import PixelCopierModal from '@/app/PixelCopierModal'
 
@@ -35,14 +35,15 @@ const PixelCopier = ({
         className,
       ].join(' ')}
     >
-      <Button
-        version="x-small green icon"
+      <ButtonNew
+        size="small"
+        version="secondary"
         onClick={openModal}
-        disabled={isLoading}
+        isDisabled={isLoading}
         trackComponentName="PixelCopier"
       >
         Copy pixel
-      </Button>
+      </ButtonNew>
     </div>
   )
 }

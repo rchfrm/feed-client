@@ -9,7 +9,7 @@ import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
 import DefaultLinkForm from '@/app/DefaultLinkForm'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Error from '@/elements/Error'
 import ArrowIcon from '@/icons/ArrowIcon'
 
@@ -17,7 +17,6 @@ import { setDefaultLink, getLinkById, getLinkByHref, validateLink } from '@/app/
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 import copy from '@/app/copy/getStartedCopy'
-import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -217,22 +216,19 @@ const GetStartedDefaultLink = () => {
           isLoading={isLoading}
           className="w-full"
         />
-        <Button
+        <ButtonNew
           type="submit"
-          version="green"
           className="w-full sm:w-48 mt-8"
           trackComponentName="GetStartedDefaultLink"
-          disabled={isDisabled}
-          loading={isLoading}
-          spinnerFill={brandColors.offwhite}
+          isDisabled={isDisabled}
+          isLoading={isLoading}
         >
           Save
           <ArrowIcon
-            className="w-7 h-auto ml-3"
+            className="w-7 h-auto ml-1"
             direction="right"
-            fill={isDisabled ? brandColors.greyDark : brandColors.offwhite}
           />
-        </Button>
+        </ButtonNew>
       </form>
     </div>
   )

@@ -6,7 +6,7 @@ import Error from '@/elements/Error'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 
 import { createNewPixel } from '@/app/helpers/settingsHelpers'
 
@@ -43,14 +43,13 @@ const GetStartedFacebookPixelInput = ({ setPixels }) => {
         placeholder="Your pixel name"
         className="w-full mb-12"
       />
-      <Button
-        version="green"
+      <ButtonNew
         onClick={createPixel}
         className="w-full sm:w-48"
         trackComponentName="GetStartedFacebookPixelInput"
       >
         Save pixel
-      </Button>
+      </ButtonNew>
     </>
   )
 }

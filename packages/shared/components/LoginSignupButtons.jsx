@@ -25,10 +25,10 @@ const LoginSignupButtons = ({
       {! isFacebookLogin && (
         <ButtonNew
           onClick={onEmailClick}
-          className={styles.emailButton}
+          className="relative w-full"
           trackComponentName="LoginSignupButtons"
         >
-          <EmailIcon className="mr-2" />
+          <EmailIcon className="absolute top-50 left-4" />
           {buttonPrefix} email
         </ButtonNew>
       )}

@@ -4,7 +4,7 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import Select from '@/elements/Select'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
 import ArrowIcon from '@/icons/ArrowIcon'
@@ -89,20 +89,18 @@ const GetStartedLocation = () => {
           placeholder="Select country"
           className="w-full mb-12"
         />
-        <Button
-          version="green"
+        <ButtonNew
           onClick={handleNext}
-          loading={isLoading}
+          isLoading={isLoading}
           className="w-full sm:w-48"
           trackComponentName="GetStartedLocation"
         >
           Save
           <ArrowIcon
-            className="w-7 h-auto ml-3"
+            className="w-7 h-auto ml-1"
             direction="right"
-            fill="white"
           />
-        </Button>
+        </ButtonNew>
       </div>
     </div>
   )

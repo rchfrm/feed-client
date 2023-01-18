@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { AuthContext } from '@/contexts/AuthContext'
 
 import Input from '@/elements/Input'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Error from '@/elements/Error'
 
 import * as ROUTES from '@/app/constants/routes'
@@ -63,14 +63,14 @@ const ConfirmEmailSuccessReauthenticate = ({ email, onContinue }) => {
       <p className="small--p">
         <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot your Password?</a></Link>
       </p>
-      <Button
-        version="green small"
+      <ButtonNew
+        size="small"
         className="ml-auto w-1/3"
         onClick={onFormSubmit}
         trackComponentName="ConfirmEmailSuccessReauthenticate"
       >
         Log in
-      </Button>
+      </ButtonNew>
     </form>
   )
 }

@@ -57,7 +57,7 @@ const Button = ({
       type={type}
       onClick={onButtonClick}
       className={[
-        'relative',
+        isLoading ? 'relative' : null,
         'rounded-dialogue',
         classes[color][version],
         ! isTextButton ? classes[size] : null,

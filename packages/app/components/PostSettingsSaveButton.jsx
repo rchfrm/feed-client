@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 
 const PostSettingsSaveButton = ({
   onClick,
@@ -9,18 +9,15 @@ const PostSettingsSaveButton = ({
 }) => {
   return (
     shouldShow && (
-      <Button
-        version="green small"
-        className={[
-          'h-8',
-          'rounded-full',
-        ].join(' ')}
+      <ButtonNew
+        size="small"
         onClick={onClick}
-        loading={isLoading}
+        className="w-20"
+        isLoading={isLoading}
         trackComponentName="PostSettingsSaveButton"
       >
         Save
-      </Button>
+      </ButtonNew>
     )
   )
 }

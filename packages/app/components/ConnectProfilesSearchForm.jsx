@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Input from '@/elements/Input'
 import { getFacebookPage } from '@/app/helpers/facebookHelpers'
 import { processArtists } from '@/app/helpers/artistHelpers'
@@ -44,16 +44,15 @@ const ConnectProfilesSearchForm = ({
         className="mb-4 xxs:mb-0 xxs:flex-1"
         required
       />
-      <Button
-        version="black"
-        disabled={! facebookPageId}
+      <ButtonNew
         onClick={onSubmit}
-        loading={isLoading}
+        isLoading={isLoading}
+        isDisabled={! facebookPageId}
         trackComponentName="ConnectProfilesSearchForm"
         className="w-full xxs:w-32 xxs:ml-4 mb-6"
       >
         Search
-      </Button>
+      </ButtonNew>
     </form>
   )
 }

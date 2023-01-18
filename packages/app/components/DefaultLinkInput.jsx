@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import Input from '@/elements/Input'
 
 import { getIntegrationInfo, testValidIntegration } from '@/helpers/integrationHelpers'
@@ -84,14 +84,14 @@ const DefaultLinkInput = ({
         className="mb-8"
       />
       {shouldShowButton && (
-        <Button
+        <ButtonNew
           version="text"
           onClick={toggleSelect}
-          className="h-auto absolute bottom-2 text-xs"
+          className="absolute bottom-2 text-xs"
           trackComponentName="DefaultLinkInput"
         >
           Choose from your existing links
-        </Button>
+        </ButtonNew>
       )}
     </div>
   )

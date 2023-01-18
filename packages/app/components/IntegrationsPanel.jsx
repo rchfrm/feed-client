@@ -3,16 +3,15 @@ import PropTypes from 'prop-types'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import MarkdownText from '@/elements/MarkdownText'
-import CaretIcon from '@/icons/CaretIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import IntegrationsPanelIntegration from '@/app/IntegrationsPanelIntegration'
 import DisabledSection from '@/app/DisabledSection'
 
 import { dummyIntegrations } from '@/helpers/integrationHelpers'
 
-import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/integrationsCopy'
 
 const IntegrationsPanel = ({
@@ -54,19 +53,18 @@ const IntegrationsPanel = ({
         </ul>
         {goBack && (
           <div className="mt-10">
-            <Button
-              version="x-small black icon"
+            <ButtonNew
+              size="small"
               className="mr-5"
               onClick={goBack}
               trackComponentName="IntegrationsPanel"
             >
-              <CaretIcon
-                fill={brandColors.offwhite}
+              <ArrowIcon
                 direction="left"
-                style={{ width: '0.5rem' }}
+                className="w-4 h-auto"
               />
               Back
-            </Button>
+            </ButtonNew>
           </div>
         )}
       </DisabledSection>

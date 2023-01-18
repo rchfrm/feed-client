@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import PencilIcon from '@/icons/PencilIcon'
 import PlusIcon from '@/icons/PlusIcon'
 import TickIcon from '@/icons/TickIcon'
 
 import useCreateEditLinkBankLink from '@/app/hooks/useCreateEditLinkBankLink'
-
-import brandColors from '@/constants/brandColors'
 
 const LinkBankListButtons = ({
   editModeOn,
@@ -29,39 +27,41 @@ const LinkBankListButtons = ({
       ].join(' ')}
     >
       {/* ADD */}
-      <Button
-        version="x-small black icon"
-        className={[isDisabled ? 'bg-grey' : null, 'mr-5'].join(' ')}
+      <ButtonNew
+        size="small"
+        className="mr-5"
         onClick={() => addLink()}
         trackComponentName="LinkBankListButtons"
+        isDisabled={isDisabled}
       >
-        <PlusIcon fill={brandColors.offwhite} />
+        <PlusIcon className="w-4 h-auto mr-1" />
         {totalLinks > 0 ? 'Add' : 'Add a link'}
-      </Button>
+      </ButtonNew>
       {/* EDIT */}
       {totalLinks > 0 && (
-        <Button
-          version="x-small green icon"
-          className={[isDisabled ? 'bg-grey' : null].join(' ')}
+        <ButtonNew
+          size="small"
+          version="secondary"
           onClick={() => {
             setEditModeOn((isOn) => {
               return ! isOn
             })
           }}
+          isDisabled={isDisabled}
           trackComponentName="LinkBankListButtons"
         >
           {editModeOn ? (
             <>
-              <TickIcon fill={brandColors.offwhite} />
+              <TickIcon className="w-4 h-auto mr-1" />
               Done
             </>
           ) : (
             <>
-              <PencilIcon fill={brandColors.offwhite} />
+              <PencilIcon className="w-4 h-auto mr-1" />
               Edit
             </>
           )}
-        </Button>
+        </ButtonNew>
       )}
     </div>
   )

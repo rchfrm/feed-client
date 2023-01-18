@@ -3,7 +3,7 @@ import Router from 'next/router'
 
 import GetStartedSummarySentence from '@/app/GetStartedSummarySentence'
 
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 
 import * as ROUTES from '@/app/constants/routes'
 import copy from '@/app/copy/getStartedCopy'
@@ -26,14 +26,14 @@ const GetStartedSummary = () => {
       <GetStartedSummarySentence
         className="justify-center pointer-events-none"
       />
-      <Button
-        version="outline-green"
+      <ButtonNew
+        version="secondary"
         onClick={goToPostsPage}
         className="w-full sm:w-48"
         trackComponentName="GetStartedSummary"
       >
         <span className="text-2xl" role="img" aria-label="raising hands">🙌</span>
-      </Button>
+      </ButtonNew>
     </div>
   )
 }
