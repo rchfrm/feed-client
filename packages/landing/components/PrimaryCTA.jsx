@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-import Button from '@/elements/Button'
+import ButtonNew from '@/elements/ButtonNew'
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 import * as styles from '@/landing/PrimaryCTA.module.css'
@@ -24,9 +24,10 @@ export default function PrimaryCTA({
       fullWidth
     >
       <Link href={joinLink}>
-        <Button
+        <ButtonNew
+          version="custom"
           className={[
-            'h-auto',
+            'h-16',
             'w-full',
             'max-w-xs',
             'mx-auto',
@@ -56,7 +57,7 @@ export default function PrimaryCTA({
             fill={brandColors.green}
             direction="right"
           />
-        </Button>
+        </ButtonNew>
       </Link>
     </Section>
   )
