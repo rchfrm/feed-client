@@ -34,7 +34,7 @@ const NotificationCurrentInfoButton = ({
     onComplete()
   }, [ctaType, onAction, onComplete])
 
-  const ButtonType = isFacebookButton ? ButtonFacebook : ButtonNew
+  const ButtonType = isFacebookButton ? ButtonFacebook : Button
 
   return (
     <div className="mt-auto">
