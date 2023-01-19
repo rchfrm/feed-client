@@ -11,7 +11,6 @@ import useSignup from '@/app/hooks/useSignup'
 import useReferralStore from '@/app/stores/referralStore'
 
 import ArrowIcon from 'shared/components/icons/ArrowIcon'
-import brandColors from '@/constants/brandColors'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
@@ -274,7 +273,6 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         Next
         <ArrowIcon
           className="ml-1 w-7 h-auto"
-          fill={brandColors.black}
           direction="right"
         />
       </Button>

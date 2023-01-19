@@ -10,7 +10,6 @@ import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
 import { setAdAccount, getArtistIntegrationByPlatform, getAdAccounts } from '@/app/helpers/artistHelpers'
 import copy from '@/app/copy/getStartedCopy'
-import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -122,7 +121,6 @@ const GetStartedAdAccount = () => {
           <ArrowIcon
             className="w-7 h-auto ml-1"
             direction="right"
-            fill={brandColors.black}
           />
         </Button>
       </div>
