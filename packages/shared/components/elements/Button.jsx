@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
 import { track } from '@/helpers/trackingHelpers'
-import { getStringFromChildrenProp } from '@/helpers/utils'
+import { getStringFromChildrenProp, getLinkType } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 const Button = React.forwardRef(({
@@ -20,8 +20,6 @@ const Button = React.forwardRef(({
   href,
   spinnerFill,
 }, ref) => {
-  const isTextButton = version === 'text'
-
   const classes = {
     small: 'h-8 p-2 text-[13px]',
     medium: 'h-12 p-3 text-[13px]',
@@ -55,8 +53,14 @@ const Button = React.forwardRef(({
     onClick(e)
   }
 
+  const isTextButton = version === 'text'
+  const Tag = href ? 'a' : 'button'
+  const linkType = href ? getLinkType(href) : null
+  const target = linkType === 'external' ? '_blank' : '_self'
+  const rel = linkType === 'external' ? 'noopener noreferrer' : null
+
   return (
-    <button
+    <Tag
       type={type}
       onClick={onButtonClick}
       className={[
@@ -64,13 +68,16 @@ const Button = React.forwardRef(({
         'rounded-dialogue',
         classes[color][version],
         ! isTextButton ? classes[size] : null,
-        ! isTextButton ? 'flex justify-center items-center' : 'underline',
+        ! isTextButton ? 'inline-flex justify-center items-center' : 'underline',
+        href ? 'no-underline' : null,
         isSidePanel ? 'w-full rounded-t-none rounded-br-none' : null,
         isDisabled ? 'cursor-not-allowed' : null,
         className,
       ].join(' ')}
       disabled={isDisabled}
       href={href}
+      target={href ? target : ''}
+      rel={href ? rel : ''}
       ref={ref}
     >
       {isLoading && (
@@ -86,11 +93,12 @@ const Button = React.forwardRef(({
           ! isTextButton ? 'font-bold' : null,
           isDisabled ? 'opacity-50' : null,
           isLoading ? 'invisible' : null,
+          href ? 'text-black hover:text-black' : null,
         ].join(' ')}
       >
         {children}
       </span>
-    </button>
+    </Tag>
   )
 })
 
