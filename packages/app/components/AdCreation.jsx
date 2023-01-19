@@ -78,9 +78,9 @@ const AdCreation = () => {
       <Button
         onClick={save}
         trackComponentName="AdCreation"
-        className="w-full rounded-t-none rounded-br-none"
         isDisabled={! file || ! message}
         isLoading={isLoading}
+        isSidePanel
       >
         Save
       </Button>

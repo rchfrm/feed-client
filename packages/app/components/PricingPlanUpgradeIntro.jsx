@@ -41,8 +41,8 @@ const PricingPlanUpgradeIntro = ({
     const button = (
       <Button
         onClick={onClick}
-        className="w-full rounded-t-none rounded-br-none"
         trackComponentName="PricingPlanUpgradeIntro"
+        isSidePanel
       >
         {buttonText()}
         <ArrowIcon

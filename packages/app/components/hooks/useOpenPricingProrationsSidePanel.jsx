@@ -23,7 +23,7 @@ const useOpenPricingProrationsSidePanel = () => {
         />
       </div>
     )
-    const button = <Button className="w-full rounded-t-none rounded-br-none" onClick={() => toggleSidePanel(false)}>Close</Button>
+    const button = <Button onClick={() => toggleSidePanel(false)} isSidePanel>Close</Button>
 
     setSidePanelContent(content)
     setSidePanelContentLabel('Pricing prorations')

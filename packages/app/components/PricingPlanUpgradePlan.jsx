@@ -48,9 +48,9 @@ const PricingPlanUpgradePlan = ({
   React.useEffect(() => {
     const button = (
       <Button
-        className="w-full rounded-t-none rounded-br-none"
         onClick={next}
         trackComponentName="PricingPlanUpgradePlan"
+        isSidePanel
       >
         {hasCancelledPlan ? 'Choose' : 'Update to'} {capitalise(artistPlan)}
         <ArrowIcon

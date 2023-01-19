@@ -47,9 +47,9 @@ const PricingPlanUpgradePaymentMethod = ({
   React.useEffect(() => {
     const button = (
       <Button
-        className="w-full rounded-t-none rounded-br-none"
         onClick={savePaymentMethod}
         trackComponentName="PricingPlanUpgradeIntro"
+        isSidePanel
       >
         Save
         <ArrowIcon

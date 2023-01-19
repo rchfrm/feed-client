@@ -79,10 +79,10 @@ const PricingPlanUpgradePayment = ({
     const button = (
       <Button
         onClick={upgradePlan}
-        className="w-full rounded-t-none rounded-br-none"
         isDisabled={isDisabled}
         isLoading={isLoading}
         trackComponentName="PricingPlanUpgradePayment"
+        isSidePanel
       >
         {(planIsBasic && amount === 0
           ? `Confirm (${formatCurrency(amount, currency, true)})`
