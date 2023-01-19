@@ -1,33 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import ClipboardJS from 'clipboard'
-
 import ClipboardIcon from '@/icons/ClipboardIcon'
 
 const CopyTextButton = ({
   label,
   text,
+  type,
   textAlt,
   size,
-  type,
   onCopied,
   className,
 }) => {
   const button = React.useRef(null)
+  const [isSuccess, setIsSuccess] = React.useState(false)
 
-  const [success, setSuccess] = React.useState(false)
   const onSuccess = React.useCallback(() => {
-    setSuccess(true)
+    setIsSuccess(true)
     onCopied(text)
+
     setTimeout(() => {
       if (! button.current) return
-      setSuccess(false)
+      setIsSuccess(false)
     }, 800)
   }, [onCopied, text])
+
   React.useEffect(() => {
     const clipboard = new ClipboardJS(button.current)
     clipboard.on('success', onSuccess)
+
     return () => {
       clipboard.destroy()
     }
@@ -35,23 +36,15 @@ const CopyTextButton = ({
 
   return (
     <>
-      {/* LABEL */}
-      {label && (
-        <span className="inputLabel__text">
-          <span>
-            {label}
-          </span>
-        </span>
-      )}
+      {label && <span className="block font-bold text-sm mb-2">{label}</span>}
       <a
         className={[
-          'button--copy-text',
-          'inline-flex relative',
+          'w-full inline-flex relative',
           'justify-between items-center',
-          size === 'large' ? 'h-buttonHeight' : null,
-          size === 'large' ? '-large' : null,
-          type === 'code' ? '-copy-code' : null,
-          success ? '-success' : null,
+          'border border-solid',
+          'no-underline rounded-button',
+          isSuccess ? 'border-green' : 'border-black',
+          size === 'large' ? 'px-3 py-2' : 'px-2 py-1',
           className,
         ].join(' ')}
         role="button"
@@ -59,20 +52,22 @@ const CopyTextButton = ({
         ref={button}
         data-clipboard-text={text}
       >
-        {/* THE TEXT TO COPY */}
         <span
-          className="text mr-2"
-          style={{
-            opacity: success ? 0 : 1,
-          }}
+          className={[
+            'text mr-2',
+            isSuccess ? 'opacity-0' : null,
+            type === 'code' ? 'w-full pr-8 font-mono text-xs break-words' : null,
+          ].join(' ')}
         >
           {text}
         </span>
-        {/* SUCCESS MESSAGE */}
-        {success && (
-          <span className="success-message">Copied!</span>
-        )}
-        <ClipboardIcon className="w-4 h-auto" />
+        {isSuccess && <span className="absolute -translate-x-1/2 left-1/2">Copied!</span>}
+        <ClipboardIcon
+          className={[
+            'absolute right-2',
+            size === 'large' ? 'w-5' : 'w-4', 'h-auto',
+          ].join(' ')}
+        />
       </a>
     </>
   )
@@ -91,7 +86,7 @@ CopyTextButton.propTypes = {
 CopyTextButton.defaultProps = {
   textAlt: '',
   label: '',
-  size: 'rg',
+  size: 'regular',
   type: 'text',
   onCopied: () => {},
   className: '',
