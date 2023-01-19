@@ -65,7 +65,7 @@ const ObjectiveSettingsChangeAlert = ({
           setShouldSave(true)
         },
         shouldCloseOnConfirm: false,
-        disabled: isDisabled,
+        isDisabled,
       },
       {
         text: 'Cancel',

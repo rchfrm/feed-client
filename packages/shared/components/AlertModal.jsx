@@ -118,7 +118,7 @@ const AlertModal = () => {
               </div>
               <div className="flex flex-wrap bg-black">
                 {buttons.map((buttonConfig, index) => {
-                  const { text, version, width, onClick, isFacebookButton, disabled, shouldCloseOnConfirm = true } = buttonConfig
+                  const { text, version, width, onClick, isFacebookButton, isDisabled, shouldCloseOnConfirm = true } = buttonConfig
                   const isFirstButton = index === 0
                   const isLastButton = index === buttons.length - 1
                   const ButtonType = isFacebookButton ? ButtonFacebook : Button
@@ -141,7 +141,7 @@ const AlertModal = () => {
                         borderTop: '1px solid white',
                         ...(isFirstButton && ! width === 'half' && { borderTop: 'none' }),
                       }}
-                      isDisabled={disabled}
+                      isDisabled={isDisabled}
                       trackComponentName="AlertModal"
                       fallbackCta={text}
                     >

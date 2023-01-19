@@ -16,7 +16,7 @@ const PricingPlanUpgradeSummary = ({
   }, [toggleSidePanel])
 
   React.useEffect(() => {
-    const button = <Button className="w-full rounded-none" onClick={closeSidePanel} trackComponentName="PricingPlanUpgradeSummary">Ok</Button>
+    const button = <Button className="w-full rounded-t-none rounded-br-none" onClick={closeSidePanel} trackComponentName="PricingPlanUpgradeSummary">Ok</Button>
 
     setSidePanelButton(button)
   }, [closeSidePanel, setSidePanelButton])

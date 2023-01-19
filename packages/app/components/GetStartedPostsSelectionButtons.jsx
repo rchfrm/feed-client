@@ -7,7 +7,6 @@ import GetStartedPostsSelectionButtonsMobile from '@/app/GetStartedPostsSelectio
 import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 import { togglePromotionEnabled } from '@/app/helpers/postsHelpers'
-import brandColors from '@/constants/brandColors'
 
 const GetStartedPostsSelectionButtons = ({
   handlePosts,
@@ -84,7 +83,6 @@ const GetStartedPostsSelectionButtons = ({
           version="secondary"
           onClick={loadMore}
           isLoading={isLoadingMorePosts}
-          spinnerFill={brandColors.black}
           className={[shouldAdjustLayout ? 'w-full' : 'w-56 mx-2', 'mb-4'].join(' ')}
           trackComponentName="GetStartedPostsSelectionButtons"
         >
@@ -101,7 +99,6 @@ const GetStartedPostsSelectionButtons = ({
         <ArrowIcon
           className="w-7 h-auto ml-1"
           direction="right"
-          fill={brandColors.black}
         />
       </Button>
     </div>

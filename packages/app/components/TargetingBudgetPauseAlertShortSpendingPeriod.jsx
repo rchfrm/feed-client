@@ -48,7 +48,7 @@ const TargetingBudgetPauseAlertShortSpendingPeriod = ({
       {
         text: 'Cancel',
         onClick: closeAlert,
-        version: 'tertiary',
+        version: 'secondary',
       },
     ]
 

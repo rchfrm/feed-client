@@ -78,7 +78,7 @@ const AdCreation = () => {
       <Button
         onClick={save}
         trackComponentName="AdCreation"
-        className="w-full rounded-none"
+        className="w-full rounded-t-none rounded-br-none"
         isDisabled={! file || ! message}
         isLoading={isLoading}
       >

@@ -79,7 +79,7 @@ const PricingPlanUpgradePayment = ({
     const button = (
       <Button
         onClick={upgradePlan}
-        className="w-full rounded-none"
+        className="w-full rounded-t-none rounded-br-none"
         isDisabled={isDisabled}
         isLoading={isLoading}
         trackComponentName="PricingPlanUpgradePayment"

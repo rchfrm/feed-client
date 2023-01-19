@@ -192,7 +192,6 @@ const LoginEmailForm = ({ initialEmail, className }) => {
       <Button
         type="submit"
         onClick={onFormSubmit}
-        isDisabled={false}
         className={[styles.submit, 'ml-auto'].join(' ')}
         trackComponentName="LoginEmailForm"
       >

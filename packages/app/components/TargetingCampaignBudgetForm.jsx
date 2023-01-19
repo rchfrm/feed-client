@@ -151,7 +151,6 @@ const TargetingCampaignBudgetForm = ({
         <Button
           type="submit"
           size="small"
-          // className="h-8 mb-5 rounded-full"
           onClick={onSubmit}
           trackComponentName="TargetingCampaignBudgetForm"
           isDisabled={! isFormValid || ! hasSufficientBudget}

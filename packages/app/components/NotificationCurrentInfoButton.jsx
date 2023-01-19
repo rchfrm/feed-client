@@ -40,7 +40,7 @@ const NotificationCurrentInfoButton = ({
     <div className="mt-auto">
       {(isActionable && ! isComplete) || (isDismissible && ctaLink) ? (
         <ButtonType
-          className="w-full rounded-none"
+          className="w-full rounded-t-none rounded-br-none"
           isLoading={loading}
           onClick={onClick}
           trackComponentName="NotificationCurrentInfoButton"

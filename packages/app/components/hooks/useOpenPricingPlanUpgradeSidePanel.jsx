@@ -14,7 +14,7 @@ const useOpenPricingPlanUpgradeSidePanel = () => {
 
   return React.useCallback((section) => {
     const content = <PricingPlanUpgradeSidePanel section={section} />
-    const button = <Button className="w-full rounded-none" onClick={() => toggleSidePanel(false)} trackComponentName="PricingPlanUpgradeSidePanel">Done</Button>
+    const button = <Button className="w-full rounded-t-none rounded-br-none" onClick={() => toggleSidePanel(false)} trackComponentName="PricingPlanUpgradeSidePanel">Done</Button>
 
     setSidePanelContent(content)
     setSidePanelContentLabel('Upgrade pricing plan')

@@ -22,7 +22,7 @@ const useOpenPricingPlanReadMoreSidePanel = () => {
         isDisabled={isDisabled}
       />
     )
-    const button = <Button className="w-full rounded-none" onClick={() => toggleSidePanel(false)}>Done</Button>
+    const button = <Button className="w-full rounded-t-none rounded-br-none" onClick={() => toggleSidePanel(false)}>Done</Button>
 
     setSidePanelContent(content)
     setSidePanelContentLabel('Read more about pricing plan')

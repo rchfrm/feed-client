@@ -74,7 +74,7 @@ const BillingOrganizationSelect = ({
               <h3 className="font-display font-bold text-2xl mr-6 mb-6 sm:mb-0">{selectedOrgName}</h3>
               <div>
                 <Button
-                  version="small"
+                  size="small"
                   label="Switch organization"
                   onClick={() => {
                     setSelectActive(true)

@@ -17,7 +17,6 @@ import Error from '@/elements/Error'
 import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 import { getProrationsPreview, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/getStartedCopy'
-import brandColors from '@/constants/brandColors'
 import { formatCurrency } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
@@ -222,7 +221,6 @@ const GetStartedPaymentMethod = () => {
         )}
         {defaultPaymentMethod && (
           <Button
-            type="button"
             version="text"
             onClick={togglePaymentMethodForm}
             className="h-5 mb-3 mx-auto text-sm"
@@ -258,7 +256,6 @@ const GetStartedPaymentMethod = () => {
           <ArrowIcon
             className="w-7 h-auto ml-1"
             direction="right"
-            fill={brandColors.black}
           />
         </Button>
       </div>

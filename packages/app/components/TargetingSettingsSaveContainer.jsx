@@ -29,7 +29,7 @@ const TargetingSettingsSaveContainer = ({
     <Button
       className={[
         'w-full',
-        isMobileAndIsSidePanelOpen ? 'border-offwhite border-solid border-0 border-t-4' : null,
+        isMobileAndIsSidePanelOpen ? 'rounded-t-none rounded-br-none' : null,
       ].join(' ')}
       onClick={() => saveTargeting('settings')}
       isDisabled={!! disableSaving}

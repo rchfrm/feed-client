@@ -41,7 +41,7 @@ const SplitViewOptions = ({
     // Open content in side-panel if mobile
     const content = contentComponents[name]
     // Set a sidepanel button unless the component has a custom sidepanel button itself
-    const button = hasDefaultSidePanelButton ? <Button version="green" onClick={() => toggleSidePanel(false)} trackComponentName="ControlsContentOptions">Done</Button> : null
+    const button = hasDefaultSidePanelButton ? <Button className="w-full rounded-t-none rounded-br-none" onClick={() => toggleSidePanel(false)} trackComponentName="ControlsContentOptions">Done</Button> : null
 
     setSidePanelContent(content)
     setSidePanelContentLabel(`${basePath} ${name}`)
