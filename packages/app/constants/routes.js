@@ -33,6 +33,7 @@ export const CONTROLS_TARGETING = '/controls/targeting'
 export const CONTROLS_LINKS = '/controls/links'
 export const CONTROLS_INTEGRATIONS = '/controls/integrations'
 export const CONTROLS_ADS = '/controls/ads'
+export const CONTROLS_TEAM = '/controls/team'
 export const BILLING = '/billing'
 export const GET_STARTED = '/get-started'
 
@@ -70,12 +71,14 @@ export const signedOutPages = [
 
 // Array of controls subpages
 export const controlsPages = [
+  CONTROLS_SLUG,
   CONTROLS_OBJECTIVE,
   CONTROLS_BUDGET,
   CONTROLS_TARGETING,
   CONTROLS_LINKS,
   CONTROLS_INTEGRATIONS,
   CONTROLS_ADS,
+  CONTROLS_TEAM,
 ]
 
 // Array of subpages
