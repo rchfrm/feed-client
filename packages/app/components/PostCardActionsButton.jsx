@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ThreeDotsIcon from '@/icons/ThreeDots'
+import ThreeDotsIcon from '@/icons/ThreeDotsIcon'
 
 const PostCardActionsButton = ({ isOpen, setIsOpen }) => {
   const handleClick = () => {

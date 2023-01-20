@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
-import ChevronIcon from '@/icons/ChevronIcon'
+import ThreeDotsIcon from '@/icons/ThreeDotsIcon'
 import brandColors from '@/constants/brandColors'
 
 const SideNavProfilesShowMore = ({
@@ -36,7 +36,7 @@ const SideNavProfilesShowMore = ({
       >
         More accounts
       </p>
-      <ChevronIcon direction={shouldShowMore ? 'up' : 'down'} fill={isHover || shouldShowMore ? brandColors.green : brandColors.grey} />
+      <ThreeDotsIcon orientation="vertical" fill={isHover || shouldShowMore ? brandColors.green : brandColors.grey} />
     </button>
   )
 }

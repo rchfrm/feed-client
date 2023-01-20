@@ -27,7 +27,8 @@ const ProfileButton = ({
       onClick={updateArtist}
       className={[
         className,
-        'relative transition-width duration-500',
+        'relative overflow-hidden',
+        'transition-width duration-500',
         'hover:bg-anthracite hover:text-green text-grey-2 -mt-[1px]',
         isExpanded ? 'w-full h-12 px-4' : 'w-20 h-20 justify-center',
         isActive ? 'bg-anthracite' : null,
@@ -60,6 +61,9 @@ const ProfileButton = ({
           {name}
         </p>
       </div>
+      {isExpanded && isActive && (
+        <div className="absolute top-3 -right-3 h-6 w-6 rounded-full bg-green" />
+      )}
     </button>
   )
 }

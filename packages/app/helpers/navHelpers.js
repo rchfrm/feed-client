@@ -5,8 +5,8 @@ const termsLink = 'https://tryfeed.co/legal/terms-of-service'
 export const primaryLinks = [
   {
     href: ROUTES.ACCOUNT,
-    title: 'Settings',
-    icon: 'settings',
+    title: 'Account',
+    icon: 'account',
   },
   {
     href: ROUTES.NOTIFICATIONS,

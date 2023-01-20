@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-import ChevronIcon from '@/icons/ChevronIcon'
+import ThreeDotsIcon from '@/icons/ThreeDotsIcon'
 import Spinner from '@/elements/Spinner'
 import ArtistImage from '@/elements/ArtistImage'
 import { sortArtistsAlphabetically } from '@/app/helpers/artistHelpers'
@@ -39,13 +39,13 @@ const HeaderProfileButton = ({
   return (
     <button
       onClick={handleClick}
-      className={['relative h-8 flex rounded-full bg-anthracite p-1', hasMultipleArtists ? 'pl-3 pr-1' : null].join(' ')}
+      className={['relative h-8 flex rounded-full bg-anthracite p-1'].join(' ')}
       ref={hoverRef}
     >
       {hasMultipleArtists && (
-        <ChevronIcon
-          direction={shouldShowMore ? 'up' : 'down'}
-          className="mr-2"
+        <ThreeDotsIcon
+          orientation="vertical"
+          className="mx-1"
           fill={isHover || shouldShowMore ? brandColors.green : brandColors.white}
         />
       )}
