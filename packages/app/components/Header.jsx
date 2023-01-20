@@ -35,11 +35,11 @@ const Header = () => {
     <PeekElement
       usePlaceHolder
       config={{
-        childProps: { style: { zIndex: 22, transform: isMenuOpen ? 'none' : null }, className: 'peek-element' },
+        childProps: { style: { zIndex: 22, transform: isMenuOpen ? 'none' : null }, className: 'peek-element md:hidden' },
       }}
     >
       <header className={[
-        'relative md:hidden top-0 left-0 right-0',
+        'relative top-0 left-0 right-0',
         '-mx-6 sm:-mx-8 px-4 py-1 h-15',
         'flex justify-between items-center',
         'bg-black',

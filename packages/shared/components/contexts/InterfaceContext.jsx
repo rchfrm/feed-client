@@ -6,7 +6,7 @@ import { subPages } from '@/app/constants/routes'
 
 const initialState = {
   isMenuOpen: false,
-  isNavExpanded: false,
+  isNavExpanded: true,
   header: {
     visible: true,
     text: '',

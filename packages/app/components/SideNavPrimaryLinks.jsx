@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import useSignOut from '@/app/hooks/useSignOut'
 import SideNavPrimaryLink from '@/app/SideNavPrimaryLink'
-import { secondaryLinks } from '@/app/helpers/navHelpers'
+import { primaryLinks } from '@/app/helpers/navHelpers'
 
 const SideNavPrimaryLinks = ({ isExpanded }) => {
   const { pathname } = useRouter()
@@ -15,7 +15,7 @@ const SideNavPrimaryLinks = ({ isExpanded }) => {
       isExpanded ? null : 'items-center',
     ].join(' ')}
     >
-      {secondaryLinks.map(({ href, icon, title, isSignOut, isExternal, isMobile }) => {
+      {primaryLinks.map(({ href, icon, title, isSignOut, isExternal, isMobile }) => {
         const isActive = pathname === href
         if (isMobile) {
           return

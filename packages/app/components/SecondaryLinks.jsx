@@ -1,6 +1,6 @@
 import React from 'react'
 import ActiveLink from '@/elements/ActiveLink'
-import { primaryLinks } from '@/app/helpers/navHelpers'
+import { secondaryLinks } from '@/app/helpers/navHelpers'
 
 const SecondaryLinks = () => {
   return (
@@ -11,7 +11,7 @@ const SecondaryLinks = () => {
         'text-grey-3 font-bold iphone8:text-xl md:text-2xl',
       ].join(' ')}
       >
-        {primaryLinks.map(({ href, title, matchingHrefs }) => (
+        {secondaryLinks.map(({ href, title, matchingHrefs }) => (
           <li key={title} className="mr-3 last:mr-0 xxs:mr-8">
             <ActiveLink href={href} activeClass="text-black border-b-4 border-solid border-green" matchingHrefs={matchingHrefs}>
               <a className="relative no-underline pb-1">

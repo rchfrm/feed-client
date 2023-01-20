@@ -5,7 +5,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
 import * as ROUTES from '@/app/constants/routes'
-import { secondaryLinks } from '@/app/helpers/navHelpers'
+import { primaryLinks } from '@/app/helpers/navHelpers'
 
 const getTotalActiveNotifications = (state) => {
   return state.totalActiveNotifications
@@ -22,7 +22,7 @@ const HeaderMenuLinks = () => {
         'h4--text mb-0',
       ].join(' ')}
       >
-        {secondaryLinks.map(({ href, title, isSignOut, isExternal }) => {
+        {primaryLinks.map(({ href, title, isSignOut, isExternal }) => {
           const shouldShowDot = href === ROUTES.ACCOUNT && hasPendingEmail
 
           return (
