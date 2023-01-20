@@ -7,10 +7,9 @@ import ProfilesListSearch from '@/app/ProfilesListSearch'
 import ProfileButton from '@/app/ProfileButton'
 import CaretIcon from '@/icons/CaretIcon'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-import brandColors from '../../shared/constants/brandColors'
+import brandColors from '@/constants/brandColors'
 
 const ProfilesList = ({
-  artistsWithNotifications,
   shouldShowMore,
   setShouldShowMore,
   hasConnectMore,
@@ -89,7 +88,6 @@ const ProfilesList = ({
           ].join(' ')}
         >
           {profiles.map(({ id, name, facebook_page_id }, index) => {
-            const hasNotification = artistsWithNotifications.includes(id)
             const isLast = index + 1 === profiles.length
 
             return (
@@ -98,7 +96,6 @@ const ProfilesList = ({
                 name={name}
                 pageId={facebook_page_id}
                 artistId={id}
-                hasNotifications={hasNotification}
                 setShouldShowMore={setShouldShowMore}
                 isLast={isLast}
                 isExpanded
@@ -115,7 +112,6 @@ const ProfilesList = ({
 }
 
 ProfilesList.propTypes = {
-  artistsWithNotifications: PropTypes.array.isRequired,
   shouldShowMore: PropTypes.bool.isRequired,
   setShouldShowMore: PropTypes.func.isRequired,
   hasConnectMore: PropTypes.bool,

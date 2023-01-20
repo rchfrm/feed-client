@@ -6,17 +6,15 @@ import { UserContext } from '@/app/contexts/UserContext'
 import ChevronIcon from '@/icons/ChevronIcon'
 import Spinner from '@/elements/Spinner'
 import ArtistImage from '@/elements/ArtistImage'
-import NotificationDot from '@/elements/NotificationDot'
 import { sortArtistsAlphabetically } from '@/app/helpers/artistHelpers'
 import brandColors from '@/constants/brandColors'
 
 const HeaderProfileButton = ({
-  hasNotifications,
   shouldShowMore,
   setShouldShowMore,
 }) => {
   const [hoverRef, isHover] = useHover()
-  const { hasPendingEmail, user } = React.useContext(UserContext)
+  const { user } = React.useContext(UserContext)
   const { artists: allArtists } = user
   const { artist, artistId, artistLoading } = React.useContext(ArtistContext)
   const [fbPageId, setFbPageId] = React.useState('')
@@ -58,15 +56,11 @@ const HeaderProfileButton = ({
           <ArtistImage pageId={fbPageId} name={artist.name} className="w-6 h-6" />
         )}
       </figure>
-      {((hasNotifications && ! artistLoading) || hasPendingEmail) && (
-        <NotificationDot size="small" className="absolute top-0 right-0 z-5" />
-      )}
     </button>
   )
 }
 
 HeaderProfileButton.propTypes = {
-  hasNotifications: PropTypes.bool.isRequired,
   shouldShowMore: PropTypes.bool.isRequired,
   setShouldShowMore: PropTypes.func.isRequired,
 }

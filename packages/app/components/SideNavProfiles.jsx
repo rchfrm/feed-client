@@ -2,18 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import useNotificationsStore from '@/app/stores/notificationsStore'
 import ProfileButton from '@/app/ProfileButton'
 import ProfilesConnectMore from '@/app/ProfilesConnectMore'
 import SideNavProfileButtons from '@/app/SideNavProfileButtons'
 import SideNavProfilesShowMore from '@/app/SideNavProfilesShowMore'
-import SideNavProfilesList from '@/app/ProfilesList'
+import ProfilesList from '@/app/ProfilesList'
 import { sortArtistsAlphabetically } from '@/app/helpers/artistHelpers'
-
-const getNotificationsStoreState = (state) => ({
-  totalActiveNotifications: state.totalActiveNotifications,
-  artistsWithNotifications: state.artistsWithNotifications,
-})
 
 const SideNavProfiles = ({ isExpanded }) => {
   const [shouldShowMore, setShouldShowMore] = React.useState(false)
@@ -21,7 +15,6 @@ const SideNavProfiles = ({ isExpanded }) => {
   const { user } = React.useContext(UserContext)
   const { artists: allArtists } = user
   const { artistId, artist: { name, facebook_page_id } } = React.useContext(ArtistContext)
-  const { totalActiveNotifications, artistsWithNotifications } = useNotificationsStore(getNotificationsStoreState)
   const maxProfiles = 3
   const sortedArtists = sortArtistsAlphabetically(allArtists)
   const containerRef = React.useRef(null)
@@ -30,7 +23,6 @@ const SideNavProfiles = ({ isExpanded }) => {
     <>
       {sortedArtists.length <= maxProfiles ? (
         <SideNavProfileButtons
-          artistsWithNotifications={artistsWithNotifications}
           isExpanded={isExpanded}
         />
       ) : (
@@ -39,7 +31,6 @@ const SideNavProfiles = ({ isExpanded }) => {
             name={name}
             pageId={facebook_page_id}
             artistId={artistId}
-            hasNotifications={!! totalActiveNotifications}
             isActive
             isExpanded={isExpanded}
             hasSpinner
@@ -51,8 +42,7 @@ const SideNavProfiles = ({ isExpanded }) => {
               isExpanded={isExpanded}
             />
             {shouldShowMore && (
-              <SideNavProfilesList
-                artistsWithNotifications={artistsWithNotifications}
+              <ProfilesList
                 shouldShowMore={shouldShowMore}
                 setShouldShowMore={setShouldShowMore}
                 className={['top-6', isExpanded ? 'left-[216px]' : 'left-24'].join(' ')}

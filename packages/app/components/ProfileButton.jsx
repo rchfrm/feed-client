@@ -1,16 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { UserContext } from '@/app/contexts/UserContext'
 import ArtistImage from '@/elements/ArtistImage'
-import NotificationDot from '@/elements/NotificationDot'
 import Spinner from '@/elements/Spinner'
 
 const ProfileButton = ({
   name,
   pageId,
   artistId,
-  hasNotifications,
   isActive,
   isExpanded,
   isLast,
@@ -19,7 +16,6 @@ const ProfileButton = ({
   className,
 }) => {
   const { artistLoading, storeArtist } = React.useContext(ArtistContext)
-  const { hasPendingEmail } = React.useContext(UserContext)
 
   const updateArtist = () => {
     storeArtist(artistId)
@@ -54,15 +50,6 @@ const ProfileButton = ({
           ) : (
             <ArtistImage pageId={pageId} name={name} className={[isExpanded ? 'w-6 h-6' : 'w-12 h-12'].join(' ')} />
           )}
-          {((hasNotifications && ! artistLoading) || hasPendingEmail) && (
-            <NotificationDot
-              size={isExpanded ? 'small' : 'medium'}
-              className={[
-                'absolute z-5',
-                isExpanded ? 'top-1 right-0.5' : 'top-2 right-2',
-              ].join(' ')}
-            />
-          )}
         </figure>
         <p
           className={[
@@ -81,7 +68,6 @@ ProfileButton.propTypes = {
   name: PropTypes.string,
   pageId: PropTypes.string,
   artistId: PropTypes.string.isRequired,
-  hasNotifications: PropTypes.bool.isRequired,
   isActive: PropTypes.bool,
   isExpanded: PropTypes.bool,
   isLast: PropTypes.bool,
