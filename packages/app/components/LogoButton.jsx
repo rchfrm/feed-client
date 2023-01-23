@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Router, { useRouter } from 'next/router'
 import FeedLogo from '@/icons/FeedLogo'
 import * as ROUTES from '@/app/constants/routes'
-import brandColors from '@/constants/brandColors'
 
 const LogoButton = ({ id, className, hasWordmark }) => {
   const { pathname } = useRouter()
@@ -22,7 +21,14 @@ const LogoButton = ({ id, className, hasWordmark }) => {
       title="home"
       className={[className, 'flex justify-center items-center'].join(' ')}
     >
-      <FeedLogo id={id} hasWordmark={hasWordmark} fill={brandColors.white} />
+      <FeedLogo
+        id={id}
+        hasWordmark={hasWordmark}
+        wordmarkClassName={[
+          'transition-opacity delay-300',
+          hasWordmark ? 'opacity-1' : 'opacity-0',
+        ].join(' ')}
+      />
     </button>
   )
 }

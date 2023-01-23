@@ -78,7 +78,7 @@ const InsightsContent = () => {
       <DisabledActionPrompt
         version="border"
         section="insights"
-        className="sm:w-fit mr-auto"
+        className="sm:w-fit mx-auto"
       />
     )
   }

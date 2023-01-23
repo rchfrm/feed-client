@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SettingsIcon from '@/icons/SettingsIcon'
+import ProfileIcon from '@/icons/ProfileIcon'
 import NotificationIcon from '@/icons/NotificationIcon'
 import CreditCardIcon from '@/icons/CreditCardIcon'
 import FaqIcon from '@/icons/FaqIcon'
@@ -9,7 +9,7 @@ import LogOutIcon from '@/icons/LogOutIcon'
 import brandColors from '@/constants/brandColors'
 
 const getIcon = (icon) => {
-  if (icon === 'settings') return SettingsIcon
+  if (icon === 'account') return ProfileIcon
   if (icon === 'notifications') return NotificationIcon
   if (icon === 'billing') return CreditCardIcon
   if (icon === 'faqs') return FaqIcon
@@ -28,6 +28,7 @@ const SideNavPrimaryLinkIcon = ({
   return (
     <figure className={className}>
       <Icon
+        className="w-5 h-auto"
         color={isActive || isHover ? brandColors.green : brandColors.grey}
         fill={isActive || isHover ? brandColors.green : brandColors.grey}
       />

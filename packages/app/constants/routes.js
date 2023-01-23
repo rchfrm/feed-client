@@ -69,6 +69,7 @@ export const signedOutPages = [
 
 // Array of controls subpages
 export const controlsPages = [
+  CONTROLS_SLUG,
   CONTROLS_OBJECTIVE,
   CONTROLS_BUDGET,
   CONTROLS_TARGETING,
@@ -78,7 +79,14 @@ export const controlsPages = [
   CONTROLS_TEAM,
 ]
 
-// Array of subpages
+export const generalPages = [
+  POSTS,
+  CONTROLS,
+  ...controlsPages,
+  RESULTS,
+  INSIGHTS,
+]
+
 export const subPages = [
   CONTROLS_SLUG,
   FAQS_SLUG,

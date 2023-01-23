@@ -2,7 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import brandColors from '@/constants/brandColors'
 
-const ThreeDotsIcon = ({ className, style, fill }) => {
+const getRotation = (direction) => {
+  switch (direction) {
+    case 'vertical':
+      return 90
+    default:
+      return 0
+  }
+}
+
+const ThreeDotsIcon = ({ className, style, fill, orientation }) => {
+  const rotation = getRotation(orientation)
+
   return (
     <svg
       width="24"
@@ -11,7 +22,10 @@ const ThreeDotsIcon = ({ className, style, fill }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={style}
+      style={{
+        ...style,
+        ...(rotation && { transform: `rotate(${rotation}deg)` }),
+      }}
     >
       <path
         d="M12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14Z"
@@ -33,12 +47,14 @@ ThreeDotsIcon.propTypes = {
   className: PropTypes.string,
   fill: PropTypes.string,
   style: PropTypes.object,
+  orientation: PropTypes.string,
 }
 
 ThreeDotsIcon.defaultProps = {
   className: '',
   fill: brandColors.black,
   style: null,
+  orientation: 'horizontal',
 }
 
 export default ThreeDotsIcon

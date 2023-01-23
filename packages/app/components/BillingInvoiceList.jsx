@@ -45,9 +45,9 @@ const BillingInvoiceList = ({
             {invoices.map(({ id, created_at: date, invoice_pdf: link }) => {
               return (
                 <li key={id} className="flex mb-3 last:mb-0">
-                  <a href={link} className="flex items-baseline" target="_blank" rel="noreferrer noopener">
-                    <LinkIcon className="h-4 w-auto" style={{ transform: 'translateY(0.1rem)' }} />
-                    <p className="ml-2 mb-0">{formatDate(date)}</p>
+                  <a href={link} className="flex items-center" target="_blank" rel="noreferrer noopener">
+                    <LinkIcon className="w-5 h-auto" style={{ transform: 'translateY(0.1rem)' }} />
+                    <p className="ml-1 mb-0">{formatDate(date)}</p>
                   </a>
                 </li>
               )
