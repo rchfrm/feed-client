@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
 import useNotificationsStore from '@/app/stores/notificationsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import SideNavPrimaryLinkIcon from '@/app/SideNavPrimaryLinkIcon'
+import PrimaryLinkIcon from '@/app/PrimaryLinkIcon'
 import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
 
@@ -39,7 +39,7 @@ const SideNavPrimaryLink = ({
             target={isExternal ? '_blank' : ''}
           >
             <div className="relative">
-              <SideNavPrimaryLinkIcon
+              <PrimaryLinkIcon
                 icon={icon}
                 isActive={isActive}
                 isHover={isHover}
@@ -63,7 +63,7 @@ const SideNavPrimaryLink = ({
           onClick={action}
           className="flex items-center mb-5 hover:text-green"
         >
-          <SideNavPrimaryLinkIcon
+          <PrimaryLinkIcon
             icon={icon}
             isActive={isActive}
             isHover={isHover}

@@ -1,7 +1,5 @@
 import * as ROUTES from '@/app/constants/routes'
 
-const termsLink = 'https://tryfeed.co/legal/terms-of-service'
-
 export const primaryLinks = [
   {
     href: ROUTES.ACCOUNT,
@@ -26,13 +24,6 @@ export const primaryLinks = [
   {
     href: ROUTES.PRICING,
     title: 'Pricing',
-    icon: 'terms',
-    isExternal: true,
-    isMobile: true,
-  },
-  {
-    href: termsLink,
-    title: 'Terms',
     icon: 'terms',
     isExternal: true,
     isMobile: true,
