@@ -61,9 +61,13 @@ const ProfileButton = ({
           {name}
         </p>
       </div>
-      {isExpanded && isActive && (
-        <div className="absolute top-3 -right-3 h-6 w-6 rounded-full bg-green" />
-      )}
+      <div className={[
+        'absolute top-3 -right-3 h-6 w-6',
+        'rounded-full bg-green',
+        'transition-opacity',
+        isExpanded && isActive ? 'delay-500 opacity-1' : 'opacity-0',
+      ].join(' ')}
+      />
     </button>
   )
 }

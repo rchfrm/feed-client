@@ -1,4 +1,5 @@
 import React from 'react'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import ActiveLink from '@/elements/ActiveLink'
 import { secondaryLinks } from '@/app/helpers/navHelpers'
@@ -9,13 +10,16 @@ const SecondaryLinks = () => {
   const { pathname } = useRouter()
   const { isNavExpanded } = React.useContext(InterfaceContext)
 
-  if (! ROUTES.generalPages.includes(pathname)) {
+  const { artistLoading } = React.useContext(ArtistContext)
+
+
+  if (! ROUTES.generalPages.includes(pathname) || artistLoading) {
     return
   }
 
   return (
     <nav className={[
-      'relative z-50',
+      'relative z-[21]',
       'self-end transition-width duration-500',
       'mt-6 md:mt-0 mb-0 md:mb-10 px-20',
       isNavExpanded ? '!w-[calc(100%-120px)]' : '!w-full',
