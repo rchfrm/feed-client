@@ -65,9 +65,11 @@ const TargetingDailyBudgetPauseButton = ({
   return (
     <Button
       size="small"
+      color="yellow"
       isDisabled={isDisabled}
       style={{ paddingBottom: '0.3rem' }}
       onClick={onClick}
+      trackComponentName="TargetingDailyBudgetPauseButton"
     >
       {Icon}
       {utils.capitalise(action)}

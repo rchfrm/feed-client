@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import Button from '@/elements/Button'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 
 const TargetingDailyBudgetCustomBudgetButton = ({
@@ -9,7 +9,6 @@ const TargetingDailyBudgetCustomBudgetButton = ({
   initialBudget,
   minBase,
   minHardBudget,
-  className,
 }) => {
   // Set initial state
   const { sliderValueRange } = React.useMemo(() => {
@@ -22,16 +21,13 @@ const TargetingDailyBudgetCustomBudgetButton = ({
   }, [])
 
   return (
-    <a
-      className={[
-        'underline text-xs font-normal',
-        className,
-      ].join(' ')}
-      role="button"
+    <Button
+      size="small"
+      version="secondary"
       onClick={() => setShowCustomBudget(! showCustomBudget)}
     >
       {showCustomBudget ? 'Return to slider view' : 'Enter custom budget'}
-    </a>
+    </Button>
   )
 }
 
@@ -41,14 +37,12 @@ TargetingDailyBudgetCustomBudgetButton.propTypes = {
   initialBudget: PropTypes.number,
   minBase: PropTypes.number,
   minHardBudget: PropTypes.number,
-  className: PropTypes.string,
 }
 
 TargetingDailyBudgetCustomBudgetButton.defaultProps = {
   initialBudget: 0,
   minBase: 0,
   minHardBudget: 0,
-  className: null,
 }
 
 export default TargetingDailyBudgetCustomBudgetButton

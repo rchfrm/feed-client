@@ -42,8 +42,8 @@ const NotificationCurrentInfoButton = ({
         <ButtonType
           isLoading={loading}
           onClick={onClick}
+          className="w-full rounded-none"
           trackComponentName="NotificationCurrentInfoButton"
-          isSidePanel
         >
           {ctaText}
         </ButtonType>
