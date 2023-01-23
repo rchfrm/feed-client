@@ -7,6 +7,7 @@ import { SidePanelContextProvider } from '@/contexts/SidePanelContext'
 import Main from '@/app/Main'
 import TheLoadingOverlay from '@/TheLoadingOverlay'
 import Header from '@/app/Header'
+import SecondaryLinks from '@/app/SecondaryLinks'
 import SideNav from '@/app/SideNav'
 import TheFooter from '@/app/TheFooter'
 import PopupModal from '@/PopupModal'
@@ -23,6 +24,7 @@ const AppContents = ({ children }) => {
             <TargetingContextProvider>
               <SidePanelContextProvider>
                 <Header />
+                <SecondaryLinks />
 
                 <TheLoadingOverlay />
 

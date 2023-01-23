@@ -1,12 +1,20 @@
 import React from 'react'
 import ActiveLink from '@/elements/ActiveLink'
 import { secondaryLinks } from '@/app/helpers/navHelpers'
+import { useRouter } from 'next/router'
+import * as ROUTES from '@/app/constants/routes'
 
 const SecondaryLinks = () => {
+  const { pathname } = useRouter()
+
+  if (! ROUTES.generalPages.includes(pathname)) {
+    return
+  }
+
   return (
     <nav>
       <ul className={[
-        'flex justify-center w-full',
+        'flex justify-center w-full relative z-50',
         'mb-8 xs:mb-10 md:mb-14 px-auto',
         'text-grey-3 font-bold iphone8:text-xl md:text-2xl',
       ].join(' ')}

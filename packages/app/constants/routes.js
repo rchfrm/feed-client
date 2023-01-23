@@ -81,7 +81,14 @@ export const controlsPages = [
   CONTROLS_TEAM,
 ]
 
-// Array of subpages
+export const generalPages = [
+  POSTS,
+  CONTROLS,
+  ...controlsPages,
+  RESULTS,
+  INSIGHTS,
+]
+
 export const subPages = [
   CONTROLS_SLUG,
   FAQS_SLUG,
