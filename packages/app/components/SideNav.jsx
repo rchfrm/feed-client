@@ -39,7 +39,7 @@ const SideNav = () => {
         'hidden md:flex flex-col justify-between',
         'fixed top-0 left-0 bottom-0 z-[22]',
         isNavExpanded ? 'w-[200px]' : 'w-20',
-        'md:transition-all md:duration-500',
+        'md:transition-width md:duration-500',
         'bg-black',
       ].join(' ')}
     >
@@ -50,7 +50,7 @@ const SideNav = () => {
         />
         <LogoButton
           id="sideNav"
-          className={['w-full transition-all duration-500', isNavExpanded ? 'h-30' : 'h-20'].join(' ')}
+          className="h-20 ml-3.5"
           hasWordmark={isNavExpanded}
         />
         <SideNavProfiles

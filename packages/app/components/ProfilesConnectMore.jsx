@@ -29,7 +29,7 @@ const ProfilesConnectMore = ({ isExpanded, className }) => {
           ].join(' ')}
         >Connect more
         </p>
-        <PlusIcon fill={isHover ? brandColors.green : brandColors.grey} />
+        <PlusIcon className="w-5 h-auto" fill={isHover ? brandColors.green : brandColors.grey} />
       </a>
     </Link>
   )

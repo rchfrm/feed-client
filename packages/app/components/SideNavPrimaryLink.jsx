@@ -1,8 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
-import SideNavPrimaryLinkIcon from '@/app/SideNavPrimaryLinkIcon'
+import useNotificationsStore from '@/app/stores/notificationsStore'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
+import PrimaryLinkIcon from '@/app/PrimaryLinkIcon'
+import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
+
+const getNotificationsStoreState = (state) => ({
+  artistsWithNotifications: state.artistsWithNotifications,
+})
 
 const SideNavPrimaryLink = ({
   href,
@@ -15,22 +22,32 @@ const SideNavPrimaryLink = ({
 }) => {
   const [hoverRef, isHover] = useHover()
 
+  const { artistsWithNotifications } = useNotificationsStore(getNotificationsStoreState)
+  const { artistId } = React.useContext(ArtistContext)
+  const hasNotification = artistsWithNotifications.includes(artistId)
+  const shouldShowDot = hasNotification && title === 'Notifications'
+
   return (
     <div ref={hoverRef}>
       {href ? (
         <ActiveLink href={href} activeClass="text-green">
           <a
             className={[
-              'flex items-center relative no-underline',
+              'relative flex items-center',
+              'mb-5 no-underline',
             ].join(' ')}
             target={isExternal ? '_blank' : ''}
           >
-            <SideNavPrimaryLinkIcon
-              icon={icon}
-              isActive={isActive}
-              isHover={isHover}
-              className="flex justify-center items-end my-0 mx-auto w-6 h-6 my-1"
-            />
+            <div className="relative">
+              <PrimaryLinkIcon
+                icon={icon}
+                isActive={isActive}
+                isHover={isHover}
+              />
+              {shouldShowDot && (
+                <NotificationDot size="small" className="absolute -top-1.5 -right-1.5 z-5" />
+              )}
+            </div>
             <p className={[
               'ml-2 mb-0 transition-opacity',
               isActive || isHover ? 'text-green' : 'text-grey',
@@ -44,17 +61,16 @@ const SideNavPrimaryLink = ({
       ) : (
         <button
           onClick={action}
-          className="flex mx-auto items-center relative hover:text-green"
+          className="flex items-center mb-5 hover:text-green"
         >
-          <SideNavPrimaryLinkIcon
+          <PrimaryLinkIcon
             icon={icon}
             isActive={isActive}
             isHover={isHover}
-            className="flex justify-center items-end my-0 mx-auto w-6 h-6 my-1"
           />
           <p
             className={[
-              'ml-2 mb-0 flex-shrink-0 transition-opacity',
+              'ml-2 mb-0 transition-opacity whitespace-nowrap',
               isActive || isHover ? 'text-green' : 'text-grey',
               isExpanded ? 'opacity-1 delay-300' : 'opacity-0 delay-100 w-0',
             ].join(' ')}

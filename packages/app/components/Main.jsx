@@ -100,7 +100,7 @@ function Main({ children }) {
     <main
       id="page--container"
       className={[
-        'self-end transition-all duration-500',
+        'self-end transition-width duration-500',
         isNavExpanded ? '!w-[calc(100%-120px)]' : '!w-full',
       ].join(' ')}
     >

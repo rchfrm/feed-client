@@ -21,7 +21,7 @@ const ActiveLink = ({
   children,
 }) => {
   const child = Children.only(children)
-  const [pathname, setPathname] = React.useState(router.asPath)
+  const [pathname, setPathname] = React.useState(router.pathname)
 
   const handleRouteChange = React.useCallback((url) => {
     const { pathname } = utils.parseUrl(url)
