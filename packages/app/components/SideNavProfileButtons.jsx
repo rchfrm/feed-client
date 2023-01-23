@@ -6,7 +6,6 @@ import ProfileButton from '@/app/ProfileButton'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 
 const SideNavProfileButtons = ({
-  artistsWithNotifications,
   isExpanded,
 }) => {
   const { user } = React.useContext(UserContext)
@@ -17,7 +16,6 @@ const SideNavProfileButtons = ({
   return (
     sortedArtists.map(({ id, name, facebook_page_id }) => {
       const isActive = id === artistId && ! artistLoading
-      const hasNotification = artistsWithNotifications.includes(id)
 
       return (
         <ProfileButton
@@ -25,7 +23,6 @@ const SideNavProfileButtons = ({
           name={name}
           pageId={facebook_page_id}
           artistId={id}
-          hasNotifications={hasNotification}
           isActive={isActive}
           isExpanded={isExpanded}
         />
@@ -35,7 +32,6 @@ const SideNavProfileButtons = ({
 }
 
 SideNavProfileButtons.propTypes = {
-  artistsWithNotifications: PropTypes.array.isRequired,
   isExpanded: PropTypes.bool.isRequired,
 }
 
