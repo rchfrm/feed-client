@@ -1,4 +1,5 @@
 import React from 'react'
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 import ActiveLink from '@/elements/ActiveLink'
 import { secondaryLinks } from '@/app/helpers/navHelpers'
 import { useRouter } from 'next/router'
@@ -6,16 +7,22 @@ import * as ROUTES from '@/app/constants/routes'
 
 const SecondaryLinks = () => {
   const { pathname } = useRouter()
+  const { isNavExpanded } = React.useContext(InterfaceContext)
 
   if (! ROUTES.generalPages.includes(pathname)) {
     return
   }
 
   return (
-    <nav>
+    <nav className={[
+      'relative z-50',
+      'self-end transition-width duration-500',
+      'mt-6 md:mt-0 mb-0 md:mb-10 px-20',
+      isNavExpanded ? '!w-[calc(100%-120px)]' : '!w-full',
+    ].join(' ')}
+    >
       <ul className={[
-        'flex justify-center w-full relative z-50',
-        'mb-8 xs:mb-10 md:mb-14 px-auto',
+        'flex justify-center',
         'text-grey-3 font-bold iphone8:text-xl md:text-2xl',
       ].join(' ')}
       >
