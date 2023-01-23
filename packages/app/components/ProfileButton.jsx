@@ -30,7 +30,7 @@ const ProfileButton = ({
         'relative overflow-hidden',
         'transition-width duration-500',
         'hover:bg-anthracite hover:text-green text-grey-2 -mt-[1px]',
-        isExpanded ? 'w-full h-12 px-4' : 'w-20 h-20 justify-center',
+        'w-full h-16 px-4',
         isActive ? 'bg-anthracite' : null,
       ].join(' ')}
     >
@@ -47,9 +47,9 @@ const ProfileButton = ({
           ].join(' ')}
         >
           {artistLoading && hasSpinner ? (
-            <Spinner className={[isExpanded ? 'w-6' : 'w-12'].join(' ')} />
+            <Spinner className="w-9" />
           ) : (
-            <ArtistImage pageId={pageId} name={name} className={[isExpanded ? 'w-6 h-6' : 'w-12 h-12'].join(' ')} />
+            <ArtistImage pageId={pageId} name={name} className="w-9 h-9" />
           )}
         </figure>
         <p
@@ -62,10 +62,10 @@ const ProfileButton = ({
         </p>
       </div>
       <div className={[
-        'absolute top-3 -right-3 h-6 w-6',
+        'absolute top-5 -right-3 h-6 w-6',
         'rounded-full bg-green',
         'transition-opacity',
-        isExpanded && isActive ? 'delay-500 opacity-1' : 'opacity-0',
+        isExpanded && isActive ? 'delay-300 opacity-1' : 'opacity-0',
       ].join(' ')}
       />
     </button>
