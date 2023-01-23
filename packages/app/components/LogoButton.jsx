@@ -22,7 +22,14 @@ const LogoButton = ({ id, className, hasWordmark }) => {
       title="home"
       className={[className, 'flex justify-center items-center'].join(' ')}
     >
-      <FeedLogo id={id} hasWordmark={hasWordmark} fill={brandColors.white} />
+      <FeedLogo
+        id={id}
+        hasWordmark={hasWordmark}
+        wordmarkClassName={[
+          'transition-opacity delay-300',
+          hasWordmark ? 'opacity-1' : 'opacity-0',
+        ].join(' ')}
+      />
     </button>
   )
 }

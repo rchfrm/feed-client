@@ -18,7 +18,6 @@ const Page = () => {
       artistRequired
       controlsRequired
       hasNoProfilesPage
-      hasSecondaryLinks
     >
       <ControlsContent slug={slug} />
     </BasePage>

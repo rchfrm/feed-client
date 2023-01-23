@@ -2,7 +2,6 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import PeekElement from 'react-peek-element'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
-import useNotificationsStore from '@/app/stores/notificationsStore'
 import { InterfaceContext } from '@/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
@@ -13,11 +12,6 @@ import HeaderProfileButton from '@/app/HeaderProfileButton'
 import ProfilesList from '@/app/ProfilesList'
 import * as ROUTES from '@/app/constants/routes'
 
-const getNotificationsStoreState = (state) => ({
-  totalActiveNotifications: state.totalActiveNotifications,
-  artistsWithNotifications: state.artistsWithNotifications,
-})
-
 const Header = () => {
   const [shouldShowMore, setShouldShowMore] = React.useState(false)
 
@@ -26,7 +20,6 @@ const Header = () => {
   const { pathname } = useRouter()
   const isGetStartedPage = pathname === ROUTES.GET_STARTED
 
-  const { totalActiveNotifications, artistsWithNotifications } = useNotificationsStore(getNotificationsStoreState)
   const { isMenuOpen, toggleMenu } = React.useContext(InterfaceContext)
   const { artistId, artistLoading } = React.useContext(ArtistContext)
 
@@ -42,11 +35,11 @@ const Header = () => {
     <PeekElement
       usePlaceHolder
       config={{
-        childProps: { style: { zIndex: 22, transform: isMenuOpen ? 'none' : null }, className: 'peek-element' },
+        childProps: { style: { zIndex: 22, transform: isMenuOpen ? 'none' : null }, className: 'peek-element md:hidden' },
       }}
     >
       <header className={[
-        'relative md:hidden top-0 left-0 right-0',
+        'relative top-0 left-0 right-0',
         '-mx-6 sm:-mx-8 px-4 py-1 h-15',
         'flex justify-between items-center',
         'bg-black',
@@ -59,13 +52,11 @@ const Header = () => {
           />
         </div>
         <HeaderProfileButton
-          hasNotifications={!! totalActiveNotifications}
           shouldShowMore={shouldShowMore}
           setShouldShowMore={setShouldShowMore}
         />
         {shouldShowMore && (
           <ProfilesList
-            artistsWithNotifications={artistsWithNotifications}
             shouldShowMore={shouldShowMore}
             setShouldShowMore={setShouldShowMore}
             className="top-20 right-6"

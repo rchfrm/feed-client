@@ -14,7 +14,6 @@ const Page = () => {
       artistRequired
       controlsRequired
       hasNoProfilesPage
-      hasSecondaryLinks
     >
       <ControlsContent />
     </BasePage>
