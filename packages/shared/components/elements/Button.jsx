@@ -19,6 +19,7 @@ const Button = React.forwardRef(({
   className,
   href,
   spinnerFill,
+  id,
 }, ref) => {
   const classes = {
     small: 'h-8 p-2 text-[13px]',
@@ -65,7 +66,7 @@ const Button = React.forwardRef(({
       onClick={onButtonClick}
       className={[
         isLoading ? 'relative' : null,
-        ! isTextButton ? 'inline-flex justify-center items-center rounded-dialogue' : null,
+        ! isTextButton ? 'flex justify-center items-center rounded-dialogue' : null,
         ! isTextButton ? classes[size] : null,
         ! isTextButton ? classes[color][version] : classes[version],
         href ? 'no-underline' : null,
@@ -78,6 +79,7 @@ const Button = React.forwardRef(({
       target={href ? target : ''}
       rel={href ? rel : ''}
       ref={ref}
+      id={id}
     >
       {isLoading && (
         <Spinner
@@ -115,6 +117,7 @@ Button.propTypes = {
   className: PropTypes.string,
   href: PropTypes.string,
   spinnerFill: PropTypes.string,
+  id: PropTypes.string,
   trackComponentName: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 }
@@ -131,6 +134,7 @@ Button.defaultProps = {
   className: '',
   href: '',
   spinnerFill: brandColors.black,
+  id: '',
 }
 
 export default Button
