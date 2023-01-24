@@ -203,10 +203,10 @@ const PostImage = ({
   // Define play icon
   const playIcon = React.useMemo(() => {
     if (videoError) {
-      return <PlayBrokenIcon className={[styles.playIcon, styles._broken].join(' ')} color={brandColors.bgColor} />
+      return <PlayBrokenIcon className={[styles.playIcon, styles._broken].join(' ')} color={brandColors.offwhite} />
     }
     if ((mediaType === 'video' || mediaType === 'youtube_embed') && ! videoError) {
-      return <PlayIcon className={styles.playIcon} color={brandColors.bgColor} />
+      return <PlayIcon className={styles.playIcon} color={brandColors.offwhite} />
     }
     return null
   }, [mediaType, videoError])

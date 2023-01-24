@@ -58,7 +58,7 @@ AppleIcon.propTypes = {
 }
 
 AppleIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   title: 'Apple Music',
   className: '',
   style: null,

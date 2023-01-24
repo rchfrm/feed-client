@@ -1,6 +1,6 @@
 .swiper-pagination-bullet,
 .swiper-pagination-bullet-active {
-  background: var(--text-color);
+  background: var(--black);
 }
 
 .swiper-pagination-bullet {
@@ -9,7 +9,7 @@
 
 .swiper-button-prev,
 .swiper-button-next {
-  color: var(--text-color);
+  color: var(--black);
   top: auto;
   bottom: 50%;
   margin-top: 0;

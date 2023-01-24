@@ -30,7 +30,7 @@ LockIcon.propTypes = {
 }
 
 LockIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: null,
   style: null,
 }

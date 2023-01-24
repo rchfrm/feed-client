@@ -30,7 +30,7 @@ PlusCircleIcon.propTypes = {
 }
 
 PlusCircleIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: null,
 }
 

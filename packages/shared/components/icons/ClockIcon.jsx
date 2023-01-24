@@ -41,7 +41,7 @@ ClockIcon.propTypes = {
 }
 
 ClockIcon.defaultProps = {
-  color: brandColors.textColor,
+  color: brandColors.black,
   className: null,
   style: null,
 }

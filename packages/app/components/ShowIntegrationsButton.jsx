@@ -22,7 +22,7 @@ const ShowIntegrationsButton = ({
           className={[
             'flex items-center justify-center',
             'h-10 w-10 rounded-full',
-            'text-white', 'bg-black',
+            'text-offwhite', 'bg-black',
           ].join(' ')}
           aria-label="Add more insights"
         >

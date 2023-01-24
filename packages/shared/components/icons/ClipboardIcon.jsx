@@ -27,7 +27,7 @@ ClipboardIcon.propTypes = {
 }
 
 ClipboardIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: '',
 }
 

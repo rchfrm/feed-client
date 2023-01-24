@@ -16,7 +16,7 @@ const BillingOrganizationHeader = ({
       <div className="col-span-12 sm:col-span-6">
         {/* ACCEPT / REJECT ORGANIZATION INVITES */}
         <BillingOrganizationInviteList
-          className="mb-12 sm:mb-0 rounded-dialogue border-solid border-2 border-redLight"
+          className="mb-12 sm:mb-0 rounded-dialogue border-solid border-2 border-red-light"
           organizationInvites={organizationInvites}
           setOrgInvites={setOrgInvites}
         />

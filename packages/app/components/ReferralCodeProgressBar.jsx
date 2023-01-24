@@ -38,7 +38,7 @@ const BAR = ({ useMask, percentComplete, style }) => {
         <linearGradient id="paint0_linear" x1="29.7931" y1="0" x2="29.7931" y2={height} gradientUnits="userSpaceOnUse">
           <stop stopColor={brandColors.red} />
           <stop offset="0.5" stopColor={brandColors.yellow} />
-          <stop offset="1" stopColor={brandColors.blue} />
+          <stop offset="1" stopColor={brandColors.twitter.bg} />
         </linearGradient>
       </defs>
     </svg>

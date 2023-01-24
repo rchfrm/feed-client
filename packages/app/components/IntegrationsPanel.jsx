@@ -61,7 +61,7 @@ const IntegrationsPanel = ({
               trackComponentName="IntegrationsPanel"
             >
               <ArrowIcon
-                fill={brandColors.bgColor}
+                fill={brandColors.offwhite}
                 direction="left"
                 style={{ width: '0.5rem' }}
               />

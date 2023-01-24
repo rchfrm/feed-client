@@ -8,7 +8,7 @@ const PostSettingsPreview = ({
   campaignType,
 }) => {
   const backgroundColorClass = {
-    engage: 'bg-blue',
+    engage: 'bg-twitter',
     nurture: 'bg-green',
     sales: 'bg-red',
   }

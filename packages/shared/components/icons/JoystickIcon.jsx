@@ -27,7 +27,7 @@ JoystickIcon.propTypes = {
 }
 
 JoystickIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: null,
 }
 

@@ -5,7 +5,7 @@
   padding: calc(0.5 * var(--sp-5)) 0;
   padding-top: var(--sp-4);
   padding-left: var(--sp-5);
-  border-top: 2px solid var(--text-color);
+  border-top: 2px solid var(--black);
   overflow-x: auto;
   margin-bottom: var(--sp-5);
 
@@ -21,7 +21,7 @@
     padding-left: 0;
   }
 
-  --active-color: var(--text-color);
+  --active-color: var(--black);
 }
 
 /* FILTERS LABEL */
@@ -90,7 +90,7 @@
   @mixin canHover {
     &:hover {      
       a {
-        color: var(--text-color) !important;
+        color: var(--black) !important;
       }
 
       &::after {

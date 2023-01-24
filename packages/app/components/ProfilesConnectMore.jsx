@@ -15,8 +15,8 @@ const ProfilesConnectMore = ({ isExpanded, className }) => {
         className={[
           'flex items-center',
           'w-full',
-          'border-b border-solid border-anthracite text-grey-2 no-underline',
-          'hover:text-green text-grey-2',
+          'border-b border-solid border-anthracite text-grey no-underline',
+          'hover:text-green text-grey',
           isExpanded ? null : 'justify-center',
           className,
         ].join(' ')}

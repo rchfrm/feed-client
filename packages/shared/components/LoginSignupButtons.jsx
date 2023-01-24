@@ -33,7 +33,7 @@ const LoginSignupButtons = ({
           version="black"
           icon={(
             <EmailIcon
-              color={brandColors.bgColor}
+              color={brandColors.offwhite}
               style={{ width: '1.75rem', height: 'auto' }}
             />
           )}

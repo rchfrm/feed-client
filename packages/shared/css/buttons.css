@@ -29,14 +29,14 @@ a[type=button] {
 
   &:disabled,
   &[disabled] {
-    color: var(--disabled-color-text);
-    background-color: var(--disabled-color-bg);
+    color: var(--grey-dark);
+    background-color: var(--grey-light);
     cursor: not-allowed;
     cursor: default;
 
     @mixin canHover {
       &:hover {
-        background-color: var(--disabled-color-bg);
+        background-color: var(--grey-light);
       }
     }
   }
@@ -67,7 +67,7 @@ a[type=button] {
 }
 
 .button--basic {
-  color: var(--white);
+  color: var(--offwhite);
   padding: 0 1.3em;
   height: var(--button-height);
   font-weight: var(--bold);
@@ -88,69 +88,69 @@ a[type=button] {
 
   @mixin canHover {
     &:hover {
-      background-color: var(--black-hover);
+      background-color: var(--anthracite);
     }
   }
 
   &:focus {
-    background-color: var(--black-hover);
+    background-color: var(--anthracite);
   }
 }
 
 .button--green,
 .button--success {
-  background-color: var(--success-color);
+  background-color: var(--green);
 
   @mixin canHover {
     &:hover {
-      background-color: var(--green-hover);
+      background-color: var(--green-light);
     }
   }
 
   &:focus {
-    background-color: var(--green-hover);
+    background-color: var(--green-light);
   }
 }
 
 .button--blue {
-  background-color: var(--blue);
+  background-color: var(--color-twitter);
 
   @mixin canHover {
     &:hover {
-      background-color: var(--blue);
+      background-color: var(--color-twitter);
     }
   }
 
   &:focus {
-    background-color: var(--blue);
+    background-color: var(--color-twitter);
   }
 }
 
 .button--insta {
-  background-color: var(--pink);
+  background-color: var(--color-insta);
 
   @mixin canHover {
     &:hover {
-      background-color: var(--pink);
+      background-color: var(--color-insta);
     }
   }
 
   &:focus {
-    background-color: var(--pink);
+    background-color: var(--color-insta);
   }
 }
 
 .button--red {
-  background-color: var(--error-color);
+  background-color: var(--red);
 
   @mixin canHover {
     &:hover {
-      background-color: var(--red-hover);
+      background-color: var(--red-light);
     }
   }
 
   &:focus {
-    background-color: var(--red-hover);
+    background-color: var(--red-light);
   }
 }
 
@@ -170,16 +170,16 @@ a[type=button] {
 }
 
 .button--pink {
-  background-color: var(--pink);
+  background-color: var(--color-insta);
 
   @mixin canHover {
     &:hover {
-      background-color: var(--pink-hover);
+      background-color: var(--color-insta);
     }
   }
 
   &:focus {
-    background-color: var(--pink-hover);
+    background-color: var(--color-insta);
   }
 }
 
@@ -232,8 +232,8 @@ a[type=button] {
 }
 
 .button--toggle {
-  background-color: var(--success-color);
-  color: var(--white);
+  background-color: var(--green);
+  color: var(--offwhite);
 
   .button--innerText {
     transform: none;
@@ -241,7 +241,7 @@ a[type=button] {
 
   svg {
     * {
-      fill: var(--white);
+      fill: var(--offwhite);
     }
   }
 
@@ -252,7 +252,7 @@ a[type=button] {
   }
 
   &._off {
-    background-color: var(--white);
+    background-color: var(--offwhite);
     border: 2px solid var(--grey);
   }
 
@@ -313,28 +313,28 @@ a[type=button] {
 
   @mixin canHover {
     &:hover {
-      border-color: var(--black-hover);
+      border-color: var(--anthracite);
     }
   }
 
   &:focus {
-    border-color: var(--black-hover);
+    border-color: var(--anthracite);
   }
 }
 
 .button--outline-green {
   color: var(--black);
-  border: 3px solid var(--success-color);
+  border: 3px solid var(--green);
   font-weight: normal;
 
   @mixin canHover {
     &:hover {
-      border-color: var(--green-hover);
+      border-color: var(--green-light);
     }
   }
 
   &:focus {
-    border-color: var(--green-hover);
+    border-color: var(--green-light);
   }
 }
 
@@ -356,8 +356,8 @@ a[type=button] {
 }
 
 .button--facebook {
-  background-color: var(--color-fb-button);
-  color: var(--white);
+  background-color: var(--color-fb);
+  color: var(--offwhite);
 }
 
 .integration-setup {
@@ -376,12 +376,12 @@ a[type=button] {
 
 .connected {
   background-color: var(--black);
-  color: var(--white);
+  color: var(--offwhite);
 }
 
 .button_sign-out {
   background-color: transparent;
-  color: var(--white);
+  color: var(--offwhite);
   border: none;
   font-weight: var(--bold);
   font-size: 1.25em;
@@ -397,7 +397,7 @@ a[type=button] {
 
 /* Copy text button */
 .button--copy-text {
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--black);
   border-radius: var(--button-radius);
   padding: 0.2em 0.5em;
   text-decoration: none;
@@ -424,7 +424,7 @@ a[type=button] {
   }
 
   &.-large {
-    border: 2px solid var(--text-color);
+    border: 2px solid var(--black);
     padding: 0 0.8em;
     letter-spacing: 0.05em;
 

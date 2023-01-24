@@ -103,7 +103,7 @@ textarea {
   align-items: center;
   padding: 0 var(--sp-4);
   background: var(--grey-light);
-  border: 2px solid var(--text-color);
+  border: 2px solid var(--black);
   border-right: none;
   border-radius: var(--button-radius);
   border-top-right-radius: 0;
@@ -131,7 +131,7 @@ textarea {
 .input--box-small,
 .input--textarea {
   display: block;
-  border: 2px solid var(--text-color);
+  border: 2px solid var(--black);
   border-radius: var(--button-radius);
   padding: 0 0.8em;
   height: var(--button-height);
@@ -139,11 +139,11 @@ textarea {
   width: 100%;
   
   &::placeholder{
-    color: var(--placeholder-color-text);
+    color: var(--grey-dark);
   }
 
   .input--container._error & {
-    border: 2px solid var(--error-color);
+    border: 2px solid var(--red);
   }
 }
 
@@ -233,7 +233,7 @@ select {
 .select {
   &._error {
     label {
-      color: var(--error-color);
+      color: var(--red);
     }
   }
 }
@@ -251,14 +251,14 @@ select {
 }
 
 .select--white {
-  color: var(--white);
+  color: var(--offwhite);
   
   &.select--box {
-    border: 2px solid var(--white);
+    border: 2px solid var(--offwhite);
   }
 
   option {
-    color: var(--text-color);
+    color: var(--black);
   }
 }
 
@@ -301,7 +301,7 @@ select {
   width: 0.8em;
   .select--white + & {
     path {
-      fill: var(--white);
+      fill: var(--offwhite);
     }
   }
 }
@@ -376,11 +376,11 @@ select {
   }
 
   &::before {
-    border: 1px solid var(--text-color);
+    border: 1px solid var(--black);
 
     .checkbox--button.-highlighted &,
     .radio--button.-highlighted & {
-      border: 1px solid var(--purple);
+      border: 1px solid var(--yellow);
     }
 
     .checkbox--button.-disabled &,
@@ -415,7 +415,7 @@ select {
 
   &.-white {
     &::after {
-      background-color: var(--white);
+      background-color: var(--offwhite);
       transform: scale(0.4) translateZ(0);
     } 
   }

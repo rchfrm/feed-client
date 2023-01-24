@@ -26,7 +26,7 @@ TikTokIcon.propTypes = {
 }
 
 TikTokIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: null,
   style: null,
 }

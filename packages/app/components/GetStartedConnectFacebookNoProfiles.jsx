@@ -38,7 +38,7 @@ const GetStartedConnectFacebookNoProfiles = ({
             <MissingScopesMessage
               scopes={missingScopes}
               showButton={false}
-              className="text-grey-3 italic mb-4"
+              className="text-grey-dark italic mb-4"
             />
           )}
           <div className="flex flex-1 flex-column justify-center items-center">

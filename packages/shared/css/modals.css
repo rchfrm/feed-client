@@ -15,14 +15,14 @@
   background: color-mod(var(--black) alpha(0.8));
 
   .modal--container.-white & {
-    background: color-mod(var(--white) alpha(0.2));
+    background: color-mod(var(--offwhite) alpha(0.2));
   }
 
   @media (--md) {
     background: color-mod(var(--black) alpha(0.4));
 
     .modal--container.-white & {
-      background: color-mod(var(--white) alpha(0.8));
+      background: color-mod(var(--offwhite) alpha(0.8));
     }
   }
 }

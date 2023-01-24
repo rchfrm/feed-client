@@ -40,7 +40,7 @@ const TargetingLocationsSettings = ({
     >
       <div
         className={[
-          'bg-grey-1 rounded-dialogue p-4',
+          'bg-grey-light rounded-dialogue p-4',
           'iphone8:flex items-center justify-between',
           'mb-4',
         ].join(' ')}

@@ -4,7 +4,7 @@ import { campaignTypes, growthGradient, conversionsGradient } from '@/app/helper
 
 const PostSettingsTabs = ({ campaignType, setCampaignType, isDisabled }) => {
   return (
-    <div className="flex mb-6 text-lg text-grey-3">
+    <div className="flex mb-6 text-lg text-grey-dark">
       {campaignTypes.map(({ title, slug }) => {
         const isActive = campaignType === slug
         return (
@@ -13,7 +13,7 @@ const PostSettingsTabs = ({ campaignType, setCampaignType, isDisabled }) => {
             className={[
               'mr-5',
               isActive && ! isDisabled ? 'text-black' : null,
-              isDisabled ? 'text-grey-2 pointer-events-none' : null,
+              isDisabled ? 'text-grey pointer-events-none' : null,
             ].join(' ')}
           >
             <button

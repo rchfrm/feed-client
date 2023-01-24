@@ -38,7 +38,7 @@ BandcampIcon.propTypes = {
 }
 
 BandcampIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   title: 'Bandcamp',
   className: '',
   style: null,

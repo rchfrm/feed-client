@@ -50,7 +50,7 @@ const DropdownPill = ({
           'flex items-center',
           'px-2 py-1 text-xs',
           'border-2 border-solid rounded-full',
-          disabled ? 'pointer-events-none border-grey-2 text-grey-2' : null,
+          disabled ? 'pointer-events-none border-grey text-grey' : null,
           className,
         ].join(' ')}
       >
@@ -73,7 +73,7 @@ const DropdownPill = ({
           className={[
             'absolute z-10 top-2 left-2 py-1 px-2',
             'border-2 border-solid border-black',
-            'bg-white rounded-dialogue',
+            'bg-offwhite rounded-dialogue',
           ].join(' ')}
         >
           {items.map((item) => (

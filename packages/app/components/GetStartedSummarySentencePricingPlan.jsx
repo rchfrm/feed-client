@@ -22,7 +22,7 @@ const GetStartedSummarySentencePricingPlan = () => {
     <GetStartedSummarySentenceSection
       section={getStartedSections.pricingPlan}
       text="on"
-      color={brandColors.blue}
+      color={brandColors.twitter.bg}
       isComplete={isComplete}
       className="mx-1 sm:mx-2"
     >

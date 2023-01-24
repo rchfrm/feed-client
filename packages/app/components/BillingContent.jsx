@@ -127,7 +127,7 @@ const BillingContent = () => {
     return (
       <div>
         {/* NO ARTIST COPY */}
-        <div className="p-5 bg-grey-1 rounded-dialogue max-w-xl mb-4">
+        <div className="p-5 bg-grey-light rounded-dialogue max-w-xl mb-4">
           <MarkdownText className="h4--text mb-0" markdown={copy.noArtists} />
         </div>
       </div>

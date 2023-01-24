@@ -10,7 +10,7 @@ export default function PricingPlanMonthlyCost({ amount, currencyCode, isManaged
       className={[
         'flex',
         'items-center',
-        amount === 0 ? 'text-grey-3' : null,
+        amount === 0 ? 'text-grey-dark' : null,
       ].join(' ')}
     >
       <p
@@ -22,7 +22,7 @@ export default function PricingPlanMonthlyCost({ amount, currencyCode, isManaged
         {currencySymbol}
       </p>
       {showAnnualPricing && amount > 0 && (
-        <p className="self-start line-through text-grey-3">{amount}</p>
+        <p className="self-start line-through text-grey-dark">{amount}</p>
       )}
       <p
         className={[

@@ -40,14 +40,14 @@ const TargetingDailyBudgetButtons = ({
             'w-8 h-8 p-0 mr-2',
             'bg-black',
             'rounded-full',
-            isDisabled ? 'bg-grey-2 focus:bg-grey-2 pointer-events-none' : '',
+            isDisabled ? 'bg-grey focus:bg-grey pointer-events-none' : '',
           ].join(' ')}
           onClick={resetBudget}
           trackComponentName="TargetingDailyBudgetButtons"
         >
           <RefreshIcon
             className={['w-4 h-auto'].join(' ')}
-            fill={brandColors.white}
+            fill={brandColors.offwhite}
             style={{ marginRight: 0 }}
           />
         </Button>
@@ -57,7 +57,7 @@ const TargetingDailyBudgetButtons = ({
         className={[
           'h-8 mr-2 xxs:mr-0',
           'rounded-full',
-          isDisabled ? 'bg-grey-2 pointer-events-none' : '',
+          isDisabled ? 'bg-grey pointer-events-none' : '',
         ].join(' ')}
         onClick={() => saveTargeting('budget')}
         trackComponentName="TargetingDailyBudgetButtons"

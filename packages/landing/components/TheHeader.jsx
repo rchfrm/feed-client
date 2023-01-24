@@ -39,7 +39,7 @@ export default function TheHeader() {
         'left-0',
         'z-50',
         'w-full',
-        'bg-white',
+        'bg-offwhite',
         styles.theHeader,
       ].join(' ')}
     >
@@ -57,16 +57,14 @@ export default function TheHeader() {
         ].join(' ')}
         >
           <Link href="/">
-            <a title="home" aria-label="Go Home">
+            <a title="home" aria-label="Go Home" className="w-40">
               <FeedLogo
-                className={[
-                  'w-40',
-                ].join(' ')}
+                id="landing"
                 style={{
                   width: '100%',
                   height: 'auto',
                 }}
-                showWordmark
+                hasWordmark
               />
             </a>
           </Link>
@@ -102,7 +100,7 @@ export default function TheHeader() {
           ) : (
             <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>
               <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} />
-              <div className="mx-12 mt-10 py-4 border-t border-solid border-grey-2">
+              <div className="mx-12 mt-10 py-4 border-t border-solid border-grey">
                 <Login
                   className="mb-1"
                   trackLocation="header"

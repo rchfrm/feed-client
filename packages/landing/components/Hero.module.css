@@ -28,6 +28,6 @@
     font-weight: normal;
   }
   input {
-    border: 3px solid var(--pink);
+    border: 3px solid var(--color-insta);
   }
 }

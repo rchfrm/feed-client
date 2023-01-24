@@ -161,7 +161,7 @@ const NotificationCurrentInfo = ({ containerRef }) => {
           ref={animatedDiv.ref}
           className={[
             'rounded-dialogue',
-            'bg-grey-1',
+            'bg-grey-light',
           ].join(' ')}
           style={{
             marginTop: -1,

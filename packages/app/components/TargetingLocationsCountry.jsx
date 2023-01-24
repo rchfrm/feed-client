@@ -66,7 +66,7 @@ const TargetingLocationsCountry = ({
                   <div
                     className={[
                       'absolute top-0 left-0 whitespace-nowrap mt-6 pt-1 text-xs',
-                      totalCitiesSelected > 0 ? 'text-black' : 'text-grey-3',
+                      totalCitiesSelected > 0 ? 'text-black' : 'text-grey-dark',
                     ].join(' ')}
                   >
                     {totalCitiesSelected} {totalCitiesSelected === 1 ? 'city' : 'cities'} selected

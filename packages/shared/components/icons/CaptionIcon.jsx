@@ -43,7 +43,7 @@ CaptionIcon.propTypes = {
 
 CaptionIcon.defaultProps = {
   fillBubble: brandColors.green,
-  fillDot: brandColors.white,
+  fillDot: brandColors.offwhite,
   className: null,
   style: null,
 }

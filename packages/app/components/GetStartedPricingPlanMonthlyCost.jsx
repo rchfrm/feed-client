@@ -15,7 +15,7 @@ const GetStartedPricingPlanMonthlyCost = ({
       className={[
         'flex items-center flex-col sm:flex-row',
         'mb-0 sm:mb-5 mr-2',
-        amount === 0 || isDisabled ? 'text-grey-3' : null,
+        amount === 0 || isDisabled ? 'text-grey-dark' : null,
       ].join(' ')}
     >
       <div className="flex items-center">
@@ -29,7 +29,7 @@ const GetStartedPricingPlanMonthlyCost = ({
           {currencySymbol}
         </p>
         {showAnnualPricing && amount > 0 && (
-          <p className="self-start line-through text-grey-3">{amount}</p>
+          <p className="self-start line-through text-grey-dark">{amount}</p>
         )}
         <p
           className={[

@@ -54,7 +54,7 @@ const GetStartedObjectiveButtonFooter = ({
         onClick={openReadMoreSidePanel}
       >
         <Icon className="w-4 h-4 mr-1" fill={brandColors.greyDark} />
-        <MarkdownText markdown={copy.objectivePlanFooter(plan)} className="mb-0 text-xs text-grey-3" />
+        <MarkdownText markdown={copy.objectivePlanFooter(plan)} className="mb-0 text-xs text-grey-dark" />
       </button>
     )
   )

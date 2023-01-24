@@ -124,7 +124,7 @@ const LinkBankLink = ({
           </p>
           {/* LINK PREVIEW */}
           <a
-            className="block pt-1 text-xs text-grey-3 truncate w-full"
+            className="block pt-1 text-xs text-grey-dark truncate w-full"
             href={editModeOn ? null : enforceUrlProtocol(link.href)}
             target={editModeOn ? null : '_blank'}
             rel={editModeOn ? null : 'noreferrer noopener'}

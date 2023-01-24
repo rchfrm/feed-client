@@ -100,7 +100,7 @@ export default function HeroSignUp() {
           className={[
             'py-4',
             'px-8',
-            'text-white',
+            'text-offwhite',
             'bg-pink',
           ].join(' ')}
           fallbackCta="Sign up"
@@ -109,7 +109,7 @@ export default function HeroSignUp() {
           Get started
           <ArrowAltIcon
             className="ml-3 h-6"
-            fill={brandColors.white}
+            fill={brandColors.offwhite}
             direction="right"
           />
         </Button>

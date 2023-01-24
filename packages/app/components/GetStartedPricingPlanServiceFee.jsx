@@ -8,7 +8,7 @@ const GetStartedPricingPlanServiceFee = ({ percentage, plan, isDisabled }) => {
       className={[
         'flex',
         'items-center flex-col sm:flex-row',
-        percentage === 0 || isDisabled ? 'text-grey-3' : null,
+        percentage === 0 || isDisabled ? 'text-grey-dark' : null,
       ].join(' ')}
     >
       <div className="flex items-center">

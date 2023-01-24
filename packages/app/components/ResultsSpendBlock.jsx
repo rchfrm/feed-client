@@ -12,14 +12,14 @@ const ResultsSpendBlock = ({ value, date, currency }) => {
       className={[
         'relative shrink-0 cursor-pointer',
         'mr-1 mb-1 rounded-dialogue',
-        value ? 'bg-green' : 'bg-grey-1',
+        value ? 'bg-green' : 'bg-grey-light',
       ].join(' ')}
       style={{ width: '29px', height: '29px' }}
       ref={hoverRef}
     >
       {isHover && (
         <div
-          className="absolute transform -translate-x-1/2 border-solid text-xs bg-white border-2 border-black py-1 p-2 z-10 rounded-dialogue text-center"
+          className="absolute transform -translate-x-1/2 border-solid text-xs bg-offwhite border-2 border-black py-1 p-2 z-10 rounded-dialogue text-center"
           style={{ top: '120%', left: '50%' }}
         >
           <span

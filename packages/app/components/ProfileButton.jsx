@@ -29,7 +29,7 @@ const ProfileButton = ({
         className,
         'relative overflow-hidden',
         'transition-width duration-500',
-        'hover:bg-anthracite hover:text-green text-grey-2 -mt-[1px]',
+        'hover:bg-anthracite hover:text-green text-grey -mt-[1px]',
         'w-full h-16 px-4',
         isActive ? 'bg-anthracite' : null,
       ].join(' ')}

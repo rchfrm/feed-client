@@ -26,7 +26,7 @@ Spinner.propTypes = {
 }
 
 Spinner.defaultProps = {
-  fill: brandColors.loaderColor,
+  fill: brandColors.green,
   width: 50,
   className: '',
 }

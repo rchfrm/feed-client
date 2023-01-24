@@ -45,7 +45,7 @@ const ProfileStatusMobileIncomplete = ({ backgroundStyle }) => {
       {profileSetupStatus === profileStatus.confirmSetup ? 'Confirm profile setup' : copy.profileStatus(profileSetupStatus, objective, platform)}
       <ArrowAltIcon
         className="ml-2 w-3"
-        fill={brandColors.white}
+        fill={brandColors.offwhite}
         direction="right"
       />
     </ProfileStatusMobileBar>

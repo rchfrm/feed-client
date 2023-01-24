@@ -3,7 +3,7 @@
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: repeat;
-  background-color: var(--white);
+  background-color: var(--offwhite);
   box-shadow: inset 0 3px 26px -3px rgba(0,0,0,.4);
 
   @media (--xs) {

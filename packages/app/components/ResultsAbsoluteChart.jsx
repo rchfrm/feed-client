@@ -58,11 +58,11 @@ const ResultsAbsoluteChart = ({
       <div style={{ width: `${prevPeriodProportion}%` }}>
         <div
           ref={prevPeriodChartRef}
-          className="flex justify-center items-center h-7 bg-blue opacity-50 rounded-full mb-1"
+          className="flex justify-center items-center h-7 bg-twitter opacity-50 rounded-full mb-1"
           style={{ backgroundColor: color, transform: 'scale(0)' }}
         >
           {tooltipMessage && (
-            <p className="mb-0 text-white text-xs">{formatNumber(prevPeriod)}</p>
+            <p className="mb-0 text-offwhite text-xs">{formatNumber(prevPeriod)}</p>
           )}
         </div>
         {tooltipMessage ? (
@@ -75,11 +75,11 @@ const ResultsAbsoluteChart = ({
       <div style={{ width: `${currentPeriodProportion}%` }}>
         <div
           ref={nextPeriodChartRef}
-          className="flex justify-center items-center h-7 bg-blue rounded-full mb-1"
+          className="flex justify-center items-center h-7 bg-twitter rounded-full mb-1"
           style={{ backgroundColor: color, transform: 'scale(0)' }}
         >
           {tooltipMessage && (
-            <p className="mb-0 text-white text-xs">{formatNumber(absoluteGrowth)}</p>
+            <p className="mb-0 text-offwhite text-xs">{formatNumber(absoluteGrowth)}</p>
           )}
         </div>
         <div className="text-center text-xs font-bold">

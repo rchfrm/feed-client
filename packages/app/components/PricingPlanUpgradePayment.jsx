@@ -93,7 +93,7 @@ const PricingPlanUpgradePayment = ({
         <ArrowAltIcon
           className="ml-3"
           direction="right"
-          fill={isDisabled ? brandColors.greyDark : brandColors.white}
+          fill={isDisabled ? brandColors.greyDark : brandColors.offwhite}
         />
       </Button>
     )

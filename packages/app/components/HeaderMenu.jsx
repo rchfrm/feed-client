@@ -137,7 +137,7 @@ const HeaderMenu = ({ isOpen, toggle }) => {
             'page--content',
             'hidden fixed left-0 top-0 z-[14]',
             'w-5/6 md:w-auto pb-10 pt-10 md:p-10',
-            'bg-black text-grey-2 font-display origin-left',
+            'bg-black text-grey font-display origin-left',
           ].join(' ')}
           ref={containerElement}
         >
@@ -146,7 +146,7 @@ const HeaderMenu = ({ isOpen, toggle }) => {
             className="absolute top-20 -right-[22px] flex justify-center items-center w-12 h-12 bg-anthracite rounded-full"
             ref={closeButtonElement}
           >
-            <CrossIcon className="w-8 h-8" fill={brandColors.white} />
+            <CrossIcon className="w-8 h-8" fill={brandColors.offwhite} />
           </button>
           <div
             id="navContent"
@@ -161,7 +161,7 @@ const HeaderMenu = ({ isOpen, toggle }) => {
           </div>
         </FullHeight>
         <div
-          className={['fixed top-0 left-0 w-full h-full bg-grey-3 hidden z-[13]'].join(' ')}
+          className={['fixed top-0 left-0 w-full h-full bg-grey-dark hidden z-[13]'].join(' ')}
           role="button"
           aria-label="Close navigation"
           onClick={() => toggle(false)}

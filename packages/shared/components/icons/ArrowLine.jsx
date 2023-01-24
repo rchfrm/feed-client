@@ -45,7 +45,7 @@ ArrowLine.propTypes = {
 }
 
 ArrowLine.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   strokeWidth: 2,
   lineLength: 44,
   hideCap: false,

@@ -1,10 +1,10 @@
 /* Pill button */
 .button--pill {
-  background-color: var(--bg-color);
+  background-color: var(--offwhite);
   padding: 0.3em 0.8em;
   padding-bottom: 0.4em;
   border-radius: var(--pill-radius);
-  border-color: var(--text-color);
+  border-color: var(--black);
   border-style: solid;
   white-space: nowrap;
 
@@ -41,18 +41,18 @@
   }
 
   &.-highlighted {
-    background-color: color-mod(var(--purple) alpha(0.25));
+    background-color: color-mod(var(--yellow) alpha(0.25));
   }
 
   &.-active {
-    background-color: var(--text-color);
-    color: var(--bg-color);
+    background-color: var(--black);
+    color: var(--offwhite);
     font-weight: var(--bold);
   }
 
   &.-inactive {
     background-color: var(--grey-light);
-    color: var(--text-color);
+    color: var(--black);
     opacity: 0.5;
   }
 
@@ -73,7 +73,7 @@
 
 .button--filter-empty {
   background-color: transparent !important;
-  color: var(--text-color) !important;
+  color: var(--black) !important;
 }
 
 .button--pill-inner {
@@ -124,7 +124,7 @@
   border-style: solid;
   border-top-width: 2px;
   border-bottom-width: 2px;
-  border-color: var(--text-color);
+  border-color: var(--black);
 
   &:first-child {
     border-top-left-radius: var(--pill-radius);

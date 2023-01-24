@@ -60,12 +60,12 @@ const ButtonShare = ({
         <>
           {isShareSupported ? (
             <ShareIcon
-              fill={brandColors.white}
+              fill={brandColors.offwhite}
               style={{ width: '1rem', height: 'auto' }}
             />
           ) : (
             <ClipboardIcon
-              fill={brandColors.white}
+              fill={brandColors.offwhite}
               style={{ width: '1rem', height: 'auto' }}
             />
           )}

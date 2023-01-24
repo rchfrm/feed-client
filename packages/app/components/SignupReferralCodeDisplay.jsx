@@ -33,13 +33,13 @@ const SignupReferralCodeDisplay = ({ className }) => {
       ].join(' ')}
     >
       <div className="flex items-center mb-5 iphone8:mb-0">
-        <TickIcon fill={brandColors.successColor} className="w-4 h-auto mr-4" />
+        <TickIcon fill={brandColors.green} className="w-4 h-auto mr-4" />
         Referral code:
       </div>
       <Button
         version="x-small"
         className={[
-          'bg-white text-black border-solid border border-black',
+          'bg-offwhite text-black border-solid border border-black',
           'iphone8:ml-3',
         ].join(' ')}
         onClick={clearUsedReferralCode}

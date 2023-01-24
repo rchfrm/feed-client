@@ -25,7 +25,7 @@ const HeaderMenuLink = ({
   const signOut = useSignOut()
 
   return (
-    <li className="mb-10 text-grey-2 hover:text-green" key={title} ref={hoverRef}>
+    <li className="mb-10 text-grey hover:text-green" key={title} ref={hoverRef}>
       {href ? (
         <ActiveLink href={href} activeClass="text-green">
           <a

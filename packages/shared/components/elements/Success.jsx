@@ -14,7 +14,7 @@ const Success = ({ message, messagePrefix, className }) => {
   return (
     <div className={classes}>
       <span className="success-message_icon">
-        <TickIcon fill={brandColors.successColor} />
+        <TickIcon fill={brandColors.green} />
       </span>
       <MarkdownText
         markdown={fullMessage}

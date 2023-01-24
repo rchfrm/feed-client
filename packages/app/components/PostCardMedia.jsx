@@ -31,7 +31,7 @@ const PostCardMedia = ({
     >
       <div
         className={[
-          'w-full relative bg-grey-1',
+          'w-full relative bg-grey-light',
           ! ready && hasMedia ? 'opacity-0' : 'opacity-1',
         ].join(' ')}
         style={{ paddingTop: '100%' }}

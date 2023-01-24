@@ -35,7 +35,7 @@ const GetStartedPricingPlansHeader = ({
           showAnnualPricing={showAnnualPricing}
           setShowAnnualPricing={setShowAnnualPricing}
           className="flex items-center"
-          buttonPillClassName="bg-blue border-blue"
+          buttonPillClassName="bg-twitter border-twitter"
         />
       ) : (
         <GetStartedPricingPeriodSelect

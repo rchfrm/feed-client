@@ -48,12 +48,12 @@ const BlogSummaryItem = ({ blog, className }) => {
             {image ? (
               <Image data={image.responsiveImage} />
             ) : (
-              <div className={['absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'bg-grey-2'].join(' ')} />
+              <div className={['absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'bg-grey'].join(' ')} />
             )}
           </div>
         </figure>
       </Anchor>
-      <h3 className={['bg-white', 'pointer-events-none', 'mb-0'].join(' ')}><strong>{title}</strong></h3>
+      <h3 className={['bg-offwhite', 'pointer-events-none', 'mb-0'].join(' ')}><strong>{title}</strong></h3>
       {excerpt && (
         <MarkdownText className={['mb-0'].join(' ')} markdown={excerpt} />
       )}

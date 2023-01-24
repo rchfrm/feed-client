@@ -17,7 +17,7 @@ const GetStartedPostsSelectionButtonsMobile = ({
       className={[
         'fixed flex flex-row -translate-x-1/2',
         'rounded-full overflow-hidden',
-        'border-2 border-solid border-black bg-white',
+        'border-2 border-solid border-black bg-offwhite',
       ].join(' ')}
       style={{ bottom: '40px', left: '50%' }}
     >
@@ -25,7 +25,7 @@ const GetStartedPostsSelectionButtonsMobile = ({
         <button
           onClick={loadMore}
           className={[
-            'w-30 p-2 bg-white border-r-2 border-solid border-black text-black',
+            'w-30 p-2 bg-offwhite border-r-2 border-solid border-black text-black',
           ].join(' ')}
         >
           {isLoadingMorePosts ? (
@@ -39,10 +39,10 @@ const GetStartedPostsSelectionButtonsMobile = ({
       )}
       <button
         onClick={handleNext}
-        className="flex justify-center p-2 w-30 bg-green text-white"
+        className="flex justify-center p-2 w-30 bg-green text-offwhite"
       >
         {isLoading ? (
-          <Spinner width={20} fill={brandColors.white} />
+          <Spinner width={20} fill={brandColors.offwhite} />
         ) : (
           <>
             Save

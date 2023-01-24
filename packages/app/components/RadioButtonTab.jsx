@@ -23,7 +23,7 @@ const RadioButtonTab = ({
     <button
       className={[
         'relative col-span-4 flex justify-center py-4 sm:py-0',
-        ! isActive ? 'bg-gradient-to-t from-grey-1 sm:bg-none' : null,
+        ! isActive ? 'bg-gradient-to-t from-grey-light sm:bg-none' : null,
       ].join(' ')}
       onClick={() => onClick(name)}
     >

@@ -53,7 +53,7 @@ ArrowIcon.propTypes = {
 
 ArrowIcon.defaultProps = {
   className: '',
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   style: {},
   direction: 'down',
 }

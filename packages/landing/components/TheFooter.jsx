@@ -18,14 +18,14 @@ const TheFooter = () => {
       className={[
         'w-full',
         'bg-black',
-        'text-white',
+        'text-offwhite',
         'px-5',
         'xs:px-8',
         'py-15',
       ].join(' ')}
     >
       <div className="bmw">
-        <div className={['w-full', 'border-t', 'border-white', 'border-solid'].join(' ')} />
+        <div className={['w-full', 'border-t', 'border-offwhite', 'border-solid'].join(' ')} />
         {/* Footer columns */}
         <nav className={[
           'grid',

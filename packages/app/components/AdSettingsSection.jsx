@@ -23,7 +23,7 @@ const AdSettingsSection = ({
       'mb-10 last:mb-0',
     ].join(' ')}
     >
-      <div className={isDisabled ? 'text-grey-2' : null}>
+      <div className={isDisabled ? 'text-grey' : null}>
         {header && <h3 className="font-body font-bold text-lg mb-3">{header}</h3>}
         <DisabledSection
           section={section}

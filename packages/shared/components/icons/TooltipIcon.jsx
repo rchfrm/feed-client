@@ -35,7 +35,7 @@ TooltipIcon.propTypes = {
 }
 
 TooltipIcon.defaultProps = {
-  fill: brandColors.textColor,
+  fill: brandColors.black,
   className: '',
 }
 

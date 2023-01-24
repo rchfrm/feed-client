@@ -276,7 +276,7 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         Next
         <ArrowAltIcon
           className="ml-3 h-6"
-          fill={! formComplete ? brandColors.greyDark : brandColors.white}
+          fill={! formComplete ? brandColors.greyDark : brandColors.offwhite}
           direction="right"
         />
       </Button>

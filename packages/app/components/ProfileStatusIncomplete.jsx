@@ -42,7 +42,7 @@ const ProfileStatusIncomplete = () => {
     profileSetupStatus === profileStatus.confirmSetup ? (
       <button onClick={goToGetStartedPage}>
         <span
-          className="mb-0 border-3 border-solid border-redLight rounded-full py-2 px-3"
+          className="mb-0 border-3 border-solid border-red-light rounded-full py-2 px-3"
         >
           Confirm profile set-up
         </span>
@@ -54,7 +54,7 @@ const ProfileStatusIncomplete = () => {
             'mb-0',
             'border-3',
             'border-solid',
-            'border-redLight',
+            'border-red-light',
             'rounded-full',
             'inline-flex',
             'ml-2',

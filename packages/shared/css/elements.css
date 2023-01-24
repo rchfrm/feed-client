@@ -89,7 +89,7 @@
 }
 
 .error {
-  color: var(--error-color);
+  color: var(--red);
 
   & + .error {
     margin-top: -1em;
@@ -102,7 +102,7 @@
 }
 
 .success {
-  color: var(--success-color);
+  color: var(--green);
 }
 
 /* Feed
@@ -154,7 +154,7 @@
 }
 
 .nextbutton:disabled {
-  color: var(--disabled-color-text);
+  color: var(--grey-dark);
   background-color: transparent;
 }
 /* PageHeader
@@ -201,7 +201,7 @@
 ******************/
 .tile {
   padding: var(--sp-4);
-  border: 2px solid var(--text-color);
+  border: 2px solid var(--black);
   border-radius: var(--dialogue-radius);
   overflow: hidden;
 
@@ -228,7 +228,7 @@
 }
 
 .readonly {
-  background-color: var(--text-color);
+  background-color: var(--black);
 }
 
 /* Tile

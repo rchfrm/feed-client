@@ -1,15 +1,7 @@
-// IMPORT PACKAGES
 import React from 'react'
 import PropTypes from 'prop-types'
-// IMPORT COMPONENTS
-// IMPORT CONTEXTS
-// IMPORT ELEMENTS
-// IMPORT PAGES
-// IMPORT ASSETS
 import BrokenCircle from '@/landing/icons/BrokenCircle'
-// IMPORT CONSTANTS
-import brandColors from '@/landing/constants/brandColors'
-// IMPORT HELPERS
+import brandColors from '@/constants/brandColors'
 
 function Spinner({ width, color, className }) {
   return (
@@ -26,7 +18,7 @@ Spinner.propTypes = {
 }
 
 Spinner.defaultProps = {
-  color: brandColors.loaderColor,
+  color: brandColors.green,
   width: 50,
   className: '',
 }

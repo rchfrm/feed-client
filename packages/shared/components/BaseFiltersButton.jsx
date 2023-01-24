@@ -85,7 +85,7 @@ BaseFiltersButton.defaultProps = {
   subtitle: '',
   buttonType: 'pill',
   backgroundColor: brandColors.grey,
-  textColor: brandColors.textColor,
+  textColor: brandColors.black,
   icon: null,
   active: false,
   className: '',

@@ -31,18 +31,18 @@ const LinkBankListButtons = ({
       {/* ADD */}
       <Button
         version="x-small black icon"
-        className={[isDisabled ? 'bg-grey-2' : null, 'mr-5'].join(' ')}
+        className={[isDisabled ? 'bg-grey' : null, 'mr-5'].join(' ')}
         onClick={() => addLink()}
         trackComponentName="LinkBankListButtons"
       >
-        <PlusIcon style={{ height: '0.75rem' }} fill={brandColors.bgColor} />
+        <PlusIcon style={{ height: '0.75rem' }} fill={brandColors.offwhite} />
         {totalLinks > 0 ? 'Add' : 'Add a link'}
       </Button>
       {/* EDIT */}
       {totalLinks > 0 && (
         <Button
           version="x-small green icon"
-          className={[isDisabled ? 'bg-grey-2' : null].join(' ')}
+          className={[isDisabled ? 'bg-grey' : null].join(' ')}
           onClick={() => {
             setEditModeOn((isOn) => {
               return ! isOn
@@ -52,12 +52,12 @@ const LinkBankListButtons = ({
         >
           {editModeOn ? (
             <>
-              <TickIcon fill={brandColors.bgColor} />
+              <TickIcon fill={brandColors.offwhite} />
               Done
             </>
           ) : (
             <>
-              <PencilIcon fill={brandColors.bgColor} style={{ height: '1rem' }} />
+              <PencilIcon fill={brandColors.offwhite} style={{ height: '1rem' }} />
               Edit
             </>
           )}

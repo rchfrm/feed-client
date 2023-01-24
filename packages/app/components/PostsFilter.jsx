@@ -11,7 +11,7 @@ const PostsFilter = ({
     <div className="flex items-center">
       <p className="mb-0 font-bold">Show:</p>
       {filterTypes.map(({ type, options }) => (
-        <div key={type} className="flex items-center last:border-l last:border-solid last:border-grey-2 px-2">
+        <div key={type} className="flex items-center last:border-l last:border-solid last:border-grey px-2">
           {options.map(({ slug, title }) => {
             return (
               <PostsFilterOption

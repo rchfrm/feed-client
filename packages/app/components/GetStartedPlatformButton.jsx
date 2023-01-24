@@ -14,7 +14,7 @@ const GetStartedPlatformButton = ({ platform, setSelectedPlatform }) => {
       className="w-full xxs:w-32 sm:w-48 mx-3 mb-5"
       onClick={() => setSelectedPlatform(value)}
       style={{
-        border: `2px solid ${brandColors.textColor}`,
+        border: `2px solid ${brandColors.black}`,
       }}
       hasIcon
       trackComponentName="GetStartedPlatformButton"

@@ -25,7 +25,7 @@ const PostCard = ({
         thumbnails={post.thumbnails}
         caption={post.message}
         postType={post.postType}
-        fallbackClassName={status === 'active' || status === 'rejected' ? 'bg-grey-1' : 'bg-white'}
+        fallbackClassName={status === 'active' || status === 'rejected' ? 'bg-grey-light' : 'bg-offwhite'}
         className="pointer-events-none"
       />
       <PostCardActions

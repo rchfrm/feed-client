@@ -18,13 +18,13 @@ const PostCardCreateAdButton = ({ className }) => {
       onClick={openSidePanel}
       className={[
         'relative rounded-dialogue border-2 border-solid border-green',
-        'bg-white font-bold',
+        'bg-offwhite font-bold',
         className,
       ].join(' ')}
       style={{ paddingTop: '100%' }}
     >
       <div className="absolute inset-0 flex items-center justify-center">
-        <PlusIcon className="h-4 w-4 mr-2" fill={brandColors.textColor} />
+        <PlusIcon className="h-4 w-4 mr-2" fill={brandColors.black} />
         Create ad
       </div>
     </button>

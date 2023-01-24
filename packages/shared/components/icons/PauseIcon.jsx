@@ -33,7 +33,7 @@ PauseIcon.propTypes = {
 }
 
 PauseIcon.defaultProps = {
-  color: brandColors.textColor,
+  color: brandColors.black,
   className: null,
   style: null,
 }

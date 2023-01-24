@@ -51,7 +51,7 @@
   bottom: 0;
   width: 100%;
   padding: var(--sp-5);
-  color: var(--bg-color);
+  color: var(--offwhite);
   font-size: 0.75rem;
 
   &._hasCaption {
@@ -74,7 +74,7 @@
   z-index: 2;
 
   svg {
-    border: 1px solid var(--white);
+    border: 1px solid var(--offwhite);
     border-radius: 50%;
   }
 }

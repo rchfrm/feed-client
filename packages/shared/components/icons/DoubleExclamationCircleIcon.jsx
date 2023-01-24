@@ -28,7 +28,7 @@ DoubleExclamationCircleIcon.propTypes = {
 }
 
 DoubleExclamationCircleIcon.defaultProps = {
-  color: brandColors.textColor,
+  color: brandColors.black,
   className: null,
   style: null,
 }

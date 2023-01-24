@@ -53,7 +53,7 @@ const CheckboxButton = ({
       <label
         className={[
           'checkbox--button_label',
-          disabled ? 'text-grey-2' : null,
+          disabled ? 'text-grey' : null,
         ].join(' ')}
         htmlFor={idName}
       >

@@ -162,7 +162,7 @@ const PostCardActionsMenu = ({
       className={[
         'absolute z-10 top-2 left-2 px-4 py-3',
         'border-2 border-solid border-black',
-        'bg-white rounded-dialogue',
+        'bg-offwhite rounded-dialogue',
       ].join(' ')}
     >
       <li>
@@ -171,7 +171,7 @@ const PostCardActionsMenu = ({
           className={[
             'flex items-center',
             'pb-2 mb-2 whitespace-nowrap font-bold',
-            'border-b border-solid border-grey-2',
+            'border-b border-solid border-grey',
           ].join(' ')}
         >
           {action?.icon}

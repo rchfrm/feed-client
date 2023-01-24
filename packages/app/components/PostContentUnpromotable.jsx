@@ -7,7 +7,7 @@ const PostContentUnpromotable = ({ hasSalesObjective, className }) => {
       className={[
         'rounded-dialogue',
         hasSalesObjective ? 'h-26' : 'h-12',
-        'bg-grey-1 text-grey-3',
+        'bg-grey-light text-grey-dark',
         'relative text-center',
         className,
       ].join(' ')}

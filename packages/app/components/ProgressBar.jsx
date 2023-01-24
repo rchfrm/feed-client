@@ -22,7 +22,7 @@ const ProgressBar = ({ percentage, className }) => {
 
   return (
     <div
-      className={['fixed top-0 left-0 w-full h-1 bg-white z-50', className].join(' ')}
+      className={['fixed top-0 left-0 w-full h-1 bg-offwhite z-50', className].join(' ')}
       style={{
         backgroundImage: 'url(/images/progress_bar_gradient.png)',
         backgroundSize: 'cover',
@@ -32,7 +32,7 @@ const ProgressBar = ({ percentage, className }) => {
         className="w-full h-full absolute"
       >
         <div
-          className="w-full h-full absolute right-0 bg-white"
+          className="w-full h-full absolute right-0 bg-offwhite"
           ref={maskRef}
         />
       </div>

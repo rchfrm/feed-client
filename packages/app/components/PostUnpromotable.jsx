@@ -8,7 +8,7 @@ const PostUnpromotable = ({ className }) => {
       className={[
         'relative flex items-center justify-center',
         'h-12',
-        'bg-grey-2 rounded-dialogue',
+        'bg-grey rounded-dialogue',
         'text-center',
         className,
       ].join(' ')}

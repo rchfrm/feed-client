@@ -15,7 +15,7 @@ import * as utils from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
 function Overlay({ children, height }) {
-  const color = utils.hexToRGBA(brandColors.white, 0.6)
+  const color = utils.hexToRGBA(brandColors.offwhite, 0.6)
 
   return (
     <div className="overlay-outer">

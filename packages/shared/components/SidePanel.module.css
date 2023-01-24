@@ -26,7 +26,7 @@
   left: var(--sp-5);
   top: var(--sp-5);
   bottom: var(--sp-5);
-  background: var(--white);
+  background: var(--offwhite);
   border-radius: var(--dialogue-radius);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -80,7 +80,7 @@
   top: 0;
   left: 0;
   z-index: 4;
-  background: color-mod(var(--white) alpha(0.8)) !important;
+  background: color-mod(var(--offwhite) alpha(0.8)) !important;
   border-radius: var(--dialogue-radius);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
