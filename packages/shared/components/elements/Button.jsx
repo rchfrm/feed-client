@@ -26,19 +26,19 @@ const Button = React.forwardRef(({
     medium: 'h-12 p-3 text-[13px]',
     large: 'h-12 p-3.5',
     green: {
-      primary: 'bg-green hover:bg-green-light active:border-2 active:border-green-dark active:border-dashed disabled:bg-grey',
-      secondary: 'bg-offwhite border-green border-solid border-2 hover:bg-green-bg-light active:border-4 active:bg-green-bg-light disabled:border-grey-dark disabled:bg-offwhite',
-      tertiary: 'bg-green-bg-light hover:bg-green-bg-dark active:border-2 active:border-green-dark active:border-dashed disabled:bg-grey-light',
+      primary: 'bg-green border-green hover:bg-green-light hover:border-green-light active:border-green-dark active:border-dashed disabled:bg-grey',
+      secondary: 'bg-offwhite border-green hover:bg-green-bg-light active:bg-green-bg-light active:border-green-dark disabled:border-grey-dark disabled:bg-offwhite',
+      tertiary: 'bg-green-bg-light border-green-bg-light hover:bg-green-bg-dark hover:border-green-bg-dark active:border-green-dark active:border-dashed disabled:bg-grey-light',
     },
     yellow: {
-      primary: 'bg-yellow hover:bg-yellow-light active:border-2 active:border-yellow-dark active:border-dashed disabled:bg-grey',
-      secondary: 'bg-offwhite border-yellow border-solid border-2 hover:bg-yellow-bg-light active:border-4 active:bg-yellow-bg-light disabled:border-grey-dark disabled:bg-offwhite',
-      tertiary: 'bg-yellow-bg-light hover:bg-yellow-bg-dark active:border-2 active:border-yellow-dark active:border-dashed disabled:bg-grey-light',
+      primary: 'bg-yellow border-yellow hover:bg-yellow-light hover:border-yellow-light active:border-yellow-dark active:border-dashed disabled:bg-grey',
+      secondary: 'bg-offwhite border-yellow hover:bg-yellow-bg-light active:bg-yellow-bg-light active:border-yellow-dark disabled:border-grey-dark disabled:bg-offwhite',
+      tertiary: 'bg-yellow-bg-light border-yellow-bg-light hover:bg-yellow-bg-dark hover:border-yellow-bg-dark active:border-yellow-dark active:border-dashed disabled:bg-grey-light',
     },
     red: {
-      primary: 'bg-red hover:bg-red-light active:border-2 active:border-red-dark active:border-dashed disabled:bg-grey',
-      secondary: 'bg-offwhite border-red border-solid border-2 hover:bg-red-bg-light active:border-4 active:bg-red-bg-light disabled:border-grey-dark disabled:bg-offwhite',
-      tertiary: 'bg-red-bg-light hover:bg-red-bg-dark active:border-2 active:border-red-dark active:border-dashed disabled:bg-grey-light',
+      primary: 'bg-red border-red hover:bg-red-light hover:border-red-light active:border-red-dark active:border-dashed disabled:bg-grey',
+      secondary: 'bg-offwhite border-red hover:bg-red-bg-light active:bg-red-bg-light active:border-red-dark disabled:border-grey-dark disabled:bg-offwhite',
+      tertiary: 'bg-red-bg-light border-red-bg-light hover:bg-red-bg-dark hover:border-red-bg-dark active:border-red-dark active:border-dashed disabled:bg-grey-light',
     },
     text: 'underline',
   }
@@ -65,10 +65,8 @@ const Button = React.forwardRef(({
       type={type}
       onClick={onButtonClick}
       className={[
+        ! isTextButton ? ['flex justify-center items-center rounded-dialogue border-2 border-solid', classes[size], classes[color][version]].join(' ') : classes[version],
         isLoading ? 'relative' : null,
-        ! isTextButton ? 'flex justify-center items-center rounded-dialogue' : null,
-        ! isTextButton ? classes[size] : null,
-        ! isTextButton ? classes[color][version] : classes[version],
         href ? 'no-underline' : null,
         isSidePanel ? 'w-full rounded-t-none rounded-br-none' : null,
         isDisabled ? 'cursor-not-allowed' : null,
