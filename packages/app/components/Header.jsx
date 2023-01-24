@@ -1,34 +1,28 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 import PeekElement from 'react-peek-element'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { UserContext } from '@/app/contexts/UserContext'
+import FeedLogo from '@/icons/FeedLogo'
 import LogoButton from '@/app/LogoButton'
 import HeaderMenu from '@/app/HeaderMenu'
 import HeaderMenuButton from '@/app/HeaderMenuButton'
 import HeaderProfileButton from '@/app/HeaderProfileButton'
 import ProfilesList from '@/app/ProfilesList'
-import * as ROUTES from '@/app/constants/routes'
 
 const Header = () => {
   const [shouldShowMore, setShouldShowMore] = React.useState(false)
-
   const isLoggedIn = useLoggedInTest()
-  const { user } = React.useContext(UserContext)
-  const { pathname } = useRouter()
-  const isGetStartedPage = pathname === ROUTES.GET_STARTED
 
-  const { isMenuOpen, toggleMenu } = React.useContext(InterfaceContext)
+  const { hasNav, isMenuOpen, toggleMenu } = React.useContext(InterfaceContext)
   const { artistId, artistLoading } = React.useContext(ArtistContext)
 
   React.useEffect(() => {
     toggleMenu(false)
   }, [artistId, artistLoading, toggleMenu])
 
-  if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage || artistLoading) {
-    return null
+  if (! hasNav || artistLoading) {
+    return <FeedLogo id="header" className="absolute top-3 left-3" />
   }
 
   return (
