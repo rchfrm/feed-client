@@ -39,7 +39,7 @@ const Button = React.forwardRef(({
       secondary: 'bg-offwhite border-red border-solid border-2 hover:bg-red-bg-light active:border-4 active:bg-red-bg-light disabled:border-grey-dark disabled:bg-offwhite',
       tertiary: 'bg-red-bg-light hover:bg-red-bg-dark active:border-2 active:border-red-dark active:border-dashed disabled:bg-grey-light',
     },
-    text: 'inline',
+    text: 'underline',
   }
 
   const onButtonClick = (e) => {
@@ -65,10 +65,9 @@ const Button = React.forwardRef(({
       onClick={onButtonClick}
       className={[
         isLoading ? 'relative' : null,
-        'rounded-dialogue',
-        classes[color][version],
+        ! isTextButton ? 'inline-flex justify-center items-center rounded-dialogue' : null,
         ! isTextButton ? classes[size] : null,
-        ! isTextButton ? 'inline-flex justify-center items-center' : 'underline',
+        ! isTextButton ? classes[color][version] : classes[version],
         href ? 'no-underline' : null,
         isSidePanel ? 'w-full rounded-t-none rounded-br-none' : null,
         isDisabled ? 'cursor-not-allowed' : null,
