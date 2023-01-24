@@ -25,6 +25,7 @@ const TargetingDailyBudgetCustomBudgetButton = ({
       size="small"
       version="secondary"
       onClick={() => setShowCustomBudget(! showCustomBudget)}
+      trackComponentName="TargetingDailyBudgetCustomBudgetButton"
     >
       {showCustomBudget ? 'Return to slider view' : 'Enter custom budget'}
     </Button>
