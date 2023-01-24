@@ -27,7 +27,6 @@ export default function PricingPlanMonthlyCost({ amount, currencyCode, isManaged
       <p
         className={[
           'text-7xl',
-          'font-display',
           'font-bold',
           'pr-2',
           showAnnualPricing && amount > 0 ? 'text-green' : null,

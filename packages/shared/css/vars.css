@@ -41,11 +41,9 @@
   --color-sc: #FDE74C;
 
   /* Font */
-  --font: 'Nunito', sans-serif;
-  --font-display: 'Inter', sans-serif;
+  --font: 'Inter', sans-serif;
   --base-font-size: 16px;
   --bold: 700;
-  --bold-display: 700;
 
   /* FONT SIZES */
   --text-xs: 0.75rem; /* 12px */

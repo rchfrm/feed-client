@@ -5,7 +5,6 @@ export default function HeroDescription({ description }) {
     <MarkdownText
       className={[
         'bg-offwhite',
-        'font-display',
         'text-xl',
         'sm:text-2xl',
         'md:text-xl',
