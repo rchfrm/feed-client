@@ -39,12 +39,12 @@ const CopyTextButton = ({
       {label && <span className="block font-bold text-sm mb-2">{label}</span>}
       <a
         className={[
-          'w-full inline-flex relative',
+          'inline-flex relative',
           'justify-between items-center',
           'border border-solid',
           'no-underline rounded-button',
           isSuccess ? 'border-green' : 'border-black',
-          size === 'large' ? 'px-3 py-2' : 'px-2 py-1',
+          size === 'large' ? 'pl-3 pr-7 py-2' : 'pl-2 pr-5 py-1',
           className,
         ].join(' ')}
         role="button"
