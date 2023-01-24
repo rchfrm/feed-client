@@ -1,10 +1,8 @@
 import React from 'react'
-
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 import getDatoData from '@/helpers/getDatoData'
 import query from '@/app/graphQl/dummyPostsQuery'
-
 import ResultsPage from '@/app/ResultsPage'
 
 const headerConfig = {

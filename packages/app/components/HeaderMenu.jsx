@@ -4,74 +4,58 @@ import { gsap, Power1, Power2 } from 'gsap'
 import { Transition } from 'react-transition-group'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import useSwipeDismiss from '@/hooks/useSwipeDismiss'
+import useOnResize from '@/landing/hooks/useOnResize'
 import FullHeight from '@/elements/FullHeight'
-import CloseCircle from '@/icons/CloseCircle'
-import SubNavArtists from '@/app/SubNavArtists'
-import SubNavLinks from '@/app/SubNavLinks'
-import SignOutLink from '@/app/SignOutLink'
+import FeedLogo from '@/icons/FeedLogo'
+import CrossIcon from '@/icons/CrossIcon'
+import HeaderMenuLinks from '@/app/HeaderMenuLinks'
 import brandColors from '@/constants/brandColors'
 
-const SubNav = ({ isOpen, toggle, windowWidth }) => {
-  const contentElement = React.useRef()
-  const animationType = React.useRef('')
-  const animationPromise = React.useRef()
-  const isMobile = React.useRef(false)
+const HeaderMenu = ({ isOpen, toggle }) => {
+  const containerElement = React.useRef(null)
+  const contentElement = React.useRef(null)
+  const backGroundElement = React.useRef(null)
+  const closeButtonElement = React.useRef(null)
+  const animationPromise = React.useRef(null)
+  const { width } = useOnResize()
 
   // Initial animation
   const setDisplay = (state, node) => {
     node.style.display = state ? 'block' : 'none'
   }
 
-  // Panel animation
+  // Container animation
   const animateContainer = React.useCallback((state) => {
-    const target = document.getElementById('SubNav')
-    const { width: navWidth } = target.getBoundingClientRect()
-    const scaleX = 1
     const xPercent = ! state ? -100 : 0
     const ease = Power2.easeOut
     const duration = state ? 0.4 : 0.3
 
-    // Animate side navigation
-    const SideNav = document.getElementById('SideNav')
-    const xMove = state ? navWidth : 0
-    gsap.to(SideNav, { x: xMove, duration, ease })
+    // Fade in background
+    const opacity = state ? 0.8 : 0
+    backGroundElement.current.style.display = 'block'
+    gsap.to(backGroundElement.current, { opacity, duration, ease })
 
-    // Fade in sub nav background
-    const SubNavBackground = document.getElementById('SubNavBackground')
-    const bgOpacity = state ? 0.8 : 0
-    SubNavBackground.style.display = 'block'
-    gsap.to(SubNavBackground, { opacity: bgOpacity, duration, ease })
-
-    // Animate container
-    return gsap.to(target, { scaleX, x: 0, y: 0, xPercent, duration, ease })
+    // Slide container
+    return gsap.to(containerElement.current, { xPercent, duration, ease })
   }, [])
 
-  // Background animation
+  // Content animation
   const animateContent = (state, delay = 0) => {
-    const { current: target } = contentElement
     const opacity = state ? 1 : 0
     const duration = state ? 0.4 : 0
 
-    return gsap.to(target, { opacity, y: 0, duration, delay, ease: Power1.easeOut })
+    // Fade in content
+    return gsap.to([contentElement.current, closeButtonElement.current], { opacity, duration, delay, ease: Power1.easeOut })
   }
 
-  // Reset elements after animation
+  // Reset background element after animation
   const resetElements = () => {
-    const SubNav = document.getElementById('SubNav')
-    if (! SubNav) {
+    if (! containerElement.current) {
       return
     }
 
-    const SideNav = document.getElementById('SideNav')
-    const SubNavBackground = document.getElementById('SubNavBackground')
-
-    gsap.set(SubNav, { x: 0, scaleX: 1, scaleY: 1, xPercent: -100 })
-    SubNavBackground.style.display = 'none'
-
-    if (! SideNav) {
-      return
-    }
-    gsap.set([SideNav], { x: 0 })
+    gsap.set(containerElement.current, { xPercent: -100 })
+    backGroundElement.current.style.display = 'none'
   }
 
   // Run all animations
@@ -82,7 +66,6 @@ const SubNav = ({ isOpen, toggle, windowWidth }) => {
     }
 
     animationPromise.current = new Promise((resolve) => {
-      // Define order
       const firstAnimation = state ? animateContainer(state) : animateContent(state)
       const { vars: { duration: firstAnimationDuration } } = firstAnimation
       const delay = firstAnimationDuration * 0.8
@@ -105,33 +88,34 @@ const SubNav = ({ isOpen, toggle, windowWidth }) => {
     done()
   }
 
-  // Handle window resize
-  const onResize = () => {
-    // Reset initial position of elements
-    if (! isOpen) {
-      resetElements()
+  React.useEffect(() => {
+    const isMobile = width < 992
+
+    if (isMobile || ! isOpen) {
+      return
     }
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(onResize, [windowWidth])
+
+    toggle()
+  }, [width, isOpen, toggle])
+
+  React.useEffect(() => {
+    resetElements()
+  }, [])
 
   // Dragging
   const dragBind = useSwipeDismiss({
-    movingTargetId: 'SubNav',
-    touchTargetId: 'SubNavContent',
+    movingTargetId: 'navContainer',
+    touchTargetId: 'navContent',
     hide: () => toggle(false),
     reset: () => animateContainer(true),
-    disableCondition: ! isMobile.current || animationType.current === 'desktop',
   })
 
   // Toggle body scroll
   React.useEffect(() => {
-    const scrollElement = document.getElementById('SubNav')
-
     if (isOpen) {
-      disableBodyScroll(scrollElement)
+      disableBodyScroll(containerElement.current)
     } else {
-      enableBodyScroll(scrollElement)
+      enableBodyScroll(containerElement.current)
     }
   }, [isOpen])
 
@@ -148,48 +132,49 @@ const SubNav = ({ isOpen, toggle, windowWidth }) => {
     >
       <>
         <FullHeight
-          id="SubNav"
+          id="navContainer"
           className={[
             'page--content',
-            'fixed left-0 top-0 z-[14]',
+            'hidden fixed left-0 top-0 z-[14]',
             'w-5/6 md:w-auto pb-10 pt-10 md:p-10',
-            'bg-black text-grey-2 font-display hidden origin-left',
+            'bg-black text-grey-2 font-display origin-left',
           ].join(' ')}
+          ref={containerElement}
         >
-          <button onClick={toggle}>
-            <CloseCircle className="absolute top-20 -right-[22px] md:-right-[86px] w-12 h-12" fill={brandColors.blackHover} />
+          <button
+            onClick={toggle}
+            className="absolute top-20 -right-[22px] flex justify-center items-center w-12 h-12 bg-anthracite rounded-full"
+            ref={closeButtonElement}
+          >
+            <CrossIcon className="w-8 h-8" fill={brandColors.white} />
           </button>
           <div
-            id="SubNavContent"
+            id="navContent"
             className="h-full opacity-0 flex flex-col"
             ref={contentElement}
             {...dragBind()}
           >
-            <div className="flex flex-col justify-center md:justify-between w-full h-full">
-              <SubNavLinks />
-              <SubNavArtists />
+            <FeedLogo id="headerMenu" hasWordmark />
+            <div className="flex flex-col justify-center w-full h-full">
+              <HeaderMenuLinks />
             </div>
-            <p className="mb-0 text-sm opacity-70 hover:opacity-100 md:hidden">
-              <SignOutLink />
-            </p>
           </div>
         </FullHeight>
         <div
-          id="SubNavBackground"
           className={['fixed top-0 left-0 w-full h-full bg-grey-3 hidden z-[13]'].join(' ')}
           role="button"
           aria-label="Close navigation"
           onClick={() => toggle(false)}
+          ref={backGroundElement}
         />
       </>
     </Transition>
   )
 }
 
-SubNav.propTypes = {
+HeaderMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
-  windowWidth: PropTypes.number.isRequired,
 }
 
-export default SubNav
+export default HeaderMenu

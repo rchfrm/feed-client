@@ -1,58 +1,64 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import brandColors from '@/constants/brandColors'
+
+const { black } = brandColors
 
 const getRotation = (direction) => {
   switch (direction) {
-    case 'left':
-      return 90
-    case 'right':
-      return -90
     case 'up':
+      return 90
+    case 'down':
+      return -90
+    case 'right':
       return 180
     default:
       return 0
   }
 }
 
-const ArrowIcon = ({
-  className,
+const CaretIcon = ({
   fill,
+  className,
   style,
   direction,
 }) => {
   const rotation = getRotation(direction)
+
   return (
     <svg
-      className={className}
-      width="500"
-      height="388"
-      viewBox="0 0 500 388"
       fill="none"
+      viewBox="0 0 24 24"
+      height="24"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
       style={{
         ...style,
         ...(rotation && { transform: `rotate(${rotation}deg)` }),
       }}
     >
-      <path d="M250.251 0H500L250.251 388L0 0H250.251Z" fill={fill} />
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M14 17L8 12L14 7L14 17Z"
+        fill={fill}
+      />
     </svg>
   )
 }
 
-ArrowIcon.propTypes = {
-  className: PropTypes.string,
+CaretIcon.propTypes = {
   fill: PropTypes.string,
+  className: PropTypes.string,
   style: PropTypes.object,
   direction: PropTypes.string,
 }
 
-ArrowIcon.defaultProps = {
+CaretIcon.defaultProps = {
+  fill: black,
   className: '',
-  fill: brandColors.textColor,
-  style: {},
-  direction: 'down',
+  style: null,
+  direction: 'left',
 }
 
-export default ArrowIcon
+export default CaretIcon

@@ -1,19 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-
 import InitUser from '@/app/InitUser'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-
+import { InterfaceContext } from '@/contexts/InterfaceContext'
 import IntegrationErrorHandler from '@/app/IntegrationErrorHandler'
 import NotificationsHandler from '@/app/NotificationsHandler'
-
 import useControlsStore from '@/app/stores/controlsStore'
 import useBillingStore from '@/app/stores/billingStore'
 import useCheckProfileSetupStatus from '@/app/hooks/useCheckProfileSetupStatus'
-
 import * as server from '@/app/helpers/appServer'
 import { profileStatus } from '@/app/helpers/artistHelpers'
 import { formatPostsMinimal } from '@/app/helpers/postsHelpers'
@@ -34,6 +30,7 @@ const getBillingStoreState = (state) => ({
 function Main({ children }) {
   const { user } = React.useContext(UserContext)
   const { artistId, artist, setEnabledPosts } = React.useContext(ArtistContext)
+  const { isNavExpanded } = React.useContext(InterfaceContext)
   const isFirstRender = React.useRef(true)
 
   const {
@@ -100,7 +97,13 @@ function Main({ children }) {
   }, [profileSetupConditions, artistId, user, controlsLoading])
 
   return (
-    <main id="page--container">
+    <main
+      id="page--container"
+      className={[
+        'self-end transition-width duration-500',
+        isNavExpanded ? '!w-[calc(100%-120px)]' : '!w-full',
+      ].join(' ')}
+    >
       <InitUser>
         {children}
         <IntegrationErrorHandler />
@@ -110,8 +113,8 @@ function Main({ children }) {
   )
 }
 
-export default Main
-
 Main.propTypes = {
   children: PropTypes.element.isRequired,
 }
+
+export default Main
