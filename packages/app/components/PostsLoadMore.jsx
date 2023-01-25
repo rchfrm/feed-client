@@ -24,6 +24,7 @@ const PostsLoadMore = ({
           size="small"
           version="secondary"
           onClick={handleClick}
+          trackComponentName="PostsLoadMore"
         >
           {isLoadingMore ? <Spinner width={14} fill={brandColors.black} /> : 'Load more'}
         </Button>
