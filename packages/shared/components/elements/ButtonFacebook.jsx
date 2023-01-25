@@ -52,7 +52,7 @@ const ButtonFacebook = ({
     <Button
       href={href}
       onClick={onClick}
-      className={[className, 'relative bg-fb hover:bg-fb hover:bg-opacity-90 text-offwhite'].join(' ')}
+      className={[className, 'relative bg-fb border-fb hover:bg-fb hover:border-fb hover:bg-opacity-90 text-offwhite'].join(' ')}
       ref={buttonRef}
       spinnerFill={brandColors.offwhite}
       trackComponentName={trackComponentName}
