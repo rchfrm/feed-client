@@ -50,17 +50,23 @@ const SubHeaderProfileStatus = () => {
       >
         {hasSetUpProfile ? (
           <>
-            <p className="mb-0 font-bold mr-3 xxs:mr-6">{isDesktopLayout ? 'Campaign status' : artist.name}</p>
+            <p className="mb-0 font-bold mr-3 xxs:mr-6">
+              {isDesktopLayout ? (
+                <div>Campaign <span className="hidden lg:inline">status</span></div>
+              ) : (
+                artist.name
+              )}
+            </p>
             {isSpendingPaused ? (
               <div className="flex items-center font-bold">
-                <div className="flex justify-center items-center w-6 h-6 rounded-full bg-yellow mr-2">
+                <div className="flex justify-center items-center flex-shrink-0 w-6 h-6 rounded-full bg-yellow mr-2">
                   <PauseIcon className="w-4 h-4" />
                 </div>
                 Paused
               </div>
             ) : (
               <div className="flex items-center font-bold">
-                <div className="flex justify-center items-center w-6 h-6 rounded-full bg-green mr-2">
+                <div className="flex justify-center items-center flex-shrink-0 w-6 h-6 rounded-full bg-green mr-2">
                   <PlayIcon className="w-4 h-4" />
                 </div>
                 Active
@@ -70,7 +76,7 @@ const SubHeaderProfileStatus = () => {
         ) : (
           <>
             <div className="flex items-center mr-3 xxs:mr-6">
-              <div className="flex justify-center items-center w-6 h-6 rounded-full bg-red-bg-dark mr-2">
+              <div className="flex justify-center flex-shrink-0 items-center w-6 h-6 rounded-full bg-red-bg-dark mr-2">
                 <ExclamationCircleIcon className="w-4 h-4" />
               </div>
               <p className="mb-0 font-bold text-sm xxs:text-base">Set up incomplete</p>
