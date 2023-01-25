@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 
 import EditBlock from '@/app/EditBlock'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import InitUser from '@/admin/InitUser'
 import { UserProvider } from '@/admin/contexts/UserContext'
-import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
+import { InterfaceContextProvider } from '@/admin/contexts/InterfaceContext'
 
 import BrowserStoreSetup from '@/BrowserStoreSetup'
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Error from '@/elements/Error'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/admin/contexts/InterfaceContext'
 import Entity from '@/admin/Entity'
 
 const ArtistLoader = ({ id }) => {

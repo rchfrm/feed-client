@@ -1,6 +1,6 @@
 import React from 'react'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 import ActiveLink from '@/elements/ActiveLink'
 import { secondaryLinks } from '@/app/helpers/navHelpers'
 import { useRouter } from 'next/router'

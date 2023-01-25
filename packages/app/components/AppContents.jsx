@@ -1,5 +1,5 @@
 import React from 'react'
-import { InterfaceContextProvider } from '@/contexts/InterfaceContext'
+import { InterfaceContextProvider } from '@/app/contexts/InterfaceContext'
 import { UserProvider } from '@/app/contexts/UserContext'
 import { ArtistProvider } from '@/app/contexts/ArtistContext'
 import { TargetingContextProvider } from '@/app/contexts/TargetingContext'
@@ -19,8 +19,8 @@ import BrowserStoreSetup from '@/BrowserStoreSetup'
 const AppContents = ({ children }) => {
   return (
     <div id="container" className="page--content">
-      <InterfaceContextProvider>
-        <UserProvider>
+      <UserProvider>
+        <InterfaceContextProvider>
           <ArtistProvider>
             <TargetingContextProvider>
               <SidePanelContextProvider>
@@ -44,8 +44,8 @@ const AppContents = ({ children }) => {
               </SidePanelContextProvider>
             </TargetingContextProvider>
           </ArtistProvider>
-        </UserProvider>
-      </InterfaceContextProvider>
+        </InterfaceContextProvider>
+      </UserProvider>
       {/* Setup browser store */}
       <BrowserStoreSetup />
     </div>

@@ -1,23 +1,15 @@
 import React from 'react'
-import { useRouter } from 'next/router'
-import { UserContext } from '@/app/contexts/UserContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
-import useLoggedInTest from '@/app/hooks/useLoggedInTest'
+import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 import useOnResize from '@/landing/hooks/useOnResize'
 import LogoButton from '@/app/LogoButton'
 import SideNavProfiles from '@/app/SideNavProfiles'
 import SideNavPrimaryLinks from '@/app/SideNavPrimaryLinks'
 import SideNavToggleButton from '@/app/SideNavToggleButton'
-import * as ROUTES from '@/app/constants/routes'
 
 const SideNav = () => {
   const { width } = useOnResize()
-  const isLoggedIn = useLoggedInTest()
-  const { user } = React.useContext(UserContext)
   const contentElement = React.useRef(null)
-  const { pathname } = useRouter()
-  const isGetStartedPage = pathname === ROUTES.GET_STARTED
-  const { isNavExpanded, toggleNav } = React.useContext(InterfaceContext)
+  const { hasNav, isNavExpanded, toggleNav } = React.useContext(InterfaceContext)
 
   React.useEffect(() => {
     const isMobile = width < 992
@@ -29,7 +21,7 @@ const SideNav = () => {
     toggleNav()
   }, [width, isNavExpanded, toggleNav])
 
-  if (! isLoggedIn || user.is_email_verification_needed || isGetStartedPage) {
+  if (! hasNav) {
     return null
   }
 
