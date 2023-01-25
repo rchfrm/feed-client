@@ -9,7 +9,9 @@ const BillingOrganizationHeader = ({
   selectedOrgId,
   setSelectedOrgId,
 }) => {
-  if (! selectedOrgId) return null
+  if (! selectedOrgId || ! organizationInvites.length) {
+    return null
+  }
 
   return (
     <div className="grid grid-cols-12 gap-8 mb-6">

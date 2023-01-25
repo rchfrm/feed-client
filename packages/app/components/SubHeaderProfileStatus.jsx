@@ -13,12 +13,13 @@ import * as ROUTES from '@/app/constants/routes'
 const getControlsStoreState = (state) => ({
   profileSetupStatus: state.profileSetupStatus,
   isSpendingPaused: state.isSpendingPaused,
+  isControlsLoading: state.isControlsLoading,
 })
 
 const SubHeaderProfileStatus = () => {
   const { artist } = React.useContext(ArtistContext)
   const { hasSetUpProfile } = artist
-  const { profileSetupStatus, isSpendingPaused } = useControlsStore(getControlsStoreState)
+  const { profileSetupStatus, isSpendingPaused, isControlsLoading } = useControlsStore(getControlsStoreState)
   const isDesktopLayout = useBreakpointTest('md')
 
   const color = hasSetUpProfile ? isSpendingPaused ? 'yellow' : 'green' : 'red'
@@ -34,12 +35,12 @@ const SubHeaderProfileStatus = () => {
     })
   }
 
-  if (! profileSetupStatus) {
+  if (! profileSetupStatus || isControlsLoading) {
     return null
   }
 
   return (
-    <div className="relative h-10 mb-5 order-1 md:order-2 md:ml-auto">
+    <div className="relative h-10 order-1 md:order-2 md:ml-auto mb-5 md:mb-0">
       <div className={[
         'h-full',
         'flex items-center px-3 justify-between',
