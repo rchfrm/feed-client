@@ -50,7 +50,7 @@ const BillingOrganizationInviteItem = ({
       ].join(' ')}
     >
       <Error error={error} />
-      <h4 className="font-display m-0">{copy.invited(organizationInvite.inviting_user_name)}</h4>
+      <h4 className="m-0">{copy.invited(organizationInvite.inviting_user_name)}</h4>
       <div className="flex justify-between lg:w-1/2 mt-5">
         <Button
           size="small"

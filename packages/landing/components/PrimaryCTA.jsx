@@ -38,7 +38,6 @@ export default function PrimaryCTA({
             'text-green',
             'border-solid',
             'border-green',
-            'font-display',
             'border-4',
             'hover:bg-offwhite',
             'focus:bg-offwhite',

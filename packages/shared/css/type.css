@@ -36,17 +36,11 @@ strong,
   font-weight: var(--bold);
 }
 
-.display {
-  font-family: var(--font-display);
-  font-feature-settings: "ss01";
-}
-
 /* Header styles */
 h1,
 .h1 {
-  @extend .display;
   font-size: 2em;
-  font-weight: var(--bold-display);
+  font-weight: var(--bold);
   line-height: 1.25;
 
   @media (--md) {
@@ -57,9 +51,8 @@ h1,
 
 h2,
 .h2 {
-  @extend .display;
   font-size: 1.5em;
-  font-weight: var(--bold-display);
+  font-weight: var(--bold);
   line-height: 1.25;
 
   @media (--md) {
@@ -70,9 +63,8 @@ h2,
 
 h3,
 .h3 {
-  @extend .display;
   font-size: 21px;
-  font-weight: var(--bold-display);
+  font-weight: var(--bold);
   line-height: 1.25;
 
   @media (--md) {
@@ -83,9 +75,8 @@ h3,
 
 h4,
 .h4 {
-  @extend .display;
   font-size: 1.125rem;
-  font-weight: var(--bold-display);
+  font-weight: var(--bold);
   line-height: 1.5;
 }
 

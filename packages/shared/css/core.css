@@ -2,7 +2,6 @@
 @import "tailwindcss/base";
 /* Import fonts */
 @import "font-face/inter";
-@import "font-face/nunito";
 
 /**
 * Base.
