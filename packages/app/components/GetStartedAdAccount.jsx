@@ -10,7 +10,7 @@ import AdAccountSelector from '@/app/AdAccountSelector'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
 
 import { setAdAccount, getArtistIntegrationByPlatform, getAdAccounts } from '@/app/helpers/artistHelpers'
@@ -125,8 +125,8 @@ const GetStartedAdAccount = () => {
           trackComponentName="GetStartedAdAccount"
         >
           Save
-          <ArrowAltIcon
-            className="ml-3"
+          <ArrowIcon
+            className="w-7 h-auto ml-3"
             direction="right"
             fill="white"
           />

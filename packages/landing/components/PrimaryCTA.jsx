@@ -7,7 +7,7 @@ import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 import * as styles from '@/landing/PrimaryCTA.module.css'
 import Section from '@/landing/Section'
 import brandColors from '@/constants/brandColors'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 const getJoinLink = (state) => state.joinLink
 
@@ -50,8 +50,8 @@ export default function PrimaryCTA({
           trackComponentName="PrimaryCTA"
         >
           Get started
-          <ArrowAltIcon
-            className="ml-3 h-6"
+          <ArrowIcon
+            className="w-8 h-auto ml-1"
             fill={brandColors.green}
             direction="right"
           />

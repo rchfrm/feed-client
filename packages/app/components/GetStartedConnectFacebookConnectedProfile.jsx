@@ -6,7 +6,7 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import GetStartedConnectFacebookConnectedProfileItem from '@/app/GetStartedConnectFacebookConnectedProfileItem'
 
 import Button from '@/elements/Button'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 const GetStartedConnectFacebookConnectedProfile = ({ connectedArtists }) => {
   const { next } = React.useContext(WizardContext)
@@ -32,8 +32,8 @@ const GetStartedConnectFacebookConnectedProfile = ({ connectedArtists }) => {
           trackComponentName="GetStartedConnectFacebookConnectedProfile"
         >
           Next
-          <ArrowAltIcon
-            className="ml-3"
+          <ArrowIcon
+            className="w-7 h-auto ml-3"
             direction="right"
             fill="white"
           />

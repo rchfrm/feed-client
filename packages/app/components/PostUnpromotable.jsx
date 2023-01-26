@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import DoubleExclamationCircleIcon from '@/icons/DoubleExclamationCircleIcon'
+import ExclamationCircleIcon from '@/icons/ExclamationCircleIcon'
 
 const PostUnpromotable = ({ className }) => {
   return (
@@ -13,7 +13,7 @@ const PostUnpromotable = ({ className }) => {
         className,
       ].join(' ')}
     >
-      <DoubleExclamationCircleIcon className="mr-2" />
+      <ExclamationCircleIcon className="mr-2" />
       Post not promotable
     </div>
   )

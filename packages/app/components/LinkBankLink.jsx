@@ -91,18 +91,11 @@ const LinkBankLink = ({
               role="button"
               onClick={editModeOn ? () => editLink(link) : () => {}}
               className={[
-                'no-underline',
+                'flex items-center no-underline',
                 editModeOn ? 'wobble-animation' : null,
               ].join(' ')}
             >
-              <span
-                className="inline-block mr-2"
-                style={{
-                  transform: 'translateY(-0.1rem)',
-                }}
-              >
-                <LinkIcon />
-              </span>
+              <LinkIcon className="mr-1" />
               {link.name}
             </a>
             {isDefaultLink && (

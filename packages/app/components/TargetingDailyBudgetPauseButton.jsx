@@ -35,8 +35,8 @@ const TargetingDailyBudgetPauseButton = ({
   const action = isPaused ? 'resume' : 'pause'
   const backgroundClasses = isPaused ? 'bg-green button--green' : 'bg-red button--red'
   const icons = {
-    pause: <PauseIcon color={brandColors.offwhite} className="w-3 h-auto mr-2" />,
-    resume: <PlayIcon color={brandColors.offwhite} className="w-3 h-auto mr-2" />,
+    pause: <PauseIcon color={brandColors.offwhite} className="w-6 h-auto mr-2" />,
+    resume: <PlayIcon color={brandColors.offwhite} className="w-5 h-auto mr-2" />,
   }
   const Icon = icons[action]
 

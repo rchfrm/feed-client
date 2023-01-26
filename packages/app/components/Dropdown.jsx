@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ArrowIcon from '@/icons/ArrowIcon'
+import CaretIcon from '@/icons/CaretIcon'
 import { capitalise } from '@/helpers/utils'
 
 const Dropdown = ({
@@ -57,7 +57,7 @@ const Dropdown = ({
             isOpen ? 'rotate-90' : null,
           ].join(' ')}
           >
-            <ArrowIcon
+            <CaretIcon
               direction="right"
               className="w-3 h-3"
             />

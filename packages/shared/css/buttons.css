@@ -160,12 +160,12 @@ a[type=button] {
 
   @mixin canHover {
     &:hover {
-      background-color: var(--yellow-hover);
+      background-color: var(--yellow-light);
     }
   }
 
   &:focus {
-    background-color: var(--yellow-hover);
+    background-color: var(--yellow-light);
   }
 }
 
@@ -217,8 +217,8 @@ a[type=button] {
   height: var(--sp-12);
 
   svg {
-    width: var(--sp-5);
-    height: var(--sp-5);
+    width: var(--sp-7);
+    height: var(--sp-7);
   }
 }
 
@@ -296,8 +296,8 @@ a[type=button] {
 
   &.button--x-small {
     svg {
-      height: var(--sp-3);
-      margin-right: var(--sp-2);
+      height: var(--sp-5);
+      margin-right: var(--sp-1);
     }
   }
 

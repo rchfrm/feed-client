@@ -3,7 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ArrowIcon from '@/icons/ArrowIcon'
+import CaretIcon from '@/icons/CaretIcon'
 import Spinner from '@/elements/Spinner'
 import brandColors from '@/constants/brandColors'
 
@@ -109,8 +109,9 @@ const Select = ({
             })}
           </select>
           {/* Arrow Icon */}
-          <ArrowIcon
+          <CaretIcon
             className="select--arrow"
+            direction="down"
             fill={disabled || loading ? brandColors.greyDark : brandColors.black}
           />
           {/* Loading icon */}

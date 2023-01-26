@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { WizardContext } from '@/app/contexts/WizardContext'
 
 import Button from '@/elements/Button'
-import CloseCircle from '@/icons/CloseCircle'
+import CloseCircleIcon from '@/icons/CloseCircleIcon'
 import TickCircleIcon from '@/icons/TickCircleIcon'
 
 import brandColors from '@/constants/brandColors'
@@ -21,7 +21,7 @@ const GetStartedFacebookPixelQuestion = ({ setShouldShowPixelSelector }) => {
         className="w-full sm:w-56 mx-4 mb-5 sm:mb-0"
         trackComponentName="GetStartedFacebookPixelQuestion"
       >
-        <CloseCircle
+        <CloseCircleIcon
           fill={brandColors.greyDark}
           className="w-6 h-6 mr-2"
         />

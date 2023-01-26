@@ -6,30 +6,19 @@ import brandColors from '@/constants/brandColors'
 const ClockIcon = ({ color, className, style }) => {
   return (
     <svg
-      width="15"
-      height="15"
-      viewBox="0 0 15 15"
       fill="none"
+      viewBox="0 0 24 24"
+      height="24"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       style={style}
     >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M7.21154 13.7748C10.6343 13.7748 13.409 11.0001 13.409 7.57738C13.409 4.15465 10.6343 1.37997 7.21154 1.37997C3.7888 1.37997 1.01412 4.15465 1.01412 7.57738C1.01412 11.0001 3.7888 13.7748 7.21154 13.7748ZM7.21154 14.7889C11.1944 14.7889 14.4231 11.5602 14.4231 7.57738C14.4231 3.59456 11.1944 0.365845 7.21154 0.365845C3.22872 0.365845 0 3.59456 0 7.57738C0 11.5602 3.22872 14.7889 7.21154 14.7889Z"
+        xmlns="http://www.w3.org/2000/svg"
+        d="M12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM12 6C12.5523 6 13 6.44772 13 7V11.5858L15.7071 14.2929C16.0976 14.6834 16.0976 15.3166 15.7071 15.7071C15.3166 16.0976 14.6834 16.0976 14.2929 15.7071L11.2929 12.7071C11.1054 12.5196 11 12.2652 11 12V7C11 6.44772 11.4477 6 12 6Z"
         fill={color}
       />
-      <rect x="6.92285" y="2.09668" width="0.576923" height="1.73077" fill={color} />
-      <rect x="6.92285" y="11.3274" width="0.576923" height="1.73077" fill={color} />
-      <rect x="12.6924" y="7.28894" width="0.576923" height="1.73077" transform="rotate(90 12.6924 7.28894)" fill={color} />
-      <rect x="5.44727" y="4.85876" width="0.865385" height="3.17308" transform="rotate(-25 5.44727 4.85876)" fill={color} />
-      <rect x="9.40283" y="6.5155" width="0.865385" height="2.88462" transform="rotate(65 9.40283 6.5155)" fill={color} />
-      <rect x="3.46143" y="7.28894" width="0.576923" height="1.73077" transform="rotate(90 3.46143 7.28894)" fill={color} />
-      <rect x="11.291" y="11.2489" width="0.576923" height="1.73077" transform="rotate(135 11.291 11.2489)" fill={color} />
-      <rect x="4.76367" y="4.7218" width="0.576923" height="1.73077" transform="rotate(135 4.76367 4.7218)" fill={color} />
-      <rect x="3.54004" y="11.6569" width="0.576923" height="1.73077" transform="rotate(-135 3.54004 11.6569)" fill={color} />
-      <rect x="10.0674" y="5.12976" width="0.576923" height="1.73077" transform="rotate(-135 10.0674 5.12976)" fill={color} />
     </svg>
   )
 }

@@ -52,7 +52,7 @@ const GetStartedPostsSelectionCard = ({
       />
       {! isEnabled && <div className="absolute top-0 left-0 right-0 bottom-0 bg-offwhite opacity-75" />}
       <TickCircleIcon
-        fill={isEnabled ? brandColors.green : brandColors.offwhite}
+        fill={isEnabled ? brandColors.white : brandColors.offwhite}
         tickFill={isEnabled ? brandColors.offwhite : brandColors.grey}
         className="absolute bottom-0 w-6 h-6 m-2"
       />

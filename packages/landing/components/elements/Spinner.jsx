@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BrokenCircle from '@/landing/icons/BrokenCircle'
+import BrokenCircleIcon from '@/icons/BrokenCircleIcon'
 import brandColors from '@/constants/brandColors'
 
 function Spinner({ width, color, className }) {
   return (
     <div className={['spinner', className].join(' ')}>
-      <BrokenCircle width={width} fill={color} />
+      <BrokenCircleIcon width={width} fill={color} />
     </div>
   )
 }

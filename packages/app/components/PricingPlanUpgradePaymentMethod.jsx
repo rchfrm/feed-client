@@ -6,7 +6,7 @@ import useBillingStore from '@/app/stores/billingStore'
 import AddPaymentForm from '@/app/AddPaymentForm'
 
 import Button from '@/elements/Button'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import brandColors from '@/constants/brandColors'
 
@@ -50,7 +50,7 @@ const PricingPlanUpgradePaymentMethod = ({
     const button = (
       <Button version="insta" onClick={savePaymentMethod} trackComponentName="PricingPlanUpgradeIntro">
         Save
-        <ArrowAltIcon
+        <ArrowIcon
           className="ml-3"
           direction="right"
           fill={brandColors.offwhite}

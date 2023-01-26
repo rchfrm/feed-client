@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ArrowIcon from '@/icons/ArrowIcon'
+import CaretIcon from '@/icons/CaretIcon'
 
 import { capitalise } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
@@ -61,7 +61,7 @@ const DropdownPill = ({
           isOpen ? 'rotate-90' : null,
         ].join(' ')}
         >
-          <ArrowIcon
+          <CaretIcon
             direction="right"
             fill={disabled ? brandColors.grey : undefined}
             className="w-2 h-2"

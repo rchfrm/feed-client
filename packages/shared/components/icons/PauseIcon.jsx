@@ -1,39 +1,36 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import brandColors from '@/constants/brandColors'
 
-const PauseIcon = ({ color, className, style }) => {
+const PauseIcon = ({ fill, className, style }) => {
   return (
     <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
       fill="none"
+      viewBox="0 0 24 24"
+      height="24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
       className={className}
       style={style}
     >
       <path
-        fill={color}
-        d="M9.2395 1.7C9.2395 1.03726 9.77676 0.5 10.4395 0.5H14.0395C14.7022 0.5 15.2395 1.03726 15.2395 1.7V14.3C15.2395 14.9627 14.7022 15.5 14.0395 15.5H10.4395C9.77676 15.5 9.2395 14.9627 9.2395 14.3V1.7Z"
-      />
-      <path
-        fill={color}
-        d="M0.239502 1.7C0.239502 1.03726 0.77676 0.5 1.4395 0.5H5.0395C5.70224 0.5 6.2395 1.03726 6.2395 1.7V14.3C6.2395 14.9627 5.70224 15.5 5.0395 15.5H1.4395C0.77676 15.5 0.239502 14.9627 0.239502 14.3V1.7Z"
+        xmlns="http://www.w3.org/2000/svg"
+        d="M9 6C9.55228 6 10 6.44772 10 7V17C10 17.5523 9.55228 18 9 18C8.44772 18 8 17.5523 8 17V7C8 6.44772 8.44772 6 9 6ZM15 6C15.5523 6 16 6.44772 16 7V17C16 17.5523 15.5523 18 15 18C14.4477 18 14 17.5523 14 17V7C14 6.44772 14.4477 6 15 6Z"
+        fill={fill}
       />
     </svg>
   )
 }
 
 PauseIcon.propTypes = {
-  color: PropTypes.string,
+  fill: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
 }
 
 PauseIcon.defaultProps = {
-  color: brandColors.black,
+  fill: brandColors.black,
   className: null,
   style: null,
 }

@@ -11,7 +11,7 @@ import DefaultLinkForm from '@/app/DefaultLinkForm'
 
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import { setDefaultLink, getLinkById, getLinkByHref, validateLink } from '@/app/helpers/linksHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
@@ -227,8 +227,8 @@ const GetStartedDefaultLink = () => {
           spinnerFill={brandColors.offwhite}
         >
           Save
-          <ArrowAltIcon
-            className="ml-3"
+          <ArrowIcon
+            className="w-7 h-auto ml-3"
             direction="right"
             fill={isDisabled ? brandColors.greyDark : brandColors.offwhite}
           />

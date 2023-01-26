@@ -6,7 +6,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PricingPlanUpgradePlanItem from '@/app/PricingPlanUpgradePlanItem'
 
 import Button from '@/elements/Button'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import brandColors from '@/constants/brandColors'
 import { pricingNumbers, pricingPlans } from '@/constants/pricing'
@@ -50,7 +50,7 @@ const PricingPlanUpgradePlan = ({
     const button = (
       <Button version="insta" onClick={next} trackComponentName="PricingPlanUpgradePlan">
         {hasCancelledPlan ? 'Choose' : 'Update to'} {capitalise(artistPlan)}
-        <ArrowAltIcon
+        <ArrowIcon
           className="ml-3"
           direction="right"
           fill={brandColors.offwhite}

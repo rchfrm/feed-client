@@ -9,7 +9,7 @@ export default function PricingPlanFeature({ feature }) {
       className={['flex', 'items-center', 'pb-5'].join(' ')}
     >
       <TickIcon
-        className={['h-4', 'w-auto', 'pr-2', 'shrink-0'].join(' ')}
+        className={['h-6', 'w-auto', 'pr-1', 'shrink-0'].join(' ')}
         fill={brandColors.twitter.bg}
       />
       <MarkdownText markdown={feature} className="mb-0" />

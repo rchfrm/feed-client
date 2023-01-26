@@ -2,7 +2,7 @@ import React from 'react'
 
 import useOpenPricingPlanUpgradeSidePanel from '@/app/hooks/useOpenPricingPlanUpgradeSidePanel'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 const ProfileStatusUpgradePlan = () => {
   const openPricingPlanUpgradeSidePanel = useOpenPricingPlanUpgradeSidePanel()
@@ -30,7 +30,7 @@ const ProfileStatusUpgradePlan = () => {
         ].join(' ')}
       >
         Upgrade to <span className="ml-1 font-bold text-insta">Growth</span>
-        <ArrowAltIcon direction="right" className="ml-2" />
+        <ArrowIcon direction="right" className="ml-2" />
       </span>
     </button>
   )

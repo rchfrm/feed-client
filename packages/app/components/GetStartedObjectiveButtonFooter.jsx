@@ -8,8 +8,8 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import MarkdownText from '@/elements/MarkdownText'
 
 import InformationIcon from '@/icons/InformationIcon'
-import StarCircleIcon from '@/icons/StarCircleIcon'
-import InsightsCircleIcon from '@/icons/InsightsCircleIcon'
+import StarIcon from '@/icons/StarIcon'
+import InsightsIcon from '@/icons/InsightsIcon'
 import LockIcon from '@/icons/LockIcon'
 
 import { pricingPlans } from '@/constants/pricing'
@@ -26,8 +26,8 @@ const GetStartedObjectiveButtonFooter = ({
 
   const icons = {
     basic: InformationIcon,
-    growth: InsightsCircleIcon,
-    pro: StarCircleIcon,
+    growth: InsightsIcon,
+    pro: StarIcon,
   }
   const Icon = icons[plan]
 
@@ -53,7 +53,9 @@ const GetStartedObjectiveButtonFooter = ({
         className="flex justify-center items-center"
         onClick={openReadMoreSidePanel}
       >
-        <Icon className="w-4 h-4 mr-1" fill={brandColors.greyDark} />
+        <div className="flex items-center justify-center w-4 h-4 mr-1 rounded-full bg-grey-dark">
+          <Icon className="w-3 h-3" fill={brandColors.offwhite} />
+        </div>
         <MarkdownText markdown={copy.objectivePlanFooter(plan)} className="mb-0 text-xs text-grey-dark" />
       </button>
     )

@@ -5,7 +5,7 @@ import PauseIcon from '@/icons/PauseIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import QueueIcon from '@/icons/QueueIcon'
 import QueueAltIcon from '@/icons/QueueAltIcon'
-import DoubleExclamationCircleIcon from '@/icons/DoubleExclamationCircleIcon'
+import ExclamationCircleIcon from '@/icons/ExclamationCircleIcon'
 import * as postsHelpers from '@/app/helpers/postsHelpers'
 import brandColors from '@/constants/brandColors'
 
@@ -49,7 +49,7 @@ const PostPromotionStatus = ({
     [notRun]: QueueIcon,
     [inReview]: ClockIcon,
     [inActive]: PauseIcon,
-    [rejected]: DoubleExclamationCircleIcon,
+    [rejected]: ExclamationCircleIcon,
     disabled: QueueAltIcon,
   }
 
@@ -79,7 +79,7 @@ const PostPromotionStatus = ({
         <Icon
           className={[
             'w-auto mr-1',
-            isSmallSize ? 'h-3' : 'h-4',
+            isSmallSize ? 'h-4' : 'h-5',
           ].join(' ')}
           color={brandColors[color]}
           secondaryColor={brandColors.grey}

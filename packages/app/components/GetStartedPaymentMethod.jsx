@@ -16,7 +16,7 @@ import GetStartedPaymentMethodProrationsButton from '@/app/GetStartedPaymentMeth
 
 import Button from '@/elements/Button'
 import MarkdownText from '@/elements/MarkdownText'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import Error from '@/elements/Error'
 
 import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
@@ -262,8 +262,8 @@ const GetStartedPaymentMethod = () => {
           trackComponentName="GetStartedPaymentMethod"
         >
           {isPaymentRequired ? `Pay ${formatCurrency(amountToPay, artistCurrency)}` : 'Next'}
-          <ArrowAltIcon
-            className="ml-3"
+          <ArrowIcon
+            className="w-7 h-auto ml-3"
             direction="right"
             fill={brandColors.offwhite}
           />

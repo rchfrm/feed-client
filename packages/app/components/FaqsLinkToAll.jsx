@@ -1,5 +1,5 @@
 import * as ROUTES from '@/app/constants/routes'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import Link from 'next/link'
 import React from 'react'
 
@@ -18,7 +18,7 @@ export default function FaqsLinkToAll() {
           'col-span-12',
         ].join(' ')}
       >
-        <ArrowAltIcon direction="left" className="w-3" />
+        <ArrowIcon direction="left" className="w-3" />
         <h4
           className={[
             'mb-0',

@@ -11,7 +11,7 @@ import { profileStatus } from '@/app/helpers/artistHelpers'
 
 
 import copy from '@/app/copy/getStartedCopy'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 const getControlsStoreState = (state) => ({
   profileSetupStatus: state.profileSetupStatus,
@@ -64,7 +64,7 @@ const ProfileStatusIncomplete = () => {
         >
           {copy.profileStatus(profileSetupStatus, objective, platform, defaultPaymentMethod)}
           <span className="pl-2">
-            <ArrowAltIcon direction="right" />
+            <ArrowIcon direction="right" />
           </span>
         </span>
       </button>

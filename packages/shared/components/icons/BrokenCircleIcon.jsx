@@ -1,11 +1,12 @@
 import React from 'react'
 
-function BrokenCircle({ width, fill }) {
+function BrokenCircleIcon({ width, fill, className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 487.27 487.27"
       width={width}
+      className={className}
     >
       <path
         fill={fill}
@@ -16,4 +17,4 @@ function BrokenCircle({ width, fill }) {
   )
 }
 
-export default BrokenCircle
+export default BrokenCircleIcon

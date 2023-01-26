@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TickIcon from '@/landing/icons/TickIcon'
+import TickIcon from '@/icons/TickIcon'
 import FacebookIcon from '@/landing/icons/FacebookIcon'
 import InstagramIcon from '@/landing/icons/InstagramIcon'
 import brandColors from '@/constants/brandColors'

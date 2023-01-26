@@ -5,7 +5,7 @@ import { gsap, Power2 } from 'gsap'
 import { Portal } from 'react-portal'
 import { Transition } from 'react-transition-group'
 
-import CloseCircle from '@/icons/CloseCircle'
+import CloseCircleIcon from '@/icons/CloseCircleIcon'
 
 import useBrowserStore from '@/hooks/useBrowserStore'
 
@@ -144,7 +144,7 @@ const PopupModal = () => {
             className={['button--close', styles.backButton].join(' ')}
             label="Close"
           >
-            <CloseCircle />
+            <CloseCircleIcon />
           </button>
           {/* Inner */}
           <div

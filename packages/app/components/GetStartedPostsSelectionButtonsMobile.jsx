@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
 import brandColors from '@/constants/brandColors'
 
@@ -46,8 +46,8 @@ const GetStartedPostsSelectionButtonsMobile = ({
         ) : (
           <>
             Save
-            <ArrowAltIcon
-              className="ml-3"
+            <ArrowIcon
+              className="w-7 h-auto ml-3"
               direction="right"
               fill="white"
             />

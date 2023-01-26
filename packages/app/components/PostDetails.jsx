@@ -27,7 +27,7 @@ const PostDetails = ({ post, className }) => {
         <div className="mb-6">
           <p className="mb-2 text-lg font-bold">Link</p>
           <div className="flex items-center sm:w-2/3 pl-4">
-            <LinkIcon className="w-4 h-4 inline mr-1 flex-shrink-0" />
+            <LinkIcon className="w-5 h-auto inline mr-1 flex-shrink-0" />
             <a
               href={permalinkUrl}
               target="_blank"

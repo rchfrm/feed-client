@@ -7,7 +7,7 @@ import useHasOverflow from '@/app/hooks/useHasOverflow'
 
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import LockIcon from '@/icons/LockIcon'
 import MarkdownText from '@/elements/MarkdownText'
 
@@ -62,7 +62,7 @@ const DisabledActionPrompt = ({
       ref={ref}
     >
       <LockIcon
-        className={[isSmallSize ? 'w-3 h-3' : 'w-5 h-5', 'flex-shrink-0', '-mt-[3px]'].join(' ')}
+        className={[isSmallSize ? 'w-4 h-4' : null, 'flex-shrink-0', '-mt-[3px]'].join(' ')}
         fill={brandColors.instagram.bg}
       />
       <MarkdownText
@@ -70,8 +70,8 @@ const DisabledActionPrompt = ({
         className={[isSmallSize ? 'mx-1' : 'mx-2', 'mb-0'].join(' ')}
       />
       {isButton && (
-        <ArrowAltIcon
-          className={[isSmallSize ? 'w-3 h-3' : 'w-5 h-5', 'flex-shrink-0'].join(' ')}
+        <ArrowIcon
+          className={[isSmallSize ? 'w-4 h-4' : null, 'flex-shrink-0'].join(' ')}
           direction="right"
           fill={brandColors.instagram.bg}
         />

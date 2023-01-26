@@ -5,7 +5,7 @@ import ResultsAbsoluteChart from '@/app/ResultsAbsoluteChart'
 import ResultsFallbackChart from '@/app/ResultsFallbackChart'
 
 import MarkdownText from '@/elements/MarkdownText'
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import PlusIcon from '@/icons/PlusIcon'
 
 import { abbreviateNumber } from '@/helpers/utils'
@@ -41,7 +41,7 @@ const ResultsNewAudienceStats = ({ data }) => {
             {isMainChart ? (
               <PlusIcon className="h-4 w-4 sm:h-8 sm:w-8 mr-1" fill={brandColors.facebook.bg} />
             ) : (
-              currValue > prevValue && <ArrowAltIcon className="h-4 w-4 sm:h-8 sm:w-8 mr-1" fill={brandColors.facebook.bg} direction="up" />
+              currValue > prevValue && <ArrowIcon className="h-4 w-4 sm:h-8 sm:w-8 mr-1" fill={brandColors.facebook.bg} direction="up" />
             )}
             <p
               className="text-3xl mb-1 sm:text-6xl text-center font-bold"

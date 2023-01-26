@@ -31,7 +31,7 @@ const ControlsSettingsSectionFooter = ({
         fill={color}
         color={color}
         className={[
-          'flex-none h-auto mr-2',
+          'flex-none h-auto mr-1',
           icon === 'email' ? 'w-4' : 'w-3',
         ].join(' ')}
       />

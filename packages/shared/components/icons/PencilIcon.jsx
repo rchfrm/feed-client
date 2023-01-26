@@ -4,36 +4,20 @@ import PropTypes from 'prop-types'
 import brandColors from '@/constants/brandColors'
 
 const PencilIcon = ({ className, fill, style }) => {
-  const name = 'Pencil'
-
   return (
     <svg
+      fill="none"
+      viewBox="0 0 24 24"
+      height="24"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
-      data-name={name}
-      viewBox="0 0 600 600"
       className={className}
       style={style}
     >
-      <title>{name}</title>
-      <rect
+      <path
+        xmlns="http://www.w3.org/2000/svg"
+        d="M16.2929 2.29289C16.6834 1.90237 17.3166 1.90237 17.7071 2.29289L21.7071 6.29289C22.0976 6.68342 22.0976 7.31658 21.7071 7.70711L8.70711 20.7071C8.51957 20.8946 8.26522 21 8 21H4C3.44772 21 3 20.5523 3 20V16C3 15.7348 3.10536 15.4804 3.29289 15.2929L13.2927 5.2931L16.2929 2.29289ZM14 7.41421L5 16.4142V19H7.58579L16.5858 10L14 7.41421ZM18 8.58579L19.5858 7L17 4.41421L15.4142 6L18 8.58579Z"
         fill={fill}
-        x="91.8"
-        y="268.2"
-        width="360"
-        height="120"
-        transform="translate(-152.435 288.331)rotate(-45)"
-      />
-      <rect
-        fill={fill}
-        x="402.9"
-        y="107.1"
-        width="120"
-        height="60"
-        transform="translate(693.3 561.354)rotate(-135)"
-      />
-      <polygon
-        fill={fill}
-        points="73.5 526.6 102.1 413 187 497.9 73.5 526.6"
       />
     </svg>
   )

@@ -81,7 +81,7 @@ const BillingOrganizationSelect = ({
                   }}
                   trackComponentName="BillingOrganizationSelect"
                 >
-                  <SwitchIcon className="h-4 w-auto mr-2" fill={brandColors.offwhite} />
+                  <SwitchIcon className="h-5 w-auto mr-2" fill={brandColors.offwhite} />
                   Switch
                 </Button>
               </div>

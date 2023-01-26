@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { getLocalStorage } from '@/helpers/utils'
@@ -58,8 +58,8 @@ const GetStartedConnectFacebookProfilesItem = ({
           <p className="mb-0">{name}</p>
           {instagram_username && <p className="block mb-0  font-normal text-xs"> (@{instagram_username})</p>}
         </div>
-        <ArrowAltIcon
-          className="ml-3"
+        <ArrowIcon
+          className="w-7 h-auto ml-3"
           direction="right"
         />
       </div>

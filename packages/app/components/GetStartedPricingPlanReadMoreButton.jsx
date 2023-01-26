@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Button from '@/elements/Button'
-import PlusCircleIcon from '@/icons/PlusCircleIcon'
-import StarCircleIcon from '@/icons/StarCircleIcon'
-import InsightsCircleIcon from '@/icons/InsightsCircleIcon'
-
+import PlusIcon from '@/icons/PlusIcon'
+import StarIcon from '@/icons/StarIcon'
+import InsightsIcon from '@/icons/InsightsIcon'
 import { capitalise } from '@/helpers/utils'
+import brandColors from '@/constants/brandColors'
 
 const GetStartedPricingPlanReadMoreButton = ({
   plan,
@@ -17,9 +16,9 @@ const GetStartedPricingPlanReadMoreButton = ({
 
   const title = capitalise(name)
   const icons = {
-    basic: PlusCircleIcon,
-    growth: InsightsCircleIcon,
-    pro: StarCircleIcon,
+    basic: PlusIcon,
+    growth: InsightsIcon,
+    pro: StarIcon,
   }
 
   const Icon = icons[name]
@@ -33,7 +32,9 @@ const GetStartedPricingPlanReadMoreButton = ({
       'text-xs sm:text-base',
     ].join(' ')}
     >
-      <Icon className="w-4 h-4 inline-block mr-1" />
+      <div className="flex items-center justify-center w-4 h-4 mr-1 rounded-full bg-grey-dark">
+        <Icon className="w-3 h-3" fill={brandColors.offwhite} />
+      </div>
       <div>
         <Button
           version="text"

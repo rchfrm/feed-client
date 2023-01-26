@@ -6,7 +6,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 import useControlsStore from '@/app/stores/controlsStore'
 
-import ArrowAltIcon from '@/icons/ArrowAltIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 
 import ProfileStatusMobileBar from '@/app/ProfileStatusMobileBar'
 
@@ -43,7 +43,7 @@ const ProfileStatusMobileIncomplete = ({ backgroundStyle }) => {
       className="bg-insta"
     >
       {profileSetupStatus === profileStatus.confirmSetup ? 'Confirm profile setup' : copy.profileStatus(profileSetupStatus, objective, platform)}
-      <ArrowAltIcon
+      <ArrowIcon
         className="ml-2 w-3"
         fill={brandColors.offwhite}
         direction="right"

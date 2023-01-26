@@ -3,19 +3,20 @@ import PropTypes from 'prop-types'
 
 import brandColors from '@/constants/brandColors'
 
-const PlayIcon = ({ color, className }) => {
+const PlayIcon = ({ fill, className }) => {
   return (
     <svg
-      className={className}
-      width="310"
-      height="381"
-      viewBox="0 0 310 381"
       fill="none"
+      viewBox="0 0 24 24"
+      height="24"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <path
-        fill={color}
-        d="M0 370.7V10.2999C0 2.23091 8.87913 -2.69461 15.7372 1.57002L305.146 181.537C311.614 185.559 311.619 194.961 305.156 198.99L15.7473 379.424C8.88969 383.699 0 378.774 0 370.7Z"
+        xmlns="http://www.w3.org/2000/svg"
+        d="M6 6.74105C6 5.19747 7.67443 4.23573 9.00774 5.01349L18.0231 10.2725C19.3461 11.0442 19.3461 12.9558 18.0231 13.7276L9.00774 18.9865C7.67443 19.7643 6 18.8026 6 17.259V6.74105ZM17.0154 12L8 6.74105V17.259L17.0154 12Z"
+        fill={fill}
       />
     </svg>
 
@@ -23,14 +24,13 @@ const PlayIcon = ({ color, className }) => {
 }
 
 PlayIcon.propTypes = {
-  color: PropTypes.string,
+  fill: PropTypes.string,
   className: PropTypes.string,
 }
 
 PlayIcon.defaultProps = {
-  color: brandColors.black,
+  fill: brandColors.black,
   className: '',
 }
-
 
 export default PlayIcon
