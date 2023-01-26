@@ -33,7 +33,7 @@ const GetStartedPricingPlanMonthlyCost = ({
         )}
         <p
           className={[
-            'text-2xl sm:text-7xl font-display font-bold',
+            'text-2xl sm:text-7xl font-bold',
             'mb-0 pr-2',
             showAnnualPricing && amount > 0 && ! isDisabled ? 'text-green' : null,
           ].join(' ')}

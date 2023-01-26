@@ -64,7 +64,7 @@ const SplitViewOptionsItem = ({
         {isActive && <span className="w-4 h-4 block rounded-full bg-green" />}
       </div>
       <div>
-        <p className={['font-display font-bold', hasDescription ? 'mb-2' : 'mb-0'].join(' ')}>{title}</p>
+        <p className={['font-bold', hasDescription ? 'mb-2' : 'mb-0'].join(' ')}>{title}</p>
         {hasDescription && <p className="mb-0">{copy.splitViewOptionsDescription(name, hasSetUpProfile, objectiveString, isSpendingPaused, formattedBudget)}</p>}
       </div>
     </a>

@@ -24,7 +24,7 @@ const BannerBase = ({
         'bg-insta text-offwhite',
         'p-4',
         textLeft ? 'text-left' : 'text-center',
-        'font-display xs:text-lg lg:text-xl',
+        'xs:text-lg lg:text-xl',
         className,
       ].join(' ')}
       style={{

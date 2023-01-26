@@ -137,7 +137,7 @@ const HeaderMenu = ({ isOpen, toggle }) => {
             'page--content',
             'hidden fixed left-0 top-0 z-[14]',
             'w-5/6 md:w-auto pb-10 pt-10 md:p-10',
-            'bg-black text-grey font-display origin-left',
+            'bg-black text-grey origin-left',
           ].join(' ')}
           ref={containerElement}
         >
