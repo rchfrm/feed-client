@@ -100,7 +100,7 @@ export default function HeroSignUp() {
             'py-4',
             'px-8',
             'text-offwhite',
-            'bg-insta hover:bg-insta hover:bg-opacity-90',
+            'bg-insta hover:bg-insta border-insta hover:border-insta hover:bg-opacity-90',
           ].join(' ')}
           fallbackCta="Sign up"
           trackComponentName="HeroSignUp"
