@@ -26,7 +26,8 @@ const SecondaryLinks = () => {
     ].join(' ')}
     >
       <ul className={[
-        'flex justify-center',
+        'flex justify-center w-full',
+        'mb-8 xs:mb-10 md:mb-14 px-auto',
         'text-grey-dark font-bold iphone8:text-xl md:text-2xl',
       ].join(' ')}
       >

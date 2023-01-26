@@ -1,6 +1,5 @@
 .emailInput,
 .emailSubmit {
-  font-family: var(--font-display);
   font-feature-settings: "ss01";
 }
 
@@ -28,7 +27,7 @@
   input {
     background-color: var(--green);
     color: var(--offwhite);
-    font-weight: var(--bold-display);
+    font-weight: var(--bold);
     width: var(--sp-48);
   }
 }

@@ -1,19 +1,15 @@
 import React from 'react'
-
 import Link from 'next/link'
-
 import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
-
 import Login from '@/landing/Login'
-
 import FeedLogo from '@/icons/FeedLogo'
-
 import * as styles from '@/landing/TheHeader.module.css'
 import { useRouter } from 'next/router'
 import TheHeaderPageLinks from '@/landing/TheHeaderPageLinks'
 import TheHeaderHamburgerMenu from '@/landing/TheHeaderHamburgerMenu'
 import TryFeed from '@/landing/TryFeed'
 import TheHeaderHamburger from '@/landing/TheHeaderHamburger'
+import brandColors from '@/constants/brandColors'
 
 export default function TheHeader() {
   const { pathname } = useRouter()
@@ -64,6 +60,7 @@ export default function TheHeader() {
                   width: '100%',
                   height: 'auto',
                 }}
+                fill={brandColors.black}
                 hasWordmark
               />
             </a>

@@ -1,7 +1,6 @@
 /* Import tailwind base */
 @import "tailwindcss/base";
 /* Import fonts */
-@import "font-face/space-grotesk";
 @import "font-face/inter";
 
 /**
