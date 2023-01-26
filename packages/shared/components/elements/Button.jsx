@@ -22,6 +22,7 @@ const Button = React.forwardRef(({
   id,
 }, ref) => {
   const classes = {
+    'x-small': 'h-[22px] p-2 text-xs',
     small: 'h-8 p-2 text-[13px]',
     medium: 'h-12 p-3 text-[13px]',
     large: 'h-12 p-3.5',

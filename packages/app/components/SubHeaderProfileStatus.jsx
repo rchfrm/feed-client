@@ -27,20 +27,18 @@ const SubHeaderProfileStatus = () => {
   }
 
   return (
-    <div className="relative h-10 order-1 md:order-2 md:ml-auto mb-5 md:mb-0">
-      <div className={[
-        'h-full',
-        'flex items-center px-2 justify-between',
-        'border border-solid rounded-dialogue',
-        colorClasses[color],
-      ].join(' ')}
-      >
-        {hasSetUpProfile ? (
-          <SubHeaderProfileStatusComplete isSpendingPaused={isSpendingPaused} />
-        ) : (
-          <SubHeaderProfileStatusIncomplete />
-        )}
-      </div>
+    <div className={[
+      'flex items-center px-2 justify-between',
+      'relative h-8 md:h-10 order-1 md:order-2 md:ml-auto md:mb-0',
+      'border border-solid rounded-dialogue text-xs',
+      colorClasses[color],
+    ].join(' ')}
+    >
+      {hasSetUpProfile ? (
+        <SubHeaderProfileStatusComplete isSpendingPaused={isSpendingPaused} />
+      ) : (
+        <SubHeaderProfileStatusIncomplete />
+      )}
     </div>
   )
 }

@@ -11,7 +11,7 @@ const SubHeaderProfileStatus = ({ isSpendingPaused }) => {
 
   return (
     <>
-      <p className="mb-0 font-bold mr-4">
+      <p className="mb-0 font-bold mr-4 text-sm">
         {isDesktopLayout ? (
           <div>Campaign <span className="hidden lg:inline">status</span></div>
         ) : (
@@ -20,15 +20,15 @@ const SubHeaderProfileStatus = ({ isSpendingPaused }) => {
       </p>
       {isSpendingPaused ? (
         <div className="flex items-center font-bold">
-          <div className="flex justify-center items-center flex-shrink-0 w-6 h-6 rounded-full bg-yellow mr-2">
-            <PauseIcon className="w-4 h-4" />
+          <div className="flex justify-center items-center flex-shrink-0 w-4 h-4 rounded-full bg-yellow mr-1">
+            <PauseIcon className="w-3 h-3" />
           </div>
           Paused
         </div>
       ) : (
         <div className="flex items-center font-bold">
-          <div className="flex justify-center items-center flex-shrink-0 w-6 h-6 rounded-full bg-green mr-2">
-            <PlayIcon className="w-4 h-4" />
+          <div className="flex justify-center items-center flex-shrink-0 w-4 h-4 rounded-full bg-green mr-1">
+            <PlayIcon className="w-3 h-3" />
           </div>
           Active
         </div>

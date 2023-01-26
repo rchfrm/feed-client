@@ -21,7 +21,7 @@ const Header = () => {
     toggleMenu(false)
   }, [artistId, artistLoading, toggleMenu])
 
-  if (! hasNav || artistLoading) {
+  if (! hasNav) {
     return <FeedLogo id="header" className="absolute top-3 left-3" />
   }
 
