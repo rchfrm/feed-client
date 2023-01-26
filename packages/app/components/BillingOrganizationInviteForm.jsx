@@ -57,10 +57,9 @@ const FORM = ({
         required
       />
       <Button
-        version="black"
-        disabled={! email}
+        isDisabled={! email}
         onClick={onSubmit}
-        loading={isLoading}
+        isLoading={isLoading}
         trackComponentName="BillingOrganizationInviteForm"
         className="w-full"
       >

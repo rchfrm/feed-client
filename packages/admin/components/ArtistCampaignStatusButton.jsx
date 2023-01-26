@@ -37,8 +37,8 @@ export default function ArtistCampaignStatusButton({ artistId, artistStatus, set
   return (
     <div>
       <Button
-        version="black small"
-        loading={loading}
+        size="small"
+        isLoading={loading}
         onClick={() => updateStatus(artistId, buttonProps.newStatus)}
         trackComponentName="ArtistCampaignStatusButton"
       >

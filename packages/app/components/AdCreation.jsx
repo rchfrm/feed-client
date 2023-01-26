@@ -76,11 +76,11 @@ const AdCreation = () => {
   React.useEffect(() => {
     const button = (
       <Button
-        version="green"
         onClick={save}
         trackComponentName="AdCreation"
-        disabled={! file || ! message}
-        loading={isLoading}
+        isDisabled={! file || ! message}
+        isLoading={isLoading}
+        isSidePanel
       >
         Save
       </Button>

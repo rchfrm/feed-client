@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Button from '@/elements/Button'
-
+import PlusIcon from '@/icons/PlusIcon'
 import useOpenIntegrationsPanel from '@/app/hooks/useOpenIntegrationsPanel'
-
 
 const ShowIntegrationsButton = ({
   text,
@@ -30,11 +28,10 @@ const ShowIntegrationsButton = ({
         </button>
       ) : (
         <Button
-          className={[className].join(' ')}
-          version="small black"
           onClick={openIntegrationsPanel}
           trackComponentName="ShowIntegrationsButton"
         >
+          <PlusIcon className="w-5 h-auto mr-1" />
           {text}
         </Button>
       )}

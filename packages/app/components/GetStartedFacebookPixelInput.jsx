@@ -44,7 +44,6 @@ const GetStartedFacebookPixelInput = ({ setPixels }) => {
         className="w-full mb-12"
       />
       <Button
-        version="green"
         onClick={createPixel}
         className="w-full sm:w-48"
         trackComponentName="GetStartedFacebookPixelInput"

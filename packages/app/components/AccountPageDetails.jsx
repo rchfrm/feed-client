@@ -1,22 +1,16 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
-
 import { UserContext } from '@/app/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
-
 import * as server from '@/helpers/sharedServer'
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { track } from '@/helpers/trackingHelpers'
-
 import ReferralCodeWidget from '@/app/ReferralCodeWidget'
 import AccountPageDetailsEmail from '@/app/AccountPageDetailsEmail'
 import AccountPageDetailsConfirmAlert from '@/app/AccountPageDetailsConfirmAlert'
 import PendingEmailWarning from '@/app/PendingEmailWarning'
-
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-
 import useAnimateScroll from '@/hooks/useAnimateScroll'
 
 const getChangedEmails = ({ email, contactEmail, initialEmail, initialContactEmail }) => {
@@ -88,7 +82,7 @@ const AccountPageDetails = () => {
   // SUBMIT THE FORM
   const [loading, setLoading] = React.useState(false)
   const [errors, setErrors] = React.useState([])
-  const onSumbit = React.useCallback(async (e, forceSubmit) => {
+  const onSubmit = React.useCallback(async (e, forceSubmit) => {
     if (e) e.preventDefault()
     // Stop here if form is disabled
     if (formDisabled) return
@@ -238,7 +232,7 @@ const AccountPageDetails = () => {
         className={[
           'md:max-w-xl',
         ].join(' ')}
-        onSubmit={onSumbit}
+        onSubmit={onSubmit}
       >
 
         {errors.map((error, index) => {
@@ -306,10 +300,10 @@ const AccountPageDetails = () => {
         )}
 
         <Button
-          className="mt-10"
           type="submit"
-          disabled={formDisabled}
-          loading={loading}
+          className="w-1/2 mt-10"
+          isDisabled={formDisabled}
+          isLoading={loading}
           trackComponentName="AccountPageDetails"
         >
           Save changes
@@ -320,14 +314,11 @@ const AccountPageDetails = () => {
       <AccountPageDetailsConfirmAlert
         confirmAlert={confirmAlert}
         setConfirmAlert={setConfirmAlert}
-        resubmitForm={onSumbit}
+        resubmitForm={onSubmit}
       />
 
     </section>
   )
-}
-
-AccountPageDetails.propTypes = {
 }
 
 export default AccountPageDetails

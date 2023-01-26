@@ -24,7 +24,6 @@ const NewsletterSignup = ({
       )}
       <MailchimpForm
         inputClass={styles.emailInput}
-        submitClass={styles.emailSubmit}
         disclaimerClass="hidden"
         trackLocation={trackLocation}
         ctaText={ctaText}

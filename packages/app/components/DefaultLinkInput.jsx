@@ -87,7 +87,7 @@ const DefaultLinkInput = ({
         <Button
           version="text"
           onClick={toggleSelect}
-          className="h-auto absolute bottom-2 text-xs"
+          className="absolute bottom-2 text-xs"
           trackComponentName="DefaultLinkInput"
         >
           Choose from your existing links

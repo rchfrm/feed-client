@@ -51,7 +51,7 @@ const PageQuerySetter = ({
       <Button
         type="submit"
         className="mb-0"
-        disabled={! typedQueries.length === queries.length}
+        isDisabled={! typedQueries.length === queries.length}
         trackComponentName="PageQuerySetter"
       >
         {submitText}

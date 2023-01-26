@@ -190,11 +190,9 @@ const LoginEmailForm = ({ initialEmail, className }) => {
       </p>
 
       <Button
-        className={[styles.submit, 'ml-auto'].join(' ')}
-        version="green"
-        disabled={false}
+        type="submit"
         onClick={onFormSubmit}
-        type="input"
+        className={[styles.submit, 'ml-auto'].join(' ')}
         trackComponentName="LoginEmailForm"
       >
         Log in

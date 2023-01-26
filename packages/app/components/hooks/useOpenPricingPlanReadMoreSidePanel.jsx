@@ -22,7 +22,7 @@ const useOpenPricingPlanReadMoreSidePanel = () => {
         isDisabled={isDisabled}
       />
     )
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+    const button = <Button onClick={() => toggleSidePanel(false)} trackComponentName="PricingPlanReadMoreSidePanel" isSidePanel>Done</Button>
 
     setSidePanelContent(content)
     setSidePanelContentLabel('Read more about pricing plan')

@@ -92,10 +92,9 @@ const ResetPasswordContent = () => {
             />
             <div className="flex justify-end">
               <Button
-                version="black"
                 type="submit"
-                disabled={! password}
-                loading={isSubmitting}
+                isDisabled={! password}
+                isLoading={isSubmitting}
                 trackComponentName="ResetPasswordContent"
               >
                 Submit
@@ -111,8 +110,7 @@ const ResetPasswordContent = () => {
           <div>
             <Link href={ROUTES.LOGIN_EMAIL}>
               <Button
-                version="green x-small"
-                wrapper="a"
+                size="small"
                 className="w-full"
                 trackComponentName="ResetPasswordContent"
               >

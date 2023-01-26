@@ -8,7 +8,6 @@ import PricingPlanUpgradePlanItem from '@/app/PricingPlanUpgradePlanItem'
 import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 
-import brandColors from '@/constants/brandColors'
 import { pricingNumbers, pricingPlans } from '@/constants/pricing'
 
 import { capitalise } from '@/helpers/utils'
@@ -48,12 +47,15 @@ const PricingPlanUpgradePlan = ({
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={next} trackComponentName="PricingPlanUpgradePlan">
+      <Button
+        onClick={next}
+        trackComponentName="PricingPlanUpgradePlan"
+        isSidePanel
+      >
         {hasCancelledPlan ? 'Choose' : 'Update to'} {capitalise(artistPlan)}
         <ArrowIcon
-          className="ml-3"
+          className="ml-1"
           direction="right"
-          fill={brandColors.offwhite}
         />
       </Button>
     )

@@ -27,7 +27,7 @@ const GetStartedSummary = () => {
         className="justify-center pointer-events-none"
       />
       <Button
-        version="outline-green"
+        version="secondary"
         onClick={goToPostsPage}
         className="w-full sm:w-48"
         trackComponentName="GetStartedSummary"

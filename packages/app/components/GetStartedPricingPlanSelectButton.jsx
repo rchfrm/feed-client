@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
-
 import { capitalise } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
@@ -15,23 +14,20 @@ const GetStartedPricingPlanSelectButton = ({
   const title = capitalise(name)
 
   return (
-    <button
-      className={[
-        'sm:w-full flex justify-between',
-        'px-0 sm:px-4 py-2 sm:mb-5',
-        'sm:border-2 sm:border-green sm:border-solid sm:rounded-dialogue',
-        'font-bold',
-        isDisabled ? 'pointer-events-none grayscale border-grey text-grey' : null,
-      ].join(' ')}
+    <Button
+      version="secondary"
       onClick={() => setSelectedPricingPlan(name)}
+      className="sm:w-full sm:mb-5"
+      isDisabled={isDisabled}
+      trackComponentName="GetStartedPricingPlanSelectButton"
     >
       <span className="hidden sm:block">Select {title}</span>
       <ArrowIcon
         direction="right"
-        className="w-7 h-auto sm:w-auto sm:h-auto"
+        className="w-7 h-auto sm:w-auto sm:h-auto ml-1"
         fill={isDisabled ? brandColors.grey : brandColors.black}
       />
-    </button>
+    </Button>
   )
 }
 

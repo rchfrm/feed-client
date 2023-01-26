@@ -1,5 +1,5 @@
-.emailInput,
-.emailSubmit {
+.emailInput {
+  font-family: var(--font-display);
   font-feature-settings: "ss01";
 }
 
@@ -12,22 +12,5 @@
   border-bottom: 2px solid var(--green);
   padding-bottom: 0.2em;
   margin-bottom: 1em;
-}
-
-.emailInput,
-.emailSubmit {
   font-size: 1.5rem !important;
-}
-
-.emailSubmit {
-  display: flex;
-  place-content: center;
-  width: 100%;
-
-  input {
-    background-color: var(--green);
-    color: var(--offwhite);
-    font-weight: var(--bold);
-    width: var(--sp-48);
-  }
 }

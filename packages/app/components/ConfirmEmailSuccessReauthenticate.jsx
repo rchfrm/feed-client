@@ -64,7 +64,7 @@ const ConfirmEmailSuccessReauthenticate = ({ email, onContinue }) => {
         <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot your Password?</a></Link>
       </p>
       <Button
-        version="green small"
+        size="small"
         className="ml-auto w-1/3"
         onClick={onFormSubmit}
         trackComponentName="ConfirmEmailSuccessReauthenticate"

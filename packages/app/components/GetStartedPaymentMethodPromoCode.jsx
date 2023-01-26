@@ -37,9 +37,8 @@ const GetStartedPaymentMethodPromoCode = ({
       )}
       <Button
         version="text"
-        type="button"
         onClick={toggleCouponCodeInput}
-        className="w-full h-5 mb-3 text-sm text-center"
+        className="mb-3 text-sm"
         trackComponentName="GetStartedPaymentMethodPromoCode"
       >
         {shouldShowPromoCodeInput ? 'Hide' : 'Enter '} promo code

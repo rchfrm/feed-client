@@ -127,11 +127,9 @@ function LoginWithEmail({ className }) {
       </p>
 
       <Button
-        className={styles.submit}
-        version="black"
-        disabled={false}
-        onClick={onFormSubmit}
         type="input"
+        className="w-full md:w-1/2"
+        onClick={onFormSubmit}
         trackComponentName="LoginWithEmail"
       >
         log in.

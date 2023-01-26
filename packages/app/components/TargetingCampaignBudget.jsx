@@ -88,8 +88,8 @@ const TargetingCampaignBudget = ({
           />
           <div className="flex justify-between">
             <Button
-              version="red small"
-              className="h-8 rounded-full"
+              size="small"
+              version="secondary"
               onClick={onCancel}
               trackComponentName="TargetingCampaignBudget"
             >

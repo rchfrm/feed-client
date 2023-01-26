@@ -1,16 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-
 import PricingPlanMonthlyCost from '@/PricingPlanMonthlyCost'
 import PricingPlanServiceFee from '@/PricingPlanServiceFee'
 import PricingPlanFeatures from '@/PricingPlanFeatures'
-
 import MarkdownText from '@/elements/MarkdownText'
-
 import { capitalise } from '@/helpers/utils'
-
 import copy from '@/app/copy/global'
 import getStartedCopy from '@/app/copy/getStartedCopy'
 

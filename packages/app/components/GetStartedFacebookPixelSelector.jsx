@@ -22,17 +22,15 @@ const GetStartedFacebookPixelSelector = ({
         className="w-full mb-4"
       />
       <Button
-        version="green"
         onClick={() => saveFacebookPixel(facebookPixel)}
-        loading={isLoading}
+        isLoading={isLoading}
         className="w-full sm:w-48"
         trackComponentName="GetStartedFacebookPixelSelector"
       >
         Save
         <ArrowIcon
-          className="w-7 h-auto ml-3"
+          className="w-7 h-auto ml-1"
           direction="right"
-          fill="white"
         />
       </Button>
     </>

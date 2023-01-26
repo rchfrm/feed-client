@@ -16,7 +16,7 @@ const PricingPlanUpgradeSummary = ({
   }, [toggleSidePanel])
 
   React.useEffect(() => {
-    const button = <Button version="green" onClick={closeSidePanel} trackComponentName="PricingPlanUpgradeSummary">Ok</Button>
+    const button = <Button onClick={closeSidePanel} trackComponentName="PricingPlanUpgradeSummary" isSidePanel>Ok</Button>
 
     setSidePanelButton(button)
   }, [closeSidePanel, setSidePanelButton])

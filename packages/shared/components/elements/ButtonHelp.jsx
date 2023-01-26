@@ -32,7 +32,7 @@ const ButtonHelp = React.forwardRef(({
   }, [content, contentHeader])
 
   const toggleHelp = React.useCallback(() => {
-    const button = <Button version="green" onClick={() => toggleSidePanel(false)}>Done</Button>
+    const button = <Button onClick={() => toggleSidePanel(false)} isSidePanel>Done</Button>
     setSidePanelContentLabel('Help Panel')
     setSidePanelContent(SidePanelContent)
     setSidePanelButton(button)

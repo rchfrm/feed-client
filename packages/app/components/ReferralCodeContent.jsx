@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
-import ReferralCodeShare from '@/app/ReferralCodeShare'
 import ReferralCodeProgress from '@/app/ReferralCodeProgress'
 
 const ReferralCodeContent = ({ className }) => {
@@ -29,10 +28,6 @@ const ReferralCodeContent = ({ className }) => {
         className,
       ].join(' ')}
     >
-      <ReferralCodeShare
-        className="mb-12 lg:mb-0 lg:col-span-1 lg:col-start-2"
-        currencyCode={currencyCode}
-      />
       <ReferralCodeProgress
         totalReferrals={totalReferrals}
         totalCompleteReferrals={totalCompleteReferrals}

@@ -45,10 +45,9 @@ const ConnectProfilesSearchForm = ({
         required
       />
       <Button
-        version="black"
-        disabled={! facebookPageId}
         onClick={onSubmit}
-        loading={isLoading}
+        isLoading={isLoading}
+        isDisabled={! facebookPageId}
         trackComponentName="ConnectProfilesSearchForm"
         className="w-full xxs:w-32 xxs:ml-4 mb-6"
       >

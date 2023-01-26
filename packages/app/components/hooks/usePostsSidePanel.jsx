@@ -16,9 +16,8 @@ const usePostsSidePanel = () => {
   const CLOSE_BUTTON = (
     <Button
       onClick={() => toggleSidePanel(false)}
-      version="green"
-      className="border-solid border-0 border-t-4"
       trackComponentName="usePostsSidePanel"
+      isSidePanel
     >
       Done
     </Button>

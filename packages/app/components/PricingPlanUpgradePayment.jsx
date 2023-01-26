@@ -14,8 +14,6 @@ import MarkdownText from '@/elements/MarkdownText'
 import ArrowIcon from '@/icons/ArrowIcon'
 import Error from '@/elements/Error'
 
-import brandColors from '@/constants/brandColors'
-
 import { formatCurrency } from '@/helpers/utils'
 import { formatProfilesToUpgrade, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/global'
@@ -80,20 +78,19 @@ const PricingPlanUpgradePayment = ({
   React.useEffect(() => {
     const button = (
       <Button
-        version="insta"
         onClick={upgradePlan}
+        isDisabled={isDisabled}
+        isLoading={isLoading}
         trackComponentName="PricingPlanUpgradePayment"
-        disabled={isDisabled}
-        loading={isLoading}
+        isSidePanel
       >
         {(planIsBasic && amount === 0
           ? `Confirm (${formatCurrency(amount, currency, true)})`
           : `Pay ${formatCurrency(amount, currency)}`
         )}
         <ArrowIcon
-          className="ml-3"
+          className="ml-1"
           direction="right"
-          fill={isDisabled ? brandColors.greyDark : brandColors.offwhite}
         />
       </Button>
     )

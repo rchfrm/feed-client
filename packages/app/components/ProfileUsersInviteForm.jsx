@@ -44,10 +44,9 @@ const ProfileUsersInviteForm = ({ setHasSentInvite }) => {
         required
       />
       <Button
-        version="black"
-        disabled={! email}
         onClick={onSubmit}
-        loading={isLoading}
+        isDisabled={! email}
+        isLoading={isLoading}
         trackComponentName="ProfileUsersInviteForm"
         className="w-full"
       >

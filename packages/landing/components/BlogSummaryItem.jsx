@@ -62,7 +62,6 @@ const BlogSummaryItem = ({ blog, className }) => {
           version="text"
           href={link}
           label={`Read more about ${title}`}
-          className="inline-block h-auto self-start"
           trackComponentName="BlogSummaryItem"
         >
           <strong>Read more</strong>

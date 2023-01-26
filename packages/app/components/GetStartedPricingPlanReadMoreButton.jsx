@@ -39,7 +39,7 @@ const GetStartedPricingPlanReadMoreButton = ({
         <Button
           version="text"
           onClick={() => handleSidePanel(plan, isDisabled)}
-          className="h-4 inline-block mr-1"
+          className="h-4 mr-1"
           trackComponentName="GetStartedPricingPlanReadMoreButton"
         >
           Read more

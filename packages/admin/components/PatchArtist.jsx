@@ -63,8 +63,8 @@ const PatchArtist = ({ artistId, artistName, integrations }) => {
         <Error error={error} />
         <Button
           type="submit"
-          loading={isLoading}
-          disabled={! inputValue}
+          isLoading={isLoading}
+          isDisabled={! inputValue}
           trackComponentName="PatchArtist"
         >
           Update

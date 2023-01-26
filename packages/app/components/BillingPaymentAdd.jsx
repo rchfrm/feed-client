@@ -37,11 +37,10 @@ const BillingPaymentAdd = ({
               setIsLoading={setIsLoading}
             />
             <Button
-              version="black"
-              disabled={! isFormValid}
               onClick={addPaymentMethod}
+              isDisabled={! isFormValid}
               trackComponentName="BillingPaymentAdd"
-              loading={isLoading}
+              isLoading={isLoading}
               className="w-full"
             >
               Submit

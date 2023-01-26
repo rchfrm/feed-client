@@ -20,7 +20,6 @@ const PixelCopier = ({
   const alertButtons = [{
     text: 'Done',
     onClick: closeAlert,
-    color: 'black',
   }]
 
   // OPEN MODAL
@@ -36,9 +35,10 @@ const PixelCopier = ({
       ].join(' ')}
     >
       <Button
-        version="x-small green icon"
+        size="small"
+        version="secondary"
         onClick={openModal}
-        disabled={isLoading}
+        isDisabled={isLoading}
         trackComponentName="PixelCopier"
       >
         Copy pixel

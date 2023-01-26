@@ -8,8 +8,6 @@ import AddPaymentForm from '@/app/AddPaymentForm'
 import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 
-import brandColors from '@/constants/brandColors'
-
 const getBillingStoreState = (state) => ({
   organization: state.organization,
   addPaymentMethodToStore: state.addPaymentMethod,
@@ -48,12 +46,15 @@ const PricingPlanUpgradePaymentMethod = ({
 
   React.useEffect(() => {
     const button = (
-      <Button version="insta" onClick={savePaymentMethod} trackComponentName="PricingPlanUpgradeIntro">
+      <Button
+        onClick={savePaymentMethod}
+        trackComponentName="PricingPlanUpgradeIntro"
+        isSidePanel
+      >
         Save
         <ArrowIcon
-          className="ml-3"
+          className="ml-1"
           direction="right"
-          fill={brandColors.offwhite}
         />
       </Button>
     )

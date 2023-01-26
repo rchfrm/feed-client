@@ -14,19 +14,6 @@ import useAlertStore from '@/stores/alertStore'
 
 import styles from '@/AlertModal.module.css'
 
-const getButtonColor = (color) => {
-  if (color === 'green') return 'bg-green'
-  if (color === 'red') return 'bg-red'
-  return null
-}
-
-const getButtonVersion = (color) => {
-  if (color === 'facebook') return 'facebook'
-  if (color === 'green') return 'green'
-  if (color === 'red') return 'red'
-  return 'black'
-}
-
 const getStoreState = (state) => ({
   copy: state.copy,
   children: state.children,
@@ -90,7 +77,6 @@ const AlertModal = () => {
             'opacity-0',
           ].join(' ')}
         >
-          {/* Inner */}
           <div
             id="AlertModal-innerEl"
             className={[
@@ -112,7 +98,6 @@ const AlertModal = () => {
               onClick={close}
               style={{ zIndex: 1 }}
             />
-            {/* CONTENT */}
             <div
               className={[
                 'relative',
@@ -125,30 +110,26 @@ const AlertModal = () => {
                 zIndex: 2,
               }}
             >
-              {/* CONTENT INNER */}
               <div
                 className={['p-4 sm:p-5 pb-0'].join(' ')}
               >
-                {/* COPY */}
                 {copy && <MarkdownText markdown={copy} />}
-                {/* CHILDREN */}
                 {children}
               </div>
-              {/* BUTTONS */}
               <div className="flex flex-wrap bg-black">
                 {buttons.map((buttonConfig, index) => {
-                  const { text, color, width, onClick, href, facebookButton, disabled, shouldCloseOnConfirm = true } = buttonConfig
-                  const firstButton = index === 0
-                  const lastButton = index === buttons.length - 1
-                  const ButtonType = facebookButton ? ButtonFacebook : Button
+                  const { text, version, width, onClick, isFacebookButton, isDisabled, shouldCloseOnConfirm = true } = buttonConfig
+                  const isFirstButton = index === 0
+                  const isLastButton = index === buttons.length - 1
+                  const ButtonType = isFacebookButton ? ButtonFacebook : Button
+
                   return (
                     <ButtonType
                       key={index}
-                      version={getButtonVersion(color)}
+                      version={version}
                       className={[
                         width === 'half' ? 'w-1/2' : 'w-full',
-                        lastButton ? 'rounded-t-none rounded-b-dialogue' : 'rounded-none',
-                        facebookButton ? null : getButtonColor(color),
+                        isLastButton ? 'rounded-t-none rounded-b-dialogue' : 'rounded-none',
                       ].join(' ')}
                       onClick={() => {
                         if (shouldCloseOnConfirm) {
@@ -158,11 +139,9 @@ const AlertModal = () => {
                       }}
                       style={{
                         borderTop: '1px solid white',
-                        ...(firstButton && ! width === 'half' && { borderTop: 'none' }),
+                        ...(isFirstButton && ! width === 'half' && { borderTop: 'none' }),
                       }}
-                      href={href}
-                      disabled={disabled}
-                      fbButtonFallbackClassName="p-4 text-offwhite mb-0"
+                      isDisabled={isDisabled}
                       trackComponentName="AlertModal"
                       fallbackCta={text}
                     >

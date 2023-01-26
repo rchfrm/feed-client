@@ -33,7 +33,7 @@ const TargetingCampaignBudgetProgressBar = ({
       </div>
       <div className="w-full relative flex text-sm">
         <div
-          className={['absolute', `${totalSpent ? '-translate-x-1/2 left-50' : null}`].join(' ')}
+          className={['absolute', `${totalSpent ? '-translate-x-1/2 left-1/2' : null}`].join(' ')}
           style={{ left: `${progressInPercentage}%` }}
         >
           {formatCurrency(totalSpent, currency)}

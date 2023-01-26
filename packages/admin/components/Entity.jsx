@@ -122,7 +122,6 @@ const Category = ({ entityType, id }) => {
         handleChange={handleIndustryChange}
       />
       <Button
-        version="green"
         onClick={handleClick}
         trackComponentName="Entity"
       >

@@ -27,13 +27,12 @@ const TargetingSettingsSaveContainer = ({
 
   const saveButton = React.useMemo(() => (
     <Button
-      version="green"
       className={[
         'w-full',
-        isMobileAndIsSidePanelOpen ? 'border-offwhite border-solid border-0 border-t-4' : null,
+        isMobileAndIsSidePanelOpen ? 'rounded-t-none rounded-br-none' : null,
       ].join(' ')}
       onClick={() => saveTargeting('settings')}
-      disabled={!! disableSaving}
+      isDisabled={!! disableSaving}
       trackComponentName="TargetingSettingsSaveContainer"
     >
       {disableSaving ? (

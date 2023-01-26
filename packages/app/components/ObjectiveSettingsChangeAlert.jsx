@@ -64,16 +64,15 @@ const ObjectiveSettingsChangeAlert = ({
         onClick: () => {
           setShouldSave(true)
         },
-        color: 'green',
         shouldCloseOnConfirm: false,
-        disabled: isDisabled,
+        isDisabled,
       },
       {
         text: 'Cancel',
         onClick: () => {
           onCancel()
         },
-        color: 'black',
+        version: 'secondary',
       },
     ]
     showAlert({

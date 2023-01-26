@@ -102,10 +102,9 @@ const ConfirmEmailChangeEmail = ({
               className="mb-4"
             />
             <Button
-              version="black"
-              disabled={! isFormValid}
-              type="sumbit"
-              loading={loading}
+              type="submit"
+              isDisabled={! isFormValid}
+              isLoading={loading}
               className="w-full"
               trackComponentName="ConfirmEmailChangeEmail"
             >
@@ -115,7 +114,8 @@ const ConfirmEmailChangeEmail = ({
           {/* BACK BUTTON */}
           <div>
             <Button
-              version="black x-small"
+              size="small"
+              version="text"
               onClick={backToVerify}
               trackComponentName="ConfirmEmailChangeEmail"
             >

@@ -1,12 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Button from '@/elements/Button'
 import EmailIcon from '@/icons/EmailIcon'
 import ButtonFacebook from '@/elements/ButtonFacebook'
-
-import brandColors from '@/constants/brandColors'
-
 import styles from '@/LoginPage.module.css'
 
 const LoginSignupButtons = ({
@@ -19,7 +15,7 @@ const LoginSignupButtons = ({
   return (
     <div className={styles.loginButtons}>
       <ButtonFacebook
-        className={styles.facebookButton}
+        className="w-full mb-8"
         onClick={onFacebookClick}
         fallbackCta={`${buttonPrefix} Facebook`}
         trackComponentName="LoginSignupButtons"
@@ -28,17 +24,11 @@ const LoginSignupButtons = ({
       </ButtonFacebook>
       {! isFacebookLogin && (
         <Button
-          className={styles.emailButton}
           onClick={onEmailClick}
-          version="black"
-          icon={(
-            <EmailIcon
-              color={brandColors.offwhite}
-              style={{ width: '1.75rem', height: 'auto' }}
-            />
-          )}
+          className="relative w-full"
           trackComponentName="LoginSignupButtons"
         >
+          <EmailIcon className="absolute top-50 left-4" />
           {buttonPrefix} email
         </Button>
       )}

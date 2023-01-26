@@ -90,17 +90,15 @@ const GetStartedLocation = () => {
           className="w-full mb-12"
         />
         <Button
-          version="green"
           onClick={handleNext}
-          loading={isLoading}
+          isLoading={isLoading}
           className="w-full sm:w-48"
           trackComponentName="GetStartedLocation"
         >
           Save
           <ArrowIcon
-            className="w-7 h-auto ml-3"
+            className="w-7 h-auto ml-1"
             direction="right"
-            fill="white"
           />
         </Button>
       </div>

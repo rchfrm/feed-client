@@ -25,8 +25,9 @@ export default function PrimaryCTA({
     >
       <Link href={joinLink}>
         <Button
+          version="custom"
           className={[
-            'h-auto',
+            'h-16',
             'w-full',
             'max-w-xs',
             'mx-auto',

@@ -88,7 +88,7 @@ export default function HeroSignUp() {
           className={[
             styles.heroInputBox,
             'flex-1',
-            'border-pink',
+            'border-insta',
             'mb-3',
             'xs:mr-4',
             'xs:mb-0',
@@ -96,19 +96,18 @@ export default function HeroSignUp() {
         />
         <Button
           onClick={fetchSignInMethodsAndRedirect}
-          version="pink"
           className={[
             'py-4',
             'px-8',
             'text-offwhite',
-            'bg-pink',
+            'bg-insta hover:bg-insta border-insta hover:border-insta hover:bg-opacity-90',
           ].join(' ')}
           fallbackCta="Sign up"
           trackComponentName="HeroSignUp"
         >
           Get started
           <ArrowIcon
-            className="w-8 h-auto ml-1"
+            className="w-7 h-auto ml-1"
             fill={brandColors.offwhite}
             direction="right"
           />

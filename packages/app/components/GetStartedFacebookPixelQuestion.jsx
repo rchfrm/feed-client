@@ -15,27 +15,24 @@ const GetStartedFacebookPixelQuestion = ({ setShouldShowPixelSelector }) => {
   return (
     <div className="w-full flex flex-1 flex-column sm:flex-row justify-center items-center">
       <Button
-        version="outline-black"
+        version="secondary"
         onClick={next}
-        spinnerFill={brandColors.black}
         className="w-full sm:w-56 mx-4 mb-5 sm:mb-0"
         trackComponentName="GetStartedFacebookPixelQuestion"
       >
         <CloseCircleIcon
-          fill={brandColors.greyDark}
           className="w-6 h-6 mr-2"
         />
         No
       </Button>
       <Button
-        version="outline-black"
         onClick={() => setShouldShowPixelSelector(true)}
-        spinnerFill={brandColors.black}
         className="w-full sm:w-56 mx-4"
         trackComponentName="GetStartedFacebookPixelQuestion"
       >
         <TickCircleIcon
           className="w-6 h-6 mr-2"
+          fill={brandColors.black}
         />
         Yes
       </Button>

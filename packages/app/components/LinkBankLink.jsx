@@ -84,7 +84,7 @@ const LinkBankLink = ({
           {/* LINK TITLE */}
           <p
             className={[
-              'inline-flex items-baseline no-underline mb-0',
+              'inline-flex items-center no-underline mb-0',
             ].join(' ')}
           >
             <a

@@ -40,8 +40,8 @@ const ArtistActivationStatusButton = ({ artistId, artistStatus, setArtistsStatus
   return (
     <div>
       <Button
-        version="black small"
-        loading={loading}
+        size="small"
+        isLoading={loading}
         onClick={() => updateStatus(artistId, buttonProps.action)}
         trackComponentName="ArtistActivationStatusButton"
       >

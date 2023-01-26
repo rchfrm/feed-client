@@ -21,8 +21,7 @@ export default function TryFeed({ className, buttonText, trackLocation }) {
     <div className={className}>
       <Link href={joinLink}>
         <Button
-          version="pink"
-          className={className}
+          className={[className, 'bg-insta hover:bg-insta border-insta hover:border-insta hover:bg-opacity-90 text-offwhite'].join(' ')}
           onClick={() => {
             mixpanelExternalLinkClick(joinLink, { location: trackLocation })
           }}

@@ -22,16 +22,14 @@ const EditBlock = ({
     >
       <p className="break-all mb-0">{value}</p>
       <Button
-        version="small icon"
+        size="small"
         className={[
-          'h-8 ml-3',
-          'bg-insta',
-          'rounded-full',
+          'text-offwhite',
         ].join(' ')}
         onClick={() => setIsEditMode(! isEditMode)}
         trackComponentName={trackComponentName}
       >
-        <PencilIcon fill={brandColors.offwhite} />
+        <PencilIcon className="w-4 h-auto mr-1" fill={brandColors.offwhite} />
         Edit
       </Button>
     </div>

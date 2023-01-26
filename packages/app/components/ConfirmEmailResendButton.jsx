@@ -43,8 +43,8 @@ const ConfirmEmailResendButton = ({
           version="text"
           onClick={resendEmail}
           className="ml-1"
-          loading={loading}
-          disabled={parentLoading}
+          isLoading={loading}
+          isDisabled={parentLoading}
           trackComponentName="ConfirmEmailResendButton"
         >
           {buttonText}

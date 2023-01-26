@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Button from '@/elements/Button'
 import ButtonFacebook from '@/elements/ButtonFacebook'
 
 const NotificationCurrentInfoButton = ({
-  sidepanelLayout,
   ctaText,
   ctaLink,
   ctaType,
@@ -42,11 +40,9 @@ const NotificationCurrentInfoButton = ({
     <div className="mt-auto">
       {(isActionable && ! isComplete) || (isDismissible && ctaLink) ? (
         <ButtonType
-          className={! sidepanelLayout ? 'w-full rounded-none' : null}
-          version={isFacebookButton ? null : 'green'}
-          loading={loading}
+          isLoading={loading}
           onClick={onClick}
-          fallbackCta={isFacebookButton ? ctaText : null}
+          className="w-full rounded-none"
           trackComponentName="NotificationCurrentInfoButton"
         >
           {ctaText}
@@ -55,8 +51,8 @@ const NotificationCurrentInfoButton = ({
 
       {canDismiss && (
         <Button
-          className={! sidepanelLayout ? 'w-full rounded-t-none' : null}
-          version="black"
+          version="tertiary"
+          className="w-full rounded-t-none"
           onClick={dismissNotification}
           trackComponentName="NotificationCurrentInfoButton"
         >
@@ -68,7 +64,6 @@ const NotificationCurrentInfoButton = ({
 }
 
 NotificationCurrentInfoButton.propTypes = {
-  sidepanelLayout: PropTypes.bool.isRequired,
   ctaText: PropTypes.string,
   ctaLink: PropTypes.string,
   ctaType: PropTypes.string,
@@ -85,6 +80,5 @@ NotificationCurrentInfoButton.defaultProps = {
   ctaText: null,
   ctaLink: null,
 }
-
 
 export default NotificationCurrentInfoButton

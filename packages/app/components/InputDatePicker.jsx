@@ -25,7 +25,7 @@ const InputDatePicker = React.forwardRef(({
       ].join(' ')}
     >
       {label && <p className="mb-2 text-sm font-semibold tracking-wider">{label}</p>}
-      <div className="flex items-center h-14 p-3 border-black border-solid border-2">
+      <div className="flex items-center h-12 p-3 border-black border-solid border-2">
         <DatePicker
           value={value}
           startDate={startDate}

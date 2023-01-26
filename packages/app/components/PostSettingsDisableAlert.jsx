@@ -28,7 +28,6 @@ const PostSettingsDisableAlert = ({
           onConfirm()
           closeAlert()
         },
-        color: 'black',
       },
       {
         text: 'Cancel',
@@ -36,7 +35,7 @@ const PostSettingsDisableAlert = ({
           onCancel()
           closeAlert()
         },
-        color: 'red',
+        version: 'secondary',
       },
     ]
 

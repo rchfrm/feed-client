@@ -41,7 +41,7 @@ const ProfileUsersInviteAccepted = () => {
       <div className="flex items-center justify-end pt-2">
         <p className="mr-6 mb-0">{seconds}s</p>
         <Button
-          version="black small"
+          size="small"
           className="w-1/3"
           onClick={() => {
             onContinue()

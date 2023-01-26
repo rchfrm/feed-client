@@ -11,7 +11,6 @@ import useSignup from '@/app/hooks/useSignup'
 import useReferralStore from '@/app/stores/referralStore'
 
 import ArrowIcon from 'shared/components/icons/ArrowIcon'
-import brandColors from '@/constants/brandColors'
 
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'
@@ -247,7 +246,6 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
       <div className={['w-full', shouldShowReferralCodeInput ? 'mb-4' : 'mb-10'].join(' ')}>
         <Button
           version="text"
-          type="button"
           onClick={toggleReferralCodeInput}
           className={['-mt-2 h-5'].join(' ')}
           trackComponentName="SignupEmailForm"
@@ -267,16 +265,14 @@ const SignupEmailForm = ({ initialEmail, isValidReferralCode }) => {
         </div>
       )}
       <Button
-        className={[styles.signupButton, 'w-full xs:w-1/2 ml-auto'].join(' ')}
-        version="green wide"
-        disabled={! formComplete}
         type="submit"
+        isDisabled={! formComplete}
+        className={[styles.signupButton, 'w-full xs:w-1/2 ml-auto'].join(' ')}
         trackComponentName="SignupEmailForm"
       >
         Next
         <ArrowIcon
           className="ml-1 w-7 h-auto"
-          fill={! formComplete ? brandColors.greyDark : brandColors.offwhite}
           direction="right"
         />
       </Button>

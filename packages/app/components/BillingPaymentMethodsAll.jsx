@@ -43,10 +43,9 @@ const BillingPaymentMethodsAll = ({
       </div>
       {defaultPaymentMethod.id !== selectedMethodId && (
         <Button
-          version="black"
           onClick={setMethodAsDefault}
           trackComponentName="BillingPaymentMethodsAll"
-          loading={loading}
+          isLoading={loading}
           className="w-full mb-10"
         >
           Set as default

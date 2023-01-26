@@ -31,12 +31,11 @@ const LinkBankEditModalFolder = ({
         {
           text: 'Yes, I\'m sure',
           onClick: () => runSaveFolder(folderProps, 'delete', folder),
-          color: 'red',
         },
         {
           text: 'Cancel',
           onClick: closeAlert,
-          color: 'black',
+          version: 'secondary',
         },
       ],
     })

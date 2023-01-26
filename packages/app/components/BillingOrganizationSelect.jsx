@@ -57,7 +57,7 @@ const BillingOrganizationSelect = ({
               />
               <div>
                 <Button
-                  version="black x-small"
+                  size="small"
                   label="Cancel switch organization"
                   onClick={(e) => {
                     setSelectActive(false)
@@ -74,7 +74,7 @@ const BillingOrganizationSelect = ({
               <h3 className="font-bold text-2xl mr-6 mb-6 sm:mb-0">{selectedOrgName}</h3>
               <div>
                 <Button
-                  version="green x-small"
+                  size="small"
                   label="Switch organization"
                   onClick={() => {
                     setSelectActive(true)

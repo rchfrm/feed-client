@@ -1,18 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { WizardContext } from '@/app/contexts/WizardContext'
-
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-
 import GetStartedPostsSelectionButtonsMobile from '@/app/GetStartedPostsSelectionButtonsMobile'
-
 import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
-
 import { togglePromotionEnabled } from '@/app/helpers/postsHelpers'
-import brandColors from '@/constants/brandColors'
 
 const GetStartedPostsSelectionButtons = ({
   handlePosts,
@@ -86,10 +80,9 @@ const GetStartedPostsSelectionButtons = ({
     >
       {shouldShowLoadMoreButton && (
         <Button
-          version="outline-black"
+          version="secondary"
           onClick={loadMore}
-          loading={isLoadingMorePosts}
-          spinnerFill={brandColors.black}
+          isLoading={isLoadingMorePosts}
           className={[shouldAdjustLayout ? 'w-full' : 'w-56 mx-2', 'mb-4'].join(' ')}
           trackComponentName="GetStartedPostsSelectionButtons"
         >
@@ -97,17 +90,15 @@ const GetStartedPostsSelectionButtons = ({
         </Button>
       )}
       <Button
-        version="green"
         onClick={handleNext}
-        loading={isLoading}
+        isLoading={isLoading}
         className={[shouldAdjustLayout ? 'w-full' : 'w-56 mx-2'].join(' ')}
         trackComponentName="GetStartedPostsSelectionButtons"
       >
         Save
         <ArrowIcon
-          className="w-7 h-auto ml-3"
+          className="w-7 h-auto ml-1"
           direction="right"
-          fill="white"
         />
       </Button>
     </div>

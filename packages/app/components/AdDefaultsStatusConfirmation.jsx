@@ -42,12 +42,11 @@ const AdDefaultsStatusConfirmation = ({
       buttons: [
         {
           text: 'Yes',
-          color: 'green',
           onClick: acceptAlert,
         },
         {
           text: 'No',
-          color: 'black',
+          version: 'secondary',
           onClick: resetAlert,
         },
       ],

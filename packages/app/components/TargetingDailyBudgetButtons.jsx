@@ -7,8 +7,6 @@ import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 
 import RefreshIcon from '@/icons/RefreshIcon'
 
-import brandColors from '@/constants/brandColors'
-
 const TargetingDailyBudgetButtons = ({
   targetingState,
   initialTargetingState,
@@ -35,30 +33,28 @@ const TargetingDailyBudgetButtons = ({
     <div className="flex">
       {! showCustomBudget && (
         <Button
-          version="small"
+          size="small"
+          version="tertiary"
           className={[
-            'w-8 h-8 p-0 mr-2',
-            'bg-black',
-            'rounded-full',
-            isDisabled ? 'bg-grey focus:bg-grey pointer-events-none' : '',
+            'mr-2',
           ].join(' ')}
           onClick={resetBudget}
+          isDisabled={isDisabled}
           trackComponentName="TargetingDailyBudgetButtons"
         >
           <RefreshIcon
             className={['w-4 h-auto'].join(' ')}
-            fill={brandColors.offwhite}
             style={{ marginRight: 0 }}
           />
         </Button>
       )}
       <Button
-        version="green small"
+        size="small"
+        version="secondary"
         className={[
-          'h-8 mr-2 xxs:mr-0',
-          'rounded-full',
-          isDisabled ? 'bg-grey pointer-events-none' : '',
+          'mr-2 xxs:mr-0',
         ].join(' ')}
+        isDisabled={isDisabled}
         onClick={() => saveTargeting('budget')}
         trackComponentName="TargetingDailyBudgetButtons"
       >

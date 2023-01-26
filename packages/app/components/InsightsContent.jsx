@@ -137,7 +137,7 @@ const InsightsContent = () => {
           <div className="text--block h4--text mb-8">
             <p>Can't see one of your accounts?</p>
             <ShowIntegrationsButton
-              text="+ Connect more integrations"
+              text="Connect more integrations"
             />
           </div>
           <MarkdownText className="h4--text" markdown={copy.outro} />

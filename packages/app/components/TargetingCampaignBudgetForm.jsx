@@ -101,13 +101,13 @@ const TargetingCampaignBudgetForm = ({
 
   return (
     <form>
-      <div className="mb-12 xs:mb-8 xs:flex -mx-1">
+      <div className="mb-12 xs:mb-8 xs:flex items-end -mx-1">
         <InputCurrency
           name="total-budget"
           label="Total budget"
           value={totalBudget}
           handleChange={handleTotalBudgetChange}
-          className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
+          className="w-full mb-5 xs:mb-0 mx-1"
           currency={currency}
         />
         {! hasActiveCampaignBudget && (
@@ -118,7 +118,7 @@ const TargetingCampaignBudgetForm = ({
             endDate={endDate}
             minDate={moment().toDate()}
             onChange={handleStartDateChange}
-            className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
+            className="w-full mb-5 xs:mb-0 mx-1"
             selectsStart
           />
         )}
@@ -130,7 +130,7 @@ const TargetingCampaignBudgetForm = ({
           minDate={moment(startDate).add(1, 'days').toDate()}
           maxDate={moment(startDate).add(180, 'days').toDate()}
           onChange={handleEndDateChange}
-          className="w-full mb-5 xs:mb-0 mx-1 xs:pt-3"
+          className="w-full mb-5 xs:mb-0 mx-1"
           placeholderText="End date"
           ref={endDateRef}
           selectsEnd
@@ -140,8 +140,8 @@ const TargetingCampaignBudgetForm = ({
         {hasActiveCampaignBudget && (
           <Button
             type="submit"
-            version="black small"
-            className="h-8 rounded-full"
+            size="small"
+            version="secondary"
             onClick={() => setIsCampaignEdit(false)}
             trackComponentName="TargetingCampaignBudgetForm"
           >
@@ -150,11 +150,10 @@ const TargetingCampaignBudgetForm = ({
         )}
         <Button
           type="submit"
-          version="green small"
-          className="h-8 mb-5 rounded-full"
+          size="small"
           onClick={onSubmit}
           trackComponentName="TargetingCampaignBudgetForm"
-          disabled={! isFormValid || ! hasSufficientBudget}
+          isDisabled={! isFormValid || ! hasSufficientBudget}
         >
           {getButtonText()} campaign
         </Button>

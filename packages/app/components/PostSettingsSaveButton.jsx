@@ -10,13 +10,10 @@ const PostSettingsSaveButton = ({
   return (
     shouldShow && (
       <Button
-        version="green small"
-        className={[
-          'h-8',
-          'rounded-full',
-        ].join(' ')}
+        size="small"
         onClick={onClick}
-        loading={isLoading}
+        className="w-20"
+        isLoading={isLoading}
         trackComponentName="PostSettingsSaveButton"
       >
         Save

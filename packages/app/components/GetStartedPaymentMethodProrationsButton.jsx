@@ -19,7 +19,7 @@ const GetStartedPaymentMethodProrationsButton = ({ promoCode }) => {
       version="text"
       onClick={openProrationsSidePanel}
       trackComponentName="GetStartedPaymentMethodProrationsButton"
-      className="w-full h-6 text-sm"
+      className="text-sm"
     >
       View payment breakdown
     </Button>

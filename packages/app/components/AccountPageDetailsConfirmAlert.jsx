@@ -22,14 +22,13 @@ const AccountPageDetailsConfirmAlert = ({
           setConfirmAlert('')
           resubmitForm(null, true)
         },
-        color: 'green',
       },
       {
         text: 'Cancel',
         onClick: () => {
           setConfirmAlert('')
         },
-        color: 'black',
+        version: 'secondary',
       },
     ]
   }, [setConfirmAlert, resubmitForm])

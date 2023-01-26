@@ -6,7 +6,6 @@ import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 import copy from '@/app/copy/global'
-import brandColors from '@/constants/brandColors'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 
 const PricingPlanUpgradeIntro = ({
@@ -40,12 +39,15 @@ const PricingPlanUpgradeIntro = ({
     }
 
     const button = (
-      <Button version="insta" onClick={onClick} trackComponentName="PricingPlanUpgradeIntro">
+      <Button
+        onClick={onClick}
+        trackComponentName="PricingPlanUpgradeIntro"
+        isSidePanel
+      >
         {buttonText()}
         <ArrowIcon
-          className="ml-3"
+          className="ml-1"
           direction="right"
-          fill={brandColors.offwhite}
         />
       </Button>
     )
