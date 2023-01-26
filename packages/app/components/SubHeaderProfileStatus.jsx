@@ -43,14 +43,14 @@ const SubHeaderProfileStatus = () => {
     <div className="relative h-10 order-1 md:order-2 md:ml-auto mb-5 md:mb-0">
       <div className={[
         'h-full',
-        'flex items-center px-3 justify-between',
+        'flex items-center px-2 justify-between',
         'border border-solid rounded-dialogue',
         colorClasses[color],
       ].join(' ')}
       >
         {hasSetUpProfile ? (
           <>
-            <p className="mb-0 font-bold mr-3 xxs:mr-6">
+            <p className="mb-0 font-bold mr-4">
               {isDesktopLayout ? (
                 <div>Campaign <span className="hidden lg:inline">status</span></div>
               ) : (
@@ -75,17 +75,17 @@ const SubHeaderProfileStatus = () => {
           </>
         ) : (
           <>
-            <div className="flex items-center mr-3 xxs:mr-6">
+            <div className="flex items-center mr-4">
               <div className="flex justify-center flex-shrink-0 items-center w-6 h-6 rounded-full bg-red-bg-dark mr-2">
                 <ExclamationCircleIcon className="w-4 h-4" />
               </div>
-              <p className="mb-0 font-bold text-sm xxs:text-base">Set up incomplete</p>
+              <p className="mb-0 font-bold text-sm xxs:text-base">Set up <span className="hidden lg:inline">incomplete</span></p>
             </div>
             <Button
               onClick={goToGetStartedPage}
               size="small"
               color="red"
-              className="-mr-2"
+              className="-mr-1"
               trackComponentName="SubHeaderProfileStatus"
             >
               Continue

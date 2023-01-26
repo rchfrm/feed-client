@@ -19,7 +19,7 @@ const SubHeaderLinks = () => {
     ].join(' ')}
     >
       {secondaryLinks.map(({ href, title, matchingHrefs }) => (
-        <li key={title} className="mr-3 last:mr-0 xxs:mr-8">
+        <li key={title} className="mr-3 last:mr-0 xxs:mr-8 md:mr-6 lg:mr-10">
           <ActiveLink href={href} activeClass="text-black border-b-4 border-solid border-green" matchingHrefs={matchingHrefs}>
             <a className="relative no-underline pb-1">
               {title}
