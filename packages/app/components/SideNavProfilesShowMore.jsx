@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
-import ThreeDotsIcon from '@/icons/ThreeDotsIcon'
+import SwitchIcon from '@/icons/SwitchIcon'
 import brandColors from '@/constants/brandColors'
 
 const SideNavProfilesShowMore = ({
@@ -27,16 +27,16 @@ const SideNavProfilesShowMore = ({
       onClick={handleClick}
       ref={hoverRef}
     >
+      <SwitchIcon fill={isHover || shouldShowMore ? brandColors.green : brandColors.grey} />
       <p
         className={[
           'text-base mb-0',
-          isExpanded ? 'opacity-1 w-auto delay-300 mr-2 transition-opacity' : 'opacity-0 w-0 mr-0',
+          isExpanded ? 'opacity-1 w-auto delay-300 ml-2 transition-opacity' : 'opacity-0 w-0 mr-0',
           shouldShowMore ? 'text-green' : null,
         ].join(' ')}
       >
-        More accounts
+        Switch profile
       </p>
-      <ThreeDotsIcon orientation="vertical" fill={isHover || shouldShowMore ? brandColors.green : brandColors.grey} />
     </button>
   )
 }

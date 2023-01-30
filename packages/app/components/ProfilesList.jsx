@@ -76,7 +76,7 @@ const ProfilesList = ({
       >
         {hasConnectMore && (
           <div className="px-4">
-            <ProfilesConnectMore className="h-8 mb-2 justify-between" isExpanded />
+            <ProfilesConnectMore className="h-8 mb-2" isExpanded />
           </div>
         )}
         <ProfilesListSearch value={searchValue} setValue={setSearchValue} />

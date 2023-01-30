@@ -14,7 +14,7 @@ const HeaderMenuButton = ({ toggle }) => {
   return (
     <button
       onClick={toggleMenu}
-      className="flex items-center w-24 h-8 text-offwhite no-underline px-3 py-2 rounded-full bg-anthracite hover:text-green"
+      className="flex items-center w-24 h-8 text-offwhite no-underline px-3 py-2 rounded-full bg-anthracite hover:text-green hover:bg-green-text"
       ref={hoverRef}
     >
       <figure className="mr-2">

@@ -39,7 +39,10 @@ const HeaderProfileButton = ({
   return (
     <button
       onClick={handleClick}
-      className={['relative h-8 flex rounded-full bg-anthracite p-1'].join(' ')}
+      className={[
+        'relative h-8 flex rounded-full bg-anthracite p-1',
+        isHover || shouldShowMore ? 'bg-green-text' : null,
+      ].join(' ')}
       ref={hoverRef}
     >
       {hasMultipleArtists && (
