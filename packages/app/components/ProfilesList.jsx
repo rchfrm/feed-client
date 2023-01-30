@@ -84,7 +84,7 @@ const ProfilesList = ({
           className={[
             'mt-2',
             'overflow-y-scroll bg-black',
-            isDesktopLayout ? 'max-h-[85vh]' : 'max-h-[75vh]',
+            isDesktopLayout ? 'max-h-[85vh]' : 'max-h-[70vh]',
           ].join(' ')}
         >
           {profiles.map(({ id, name, facebook_page_id }, index) => {
