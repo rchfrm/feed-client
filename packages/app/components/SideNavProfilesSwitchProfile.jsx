@@ -27,7 +27,7 @@ const SideNavProfilesSwitchProfile = ({
       onClick={handleClick}
       ref={hoverRef}
     >
-      <SwitchIcon fill={isHover || shouldShowMore ? brandColors.green : brandColors.grey} />
+      <SwitchIcon fill={isHover || shouldShowMore ? brandColors.green : brandColors.greyDark} />
       <p
         className={[
           'text-base mb-0',

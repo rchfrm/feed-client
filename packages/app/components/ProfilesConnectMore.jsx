@@ -22,7 +22,7 @@ const ProfilesConnectMore = ({ isExpanded, className }) => {
         ].join(' ')}
         ref={hoverRef}
       >
-        <PlusIcon className="w-5 h-auto" fill={isHover ? brandColors.green : brandColors.grey} />
+        <PlusIcon className="w-5 h-auto" fill={isHover ? brandColors.green : brandColors.greyDark} />
         <p
           className={[
             'text-base mb-0',
