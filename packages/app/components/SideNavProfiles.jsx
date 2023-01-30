@@ -5,7 +5,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ProfileButton from '@/app/ProfileButton'
 import ProfilesConnectMore from '@/app/ProfilesConnectMore'
 import SideNavProfileButtons from '@/app/SideNavProfileButtons'
-import SideNavProfilesShowMore from '@/app/SideNavProfilesShowMore'
+import SideNavProfilesSwitchProfile from '@/app/SideNavProfilesSwitchProfile'
 import ProfilesList from '@/app/ProfilesList'
 import { sortArtistsAlphabetically } from '@/app/helpers/artistHelpers'
 
@@ -36,7 +36,7 @@ const SideNavProfiles = ({ isExpanded }) => {
             hasSpinner
           />
           <div className="px-4" ref={containerRef}>
-            <SideNavProfilesShowMore
+            <SideNavProfilesSwitchProfile
               shouldShowMore={shouldShowMore}
               setShouldShowMore={setShouldShowMore}
               isExpanded={isExpanded}

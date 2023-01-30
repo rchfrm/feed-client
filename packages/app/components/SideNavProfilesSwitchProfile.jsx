@@ -4,7 +4,7 @@ import useHover from '@/app/hooks/useHover'
 import SwitchIcon from '@/icons/SwitchIcon'
 import brandColors from '@/constants/brandColors'
 
-const SideNavProfilesShowMore = ({
+const SideNavProfilesSwitchProfile = ({
   shouldShowMore,
   setShouldShowMore,
   isExpanded,
@@ -41,10 +41,10 @@ const SideNavProfilesShowMore = ({
   )
 }
 
-SideNavProfilesShowMore.propTypes = {
+SideNavProfilesSwitchProfile.propTypes = {
   shouldShowMore: PropTypes.bool.isRequired,
   setShouldShowMore: PropTypes.func.isRequired,
   isExpanded: PropTypes.bool.isRequired,
 }
 
-export default SideNavProfilesShowMore
+export default SideNavProfilesSwitchProfile
