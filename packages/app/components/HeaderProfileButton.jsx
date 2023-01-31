@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-import ThreeDotsIcon from '@/icons/ThreeDotsIcon'
+import SwitchIcon from '@/icons/SwitchIcon'
 import Spinner from '@/elements/Spinner'
 import ArtistImage from '@/elements/ArtistImage'
 import { sortArtistsAlphabetically } from '@/app/helpers/artistHelpers'
@@ -46,8 +46,7 @@ const HeaderProfileButton = ({
       ref={hoverRef}
     >
       {hasMultipleArtists && (
-        <ThreeDotsIcon
-          orientation="vertical"
+        <SwitchIcon
           className="mx-1"
           fill={isHover || shouldShowMore ? brandColors.green : brandColors.white}
         />
