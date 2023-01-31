@@ -11,7 +11,7 @@ const SideNavPrimaryLinks = ({ isExpanded }) => {
 
   return (
     <nav className={[
-      'flex flex-col ml-3 mb-3 px-4 text-xs',
+      'flex flex-col ml-3 mb-3 px-4',
     ].join(' ')}
     >
       {primaryLinks.map(({ href, icon, title, isSignOut, isExternal, isMobile }) => {
