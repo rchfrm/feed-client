@@ -112,7 +112,6 @@ const CallToActionSelector = ({
         options={callToActionOptions}
         disabled={disabled}
       />
-      {/* ALERT */}
       {showAlert && (
         <PostCardEditAlert
           type="call to action"

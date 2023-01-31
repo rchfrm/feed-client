@@ -107,12 +107,12 @@ By default, Feed won’t promote posts older than 28 days unless you opt them in
   postSettingsIntro: (campaignType) => `Settings for the ${campaignType === 'all' ? '"Grow & Nurture"' : '"Convert"'} part of the funnel. Here you can decide whether to enable this post for ${campaignType === 'all' ? 'grow & nurture' : 'conversions'} campaigns, and which link, call to action and caption to use.`,
   postLinkSetting: 'Which link should be used when this post is made into an ad?',
   postCallToActionSetting: 'Which call to action should be used when this post is made into an ad?',
-  editCaption: `Edit the caption used in this ad.`,
+  editCaption: "Edit the text used in this ad. The text of the original post <span className='bold underline'>won't</span> be affected.",
   confirmEdit: (type) => `**Update ${type}**
 
-Editing the ${type} will put this post back into review, and it will temporarily move to 'Inactive'.
+Editing the ${type} will put this post back into review, and it will temporarily move to 'In Review'.
 
-Facebook’s approval process usually takes less than 24 hours, and the post will begin to run again as soon as it’s approved.
+Facebook's approval process usually takes less than 24 hours, and the post will run again once approved.
 
 Are you sure you want to continue?`,
 
