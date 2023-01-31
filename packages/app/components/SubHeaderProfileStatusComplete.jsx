@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PlayIcon from '@/icons/PlayIcon'
 import PauseIcon from '@/icons/PauseIcon'
 
 const SubHeaderProfileStatus = ({ isSpendingPaused }) => {
+  const { isNavExpanded } = React.useContext(InterfaceContext)
   const { artist } = React.useContext(ArtistContext)
   const isDesktopLayout = useBreakpointTest('md')
 
@@ -13,7 +15,7 @@ const SubHeaderProfileStatus = ({ isSpendingPaused }) => {
     <>
       <p className="mb-0 font-bold mr-4 text-sm">
         {isDesktopLayout ? (
-          <div>Campaign <span className="hidden lg:inline">status</span></div>
+          <div>Campaign <span className={['lg:inline', isNavExpanded ? 'hidden' : null].join(' ')}>status</span></div>
         ) : (
           artist.name
         )}
