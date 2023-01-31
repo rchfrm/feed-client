@@ -234,6 +234,12 @@ const LinksSelect = ({
     updatePostLink(value)
   }
 
+  const onCancel = React.useCallback(() => {
+    setLoading(false)
+    setShowAlert(false)
+    setSelectedOptionValue(currentLinkId)
+  }, [currentLinkId])
+
   React.useEffect(() => {
     setSelectedOptionValue(currentLinkId)
   }, [currentLinkId])

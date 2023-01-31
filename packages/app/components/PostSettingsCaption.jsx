@@ -150,12 +150,14 @@ const PostSettingsCaption = ({
         isDisabled={isDisabled}
       />
       <Error error={error} />
-      <PostSettingsEditAlert
-        type="caption"
-        shouldShowAlert={shouldShowAlert}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-      />
+      {shouldShowAlert && (
+        <PostSettingsEditAlert
+          type="caption"
+          shouldShowAlert={shouldShowAlert}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+        />
+      )}
     </div>
   )
 }

@@ -27,7 +27,7 @@ const DisabledActionPrompt = ({
   const isSmallSize = version === 'small'
   const hasBorder = version === 'border'
 
-  const { artist: { hasSetUpProfile, hasCancelledPlan } } = React.useContext(ArtistContext)
+  const { artist: { hasSetUpProfile, hasCancelledPlan, plan, status } } = React.useContext(ArtistContext)
   const openPricingPlanUpgradeSidePanel = useOpenPricingPlanUpgradeSidePanel()
 
   const ref = React.useRef()
@@ -66,7 +66,7 @@ const DisabledActionPrompt = ({
         fill={brandColors.instagram.bg}
       />
       <MarkdownText
-        markdown={copy || globalCopy.disabledReason(section, hasSetUpProfile, hasOverflow, hasCancelledPlan)}
+        markdown={copy || globalCopy.disabledReason(section, hasSetUpProfile, hasOverflow, hasCancelledPlan, plan, status)}
         className={[isSmallSize ? 'mx-1' : 'mx-2', 'mb-0'].join(' ')}
       />
       {isButton && (

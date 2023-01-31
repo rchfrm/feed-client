@@ -61,19 +61,26 @@ export const deletePaymentMethod = async (organizationId, paymentMethodId) => {
   return api.requestWithCatch('delete', endpoint, payload, errorTracking)
 }
 
-// GET STRIPE CLIENT SECRET
+// GET STRIPE CLIENT SECRETS
 /**
  * @param {string} organizationId
+ * @param {string} type
  * @returns {Promise<any>}
  */
-export const getStripeClientSecret = async (organizationId) => {
+export const getStripeClientSecret = async (organizationId, type) => {
+  const validTypes = ['setup', 'payment']
+  const isValidType = validTypes.includes(type)
+  if (! isValidType) {
+    throw new Error(`Provide valid type, one of: ${validTypes.join(', ')}`)
+  }
   const payload = null
-  const endpoint = `/organizations/${organizationId}/billing/payments/client_secret`
+  const endpoint = `/organizations/${organizationId}/billing/payments/${type}_intent/secret`
   const errorTracking = {
     category: 'Billing',
     action: 'Get Stripe client secret',
   }
-  return api.requestWithCatch('get', endpoint, payload, errorTracking)
+  const requestType = type === 'setup' ? 'post' : 'get'
+  return api.requestWithCatch(requestType, endpoint, payload, errorTracking)
 }
 
 // GET PRORATIONS PREVIEW
@@ -156,13 +163,21 @@ export const handleInitialize = (draftState, payload) => {
 
   if (! orgArtists || ! selectedArtistID || ! selectedArtistPlan) return draftState
 
+  const hasMultipleActiveProfiles = orgArtists.filter((artist) => {
+    return artist.status === 'active'
+      && Boolean(artist.plan)
+      && ! artist.plan.includes('basic')
+  }).length > 0
+
   return orgArtists.reduce((acc, orgArtist) => {
     if (orgArtist.id === selectedArtistID) {
       acc[orgArtist.id] = selectedArtistPlan
-    } else if (orgArtist.plan.includes('basic')) {
+    } else if (orgArtist.plan?.includes('basic')) {
       acc[orgArtist.id] = 'growth'
+    } else if (hasMultipleActiveProfiles && ! orgArtist.plan) {
+      acc[orgArtist.id] = 'none'
     } else {
-      const [planPrefix] = orgArtist.plan?.split('_') || 'growth'
+      const [planPrefix] = orgArtist.plan?.split('_') || ['growth']
       acc[orgArtist.id] = planPrefix
     }
 
@@ -235,14 +250,18 @@ export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
 
 // SET INITIAL VALUE FOR PRICING PLAN
 /**
- * @param {string} artistPlan
+ * @param {Object} artist
  * @param {boolean} canChooseBasic
  * @param {boolean} isUpgradeToPro
  * @returns {string}
  */
-export const setInitialPlan = (artistPlan, canChooseBasic, isUpgradeToPro) => {
+export const setInitialPlan = (artist, canChooseBasic, isUpgradeToPro) => {
+  const { plan, status } = artist
+  const [planPrefix] = plan?.split('_')
+  if (plan && status === 'incomplete') {
+    return planPrefix
+  }
   if (canChooseBasic) {
-    const [planPrefix] = artistPlan?.split('_')
     return planPrefix || 'growth'
   }
   return isUpgradeToPro ? 'pro' : 'growth'

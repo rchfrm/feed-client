@@ -83,11 +83,12 @@ const artistReducer = (draftState, action) => {
       draftState.hasGrowthPlan = artistHelpers.hasGrowthPlan(payload.plan)
       draftState.hasProPlan = artistHelpers.hasProPlan(payload.plan)
       draftState.hasNoPlan = ! payload.plan
-      draftState.hasCancelledPlan = draftState.status === 'unpaid' && ! draftState.hasNoPlan
+      draftState.hasCancelledPlan = draftState.status !== 'active' && ! draftState.hasNoPlan
       break
     }
     case 'set-status': {
       draftState.status = payload.status
+      draftState.hasCancelledPlan = draftState.status !== 'active' && ! draftState.hasNoPlan
       break
     }
     case 'update-post-preferences': {
@@ -176,8 +177,8 @@ function ArtistProvider({ children }) {
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
     // Set pricing plan booleans
-    const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan)
-    const hasProPlan = artistHelpers.hasProPlan(artist?.plan)
+    const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan) && artist.status === 'active'
+    const hasProPlan = artistHelpers.hasProPlan(artist?.plan) && artist.status === 'active'
     const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
     const hasNoPlan = ! artist?.plan
     const hasCancelledPlan = artist.status !== 'active'

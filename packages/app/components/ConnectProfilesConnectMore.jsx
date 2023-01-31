@@ -12,6 +12,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 
 import copy from '@/app/copy/connectProfilesCopy'
+import { requiredScopesAds } from '@/helpers/firebaseHelpers'
 
 const ConnectProfilesConnectMore = ({
   auth,
@@ -25,6 +26,7 @@ const ConnectProfilesConnectMore = ({
   const { missingScopes: { ads: missingScopes } } = auth
   const { setSidePanelButton, sidePanelOpen } = React.useContext(SidePanelContext)
   const isDesktopLayout = useBreakpointTest('sm')
+  const scopes = requiredScopesAds.filter((scope) => scope !== 'business_management')
 
   React.useEffect(() => {
     if (! sidePanelOpen || isDesktopLayout) return
@@ -32,6 +34,7 @@ const ConnectProfilesConnectMore = ({
     setSidePanelButton(<ConnectFacebookButton
       errors={errors}
       setErrors={setErrors}
+      scopes={scopes}
       buttonText="Connect more"
       trackComponentName="ConnectProfilesConnectMore"
       className="w-full xs:w-1/2"
@@ -73,6 +76,7 @@ const ConnectProfilesConnectMore = ({
             <ConnectFacebookButton
               errors={errors}
               setErrors={setErrors}
+              scopes={scopes}
               buttonText="Connect more"
               trackComponentName="ConnectProfilesConnectMore"
               className="w-full xs:w-2/3"

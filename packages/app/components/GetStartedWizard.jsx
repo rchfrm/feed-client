@@ -30,6 +30,8 @@ import { getLinkByPlatform, getLinkById, getLinkByHref } from '@/app/helpers/lin
 import { getStartedSections, updateArtist, getPreferencesObject, profileStatus } from '@/app/helpers/artistHelpers'
 
 import * as ROUTES from '@/app/constants/routes'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -48,6 +50,7 @@ const GetStartedWizard = () => {
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
   const { hasLegacyPlan } = artist
 
+  const [stripePromise] = React.useState(() => loadStripe(process.env.stripe_provider))
 
   const {
     nestedLinks,
@@ -148,7 +151,7 @@ const GetStartedWizard = () => {
       name: profileStatus.paymentMethod,
       title: 'Your payment method',
       section: getStartedSections.targeting,
-      component: <GetStartedPaymentMethod />,
+      component: <Elements stripe={stripePromise}><GetStartedPaymentMethod /></Elements>,
     },
     {
       id: 11,

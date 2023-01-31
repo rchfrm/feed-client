@@ -136,12 +136,14 @@ const PostSettingsLink = ({
         className="sm:pl-4 break-all"
       />
       <Error error={error} />
-      <PostSettingsEditAlert
-        type="link"
-        shouldShowAlert={shouldShowAlert}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-      />
+      {shouldShowAlert && (
+        <PostSettingsEditAlert
+          type="link"
+          shouldShowAlert={shouldShowAlert}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+        />
+      )}
     </div>
   )
 }

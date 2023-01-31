@@ -22,7 +22,7 @@ const PricingPlanUpgradePlan = ({
   isAnnualPricing,
 }) => {
   const { artist } = React.useContext(ArtistContext)
-  const { name, hasCancelledPlan } = artist
+  const { name, hasCancelledPlan, status } = artist
   const artistPlan = profilesToUpgrade[artist.id]
   const pricingPlan = pricingPlans.find(({ name }) => name === artistPlan)
   const {
@@ -78,6 +78,7 @@ const PricingPlanUpgradePlan = ({
           handleChange={handleChange}
           currencyCode={currencyCode}
           className="mb-4"
+          disabled={artistPlan !== 'basic' && status === 'incomplete'}
         />
       )}
       <PricingPlanUpgradePlanItem
@@ -89,6 +90,7 @@ const PricingPlanUpgradePlan = ({
         handleChange={handleChange}
         currencyCode={currencyCode}
         className="mb-4"
+        disabled={artistPlan !== 'growth' && status === 'incomplete'}
       />
       <PricingPlanUpgradePlanItem
         name="pro"
@@ -98,6 +100,7 @@ const PricingPlanUpgradePlan = ({
         isAnnualPricing={isAnnualPricing}
         handleChange={handleChange}
         currencyCode={currencyCode}
+        disabled={artistPlan !== 'pro' && status === 'incomplete'}
       />
     </div>
   )

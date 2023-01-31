@@ -10,6 +10,8 @@ import PricingPlanUpgradePayment from '@/app/PricingPlanUpgradePayment'
 import PricingPlanUpgradeSummary from '@/app/PricingPlanUpgradeSummary'
 import { handleInitialize, handleUpdateProfilePlan, setInitialPlan } from '@/app/helpers/billingHelpers'
 import { useImmerReducer } from 'use-immer'
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -60,7 +62,8 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
 
   const [profilesToUpgrade, setProfilesToUpgrade] = useImmerReducer(profilesToUpgradeReducer, {})
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
-  const initPlan = setInitialPlan(artist.plan, canChooseBasic, isUpgradeToPro)
+  const initPlan = setInitialPlan(artist, canChooseBasic, isUpgradeToPro)
+  const [stripePromise] = React.useState(() => loadStripe(process.env.stripe_provider))
 
   React.useEffect(() => {
     if (! hasBillingAccess || profilesToUpgrade[artist.id]) return
@@ -118,7 +121,9 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   )
 
   return (
-    StepComponent
+    <Elements stripe={stripePromise}>
+      {StepComponent}
+    </Elements>
   )
 }
 

@@ -165,12 +165,14 @@ const PostSettingsCallToAction = ({
         className="sm:pl-4"
       />
       <Error error={error} />
-      <PostSettingsEditAlert
-        type="call to action"
-        shouldShowAlert={shouldShowAlert}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-      />
+      {shouldShowAlert && (
+        <PostSettingsEditAlert
+          type="call to action"
+          shouldShowAlert={shouldShowAlert}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+        />
+      )}
     </div>
   )
 }
