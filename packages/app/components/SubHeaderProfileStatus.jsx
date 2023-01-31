@@ -28,7 +28,7 @@ const SubHeaderProfileStatus = () => {
 
   return (
     <div className={[
-      'flex items-center px-2 justify-between',
+      'flex items-center p-3 justify-between',
       'relative h-8 md:h-10 order-1 md:order-2 md:ml-auto md:mb-0',
       'border border-solid rounded-dialogue text-xs',
       colorClasses[color],
