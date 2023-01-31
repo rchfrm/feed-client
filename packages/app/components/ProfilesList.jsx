@@ -76,7 +76,7 @@ const ProfilesList = ({
       >
         {hasConnectMore && (
           <div className="px-4">
-            <ProfilesConnectMore className="h-8 mb-2 justify-between" isExpanded />
+            <ProfilesConnectMore className="h-8 mb-2" isExpanded />
           </div>
         )}
         <ProfilesListSearch value={searchValue} setValue={setSearchValue} />
@@ -84,7 +84,7 @@ const ProfilesList = ({
           className={[
             'mt-2',
             'overflow-y-scroll bg-black',
-            isDesktopLayout ? 'max-h-[85vh]' : 'max-h-[75vh]',
+            isDesktopLayout ? 'max-h-[85vh]' : 'max-h-[70vh]',
           ].join(' ')}
         >
           {profiles.map(({ id, name, facebook_page_id }, index) => {

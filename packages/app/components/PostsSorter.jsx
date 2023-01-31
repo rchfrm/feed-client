@@ -13,7 +13,7 @@ const PostsSorter = ({
 
   return (
     <div className="flex items-center">
-      <p className="mr-2 mb-0 font-bold">Sort:</p>
+      <p className="mr-2 sm:mr-4 md:mr-2 mb-0 font-bold">Sort:</p>
       <Select
         options={sortTypes}
         selectedValue={sortBy}

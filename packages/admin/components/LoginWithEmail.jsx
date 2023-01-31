@@ -7,7 +7,7 @@ import Link from 'next/link'
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/admin/contexts/UserContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/admin/contexts/InterfaceContext'
 // IMPORT ELEMENTS
 import Input from '@/elements/Input'
 import Button from '@/elements/Button'

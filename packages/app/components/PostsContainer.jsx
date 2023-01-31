@@ -80,7 +80,7 @@ const PostsContainer = ({
         ].join(' ')}
         ref={contentRef}
       >
-        <div className="flex justify-between mb-5 text-xs">
+        <div className="flex flex-col md:flex-row justify-between mb-5 text-xs">
           <PostsFilter
             filterBy={filterBy}
             setFilterBy={setFilterBy}

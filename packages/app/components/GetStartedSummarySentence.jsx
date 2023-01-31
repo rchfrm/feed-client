@@ -24,7 +24,7 @@ const GetStartedSummarySentence = ({ className }) => {
     <>
       <div className={[
         'flex items-center',
-        'sm:mr-0 mb-10',
+        'sm:mr-0 mb-10 mt-15 md:mt-0 leading-snug',
         isLastStep && ! isDesktopLayout ? 'flex-column' : 'flex-wrap',
         className,
       ].join(' ')}

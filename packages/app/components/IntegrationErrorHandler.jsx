@@ -8,7 +8,7 @@ import * as server from '@/app/helpers/appServer'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import { AuthContext } from '@/contexts/AuthContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 
 import IntegrationErrorContent from '@/app/IntegrationErrorContent'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'

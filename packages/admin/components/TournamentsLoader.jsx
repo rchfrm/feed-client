@@ -10,7 +10,7 @@ import TournamentList from '@/admin/TournamentList'
 import TournamentNavigation from '@/admin/TournamentNavigation'
 
 import { UserContext } from '@/admin/contexts/UserContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/admin/contexts/InterfaceContext'
 
 import * as server from '@/helpers/sharedServer'
 

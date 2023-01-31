@@ -14,8 +14,8 @@ const GetStartedObjectiveButton = ({
 
   const classNames = {
     growth: '',
-    traffic: 'bg-twitter hover:bg-twitter hover:bg-opacity-90',
-    sales: 'bg-insta hover:bg-insta hover:bg-opacity-90',
+    traffic: 'bg-twitter border-twitter hover:bg-twitter hover:border-twitter hover:bg-opacity-90',
+    sales: 'bg-insta border-insta hover:bg-insta hover:border-insta hover:bg-opacity-90',
   }
 
   return (

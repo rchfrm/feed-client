@@ -4,7 +4,7 @@ import Router from 'next/router'
 import shallow from 'zustand/shallow'
 
 import { UserContext } from '@/app/contexts/UserContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import useSignup from '@/app/hooks/useSignup'

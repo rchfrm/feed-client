@@ -8,10 +8,17 @@ const PostsFilter = ({
   setFilterBy,
 }) => {
   return (
-    <div className="flex items-center">
-      <p className="mb-0 font-bold">Show:</p>
+    <div className="flex flex-col sm:flex-row items-start sm:items-center mb-2 md:mb-0">
+      <p className="mb-1 sm:mb-0 font-bold">Show:</p>
       {filterTypes.map(({ type, options }) => (
-        <div key={type} className="flex items-center last:border-l last:border-solid last:border-grey px-2">
+        <div
+          key={type}
+          className={[
+            'flex flex-wrap items-center mb-1 xxs:mb-1 sm:mb-0 sm:px-2',
+            'last:pt-2 last:mb-0 sm:last:pt-0 last:border-t last:border-solid last:border-grey',
+            'sm:last:border-l sm:last:border-t-0',
+          ].join(' ')}
+        >
           {options.map(({ slug, title }) => {
             return (
               <PostsFilterOption

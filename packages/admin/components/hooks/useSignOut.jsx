@@ -7,7 +7,7 @@ import Router from 'next/router'
 // IMPORT CONTEXTS
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/admin/contexts/UserContext'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/admin/contexts/InterfaceContext'
 
 // IMPORT CONSTANTS
 import * as ROUTES from '@/app/constants/routes'

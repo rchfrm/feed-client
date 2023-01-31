@@ -116,7 +116,7 @@ body {
 
 .page--content {
   max-width: var(--bmw);
-  padding: var(--sp-5);
+  padding: var(--sp-3);
   margin: 0 auto;
 
   @media (--sm) {

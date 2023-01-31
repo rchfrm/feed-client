@@ -9,7 +9,7 @@ import ListSearch from '@/admin/elements/ListSearch'
 import ListSort from '@/admin/elements/ListSort'
 import EntityList from '@/admin/EntityList'
 import Entity from '@/admin/Entity'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/admin/contexts/InterfaceContext'
 
 const UsersLoader = ({ id }) => {
   const isSingleUser = !! id

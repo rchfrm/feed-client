@@ -5,7 +5,7 @@ import ResultsLoader from '@/app/ResultsLoader'
 
 import Spinner from '@/elements/Spinner'
 
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 
 const ResultsPage = ({ dummyPostsImages }) => {
   const { globalLoading } = React.useContext(InterfaceContext)

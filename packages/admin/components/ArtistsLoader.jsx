@@ -4,7 +4,7 @@ import ArtistsFilters from '@/admin/ArtistsFilters'
 import ListSearch from '@/admin/elements/ListSearch'
 import EntityList from '@/admin/EntityList'
 import useGetPaginated from '@/admin/hooks/useGetPaginated'
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/admin/contexts/InterfaceContext'
 
 const ArtistsLoader = () => {
   const propsToDisplay = [

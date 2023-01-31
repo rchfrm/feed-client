@@ -13,7 +13,7 @@ import LinkBank from '@/app/LinkBank'
 import IntegrationsPanel from '@/app/IntegrationsPanel'
 import ProfileUsers from '@/app/ProfileUsers'
 
-import { InterfaceContext } from '@/contexts/InterfaceContext'
+import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { UserContext } from '@/app/contexts/UserContext'
 
