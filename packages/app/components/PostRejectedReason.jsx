@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const PostRejectedReason = ({ post }) => {
-  const reason = Object.values(post.ads).reduce((reason, ad) => {
+  const [reason] = Object.values(post.ads).reduce((reasons, ad) => {
     if (! ad?.ad_review_feedback?.global) {
-      return reason
+      return reasons
     }
-    return Object.keys(ad?.ad_review_feedback?.global)[0]
-  }, '')
+    return [...reasons, Object.keys(ad?.ad_review_feedback?.global)[0]]
+  }, [])
 
   if (! reason) {
     return
