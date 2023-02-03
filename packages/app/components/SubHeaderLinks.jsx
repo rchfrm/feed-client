@@ -1,16 +1,8 @@
 import React from 'react'
 import ActiveLink from '@/elements/ActiveLink'
 import { secondaryLinks } from '@/app/helpers/navHelpers'
-import { useRouter } from 'next/router'
-import * as ROUTES from '@/app/constants/routes'
 
 const SubHeaderLinks = () => {
-  const { pathname } = useRouter()
-
-  if (! ROUTES.generalPages.includes(pathname)) {
-    return
-  }
-
   return (
     <ul className={[
       'flex justify-center w-full md:w-auto mb-0 md:mr-2 px-auto',

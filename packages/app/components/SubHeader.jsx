@@ -3,12 +3,15 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 import SubHeaderProfileStatus from '@/app/SubHeaderProfileStatus'
 import SubHeaderLinks from '@/app/SubHeaderLinks'
+import { useRouter } from 'next/router'
+import * as ROUTES from '@/app/constants/routes'
 
 const SubHeader = () => {
   const { hasNav, isNavExpanded } = React.useContext(InterfaceContext)
   const { artistLoading } = React.useContext(ArtistContext)
+  const { pathname } = useRouter()
 
-  if (! hasNav) {
+  if (! hasNav || ! ROUTES.generalPages.includes(pathname)) {
     return
   }
 
