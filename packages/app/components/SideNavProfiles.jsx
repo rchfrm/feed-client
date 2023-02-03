@@ -54,7 +54,7 @@ const SideNavProfiles = ({ isExpanded }) => {
       <div className="px-4">
         <ProfilesConnectMore
           isExpanded={isExpanded}
-          className="h-12"
+          className="h-14"
         />
       </div>
     </>
