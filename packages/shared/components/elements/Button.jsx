@@ -24,7 +24,7 @@ const Button = React.forwardRef(({
   const classes = {
     'x-small': 'h-[22px] p-2 text-xs',
     small: 'h-8 p-2 text-[13px]',
-    medium: 'h-12 p-3 text-[13px]',
+    medium: 'h-10 p-3 text-[13px]',
     large: 'h-12 p-3.5',
     green: {
       primary: 'bg-green border-green hover:bg-green-light hover:border-green-light active:border-green-dark active:border-dashed disabled:bg-grey disabled:border-grey',

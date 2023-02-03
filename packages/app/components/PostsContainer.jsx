@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 import { gsap, Power2 } from 'gsap'
 import useOnResize from '@/landing/hooks/useOnResize'
 import PostsFilter from '@/app/PostsFilter'
@@ -7,9 +8,13 @@ import PostsSorter from '@/app/PostsSorter'
 import PostsList from '@/app/PostsList'
 import PostsLoadMore from '@/app/PostsLoadMore'
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
+import Button from '@/elements/Button'
 import ExpandIcon from '@/icons/ExpandIcon'
 import CollapseIcon from '@/icons/CollapseIcon'
+import ArrowIcon from '@/icons/ArrowIcon'
 import { postsConfig } from '@/app/helpers/postsHelpers'
+import * as ROUTES from '@/app/constants/routes'
 
 const PostsContainer = ({
   status,
@@ -23,6 +28,7 @@ const PostsContainer = ({
   isLoadingMore,
   setIsLoadingMore,
   hasLoadedAll,
+  isSpendingPaused,
   className,
 }) => {
   const [isOpen, setIsOpen] = React.useState(status === 'active')
@@ -48,6 +54,12 @@ const PostsContainer = ({
       gsap.to(containerRef.current, { maxHeight, ease, duration })
     }
   }, [])
+
+  const goToControlsPage = () => {
+    Router.push({
+      pathname: ROUTES.CONTROLS_OBJECTIVE,
+    })
+  }
 
   React.useEffect(() => {
     animate(isOpen)
@@ -80,37 +92,61 @@ const PostsContainer = ({
         ].join(' ')}
         ref={contentRef}
       >
-        <div className="flex flex-col md:flex-row justify-between mb-5 text-xs">
-          <PostsFilter
-            filterBy={filterBy}
-            setFilterBy={setFilterBy}
-          />
-          <PostsSorter
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-          />
-        </div>
-        {isLoading ? (
-          <div className="h-16 w-full flex items-center">
-            <Spinner width={30} />
-          </div>
+        {status === 'active' && isSpendingPaused ? (
+          <>
+            <MarkdownText
+              className="text-sm w-1/3"
+              markdown="Your campaigns are paused. Set a budget from the controls page to start running ads."
+            />
+            <Button
+              color="yellow"
+              size="medium"
+              onClick={goToControlsPage}
+              className=""
+              trackComponentName="GetStartedDailyBudget"
+            >
+              Start Campaign
+              <ArrowIcon
+                className="w-5 h-auto ml-1"
+                direction="right"
+              />
+            </Button>
+          </>
         ) : (
-          <PostsList
-            posts={posts}
-            status={status}
-            setPosts={setPosts}
-            filterBy={filterBy}
-            setIsPostActionsOpen={setIsPostActionsOpen}
-            className="mb-5"
-          />
+          <>
+            <div className="flex flex-col md:flex-row justify-between mb-5 text-xs">
+              <PostsFilter
+                filterBy={filterBy}
+                setFilterBy={setFilterBy}
+              />
+              <PostsSorter
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+              />
+            </div>
+            {isLoading ? (
+              <div className="h-16 w-full flex items-center">
+                <Spinner width={30} />
+              </div>
+            ) : (
+              <PostsList
+                posts={posts}
+                status={status}
+                setPosts={setPosts}
+                filterBy={filterBy}
+                setIsPostActionsOpen={setIsPostActionsOpen}
+                className="mb-5"
+              />
+            )}
+            <PostsLoadMore
+              posts={posts}
+              isLoading={isLoading}
+              isLoadingMore={isLoadingMore}
+              setIsLoadingMore={setIsLoadingMore}
+              hasLoadedAll={hasLoadedAll}
+            />
+          </>
         )}
-        <PostsLoadMore
-          posts={posts}
-          isLoading={isLoading}
-          isLoadingMore={isLoadingMore}
-          setIsLoadingMore={setIsLoadingMore}
-          hasLoadedAll={hasLoadedAll}
-        />
       </div>
     </div>
   )
@@ -128,10 +164,12 @@ PostsContainer.propTypes = {
   isLoadingMore: PropTypes.bool.isRequired,
   setIsLoadingMore: PropTypes.func.isRequired,
   hasLoadedAll: PropTypes.bool.isRequired,
+  isSpendingPaused: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostsContainer.defaultProps = {
+  isSpendingPaused: false,
   className: null,
 }
 
