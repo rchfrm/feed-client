@@ -9,10 +9,6 @@ const PostRejectedReason = ({ post }) => {
     return [...reasons, Object.keys(ad?.ad_review_feedback?.global)[0]]
   }, [])
 
-  if (! reason) {
-    return
-  }
-
   return (
     <div
       className={[
@@ -21,7 +17,7 @@ const PostRejectedReason = ({ post }) => {
         'text-red-text text-[10px] text-center',
       ].join(' ')}
     >
-      {reason}
+      {reason || 'Unknown'}
     </div>
   )
 }
