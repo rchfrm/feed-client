@@ -13,13 +13,13 @@ const SubHeaderProfileStatus = ({ isSpendingPaused }) => {
 
   return (
     <>
-      <p className="mb-0 font-bold mr-4 text-sm">
+      <div className="mb-0 font-bold mr-4 text-sm">
         {isDesktopLayout ? (
-          <div>Campaign <span className={['lg:inline', isNavExpanded ? 'hidden' : null].join(' ')}>status</span></div>
+          <p className="mb-0">Campaign <span className={['lg:inline', isNavExpanded ? 'hidden' : null].join(' ')}>status</span></p>
         ) : (
           artist.name
         )}
-      </p>
+      </div>
       {isSpendingPaused ? (
         <div className="flex items-center font-bold">
           <div className="flex justify-center items-center flex-shrink-0 w-4 h-4 rounded-full bg-yellow mr-1">
