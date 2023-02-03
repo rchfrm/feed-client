@@ -61,10 +61,6 @@ body {
   flex: 1;
   align-items: flex-end;
   width: 100%;
-
-  @media (--md) {
-    padding: 0 var(--sp-16);
-  }
 }
 
 #page--container {
@@ -75,7 +71,7 @@ body {
   }
 
   @media (--md) {
-    padding: 0 var(--sp-20);
+    padding: 0 0 0 var(--sp-20);
   }
 }
 

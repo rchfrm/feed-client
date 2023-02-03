@@ -16,7 +16,7 @@ const SubHeader = () => {
     <nav className={[
       'relative z-[21] min-h-[40px] md:min-h-[48px]',
       'self-end flex flex-col md:items-center md:flex-row md:justify-between transition-width duration-500',
-      'mt-3 md:mt-0 mb-5 md:mb-15 md:px-20',
+      'mt-3 md:mt-0 mb-5 md:mb-15 md:pl-20',
       isNavExpanded ? '!w-[calc(100%-120px)]' : '!w-full',
     ].join(' ')}
     >
