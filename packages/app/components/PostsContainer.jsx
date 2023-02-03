@@ -25,7 +25,7 @@ const PostsContainer = ({
   hasLoadedAll,
   className,
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(status === 'active')
   const [isPostActionsOpen, setIsPostActionsOpen] = React.useState(false)
   const shouldShowPostsAmount = status === 'active' || status === 'rejected'
 
