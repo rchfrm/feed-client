@@ -30,17 +30,17 @@ const PostsNoArtists = () => {
         />
         <PostsNoArtistsContainer
           status="pending"
-          className="bg-grey-light border-grey"
+          className="bg-offwhite border-grey-light"
           isOpen
         />
         <PostsNoArtistsContainer
           status="inactive"
-          className="bg-grey-light border-grey"
+          className="bg-offwhite border-grey-light"
           isOpen={false}
         />
         <PostsNoArtistsContainer
           status="archived"
-          className="bg-grey-light border-grey"
+          className="bg-offwhite border-grey-light"
           isOpen={false}
         />
       </div>

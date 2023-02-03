@@ -64,8 +64,10 @@ const postsReducer = (draftState, postsAction) => {
 
 const Posts = () => {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
-  const { artistId } = React.useContext(ArtistContext)
+  const { artist, artistId } = React.useContext(ArtistContext)
+  const { hasSetUpProfile } = artist
   const { user } = React.useContext(UserContext)
+
 
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const hasArtists = user.artists.length > 0
@@ -89,7 +91,7 @@ const Posts = () => {
   }, [isNewUser])
 
   return (
-    hasArtists ? (
+    hasArtists && hasSetUpProfile ? (
       canLoadPosts ? (
         <div className="relative">
           <PostsLoader
@@ -108,19 +110,19 @@ const Posts = () => {
             status="pending"
             posts={posts.pending}
             setPosts={setPosts}
-            className="border-grey bg-offwhite"
+            className="border-grey-light bg-offwhite"
           />
           <PostsLoader
             status="inactive"
             posts={posts.inactive}
             setPosts={setPosts}
-            className="border-grey bg-offwhite"
+            className="border-grey-light bg-offwhite"
           />
           <PostsLoader
             status="archived"
             posts={posts.archived}
             setPosts={setPosts}
-            className="border-grey bg-offwhite"
+            className="border-grey-light bg-offwhite"
           />
         </div>
       ) : (
