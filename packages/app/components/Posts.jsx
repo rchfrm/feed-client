@@ -108,19 +108,19 @@ const Posts = () => {
             status="pending"
             posts={posts.pending}
             setPosts={setPosts}
-            className="border-grey bg-grey-light"
+            className="border-grey bg-offwhite"
           />
           <PostsLoader
             status="inactive"
             posts={posts.inactive}
             setPosts={setPosts}
-            className="border-grey bg-grey-light"
+            className="border-grey bg-offwhite"
           />
           <PostsLoader
             status="archived"
             posts={posts.archived}
             setPosts={setPosts}
-            className="border-grey bg-grey-light"
+            className="border-grey bg-offwhite"
           />
         </div>
       ) : (

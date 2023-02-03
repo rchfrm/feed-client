@@ -1,6 +1,6 @@
 /* Pill button */
 .button--pill {
-  background-color: var(--offwhite);
+  background-color: var(--white);
   padding: 0.3em 0.8em;
   padding-bottom: 0.4em;
   border-radius: var(--pill-radius);

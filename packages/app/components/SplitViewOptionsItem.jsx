@@ -58,7 +58,7 @@ const SplitViewOptionsItem = ({
         'flex justify-center items-center mr-4',
         'shrink-0',
         'rounded-full',
-        'border border-solid border-black bg-offwhite',
+        'border border-solid border-black bg-white',
       ].join(' ')}
       >
         {isActive && <span className="w-4 h-4 block rounded-full bg-green" />}
