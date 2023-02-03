@@ -13,6 +13,7 @@ const ProfilesList = ({
   shouldShowMore,
   setShouldShowMore,
   hasConnectMore,
+  artistId,
   className,
 }) => {
   const { user } = React.useContext(UserContext)
@@ -99,6 +100,7 @@ const ProfilesList = ({
                 setShouldShowMore={setShouldShowMore}
                 isLast={isLast}
                 isExpanded
+                isActive={id === artistId}
               />
             )
           })}
@@ -115,6 +117,7 @@ ProfilesList.propTypes = {
   shouldShowMore: PropTypes.bool.isRequired,
   setShouldShowMore: PropTypes.func.isRequired,
   hasConnectMore: PropTypes.bool,
+  artistId: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 

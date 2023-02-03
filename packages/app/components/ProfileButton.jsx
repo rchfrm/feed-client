@@ -12,19 +12,24 @@ const ProfileButton = ({
   isExpanded,
   isLast,
   hasSpinner,
+  isProfileSwitch,
   setShouldShowMore,
   className,
 }) => {
   const { artistLoading, storeArtist } = React.useContext(ArtistContext)
 
   const updateArtist = () => {
-    storeArtist(artistId)
+    storeArtist(artistId, ! isActive)
     setShouldShowMore(false)
+  }
+
+  const switchProfiles = () => {
+    setShouldShowMore((shouldShowMore) => ! shouldShowMore)
   }
 
   return (
     <button
-      onClick={updateArtist}
+      onClick={isProfileSwitch ? switchProfiles : updateArtist}
       className={[
         className,
         'relative overflow-hidden',
@@ -81,6 +86,7 @@ ProfileButton.propTypes = {
   isLast: PropTypes.bool,
   setShouldShowMore: PropTypes.func,
   hasSpinner: PropTypes.bool,
+  isProfileSwitch: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -92,6 +98,7 @@ ProfileButton.defaultProps = {
   isLast: false,
   setShouldShowMore: () => {},
   hasSpinner: false,
+  isProfileSwitch: false,
   className: '',
 }
 

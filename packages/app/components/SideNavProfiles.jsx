@@ -31,8 +31,10 @@ const SideNavProfiles = ({ isExpanded }) => {
             name={name}
             pageId={facebook_page_id}
             artistId={artistId}
-            isActive
+            setShouldShowMore={setShouldShowMore}
             isExpanded={isExpanded}
+            isActive
+            isProfileSwitch
             hasSpinner
           />
           <div className="px-4" ref={containerRef}>
@@ -45,7 +47,8 @@ const SideNavProfiles = ({ isExpanded }) => {
               <ProfilesList
                 shouldShowMore={shouldShowMore}
                 setShouldShowMore={setShouldShowMore}
-                className={['top-6', isExpanded ? 'left-[216px]' : 'left-24'].join(' ')}
+                artistId={artistId}
+                className={['top-4', isExpanded ? 'left-[216px]' : 'left-24'].join(' ')}
               />
             )}
           </div>
