@@ -53,6 +53,7 @@ const Header = () => {
           <ProfilesList
             shouldShowMore={shouldShowMore}
             setShouldShowMore={setShouldShowMore}
+            artistId={artistId}
             className="top-20 right-6"
             hasConnectMore
           />

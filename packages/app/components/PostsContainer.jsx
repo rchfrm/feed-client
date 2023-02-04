@@ -1,20 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
 import { gsap, Power2 } from 'gsap'
 import useOnResize from '@/landing/hooks/useOnResize'
+import useControlsStore from '@/app/stores/controlsStore'
+import PostsContainerButton from '@/app/PostsContainerButton'
+import PostsContainerSpendingPaused from '@/app/PostsContainerSpendingPaused'
 import PostsFilter from '@/app/PostsFilter'
 import PostsSorter from '@/app/PostsSorter'
 import PostsList from '@/app/PostsList'
 import PostsLoadMore from '@/app/PostsLoadMore'
 import Spinner from '@/elements/Spinner'
-import MarkdownText from '@/elements/MarkdownText'
-import Button from '@/elements/Button'
-import ExpandIcon from '@/icons/ExpandIcon'
-import CollapseIcon from '@/icons/CollapseIcon'
-import ArrowIcon from '@/icons/ArrowIcon'
-import { postsConfig } from '@/app/helpers/postsHelpers'
-import * as ROUTES from '@/app/constants/routes'
+
+const getControlsStoreState = (state) => ({
+  isControlsLoading: state.isControlsLoading,
+})
 
 const PostsContainer = ({
   status,
@@ -33,15 +32,11 @@ const PostsContainer = ({
 }) => {
   const [isOpen, setIsOpen] = React.useState(status === 'active')
   const [isPostActionsOpen, setIsPostActionsOpen] = React.useState(false)
-  const shouldShowPostsAmount = status === 'active' || status === 'rejected'
+  const { isControlsLoading } = useControlsStore(getControlsStoreState)
 
   const { width } = useOnResize()
   const containerRef = React.useRef(null)
   const contentRef = React.useRef(null)
-
-  const toggle = () => {
-    setIsOpen((isOpen) => ! isOpen)
-  }
 
   const animate = React.useCallback((isOpen) => {
     if (containerRef.current) {
@@ -55,15 +50,9 @@ const PostsContainer = ({
     }
   }, [])
 
-  const goToControlsPage = () => {
-    Router.push({
-      pathname: ROUTES.CONTROLS_OBJECTIVE,
-    })
-  }
-
   React.useEffect(() => {
     animate(isOpen)
-  }, [isOpen, animate, posts, width])
+  }, [isOpen, animate, posts, width, isControlsLoading])
 
   return (
     <div
@@ -74,16 +63,13 @@ const PostsContainer = ({
       ].join(' ')}
       ref={containerRef}
     >
-      <button
-        onClick={toggle}
-        className={[
-          'w-full flex justify-between items-center p-5',
-          isOpen ? 'rounded-b-none' : null,
-        ].join(' ')}
-      >
-        <h2 className="mb-0 mr-5">{shouldShowPostsAmount ? posts.length : null} {postsConfig[status].name}</h2>
-        {isOpen ? <CollapseIcon /> : <ExpandIcon />}
-      </button>
+      <PostsContainerButton
+        status={status}
+        posts={posts}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        isSpendingPaused={isSpendingPaused}
+      />
       <div
         className={[
           'mb-5 px-5',
@@ -92,43 +78,25 @@ const PostsContainer = ({
         ].join(' ')}
         ref={contentRef}
       >
-        {status === 'active' && isSpendingPaused ? (
-          <>
-            <MarkdownText
-              className="text-sm w-1/3"
-              markdown="Your campaigns are paused. Set a budget from the controls page to start running ads."
-            />
-            <Button
-              color="yellow"
-              size="medium"
-              onClick={goToControlsPage}
-              className=""
-              trackComponentName="GetStartedDailyBudget"
-            >
-              Start Campaign
-              <ArrowIcon
-                className="w-5 h-auto ml-1"
-                direction="right"
-              />
-            </Button>
-          </>
+        {isLoading || isControlsLoading ? (
+          <div className="h-16 w-full">
+            <Spinner width={30} />
+          </div>
         ) : (
-          <>
-            <div className="flex flex-col md:flex-row justify-between mb-5 text-xs">
-              <PostsFilter
-                filterBy={filterBy}
-                setFilterBy={setFilterBy}
-              />
-              <PostsSorter
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-              />
-            </div>
-            {isLoading ? (
-              <div className="h-16 w-full flex items-center">
-                <Spinner width={30} />
+          status === 'active' && isSpendingPaused ? (
+            <PostsContainerSpendingPaused />
+          ) : (
+            <>
+              <div className="flex flex-col md:flex-row justify-between mb-5 text-xs">
+                <PostsFilter
+                  filterBy={filterBy}
+                  setFilterBy={setFilterBy}
+                />
+                <PostsSorter
+                  sortBy={sortBy}
+                  setSortBy={setSortBy}
+                />
               </div>
-            ) : (
               <PostsList
                 posts={posts}
                 status={status}
@@ -137,16 +105,16 @@ const PostsContainer = ({
                 setIsPostActionsOpen={setIsPostActionsOpen}
                 className="mb-5"
               />
-            )}
-            <PostsLoadMore
-              posts={posts}
-              isLoading={isLoading}
-              isLoadingMore={isLoadingMore}
-              setIsLoadingMore={setIsLoadingMore}
-              hasLoadedAll={hasLoadedAll}
-            />
-          </>
+            </>
+          )
         )}
+        <PostsLoadMore
+          posts={posts}
+          isLoading={isLoading}
+          isLoadingMore={isLoadingMore}
+          setIsLoadingMore={setIsLoadingMore}
+          hasLoadedAll={hasLoadedAll}
+        />
       </div>
     </div>
   )
