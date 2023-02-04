@@ -21,6 +21,7 @@ export default {
   },
 
   importingPosts: 'Gathering your recent posts from Facebook & Instagram...',
+  spendingPaused: 'Your campaigns are paused. Set a budget from the controls page to start running ads.',
 
   // POST SETTINGS
   // --------------

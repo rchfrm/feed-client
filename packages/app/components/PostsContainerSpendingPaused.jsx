@@ -4,6 +4,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 import * as ROUTES from '@/app/constants/routes'
+import copy from '@/app/copy/PostsPageCopy'
 
 const PostsContainerSpendingPaused = () => {
   const goToControlsPage = () => {
@@ -15,8 +16,8 @@ const PostsContainerSpendingPaused = () => {
   return (
     <>
       <MarkdownText
-        className="text-sm w-1/3"
-        markdown="Your campaigns are paused. Set a budget from the controls page to start running ads."
+        className="text-sm w-full md:w-1/2"
+        markdown={copy.spendingPaused}
       />
       <Button
         color="yellow"
