@@ -100,10 +100,10 @@ function Main({ children }) {
     <main
       id="page--container"
       className={[
-        'flex flex-col flex-1 items-end',
-        'self-end transition-width duration-500',
+        'flex flex-col flex-1',
+        'transition-width duration-500',
         'pt-6 sm:pt-8',
-        hasNav ? 'md:py-0 md:pr-0 md:pl-20' : 'md:p-0',
+        hasNav ? 'self-end md:py-0 md:pr-0 md:pl-20' : 'self-center md:p-0',
         isNavExpanded ? '!w-[calc(100%-120px)]' : '!w-full',
       ].join(' ')}
     >
