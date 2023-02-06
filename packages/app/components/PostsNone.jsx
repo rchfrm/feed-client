@@ -13,11 +13,11 @@ const getCopy = (filterBy) => {
   return noPostsCopy.all()
 }
 
-const PostsNone = ({ filterBy }) => {
+const PostsNone = ({ filterBy, className }) => {
   const copyMarkdown = getCopy(filterBy)
 
   return (
-    <MarkdownText markdown={copyMarkdown} className="h-16 flex items-center" />
+    <MarkdownText markdown={copyMarkdown} className={[className, 'h-16 flex items-center mb-0'].join(' ')} />
   )
 }
 

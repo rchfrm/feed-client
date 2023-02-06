@@ -42,7 +42,7 @@ const SideNav = () => {
         />
         <LogoButton
           id="sideNav"
-          className="h-20 ml-3.5"
+          className="h-30 ml-3.5"
           hasWordmark={isNavExpanded}
         />
         <SideNavProfiles

@@ -144,7 +144,7 @@ const ConnectProfilesLoader = ({
       <div
         className={[
           'col-span-12 sm:col-span-6',
-          ! isCannotListPagesError ? 'hidden sm:block lg:col-span-4' : null,
+          ! isCannotListPagesError ? 'hidden sm:block' : null,
         ].join(' ')}
       >
         <ConnectProfilesConnectMore

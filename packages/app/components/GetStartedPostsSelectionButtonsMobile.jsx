@@ -39,7 +39,7 @@ const GetStartedPostsSelectionButtonsMobile = ({
       )}
       <button
         onClick={handleNext}
-        className="flex justify-center p-2 w-30 bg-green text-offwhite"
+        className="flex justify-center items-center p-2 w-30 bg-green text-offwhite"
       >
         {isLoading ? (
           <Spinner width={20} fill={brandColors.offwhite} />
