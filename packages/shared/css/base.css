@@ -54,25 +54,12 @@ body {
   padding-top: var(--sp-10);
 }
 
-#page--container,
 #page--container-admin {
   display: flex;
   flex-direction: column;
   flex: 1;
   align-items: flex-end;
   width: 100%;
-}
-
-#page--container {
-  padding-top: var(--sp-6);
-
-  @media (--sm) {
-    padding-top: var(--sp-8);
-  }
-
-  @media (--md) {
-    padding: 0 0 0 var(--sp-20);
-  }
 }
 
 #page--container-admin {

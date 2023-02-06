@@ -262,7 +262,7 @@ const GetStartedWizard = () => {
   }, [artistId, objective, platform, defaultLink])
 
   return (
-    <div className="flex flex-column flex-1">
+    <div className="flex flex-column flex-1 md:pl-20">
       {steps.length && (
         <WizardContextProvider
           steps={steps}

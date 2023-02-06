@@ -30,7 +30,7 @@ const getBillingStoreState = (state) => ({
 function Main({ children }) {
   const { user } = React.useContext(UserContext)
   const { artistId, artist, setEnabledPosts } = React.useContext(ArtistContext)
-  const { isNavExpanded } = React.useContext(InterfaceContext)
+  const { isNavExpanded, hasNav } = React.useContext(InterfaceContext)
   const isFirstRender = React.useRef(true)
 
   const {
@@ -100,7 +100,10 @@ function Main({ children }) {
     <main
       id="page--container"
       className={[
+        'flex flex-col flex-1 items-end',
         'self-end transition-width duration-500',
+        'pt-6 sm:pt-8',
+        hasNav ? 'md:py-0 md:pr-0 md:pl-20' : 'md:p-0',
         isNavExpanded ? '!w-[calc(100%-120px)]' : '!w-full',
       ].join(' ')}
     >
