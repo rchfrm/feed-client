@@ -3,6 +3,7 @@ import moment from 'moment'
 import * as utils from '@/helpers/utils'
 import { requestWithCatch } from '@/helpers/api'
 import brandColors from '@/constants/brandColors'
+import { getPostTypePlural } from '@/app/copy/PostsPageCopy'
 
 export const postsConfig = {
   active: {
@@ -637,8 +638,12 @@ export const getInitialPostsImportStatus = async (artistId) => {
   return { res, error }
 }
 
-export const canBePromoted = (eligibility) => {
-  return Object.values(eligibility).some((platformEligibility) => Object.values(platformEligibility).some(Boolean))
+export const canBePromoted = (eligibility, postType) => {
+  if (postType === 'reels') {
+    return Object.values(eligibility).some(Boolean)
+  }
+  const pluralPostType = getPostTypePlural(postType)
+  return eligibility[pluralPostType]
 }
 
 export const createAd = (artistId, formData) => {

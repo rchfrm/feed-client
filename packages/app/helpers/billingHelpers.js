@@ -257,7 +257,7 @@ export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
  */
 export const setInitialPlan = (artist, canChooseBasic, isUpgradeToPro) => {
   const { plan, status } = artist
-  const [planPrefix] = plan?.split('_')
+  const [planPrefix] = plan?.split('_') || ''
   if (plan && status === 'incomplete') {
     return planPrefix
   }

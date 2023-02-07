@@ -16,6 +16,7 @@ const PostContentToggles = ({
     promotionEligibility,
     conversionsEnabled,
     isRunningInConversions,
+    postType,
   } = post
 
   const {
@@ -29,8 +30,8 @@ const PostContentToggles = ({
   const [isPromotionEnabled, setIsPromotionEnabled] = React.useState(promotionEnabled)
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
 
-  const isEligibleForGrowAndNurture = [canBePromoted(enticeEngage), canBePromoted(remindTraffic), canBePromoted(enticeTraffic)].some(Boolean)
-  const isEligibleForConversions = [canBePromoted(offPlatformConversions), canBePromoted(remindConversions)].some(Boolean)
+  const isEligibleForGrowAndNurture = [canBePromoted(enticeEngage, postType), canBePromoted(remindTraffic, postType), canBePromoted(enticeTraffic, postType)].some(Boolean)
+  const isEligibleForConversions = [canBePromoted(offPlatformConversions, postType), canBePromoted(remindConversions, postType)].some(Boolean)
 
   return (
     <div
