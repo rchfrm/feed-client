@@ -41,7 +41,7 @@ const PostDetails = ({ post, className }) => {
         {message && (
           <div>
             <p className="mb-2 text-lg font-bold">Caption</p>
-            <div className="ml-4 bg-grey-light p-4 rounded-dialogue sm:bg-offwhite sm:p-0 sm:rounded-none">
+            <div className="ml-4 bg-offwhite p-4 rounded-dialogue sm:bg-white sm:p-0 sm:rounded-none">
               {message}
             </div>
           </div>
