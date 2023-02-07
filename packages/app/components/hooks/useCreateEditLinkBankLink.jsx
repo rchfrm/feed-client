@@ -196,7 +196,7 @@ const useCreateEditLinkBankLink = ({
     const isPostLink = location === 'post'
     const buttons = [
       {
-        text: isPostLink ? 'Set and save' : 'Save',
+        text: isPostLink ? 'Add' : 'Save',
         onClick: () => {},
         id: 'save',
       },

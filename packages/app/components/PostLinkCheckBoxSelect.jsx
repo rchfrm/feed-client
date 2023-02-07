@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useAsyncEffect from 'use-async-effect'
 import useControlsStore from '@/app/stores/controlsStore'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import LinksSelect from '@/app/LinksSelect'
 import CheckboxInput from '@/elements/CheckboxInput'
-import { getLinkById } from '@/app/helpers/linksHelpers'
+import { getPostLinks } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
-  nestedLinks: state.nestedLinks,
 })
 
 const PostLinkCheckBoxSelect = ({
@@ -18,14 +19,45 @@ const PostLinkCheckBoxSelect = ({
   isDefaultLink,
   setIsDefaultLink,
   setSavedLink,
+  links,
+  setLinks,
+  updatePost,
   isDisabled,
   className,
 }) => {
-  const { linkSpecs } = post || {}
-  const { defaultLink, nestedLinks } = useControlsStore(getControlsStoreState)
+  const { id: postId } = post || {}
+  const { defaultLink } = useControlsStore(getControlsStoreState)
+  const { artistId } = React.useContext(ArtistContext)
+
+  useAsyncEffect(async (isMounted) => {
+    if (! post || post?.links) {
+      return
+    }
+
+    const { res: links, error } = await getPostLinks(artistId, postId)
+    if (! isMounted) {
+      return
+    }
+
+    if (error || ! links.length) {
+      return
+    }
+
+    setLinks(links)
+    updatePost({
+      type: 'update-links',
+      payload: {
+        postId,
+        links,
+      },
+    })
+  }, [])
 
   const updateLink = (linkId) => {
-    setCurrentLink(getLinkById(nestedLinks, linkId))
+    setCurrentLink({
+      ...currentLink,
+      linkId,
+    })
   }
 
   const handleChange = () => {
@@ -33,20 +65,20 @@ const PostLinkCheckBoxSelect = ({
   }
 
   React.useEffect(() => {
-    const { linkId, linkHref } = linkSpecs?.[campaignType] || {}
-
-    const link = {
-      id: linkId || defaultLink.id,
-      href: linkHref || defaultLink.href,
+    if (! links) {
+      return
     }
+
+    const postLink = links?.find((link) => link.campaignType === campaignType)
+    const link = postLink || { linkId: defaultLink.id } || {}
 
     setCurrentLink(link)
     setSavedLink(link)
 
-    if (linkId && linkId !== defaultLink.id) {
+    if (link.linkId && link?.linkId !== defaultLink.id) {
       setIsDefaultLink(false)
     }
-  }, [campaignType, linkSpecs, defaultLink?.id, defaultLink?.href, setCurrentLink, setSavedLink, setIsDefaultLink])
+  }, [campaignType, links, defaultLink?.id, defaultLink, setCurrentLink, setSavedLink, setIsDefaultLink])
 
   return (
     <div className={className}>
@@ -60,7 +92,7 @@ const PostLinkCheckBoxSelect = ({
       />
       {! isDefaultLink && (
         <LinksSelect
-          currentLinkId={currentLink.id}
+          currentLinkId={currentLink.linkId}
           updateParentLink={updateLink}
           shouldSaveOnChange={false}
           componentLocation="post"

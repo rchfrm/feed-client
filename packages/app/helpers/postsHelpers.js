@@ -230,20 +230,6 @@ const getNestedMetric = (post, metric) => {
   return Object.values(metricValues)[0]
 }
 
-// Get post link specs
-export const getPostLinkSpecData = (post) => {
-  return Object.entries(post.link_specs).reduce((newObject, [key, value]) => {
-    const { type: linkType = '', data: linkData = {} } = value || {}
-    const linkId = linkData.id || linkData.link_spec?.data?.id || ''
-    const linkHref = linkData.href || ''
-    newObject[key] = {}
-    newObject[key].linkType = linkType
-    newObject[key].linkId = linkId
-    newObject[key].linkHref = linkHref
-    return newObject
-  }, {})
-}
-
 // Get post link data
 export const getPostCallToActionData = (post) => {
   const {
@@ -483,6 +469,34 @@ export const setPostCallToAction = async ({ artistId, callToAction, assetId, cam
   return { res }
 }
 
+// UPDATE POST LINK
+export const setPostLink = async ({ artistId, linkId, assetId, campaignType, id }) => {
+  const isUpdating = Boolean(id)
+  const endpointBase = `/artists/${artistId}/assets/${assetId}/links`
+  const requestType = isUpdating ? 'patch' : 'post'
+  const endpoint = isUpdating ? `${endpointBase}/${id}` : endpointBase
+
+  const payload = {
+    type: 'linkbank',
+    linkId,
+    ...(! isUpdating && { assetId }),
+    ...(! isUpdating && { campaignType }),
+  }
+
+  const errorTracking = {
+    category: 'Post link',
+    action: 'Set post link',
+  }
+
+  const { res, error } = await requestWithCatch(requestType, endpoint, payload, errorTracking)
+
+  if (error) {
+    return { error }
+  }
+
+  return { res }
+}
+
 /**
 * @param {number} limit
 * @param {string} artistId
@@ -493,17 +507,17 @@ export const setPostCallToAction = async ({ artistId, callToAction, assetId, cam
 */
 export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor }) => {
   const endpoint = `/artists/${artistId}/assets`
-  let formattedFilterQuery = null
+  // const formattedFilterQuery = null
 
-  if (filterBy) {
-    formattedFilterQuery = utils.addArrayCastTypeToQuery(filterBy)
-  }
+  // if (filterBy) {
+  //   formattedFilterQuery = utils.addArrayCastTypeToQuery(filterBy)
+  // }
 
   const payload = {
     limit,
     ...(cursor && { after: cursor }),
     ...(sortBy && { order_by: sortBy }),
-    ...formattedFilterQuery,
+    ...filterBy,
   }
   const errorTracking = {
     category: 'Posts',
@@ -581,6 +595,30 @@ export const getPostAdMessages = async (artistId, assetId) => {
   }))
 
   return { res: adMessages, error }
+}
+
+// GET POST LINKS
+/**
+ * @param {string} artistId
+ * @param {string} assetId
+ * @returns {Promise<any>}
+ */
+export const getPostLinks = async (artistId, assetId) => {
+  const endpoint = `/artists/${artistId}/assets/${assetId}/links`
+  const payload = null
+  const errorTracking = {
+    category: 'Post',
+    action: 'Get post links',
+  }
+  const { res = [], error } = await requestWithCatch('get', endpoint, payload, errorTracking)
+
+  const links = res.map(({ id, linkId, campaignType }) => ({
+    id,
+    linkId,
+    campaignType,
+  }))
+
+  return { res: links, error }
 }
 
 // GET INITIAL POSTS IMPORT STATUS
