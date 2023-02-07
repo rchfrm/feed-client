@@ -223,14 +223,6 @@ const formatPublishedTime = (time) => {
   return publishedMoment.format(publishedFormat)
 }
 
-// Get nested metric
-const getNestedMetric = (post, metric) => {
-  const metricValues = get(post, ['metrics', metric, 'data'], null)
-  if (! metricValues) return null
-  // Get first metric value
-  return Object.values(metricValues)[0]
-}
-
 // Get post link data
 export const getPostCallToActionData = (post) => {
   const {
@@ -286,22 +278,6 @@ export const formatPostsResponse = (posts) => {
       post.display?.thumbnail_url,
       ...thumbnailUrls,
     ]
-    // Organic results
-    const organicResults = {
-      comments: post.comments,
-      impressions: post.impressions,
-      likes: post.likes,
-      reach: post.reach,
-      shares: post.shares,
-      video_views: post.views,
-      engagementScore: post.engagement_score,
-      score: post.score,
-      normalizedScore: post.normalized_score,
-      replies: getNestedMetric(post, 'replies'),
-      taps_forward: getNestedMetric(post, 'taps_forward'),
-      taps_back: getNestedMetric(post, 'taps_back'),
-      exits: getNestedMetric(post, 'exits'),
-    }
     // Paid results
     const adsSummaryMetrics = adsSummary.metrics || {}
     const paidResults = adsSummary ? {
@@ -351,7 +327,6 @@ export const formatPostsResponse = (posts) => {
       mediaType,
       videoFallback,
       thumbnails,
-      organicResults,
       paidResults,
       publishedTime,
       firstRan,
