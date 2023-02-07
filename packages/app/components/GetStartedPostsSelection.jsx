@@ -16,7 +16,7 @@ import Spinner from '@/elements/Spinner'
 
 import * as server from '@/app/helpers/appServer'
 
-import { getCursor, getInitialPostsImportStatus, formatPostsMinimal } from '@/app/helpers/postsHelpers'
+import { getInitialPostsImportStatus, formatPostsMinimal } from '@/app/helpers/postsHelpers'
 
 import copy from '@/app/copy/getStartedCopy'
 import postsCopy from '@/app/copy/PostsPageCopy'
@@ -75,15 +75,6 @@ const GetStartedPostsSelection = () => {
 
   const cursor = React.useRef('')
 
-  const setNextCursor = (posts) => {
-    const lastPost = posts[posts.length - 1]
-
-    if (lastPost?._links.after) {
-      const nextCursor = getCursor(lastPost)
-      cursor.current = nextCursor
-    }
-  }
-
   const fetchPosts = async (postType, limit) => {
     return server.getPosts({
       artistId,
@@ -123,7 +114,8 @@ const GetStartedPostsSelection = () => {
     const postsFormatted = formatPostsMinimal(res)
 
     // Store the cursor of the last post
-    setNextCursor(postsFormatted)
+    const lastPost = postsFormatted[postsFormatted.length - 1]
+    cursor.current = lastPost.id
 
     // Filter out the posts that were already fetched earlier
     const postsFiltered = postsFormatted.filter((formattedPost) => posts.every((post) => post.id !== formattedPost.id))
