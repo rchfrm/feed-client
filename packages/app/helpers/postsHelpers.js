@@ -174,20 +174,6 @@ const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandC
 export const growthGradient = createGradient(brandColors.blue)
 export const conversionsGradient = createGradient(brandColors.red)
 
-// Get dates when post first ran and last ran
-const getPostAdDates = (ads) => {
-  if (! ads) return [null, null]
-  const adDates = Object.values(ads).map(({ created_at }) => {
-    return created_at
-  })
-  // Sort dates from first to last
-  const adDatesSorted = utils.sortDatesChronologically(adDates)
-  const firstRan = adDatesSorted[0]
-  if (adDatesSorted.length === 1) return [firstRan, null]
-  const lastRan = adDates[adDatesSorted.length - 1]
-  return [firstRan, lastRan]
-}
-
 // Format published time
 const formatPublishedTime = (time) => {
   const publishedMoment = moment(time)
@@ -238,8 +224,7 @@ export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
     if (! post) return null
 
-    const { message, ads } = post
-    const shortMessage = utils.abbreviatePostText(message)
+    const { message } = post
     const mediaType = post.display?.type
     const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
     const videoFallback = mediaType === 'video' ? post.display?.media?.media_library?.source : ''
@@ -254,8 +239,6 @@ export const formatPostsResponse = (posts) => {
     ]
     // Published date
     const publishedTime = formatPublishedTime(post.published_time)
-    // Ad dates
-    const [firstRan, lastRan] = getPostAdDates(ads)
     // Promotion eligibility
     const promotionEligibility = {
       enticeEngage: post.promotion_eligibility.entice_engage,
@@ -281,15 +264,11 @@ export const formatPostsResponse = (posts) => {
       promotionEligibility,
       adPreviewLinks,
       message,
-      adMessageProps: post.ad_message,
-      shortMessage,
       media,
       mediaType,
       videoFallback,
       thumbnails,
       publishedTime,
-      firstRan,
-      lastRan,
     }
   })
 }
@@ -307,13 +286,10 @@ export const formatPostsMinimal = (posts) => {
     return {
       id: post.id,
       publishedTime: moment(post.published_time).format('YYYY-MM-DD'),
-      reach: post.reach_rate * 100,
-      engagement: post.engagement_rate * 100,
       media,
       thumbnails,
-      postType: post.subtype || post.type,
+      postType: post.internal_type,
       promotionEnabled: post.promotion_enabled,
-      _links: post._links,
     }
   })
 
