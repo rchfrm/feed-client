@@ -508,11 +508,6 @@ export const setPostLink = async ({ artistId, linkId, assetId, campaignType, id 
 */
 export const getPosts = async ({ limit = 10, artistId, sortBy, filterBy, cursor }) => {
   const endpoint = `/artists/${artistId}/assets`
-  // const formattedFilterQuery = null
-
-  // if (filterBy) {
-  //   formattedFilterQuery = utils.addArrayCastTypeToQuery(filterBy)
-  // }
 
   const payload = {
     limit,
