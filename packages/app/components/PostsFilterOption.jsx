@@ -34,7 +34,7 @@ const PostsFilterOption = ({
         'mb-1 mr-1 xxs:mr-2 last:mr-0 py-1 px-2',
         'rounded-dialogue border border-solid border-grey',
         'hover:bg-black hover:text-offwhite',
-        isActive ? 'bg-black text-offwhite font-bold' : 'text-grey-dark bg-offwhite',
+        isActive ? 'bg-black text-offwhite font-bold' : 'text-grey-dark bg-white',
       ].join(' ')}
     >
       {title}

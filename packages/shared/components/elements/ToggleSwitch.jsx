@@ -45,7 +45,10 @@ const ToggleSwitch = ({
       min: -maxMove,
       max: maxMove,
     }
-    observer.disconnect()
+
+    if (containerWidth && switchWidth) {
+      observer.disconnect()
+    }
   }
 
   React.useEffect(() => {

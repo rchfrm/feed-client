@@ -42,12 +42,19 @@ const PostsNoArtistsContainer = ({
           <LockIcon className="w-4 h-auto mr-2 md:mr-1 flex-shrink-0" fill={brandColors.red} />
           <p className="mb-0">
             {isActive ? 'Your active ads will appear here. ' : "You'll find the ads Feed has lined up to promote here. "}
-            <Button version="text" className="decoration-green" onClick={goToGetStartedPage}> Continue set up</Button>
+            <Button
+              version="text"
+              className="decoration-green"
+              onClick={goToGetStartedPage}
+              trackComponentName="PostsNoArtistsContainer"
+            >
+              Continue set up
+            </Button>
             {isActive ? ' to start your first campaign. ' : ' to start adding to the queue.'}
           </p>
         </div>
         <ul className="grid grid-cols-12 gap-6 grid-flow-row-dense mb-0">
-          {[...Array(4)].map((index) => {
+          {[...Array(4)].map((_, index) => {
             return (
               <div
                 key={index}

@@ -18,7 +18,7 @@ const SubHeaderProfileStatus = () => {
   const color = hasSetUpProfile ? isSpendingPaused ? 'yellow' : 'green' : 'red'
   const colorClasses = {
     green: 'bg-green-bg-light border-green-bg-dark',
-    yellow: 'bg-yellow-bg-light border-yellow-bg-dark',
+    yellow: 'bg-yellow-bg-light border-yellow-border',
     red: 'bg-red-bg-light border-red-bg-dark',
   }
 

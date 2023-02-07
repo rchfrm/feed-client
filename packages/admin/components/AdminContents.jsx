@@ -6,7 +6,7 @@ import { InterfaceContextProvider } from '@/admin/contexts/InterfaceContext'
 import BrowserStoreSetup from '@/BrowserStoreSetup'
 
 import TheHeader from '@/admin/TheHeader'
-import TheLoadingOverlay from '@/TheLoadingOverlay'
+import TheLoadingOverlay from '@/admin/TheLoadingOverlay'
 import PopupModal from '@/PopupModal'
 
 

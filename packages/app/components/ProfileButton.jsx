@@ -12,25 +12,30 @@ const ProfileButton = ({
   isExpanded,
   isLast,
   hasSpinner,
+  isProfileSwitch,
   setShouldShowMore,
   className,
 }) => {
   const { artistLoading, storeArtist } = React.useContext(ArtistContext)
 
   const updateArtist = () => {
-    storeArtist(artistId)
+    storeArtist(artistId, ! isActive)
     setShouldShowMore(false)
+  }
+
+  const switchProfiles = () => {
+    setShouldShowMore((shouldShowMore) => ! shouldShowMore)
   }
 
   return (
     <button
-      onClick={updateArtist}
+      onClick={isProfileSwitch ? switchProfiles : updateArtist}
       className={[
         className,
         'relative overflow-hidden',
         'transition-width duration-500',
         'hover:bg-anthracite hover:text-green text-grey -mt-[1px]',
-        'w-full h-16 px-4',
+        'w-full h-14 px-4',
         isActive ? 'bg-anthracite' : null,
       ].join(' ')}
     >
@@ -47,14 +52,14 @@ const ProfileButton = ({
           ].join(' ')}
         >
           {artistLoading && hasSpinner ? (
-            <Spinner className="w-9" />
+            <Spinner className="w-6" />
           ) : (
-            <ArtistImage pageId={pageId} name={name} className="w-9 h-9" />
+            <ArtistImage pageId={pageId} name={name} className="w-6 h-6" />
           )}
         </figure>
         <p
           className={[
-            'mb-0 text-left line-clamp-2 break-word transition-opacity',
+            'mb-0 text-left line-clamp-1 break-word transition-opacity',
             isExpanded ? 'opacity-1 w-auto delay-300 ml-2' : 'opacity-0 w-0 mr-0',
           ].join(' ')}
         >
@@ -62,7 +67,7 @@ const ProfileButton = ({
         </p>
       </div>
       <div className={[
-        'absolute top-5 -right-3 h-6 w-6',
+        'absolute top-5 -right-3 h-5 w-5',
         'rounded-full bg-green',
         'transition-opacity',
         isExpanded && isActive ? 'delay-300 opacity-1' : 'opacity-0',
@@ -81,6 +86,7 @@ ProfileButton.propTypes = {
   isLast: PropTypes.bool,
   setShouldShowMore: PropTypes.func,
   hasSpinner: PropTypes.bool,
+  isProfileSwitch: PropTypes.bool,
   className: PropTypes.string,
 }
 
@@ -92,6 +98,7 @@ ProfileButton.defaultProps = {
   isLast: false,
   setShouldShowMore: () => {},
   hasSpinner: false,
+  isProfileSwitch: false,
   className: '',
 }
 

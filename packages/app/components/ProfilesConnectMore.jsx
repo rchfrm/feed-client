@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import PlusIcon from '@/icons/PlusIcon'
 import * as ROUTES from '@/app/constants/routes'
@@ -8,21 +9,24 @@ import brandColors from '@/constants/brandColors'
 
 const ProfilesConnectMore = ({ isExpanded, className }) => {
   const [hoverRef, isHover] = useHover()
+  const { pathname } = useRouter()
+  const isActive = pathname === ROUTES.CONNECT_ACCOUNTS
 
   return (
-    <Link href={{ pathname: ROUTES.CONNECT_ACCOUNTS }}>
+    <Link href={ROUTES.CONNECT_ACCOUNTS}>
       <a
         className={[
           'flex items-center',
           'w-full',
-          'border-b border-solid border-anthracite text-grey no-underline',
-          'hover:text-green text-grey',
+          'border-b border-solid border-anthracite no-underline',
+          'hover:text-green',
+          isActive ? 'text-green' : 'text-grey',
           isExpanded ? null : 'justify-center',
           className,
         ].join(' ')}
         ref={hoverRef}
       >
-        <PlusIcon className="w-5 h-auto" fill={isHover ? brandColors.green : brandColors.greyDark} />
+        <PlusIcon className="w-5 h-auto" fill={isHover || isActive ? brandColors.green : brandColors.greyDark} />
         <p
           className={[
             'text-base mb-0',

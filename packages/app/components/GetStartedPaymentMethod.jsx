@@ -253,7 +253,7 @@ const GetStartedPaymentMethod = () => {
           <Button
             version="text"
             onClick={togglePaymentMethodForm}
-            className="h-5 mb-3 mx-auto text-sm"
+            className="h-5 block mb-3 mx-auto text-sm"
             trackComponentName="GetStartedPaymentMethod"
           >
             {shouldShowPaymentMethodForm ? 'Cancel' : 'Add a new card '}

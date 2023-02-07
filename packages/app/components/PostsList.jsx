@@ -13,14 +13,6 @@ const PostsList = ({
   setIsPostActionsOpen,
   className,
 }) => {
-  if (! posts.length) {
-    return (
-      <PostsNone
-        filterBy={filterBy}
-      />
-    )
-  }
-
   return (
     <ul
       className={[
@@ -29,26 +21,30 @@ const PostsList = ({
         className,
       ].join(' ')}
     >
-      {posts.map((post, index) => {
-        return (
-          <div
-            key={post.id}
-            className="col-span-6 sm:col-span-3 lg:col-span-2"
-          >
-            <PostCard
+      {! posts.length ? (
+        status !== 'pending' && <PostsNone filterBy={filterBy} className="col-span-12" />
+      ) : (
+        posts.map((post, index) => {
+          return (
+            <div
               key={post.id}
-              post={post}
-              index={index}
-              status={status}
-              setPosts={setPosts}
-              setIsPostActionsOpen={setIsPostActionsOpen}
-            />
-            {status === 'rejected' && (
-              <PostRejectedReason post={post} />
-            )}
-          </div>
-        )
-      })}
+              className="col-span-6 sm:col-span-3 lg:col-span-2"
+            >
+              <PostCard
+                key={post.id}
+                post={post}
+                index={index}
+                status={status}
+                setPosts={setPosts}
+                setIsPostActionsOpen={setIsPostActionsOpen}
+              />
+              {status === 'rejected' && (
+                <PostRejectedReason post={post} />
+              )}
+            </div>
+          )
+        })
+      )}
       {status === 'pending' && (
         <PostCardCreateAdButton
           className="col-span-6 sm:col-span-3 lg:col-span-2"

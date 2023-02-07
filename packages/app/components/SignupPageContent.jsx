@@ -23,7 +23,7 @@ const SignupPageContent = ({ email, isValidReferralCode, testimony }) => {
 
   return (
     <div className="flex mx-auto sm:pt-4 max-w-4xl">
-      <div className="flex-1 pb-5 pt-15">
+      <div className="flex-1 pb-5 pt-16">
         <div className="sm:mr-6 md:mr-12">
           <Error error={authError} />
           <h2 className="mb-2 text-2xl">Create account</h2>

@@ -18,7 +18,7 @@ const PostCardCreateAdButton = ({ className }) => {
       onClick={openSidePanel}
       className={[
         'relative rounded-dialogue border-2 border-solid border-green',
-        'bg-offwhite font-bold',
+        'bg-white font-bold',
         className,
       ].join(' ')}
       style={{ paddingTop: '100%' }}

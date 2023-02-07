@@ -11,6 +11,7 @@ const PostsLoader = ({
   status,
   posts,
   setPosts,
+  isSpendingPaused,
   className,
 }) => {
   const [sortBy, setSortBy] = React.useState('published_time')
@@ -122,6 +123,7 @@ const PostsLoader = ({
         isLoadingMore={isLoadingMore}
         setIsLoadingMore={setIsLoadingMore}
         hasLoadedAll={hasLoadedAll}
+        isSpendingPaused={isSpendingPaused}
         className={className}
       />
     </>
@@ -132,10 +134,12 @@ PostsLoader.propTypes = {
   status: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
+  isSpendingPaused: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostsLoader.defaultProps = {
+  isSpendingPaused: false,
   className: null,
 }
 

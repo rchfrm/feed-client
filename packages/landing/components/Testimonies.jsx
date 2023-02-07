@@ -24,7 +24,7 @@ const Testimonies = ({
     <Section
       className={[
         'relative',
-        'bg-grey-light',
+        'bg-offwhite',
         isSwiperActive ? 'py-20' : 'py-10 sm:py-20',
       ].join(' ')}
       fullWidth

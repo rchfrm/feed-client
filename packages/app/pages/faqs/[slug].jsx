@@ -1,17 +1,21 @@
+import React from 'react'
+import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import getDatoData from '@/helpers/getDatoData'
 import { getAllFaqQuestionsByCategoryQuery, getAllFaqSlugsQuery, getFaqQuery } from '@/app/graphQl/faqsQueries'
 import BasePage from '@/app/BasePage'
-import React from 'react'
 import FaqContent from '@/app/FaqContent'
 import FaqsRelated from '@/app/FaqsRelated'
 import FaqsLinkToAll from '@/app/FaqsLinkToAll'
 import { faqHeaderConfig } from './index'
 
 export default function FAQPage({ pageData }) {
+  const isLoggedIn = useLoggedInTest()
+
   const {
     faqArticle,
     allFaqsInCategory,
   } = pageData
+
   return (
     <BasePage
       headerConfig={faqHeaderConfig}
@@ -22,6 +26,7 @@ export default function FAQPage({ pageData }) {
           'md:grid',
           'md:grid-cols-12',
           'md:gap-4',
+          ! isLoggedIn ? 'pt-16' : null,
         ].join(' ')}
       >
         <FaqsLinkToAll />

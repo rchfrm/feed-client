@@ -19,7 +19,7 @@ const SideNavProfilesSwitchProfile = ({
     <button
       className={[
         'flex items-center',
-        'h-12 w-full mb-0',
+        'h-14 w-full mb-0',
         'border-b border-solid border-anthracite',
         'hover:text-green text-grey',
         isExpanded ? null : 'justify-center',

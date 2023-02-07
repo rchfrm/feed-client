@@ -298,7 +298,7 @@ select {
 
 /* Select arrow */
 .select--arrow {
-  top: var(--sp-3);
+  top: var(--sp-2);
   right: var(--sp-2);
   transform: translateY(50%);
   width: 32px;
