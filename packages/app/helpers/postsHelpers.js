@@ -333,8 +333,6 @@ export const formatPostsResponse = (posts) => {
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
     const [firstRan, lastRan] = getPostAdDates(ads)
-    // Link specs
-    const linkSpecs = getPostLinkSpecData(post)
     // Promotion eligibility
     const promotionEligibility = {
       enticeEngage: post.promotion_eligibility.entice_engage,
@@ -359,7 +357,6 @@ export const formatPostsResponse = (posts) => {
       promotableStatus: post.promotable_status,
       promotionEligibility,
       adPreviewLinks,
-      linkSpecs,
       message,
       adMessageProps: post.ad_message,
       shortMessage,
