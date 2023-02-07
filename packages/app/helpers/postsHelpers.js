@@ -348,6 +348,7 @@ export const formatPostsResponse = (posts) => {
     const adPreviewLinks = getAdPreviewLinks(post)
     return {
       id: post.id,
+      ads: post?.ads,
       postType: post.internal_type || post.subtype || post.type,
       platform: post.platform,
       permalinkUrl: post.permalink_url,
