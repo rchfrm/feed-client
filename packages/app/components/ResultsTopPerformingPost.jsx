@@ -80,9 +80,7 @@ const ResultsTopPerformingPost = ({
                 className="mb-2"
                 style={{ height: imageHeight, width: imageHeight }}
               />
-              <ResultsTopPerformingPostButton
-                postData={postData}
-              />
+              <ResultsTopPerformingPostButton />
             </div>
             <ResultsTopPerformingPostStats
               post={post}

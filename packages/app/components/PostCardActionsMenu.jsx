@@ -101,7 +101,7 @@ const PostCardActionsMenu = ({
   }
 
   const openResults = () => {
-    goToPostResults(post.paidResults)
+    goToPostResults()
   }
 
   const openDetails = () => {

@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import moment from 'moment'
 import * as utils from '@/helpers/utils'
 import { requestWithCatch } from '@/helpers/api'
@@ -175,31 +174,6 @@ const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandC
 export const growthGradient = createGradient(brandColors.blue)
 export const conversionsGradient = createGradient(brandColors.red)
 
-const getPaidClicks = (adsSummaryMetrics) => {
-  const outboundClicks = get(adsSummaryMetrics, ['outbound_clicks', 'outbound_click'], 0)
-  const clickActions = get(adsSummaryMetrics, ['actions', 'link_click'], 0)
-  return Math.max(outboundClicks, clickActions)
-}
-
-const getLandingPageViews = (adsSummaryMetrics) => {
-  return get(adsSummaryMetrics, ['actions', 'landing_page_view'], null)
-}
-
-// GET drilldown of paid engagments
-// by adding the various action props
-const getPaidEngagementsDrilldown = (adsSummaryMetrics) => {
-  const { actions } = adsSummaryMetrics
-  if (! actions) return null
-  return {
-    views: get(actions, 'video_view', null),
-    clicks: get(actions, 'link_click', null),
-    reactions: get(actions, 'post_reaction', null),
-    comments: get(actions, 'comments', null),
-    shares: get(actions, 'post', null),
-    saves: get(actions, 'onsite_conversion.post_save', null),
-  }
-}
-
 // Get dates when post first ran and last ran
 const getPostAdDates = (ads) => {
   if (! ads) return [null, null]
@@ -264,7 +238,7 @@ export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
     if (! post) return null
 
-    const { message, ads_summary: adsSummary = {}, ads } = post
+    const { message, ads } = post
     const shortMessage = utils.abbreviatePostText(message)
     const mediaType = post.display?.type
     const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
@@ -278,20 +252,6 @@ export const formatPostsResponse = (posts) => {
       post.display?.thumbnail_url,
       ...thumbnailUrls,
     ]
-    // Paid results
-    const adsSummaryMetrics = adsSummary.metrics || {}
-    const paidResults = adsSummary ? {
-      spend: adsSummaryMetrics.spend,
-      reach: adsSummaryMetrics.reach,
-      impressions: adsSummaryMetrics.impressions,
-      engagements: get(adsSummaryMetrics, ['actions', 'post_engagement'], null),
-      clicks: getPaidClicks(adsSummaryMetrics),
-      landing_page_views: getLandingPageViews(adsSummaryMetrics),
-      engagementScore: adsSummary.spend_adjusted_engagement_score,
-      drilldowns: {
-        engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
-      },
-    } : null
     // Published date
     const publishedTime = formatPublishedTime(post.published_time)
     // Ad dates
@@ -308,7 +268,7 @@ export const formatPostsResponse = (posts) => {
     const adPreviewLinks = getAdPreviewLinks(post)
     return {
       id: post.id,
-      postType: post.internal_type || post.subtype || post.type,
+      postType: post.internal_type,
       platform: post.platform,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
@@ -327,7 +287,6 @@ export const formatPostsResponse = (posts) => {
       mediaType,
       videoFallback,
       thumbnails,
-      paidResults,
       publishedTime,
       firstRan,
       lastRan,
