@@ -115,7 +115,7 @@ const GetStartedPostsSelection = () => {
 
     // Store the cursor of the last post
     const lastPost = postsFormatted[postsFormatted.length - 1]
-    cursor.current = lastPost.id
+    cursor.current = lastPost?.id
 
     // Filter out the posts that were already fetched earlier
     const postsFiltered = postsFormatted.filter((formattedPost) => posts.every((post) => post.id !== formattedPost.id))

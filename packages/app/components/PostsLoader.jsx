@@ -61,7 +61,7 @@ const PostsLoader = ({
     }
 
     const lastPost = posts[posts.length - 1]
-    cursor.current = lastPost.id
+    cursor.current = lastPost?.id
 
     if (isLoadingMore) {
       setPosts({
