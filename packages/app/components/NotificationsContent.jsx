@@ -16,7 +16,7 @@ import { parseUrl } from '@/helpers/utils'
 const getNotificationsStoreState = (state) => ({
   notifications: state.notifications,
   notificationsError: state.notificationsError,
-  isNotificationsLoading: state.isNotificationsLoading,
+  loading: state.loading,
   closeNotification: state.closeNotification,
   setAsOpen: state.setAsOpen,
 })
@@ -28,7 +28,7 @@ const NotificationsContent = () => {
   const {
     notifications,
     notificationsError,
-    isNotificationsLoading,
+    loading,
     closeNotification,
     setAsOpen,
   } = useNotificationStore(getNotificationsStoreState, shallow)
@@ -47,21 +47,21 @@ const NotificationsContent = () => {
   // OPEN INITIAL NOTIFICATION
   React.useEffect(() => {
     // Stop here if no ID in URL
-    if (! initialNotificationId || isNotificationsLoading) return
+    if (! initialNotificationId || loading) return
     const initialNotification = notifications.find(({ id }) => id === initialNotificationId)
     // Stop here if no initial notification
     if (! initialNotification) return
     const { id, entityType, entityId } = initialNotification
     setAsOpen(id, entityType, entityId)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isNotificationsLoading])
+  }, [loading])
 
   // Close open notification on unmount
   React.useEffect(() => {
     return closeNotification
   }, [closeNotification])
 
-  if (isNotificationsLoading) {
+  if (loading) {
     return (
       <div>
         <Spinner />
