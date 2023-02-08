@@ -8,6 +8,11 @@ import ConnectProfilesItem from '@/app/ConnectProfilesItem'
 import DisabledSection from '@/app/DisabledSection'
 
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+import useBillingStore from '@/app/stores/billingStore'
+
+const getBillingStoreState = (state) => ({
+  organizationArtists: state.organizationArtists,
+})
 
 const ConnectProfilesNotConnected = ({
   artistAccounts,
@@ -17,7 +22,8 @@ const ConnectProfilesNotConnected = ({
   className,
 }) => {
   const { userLoading } = React.useContext(UserContext)
-  const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
+  const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const hasActiveBasicPlan = organizationArtists.some((artist) => artist.plan === 'basic_monthy' && artist.status === 'active')
 
   const sortedArtistAccounts = React.useMemo(() => {
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
@@ -30,7 +36,7 @@ const ConnectProfilesNotConnected = ({
       <h2>Connect more</h2>
       <DisabledSection
         section="connect-accounts"
-        isDisabled={! hasGrowthPlan}
+        isDisabled={hasActiveBasicPlan}
       >
         <ul
           className={[
