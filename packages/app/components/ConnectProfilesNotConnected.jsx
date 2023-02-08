@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { UserContext } from '@/app/contexts/UserContext'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import ConnectProfilesItem from '@/app/ConnectProfilesItem'
 import DisabledSection from '@/app/DisabledSection'
