@@ -7,7 +7,7 @@ const SubHeaderLinks = () => {
     <ul className={[
       'flex justify-center w-full md:w-auto mb-0 md:mr-2 px-auto',
       'order-2 md:order-1 mt-5 md:mt-0',
-      'text-grey-dark font-display font-bold iphone8:text-xl md:text-[32px]',
+      'text-grey-dark font-display font-bold iphone8:text-xl md:text-3xl lg:text-[32px]',
     ].join(' ')}
     >
       {secondaryLinks.map(({ href, title, matchingHrefs }) => (

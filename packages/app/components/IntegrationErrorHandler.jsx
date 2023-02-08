@@ -22,18 +22,28 @@ import useDismissNotification from '@/app/hooks/useDismissNotification'
 
 const getNotificationsStoreState = (state) => ({
   notifications: state.notifications,
-  loading: state.loading,
+  isNotificationsLoading: state.isNotificationsLoading,
+  integrationError: state.integrationError,
+  setIntegrationError: state.setIntegrationError,
+  shouldShowIntegrationError: state.shouldShowIntegrationError,
+  setShouldShowIntegrationError: state.setShouldShowIntegrationError,
 })
 
 const IntegrationErrorHandler = () => {
-  const [showError, setShowError] = React.useState(false)
   const [networkError, setNetworkError] = React.useState(null)
-  const [integrationError, setIntegrationError] = React.useState(null)
   const [hasCheckedArtistErrors, setHasCheckedArtistErrors] = React.useState(false)
   const isLoggedIn = useLoggedInTest()
   const isDevelopment = process.env.NODE_ENV === 'development'
 
-  const { notifications, loading: notificationsLoading } = useNotificationStore(getNotificationsStoreState, shallow)
+  const {
+    notifications,
+    isNotificationsLoading,
+    integrationError,
+    setIntegrationError,
+    shouldShowIntegrationError,
+    setShouldShowIntegrationError,
+  } = useNotificationStore(getNotificationsStoreState, shallow)
+
   const { artist, artistId } = React.useContext(ArtistContext)
   const { hasSetUpProfile } = artist
   const { user, hasPendingEmail } = React.useContext(UserContext)
@@ -62,7 +72,7 @@ const IntegrationErrorHandler = () => {
   }, [artist, artistId, user, isDevelopment])
 
   React.useEffect(() => {
-    if (! notificationsLoading) {
+    if (! isNotificationsLoading) {
       const [integrationError] = notifications.filter(({ isComplete, type, hidden }) => type === 'alert' && ! isComplete && ! hidden)
 
       if (integrationError) {
@@ -70,7 +80,7 @@ const IntegrationErrorHandler = () => {
       }
       setHasCheckedArtistErrors(true)
     }
-  }, [notifications, checkError, notificationsLoading])
+  }, [notifications, checkError, isNotificationsLoading, setIntegrationError])
 
   const checkAndShowUserError = () => {
     if (! user.artists || ! user.artists.length || router.pathname === ROUTES.CONFIRM_EMAIL || ! hasSetUpProfile) return
@@ -110,24 +120,6 @@ const IntegrationErrorHandler = () => {
     return ctaType === 'fb_reauth'
   }, [integrationError])
 
-  // Decide whether to show integration error
-  React.useEffect(() => {
-    // Don't show error message if no error
-    if (! integrationError) return
-    // Don't show error message about access token if there is an access token
-    // (because it will be sent to server to fix error)
-    if (accessToken && hasErrorWithAccessToken) return
-    // Handle integration error
-    const { hidden } = integrationError
-    setShowError(! hidden)
-  }, [integrationError, accessToken, hasErrorWithAccessToken])
-
-  // Show error if there are network errors
-  React.useEffect(() => {
-    const showError = !! (networkError)
-    setShowError(showError)
-  }, [networkError])
-
   // Store new access token when coming back from a redirect
   const accessTokenUpdated = React.useRef(false)
   useAsyncEffect(async () => {
@@ -160,16 +152,16 @@ const IntegrationErrorHandler = () => {
     if (isDismissible && ! hidden) {
       dismissNotification()
     }
-    setShowError(false)
-  }, [dismissNotification, integrationError])
+    setShouldShowIntegrationError(false)
+  }, [dismissNotification, integrationError, setShouldShowIntegrationError])
 
-  if (! showError) return null
+  if (! shouldShowIntegrationError) return null
 
   return (
     <IntegrationErrorContent
       integrationError={integrationError}
       networkError={networkError}
-      showError={showError}
+      showError={shouldShowIntegrationError}
       dismiss={hideIntegrationErrors}
     />
   )

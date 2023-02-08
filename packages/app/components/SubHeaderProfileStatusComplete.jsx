@@ -3,13 +3,21 @@ import PropTypes from 'prop-types'
 import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import SubHeaderProfileStatusIntegrationError from '@/app/SubHeaderProfileStatusIntegrationError'
 import PlayIcon from '@/icons/PlayIcon'
 import PauseIcon from '@/icons/PauseIcon'
 
-const SubHeaderProfileStatus = ({ isSpendingPaused }) => {
+const SubHeaderProfileStatus = ({
+  isSpendingPaused,
+  hasIntegrationError,
+}) => {
   const { isNavExpanded } = React.useContext(InterfaceContext)
   const { artist } = React.useContext(ArtistContext)
   const isDesktopLayout = useBreakpointTest('md')
+
+  if (hasIntegrationError) {
+    return <SubHeaderProfileStatusIntegrationError />
+  }
 
   return (
     <>

@@ -23,7 +23,7 @@ const initialState = {
   userId: '',
   organizationIds: [],
   auth: null,
-  loading: true,
+  isNotificationsLoading: true,
   notifications: [],
   totalActiveNotifications: 0,
   openedNotification: null,
@@ -31,6 +31,8 @@ const initialState = {
   artistsWithNotifications: [],
   notificationsError: null,
   notificationDictionary: dictionaryFormatted,
+  integrationError: null,
+  shouldShowIntegrationError: false,
 }
 
 // COUNT ACTIVE NOTIFICATIONS
@@ -60,7 +62,7 @@ const runFormatNotifications = (set) => (notifications, dictionary) => {
 
 // FETCH NOTIFICATIONS (called whenever artist mounts)
 const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organizationIds, auth }) => {
-  set({ loading: true })
+  set({ isNotificationsLoading: true })
   // Else fetch notifications from server
   const { res: notificationsRaw, error } = await fetchNotifications({ artistId, userId, organizationIds })
   // Stop here if error
@@ -68,7 +70,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
     const notificationsError = {
       message: `Failed to load notifications: ${error.message}`,
     }
-    set({ notificationsError, loading: false })
+    set({ notificationsError, isNotificationsLoading: false })
     return
   }
   // Format notifications
@@ -88,7 +90,7 @@ const fetchAndSetNotifications = (set, get) => async ({ artistId, userId, organi
     notifications: notificationsFormatted,
     totalActiveNotifications,
     notificationsError: null,
-    loading: false,
+    isNotificationsLoading: false,
   })
 }
 
@@ -204,6 +206,8 @@ const useNotificationsStore = create((set, get) => ({
   setAsRead: (id, entityType, entityId) => setAsRead(set, get)(id, entityType, entityId),
   setAsOpen: (id, entityType, entityId) => setAsOpen(set, get)(id, entityType, entityId),
   setAsDismissed: (id, entityType, entityId, isActionable) => setAsDismissed(set, get)(id, entityType, entityId, isActionable),
+  setIntegrationError: (integrationError) => set({ integrationError }),
+  setShouldShowIntegrationError: (shouldShowIntegrationError) => set({ shouldShowIntegrationError }),
   closeNotification: () => closeNotification(set, get)(),
   completeNotification: (id) => setAsComplete(set, get)(id),
   clear: () => set(initialState),
