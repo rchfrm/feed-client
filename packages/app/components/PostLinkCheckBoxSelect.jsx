@@ -113,6 +113,9 @@ PostLinkCheckBoxSelect.propTypes = {
   currentLink: PropTypes.object.isRequired,
   setCurrentLink: PropTypes.func.isRequired,
   setSavedLink: PropTypes.func,
+  links: PropTypes.array,
+  setLinks: PropTypes.func,
+  updatePost: PropTypes.func,
   isDisabled: PropTypes.bool,
   className: PropTypes.string,
 }
@@ -121,6 +124,9 @@ PostLinkCheckBoxSelect.defaultProps = {
   post: null,
   campaignType: '',
   setSavedLink: () => {},
+  links: [],
+  setLinks: () => {},
+  updatePost: () => {},
   isDisabled: false,
   className: null,
 }
