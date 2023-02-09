@@ -2,13 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
 import useNotificationsStore from '@/app/stores/notificationsStore'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PrimaryLinkIcon from '@/app/PrimaryLinkIcon'
 import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
 
 const getNotificationsStoreState = (state) => ({
-  artistsWithNotifications: state.artistsWithNotifications,
+  totalActiveNotifications: state.totalActiveNotifications,
 })
 
 const SideNavPrimaryLink = ({
@@ -21,11 +20,9 @@ const SideNavPrimaryLink = ({
   isExpanded,
 }) => {
   const [hoverRef, isHover] = useHover()
-
-  const { artistsWithNotifications } = useNotificationsStore(getNotificationsStoreState)
-  const { artistId } = React.useContext(ArtistContext)
-  const hasNotification = artistsWithNotifications.includes(artistId)
-  const shouldShowDot = hasNotification && title === 'Notifications'
+  const { totalActiveNotifications } = useNotificationsStore(getNotificationsStoreState)
+  const hasNotifications = totalActiveNotifications > 0
+  const shouldShowDot = hasNotifications && title === 'Notifications'
 
   return (
     <div ref={hoverRef}>
