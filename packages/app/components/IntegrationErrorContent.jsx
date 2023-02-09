@@ -31,7 +31,6 @@ const IntegrationErrorContent = ({
   const alertButtons = React.useMemo(() => {
     const {
       ctaType,
-      buttonType,
       ctaText,
       ctaLink,
       isDismissible,
@@ -39,18 +38,18 @@ const IntegrationErrorContent = ({
     } = integrationError
 
     if (ctaType === 'link_ext') {
-      const isFacebookButton = buttonType === 'facebook'
       return [
-        {
-          text: ctaText,
-          onClick: () => {},
-          href: ctaLink,
-          isFacebookButton,
-        },
         {
           text: 'Cancel',
           onClick: closeAlert,
           version: 'secondary',
+          color: 'red',
+        },
+        {
+          text: ctaText,
+          onClick: () => {},
+          href: ctaLink,
+          color: 'red',
         },
       ]
     }
@@ -64,20 +63,22 @@ const IntegrationErrorContent = ({
       return [{
         text: ctaText,
         onClick,
-        isFacebookButton: true,
+        color: 'red',
       }]
     }
 
     if (ctaType === 'link_int' && isDismissible) {
       return [
         {
-          text: ctaText,
-          onClick: onAction,
-        },
-        {
           text: 'Dismiss',
           onClick: () => {},
           version: 'secondary',
+          color: 'red',
+        },
+        {
+          text: ctaText,
+          onClick: onAction,
+          color: 'red',
         },
       ]
     }
@@ -85,6 +86,7 @@ const IntegrationErrorContent = ({
     return [{
       text: ctaText || 'Ok',
       onClick: closeAlert,
+      color: 'red',
     }]
   }, [closeAlert, integrationError, auth, router.pathname])
 
@@ -99,6 +101,7 @@ const IntegrationErrorContent = ({
         children: alertContents,
         buttons: alertButtons,
         onClose: dismiss,
+        isIntegrationError: true,
       })
     }
   }, [showError, alertContents, alertButtons, showAlert, closeAlert, dismiss, auth.token])

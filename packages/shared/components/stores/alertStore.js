@@ -14,6 +14,7 @@ const defaultState = {
   buttons: [],
   isOpen: false,
   onClose: () => {},
+  isIntegrationError: false,
 }
 
 const useAlertStore = create((set) => ({
@@ -21,10 +22,12 @@ const useAlertStore = create((set) => ({
   children: defaultState.children,
   buttons: defaultState.buttons,
   isOpen: defaultState.isOpen,
+  isIntegrationError: defaultState.isIntegrationError,
   setCopy: (copy) => set({ copy }),
   setChildren: (children) => set({ children }),
   setButtons: (buttons) => set({ buttons }),
   setOnClose: (onClose) => set({ onClose }),
+  setIsIntegrationError: (isIntegrationError) => set({ isIntegrationError }),
   open: () => set({ isOpen: true }),
   close: (shouldCallOnClose = true) => {
     set((state) => {

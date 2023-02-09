@@ -6,7 +6,6 @@ import { Transition } from 'react-transition-group'
 import FullHeight from '@/elements/FullHeight'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
-import ButtonFacebook from '@/elements/ButtonFacebook'
 import useAlertStore from '@/stores/alertStore'
 
 const getStoreState = (state) => ({
@@ -15,6 +14,7 @@ const getStoreState = (state) => ({
   buttons: state.buttons,
   isOpen: state.isOpen,
   close: state.close,
+  isIntegrationError: state.isIntegrationError,
 })
 
 const AlertModal = () => {
@@ -24,6 +24,7 @@ const AlertModal = () => {
     buttons,
     isOpen,
     close,
+    isIntegrationError,
   } = useAlertStore(getStoreState, shallow)
 
   const innerEl = React.useRef(null)
@@ -100,23 +101,25 @@ const AlertModal = () => {
                 'rounded-dialogue bg-offwhite',
                 'mx-8 sm:mx-20 max-w-lg',
                 'overflow-auto',
+                isIntegrationError ? 'border border-solid border-red bg-red-bg-light' : null,
+
               ].join(' ')}
               style={{
                 zIndex: 2,
               }}
             >
-              <div className="p-4">
+              <div className="p-5">
                 {copy && <MarkdownText markdown={copy} />}
                 {children}
                 <div className="flex justify-end mt-8">
                   {buttons.map((buttonConfig, index) => {
-                    const { text, version, onClick, isFacebookButton, isDisabled, shouldCloseOnConfirm = true } = buttonConfig
-                    const ButtonType = isFacebookButton ? ButtonFacebook : Button
+                    const { text, version, color, onClick, isDisabled, shouldCloseOnConfirm = true } = buttonConfig
 
                     return (
-                      <ButtonType
+                      <Button
                         key={index}
                         version={version}
+                        color={color}
                         onClick={() => {
                           if (shouldCloseOnConfirm) {
                             close()
@@ -126,10 +129,9 @@ const AlertModal = () => {
                         className="last:ml-3 xxs:last:ml-4"
                         isDisabled={isDisabled}
                         trackComponentName="AlertModal"
-                        fallbackCta={text}
                       >
                         {text}
-                      </ButtonType>
+                      </Button>
                     )
                   })}
                 </div>
