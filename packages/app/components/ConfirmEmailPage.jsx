@@ -214,6 +214,7 @@ const ConfirmEmailPage = ({
         />
         <MarkdownText className="inline-block mb-0" markdown={copy.emailQuestion} />
         <ConfirmEmailResendButton
+          version="text"
           emailType={emailType}
           setError={setError}
         />

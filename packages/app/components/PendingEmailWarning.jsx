@@ -12,30 +12,35 @@ import copy from '@/app/copy/global'
 const PendingEmailWarning = ({
   user,
   isNewUser,
-  isAccountPage,
   className,
 }) => {
   const [resendEmailError, setResendEmailError] = React.useState(null)
   const unconfirmedEmails = useUnconfirmedEmails(user)
 
-  // Stop here if no emails need verifying
-  if (! unconfirmedEmails.length) return null
-  const warningCopy = copy.unverifiedEmails({ emails: unconfirmedEmails.map(({ email }) => email), isNewUser, isAccountPage })
+  if (! unconfirmedEmails.length) {
+    return null
+  }
+
+  const warningCopy = copy.unverifiedEmails({ emails: unconfirmedEmails.map(({ email }) => email) })
+
   return (
     <div
       className={[
-        'p-5 bg-grey-light rounded-dialogue max-w-xl',
+        'p-4 rounded-dialogue max-w-xl',
+        'bg-red-bg-light border border-solid border-red',
         className,
       ].join(' ')}
     >
       <MarkdownText markdown={warningCopy} className={isNewUser ? 'h4--text' : null} />
       {/* TODO: Add resend button */}
       {unconfirmedEmails.map(({ email, type }) => {
-        const buttonText = unconfirmedEmails.length === 1 ? 'Resend confirmation email' : `Resend confirmation to ${email}`
+        const buttonText = unconfirmedEmails.length === 1 ? 'Re-send confirmation email' : `Re-send confirmation to ${email}`
+
         return (
           <div key={type} className="mb-4 last:mb-0">
             <Error error={resendEmailError} />
             <ConfirmEmailResendButton
+              className="bg-red-bg-dark border-red-bg-dark hover:bg-red-border hover:border-red-border active:border-red-dark"
               buttonText={buttonText}
               emailType={type}
               setError={setResendEmailError}
@@ -50,13 +55,11 @@ const PendingEmailWarning = ({
 PendingEmailWarning.propTypes = {
   user: PropTypes.object.isRequired,
   isNewUser: PropTypes.bool,
-  isAccountPage: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PendingEmailWarning.defaultProps = {
   isNewUser: false,
-  isAccountPage: false,
   className: null,
 }
 

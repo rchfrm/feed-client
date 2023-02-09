@@ -25,7 +25,7 @@ const PENDING_EMAIL_NOTICE = ({
       <p className="text-sm font-bold -mt-5 mb-4">{message}</p>
       <Error error={resendEmailError} />
       <ConfirmEmailResendButton
-        buttonText="Resend confirmation email"
+        buttonText="Re-send confirmation email"
         emailType="email"
         setError={setResendEmailError}
         parentLoading={loading}

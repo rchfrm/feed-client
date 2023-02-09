@@ -225,7 +225,7 @@ const AccountPageDetails = () => {
     <section>
 
       {hasPendingEmail && (
-        <PendingEmailWarning user={user} className="mb-8" isAccountPage />
+        <PendingEmailWarning user={user} className="mb-8" />
       )}
 
       <form

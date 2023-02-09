@@ -133,7 +133,7 @@ Button.defaultProps = {
   className: '',
   href: '',
   spinnerFill: brandColors.black,
-  id: '',
+  id: null,
 }
 
 export default Button

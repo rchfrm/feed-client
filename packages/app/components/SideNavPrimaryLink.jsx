@@ -1,14 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useHover from '@/app/hooks/useHover'
-import useNotificationsStore from '@/app/stores/notificationsStore'
 import PrimaryLinkIcon from '@/app/PrimaryLinkIcon'
 import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
-
-const getNotificationsStoreState = (state) => ({
-  totalActiveNotifications: state.totalActiveNotifications,
-})
 
 const SideNavPrimaryLink = ({
   href,
@@ -18,11 +13,9 @@ const SideNavPrimaryLink = ({
   isActive,
   isExternal,
   isExpanded,
+  shouldShowDot,
 }) => {
   const [hoverRef, isHover] = useHover()
-  const { totalActiveNotifications } = useNotificationsStore(getNotificationsStoreState)
-  const hasNotifications = totalActiveNotifications > 0
-  const shouldShowDot = hasNotifications && title === 'Notifications'
 
   return (
     <div ref={hoverRef}>
@@ -88,12 +81,14 @@ SideNavPrimaryLink.propTypes = {
   isActive: PropTypes.bool.isRequired,
   isExternal: PropTypes.bool,
   isExpanded: PropTypes.bool.isRequired,
+  shouldShowDot: PropTypes.bool,
 }
 
 SideNavPrimaryLink.defaultProps = {
   href: '',
   action: null,
   isExternal: false,
+  shouldShowDot: false,
 }
 
 export default SideNavPrimaryLink
