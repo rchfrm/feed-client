@@ -13,7 +13,7 @@ const getNotificationsStoreState = (state) => ({
 
 const SubHeaderProfileStatusIntegrationError = () => {
   const { integrationError, setShouldShowIntegrationError } = useNotificationStore(getNotificationsStoreState)
-  const topic = capitalise(integrationError.topic.replace(/_/g, ' '))
+  const topic = capitalise(integrationError.topic.replace(/-/g, ' '))
   const isDesktopLayout = useBreakpointTest('md')
 
   return (

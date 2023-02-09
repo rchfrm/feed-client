@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { requestVerificationEmail } from '@/app/helpers/appServer'
 import { handleFbAuthRedirect } from '@/app/helpers/facebookHelpers'
 import { AuthContext } from '@/contexts/AuthContext'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
 import useAlertModal from '@/hooks/useAlertModal'
-import Router, { useRouter } from 'next/router'
-import * as ROUTES from '@/app/constants/routes'
+import { useRouter } from 'next/router'
 
 const IntegrationErrorContent = ({
   integrationError,
@@ -68,29 +66,6 @@ const IntegrationErrorContent = ({
         onClick,
         isFacebookButton: true,
       }]
-    }
-
-    if (ctaType === 'email_confirmation') {
-      const { emailType } = integrationError
-
-      const resendConfirmationLink = async () => {
-        await requestVerificationEmail(emailType)
-      }
-      const goToConfirmEmailPage = () => {
-        Router.push(`${ROUTES.CONFIRM_EMAIL}/?type=${emailType}&isEdit=true`)
-        closeAlert()
-      }
-      return [
-        {
-          text: ctaText,
-          onClick: goToConfirmEmailPage,
-        },
-        {
-          text: 'Resend link',
-          onClick: resendConfirmationLink,
-          version: 'secondary',
-        },
-      ]
     }
 
     if (ctaType === 'link_int' && isDismissible) {
