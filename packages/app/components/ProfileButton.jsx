@@ -1,8 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import useControlsStore from '@/app/stores/controlsStore'
+import useNotificationStore from '@/app/stores/notificationsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ArtistImage from '@/elements/ArtistImage'
 import Spinner from '@/elements/Spinner'
+
+const getControlsStoreState = (state) => ({
+  isControlsLoading: state.isControlsLoading,
+  isSpendingPaused: state.isSpendingPaused,
+})
+
+const getNotificationsStoreState = (state) => ({
+  isNotificationsLoading: state.isNotificationsLoading,
+  integrationError: state.integrationError,
+})
 
 const ProfileButton = ({
   name,
@@ -16,7 +28,30 @@ const ProfileButton = ({
   setShouldShowMore,
   className,
 }) => {
-  const { artistLoading, storeArtist } = React.useContext(ArtistContext)
+  const { isControlsLoading, isSpendingPaused } = useControlsStore(getControlsStoreState)
+  const { isNotificationsLoading, integrationError } = useNotificationStore(getNotificationsStoreState)
+  const { artist, artistLoading, storeArtist } = React.useContext(ArtistContext)
+  const { hasSetUpProfile } = artist
+  const isLoading = artistLoading || isControlsLoading || isNotificationsLoading
+
+  const color = ! hasSetUpProfile || Boolean(integrationError) ? 'red' : isSpendingPaused ? 'yellow' : 'green'
+  const colorClasses = {
+    green: {
+      border: 'border-green',
+      bg: 'bg-green',
+      text: 'text-green',
+    },
+    yellow: {
+      border: 'border-yellow',
+      bg: 'bg-yellow',
+      text: 'text-yellow',
+    },
+    red: {
+      border: 'border-red',
+      bg: 'bg-red',
+      text: 'text-red-bg-dark',
+    },
+  }
 
   const updateArtist = () => {
     storeArtist(artistId, ! isActive)
@@ -48,7 +83,7 @@ const ProfileButton = ({
         <figure
           className={[
             'rounded-full overflow-hidden flex-shrink-0',
-            isActive && ! artistLoading ? 'border-3 border-solid border-green rounded-full' : null,
+            isActive && ! isLoading ? `border-3 border-solid rounded-full ${colorClasses[color].border}` : null,
           ].join(' ')}
         >
           {artistLoading && hasSpinner ? (
@@ -61,6 +96,7 @@ const ProfileButton = ({
           className={[
             'mb-0 text-left line-clamp-1 break-word transition-opacity',
             isExpanded ? 'opacity-1 w-auto delay-300 ml-2' : 'opacity-0 w-0 mr-0',
+            isActive && ! isLoading ? colorClasses[color].text : null,
           ].join(' ')}
         >
           {name}
@@ -68,9 +104,10 @@ const ProfileButton = ({
       </div>
       <div className={[
         'absolute top-5 -right-3 h-5 w-5',
-        'rounded-full bg-green',
+        'rounded-full',
         'transition-opacity',
         isExpanded && isActive ? 'delay-300 opacity-1' : 'opacity-0',
+        isActive && ! isLoading ? colorClasses[color].bg : null,
       ].join(' ')}
       />
     </button>
