@@ -1,20 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { requestVerificationEmail } from '@/app/helpers/appServer'
 import { handleFbAuthRedirect } from '@/app/helpers/facebookHelpers'
-
 import { AuthContext } from '@/contexts/AuthContext'
-
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
-
 import useAlertModal from '@/hooks/useAlertModal'
 import Router, { useRouter } from 'next/router'
-
 import * as ROUTES from '@/app/constants/routes'
 
-const IntegrationErrorContent = ({ integrationError, dismiss, networkError, showError }) => {
+const IntegrationErrorContent = ({
+  integrationError,
+  dismiss,
+  showError,
+}) => {
   const { auth, authError } = React.useContext(AuthContext)
   const { showAlert, closeAlert } = useAlertModal()
   const router = useRouter()
@@ -23,13 +22,13 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
     const { description: message } = integrationError
     return (
       <>
-        <Error error={authError || networkError} />
+        <Error error={authError} />
         {message && (
           <MarkdownText markdown={message} />
         )}
       </>
     )
-  }, [integrationError, authError, networkError])
+  }, [integrationError, authError])
 
   const alertButtons = React.useMemo(() => {
     const {
@@ -40,7 +39,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       isDismissible,
       onAction,
     } = integrationError
-    // Link button
+
     if (ctaType === 'link_ext') {
       const isFacebookButton = buttonType === 'facebook'
       return [
@@ -57,7 +56,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         },
       ]
     }
-    // Reauth button
+
     if (ctaType === 'fb_reauth') {
       const { data: { required_scope: requiredScope = [] } } = integrationError
       const onClick = () => {
@@ -70,7 +69,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         isFacebookButton: true,
       }]
     }
-    // Edit email and email confirmation buttons
+
     if (ctaType === 'email_confirmation') {
       const { emailType } = integrationError
 
@@ -93,6 +92,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         },
       ]
     }
+
     if (ctaType === 'link_int' && isDismissible) {
       return [
         {
@@ -106,7 +106,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
         },
       ]
     }
-    // Default
+
     return [{
       text: ctaText || 'Ok',
       onClick: closeAlert,
@@ -118,6 +118,7 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
       closeAlert()
       return
     }
+
     if (showError) {
       showAlert({
         children: alertContents,
@@ -133,14 +134,11 @@ const IntegrationErrorContent = ({ integrationError, dismiss, networkError, show
 IntegrationErrorContent.propTypes = {
   integrationError: PropTypes.object,
   dismiss: PropTypes.func.isRequired,
-  networkError: PropTypes.object,
   showError: PropTypes.bool.isRequired,
 }
 
 IntegrationErrorContent.defaultProps = {
   integrationError: {},
-  networkError: null,
 }
-
 
 export default IntegrationErrorContent
