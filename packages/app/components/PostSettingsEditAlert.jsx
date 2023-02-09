@@ -23,18 +23,18 @@ const PostSettingsEditAlert = ({
 
     const buttons = [
       {
-        text: 'Continue',
-        onClick: () => {
-          onConfirm()
-          closeAlert()
-        },
-      },
-      {
         text: 'Cancel',
         onClick: () => {
           onCancel()
         },
         version: 'secondary',
+      },
+      {
+        text: 'Continue',
+        onClick: () => {
+          onConfirm()
+          closeAlert()
+        },
       },
     ]
     showAlert({

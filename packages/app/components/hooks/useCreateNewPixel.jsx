@@ -32,18 +32,18 @@ const useCreateNewPixel = ({
   const openNewPixelModal = React.useCallback((error) => {
     const buttons = [
       {
-        text: 'Save pixel',
-        onClick: () => {}, // updated in modal
-        id: 'save',
-        disabled: true,
-      },
-      {
         text: 'Cancel',
         onClick: () => {
           closeAlert()
           onCancel()
         },
         version: 'secondary',
+      },
+      {
+        text: 'Save pixel',
+        onClick: () => {}, // updated in modal
+        id: 'save',
+        disabled: true,
       },
     ]
     const children = <PixelCreatorModal modalButtons={buttons} createPixel={createPixel} error={error} />

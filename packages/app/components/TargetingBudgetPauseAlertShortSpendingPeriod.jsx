@@ -39,16 +39,16 @@ const TargetingBudgetPauseAlertShortSpendingPeriod = ({
   React.useEffect(() => {
     const buttons = [
       {
+        text: 'Cancel',
+        onClick: closeAlert,
+        version: 'secondary',
+      },
+      {
         text: 'Pause Spending',
         onClick: () => {
           setShouldShowShortSpendingPeriodWarning(false)
         },
         shouldCloseOnConfirm: false,
-      },
-      {
-        text: 'Cancel',
-        onClick: closeAlert,
-        version: 'secondary',
       },
     ]
 

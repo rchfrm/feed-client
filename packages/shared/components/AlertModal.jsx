@@ -1,18 +1,13 @@
 import React from 'react'
-
 import shallow from 'zustand/shallow'
 import { gsap, Power2 } from 'gsap'
 import { Portal } from 'react-portal'
 import { Transition } from 'react-transition-group'
-
 import FullHeight from '@/elements/FullHeight'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import ButtonFacebook from '@/elements/ButtonFacebook'
-
 import useAlertStore from '@/stores/alertStore'
-
-import styles from '@/AlertModal.module.css'
 
 const getStoreState = (state) => ({
   copy: state.copy,
@@ -101,54 +96,43 @@ const AlertModal = () => {
             <div
               className={[
                 'relative',
+                'w-[calc(100%-2rem)] max-h-[calc(100%-2rem)] minContent:w-full',
                 'rounded-dialogue bg-offwhite',
                 'mx-8 sm:mx-20 max-w-lg',
                 'overflow-auto',
-                styles.content,
               ].join(' ')}
               style={{
                 zIndex: 2,
               }}
             >
-              <div
-                className={['p-4 sm:p-5 pb-0'].join(' ')}
-              >
+              <div className="p-4">
                 {copy && <MarkdownText markdown={copy} />}
                 {children}
-              </div>
-              <div className="flex flex-wrap bg-black">
-                {buttons.map((buttonConfig, index) => {
-                  const { text, version, width, onClick, isFacebookButton, isDisabled, shouldCloseOnConfirm = true } = buttonConfig
-                  const isFirstButton = index === 0
-                  const isLastButton = index === buttons.length - 1
-                  const ButtonType = isFacebookButton ? ButtonFacebook : Button
+                <div className="flex justify-end mt-8">
+                  {buttons.map((buttonConfig, index) => {
+                    const { text, version, onClick, isFacebookButton, isDisabled, shouldCloseOnConfirm = true } = buttonConfig
+                    const ButtonType = isFacebookButton ? ButtonFacebook : Button
 
-                  return (
-                    <ButtonType
-                      key={index}
-                      version={version}
-                      className={[
-                        width === 'half' ? 'w-1/2' : 'w-full',
-                        isLastButton ? 'rounded-t-none rounded-b-dialogue' : 'rounded-none',
-                      ].join(' ')}
-                      onClick={() => {
-                        if (shouldCloseOnConfirm) {
-                          close()
-                        }
-                        onClick()
-                      }}
-                      style={{
-                        borderTop: '1px solid white',
-                        ...(isFirstButton && ! width === 'half' && { borderTop: 'none' }),
-                      }}
-                      isDisabled={isDisabled}
-                      trackComponentName="AlertModal"
-                      fallbackCta={text}
-                    >
-                      {text}
-                    </ButtonType>
-                  )
-                })}
+                    return (
+                      <ButtonType
+                        key={index}
+                        version={version}
+                        onClick={() => {
+                          if (shouldCloseOnConfirm) {
+                            close()
+                          }
+                          onClick()
+                        }}
+                        className="last:ml-3 xxs:last:ml-4"
+                        isDisabled={isDisabled}
+                        trackComponentName="AlertModal"
+                        fallbackCta={text}
+                      >
+                        {text}
+                      </ButtonType>
+                    )
+                  })}
+                </div>
               </div>
             </div>
           </div>

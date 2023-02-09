@@ -20,6 +20,11 @@ const useForceDeleteLink = () => {
   const showForceDeleteModal = React.useCallback((runDeleteItem, linkIds, itemType) => {
     const buttons = [
       {
+        text: 'Cancel',
+        onClick: closeAlert,
+        version: 'secondary',
+      },
+      {
         text: 'Delete anyway',
         // DELETE LINK
         onClick: async () => {
@@ -29,11 +34,6 @@ const useForceDeleteLink = () => {
           // After force deleting update posts that used these links
           updatePostsWithMissingLinks(linkIds)
         },
-      },
-      {
-        text: 'Cancel',
-        onClick: closeAlert,
-        version: 'secondary',
       },
     ]
     const children = <MarkdownText markdown={copy.confirmDeleteUsedLinkFolder(itemType)} />

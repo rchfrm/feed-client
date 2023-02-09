@@ -135,6 +135,14 @@ const useCreateEditLinkBankLink = ({
   const showIntegrationOptionModal = (newLink, action, oldLink, platform) => {
     const buttons = [
       {
+        text: 'Save as Link',
+        onClick: () => {
+          setSidePanelLoading(true)
+          updateLinkOnServer(newLink, action, oldLink)
+        },
+        version: 'secondary',
+      },
+      {
         text: 'Save as Integration',
         // SAVE INTEGRATION
         onClick: async () => {
@@ -154,14 +162,6 @@ const useCreateEditLinkBankLink = ({
             },
           })
         },
-      },
-      {
-        text: 'Save as Link',
-        onClick: () => {
-          setSidePanelLoading(true)
-          updateLinkOnServer(newLink, action, oldLink)
-        },
-        version: 'secondary',
       },
     ]
     const children = <MarkdownText markdown={copy.checkSaveAsIntegration(platform)} />
@@ -196,17 +196,17 @@ const useCreateEditLinkBankLink = ({
     const isPostLink = location === 'post'
     const buttons = [
       {
-        text: isPostLink ? 'Set and save' : 'Save',
-        onClick: () => {},
-        id: 'save',
-      },
-      {
         text: 'Cancel',
         onClick: () => {
           closeAlert()
           onCancel()
         },
         version: 'secondary',
+      },
+      {
+        text: isPostLink ? 'Set and save' : 'Save',
+        onClick: () => {},
+        id: 'save',
       },
     ]
     // Is this the default link?

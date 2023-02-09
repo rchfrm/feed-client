@@ -60,19 +60,19 @@ const ObjectiveSettingsChangeAlert = ({
 
     const buttons = [
       {
+        text: 'Cancel',
+        onClick: () => {
+          onCancel()
+        },
+        version: 'secondary',
+      },
+      {
         text: 'Save',
         onClick: () => {
           setShouldSave(true)
         },
         shouldCloseOnConfirm: false,
         isDisabled,
-      },
-      {
-        text: 'Cancel',
-        onClick: () => {
-          onCancel()
-        },
-        version: 'secondary',
       },
     ]
     showAlert({

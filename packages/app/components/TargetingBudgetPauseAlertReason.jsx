@@ -23,6 +23,11 @@ const TargetingBudgetPauseAlertReason = ({
   React.useEffect(() => {
     const buttons = [
       {
+        text: 'Cancel',
+        onClick: closeAlert,
+        version: 'secondary',
+      },
+      {
         text: 'Pause Spending',
         onClick: () => {
           onConfirm()
@@ -36,11 +41,6 @@ const TargetingBudgetPauseAlertReason = ({
           })
         },
         isDisabled: ! reason || (reason === 'other' && ! isValidCustomReason),
-      },
-      {
-        text: 'Cancel',
-        onClick: closeAlert,
-        version: 'secondary',
       },
     ]
 
