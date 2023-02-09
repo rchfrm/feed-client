@@ -43,13 +43,11 @@ const IntegrationErrorContent = ({
           text: 'Cancel',
           onClick: closeAlert,
           version: 'secondary',
-          color: 'red',
         },
         {
           text: ctaText,
           onClick: () => {},
           href: ctaLink,
-          color: 'red',
         },
       ]
     }
@@ -63,7 +61,6 @@ const IntegrationErrorContent = ({
       return [{
         text: ctaText,
         onClick,
-        color: 'red',
       }]
     }
 
@@ -73,12 +70,10 @@ const IntegrationErrorContent = ({
           text: 'Dismiss',
           onClick: () => {},
           version: 'secondary',
-          color: 'red',
         },
         {
           text: ctaText,
           onClick: onAction,
-          color: 'red',
         },
       ]
     }
@@ -86,7 +81,6 @@ const IntegrationErrorContent = ({
     return [{
       text: ctaText || 'Ok',
       onClick: closeAlert,
-      color: 'red',
     }]
   }, [closeAlert, integrationError, auth, router.pathname])
 

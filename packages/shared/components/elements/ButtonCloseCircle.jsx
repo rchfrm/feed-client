@@ -3,7 +3,15 @@ import PropTypes from 'prop-types'
 
 import CloseCircleIcon from '@/icons/CloseCircleIcon'
 
-const ButtonCloseCircle = ({ onClick, size, label, className, style, svgClassname }) => {
+const ButtonCloseCircle = ({
+  onClick,
+  size,
+  label,
+  className,
+  style,
+  svgClassname,
+  fill,
+}) => {
   return (
     <button
       onClick={onClick}
@@ -12,7 +20,7 @@ const ButtonCloseCircle = ({ onClick, size, label, className, style, svgClassnam
       label={label}
       aria-label={label}
     >
-      <CloseCircleIcon className={svgClassname} />
+      <CloseCircleIcon className={svgClassname} fill={fill} />
     </button>
   )
 }

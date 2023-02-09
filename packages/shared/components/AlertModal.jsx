@@ -8,6 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import useAlertStore from '@/stores/alertStore'
 import ButtonCloseCircle from '@/elements/ButtonCloseCircle'
+import brandColors from '@/constants/brandColors'
 
 const getStoreState = (state) => ({
   copy: state.copy,
@@ -102,7 +103,6 @@ const AlertModal = () => {
                 'rounded-dialogue bg-offwhite',
                 'mx-8 sm:mx-20 max-w-lg',
                 isIntegrationError ? 'border border-solid border-red bg-red-bg-light' : null,
-
               ].join(' ')}
               style={{
                 zIndex: 2,
@@ -112,6 +112,7 @@ const AlertModal = () => {
                 onClick={close}
                 className="absolute -right-3.5 -top-3.5 bg-white rounded-full"
                 svgClassname="w-7 h-auto"
+                fill={isIntegrationError ? brandColors.red : brandColors.black}
               />
               <div className="p-5">
                 {copy && <MarkdownText markdown={copy} />}
@@ -124,7 +125,7 @@ const AlertModal = () => {
                       <Button
                         key={index}
                         version={version}
-                        color={color}
+                        color={isIntegrationError ? 'red' : color}
                         onClick={() => {
                           if (shouldCloseOnConfirm) {
                             close()
