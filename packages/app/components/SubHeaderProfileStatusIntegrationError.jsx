@@ -29,7 +29,7 @@ const SubHeaderProfileStatusIntegrationError = () => {
         size={isDesktopLayout ? 'small' : 'x-small'}
         color="red"
         className="-mr-1"
-        trackComponentName="SubHeaderProfileStatus"
+        trackComponentName="SubHeaderProfileStatusIntegrationError"
       >
         Fix
         <ArrowIcon direction="right" className="w-4 h-4 ml-1" />
