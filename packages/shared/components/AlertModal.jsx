@@ -7,6 +7,7 @@ import FullHeight from '@/elements/FullHeight'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
 import useAlertStore from '@/stores/alertStore'
+import ButtonCloseCircle from '@/elements/ButtonCloseCircle'
 
 const getStoreState = (state) => ({
   copy: state.copy,
@@ -100,7 +101,6 @@ const AlertModal = () => {
                 'w-[calc(100%-2rem)] max-h-[calc(100%-2rem)] minContent:w-full',
                 'rounded-dialogue bg-offwhite',
                 'mx-8 sm:mx-20 max-w-lg',
-                'overflow-auto',
                 isIntegrationError ? 'border border-solid border-red bg-red-bg-light' : null,
 
               ].join(' ')}
@@ -108,6 +108,11 @@ const AlertModal = () => {
                 zIndex: 2,
               }}
             >
+              <ButtonCloseCircle
+                onClick={close}
+                className="absolute -right-3.5 -top-3.5 bg-white rounded-full"
+                svgClassname="w-7 h-auto"
+              />
               <div className="p-5">
                 {copy && <MarkdownText markdown={copy} />}
                 {children}
