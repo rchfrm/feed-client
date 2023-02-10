@@ -130,8 +130,8 @@ body {
 
 .breakout--width {
   width: 100%;
-  width: calc(100% + (2 * var(--sp-5)));
-  margin-left: calc(-1 * var(--sp-5));
+  width: calc(100% + (2 * var(--sp-3)));
+  margin-left: calc(-1 * var(--sp-3));
 
   @media (--sm) {
     width: 100%;
