@@ -19,10 +19,10 @@ const SubHeaderProfileStatusIntegrationError = () => {
   return (
     <>
       <div className="flex items-center mr-4">
-        <div className="flex justify-center flex-shrink-0 items-center w-4 h-4 rounded-full bg-red-bg-dark mr-1">
+        <div className="flex justify-center flex-shrink-0 items-center w-4 h-4 rounded-full bg-red-bg-dark mr-2">
           <ExclamationCircleIcon className="w-3 h-3" />
         </div>
-        <p className="mb-0 font-bold text-sm">{topic}</p>
+        <p className="mb-0 font-bold text-xs xxs:text-sm !leading-[1.1] line-clamp-2">{topic}</p>
       </div>
       <Button
         onClick={() => setShouldShowIntegrationError(true)}
