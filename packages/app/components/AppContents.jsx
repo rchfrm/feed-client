@@ -19,13 +19,14 @@ import BrowserStoreSetup from '@/BrowserStoreSetup'
 
 const AppContents = ({ children }) => {
   const { pathname } = useRouter()
+  const isGeneralPage = ROUTES.generalPages.includes(pathname)
 
   return (
     <div
       id="container"
       className={[
         'page--content',
-        ROUTES.generalPages.includes(pathname) ? 'md:!pt-40' : null,
+        isGeneralPage ? 'md:!pt-40' : null,
       ].join(' ')}
     >
       <UserProvider>
