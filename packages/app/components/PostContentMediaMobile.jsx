@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PostPromotionStatus from '@/app/PostPromotionStatus'
 import PostCardMedia from '@/app/PostCardMedia'
-import PostScore from '@/app/PostScore'
 
 const PostContentMediaMobile = ({ post }) => {
   const {
@@ -15,7 +14,6 @@ const PostContentMediaMobile = ({ post }) => {
     postType,
     videoFallback,
     message,
-    organicResults,
   } = post
 
   return (
@@ -36,11 +34,6 @@ const PostContentMediaMobile = ({ post }) => {
           postType={postType}
           videoFallback={videoFallback}
           caption={message}
-        />
-        <PostScore
-          score={organicResults.normalizedScore}
-          className="transform -translate-x-1/2 left-1/2 -bottom-4"
-          size="small"
         />
       </div>
     </div>

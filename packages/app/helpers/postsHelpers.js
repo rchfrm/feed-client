@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import moment from 'moment'
 import * as utils from '@/helpers/utils'
 import { requestWithCatch } from '@/helpers/api'
@@ -9,7 +8,7 @@ export const postsConfig = {
   active: {
     name: 'Active',
     filterBy: { promotion_status: 'active' },
-    action: 'View results',
+    action: 'Edit ad',
   },
   rejected: {
     name: 'Rejected',
@@ -161,10 +160,6 @@ export const postOptions = [
     title: 'Details',
   },
   {
-    name: 'results',
-    title: 'Results',
-  },
-  {
     name: 'settings',
     title: 'Settings',
   },
@@ -175,45 +170,6 @@ const createGradient = (color) => `linear-gradient(135deg, ${color} 0%, ${brandC
 export const growthGradient = createGradient(brandColors.blue)
 export const conversionsGradient = createGradient(brandColors.red)
 
-const getPaidClicks = (adsSummaryMetrics) => {
-  const outboundClicks = get(adsSummaryMetrics, ['outbound_clicks', 'outbound_click'], 0)
-  const clickActions = get(adsSummaryMetrics, ['actions', 'link_click'], 0)
-  return Math.max(outboundClicks, clickActions)
-}
-
-const getLandingPageViews = (adsSummaryMetrics) => {
-  return get(adsSummaryMetrics, ['actions', 'landing_page_view'], null)
-}
-
-// GET drilldown of paid engagments
-// by adding the various action props
-const getPaidEngagementsDrilldown = (adsSummaryMetrics) => {
-  const { actions } = adsSummaryMetrics
-  if (! actions) return null
-  return {
-    views: get(actions, 'video_view', null),
-    clicks: get(actions, 'link_click', null),
-    reactions: get(actions, 'post_reaction', null),
-    comments: get(actions, 'comments', null),
-    shares: get(actions, 'post', null),
-    saves: get(actions, 'onsite_conversion.post_save', null),
-  }
-}
-
-// Get dates when post first ran and last ran
-const getPostAdDates = (ads) => {
-  if (! ads) return [null, null]
-  const adDates = Object.values(ads).map(({ created_at }) => {
-    return created_at
-  })
-  // Sort dates from first to last
-  const adDatesSorted = utils.sortDatesChronologically(adDates)
-  const firstRan = adDatesSorted[0]
-  if (adDatesSorted.length === 1) return [firstRan, null]
-  const lastRan = adDates[adDatesSorted.length - 1]
-  return [firstRan, lastRan]
-}
-
 // Format published time
 const formatPublishedTime = (time) => {
   const publishedMoment = moment(time)
@@ -221,14 +177,6 @@ const formatPublishedTime = (time) => {
   const currentYear = moment().format('Y')
   const publishedFormat = publishedYear === currentYear ? 'D MMM' : 'D MMM YYYY'
   return publishedMoment.format(publishedFormat)
-}
-
-// Get nested metric
-const getNestedMetric = (post, metric) => {
-  const metricValues = get(post, ['metrics', metric, 'data'], null)
-  if (! metricValues) return null
-  // Get first metric value
-  return Object.values(metricValues)[0]
 }
 
 // Get post link data
@@ -272,8 +220,7 @@ export const formatPostsResponse = (posts) => {
   return posts.map((post) => {
     if (! post) return null
 
-    const { message, ads_summary: adsSummary = {}, ads } = post
-    const shortMessage = utils.abbreviatePostText(message)
+    const { message } = post
     const mediaType = post.display?.type
     const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
     const videoFallback = mediaType === 'video' ? post.display?.media?.media_library?.source : ''
@@ -286,40 +233,8 @@ export const formatPostsResponse = (posts) => {
       post.display?.thumbnail_url,
       ...thumbnailUrls,
     ]
-    // Organic results
-    const organicResults = {
-      comments: post.comments,
-      impressions: post.impressions,
-      likes: post.likes,
-      reach: post.reach,
-      shares: post.shares,
-      video_views: post.views,
-      engagementScore: post.engagement_score,
-      score: post.score,
-      normalizedScore: post.normalized_score,
-      replies: getNestedMetric(post, 'replies'),
-      taps_forward: getNestedMetric(post, 'taps_forward'),
-      taps_back: getNestedMetric(post, 'taps_back'),
-      exits: getNestedMetric(post, 'exits'),
-    }
-    // Paid results
-    const adsSummaryMetrics = adsSummary.metrics || {}
-    const paidResults = adsSummary ? {
-      spend: adsSummaryMetrics.spend,
-      reach: adsSummaryMetrics.reach,
-      impressions: adsSummaryMetrics.impressions,
-      engagements: get(adsSummaryMetrics, ['actions', 'post_engagement'], null),
-      clicks: getPaidClicks(adsSummaryMetrics),
-      landing_page_views: getLandingPageViews(adsSummaryMetrics),
-      engagementScore: adsSummary.spend_adjusted_engagement_score,
-      drilldowns: {
-        engagements: getPaidEngagementsDrilldown(adsSummaryMetrics),
-      },
-    } : null
     // Published date
     const publishedTime = formatPublishedTime(post.published_time)
-    // Ad dates
-    const [firstRan, lastRan] = getPostAdDates(ads)
     // Promotion eligibility
     const promotionEligibility = {
       enticeEngage: post.promotion_eligibility.entice_engage,
@@ -333,7 +248,7 @@ export const formatPostsResponse = (posts) => {
     return {
       id: post.id,
       ads: post?.ads,
-      postType: post.internal_type || post.subtype || post.type,
+      postType: post.internal_type,
       platform: post.platform,
       permalinkUrl: post.permalink_url,
       promotionEnabled: post.promotion_enabled,
@@ -346,17 +261,11 @@ export const formatPostsResponse = (posts) => {
       promotionEligibility,
       adPreviewLinks,
       message,
-      adMessageProps: post.ad_message,
-      shortMessage,
       media,
       mediaType,
       videoFallback,
       thumbnails,
-      organicResults,
-      paidResults,
       publishedTime,
-      firstRan,
-      lastRan,
     }
   })
 }
@@ -374,13 +283,10 @@ export const formatPostsMinimal = (posts) => {
     return {
       id: post.id,
       publishedTime: moment(post.published_time).format('YYYY-MM-DD'),
-      reach: post.reach_rate * 100,
-      engagement: post.engagement_rate * 100,
       media,
       thumbnails,
-      postType: post.subtype || post.type,
+      postType: post.internal_type,
       promotionEnabled: post.promotion_enabled,
-      _links: post._links,
     }
   })
 

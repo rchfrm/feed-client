@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostCardMedia from '@/app/PostCardMedia'
-import PostScore from '@/app/PostScore'
 
 const PostMedia = ({ post }) => {
   const {
@@ -11,7 +10,6 @@ const PostMedia = ({ post }) => {
     postType,
     videoFallback,
     message,
-    organicResults,
   } = post
 
   return (
@@ -24,10 +22,6 @@ const PostMedia = ({ post }) => {
         videoFallback={videoFallback}
         caption={message}
         className="mb-2"
-      />
-      <PostScore
-        score={organicResults.normalizedScore}
-        className="right-4 bottom-4"
       />
     </div>
   )
