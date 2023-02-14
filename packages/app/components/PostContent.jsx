@@ -7,7 +7,6 @@ import { InterfaceContext } from '@/app/contexts/InterfaceContext'
 import SplitView from '@/app/SplitView'
 import PostMedia from '@/app/PostMedia'
 import PostDetails from '@/app/PostDetails'
-import PostResults from '@/app/PostResults'
 import PostSettings from '@/app/PostSettings'
 import PostContentMediaMobile from '@/app/PostContentMediaMobile'
 import PostContentToggles from '@/app/PostContentToggles'
@@ -35,7 +34,6 @@ const PostContent = ({ post, setPost }) => {
   const postComponents = {
     details: <PostDetails post={post} className="md:pl-16" />,
     settings: <PostSettings post={post} setPost={setPost} className="md:pl-16" />,
-    results: <PostResults shouldShowTitle={isDesktopLayout} className="md:pl-16" />,
   }
 
   React.useEffect(() => {

@@ -8,7 +8,7 @@ export const postsConfig = {
   active: {
     name: 'Active',
     filterBy: { promotion_status: 'active' },
-    action: 'View results',
+    action: 'Edit ad',
   },
   rejected: {
     name: 'Rejected',
@@ -158,10 +158,6 @@ export const postOptions = [
   {
     name: 'details',
     title: 'Details',
-  },
-  {
-    name: 'results',
-    title: 'Results',
   },
   {
     name: 'settings',
