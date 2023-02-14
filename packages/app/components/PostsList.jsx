@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
+import PostRejectedReason from '@/app/PostRejectedReason'
 import PostsNone from '@/app/PostsNone'
 import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
 
@@ -25,17 +26,22 @@ const PostsList = ({
       ) : (
         posts.map((post, index) => {
           return (
-            <PostCard
+            <div
               key={post.id}
-              post={post}
-              index={index}
-              status={status}
-              setPosts={setPosts}
-              setIsPostActionsOpen={setIsPostActionsOpen}
-              className={[
-                'col-span-6 sm:col-span-3 lg:col-span-2',
-              ].join(' ')}
-            />
+              className="col-span-6 sm:col-span-3 lg:col-span-2"
+            >
+              <PostCard
+                key={post.id}
+                post={post}
+                index={index}
+                status={status}
+                setPosts={setPosts}
+                setIsPostActionsOpen={setIsPostActionsOpen}
+              />
+              {status === 'rejected' && (
+                <PostRejectedReason post={post} />
+              )}
+            </div>
           )
         })
       )}
