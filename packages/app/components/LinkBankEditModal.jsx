@@ -49,11 +49,11 @@ const LinkBankEditModal = ({
   React.useEffect(() => {
     const newButtons = produce(modalButtons, (draftButtons) => {
       // Update save button
-      draftButtons[0].onClick = () => runSaveLink(linkProps, action, link)
-      draftButtons[0].disabled = ! saveEnabled
+      draftButtons[1].onClick = () => runSaveLink(linkProps, action, link)
+      draftButtons[1].disabled = ! saveEnabled
       // Update delete button
-      if (draftButtons[1].id === 'delete') {
-        draftButtons[1].onClick = () => runSaveLink(linkProps, 'delete', link)
+      if (draftButtons[0].id === 'delete') {
+        draftButtons[0].onClick = () => runSaveLink(linkProps, 'delete', link)
       }
     })
     setButtons(newButtons)
