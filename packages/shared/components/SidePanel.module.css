@@ -71,7 +71,7 @@
   position: absolute;
   z-index: 3;
   top: var(--sp-5);
-  right: var(--sp-8);
+  right: var(--sp-5);
 }
 
 /* LOADER */

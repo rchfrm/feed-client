@@ -8,10 +8,11 @@ import { pricingNumbers } from '@/constants/pricing'
 export default {
   noArtists: `It looks like you haven't connected any Facebook pages yet. Please finish the sign up process [here](${ROUTES.GET_STARTED}).`,
 
-  unverifiedEmails: ({ emails = [], isAccountPage }) => {
-    return `It looks like you have ${emails.length === 1 ? `an unverified email: **${emails[0]}**` : `some unverified emails: ${emails.join(', ')}`}.
+  unverifiedEmails: ({ emails = [] }) => {
+    return `### Your email is not yet verified ###
 
-Please check your inbox to confirm. ${! isAccountPage ? `Or change the email address on the [Account Page](${ROUTES.ACCOUNT}).` : ''}`
+Your email ${emails.length === 1 ? `address **${emails[0]}** has` : `addresses **${emails.join(', ')}** have`} not been verified yet.
+Please check your inbox and click the verification link to confirm.`
   },
   fbRedirectError: (errorReason) => {
     if (errorReason === 'user_denied') {

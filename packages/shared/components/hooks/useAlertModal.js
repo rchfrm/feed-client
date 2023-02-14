@@ -14,7 +14,6 @@ buttons: [
   {
     text: 'Connect facebook',
     onClick: () => { console.info('how are you?') },
-    isFacebookButton: true,
   },
   {
     text: 'External link',
@@ -32,6 +31,7 @@ const getAlertsStoreState = (state) => ({
   setChildren: state.setChildren,
   setButtons: state.setButtons,
   setOnClose: state.setOnClose,
+  setIsIntegrationError: state.setIsIntegrationError,
 })
 
 const useAlertModal = (props) => {
@@ -42,6 +42,7 @@ const useAlertModal = (props) => {
     setChildren,
     setButtons,
     setOnClose,
+    setIsIntegrationError,
   } = useAlertStore(getAlertsStoreState, shallow)
 
   const defaultButtons = React.useMemo(() => {
@@ -51,12 +52,13 @@ const useAlertModal = (props) => {
       onClick: close,
     }]
   }, [close])
-  const showAlert = React.useCallback(({ copy, children = null, buttons = defaultButtons, onClose = () => {} }) => {
+  const showAlert = React.useCallback(({ copy, children = null, buttons = defaultButtons, onClose = () => {}, isIntegrationError = false }) => {
     // Set store
     setCopy(copy)
     setChildren(children)
     setButtons(buttons)
     setOnClose(onClose)
+    setIsIntegrationError(isIntegrationError)
     // Open
     open()
   // eslint-disable-next-line react-hooks/exhaustive-deps

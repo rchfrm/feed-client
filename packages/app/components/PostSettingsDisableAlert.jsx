@@ -23,19 +23,19 @@ const PostSettingsDisableAlert = ({
 
     const buttons = [
       {
-        text: 'Continue',
-        onClick: () => {
-          onConfirm()
-          closeAlert()
-        },
-      },
-      {
         text: 'Cancel',
         onClick: () => {
           onCancel()
           closeAlert()
         },
         version: 'secondary',
+      },
+      {
+        text: 'Continue',
+        onClick: () => {
+          onConfirm()
+          closeAlert()
+        },
       },
     ]
 

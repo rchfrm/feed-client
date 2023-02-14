@@ -162,6 +162,7 @@ function SidePanel({
           {/* Close button */}
           <ButtonCloseCircle
             className={styles.backButton}
+            svgClassname="w-7 h-auto"
             onClick={close}
           />
           {/* Optional side panel CTA */}

@@ -56,14 +56,14 @@ const useEditIntegration = ({
       ]
       : [
         {
-          text: action === 'add' ? 'Save' : `Disconnect ${plaformTitle}`,
-          onClick: () => {},
-          id: action === 'add' ? 'save' : 'delete',
-        },
-        {
           text: 'Cancel',
           onClick: closeAlert,
           version: 'secondary',
+        },
+        {
+          text: action === 'add' ? 'Save' : `Disconnect ${plaformTitle}`,
+          onClick: () => {},
+          id: action === 'add' ? 'save' : 'delete',
         },
       ]
     const children = (

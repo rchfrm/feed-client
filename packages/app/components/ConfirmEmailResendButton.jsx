@@ -7,10 +7,13 @@ import Success from '@/elements/Success'
 import { requestVerificationEmail } from '@/app/helpers/appServer'
 
 const ConfirmEmailResendButton = ({
+  version,
+  color,
   emailType,
   buttonText,
   setError,
   parentLoading,
+  className,
 }) => {
   const [emailResent, setEmailResent] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
@@ -40,9 +43,11 @@ const ConfirmEmailResendButton = ({
         <Success message="Email sent" className="mb-0" />
       ) : (
         <Button
-          version="text"
+          size="medium"
+          version={version}
+          color={color}
           onClick={resendEmail}
-          className="ml-1"
+          className={className}
           isLoading={loading}
           isDisabled={parentLoading}
           trackComponentName="ConfirmEmailResendButton"
@@ -55,6 +60,8 @@ const ConfirmEmailResendButton = ({
 }
 
 ConfirmEmailResendButton.propTypes = {
+  version: PropTypes.string,
+  color: PropTypes.string,
   emailType: PropTypes.string.isRequired,
   buttonText: PropTypes.string,
   setError: PropTypes.func.isRequired,
@@ -62,6 +69,8 @@ ConfirmEmailResendButton.propTypes = {
 }
 
 ConfirmEmailResendButton.defaultProps = {
+  version: 'tertiary',
+  color: 'green',
   buttonText: 'Resend',
   parentLoading: false,
 }

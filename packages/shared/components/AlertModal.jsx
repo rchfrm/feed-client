@@ -1,18 +1,14 @@
 import React from 'react'
-
 import shallow from 'zustand/shallow'
 import { gsap, Power2 } from 'gsap'
 import { Portal } from 'react-portal'
 import { Transition } from 'react-transition-group'
-
 import FullHeight from '@/elements/FullHeight'
 import MarkdownText from '@/elements/MarkdownText'
 import Button from '@/elements/Button'
-import ButtonFacebook from '@/elements/ButtonFacebook'
-
 import useAlertStore from '@/stores/alertStore'
-
-import styles from '@/AlertModal.module.css'
+import ButtonCloseCircle from '@/elements/ButtonCloseCircle'
+import brandColors from '@/constants/brandColors'
 
 const getStoreState = (state) => ({
   copy: state.copy,
@@ -20,6 +16,7 @@ const getStoreState = (state) => ({
   buttons: state.buttons,
   isOpen: state.isOpen,
   close: state.close,
+  isIntegrationError: state.isIntegrationError,
 })
 
 const AlertModal = () => {
@@ -29,6 +26,7 @@ const AlertModal = () => {
     buttons,
     isOpen,
     close,
+    isIntegrationError,
   } = useAlertStore(getStoreState, shallow)
 
   const innerEl = React.useRef(null)
@@ -101,54 +99,48 @@ const AlertModal = () => {
             <div
               className={[
                 'relative',
+                'w-[calc(100%-2rem)] max-h-[calc(100%-2rem)] minContent:w-full',
                 'rounded-dialogue bg-offwhite',
                 'mx-8 sm:mx-20 max-w-lg',
-                'overflow-auto',
-                styles.content,
+                isIntegrationError ? 'border border-solid border-red bg-red-bg-light' : null,
               ].join(' ')}
               style={{
                 zIndex: 2,
               }}
             >
-              <div
-                className={['p-4 sm:p-5 pb-0'].join(' ')}
-              >
+              <ButtonCloseCircle
+                onClick={close}
+                className="absolute -right-3.5 -top-3.5 bg-white rounded-full"
+                svgClassname="w-7 h-auto"
+                fill={isIntegrationError ? brandColors.red : brandColors.black}
+              />
+              <div className="p-5">
                 {copy && <MarkdownText markdown={copy} />}
                 {children}
-              </div>
-              <div className="flex flex-wrap bg-black">
-                {buttons.map((buttonConfig, index) => {
-                  const { text, version, width, onClick, isFacebookButton, isDisabled, shouldCloseOnConfirm = true } = buttonConfig
-                  const isFirstButton = index === 0
-                  const isLastButton = index === buttons.length - 1
-                  const ButtonType = isFacebookButton ? ButtonFacebook : Button
+                <div className="flex justify-end mt-8">
+                  {buttons.map((buttonConfig, index) => {
+                    const { text, version, color, onClick, isDisabled, shouldCloseOnConfirm = true } = buttonConfig
 
-                  return (
-                    <ButtonType
-                      key={index}
-                      version={version}
-                      className={[
-                        width === 'half' ? 'w-1/2' : 'w-full',
-                        isLastButton ? 'rounded-t-none rounded-b-dialogue' : 'rounded-none',
-                      ].join(' ')}
-                      onClick={() => {
-                        if (shouldCloseOnConfirm) {
-                          close()
-                        }
-                        onClick()
-                      }}
-                      style={{
-                        borderTop: '1px solid white',
-                        ...(isFirstButton && ! width === 'half' && { borderTop: 'none' }),
-                      }}
-                      isDisabled={isDisabled}
-                      trackComponentName="AlertModal"
-                      fallbackCta={text}
-                    >
-                      {text}
-                    </ButtonType>
-                  )
-                })}
+                    return (
+                      <Button
+                        key={index}
+                        version={version}
+                        color={isIntegrationError ? 'red' : color}
+                        onClick={() => {
+                          if (shouldCloseOnConfirm) {
+                            close()
+                          }
+                          onClick()
+                        }}
+                        className="last:ml-3 xxs:last:ml-4"
+                        isDisabled={isDisabled}
+                        trackComponentName="AlertModal"
+                      >
+                        {text}
+                      </Button>
+                    )
+                  })}
+                </div>
               </div>
             </div>
           </div>
