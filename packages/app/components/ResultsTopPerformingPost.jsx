@@ -6,7 +6,6 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 import PostCardMedia from '@/app/PostCardMedia'
 import ResultsTopPerformingPostStats from '@/app/ResultsTopPerformingPostStats'
-import ResultsTopPerformingPostButton from '@/app/ResultsTopPerformingPostButton'
 
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 
@@ -80,7 +79,6 @@ const ResultsTopPerformingPost = ({
                 className="mb-2"
                 style={{ height: imageHeight, width: imageHeight }}
               />
-              <ResultsTopPerformingPostButton />
             </div>
             <ResultsTopPerformingPostStats
               post={post}

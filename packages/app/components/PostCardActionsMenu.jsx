@@ -24,7 +24,7 @@ const PostCardActionsMenu = ({
 
   const { id: postId } = post
   const { artistId } = React.useContext(ArtistContext)
-  const { goToPostSettings, goToPostResults, goToPostDetails } = usePostsSidePanel()
+  const { goToPostSettings, goToPostDetails } = usePostsSidePanel()
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
@@ -97,10 +97,6 @@ const PostCardActionsMenu = ({
       status,
       setPosts,
     })
-  }
-
-  const openResults = () => {
-    goToPostResults()
   }
 
   const openDetails = () => {
