@@ -33,6 +33,10 @@ export const fetchUpcomingInvoice = async (organizationId) => {
 export const fetchUpdatedInvoice = (organizationId, invoiceId) => {
   const payload = null
   const endpoint = `/organizations/${organizationId}/billing/invoices/${invoiceId}/updated`
+  const errorTracking = {
+    category: 'Billing',
+    action: 'Fetch updated invoice',
+  }
 
-  return requestWithCatch('get', endpoint, payload)
+  return requestWithCatch('get', endpoint, payload, errorTracking)
 }
