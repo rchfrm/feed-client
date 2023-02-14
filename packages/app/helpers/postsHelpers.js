@@ -3,6 +3,7 @@ import * as utils from '@/helpers/utils'
 import { requestWithCatch } from '@/helpers/api'
 import brandColors from '@/constants/brandColors'
 import { getPostTypePlural } from '@/app/copy/PostsPageCopy'
+import { capitalise } from '@/helpers/utils'
 
 export const postsConfig = {
   active: {
@@ -177,6 +178,14 @@ const formatPublishedTime = (time) => {
   const currentYear = moment().format('Y')
   const publishedFormat = publishedYear === currentYear ? 'D MMM' : 'D MMM YYYY'
   return publishedMoment.format(publishedFormat)
+}
+
+// Format rejection reason
+export const formatAdRejectionReason = (reason) => {
+  let formattedReason = reason
+  formattedReason = reason.toLowerCase().replaceAll('_', ' ')
+  formattedReason = capitalise(formattedReason)
+  return formattedReason
 }
 
 // Get post link data
