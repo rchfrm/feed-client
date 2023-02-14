@@ -7,7 +7,6 @@ import PlusIcon from '@/icons/PlusIcon'
 import ChevronDoubleIcon from '@/icons/ChevronDoubleIcon'
 import PencilIcon from '@/icons/PencilIcon'
 import RefreshIcon from '@/icons/RefreshIcon'
-import InsightsIcon from '@/icons/InsightsIcon'
 import { setPostPriority, togglePromotionEnabled } from '@/app/helpers/postsHelpers'
 
 const getControlsStoreState = (state) => ({
@@ -111,15 +110,7 @@ const PostCardActionsMenu = ({
   }
 
   const getAction = React.useCallback(() => {
-    if (status === 'active') {
-      return {
-        name: 'View results',
-        fn: openResults,
-        icon: <InsightsIcon className="w-5 h-auto mr-1" />,
-      }
-    }
-
-    if (status === 'rejected' || (status === 'pending' && index === 0)) {
+    if (status === 'active' || status === 'rejected' || (status === 'pending' && index === 0)) {
       return {
         name: 'Edit ad',
         fn: openSettings,
@@ -178,13 +169,6 @@ const PostCardActionsMenu = ({
           {action?.name}
         </button>
       </li>
-      {status === 'archived' && (
-        <li>
-          <button onClick={openResults} className="mb-2 whitespace-nowrap">
-            Results
-          </button>
-        </li>
-      )}
       <li>
         <button onClick={openSettings} className="mb-2 whitespace-nowrap">
           Settings
