@@ -48,7 +48,9 @@ const PricingPlanUpgradePaymentMethod = ({
     const button = (
       <Button
         onClick={savePaymentMethod}
-        trackComponentName="PricingPlanUpgradeIntro"
+        isLoading={isLoading}
+        isDisabled={! isFormValid}
+        trackComponentName="PricingPlanUpgradePaymentMethod"
         isSidePanel
       >
         Save
@@ -60,7 +62,7 @@ const PricingPlanUpgradePaymentMethod = ({
     )
 
     setSidePanelButton(button)
-  }, [savePaymentMethod, setSidePanelButton])
+  }, [savePaymentMethod, setSidePanelButton, isLoading, isFormValid])
 
   return (
     <div>
