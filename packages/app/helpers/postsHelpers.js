@@ -235,8 +235,8 @@ const getNestedMetric = (post, metric) => {
 export const getPostCallToActionData = (post) => {
   const {
     id,
-    call_to_action: value,
-    options: { campaign_type: campaignType },
+    callToAction: value,
+    campaignType,
   } = post || {}
   return { id, value, campaignType }
 }
@@ -332,6 +332,7 @@ export const formatPostsResponse = (posts) => {
     const adPreviewLinks = getAdPreviewLinks(post)
     return {
       id: post.id,
+      ads: post?.ads,
       postType: post.internal_type || post.subtype || post.type,
       platform: post.platform,
       permalinkUrl: post.permalink_url,
@@ -454,12 +455,7 @@ export const setPostCallToAction = async ({ artistId, callToAction, assetId, cam
   const endpointBase = `/artists/${artistId}/assets/${assetId}/call_to_actions`
   const requestType = isUpdating ? 'patch' : 'post'
   const endpoint = isUpdating ? `${endpointBase}/${callToActionId}` : endpointBase
-  const payload = {
-    call_to_action: callToAction,
-    options: {
-      campaign_type: campaignType,
-    },
-  }
+  const payload = isUpdating ? { callToAction } : { assetId, callToAction, campaignType }
   const errorTracking = {
     category: 'Post call to action',
     action: 'Set post call to action',
