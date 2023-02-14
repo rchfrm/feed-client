@@ -60,6 +60,9 @@ const PostsLoader = ({
       setHasLoadedAll(true)
     }
 
+    const lastPost = posts[posts.length - 1]
+    cursor.current = lastPost?.id
+
     if (isLoadingMore) {
       setPosts({
         type: 'add-posts',
