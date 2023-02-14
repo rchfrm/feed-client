@@ -562,8 +562,8 @@ export const getPostCallToActions = async (artistId, assetId) => {
 
   const callToActions = res.map((callToAction) => ({
     id: callToAction.id,
-    value: callToAction.call_to_action,
-    campaignType: callToAction.options.campaign_type,
+    value: callToAction.callToAction,
+    campaignType: callToAction.campaignType,
   }))
 
   return { res: callToActions, error }
