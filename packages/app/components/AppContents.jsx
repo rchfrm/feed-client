@@ -12,12 +12,23 @@ import SideNav from '@/app/SideNav'
 import TheFooter from '@/app/TheFooter'
 import PopupModal from '@/PopupModal'
 import AlertModal from '@/AlertModal'
+import { useRouter } from 'next/router'
+import * as ROUTES from '@/app/constants/routes'
 
 import BrowserStoreSetup from '@/BrowserStoreSetup'
 
 const AppContents = ({ children }) => {
+  const { pathname } = useRouter()
+  const isGeneralPage = ROUTES.generalPages.includes(pathname)
+
   return (
-    <div id="container" className="page--content">
+    <div
+      id="container"
+      className={[
+        'page--content',
+        isGeneralPage ? 'md:!pt-40' : null,
+      ].join(' ')}
+    >
       <UserProvider>
         <InterfaceContextProvider>
           <ArtistProvider>
