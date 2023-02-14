@@ -34,7 +34,7 @@ const Header = () => {
     >
       <header className={[
         'relative top-0 left-0 right-0',
-        '-mx-3 sm:-mx-8 px-4 py-1 h-15',
+        '-mx-3 sm:-mx-8 px-4 sm:px-8 py-1 h-15',
         'flex justify-between items-center',
         'bg-black',
       ].join(' ')}

@@ -43,6 +43,7 @@ const NotificationCurrentInfoButton = ({
           isLoading={loading}
           onClick={onClick}
           className="w-full rounded-none"
+          fallbackCta={ctaText}
           trackComponentName="NotificationCurrentInfoButton"
         >
           {ctaText}

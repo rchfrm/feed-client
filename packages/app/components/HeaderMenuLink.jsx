@@ -7,9 +7,9 @@ import NotificationDot from '@/elements/NotificationDot'
 import ActiveLink from '@/elements/ActiveLink'
 import PrimaryLinkIcon from '@/app/PrimaryLinkIcon'
 
-const getTotalActiveNotifications = (state) => {
-  return state.totalActiveNotifications
-}
+const getNotificationsStoreState = (state) => ({
+  totalActiveNotifications: state.totalActiveNotifications,
+})
 
 const HeaderMenuLink = ({
   href,
@@ -21,7 +21,7 @@ const HeaderMenuLink = ({
   shouldShowDot,
 }) => {
   const [hoverRef, isHover] = useHover()
-  const totalActiveNotifications = useNotificationsStore(getTotalActiveNotifications)
+  const { totalActiveNotifications } = useNotificationsStore(getNotificationsStoreState)
   const signOut = useSignOut()
 
   return (
@@ -39,7 +39,7 @@ const HeaderMenuLink = ({
               className="mr-3"
             />
             {title}
-            {title === 'notifications' && totalActiveNotifications > 0 && (
+            {title === 'Notifications' && totalActiveNotifications > 0 && (
               <span className="text-red">&nbsp;{totalActiveNotifications}</span>
             )}
             {shouldShowDot && (
