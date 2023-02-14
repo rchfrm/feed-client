@@ -25,9 +25,9 @@ const postsReducer = (draftState, postsAction) => {
     postId,
     status,
     newStatus,
-    linkSpecs,
-    adMessages,
+    links,
     callToActions,
+    adMessages,
   } = payload
 
   const index = draftState[status].findIndex((draftPost) => draftPost.id === postId)
@@ -47,8 +47,8 @@ const postsReducer = (draftState, postsAction) => {
       draftState[status].splice(index, 1)
       draftState[newStatus].unshift(post)
       break
-    case 'update-link-specs':
-      draftState[status][index].linkSpecs = linkSpecs
+    case 'update-links':
+      draftState[status][index].links = links
       break
     case 'update-call-to-actions':
       draftState[status][index].callToActions = callToActions

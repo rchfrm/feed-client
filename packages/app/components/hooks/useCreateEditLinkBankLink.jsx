@@ -204,7 +204,7 @@ const useCreateEditLinkBankLink = ({
         version: 'secondary',
       },
       {
-        text: isPostLink ? 'Set and save' : 'Save',
+        text: isPostLink ? 'Add' : 'Save',
         onClick: () => {},
         id: 'save',
       },

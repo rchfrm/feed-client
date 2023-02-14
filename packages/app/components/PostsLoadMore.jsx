@@ -10,8 +10,9 @@ const PostsLoadMore = ({
   isLoadingMore,
   setIsLoadingMore,
   hasLoadedAll,
+  postsHidden,
 }) => {
-  const shouldShowButton = posts.length > 0 && ! hasLoadedAll && ! isLoading
+  const shouldShowButton = ! postsHidden && posts.length > 0 && ! hasLoadedAll && ! isLoading
 
   const handleClick = () => {
     setIsLoadingMore(true)
@@ -39,6 +40,11 @@ PostsLoadMore.propTypes = {
   isLoadingMore: PropTypes.bool.isRequired,
   setIsLoadingMore: PropTypes.func.isRequired,
   hasLoadedAll: PropTypes.bool.isRequired,
+  postsHidden: PropTypes.bool,
+}
+
+PostsLoadMore.defaultProps = {
+  postsHidden: false,
 }
 
 export default PostsLoadMore

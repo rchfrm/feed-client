@@ -5,7 +5,7 @@ import usePrevious from 'use-previous'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsContainer from '@/app/PostsContainer'
 import Error from '@/elements/Error'
-import { postsConfig, getPosts, getCursor } from '@/app/helpers/postsHelpers'
+import { postsConfig, getPosts } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
   status,
@@ -26,15 +26,6 @@ const PostsLoader = ({
 
   const { artistId } = React.useContext(ArtistContext)
   const previousIsLoadingMore = usePrevious(isLoadingMore)
-
-  const setCursor = (posts) => {
-    const lastPost = posts[posts.length - 1]
-
-    if (lastPost?._links.after) {
-      const nextCursor = getCursor(lastPost)
-      cursor.current = nextCursor
-    }
-  }
 
   useAsyncEffect(async (isMounted) => {
     if (! artistId || (! isLoadingMore && previousIsLoadingMore)) {
@@ -69,7 +60,8 @@ const PostsLoader = ({
       setHasLoadedAll(true)
     }
 
-    setCursor(posts)
+    const lastPost = posts[posts.length - 1]
+    cursor.current = lastPost?.id
 
     if (isLoadingMore) {
       setPosts({

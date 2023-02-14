@@ -45,12 +45,13 @@ const PostResults = ({
 }
 
 PostResults.propTypes = {
-  results: PropTypes.object.isRequired,
+  results: PropTypes.object,
   shouldShowTitle: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostResults.defaultProps = {
+  results: null,
   shouldShowTitle: true,
   className: null,
 }
