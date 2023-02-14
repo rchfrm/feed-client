@@ -387,14 +387,6 @@ export const formatPostsMinimal = (posts) => {
   return formattedPosts
 }
 
-// GET POST CURSOR
-export const getCursor = (post = {}) => {
-  const { _links: { after = {} } } = post
-  const { href: afterHref } = after
-  if (! afterHref) return
-  return afterHref.split('after=')[1]
-}
-
 // GET POST RESULTS CONFIG
 export const postResultsConfig = [
   'spend',
