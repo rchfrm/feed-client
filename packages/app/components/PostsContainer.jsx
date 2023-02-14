@@ -33,6 +33,7 @@ const PostsContainer = ({
   const [isOpen, setIsOpen] = React.useState(status === 'active')
   const [isPostActionsOpen, setIsPostActionsOpen] = React.useState(false)
   const { isControlsLoading } = useControlsStore(getControlsStoreState)
+  const hidePosts = status === 'active' && isSpendingPaused
 
   const { width } = useOnResize()
   const containerRef = React.useRef(null)
@@ -83,7 +84,7 @@ const PostsContainer = ({
             <Spinner width={30} />
           </div>
         ) : (
-          status === 'active' && isSpendingPaused ? (
+          hidePosts ? (
             <PostsContainerSpendingPaused />
           ) : (
             <>
@@ -114,6 +115,7 @@ const PostsContainer = ({
           isLoadingMore={isLoadingMore}
           setIsLoadingMore={setIsLoadingMore}
           hasLoadedAll={hasLoadedAll}
+          postsHidden={hidePosts}
         />
       </div>
     </div>
