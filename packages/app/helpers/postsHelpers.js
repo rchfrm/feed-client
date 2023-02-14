@@ -249,8 +249,8 @@ export const getPostLinkSpecData = (post) => {
 export const getPostCallToActionData = (post) => {
   const {
     id,
-    call_to_action: value,
-    options: { campaign_type: campaignType },
+    callToAction: value,
+    campaignType,
   } = post || {}
   return { id, value, campaignType }
 }
@@ -472,12 +472,7 @@ export const setPostCallToAction = async ({ artistId, callToAction, assetId, cam
   const endpointBase = `/artists/${artistId}/assets/${assetId}/call_to_actions`
   const requestType = isUpdating ? 'patch' : 'post'
   const endpoint = isUpdating ? `${endpointBase}/${callToActionId}` : endpointBase
-  const payload = {
-    call_to_action: callToAction,
-    options: {
-      campaign_type: campaignType,
-    },
-  }
+  const payload = isUpdating ? { callToAction } : { assetId, callToAction, campaignType }
   const errorTracking = {
     category: 'Post call to action',
     action: 'Set post call to action',
@@ -557,8 +552,8 @@ export const getPostCallToActions = async (artistId, assetId) => {
 
   const callToActions = res.map((callToAction) => ({
     id: callToAction.id,
-    value: callToAction.call_to_action,
-    campaignType: callToAction.options.campaign_type,
+    value: callToAction.callToAction,
+    campaignType: callToAction.campaignType,
   }))
 
   return { res: callToActions, error }
