@@ -2,9 +2,9 @@ import React from 'react'
 import moment from 'moment'
 import useAsyncEffect from 'use-async-effect'
 import LinkIcon from '@/icons/LinkIcon'
+import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-
-import { fetchArchivedInvoices } from '@/app/helpers/invoiceHelpers'
+import { fetchArchivedInvoices, fetchUpdatedInvoice } from '@/app/helpers/invoiceHelpers'
 import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
 
@@ -33,6 +33,17 @@ const BillingInvoiceList = ({
 
   if (invoicesLoading) return null
 
+  const handleClick = async (invoiceId) => {
+    const { res: invoice, error } = await fetchUpdatedInvoice(organization.id, invoiceId)
+
+    if (error) {
+      setError(error)
+      return
+    }
+
+    window.open(invoice.invoice_pdf, '_blank')
+  }
+
   return (
     <div>
       <h3 className="font-bold">Past invoices</h3>
@@ -42,13 +53,27 @@ const BillingInvoiceList = ({
         <>
           <Error error={error} />
           <ul className="text-lg">
-            {invoices.map(({ id, created_at: date, invoice_pdf: link }) => {
+            {invoices.map(({ id, created_at: createdAt, invoice_pdf: link, updated_at: updatedAt }) => {
+              const daysSinceInvoiceUpdated = moment().diff(moment(updatedAt), 'days')
+              const shouldUpdateInvoice = daysSinceInvoiceUpdated >= 60
+
               return (
-                <li key={id} className="flex mb-3 last:mb-0">
-                  <a href={link} className="flex items-center" target="_blank" rel="noreferrer noopener">
-                    <LinkIcon className="w-5 h-auto" style={{ transform: 'translateY(0.1rem)' }} />
-                    <p className="ml-1 mb-0">{formatDate(date)}</p>
-                  </a>
+                <li key={id} className={['flex last:mb-0', shouldUpdateInvoice ? 'mb-2' : 'mb-3'].join(' ')}>
+                  {shouldUpdateInvoice ? (
+                    <Button
+                      version="text"
+                      onClick={() => handleClick(id)}
+                      trackComponentName="BillingInvoiceList"
+                    >
+                      <LinkIcon className="w-5 h-auto mr-1" style={{ transform: 'translateY(0.1rem)' }} />
+                      {formatDate(createdAt)}
+                    </Button>
+                  ) : (
+                    <a href={link} className="flex items-center" target="_blank" rel="noreferrer noopener">
+                      <LinkIcon className="w-5 h-auto" style={{ transform: 'translateY(0.1rem)' }} />
+                      <p className="ml-1 mb-0">{formatDate(createdAt)}</p>
+                    </a>
+                  )}
                 </li>
               )
             })}

@@ -27,3 +27,12 @@ export const fetchUpcomingInvoice = async (organizationId) => {
 
   return { res }
 }
+
+// * UPDATED INVOICE
+// ------------------
+export const fetchUpdatedInvoice = (organizationId, invoiceId) => {
+  const payload = null
+  const endpoint = `/organizations/${organizationId}/billing/invoices/${invoiceId}/updated`
+
+  return requestWithCatch('get', endpoint, payload)
+}
