@@ -4,7 +4,7 @@ import useAsyncEffect from 'use-async-effect'
 import LinkIcon from '@/icons/LinkIcon'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
-import { fetchArchivedInvoices, fetchUpdatedInvoice } from '@/app/helpers/invoiceHelpers'
+import { fetchArchivedInvoices, fetchRefreshedInvoice } from '@/app/helpers/invoiceHelpers'
 import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
 
@@ -34,7 +34,7 @@ const BillingInvoiceList = ({
   if (invoicesLoading) return null
 
   const handleClick = async (invoiceId) => {
-    const { res: invoice, error } = await fetchUpdatedInvoice(organization.id, invoiceId)
+    const { res: invoice, error } = await fetchRefreshedInvoice(organization.id, invoiceId)
 
     if (error) {
       setError(error)

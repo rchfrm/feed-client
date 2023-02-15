@@ -30,12 +30,12 @@ export const fetchUpcomingInvoice = async (organizationId) => {
 
 // * UPDATED INVOICE
 // ------------------
-export const fetchUpdatedInvoice = (organizationId, invoiceId) => {
+export const fetchRefreshedInvoice = (organizationId, invoiceId) => {
   const payload = null
-  const endpoint = `/organizations/${organizationId}/billing/invoices/${invoiceId}/updated`
+  const endpoint = `/organizations/${organizationId}/billing/invoices/${invoiceId}/refresh`
   const errorTracking = {
     category: 'Billing',
-    action: 'Fetch updated invoice',
+    action: 'Fetch refreshed invoice',
   }
 
   return requestWithCatch('get', endpoint, payload, errorTracking)

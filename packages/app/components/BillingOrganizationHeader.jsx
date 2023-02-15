@@ -9,7 +9,7 @@ const BillingOrganizationHeader = ({
   selectedOrgId,
   setSelectedOrgId,
 }) => {
-  if (! selectedOrgId || ! organizationInvites.length) {
+  if (! selectedOrgId && ! organizationInvites.length) {
     return null
   }
 
