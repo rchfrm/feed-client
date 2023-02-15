@@ -55,11 +55,11 @@ const BillingInvoiceList = ({
           <ul className="text-lg">
             {invoices.map(({ id, created_at: createdAt, invoice_pdf: link, updated_at: updatedAt }) => {
               const daysSinceInvoiceUpdated = moment().diff(moment(updatedAt), 'days')
-              const shouldUpdateInvoice = daysSinceInvoiceUpdated >= 60
+              const shouldRefreshInvoice = daysSinceInvoiceUpdated >= 60
 
               return (
-                <li key={id} className={['flex last:mb-0', shouldUpdateInvoice ? 'mb-2' : 'mb-3'].join(' ')}>
-                  {shouldUpdateInvoice ? (
+                <li key={id} className={['flex last:mb-0', shouldRefreshInvoice ? 'mb-2' : 'mb-3'].join(' ')}>
+                  {shouldRefreshInvoice ? (
                     <Button
                       version="text"
                       onClick={() => handleClick(id)}

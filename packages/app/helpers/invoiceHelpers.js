@@ -28,7 +28,7 @@ export const fetchUpcomingInvoice = async (organizationId) => {
   return { res }
 }
 
-// * UPDATED INVOICE
+// * REFRESHED INVOICE
 // ------------------
 export const fetchRefreshedInvoice = (organizationId, invoiceId) => {
   const payload = null
