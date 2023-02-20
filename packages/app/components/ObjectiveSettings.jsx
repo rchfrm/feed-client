@@ -24,7 +24,7 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasProPlan, hasSetUpProfile } = artist
+  const { hasGrowthPlan, hasSetUpProfile } = artist
   const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
@@ -130,7 +130,7 @@ const ObjectiveSettings = () => {
               isLoading={isLoading && isObjectiveChange}
               error={error}
             />
-            {hasGrowthPlan && ! hasProPlan && (
+            {! hasGrowthPlan && (
               <DisabledActionPrompt
                 section="objective-sales"
                 version="small"

@@ -237,12 +237,11 @@ ${list.join('\n')}`
       const [planPrefix] = plan.split('_')
       return `Finish upgrade to <span className="text-insta font-bold">${capitalise(planPrefix)}</span>`
     }
-    const shouldUpgradeToPro = section === 'objective-sales'
     const setupBaseString = 'Continue set-up to'
     const noPlanBaseString = section === 'set-budget'
       ? 'Choose a plan'
-      : `Choose the <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span> plan`
-    const planBaseString = `Upgrade to <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span>`
+      : `Choose the <span className="text-insta font-bold">Growth</span> plan`
+    const planBaseString = `Upgrade to <span className="text-insta font-bold">Growth</span>`
     const baseString = hasCancelledPlan ? noPlanBaseString : planBaseString
 
     if (! hasSetUpProfile) {
