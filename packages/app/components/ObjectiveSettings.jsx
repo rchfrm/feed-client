@@ -8,7 +8,6 @@ import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjective
 import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
-import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/controlsPageCopy'
@@ -130,13 +129,6 @@ const ObjectiveSettings = () => {
               isLoading={isLoading && isObjectiveChange}
               error={error}
             />
-            {! hasGrowthPlan && (
-              <DisabledActionPrompt
-                section="objective-sales"
-                version="small"
-                className="-mt-6"
-              />
-            )}
           </div>
         </DisabledSection>
         {hasGrowthObjective ? (

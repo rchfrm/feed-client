@@ -51,7 +51,7 @@ const DisabledActionPrompt = ({
       className={[
         'flex items-center',
         'text-left',
-        shouldSetHeight ? 'h-5' : null,
+        shouldSetHeight ? 'h-6' : null,
         shouldSetHeight && isSmallSize ? 'h-4' : null,
         isButton ? 'underline' : null,
         isSmallSize ? 'text-xs' : null,
