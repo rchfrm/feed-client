@@ -183,7 +183,7 @@ const formatPublishedTime = (time) => {
 // Format rejection reason
 export const formatAdRejectionReason = (reason) => {
   let formattedReason = reason
-  formattedReason = reason.toLowerCase().replaceAll('_', ' ')
+  formattedReason = reason?.toLowerCase().replaceAll('_', ' ')
   formattedReason = capitalise(formattedReason)
   return formattedReason
 }
