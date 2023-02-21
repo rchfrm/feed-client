@@ -22,7 +22,7 @@ export const pricingNumbers = {
     serviceFeePercentage: 0.1,
     maxSpendMultiple: 0,
   },
-  basic: {
+  free: {
     monthlyCost: {
       GBP: 0,
       USD: 0,
@@ -33,7 +33,7 @@ export const pricingNumbers = {
       SEK: 0,
     },
     serviceFeePercentage: 0.1,
-    maxSpendMultiple: 0,
+    maxSpendMultiple: 10,
   },
   growth: {
     monthlyCost: {
@@ -46,7 +46,7 @@ export const pricingNumbers = {
       SEK: 300,
     },
     serviceFeePercentage: 0,
-    maxSpendMultiple: 10,
+    maxSpendMultiple: 20,
   },
   pro: {
     monthlyCost: {
@@ -64,25 +64,19 @@ export const pricingNumbers = {
   annualDiscount: 0.2,
 }
 
-const { basic, growth, pro } = pricingNumbers
+const { free, growth, pro } = pricingNumbers
 
 export const pricingPlans = [
   {
-    name: 'basic',
+    name: 'free',
     description: 'Audience growth for independent artists. Suitable for any level of budget.',
-    monthlyCost: basic.monthlyCost,
-    serviceFeePercentage: basic.serviceFeePercentage,
+    monthlyCost: free.monthlyCost,
+    serviceFeePercentage: free.serviceFeePercentage,
     features: [
-      'Promote on Facebook & Instagram',
-      'Audience growth objectives',
-      'Lookalikes and retargeting',
-      '100% automated campaign setup',
-      'Promote posts and stories',
-      'Continuous A/B testing',
       'One user and one profile*',
       'Organic insights & benchmarks',
     ],
-    maxSpendMultiple: basic.maxSpendMultiple,
+    maxSpendMultiple: free.maxSpendMultiple,
   },
   {
     name: 'growth',
@@ -91,12 +85,6 @@ export const pricingPlans = [
     serviceFeePercentage: growth.serviceFeePercentage,
     features: [
       'Everything in **Basic** plus...',
-      'Growth and website view objectives',
-      'Custom targeting locations',
-      'Prioritise a post for instant promotion',
-      'Edit individual ad text, links and CTA',
-      'Override automated post selection',
-      'Meta pixel based retargeting',
       'Connect unlimited profiles^',
     ],
     maxSpendMultiple: growth.maxSpendMultiple,
@@ -108,8 +96,6 @@ export const pricingPlans = [
     serviceFeePercentage: pro.serviceFeePercentage,
     features: [
       'Everything in **Growth** plus...',
-      'Run sales or pre-save ads (conversion ads)',
-      'Clear reporting on return from ad spend',
     ],
     maxSpendMultiple: pro.maxSpendMultiple,
   },
