@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
 import PostRejectedReason from '@/app/PostRejectedReason'
 import PostsNone from '@/app/PostsNone'
-import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
 
 const PostsList = ({
   posts,
@@ -44,11 +43,6 @@ const PostsList = ({
             </div>
           )
         })
-      )}
-      {status === 'pending' && (
-        <PostCardCreateAdButton
-          className="col-span-6 sm:col-span-3 lg:col-span-2"
-        />
       )}
     </ul>
   )
