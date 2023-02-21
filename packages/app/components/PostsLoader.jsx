@@ -94,9 +94,10 @@ const PostsLoader = ({
 
     cursor.current = null
     setHasLoadedAll(false)
+    setFilterBy({})
   }, [artistId])
 
-  if (status === 'rejected' && ! posts.length) {
+  if (status === 'rejected' && ! posts.length && ! Object.keys(filterBy).length) {
     return
   }
 
