@@ -12,7 +12,7 @@ import { currencies } from '@/constants/pricing'
 
 import { capitalise } from '@/helpers/utils'
 
-export default function PricingPlan({ plan, showAnnualPricing, currency }) {
+export default function PricingPlan({ plan, currency }) {
   const {
     name,
     description,
@@ -50,7 +50,7 @@ export default function PricingPlan({ plan, showAnnualPricing, currency }) {
           'lg:mb-5',
         ].join(' ')}
       />
-      <PricingPlanMonthlyCost amount={monthlyCost[currency]} showAnnualPricing={showAnnualPricing} currencyCode={currency} />
+      <PricingPlanMonthlyCost amount={monthlyCost[currency]} currencyCode={currency} />
       <PricingPlanServiceFee percentage={serviceFeePercentage} />
       <TryFeed
         buttonText="Get Started"
@@ -71,6 +71,5 @@ PricingPlan.propTypes = {
     features: PropTypes.arrayOf(PropTypes.string),
     maxSpendMultiple: PropTypes.number,
   }).isRequired,
-  showAnnualPricing: PropTypes.bool.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
 }

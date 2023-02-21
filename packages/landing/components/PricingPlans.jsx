@@ -1,5 +1,4 @@
 import React from 'react'
-import PricingPeriodToggle from '@/PricingPeriodToggle'
 import PricingCurrencySelect from '@/PricingCurrencySelect'
 import PricingPlansWrapper from '@/landing/PricingPlansWrapper'
 import MarkdownText from '@/elements/MarkdownText'
@@ -13,7 +12,6 @@ const {
 
 export default function PricingPlans() {
   const { maxSpendMultiple, monthlyCost } = pricingPlans.find((plan) => plan.name === 'pro')
-  const [showAnnualPricing, setShowAnnualPricing] = React.useState(false)
   const [currency, setCurrency] = React.useState('GBP')
   const [maxSpend, setMaxSpend] = React.useState(monthlyCost[currency] * maxSpendMultiple)
 
@@ -26,30 +24,14 @@ export default function PricingPlans() {
         'col-span-12',
       ].join(' ')}
     >
-      <div
-        className={[
-          'flex flex-column xs:flex-row sm:items-center xs:justify-between',
-          "after:content-[''] after:flex-1",
-          'mb-5',
-        ].join(' ')}
-      >
-        <div className="flex flex-1 mb-2 xs:mb-0">
-          <PricingCurrencySelect
-            currency={currency}
-            setCurrency={setCurrency}
-            className="xs:ml-2 w-[75px]"
-          />
-        </div>
-        <PricingPeriodToggle
-          showAnnualPricing={showAnnualPricing}
-          setShowAnnualPricing={setShowAnnualPricing}
-          className="flex items-center"
-          buttonPillClassName="bg-insta border-insta"
+      <div className="mb-5">
+        <PricingCurrencySelect
+          currency={currency}
+          setCurrency={setCurrency}
         />
       </div>
       <PricingPlansWrapper
         plans={pricingPlans}
-        showAnnualPricing={showAnnualPricing}
         currency={currency}
       />
       <MarkdownText markdown={twoThousandPlus(currency, maxSpend)} className="text-center my-10" />
