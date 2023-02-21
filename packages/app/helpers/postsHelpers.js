@@ -226,9 +226,11 @@ const getAdPreviewLinks = (post) => {
 
 // FORMAT POST RESPONSES
 export const formatPostsResponse = (posts) => {
-  return posts.map((post) => {
-    if (! post) return null
+  if (! posts) {
+    return []
+  }
 
+  return posts.map((post) => {
     const { message } = post
     const mediaType = post.display?.type
     const media = post.display?.media?.original?.source || post.display?.media?.original?.picture
