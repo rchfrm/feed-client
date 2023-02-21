@@ -7,12 +7,7 @@ const GetStartedPricingPlansHeader = ({
   setCurrency,
 }) => {
   return (
-    <div
-      className={[
-        'flex flex-row sm:justify-center',
-        'mb-5',
-      ].join(' ')}
-    >
+    <div className="mb-5">
       <PricingCurrencySelect
         currency={currency}
         setCurrency={setCurrency}
