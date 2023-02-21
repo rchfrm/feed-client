@@ -113,8 +113,6 @@ const GetStartedPricing = () => {
               <GetStartedPricingPlansHeader
                 currency={currency}
                 setCurrency={setCurrency}
-                showAnnualPricing={showAnnualPricing}
-                setShowAnnualPricing={setShowAnnualPricing}
               />
             )}
             <GetStartedPricingPlans
