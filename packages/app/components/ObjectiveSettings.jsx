@@ -23,7 +23,7 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasSetUpProfile } = artist
+  const { hasBasicPlan, hasSetUpProfile } = artist
   const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
@@ -109,10 +109,10 @@ const ObjectiveSettings = () => {
         section="objective"
         isDisabled={! hasSetUpProfile}
       >
-        <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', hasGrowthPlan ? 'mb-12' : 'mb-4'].join(' ')} />
+        <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', ! hasBasicPlan ? 'mb-12' : 'mb-4'].join(' ')} />
         <DisabledSection
           section="objective-traffic"
-          isDisabled={! hasGrowthPlan && hasSetUpProfile}
+          isDisabled={hasBasicPlan && hasSetUpProfile}
         >
           <div className="relative mb-4">
             <ObjectiveSettingsObjectiveSelector

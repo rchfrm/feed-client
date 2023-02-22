@@ -50,7 +50,6 @@ const TargetingBudget = ({
       hasSetUpProfile,
       hasGrowthPlan,
       hasProPlan,
-      hasLegacyPlan,
       hasNoPlan,
       hasCancelledPlan,
     },
@@ -73,7 +72,7 @@ const TargetingBudget = ({
   const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
   const mayHitGrowthTierMaxBudget = hasGrowthPlan && ! hasProPlan && targetingState.budget > growthTierMaxDailyBudget
-  const mayHitProTierMaxBudget = hasProPlan && ! hasLegacyPlan && targetingState.budget > proTierMaxDailyBudget
+  const mayHitProTierMaxBudget = hasProPlan && targetingState.budget > proTierMaxDailyBudget
 
   const budgetData = {
     currency: currencyCode,

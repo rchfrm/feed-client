@@ -151,7 +151,7 @@ const GetStartedPaymentMethod = () => {
 
     const profileUpdated = profiles.find((profile) => profile.id === artistId)
     setStatus(profileUpdated.status)
-    setPlan(profileUpdated.plan)
+    setPlan(profileUpdated)
 
     if (profileUpdated.plan === 'active' || ! clientSecret) {
       updateOrganizationArtists(profiles)

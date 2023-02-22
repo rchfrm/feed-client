@@ -79,7 +79,7 @@ const GetStartedPricing = () => {
     }
 
     // Update artist context
-    setPlan(updatedArtist.plan)
+    setPlan(updatedArtist)
 
     setIsLoading(false)
     next()
