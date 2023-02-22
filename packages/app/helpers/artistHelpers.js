@@ -548,17 +548,17 @@ export const objectives = [
   {
     name: 'Audience growth',
     value: 'growth',
-    plan: 'basic',
+    isRestricted: false,
   },
   {
     name: 'Website visits',
     value: 'traffic',
-    plan: 'growth',
+    isRestricted: false,
   },
   {
     name: 'Website sales',
     value: 'sales',
-    plan: 'pro',
+    isRestricted: true,
   },
 ]
 

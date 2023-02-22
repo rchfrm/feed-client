@@ -71,7 +71,7 @@ const GetStartedPaymentMethod = () => {
 
   const [planPrefix, planPeriod] = plan.split('_')
 
-  const isPaymentRequired = status !== 'active' && planPrefix !== 'basic'
+  const isPaymentRequired = status !== 'active' && planPrefix !== 'free'
   const profilePlans = React.useMemo(() => ({ [artistId]: plan }), [artistId, plan])
   const shouldShowPromoCodeInput = false
 

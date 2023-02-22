@@ -20,8 +20,6 @@ const GetStartedPricingPlans = ({
 }) => {
   const { organizationArtists } = useBillingStore(getBillingStoreState)
   const hasMultipleProfiles = organizationArtists.some((artist) => !! artist.plan && artist.status === 'active')
-
-  const hasGrowthObjective = objective === 'growth'
   const hasSalesObjective = objective === 'sales'
 
   const openPricingPlanReadMoreSidePanel = useOpenPricingPlanReadMoreSidePanel()
@@ -34,7 +32,7 @@ const GetStartedPricingPlans = ({
     <div className="col-span-12 sm:mt-12 mb-10">
       <div className="grid grid-cols-12 gap-4">
         {pricingPlans.map((plan, index) => {
-          const isDisabled = (plan.name === 'basic' && ! hasGrowthObjective) || (plan.name === 'growth' && hasSalesObjective)
+          const isDisabled = (plan.name === 'free' && hasSalesObjective)
 
           // Don't show free plan if user already has more than 1 profile
           if (hasMultipleProfiles && plan.name === 'free') return

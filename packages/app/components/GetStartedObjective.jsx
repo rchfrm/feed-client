@@ -35,7 +35,6 @@ const GetStartedObjective = () => {
   const { plan: storedPlan } = wizardState || {}
   const plan = artist?.plan || storedPlan
   const [planPrefix] = plan?.split('_') || []
-  const hasBasicPlan = planPrefix === 'basic'
   const hasFreePlan = planPrefix === 'free'
 
   const unsetDefaultLink = (artist) => {
@@ -133,7 +132,7 @@ const GetStartedObjective = () => {
           {isLoading
             ? <Spinner />
             : objectives.map((objective) => {
-              const isDisabled = (hasBasicPlan && objective.value !== 'growth') || (hasFreePlan && objective.value === 'sales')
+              const isDisabled = hasFreePlan && objective.value === 'sales'
 
               return (
                 <GetStartedObjectiveButton

@@ -4,6 +4,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import MarkdownText from '@/elements/MarkdownText'
 import DisabledSection from '@/app/DisabledSection'
+import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjectiveSelector'
 import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
@@ -23,7 +24,7 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasBasicPlan, hasSetUpProfile } = artist
+  const { hasFreePlan, hasBasicPlan, hasSetUpProfile } = artist
   const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
@@ -129,6 +130,13 @@ const ObjectiveSettings = () => {
               isLoading={isLoading && isObjectiveChange}
               error={error}
             />
+            {hasFreePlan && (
+              <DisabledActionPrompt
+                section="objective-sales"
+                version="small"
+                className="-mt-6"
+              />
+            )}
           </div>
         </DisabledSection>
         {hasGrowthObjective ? (
