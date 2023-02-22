@@ -32,8 +32,17 @@ export const pricingNumbers = {
       NOK: 0,
       SEK: 0,
     },
+    maxSpend: {
+      GBP: 100,
+      USD: 100,
+      EUR: 100,
+      CAD: 200,
+      AUD: 200,
+      NOK: 1000,
+      SEK: 1000,
+    },
     serviceFeePercentage: 0.1,
-    maxSpendMultiple: 10,
+    maxSpendMultiple: 0,
   },
   growth: {
     monthlyCost: {
@@ -61,7 +70,6 @@ export const pricingNumbers = {
     serviceFeePercentage: 0,
     maxSpendMultiple: 40,
   },
-  annualDiscount: 0.2,
 }
 
 const { free, growth, pro } = pricingNumbers
@@ -76,7 +84,7 @@ export const pricingPlans = [
       'One user and one profile*',
       'Organic insights & benchmarks',
     ],
-    maxSpendMultiple: free.maxSpendMultiple,
+    maxSpend: free.maxSpend,
   },
   {
     name: 'growth',
