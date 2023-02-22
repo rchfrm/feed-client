@@ -5,7 +5,6 @@ import { getCurrencySymbol } from '@/helpers/utils'
 const GetStartedPricingPlanMonthlyCost = ({
   amount,
   currency,
-  showAnnualPricing,
   isDisabled,
 }) => {
   const currencySymbol = getCurrencySymbol(currency)
@@ -28,17 +27,13 @@ const GetStartedPricingPlanMonthlyCost = ({
         >
           {currencySymbol}
         </p>
-        {showAnnualPricing && amount > 0 && (
-          <p className="self-start line-through text-grey-dark">{amount}</p>
-        )}
         <p
           className={[
             'text-2xl sm:text-7xl font-bold',
             'mb-0 pr-2',
-            showAnnualPricing && amount > 0 && ! isDisabled ? 'text-green' : null,
           ].join(' ')}
         >
-          {showAnnualPricing ? amount * 0.8 : amount}
+          {amount}
         </p>
       </div>
       <p className="text-xs sm:text-base mb-0 sm-mb-5">per month</p>
@@ -49,12 +44,7 @@ const GetStartedPricingPlanMonthlyCost = ({
 GetStartedPricingPlanMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
-  showAnnualPricing: PropTypes.bool,
   isDisabled: PropTypes.bool.isRequired,
-}
-
-GetStartedPricingPlanMonthlyCost.defaultProps = {
-  showAnnualPricing: false,
 }
 
 export default GetStartedPricingPlanMonthlyCost

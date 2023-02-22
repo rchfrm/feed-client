@@ -39,8 +39,6 @@ const profilesToUpgradeReducer = (draftState, action) => {
 const PricingPlanUpgradeSidePanel = ({ section }) => {
   const { artist } = React.useContext(ArtistContext)
   const { hasGrowthPlan, hasCancelledPlan } = artist
-  const [, planPeriod] = artist?.plan?.split('_') || []
-  const isAnnualPricing = planPeriod === 'annual'
   const isUpgradeToPro = hasGrowthPlan && ! hasCancelledPlan
 
   const { setSidePanelButton, toggleSidePanel } = React.useContext(SidePanelContext)
@@ -52,6 +50,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     defaultPaymentMethod,
     organizationArtists,
   } = useBillingStore(getBillingStoreState)
+
   const hasBillingAccess = ! orgLoading && !! organization.id
   const noOrgArtistsActive = organizationArtists.every((artist) => artist.status !== 'active')
   const currencyCode = defaultPaymentMethod?.currency || artistCurrency
@@ -116,7 +115,6 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       isUpgradeToPro,
       canChooseBasic,
       hasBillingAccess,
-      isAnnualPricing,
     },
   )
 

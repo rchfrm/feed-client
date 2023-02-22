@@ -29,7 +29,6 @@ const PricingPlanUpgradePayment = ({
   prorationsPreview,
   setProrationsPreview,
   canChooseBasic,
-  isAnnualPricing,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
@@ -156,7 +155,6 @@ const PricingPlanUpgradePayment = ({
         setProfilesToUpgrade={setProfilesToUpgrade}
         prorationsPreview={prorationsPreview}
         setProrationsPreview={setProrationsPreview}
-        isAnnualPricing={isAnnualPricing}
       />
       <Error error={error} />
     </div>

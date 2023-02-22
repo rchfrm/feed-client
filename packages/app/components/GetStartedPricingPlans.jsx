@@ -13,7 +13,6 @@ const getBillingStoreState = (state) => ({
 })
 
 const GetStartedPricingPlans = ({
-  showAnnualPricing,
   currency,
   setSelectedPricingPlan,
   recommendedPlan,
@@ -51,7 +50,6 @@ const GetStartedPricingPlans = ({
             >
               <GetStartedPricingPlan
                 plan={plan}
-                showAnnualPricing={showAnnualPricing}
                 currency={currency}
                 setSelectedPricingPlan={setSelectedPricingPlan}
                 handleSidePanel={openReadMoreSidePanel}
@@ -68,7 +66,6 @@ const GetStartedPricingPlans = ({
 }
 
 GetStartedPricingPlans.propTypes = {
-  showAnnualPricing: PropTypes.bool.isRequired,
   currency: PropTypes.string.isRequired,
   setSelectedPricingPlan: PropTypes.func.isRequired,
   recommendedPlan: PropTypes.string.isRequired,
