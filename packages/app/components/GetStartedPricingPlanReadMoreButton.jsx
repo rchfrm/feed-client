@@ -16,7 +16,7 @@ const GetStartedPricingPlanReadMoreButton = ({
 
   const title = capitalise(name)
   const icons = {
-    basic: PlusIcon,
+    free: PlusIcon,
     growth: InsightsIcon,
     pro: StarIcon,
   }

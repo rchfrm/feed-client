@@ -25,7 +25,7 @@ const GetStartedObjectiveButtonFooter = ({
   const { currency: artistCurrency } = artist
 
   const icons = {
-    basic: InformationIcon,
+    free: InformationIcon,
     growth: InsightsIcon,
     pro: StarIcon,
   }

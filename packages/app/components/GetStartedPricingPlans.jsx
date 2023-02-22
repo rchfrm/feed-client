@@ -37,8 +37,8 @@ const GetStartedPricingPlans = ({
         {pricingPlans.map((plan, index) => {
           const isDisabled = (plan.name === 'basic' && ! hasGrowthObjective) || (plan.name === 'growth' && hasSalesObjective)
 
-          // Don't show basic plan if user already has more than 1 profile
-          if (hasMultipleProfiles && plan.name === 'basic') return
+          // Don't show free plan if user already has more than 1 profile
+          if (hasMultipleProfiles && plan.name === 'free') return
 
           return (
             <div
