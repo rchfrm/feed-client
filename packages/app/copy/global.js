@@ -204,7 +204,7 @@ ${list.join('\n')}`
     })
 
     if (fee) {
-      list.push(`- ${formatCurrency(fee, currency)} service fee from Basic plan during first ${daysPassedInPeriod} ${daysPassedInPeriod > 1 ? 'days' : 'day'} of current billing period`)
+      list.push(`- ${formatCurrency(fee, currency)} service fee from Free plan during first ${daysPassedInPeriod} ${daysPassedInPeriod > 1 ? 'days' : 'day'} of current billing period`)
     }
 
     return `**Your next invoice will be for ${formatCurrency(amount, currency)}:**

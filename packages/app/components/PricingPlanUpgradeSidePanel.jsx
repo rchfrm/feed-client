@@ -55,13 +55,13 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   const noOrgArtistsActive = organizationArtists.every((artist) => artist.status !== 'active')
   const currencyCode = defaultPaymentMethod?.currency || artistCurrency
   const isSettingBudget = section === 'set-budget'
-  const canChooseBasic = hasCancelledPlan && isSettingBudget && noOrgArtistsActive
+  const canChooseFree = hasCancelledPlan && isSettingBudget && noOrgArtistsActive
 
   const [currentStep, setCurrentStep] = React.useState(0)
 
   const [profilesToUpgrade, setProfilesToUpgrade] = useImmerReducer(profilesToUpgradeReducer, {})
   const [prorationsPreview, setProrationsPreview] = React.useState(null)
-  const initPlan = setInitialPlan(artist, canChooseBasic, isUpgradeToPro)
+  const initPlan = setInitialPlan(artist, canChooseFree, isUpgradeToPro)
   const [stripePromise] = React.useState(() => loadStripe(process.env.stripe_provider))
 
   React.useEffect(() => {
@@ -113,7 +113,7 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
       toggleSidePanel,
       currencyCode,
       isUpgradeToPro,
-      canChooseBasic,
+      canChooseFree,
       hasBillingAccess,
     },
   )

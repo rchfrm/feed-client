@@ -7,11 +7,11 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   profile,
   profilesToUpgrade,
   setProfilesToUpgrade,
-  canChooseBasic,
+  canChooseFree,
 }) => {
   const { artistId: profileInContextId } = React.useContext(ArtistContext)
 
-  const [idOfProfileOnBasic, setIdOfProfileOnBasic] = React.useState('')
+  const [idOfProfileOnFree, setIdOfProfileOnFree] = React.useState('')
 
   const { name, id } = profile
   const [planPrefix] = profilesToUpgrade[id]?.split('_') || []
@@ -21,24 +21,24 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
   const hasChanged = (isProfileActive && planPrefix === 'none')
     || (isProfileActive && planPrefix !== currentPlanPrefix)
     || (! isProfileActive && planPrefix !== 'none')
-  const isDisabled = Boolean(idOfProfileOnBasic && idOfProfileOnBasic !== id)
+  const isDisabled = Boolean(idOfProfileOnFree && idOfProfileOnFree !== id)
 
   React.useEffect(() => {
     const profilesToUpgradeIds = Object.keys(profilesToUpgrade)
     if (! profilesToUpgradeIds.length === 0) return
 
-    const profileWithBasic = profilesToUpgradeIds.find((id) => {
-      return profilesToUpgrade[id] === 'basic'
+    const profileWithFreePlan = profilesToUpgradeIds.find((id) => {
+      return profilesToUpgrade[id] === 'free'
     })
 
-    setIdOfProfileOnBasic(profileWithBasic || '')
+    setIdOfProfileOnFree(profileWithFreePlan || '')
   }, [profilesToUpgrade])
 
-  const planOptions = React.useCallback((canChooseBasic) => {
+  const planOptions = React.useCallback((canChooseFree) => {
     const options = ['growth', 'pro']
 
-    if (canChooseBasic && profile.id === profileInContextId) {
-      options.unshift('basic')
+    if (canChooseFree && profile.id === profileInContextId) {
+      options.unshift('free')
     }
 
     if (profile.id !== profileInContextId && (profile.status !== 'active' || ! profile.plan)) {
@@ -62,7 +62,7 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
     <div className="flex items-center mb-4">
       <div className="mr-2">{name}</div>
       <DropdownPill
-        items={planOptions(canChooseBasic)}
+        items={planOptions(canChooseFree)}
         selectedItem={planPrefix}
         handleItemClick={handleOnChange}
         className={hasChanged ? 'border-insta' : 'border-black'}
@@ -74,9 +74,9 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
 
 PricingPlanUpgradePaymentProfilesListItem.propTypes = {
   profile: PropTypes.object.isRequired,
-  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])).isRequired,
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['free', 'growth', 'pro', 'none'])).isRequired,
   setProfilesToUpgrade: PropTypes.func.isRequired,
-  canChooseBasic: PropTypes.bool.isRequired,
+  canChooseFree: PropTypes.bool.isRequired,
 }
 
 PricingPlanUpgradePaymentProfilesListItem.defaultProps = {
