@@ -242,10 +242,8 @@ export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
 }
 
 // GET PRICING PLAN STRING
-export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
-  const planPeriod = isAnnualPricing && planPrefix !== 'basic' ? 'annual' : 'monthly'
-
-  return `${planPrefix}_${planPeriod}`
+export const getPricingPlanString = (planPrefix) => {
+  return `${planPrefix}_monthly`
 }
 
 // SET INITIAL VALUE FOR PRICING PLAN
@@ -451,14 +449,14 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
   return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
 }
 
-export const formatProfilesToUpgrade = (profilesToUpgrade, isAnnualPricing) => {
+export const formatProfilesToUpgrade = (profilesToUpgrade) => {
   return Object.keys(profilesToUpgrade).reduce((acc, cur) => {
     const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
 
     if (planPrefix === 'none') {
       acc[cur] = undefined
     } else {
-      acc[cur] = getPricingPlanString(profilesToUpgrade[cur], isAnnualPricing)
+      acc[cur] = getPricingPlanString(profilesToUpgrade[cur])
     }
 
     return acc

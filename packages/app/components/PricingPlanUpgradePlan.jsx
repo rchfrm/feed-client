@@ -19,7 +19,6 @@ const PricingPlanUpgradePlan = ({
   setSidePanelButton,
   currencyCode,
   canChooseBasic,
-  isAnnualPricing,
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { name, hasCancelledPlan, status } = artist
@@ -74,7 +73,6 @@ const PricingPlanUpgradePlan = ({
           pricingPlan={pricingPlan}
           pricingPlanNumbers={basicPlanNumbers}
           selectedPlan={artistPlan}
-          isAnnualPricing={isAnnualPricing}
           handleChange={handleChange}
           currencyCode={currencyCode}
           className="mb-4"
@@ -86,7 +84,6 @@ const PricingPlanUpgradePlan = ({
         pricingPlan={pricingPlan}
         pricingPlanNumbers={growthPlanNumbers}
         selectedPlan={artistPlan}
-        isAnnualPricing={isAnnualPricing}
         handleChange={handleChange}
         currencyCode={currencyCode}
         className="mb-4"
@@ -97,7 +94,6 @@ const PricingPlanUpgradePlan = ({
         pricingPlan={pricingPlan}
         pricingPlanNumbers={proPlanNumbers}
         selectedPlan={artistPlan}
-        isAnnualPricing={isAnnualPricing}
         handleChange={handleChange}
         currencyCode={currencyCode}
         disabled={artistPlan !== 'pro' && status === 'incomplete'}
