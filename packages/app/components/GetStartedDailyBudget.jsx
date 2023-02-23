@@ -82,7 +82,7 @@ const GetStartedDailyBudget = () => {
 
   const { user: { organizations } } = React.useContext(UserContext)
   const organizationId = Object.values(organizations).find((org) => org.role === 'owner')?.id
-  const profilePlans = { [artistId]: 'basic_monthly' }
+  const profilePlans = { [artistId]: plan }
 
   // If minReccBudget isn't set yet reinitialise targeting context state
   useAsyncEffect(async (isMounted) => {
