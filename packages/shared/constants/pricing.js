@@ -41,7 +41,7 @@ export const pricingNumbers = {
       NOK: 1000,
       SEK: 1000,
     },
-    serviceFeePercentage: 0.1,
+    serviceFeePercentage: 0,
     maxSpendMultiple: 0,
   },
   growth: {
