@@ -52,10 +52,10 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
   } = useBillingStore(getBillingStoreState)
 
   const hasBillingAccess = ! orgLoading && !! organization.id
-  const noOrgArtistsActive = organizationArtists.every((artist) => artist.status !== 'active')
+  const hasNoOrgProfilesSpending = organizationArtists.every((artist) => artist.preferences.targeting.status !== 1)
   const currencyCode = defaultPaymentMethod?.currency || artistCurrency
   const isSettingBudget = section === 'set-budget'
-  const canChooseFree = hasCancelledPlan && isSettingBudget && noOrgArtistsActive
+  const canChooseFree = hasCancelledPlan && isSettingBudget && hasNoOrgProfilesSpending
 
   const [currentStep, setCurrentStep] = React.useState(0)
 

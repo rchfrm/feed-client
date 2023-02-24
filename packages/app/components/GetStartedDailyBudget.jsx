@@ -3,10 +3,8 @@ import useAsyncEffect from 'use-async-effect'
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-import { UserContext } from '@/app/contexts/UserContext'
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
 import useControlsStore from '@/app/stores/controlsStore'
-import useBillingStore from '@/app/stores/billingStore'
 import TargetingDailyBudgetSetter from '@/app/TargetingDailyBudgetSetter'
 import TargetingDailyBudgetCustomBudgetButton from '@/app/TargetingDailyBudgetCustomBudgetButton'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
@@ -16,16 +14,11 @@ import Spinner from '@/elements/Spinner'
 import Error from '@/elements/Error'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
-import { upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
-})
-
-const getBillingStoreState = (state) => ({
-  updateOrganizationArtists: state.updateOrganizationArtists,
 })
 
 const GetStartedDailyBudget = () => {
@@ -73,16 +66,11 @@ const GetStartedDailyBudget = () => {
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { updateOrganizationArtists } = useBillingStore(getBillingStoreState)
   const { objective } = optimizationPreferences
 
   const hasSalesObjective = objective === 'sales'
   const hasFreePlan = plan?.includes('free')
   const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
-
-  const { user: { organizations } } = React.useContext(UserContext)
-  const organizationId = Object.values(organizations).find((org) => org.role === 'owner')?.id
-  const profilePlans = { [artistId]: plan }
 
   // If minReccBudget isn't set yet reinitialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -93,18 +81,6 @@ const GetStartedDailyBudget = () => {
 
     initPage(state, error)
   }, [minReccBudget])
-
-  const upgradeProfilePlan = async () => {
-    const { res: { profiles }, error } = await upgradeProfiles(organizationId, profilePlans)
-    if (error) {
-      setError(error)
-      setIsLoading(false)
-
-      return
-    }
-
-    updateOrganizationArtists(profiles)
-  }
 
   const checkAndUpdateCompletedSetupAt = async () => {
     if (! hasSetUpProfile) {
@@ -136,7 +112,6 @@ const GetStartedDailyBudget = () => {
     setIsLoading(true)
 
     if (hasFreePlan) {
-      await upgradeProfilePlan()
       await checkAndUpdateCompletedSetupAt()
     }
 

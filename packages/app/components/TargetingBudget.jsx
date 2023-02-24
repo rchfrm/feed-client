@@ -48,6 +48,7 @@ const TargetingBudget = ({
         } = {},
       } = {},
       hasSetUpProfile,
+      hasFreePlan,
       hasGrowthPlan,
       hasProPlan,
       hasNoPlan,
@@ -56,9 +57,11 @@ const TargetingBudget = ({
   } = React.useContext(ArtistContext)
 
   const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const hasAOrgProfileSpending = organizationArtists.some((artist) => artist.preferences.targeting.status === 1)
   const isDisabled = ! hasSetUpProfile
     || hasCancelledPlan
     || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
+    || (hasFreePlan && hasAOrgProfileSpending)
 
   const { campaignBudget } = targetingState
   const dayAfterEndDate = moment(campaignBudget?.endDate).add(1, 'days')
