@@ -9,8 +9,6 @@ const PostSettingsToggle = ({
   isEnabled,
   setIsEnabled,
   isDisabled,
-  className,
-  isDesktopLayout,
 }) => {
   return (
     <div
@@ -62,13 +60,6 @@ PostSettingsToggle.propTypes = {
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-  isDesktopLayout: PropTypes.bool,
-}
-
-PostSettingsToggle.defaultProps = {
-  className: null,
-  isDesktopLayout: false,
 }
 
 export default PostSettingsToggle

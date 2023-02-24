@@ -44,7 +44,6 @@ const PostSettings = ({
   const [status, setStatus] = React.useState(initialStatus)
 
   const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
-  const isDesktopLayout = useBreakpointTest('sm')
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
@@ -96,14 +95,10 @@ const PostSettings = ({
           />
         )}
         {! postPromotable && (
-        <PostUnpromotable className="w-1/2 mb-10" />
+          <PostUnpromotable className="w-1/2 mb-10" />
         )}
         {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
-        <div
-          className={[
-            isDesktopLayout ? 'flex' : 'flex-col',
-          ].join(' ')}
-        >
+        <div className="flex flex-col sm:flex-row">
           <PostSettingsToggle
             post={post}
             postId={postId}
@@ -112,20 +107,18 @@ const PostSettings = ({
             isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
             setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
             isDisabled={isToggleDisabled || ! postPromotable}
-            isDesktopLayout={isDesktopLayout}
           />
           <PostSettingsPromotionStatus
             promotionEnabled={promotionEnabled}
             promotionStatus={promotionStatus}
             postPromotable={postPromotable}
-            isDesktopLayout={isDesktopLayout}
           />
         </div>
         {shouldShowPreview && (
-        <PostSettingsPreview
-          previewLinks={adPreviewLinks}
-          campaignType={campaignType}
-        />
+          <PostSettingsPreview
+            previewLinks={adPreviewLinks}
+            campaignType={campaignType}
+          />
         )}
         <DisabledSection
           section="single-post-page"

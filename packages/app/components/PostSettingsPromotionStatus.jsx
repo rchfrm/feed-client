@@ -6,8 +6,6 @@ const PostSettingsPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
   postPromotable,
-  className,
-  isDesktopLayout,
 }) => {
   return (
     <div className="flex flex-column w-full sm:w-1/2">
@@ -31,13 +29,6 @@ PostSettingsPromotionStatus.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
   postPromotable: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-  isDesktopLayout: PropTypes.bool,
-}
-
-PostSettingsPromotionStatus.defaultProps = {
-  className: null,
-  isDesktopLayout: false,
 }
 
 export default PostSettingsPromotionStatus
