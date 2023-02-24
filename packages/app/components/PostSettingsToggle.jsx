@@ -10,9 +10,16 @@ const PostSettingsToggle = ({
   setIsEnabled,
   isDisabled,
   className,
+  isDesktopLayout,
 }) => {
   return (
-    <div className="flex flex-column w-1/2">
+    <div
+      className={[
+        'flex flex-column',
+        'w-full',
+        'sm:w-1/2',
+      ].join(' ')}
+    >
       <h3 className={[
         isDisabled ? 'text-grey' : null,
         'font-bold text-lg',
@@ -23,8 +30,8 @@ const PostSettingsToggle = ({
       <div
         className={[
           'flex items-center',
-          'mb-10',
-          className,
+          'mb-5',
+          'sm:mb-10',
         ].join(' ')}
       >
         <PostToggle
@@ -33,7 +40,7 @@ const PostSettingsToggle = ({
           setPost={updatePost}
           isEnabled={isEnabled}
           setIsEnabled={setIsEnabled}
-          className="mr-4"
+          className="ml-5 sm:ml-0 mr-4"
         />
         <p
           className={[
@@ -56,10 +63,12 @@ PostSettingsToggle.propTypes = {
   setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   className: PropTypes.string,
+  isDesktopLayout: PropTypes.bool,
 }
 
 PostSettingsToggle.defaultProps = {
   className: null,
+  isDesktopLayout: false,
 }
 
 export default PostSettingsToggle

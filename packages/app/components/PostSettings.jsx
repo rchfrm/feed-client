@@ -86,7 +86,7 @@ const PostSettings = ({
 
   return (
     <div>
-      <h2 className="hidden sm:block mb-8">Post settings</h2>
+      <h2 className="block mb-8">Post settings</h2>
       <div className={className}>
         {hasSalesObjective && (
           <PostSettingsTabs
@@ -95,37 +95,37 @@ const PostSettings = ({
             isDisabled={! postPromotable}
           />
         )}
-        {isDesktopLayout && (
-          <>
-            {! postPromotable && (
-              <PostUnpromotable className="w-1/2 mb-10" />
-            )}
-            {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
-            <div className="flex">
-              <PostSettingsToggle
-                post={post}
-                postId={postId}
-                campaignType={campaignType}
-                updatePost={updatePost}
-                isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
-                setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-                isDisabled={isToggleDisabled || ! postPromotable}
-                className="pl-4"
-              />
-              <PostSettingsPromotionStatus
-                promotionEnabled={promotionEnabled}
-                promotionStatus={promotionStatus}
-                postPromotable={postPromotable}
-                className="pl-4"
-              />
-            </div>
-            {shouldShowPreview && (
-              <PostSettingsPreview
-                previewLinks={adPreviewLinks}
-                campaignType={campaignType}
-              />
-            )}
-          </>
+        {! postPromotable && (
+        <PostUnpromotable className="w-1/2 mb-10" />
+        )}
+        {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
+        <div
+          className={[
+            isDesktopLayout ? 'flex' : 'flex-col',
+          ].join(' ')}
+        >
+          <PostSettingsToggle
+            post={post}
+            postId={postId}
+            campaignType={campaignType}
+            updatePost={updatePost}
+            isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
+            setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
+            isDisabled={isToggleDisabled || ! postPromotable}
+            isDesktopLayout={isDesktopLayout}
+          />
+          <PostSettingsPromotionStatus
+            promotionEnabled={promotionEnabled}
+            promotionStatus={promotionStatus}
+            postPromotable={postPromotable}
+            isDesktopLayout={isDesktopLayout}
+          />
+        </div>
+        {shouldShowPreview && (
+        <PostSettingsPreview
+          previewLinks={adPreviewLinks}
+          campaignType={campaignType}
+        />
         )}
         <DisabledSection
           section="single-post-page"
