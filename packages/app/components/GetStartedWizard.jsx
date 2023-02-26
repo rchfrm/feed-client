@@ -161,7 +161,7 @@ const GetStartedWizard = () => {
       component: <GetStartedSummary />,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [isControlsLoading])
+  ], [isControlsLoading, hasFreePlan])
 
   React.useEffect(() => {
     // Filter out the steps that should be skipped

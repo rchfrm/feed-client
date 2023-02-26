@@ -243,6 +243,7 @@ export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
 
 // GET PRICING PLAN STRING
 export const getPricingPlanString = (planPrefix) => {
+  if (planPrefix === 'free') return planPrefix
   return `${planPrefix}_monthly`
 }
 
