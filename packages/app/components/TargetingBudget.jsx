@@ -53,6 +53,7 @@ const TargetingBudget = ({
       hasGrowthPlan,
       hasProPlan,
       hasNoPlan,
+      plan,
       hasCancelledPlan,
     },
   } = React.useContext(ArtistContext)
@@ -72,10 +73,12 @@ const TargetingBudget = ({
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
   const isDailyBudget = budgetType === 'daily'
+  const freeTierMaxDailyBudget = Math.round(minBaseUnrounded * 3)
   const growthTierMaxDailyBudget = Math.round(minBaseUnrounded * 9)
   const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
-  const mayHitGrowthTierMaxBudget = hasGrowthPlan && ! hasProPlan && targetingState.budget > growthTierMaxDailyBudget
+  const mayHitFreeTierMaxBudget = hasFreePlan && targetingState.budget > freeTierMaxDailyBudget
+  const mayHitGrowthTierMaxBudget = hasGrowthPlan && targetingState.budget > growthTierMaxDailyBudget
   const mayHitProTierMaxBudget = hasProPlan && targetingState.budget > proTierMaxDailyBudget
 
   const budgetData = {
@@ -88,15 +91,15 @@ const TargetingBudget = ({
   React.useEffect(() => {
     if (! hasSetUpProfile) return
 
-    if (! hasBudgetBelowMinRecommendedStories && (! isDailyBudget || (! mayHitGrowthTierMaxBudget && ! mayHitProTierMaxBudget))) {
+    if ((! hasBudgetBelowMinRecommendedStories || hasFreePlan) && (! isDailyBudget || (! mayHitFreeTierMaxBudget && ! mayHitGrowthTierMaxBudget && ! mayHitProTierMaxBudget))) {
       setShouldShowWarning(false)
       return
     }
 
-    if ((hasBudgetBelowMinRecommendedStories || (isDailyBudget && (mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget))) && ! isDisabled) {
+    if (((hasBudgetBelowMinRecommendedStories && ! hasFreePlan) || (isDailyBudget && (mayHitFreeTierMaxBudget || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget))) && ! isDisabled) {
       setShouldShowWarning(true)
     }
-  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile, isDailyBudget, isDisabled])
+  }, [mayHitFreeTierMaxBudget, mayHitGrowthTierMaxBudget, mayHitProTierMaxBudget, hasBudgetBelowMinRecommendedStories, hasSetUpProfile, isDailyBudget, isDisabled, hasFreePlan])
 
   return (
     <section
@@ -135,14 +138,14 @@ const TargetingBudget = ({
             )}
           </DisabledSection>
           {shouldShowWarning && (
-            hasBudgetBelowMinRecommendedStories ? (
+            hasBudgetBelowMinRecommendedStories && ! hasFreePlan ? (
               <ControlsSettingsSectionFooter
-                copy={copy.budgetFooter(hasProPlan, budgetData)}
+                copy={copy.budgetFooter(plan, budgetData)}
                 className="mt-5 text-insta"
               />
             ) : (
               <DisabledActionPrompt
-                copy={copy.budgetFooter(hasProPlan, budgetData)}
+                copy={copy.budgetFooter(plan, budgetData)}
                 section="budget"
                 version="small"
                 isButton={! hasProPlan}
