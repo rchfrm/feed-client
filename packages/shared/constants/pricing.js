@@ -115,7 +115,7 @@ export const pricingPlans = [
     monthlyCost: growth.monthlyCost,
     serviceFeePercentage: growth.serviceFeePercentage,
     features: [
-      'Everything in **Basic** plus...',
+      'Everything in **Free** plus...',
       'Connect unlimited profiles^',
     ],
     maxSpend: growth.maxSpend,
