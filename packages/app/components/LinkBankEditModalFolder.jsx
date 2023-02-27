@@ -47,11 +47,11 @@ const LinkBankEditModalFolder = ({
       // Is buttons disabled
       const saveEnabled = !! folderProps.name
       // Update save button
-      draftButtons[0].onClick = () => runSaveFolder(folderProps, action, folder)
-      draftButtons[0].disabled = ! saveEnabled
+      draftButtons[1].onClick = () => runSaveFolder(folderProps, action, folder)
+      draftButtons[1].disabled = ! saveEnabled
       // Update delete button
-      if (draftButtons[1].id === 'delete') {
-        draftButtons[1].onClick = confirmDelete
+      if (draftButtons[0].id === 'delete') {
+        draftButtons[0].onClick = confirmDelete
       }
     })
     setButtons(newButtons)
