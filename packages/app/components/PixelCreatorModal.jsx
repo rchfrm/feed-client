@@ -26,7 +26,7 @@ const PixelCreatorModal = ({
     // Update buttons
     const newButtons = produce(modalButtons, (draftButtons) => {
       // Update save button
-      draftButtons[1].disabled = isDisabled
+      draftButtons[1].isDisabled = isDisabled
       draftButtons[1].onClick = () => createPixel(pixelName)
     })
     setButtons(newButtons)
