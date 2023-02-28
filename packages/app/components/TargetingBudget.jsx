@@ -77,6 +77,7 @@ const TargetingBudget = ({
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
   const [planPrefix] = plan?.split('_') || []
   const mayHitSpendCap = mayExceedSpendCap(planPrefix, targetingState.budget, { code: currencyCode, offset: currencyOffset })
+  console.log('mayHitSpendCap', mayHitSpendCap)
 
   const budgetData = {
     currency: currencyCode,
@@ -135,14 +136,14 @@ const TargetingBudget = ({
             )}
           </DisabledSection>
           {shouldShowWarning && (
-            hasBudgetBelowMinRecommendedStories && ! hasFreePlan ? (
+            hasBudgetBelowMinRecommendedStories && ! mayHitSpendCap ? (
               <ControlsSettingsSectionFooter
-                copy={copy.budgetFooter(plan, budgetData)}
+                copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
                 className="mt-5 text-insta"
               />
             ) : (
               <DisabledActionPrompt
-                copy={copy.budgetFooter(plan, budgetData)}
+                copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
                 section="budget"
                 version="small"
                 isButton={! hasProPlan}
