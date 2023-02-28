@@ -41,12 +41,17 @@ const PricingPlanUpgradePaymentProfilesListItem = ({
       options.unshift('free')
     }
 
-    if (profile.id !== profileInContextId && (profile.status !== 'active' || ! profile.plan)) {
+    if (profile.id !== profileInContextId
+      && (profile.status !== 'active'
+        || ! profile.plan
+        || (profile.plan === 'free' && ! profile.preferences.targeting.status)
+      )
+    ) {
       options.push('none')
     }
 
     return options
-  }, [profile.id, profile.status, profile.plan, profileInContextId])
+  }, [profile.id, profile.status, profile.plan, profile.preferences.targeting.status, profileInContextId])
 
   const handleOnChange = (plan) => {
     setProfilesToUpgrade({

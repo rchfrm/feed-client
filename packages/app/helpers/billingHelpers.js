@@ -20,7 +20,6 @@ export const submitPaymentMethod = async (organizationId, paymentMethodId, optio
   } = options
   const payload = {
     token: paymentMethodId,
-    currency,
     is_default: shouldBeDefault,
     promoCode,
     create_subscription: isPaymentRequired,

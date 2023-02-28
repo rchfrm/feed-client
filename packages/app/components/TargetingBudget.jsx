@@ -1,25 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-
 import Spinner from '@/elements/Spinner'
-
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useBillingStore from '@/app/stores/billingStore'
-
 import DisabledSection from '@/app/DisabledSection'
 import TargetingDailyBudget from '@/app/TargetingDailyBudget'
 import TargetingBudgetTabs from '@/app/TargetingBudgetTabs'
 import TargetingCampaignBudget from '@/app/TargetingCampaignBudget'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
-
 import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
-
 import copy from '@/app/copy/targetingPageCopy'
-import { pricingNumbers } from '@/constants/pricing'
 import { mayExceedSpendCap } from '@/app/helpers/budgetHelpers'
 
 const getBillingStoreState = (state) => ({
@@ -77,7 +70,6 @@ const TargetingBudget = ({
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
   const [planPrefix] = plan?.split('_') || []
   const mayHitSpendCap = mayExceedSpendCap(planPrefix, targetingState.budget, { code: currencyCode, offset: currencyOffset })
-  console.log('mayHitSpendCap', mayHitSpendCap)
 
   const budgetData = {
     currency: currencyCode,

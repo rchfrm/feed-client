@@ -204,7 +204,7 @@ export const mayExceedSpendCap = (
   dailyBudget,
   currency = { code: 'GBP', offset: 100 },
 ) => {
-  if (tier === 'legacy') return false
+  if (! tier || tier === 'legacy') return false
   const spendCap = pricingNumbers[tier].maxSpend[currency.code]
   const spendCapMinorUnit = spendCap * currency.offset
   const dailySpendCap = spendCapMinorUnit / 30
