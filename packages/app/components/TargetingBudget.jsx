@@ -19,10 +19,13 @@ import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
 
 import copy from '@/app/copy/targetingPageCopy'
+import { pricingNumbers } from '@/constants/pricing'
+import { mayExceedSpendCap } from '@/app/helpers/budgetHelpers'
 
 const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,
 })
+
 
 const TargetingBudget = ({
   className,
@@ -38,10 +41,9 @@ const TargetingBudget = ({
     artistId,
     artist: {
       feedMinBudgetInfo: {
-        currencyCode,
-        currencyOffset,
+        currencyCode = 'GBP',
+        currencyOffset = 100,
         minorUnit: {
-          minBaseUnrounded,
           minRecommendedStories,
         } = {},
         string: {
@@ -50,7 +52,6 @@ const TargetingBudget = ({
       } = {},
       hasSetUpProfile,
       hasFreePlan,
-      hasGrowthPlan,
       hasProPlan,
       hasNoPlan,
       plan,
@@ -73,13 +74,9 @@ const TargetingBudget = ({
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
   const isDailyBudget = budgetType === 'daily'
-  const freeTierMaxDailyBudget = Math.round(minBaseUnrounded * 3)
-  const growthTierMaxDailyBudget = Math.round(minBaseUnrounded * 9)
-  const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
-  const mayHitFreeTierMaxBudget = hasFreePlan && targetingState.budget > freeTierMaxDailyBudget
-  const mayHitGrowthTierMaxBudget = hasGrowthPlan && targetingState.budget > growthTierMaxDailyBudget
-  const mayHitProTierMaxBudget = hasProPlan && targetingState.budget > proTierMaxDailyBudget
+  const [planPrefix] = plan?.split('_') || []
+  const mayHitSpendCap = mayExceedSpendCap(planPrefix, targetingState.budget, { code: currencyCode, offset: currencyOffset })
 
   const budgetData = {
     currency: currencyCode,
@@ -89,17 +86,17 @@ const TargetingBudget = ({
   }
 
   React.useEffect(() => {
-    if (! hasSetUpProfile) return
-
-    if ((! hasBudgetBelowMinRecommendedStories || hasFreePlan) && (! isDailyBudget || (! mayHitFreeTierMaxBudget && ! mayHitGrowthTierMaxBudget && ! mayHitProTierMaxBudget))) {
-      setShouldShowWarning(false)
+    if (
+      hasSetUpProfile
+      && ! isDisabled
+      && (hasBudgetBelowMinRecommendedStories || mayHitSpendCap)
+    ) {
+      setShouldShowWarning(true)
       return
     }
 
-    if (((hasBudgetBelowMinRecommendedStories && ! hasFreePlan) || (isDailyBudget && (mayHitFreeTierMaxBudget || mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget))) && ! isDisabled) {
-      setShouldShowWarning(true)
-    }
-  }, [mayHitFreeTierMaxBudget, mayHitGrowthTierMaxBudget, mayHitProTierMaxBudget, hasBudgetBelowMinRecommendedStories, hasSetUpProfile, isDailyBudget, isDisabled, hasFreePlan])
+    setShouldShowWarning(false)
+  }, [hasBudgetBelowMinRecommendedStories, hasSetUpProfile, isDailyBudget, isDisabled, hasFreePlan, mayHitSpendCap])
 
   return (
     <section
