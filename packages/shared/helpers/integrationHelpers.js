@@ -262,7 +262,7 @@ export const getIntegrationRegex = (platform, trim) => {
       if (trim) return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\//
       return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\/([^/]+)/
     case 'twitter':
-      return /^(?:(?:https?:)?\/\/)?(?:twitter.com)\/([^/]+)/
+      return /^(?:(?:https?:)?\/\/)?(?:twitter.com)\/([^/|?]+)/
     case 'youtube':
       if (trim) return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)?/
       return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/([a-zA-Z0-9-_]{24})|c\/([a-zA-Z0-9-_]+)|user\/([a-zA-Z0-9-_]+)|([a-zA-Z0-9-_]+))$/
