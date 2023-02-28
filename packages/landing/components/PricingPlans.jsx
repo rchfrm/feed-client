@@ -11,13 +11,9 @@ const {
 } = pricingCopy
 
 export default function PricingPlans() {
-  const { maxSpendMultiple, monthlyCost } = pricingPlans.find((plan) => plan.name === 'pro')
+  const { maxSpend } = pricingPlans.find((plan) => plan.name === 'pro')
   const [currency, setCurrency] = React.useState('GBP')
-  const [maxSpend, setMaxSpend] = React.useState(monthlyCost[currency] * maxSpendMultiple)
 
-  React.useEffect(() => {
-    setMaxSpend(monthlyCost[currency] * maxSpendMultiple)
-  }, [currency, maxSpendMultiple, monthlyCost])
   return (
     <div
       className={[
@@ -34,7 +30,7 @@ export default function PricingPlans() {
         plans={pricingPlans}
         currency={currency}
       />
-      <MarkdownText markdown={twoThousandPlus(currency, maxSpend)} className="text-center my-10" />
+      <MarkdownText markdown={twoThousandPlus(currency, maxSpend[currency])} className="text-center my-10" />
       <MarkdownText markdown={footnotes} className="small--p mb-0" />
     </div>
   )

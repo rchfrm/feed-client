@@ -19,8 +19,16 @@ export const pricingNumbers = {
       NOK: 0,
       SEK: 0,
     },
+    maxSpend: {
+      GBP: 0,
+      USD: 0,
+      EUR: 0,
+      CAD: 0,
+      AUD: 0,
+      SEK: 0,
+      NOK: 0,
+    },
     serviceFeePercentage: 0.1,
-    maxSpendMultiple: 0,
   },
   free: {
     monthlyCost: {
@@ -42,7 +50,6 @@ export const pricingNumbers = {
       SEK: 1000,
     },
     serviceFeePercentage: 0,
-    maxSpendMultiple: 0,
   },
   growth: {
     monthlyCost: {
@@ -54,8 +61,16 @@ export const pricingNumbers = {
       NOK: 300,
       SEK: 300,
     },
+    maxSpend: {
+      GBP: 250,
+      USD: 300,
+      EUR: 300,
+      CAD: 400,
+      AUD: 450,
+      SEK: 3000,
+      NOK: 3000,
+    },
     serviceFeePercentage: 0,
-    maxSpendMultiple: 20,
   },
   pro: {
     monthlyCost: {
@@ -67,8 +82,16 @@ export const pricingNumbers = {
       NOK: 600,
       SEK: 600,
     },
+    maxSpend: {
+      GBP: 2000,
+      USD: 2400,
+      EUR: 2400,
+      CAD: 3200,
+      AUD: 3600,
+      SEK: 24000,
+      NOK: 24000,
+    },
     serviceFeePercentage: 0,
-    maxSpendMultiple: 40,
   },
 }
 
@@ -92,10 +115,10 @@ export const pricingPlans = [
     monthlyCost: growth.monthlyCost,
     serviceFeePercentage: growth.serviceFeePercentage,
     features: [
-      'Everything in **Basic** plus...',
+      'Everything in **Free** plus...',
       'Connect unlimited profiles^',
     ],
-    maxSpendMultiple: growth.maxSpendMultiple,
+    maxSpend: growth.maxSpend,
   },
   {
     name: 'pro',
@@ -105,6 +128,6 @@ export const pricingPlans = [
     features: [
       'Everything in **Growth** plus...',
     ],
-    maxSpendMultiple: pro.maxSpendMultiple,
+    maxSpend: pro.maxSpend,
   },
 ]

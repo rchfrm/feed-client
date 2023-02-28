@@ -63,8 +63,8 @@ Please check your inbox and click the verification link to confirm.`
     return `${baseString} ${getSectionIntro(section)}?`
   },
   pricingUpgradeIntroDescription: (section, currency = 'GBP', hasCancelledPlan, hasBillingAccess) => {
-    const maxSpendGrowth = pricingNumbers.growth.monthlyCost[currency] * pricingNumbers.growth.maxSpendMultiple
-    const maxSpendPro = pricingNumbers.pro.monthlyCost[currency] * pricingNumbers.pro.maxSpendMultiple
+    const maxSpendGrowth = pricingNumbers.growth.maxSpend[currency]
+    const maxSpendPro = pricingNumbers.pro.maxSpend[currency]
     function getSectionDescription(section) {
       switch (section) {
         case 'connect-accounts':

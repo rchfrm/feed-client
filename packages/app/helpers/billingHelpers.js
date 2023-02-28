@@ -9,17 +9,20 @@ import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 /**
  * @param {string} organizationId
  * @param {string} paymentMethodId
- * @param {string} currency
- * @param {boolean} shouldBeDefault
- * @param {string} promoCode
+ * @param {object} options
  * @returns {Promise<any>}
  */
-export const submitPaymentMethod = async ({ organizationId, paymentMethodId, currency, shouldBeDefault = false, promoCode }) => {
+export const submitPaymentMethod = async (organizationId, paymentMethodId, options) => {
+  const {
+    shouldBeDefault = false,
+    promoCode,
+    isPaymentRequired = true,
+  } = options
   const payload = {
     token: paymentMethodId,
-    currency,
     is_default: shouldBeDefault,
     promoCode,
+    create_subscription: isPaymentRequired,
   }
   const endpoint = `/organizations/${organizationId}/billing/payments`
   const errorTracking = {
