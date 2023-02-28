@@ -46,6 +46,7 @@ const BillingInvoiceListItem = ({ invoice, handleClick }) => {
           version="text"
           onClick={() => handleClick(id)}
           trackComponentName="BillingInvoiceListItem"
+          className="hover:text-green"
         >
           <LinkIcon className="w-5 h-auto mr-1" style={{ transform: 'translateY(0.1rem)' }} />
           {formatDate(createdAt)}
