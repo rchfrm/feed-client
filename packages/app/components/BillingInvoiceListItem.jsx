@@ -18,7 +18,7 @@ const BillingInvoiceListItem = ({ invoice, handleClick }) => {
   } = invoice
 
   const daysSinceInvoiceUpdated = moment().diff(moment(updatedAt), 'days')
-  const shouldRefreshInvoice = daysSinceInvoiceUpdated > 10
+  const shouldRefreshInvoice = daysSinceInvoiceUpdated >= 60
 
   return (
     <li key={id} className={['flex h-7 last:mb-0', shouldRefreshInvoice ? 'mb-2' : 'mb-3'].join(' ')}>
