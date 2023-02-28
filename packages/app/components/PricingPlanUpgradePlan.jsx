@@ -18,14 +18,14 @@ const PricingPlanUpgradePlan = ({
   setCurrentStep,
   setSidePanelButton,
   currencyCode,
-  canChooseBasic,
+  canChooseFree,
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { name, hasCancelledPlan, status } = artist
   const artistPlan = profilesToUpgrade[artist.id]
   const pricingPlan = pricingPlans.find(({ name }) => name === artistPlan)
   const {
-    basic: basicPlanNumbers,
+    free: freePlanNumbers,
     growth: growthPlanNumbers,
     pro: proPlanNumbers,
   } = pricingNumbers
@@ -67,16 +67,16 @@ const PricingPlanUpgradePlan = ({
       <h2 className="mb-8 pr-12">
         {hasCancelledPlan ? 'Choose a plan' : `Upgrade ${name}`}
       </h2>
-      {canChooseBasic && (
+      {canChooseFree && (
         <PricingPlanUpgradePlanItem
-          name="basic"
+          name="free"
           pricingPlan={pricingPlan}
-          pricingPlanNumbers={basicPlanNumbers}
+          pricingPlanNumbers={freePlanNumbers}
           selectedPlan={artistPlan}
           handleChange={handleChange}
           currencyCode={currencyCode}
           className="mb-4"
-          disabled={artistPlan !== 'basic' && status === 'incomplete'}
+          disabled={artistPlan !== 'free' && status === 'incomplete'}
         />
       )}
       <PricingPlanUpgradePlanItem
@@ -103,7 +103,7 @@ const PricingPlanUpgradePlan = ({
 }
 
 PricingPlanUpgradePlan.propTypes = {
-  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])),
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['free', 'growth', 'pro', 'none'])),
   setProfilesToUpgrade: PropTypes.func,
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,

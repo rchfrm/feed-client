@@ -24,14 +24,14 @@ const GetStartedPricingReadMore = ({
 
   const isDesktop = useBreakpointTest('sm')
   const amount = monthlyCost[currencyCode]
-  const isBasicPlan = name === 'basic'
+  const isFreePlan = name === 'free'
 
   return (
     <div>
       <h2 className="mb-8 pr-12">{capitalise(name)}</h2>
       {isDisabled && ! isDesktop && <MarkdownText markdown={getStartedCopy.disabledPricingPlan(name, objective)} className="mb-4" />}
       <PricingPlanMonthlyCost amount={amount} currencyCode={currencyCode} />
-      {isBasicPlan && <PricingPlanServiceFee percentage={serviceFeePercentage} />}
+      {isFreePlan && <PricingPlanServiceFee percentage={serviceFeePercentage} />}
       <p className="text-2xl mb-8">{description}</p>
       <PricingPlanFeatures plan={plan} currencyCode={currencyCode} className="mb-4" />
       <MarkdownText markdown={copy.pricingProfileFootnote} className="text-xs mb-0" />

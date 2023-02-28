@@ -79,10 +79,12 @@ const artistReducer = (draftState, action) => {
       break
     }
     case 'set-plan': {
-      draftState.plan = payload.plan
-      draftState.hasGrowthPlan = artistHelpers.hasGrowthPlan(payload.plan)
-      draftState.hasProPlan = artistHelpers.hasProPlan(payload.plan)
-      draftState.hasNoPlan = ! payload.plan
+      draftState.plan = payload.artist.plan
+      draftState.hasFreePlan = artistHelpers.hasPlan(payload.artist, 'free')
+      draftState.hasBasicPlan = artistHelpers.hasPlan(payload.artist, 'basic')
+      draftState.hasGrowthPlan = artistHelpers.hasPlan(payload.artist, 'growth')
+      draftState.hasProPlan = artistHelpers.hasPlan(payload.artist, 'pro')
+      draftState.hasNoPlan = ! payload.artist.plan
       draftState.hasCancelledPlan = draftState.status !== 'active' && ! draftState.hasNoPlan
       break
     }
@@ -177,9 +179,11 @@ function ArtistProvider({ children }) {
     const hasSetUpProfile = Boolean(artist.completed_setup_at)
 
     // Set pricing plan booleans
-    const hasGrowthPlan = artistHelpers.hasGrowthPlan(artist?.plan) && artist.status === 'active'
-    const hasProPlan = artistHelpers.hasProPlan(artist?.plan) && artist.status === 'active'
-    const hasLegacyPlan = artistHelpers.hasLegacyPlan(artist?.plan)
+    const hasFreePlan = artistHelpers.hasPlan(artist, 'free')
+    const hasBasicPlan = artistHelpers.hasPlan(artist, 'basic')
+    const hasGrowthPlan = artistHelpers.hasPlan(artist, 'growth')
+    const hasProPlan = artistHelpers.hasPlan(artist, 'pro')
+    const hasLegacyPlan = artistHelpers.hasPlan(artist, 'legacy')
     const hasNoPlan = ! artist?.plan
     const hasCancelledPlan = artist.status !== 'active'
 
@@ -192,6 +196,8 @@ function ArtistProvider({ children }) {
       artistDraft.feedMinBudgetInfo = feedMinBudgetInfo || {}
       artistDraft.isSpendingPaused = isSpendingPaused
       artistDraft.hasSetUpProfile = hasSetUpProfile
+      artistDraft.hasFreePlan = hasFreePlan
+      artistDraft.hasBasicPlan = hasBasicPlan
       artistDraft.hasGrowthPlan = hasGrowthPlan
       artistDraft.hasProPlan = hasProPlan
       artistDraft.hasLegacyPlan = hasLegacyPlan
@@ -329,11 +335,11 @@ function ArtistProvider({ children }) {
     })
   }
 
-  const setPlan = React.useCallback((plan) => {
+  const setPlan = React.useCallback((artist) => {
     setArtist({
       type: 'set-plan',
       payload: {
-        plan,
+        artist,
       },
     })
   }, [setArtist])

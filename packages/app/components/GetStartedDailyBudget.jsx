@@ -11,7 +11,9 @@ import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 import Spinner from '@/elements/Spinner'
+import Error from '@/elements/Error'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
+import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 import copy from '@/app/copy/getStartedCopy'
 import brandColors from '@/constants/brandColors'
 
@@ -48,13 +50,18 @@ const GetStartedDailyBudget = () => {
           minRecommendedStories: minRecommendedStoriesString,
         },
       },
+      hasSetUpProfile,
+      plan,
     },
     artistId,
+    updateArtist,
   } = React.useContext(ArtistContext)
 
   const [budget, setBudget] = React.useState(targetingState.budget)
   const [showCustomBudget, setShowCustomBudget] = React.useState(false)
   const [budgetSuggestions, setBudgetSuggestions] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
   const { next } = React.useContext(WizardContext)
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings, isFirstTimeUser: true })
@@ -62,6 +69,7 @@ const GetStartedDailyBudget = () => {
   const { objective } = optimizationPreferences
 
   const hasSalesObjective = objective === 'sales'
+  const hasFreePlan = plan?.includes('free')
   const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
 
   // If minReccBudget isn't set yet reinitialise targeting context state
@@ -74,29 +82,56 @@ const GetStartedDailyBudget = () => {
     initPage(state, error)
   }, [minReccBudget])
 
-  const saveBudget = async (budget) => {
-    await saveTargeting('settings', { ...targetingState, budget })
+  const checkAndUpdateCompletedSetupAt = async () => {
+    if (! hasSetUpProfile) {
+      const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
+      if (error) {
+        setError(error)
+        setIsLoading(false)
 
-    next()
+        return
+      }
+
+      updateArtist(artistUpdated)
+    }
+  }
+
+  const saveBudget = async (budget) => {
+    await saveTargeting(
+      'settings',
+      { ...targetingState, budget, ...(hasFreePlan && { status: 1 }) },
+    )
   }
 
   const handleNext = async (budget) => {
     if (budget === initialTargetingState.budget) {
       next()
-
       return
     }
-    saveBudget(budget)
+
+    setIsLoading(true)
+
+    if (hasFreePlan) {
+      await checkAndUpdateCompletedSetupAt()
+    }
+
+    await saveBudget(budget)
+    setIsLoading(false)
+    next()
   }
 
   React.useEffect(() => {
-    if (! minBaseUnroundedMajor || ! objective) return
+    if (! minBaseUnroundedMajor || ! objective) {
+      return
+    }
 
     const suggestions = targetingHelpers.getBudgetSuggestions(objective, minBaseUnroundedMajor)
     setBudgetSuggestions(suggestions)
   }, [minBaseUnroundedMajor, objective])
 
-  if (! minReccBudget || ! budgetSuggestions.length) return <Spinner />
+  if (! minReccBudget || ! budgetSuggestions.length) {
+    return <Spinner />
+  }
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
@@ -105,6 +140,7 @@ const GetStartedDailyBudget = () => {
         copy={copy.budgetFooter(minBaseUnroundedMajor, currencyCode)}
         className="text-insta mb-6"
       />
+      <Error error={error} />
       <div className="flex flex-1 flex-column justify-center items-center">
         <div
           className="w-full sm:w-3/4 flex flex-column justify-between mb-10"
@@ -141,7 +177,7 @@ const GetStartedDailyBudget = () => {
         </div>
         <Button
           onClick={() => handleNext(budget)}
-          isLoading={targetingLoading}
+          isLoading={targetingLoading || isLoading}
           className="w-full sm:w-48 mb-4"
           trackComponentName="GetStartedDailyBudget"
           isDisabled={hasInsufficientBudget}

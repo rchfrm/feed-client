@@ -1,6 +1,7 @@
 import * as utils from '@/helpers/utils'
 import * as api from '@/helpers/api'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
+import { pricingNumbers } from '@/constants/pricing'
 
 // TESTING
 // -------
@@ -191,4 +192,21 @@ export const getMinBudgets = async (artistId) => {
     action: 'Get min budgets',
   }
   return api.requestWithCatch('get', endpoint, payload, errorTracking)
+}
+
+/**
+ * @param {('free' | 'growth' | 'pro' | 'legacy')} tier
+ * @param {number} dailyBudget
+ * @param {object} currency
+ */
+export const mayExceedSpendCap = (
+  tier,
+  dailyBudget,
+  currency = { code: 'GBP', offset: 100 },
+) => {
+  if (! tier || tier === 'legacy') return false
+  const spendCap = pricingNumbers[tier].maxSpend[currency.code]
+  const spendCapMinorUnit = spendCap * currency.offset
+  const dailySpendCap = spendCapMinorUnit / 30
+  return dailyBudget >= dailySpendCap
 }

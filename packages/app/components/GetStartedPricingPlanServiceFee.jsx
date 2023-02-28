@@ -14,14 +14,14 @@ const GetStartedPricingPlanServiceFee = ({ percentage, plan, isDisabled }) => {
       <div className="flex items-center">
         <p className={[
           'text-2xl mb-0 sm:mb-5',
-          name === 'basic' ? 'font-bold sm:font-normal' : null,
+          name === 'free' ? 'font-bold sm:font-normal' : null,
         ].join(' ')}
         >
           {percentage * 100}
         </p>
         <p className={[
           'h4 pr-1 mb-0 sm:mb-5',
-          name === 'basic' ? 'font-bold sm:font-normal' : null,
+          name === 'free' ? 'font-bold sm:font-normal' : null,
         ].join(' ')}
         >
           %
