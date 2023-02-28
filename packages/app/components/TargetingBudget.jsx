@@ -1,28 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-
 import Spinner from '@/elements/Spinner'
-
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useBillingStore from '@/app/stores/billingStore'
-
 import DisabledSection from '@/app/DisabledSection'
 import TargetingDailyBudget from '@/app/TargetingDailyBudget'
 import TargetingBudgetTabs from '@/app/TargetingBudgetTabs'
 import TargetingCampaignBudget from '@/app/TargetingCampaignBudget'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
-
 import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
-
 import copy from '@/app/copy/targetingPageCopy'
+import { mayExceedSpendCap } from '@/app/helpers/budgetHelpers'
 
 const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,
 })
+
 
 const TargetingBudget = ({
   className,
@@ -35,12 +31,12 @@ const TargetingBudget = ({
   } = React.useContext(TargetingContext)
 
   const {
+    artistId,
     artist: {
       feedMinBudgetInfo: {
-        currencyCode,
-        currencyOffset,
+        currencyCode = 'GBP',
+        currencyOffset = 100,
         minorUnit: {
-          minBaseUnrounded,
           minRecommendedStories,
         } = {},
         string: {
@@ -48,18 +44,20 @@ const TargetingBudget = ({
         } = {},
       } = {},
       hasSetUpProfile,
-      hasGrowthPlan,
+      hasFreePlan,
       hasProPlan,
-      hasLegacyPlan,
       hasNoPlan,
+      plan,
       hasCancelledPlan,
     },
   } = React.useContext(ArtistContext)
 
   const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const hasAnotherOrgProfileSpending = organizationArtists.some((artist) => artist.id !== artistId && artist.preferences.targeting.status === 1)
   const isDisabled = ! hasSetUpProfile
     || hasCancelledPlan
     || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
+    || (hasFreePlan && hasAnotherOrgProfileSpending)
 
   const { campaignBudget } = targetingState
   const dayAfterEndDate = moment(campaignBudget?.endDate).add(1, 'days')
@@ -69,11 +67,9 @@ const TargetingBudget = ({
   const [shouldShowWarning, setShouldShowWarning] = React.useState(false)
 
   const isDailyBudget = budgetType === 'daily'
-  const growthTierMaxDailyBudget = Math.round(minBaseUnrounded * 9)
-  const proTierMaxDailyBudget = Math.round(minBaseUnrounded * 72)
   const hasBudgetBelowMinRecommendedStories = targetingState.budget < minRecommendedStories
-  const mayHitGrowthTierMaxBudget = hasGrowthPlan && ! hasProPlan && targetingState.budget > growthTierMaxDailyBudget
-  const mayHitProTierMaxBudget = hasProPlan && ! hasLegacyPlan && targetingState.budget > proTierMaxDailyBudget
+  const [planPrefix] = plan?.split('_') || []
+  const mayHitSpendCap = mayExceedSpendCap(planPrefix, targetingState.budget, { code: currencyCode, offset: currencyOffset })
 
   const budgetData = {
     currency: currencyCode,
@@ -83,17 +79,17 @@ const TargetingBudget = ({
   }
 
   React.useEffect(() => {
-    if (! hasSetUpProfile) return
-
-    if (! hasBudgetBelowMinRecommendedStories && (! isDailyBudget || (! mayHitGrowthTierMaxBudget && ! mayHitProTierMaxBudget))) {
-      setShouldShowWarning(false)
+    if (
+      hasSetUpProfile
+      && ! isDisabled
+      && (hasBudgetBelowMinRecommendedStories || mayHitSpendCap)
+    ) {
+      setShouldShowWarning(true)
       return
     }
 
-    if ((hasBudgetBelowMinRecommendedStories || (isDailyBudget && (mayHitGrowthTierMaxBudget || mayHitProTierMaxBudget))) && ! isDisabled) {
-      setShouldShowWarning(true)
-    }
-  }, [mayHitGrowthTierMaxBudget, hasBudgetBelowMinRecommendedStories, mayHitProTierMaxBudget, hasSetUpProfile, isDailyBudget, isDisabled])
+    setShouldShowWarning(false)
+  }, [hasBudgetBelowMinRecommendedStories, hasSetUpProfile, isDailyBudget, isDisabled, hasFreePlan, mayHitSpendCap])
 
   return (
     <section
@@ -132,14 +128,14 @@ const TargetingBudget = ({
             )}
           </DisabledSection>
           {shouldShowWarning && (
-            hasBudgetBelowMinRecommendedStories ? (
+            hasBudgetBelowMinRecommendedStories && ! mayHitSpendCap ? (
               <ControlsSettingsSectionFooter
-                copy={copy.budgetFooter(hasProPlan, budgetData)}
+                copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
                 className="mt-5 text-insta"
               />
             ) : (
               <DisabledActionPrompt
-                copy={copy.budgetFooter(hasProPlan, budgetData)}
+                copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
                 section="budget"
                 version="small"
                 isButton={! hasProPlan}

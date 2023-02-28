@@ -28,7 +28,7 @@ const PricingPlanUpgradePayment = ({
   setProfilesToUpgrade,
   prorationsPreview,
   setProrationsPreview,
-  canChooseBasic,
+  canChooseFree,
 }) => {
   const [upgradableProfiles, setUpgradableProfiles] = React.useState([])
   const hasMultipleUpgradableProfiles = upgradableProfiles.length > 1
@@ -37,12 +37,12 @@ const PricingPlanUpgradePayment = ({
 
   const { artistId, artist, setPlan, setStatus } = React.useContext(ArtistContext)
   const { name } = artist
-  const planIsBasic = Object.values(profilesToUpgrade).some((plan) => plan === 'basic')
+  const isFreePlan = Object.values(profilesToUpgrade).some((plan) => plan === 'free')
 
   const stripe = useStripe()
 
   const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
-  const isDisabled = (! planIsBasic && ! amount) || Boolean(error)
+  const isDisabled = (! isFreePlan && ! amount) || Boolean(error)
 
   const {
     organizationArtists,
@@ -65,7 +65,7 @@ const PricingPlanUpgradePayment = ({
 
     const profileUpdated = profiles.find((profile) => profile.id === artistId)
     setStatus(profileUpdated.status)
-    setPlan(profileUpdated.plan)
+    setPlan(profileUpdated)
 
 
     if (profileUpdated.plan === 'active' || ! clientSecret) {
@@ -108,7 +108,7 @@ const PricingPlanUpgradePayment = ({
         trackComponentName="PricingPlanUpgradePayment"
         isSidePanel
       >
-        {(planIsBasic && amount === 0
+        {(isFreePlan && amount === 0
           ? `Confirm (${formatCurrency(amount, currency, true)})`
           : `Pay ${formatCurrency(amount, currency)}`
         )}
@@ -120,7 +120,7 @@ const PricingPlanUpgradePayment = ({
     )
 
     setSidePanelButton(button)
-  }, [upgradePlan, setSidePanelButton, amount, isDisabled, currency, isLoading, planIsBasic])
+  }, [upgradePlan, setSidePanelButton, amount, isDisabled, currency, isLoading, isFreePlan])
 
   React.useEffect(() => {
     // Get the current profile
@@ -147,7 +147,7 @@ const PricingPlanUpgradePayment = ({
           profilesToUpgrade={profilesToUpgrade}
           setProfilesToUpgrade={setProfilesToUpgrade}
           profiles={upgradableProfiles}
-          canChooseBasic={canChooseBasic}
+          canChooseFree={canChooseFree}
         />
       )}
       <PricingProrationsLoader
@@ -164,7 +164,7 @@ const PricingPlanUpgradePayment = ({
 PricingPlanUpgradePayment.propTypes = {
   setCurrentStep: PropTypes.func,
   setSidePanelButton: PropTypes.func,
-  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])),
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['free', 'growth', 'pro', 'none'])),
   setProfilesToUpgrade: PropTypes.func,
   prorationsPreview: PropTypes.object,
   setProrationsPreview: PropTypes.func,

@@ -18,22 +18,24 @@ import brandColors from '@/constants/brandColors'
 import copy from '@/app/copy/getStartedCopy'
 
 const GetStartedObjectiveButtonFooter = ({
-  plan,
+  objective,
   isDisabled,
+  isRestricted,
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { currency: artistCurrency } = artist
 
   const icons = {
-    basic: InformationIcon,
-    growth: InsightsIcon,
-    pro: StarIcon,
+    growth: InformationIcon,
+    traffic: InsightsIcon,
+    sales: StarIcon,
   }
-  const Icon = icons[plan]
+  const Icon = icons[objective]
 
   const openPricingPlanReadMoreSidePanel = useOpenPricingPlanReadMoreSidePanel()
 
   const openReadMoreSidePanel = () => {
+    const plan = isRestricted ? 'growth' : 'free'
     const pricingPlan = pricingPlans.find(({ name }) => name === plan)
 
     openPricingPlanReadMoreSidePanel(pricingPlan, artistCurrency || 'GBP')
@@ -46,7 +48,7 @@ const GetStartedObjectiveButtonFooter = ({
           className="w-3 h-3 mr-1 flex-shrink-0"
           fill={brandColors.instagram.bg}
         />
-        <MarkdownText markdown={copy.objectiveDisabledFooter(plan)} className="mb-0 text-xs mt-[2px]" />
+        <MarkdownText markdown={copy.objectiveDisabledFooter(isRestricted)} className="mb-0 text-xs mt-[2px]" />
       </div>
     ) : (
       <button
@@ -56,18 +58,16 @@ const GetStartedObjectiveButtonFooter = ({
         <div className="flex items-center justify-center w-4 h-4 mr-1 rounded-full bg-grey-dark">
           <Icon className="w-3 h-3" fill={brandColors.offwhite} />
         </div>
-        <MarkdownText markdown={copy.objectivePlanFooter(plan)} className="mb-0 text-xs text-grey-dark" />
+        <MarkdownText markdown={copy.objectivePlanFooter(isRestricted)} className="mb-0 text-xs text-grey-dark" />
       </button>
     )
   )
 }
 
 GetStartedObjectiveButtonFooter.propTypes = {
-  plan: PropTypes.string.isRequired,
+  objective: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-}
-
-GetStartedObjectiveButtonFooter.defaultProps = {
+  isRestricted: PropTypes.bool.isRequired,
 }
 
 export default GetStartedObjectiveButtonFooter

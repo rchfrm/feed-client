@@ -10,7 +10,7 @@ const GetStartedObjectiveButton = ({
   selectedPlan,
   isDisabled,
 }) => {
-  const { name, value, plan } = objective
+  const { name, value, isRestricted } = objective
 
   const classNames = {
     growth: '',
@@ -35,9 +35,9 @@ const GetStartedObjectiveButton = ({
       </Button>
       {(! selectedPlan || isDisabled) && (
         <GetStartedObjectiveButtonFooter
-          plan={plan}
-          selectedPlan={selectedPlan}
+          objective={value}
           isDisabled={isDisabled}
+          isRestricted={isRestricted}
         />
       )}
     </div>

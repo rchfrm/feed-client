@@ -71,7 +71,7 @@ const GetStartedPaymentMethod = () => {
 
   const [planPrefix, planPeriod] = plan.split('_')
 
-  const isPaymentRequired = status !== 'active' && planPrefix !== 'basic'
+  const isPaymentRequired = status !== 'active' && planPrefix !== 'free'
   const profilePlans = React.useMemo(() => ({ [artistId]: plan }), [artistId, plan])
   const shouldShowPromoCodeInput = false
 
@@ -151,7 +151,7 @@ const GetStartedPaymentMethod = () => {
 
     const profileUpdated = profiles.find((profile) => profile.id === artistId)
     setStatus(profileUpdated.status)
-    setPlan(profileUpdated.plan)
+    setPlan(profileUpdated)
 
     if (profileUpdated.plan === 'active' || ! clientSecret) {
       updateOrganizationArtists(profiles)

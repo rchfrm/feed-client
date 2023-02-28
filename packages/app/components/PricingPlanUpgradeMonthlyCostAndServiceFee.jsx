@@ -9,14 +9,14 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, disabl
 
   const monthlyCost = plan.monthlyCost[currencyCode]
   const { serviceFeePercentage } = plan
-  const isBasic = monthlyCost === 0 && serviceFeePercentage === 0.1
+  const isFree = monthlyCost === 0 && serviceFeePercentage === 0
 
   return (
     <div className="flex items-center">
       <div className="flex flex-col xs:flex-row items-center mr-3 xs:mr-8">
         <div className={[
           'flex',
-          isBasic || disabled ? 'text-grey-dark' : 'text-black',
+          isFree || disabled ? 'text-grey-dark' : 'text-black',
         ].join(' ')}
         >
           <p className="text-2xl pr-1 mb-0">{currencySymbol}</p>
@@ -38,7 +38,7 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, disabl
       </div>
       <div className={[
         'flex flex-col xs:flex-row items-center xs:mr-8',
-        isBasic && ! disabled ? 'text-black' : 'text-grey-dark',
+        isFree && ! disabled ? 'text-black' : 'text-grey-dark',
       ].join(' ')}
       >
         <p className="mr-2 mb-0 text-2xl">{serviceFeePercentage * 100}%</p>
