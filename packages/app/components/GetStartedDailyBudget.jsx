@@ -31,6 +31,7 @@ const GetStartedDailyBudget = () => {
     saveTargetingSettings,
     targetingLoading,
     setBudgetSlider,
+    disableSaving,
   } = React.useContext(TargetingContext)
 
   const {
@@ -180,7 +181,7 @@ const GetStartedDailyBudget = () => {
           isLoading={targetingLoading || isLoading}
           className="w-full sm:w-48 mb-4"
           trackComponentName="GetStartedDailyBudget"
-          isDisabled={hasInsufficientBudget}
+          isDisabled={hasInsufficientBudget || Boolean(disableSaving)}
         >
           Save
           <ArrowIcon

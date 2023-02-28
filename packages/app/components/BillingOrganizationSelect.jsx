@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import SwitchIcon from '@/icons/SwitchIcon'
 import Button from '@/elements/Button'
 import Select from '@/elements/Select'
-import brandColors from '@/constants/brandColors'
 import { track } from '@/helpers/trackingHelpers'
 import { UserContext } from '@/app/contexts/UserContext'
 
@@ -57,7 +56,6 @@ const BillingOrganizationSelect = ({
               />
               <div>
                 <Button
-                  size="small"
                   label="Cancel switch organization"
                   onClick={(e) => {
                     setSelectActive(false)
@@ -81,7 +79,7 @@ const BillingOrganizationSelect = ({
                   }}
                   trackComponentName="BillingOrganizationSelect"
                 >
-                  <SwitchIcon className="h-5 w-auto mr-2" fill={brandColors.offwhite} />
+                  <SwitchIcon className="h-5 w-auto mr-2" />
                   Switch
                 </Button>
               </div>

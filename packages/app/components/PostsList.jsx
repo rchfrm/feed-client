@@ -21,7 +21,7 @@ const PostsList = ({
       ].join(' ')}
     >
       {! posts.length ? (
-        status !== 'pending' && <PostsNone filterBy={filterBy} className="col-span-12" />
+        <PostsNone filterBy={filterBy} className="col-span-12" />
       ) : (
         posts.map((post, index) => {
           return (

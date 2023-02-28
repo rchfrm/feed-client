@@ -50,7 +50,7 @@ const LinkBankEditModal = ({
     const newButtons = produce(modalButtons, (draftButtons) => {
       // Update save button
       draftButtons[1].onClick = () => runSaveLink(linkProps, action, link)
-      draftButtons[1].disabled = ! saveEnabled
+      draftButtons[1].isDisabled = ! saveEnabled
       // Update delete button
       if (draftButtons[0].id === 'delete') {
         draftButtons[0].onClick = () => runSaveLink(linkProps, 'delete', link)

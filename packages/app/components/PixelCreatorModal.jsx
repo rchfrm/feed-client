@@ -26,8 +26,8 @@ const PixelCreatorModal = ({
     // Update buttons
     const newButtons = produce(modalButtons, (draftButtons) => {
       // Update save button
-      draftButtons[0].disabled = isDisabled
-      draftButtons[0].onClick = () => createPixel(pixelName)
+      draftButtons[1].isDisabled = isDisabled
+      draftButtons[1].onClick = () => createPixel(pixelName)
     })
     setButtons(newButtons)
   // eslint-disable-next-line

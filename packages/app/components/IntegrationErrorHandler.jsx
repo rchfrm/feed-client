@@ -38,16 +38,16 @@ const IntegrationErrorHandler = () => {
   const checkError = React.useCallback((integrationError) => {
     // Stop here if there are no artists associated with an account
     if (! user.artists || ! user.artists.length || ! integrationError) {
-      return
+      return null
     }
 
     // Stop here if running locally
     if (isDevelopment) {
-      return
+      return null
     }
 
     if (! artist || ! artistId) {
-      return
+      return null
     }
 
     const { artists: userArtists } = user
@@ -56,7 +56,7 @@ const IntegrationErrorHandler = () => {
 
     // Stop here if artist is not owned
     if (! artistOwned) {
-      return
+      return null
     }
 
     return integrationError
@@ -66,9 +66,7 @@ const IntegrationErrorHandler = () => {
     if (! isNotificationsLoading) {
       const [integrationError] = notifications.filter(({ isComplete, type, hidden }) => type === 'alert' && ! isComplete && ! hidden)
 
-      if (integrationError) {
-        setIntegrationError(checkError(integrationError))
-      }
+      setIntegrationError(checkError(integrationError))
     }
   }, [notifications, checkError, isNotificationsLoading, setIntegrationError])
 
