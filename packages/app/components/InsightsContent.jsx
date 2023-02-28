@@ -19,7 +19,7 @@ import styles from '@/app/InsightsPage.module.css'
 const InsightsContent = () => {
   // Import artist context
   const { artistLoading, artist, artistId } = React.useContext(ArtistContext)
-  const { hasGrowthPlan } = artist
+  const { hasBasicPlan } = artist
   // Define states
   const [currentPlatform, setCurrentPlatform] = React.useState('')
   const [currentDataSource, setCurrentDataSource] = React.useState('')
@@ -73,7 +73,7 @@ const InsightsContent = () => {
     }
   }, [initialLoading])
 
-  if (! hasGrowthPlan) {
+  if (hasBasicPlan) {
     return (
       <DisabledActionPrompt
         version="border"

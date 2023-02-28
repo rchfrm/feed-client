@@ -1,19 +1,21 @@
 import React from 'react'
 import produce from 'immer'
 import useAsyncEffect from 'use-async-effect'
-
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-
 import useControlsStore from '@/app/stores/controlsStore'
-
+import useBillingStore from '@/app/stores/billingStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import * as utils from '@/helpers/utils'
 import * as targetingHelpers from '@/app/helpers/targetingHelpers'
 import * as budgetHelpers from '@/app/helpers/budgetHelpers'
 
 // Read from controls store
 const setSpending = (state) => state.updateSpending
+
+const getBillingStoreState = (state) => ({
+  organizationArtists: state.organizationArtists,
+  setOrganizationArtists: state.updateOrganizationArtists,
+})
 
 const initialState = {
   targetingState: {},
@@ -89,6 +91,7 @@ const TargetingContextProvider = ({ children }) => {
 
   // Get Setter to set budget in the controls store
   const updateSpending = useControlsStore(setSpending)
+  const { organizationArtists, setOrganizationArtists } = useBillingStore(getBillingStoreState)
 
   // TARGETING STATE
   const [targetingState, setTargetingState] = React.useState(initialState.targetingState)
@@ -232,6 +235,7 @@ const TargetingContextProvider = ({ children }) => {
     } = {} } = feedMinBudgetInfo
     const isBudgetTooSmall = targetingState.budget < minHardBudget
     const noLocations = ! selectedCountries.length && ! selectedCities.length
+
     // Disable with budget reason
     if (isBudgetTooSmall) return setDisableSaving('budget')
     // Disable with location reason
@@ -244,6 +248,14 @@ const TargetingContextProvider = ({ children }) => {
     const minReccBudget = budgetHelpers.calcMinReccBudget(feedMinBudgetInfo, locationOptions)
     setMinReccBudget(minReccBudget)
   }, [feedMinBudgetInfo, locationOptions])
+
+  const updateOrganizationArtists = React.useCallback((spendingStatus) => {
+    const currentOrganizationArtistIndex = organizationArtists.findIndex((artist) => artist.id === artistId)
+    const updatedOrganizationArtists = produce(organizationArtists, (draftState) => {
+      draftState[currentOrganizationArtistIndex].preferences.targeting.status = spendingStatus
+    })
+    setOrganizationArtists(updatedOrganizationArtists)
+  }, [artistId, setOrganizationArtists, organizationArtists])
 
   // SAVE CAMPAIGN
   const settingsSaved = React.useRef(initialState.settingsSaved)
@@ -271,13 +283,14 @@ const TargetingContextProvider = ({ children }) => {
       setTargetingState(savedState)
       setInitialTargetingState(savedState)
       updateSpendingPaused(savedState.status)
+      updateOrganizationArtists(savedState.status)
       updateBudget(savedState.budget / currencyOffset)
       updateSpending((savedState.budget / currencyOffset), ! savedState.status)
     }
     setSelectedCampaignRecc(null)
     setSaving(false)
     setTargetingLoading(false)
-  }, [artistId, setTargetingLoading, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateSpending])
+  }, [artistId, setTargetingLoading, selectedCities, selectedCountries, currencyOffset, isFirstTimeUser, updateSpendingPaused, updateBudget, updateSpending, updateOrganizationArtists])
 
   // PAUSE CAMPAIGN
   const togglePauseCampaign = React.useCallback(() => {
@@ -293,9 +306,11 @@ const TargetingContextProvider = ({ children }) => {
 
       draftState.status = newPausedState
     })
+
     saveTargetingSettings(newSettings)
     updateSpendingPaused(newPausedState)
-  }, [initialTargetingState, saveTargetingSettings, updateSpendingPaused])
+    updateOrganizationArtists(newPausedState)
+  }, [initialTargetingState, saveTargetingSettings, updateSpendingPaused, updateOrganizationArtists])
 
   // CANCEL UPDATE SETTINGS
   const cancelUpdateSettings = React.useCallback(() => {

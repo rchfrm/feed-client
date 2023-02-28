@@ -31,14 +31,13 @@ const GetStartedPricing = () => {
   const { artistId, setPlan, artist } = React.useContext(ArtistContext)
   const { currency: artistCurrency } = artist
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
-  const { objective: storedObjective, plan: storedPricingPlan = '' } = wizardState || {}
+  const { objective: storedObjective } = wizardState || {}
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const objective = optimizationPreferences?.objective || storedObjective
   const recommendedPlan = objective === 'sales' ? 'pro' : 'growth'
 
   const [selectedPricingPlan, setSelectedPricingPlan] = React.useState('')
-  const [showAnnualPricing, setShowAnnualPricing] = React.useState(artist?.plan?.includes('annual') || storedPricingPlan?.includes('annual'))
   const [currency, setCurrency] = React.useState(artistCurrency || 'GBP')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -49,7 +48,7 @@ const GetStartedPricing = () => {
   const { next } = React.useContext(WizardContext)
 
   const handleNextStep = React.useCallback(async (pricingPlan) => {
-    const pricingPlanString = getPricingPlanString(pricingPlan, showAnnualPricing)
+    const pricingPlanString = getPricingPlanString(pricingPlan)
 
     // If the pricing plan hasn't changed just go to the next step
     if (pricingPlanString === artist?.plan || pricingPlanString === wizardState?.plan) {
@@ -80,26 +79,18 @@ const GetStartedPricing = () => {
     }
 
     // Update artist context
-    setPlan(updatedArtist.plan)
+    setPlan(updatedArtist)
 
     setIsLoading(false)
     next()
   // eslint-disable-next-line
-  }, [next, artistId, getPricingPlanString, showAnnualPricing])
+  }, [next, artistId, getPricingPlanString])
 
   React.useEffect(() => {
     if (! selectedPricingPlan) return
 
     handleNextStep(selectedPricingPlan)
   }, [selectedPricingPlan, handleNextStep])
-
-  React.useEffect(() => {
-    if (hasMultipleProfiles) {
-      const { plan } = organizationArtists.find(({ plan }) => plan)
-
-      setShowAnnualPricing(plan.includes('annual'))
-    }
-  }, [hasMultipleProfiles, organizationArtists])
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
@@ -113,12 +104,10 @@ const GetStartedPricing = () => {
               <GetStartedPricingPlansHeader
                 currency={currency}
                 setCurrency={setCurrency}
-                showAnnualPricing={showAnnualPricing}
-                setShowAnnualPricing={setShowAnnualPricing}
               />
             )}
             <GetStartedPricingPlans
-              showAnnualPricing={showAnnualPricing}
+              artistId={artistId}
               currency={currency}
               setSelectedPricingPlan={setSelectedPricingPlan}
               recommendedPlan={recommendedPlan}
@@ -128,12 +117,6 @@ const GetStartedPricing = () => {
         )}
     </div>
   )
-}
-
-GetStartedPricing.propTypes = {
-}
-
-GetStartedPricing.defaultProps = {
 }
 
 export default GetStartedPricing

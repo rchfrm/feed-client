@@ -9,17 +9,20 @@ import { fetchUpcomingInvoice } from '@/app/helpers/invoiceHelpers'
 /**
  * @param {string} organizationId
  * @param {string} paymentMethodId
- * @param {string} currency
- * @param {boolean} shouldBeDefault
- * @param {string} promoCode
+ * @param {object} options
  * @returns {Promise<any>}
  */
-export const submitPaymentMethod = async ({ organizationId, paymentMethodId, currency, shouldBeDefault = false, promoCode }) => {
+export const submitPaymentMethod = async (organizationId, paymentMethodId, options) => {
+  const {
+    shouldBeDefault = false,
+    promoCode,
+    isPaymentRequired = true,
+  } = options
   const payload = {
     token: paymentMethodId,
-    currency,
     is_default: shouldBeDefault,
     promoCode,
+    create_subscription: isPaymentRequired,
   }
   const endpoint = `/organizations/${organizationId}/billing/payments`
   const errorTracking = {
@@ -166,13 +169,13 @@ export const handleInitialize = (draftState, payload) => {
   const hasMultipleActiveProfiles = orgArtists.filter((artist) => {
     return artist.status === 'active'
       && Boolean(artist.plan)
-      && ! artist.plan.includes('basic')
+      && ! artist.plan.includes('free')
   }).length > 0
 
   return orgArtists.reduce((acc, orgArtist) => {
     if (orgArtist.id === selectedArtistID) {
       acc[orgArtist.id] = selectedArtistPlan
-    } else if (orgArtist.plan?.includes('basic')) {
+    } else if (orgArtist.plan?.includes('free')) {
       acc[orgArtist.id] = 'growth'
     } else if (hasMultipleActiveProfiles && ! orgArtist.plan) {
       acc[orgArtist.id] = 'none'
@@ -190,7 +193,7 @@ export const handleUpdateProfilePlan = (draftState, payload) => {
 
   if (! profileId || ! plan || ! Object.hasOwn(draftState, profileId)) return draftState
 
-  if (plan === 'basic') {
+  if (plan === 'free') {
     return Object.keys(draftState).reduce((acc, id) => {
       if (id === profileId) {
         acc[id] = plan
@@ -242,26 +245,25 @@ export const getDefaultPaymentMethod = (allPaymentMethods = []) => {
 }
 
 // GET PRICING PLAN STRING
-export const getPricingPlanString = (planPrefix, isAnnualPricing) => {
-  const planPeriod = isAnnualPricing && planPrefix !== 'basic' ? 'annual' : 'monthly'
-
-  return `${planPrefix}_${planPeriod}`
+export const getPricingPlanString = (planPrefix) => {
+  if (planPrefix === 'free') return planPrefix
+  return `${planPrefix}_monthly`
 }
 
 // SET INITIAL VALUE FOR PRICING PLAN
 /**
  * @param {Object} artist
- * @param {boolean} canChooseBasic
+ * @param {boolean} canChooseFree
  * @param {boolean} isUpgradeToPro
  * @returns {string}
  */
-export const setInitialPlan = (artist, canChooseBasic, isUpgradeToPro) => {
+export const setInitialPlan = (artist, canChooseFree, isUpgradeToPro) => {
   const { plan, status } = artist
   const [planPrefix] = plan?.split('_') || ''
   if (plan && status === 'incomplete') {
     return planPrefix
   }
-  if (canChooseBasic) {
+  if (canChooseFree) {
     return planPrefix || 'growth'
   }
   return isUpgradeToPro ? 'pro' : 'growth'
@@ -451,14 +453,14 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
   return Object.fromEntries(Object.entries(formattedProfileAmounts).sort())
 }
 
-export const formatProfilesToUpgrade = (profilesToUpgrade, isAnnualPricing) => {
+export const formatProfilesToUpgrade = (profilesToUpgrade) => {
   return Object.keys(profilesToUpgrade).reduce((acc, cur) => {
     const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
 
     if (planPrefix === 'none') {
       acc[cur] = undefined
     } else {
-      acc[cur] = getPricingPlanString(profilesToUpgrade[cur], isAnnualPricing)
+      acc[cur] = getPricingPlanString(profilesToUpgrade[cur])
     }
 
     return acc
