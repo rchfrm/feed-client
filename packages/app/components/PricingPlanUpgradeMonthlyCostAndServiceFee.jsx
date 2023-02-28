@@ -9,7 +9,7 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, disabl
 
   const monthlyCost = plan.monthlyCost[currencyCode]
   const { serviceFeePercentage } = plan
-  const isFree = monthlyCost === 0 && serviceFeePercentage === 0.1
+  const isFree = monthlyCost === 0 && serviceFeePercentage === 0
 
   return (
     <div className="flex items-center">
