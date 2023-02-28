@@ -139,11 +139,10 @@ const FORM = ({
     }
 
     // Store payment method in db
-    const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
-      organizationId,
-      paymentMethodId,
+    const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod(organizationId, paymentMethodId, {
       shouldBeDefault,
       promoCode,
+      isPaymentRequired,
     })
     if (serverError) {
       return handleError(serverError)

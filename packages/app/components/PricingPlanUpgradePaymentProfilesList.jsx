@@ -7,7 +7,7 @@ const PricingPlanUpgradePaymentProfilesList = ({
   profilesToUpgrade,
   setProfilesToUpgrade,
   profiles,
-  canChooseBasic,
+  canChooseFree,
 }) => {
   return (
     <div className="mb-10 pl-8">
@@ -17,7 +17,7 @@ const PricingPlanUpgradePaymentProfilesList = ({
           profile={profile}
           profilesToUpgrade={profilesToUpgrade}
           setProfilesToUpgrade={setProfilesToUpgrade}
-          canChooseBasic={canChooseBasic}
+          canChooseFree={canChooseFree}
         />
       ))}
     </div>
@@ -25,10 +25,10 @@ const PricingPlanUpgradePaymentProfilesList = ({
 }
 
 PricingPlanUpgradePaymentProfilesList.propTypes = {
-  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['basic', 'growth', 'pro', 'none'])).isRequired,
+  profilesToUpgrade: PropTypes.objectOf(PropTypes.oneOf(['free', 'growth', 'pro', 'none'])).isRequired,
   setProfilesToUpgrade: PropTypes.func.isRequired,
   profiles: PropTypes.array.isRequired,
-  canChooseBasic: PropTypes.bool.isRequired,
+  canChooseFree: PropTypes.bool.isRequired,
 }
 
 PricingPlanUpgradePaymentProfilesList.defaultProps = {

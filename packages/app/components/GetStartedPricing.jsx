@@ -107,6 +107,7 @@ const GetStartedPricing = () => {
               />
             )}
             <GetStartedPricingPlans
+              artistId={artistId}
               currency={currency}
               setSelectedPricingPlan={setSelectedPricingPlan}
               recommendedPlan={recommendedPlan}

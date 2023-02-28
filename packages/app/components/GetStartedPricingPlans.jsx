@@ -13,13 +13,14 @@ const getBillingStoreState = (state) => ({
 })
 
 const GetStartedPricingPlans = ({
+  artistId,
   currency,
   setSelectedPricingPlan,
   recommendedPlan,
   objective,
 }) => {
   const { organizationArtists } = useBillingStore(getBillingStoreState)
-  const hasMultipleProfiles = organizationArtists.some((artist) => !! artist.plan && artist.status === 'active')
+  const hasAnotherOrgProfileSpending = organizationArtists.some((artist) => artist.id !== artistId && artist.preferences.targeting.status === 1)
   const hasSalesObjective = objective === 'sales'
 
   const openPricingPlanReadMoreSidePanel = useOpenPricingPlanReadMoreSidePanel()
@@ -34,16 +35,16 @@ const GetStartedPricingPlans = ({
         {pricingPlans.map((plan, index) => {
           const isDisabled = (plan.name === 'free' && hasSalesObjective)
 
-          // Don't show free plan if user already has more than 1 profile
-          if (hasMultipleProfiles && plan.name === 'free') return
+          // Don't show free plan if the user already has an active spending profile
+          if (hasAnotherOrgProfileSpending && plan.name === 'free') return
 
           return (
             <div
               key={plan.name}
               className={[
                 'col-span-12 sm:col-span-4',
-                hasMultipleProfiles && index === 1 ? 'sm:col-start-3' : null,
-                hasMultipleProfiles && index === 2 ? 'sm:col-start-7' : null,
+                hasAnotherOrgProfileSpending && index === 1 ? 'sm:col-start-3' : null,
+                hasAnotherOrgProfileSpending && index === 2 ? 'sm:col-start-7' : null,
               ].join(' ')}
             >
               <GetStartedPricingPlan
@@ -64,6 +65,7 @@ const GetStartedPricingPlans = ({
 }
 
 GetStartedPricingPlans.propTypes = {
+  artistId: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   setSelectedPricingPlan: PropTypes.func.isRequired,
   recommendedPlan: PropTypes.string.isRequired,

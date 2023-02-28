@@ -69,7 +69,6 @@ PricingPlan.propTypes = {
     monthlyCost: PropTypes.objectOf(PropTypes.number),
     serviceFeePercentage: PropTypes.number,
     features: PropTypes.arrayOf(PropTypes.string),
-    maxSpendMultiple: PropTypes.number,
   }).isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
 }
