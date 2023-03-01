@@ -136,13 +136,9 @@ const GetStartedPaymentMethod = () => {
   }
 
   const upgradeProfilePlans = async () => {
-    setIsLoading(true)
-
-    const { res: { clientSecret, profiles }, error } = await upgradeProfiles(organizationId, profilePlans, promoCode)
+    const { res: { clientSecret, profiles } = {}, error } = await upgradeProfiles(organizationId, profilePlans, promoCode)
     if (error) {
-      setError(error)
-      setIsLoading(false)
-      return
+      return { error }
     }
 
     const profileUpdated = profiles.find((profile) => profile.id === artistId)
@@ -167,7 +163,15 @@ const GetStartedPaymentMethod = () => {
   }
 
   const handleNext = async () => {
-    const { profileUpdated, clientSecret } = await upgradeProfilePlans()
+    setIsLoading(true)
+
+    const { profileUpdated, clientSecret, error } = await upgradeProfilePlans()
+
+    if (error) {
+      setError(error)
+      setIsLoading(false)
+      return
+    }
 
     if (profileUpdated.plan === 'active' || ! clientSecret) {
       setSuccess(true)
