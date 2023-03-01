@@ -18,25 +18,24 @@ import { updateCompletedSetupAt } from '@/app/helpers/artistHelpers'
 import { getProrationsPreview, upgradeProfiles } from '@/app/helpers/billingHelpers'
 import copy from '@/app/copy/getStartedCopy'
 import { formatCurrency } from '@/helpers/utils'
-import { useStripe } from '@stripe/react-stripe-js'
 
 const getBillingStoreState = (state) => ({
   billingDetails: state.billingDetails,
   defaultPaymentMethod: state.defaultPaymentMethod,
   addPaymentMethodToStore: state.addPaymentMethod,
+  organizationArtists: state.organizationArtists,
   updateOrganizationArtists: state.updateOrganizationArtists,
 })
 
 const GetStartedPaymentMethod = () => {
   const {
     defaultPaymentMethod,
-    billingDetails: { allPaymentMethods },
     addPaymentMethodToStore,
+    organizationArtists,
     updateOrganizationArtists,
   } = useBillingStore(getBillingStoreState)
   const { next, setWizardState, wizardState } = React.useContext(WizardContext)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
-  const stripe = useStripe()
   const saveTargeting = useSaveTargeting({ targetingState, saveTargetingSettings })
 
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
@@ -122,10 +121,6 @@ const GetStartedPaymentMethod = () => {
     setIsLoadingAmountToPay(false)
   }, [isValidPromoCode])
 
-  const togglePaymentMethodForm = () => {
-    setShouldShowPaymentMethodForm((shouldShowPaymentMethodForm) => setShouldShowPaymentMethodForm(! shouldShowPaymentMethodForm))
-  }
-
   const checkAndUpdateCompletedSetupAt = async () => {
     if (! hasSetUpProfile) {
       const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
@@ -142,6 +137,7 @@ const GetStartedPaymentMethod = () => {
 
   const upgradeProfilePlans = async () => {
     setIsLoading(true)
+
     const { res: { clientSecret, profiles }, error } = await upgradeProfiles(organizationId, profilePlans, promoCode)
     if (error) {
       setError(error)
@@ -152,62 +148,42 @@ const GetStartedPaymentMethod = () => {
     const profileUpdated = profiles.find((profile) => profile.id === artistId)
     setStatus(profileUpdated.status)
     setPlan(profileUpdated)
+    updateOrganizationArtists(profiles)
+    setIsLoading(false)
 
-    if (profileUpdated.plan === 'active' || ! clientSecret) {
-      updateOrganizationArtists(profiles)
-      await checkAndUpdateCompletedSetupAt()
-      setIsLoading(false)
-      next()
-      return
-    }
+    return { profileUpdated, clientSecret }
+  }
 
-    const { error: confirmPaymentError } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: defaultPaymentMethod.id,
-    })
-
-    if (confirmPaymentError) {
-      updateOrganizationArtists(profiles)
-      setError(confirmPaymentError)
-      setIsLoading(false)
-      return
-    }
-
+  const setStatusToActive = () => {
     setStatus('active')
-    const upgradedProfilesWithActiveStatus = profiles.map((profile) => {
+
+    const upgradedProfilesWithActiveStatus = organizationArtists.map((profile) => {
       if (['incomplete', 'past_due'].includes(profile.status)) {
         profile.status = 'active'
       }
       return profile
     })
     updateOrganizationArtists(upgradedProfilesWithActiveStatus)
-
-    await checkAndUpdateCompletedSetupAt()
-    setIsLoading(false)
-    next()
   }
 
   const handleNext = async () => {
-    if ((defaultPaymentMethod && ! shouldShowPaymentMethodForm) || isManaged) {
-      await upgradeProfilePlans()
+    const { profileUpdated, clientSecret } = await upgradeProfilePlans()
 
+    if (profileUpdated.plan === 'active' || ! clientSecret) {
+      setSuccess(true)
       return
     }
 
-    addPaymentMethod()
+    addPaymentMethod(clientSecret)
   }
 
   // Go to next step on success
   useAsyncEffect(async () => {
     if (success) {
       setShouldShowPaymentMethodForm(false)
-
-      // If it's not the first payment method added we need to make sure to upgrade the profile plans
-      if (allPaymentMethods.length > 1) {
-        await upgradeProfilePlans()
-        return
-      }
-
+      setStatusToActive()
       await checkAndUpdateCompletedSetupAt()
+
       next()
     }
   }, [success, next])
@@ -237,7 +213,7 @@ const GetStartedPaymentMethod = () => {
               />
             ) : (
               <>
-                <p className="mb-4 font-bold text-center">Your current default card:</p>
+                <p className="mb-4 font-bold text-center">Your default card:</p>
                 <BillingPaymentCard
                   currency={currency}
                   card={card}
@@ -248,16 +224,6 @@ const GetStartedPaymentMethod = () => {
               </>
             )}
           </>
-        )}
-        {defaultPaymentMethod && (
-          <Button
-            version="text"
-            onClick={togglePaymentMethodForm}
-            className="h-5 block mb-3 mx-auto text-sm"
-            trackComponentName="GetStartedPaymentMethod"
-          >
-            {shouldShowPaymentMethodForm ? 'Cancel' : 'Add a new card '}
-          </Button>
         )}
         {isPaymentRequired && (
           <>
@@ -291,12 +257,6 @@ const GetStartedPaymentMethod = () => {
       </div>
     </div>
   )
-}
-
-GetStartedPaymentMethod.propTypes = {
-}
-
-GetStartedPaymentMethod.defaultProps = {
 }
 
 export default GetStartedPaymentMethod
