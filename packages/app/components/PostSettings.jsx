@@ -94,7 +94,7 @@ const PostSettings = ({
           />
         )}
         {! postPromotable && (
-          <PostUnpromotable className="w-1/2 mb-10" />
+          <PostUnpromotable className="w-full max-w-xs mb-10" />
         )}
         {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
         <div className="flex flex-col sm:flex-row">
