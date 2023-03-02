@@ -52,18 +52,20 @@ const GetStartedPaymentMethod = () => {
   const [hasAppliedPromoCode, setHasAppliedPromoCode] = React.useState(false)
 
   const {
-    artist: {
-      hasSetUpProfile,
-      plan,
-      currency: artistCurrency = 'GBP',
-      is_managed: isManaged,
-      status,
-    },
+    artist,
     setStatus,
     setPlan,
     artistId,
     updateArtist,
   } = React.useContext(ArtistContext)
+
+  const {
+    hasSetUpProfile,
+    plan,
+    currency: artistCurrency = 'GBP',
+    is_managed: isManaged,
+    status,
+  } = artist
 
   const { user: { organizations } } = React.useContext(UserContext)
   const organizationId = Object.values(organizations).find((org) => org.role === 'owner')?.id
@@ -152,6 +154,7 @@ const GetStartedPaymentMethod = () => {
 
   const setStatusToActive = () => {
     setStatus('active')
+    setPlan(artist)
 
     const upgradedProfilesWithActiveStatus = organizationArtists.map((profile) => {
       if (['incomplete', 'past_due'].includes(profile.status)) {
