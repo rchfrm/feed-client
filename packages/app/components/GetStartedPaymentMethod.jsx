@@ -1,4 +1,5 @@
 import React from 'react'
+import produce from 'immer'
 import useAsyncEffect from 'use-async-effect'
 import useBillingStore from '@/app/stores/billingStore'
 import useSaveTargeting from '@/app/hooks/useSaveTargeting'
@@ -154,7 +155,11 @@ const GetStartedPaymentMethod = () => {
 
   const setStatusToActive = () => {
     setStatus('active')
-    setPlan(artist)
+
+    const updatedArtist = produce(artist, (draftState) => {
+      draftState.status = 'active'
+    })
+    setPlan(updatedArtist)
 
     const upgradedProfilesWithActiveStatus = organizationArtists.map((profile) => {
       if (['incomplete', 'past_due'].includes(profile.status)) {
