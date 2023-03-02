@@ -10,7 +10,6 @@ import { currencies } from '@/constants/pricing'
 
 export default function PricingPlansWrapper({
   plans,
-  showAnnualPricing,
   currency,
 }) {
   const growthPlanIndex = plans.findIndex((plan) => plan.name === 'growth')
@@ -35,7 +34,6 @@ export default function PricingPlansWrapper({
             >
               <PricingPlan
                 plan={plan}
-                showAnnualPricing={showAnnualPricing}
                 currency={currency}
               />
             </div>
@@ -72,7 +70,6 @@ export default function PricingPlansWrapper({
           >
             <PricingPlan
               plan={plan}
-              showAnnualPricing={showAnnualPricing}
               currency={currency}
             />
           </li>
@@ -84,7 +81,6 @@ export default function PricingPlansWrapper({
 
 PricingPlansWrapper.propTypes = {
   plans: PropTypes.arrayOf(PropTypes.object).isRequired,
-  showAnnualPricing: PropTypes.bool.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
 }
 

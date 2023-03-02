@@ -27,14 +27,16 @@ export default {
     return ''
   },
   objectiveSubtitle: 'What are you trying to achieve?',
-  objectivePlanFooter: (plan) => {
-    if (plan === 'basic') return 'Available in all plans'
-    if (plan === 'growth') return 'Growth and above'
-    if (plan === 'pro') return 'Only available on Pro'
+  objectivePlanFooter: (isRestricted) => {
+    if (isRestricted) {
+      return 'Available on Growth and Pro'
+    }
+    return 'Available in all plans'
   },
-  objectiveDisabledFooter: (plan) => {
-    if (plan === 'growth') return 'Select <span className="text-insta font-bold">Growth</span> or <span className="text-insta font-bold">Pro</span> to use this objective'
-    if (plan === 'pro') return 'Select <span className="text-insta font-bold">Pro</span> to use this objective'
+  objectiveDisabledFooter: (isRestricted) => {
+    if (isRestricted) {
+      return 'Select <span className="text-insta font-bold">Growth</span> or <span className="text-insta font-bold">Pro</span> to use this objective'
+    }
   },
   platformSubtitle: 'Which platform would you like to focus on initially?',
   defaultLinkSubtitle: (objective, platform) => {
@@ -80,7 +82,7 @@ export default {
     }
     const baseString = defaultPaymentMethod ? 'Confirm your default card' : 'Add a card'
 
-    if (planPrefix === 'basic' || planPrefix === 'legacy') {
+    if (planPrefix === 'free' || planPrefix === 'legacy') {
       if (defaultPaymentMethod) {
         return 'Confirm your default card and start running ads.'
       }

@@ -4,31 +4,27 @@ import PropTypes from 'prop-types'
 import { getCurrencySymbol } from '@/helpers/utils'
 
 
-const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, isAnnualPricing, disabled }) => {
+const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, disabled }) => {
   const currencySymbol = getCurrencySymbol(currencyCode)
 
   const monthlyCost = plan.monthlyCost[currencyCode]
   const { serviceFeePercentage } = plan
-  const isBasic = monthlyCost === 0 && serviceFeePercentage === 0.1
+  const isFree = monthlyCost === 0 && serviceFeePercentage === 0
 
   return (
     <div className="flex items-center">
       <div className="flex flex-col xs:flex-row items-center mr-3 xs:mr-8">
         <div className={[
           'flex',
-          isBasic || disabled ? 'text-grey-dark' : 'text-black',
+          isFree || disabled ? 'text-grey-dark' : 'text-black',
         ].join(' ')}
         >
           <p className="text-2xl pr-1 mb-0">{currencySymbol}</p>
-          {isAnnualPricing && ! isBasic && (
-            <p className="self-start line-through text-xs text-grey-dark">{monthlyCost}</p>
-          )}
           <p className={[
             'mr-1 mb-0 text-2xl font-bold',
-            isAnnualPricing && ! isBasic ? 'text-green' : null,
           ].join(' ')}
           >
-            {isAnnualPricing && ! isBasic ? monthlyCost * 0.8 : monthlyCost}
+            {monthlyCost}
           </p>
         </div>
 
@@ -42,7 +38,7 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, isAnnu
       </div>
       <div className={[
         'flex flex-col xs:flex-row items-center xs:mr-8',
-        isBasic && ! disabled ? 'text-black' : 'text-grey-dark',
+        isFree && ! disabled ? 'text-black' : 'text-grey-dark',
       ].join(' ')}
       >
         <p className="mr-2 mb-0 text-2xl">{serviceFeePercentage * 100}%</p>
@@ -55,13 +51,11 @@ const PricingPlanUpgradeMonthlyCostAndServiceFee = ({ currencyCode, plan, isAnnu
 PricingPlanUpgradeMonthlyCostAndServiceFee.propTypes = {
   currencyCode: PropTypes.string,
   plan: PropTypes.object.isRequired,
-  isAnnualPricing: PropTypes.bool,
   disabled: PropTypes.bool,
 }
 
 PricingPlanUpgradeMonthlyCostAndServiceFee.defaultProps = {
   currencyCode: 'GBP',
-  isAnnualPricing: false,
   disabled: false,
 }
 

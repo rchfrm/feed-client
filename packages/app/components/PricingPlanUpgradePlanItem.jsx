@@ -16,7 +16,6 @@ const PricingPlanUpgradePlanItem = ({
   pricingPlan,
   pricingPlanNumbers,
   selectedPlan,
-  isAnnualPricing,
   handleChange,
   currencyCode,
   className,
@@ -48,7 +47,6 @@ const PricingPlanUpgradePlanItem = ({
         <PricingPlanUpgradeMonthlyCostAndServiceFee
           currencyCode={currencyCode}
           plan={pricingPlanNumbers}
-          isAnnualPricing={isAnnualPricing}
           disabled={disabled}
         />
       </div>
@@ -68,7 +66,6 @@ PricingPlanUpgradePlanItem.propTypes = {
   pricingPlan: PropTypes.object.isRequired,
   pricingPlanNumbers: PropTypes.object.isRequired,
   selectedPlan: PropTypes.string.isRequired,
-  isAnnualPricing: PropTypes.bool.isRequired,
   handleChange: PropTypes.func.isRequired,
   currencyCode: PropTypes.string,
   className: PropTypes.string,

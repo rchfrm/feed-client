@@ -26,7 +26,7 @@ Do you want to continue?`,
 
   Would you like to resume spending with these settings? Or just save these settings and keep the spending paused?`,
 
-  budgetFooter: (hasProPlan, budgetData) => {
+  budgetFooter: (plan, budgetData, mayHitSpendCap) => {
     const {
       currency,
       dailyBudget,
@@ -34,18 +34,23 @@ Do you want to continue?`,
       minRecommendedStoriesString,
     } = budgetData
 
-    const plan = hasProPlan ? 'pro' : 'growth'
-    const { pro } = pricingNumbers
-    const planMaxMonthlySpend = pricingNumbers[plan].monthlyCost[currency] * pricingNumbers[plan].maxSpendMultiple
-    const proPlanMaxMonthlySpend = pro.monthlyCost[currency] * pro.maxSpendMultiple
+    const [planPrefix] = plan?.split('_')
+    const { growth, pro } = pricingNumbers
+    const planMaxMonthlySpend = pricingNumbers[planPrefix].maxSpend[currency]
+    const growthPlanMaxMonthlySpend = growth.maxSpend[currency]
+    const proPlanMaxMonthlySpend = pro.maxSpend[currency]
 
-    if (hasBudgetBelowMinRecommendedStories) {
+    const baseString = `By spending ${formatCurrency(dailyBudget, currency)} a day, you are likely to exceed the <span className="text-insta font-bold">${capitalise(planPrefix)}</span> spend cap of ${formatCurrency(planMaxMonthlySpend, currency, true)} per month.`
+
+    if (hasBudgetBelowMinRecommendedStories && ! mayHitSpendCap) {
       return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStoriesString}`
     }
 
-    const baseString = `By spending ${formatCurrency(dailyBudget, currency)} a day, you are likely to exceed the <span className="text-insta font-bold">${capitalise(plan)}</span> spend cap of ${formatCurrency(planMaxMonthlySpend, currency, true)} per month.`
+    if (planPrefix === 'free') {
+      return `${baseString} Upgrade to Growth to increase the cap to ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)}`
+    }
 
-    if (! hasProPlan) {
+    if (planPrefix === 'growth') {
       return `${baseString} Upgrade to Pro to increase the cap to ${formatCurrency(proPlanMaxMonthlySpend, currency, true)}`
     }
 

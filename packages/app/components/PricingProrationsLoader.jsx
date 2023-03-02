@@ -23,7 +23,6 @@ const PricingProrationsLoader = ({
   prorationsPreview,
   setProrationsPreview,
   promoCode,
-  isAnnualPricing,
 }) => {
   const [internalProrationsPreview, setInternalProrationsPreview] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
@@ -58,7 +57,7 @@ const PricingProrationsLoader = ({
   useAsyncEffect(async (isMounted) => {
     if (! profilesToUpgrade[artistId]) return
 
-    const profilesWithPlan = formatProfilesToUpgrade(profilesToUpgrade, isAnnualPricing)
+    const profilesWithPlan = formatProfilesToUpgrade(profilesToUpgrade)
 
     const formattedProrations = await getProrations(profilesWithPlan)
     if (! isMounted() || ! formattedProrations) return
@@ -74,7 +73,6 @@ const PricingProrationsLoader = ({
     <div className="w-full">
       <PricingProrations
         prorationsPreview={prorationsPreview || internalProrationsPreview}
-        isAnnualPricing={isAnnualPricing}
       />
       <Error error={error} />
     </div>
@@ -85,14 +83,12 @@ PricingProrationsLoader.propTypes = {
   profilesToUpgrade: PropTypes.object,
   prorationsPreview: PropTypes.object,
   setProrationsPreview: PropTypes.func,
-  isAnnualPricing: PropTypes.bool,
 }
 
 PricingProrationsLoader.defaultProps = {
   profilesToUpgrade: {},
   prorationsPreview: null,
   setProrationsPreview: () => {},
-  isAnnualPricing: false,
 }
 
 export default PricingProrationsLoader

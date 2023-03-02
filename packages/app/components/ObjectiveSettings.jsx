@@ -4,11 +4,11 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import MarkdownText from '@/elements/MarkdownText'
 import DisabledSection from '@/app/DisabledSection'
+import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjectiveSelector'
 import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
 import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
-import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/controlsPageCopy'
@@ -24,7 +24,7 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasGrowthPlan, hasProPlan, hasSetUpProfile } = artist
+  const { hasFreePlan, hasBasicPlan, hasSetUpProfile } = artist
   const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { defaultLinkId } = postsPreferences
 
@@ -110,10 +110,10 @@ const ObjectiveSettings = () => {
         section="objective"
         isDisabled={! hasSetUpProfile}
       >
-        <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', hasGrowthPlan ? 'mb-12' : 'mb-4'].join(' ')} />
+        <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', ! hasBasicPlan ? 'mb-12' : 'mb-4'].join(' ')} />
         <DisabledSection
           section="objective-traffic"
-          isDisabled={! hasGrowthPlan && hasSetUpProfile}
+          isDisabled={hasBasicPlan && hasSetUpProfile}
         >
           <div className="relative mb-4">
             <ObjectiveSettingsObjectiveSelector
@@ -130,7 +130,7 @@ const ObjectiveSettings = () => {
               isLoading={isLoading && isObjectiveChange}
               error={error}
             />
-            {hasGrowthPlan && ! hasProPlan && (
+            {hasFreePlan && (
               <DisabledActionPrompt
                 section="objective-sales"
                 version="small"

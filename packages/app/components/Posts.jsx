@@ -73,7 +73,6 @@ const Posts = () => {
   const { hasSetUpProfile } = artist
   const { user } = React.useContext(UserContext)
 
-
   const [canLoadPosts, setCanLoadPosts] = React.useState(false)
   const hasArtists = user.artists.length > 0
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)

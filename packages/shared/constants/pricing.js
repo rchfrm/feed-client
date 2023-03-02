@@ -19,10 +19,18 @@ export const pricingNumbers = {
       NOK: 0,
       SEK: 0,
     },
+    maxSpend: {
+      GBP: 0,
+      USD: 0,
+      EUR: 0,
+      CAD: 0,
+      AUD: 0,
+      SEK: 0,
+      NOK: 0,
+    },
     serviceFeePercentage: 0.1,
-    maxSpendMultiple: 0,
   },
-  basic: {
+  free: {
     monthlyCost: {
       GBP: 0,
       USD: 0,
@@ -32,8 +40,16 @@ export const pricingNumbers = {
       NOK: 0,
       SEK: 0,
     },
-    serviceFeePercentage: 0.1,
-    maxSpendMultiple: 0,
+    maxSpend: {
+      GBP: 100,
+      USD: 100,
+      EUR: 100,
+      CAD: 200,
+      AUD: 200,
+      NOK: 1000,
+      SEK: 1000,
+    },
+    serviceFeePercentage: 0,
   },
   growth: {
     monthlyCost: {
@@ -45,8 +61,16 @@ export const pricingNumbers = {
       NOK: 300,
       SEK: 300,
     },
+    maxSpend: {
+      GBP: 250,
+      USD: 300,
+      EUR: 300,
+      CAD: 400,
+      AUD: 450,
+      SEK: 3000,
+      NOK: 3000,
+    },
     serviceFeePercentage: 0,
-    maxSpendMultiple: 10,
   },
   pro: {
     monthlyCost: {
@@ -58,31 +82,32 @@ export const pricingNumbers = {
       NOK: 600,
       SEK: 600,
     },
+    maxSpend: {
+      GBP: 2000,
+      USD: 2400,
+      EUR: 2400,
+      CAD: 3200,
+      AUD: 3600,
+      SEK: 24000,
+      NOK: 24000,
+    },
     serviceFeePercentage: 0,
-    maxSpendMultiple: 40,
   },
-  annualDiscount: 0.2,
 }
 
-const { basic, growth, pro } = pricingNumbers
+const { free, growth, pro } = pricingNumbers
 
 export const pricingPlans = [
   {
-    name: 'basic',
+    name: 'free',
     description: 'Audience growth for independent artists. Suitable for any level of budget.',
-    monthlyCost: basic.monthlyCost,
-    serviceFeePercentage: basic.serviceFeePercentage,
+    monthlyCost: free.monthlyCost,
+    serviceFeePercentage: free.serviceFeePercentage,
     features: [
-      'Promote on Facebook & Instagram',
-      'Audience growth objectives',
-      'Lookalikes and retargeting',
-      '100% automated campaign setup',
-      'Promote posts and stories',
-      'Continuous A/B testing',
       'One user and one profile*',
       'Organic insights & benchmarks',
     ],
-    maxSpendMultiple: basic.maxSpendMultiple,
+    maxSpend: free.maxSpend,
   },
   {
     name: 'growth',
@@ -90,16 +115,10 @@ export const pricingPlans = [
     monthlyCost: growth.monthlyCost,
     serviceFeePercentage: growth.serviceFeePercentage,
     features: [
-      'Everything in **Basic** plus...',
-      'Growth and website view objectives',
-      'Custom targeting locations',
-      'Prioritise a post for instant promotion',
-      'Edit individual ad text, links and CTA',
-      'Override automated post selection',
-      'Meta pixel based retargeting',
+      'Everything in **Free** plus...',
       'Connect unlimited profiles^',
     ],
-    maxSpendMultiple: growth.maxSpendMultiple,
+    maxSpend: growth.maxSpend,
   },
   {
     name: 'pro',
@@ -108,9 +127,7 @@ export const pricingPlans = [
     serviceFeePercentage: pro.serviceFeePercentage,
     features: [
       'Everything in **Growth** plus...',
-      'Run sales or pre-save ads (conversion ads)',
-      'Clear reporting on return from ad spend',
     ],
-    maxSpendMultiple: pro.maxSpendMultiple,
+    maxSpend: pro.maxSpend,
   },
 ]

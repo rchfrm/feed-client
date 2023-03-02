@@ -1,22 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import PricingPlanUpgradeMonthlyCostAndServiceFee from '@/app/PricingPlanUpgradeMonthlyCostAndServiceFee'
 import PricingPlanFeatures from '@/PricingPlanFeatures'
-
 import MarkdownText from '@/elements/MarkdownText'
-
 import { pricingNumbers, pricingPlans } from '@/constants/pricing'
-
 import copy from '@/app/copy/global'
 
 const PricingPlanUpgradeIntroPlan = ({ currencyCode }) => {
-  const { artist } = React.useContext(ArtistContext)
-  const [, planPeriod] = artist.plan.split('_') || []
-  const isAnnualPricing = planPeriod === 'annual'
-
   const proPlan = pricingNumbers.pro
   const plan = pricingPlans.find(({ name }) => name === 'pro')
 
@@ -24,7 +14,7 @@ const PricingPlanUpgradeIntroPlan = ({ currencyCode }) => {
     <>
       <div className="flex items-center mb-8">
         <p className="mb-0 mr-12 pl-4 text-2xl font-bold">Pro</p>
-        <PricingPlanUpgradeMonthlyCostAndServiceFee currencyCode={currencyCode} plan={proPlan} isAnnualPricing={isAnnualPricing} />
+        <PricingPlanUpgradeMonthlyCostAndServiceFee currencyCode={currencyCode} plan={proPlan} />
       </div>
       <div className="pl-8">
         <p>Features:</p>

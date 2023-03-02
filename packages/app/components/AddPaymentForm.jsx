@@ -96,18 +96,13 @@ const FORM = ({
     return { paymentMethodId: setupIntent.payment_method }
   }, [name, organizationId, stripe])
 
-  const confirmPayment = React.useCallback(async (cardEl) => {
+  const confirmPayment = React.useCallback(async (cardEl, clientSecret) => {
     if (! profilePlans) {
       const error = { message: 'If payment is required, then profile plans also need to be supplied' }
       return { error }
     }
 
-    const { res, error: upgradeProfileError } = await billingHelpers.upgradeProfiles(organizationId, profilePlans, promoCode)
-    if (upgradeProfileError) {
-      return { error: upgradeProfileError }
-    }
-
-    const { paymentIntent, error: confirmCardPaymentError } = await stripe.confirmCardPayment(res.clientSecret, {
+    const { paymentIntent, error: confirmCardPaymentError } = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: cardEl,
         billing_details: {
@@ -120,10 +115,10 @@ const FORM = ({
     }
 
     return { paymentMethodId: paymentIntent.payment_method }
-  }, [name, organizationId, profilePlans, promoCode, stripe])
+  }, [name, profilePlans, stripe])
 
   // HANDLE FORM
-  const onSubmit = React.useCallback(async () => {
+  const onSubmit = React.useCallback(async (clientSecret) => {
     if (! isFormValid || isLoading) return
 
     setIsLoading(true)
@@ -131,7 +126,7 @@ const FORM = ({
     const cardElement = elements.getElement(CardElement)
 
     const { paymentMethodId, error } = isPaymentRequired
-      ? await confirmPayment(cardElement)
+      ? await confirmPayment(cardElement, clientSecret)
       : await confirmSetup(cardElement)
 
     if (error) {
@@ -139,11 +134,10 @@ const FORM = ({
     }
 
     // Store payment method in db
-    const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod({
-      organizationId,
-      paymentMethodId,
+    const { res: paymentMethodDb, error: serverError } = await billingHelpers.submitPaymentMethod(organizationId, paymentMethodId, {
       shouldBeDefault,
       promoCode,
+      isPaymentRequired,
     })
     if (serverError) {
       return handleError(serverError)
@@ -160,7 +154,7 @@ const FORM = ({
   }, [isFormValid, isLoading, setIsLoading, elements, isPaymentRequired, confirmPayment, confirmSetup, organizationId, shouldBeDefault, promoCode, setError, addMethodToState, setPaymentMethod, setSuccess, handleError])
 
   React.useEffect(() => {
-    setAddPaymentMethod(() => onSubmit)
+    setAddPaymentMethod(() => (clientSecret) => onSubmit(clientSecret))
   }, [setAddPaymentMethod, onSubmit])
 
   return (

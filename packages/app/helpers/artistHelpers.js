@@ -548,17 +548,17 @@ export const objectives = [
   {
     name: 'Audience growth',
     value: 'growth',
-    plan: 'basic',
+    isRestricted: false,
   },
   {
     name: 'Website visits',
     value: 'traffic',
-    plan: 'growth',
+    isRestricted: false,
   },
   {
     name: 'Website sales',
     value: 'sales',
-    plan: 'pro',
+    isRestricted: true,
   },
 ]
 
@@ -676,22 +676,13 @@ export const getStartedSections = {
   targeting,
 }
 
-export const hasGrowthPlan = (plan) => {
-  if (! plan) return false
+export const hasPlan = (artist, planPrefix) => {
+  if (! artist?.plan) {
+    return false
+  }
 
-  return plan.includes('growth') || plan.includes('pro') || plan.includes('legacy')
-}
-
-export const hasProPlan = (plan) => {
-  if (! plan) return false
-
-  return plan.includes('pro') || plan.includes('legacy')
-}
-
-export const hasLegacyPlan = (plan) => {
-  if (! plan) return false
-
-  return plan.includes('legacy')
+  const { plan, status } = artist
+  return plan.includes(planPrefix) && (planPrefix === 'legacy' || status === 'active')
 }
 
 export const hasAllProfilesOnLegacyPlan = (organizationArtists) => {

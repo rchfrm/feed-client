@@ -63,8 +63,8 @@ Please check your inbox and click the verification link to confirm.`
     return `${baseString} ${getSectionIntro(section)}?`
   },
   pricingUpgradeIntroDescription: (section, currency = 'GBP', hasCancelledPlan, hasBillingAccess) => {
-    const maxSpendGrowth = pricingNumbers.growth.monthlyCost[currency] * pricingNumbers.growth.maxSpendMultiple
-    const maxSpendPro = pricingNumbers.pro.monthlyCost[currency] * pricingNumbers.pro.maxSpendMultiple
+    const maxSpendGrowth = pricingNumbers.growth.maxSpend[currency]
+    const maxSpendPro = pricingNumbers.pro.maxSpend[currency]
     function getSectionDescription(section) {
       switch (section) {
         case 'connect-accounts':
@@ -204,7 +204,7 @@ ${list.join('\n')}`
     })
 
     if (fee) {
-      list.push(`- ${formatCurrency(fee, currency)} service fee from Basic plan during first ${daysPassedInPeriod} ${daysPassedInPeriod > 1 ? 'days' : 'day'} of current billing period`)
+      list.push(`- ${formatCurrency(fee, currency)} service fee from Free plan during first ${daysPassedInPeriod} ${daysPassedInPeriod > 1 ? 'days' : 'day'} of current billing period`)
     }
 
     return `**Your next invoice will be for ${formatCurrency(amount, currency)}:**
@@ -237,12 +237,11 @@ ${list.join('\n')}`
       const [planPrefix] = plan.split('_')
       return `Finish upgrade to <span className="text-insta font-bold">${capitalise(planPrefix)}</span>`
     }
-    const shouldUpgradeToPro = section === 'objective-sales'
     const setupBaseString = 'Continue set-up to'
     const noPlanBaseString = section === 'set-budget'
       ? 'Choose a plan'
-      : `Choose the <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span> plan`
-    const planBaseString = `Upgrade to <span className="text-insta font-bold">${shouldUpgradeToPro ? 'Pro' : 'Growth'}</span>`
+      : `Choose the <span className="text-insta font-bold">Growth</span> plan`
+    const planBaseString = `Upgrade to <span className="text-insta font-bold">Growth</span>`
     const baseString = hasCancelledPlan ? noPlanBaseString : planBaseString
 
     if (! hasSetUpProfile) {
