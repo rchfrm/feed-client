@@ -57,7 +57,7 @@ const GetStartedPaymentMethod = () => {
     setStatus,
     setPlan,
     artistId,
-    updateArtist,
+    updateHasSetUpProfile,
   } = React.useContext(ArtistContext)
 
   const {
@@ -133,7 +133,7 @@ const GetStartedPaymentMethod = () => {
         return
       }
 
-      updateArtist(artistUpdated)
+      updateHasSetUpProfile(artistUpdated.completed_setup_at)
       await saveTargeting('', { ...targetingState, status: 1 })
     }
   }
@@ -193,8 +193,8 @@ const GetStartedPaymentMethod = () => {
   useAsyncEffect(async () => {
     if (success) {
       setShouldShowPaymentMethodForm(false)
-      await checkAndUpdateCompletedSetupAt()
       setStatusToActive()
+      await checkAndUpdateCompletedSetupAt()
 
       next()
     }
