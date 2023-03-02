@@ -185,8 +185,8 @@ const GetStartedPaymentMethod = () => {
   useAsyncEffect(async () => {
     if (success) {
       setShouldShowPaymentMethodForm(false)
-      setStatusToActive()
       await checkAndUpdateCompletedSetupAt()
+      setStatusToActive()
 
       next()
     }
