@@ -48,7 +48,8 @@ const GetStartedWizard = () => {
 
   const { user } = React.useContext(UserContext)
   const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasLegacyPlan } = artist
+  const { hasLegacyPlan, plan } = artist
+  const hasFreePlan = plan?.includes('free')
 
   const [stripePromise] = React.useState(() => loadStripe(process.env.stripe_provider))
 
@@ -152,6 +153,7 @@ const GetStartedWizard = () => {
       title: 'Your payment method',
       section: getStartedSections.targeting,
       component: <Elements stripe={stripePromise}><GetStartedPaymentMethod /></Elements>,
+      shouldSkip: hasFreePlan,
     },
     {
       id: 11,
@@ -159,7 +161,7 @@ const GetStartedWizard = () => {
       component: <GetStartedSummary />,
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  ], [isControlsLoading])
+  ], [isControlsLoading, hasFreePlan])
 
   React.useEffect(() => {
     // Filter out the steps that should be skipped

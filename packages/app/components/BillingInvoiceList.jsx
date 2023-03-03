@@ -1,14 +1,10 @@
 import React from 'react'
-import moment from 'moment'
 import useAsyncEffect from 'use-async-effect'
-import LinkIcon from '@/icons/LinkIcon'
 import Error from '@/elements/Error'
-
-import { fetchArchivedInvoices } from '@/app/helpers/invoiceHelpers'
+import { fetchArchivedInvoices, fetchRefreshedInvoice } from '@/app/helpers/invoiceHelpers'
 import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
-
-const formatDate = (date) => moment(date).format('DD MMMM YYYY')
+import BillingInvoiceListItem from '@/app/BillingInvoiceListItem'
 
 const BillingInvoiceList = ({
   organization,
@@ -33,28 +29,36 @@ const BillingInvoiceList = ({
 
   if (invoicesLoading) return null
 
+  const handleClick = async (invoiceId) => {
+    const { res: invoice, error } = await fetchRefreshedInvoice(organization.id, invoiceId)
+
+    if (error) {
+      setError(error)
+      return
+    }
+
+    window.open(invoice.invoice_pdf, '_blank')
+  }
+
+  if (isLoading) {
+    return <Spinner width={25} className="text-left justify-start" />
+  }
+
   return (
     <div>
       <h3 className="font-bold">Past invoices</h3>
-      {isLoading ? (
-        <Spinner width={25} className="text-left justify-start" />
-      ) : (
-        <>
-          <Error error={error} />
-          <ul className="text-lg">
-            {invoices.map(({ id, created_at: date, invoice_pdf: link }) => {
-              return (
-                <li key={id} className="flex mb-3 last:mb-0">
-                  <a href={link} className="flex items-center" target="_blank" rel="noreferrer noopener">
-                    <LinkIcon className="w-5 h-auto" style={{ transform: 'translateY(0.1rem)' }} />
-                    <p className="ml-1 mb-0">{formatDate(date)}</p>
-                  </a>
-                </li>
-              )
-            })}
-          </ul>
-        </>
-      )}
+      <Error error={error} />
+      <ul className="text-lg">
+        {invoices.map((invoice) => {
+          return (
+            <BillingInvoiceListItem
+              key={invoice.id}
+              invoice={invoice}
+              handleClick={handleClick}
+            />
+          )
+        })}
+      </ul>
     </div>
   )
 }

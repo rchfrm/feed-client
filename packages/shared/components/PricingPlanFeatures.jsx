@@ -8,15 +8,15 @@ export default function PricingPlanFeatures({ plan, currencyCode, className }) {
   const {
     monthlyCost,
     features,
-    maxSpendMultiple,
+    maxSpend,
   } = plan
 
   // Add max spend to feature list if applicable
   const [expandedFeatureList, setExpandedFeatureList] = React.useState(features)
 
   React.useEffect(() => {
-    if (maxSpendMultiple) {
-      const maxSpendString = getMaxSpendString(currencyCode, monthlyCost[currencyCode] * maxSpendMultiple)
+    if (maxSpend[currencyCode]) {
+      const maxSpendString = getMaxSpendString(currencyCode, maxSpend[currencyCode])
 
       setExpandedFeatureList([
         ...features,
@@ -25,7 +25,7 @@ export default function PricingPlanFeatures({ plan, currencyCode, className }) {
     } else {
       setExpandedFeatureList(features)
     }
-  }, [currencyCode, features, maxSpendMultiple, monthlyCost])
+  }, [currencyCode, features, monthlyCost, maxSpend])
 
   return (
     <div className={['pl-3', className].join(' ')}>

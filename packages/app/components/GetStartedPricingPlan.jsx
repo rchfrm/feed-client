@@ -17,7 +17,6 @@ import copy from '@/app/copy/getStartedCopy'
 
 const GetStartedPricingPlan = ({
   plan,
-  showAnnualPricing,
   setSelectedPricingPlan,
   handleSidePanel,
   currency,
@@ -71,7 +70,6 @@ const GetStartedPricingPlan = ({
       <div className="flex flex-row sm:flex-col">
         <GetStartedPricingPlanMonthlyCost
           amount={monthlyCost[currency]}
-          showAnnualPricing={showAnnualPricing}
           currency={currency}
           isDisabled={isDisabled}
         />
@@ -97,16 +95,12 @@ const GetStartedPricingPlan = ({
 
 GetStartedPricingPlan.propTypes = {
   plan: PropTypes.object.isRequired,
-  showAnnualPricing: PropTypes.bool.isRequired,
   setSelectedPricingPlan: PropTypes.func.isRequired,
   handleSidePanel: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
   objective: PropTypes.string.isRequired,
   isRecommended: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
-}
-
-GetStartedPricingPlan.defaultProps = {
 }
 
 export default GetStartedPricingPlan

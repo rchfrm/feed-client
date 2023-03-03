@@ -64,7 +64,7 @@ const DropdownPill = ({
           <CaretIcon
             direction="right"
             fill={disabled ? brandColors.grey : undefined}
-            className="w-2 h-2"
+            className="w-4 h-4"
           />
         </div>
       </button>

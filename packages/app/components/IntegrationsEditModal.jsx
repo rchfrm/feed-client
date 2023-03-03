@@ -64,8 +64,8 @@ const IntegrationsEditModal = ({
     if (cannotDelete) return
     const newButtons = produce(modalButtons, (draftButtons) => {
       // Update save/delete button
-      draftButtons[0].onClick = () => runSaveIntegration(integration, link, action)
-      draftButtons[0].disabled = action === 'delete' ? false : ! saveEnabled
+      draftButtons[1].onClick = () => runSaveIntegration(integration, link, action)
+      draftButtons[1].isDisabled = action === 'delete' ? false : ! saveEnabled
     })
     setButtons(newButtons)
   // eslint-disable-next-line

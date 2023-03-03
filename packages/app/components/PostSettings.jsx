@@ -42,8 +42,7 @@ const PostSettings = ({
   const [isConversionsEnabled, setIsConversionsEnabled] = React.useState(conversionsEnabled)
   const [status, setStatus] = React.useState(initialStatus)
 
-  const { artist: { hasGrowthPlan } } = React.useContext(ArtistContext)
-
+  const { artist: { hasBasicPlan } } = React.useContext(ArtistContext)
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
@@ -121,7 +120,7 @@ const PostSettings = ({
         )}
         <DisabledSection
           section="single-post-page"
-          isDisabled={! hasGrowthPlan && ! isSectionDisabled}
+          isDisabled={hasBasicPlan && ! isSectionDisabled}
           className="brightness-100"
         >
           <PostSettingsLink

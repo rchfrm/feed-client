@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { currencies } from '@/constants/pricing'
 import { getCurrencySymbol } from '@/helpers/utils'
 
-export default function PricingPlanMonthlyCost({ amount, currencyCode, isManaged, showAnnualPricing }) {
+export default function PricingPlanMonthlyCost({ amount, currencyCode }) {
   const currencySymbol = getCurrencySymbol(currencyCode)
 
   return (
@@ -21,20 +21,16 @@ export default function PricingPlanMonthlyCost({ amount, currencyCode, isManaged
       >
         {currencySymbol}
       </p>
-      {showAnnualPricing && amount > 0 && (
-        <p className="self-start line-through text-grey-dark">{amount}</p>
-      )}
       <p
         className={[
           'text-7xl',
           'font-bold',
           'pr-2',
-          showAnnualPricing && amount > 0 ? 'text-green' : null,
         ].join(' ')}
       >
-        {showAnnualPricing ? amount * 0.8 : amount}
+        {amount}
       </p>
-      <p className="small--p">per month {! isManaged && 'per profile'}</p>
+      <p className="small--p">per month per profile</p>
     </div>
   )
 }
@@ -42,11 +38,4 @@ export default function PricingPlanMonthlyCost({ amount, currencyCode, isManaged
 PricingPlanMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
   currencyCode: PropTypes.oneOf(currencies).isRequired,
-  isManaged: PropTypes.bool,
-  showAnnualPricing: PropTypes.bool,
-}
-
-PricingPlanMonthlyCost.defaultProps = {
-  showAnnualPricing: false,
-  isManaged: false,
 }
