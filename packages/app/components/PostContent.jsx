@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useControlsStore from '@/app/stores/controlsStore'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import useOnResize from '@/landing/hooks/useOnResize'
 import { InterfaceContext } from '@/app/contexts/InterfaceContext'
@@ -9,14 +8,8 @@ import PostMedia from '@/app/PostMedia'
 import PostDetails from '@/app/PostDetails'
 import PostSettings from '@/app/PostSettings'
 import PostContentMediaMobile from '@/app/PostContentMediaMobile'
-import PostContentToggles from '@/app/PostContentToggles'
-import PostContentUnpromotable from '@/app/PostContentUnpromotable'
 import RadioButtonTabs from '@/app/RadioButtonTabs'
 import { postOptions } from '@/app/helpers/postsHelpers'
-
-const getControlsStoreState = (state) => ({
-  optimizationPreferences: state.optimizationPreferences,
-})
 
 const PostContent = ({ post, setPost }) => {
   const [activeTab, setActiveTab] = React.useState(postOptions[0].name)
@@ -26,10 +19,6 @@ const PostContent = ({ post, setPost }) => {
 
   const { setHeader } = React.useContext(InterfaceContext)
   const isDesktopLayout = useBreakpointTest(breakpoint)
-
-  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { objective } = optimizationPreferences
-  const hasSalesObjective = objective === 'sales'
 
   const postComponents = {
     details: <PostDetails post={post} className="md:pl-16" />,
@@ -62,20 +51,6 @@ const PostContent = ({ post, setPost }) => {
     ) : (
       <>
         <PostContentMediaMobile post={post} />
-        {post.postPromotable ? (
-          <PostContentToggles
-            post={post}
-            setPost={setPost}
-            priorityEnabled={post.priorityEnabled}
-            className="mb-2"
-            hasSalesObjective={hasSalesObjective}
-          />
-        ) : (
-          <PostContentUnpromotable
-            hasSalesObjective={hasSalesObjective}
-            className="py-3 px-4 mb-10"
-          />
-        )}
         <RadioButtonTabs
           tabs={postOptions}
           activeTab={activeTab}

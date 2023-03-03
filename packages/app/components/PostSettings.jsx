@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import useControlsStore from '@/app/stores/controlsStore'
-import useBreakpointTest from '@/hooks/useBreakpointTest'
 import PostSettingsTabs from '@/app/PostSettingsTabs'
 import PostSettingsToggle from '@/app/PostSettingsToggle'
 import PostSettingsPromotionStatus from '@/app/PostSettingsPromotionStatus'
@@ -44,8 +43,6 @@ const PostSettings = ({
   const [status, setStatus] = React.useState(initialStatus)
 
   const { artist: { hasBasicPlan } } = React.useContext(ArtistContext)
-  const isDesktopLayout = useBreakpointTest('sm')
-
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
   const hasSalesObjective = objective === 'sales'
@@ -86,7 +83,7 @@ const PostSettings = ({
 
   return (
     <div>
-      <h2 className="hidden sm:block mb-8">Post settings</h2>
+      <h2 className="block mb-8">Post settings</h2>
       <div className={className}>
         {hasSalesObjective && (
           <PostSettingsTabs
@@ -95,37 +92,31 @@ const PostSettings = ({
             isDisabled={! postPromotable}
           />
         )}
-        {isDesktopLayout && (
-          <>
-            {! postPromotable && (
-              <PostUnpromotable className="w-1/2 mb-10" />
-            )}
-            {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
-            <div className="flex">
-              <PostSettingsToggle
-                post={post}
-                postId={postId}
-                campaignType={campaignType}
-                updatePost={updatePost}
-                isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
-                setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-                isDisabled={isToggleDisabled || ! postPromotable}
-                className="pl-4"
-              />
-              <PostSettingsPromotionStatus
-                promotionEnabled={promotionEnabled}
-                promotionStatus={promotionStatus}
-                postPromotable={postPromotable}
-                className="pl-4"
-              />
-            </div>
-            {shouldShowPreview && (
-              <PostSettingsPreview
-                previewLinks={adPreviewLinks}
-                campaignType={campaignType}
-              />
-            )}
-          </>
+        {! postPromotable && (
+          <PostUnpromotable className="w-full max-w-xs mb-10" />
+        )}
+        {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
+        <div className="flex flex-col sm:flex-row">
+          <PostSettingsToggle
+            post={post}
+            postId={postId}
+            campaignType={campaignType}
+            updatePost={updatePost}
+            isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
+            setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
+            isDisabled={isToggleDisabled || ! postPromotable}
+          />
+          <PostSettingsPromotionStatus
+            promotionEnabled={promotionEnabled}
+            promotionStatus={promotionStatus}
+            postPromotable={postPromotable}
+          />
+        </div>
+        {shouldShowPreview && (
+          <PostSettingsPreview
+            previewLinks={adPreviewLinks}
+            campaignType={campaignType}
+          />
         )}
         <DisabledSection
           section="single-post-page"

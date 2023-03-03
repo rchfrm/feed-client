@@ -6,10 +6,9 @@ const PostSettingsPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
   postPromotable,
-  className,
 }) => {
   return (
-    <div className="flex flex-column w-1/2">
+    <div className="flex flex-column w-full sm:w-1/2">
       <h3 className={[
         'font-bold text-lg',
       ].join(' ')}
@@ -20,7 +19,7 @@ const PostSettingsPromotionStatus = ({
         promotionEnabled={promotionEnabled}
         promotionStatus={promotionStatus}
         postPromotable={postPromotable}
-        className={className}
+        className="ml-5 sm:ml-0 mb-5 sm:mb-10"
       />
     </div>
   )
@@ -30,11 +29,6 @@ PostSettingsPromotionStatus.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
   postPromotable: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-}
-
-PostSettingsPromotionStatus.defaultProps = {
-  className: null,
 }
 
 export default PostSettingsPromotionStatus

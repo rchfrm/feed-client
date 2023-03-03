@@ -2,11 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import { capitalise } from '@/helpers/utils'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 const PostSettingsPreview = ({
   previewLinks,
   campaignType,
 }) => {
+  const isDesktopLayout = useBreakpointTest('sm')
+
   const backgroundColorClass = {
     engage: 'bg-twitter',
     nurture: 'bg-green',
@@ -31,9 +34,11 @@ const PostSettingsPreview = ({
                   backgroundColorClass[key],
                 ].join(' ')}
                 />
-                {capitalise(key)} preview:
+                {isDesktopLayout && (`${capitalise(key)} ad: `)}
                 <Link href={value}>
-                  <a target="_blank" className="ml-1">{value}</a>
+                  <a target="_blank" className="ml-1">
+                    {isDesktopLayout ? value : `${capitalise(key)} ad`}
+                  </a>
                 </Link>
               </li>
             )
