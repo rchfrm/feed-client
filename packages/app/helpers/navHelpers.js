@@ -55,3 +55,29 @@ export const secondaryLinks = [
     title: 'Insights',
   },
 ]
+
+const termsLink = 'https://archform.ltd/terms/'
+
+export const footerLinks = [
+  {
+    href: ROUTES.LOGIN,
+    title: 'log in',
+  },
+  {
+    href: ROUTES.SIGN_UP,
+    title: 'sign up',
+  },
+  {
+    href: ROUTES.FAQS,
+    title: 'FAQs',
+  },
+  {
+    href: ROUTES.PRICING,
+    title: 'pricing',
+  },
+  {
+    href: termsLink,
+    title: 'terms',
+    external: true,
+  },
+]

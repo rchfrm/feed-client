@@ -1,12 +1,11 @@
 import React from 'react'
 import { AuthContext } from '@/contexts/AuthContext'
 import { InterfaceContext } from '@/app/contexts/InterfaceContext'
-import TheFooterLinks from '@/app/TheFooterLinks'
+import FooterLinks from '@/app/FooterLinks'
 import useLoggedInTest from '@/app/hooks/useLoggedInTest'
 import Feed from '@/elements/Feed'
-import styles from '@/app/TheFooter.module.css'
+import styles from '@/app/Footer.module.css'
 
-// GET CURRENT YEAR
 const thisYear = new Date().getFullYear()
 
 const Footer = () => {
@@ -15,11 +14,10 @@ const Footer = () => {
   const { hasNav } = React.useContext(InterfaceContext)
 
   return (
-    <footer className={[styles.TheFooter, isLoggedIn ? styles._loggedIn : ''].join(' ')}>
+    <footer className={[styles.Footer, isLoggedIn ? styles._loggedIn : ''].join(' ')}>
       {(! hasNav) && (
-        <TheFooterLinks hasAuth={!! auth.token} />
+        <FooterLinks hasAuth={!! auth.token} />
       )}
-
       <p className="xsmall--p  no-margin">
         &copy;
         {' '}
@@ -27,7 +25,6 @@ const Footer = () => {
         {' '}
         <Feed />
       </p>
-
     </footer>
   )
 }

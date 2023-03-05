@@ -9,7 +9,7 @@ import TheLoadingOverlay from '@/app/TheLoadingOverlay'
 import Header from '@/app/Header'
 import SubHeader from '@/app/SubHeader'
 import SideNav from '@/app/SideNav'
-import TheFooter from '@/app/TheFooter'
+import Footer from '@/app/Footer'
 import PopupModal from '@/PopupModal'
 import AlertModal from '@/AlertModal'
 import { useRouter } from 'next/router'
@@ -49,7 +49,7 @@ const AppContents = ({ children }) => {
                 <PopupModal />
                 <AlertModal />
 
-                <TheFooter />
+                <Footer />
               </SidePanelContextProvider>
             </TargetingContextProvider>
           </ArtistProvider>
