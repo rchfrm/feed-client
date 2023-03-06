@@ -14,10 +14,10 @@ const Footer = () => {
 
   return (
     <footer className={[
-      'mt-auto md:mb-5',
+      'mt-auto pt-5 md:pb-5',
       'transition-width duration-500',
-      isLoggedIn ? 'flex md:pl-20' : null,
-      hasNav ? 'self-end' : 'self-center',
+      isLoggedIn ? 'md:pl-20' : null,
+      isLoggedIn && hasNav ? 'flex self-end' : 'self-center',
       isNavExpanded ? '!w-[calc(100%-120px)]' : '!w-full',
     ].join(' ')}
     >
