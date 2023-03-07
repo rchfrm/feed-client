@@ -252,7 +252,7 @@ function ArtistProvider({ children }) {
    * @param {object} oldUser
    * @returns {Promise<any>}
   */
-  const connectArtist = React.useCallback(async (artistAccount, oldUser, plan) => {
+  const connectArtist = React.useCallback(async (artistAccount, oldUser, plan, isManaged = false) => {
     // Get array of current user artist Facebook page IDs
     const alreadyConnectFacebookPages = oldUser.artists.map(({ facebook_page_id }) => facebook_page_id)
 
@@ -263,7 +263,7 @@ function ArtistProvider({ children }) {
     }
 
     // Wait to connect the artist
-    const artist = await artistHelpers.createArtist(artistAccount, plan)
+    const artist = await artistHelpers.createArtist(artistAccount, plan, isManaged)
       .catch((error) => {
         // Sentry error
         fireSentryError({

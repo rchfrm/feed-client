@@ -53,6 +53,7 @@ const GetStartedDailyBudget = () => {
       },
       hasSetUpProfile,
       plan,
+      is_managed: isManaged,
     },
     artistId,
     updateArtist,
@@ -100,7 +101,7 @@ const GetStartedDailyBudget = () => {
   const saveBudget = async (budget) => {
     await saveTargeting(
       'settings',
-      { ...targetingState, budget, ...(hasFreePlan && { status: 1 }) },
+      { ...targetingState, budget, ...((hasFreePlan || isManaged) && { status: 1 }) },
     )
   }
 
@@ -112,7 +113,7 @@ const GetStartedDailyBudget = () => {
 
     setIsLoading(true)
 
-    if (hasFreePlan) {
+    if (hasFreePlan || isManaged) {
       await checkAndUpdateCompletedSetupAt()
     }
 
