@@ -1,18 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import useOpenPricingProrationsSidePanel from '@/app/hooks/useOpenPricingProrationsSidePanel'
-
 import Button from '@/elements/Button'
 
-const GetStartedPaymentMethodProrationsButton = ({ promoCode }) => {
-  const { artist } = React.useContext(ArtistContext)
-
+const GetStartedPaymentMethodProrationsButton = ({ profilePlans, promoCode }) => {
   const openPricingProrationsSidePanel = useOpenPricingProrationsSidePanel()
 
-  const openProrationsSidePanel = () => openPricingProrationsSidePanel(artist, promoCode)
+  const openProrationsSidePanel = () => {
+    openPricingProrationsSidePanel(profilePlans, promoCode)
+  }
 
   return (
     <Button
@@ -27,10 +23,8 @@ const GetStartedPaymentMethodProrationsButton = ({ promoCode }) => {
 }
 
 GetStartedPaymentMethodProrationsButton.propTypes = {
+  profilePlans: PropTypes.object.isRequired,
   promoCode: PropTypes.string.isRequired,
-}
-
-GetStartedPaymentMethodProrationsButton.defaultProps = {
 }
 
 export default GetStartedPaymentMethodProrationsButton

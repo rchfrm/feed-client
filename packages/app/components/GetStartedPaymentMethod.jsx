@@ -70,12 +70,16 @@ const GetStartedPaymentMethod = () => {
 
   const { user: { organizations } } = React.useContext(UserContext)
   const organizationId = Object.values(organizations).find((org) => org.role === 'owner')?.id
+  const artistIdOfSpendingProfileOnFree = organizationArtists.find((profile) => profile.plan === 'free' && profile.preferences.targeting.status === 1)?.id
+  const shouldUpgradeBothProfiles = Boolean(artistIdOfSpendingProfileOnFree)
+  const [planPrefix] = plan.split('_')
 
-  const [planPrefix, planPeriod] = plan.split('_')
-
-  const isPaymentRequired = status !== 'active' && planPrefix !== 'free'
-  const profilePlans = React.useMemo(() => ({ [artistId]: plan }), [artistId, plan])
   const shouldShowPromoCodeInput = false
+  const isPaymentRequired = status !== 'active' && planPrefix !== 'free'
+  const profilePlans = React.useMemo(() => ({
+    [artistId]: plan,
+    ...(shouldUpgradeBothProfiles && { [artistIdOfSpendingProfileOnFree]: 'growth_monthly' }),
+  }), [artistId, plan, artistIdOfSpendingProfileOnFree, shouldUpgradeBothProfiles])
 
   const {
     card,
@@ -202,7 +206,7 @@ const GetStartedPaymentMethod = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6">
-      <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(defaultPaymentMethod, planPrefix, planPeriod, formatCurrency(amountToPay, artistCurrency), isManaged)} />
+      <MarkdownText className="w-full mb-8 xs:mb-10 font-medium" markdown={copy.paymentMethodSubtitle(defaultPaymentMethod, planPrefix, formatCurrency(amountToPay, artistCurrency), shouldUpgradeBothProfiles)} />
       <Error error={error} />
       <div className="w-full sm:w-1/2 lg:w-1/3 mx-auto text-center">
         {! isManaged && (
@@ -251,7 +255,10 @@ const GetStartedPaymentMethod = () => {
                 setError={setPromoCodeError}
               />
             )}
-            <GetStartedPaymentMethodProrationsButton promoCode={promoCode} />
+            <GetStartedPaymentMethodProrationsButton
+              profilePlans={profilePlans}
+              promoCode={promoCode}
+            />
           </>
         )}
         <Button
