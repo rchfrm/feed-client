@@ -2,8 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { formatAdRejectionReason } from '@/app/helpers/postsHelpers'
 
-const PostRejectedReason = ({ post }) => {
-  const [reason] = Object.values(post.ads).reduce((reasons, ad) => {
+const PostNotPromotableReason = ({ post, status }) => {
+  const { isPromotable, notPromotableReason } = post
+  const isRejected = status === 'rejected'
+
+  const [reason] = Object.values(post?.ads).reduce((reasons, ad) => {
     if (! ad?.ad_review_feedback?.global) {
       return reasons
     }
@@ -11,6 +14,10 @@ const PostRejectedReason = ({ post }) => {
   }, [])
 
   const formattedReason = formatAdRejectionReason(reason)
+
+  if (! isRejected && ! isPromotable && ! notPromotableReason) {
+    return
+  }
 
   return (
     <div
@@ -21,13 +28,14 @@ const PostRejectedReason = ({ post }) => {
         'truncate',
       ].join(' ')}
     >
-      {formattedReason || 'Unknown'}
+      {isRejected ? formattedReason || 'Unknown' : notPromotableReason}
     </div>
   )
 }
 
-PostRejectedReason.propTypes = {
+PostNotPromotableReason.propTypes = {
   post: PropTypes.object.isRequired,
+  status: PropTypes.object.isRequired,
 }
 
-export default PostRejectedReason
+export default PostNotPromotableReason
