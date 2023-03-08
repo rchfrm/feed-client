@@ -9,12 +9,13 @@ import { postsConfig, getPosts } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
   status,
+  initialSortBy,
   posts,
   setPosts,
   isSpendingPaused,
   className,
 }) => {
-  const [sortBy, setSortBy] = React.useState('published_time')
+  const [sortBy, setSortBy] = React.useState(initialSortBy)
   const [filterBy, setFilterBy] = React.useState({})
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
@@ -125,6 +126,7 @@ const PostsLoader = ({
 
 PostsLoader.propTypes = {
   status: PropTypes.string.isRequired,
+  initialSortBy: PropTypes.string,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
   isSpendingPaused: PropTypes.bool,
@@ -132,6 +134,7 @@ PostsLoader.propTypes = {
 }
 
 PostsLoader.defaultProps = {
+  initialSortBy: 'published_time',
   isSpendingPaused: false,
   className: null,
 }

@@ -114,6 +114,7 @@ const Posts = () => {
           />
           <PostsLoader
             status="pending"
+            initialSortBy="normalized_score"
             posts={posts.pending}
             setPosts={setPosts}
             className="border-grey-light bg-offwhite"
