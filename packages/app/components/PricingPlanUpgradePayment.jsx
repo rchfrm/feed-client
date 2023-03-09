@@ -150,12 +150,14 @@ const PricingPlanUpgradePayment = ({
           canChooseFree={canChooseFree}
         />
       )}
-      <PricingProrationsLoader
-        profilesToUpgrade={profilesToUpgrade}
-        setProfilesToUpgrade={setProfilesToUpgrade}
-        prorationsPreview={prorationsPreview}
-        setProrationsPreview={setProrationsPreview}
-      />
+      {! isFreePlan && (
+        <PricingProrationsLoader
+          profilesToUpgrade={profilesToUpgrade}
+          setProfilesToUpgrade={setProfilesToUpgrade}
+          prorationsPreview={prorationsPreview}
+          setProrationsPreview={setProrationsPreview}
+        />
+      )}
       <Error error={error} />
     </div>
   )
