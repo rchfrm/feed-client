@@ -12,7 +12,7 @@ import brandColors from '@/constants/brandColors'
 const PostPromotionStatus = ({
   promotionEnabled,
   promotionStatus,
-  postPromotable,
+  isPromotable,
   size,
   className,
 }) => {
@@ -22,7 +22,7 @@ const PostPromotionStatus = ({
   const isSmallSize = size === 'small'
 
   React.useEffect(() => {
-    if (! promotionEnabled || ! postPromotable) {
+    if (! promotionEnabled || ! isPromotable) {
       setStatus('disabled')
       setTitle('Disabled')
       return
@@ -30,7 +30,7 @@ const PostPromotionStatus = ({
 
     setStatus(promotionStatus)
     setTitle(postsHelpers.promotionStatus.find((status) => status.slug === promotionStatus)?.title)
-  }, [promotionEnabled, promotionStatus, postPromotable])
+  }, [promotionEnabled, promotionStatus, isPromotable])
 
   const getColor = (status) => {
     if (status === active) return 'green'
@@ -93,7 +93,7 @@ const PostPromotionStatus = ({
 PostPromotionStatus.propTypes = {
   promotionEnabled: PropTypes.bool.isRequired,
   promotionStatus: PropTypes.string.isRequired,
-  postPromotable: PropTypes.bool.isRequired,
+  isPromotable: PropTypes.bool.isRequired,
   size: PropTypes.string,
   className: PropTypes.string,
 }

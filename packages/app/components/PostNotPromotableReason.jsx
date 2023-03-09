@@ -6,7 +6,7 @@ const PostNotPromotableReason = ({ post, status }) => {
   const { isPromotable, notPromotableReason } = post
   const isRejected = status === 'rejected'
 
-  const [reason] = Object.values(post?.ads).reduce((reasons, ad) => {
+  const [reason] = Object.values(post?.ads || {}).reduce((reasons, ad) => {
     if (! ad?.ad_review_feedback?.global) {
       return reasons
     }
