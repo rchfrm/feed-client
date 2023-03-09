@@ -41,7 +41,8 @@ const PricingPlanUpgradePayment = ({
 
   const stripe = useStripe()
 
-  const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
+  const { currency, prorations } = prorationsPreview || {}
+  const amount = isFreePlan ? 0 : prorations?.amount
   const isDisabled = (! isFreePlan && ! amount) || Boolean(error)
 
   const {
