@@ -127,19 +127,19 @@ const PostSettings = ({
             post={post}
             campaignType={campaignType}
             updatePost={updatePost}
-            isDisabled={isSectionDisabled}
+            isDisabled={isSectionDisabled || ! isPromotable}
           />
           <PostSettingsCallToAction
             post={post}
             campaignType={campaignType}
             updatePost={updatePost}
-            isDisabled={isSectionDisabled}
+            isDisabled={isSectionDisabled || ! isPromotable}
           />
           <PostSettingsCaption
             post={post}
             campaignType={campaignType}
             updatePost={updatePost}
-            isDisabled={isSectionDisabled}
+            isDisabled={isSectionDisabled || ! isPromotable}
           />
         </DisabledSection>
       </div>
