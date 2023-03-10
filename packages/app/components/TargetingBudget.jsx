@@ -19,7 +19,6 @@ const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,
 })
 
-
 const TargetingBudget = ({
   className,
 }) => {
@@ -44,6 +43,8 @@ const TargetingBudget = ({
         } = {},
       } = {},
       hasSetUpProfile,
+      hasLegacyPlan,
+      hasBasicPlan,
       hasFreePlan,
       hasProPlan,
       hasNoPlan,
@@ -134,13 +135,15 @@ const TargetingBudget = ({
                 className="mt-5 text-insta"
               />
             ) : (
-              <DisabledActionPrompt
-                copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
-                section="budget"
-                version="small"
-                isButton={! hasProPlan}
-                className="mt-5"
-              />
+              ! hasLegacyPlan && ! hasBasicPlan && (
+                <DisabledActionPrompt
+                  copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
+                  section="budget"
+                  version="small"
+                  isButton={! hasProPlan}
+                  className="mt-5"
+                />
+              )
             )
           )}
         </>
