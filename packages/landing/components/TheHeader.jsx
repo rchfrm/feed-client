@@ -7,6 +7,7 @@ import * as styles from '@/landing/TheHeader.module.css'
 import { useRouter } from 'next/router'
 import TheHeaderPageLinks from '@/landing/TheHeaderPageLinks'
 import TheHeaderHamburgerMenu from '@/landing/TheHeaderHamburgerMenu'
+import TheHeaderHamburger from '@/landing/TheHeaderHamburger'
 import TryFeed from '@/landing/TryFeed'
 import brandColors from '@/constants/brandColors'
 
@@ -112,6 +113,11 @@ export default function TheHeader() {
               </div>
             </TheHeaderHamburgerMenu>
           )}
+          <TheHeaderHamburger
+            linksOpen={linksOpen}
+            toggleLinks={toggleLinks}
+            className={['sm:hidden'].join(' ')}
+          />
         </div>
       </div>
     </header>
