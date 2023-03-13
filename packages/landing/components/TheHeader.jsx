@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import TheHeaderPageLinks from '@/landing/TheHeaderPageLinks'
 import TheHeaderHamburgerMenu from '@/landing/TheHeaderHamburgerMenu'
 import TryFeed from '@/landing/TryFeed'
-import TheHeaderHamburger from '@/landing/TheHeaderHamburger'
 import brandColors from '@/constants/brandColors'
 
 export default function TheHeader() {
@@ -55,7 +54,7 @@ export default function TheHeader() {
           <Link
             href="/"
             title="home"
-            ariaLabel="Go Home"
+            aria-label="Go Home"
             className="w-40"
           >
             <FeedLogo
@@ -113,12 +112,6 @@ export default function TheHeader() {
               </div>
             </TheHeaderHamburgerMenu>
           )}
-          {/* HAMBURGER */}
-          <TheHeaderHamburger
-            linksOpen={linksOpen}
-            toggleLinks={toggleLinks}
-            className={['sm:hidden'].join(' ')}
-          />
         </div>
       </div>
     </header>

@@ -1,13 +1,13 @@
 import Router, { withRouter } from 'next/router'
 import Link from 'next/link'
-import React, { Children } from 'react'
+import React from 'react'
 
 import * as utils from '@/landing/helpers/utils'
 
-const ActiveLink = ({ router, children, ...props }) => {
-  const child = Children.only(children)
+const ActiveLink = ({ router, children, className, ...props }) => {
   const { href, activeClass = '_active' } = props
   const [pathname, setPathname] = React.useState(router.pathname)
+  const isActive = pathname === href
 
   const handleRouteChange = React.useCallback((url) => {
     const { pathname } = utils.parseUrl(url)
@@ -21,14 +21,12 @@ const ActiveLink = ({ router, children, ...props }) => {
     }
   }, [handleRouteChange])
 
-  let className = child.props.className || ''
-  if (pathname === href) {
-    className = `${className} ${activeClass}`.trim()
-  }
-
   return (
-    <Link href={href}>
-      {React.cloneElement(child, { className })}
+    <Link
+      href={href}
+      className={isActive ? `${className} ${activeClass}`.trim() : className}
+    >
+      {children}
     </Link>
   )
 }
