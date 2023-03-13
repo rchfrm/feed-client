@@ -70,7 +70,7 @@ const ResetPasswordContent = () => {
       {error && error.code === 'auth/invalid-action-code' && (
         <p>
           <Link href={ROUTES.PASSWORD_FORGET}>
-            <a>Try again?</a>
+            Try again?
           </Link>
         </p>
       )}

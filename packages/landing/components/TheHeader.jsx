@@ -52,18 +52,21 @@ export default function TheHeader() {
           'items-center',
         ].join(' ')}
         >
-          <Link href="/">
-            <a title="home" aria-label="Go Home" className="w-40">
-              <FeedLogo
-                id="landing"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                }}
-                fill={brandColors.black}
-                hasWordmark
-              />
-            </a>
+          <Link
+            href="/"
+            title="home"
+            ariaLabel="Go Home"
+            className="w-40"
+          >
+            <FeedLogo
+              id="landing"
+              style={{
+                width: '100%',
+                height: 'auto',
+              }}
+              fill={brandColors.black}
+              hasWordmark
+            />
           </Link>
         </div>
         <div className={[
