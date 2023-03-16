@@ -186,7 +186,7 @@ const LoginEmailForm = ({ initialEmail, className }) => {
 
       {/* Forgot password link */}
       <p className={['small--p', styles.forgotPasswordLink].join(' ')}>
-        <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot Password?</a></Link>
+        <Link href={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link>
       </p>
 
       <Button

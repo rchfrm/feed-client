@@ -23,7 +23,7 @@ export default function PrimaryCTA({
       ].join(' ')}
       fullWidth
     >
-      <Link href={joinLink}>
+      <Link href={joinLink} className="no-underline">
         <Button
           version="custom"
           className={[

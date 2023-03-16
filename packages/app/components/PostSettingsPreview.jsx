@@ -35,10 +35,8 @@ const PostSettingsPreview = ({
                 ].join(' ')}
                 />
                 {isDesktopLayout && (`${capitalise(key)} ad: `)}
-                <Link href={value}>
-                  <a target="_blank" className="ml-1">
-                    {isDesktopLayout ? value : `${capitalise(key)} ad`}
-                  </a>
+                <Link href={value} target="_blank" className="ml-1">
+                  {isDesktopLayout ? value : `${capitalise(key)} ad`}
                 </Link>
               </li>
             )
