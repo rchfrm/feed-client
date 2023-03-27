@@ -9,12 +9,13 @@ const PostSettingsDisableAlert = ({
   onConfirm,
   onCancel,
   campaignType,
+  isPostActive,
 }) => {
   const { showAlert, closeAlert } = useAlertModal()
 
   const alertContents = React.useMemo(() => {
-    return <MarkdownText markdown={copy.postStatusConfirmation(campaignType)} className="mb-0" />
-  }, [campaignType])
+    return <MarkdownText markdown={copy.disablePostWarning(isPostActive, campaignType)} className="mb-0" />
+  }, [isPostActive, campaignType])
 
   React.useEffect(() => {
     if (! shouldShowAlert) {
@@ -31,7 +32,7 @@ const PostSettingsDisableAlert = ({
         version: 'secondary',
       },
       {
-        text: 'Continue',
+        text: isPostActive ? 'Continue' : 'Pause budget',
         onClick: () => {
           onConfirm()
           closeAlert()
@@ -43,7 +44,7 @@ const PostSettingsDisableAlert = ({
       children: alertContents,
       buttons,
     })
-  }, [shouldShowAlert, onConfirm, onCancel, alertContents, showAlert, closeAlert])
+  }, [shouldShowAlert, onConfirm, onCancel, alertContents, showAlert, closeAlert, isPostActive])
 
   React.useEffect(() => {
     return closeAlert
@@ -57,6 +58,7 @@ PostSettingsDisableAlert.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   campaignType: PropTypes.string.isRequired,
+  isPostActive: PropTypes.bool.isRequired,
 }
 
 export default PostSettingsDisableAlert

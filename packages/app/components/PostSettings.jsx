@@ -24,6 +24,7 @@ const PostSettings = ({
   post,
   status: initialStatus,
   setPost,
+  isLastPromotableNotRunPost,
   className,
 }) => {
   const {
@@ -107,6 +108,7 @@ const PostSettings = ({
             isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
             setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
             isDisabled={isToggleDisabled || ! postPromotable}
+            isLastPromotableNotRunPost={isLastPromotableNotRunPost}
           />
           <PostSettingsPromotionStatus
             promotionEnabled={promotionEnabled}
@@ -156,6 +158,7 @@ PostSettings.propTypes = {
   post: PropTypes.object.isRequired,
   status: PropTypes.string,
   setPost: PropTypes.func.isRequired,
+  isLastPromotableNotRunPost: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

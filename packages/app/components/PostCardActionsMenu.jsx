@@ -19,6 +19,7 @@ const PostCardActionsMenu = ({
   status,
   setPosts,
   setIsOpen,
+  isLastPromotableNotRunPost,
 }) => {
   const [action, setAction] = React.useState(null)
 
@@ -96,6 +97,7 @@ const PostCardActionsMenu = ({
       post,
       status,
       setPosts,
+      isLastPromotableNotRunPost,
     })
   }
 
@@ -185,6 +187,7 @@ PostCardActionsMenu.propTypes = {
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
   setIsOpen: PropTypes.func.isRequired,
+  isLastPromotableNotRunPost: PropTypes.bool.isRequired,
 }
 
 export default PostCardActionsMenu

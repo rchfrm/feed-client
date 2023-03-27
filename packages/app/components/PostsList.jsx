@@ -12,6 +12,8 @@ const PostsList = ({
   setIsPostActionsOpen,
   className,
 }) => {
+  const isLastPromotableNotRunPost = status === 'pending' && posts.length === 1
+
   return (
     <ul
       className={[
@@ -36,6 +38,7 @@ const PostsList = ({
                 status={status}
                 setPosts={setPosts}
                 setIsPostActionsOpen={setIsPostActionsOpen}
+                isLastPromotableNotRunPost={isLastPromotableNotRunPost}
               />
               {status === 'rejected' && (
                 <PostRejectedReason post={post} />

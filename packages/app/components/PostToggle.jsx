@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostSettingsDisableAlert from '@/app/PostSettingsDisableAlert'
 import { togglePromotionEnabled, setPostPriority } from '@/app/helpers/postsHelpers'
+import * as ROUTES from '@/app/constants/routes'
 
 const PostToggle = ({
   campaignType,
@@ -12,6 +14,7 @@ const PostToggle = ({
   isEnabled,
   setIsEnabled,
   disabled,
+  isLastPromotableNotRunPost,
   className,
 }) => {
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
@@ -43,9 +46,16 @@ const PostToggle = ({
     }
   }, [artistId, postId, setPost, post.priorityEnabled])
 
+  const goToControlsPage = () => {
+    Router.push({
+      pathname: ROUTES.CONTROLS_BUDGET,
+    })
+  }
+
   const save = React.useCallback(async (value, forceRun = false) => {
-    if (isPostActive && ! forceRun) {
-      setOnAlertConfirm(() => () => save(value, true))
+    if ((isPostActive || isLastPromotableNotRunPost) && ! forceRun) {
+      const action = isPostActive ? () => save(value, true) : () => goToControlsPage()
+      setOnAlertConfirm(() => () => action())
       setShouldShowAlert(true)
 
       return
@@ -83,7 +93,7 @@ const PostToggle = ({
     })
     checkAndDeprioritize(newStatus, updatedPost)
     setIsLoading(false)
-  }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign, isPostActive])
+  }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign, isPostActive, isLastPromotableNotRunPost])
 
   const onConfirm = () => {
     onAlertConfirm()
@@ -107,6 +117,7 @@ const PostToggle = ({
         onConfirm={onConfirm}
         onCancel={onCancel}
         campaignType={campaignType}
+        isPostActive={isPostActive}
       />
     </div>
   )
@@ -119,6 +130,7 @@ PostToggle.propTypes = {
   setIsEnabled: PropTypes.func.isRequired,
   setPost: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  isLastPromotableNotRunPost: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

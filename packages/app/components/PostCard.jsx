@@ -9,6 +9,7 @@ const PostCard = ({
   status,
   setPosts,
   setIsPostActionsOpen,
+  isLastPromotableNotRunPost,
   className,
 }) => {
   return (
@@ -34,6 +35,7 @@ const PostCard = ({
         status={status}
         setPosts={setPosts}
         setIsPostActionsOpen={setIsPostActionsOpen}
+        isLastPromotableNotRunPost={isLastPromotableNotRunPost}
       />
     </div>
   )
@@ -45,6 +47,7 @@ PostCard.propTypes = {
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
+  isLastPromotableNotRunPost: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

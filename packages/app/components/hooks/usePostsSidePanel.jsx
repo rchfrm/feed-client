@@ -27,6 +27,7 @@ const usePostsSidePanel = () => {
     post,
     status,
     setPosts,
+    isLastPromotableNotRunPost,
   }) => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent((
@@ -34,6 +35,7 @@ const usePostsSidePanel = () => {
         post={post}
         status={status}
         setPost={setPosts}
+        isLastPromotableNotRunPost={isLastPromotableNotRunPost}
       />
     ))
     setSidePanelContentLabel('Post Settings')

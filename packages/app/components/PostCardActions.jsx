@@ -9,6 +9,7 @@ const PostCardActions = ({
   status,
   setPosts,
   setIsPostActionsOpen,
+  isLastPromotableNotRunPost,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const dropdownRef = React.useRef(null)
@@ -52,6 +53,7 @@ const PostCardActions = ({
           status={status}
           setPosts={setPosts}
           setIsOpen={setIsOpen}
+          isLastPromotableNotRunPost={isLastPromotableNotRunPost}
         />
       )}
     </div>
@@ -63,6 +65,7 @@ PostCardActions.propTypes = {
   index: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
+  isLastPromotableNotRunPost: PropTypes.bool.isRequired,
 }
 
 export default PostCardActions
