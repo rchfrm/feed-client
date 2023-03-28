@@ -25,8 +25,12 @@ const TheHeader = () => {
           const path = ROUTES[link]
           const linkText = link.toLowerCase()
           return (
-            <ActiveLink key={path} href={path}>
-              <a className={['mr-8', 'mb-5', styles.link].join(' ')}>{linkText}</a>
+            <ActiveLink
+              key={path}
+              href={path}
+              className={['mr-8', 'mb-5', styles.link].join(' ')}
+            >
+              {linkText}
             </ActiveLink>
           )
         })}

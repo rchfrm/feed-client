@@ -1,24 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import styles from '@/landing/TheHeaderHamburger.module.scss'
+import MenuIcon from '@/icons/MenuIcon'
+import CrossIcon from '@/icons/CrossIcon'
 
 const TheHeaderHamburger = ({ linksOpen, toggleLinks, className }) => {
   return (
     <button
-      className={[
-        styles.hamburger,
-        styles['hamburger--slider'],
-        linksOpen ? styles['is-active'] : null,
-        className,
-      ].join(' ')}
       type="button"
-      aria-label="Open menu"
       onClick={toggleLinks}
+      aria-label="Open menu"
+      className={className}
     >
-      <span className={styles['hamburger-box']}>
-        <span className={styles['hamburger-inner']} />
-      </span>
+      {linksOpen ? (
+        <CrossIcon className="w-10 h-auto" />
+      ) : (
+        <MenuIcon className="w-10 h-auto" />
+      )}
     </button>
 
   )

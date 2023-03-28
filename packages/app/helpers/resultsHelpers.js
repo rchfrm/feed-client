@@ -36,7 +36,7 @@ export const adMetricTypes = [
 export const organicMetricTypes = [
   {
     name: 'reach',
-    color: brandColors.blue,
+    color: brandColors.twitter.bg,
   },
   {
     name: 'engagement',

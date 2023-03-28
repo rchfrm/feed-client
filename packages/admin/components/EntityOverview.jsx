@@ -80,8 +80,9 @@ const EntityOverview = ({ entity, propsToDisplay, isSingleEntity }) => {
             pathname,
             query: { id: entity.id },
           }}
+          className="capitalize"
         >
-          <a className="capitalize">{entityInfo.type} Page</a>
+          {entityInfo.type}
         </Link>
       )}
     </>

@@ -23,8 +23,8 @@ const TheFooterColophon = ({
             const isLast = index === legalLinks.length - 1
             return (
               <React.Fragment key={href}>
-                <Link href={href}>
-                  <a className="underline">{title}</a>
+                <Link href={href} className="underline">
+                  {title}
                 </Link>
                 {! isLast && ' | '}
               </React.Fragment>

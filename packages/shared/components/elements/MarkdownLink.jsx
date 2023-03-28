@@ -27,7 +27,7 @@ const MarkdownLink = ({ href, children }) => {
   if (linkType === 'internal') {
     return (
       <Link href={formattedLink}>
-        <a>{ linkText }</a>
+        {linkText}
       </Link>
     )
   }

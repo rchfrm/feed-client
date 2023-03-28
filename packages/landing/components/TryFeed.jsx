@@ -16,7 +16,7 @@ export default function TryFeed({ className, buttonText, trackLocation }) {
 
   return (
     <div className={className}>
-      <Link href={joinLink}>
+      <Link href={joinLink} className="no-underline">
         <Button
           className={[
             className,

@@ -60,9 +60,9 @@ const BlogSummaryItem = ({ blog, className }) => {
       <Link href={link}>
         <Button
           version="text"
-          href={link}
           label={`Read more about ${title}`}
           trackComponentName="BlogSummaryItem"
+          className="no-underline"
         >
           <strong>Read more</strong>
         </Button>

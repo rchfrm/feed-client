@@ -269,6 +269,7 @@ export const formatPostsResponse = (posts) => {
       postPromotable: post.is_promotable,
       promotionStatus: post.promotion_status,
       promotableStatus: post.promotable_status,
+      normalizedScore: post.normalized_score,
       promotionEligibility,
       adPreviewLinks,
       message,

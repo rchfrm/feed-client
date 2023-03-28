@@ -7,8 +7,8 @@ import * as styles from '@/landing/TheHeader.module.css'
 import { useRouter } from 'next/router'
 import TheHeaderPageLinks from '@/landing/TheHeaderPageLinks'
 import TheHeaderHamburgerMenu from '@/landing/TheHeaderHamburgerMenu'
-import TryFeed from '@/landing/TryFeed'
 import TheHeaderHamburger from '@/landing/TheHeaderHamburger'
+import TryFeed from '@/landing/TryFeed'
 import brandColors from '@/constants/brandColors'
 
 export default function TheHeader() {
@@ -52,18 +52,21 @@ export default function TheHeader() {
           'items-center',
         ].join(' ')}
         >
-          <Link href="/">
-            <a title="home" aria-label="Go Home" className="w-40">
-              <FeedLogo
-                id="landing"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                }}
-                fill={brandColors.black}
-                hasWordmark
-              />
-            </a>
+          <Link
+            href="/"
+            title="home"
+            aria-label="Go Home"
+            className="w-40"
+          >
+            <FeedLogo
+              id="landing"
+              style={{
+                width: '100%',
+                height: 'auto',
+              }}
+              fill={brandColors.black}
+              hasWordmark
+            />
           </Link>
         </div>
         <div className={[
@@ -110,7 +113,6 @@ export default function TheHeader() {
               </div>
             </TheHeaderHamburgerMenu>
           )}
-          {/* HAMBURGER */}
           <TheHeaderHamburger
             linksOpen={linksOpen}
             toggleLinks={toggleLinks}

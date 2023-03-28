@@ -15,7 +15,7 @@ const PostSettingsToggle = ({
       className={[
         'flex flex-column',
         'w-full',
-        'sm:w-1/2',
+        'sm:w-1/3',
       ].join(' ')}
     >
       <h3 className={[
@@ -28,7 +28,7 @@ const PostSettingsToggle = ({
       <div
         className={[
           'flex items-center',
-          'mb-5',
+          'mb-8',
           'sm:mb-10',
         ].join(' ')}
       >
