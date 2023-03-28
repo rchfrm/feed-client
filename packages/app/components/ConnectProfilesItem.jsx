@@ -11,7 +11,7 @@ import * as ROUTES from '@/app/constants/routes'
 import { getLocalStorage } from '@/helpers/utils'
 
 const getBillingStoreState = (state) => ({
-  organizationArtists: state.organizationArtists,
+  organization: state.organization,
 })
 
 const ConnectProfilesItem = ({
@@ -25,23 +25,22 @@ const ConnectProfilesItem = ({
   const { name, page_id, instagram_username } = profile
   const { user } = React.useContext(UserContext)
   const { connectArtist } = React.useContext(ArtistContext)
-  const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const { organization } = useBillingStore(getBillingStoreState)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  const isManaged = organization.is_managed
   let { plan } = wizardState || {}
 
   const createArtist = async () => {
     setIsConnecting(true)
     setSelectedProfile(profile)
 
-    const hasAllProfilesOnLegacyPlan = artistHelpers.hasAllProfilesOnLegacyPlan(organizationArtists)
-
-    if (hasAllProfilesOnLegacyPlan) {
+    if (isManaged) {
       plan = 'legacy_monthly'
     }
 
     // Santise URLs
     const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(profile)
-    const { error } = await connectArtist(artistAccountSanitised, user, plan) || {}
+    const { error } = await connectArtist(artistAccountSanitised, user, plan, isManaged) || {}
 
     if (error) {
       setIsConnecting(false)
