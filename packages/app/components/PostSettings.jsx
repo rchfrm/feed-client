@@ -5,6 +5,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import PostSettingsTabs from '@/app/PostSettingsTabs'
 import PostSettingsToggle from '@/app/PostSettingsToggle'
 import PostSettingsPromotionStatus from '@/app/PostSettingsPromotionStatus'
+import PostSettingsScore from '@/app/PostSettingsScore'
 import PostSettingsPreview from '@/app/PostSettingsPreview'
 import PostSettingsLink from '@/app/PostSettingsLink'
 import PostSettingsCallToAction from '@/app/PostSettingsCallToAction'
@@ -35,6 +36,7 @@ const PostSettings = ({
     promotionStatus,
     adPreviewLinks,
     postType,
+    normalizedScore,
   } = post
 
   const [campaignType, setCampaignType] = React.useState('all')
@@ -96,7 +98,7 @@ const PostSettings = ({
           <PostUnpromotable className="w-full max-w-xs mb-10" />
         )}
         {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
-        <div className="flex flex-col sm:flex-row">
+        <div className="flex flex-wrap">
           <PostSettingsToggle
             post={post}
             postId={postId}
@@ -110,6 +112,9 @@ const PostSettings = ({
             promotionEnabled={promotionEnabled}
             promotionStatus={promotionStatus}
             isPromotable={isPromotable}
+          />
+          <PostSettingsScore
+            score={normalizedScore}
           />
         </div>
         {shouldShowPreview && (

@@ -18,7 +18,7 @@ const FooterLinks = ({ hasAuth }) => {
               <li className="mr-5 last:mr-0" key={href}>
                 {external
                   ? <a href={href} target="_blank" rel="noopener noreferrer">{title}</a>
-                  : <ActiveLink activeClass="no-underline" href={href}><a>{title}</a></ActiveLink>}
+                  : <ActiveLink activeClass="no-underline" href={href}>{title}</ActiveLink>}
               </li>
             )
           })

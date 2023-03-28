@@ -99,6 +99,7 @@ const MailchimpForm = ({
             type="submit"
             className="w-40 mx-auto text-offwhite text-lg"
             id="mc-embedded-subscribe"
+            trackComponentName="MailchimpForm"
           >
             {ctaText}
           </Button>

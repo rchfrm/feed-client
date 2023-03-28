@@ -112,11 +112,12 @@ const GetStartedDailyBudget = () => {
 
     setIsLoading(true)
 
+    await saveBudget(budget)
+
     if (hasFreePlan) {
       await checkAndUpdateCompletedSetupAt()
     }
 
-    await saveBudget(budget)
     setIsLoading(false)
     next()
   }

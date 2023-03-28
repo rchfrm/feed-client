@@ -27,25 +27,25 @@ const HeaderMenuLink = ({
   return (
     <li className="mb-10 text-grey hover:text-green" key={title} ref={hoverRef}>
       {href ? (
-        <ActiveLink href={href} activeClass="text-green">
-          <a
-            target={isExternal ? '_blank' : ''}
-            className={['relative flex items-center no-underline'].join(' ')}
-          >
-            <PrimaryLinkIcon
-              icon={icon}
-              isActive={isActive}
-              isHover={isHover}
-              className="mr-3"
-            />
-            {title}
-            {title === 'Notifications' && totalActiveNotifications > 0 && (
-              <span className="text-red">&nbsp;{totalActiveNotifications}</span>
-            )}
-            {shouldShowDot && (
-              <NotificationDot size="small" style={{ left: '-1rem', top: '0.55rem' }} />
-            )}
-          </a>
+        <ActiveLink
+          href={href}
+          activeClass="text-green"
+          className={['relative flex items-center no-underline'].join(' ')}
+          target={isExternal ? '_blank' : ''}
+        >
+          <PrimaryLinkIcon
+            icon={icon}
+            isActive={isActive}
+            isHover={isHover}
+            className="mr-3"
+          />
+          {title}
+          {title === 'Notifications' && totalActiveNotifications > 0 && (
+            <span className="text-red">&nbsp;{totalActiveNotifications}</span>
+          )}
+          {shouldShowDot && (
+            <NotificationDot size="small" style={{ left: '-1rem', top: '0.55rem' }} />
+          )}
         </ActiveLink>
       ) : (
         <button onClick={isSignOut ? signOut : null} className="flex items-center hover:text-green">

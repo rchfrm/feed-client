@@ -8,7 +8,7 @@ const PostSettingsPromotionStatus = ({
   isPromotable,
 }) => {
   return (
-    <div className="flex flex-column w-full sm:w-1/2">
+    <div className="flex flex-column w-1/2 sm:w-1/3">
       <h3 className={[
         'font-bold text-lg',
       ].join(' ')}
@@ -19,7 +19,7 @@ const PostSettingsPromotionStatus = ({
         promotionEnabled={promotionEnabled}
         promotionStatus={promotionStatus}
         isPromotable={isPromotable}
-        className="ml-5 sm:ml-0 mb-5 sm:mb-10"
+        className="ml-5 sm:ml-0 mb-8 sm:mb-10"
       />
     </div>
   )

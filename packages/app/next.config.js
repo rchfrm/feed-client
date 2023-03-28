@@ -2,7 +2,6 @@ const path = require('path')
 const fs = require('fs')
 // Next plugins
 const withPlugins = require('next-compose-plugins')
-const withOffline = require('next-offline')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -12,14 +11,7 @@ const dotenv = require('dotenv')
 // Extract environment variables from local .env file
 dotenv.config()
 
-// Next phase vars
-const {
-  PHASE_DEVELOPMENT_SERVER,
-} = require('next/constants')
-
-// SETUP TRANSPILE MODULES
 const sharedPath = path.resolve(__dirname, '../shared')
-const withTM = require('next-transpile-modules')([sharedPath])
 
 // LOAD GLOBAL DATA FROM DATO
 const globalDataDir = path.resolve(process.cwd(), 'tempGlobalData')
@@ -36,7 +28,6 @@ const fetchGlobalData = () => {
     fs.writeFileSync(cachedFile, dataString)
   })
 }
-
 
 const { REACT_APP_API_URL, REACT_APP_API_URL_LIVE, REACT_APP_URL } = process.env
 const build_env = process.env.BUILD_ENV || process.env.NODE_ENV
@@ -69,20 +60,6 @@ const nextConfig = {
     recaptcha_key: process.env.RECAPTCHA_KEY,
     release_version: process.env.RELEASE_VERSION,
     show_live_warning,
-  },
-  // Don't show if page can be optimised automatically
-  // https://nextjs.org/docs/api-reference/next.config.js/static-optimization-indicator
-  devIndicators: {
-    autoPrerender: false,
-  },
-  workboxOpts: {
-    exclude: [/.fbcdn\.net/],
-    runtimeCaching: [
-      {
-        urlPattern: /.fbcdn\.net/,
-        handler: 'NetworkOnly',
-      },
-    ],
   },
   webpack: (config, { webpack }) => {
     // Reduce size of moment.js
@@ -125,15 +102,10 @@ const nextConfig = {
       },
     ]
   },
+  transpilePackages: [sharedPath],
   experimental: { esmExternals: true },
 }
 
 module.exports = withPlugins([
-  [withTM],
-  // load and apply a plugin only during development server phase
-  [withOffline, {
-    dontAutoRegisterSw: true,
-  }, ['!', PHASE_DEVELOPMENT_SERVER]],
-  // Bundle analyzer
   withBundleAnalyzer,
 ], nextConfig)
