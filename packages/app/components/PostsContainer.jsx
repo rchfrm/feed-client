@@ -104,6 +104,7 @@ const PostsContainer = ({
                 setPosts={setPosts}
                 filterBy={filterBy}
                 setIsPostActionsOpen={setIsPostActionsOpen}
+                isSpendingPaused={isSpendingPaused}
                 className="mb-5"
               />
             </>

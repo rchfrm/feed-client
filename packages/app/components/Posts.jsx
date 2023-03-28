@@ -117,6 +117,7 @@ const Posts = () => {
             initialSortBy="normalized_score"
             posts={posts.pending}
             setPosts={setPosts}
+            isSpendingPaused={isSpendingPaused}
             className="border-grey-light bg-offwhite"
           />
           <PostsLoader

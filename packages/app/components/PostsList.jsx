@@ -10,9 +10,10 @@ const PostsList = ({
   setPosts,
   filterBy,
   setIsPostActionsOpen,
+  isSpendingPaused,
   className,
 }) => {
-  const isLastPromotableNotRunPost = status === 'pending' && posts.length === 1
+  const isLastPromotableNotRunPost = ! isSpendingPaused && status === 'pending' && posts.length === 1
 
   return (
     <ul
@@ -57,6 +58,7 @@ PostsList.propTypes = {
   setPosts: PropTypes.func.isRequired,
   filterBy: PropTypes.object.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
+  isSpendingPaused: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
