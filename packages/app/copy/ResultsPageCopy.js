@@ -149,48 +149,6 @@ export default {
     }
     return 'Your results will appear here soon (within 24 hours of starting ads).'
   },
-  noSpendReachDescription: (value, hasNoProfiles, isMobile) => {
-    if (hasNoProfiles) {
-      return `On average, a post on Facebook or Instagram will reach **${value.toFixed(1)}%** of the total audience.`
-    }
-
-    if (isMobile) {
-      return 'The percentage of your audience reached by a typical post.'
-    }
-
-    return `Your posts reach **${value.toFixed(1)}%** of your addressable audience.`
-  },
-  noSpendEngageDescription: (value, hasNoProfiles) => {
-    if (hasNoProfiles) {
-      return `**${value.toFixed(1)}%** of followers engage with the average post.`
-    }
-
-    return `**${value.toFixed(1)}%** of your followers engage with each post on average.`
-  },
-  noSpendGrowthDescription: (value, platform, rate, hasNoProfiles) => {
-    const numberRate = Number(rate)
-    if (hasNoProfiles) {
-      if (numberRate < 0) {
-        return 'Did you know the average Instagram profile is actually shrinking?'
-      }
-
-      if (numberRate === 0) {
-        return "Did you know the average Instagram profile actually doesn't grow?"
-      }
-
-      return `The average Instagram grows **${rate}%** a month. With 5,000 followers, that's an extra **${value}**.`
-    }
-
-    if (value === 0) {
-      return `Your ${capitalise(platform)} following is steady.`
-    }
-
-    const rateString = `_(${rate >= 0 ? '+' : ''}${rate}%)_`
-    const changeDescription = value > 0 ? 'adding' : 'losing'
-
-    return `You're ${changeDescription} **${value}** ${capitalise(platform)} followers a month on average ${rateString}.`
-  },
-  noSpendTotalFollowersDescription: "We don't have enough historical information yet, so check back later to see growth insights.",
   quartileDescription: (quartile, percentile) => {
     if (quartile === 1) {
       return `Room to improve, but better than **${percentile}%** of others`
@@ -208,7 +166,6 @@ export default {
       return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
     }
   },
-  organicGrowthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
   adGrowthChartTitle: (platform) => {
     if (platform === 'instagram') return 'Your Instagram following'
     if (platform === 'facebook') return 'Your Facebook likes'
