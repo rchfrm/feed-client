@@ -47,7 +47,7 @@ const ResultsOrganicGrowthChartLoader = ({ dailyData, setDailyData }) => {
   }, [])
 
   return (
-    <>
+    <div className="col-span-12">
       <p className="font-bold text-xl">Follower growth</p>
       <ResultsChartHeader
         description={copy.organicGrowthChartDescription}
@@ -57,7 +57,7 @@ const ResultsOrganicGrowthChartLoader = ({ dailyData, setDailyData }) => {
         dailyData={dailyData}
         isLoading={isLoading}
       />
-    </>
+    </div>
   )
 }
 

@@ -1,16 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 import * as api from '@/helpers/api'
 import moment from 'moment'
-
 import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
 import { formatCurrency } from '@/helpers/utils'
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
-
-import * as server from '@/app/helpers/appServer'
 import { formatServerData } from '@/app/helpers/insightsHelpers'
-import { formatPostsMinimal } from '@/app/helpers/postsHelpers'
 
 export const adMetricTypes = [
   {
@@ -54,11 +50,6 @@ export const followerGrowthDataSources = {
   soundcloud: 'soundcloud_follower_count',
   spotify: 'spotify_follower_count',
   youtube: 'youtube_subscriber_count',
-}
-
-export const engagementDataSources = {
-  facebook: 'facebook_engaged_1y',
-  instagram: 'instagram_engaged_1y',
 }
 
 const formatResultsData = (data) => {
@@ -526,45 +517,6 @@ export const formatBenchmarkData = (organicData, hasNoProfiles) => {
   }
 
   return { reach: reachData, engagement: engageData, growth: growthData }
-}
-
-export const getRecentPosts = async (artistId, platform) => {
-  const res = await server.getPosts({
-    artistId,
-    filterBy: {
-      date_from: [moment().subtract(29, 'days')],
-      date_to: [moment()],
-      platform: [platform],
-      internal_type: ['post'],
-    },
-    limit: 100,
-  })
-  const formattedRecentPosts = formatPostsMinimal(res)
-
-  return formattedRecentPosts
-}
-
-export const getDummyPosts = (dummyPostsImages, globalAverage) => {
-  const daysToSubstract = [3, 13, 17, 25, 29]
-  const maxRate = globalAverage * 1.77
-  const rates = [
-    ...[...new Array(4)].map(() => (Math.random() * (maxRate - 0) + 0)),
-    maxRate,
-  ]
-
-  const dummyPosts = rates.map((rate, index) => {
-    return {
-      id: index,
-      publishedTime: moment().subtract(daysToSubstract[index], 'days').format('YYYY-MM-DD'),
-      reach: rate,
-      engagement: rate,
-      media: dummyPostsImages[index].image.url,
-      thumbnails: [dummyPostsImages[index].image.url],
-      postType: 'image',
-    }
-  })
-
-  return dummyPosts
 }
 
 export const getDataSources = async (dataSources, artistId) => {

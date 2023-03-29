@@ -140,27 +140,7 @@ export default {
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
-  postDescription: (name, value, isPurchase) => {
-    if (name === 'engagement') {
-      return `This post was the most effective at reaching new audiences, with **${formatNumber(value)}** people engaging with your content for the first time.`
-    }
-    if (name === 'nurture') {
-      return `This post was the most effective at nurturing the relationship with your existing audience, reaching **${formatNumber(value)}** people.`
-    }
-    return isPurchase ? (
-      `This post was the most effective at generating sales with a total value of **${value}**.`
-    ) : (
-      `This post was the most effective by generating **${formatNumber(value)}** sale(s).`
-    )
-  },
   statsNoData: 'Feed is setting up your ads',
-  postsStatsNoData: (isSpendingPaused) => {
-    if (isSpendingPaused) {
-      return `Your spending is currently paused. [Resume](${ROUTES.CONTROLS_BUDGET}) in order to see your most effective posts here.`
-    }
-
-    return "Your most effective post isn't available yet, once you've been using Feed for a bit longer it will appear here."
-  },
   conversionsActivatorTitle: 'Use the “sales” objective to get purchases on your website.',
   conversionsActivatorDescription: 'Use the "sales" objective to see results in this section!',
   noResultsData: (isSpendingPaused) => {
@@ -228,31 +208,7 @@ export default {
       return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
     }
   },
-  postsChartTitle: (metricType, hasNoProfiles) => {
-    if (hasNoProfiles) {
-      return 'Recent post performance'
-    }
-
-    if (metricType === 'reach') {
-      return 'Reach of your recent posts'
-    }
-
-    return 'Engagement rate of your recent posts'
-  },
-  postsChartDescription: (metricType, hasNoProfiles) => {
-    if (hasNoProfiles) {
-      return 'Connect your Facebook and Instagram pages, to see how your recent posts compare to each other, and how you compare to other similar profiles.'
-    }
-
-    if (metricType === 'reach') {
-      return "See the estimated percentage of your audience your posts have reached in the last 30 days. Your audience isn't just followers, it’s also people who have engaged with you before but haven’t followed you yet."
-    }
-
-    return 'See the percentage of your followers that engaged with your posts from the last 30 days.'
-  },
-  postsChartNoData: 'No posts found within the last 30 days.',
   organicGrowthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
-  engageChartDescription: (platform, isChartBar) => `Your audience ${isChartBar ? `on ${getPlatformNameByValue(platform)}` : 'across Instagram and Facebook'} is everyone who has engaged with your posts in the last year. This is often a much larger group than the number who follow you! Step 1: **Reach** is all about growing that audience, here's how it's developing.`,
   adGrowthChartTitle: (platform) => {
     if (platform === 'instagram') return 'Your Instagram following'
     if (platform === 'facebook') return 'Your Facebook likes'
@@ -260,7 +216,7 @@ export default {
     if (platform === 'spotify') return 'Your Spotify followers'
     if (platform === 'soundcloud') return 'Your SoundCloud followers'
   },
-  adGrowthChartDescription: (platform) => `Step 3: **Grow** is about growing your followers on ${getPlatformNameByValue(platform)}. Here's how it's been going, the black line shows how much you spent through Feed, so you can see when you were spending and when you weren't.`,
+  adGrowthChartDescription: (platform) => `Here's how growing your followers on ${getPlatformNameByValue(platform)} been going, the black line shows how much you spent through Feed, so you can see when you were spending and when you weren't.`,
   chartNoData: (subject) => `There is currently no ${subject} data available.`,
   headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
     const resultsTypeString = `**<span className="green--underline">${capitalise(resultsType)}</span>** insights`

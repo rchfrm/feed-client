@@ -1,17 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import ResultsReachStats from '@/app/ResultsReachStats'
 import ResultsEngageStats from '@/app/ResultsEngageStats'
 import ResultsGrowthStats from '@/app/ResultsGrowthStats'
-
 import { organicMetricTypes } from '@/app/helpers/resultsHelpers'
 
 const ResultsNoSpendStats = ({
   organicData,
   aggregatedOrganicData,
   hasNoProfiles,
-  metricType,
   isDesktopLayout,
   className,
 }) => {
@@ -26,7 +23,7 @@ const ResultsNoSpendStats = ({
   return (
     data && (
       organicMetricTypes.map(({ name }) => {
-        if ((isDesktopLayout && data[name]) || (! isDesktopLayout && metricType === name)) {
+        if (isDesktopLayout && data[name]) {
           const ResultsStats = components[name]
 
           return (
