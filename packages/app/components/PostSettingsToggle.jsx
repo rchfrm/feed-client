@@ -38,6 +38,7 @@ const PostSettingsToggle = ({
           setPost={updatePost}
           isEnabled={isEnabled}
           setIsEnabled={setIsEnabled}
+          isDisabled={isDisabled}
           className="ml-5 sm:ml-0 mr-4"
         />
         <p

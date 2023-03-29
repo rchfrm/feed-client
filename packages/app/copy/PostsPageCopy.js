@@ -196,7 +196,7 @@ Would you like to continue?`
     const base = 'The caption is not editable because'
 
     if (post.postType === 'story') return `${base} this is a story.`
-    if (! post.postPromotable) return `${base} the post is not promotable.`
+    if (! post.isPromotable) return `${base} the post is not promotable.`
 
     return ''
   },

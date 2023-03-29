@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
-import PostRejectedReason from '@/app/PostRejectedReason'
+import PostNotPromotableReason from '@/app/PostNotPromotableReason'
 import PostsNone from '@/app/PostsNone'
 import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
 import ArtistContext from '@/app/contexts/ArtistContext'
@@ -44,8 +44,8 @@ const PostsList = ({
                 setPosts={setPosts}
                 setIsPostActionsOpen={setIsPostActionsOpen}
               />
-              {status === 'rejected' && (
-                <PostRejectedReason post={post} />
+              {(! post.isPromotable || status === 'rejected') && (
+                <PostNotPromotableReason post={post} status={status} />
               )}
             </div>
           )
