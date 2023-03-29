@@ -14,6 +14,7 @@ const ResultsContent = ({
   adData,
   aggregatedAdData,
   isSpendingPaused,
+  hasSetUpProfile,
 }) => {
   const [dailyGrowthData, setDailyGrowthData] = React.useState(null)
   const [dailySpendData, setDailySpendData] = React.useState(null)
@@ -27,7 +28,7 @@ const ResultsContent = ({
   const hasSpotifyGrowthObjective = hasGrowthObjective && platform === 'spotify'
 
   if (! adData) {
-    return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
+    return <MarkdownText markdown={copy.noResultsData(isSpendingPaused, hasSetUpProfile)} />
   }
 
   return (
@@ -67,6 +68,7 @@ ResultsContent.propTypes = {
   adData: PropTypes.object,
   aggregatedAdData: PropTypes.object,
   isSpendingPaused: PropTypes.bool.isRequired,
+  hasSetUpProfile: PropTypes.bool.isRequired,
 }
 
 ResultsContent.defaultProps = {

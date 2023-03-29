@@ -143,10 +143,15 @@ export default {
   statsNoData: 'Feed is setting up your ads',
   conversionsActivatorTitle: 'Use the “sales” objective to get purchases on your website.',
   conversionsActivatorDescription: 'Use the "sales" objective to see results in this section!',
-  noResultsData: (isSpendingPaused) => {
+  noResultsData: (isSpendingPaused, hasSetUpProfile) => {
+    if (! hasSetUpProfile) {
+      return `There is currently no results data available. Complete setting up your account [here](${ROUTES.GET_STARTED}).`
+    }
+
     if (isSpendingPaused) {
       return `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS_BUDGET})!`
     }
+
     return 'Your results will appear here soon (within 24 hours of starting ads).'
   },
   quartileDescription: (quartile, percentile) => {

@@ -2,17 +2,20 @@ import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
 import ResultsContent from '@/app/ResultsContent'
 import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { getAdBenchmark, getAggregatedAdBenchmark } from '@/app/helpers/resultsHelpers'
+import copy from '@/app/copy/ResultsPageCopy'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
 })
 
 const ResultsLoader = () => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
+  const { hasSetUpProfile } = artist
   const { isSpendingPaused } = useControlsStore(getControlsStoreState)
 
   const [adData, setAdData] = React.useState(null)
@@ -51,7 +54,12 @@ const ResultsLoader = () => {
     ])
   }, [])
 
+  if (! hasSetUpProfile) {
+    return <MarkdownText markdown={copy.noResultsData(isSpendingPaused, hasSetUpProfile)} />
+  }
+
   if (isLoading) return <Spinner />
+
   if (error) return <Error error={error} />
 
   return (
@@ -60,6 +68,7 @@ const ResultsLoader = () => {
         adData={adData}
         aggregatedAdData={aggregatedAdData}
         isSpendingPaused={isSpendingPaused}
+        hasSetUpProfile={hasSetUpProfile}
       />
     )
   )

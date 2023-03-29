@@ -21,7 +21,6 @@ const ResultsStats = ({
   hasInstagramGrowthObjective,
   hasSpotifyGrowthObjective,
   platform,
-  className,
 }) => {
   const { conversionsPreferences } = useControlsStore(getControlsStoreState)
   const { facebookPixelEvent } = conversionsPreferences
@@ -49,11 +48,7 @@ const ResultsStats = ({
   }, [adData, aggregatedAdData, facebookPixelEvent, currency, platform])
 
   return (
-    <div className={[
-      'col-span-12 grid grid-cols-12 sm:gap-x-12',
-      className,
-    ].join(' ')}
-    >
+    <div className="col-span-12 grid grid-cols-12 sm:gap-x-12">
       <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0">
         {newAudienceData ? (
           <ResultsNewAudienceStats data={newAudienceData} />
@@ -101,7 +96,6 @@ ResultsStats.propTypes = {
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,
   hasSpotifyGrowthObjective: PropTypes.bool.isRequired,
   platform: PropTypes.string,
-  className: PropTypes.string.isRequired,
 }
 
 ResultsStats.defaultProps = {

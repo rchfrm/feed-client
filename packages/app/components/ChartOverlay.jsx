@@ -45,7 +45,11 @@ const ChartOverlay = ({
     labels[0],
     labels[middleIdx],
     labels[lastIdx],
-  ].map((label) => <li key={label}>{label}</li>)
+  ]
+
+  if (! labels.length) {
+    return
+  }
 
   return (
     <>
@@ -53,7 +57,11 @@ const ChartOverlay = ({
         <div className={styles.chartLeftMax}>{chartBarMax}</div>
         <div className={styles.chartLeftMid}>{chartBarMid}</div>
         <div className={styles.chartLeftMin}>{chartBarMin}</div>
-        <ul className={styles.xAxisLabels}>{labelList}</ul>
+        <ul className={styles.xAxisLabels}>
+          {labelList.map((label) => {
+            return <li key={label}>{label}</li>
+          })}
+        </ul>
         {isMixedChart && (
           <>
             <div className={styles.chartRightMax}>{chartLineMax}</div>
