@@ -1,20 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ChartLegendItem = ({ label, value, color, lineStyle }) => {
+const ChartLegendItem = ({ label, description, color }) => {
   return (
-    <li key={label} className="flex items-center mb-2">
+    <li key={label} className="flex flex-col mr-10 text-[10px]">
       <span
-        className="inline-block w-6 mr-3 border-t-2 border-dashed border-black"
+        className="inline-block w-8 mb-3 border-t-3 border-solid border-black"
         style={{
           borderColor: color,
-          borderStyle: lineStyle,
         }}
       />
-      {label},
-      <span className="ml-1 font-bold">
-        {value > 0 ? `${value.toFixed(1)}%` : '??'}
-      </span>
+      <span className="mb-1" style={{ color }}>{label}</span>
+      <span>{description}</span>
     </li>
   )
 }

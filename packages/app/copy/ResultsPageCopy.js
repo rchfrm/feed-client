@@ -171,14 +171,6 @@ export default {
       return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
     }
   },
-  adGrowthChartTitle: (platform) => {
-    if (platform === 'instagram') return 'Your Instagram following'
-    if (platform === 'facebook') return 'Your Facebook likes'
-    if (platform === 'youtube') return 'Your Youtube subscribers'
-    if (platform === 'spotify') return 'Your Spotify followers'
-    if (platform === 'soundcloud') return 'Your SoundCloud followers'
-  },
-  adGrowthChartDescription: (platform) => `Here's how growing your followers on ${getPlatformNameByValue(platform)} been going, the black line shows how much you spent through Feed, so you can see when you were spending and when you weren't.`,
   chartNoData: (subject) => `There is currently no ${subject} data available.`,
   headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
     const resultsTypeString = `**<span className="green--underline">${capitalise(resultsType)}</span>** insights`

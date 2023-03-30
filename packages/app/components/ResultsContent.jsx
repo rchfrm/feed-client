@@ -16,9 +16,6 @@ const ResultsContent = ({
   isSpendingPaused,
   hasSetUpProfile,
 }) => {
-  const [dailyGrowthData, setDailyGrowthData] = React.useState(null)
-  const [dailySpendData, setDailySpendData] = React.useState(null)
-
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
 
@@ -44,10 +41,6 @@ const ResultsContent = ({
         ].join(' ')}
         >
           <ResultsAdGrowthChartLoader
-            dailyGrowthData={dailyGrowthData}
-            setDailyGrowthData={setDailyGrowthData}
-            dailySpendData={dailySpendData}
-            setDailySpendData={setDailySpendData}
             platform={platform}
           />
           <ResultsStats

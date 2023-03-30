@@ -5,14 +5,13 @@ import ChartLegendItem from '@/app/ChartLegendItem'
 
 const ChartLegend = ({ items }) => {
   return (
-    <ul className="ml-10 mb-10 text-xs">
-      {items.map(({ label, value, color, lineStyle }) => (
+    <ul className="flex w-full ml-3 pt-4 border-t border-solid border-grey-light">
+      {items.map(({ label, description, color }) => (
         <ChartLegendItem
           key={label}
           label={label}
-          value={value}
+          description={description}
           color={color}
-          lineStyle={lineStyle}
         />
       ))}
     </ul>

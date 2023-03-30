@@ -1,29 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
+import ResultsChartHeader from '@/app/ResultsChartHeader'
 import ResultsAdGrowthChart from '@/app/ResultsAdGrowthChart'
-
+import ChartLegend from '@/app/ChartLegend'
 import { getDataSources, followerGrowthDataSources, formatChartDailyData } from '@/app/helpers/resultsHelpers'
-
 import copy from '@/app/copy/ResultsPageCopy'
+import brandColors from '@/constants/brandColors'
 
-const ResultsAdGrowthChartLoader = ({
-  dailyGrowthData,
-  setDailyGrowthData,
-  dailySpendData,
-  setDailySpendData,
-  platform,
-}) => {
+const ResultsAdGrowthChartLoader = ({ platform }) => {
+  const [dailyFollowerGrowth, setDailyFollowerGrowth] = React.useState(null)
+  const [dailyAdSpend, setDailyAdSpend] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
 
-  // Get follower growth data
   useAsyncEffect(async (isMounted) => {
-    // Make sure to fetch the data only once
-    if (! isMounted() || dailyGrowthData) return
+    if (! isMounted() || dailyFollowerGrowth) return
 
     setIsLoading(true)
 
@@ -33,38 +26,41 @@ const ResultsAdGrowthChartLoader = ({
     }, artistId)
 
     // Format daily data to make sure that ad spend and growth data periods match
-    const { adSpendData, growthData } = formatChartDailyData(data, platform)
+    const { adSpend, followerGrowth } = formatChartDailyData(data, platform)
 
-    setDailySpendData(adSpendData)
-    setDailyGrowthData(growthData)
+    setDailyAdSpend(adSpend)
+    setDailyFollowerGrowth(followerGrowth)
     setIsLoading(false)
   }, [])
 
   return (
-    <div className="col-span-12 breakout--width">
-      <p className="font-bold text-xl px-6 sm:px-0">{copy.adGrowthChartTitle(platform)}</p>
+    <div className="col-span-12">
+      <ResultsChartHeader description="3.2k extra followers added, at an estimated £0.21 each." />
       <ResultsAdGrowthChart
-        chartBarData={dailyGrowthData}
-        chartLineData={dailySpendData}
-        platform={platform}
+        adSpend={dailyAdSpend}
+        followerGrowth={dailyFollowerGrowth}
         isLoading={isLoading}
+      />
+      <ChartLegend
+        items={[
+          {
+            label: 'Green line',
+            description: 'Change in followers in Feed campaign so far.',
+            color: brandColors.green,
+          },
+          {
+            label: 'Red line',
+            description: 'Followers without Feed.',
+            color: brandColors.red,
+          }
+      ]}
       />
     </div>
   )
 }
 
 ResultsAdGrowthChartLoader.propTypes = {
-  dailyGrowthData: PropTypes.object,
-  setDailyGrowthData: PropTypes.func.isRequired,
-  dailySpendData: PropTypes.object,
-  setDailySpendData: PropTypes.func.isRequired,
   platform: PropTypes.string.isRequired,
-}
-
-ResultsAdGrowthChartLoader.defaultProps = {
-  dailyGrowthData: null,
-  dailySpendData: null,
-
 }
 
 export default ResultsAdGrowthChartLoader
