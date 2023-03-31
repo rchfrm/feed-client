@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,7 +13,6 @@ import {
 import 'chartjs-adapter-moment'
 import { Line } from 'react-chartjs-2'
 import { formatCurrency } from '@/helpers/utils'
-import * as insightsHelpers from '@/app/helpers/insightsHelpers'
 import brandColors from '@/constants/brandColors'
 
 ChartJS.register(
@@ -24,18 +22,15 @@ ChartJS.register(
   LineElement,
   TimeScale,
   Tooltip,
-  Legend
+  Legend,
 )
 
 const ChartLine = ({
   data,
-  adSpend,
   currency,
 }) => {
-  const baseConfig = {
-    maintainAspectRatio: true,
-    pointRadius: 0,
-  }
+  const primaryData = data[0]
+  const secondaryData = Object.values(data[1])
 
   const options = {
     plugins: {
@@ -50,9 +45,9 @@ const ChartLine = ({
         callbacks: {
           title: () => null,
           label: (context) => {
-            return formatCurrency(adSpend[context.dataIndex], currency)
-          }
-        }
+            return formatCurrency(secondaryData[context.dataIndex], currency)
+          },
+        },
       },
     },
     elements: {
@@ -62,7 +57,7 @@ const ChartLine = ({
         borderColor: brandColors.black,
         hitRadius: 3,
         hoverBorderWidth: 2,
-      }
+      },
     },
     scales: {
       x: {
@@ -72,10 +67,9 @@ const ChartLine = ({
         },
         type: 'time',
         time: {
-          unit: 'month',
           displayFormats: {
-            month: 'D MMM YY'
-        }
+            month: 'D MMM YY',
+          },
         },
       },
       y: {
@@ -85,18 +79,18 @@ const ChartLine = ({
         ticks: {
           padding: 10,
           color: brandColors.black,
-        }
+        },
       },
     },
   }
 
   const dataSets = [{
-    ...baseConfig,
-    data: data.dailyData,
+    data: primaryData,
     segment: {
-      borderColor: (context) => adSpend[context.p0DataIndex] ? brandColors.green : brandColors.red,
+      borderColor: (context) => (secondaryData[context.p0DataIndex] ? brandColors.green : brandColors.red),
     },
-
+    maintainAspectRatio: true,
+    pointRadius: 0,
   }]
 
   return (
@@ -105,12 +99,14 @@ const ChartLine = ({
         datasets: dataSets,
       }}
       options={options}
+      className="mb-10"
     />
   )
 }
 
-export default ChartLine
-
 ChartLine.propTypes = {
   data: PropTypes.array.isRequired,
+  currency: PropTypes.string.isRequired,
 }
+
+export default ChartLine

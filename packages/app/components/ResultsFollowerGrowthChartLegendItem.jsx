@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ChartLegendItem = ({ label, description, color }) => {
+const ResultsFollowerGrowthChartLegendItem = ({ label, description, color }) => {
   return (
     <li key={label} className="flex flex-col mr-10 text-[10px]">
       <span
@@ -16,15 +16,10 @@ const ChartLegendItem = ({ label, description, color }) => {
   )
 }
 
-export default ChartLegendItem
-
-ChartLegendItem.propTypes = {
+ResultsFollowerGrowthChartLegendItem.propTypes = {
   label: PropTypes.string.isRequired,
-  value: PropTypes.number,
+  description: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  lineStyle: PropTypes.string.isRequired,
 }
 
-ChartLegendItem.defaultProps = {
-  value: 0,
-}
+export default ResultsFollowerGrowthChartLegendItem

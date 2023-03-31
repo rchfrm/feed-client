@@ -1,6 +1,5 @@
 import * as ROUTES from '@/app/constants/routes'
-import { capitalise, formatNumber, getNestedObjectByValue } from '@/helpers/utils'
-import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
+import { formatNumber, getNestedObjectByValue } from '@/helpers/utils'
 
 const optimisationsEventsDictionary = {
   omni_purchase: {
@@ -141,8 +140,6 @@ export default {
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
   statsNoData: 'Feed is setting up your ads',
-  conversionsActivatorTitle: 'Use the “sales” objective to get purchases on your website.',
-  conversionsActivatorDescription: 'Use the "sales" objective to see results in this section!',
   noResultsData: (isSpendingPaused, hasSetUpProfile) => {
     if (! hasSetUpProfile) {
       return `There is currently no results data available. Complete setting up your account [here](${ROUTES.GET_STARTED}).`
@@ -171,19 +168,7 @@ export default {
       return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
     }
   },
-  chartNoData: (subject) => `There is currently no ${subject} data available.`,
-  headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
-    const resultsTypeString = `**<span className="green--underline">${capitalise(resultsType)}</span>** insights`
-
-    if (! isLast30Days && (! dateFrom || ! dateTo)) {
-      return resultsTypeString
-    }
-
-    if (isLast30Days) {
-      return `${resultsTypeString}, **last 30 days...**`
-    }
-
-    return `${resultsTypeString} from **${dateFrom}** to **${dateTo}**`
-  },
   connectAccounts: `[Connect your accounts](${ROUTES.CONNECT_ACCOUNTS}) to see how you compare!`,
+  followerGrowthSummary: '3.2k extra followers added, at an estimated £0.21 each.',
+  followerGrowthSummarySubtitle: 'Based on Feed campaign from **14 October** to **10 December 2022**',
 }

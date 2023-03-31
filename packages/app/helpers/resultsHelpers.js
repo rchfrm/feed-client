@@ -434,72 +434,41 @@ export const getDataSources = async (dataSources, artistId) => {
 export const formatChartDailyData = (data, platform) => {
   const adSpend = data.facebook_ad_spend_feed
   const followerGrowth = data[followerGrowthDataSources[platform]]
-  const adSpendDateKeys = Object.keys(adSpend.dailyData)
   const followerGrowthDateKeys = Object.keys(followerGrowth.dailyData)
-
-  const sixMonthsFromMostRecentDate = moment(adSpend.mostRecent.date)
-    .subtract(6, 'months')
-    .startOf('isoWeek')
-    .format('YYYY-MM-DD')
-
-  const adSpendSixMonthsFromMostRecentDateIndex = adSpendDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
-  const growthSixMonthsFromMostRecentDateIndex = followerGrowthDateKeys.findIndex((dateKey) => dateKey === sixMonthsFromMostRecentDate)
 
   const reduceDailyDataPeriod = (dailyData, index, lastIndex) => {
     return Object.fromEntries(Object.entries(dailyData).slice(index, lastIndex))
   }
 
-  const getEarliestAndMostRecentData = (data) => {
-    const dataArray = Object.entries(data)
-
-    const earliestData = dataArray[0]
-    const mostRecentData = dataArray[dataArray.length - 1]
-
-    return {
-      earliest: {
-        date: earliestData[0],
-        value: earliestData[1],
-      },
-      mostRecent: {
-        date: mostRecentData[0],
-        value: mostRecentData[1],
-      },
-    }
-  }
-
-  // If we have data from the last 6 months reduce ad spend and growth daily data to 6 months
-  if (adSpendSixMonthsFromMostRecentDateIndex > 0) {
-    const reducedAdSpendDailyData = reduceDailyDataPeriod(adSpend.dailyData, adSpendSixMonthsFromMostRecentDateIndex, adSpendDateKeys.length)
-    const reducedFollowerGrowthDailyData = reduceDailyDataPeriod(followerGrowth.dailyData, growthSixMonthsFromMostRecentDateIndex, followerGrowthDateKeys.length)
-
-    return {
-      adSpend: {
-        ...adSpend,
-        dailyData: reducedAdSpendDailyData,
-        ...getEarliestAndMostRecentData(reducedAdSpendDailyData),
-      },
-      followerGrowth: {
-        ...followerGrowth,
-        dailyData: reducedFollowerGrowthDailyData,
-        ...getEarliestAndMostRecentData(reducedFollowerGrowthDailyData),
-      },
-    }
-  }
-
-  // Otherwise keep ad spend daily data as is and reduce growth daily data to match the ad spend daily data date range
   const earliestAdSpendDate = adSpend.earliest.date
   const growthDataAfterAdSpendStart = followerGrowthDateKeys.filter((dateKey) => dateKey >= earliestAdSpendDate)
   const growthEarliestAdSpendDateIndex = followerGrowthDateKeys.findIndex((dateKey) => dateKey === growthDataAfterAdSpendStart[0])
   const reducedGrowthDailyData = reduceDailyDataPeriod(followerGrowth.dailyData, growthEarliestAdSpendDateIndex, followerGrowthDateKeys.length)
 
   return {
-    adSpend,
-    followerGrowth: {
-      ...followerGrowth,
-      dailyData: reducedGrowthDailyData,
-      ...getEarliestAndMostRecentData(reducedGrowthDailyData),
-    },
+    adSpend: adSpend.dailyData,
+    followerGrowth: reducedGrowthDailyData,
   }
+}
+
+export const sliceDataSources = (period, initialDataSources) => {
+  if (period === 'all') {
+    return initialDataSources
+  }
+
+  const slice = (dataSource) => {
+    const keys = Object.keys(dataSource)
+    const mostRecentDate = keys[keys.length - 1]
+    const thirtyDaysFromMostRecentDate = moment(mostRecentDate).subtract(1, 'months').startOf('isoWeek').format('YYYY-MM-DD')
+    const thirtyDaysFromMostRecentDateIndex = keys.findIndex((dateKey) => dateKey === thirtyDaysFromMostRecentDate)
+
+    return Object.fromEntries(Object.entries(dataSource).slice(thirtyDaysFromMostRecentDateIndex, keys.length))
+  }
+
+  return Object.entries(initialDataSources).reduce((result, [key, dataSource]) => ({
+    ...result,
+    [key]: slice(dataSource),
+  }), {})
 }
 
 // GET AD BENCHMARK
