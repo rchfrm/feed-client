@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
-import { getDataSources, followerGrowthDataSources, formatChartDailyData, getSlicedDataSources } from '@/app/helpers/resultsHelpers'
+import { getDataSources, followerGrowthDataSources, formatDataSources, getSlicedDataSources } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthChartLoader = ({
   platform,
@@ -25,8 +25,8 @@ const ResultsFollowerGrowthChartLoader = ({
       facebook: 'facebook_ad_spend_feed',
     }, artistId)
 
-    // Format daily data to make sure that ad spend and growth data periods match
-    const formattedDataSources = formatChartDailyData(data, platform)
+    // Format the data sources to make sure that ad spend and growth data periods match
+    const formattedDataSources = formatDataSources(data, platform)
 
     setInitialDataSources(formattedDataSources)
     setDataSources(formattedDataSources)

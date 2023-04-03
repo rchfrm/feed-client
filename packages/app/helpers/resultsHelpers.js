@@ -431,22 +431,25 @@ export const getDataSources = async (dataSources, artistId) => {
   return formattedData
 }
 
-export const formatChartDailyData = (data, platform) => {
-  const adSpend = data.facebook_ad_spend_feed
-  const followerGrowth = data[followerGrowthDataSources[platform]]
+export const formatDataSources = (dataSources, platform) => {
+  const sortedDataSources = Object.values(dataSources).sort((a, b) => Object.keys(a.dailyData).length - Object.keys(b.dailyData).length)
 
-  const adSpendDailyData = Object.keys(followerGrowth.dailyData)
-    .filter((key) => Object.keys(adSpend.dailyData).includes(key))
+  const filteredDataSource = Object.keys(sortedDataSources[0].dailyData)
+    .filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
     .reduce((obj, key) => {
       return {
         ...obj,
-        [key]: adSpend.dailyData[key],
+        [key]: sortedDataSources[1].dailyData[key],
       }
     }, {})
 
+  const setDataSource = (source) => {
+    return sortedDataSources[0].source === source ? sortedDataSources[0].dailyData : filteredDataSource
+  }
+
   return {
-    adSpend: adSpendDailyData,
-    followerGrowth: followerGrowth.dailyData,
+    adSpend: setDataSource('facebook_ad_spend_feed'),
+    followerGrowth: setDataSource(followerGrowthDataSources[platform]),
   }
 }
 
@@ -456,7 +459,7 @@ const sliceDataSource = (dataSource, start, end) => {
 
 const getLatestCampaign = (initialDataSources) => {
   const getCampaignIndexes = (dataSource) => {
-    const minConsequetiveSpendingDays = 4
+    const minConsequetiveSpendingDays = 3
     const array = Object.values(dataSource)
     let end
 
