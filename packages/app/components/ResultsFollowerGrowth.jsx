@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ResultsFollowerGrowthFilters from '@/app/ResultsFollowerGrowthFilters'
-import ResultsFollowerGrowthSummary from '@/app/ResultsFollowerGrowthSummary'
+import ResultsFollowerGrowthHeader from '@/app/ResultsFollowerGrowthHeader'
 import ResultsFollowGrowthChartLoader from '@/app/ResultsFollowerGrowthChartLoader'
 
 const ResultsFollowerGrowth = ({ platform }) => {
+  const [dataSources, setDataSources] = React.useState(null)
   const [period, setPeriod] = React.useState('all')
+  const { artistCurrency: currency } = React.useContext(ArtistContext)
 
   return (
     <div className="mb-10">
@@ -13,10 +16,18 @@ const ResultsFollowerGrowth = ({ platform }) => {
         period={period}
         setPeriod={setPeriod}
       />
-      <ResultsFollowerGrowthSummary description="3.2k extra followers added, at an estimated £0.21 each." />
+      {dataSources && (
+      <ResultsFollowerGrowthHeader
+        dataSources={dataSources}
+        currency={currency}
+      />
+      )}
       <ResultsFollowGrowthChartLoader
         platform={platform}
         period={period}
+        dataSources={dataSources}
+        setDataSources={setDataSources}
+        currency={currency}
       />
     </div>
   )

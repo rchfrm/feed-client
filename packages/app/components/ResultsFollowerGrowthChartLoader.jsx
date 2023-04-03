@@ -8,12 +8,14 @@ import { getDataSources, followerGrowthDataSources, formatDataSources, getSliced
 const ResultsFollowerGrowthChartLoader = ({
   platform,
   period,
+  dataSources,
+  setDataSources,
+  currency,
 }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const { artistId } = React.useContext(ArtistContext)
 
   const [initialDataSources, setInitialDataSources] = React.useState(null)
-  const [dataSources, setDataSources] = React.useState(null)
 
   useAsyncEffect(async (isMounted) => {
     if (! isMounted() || dataSources) return
@@ -39,12 +41,14 @@ const ResultsFollowerGrowthChartLoader = ({
     }
 
     const slicedDataSources = getSlicedDataSources(period, initialDataSources)
+
     setDataSources(slicedDataSources)
-  }, [initialDataSources, period])
+  }, [initialDataSources, period, setDataSources])
 
   return (
     <ResultsFollowerGrowthChart
       dataSources={dataSources}
+      currency={currency}
       isLoading={isLoading}
     />
   )

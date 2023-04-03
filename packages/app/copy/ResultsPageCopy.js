@@ -1,5 +1,6 @@
 import * as ROUTES from '@/app/constants/routes'
 import { formatNumber, getNestedObjectByValue } from '@/helpers/utils'
+import moment from 'moment'
 
 const optimisationsEventsDictionary = {
   omni_purchase: {
@@ -169,6 +170,6 @@ export default {
     }
   },
   connectAccounts: `[Connect your accounts](${ROUTES.CONNECT_ACCOUNTS}) to see how you compare!`,
-  followerGrowthSummary: '3.2k extra followers added, at an estimated £0.21 each.',
-  followerGrowthSummarySubtitle: 'Based on Feed campaign from **14 October** to **10 December 2022**',
+  followerGrowthHeaderTitle: 'extra followers added, at an estimated',
+  followerGrowthHeaderSubtitle: (startDate, endDate) => `Based on Feed campaign from **${moment(startDate).format('D MMMM')}** to **${moment(endDate).format('D MMMM YYYY')}**`,
 }
