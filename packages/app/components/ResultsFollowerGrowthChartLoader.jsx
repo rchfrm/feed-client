@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
-import { getDataSources, followerGrowthDataSources, formatChartDailyData, sliceDataSources } from '@/app/helpers/resultsHelpers'
+import { getDataSources, followerGrowthDataSources, formatChartDailyData, getSlicedDataSources } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthChartLoader = ({
   platform,
@@ -38,7 +38,7 @@ const ResultsFollowerGrowthChartLoader = ({
       return
     }
 
-    const slicedDataSources = sliceDataSources(period, initialDataSources)
+    const slicedDataSources = getSlicedDataSources(period, initialDataSources)
     setDataSources(slicedDataSources)
   }, [initialDataSources, period])
 

@@ -434,41 +434,79 @@ export const getDataSources = async (dataSources, artistId) => {
 export const formatChartDailyData = (data, platform) => {
   const adSpend = data.facebook_ad_spend_feed
   const followerGrowth = data[followerGrowthDataSources[platform]]
-  const followerGrowthDateKeys = Object.keys(followerGrowth.dailyData)
 
-  const reduceDailyDataPeriod = (dailyData, index, lastIndex) => {
-    return Object.fromEntries(Object.entries(dailyData).slice(index, lastIndex))
-  }
-
-  const earliestAdSpendDate = adSpend.earliest.date
-  const growthDataAfterAdSpendStart = followerGrowthDateKeys.filter((dateKey) => dateKey >= earliestAdSpendDate)
-  const growthEarliestAdSpendDateIndex = followerGrowthDateKeys.findIndex((dateKey) => dateKey === growthDataAfterAdSpendStart[0])
-  const reducedGrowthDailyData = reduceDailyDataPeriod(followerGrowth.dailyData, growthEarliestAdSpendDateIndex, followerGrowthDateKeys.length)
+  const adSpendDailyData = Object.keys(followerGrowth.dailyData)
+    .filter((key) => Object.keys(adSpend.dailyData).includes(key))
+    .reduce((obj, key) => {
+      return {
+        ...obj,
+        [key]: adSpend.dailyData[key],
+      }
+    }, {})
 
   return {
-    adSpend: adSpend.dailyData,
-    followerGrowth: reducedGrowthDailyData,
+    adSpend: adSpendDailyData,
+    followerGrowth: followerGrowth.dailyData,
   }
 }
 
-export const sliceDataSources = (period, initialDataSources) => {
-  if (period === 'all') {
-    return initialDataSources
+const sliceDataSource = (dataSource, start, end) => {
+  return Object.fromEntries(Object.entries(dataSource).slice(start, end))
+}
+
+const getLatestCampaign = (initialDataSources) => {
+  const getCampaignIndexes = (dataSource) => {
+    const minConsequetiveSpendingDays = 4
+    const array = Object.values(dataSource)
+    let end
+
+    for (let index = array.length; index >= 0; index -= 1) {
+      if (! end && (array.slice(index - minConsequetiveSpendingDays, index).every((spend) => Boolean(spend)))) {
+        end = index
+      }
+
+      if (end && ! array[index - 1]) {
+        return [index, end]
+      }
+    }
   }
 
-  const slice = (dataSource) => {
+  const [start, end] = getCampaignIndexes(initialDataSources.adSpend)
+
+  return Object.entries(initialDataSources).reduce((result, [key, dataSource]) => ({
+    ...result,
+    [key]: sliceDataSource(dataSource, start, end),
+  }), {})
+}
+
+const getLastThirtyDays = (initialDataSources) => {
+  const getLastThirtyDaysIndexes = (dataSource) => {
     const keys = Object.keys(dataSource)
     const mostRecentDate = keys[keys.length - 1]
     const thirtyDaysFromMostRecentDate = moment(mostRecentDate).subtract(1, 'months').startOf('isoWeek').format('YYYY-MM-DD')
     const thirtyDaysFromMostRecentDateIndex = keys.findIndex((dateKey) => dateKey === thirtyDaysFromMostRecentDate)
 
-    return Object.fromEntries(Object.entries(dataSource).slice(thirtyDaysFromMostRecentDateIndex, keys.length))
+    return [thirtyDaysFromMostRecentDateIndex, keys.length]
   }
+
+  const [start, end] = getLastThirtyDaysIndexes(initialDataSources.adSpend)
 
   return Object.entries(initialDataSources).reduce((result, [key, dataSource]) => ({
     ...result,
-    [key]: slice(dataSource),
+    [key]: sliceDataSource(dataSource, start, end),
   }), {})
+}
+
+export const getSlicedDataSources = (period, initialDataSources) => {
+  if (period === 'all') {
+    return initialDataSources
+  }
+
+  if (period === 'campaign') {
+    return getLatestCampaign(initialDataSources)
+  }
+
+  return getLastThirtyDays(initialDataSources)
 }
 
 // GET AD BENCHMARK

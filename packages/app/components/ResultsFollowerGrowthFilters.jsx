@@ -8,6 +8,10 @@ const ResultsFollowerGrowthFilters = ({ period, setPeriod }) => {
       value: 'all',
     },
     {
+      title: 'Since latest campaign start',
+      value: 'campaign',
+    },
+    {
       title: 'Last 30 days',
       value: '30d',
     },
@@ -26,7 +30,7 @@ const ResultsFollowerGrowthFilters = ({ period, setPeriod }) => {
             key={value}
             onClick={() => onClick(value)}
             className={[
-              'py-2 px-3 font-bold',
+              'py-1 px-3 font-bold',
               period === value ? 'text-black bg-green' : null,
             ].join(' ')}
           >
