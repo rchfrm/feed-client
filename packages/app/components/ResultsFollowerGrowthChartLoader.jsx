@@ -56,6 +56,14 @@ const ResultsFollowerGrowthChartLoader = ({
 
 ResultsFollowerGrowthChartLoader.propTypes = {
   platform: PropTypes.string.isRequired,
+  period: PropTypes.string.isRequired,
+  dataSources: PropTypes.object,
+  setDataSources: PropTypes.func.isRequired,
+  currency: PropTypes.string.isRequired,
+}
+
+ResultsFollowerGrowthChartLoader.defaultProps = {
+  dataSources: null,
 }
 
 export default ResultsFollowerGrowthChartLoader

@@ -44,6 +44,7 @@ const ResultsFollowerGrowthChart = ({
 
 ResultsFollowerGrowthChart.propTypes = {
   dataSources: PropTypes.object,
+  currency: PropTypes.string.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }
 

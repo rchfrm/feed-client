@@ -170,6 +170,9 @@ export default {
     }
   },
   connectAccounts: `[Connect your accounts](${ROUTES.CONNECT_ACCOUNTS}) to see how you compare!`,
-  followerGrowthHeaderTitle: 'extra followers added, at an estimated',
-  followerGrowthHeaderSubtitle: (startDate, endDate) => `Based on Feed campaign from **${moment(startDate).format('D MMMM')}** to **${moment(endDate).format('D MMMM YYYY')}**`,
+  followerGrowthHeaderTitle: (totalFollowersAddedInPeriod) => `${totalFollowersAddedInPeriod < 0 ? 'followers lost' : 'extra followers added'}, at an estimated`,
+  followerGrowthHeaderSubtitle: ({ period, startDate, endDate }) => {
+    return `Based on Feed campaign${period !== 'campaign' ? 's' : ''} between **${moment(startDate).format('D MMMM')}** and **${moment(endDate).format('D MMMM YYYY')}**`
+  },
+  noCampaigns: 'There were **no active** Feed campaigns during this period.',
 }

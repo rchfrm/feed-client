@@ -19,6 +19,7 @@ const ResultsFollowerGrowth = ({ platform }) => {
       {dataSources && (
       <ResultsFollowerGrowthHeader
         dataSources={dataSources}
+        period={period}
         currency={currency}
       />
       )}

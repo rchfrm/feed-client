@@ -433,23 +433,22 @@ export const getDataSources = async (dataSources, artistId) => {
 
 export const formatDataSources = (dataSources, platform) => {
   const sortedDataSources = Object.values(dataSources).sort((a, b) => Object.keys(a.dailyData).length - Object.keys(b.dailyData).length)
+  const intersectingKeys = Object.keys(sortedDataSources[0].dailyData).filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
 
-  const filteredDataSource = Object.keys(sortedDataSources[0].dailyData)
-    .filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
-    .reduce((obj, key) => {
-      return {
-        ...obj,
-        [key]: sortedDataSources[1].dailyData[key],
-      }
-    }, {})
-
-  const setDataSource = (source) => {
-    return sortedDataSources[0].source === source ? sortedDataSources[0].dailyData : filteredDataSource
+  const filterDataSource = ({ dailyData }) => {
+    return Object.keys(dailyData)
+      .filter((key) => intersectingKeys.includes(key))
+      .reduce((obj, key) => {
+        return {
+          ...obj,
+          [key]: dailyData[key],
+        }
+      }, {})
   }
 
   return {
-    adSpend: setDataSource('facebook_ad_spend_feed'),
-    followerGrowth: setDataSource(followerGrowthDataSources[platform]),
+    adSpend: filterDataSource(dataSources.facebook_ad_spend_feed),
+    followerGrowth: filterDataSource(dataSources[followerGrowthDataSources[platform]]),
   }
 }
 
@@ -457,39 +456,52 @@ const sliceDataSource = (dataSource, start, end) => {
   return Object.fromEntries(Object.entries(dataSource).slice(start, end))
 }
 
-const getLatestCampaign = (initialDataSources) => {
-  const getCampaignIndexes = (dataSource) => {
-    const minConsequetiveSpendingDays = 3
-    const array = Object.values(dataSource)
-    let end
+export const getSpendingPeriodIndexes = (adSpend, minConsecutiveDays) => {
+  const array = Object.values(adSpend)
+  const indexes = []
+  let end
 
-    for (let index = array.length; index >= 0; index -= 1) {
-      if (! end && (array.slice(index - minConsequetiveSpendingDays, index).every((spend) => Boolean(spend)))) {
-        end = index
-      }
+  for (let index = array.length; index >= 0; index -= 1) {
+    if (! end && (array.slice(index - minConsecutiveDays, index).every((spend) => Boolean(spend)))) {
+      end = index
+    }
 
-      if (end && ! array[index - 1]) {
-        return [index, end]
-      }
+    if (end && ! array[index - 1]) {
+      indexes.push([index, end])
+      end = null
     }
   }
 
-  const [start, end] = getCampaignIndexes(initialDataSources.adSpend)
+  return indexes
+}
+
+export const sumAddedFollowers = (followerGrowth, spendingPeriodIndexes) => {
+  const array = Object.values(followerGrowth)
+
+  const result = spendingPeriodIndexes.reduce((total, [start, end]) => {
+    return (array[end === array.length ? end - 1 : end] - array[start]) + total
+  }, 0)
+
+  return result
+}
+
+const getLatestCampaign = (initialDataSources) => {
+  const [start, end] = getSpendingPeriodIndexes(initialDataSources.adSpend, 2)[0]
 
   return Object.entries(initialDataSources).reduce((result, [key, dataSource]) => ({
     ...result,
-    [key]: sliceDataSource(dataSource, start, end),
+    [key]: sliceDataSource(dataSource, start, end + 1),
   }), {})
 }
 
 const getLastThirtyDays = (initialDataSources) => {
   const getLastThirtyDaysIndexes = (dataSource) => {
     const keys = Object.keys(dataSource)
-    const mostRecentDate = keys[keys.length - 1]
-    const thirtyDaysFromMostRecentDate = moment(mostRecentDate).subtract(1, 'months').startOf('isoWeek').format('YYYY-MM-DD')
+    const mostRecentDate = keys[keys.length]
+    const thirtyDaysFromMostRecentDate = moment(mostRecentDate).subtract(30, 'days').format('YYYY-MM-DD')
     const thirtyDaysFromMostRecentDateIndex = keys.findIndex((dateKey) => dateKey === thirtyDaysFromMostRecentDate)
 
-    return [thirtyDaysFromMostRecentDateIndex, keys.length]
+    return [thirtyDaysFromMostRecentDateIndex, keys.length + 1]
   }
 
   const [start, end] = getLastThirtyDaysIndexes(initialDataSources.adSpend)
