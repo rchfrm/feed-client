@@ -63,14 +63,12 @@ const ResultsLoader = () => {
   if (error) return <Error error={error} />
 
   return (
-    adData && aggregatedAdData && (
-      <ResultsContent
-        adData={adData}
-        aggregatedAdData={aggregatedAdData}
-        isSpendingPaused={isSpendingPaused}
-        hasSetUpProfile={hasSetUpProfile}
-      />
-    )
+    <ResultsContent
+      adData={adData}
+      aggregatedAdData={aggregatedAdData}
+      isSpendingPaused={isSpendingPaused}
+      hasSetUpProfile={hasSetUpProfile}
+    />
   )
 }
 
