@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
-import { formatCurrency } from '@/helpers/utils'
-import copy from '@/app/copy/ResultsPageCopy'
 import { getSpendingPeriodIndexes, sumAddedFollowers } from '@/app/helpers/resultsHelpers'
+import { formatCurrency, abbreviateNumber } from '@/helpers/utils'
+import copy from '@/app/copy/ResultsPageCopy'
 
 const ResultsFollowerGrowthHeader = ({ dataSources, period, currency }) => {
   const { adSpend, followerGrowth } = dataSources
@@ -21,7 +21,7 @@ const ResultsFollowerGrowthHeader = ({ dataSources, period, currency }) => {
       {totalSpendInPeriod ? (
         <>
           <div className="mb-2">
-            <span className="font-bold bg-green-bg-dark rounded-dialogue mr-1 px-1.5 py-0.5">{Math.abs(totalFollowersAddedInPeriod)}</span>
+            <span className="font-bold bg-green-bg-dark rounded-dialogue mr-1 px-1.5 py-0.5">{abbreviateNumber(Math.abs(totalFollowersAddedInPeriod))}</span>
             <span className="text-2xl mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedInPeriod)}</span>
             <span className="font-bold bg-green-bg-dark rounded-dialogue mx-1 py-0.5"> {formatCurrency(costPerFollower, currency)} </span>each.
           </div>
