@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -71,13 +72,11 @@ const ChartLine = ({
         ticks: {
           maxRotation: 0,
           color: brandColors.black,
-        },
-        type: 'time',
-        time: {
-          displayFormats: {
-            month: 'D MMM YY',
+          callback: (value) => {
+            return [moment(value).format('D MMM'), moment(value).format('YY')]
           },
         },
+        type: 'time',
       },
       y: {
         grid: {
