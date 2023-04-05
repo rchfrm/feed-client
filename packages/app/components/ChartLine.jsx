@@ -45,7 +45,14 @@ const ChartLine = ({
         callbacks: {
           title: () => null,
           label: (context) => {
-            return formatCurrency(secondaryData[context.dataIndex], currency)
+            const label = [`Followers: ${context.formattedValue}`]
+            const adSpend = secondaryData[context.dataIndex]
+
+            if (adSpend) {
+              label.push(`Ad spend: ${formatCurrency(adSpend, currency)}`)
+            }
+
+            return label
           },
         },
       },
