@@ -5,7 +5,6 @@ import { formatCurrency } from '@/helpers/utils'
 import copy from '@/app/copy/ResultsPageCopy'
 import { getSpendingPeriodIndexes, sumAddedFollowers } from '@/app/helpers/resultsHelpers'
 
-
 const ResultsFollowerGrowthHeader = ({ dataSources, period, currency }) => {
   const { adSpend, followerGrowth } = dataSources
   const dateKeys = Object.keys(Object.values(dataSources)[0])
