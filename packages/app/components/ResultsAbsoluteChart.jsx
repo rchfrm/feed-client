@@ -75,7 +75,7 @@ const ResultsAbsoluteChart = ({
       <div style={{ width: `${currentPeriodProportion}%` }}>
         <div
           ref={nextPeriodChartRef}
-          className="flex justify-center items-center h-7 bg-twitter rounded-full mb-1"
+          className="flex justify-center items-center h-7 bg-twitter rounded-dialogue mb-1"
           style={{ backgroundColor: color, transform: 'scale(0)' }}
         >
           {tooltipMessage && (

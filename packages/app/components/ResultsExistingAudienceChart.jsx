@@ -48,24 +48,24 @@ const ResultsExistingAudienceChart = ({ data }) => {
         <div
           className={[
             'absolute h-full w-full',
-            'border-solid border-green border-2 rounded-full',
+            'bg-offwhite rounded-dialogue',
             highestValue >= 25 ? null : 'rounded-tr-none rounded-br-none',
           ].join(' ')}
           style={{ borderRightColor: highestValue < 25 ? 'white' : null }}
         />
-        <div className="relative h-full w-full rounded-full overflow-hidden">
+        <div className="relative h-full w-full rounded-dialogue overflow-hidden">
           <div
             ref={adsReachRef}
-            className="absolute h-12 left-0 bg-green"
+            className="absolute h-12 left-0 bg-gradient-7-dark"
             style={{ top: '-9px' }}
           />
           <div
             ref={organicReachRef}
-            className="absolute h-12 w-1 top-0 bg-grey-dark"
+            className="absolute h-12 w-1 top-0 bg-gradient-7-light"
           />
         </div>
         <div
-          className="absolute text-green text-xs"
+          className="absolute text-grey-dark text-xs"
           style={{
             left: `calc(${adsReachWidth}% - 32px)`,
             top: '30px',
@@ -76,10 +76,10 @@ const ResultsExistingAudienceChart = ({ data }) => {
         <span className="absolute left-0 text-grey-dark text-xs" style={{ bottom: '100%' }}>
           {organicReachProportion}%
         </span>
-        <span className="absolute text-green text-xs" style={{ bottom: '100%', right: '5px' }}>
+        <span className="absolute text-grey-dark text-xs" style={{ bottom: '100%', right: '5px' }}>
           {maxValue}%
         </span>
-        {highestValue < 25 && <span className="absolute right-0 bottom-0 h-16 bg-offwhite" style={{ borderRight: `2px dashed ${brandColors.green}`, width: '2px' }} />}
+        {highestValue < 25 && <span className="absolute right-0 bottom-0 h-16 bg-offwhite" style={{ borderRight: `2px dashed ${brandColors.greyLight}`, width: '2px' }} />}
       </div>
     )
   )

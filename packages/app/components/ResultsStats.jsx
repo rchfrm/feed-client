@@ -48,8 +48,8 @@ const ResultsStats = ({
   }, [adData, aggregatedAdData, facebookPixelEvent, currency, platform])
 
   return (
-    <div className="col-span-12 grid grid-cols-12 sm:gap-x-12">
-      <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0">
+    <div className="grid grid-cols-12 border border-solid border-grey-light rounded-dialogue overflow-hidden">
+      <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0 border-r border-solid border-grey-light">
         {newAudienceData ? (
           <ResultsNewAudienceStats data={newAudienceData} />
         ) : (
@@ -57,7 +57,7 @@ const ResultsStats = ({
         )}
       </div>
 
-      <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0">
+      <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0 border-r border-solid border-grey-light">
         {existingAudienceData ? (
           <ResultsExistingAudienceStats data={existingAudienceData} />
         ) : (

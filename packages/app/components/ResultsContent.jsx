@@ -30,9 +30,11 @@ const ResultsContent = ({
 
   return (
     <>
-      <ResultsFollowerGrowth
-        platform={platform}
-      />
+      {hasGrowthObjective && (
+        <ResultsFollowerGrowth
+          platform={platform}
+        />
+      )}
       <ResultsStats
         adData={adData}
         aggregatedAdData={aggregatedAdData}

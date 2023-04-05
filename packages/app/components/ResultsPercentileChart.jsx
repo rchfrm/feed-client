@@ -37,7 +37,7 @@ const ResultsPercentileChart = ({ percentile, quartile, color }) => {
               />
             </div>
           </div>
-          <MarkdownText className="w-full text-xs" style={{ textAlign: quartilePosition }} markdown={copy.quartileDescription(quartileValue, percentile)} />
+          <MarkdownText className="w-full mb-0 text-xs" style={{ textAlign: quartilePosition }} markdown={copy.quartileDescription(quartileValue, percentile)} />
         </>
       ) : (
         <MarkdownText className="mt-4 mx-auto text-center text-xs" markdown={copy.connectAccounts} />

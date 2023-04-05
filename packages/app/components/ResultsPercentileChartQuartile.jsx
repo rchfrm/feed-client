@@ -37,8 +37,8 @@ const ResultsPercentileChartQuartile = ({
         className={[
           'w-full h-full mb-1',
           'border-solid border-t-2 border-b-2',
-          isFirstQuartile ? 'border-l-2 rounded-l-full' : null,
-          isLastQuartile ? 'border-r-2 rounded-r-full' : null,
+          isFirstQuartile ? 'border-l-2 rounded-l-dialogue' : null,
+          isLastQuartile ? 'border-r-2 rounded-r-dialogue' : null,
         ].join(' ')}
         style={{
           borderColor: color,
