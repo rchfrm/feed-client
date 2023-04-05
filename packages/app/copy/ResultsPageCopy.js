@@ -43,6 +43,14 @@ const optimisationsEventsDictionary = {
 
 const versusLastMonth = (prevValue) => `, versus ${prevValue} last month`
 
+const getFollowerStringByPlatform = (platform) => {
+  if (platform === 'instagram') return 'Instagram followers'
+  if (platform === 'facebook') return 'Facebook likes'
+  if (platform === 'youtube') return 'Youtube subscribers'
+  if (platform === 'spotify') return 'Spotify followers'
+  if (platform === 'soundcloud') return 'SoundCloud followers'
+}
+
 export default {
   newAudienceOnPlatformMainDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
   newAudienceUnawareFallbackEngaged: (currValue, prevValue) => `**${formatNumber(currValue)} engaged** with your posts${prevValue ? versusLastMonth(formatNumber(prevValue)) : ''}.`,
@@ -170,7 +178,7 @@ export default {
     }
   },
   connectAccounts: `[Connect your accounts](${ROUTES.CONNECT_ACCOUNTS}) to see how you compare!`,
-  followerGrowthHeaderTitle: (totalFollowersAddedInPeriod) => `${totalFollowersAddedInPeriod < 0 ? 'followers lost' : 'extra followers added'}, at an estimated`,
+  followerGrowthHeaderTitle: (totalFollowersAddedInPeriod, platform) => `${totalFollowersAddedInPeriod < 0 ? `${getFollowerStringByPlatform(platform)} lost` : `extra ${getFollowerStringByPlatform(platform)} added`}, at an estimated`,
   followerGrowthHeaderSubtitle: ({ period, startDate, endDate }) => {
     return `Based on Feed campaign${period !== 'campaign' ? 's' : ''} between **${moment(startDate).format('D MMMM')}** and **${moment(endDate).format('D MMMM YYYY')}**`
   },

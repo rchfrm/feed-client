@@ -21,6 +21,7 @@ const ResultsFollowerGrowth = ({ platform }) => {
         dataSources={dataSources}
         period={period}
         currency={currency}
+        platform={platform}
       />
       )}
       <ResultsFollowGrowthChartLoader

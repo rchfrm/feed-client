@@ -5,7 +5,12 @@ import { getSpendingPeriodIndexes, sumAddedFollowers } from '@/app/helpers/resul
 import { formatCurrency, abbreviateNumber } from '@/helpers/utils'
 import copy from '@/app/copy/ResultsPageCopy'
 
-const ResultsFollowerGrowthHeader = ({ dataSources, period, currency }) => {
+const ResultsFollowerGrowthHeader = ({
+  dataSources,
+  period,
+  currency,
+  platform,
+}) => {
   const { adSpend, followerGrowth } = dataSources
   const dateKeys = Object.keys(Object.values(dataSources)[0])
   const startDate = dateKeys[0]
@@ -17,12 +22,12 @@ const ResultsFollowerGrowthHeader = ({ dataSources, period, currency }) => {
   const costPerFollower = Math.abs(totalSpendInPeriod / totalFollowersAddedInPeriod)
 
   return (
-    <div className="w-full rounded-dialogue mb-4 p-5 bg-green-bg-light text-2xl">
+    <div className="w-full rounded-dialogue mb-4 p-5 bg-green-bg-light text-xl sm:text-2xl">
       {totalSpendInPeriod ? (
         <>
           <div className="mb-2">
             <span className="font-bold bg-green-bg-dark rounded-dialogue mr-1 px-1.5 py-0.5">{abbreviateNumber(Math.abs(totalFollowersAddedInPeriod))}</span>
-            <span className="text-2xl mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedInPeriod)}</span>
+            <span className="mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedInPeriod, platform)}</span>
             <span className="font-bold bg-green-bg-dark rounded-dialogue mx-1 py-0.5"> {formatCurrency(costPerFollower, currency)} </span>each.
           </div>
           <MarkdownText markdown={copy.followerGrowthHeaderSubtitle({ period, startDate, endDate })} className="mb-0 text-xs text-green-dark" />
@@ -38,6 +43,7 @@ ResultsFollowerGrowthHeader.propTypes = {
   dataSources: PropTypes.object.isRequired,
   period: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
+  platform: PropTypes.string.isRequired,
 }
 
 export default ResultsFollowerGrowthHeader
