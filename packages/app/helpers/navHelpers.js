@@ -50,10 +50,6 @@ export const secondaryLinks = [
     href: ROUTES.RESULTS,
     title: 'Results',
   },
-  {
-    href: ROUTES.INSIGHTS,
-    title: 'Insights',
-  },
 ]
 
 const termsLink = 'https://archform.ltd/terms/'

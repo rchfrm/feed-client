@@ -117,7 +117,7 @@ const BaseFilters = ({
   // * ON OPTION CHANGE
   // UPDATE QUERY AND LOCAL STORAGE when active option changes
   React.useEffect(() => {
-    const paths = [ROUTES.POSTS, ROUTES.INSIGHTS]
+    const paths = [ROUTES.POSTS]
     if (! paths.includes(router.pathname) || disabled) return
 
     if (! activeOptionId) return

@@ -6,7 +6,55 @@ import resultsCopy from '@/app/copy/ResultsPageCopy'
 import { formatCurrency } from '@/helpers/utils'
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
-import { formatServerData } from '@/app/helpers/insightsHelpers'
+import insightDataSources from '@/constants/insightDataSources'
+
+export const formatServerData = ({ dailyData, dates = {}, currentDataSource, currentPlatform, projection }) => {
+  // Convert dates object to array
+  const dataArray = Object.entries(dailyData)
+    // Sort by dates, chronologically
+    .sort(([dateA], [dateB]) => {
+      return moment(dateA) - moment(dateB)
+    })
+  // Get details about data source
+  const {
+    title,
+    subtitle,
+    period,
+    dataType,
+    currency,
+  } = insightDataSources[currentDataSource]
+  // Get most recent and earliest data
+  const mostRecentData = dataArray[dataArray.length - 1]
+  const earliestData = dataArray[0]
+  // Output formatted data
+  return {
+    dailyData,
+    title: `${title} (${subtitle || period})`,
+    shortTitle: title,
+    subtitle,
+    period,
+    cumulative: dataType === 'cumulative',
+    source: currentDataSource,
+    platform: currentPlatform,
+    dataType,
+    currency,
+    mostRecent: {
+      date: mostRecentData[0],
+      value: mostRecentData[1],
+    },
+    earliest: {
+      date: earliestData[0],
+      value: earliestData[1],
+    },
+    today: dailyData[dates.today],
+    yesterday: dailyData[dates.yesterday],
+    twoDaysBefore: dailyData[dates.twoDaysBefore],
+    sevenDaysBefore: dailyData[dates.sevenDaysBefore],
+    oneMonthBefore: dailyData[dates.oneMonthBefore],
+    startOfYear: dailyData[dates.startOfYear],
+    projection,
+  }
+}
 
 export const adMetricTypes = [
   {
