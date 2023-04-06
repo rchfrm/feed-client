@@ -56,10 +56,12 @@ const ResultsFallbackChart = ({
             ].join(' ')}
             style={{ backgroundColor: color }}
           />
-          <p className={[
-            'mb-0 text-center text-xs',
-            index === 0 ? 'opacity-100' : 'font-bold',
-          ].join(' ')}
+          <p
+            className={[
+              'mb-0 text-center text-xs',
+              index === 0 ? 'opacity-100' : 'font-bold',
+            ].join(' ')}
+            style={{ color, filter: 'brightness(50%)' }}
           >
             {isPurchase ? formatCurrency(value, currency) : formatNumber(value)}
           </p>

@@ -71,7 +71,7 @@ const ResultsAbsoluteChart = ({
           <p className="mb-0 text-center text-xs">{isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}</p>
         )}
       </div>
-      <ChartIcon className="h-6 w-6 -mx-1 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
+      <ChartIcon className="h-6 w-6 -mx-1 z-10" fill={color} direction="right" style={{ filter: 'brightness(50%)' }} />
       <div style={{ width: `${currentPeriodProportion}%` }}>
         <div
           ref={nextPeriodChartRef}

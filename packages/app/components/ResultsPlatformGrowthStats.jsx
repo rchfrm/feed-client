@@ -23,28 +23,29 @@ const ResultsPlatformGrowthStats = ({ data }) => {
   const isPercentileChart = chartType === 'fallback'
 
   return (
-    <div className="flex sm:flex-col items-center justify-between">
-      <div className="w-full p-3 bg-gradient-11">
-        <p className="mb-0 text-sm sm:text-center">Step 3</p>
-        <p className="mb-0 font-bold sm:text-center">Grow</p>
+    <div className="flex flex-col items-center justify-between">
+      <div className="w-full flex sm:flex-col items-center p-3 bg-gradient-11">
+        <p className="mb-0 mr-2 sm:mr-0 sm:text-center text-gradient-11-dark brightness-[50%]">Step 3</p>
+        <p className="mb-0 font-bold text-xl sm:text-center text-gradient-11-dark brightness-[50%]">Grow</p>
       </div>
-      <div className="p-6">
+      <div className="py-10 px-8 sm:p-8">
         <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
-          <MarkdownText markdown={copy || ''} className="mb-6 sm:mb-0 sm:text-center" />
+          <MarkdownText markdown={copy || ''} className="mb-6 sm:mb-0 sm:text-center text-gradient-11-dark brightness-[50%]" />
         </div>
         <div className="flex flex-column">
           <div className="flex justify-center items-center">
             {currValue > 0 && (
               <PlusIcon
                 className="h-4 w-4 sm:h-8 sm:w-8 mr-1"
-                style={{ filter: 'brightness(75%)' }}
+                style={{ filter: 'brightness(50%)' }}
+                fill={brandColors.gradient[11].dark}
               />
             )}
-            <p className="text-3xl mb-1 sm:text-6xl text-center font-bold">
+            <p className="text-3xl mb-1 sm:text-6xl text-center font-bold text-gradient-11-dark brightness-[50%]">
               {abbreviateNumber(currValue)}
             </p>
           </div>
-          <p className="hidden sm:block text-xs text-center mb-0 sm:mb-5">New followers</p>
+          <p className="hidden sm:block text-xs text-center mb-0 sm:mb-5 text-gradient-11-dark brightness-[50%]">New followers</p>
         </div>
         {isAbsoluteGrowthChart && (
           <ResultsAbsoluteChart
