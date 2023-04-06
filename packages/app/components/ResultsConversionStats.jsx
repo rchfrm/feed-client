@@ -31,7 +31,7 @@ const ResultsConversionStats = ({ data, currency }) => {
         <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
           <MarkdownText
             markdown={copy.description || ''}
-            className="mb-6 sm:mb-0 sm:text-center"
+            className="mb-6 sm:mb-0 sm:text-center text-gradient-11-dark brightness-[50%]"
           />
         </div>
         <div className="flex flex-column items-center justify-center">
