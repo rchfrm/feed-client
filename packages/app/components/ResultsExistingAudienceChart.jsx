@@ -44,7 +44,7 @@ const ResultsExistingAudienceChart = ({ data }) => {
 
   return (
     chartValues && (
-      <div className="relative w-full">
+      <div className="relative h-7 w-full mb-[18px]">
         <div
           className={[
             'absolute h-7 w-full',
@@ -53,34 +53,33 @@ const ResultsExistingAudienceChart = ({ data }) => {
           ].join(' ')}
           style={{ borderRightColor: highestValue < 25 ? 'white' : null }}
         />
-        <div className="relative h-7 w-full mb-1 rounded-dialogue overflow-hidden">
+        <div className="relative h-full w-full rounded-dialogue overflow-hidden">
           <div
             ref={adsReachRef}
-            className="absolute h-12 left-0 bg-gradient-7-dark"
+            className="absolute h-12 left-0 bg-gradient-5-dark"
             style={{ top: '-9px' }}
           />
           <div
             ref={organicReachRef}
-            className="absolute h-12 w-1 top-0 bg-gradient-7-light"
+            className="absolute h-12 w-1 top-0 bg-gradient-5-light"
           />
         </div>
-        <div className="text-gradient-7-dark brightness-[50%]">
-          <div
-            className="absolute inline text-xs"
-            style={{
-              left: `calc(${adsReachWidth}% - 32px)`,
-            }}
-          >
-            {adsReachProportion}%
-          </div>
-          <span className="relative text-xs">
-            {organicReachProportion}%
-          </span>
-          <span className="absolute right-1 text-xs">
-            {maxValue}%
-          </span>
+        <div
+          className="absolute text-xs text-gradient-5-dark brightness-[50%]"
+          style={{
+            left: `calc(${adsReachWidth}% - 32px)`,
+            top: '30px',
+          }}
+        >
+          {adsReachProportion}%
         </div>
-        {highestValue < 25 && <span className="absolute right-0 top-0 h-12 bg-offwhite" style={{ borderRight: `2px dashed ${brandColors.greyLight}`, width: '2px' }} />}
+        <span className="absolute left-0 text-xs text-gradient-5-dark brightness-[50%]" style={{ bottom: '100%' }}>
+          {organicReachProportion}%
+        </span>
+        <span className="absolute text-xs text-gradient-5-dark brightness-[50%]" style={{ bottom: '100%', right: '5px' }}>
+          {maxValue}%
+        </span>
+        {highestValue < 25 && <span className="absolute right-0 bottom-0 h-16 bg-offwhite" style={{ borderRight: `2px dashed ${brandColors.greyLight}`, width: '2px' }} />}
       </div>
     )
   )
