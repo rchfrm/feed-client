@@ -44,42 +44,54 @@ const ResultsFollowerGrowthFilters = ({
   }
 
   return (
-    <>
-      <p className="text-xs mb-2">Filter by</p>
-      <div className="inline-flex mb-6 rounded-dialogue overflow-hidden text-sm text-grey-dark bg-offwhite">
-        {periods.map(({ title, value }) => (
-          <button
-            key={value}
-            onClick={() => onClick(value)}
-            className={[
-              'py-1 px-3 font-bold',
-              period === value ? 'text-black bg-green' : null,
-            ].join(' ')}
-          >
-            {title}
-          </button>
-        ))}
+    <div className="flex justify-between">
+      <div>
+        <p className="text-xs mb-2">Filter by</p>
+        <div className="inline-flex mb-6 rounded-dialogue overflow-hidden text-sm text-grey-dark bg-offwhite">
+          {periods.map(({ title, value }) => (
+            <button
+              key={value}
+              onClick={() => onClick(value)}
+              className={[
+                'py-1 px-3 font-bold',
+                period === value ? 'text-black bg-green' : null,
+              ].join(' ')}
+            >
+              {title}
+            </button>
+          ))}
+        </div>
       </div>
       {hasInstagramGrowthObjective && (
-        <>
-          <Select
-            name="datasource"
-            handleChange={handleChange}
-            options={dataSourceOptions}
-            selectedValue={dataSourceName}
-          />
-          {breakdownOptions.length > 0 && (
+        <div className="flex text-xs">
+          <div>
+            <p className="mb-2">Breakdown by</p>
             <Select
-              name="breakdown"
+              name="datasource"
+              version="small box"
               handleChange={handleChange}
-              options={breakdownOptions}
-              selectedValue={breakdownBy}
-              loading={isLoading}
+              options={dataSourceOptions}
+              selectedValue={dataSourceName}
+              className="w-40 mr-4"
             />
+          </div>
+          {breakdownOptions.length > 0 && (
+            <div>
+              <p className="mb-2">Value</p>
+              <Select
+                name="breakdown"
+                version="small box"
+                handleChange={handleChange}
+                options={breakdownOptions}
+                selectedValue={breakdownBy}
+                loading={isLoading}
+                className="w-40"
+              />
+            </div>
           )}
-        </>
+        </div>
       )}
-    </>
+    </div>
   )
 }
 
