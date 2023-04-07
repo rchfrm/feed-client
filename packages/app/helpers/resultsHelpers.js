@@ -76,14 +76,39 @@ export const adMetricTypes = [
     color: brandColors.gradient[11].dark,
   },
 ]
+export const instagramDataSources = {
+  all: 'instagram_follower_count',
+  gender: 'instagram_audience_gender_age',
+  country: 'instagram_audience_country',
+  city: 'instagram_audience_city',
+}
 
 export const followerGrowthDataSources = {
   facebook: 'facebook_likes',
-  instagram: 'instagram_follower_count',
+  instagram: instagramDataSources.all,
   soundcloud: 'soundcloud_follower_count',
   spotify: 'spotify_follower_count',
   youtube: 'youtube_subscriber_count',
 }
+
+export const dataSourceOptions = [
+  {
+    name: 'All',
+    value: instagramDataSources.all,
+  },
+  {
+    name: 'Gender and age',
+    value: instagramDataSources.gender,
+  },
+  {
+    name: 'Country',
+    value: instagramDataSources.country,
+  },
+  {
+    name: 'City',
+    value: instagramDataSources.city,
+  },
+]
 
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
@@ -479,7 +504,7 @@ export const getDataSources = async (dataSources, artistId) => {
   return formattedData
 }
 
-export const formatDataSources = (dataSources, platform) => {
+export const formatDataSources = (dataSources, dataSourceName) => {
   const sortedDataSources = Object.values(dataSources).sort((a, b) => Object.keys(a.dailyData).length - Object.keys(b.dailyData).length)
   const intersectingKeys = Object.keys(sortedDataSources[0].dailyData).filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
 
@@ -496,7 +521,7 @@ export const formatDataSources = (dataSources, platform) => {
 
   return {
     adSpend: filterDataSource(dataSources.facebook_ad_spend_feed),
-    followerGrowth: filterDataSource(dataSources[followerGrowthDataSources[platform]]),
+    followerGrowth: filterDataSource(dataSources[dataSourceName]),
   }
 }
 

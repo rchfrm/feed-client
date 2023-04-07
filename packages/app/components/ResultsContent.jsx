@@ -33,6 +33,7 @@ const ResultsContent = ({
       {hasGrowthObjective && (
         <ResultsFollowerGrowth
           platform={platform}
+          hasInstagramGrowthObjective={hasInstagramGrowthObjective}
         />
       )}
       <ResultsStats

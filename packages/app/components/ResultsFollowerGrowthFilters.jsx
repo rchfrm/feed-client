@@ -1,7 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Select from '@/elements/Select'
+import { dataSourceOptions } from '@/app/helpers/resultsHelpers'
 
-const ResultsFollowerGrowthFilters = ({ period, setPeriod }) => {
+const ResultsFollowerGrowthFilters = ({
+  period,
+  setPeriod,
+  dataSourceName,
+  setDataSourceName,
+  breakdownOptions,
+  breakdownBy,
+  setBreakdownBy,
+  isLoading,
+  hasInstagramGrowthObjective,
+}) => {
   const periods = [
     {
       title: 'All time',
@@ -21,6 +33,16 @@ const ResultsFollowerGrowthFilters = ({ period, setPeriod }) => {
     setPeriod(value)
   }
 
+  const handleChange = (e) => {
+    const { target: { name, value } } = e
+
+    if (name === 'datasource') {
+      setDataSourceName(value)
+      return
+    }
+    setBreakdownBy(value)
+  }
+
   return (
     <>
       <p className="text-xs mb-2">Filter by</p>
@@ -38,6 +60,25 @@ const ResultsFollowerGrowthFilters = ({ period, setPeriod }) => {
           </button>
         ))}
       </div>
+      {hasInstagramGrowthObjective && (
+        <>
+          <Select
+            name="datasource"
+            handleChange={handleChange}
+            options={dataSourceOptions}
+            selectedValue={dataSourceName}
+          />
+          {breakdownOptions.length > 0 && (
+            <Select
+              name="breakdown"
+              handleChange={handleChange}
+              options={breakdownOptions}
+              selectedValue={breakdownBy}
+              loading={isLoading}
+            />
+          )}
+        </>
+      )}
     </>
   )
 }
@@ -45,6 +86,13 @@ const ResultsFollowerGrowthFilters = ({ period, setPeriod }) => {
 ResultsFollowerGrowthFilters.propTypes = {
   period: PropTypes.string.isRequired,
   setPeriod: PropTypes.func.isRequired,
+  dataSourceName: PropTypes.string.isRequired,
+  setDataSourceName: PropTypes.func.isRequired,
+  breakdownOptions: PropTypes.array.isRequired,
+  breakdownBy: PropTypes.string.isRequired,
+  setBreakdownBy: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  hasInstagramGrowthObjective: PropTypes.bool.isRequired,
 }
 
 export default ResultsFollowerGrowthFilters
