@@ -36,14 +36,16 @@ const ResultsContent = ({
           hasInstagramGrowthObjective={hasInstagramGrowthObjective}
         />
       )}
-      <ResultsStats
-        adData={adData}
-        aggregatedAdData={aggregatedAdData}
-        hasSalesObjective={hasSalesObjective}
-        hasInstagramGrowthObjective={hasInstagramGrowthObjective}
-        hasSpotifyGrowthObjective={hasSpotifyGrowthObjective}
-        platform={platform}
-      />
+      {adData && aggregatedAdData && (
+        <ResultsStats
+          adData={adData}
+          aggregatedAdData={aggregatedAdData}
+          hasSalesObjective={hasSalesObjective}
+          hasInstagramGrowthObjective={hasInstagramGrowthObjective}
+          hasSpotifyGrowthObjective={hasSpotifyGrowthObjective}
+          platform={platform}
+        />
+      )}
     </>
   )
 }

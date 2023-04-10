@@ -178,7 +178,7 @@ export default {
     }
   },
   connectAccounts: `[Connect your accounts](${ROUTES.CONNECT_ACCOUNTS}) to see how you compare!`,
-  followerGrowthHeaderTitle: (totalFollowersAddedInPeriod, platform) => `${totalFollowersAddedInPeriod < 0 ? `${getFollowerStringByPlatform(platform)} lost` : `extra ${getFollowerStringByPlatform(platform)} added`}, at an estimated`,
+  followerGrowthHeaderTitle: (totalFollowersAddedInPeriod, platform, breakdownBy) => `${totalFollowersAddedInPeriod < 0 ? `${getFollowerStringByPlatform(platform)} lost` : `extra ${getFollowerStringByPlatform(platform)} added`}${breakdownBy ? '.' : ''}`,
   followerGrowthHeaderSubtitle: ({ period, startDate, endDate }) => {
     return `Based on Feed campaign${period !== 'campaign' ? 's' : ''} between **${moment(startDate).format('D MMMM')}** and **${moment(endDate).format('D MMMM YYYY')}**`
   },

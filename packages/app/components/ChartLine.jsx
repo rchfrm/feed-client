@@ -95,7 +95,6 @@ const ChartLine = ({
     segment: {
       borderColor: (context) => (secondaryData[context.p0DataIndex] ? brandColors.green : brandColors.red),
     },
-    maintainAspectRatio: true,
     pointRadius: 0,
   }]
 
@@ -105,7 +104,6 @@ const ChartLine = ({
         datasets: dataSets,
       }}
       options={options}
-      className="mb-10"
     />
   )
 }

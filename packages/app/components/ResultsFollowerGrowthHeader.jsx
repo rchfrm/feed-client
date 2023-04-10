@@ -10,6 +10,7 @@ const ResultsFollowerGrowthHeader = ({
   period,
   currency,
   platform,
+  breakdownBy,
 }) => {
   const { adSpend, followerGrowth } = dataSources
   const dateKeys = Object.keys(Object.values(dataSources)[0])
@@ -27,8 +28,10 @@ const ResultsFollowerGrowthHeader = ({
         <>
           <div className="mb-2">
             <span className="font-bold bg-green-bg-dark rounded-dialogue mr-1 px-1.5 py-0.5">{abbreviateNumber(Math.abs(totalFollowersAddedInPeriod))}</span>
-            <span className="mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedInPeriod, platform)}</span>
-            <span className="font-bold bg-green-bg-dark rounded-dialogue mx-1 py-0.5"> {formatCurrency(costPerFollower, currency)} </span>each.
+            <span className="mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedInPeriod, platform, breakdownBy)}</span>
+            {! breakdownBy && (
+              <span>, at an estimated <span className="font-bold bg-green-bg-dark rounded-dialogue mx-1 py-0.5"> {formatCurrency(costPerFollower, currency)} </span>each.</span>
+            )}
           </div>
           <MarkdownText markdown={copy.followerGrowthHeaderSubtitle({ period, startDate, endDate })} className="mb-0 text-xs text-green-dark" />
         </>
@@ -44,6 +47,7 @@ ResultsFollowerGrowthHeader.propTypes = {
   period: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.string.isRequired,
 }
 
 export default ResultsFollowerGrowthHeader

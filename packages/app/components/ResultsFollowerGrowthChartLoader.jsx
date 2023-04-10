@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
-import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources } from '@/app/helpers/resultsHelpers'
+import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, formatBreakdownOptionValues } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthChartLoader = ({
   platform,
@@ -26,7 +26,9 @@ const ResultsFollowerGrowthChartLoader = ({
   useAsyncEffect(async (isMounted) => {
     if (! isMounted()) return
 
-    setIsLoading(true)
+    if (! initialDataSources) {
+      setIsLoading(true)
+    }
 
     const data = await getDataSources({
       [platform]: dataSourceName,
@@ -52,7 +54,7 @@ const ResultsFollowerGrowthChartLoader = ({
     }
 
     const options = Object.keys(Object.values(formattedDataSources.followerGrowth)[0]).map((key) => ({
-      name: key,
+      name: formatBreakdownOptionValues(key, dataSourceName),
       value: key,
     }))
     setBreakdownOptions(options)

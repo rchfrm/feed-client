@@ -35,6 +35,7 @@ const ResultsFollowerGrowth = ({ platform, hasInstagramGrowthObjective }) => {
             period={period}
             currency={currency}
             platform={platform}
+            breakdownBy={breakdownBy}
           />
         </>
       )}

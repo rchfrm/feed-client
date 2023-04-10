@@ -3,10 +3,11 @@ import * as api from '@/helpers/api'
 import moment from 'moment'
 import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
-import { formatCurrency } from '@/helpers/utils'
+import { formatCurrency, capitalise } from '@/helpers/utils'
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 import insightDataSources from '@/constants/insightDataSources'
+import countries from '@/constants/countries'
 
 export const formatServerData = ({ dailyData, dates = {}, currentDataSource, currentPlatform, projection }) => {
   // Convert dates object to array
@@ -595,6 +596,18 @@ export const getSlicedDataSources = (period, initialDataSources) => {
   }
 
   return getLastThirtyDays(initialDataSources)
+}
+
+export const formatBreakdownOptionValues = (key, dataSourceName) => {
+  if (dataSourceName === instagramDataSources.gender) {
+    return capitalise(key.replaceAll('_', ' '))
+  }
+
+  if (dataSourceName === instagramDataSources.country) {
+    return countries.find((country) => country.id === key).name
+  }
+
+  return key
 }
 
 // GET AD BENCHMARK

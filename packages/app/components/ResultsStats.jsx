@@ -49,7 +49,7 @@ const ResultsStats = ({
 
   return (
     <>
-      <p className="mb-3"><span className="font-bold">Period: </span>Last 30 days</p>
+      <p className="mb-3"><span className="font-bold">Period: </span>Last 30 ad spend days</p>
       <div className="grid grid-cols-12 border border-solid border-grey-light rounded-dialogue overflow-hidden">
         <div className="col-span-12 sm:col-span-4 sm:border-r border-solid border-grey-light">
           {newAudienceData ? (
