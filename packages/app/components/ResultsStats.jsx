@@ -27,6 +27,7 @@ const ResultsStats = ({
 
   const { artist: { min_daily_budget_info } } = React.useContext(ArtistContext)
   const { currency: { code: currency } } = min_daily_budget_info || {}
+  const isTwoColumnLayout = ! hasSalesObjective && ! hasInstagramGrowthObjective && ! hasSpotifyGrowthObjective
 
   const [newAudienceData, setNewAudienceData] = React.useState(null)
   const [existingAudienceData, setExistingAudienceData] = React.useState(null)
@@ -49,24 +50,32 @@ const ResultsStats = ({
 
   return (
     <>
-      <p className="mb-3"><span className="font-bold">Period: </span>Last 30 ad spend days</p>
+      <p className="mb-3"><span className="font-bold">Period: </span>Last 30 days with ad spend</p>
       <div className="grid grid-cols-12 border border-solid border-grey-light rounded-dialogue overflow-hidden">
-        <div className="col-span-12 sm:col-span-4 sm:border-r border-solid border-grey-light">
+        <div className={[
+          'col-span-12',
+          isTwoColumnLayout ? 'sm:col-span-6' : 'sm:col-span-4',
+          'sm:border-r border-solid border-grey-light',
+        ].join(' ')}
+        >
           {newAudienceData ? (
             <ResultsNewAudienceStats data={newAudienceData} />
           ) : (
             <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-twitter" />
           )}
         </div>
-
-        <div className="col-span-12 sm:col-span-4 border-b sm:border-r border-solid border-grey-light">
+        <div className={[
+          'col-span-12',
+          isTwoColumnLayout ? 'sm:col-span-6' : 'sm:col-span-4',
+          'sm:border-r border-solid border-grey-light',
+        ].join(' ')}
+        >
           {existingAudienceData ? (
             <ResultsExistingAudienceStats data={existingAudienceData} />
           ) : (
             <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-green" />
           )}
         </div>
-
         {hasSalesObjective && (
           <div className="col-span-12 sm:col-span-4">
             {conversionData ? (
@@ -76,7 +85,6 @@ const ResultsStats = ({
             )}
           </div>
         )}
-
         {(hasInstagramGrowthObjective || hasSpotifyGrowthObjective) && (
           <div className="col-span-12 sm:col-span-4">
             {platformData ? (
@@ -86,7 +94,6 @@ const ResultsStats = ({
             )}
           </div>
         )}
-
       </div>
     </>
   )

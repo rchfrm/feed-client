@@ -32,7 +32,7 @@ const ResultsFollowerGrowthChartLoader = ({
 
     const data = await getDataSources({
       [platform]: dataSourceName,
-      facebook: 'facebook_ad_spend_feed',
+      facebook: platform === 'facebook' ? ['facebook_ad_spend_feed', dataSourceName] : 'facebook_ad_spend_feed',
     }, artistId)
 
     // Format the data sources to make sure that ad spend and growth data periods match
