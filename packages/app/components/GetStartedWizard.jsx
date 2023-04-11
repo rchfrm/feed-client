@@ -12,7 +12,6 @@ import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
 import GetStartedObjective from '@/app/GetStartedObjective'
-import GetStartedPlatform from '@/app/GetStartedPlatform'
 import GetStartedDefaultLink from '@/app/GetStartedDefaultLink'
 import GetStartedPricing from '@/app/GetStartedPricing'
 import GetStartedConnectFacebook from '@/app/GetStartedConnectFacebook'
@@ -76,27 +75,20 @@ const GetStartedWizard = () => {
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      name: profileStatus.objective,
+      name: profileStatus.platform,
       title: 'Your objective',
       section: getStartedSections.objective,
       component: <GetStartedObjective />,
     },
     {
       id: 1,
-      name: profileStatus.platform,
-      title: 'Your objective',
-      section: getStartedSections.objective,
-      component: <GetStartedPlatform />,
-    },
-    {
-      id: 2,
       name: profileStatus.defaultLink,
       title: 'Your objective',
       section: getStartedSections.objective,
       component: <GetStartedDefaultLink />,
     },
     {
-      id: 3,
+      id: 2,
       name: profileStatus.pricingPlan,
       title: 'Your plan',
       section: getStartedSections.pricingPlan,
@@ -104,7 +96,7 @@ const GetStartedWizard = () => {
       shouldSkip: isManaged,
     },
     {
-      id: 4,
+      id: 3,
       name: profileStatus.connectProfile,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
@@ -112,28 +104,28 @@ const GetStartedWizard = () => {
       shouldSkip: Boolean(user.artists.length),
     },
     {
-      id: 5,
+      id: 4,
       name: profileStatus.posts,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsSelection />,
     },
     {
-      id: 6,
+      id: 5,
       name: profileStatus.adAccount,
       title: 'Your ad account',
       section: getStartedSections.adAccount,
       component: <GetStartedAdAccount />,
     },
     {
-      id: 7,
+      id: 6,
       name: profileStatus.facebookPixel,
       title: 'Your pixel',
       section: getStartedSections.adAccount,
       component: <GetStartedFacebookPixel />,
     },
     {
-      id: 8,
+      id: 7,
       name: profileStatus.location,
       title: 'Your location',
       section: getStartedSections.adAccount,
@@ -141,14 +133,14 @@ const GetStartedWizard = () => {
       shouldSkip: (Object.keys(locations || {}).length || artist.country_code),
     },
     {
-      id: 9,
+      id: 8,
       name: profileStatus.budget,
       title: 'Budget',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
     },
     {
-      id: 10,
+      id: 9,
       name: profileStatus.paymentMethod,
       title: 'Your payment method',
       section: getStartedSections.targeting,
@@ -156,7 +148,7 @@ const GetStartedWizard = () => {
       shouldSkip: hasFreePlan || isManaged,
     },
     {
-      id: 11,
+      id: 10,
       title: '',
       component: <GetStartedSummary />,
     },

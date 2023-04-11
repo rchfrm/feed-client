@@ -63,12 +63,8 @@ const useCheckProfileSetupStatus = () => {
   // Define profile setup conditions
   const profileSetupConditions = React.useMemo(() => [
     {
-      name: profileStatus.objective,
-      isComplete: Boolean(objective || wizardState?.objective),
-    },
-    {
       name: profileStatus.platform,
-      isComplete: objective !== 'growth' || Boolean(platform || wizardState?.platform),
+      isComplete: Boolean(platform || wizardState?.platform),
     },
     {
       name: profileStatus.defaultLink,
@@ -106,7 +102,7 @@ const useCheckProfileSetupStatus = () => {
       name: profileStatus.paymentMethod,
       isComplete: false,
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, facebookPixelId, hasSufficientBudget, objective, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, facebookPixelId, hasSufficientBudget, objective, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => ! condition.isComplete)?.name

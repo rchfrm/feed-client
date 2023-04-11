@@ -572,18 +572,6 @@ export const platforms = [
     name: 'Spotify',
     value: 'spotify',
   },
-  {
-    name: 'SoundCloud',
-    value: 'soundcloud',
-  },
-  {
-    name: 'YouTube',
-    value: 'youtube',
-  },
-  {
-    name: 'Facebook',
-    value: 'facebook',
-  },
 ]
 
 export const getPlatform = (platform) => {
@@ -599,7 +587,6 @@ export const getPlatformNameByValue = (platform) => {
 }
 
 export const profileStatus = {
-  objective: 'objective',
   platform: 'platform',
   defaultLink: 'default-link',
   pricingPlan: 'pricing-plan',

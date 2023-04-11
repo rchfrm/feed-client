@@ -1,48 +1,10 @@
 /* eslint-disable quotes */
-import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
+import { getPlatform } from '@/app/helpers/artistHelpers'
 import { capitalise, formatCurrency } from '@/helpers/utils'
 
 export default {
-  profileStatus: (status, objective, platform, defaultPaymentMethod) => {
-    if (status === 'objective') return `What's your objective?`
-    if (status === 'platform') return 'Select the platform to grow'
-    if (status === 'default-link') {
-      if (objective === 'growth' && (platform !== 'facebook' && platform !== 'instagram')) {
-        const platformName = platforms.find(({ value }) => value === platform)?.name
-
-        return `Connect to ${platformName}`
-      }
-
-      return 'Enter your website link'
-    }
-    if (status === 'pricing-plan') return 'Select your pricing plan'
-    if (status === 'connect-profile') return 'Connect to Facebook'
-    if (status === 'posts') return 'Select the posts to promote'
-    if (status === 'ad-account') return 'Select your ad account'
-    if (status === 'facebook-pixel') return 'Select your Facebook pixel'
-    if (status === 'location') return 'Where are you based?'
-    if (status === 'budget') return 'How much would you like to spend?'
-    if (status === 'payment-method') return defaultPaymentMethod ? 'Confirm your payment method' : 'Add a payment method'
-
-    return ''
-  },
   objectiveSubtitle: 'What are you trying to achieve?',
-  objectivePlanFooter: (isRestricted) => {
-    if (isRestricted) {
-      return 'Available on Growth and Pro'
-    }
-    return 'Available in all plans'
-  },
-  objectiveDisabledFooter: (isRestricted) => {
-    if (isRestricted) {
-      return 'Select <span className="text-insta font-bold">Growth</span> or <span className="text-insta font-bold">Pro</span> to use this objective'
-    }
-  },
-  platformSubtitle: 'Which platform would you like to focus on initially?',
-  defaultLinkSubtitle: (objective, platform) => {
-    if (objective !== 'growth') {
-      return 'Enter the link to your website or landing page'
-    }
+  defaultLinkSubtitle: (platform) => {
     return `Enter the link to your ${getPlatform(platform)}`
   },
   pricingSubtitle: 'Select the features and pricing to suit you',
@@ -116,13 +78,9 @@ You will be invoiced separately by Facebook for the ad spend.`
   reviewDescription: 'Feed has submitted your ads for approval!',
   objectiveSummary: (objective, platform, isDesktopLayout) => {
     if (! objective) {
-      return isDesktopLayout ? 'Grow, sell or drive traffic' : 'Objective'
+      return isDesktopLayout ? 'Grow or sell' : 'Objective'
     }
 
-    if (objective && objective === 'growth') {
-      return `${platform && platform !== 'website' ? capitalise(platform) : `Audience`} growth`
-    }
-
-    return `${capitalise(platform)} ${objective}`
+    return `${capitalise(platform)} growth`
   },
 }

@@ -1,59 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import GetStartedObjectiveButtonFooter from '@/app/GetStartedObjectiveButtonFooter'
 import Button from '@/elements/Button'
+import PlatformIcon from '@/icons/PlatformIcon'
 import ArrowIcon from '@/icons/ArrowIcon'
 
-const GetStartedObjectiveButton = ({
-  objective,
-  setSelectedObjective,
-  selectedPlan,
-  isDisabled,
-}) => {
-  const { name, value, isRestricted } = objective
-
-  const classNames = {
-    growth: '',
-    traffic: 'bg-twitter border-twitter hover:bg-twitter hover:border-twitter hover:bg-opacity-90',
-    sales: 'bg-insta border-insta hover:bg-insta hover:border-insta hover:bg-opacity-90',
-  }
+const GetStartedObjectiveButton = ({ platform, setSelectedPlatform }) => {
+  const { name, value } = platform
 
   return (
-    <div className="flex flex-col w-full xs:w-1/3 mx-0 mb-4 xs:mx-4 xs:mb-0">
-      <Button
-        key={value}
-        onClick={() => setSelectedObjective(value)}
-        className={['mb-1', classNames[value]].join(' ')}
-        trackComponentName="GetStartedObjectiveButton"
-        isDisabled={isDisabled}
-      >
-        {name}
-        <ArrowIcon
-          className="w-7 h-auto ml-1"
-          direction="right"
-        />
-      </Button>
-      {(! selectedPlan || isDisabled) && (
-        <GetStartedObjectiveButtonFooter
-          objective={value}
-          isDisabled={isDisabled}
-          isRestricted={isRestricted}
-        />
-      )}
-    </div>
+    <Button
+      className="first:mr-12"
+      version="secondary"
+      onClick={() => setSelectedPlatform(value)}
+      trackComponentName="GetStartedObjectiveButton"
+    >
+      <PlatformIcon
+        platform={value}
+        className="w-5 h-auto mr-2"
+        title={value}
+      />
+      {name} growth
+      <ArrowIcon
+        className="w-7 h-auto ml-1"
+        direction="right"
+      />
+    </Button>
   )
 }
 
 GetStartedObjectiveButton.propTypes = {
-  objective: PropTypes.object.isRequired,
-  setSelectedObjective: PropTypes.func.isRequired,
-  selectedPlan: PropTypes.string,
-  isDisabled: PropTypes.bool,
-}
-
-GetStartedObjectiveButton.defaultProps = {
-  selectedPlan: '',
-  isDisabled: false,
+  platform: PropTypes.object.isRequired,
+  setSelectedPlatform: PropTypes.func.isRequired,
 }
 
 export default GetStartedObjectiveButton

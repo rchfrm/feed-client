@@ -1,41 +1,41 @@
 import React from 'react'
-
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 import GetStartedObjectiveButton from '@/app/GetStartedObjectiveButton'
-
 import Error from '@/elements/Error'
-
 import useControlsStore from '@/app/stores/controlsStore'
-
+import { updateArtist, platforms, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
-import { objectives, updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
-
+import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/getStartedCopy'
 import Spinner from '@/elements/Spinner'
 
 const getControlsStoreState = (state) => ({
+  nestedLinks: state.nestedLinks,
+  optimizationPreferences: state.optimizationPreferences,
   updatePreferences: state.updatePreferences,
   updateLinks: state.updateLinks,
-  optimizationPreferences: state.optimizationPreferences,
 })
 
 const GetStartedObjective = () => {
-  const [selectedObjective, setSelectedObjective] = React.useState('')
+  const [selectedPlatform, setSelectedPlatform] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  const { goToStep } = React.useContext(WizardContext)
-  const { updatePreferences, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { objective: currentObjective } = optimizationPreferences
-  const { artistId, artist, setPostPreferences } = React.useContext(ArtistContext)
-
+  const objective = 'growth'
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
-  const { plan: storedPlan } = wizardState || {}
-  const plan = artist?.plan || storedPlan
-  const [planPrefix] = plan?.split('_') || []
-  const hasFreePlan = planPrefix === 'free'
+
+  const { goToStep } = React.useContext(WizardContext)
+  const { artist, artistId, setPostPreferences } = React.useContext(ArtistContext)
+  const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
+  const {
+    updatePreferences,
+    optimizationPreferences,
+    nestedLinks,
+    updateLinks,
+  } = useControlsStore(getControlsStoreState)
+  const { platform: currentPlatform } = optimizationPreferences
 
   const unsetDefaultLink = (artist) => {
     // Unset the link in the controls store
@@ -44,9 +44,6 @@ const GetStartedObjective = () => {
     // Update the posts and conversions preferences objects
     updatePreferences({
       postsPreferences: {
-        defaultLinkId: null,
-      },
-      conversionsPreferences: {
         defaultLinkId: null,
       },
     })
@@ -58,12 +55,13 @@ const GetStartedObjective = () => {
     setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: null }))
   }
 
-  const handleNextStep = async (objective) => {
-    const isGrowth = objective === 'growth'
-    const nextStep = isGrowth ? 1 : 2
+  const handleNextStep = async (platform) => {
+    const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
+    const isInstagram = platform === 'instagram'
+    const nextStep = isInstagram ? 2 : 1
 
-    // If the objective hasn't changed just go to the next step
-    if (objective === currentObjective || objective === wizardState?.objective) {
+    // If the platform hasn't changed just go to the next step
+    if (platform === currentPlatform || platform === wizardState?.platform) {
       goToStep(nextStep)
       return
     }
@@ -73,17 +71,14 @@ const GetStartedObjective = () => {
       setLocalStorage('getStartedWizard', JSON.stringify({
         ...wizardState,
         objective,
-        ...(! isGrowth && { platform: 'website' }),
-        defaultLink: null,
+        platform,
+        defaultLink: isInstagram ? { href: platform } : null,
       }))
 
       updatePreferences({
         optimizationPreferences: {
           objective,
-          ...(! isGrowth && { platform: 'website' }),
-        },
-        postsPreferences: {
-          defaultLinkId: null,
+          platform,
         },
       })
       goToStep(nextStep)
@@ -96,8 +91,8 @@ const GetStartedObjective = () => {
     // Otherwise save the data in the db
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
-      ...(! isGrowth && { platform: 'website' }),
-      defaultLink: null,
+      platform,
+      defaultLink: isInstagram ? getLinkByPlatform(nestedLinks, platform).id : null,
     })
 
     if (error) {
@@ -106,54 +101,57 @@ const GetStartedObjective = () => {
       return
     }
 
-    // Unset the default link
-    unsetDefaultLink(updatedArtist)
+    if (isInstagram) {
+      updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist })
+    } else {
+      // Unset the default link
+      unsetDefaultLink(updatedArtist)
+    }
 
     // Update preferences in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
+
+    saveTargetingSettings({
+      ...targetingState,
+      platforms: isInstagram ? [platform] : [],
+    })
 
     setIsLoading(false)
     goToStep(nextStep)
   }
 
   React.useEffect(() => {
-    if (! selectedObjective) return
+    if (! selectedPlatform) return
 
-    handleNextStep(selectedObjective)
+    handleNextStep(selectedPlatform)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedObjective])
+  }, [selectedPlatform])
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="w-full mb-8 xs:mb-4 font-medium text-lg">{copy.objectiveSubtitle}</h3>
-      <div className="flex flex-1 flex-column justify-center">
-        <Error error={error} />
-        <div className="xs:flex justify-between xs:-mx-4 mb-10 xs:mb-20">
-          {isLoading
-            ? <Spinner />
-            : objectives.map((objective) => {
-              const isDisabled = hasFreePlan && objective.value === 'sales'
-
-              return (
-                <GetStartedObjectiveButton
-                  key={objective.value}
-                  objective={objective}
-                  setSelectedObjective={setSelectedObjective}
-                  selectedPlan={planPrefix}
-                  isDisabled={isDisabled}
-                />
-              )
-            })}
+      <h3 className="font-medium text-lg">{copy.objectiveSubtitle}</h3>
+      <Error error={error} />
+      <div>
+        <div className="w-full xxs:w-3/4 lg:w-1/2 mx-auto mt-12">
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <div className="flex justify-center">
+              {platforms.map((platform) => {
+                return (
+                  <GetStartedObjectiveButton
+                    key={platform.value}
+                    platform={platform}
+                    setSelectedPlatform={setSelectedPlatform}
+                  />
+                )
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>
   )
-}
-
-GetStartedObjective.propTypes = {
-}
-
-GetStartedObjective.defaultProps = {
 }
 
 export default GetStartedObjective
