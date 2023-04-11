@@ -11,14 +11,12 @@ const useOpenPricingProrationsSidePanel = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  return React.useCallback((artist, promoCode) => {
-    const { id: artistId, plan } = artist
-    const [planPrefix] = plan.split('_')
+  return React.useCallback((profilePlans, promoCode) => {
     const content = (
       <div>
         <h2 className="mb-8 pr-12">Payment</h2>
         <PricingProrationsLoader
-          profilesToUpgrade={{ [artistId]: planPrefix }}
+          profilesToUpgrade={profilePlans}
           promoCode={promoCode}
         />
       </div>

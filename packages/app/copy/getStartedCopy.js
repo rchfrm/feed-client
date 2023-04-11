@@ -74,25 +74,12 @@ export default {
   },
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
-  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, planPeriod, amount, isManaged) => {
-    if (isManaged) {
-      return `#### No payment method needed.
-
-      Simply click next to complete the get started process.`
-    }
+  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, amount, shouldUpgradeBothProfiles) => {
     const baseString = defaultPaymentMethod ? 'Confirm your default card' : 'Add a card'
 
-    if (planPrefix === 'free' || planPrefix === 'legacy') {
-      if (defaultPaymentMethod) {
-        return 'Confirm your default card and start running ads.'
-      }
+    return `${baseString} to pay ${amount} for your first month of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
 
-      return `#### Enter your card details below.
-
-This is to cover Feed's 10% service fee. You won't be charged in months where you don't run ads.`
-    }
-
-    return `${baseString} to pay ${amount} for your first ${planPeriod === 'monthly' ? 'month' : 'year'} of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
+    ${shouldUpgradeBothProfiles ? `Additional profiles with an active budget that are currently on the free tier will be upgraded to growth${planPrefix === 'growth' ? ' also.' : '.'}` : ''}
 
 You will be invoiced separately by Facebook for the ad spend.`
   },
