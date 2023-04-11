@@ -13,16 +13,12 @@ import MarkdownText from '@/elements/MarkdownText'
 
 import { capitalise } from '@/helpers/utils'
 
-import copy from '@/app/copy/getStartedCopy'
-
 const GetStartedPricingPlan = ({
   plan,
   setSelectedPricingPlan,
   handleSidePanel,
   currency,
-  objective,
   isRecommended,
-  isDisabled,
 }) => {
   const {
     name,
@@ -43,7 +39,6 @@ const GetStartedPricingPlan = ({
         ! isDesktop && isRecommended ? 'pb-12 xs:pb-12' : null,
         'border-solid rounded-dialogue',
         isRecommended ? 'border-[5px] border-insta' : 'border-3 border-black',
-        isDisabled ? 'border-grey' : null,
       ].join(' ')}
     >
       {isRecommended && (
@@ -51,7 +46,7 @@ const GetStartedPricingPlan = ({
       )}
       <h2 className="mb-0 sm:mb-5 text-2xl sm:text-3xl">{capitalise(name)}</h2>
       <MarkdownText
-        markdown={isDisabled ? copy.disabledPricingPlan(name, objective) : description}
+        markdown={description}
         className={[
           'hidden sm:block',
           'small--p',
@@ -71,23 +66,19 @@ const GetStartedPricingPlan = ({
         <GetStartedPricingPlanMonthlyCost
           amount={monthlyCost[currency]}
           currency={currency}
-          isDisabled={isDisabled}
         />
         <GetStartedPricingPlanServiceFee
           percentage={serviceFeePercentage}
           plan={plan}
-          isDisabled={isDisabled}
         />
       </div>
       <GetStartedPricingPlanSelectButton
         setSelectedPricingPlan={setSelectedPricingPlan}
         plan={plan}
-        isDisabled={isDisabled}
       />
       <GetStartedPricingPlanReadMoreButton
         plan={plan}
         handleSidePanel={handleSidePanel}
-        isDisabled={isDisabled}
       />
     </div>
   )
@@ -98,9 +89,7 @@ GetStartedPricingPlan.propTypes = {
   setSelectedPricingPlan: PropTypes.func.isRequired,
   handleSidePanel: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
-  objective: PropTypes.string.isRequired,
   isRecommended: PropTypes.bool.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
 }
 
 export default GetStartedPricingPlan

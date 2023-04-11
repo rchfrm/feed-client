@@ -614,18 +614,8 @@ export const getObjectiveString = (objective, platform) => {
   return objectiveString
 }
 
-export const getObjectiveColor = (objective, platform) => {
-  if (objective === 'growth' && platform) {
-    return brandColors[platform]?.bg
-  }
-
-  if (objective === 'sales') {
-    return brandColors.instagram.bg
-  }
-
-  if (objective === 'traffic') {
-    return brandColors.green
-  }
+export const getObjectiveColor = (platform) => {
+  return brandColors[platform]?.bg
 }
 
 export const getPreferencesObject = (updatedArtist) => {

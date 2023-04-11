@@ -42,7 +42,6 @@ const GetStartedDailyBudget = () => {
         minorUnit: {
           minBase,
           minHard: minHardBudget,
-          minRecommendedStories,
         },
         majorUnit: {
           minBaseUnrounded: minBaseUnroundedMajor,
@@ -70,9 +69,7 @@ const GetStartedDailyBudget = () => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective } = optimizationPreferences
 
-  const hasSalesObjective = objective === 'sales'
   const hasFreePlan = plan?.includes('free')
-  const hasInsufficientBudget = hasSalesObjective && budget < minRecommendedStories
 
   // If minReccBudget isn't set yet reinitialise targeting context state
   useAsyncEffect(async (isMounted) => {
@@ -162,7 +159,6 @@ const GetStartedDailyBudget = () => {
               updateTargetingBudget={updateTargetingBudget}
               showCustomBudget={showCustomBudget}
               setBudgetSlider={setBudgetSlider}
-              shouldShowError={hasInsufficientBudget}
               errorMessage={copy.inSufficientBudget(minRecommendedStoriesString)}
               onBudgetSuggestionClick={handleNext}
             />
@@ -183,24 +179,18 @@ const GetStartedDailyBudget = () => {
           isLoading={targetingLoading || isLoading}
           className="w-full sm:w-48 mb-4"
           trackComponentName="GetStartedDailyBudget"
-          isDisabled={hasInsufficientBudget || Boolean(disableSaving)}
+          isDisabled={Boolean(disableSaving)}
         >
           Save
           <ArrowIcon
             className="w-7 h-auto ml-1"
             direction="right"
-            fill={hasInsufficientBudget ? brandColors.greyDark : brandColors.black}
+            fill={brandColors.black}
           />
         </Button>
       </div>
     </div>
   )
-}
-
-GetStartedDailyBudget.propTypes = {
-}
-
-GetStartedDailyBudget.defaultProps = {
 }
 
 export default GetStartedDailyBudget

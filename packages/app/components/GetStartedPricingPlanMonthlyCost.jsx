@@ -5,7 +5,6 @@ import { getCurrencySymbol } from '@/helpers/utils'
 const GetStartedPricingPlanMonthlyCost = ({
   amount,
   currency,
-  isDisabled,
 }) => {
   const currencySymbol = getCurrencySymbol(currency)
 
@@ -14,7 +13,7 @@ const GetStartedPricingPlanMonthlyCost = ({
       className={[
         'flex items-center flex-col sm:flex-row',
         'mb-0 sm:mb-5 mr-2',
-        amount === 0 || isDisabled ? 'text-grey-dark' : null,
+        amount === 0 ? 'text-grey-dark' : null,
       ].join(' ')}
     >
       <div className="flex items-center">
@@ -44,7 +43,6 @@ const GetStartedPricingPlanMonthlyCost = ({
 GetStartedPricingPlanMonthlyCost.propTypes = {
   amount: PropTypes.number.isRequired,
   currency: PropTypes.oneOf(currencies).isRequired,
-  isDisabled: PropTypes.bool.isRequired,
 }
 
 export default GetStartedPricingPlanMonthlyCost
