@@ -24,16 +24,6 @@ export default {
     return 'These are the posts we recommend promoting first...'
   },
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
-  facebookPixelSubtitle: (pixels, shouldShowPixelSelector, defaultLinkHref) => {
-    if (shouldShowPixelSelector) {
-      if (pixels.length) {
-        return `Which Meta pixel is installed on ${defaultLinkHref}?`
-      }
-      return 'How should your Facebook Pixel be named?'
-    }
-
-    return "Looks like you don't have a Facebook Pixel! Happy for us to create one?"
-  },
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
   paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, planPeriod, amount, isManaged) => {

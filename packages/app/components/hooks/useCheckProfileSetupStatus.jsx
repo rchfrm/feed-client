@@ -51,7 +51,6 @@ const useCheckProfileSetupStatus = () => {
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
-  const facebookPixelId = facebookIntegration?.pixel_id
   const hasSufficientBudget = (! hasSalesObjective && Boolean(dailyBudget)) || (hasSalesObjective && dailyBudget >= minRecommendedStories)
 
   // Get user context value
@@ -87,10 +86,6 @@ const useCheckProfileSetupStatus = () => {
       isComplete: Boolean(adAccountId),
     },
     {
-      name: profileStatus.facebookPixel,
-      isComplete: objective !== 'sales' || Boolean(facebookPixelId),
-    },
-    {
       name: profileStatus.location,
       isComplete: (Object.keys(locations || {}).length || artist.country_code),
     },
@@ -102,7 +97,7 @@ const useCheckProfileSetupStatus = () => {
       name: profileStatus.paymentMethod,
       isComplete: false,
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, facebookPixelId, hasSufficientBudget, objective, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.platform])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, hasSufficientBudget, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => ! condition.isComplete)?.name

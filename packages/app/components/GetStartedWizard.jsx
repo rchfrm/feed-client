@@ -17,7 +17,6 @@ import GetStartedPricing from '@/app/GetStartedPricing'
 import GetStartedConnectFacebook from '@/app/GetStartedConnectFacebook'
 import GetStartedPostsSelection from '@/app/GetStartedPostsSelection'
 import GetStartedAdAccount from '@/app/GetStartedAdAccount'
-import GetStartedFacebookPixel from '@/app/GetStartedFacebookPixel'
 import GetStartedLocation from '@/app/GetStartedLocation'
 import GetStartedDailyBudget from '@/app/GetStartedDailyBudget'
 import GetStartedPaymentMethod from '@/app/GetStartedPaymentMethod'
@@ -119,13 +118,6 @@ const GetStartedWizard = () => {
     },
     {
       id: 6,
-      name: profileStatus.facebookPixel,
-      title: 'Your pixel',
-      section: getStartedSections.adAccount,
-      component: <GetStartedFacebookPixel />,
-    },
-    {
-      id: 7,
       name: profileStatus.location,
       title: 'Your location',
       section: getStartedSections.adAccount,
@@ -133,14 +125,14 @@ const GetStartedWizard = () => {
       shouldSkip: (Object.keys(locations || {}).length || artist.country_code),
     },
     {
-      id: 8,
+      id: 7,
       name: profileStatus.budget,
       title: 'Budget',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
     },
     {
-      id: 9,
+      id: 8,
       name: profileStatus.paymentMethod,
       title: 'Your payment method',
       section: getStartedSections.targeting,
@@ -148,7 +140,7 @@ const GetStartedWizard = () => {
       shouldSkip: hasFreePlan || isManaged,
     },
     {
-      id: 10,
+      id: 9,
       title: '',
       component: <GetStartedSummary />,
     },
@@ -190,15 +182,15 @@ const GetStartedWizard = () => {
       defaultLink: storedDefaultLink,
     } = wizardState
 
-    const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
+    const isInstagram = storedPlatform === 'instagram'
 
     let link = ''
 
-    // If the chosen platform is either Facebook or Instagram we get the link from the linkbank
-    if (isFacebookOrInstagram) {
+    // If the chosen platform is Instagram we get the link from the linkbank
+    if (isInstagram) {
       link = getLinkByPlatform(nestedLinks, storedPlatform)
     } else if (storedObjective === 'growth') {
-      // If the objective is growth but the platform is not Facebook or Instagram we save the link as new integration link
+      // Otherwise we save the link as new integration link
       const { savedLink, error } = await saveIntegrationLink({ platform: storedPlatform }, storedDefaultLink?.href)
 
       if (error) {
@@ -248,7 +240,7 @@ const GetStartedWizard = () => {
     // Update targeting values
     saveTargetingSettings({
       ...targetingState,
-      platforms: isFacebookOrInstagram ? [storedPlatform] : [],
+      platforms: isInstagram ? [storedPlatform] : [],
     })
 
     // Remove stored data from localstorage
