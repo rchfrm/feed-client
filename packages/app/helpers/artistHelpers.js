@@ -14,7 +14,7 @@ import moment from 'moment'
  * @param {string} [token]
  * @returns {Promise<any>}
  */
-export const createArtist = async (artist, plan, token) => {
+export const createArtist = async (artist, plan, isManaged, token) => {
   return api.post('/artists', {
     name: artist.name,
     location: null,
@@ -25,6 +25,7 @@ export const createArtist = async (artist, plan, token) => {
       },
     },
     plan,
+    is_managed: isManaged,
   }, token)
 }
 
@@ -683,14 +684,6 @@ export const hasPlan = (artist, planPrefix) => {
 
   const { plan, status } = artist
   return plan.includes(planPrefix) && (planPrefix === 'legacy' || status === 'active')
-}
-
-export const hasAllProfilesOnLegacyPlan = (organizationArtists) => {
-  if (! organizationArtists.length) {
-    return false
-  }
-
-  return organizationArtists.every(({ plan }) => plan === 'legacy_monthly')
 }
 
 export const hasAllProfilesOnNoPlan = (organizationArtists) => {

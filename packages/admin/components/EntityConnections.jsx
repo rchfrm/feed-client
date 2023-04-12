@@ -47,7 +47,7 @@ const EntityConnections = ({ connections, connectionType }) => {
                     query: { id },
                   }}
                 >
-                  <a>{connectionType} Page</a>
+                  {connectionType} Page
                 </Link>
               </p>
               <div className="mt-3">

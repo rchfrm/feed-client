@@ -61,7 +61,7 @@ const ConfirmEmailSuccessReauthenticate = ({ email, onContinue }) => {
       />
       <Error error={error} />
       <p className="small--p">
-        <Link href={ROUTES.PASSWORD_FORGET}><a>Forgot your Password?</a></Link>
+        <Link href={ROUTES.PASSWORD_FORGET}>Forgot your Password?</Link>
       </p>
       <Button
         size="small"

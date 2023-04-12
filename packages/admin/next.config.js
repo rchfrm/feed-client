@@ -1,19 +1,11 @@
 const path = require('path')
 // Next plugins
 const withPlugins = require('next-compose-plugins')
-const withOffline = require('next-offline')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
-// Next phase vars
-const {
-  PHASE_DEVELOPMENT_SERVER,
-} = require('next/constants')
-
-// SETUP TRANSPILE MODULES
 const sharedPath = path.resolve(__dirname, '../shared')
-const withTM = require('next-transpile-modules')([sharedPath])
 
 // NEXT CONFIG
 const nextConfig = {
@@ -29,20 +21,6 @@ const nextConfig = {
     sentry_dsn: 'https://d3ed114866ac498da2fdd9acf2c6bd87@sentry.io/3732610',
     mixpanel_token: process.env.MIXPANEL_TOKEN,
     release_version: process.env.RELEASE_VERSION,
-  },
-  // Don't show if page can be optimised automatically
-  // https://nextjs.org/docs/api-reference/next.config.js/static-optimization-indicator
-  devIndicators: {
-    autoPrerender: false,
-  },
-  workboxOpts: {
-    exclude: [/.fbcdn\.net/],
-    runtimeCaching: [
-      {
-        urlPattern: /.fbcdn\.net/,
-        handler: 'NetworkOnly',
-      },
-    ],
   },
   eslint: {
     // Don't run eslint during build, CI/CD pipeline handles this
@@ -65,14 +43,9 @@ const nextConfig = {
     }
     return config
   },
+  transpilePackages: [sharedPath],
 }
 
 module.exports = withPlugins([
-  [withTM],
-  // load and apply a plugin only during development server phase
-  [withOffline, {
-    dontAutoRegisterSw: true,
-  }, ['!', PHASE_DEVELOPMENT_SERVER]],
-  // Bundle analyzer
   withBundleAnalyzer,
 ], nextConfig)

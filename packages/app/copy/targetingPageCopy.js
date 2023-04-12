@@ -34,6 +34,10 @@ Do you want to continue?`,
       minRecommendedStoriesString,
     } = budgetData
 
+    if (hasBudgetBelowMinRecommendedStories && ! mayHitSpendCap) {
+      return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStoriesString}`
+    }
+
     const [planPrefix] = plan?.split('_')
     const { growth, pro } = pricingNumbers
     const planMaxMonthlySpend = pricingNumbers[planPrefix].maxSpend[currency]
@@ -42,9 +46,6 @@ Do you want to continue?`,
 
     const baseString = `By spending ${formatCurrency(dailyBudget, currency)} a day, you are likely to exceed the <span className="text-insta font-bold">${capitalise(planPrefix)}</span> spend cap of ${formatCurrency(planMaxMonthlySpend, currency, true)} per month.`
 
-    if (hasBudgetBelowMinRecommendedStories && ! mayHitSpendCap) {
-      return `To ensure both posts and stories can be promoted, increase your budget to at least ${minRecommendedStoriesString}`
-    }
 
     if (planPrefix === 'free') {
       return `${baseString} Upgrade to Growth to increase the cap to ${formatCurrency(growthPlanMaxMonthlySpend, currency, true)}`

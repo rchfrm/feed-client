@@ -45,7 +45,7 @@ const BillingPaymentMethodsSummary = ({
   React.useEffect(() => {
     if (organization.id === billingStoreOrg.id) {
       setDefaultPaymentMethod(billingStorePaymentMethod)
-      setSelectedMethodId(billingStorePaymentMethod.id)
+      setSelectedMethodId(billingStorePaymentMethod?.id)
       setAllPaymentMethods(billingStoreOrgDetails.allPaymentMethods)
       return
     }

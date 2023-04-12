@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
-import PostRejectedReason from '@/app/PostRejectedReason'
+import PostNotPromotableReason from '@/app/PostNotPromotableReason'
 import PostsNone from '@/app/PostsNone'
+import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
+import ArtistContext from '@/app/contexts/ArtistContext'
 
 const PostsList = ({
   posts,
@@ -12,6 +14,10 @@ const PostsList = ({
   setIsPostActionsOpen,
   className,
 }) => {
+  const { artist } = React.useContext(ArtistContext)
+  const isCustomAdFeatureEnabled = Boolean(artist.feature_flags.custom_ads_enabled)
+  const isActiveOrPending = status === 'active' || status === 'pending'
+  const showCreateAdButton = isCustomAdFeatureEnabled && isActiveOrPending && ! posts.length
   return (
     <ul
       className={[
@@ -20,6 +26,7 @@ const PostsList = ({
         className,
       ].join(' ')}
     >
+      {showCreateAdButton && <PostCardCreateAdButton className="col-span-6 sm:col-span-3 lg:col-span-2" />}
       {! posts.length ? (
         <PostsNone filterBy={filterBy} className="col-span-12" />
       ) : (
@@ -37,8 +44,8 @@ const PostsList = ({
                 setPosts={setPosts}
                 setIsPostActionsOpen={setIsPostActionsOpen}
               />
-              {status === 'rejected' && (
-                <PostRejectedReason post={post} />
+              {(! post.isPromotable || status === 'rejected') && (
+                <PostNotPromotableReason post={post} status={status} />
               )}
             </div>
           )

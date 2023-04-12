@@ -13,28 +13,27 @@ const ProfilesConnectMore = ({ isExpanded, className }) => {
   const isActive = pathname === ROUTES.CONNECT_ACCOUNTS
 
   return (
-    <Link href={ROUTES.CONNECT_ACCOUNTS}>
-      <a
+    <Link
+      href={ROUTES.CONNECT_ACCOUNTS}
+      className={[
+        'flex items-center',
+        'w-full',
+        'border-b border-solid border-anthracite no-underline',
+        'hover:text-green',
+        isActive ? 'text-green' : 'text-grey',
+        isExpanded ? null : 'justify-center',
+        className,
+      ].join(' ')}
+      ref={hoverRef}
+    >
+      <PlusIcon className="w-5 h-auto" fill={isHover || isActive ? brandColors.green : brandColors.greyDark} />
+      <p
         className={[
-          'flex items-center',
-          'w-full',
-          'border-b border-solid border-anthracite no-underline',
-          'hover:text-green',
-          isActive ? 'text-green' : 'text-grey',
-          isExpanded ? null : 'justify-center',
-          className,
+          'text-base mb-0',
+          isExpanded ? 'opacity-1 w-auto delay-300 ml-3 transition-opacity' : 'opacity-0 w-0 mr-0',
         ].join(' ')}
-        ref={hoverRef}
-      >
-        <PlusIcon className="w-5 h-auto" fill={isHover || isActive ? brandColors.green : brandColors.greyDark} />
-        <p
-          className={[
-            'text-base mb-0',
-            isExpanded ? 'opacity-1 w-auto delay-300 ml-3 transition-opacity' : 'opacity-0 w-0 mr-0',
-          ].join(' ')}
-        >Connect more
-        </p>
-      </a>
+      >Connect more
+      </p>
     </Link>
   )
 }

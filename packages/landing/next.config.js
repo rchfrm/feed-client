@@ -2,7 +2,6 @@ const path = require('path')
 const fs = require('fs')
 // Next plugins
 const withPlugins = require('next-compose-plugins')
-const withOffline = require('next-offline')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -12,14 +11,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-// Next phase vars
-const {
-  PHASE_DEVELOPMENT_SERVER,
-} = require('next/constants')
-
-// SETUP TRANSPILE MODULES
 const sharedPath = path.resolve(__dirname, '../shared')
-const withTM = require('next-transpile-modules')([sharedPath])
 
 // UTIL FOR FETCHING GLOBAL DATA
 const fetchGlobalInfo = require('./helpers/fetchGlobalInfo')
@@ -40,20 +32,6 @@ const nextConfig = {
     gtm_auth: process.env.GTM_AUTH,
     gtm_preview: process.env.GTM_PREVIEW,
     release_version: process.env.RELEASE_VERSION,
-  },
-  // Don't show if page can be optimised automatically
-  // https://nextjs.org/docs/api-reference/next.config.js/static-optimization-indicator
-  devIndicators: {
-    autoPrerender: false,
-  },
-  workboxOpts: {
-    exclude: [/.fbcdn\.net/],
-    runtimeCaching: [
-      {
-        urlPattern: /.fbcdn\.net/,
-        handler: 'NetworkOnly',
-      },
-    ],
   },
   webpack: (config, { webpack }) => {
     // Reduce size of moment.js
@@ -107,14 +85,9 @@ const nextConfig = {
       },
     ]
   },
+  transpilePackages: [sharedPath],
 }
 
 module.exports = withPlugins([
-  [withTM],
-  // load and apply a plugin only during development server phase
-  [withOffline, {
-    dontAutoRegisterSw: true,
-  }, ['!', PHASE_DEVELOPMENT_SERVER]],
-  // Bundle analyzer
   withBundleAnalyzer,
 ], nextConfig)

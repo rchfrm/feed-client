@@ -1,15 +1,13 @@
 import Router, { withRouter } from 'next/router'
 import PropTypes from 'prop-types'
-
 import Link from 'next/link'
-import React, { Children } from 'react'
-
+import React from 'react'
 import * as utils from '@/helpers/utils'
 
-// Test whether link should be shown as active
 const testIfActive = (pathname, href, matchingHrefs) => {
   if (pathname === href) return true
   if (matchingHrefs.includes(pathname)) return true
+
   return false
 }
 
@@ -19,9 +17,15 @@ const ActiveLink = ({
   matchingHrefs,
   activeClass,
   children,
+  target,
+  ariaLabel,
+  style,
+  role,
+  onClick,
+  className,
 }) => {
-  const child = Children.only(children)
   const [pathname, setPathname] = React.useState(router.pathname)
+  const isLinkActive = testIfActive(pathname, href, matchingHrefs)
 
   const handleRouteChange = React.useCallback((url) => {
     const { pathname } = utils.parseUrl(url)
@@ -35,11 +39,19 @@ const ActiveLink = ({
     }
   }, [handleRouteChange])
 
-  const isLinkActive = testIfActive(pathname, href, matchingHrefs)
-  const baseClasses = child.props.className || null
-  const className = isLinkActive ? `${baseClasses} ${activeClass}`.trim() : baseClasses
-
-  return <Link href={href}>{React.cloneElement(child, { className })}</Link>
+  return (
+    <Link
+      href={href}
+      className={isLinkActive ? `${className} ${activeClass}`.trim() : className}
+      target={target}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      style={style}
+      role={role}
+    >
+      {children}
+    </Link>
+  )
 }
 
 ActiveLink.propTypes = {
@@ -48,11 +60,19 @@ ActiveLink.propTypes = {
   matchingHrefs: PropTypes.array,
   activeClass: PropTypes.string,
   children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+  ariaLabel: PropTypes.string,
+  style: PropTypes.object,
+  role: PropTypes.string,
 }
 
 ActiveLink.defaultProps = {
   matchingHrefs: [],
   activeClass: '_active',
+  onClick: () => {},
+  ariaLabel: '',
+  style: null,
+  role: '',
 }
 
 export default withRouter(ActiveLink)

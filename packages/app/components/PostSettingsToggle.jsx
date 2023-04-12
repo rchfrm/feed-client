@@ -15,7 +15,7 @@ const PostSettingsToggle = ({
       className={[
         'flex flex-column',
         'w-full',
-        'sm:w-1/2',
+        'sm:w-1/3',
       ].join(' ')}
     >
       <h3 className={[
@@ -28,7 +28,7 @@ const PostSettingsToggle = ({
       <div
         className={[
           'flex items-center',
-          'mb-5',
+          'mb-8',
           'sm:mb-10',
         ].join(' ')}
       >
@@ -38,6 +38,7 @@ const PostSettingsToggle = ({
           setPost={updatePost}
           isEnabled={isEnabled}
           setIsEnabled={setIsEnabled}
+          isDisabled={isDisabled}
           className="ml-5 sm:ml-0 mr-4"
         />
         <p

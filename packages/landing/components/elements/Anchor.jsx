@@ -76,18 +76,18 @@ const Anchor = ({
 
   if (linkType === 'internal') {
     return (
-      <ActiveLink href={href} activeClass={activeClass}>
-        <a
-          className={className}
-          style={style}
-          aria-label={label}
-          role="link"
-          onClick={() => {
-            mixpanelInternalLinkClick(href)
-          }}
-        >
-          {children}
-        </a>
+      <ActiveLink
+        href={href}
+        activeClass={activeClass}
+        className={className}
+        style={style}
+        aria-label={label}
+        role="link"
+        onClick={() => {
+          mixpanelInternalLinkClick(href)
+        }}
+      >
+        {children}
       </ActiveLink>
     )
   }

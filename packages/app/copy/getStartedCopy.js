@@ -74,12 +74,12 @@ export default {
   },
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
-  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, amount, isUpgradingMultipleProfiles) => {
+  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, amount, shouldUpgradeBothProfiles) => {
     const baseString = defaultPaymentMethod ? 'Confirm your default card' : 'Add a card'
 
     return `${baseString} to pay ${amount} for your first month of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
 
-    ${isUpgradingMultipleProfiles ? `Additional profiles with an active budget that are currently on the free tier will be upgraded to growth${planPrefix === 'growth' ? 'as well.' : '.'}` : ''}
+    ${shouldUpgradeBothProfiles ? `Additional profiles with an active budget that are currently on the free tier will be upgraded to growth${planPrefix === 'growth' ? ' also.' : '.'}` : ''}
 
 You will be invoiced separately by Facebook for the ad spend.`
   },
