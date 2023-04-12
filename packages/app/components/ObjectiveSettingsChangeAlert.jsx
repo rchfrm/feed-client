@@ -4,13 +4,14 @@ import useAlertModal from '@/hooks/useAlertModal'
 import ObjectiveSettingsChangeAlertDefaultLink from '@/app/ObjectiveSettingsChangeAlertDefaultLink'
 
 const ObjectiveSettingsChangeAlert = ({
+  platform,
   objective,
   shouldShowAlert,
   setShouldShowAlert,
   onCancel,
   onConfirm,
 }) => {
-  const [link, setLink] = React.useState('')
+  const [link, setLink] = React.useState({ href: '' })
   const [isDisabled, setIsDisabled] = React.useState(true)
   const { showAlert, closeAlert } = useAlertModal()
 
@@ -29,7 +30,7 @@ const ObjectiveSettingsChangeAlert = ({
       {
         text: 'Save',
         onClick: () => {
-          onConfirm({ link }, true)
+          onConfirm({ platform, newLink: link })
           setShouldShowAlert(false)
         },
         isDisabled,
@@ -38,6 +39,7 @@ const ObjectiveSettingsChangeAlert = ({
     showAlert({
       children: (
         <ObjectiveSettingsChangeAlertDefaultLink
+          platform={platform}
           link={link}
           setLink={setLink}
           objective={objective}
@@ -47,7 +49,7 @@ const ObjectiveSettingsChangeAlert = ({
       buttons,
       onClose: onCancel,
     })
-  }, [shouldShowAlert, onConfirm, onCancel, showAlert, closeAlert, link, objective, isDisabled, setShouldShowAlert])
+  }, [shouldShowAlert, onConfirm, onCancel, showAlert, closeAlert, link, objective, isDisabled, setShouldShowAlert, platform])
 
   React.useEffect(() => {
     return () => {
@@ -59,6 +61,7 @@ const ObjectiveSettingsChangeAlert = ({
 }
 
 ObjectiveSettingsChangeAlert.propTypes = {
+  platform: PropTypes.string.isRequired,
   objective: PropTypes.string.isRequired,
   shouldShowAlert: PropTypes.bool.isRequired,
   setShouldShowAlert: PropTypes.func.isRequired,

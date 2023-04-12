@@ -18,46 +18,46 @@ const getControlsStoreState = (state) => ({
 })
 
 const ObjectiveSettings = () => {
+  const { updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective, platform: currentPlatform } = optimizationPreferences
+  const [platform, setPlatform] = React.useState(currentPlatform)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
 
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
   const { hasSetUpProfile } = artist
-  const { updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { objective, platform } = optimizationPreferences
   const saveIntegrationLink = useSaveIntegrationLink()
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
-  const hasInstagramOrSpotifyGrowth = objective === 'growth' && (platform === 'instagram' || platform === 'spotify')
+  const hasInstagramOrSpotifyGrowth = objective === 'growth' && (currentPlatform === 'instagram' || currentPlatform === 'spotify')
 
-  const save = async ({ platform, link }, forceRun = false) => {
-    if (! forceRun) {
+  const save = async ({ platform, newLink }) => {
+    let integrationLink = getLinkByPlatform(nestedLinks, platform)
+
+    if (! integrationLink?.accountId && ! newLink) {
       setShouldShowAlert(true)
       return
     }
 
-    let newLink
-    if (! link) {
-      newLink = getLinkByPlatform(nestedLinks, platform)
-    } else {
-      const { savedLink } = saveIntegrationLink({ platform: 'spotify' }, link.href)
-      newLink = savedLink
+    if (newLink) {
+      const { savedLink } = await saveIntegrationLink({ platform }, newLink.href)
+      integrationLink = savedLink
     }
 
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       platform,
-      defaultLink: newLink.id,
+      defaultLink: integrationLink.id,
     })
 
     if (error) {
       return
     }
 
-    if (newLink) {
+    if (integrationLink) {
       // Set the new link as the default link
-      updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink })
+      updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: integrationLink })
 
       // Update artist status
-      setPostPreferences('default_link_id', newLink.id)
+      setPostPreferences('default_link_id', integrationLink.id)
     }
 
     // Update targeting values
@@ -75,6 +75,11 @@ const ObjectiveSettings = () => {
     setShouldShowAlert(false)
   }
 
+  const handleClick = (platform) => {
+    setPlatform(platform)
+    save({ platform })
+  }
+
   return (
     <div>
       <h2>Objective</h2>
@@ -84,26 +89,28 @@ const ObjectiveSettings = () => {
       >
         <MarkdownText markdown={copy.objectiveIntro} className="inline-block" />
         <div className="relative">
-          {! hasInstagramOrSpotifyGrowth && <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, platform)}</p>}
+          {! hasInstagramOrSpotifyGrowth && (
+            <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, currentPlatform)}</p>
+          )}
           <div>
-            <button
-              onClick={() => save({ platform: 'instagram' }, true)}
-              className={[platform === 'instagram' ? 'font-bold' : null]}
-            >
-              Instagram
-            </button>
-            <button
-              onClick={() => save({ platform: 'spotify' }, false)}
-              className={[platform === 'spotify' ? 'font-bold' : null]}
-            >
-              Spotify
-            </button>
+            {['instagram', 'spotify'].map((platform) => {
+              return (
+                <button
+                  key={platform}
+                  onClick={() => handleClick(platform)}
+                  className={[currentPlatform === platform ? 'font-bold' : null]}
+                >
+                  {platform}
+                </button>
+              )
+            })}
           </div>
         </div>
       </DisabledSection>
       {shouldShowAlert && (
         <ObjectiveSettingsChangeAlert
           objective={objective}
+          platform={platform}
           shouldShowAlert={shouldShowAlert}
           setShouldShowAlert={setShouldShowAlert}
           onConfirm={save}

@@ -572,9 +572,22 @@ export const platforms = [
     name: 'Spotify',
     value: 'spotify',
   },
+  {
+    name: 'SoundCloud',
+    value: 'soundcloud',
+  },
+  {
+    name: 'YouTube',
+    value: 'youtube',
+  },
+  {
+    name: 'Facebook',
+    value: 'facebook',
+  },
 ]
 
 export const getPlatform = (platform) => {
+  if (platform === 'instagram') return 'Instagram username'
   if (platform === 'youtube') return 'Youtube channel'
   if (platform === 'spotify') return 'Spotify Artist page'
   if (platform === 'soundcloud') return 'SoundCloud account'
