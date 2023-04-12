@@ -39,7 +39,8 @@ const FeedLanding = ({ Component, pageProps }) => {
           'block',
           'flex-auto',
           'w-full',
-          'mt-24',
+          'mt-[77px]',
+          'sm:mt-[88px]',
         ].join(' ')}
       >
         <Component {...pageProps} />

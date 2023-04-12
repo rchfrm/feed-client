@@ -5,7 +5,7 @@
 .hamburgerMenu {
   display: none;
   position: absolute;
-  top: var(--sp-24);
+  top: var(--sp-20);
   left: 0;
   width: 100%;
   padding: var(--sp-5) 0;

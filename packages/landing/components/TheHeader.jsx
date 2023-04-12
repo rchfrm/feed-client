@@ -43,7 +43,8 @@ export default function TheHeader() {
         'bmw',
         'flex',
         'justify-between',
-        'p-5',
+        'px-5',
+        'py-4',
         'xs:px-8',
       ].join(' ')}
       >
@@ -56,13 +57,12 @@ export default function TheHeader() {
             href="/"
             title="home"
             aria-label="Go Home"
-            className="w-40"
           >
             <FeedLogo
               id="landing"
               style={{
-                width: '100%',
-                height: 'auto',
+                width: 'auto',
+                height: '45px',
               }}
               fill={brandColors.black}
               hasWordmark

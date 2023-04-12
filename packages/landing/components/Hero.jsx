@@ -21,6 +21,7 @@ const Hero = ({
         'sm:grid',
         'sm:grid-cols-12',
         'sm:gap-x-4',
+        'pt-10',
       ].join(' ')}
     >
       <HeroStrapLine strapLine={strapLine} />
