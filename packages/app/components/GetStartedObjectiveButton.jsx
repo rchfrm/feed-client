@@ -9,7 +9,7 @@ const GetStartedObjectiveButton = ({ platform, setSelectedPlatform }) => {
 
   return (
     <Button
-      className="first:mr-12"
+      className="first:mb-4 xs:mb-0 xs:first:mr-12"
       version="secondary"
       onClick={() => setSelectedPlatform(value)}
       trackComponentName="GetStartedObjectiveButton"

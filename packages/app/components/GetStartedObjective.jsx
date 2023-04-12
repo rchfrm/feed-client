@@ -2,14 +2,16 @@ import React from 'react'
 import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+import useControlsStore from '@/app/stores/controlsStore'
 import GetStartedObjectiveButton from '@/app/GetStartedObjectiveButton'
 import Error from '@/elements/Error'
-import useControlsStore from '@/app/stores/controlsStore'
+import Spinner from '@/elements/Spinner'
+import MarkdownText from '@/elements/MarkdownText'
+import EmailIcon from '@/icons/EmailIcon'
 import { updateArtist, platforms, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/getStartedCopy'
-import Spinner from '@/elements/Spinner'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -136,17 +138,23 @@ const GetStartedObjective = () => {
           {isLoading ? (
             <Spinner />
           ) : (
-            <div className="flex justify-center">
-              {platforms.map((platform) => {
-                return (
-                  <GetStartedObjectiveButton
-                    key={platform.value}
-                    platform={platform}
-                    setSelectedPlatform={setSelectedPlatform}
-                  />
-                )
-              })}
-            </div>
+            <>
+              <div className="flex flex-col xs:flex-row xs:justify-center mb-5">
+                {platforms.map((platform) => {
+                  return (
+                    <GetStartedObjectiveButton
+                      key={platform.value}
+                      platform={platform}
+                      setSelectedPlatform={setSelectedPlatform}
+                    />
+                  )
+                })}
+              </div>
+              <div className="flex justify-center items-center">
+                <EmailIcon className="w-4 h-auto mr-1" />
+                <MarkdownText markdown={copy.objectiveContact} className="text-sm mb-0" />
+              </div>
+            </>
           )}
         </div>
       </div>
