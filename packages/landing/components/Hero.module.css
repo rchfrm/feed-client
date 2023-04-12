@@ -22,12 +22,3 @@
     image-rendering: -webkit-optimize-contrast;
   }
 }
-
-.heroInputBox {
-  span {
-    font-weight: normal;
-  }
-  input {
-    border: 3px solid var(--color-insta);
-  }
-}

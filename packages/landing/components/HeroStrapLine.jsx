@@ -13,6 +13,7 @@ export default function HeroStrapLine({ strapLine }) {
         'xxs:text-[2.5rem]',
         'minContent:text-5xl',
         'sm:col-span-12',
+        'md:col-span-6',
         'lg:col-span-9',
         'lg:text-6xl',
         styles.heroStrapLineUnderline,

@@ -67,48 +67,44 @@ export default function HeroSignUp() {
       className={[
         'sm:col-start-3',
         'sm:col-end-11',
+        'md:col-start-8',
+        'md:col-end-12',
+        'md:self-center',
         'lg:z-10',
       ].join(' ')}
     >
       <div
         className={[
           'flex',
-          'flex-column',
-          'xs:flex-row',
-          'xs:items-end',
-          'mb-2',
+          'flex-row',
+          'md:flex-col',
+          'md:items-end',
+          'gap-4',
         ].join(' ')}
       >
         <Input
           handleChange={handleChange}
           value={email}
-          label="Enter your work email to get started"
+          label="Enter your email to get started"
           name="email"
           placeholder="name@domain.com"
           className={[
-            styles.heroInputBox,
             'flex-1',
-            'border-insta',
-            'mb-3',
-            'xs:mr-4',
-            'xs:mb-0',
+            'mb-0',
+            'w-full',
           ].join(' ')}
         />
         <Button
           onClick={fetchSignInMethodsAndRedirect}
           className={[
-            'py-4',
-            'px-8',
-            'text-offwhite',
-            'bg-insta hover:bg-insta border-insta hover:border-insta hover:bg-opacity-90',
+            'md:w-full',
           ].join(' ')}
           fallbackCta="Sign up"
           trackComponentName="HeroSignUp"
         >
-          Get started
+          Sign up
           <ArrowIcon
             className="w-7 h-auto ml-1"
-            fill={brandColors.offwhite}
             direction="right"
           />
         </Button>
