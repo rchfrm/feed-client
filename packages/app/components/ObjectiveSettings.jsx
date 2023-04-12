@@ -26,6 +26,7 @@ const ObjectiveSettings = () => {
   const { objective, platform } = optimizationPreferences
   const saveIntegrationLink = useSaveIntegrationLink()
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
+  const hasInstagramOrSpotifyGrowth = objective === 'growth' && (platform === 'instagram' || platform === 'spotify')
 
   const save = async ({ platform, link }, forceRun = false) => {
     if (! forceRun) {
@@ -83,7 +84,7 @@ const ObjectiveSettings = () => {
       >
         <MarkdownText markdown={copy.objectiveIntro} className="inline-block" />
         <div className="relative">
-          <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, platform)}</p>
+          {! hasInstagramOrSpotifyGrowth && <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, platform)}</p>}
           <div>
             <button
               onClick={() => save({ platform: 'instagram' }, true)}
