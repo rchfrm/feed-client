@@ -1,7 +1,6 @@
 /* eslint-disable quotes */
 const primaryCTAText = 'Request Access'
 export const blogSlug = '/blog'
-export const jobSlug = '/jobs'
 
 export default {
   navigation: {
@@ -13,10 +12,6 @@ export default {
       {
         text: `About Us`,
         href: `/blog/why-we-are-building-feed`,
-      },
-      {
-        text: `Blog`,
-        href: blogSlug,
       },
       {
         text: `Pricing`,
