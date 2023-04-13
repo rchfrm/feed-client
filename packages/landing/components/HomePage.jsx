@@ -5,17 +5,11 @@ import Image from 'next/image'
 import MarkdownText from '@/elements/MarkdownText'
 import Features from '@/landing/Features'
 import TryFeed from '@/landing/TryFeed'
-import PrimaryCTA from '@/landing/PrimaryCTA'
 
 const copy = {
   header: 'Add real people to your audience',
   description: 'Feed automates Meta campaigns: taking care of audience creation, campaign set up and continuous optimisation.\n\nThe platform maximises your budget to reach real, engaged people. No bots.',
   features: [
-    // Takes minutes to set up
-    // Unique insights
-    // Shareable reports
-    // Existing content
-    // A/B testing to maximise budget
     {
       id: 'feature-1',
       header: 'Get started in minutes',
@@ -64,16 +58,41 @@ export default function HomePage({ pageData }) {
           'flex-col',
           'gap-y-6',
           'minContent:gap-y-8',
+          'sm:text-center',
+          'sm:items-center',
         ].join(' ')}
         >
           <MarkdownText
-            className="text-4xl minContent:text-5xl mb-0 h1"
+            className={[
+              'text-4xl',
+              'minContent:text-5xl',
+              'mb-0',
+              'h1',
+              'sm:max-w-xl',
+            ].join(' ')}
             markdown={copy.header}
           />
-          <MarkdownText markdown={copy.description} className="mb-0 minContent:text-xl" />
+          <MarkdownText
+            markdown={copy.description}
+            className={[
+              'mb-0',
+              'minContent:text-xl',
+              'sm:max-w-xl',
+            ].join(' ')}
+          />
         </Section>
-        <Section>
-          <TryFeed buttonText="Start a campaign" className="w-full flex justify-center" />
+        <Section className={['justify-center flex'].join(' ')}>
+          <TryFeed
+            buttonText="Start a campaign"
+            className={[
+              'w-full',
+              'flex',
+              'justify-center',
+              'minContent:max-w-sm',
+              'minContent:h-16',
+              'minContent:text-xl',
+            ].join(' ')}
+          />
         </Section>
         {hasPartners && <Partners partners={partners} />}
         <Section>
@@ -85,8 +104,18 @@ export default function HomePage({ pageData }) {
           />
         </Section>
         <Features features={copy.features} />
-        <Section>
-          <TryFeed buttonText="Start a campaign" className="w-full flex justify-center" />
+        <Section className={['justify-center flex'].join(' ')}>
+          <TryFeed
+            buttonText="Start a campaign"
+            className={[
+              'w-full',
+              'flex',
+              'justify-center',
+              'minContent:max-w-sm',
+              'minContent:h-16',
+              'minContent:text-xl',
+            ].join(' ')}
+          />
         </Section>
       </main>
     </>

@@ -1,8 +1,8 @@
 import React from 'react'
 import Section from '@/landing/Section'
-import HeroStrapLine from '@/landing/HeroStrapLine'
 import pricingCopy from '@/landing/copy/PricingPageCopy'
 import PricingPlans from '@/landing/PricingPlans'
+import MarkdownText from '@/elements/MarkdownText'
 
 export default function PricingPage() {
   const {
@@ -10,17 +10,17 @@ export default function PricingPage() {
   } = pricingCopy
 
   return (
-    <Section>
-      <div
-        className={[
-          'pb-[60px]',
-          'sm:grid',
-          'sm:grid-cols-12',
-          'sm:gap-x-4',
-        ].join(' ')}
-      >
-        <HeroStrapLine strapLine={strapLine} />
-      </div>
+    <Section className={[
+      'flex',
+      'flex-col',
+      'gap-y-6',
+      'minContent:gap-y-8',
+    ].join(' ')}
+    >
+      <MarkdownText
+        className="text-4xl minContent:text-5xl mb-0 h1"
+        markdown={strapLine}
+      />
       <PricingPlans />
     </Section>
   )

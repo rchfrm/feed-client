@@ -6,14 +6,6 @@ export default {
   navigation: {
     headerLinks: [
       {
-        text: `What's Feed?`,
-        href: `#features`,
-      },
-      {
-        text: `About Us`,
-        href: `/blog/why-we-are-building-feed`,
-      },
-      {
         text: `Pricing`,
         href: `/pricing`,
       },

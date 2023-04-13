@@ -91,7 +91,13 @@ export default function TheHeader() {
                 trackLocation="header"
               />
               <TryFeed
-                className="flex justify-center w-1/3 min-w-[100px]"
+                className={[
+                  'flex',
+                  'justify-center',
+                  'w-1/3',
+                  'min-w-[100px]',
+                  'h-12',
+                ].join(' ')}
                 trackLocation="header"
               />
             </div>
