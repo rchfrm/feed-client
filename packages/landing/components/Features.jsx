@@ -16,7 +16,6 @@ const Features = ({ features }) => {
           'mb-0',
           'gap-y-8',
           'text-xl',
-          'sm:text-base',
           'md:p-5',
           'md:text-xl',
         ].join(' ')}

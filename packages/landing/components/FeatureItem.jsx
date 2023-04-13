@@ -25,11 +25,12 @@ const FeatureItem = ({
             'decoration-3',
             'mb-7',
             'leading-tight',
+            'minContent:text-2xl',
           ].join(' ')}
         >
           {header}
         </h3>
-        <MarkdownText className="text-base sm:mb-0" markdown={copy} />
+        <MarkdownText className="text-base minContent:text-lg sm:mb-0" markdown={copy} />
       </div>
     </li>
   )

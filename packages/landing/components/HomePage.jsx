@@ -85,7 +85,9 @@ export default function HomePage({ pageData }) {
           />
         </Section>
         <Features features={copy.features} />
-        <PrimaryCTA />
+        <Section>
+          <TryFeed buttonText="Start a campaign" className="w-full flex justify-center" />
+        </Section>
       </main>
     </>
   )
