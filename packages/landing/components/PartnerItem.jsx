@@ -19,6 +19,7 @@ const PartnerItem = ({ partner }) => {
         className={[
           'flex items-center',
           'w-32 h-auto',
+          'minContent:w-40',
         ].join(' ')}
       >
         <figure>

@@ -6,7 +6,7 @@ import Section from '@/landing/Section'
 const Partners = ({ partners }) => {
   return (
     <Section>
-      <p className="text-center text-xs">Trusted by</p>
+      <p className="text-center text-xs minContent:text-sm">Trusted by</p>
       <ul
         className={[
           'flex',

@@ -73,7 +73,7 @@ export default function HomePage({ pageData }) {
           <MarkdownText markdown={copy.description} className="mb-0 minContent:text-xl" />
         </Section>
         <Section>
-          <TryFeed buttonText="Start a campaign" className="w-full" />
+          <TryFeed buttonText="Start a campaign" className="w-full flex justify-center" />
         </Section>
         {hasPartners && <Partners partners={partners} />}
         <Section>
