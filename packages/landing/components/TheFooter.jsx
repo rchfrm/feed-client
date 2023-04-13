@@ -9,7 +9,7 @@ const { footer: { socials, legalCopy } } = copy
 
 const TheFooter = () => {
   // READ FROM GLOBAL STORE
-  const { footerLinks: legalLinks } = useGlobalInfoStore(getGlobalInfo)
+  const { legalLinks } = useGlobalInfoStore(getGlobalInfo)
 
   return (
     <footer

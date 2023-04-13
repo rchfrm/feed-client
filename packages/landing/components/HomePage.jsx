@@ -9,7 +9,7 @@ import PricingPlans from '@/landing/PricingPlans'
 
 const copy = {
   header: 'Add real people to your audience',
-  description: 'Feed automates Meta campaigns: taking care of audience creation, campaign set up and continuous optimisation.\n\nThe platform maximises your budget to reach real, engaged people. No bots.',
+  description: 'Feed automates **Meta** campaigns: taking care of audience creation, campaign set up and continuous optimisation.\n\nThe platform maximises your budget to reach real, engaged people. No bots.',
   features: [
     {
       id: 'feature-1',
