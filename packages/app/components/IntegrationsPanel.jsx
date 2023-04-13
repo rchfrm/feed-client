@@ -27,7 +27,8 @@ const IntegrationsPanel = ({
     setArtist,
   } = React.useContext(ArtistContext)
 
-  const integrations = hasSetUpProfile ? artistIntegrations : dummyIntegrations
+  const allowedPlatforms = dummyIntegrations.map(({ platform }) => platform)
+  const integrations = hasSetUpProfile ? artistIntegrations.filter(({ platform }) => allowedPlatforms.includes(platform)) : dummyIntegrations
 
   return (
     <section>
