@@ -16,18 +16,15 @@ export default function TryFeed({ className, trackLocation, buttonText }) {
 
   return (
     <div className={className}>
-      <Link href={joinLink} className="no-underline">
-        <Button
-          size="large"
-          className={className}
-          onClick={() => {
-            mixpanelExternalLinkClick(joinLink, { location: trackLocation })
-          }}
-          trackComponentName="TryFeed"
-        >
-          {buttonText}
-        </Button>
-      </Link>
+      <Button
+        className="w-full"
+        onClick={() => {
+          mixpanelExternalLinkClick(joinLink, { location: trackLocation })
+        }}
+        trackComponentName="TryFeed"
+      >
+        {buttonText}
+      </Button>
     </div>
   )
 }

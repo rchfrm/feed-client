@@ -17,11 +17,11 @@ export default function Login({ className, trackLocation }) {
   return (
     <div className={className}>
       <Button
-        version="text"
+        version="secondary"
         onClick={() => {
           mixpanelExternalLinkClick(loginLink, { location: trackLocation })
         }}
-        className="h-14"
+        className="w-full"
         trackComponentName="Login"
       >
         {copy.navigation.secondaryCTAText}

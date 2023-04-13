@@ -33,7 +33,7 @@ export default function TheHeader() {
         'flex',
         'justify-between',
         'p-4',
-        'xs:px-8',
+        'minContent:p-6',
       ].join(' ')}
     >
       <div className={[
@@ -48,7 +48,7 @@ export default function TheHeader() {
         >
           <FeedLogo
             id="landing"
-            className="w-24 h-auto"
+            className="w-24 minContent:w-36 h-auto"
             fill={brandColors.black}
             hasWordmark
           />
@@ -85,13 +85,13 @@ export default function TheHeader() {
         ) : (
           <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>
             <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} />
-            <div className="mx-12 mt-10 py-4 border-t border-solid border-grey">
+            <div className={['mx-12 mt-10 minContent:mt-12 py-4 minContent:py-6 border-t border-solid border-grey flex flex-col gap-y-4 items-center'].join(' ')}>
               <Login
-                className="mb-1"
+                className="flex justify-center w-1/3 min-w-[100px]"
                 trackLocation="header"
               />
               <TryFeed
-                className="flex justify-center"
+                className="flex justify-center w-1/3 min-w-[100px]"
                 trackLocation="header"
               />
             </div>

@@ -3,12 +3,6 @@
   position: absolute;
   top: var(--sp-20);
   left: 0;
-  width: 100%;
-  padding: var(--sp-5) 0;
-  background-color: white;
-  box-shadow: 0 17px 15px 0 rgba(0,0,0,.2);
-
-  text-align: center;
 
   will-change: transform;
   transform: scaleY(0);

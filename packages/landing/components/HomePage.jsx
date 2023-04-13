@@ -63,13 +63,14 @@ export default function HomePage({ pageData }) {
           'flex',
           'flex-col',
           'gap-y-6',
+          'minContent:gap-y-8',
         ].join(' ')}
         >
           <MarkdownText
-            className="text-4xl mb-0 h1"
+            className="text-4xl minContent:text-5xl mb-0 h1"
             markdown={copy.header}
           />
-          <MarkdownText markdown={copy.description} className="mb-0" />
+          <MarkdownText markdown={copy.description} className="mb-0 minContent:text-xl" />
         </Section>
         <Section>
           <TryFeed buttonText="Start a campaign" className="w-full" />

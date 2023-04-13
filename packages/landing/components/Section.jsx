@@ -5,6 +5,7 @@ const Section = ({ children, className }) => {
     <section
       className={[
         'p-4',
+        'minContent:p-6',
         className,
       ].join(' ')}
     >

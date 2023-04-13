@@ -84,8 +84,14 @@ const TheHeaderHamburgerMenu = ({ linksOpen, toggleLinks, children }) => {
       <nav
         className={[
           styles.hamburgerMenu,
+          'bg-white',
+          'py-4',
+          'minContent:py-6',
+          'w-full',
+          'text-center',
+          'drop-shadow-lg',
           'z-50',
-          linksOpen ? styles._open : null,
+          'minContent:text-xl',
         ].join(' ')}
       >
         {children}
