@@ -50,41 +50,65 @@ export default function HomePage({ pageData }) {
           'flex',
           'flex-col',
           'gap-y-8',
+          'sm:gap-y-16',
+          'sm:mt-8',
           'mb-16',
         ].join(' ')}
       >
         <Section className={[
           'flex',
           'flex-col',
-          'gap-y-6',
-          'minContent:gap-y-8',
-          'sm:text-center',
-          'sm:items-center',
+          'gap-y-8',
+          'xs:gap-y-16',
+          'md:flex-row',
+          'md:max-w-screen-lg',
+          'md:mx-auto',
         ].join(' ')}
         >
-          <MarkdownText
+          <div
             className={[
-              'text-4xl',
-              'minContent:text-5xl',
-              'mb-0',
-              'h1',
-              'sm:max-w-xl',
+              'flex',
+              'flex-col',
+              'gap-y-8',
             ].join(' ')}
-            markdown={copy.header}
-          />
-          <MarkdownText
-            markdown={copy.description}
-            className={[
-              'mb-0',
-              'minContent:text-xl',
-              'sm:max-w-xl',
-            ].join(' ')}
-          />
+          >
+            <MarkdownText
+              className={[
+                'text-4xl',
+                'minContent:text-5xl',
+                'mb-0',
+                'h1',
+              ].join(' ')}
+              markdown={copy.header}
+            />
+            <MarkdownText
+              markdown={copy.description}
+              className={[
+                'mb-0',
+                'minContent:text-xl',
+              ].join(' ')}
+            />
+            <TryFeed
+              buttonText="Start a campaign"
+              className={[
+                'mt-4',
+                'minContent:self-center',
+                'minContent:max-w-sm',
+                'minContent:w-1/2',
+                'minContent:h-16',
+                'minContent:text-xl',
+                'md:hidden',
+              ].join(' ')}
+            />
+          </div>
+          {hasPartners && <Partners partners={partners} />}
         </Section>
         <Section className={['justify-center flex'].join(' ')}>
           <TryFeed
             buttonText="Start a campaign"
             className={[
+              'hidden',
+              'md:block',
               'w-full',
               'flex',
               'justify-center',
@@ -94,13 +118,12 @@ export default function HomePage({ pageData }) {
             ].join(' ')}
           />
         </Section>
-        {hasPartners && <Partners partners={partners} />}
         <Section>
           <Image
             src="https://storage.googleapis.com/feed-public/Landing-Example_Results_Page.png"
             width={1440}
             height={1024}
-            className="drop-shadow-lg"
+            className="drop-shadow-lg w-full max-w-screen-md mx-auto"
           />
         </Section>
         <Features features={copy.features} />
@@ -120,35 +143,6 @@ export default function HomePage({ pageData }) {
       </main>
     </>
   )
-  // return (
-  //   <div
-  //     className={[
-  //       'flex',
-  //       'flex-col',
-  //       'gap-y-16',
-  //       'sm:gap-y-40',
-  //       'pt-16',
-  //     ].join(' ')}
-  //   >
-  //     <Section>
-  //       <HeroStrapLine />
-  //     </Section>
-  //     <Section>
-  //       <HeroSignUp />
-  //     </Section>
-  //     {hasPartners && <Partners partners={partners} />}
-  //     {hasFeatures && <Features features={features} />}
-  //     <IntroVideo />
-  //     <PrimaryCTA />
-  //     {hasTestimonies && <Testimonies testimonies={testimonies} />}
-  //     {hasFeaturedArticles && (
-  //       <>
-  //         <BlogSummary featuredBlogArticles={featuredArticles} />
-  //         <TertiaryCTA trackLocation="feed-landing" />
-  //       </>
-  //     )}
-  //   </div>
-  // )
 }
 
 HomePage.propTypes = {

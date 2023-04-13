@@ -34,6 +34,7 @@ export default function TheHeader() {
         'justify-between',
         'p-4',
         'minContent:p-6',
+        'md:max-w-screen-lg',
       ].join(' ')}
     >
       <div className={[
@@ -48,7 +49,7 @@ export default function TheHeader() {
         >
           <FeedLogo
             id="landing"
-            className="w-24 minContent:w-36 h-auto"
+            className="w-24 minContent:w-36 md:w-40 h-auto"
             fill={brandColors.black}
             hasWordmark
           />

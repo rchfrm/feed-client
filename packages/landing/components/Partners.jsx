@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PartnerItem from '@/landing/PartnerItem'
-import Section from '@/landing/Section'
 
 const Partners = ({ partners }) => {
   return (
-    <Section>
+    <div className="flex flex-col md:self-center">
       <p className="text-center text-xs minContent:text-sm">Trusted by</p>
       <ul
         className={[
@@ -26,7 +25,7 @@ const Partners = ({ partners }) => {
           )
         })}
       </ul>
-    </Section>
+    </div>
   )
 }
 
