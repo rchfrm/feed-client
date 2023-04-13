@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 
 import { Image } from 'react-datocms'
 
-const PartnerItem = ({ partner, isSwiperActive, className }) => {
+const PartnerItem = ({ partner }) => {
   const { logo, website } = partner
 
   return (
     <li className={[
-      className,
       'flex justify-center',
-      isSwiperActive ? 'items-center' : 'col-span-6 sm:col-span-3',
+      'col-span-6 sm:col-span-3',
     ].join(' ')}
     >
       <a
@@ -19,7 +18,7 @@ const PartnerItem = ({ partner, isSwiperActive, className }) => {
         rel="noopener noreferrer"
         className={[
           'flex items-center',
-          isSwiperActive ? 'w-40 h-auto' : 'w-32 h-auto',
+          'w-32 h-auto',
         ].join(' ')}
       >
         <figure>
@@ -37,7 +36,6 @@ const PartnerItem = ({ partner, isSwiperActive, className }) => {
 
 PartnerItem.propTypes = {
   partner: PropTypes.object.isRequired,
-  isSwiperActive: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

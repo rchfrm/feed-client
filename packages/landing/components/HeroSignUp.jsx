@@ -67,25 +67,22 @@ export default function HeroSignUp() {
       className={[
         'sm:col-start-3',
         'sm:col-end-11',
-        'md:col-start-8',
-        'md:col-end-12',
-        'md:self-center',
         'lg:z-10',
       ].join(' ')}
     >
       <div
         className={[
           'flex',
-          'flex-row',
-          'md:flex-col',
-          'md:items-end',
+          'flex-col',
+          'xxs:flex-row',
           'gap-4',
+          'items-end',
         ].join(' ')}
       >
         <Input
+          version="box-small"
           handleChange={handleChange}
           value={email}
-          label="Enter your email to get started"
           name="email"
           placeholder="name@domain.com"
           className={[
@@ -95,14 +92,13 @@ export default function HeroSignUp() {
           ].join(' ')}
         />
         <Button
+          size="medium"
           onClick={fetchSignInMethodsAndRedirect}
-          className={[
-            'md:w-full',
-          ].join(' ')}
           fallbackCta="Sign up"
+          className={['w-full', 'xxs:w-fit'].join(' ')}
           trackComponentName="HeroSignUp"
         >
-          Sign up
+          Start a campaign
           <ArrowIcon
             className="w-7 h-auto ml-1"
             direction="right"

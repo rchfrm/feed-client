@@ -84,6 +84,7 @@ const TheHeaderHamburgerMenu = ({ linksOpen, toggleLinks, children }) => {
       <nav
         className={[
           styles.hamburgerMenu,
+          'z-50',
           linksOpen ? styles._open : null,
         ].join(' ')}
       >

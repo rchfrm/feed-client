@@ -13,7 +13,8 @@ const Features = ({ features }) => {
         className={[
           'flex',
           'flex-column',
-          'gap-15',
+          'mb-0',
+          'gap-y-8',
           'text-xl',
           'sm:text-base',
           'md:p-5',

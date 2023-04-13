@@ -28,97 +28,80 @@ export default function TheHeader() {
 
   return (
     <header
-      id="header"
       className={[
-        'fixed',
-        'top-0',
-        'left-0',
-        'z-50',
-        'w-full',
-        'bg-offwhite',
-        styles.theHeader,
-      ].join(' ')}
-    >
-      <div className={[
         'bmw',
         'flex',
         'justify-between',
-        'px-5',
-        'py-4',
+        'p-4',
         'xs:px-8',
       ].join(' ')}
+    >
+      <div className={[
+        'flex',
+        'items-center',
+      ].join(' ')}
       >
-        <div className={[
-          'flex',
-          'items-center',
-        ].join(' ')}
+        <Link
+          href="/"
+          title="home"
+          aria-label="Go Home"
         >
-          <Link
-            href="/"
-            title="home"
-            aria-label="Go Home"
-          >
-            <FeedLogo
-              id="landing"
-              style={{
-                width: 'auto',
-                height: '45px',
-              }}
-              fill={brandColors.black}
-              hasWordmark
-            />
-          </Link>
-        </div>
-        <div className={[
-          'flex',
-          'items-center',
-          'justify-end',
-          'pl-8',
-          'grow',
-          'sm:justify-start',
-          'sm:pl-12',
-        ].join(' ')}
-        >
-          {/* NAV LINKS */}
-          {isDesktopLayout ? (
-            <>
-              <nav className="flex">
-                <TheHeaderPageLinks onHomePage={onHomePage} />
-              </nav>
-              {/* SIGNUP LINKS */}
-              <div className={styles.signupLinks}>
-                <Login
-                  className="pr-8"
-                  trackLocation="header"
-                />
-                <TryFeed
-                  buttonText="Sign Up"
-                  trackLocation="header"
-                />
-              </div>
-            </>
-          ) : (
-            <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>
-              <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} />
-              <div className="mx-12 mt-10 py-4 border-t border-solid border-grey">
-                <Login
-                  className="mb-1"
-                  trackLocation="header"
-                />
-                <TryFeed
-                  className="flex justify-center"
-                  buttonText="Sign Up"
-                  trackLocation="header"
-                />
-              </div>
-            </TheHeaderHamburgerMenu>
-          )}
-          <TheHeaderHamburger
-            linksOpen={linksOpen}
-            toggleLinks={toggleLinks}
-            className={['sm:hidden'].join(' ')}
+          <FeedLogo
+            id="landing"
+            className="w-24 h-auto"
+            fill={brandColors.black}
+            hasWordmark
           />
-        </div>
+        </Link>
+      </div>
+      <div className={[
+        'flex',
+        'items-center',
+        'justify-end',
+        'pl-8',
+        'grow',
+        'sm:justify-start',
+        'sm:pl-12',
+      ].join(' ')}
+      >
+        {/* NAV LINKS */}
+        {isDesktopLayout ? (
+          <>
+            <nav className="flex">
+              <TheHeaderPageLinks onHomePage={onHomePage} />
+            </nav>
+            {/* SIGNUP LINKS */}
+            <div className={styles.signupLinks}>
+              <Login
+                className="pr-8"
+                trackLocation="header"
+              />
+              <TryFeed
+                buttonText="Sign Up"
+                trackLocation="header"
+              />
+            </div>
+          </>
+        ) : (
+          <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>
+            <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} />
+            <div className="mx-12 mt-10 py-4 border-t border-solid border-grey">
+              <Login
+                className="mb-1"
+                trackLocation="header"
+              />
+              <TryFeed
+                className="flex justify-center"
+                trackLocation="header"
+              />
+            </div>
+          </TheHeaderHamburgerMenu>
+        )}
+        <TheHeaderHamburger
+          linksOpen={linksOpen}
+          toggleLinks={toggleLinks}
+          className={['sm:hidden'].join(' ')}
+        />
       </div>
     </header>
   )

@@ -86,6 +86,16 @@ const nextConfig = {
     ]
   },
   transpilePackages: [sharedPath],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/feed-public/**',
+      },
+    ],
+  },
 }
 
 module.exports = withPlugins([

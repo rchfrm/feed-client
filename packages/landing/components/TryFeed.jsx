@@ -10,7 +10,7 @@ import brandColors from '@/constants/brandColors'
 
 const getJoinLink = (state) => state.joinLink
 
-export default function TryFeed({ className, buttonText, trackLocation }) {
+export default function TryFeed({ className, trackLocation, buttonText }) {
   // Track link before outbound
   const joinLink = useGlobalInfoStore(getJoinLink)
 
@@ -18,18 +18,14 @@ export default function TryFeed({ className, buttonText, trackLocation }) {
     <div className={className}>
       <Link href={joinLink} className="no-underline">
         <Button
-          size="medium"
-          className={[
-            className,
-            'bg-insta hover:bg-insta border-insta hover:border-insta hover:bg-opacity-90 text-white',
-          ].join(' ')}
+          size="large"
+          className={className}
           onClick={() => {
             mixpanelExternalLinkClick(joinLink, { location: trackLocation })
           }}
           trackComponentName="TryFeed"
         >
           {buttonText}
-          <ArrowIcon direction="right" fill={brandColors.white} className="ml-1" />
         </Button>
       </Link>
     </div>
@@ -38,12 +34,12 @@ export default function TryFeed({ className, buttonText, trackLocation }) {
 
 TryFeed.propTypes = {
   className: PropTypes.string,
-  buttonText: PropTypes.string,
   trackLocation: PropTypes.string,
+  buttonText: PropTypes.string,
 }
 
 TryFeed.defaultProps = {
   className: null,
-  buttonText: copy.navigation.primaryCTAText,
   trackLocation: '',
+  buttonText: 'Sign up',
 }

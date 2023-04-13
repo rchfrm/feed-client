@@ -4,9 +4,7 @@ import Link from 'next/link'
 import Button from '@/elements/Button'
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
-import * as styles from '@/landing/PrimaryCTA.module.css'
 import Section from '@/landing/Section'
-import brandColors from '@/constants/brandColors'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 const getJoinLink = (state) => state.joinLink
@@ -17,45 +15,17 @@ export default function PrimaryCTA({
   const joinLink = useGlobalInfoStore(getJoinLink)
 
   return (
-    <Section
-      className={[
-        styles.primaryCTASection,
-      ].join(' ')}
-      fullWidth
-    >
+    <Section className="flex justify-center">
       <Link href={joinLink} className="no-underline">
         <Button
-          version="custom"
-          className={[
-            'h-16',
-            'w-full',
-            'max-w-xs',
-            'mx-auto',
-            'py-3',
-            'px-8',
-            'text-3xl',
-            'bg-white',
-            'text-green',
-            'border-solid',
-            'border-green',
-            'border-4',
-            'hover:bg-white',
-            'focus:bg-white',
-            'focus:shadow-none',
-            'my-15',
-            styles.ctaShadow,
-          ].join(' ')}
+          type="large"
+          version="primary"
           onClick={() => {
             mixpanelExternalLinkClick(joinLink, { location: trackingLocation })
           }}
           trackComponentName="PrimaryCTA"
         >
-          Get started
-          <ArrowIcon
-            className="w-8 h-auto ml-1"
-            fill={brandColors.green}
-            direction="right"
-          />
+          Start a campaign
         </Button>
       </Link>
     </Section>

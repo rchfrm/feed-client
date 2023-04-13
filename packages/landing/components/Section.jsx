@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types'
 
-const Section = ({ children, className, fullWidth, id }) => {
-  const standardWidthClasses = ['px-5', 'xs:px-8', 'max-w-[1200px]', 'mx-auto'].join(' ')
+const Section = ({ children, className }) => {
   return (
     <section
-      id={id}
       className={[
-        ! fullWidth ? standardWidthClasses : null,
-        'py-15',
+        'p-4',
         className,
       ].join(' ')}
     >
@@ -19,14 +16,10 @@ const Section = ({ children, className, fullWidth, id }) => {
 Section.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  fullWidth: PropTypes.bool,
-  id: PropTypes.string,
 }
 
 Section.defaultProps = {
   className: '',
-  fullWidth: false,
-  id: null,
 }
 
 export default Section

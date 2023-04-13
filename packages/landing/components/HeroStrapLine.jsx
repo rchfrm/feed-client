@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types'
 import MarkdownText from '@/elements/MarkdownText'
 import * as styles from './Hero.module.css'
 
-export default function HeroStrapLine({ strapLine }) {
+const strapLine = 'Make social ads the **easiest part of any artist campaign**'
+export default function HeroStrapLine() {
   return (
     <MarkdownText
       markdown={strapLine}
@@ -13,18 +13,11 @@ export default function HeroStrapLine({ strapLine }) {
         'xxs:text-[2.5rem]',
         'minContent:text-5xl',
         'sm:col-span-12',
-        'md:col-span-6',
         'lg:col-span-9',
         'lg:text-6xl',
+        'text-center',
         styles.heroStrapLineUnderline,
       ].join(' ')}
     />
   )
-}
-
-HeroStrapLine.propTypes = {
-  strapLine: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]).isRequired,
 }
