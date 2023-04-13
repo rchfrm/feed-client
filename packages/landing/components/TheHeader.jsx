@@ -78,7 +78,7 @@ export default function TheHeader() {
                 trackLocation="header"
               />
               <TryFeed
-                buttonText="Sign Up"
+                buttonText="Start a campaign"
                 trackLocation="header"
               />
             </div>

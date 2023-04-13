@@ -18,7 +18,14 @@ export default function PricingPage() {
     ].join(' ')}
     >
       <MarkdownText
-        className="text-4xl minContent:text-5xl mb-0 h1"
+        className={[
+          'text-4xl',
+          'minContent:text-5xl',
+          'mb-0',
+          'h1',
+          'md:max-w-screen-lg',
+          'md:mx-auto',
+        ].join(' ')}
         markdown={strapLine}
       />
       <PricingPlans />

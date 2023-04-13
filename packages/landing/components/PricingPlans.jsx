@@ -18,6 +18,8 @@ export default function PricingPlans() {
     <div
       className={[
         'col-span-12',
+        'md:max-w-screen-lg',
+        'md:mx-auto',
       ].join(' ')}
     >
       <div className="mb-5">

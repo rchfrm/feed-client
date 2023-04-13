@@ -103,12 +103,10 @@ export default function HomePage({ pageData }) {
           </div>
           {hasPartners && <Partners partners={partners} />}
         </Section>
-        <Section className={['justify-center flex'].join(' ')}>
+        <Section className={['justify-center md:flex hidden'].join(' ')}>
           <TryFeed
             buttonText="Start a campaign"
             className={[
-              'hidden',
-              'md:block',
               'w-full',
               'flex',
               'justify-center',

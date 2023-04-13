@@ -9,10 +9,6 @@ export default {
         text: `Pricing`,
         href: `/pricing`,
       },
-      {
-        text: 'FAQs',
-        href: 'https://app.tryfeed.co/faqs',
-      },
     ],
     options: [
       `[What's Feed?](#features)`,

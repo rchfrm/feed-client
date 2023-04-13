@@ -15,6 +15,7 @@ const FeatureItem = ({
           'mb-0',
           shouldReverse ? 'sm:col-start-2' : null,
           shouldReverse ? 'sm:row-start-1' : null,
+          shouldReverse ? 'sm:text-left' : 'sm:text-right',
         ].join(' ')}
       >
         <h3

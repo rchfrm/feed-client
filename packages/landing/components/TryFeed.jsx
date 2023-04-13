@@ -1,12 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
 import Button from '@/elements/Button'
-import copy from '@/landing/copy/LandingPageCopy'
-import ArrowIcon from '@/icons/ArrowIcon'
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
-import brandColors from '@/constants/brandColors'
 
 const getJoinLink = (state) => state.joinLink
 
