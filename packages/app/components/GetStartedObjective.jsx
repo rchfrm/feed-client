@@ -3,11 +3,10 @@ import { WizardContext } from '@/app/contexts/WizardContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import useControlsStore from '@/app/stores/controlsStore'
-import GetStartedObjectiveButton from '@/app/GetStartedObjectiveButton'
+import ObjectiveButton from '@/app/ObjectiveButton'
+import ObjectiveContactFooter from '@/app/ObjectiveContactFooter'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
-import MarkdownText from '@/elements/MarkdownText'
-import EmailIcon from '@/icons/EmailIcon'
 import { updateArtist, platforms, getPreferencesObject } from '@/app/helpers/artistHelpers'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
@@ -21,7 +20,7 @@ const getControlsStoreState = (state) => ({
 })
 
 const GetStartedObjective = () => {
-  const [selectedPlatform, setSelectedPlatform] = React.useState('')
+  const [platform, setPlatform] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
@@ -123,11 +122,11 @@ const GetStartedObjective = () => {
   }
 
   React.useEffect(() => {
-    if (! selectedPlatform) return
+    if (! platform) return
 
-    handleNextStep(selectedPlatform)
+    handleNextStep(platform)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPlatform])
+  }, [platform])
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
@@ -142,18 +141,18 @@ const GetStartedObjective = () => {
               <div className="flex flex-col xs:flex-row xs:justify-center mb-5">
                 {platforms.map((platform) => {
                   return (
-                    <GetStartedObjectiveButton
+                    <ObjectiveButton
                       key={platform.value}
                       platform={platform}
-                      setSelectedPlatform={setSelectedPlatform}
+                      setPlatform={setPlatform}
+                      className="first:mb-4 xs:first:mb-0 xs:first:mr-12"
                     />
                   )
                 })}
               </div>
-              <div className="flex justify-center items-center">
-                <EmailIcon className="w-4 h-auto mr-1" />
-                <MarkdownText markdown={copy.objectiveContact} className="text-sm mb-0" />
-              </div>
+              <ObjectiveContactFooter
+                className="justify-center"
+              />
             </>
           )}
         </div>

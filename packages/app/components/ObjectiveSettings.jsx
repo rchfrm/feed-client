@@ -5,8 +5,10 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 import MarkdownText from '@/elements/MarkdownText'
 import DisabledSection from '@/app/DisabledSection'
+import ObjectiveButton from '@/app/ObjectiveButton'
+import ObjectiveContactFooter from '@/app/ObjectiveContactFooter'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
-import { updateArtist, getPreferencesObject, getObjectiveString } from '@/app/helpers/artistHelpers'
+import { updateArtist, getPreferencesObject, getObjectiveString, platforms } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -87,24 +89,25 @@ const ObjectiveSettings = () => {
         section="objective"
         isDisabled={! hasSetUpProfile}
       >
-        <MarkdownText markdown={copy.objectiveIntro} className="inline-block" />
+        <MarkdownText markdown={copy.objectiveIntro} className="mb-10" />
         <div className="relative">
           {! hasInstagramOrSpotifyGrowth && (
             <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, currentPlatform)}</p>
           )}
-          <div>
-            {['instagram', 'spotify'].map((platform) => {
+          <div className="flex flex-col lg:flex-row mb-10">
+            {[platforms[0], platforms[1]].map((platform) => {
               return (
-                <button
-                  key={platform}
-                  onClick={() => handleClick(platform)}
-                  className={[currentPlatform === platform ? 'font-bold' : null]}
-                >
-                  {platform}
-                </button>
+                <ObjectiveButton
+                  key={platform.value}
+                  platform={platform}
+                  setPlatform={handleClick}
+                  isActive={currentPlatform === platform.value}
+                  className="first:mb-4 lg:first:mb-0 lg:first:mr-8"
+                />
               )
             })}
           </div>
+          <ObjectiveContactFooter />
         </div>
       </DisabledSection>
       {shouldShowAlert && (
