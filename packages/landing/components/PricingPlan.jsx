@@ -1,15 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import PricingPlanFeatures from '@/PricingPlanFeatures'
 import PricingPlanMonthlyCost from '@/PricingPlanMonthlyCost'
-import PricingPlanServiceFee from '@/PricingPlanServiceFee'
-import TryFeed from '@/landing/TryFeed'
-
 import MarkdownText from '@/elements/MarkdownText'
-
 import { currencies } from '@/constants/pricing'
-
 import { capitalise } from '@/helpers/utils'
 
 export default function PricingPlan({ plan, currency }) {
@@ -17,7 +11,6 @@ export default function PricingPlan({ plan, currency }) {
     name,
     description,
     monthlyCost,
-    serviceFeePercentage,
   } = plan
 
   return (

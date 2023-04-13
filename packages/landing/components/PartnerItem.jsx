@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { Image } from 'react-datocms'
 
 const PartnerItem = ({ partner }) => {
@@ -37,11 +36,6 @@ const PartnerItem = ({ partner }) => {
 
 PartnerItem.propTypes = {
   partner: PropTypes.object.isRequired,
-  className: PropTypes.string,
-}
-
-PartnerItem.defaultProps = {
-  className: null,
 }
 
 export default PartnerItem

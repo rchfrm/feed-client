@@ -2,14 +2,10 @@ import React from 'react'
 import Button from '@/elements/Button'
 import Input from '@/elements/Input'
 import Error from '@/elements/Error'
-import brandColors from 'shared/constants/brandColors'
 import ArrowIcon from 'shared/components/icons/ArrowIcon'
-
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 import useGlobalInfoStore from '@/landing/store/globalInfoStore'
-
-import * as styles from '@/landing/Hero.module.css'
 
 const getGlobalInfoStoreState = (state) => ({
   joinLink: state.joinLink,
