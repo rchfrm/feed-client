@@ -31,7 +31,7 @@ const FeatureItem = ({
         >
           {header}
         </h3>
-        <MarkdownText className="text-base minContent:text-lg sm:mb-0" markdown={copy} />
+        <MarkdownText className="text-base minContent:text-lg sm:mb-0 sm:max-w-sm" markdown={copy} />
       </div>
     </li>
   )

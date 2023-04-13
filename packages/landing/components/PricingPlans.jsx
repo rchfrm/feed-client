@@ -4,6 +4,7 @@ import PricingPlansWrapper from '@/landing/PricingPlansWrapper'
 import MarkdownText from '@/elements/MarkdownText'
 import pricingCopy from '@/landing/copy/PricingPageCopy'
 import { pricingPlans } from '@/constants/pricing'
+import Section from '@/landing/Section'
 
 const {
   twoThousandPlus,
@@ -15,9 +16,8 @@ export default function PricingPlans() {
   const [currency, setCurrency] = React.useState('GBP')
 
   return (
-    <div
+    <Section
       className={[
-        'col-span-12',
         'md:max-w-screen-lg',
         'md:mx-auto',
       ].join(' ')}
@@ -32,8 +32,8 @@ export default function PricingPlans() {
         plans={pricingPlans}
         currency={currency}
       />
-      <MarkdownText markdown={twoThousandPlus(currency, maxSpend[currency])} className="text-center my-10" />
-      <MarkdownText markdown={footnotes} className="small--p mb-0" />
-    </div>
+      <MarkdownText markdown={twoThousandPlus(currency, maxSpend[currency])} className="text-center mt-10" />
+      <MarkdownText markdown={footnotes} className="small--p mb-0 text-center" />
+    </Section>
   )
 }

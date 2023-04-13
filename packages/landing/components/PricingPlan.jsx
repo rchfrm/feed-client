@@ -51,12 +51,7 @@ export default function PricingPlan({ plan, currency }) {
         ].join(' ')}
       />
       <PricingPlanMonthlyCost amount={monthlyCost[currency]} currencyCode={currency} />
-      <PricingPlanServiceFee percentage={serviceFeePercentage} />
-      <TryFeed
-        buttonText="Get Started"
-        className={['w-full', 'mb-5'].join(' ')}
-        trackLocation={`PricingPlan${name}`}
-      />
+      {/* <PricingPlanServiceFee percentage={serviceFeePercentage} /> */}
       <PricingPlanFeatures plan={plan} currencyCode={currency} />
     </div>
   )

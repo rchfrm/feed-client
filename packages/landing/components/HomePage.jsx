@@ -5,6 +5,7 @@ import Image from 'next/image'
 import MarkdownText from '@/elements/MarkdownText'
 import Features from '@/landing/Features'
 import TryFeed from '@/landing/TryFeed'
+import PricingPlans from '@/landing/PricingPlans'
 
 const copy = {
   header: 'Add real people to your audience',
@@ -125,6 +126,7 @@ export default function HomePage({ pageData }) {
           />
         </Section>
         <Features features={copy.features} />
+        <PricingPlans />
         <Section className={['justify-center flex'].join(' ')}>
           <TryFeed
             buttonText="Start a campaign"
