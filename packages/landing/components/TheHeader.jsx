@@ -68,9 +68,6 @@ export default function TheHeader() {
         {/* NAV LINKS */}
         {isDesktopLayout ? (
           <>
-            <nav className="flex">
-              <TheHeaderPageLinks onHomePage={onHomePage} />
-            </nav>
             {/* SIGNUP LINKS */}
             <div className={styles.signupLinks}>
               <Login
@@ -85,7 +82,6 @@ export default function TheHeader() {
           </>
         ) : (
           <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>
-            <TheHeaderPageLinks onHomePage={onHomePage} toggleLinks={toggleLinks} />
             <div className={['mx-12 mt-10 minContent:mt-12 py-4 minContent:py-6 border-t border-solid border-grey flex flex-col gap-y-4 items-center'].join(' ')}>
               <Login
                 className="flex justify-center w-1/3 min-w-[100px]"
