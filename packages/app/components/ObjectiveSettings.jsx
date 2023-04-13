@@ -8,7 +8,7 @@ import DisabledSection from '@/app/DisabledSection'
 import ObjectiveButton from '@/app/ObjectiveButton'
 import ObjectiveContactFooter from '@/app/ObjectiveContactFooter'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
-import { updateArtist, getPreferencesObject, getObjectiveString, platforms } from '@/app/helpers/artistHelpers'
+import { updateArtist, getPreferencesObject, getObjectiveString, getArtistIntegrationByPlatform, platforms } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -29,6 +29,7 @@ const ObjectiveSettings = () => {
 
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
   const { hasSetUpProfile } = artist
+  const hasInstagramConnected = Boolean(getArtistIntegrationByPlatform(artist, 'instagram')?.accountId)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
   const hasInstagramOrSpotifyGrowth = objective === 'growth' && (currentPlatform === 'instagram' || currentPlatform === 'spotify')
   const saveIntegrationLink = useSaveIntegrationLink()
@@ -110,6 +111,7 @@ const ObjectiveSettings = () => {
                   setPlatform={handleClick}
                   isActive={currentPlatform === value}
                   isLoading={isLoading && platform === value}
+                  isDisabled={value === 'instagram' && ! hasInstagramConnected}
                   className="first:mb-4 lg:first:mb-0 lg:first:mr-8"
                 />
               )

@@ -9,6 +9,7 @@ const ObjectiveButton = ({
   setPlatform,
   isActive,
   isLoading,
+  isDisabled,
   className,
 }) => {
   const { name, value } = platform
@@ -23,6 +24,7 @@ const ObjectiveButton = ({
         isActive ? 'bg-green-bg-light pointer-events-none' : null,
       ].join(' ')}
       isLoading={isLoading}
+      isDisabled={isDisabled}
     >
       <PlatformIcon
         platform={value}
@@ -45,12 +47,14 @@ ObjectiveButton.propTypes = {
   setPlatform: PropTypes.func.isRequired,
   isActive: PropTypes.bool,
   isLoading: PropTypes.bool,
+  isDisabled: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ObjectiveButton.defaultProps = {
   isActive: false,
   isLoading: false,
+  isDisabled: false,
   className: null,
 }
 
