@@ -25,6 +25,7 @@ const ObjectiveSettings = () => {
 
   const [platform, setPlatform] = React.useState(currentPlatform)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
   const { hasSetUpProfile } = artist
@@ -40,6 +41,8 @@ const ObjectiveSettings = () => {
       return
     }
 
+    setIsLoading(true)
+
     if (newLink) {
       const { savedLink } = await saveIntegrationLink({ platform }, newLink.href)
       integrationLink = savedLink
@@ -52,6 +55,7 @@ const ObjectiveSettings = () => {
     })
 
     if (error) {
+      setIsLoading(false)
       return
     }
 
@@ -72,6 +76,7 @@ const ObjectiveSettings = () => {
 
     // Update preferences object in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
+    setIsLoading(false)
   }
 
   const onCancel = () => {
@@ -96,13 +101,15 @@ const ObjectiveSettings = () => {
             <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, currentPlatform)}</p>
           )}
           <div className="flex flex-col lg:flex-row mb-10">
-            {[platforms[0], platforms[1]].map((platform) => {
+            {[platforms[0], platforms[1]].map((growthPlatform) => {
+              const { value } = growthPlatform
               return (
                 <ObjectiveButton
-                  key={platform.value}
-                  platform={platform}
+                  key={value}
+                  platform={growthPlatform}
                   setPlatform={handleClick}
-                  isActive={currentPlatform === platform.value}
+                  isActive={currentPlatform === value}
+                  isLoading={isLoading && platform === value}
                   className="first:mb-4 lg:first:mb-0 lg:first:mr-8"
                 />
               )

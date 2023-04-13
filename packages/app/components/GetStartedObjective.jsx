@@ -139,7 +139,7 @@ const GetStartedObjective = () => {
           ) : (
             <>
               <div className="flex flex-col xs:flex-row xs:justify-center mb-5">
-                {platforms.map((platform) => {
+                {[platforms[0], platforms[1]].map((platform) => {
                   return (
                     <ObjectiveButton
                       key={platform.value}

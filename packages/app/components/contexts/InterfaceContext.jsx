@@ -75,7 +75,7 @@ const InterfaceContextProvider = ({ children }) => {
   const isLoggedIn = useLoggedInTest()
   const { user } = React.useContext(UserContext)
   const { pathname: routerPathname, asPath: urlString } = useRouter()
-  const hasNav = isLoggedIn && ! user.is_email_verification_needed && routerPathname !== ROUTES.GET_STARTED
+  const hasNav = isLoggedIn && ! user.is_email_verification_needed && routerPathname !== ROUTES.GET_STARTED && routerPathname !== ROUTES.SIGN_UP
 
   const toggleMenu = React.useCallback((state) => {
     setInterfaceState({ type: 'toggleMenu', payload: { state } })
