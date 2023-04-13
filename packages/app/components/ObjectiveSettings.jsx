@@ -22,14 +22,15 @@ const getControlsStoreState = (state) => ({
 const ObjectiveSettings = () => {
   const { updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform: currentPlatform } = optimizationPreferences
+
   const [platform, setPlatform] = React.useState(currentPlatform)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
 
   const { artist, setPostPreferences } = React.useContext(ArtistContext)
   const { hasSetUpProfile } = artist
-  const saveIntegrationLink = useSaveIntegrationLink()
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
   const hasInstagramOrSpotifyGrowth = objective === 'growth' && (currentPlatform === 'instagram' || currentPlatform === 'spotify')
+  const saveIntegrationLink = useSaveIntegrationLink()
 
   const save = async ({ platform, newLink }) => {
     let integrationLink = getLinkByPlatform(nestedLinks, platform)

@@ -6,10 +6,10 @@ import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/controlsPageCopy'
 
 const ObjectiveSettingsChangeAlertDefaultLink = ({
+  objective,
   platform,
   link,
   setLink,
-  objective,
   setIsDisabled,
 }) => {
   const [error, setError] = React.useState(null)
@@ -33,11 +33,11 @@ const ObjectiveSettingsChangeAlertDefaultLink = ({
 }
 
 ObjectiveSettingsChangeAlertDefaultLink.propTypes = {
+  objective: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
   link: PropTypes.object,
   setLink: PropTypes.func.isRequired,
   setIsDisabled: PropTypes.func.isRequired,
-  objective: PropTypes.string.isRequired,
 }
 
 ObjectiveSettingsChangeAlertDefaultLink.defaultProps = {

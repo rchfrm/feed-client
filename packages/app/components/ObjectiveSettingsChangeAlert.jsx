@@ -17,7 +17,9 @@ const ObjectiveSettingsChangeAlert = ({
 
   // Set alert content and buttons
   React.useEffect(() => {
-    if (! shouldShowAlert) return closeAlert()
+    if (! shouldShowAlert) {
+      return closeAlert()
+    }
 
     const buttons = [
       {
@@ -39,10 +41,10 @@ const ObjectiveSettingsChangeAlert = ({
     showAlert({
       children: (
         <ObjectiveSettingsChangeAlertDefaultLink
+          objective={objective}
           platform={platform}
           link={link}
           setLink={setLink}
-          objective={objective}
           setIsDisabled={setIsDisabled}
         />
       ),
