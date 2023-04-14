@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import BasicTextPage from '@/landing/BasicTextPage'
 import TertiaryCTA from '@/landing/TertiaryCTA'
 import NewsletterScrollButton from '@/landing/NewsletterScrollButton'
 
@@ -29,11 +27,6 @@ const BlogArticle = ({
 
   return (
     <>
-      <BasicTextPage
-        startContent={authorAndDate}
-        pageData={article}
-        trackLocation="feed-blog"
-      />
       {showOutroNewsletter && (
         <TertiaryCTA
           ref={newsletterRef}

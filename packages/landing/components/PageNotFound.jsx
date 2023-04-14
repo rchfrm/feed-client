@@ -1,16 +1,13 @@
-/* eslint-disable quotes */
-
 import React from 'react'
-
-import BasicTextPage from '@/landing/BasicTextPage'
+import Section from '@/landing/Section'
+import MarkdownText from '@/elements/MarkdownText'
 
 const PageNotFound = () => {
   return (
-    <BasicTextPage pageData={{
-      title: 'Page not found',
-      introCopy: `Sorry, we couldn't find the page you were looking for.`,
-    }}
-    />
+    <Section>
+      <h1>Page not found</h1>
+      <MarkdownText markdown="Sorry, we couldn't find the page you were looking for." />
+    </Section>
   )
 }
 

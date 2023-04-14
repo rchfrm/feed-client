@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import { Image } from 'react-datocms'
-import MarkdownText from '@/landing/elements/MarkdownText'
 import Anchor from '@/landing/elements/Anchor'
 import Button from '@/elements/Button'
 import { blogSlug } from '@/landing/copy/LandingPageCopy'
+import MarkdownText from '@/elements/MarkdownText'
 
 const BlogSummaryItem = ({ blog, className }) => {
   const { title, slug, image, excerpt, publishDate, author } = blog

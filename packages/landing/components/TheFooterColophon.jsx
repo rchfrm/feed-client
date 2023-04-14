@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import Link from 'next/link'
-import MarkdownText from '@/landing/elements/MarkdownText'
+import MarkdownText from '@/elements/MarkdownText'
 
 const legalLinks = [
   {

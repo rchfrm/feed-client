@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import MarkdownText from '@/landing/elements/MarkdownText'
+import MarkdownText from '@/elements/MarkdownText'
 
 const FeatureItem = ({
   header,
