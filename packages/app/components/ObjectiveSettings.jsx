@@ -7,6 +7,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import DisabledSection from '@/app/DisabledSection'
 import ObjectiveButton from '@/app/ObjectiveButton'
 import ObjectiveContactFooter from '@/app/ObjectiveContactFooter'
+import ObjectiveSettingsInstagramNotConnected from '@/app/ObjectiveSettingsInstagramNotConnected'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
 import { updateArtist, getPreferencesObject, getObjectiveString, getArtistIntegrationByPlatform, platforms } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
@@ -117,6 +118,7 @@ const ObjectiveSettings = () => {
               )
             })}
           </div>
+          {! hasInstagramConnected && <ObjectiveSettingsInstagramNotConnected />}
           <ObjectiveContactFooter />
         </div>
       </DisabledSection>

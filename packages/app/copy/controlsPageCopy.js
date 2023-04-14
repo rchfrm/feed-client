@@ -57,6 +57,7 @@ export default {
   facebookPixelEventFooter: `"Purchase" is recommended based on your objective`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
   objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
+  objectiveInstagramNotConnected: "Facebook and Instagram aren't fully linked. Follow [these instructions](https://tryfeed.co/blog/link-business-facebook-and-instagram-account) to link them and unlock the Instagram growth objective.",
   alertLinkTitle: (platform) => {
     const platformName = platforms.find(({ value }) => value === platform)?.name
 
