@@ -46,7 +46,10 @@ const ChartLine = ({
         callbacks: {
           title: () => null,
           label: (context) => {
-            const label = [`Followers: ${context.formattedValue}`]
+            const label = [
+              `Date: ${moment(context.label).format('DD MMM YYYY')}`,
+              `Followers: ${context.formattedValue}`,
+            ]
             const adSpend = secondaryData[context.dataIndex]
 
             if (adSpend) {
