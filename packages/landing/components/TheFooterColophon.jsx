@@ -6,15 +6,15 @@ import MarkdownText from '@/landing/elements/MarkdownText'
 const legalLinks = [
   {
     title: 'Terms of Service',
-    slug: 'terms-of-service',
+    slug: 'terms',
   },
   {
     title: 'Cookie Policy',
-    slug: 'cookies-policy',
+    slug: 'cookies',
   },
   {
     title: 'Privacy Policy',
-    slug: 'privacy-policy',
+    slug: 'privacy',
   },
 ]
 
