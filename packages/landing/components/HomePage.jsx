@@ -92,6 +92,8 @@ export default function HomePage({ pageData }) {
             width={1440}
             height={1024}
             className="drop-shadow-lg w-full max-w-screen-md mx-auto"
+            alt="Example results page in Feed app"
+            priority
           />
         </Section>
         <Features features={copy.features} />
