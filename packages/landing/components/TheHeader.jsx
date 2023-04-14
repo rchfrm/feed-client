@@ -62,19 +62,16 @@ export default function TheHeader() {
       >
         {/* NAV LINKS */}
         {isDesktopLayout ? (
-          <>
-            {/* SIGNUP LINKS */}
-            <div className={styles.signupLinks}>
-              <Login
-                className="pr-8"
-                trackLocation="header"
-              />
-              <TryFeed
-                buttonText="Start a campaign"
-                trackLocation="header"
-              />
-            </div>
-          </>
+          <div className={styles.signupLinks}>
+            <Login
+              className="pr-8"
+              trackLocation="header"
+            />
+            <TryFeed
+              buttonText="Start a campaign"
+              trackLocation="header"
+            />
+          </div>
         ) : (
           <TheHeaderHamburgerMenu linksOpen={linksOpen} toggleLinks={toggleLinks}>
             <div className={['mx-12 mt-10 minContent:mt-12 py-4 minContent:py-6 border-t border-solid border-grey flex flex-col gap-y-4 items-center'].join(' ')}>
