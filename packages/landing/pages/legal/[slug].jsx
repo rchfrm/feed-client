@@ -1,7 +1,5 @@
 import SeoTagsDato from '@/landing/elements/SeoTagsDato'
 import BasicTextPage from '@/landing/BasicTextPage'
-
-// Dato data
 import getLegalPagesQuery from '@/landing/graphQl/getLegalPagesQuery'
 import getContentQuery from '@/landing/graphQl/landingTextPageQuery'
 import getDatoData from '@/landing/helpers/getDatoData'

@@ -1,18 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import copy from '@/landing/copy/LandingPageCopy'
 import Button from '@/elements/Button'
-
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
-// Global info store
-import useGlobalInfoStore from '@/landing/store/globalInfoStore'
-
-const getLoginLink = (state) => state.loginLink
-
 export default function Login({ className, trackLocation }) {
-  const loginLink = useGlobalInfoStore(getLoginLink)
+  const loginLink = 'https://app.tryfeed.co/login'
 
   return (
     <div className={className}>

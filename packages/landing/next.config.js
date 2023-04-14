@@ -13,9 +13,6 @@ dotenv.config()
 
 const sharedPath = path.resolve(__dirname, '../shared')
 
-// UTIL FOR FETCHING GLOBAL DATA
-const fetchGlobalInfo = require('./helpers/fetchGlobalInfo')
-
 // NEXT CONFIG
 const build_env = process.env.BUILD_ENV || process.env.NODE_ENV
 
@@ -60,7 +57,6 @@ const nextConfig = {
     if (! cacheDirExists) {
       await fs.mkdirSync('./tempData')
     }
-    await fetchGlobalInfo()
     // HANDLE REDIRECTS
     return [
       {

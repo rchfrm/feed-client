@@ -1,16 +1,9 @@
 import TheFooterSocialLink from '@/landing/TheFooterSocialLink'
 import TheFooterColophon from '@/landing/TheFooterColophon'
-import copy from '@/landing/copy/LandingPageCopy'
-import useGlobalInfoStore from '@/landing/store/globalInfoStore'
+import socials from '@/landing/copy/SocialLinks'
 
-const getGlobalInfo = (state) => state
-
-const { footer: { socials, legalCopy } } = copy
 
 const TheFooter = () => {
-  // READ FROM GLOBAL STORE
-  const { legalLinks } = useGlobalInfoStore(getGlobalInfo)
-
   return (
     <footer
       id="TheFooter"
@@ -46,11 +39,7 @@ const TheFooter = () => {
           </ul>
         </nav>
 
-        <TheFooterColophon
-          colophon={legalCopy.colophon}
-          className={['pt-6', 'text-center', 'mb-4'].join(' ')}
-          legalLinks={legalLinks}
-        />
+        <TheFooterColophon />
       </div>
     </footer>
   )

@@ -2,13 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '@/elements/Button'
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
-import useGlobalInfoStore from '@/landing/store/globalInfoStore'
-
-const getJoinLink = (state) => state.joinLink
 
 export default function TryFeed({ className, trackLocation, buttonText }) {
   // Track link before outbound
-  const joinLink = useGlobalInfoStore(getJoinLink)
+  const joinLink = 'https://app.tryfeed.co/join'
 
   return (
     <div className={className}>

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import { renderMetaTags } from 'react-datocms'
-import useGlobalInfoStore from '@/landing/store/globalInfoStore'
+import copy from '@/landing/copy/LandingPageCopy'
 
 const getMetaTags = ({ pageTitle, pageDescription }) => {
   return [
@@ -51,19 +51,11 @@ const SeoTagsDato = ({
   pageTitle,
   pageDescription,
 }) => {
-  const {
-    globalSeo: {
-      siteName,
-      fallbackSeo: {
-        description,
-      },
-    },
-  } = useGlobalInfoStore(getGlobalInfo)
   if (pageTitle === '') {
-    pageTitle = siteName
+    pageTitle = `Feed | ${copy.header}`
   }
   if (pageDescription === '') {
-    pageDescription = description
+    pageDescription = copy.description
   }
   const tags = metaTags || getMetaTags({ pageTitle, pageDescription })
   return (
