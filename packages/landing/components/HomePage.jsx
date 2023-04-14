@@ -31,8 +31,6 @@ export default function HomePage({ pageData }) {
           'gap-y-8',
           'xs:gap-y-16',
           'md:flex-row',
-          'md:max-w-screen-lg',
-          'md:mx-auto',
         ].join(' ')}
         >
           <div
@@ -73,7 +71,7 @@ export default function HomePage({ pageData }) {
           </div>
           {hasPartners && <Partners partners={partners} />}
         </Section>
-        <Section className={['justify-center md:flex hidden'].join(' ')}>
+        <Section className={['justify-center md:flex hidden'].join(' ')} fullWidth>
           <TryFeed
             buttonText="Start a campaign"
             className={[
@@ -91,14 +89,14 @@ export default function HomePage({ pageData }) {
             src="https://storage.googleapis.com/feed-public/Landing-Example_Results_Page.png"
             width={1440}
             height={1024}
-            className="drop-shadow-lg w-full max-w-screen-md mx-auto"
+            className="drop-shadow-lg"
             alt="Example results page in Feed app"
             priority
           />
         </Section>
         <Features features={copy.features} />
         <PricingPlans />
-        <Section className={['justify-center flex'].join(' ')}>
+        <Section className={['justify-center flex'].join(' ')} fullWidth>
           <TryFeed
             buttonText="Start a campaign"
             className={[

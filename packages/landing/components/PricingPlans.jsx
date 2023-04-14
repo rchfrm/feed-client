@@ -16,12 +16,7 @@ export default function PricingPlans() {
   const [currency, setCurrency] = React.useState('GBP')
 
   return (
-    <Section
-      className={[
-        'md:max-w-screen-lg',
-        'md:mx-auto',
-      ].join(' ')}
-    >
+    <Section>
       <div className="mb-5">
         <PricingCurrencySelect
           currency={currency}

@@ -31,6 +31,11 @@ const nextConfig = {
     release_version: process.env.RELEASE_VERSION,
   },
   webpack: (config, { webpack }) => {
+    // Support import of markdown files
+    config.module.rules.push({
+      test: /\.md$/,
+      use: 'raw-loader',
+    })
     // Reduce size of moment.js
     config.plugins.push(
       // Ignore all locale files of moment.js

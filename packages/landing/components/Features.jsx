@@ -5,10 +5,7 @@ import Section from '@/landing/Section'
 
 const Features = ({ features }) => {
   return (
-    <Section
-      id="features"
-      className={['max-w-screen-md', 'mx-auto'].join(' ')}
-    >
+    <Section id="features">
       <ul
         className={[
           'flex',
