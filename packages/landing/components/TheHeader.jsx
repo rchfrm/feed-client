@@ -3,7 +3,6 @@ import Link from 'next/link'
 import useBreakpointTest from '@/landing/hooks/useBreakpointTest'
 import Login from '@/landing/Login'
 import FeedLogo from '@/icons/FeedLogo'
-import * as styles from '@/landing/TheHeader.module.css'
 import TheHeaderHamburgerMenu from '@/landing/TheHeaderHamburgerMenu'
 import TheHeaderHamburger from '@/landing/TheHeaderHamburger'
 import TryFeed from '@/landing/TryFeed'
@@ -63,7 +62,14 @@ export default function TheHeader() {
       >
         {/* NAV LINKS */}
         {isDesktopLayout ? (
-          <div className={styles.signupLinks}>
+          <div className={[
+            'flex',
+            'flex-row-reverse',
+            'items-center',
+            'sm:ml-auto',
+            'sm:flex-row',
+          ].join(' ')}
+          >
             <Login
               className="pr-8"
               trackLocation="header"

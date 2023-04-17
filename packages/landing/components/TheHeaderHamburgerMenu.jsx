@@ -1,12 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Router from 'next/router'
-
 import { Transition } from 'react-transition-group'
 import { gsap } from 'gsap'
-
-import * as styles from '@/landing/TheHeader.module.css'
 
 const TheHeaderHamburgerMenu = ({ linksOpen, toggleLinks, children }) => {
   // WHEN PATH CHANGES, CLOSE HAMBURGER
@@ -83,7 +79,18 @@ const TheHeaderHamburgerMenu = ({ linksOpen, toggleLinks, children }) => {
     >
       <nav
         className={[
-          styles.hamburgerMenu,
+          'hidden',
+          'absolute',
+          'top-20',
+          'left-0',
+          'will-change-transform',
+          'scale-y-0',
+          'origin-center',
+          'origin-top',
+          '[&_p]:opacity-0',
+          '[&_p]:will-change-[opacity]',
+          '[&_p]:mb-4',
+          '[&_a]:inline',
           'bg-white',
           'py-4',
           'minContent:py-6',

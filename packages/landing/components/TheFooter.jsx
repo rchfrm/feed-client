@@ -2,7 +2,6 @@ import TheFooterSocialLink from '@/landing/TheFooterSocialLink'
 import TheFooterColophon from '@/landing/TheFooterColophon'
 import socials from '@/landing/copy/SocialLinks'
 
-
 const TheFooter = () => {
   return (
     <footer

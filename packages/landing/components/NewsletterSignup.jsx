@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import MailchimpForm from '@/landing/elements/MailchimpForm'
-
-import styles from '@/landing/NewsletterSignup.module.css'
 
 const NewsletterSignup = ({
   header,
@@ -23,7 +20,15 @@ const NewsletterSignup = ({
         </header>
       )}
       <MailchimpForm
-        inputClass={styles.emailInput}
+        inputClass={[
+          'w-full',
+          'bg-white',
+          'border-b-green',
+          'border-b-2',
+          'pb-1',
+          'mb-4',
+          'text-lg',
+        ].join(' ')}
         disclaimerClass="hidden"
         trackLocation={trackLocation}
         ctaText={ctaText}

@@ -4,7 +4,7 @@ import articles from '@/landing/copy/help/index.json'
 import Article from '@/landing/Article'
 
 export default function LifetimeValueOfSpotifyFollowerPage() {
-  const articleDetails = articles['linking-facebook-to-instagram']
+  const articleDetails = articles['link-facebook-to-instagram']
   const { title, excerpt } = articleDetails
   return (
     <>
