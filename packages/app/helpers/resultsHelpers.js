@@ -489,7 +489,7 @@ export const getStatsData = (adData, aggregatedAdData, platform) => {
 }
 
 export const getDataSources = async (dataSources, artistId) => {
-  const data = await getDataSourceValue(Object.values(dataSources), artistId)
+  const data = await getDataSourceValue(dataSources, artistId)
 
   const formattedData = Object.entries(data).reduce((result, [key, dataSource]) => {
     return {
@@ -604,7 +604,7 @@ export const formatBreakdownOptionValues = (key, dataSourceName) => {
   }
 
   if (dataSourceName === instagramDataSources.country) {
-    return countries.find((country) => country.id === key).name
+    return countries.find((country) => country.id === key)?.name
   }
 
   return key
