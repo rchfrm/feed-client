@@ -80,6 +80,21 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/blog/the-lifetime-value-of-a-spotify-follower',
+        destination: '/blog/spotify-follower-ltv',
+        permanent: true,
+      },
+      {
+        source: '/blog/setting-a-music-marketing-budget',
+        destination: '/blog/music-marketing-budget',
+        permanent: true,
+      },
+      {
+        source: '/blog/link-business-facebook-and-instagram-account',
+        destination: '/blog/link-facebook-to-instagram',
+        permanent: true,
+      },
+      {
         source: '/join',
         destination: 'https://app.tryfeed.co/join',
         permanent: true,

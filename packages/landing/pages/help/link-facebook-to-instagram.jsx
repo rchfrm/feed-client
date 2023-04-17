@@ -1,10 +1,10 @@
-import article from '@/landing/copy/blog/music-marketing-budget.md'
+import article from '@/landing/copy/help/link-facebook-to-instagram.md'
 import MetaTags from '@/landing/elements/MetaTags'
-import articles from '@/landing/copy/blog/index.json'
+import articles from '@/landing/copy/help/index.json'
 import Article from '@/landing/Article'
 
 export default function LifetimeValueOfSpotifyFollowerPage() {
-  const articleDetails = articles['music-marketing-budget']
+  const articleDetails = articles['linking-facebook-to-instagram']
   const { title, excerpt } = articleDetails
   return (
     <>

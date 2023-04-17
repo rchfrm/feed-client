@@ -23,6 +23,7 @@ export default function TheHeader() {
 
   return (
     <header
+      id="header"
       className={[
         'bmw',
         'flex',

@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import NewsletterSignup from '@/landing/NewsletterSignup'
 import Section from '@/landing/Section'
 
-const TertiaryCTA = React.forwardRef(({
+const TertiaryCTA = ({
   header,
   trackLocation,
-}, ref) => {
+}) => {
   return (
     <Section
-      ref={ref}
       fullWidth
     >
       <NewsletterSignup
@@ -33,7 +32,7 @@ const TertiaryCTA = React.forwardRef(({
       />
     </Section>
   )
-})
+}
 
 TertiaryCTA.displayName = 'TertiaryCTA'
 

@@ -31,6 +31,21 @@
         "type": 301
       },
       {
+        "source": "/blog/the-lifetime-value-of-a-spotify-follower",
+        "destination": "/blog/spotify-follower-ltv",
+        "type": 301
+      },
+      {
+        "source": "/blog/setting-a-music-marketing-budget",
+        "destination": "/blog/music-marketing-budget",
+        "type": 301
+      },
+      {
+        "source": "/blog/link-business-facebook-and-instagram-account",
+        "destination": "/blog/link-facebook-to-instagram",
+        "type": 301
+      },
+      {
         "source": "/join",
         "destination": "https://app.tryfeed.co/join",
         "type": 301
