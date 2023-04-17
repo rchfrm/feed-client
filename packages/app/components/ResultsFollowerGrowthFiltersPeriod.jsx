@@ -25,7 +25,7 @@ const ResultsFollowerGrowthFiltersPeriod = ({
   }
 
   return (
-    <div className="flex flex-col sm:flex-row sm:justify-between">
+    <div className="flex flex-col sm:flex-row sm:justify-between mr-8">
       <div>
         <p className="text-xs mb-2">Filter by</p>
         <div className="inline-flex mb-6 rounded-dialogue overflow-hidden text-sm text-grey-dark bg-offwhite">
