@@ -5,6 +5,7 @@ import Section from '@/landing/Section'
 
 const ArticleSummary = ({
   articles,
+  section,
 }) => {
   return (
     <Section>
@@ -25,6 +26,7 @@ const ArticleSummary = ({
               ].join(' ')}
               key={article.slug}
               article={article}
+              section={section}
             />
           )
         })}
@@ -46,6 +48,11 @@ ArticleSummary.propTypes = {
     updatedAt: PropTypes.string,
     author: PropTypes.string.isRequired,
   })).isRequired,
+  section: PropTypes.oneOf(['blog', 'help']),
+}
+
+ArticleSummary.defaultProps = {
+  section: 'blog',
 }
 
 export default ArticleSummary

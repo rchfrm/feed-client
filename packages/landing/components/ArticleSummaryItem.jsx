@@ -8,7 +8,7 @@ import MarkdownText from '@/elements/MarkdownText'
 import moment from 'moment'
 import Image from 'next/image'
 
-const ArticleSummaryItem = ({ article, className }) => {
+const ArticleSummaryItem = ({ article, className, section }) => {
   const {
     title,
     slug,
@@ -24,7 +24,7 @@ const ArticleSummaryItem = ({ article, className }) => {
   const publishDate = moment(publishedAt, 'YYYY-MM-DD').format('D MMM, \'YY')
   const updatedDate = updatedAt && moment(updatedAt, 'YYYY-MM-DD').format('D MMM, \'YY')
   const date = updatedDate || publishDate
-  const link = `${blogSlug}/${slug}`
+  const link = `/${section}/${slug}`
   return (
     <li
       className={[
@@ -92,10 +92,12 @@ ArticleSummaryItem.propTypes = {
     author: PropTypes.string.isRequired,
   }).isRequired,
   className: PropTypes.string,
+  section: PropTypes.oneOf(['blog', 'help']),
 }
 
 ArticleSummaryItem.defaultProps = {
   className: null,
+  section: 'blog',
 }
 
 export default ArticleSummaryItem

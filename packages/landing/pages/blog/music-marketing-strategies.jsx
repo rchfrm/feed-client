@@ -1,11 +1,11 @@
 import Section from '@/landing/Section'
-import article from '@/landing/copy/blog/spotify-follower-ltv.md'
+import article from '@/landing/copy/blog/music-marketing-strategies.md'
 import BlogMarkdown from '@/landing/elements/BlogMarkdown'
 import MetaTags from '@/landing/elements/MetaTags'
 import articles from '@/landing/copy/blog/index.json'
 
 export default function LifetimeValueOfSpotifyFollowerPage() {
-  const articleDetails = articles['spotify-follower-ltv']
+  const articleDetails = articles['music-marketing-strategies']
   const { title, excerpt } = articleDetails
   return (
     <>
