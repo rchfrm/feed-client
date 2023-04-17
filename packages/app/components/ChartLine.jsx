@@ -33,6 +33,11 @@ const ChartLine = ({
   const primaryData = data[0]
   const secondaryData = Object.values(data[1])
 
+  const array = Object.values(primaryData)
+  const minValue = Math.min(...array)
+  const maxValue = Math.max(...array)
+  const buffer = Math.round((maxValue - minValue) / 10)
+
   const options = {
     plugins: {
       legend: {
@@ -75,6 +80,7 @@ const ChartLine = ({
         ticks: {
           maxRotation: 0,
           color: brandColors.black,
+          precision: 0,
           callback: (value) => {
             return [moment(value).format('D MMM'), moment(value).format('YY')]
           },
@@ -88,7 +94,10 @@ const ChartLine = ({
         ticks: {
           padding: 10,
           color: brandColors.black,
+          precision: 0,
         },
+        suggestedMin: minValue - buffer,
+        suggestedMax: maxValue + buffer,
       },
     },
   }
