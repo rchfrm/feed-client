@@ -1,6 +1,5 @@
 # The lifetime value of a Spotify follower
 
-
 Followers and listeners on Spotify are often cited as important, in part because these numbers are so visible. But it’s hard to come by an analysis of the value of a Spotify follower to an artist and their team… probably because it’s very difficult to quantify with available data and requires a lot of guesswork.
 
 I don't think that shouldn’t stop us trying, though! It was Spotify’s (very controversial) [announcement](https://newsroom.spotify.com/2020-11-02/amplifying-artist-input-in-your-personalized-recommendations/) of Discovery Mode - where artists and their teams can boost visibility of tracks in exchange for lower royalty payouts - that first prompted me to take a look at this. But that's another story... moving swiftly on.

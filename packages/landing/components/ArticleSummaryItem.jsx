@@ -1,14 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
-import { Image } from 'react-datocms'
 import Anchor from '@/landing/elements/Anchor'
 import Button from '@/elements/Button'
 import { blogSlug } from '@/landing/copy/LandingPageCopy'
 import MarkdownText from '@/elements/MarkdownText'
+import moment from 'moment'
+import Image from 'next/image'
 
-const BlogSummaryItem = ({ blog, className }) => {
-  const { title, slug, image, excerpt, publishDate, author } = blog
+const ArticleSummaryItem = ({ article, className }) => {
+  const {
+    title,
+    slug,
+    image: {
+      url: imageURL,
+      alt: imageAlt,
+    },
+    excerpt,
+    publishedAt,
+    updatedAt,
+    author,
+  } = article
+  const publishDate = moment(publishedAt, 'YYYY-MM-DD').format('D MMM, \'YY')
+  const updatedDate = updatedAt && moment(updatedAt, 'YYYY-MM-DD').format('D MMM, \'YY')
+  const date = updatedDate || publishDate
   const link = `${blogSlug}/${slug}`
   return (
     <li
@@ -20,10 +35,8 @@ const BlogSummaryItem = ({ blog, className }) => {
       ].join(' ')}
     >
       <p className={['small--p', 'mb-0'].join(' ')}>
-        <strong>{publishDate}</strong>
-        {author && (
-          <span className="inline-block pl-2"> {author}</span>
-        )}
+        <strong>{date}</strong>
+        <span className="inline-block pl-2"> {author}</span>
       </p>
       <Anchor href={link} label={`Read more about ${title}`}>
         <figure
@@ -45,18 +58,12 @@ const BlogSummaryItem = ({ blog, className }) => {
               'rounded-dialogue',
             ].join(' ')}
           >
-            {image ? (
-              <Image data={image.responsiveImage} />
-            ) : (
-              <div className={['absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'bg-grey'].join(' ')} />
-            )}
+            <Image src={imageURL} alt={imageAlt} fill />
           </div>
         </figure>
       </Anchor>
       <h3 className={['pointer-events-none', 'mb-0'].join(' ')}><strong>{title}</strong></h3>
-      {excerpt && (
-        <MarkdownText className={['mb-0'].join(' ')} markdown={excerpt} />
-      )}
+      <MarkdownText className={['mb-0'].join(' ')} markdown={excerpt} />
       <Link href={link}>
         <Button
           version="text"
@@ -71,13 +78,24 @@ const BlogSummaryItem = ({ blog, className }) => {
   )
 }
 
-BlogSummaryItem.propTypes = {
-  blog: PropTypes.object.isRequired,
+ArticleSummaryItem.propTypes = {
+  article: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    image: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      alt: PropTypes.string.isRequired,
+    }).isRequired,
+    excerpt: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
+    publishedAt: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string,
+    author: PropTypes.string.isRequired,
+  }).isRequired,
   className: PropTypes.string,
 }
 
-BlogSummaryItem.defaultProps = {
+ArticleSummaryItem.defaultProps = {
   className: null,
 }
 
-export default BlogSummaryItem
+export default ArticleSummaryItem

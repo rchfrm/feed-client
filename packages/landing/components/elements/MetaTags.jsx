@@ -6,7 +6,11 @@ import copy from '@/landing/copy/LandingPageCopy'
 
 const getMetaTags = ({ pageTitle, pageDescription }) => {
   return [
-    { attributes: null, content: `${pageTitle} | Feed`, tag: 'title' },
+    {
+      attributes: null,
+      content: `Feed | ${pageTitle}`,
+      tag: 'title',
+    },
     {
       attributes: { property: 'og:title', content: pageTitle },
       content: null,
@@ -44,20 +48,11 @@ const getMetaTags = ({ pageTitle, pageDescription }) => {
   ]
 }
 
-const getGlobalInfo = (state) => state
-
-const SeoTagsDato = ({
-  metaTags,
+const MetaTags = ({
   pageTitle,
   pageDescription,
 }) => {
-  if (pageTitle === '') {
-    pageTitle = `Feed | ${copy.header}`
-  }
-  if (pageDescription === '') {
-    pageDescription = copy.description
-  }
-  const tags = metaTags || getMetaTags({ pageTitle, pageDescription })
+  const tags = getMetaTags({ pageTitle, pageDescription })
   return (
     <Head>
       {renderMetaTags(tags)}
@@ -65,16 +60,14 @@ const SeoTagsDato = ({
   )
 }
 
-SeoTagsDato.propTypes = {
-  metaTags: PropTypes.array,
+MetaTags.propTypes = {
   pageTitle: PropTypes.string,
   pageDescription: PropTypes.string,
 }
 
-SeoTagsDato.defaultProps = {
-  metaTags: null,
-  pageTitle: '',
-  pageDescription: '',
+MetaTags.defaultProps = {
+  pageTitle: copy.header,
+  pageDescription: copy.description,
 }
 
-export default SeoTagsDato
+export default MetaTags
