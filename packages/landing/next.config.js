@@ -103,6 +103,7 @@ const nextConfig = {
   },
   transpilePackages: [sharedPath],
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
