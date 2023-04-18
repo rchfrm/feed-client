@@ -1,19 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
-
 import ResultsNewAudienceStats from '@/app/ResultsNewAudienceStats'
 import ResultsExistingAudienceStats from '@/app/ResultsExistingAudienceStats'
 import ResultsConversionStats from '@/app/ResultsConversionStats'
 import ResultsPlatformGrowthStats from '@/app/ResultsPlatformGrowthStats'
-import ResultsConversionsActivator from '@/app/ResultsConversionsActivator'
-
 import MarkdownText from '@/elements/MarkdownText'
-
 import { getStatsData } from '@/app/helpers/resultsHelpers'
-
 import copy from '@/app/copy/ResultsPageCopy'
 
 const getControlsStoreState = (state) => ({
@@ -23,13 +17,10 @@ const getControlsStoreState = (state) => ({
 const ResultsStats = ({
   adData,
   aggregatedAdData,
-  metricType,
   hasSalesObjective,
   hasInstagramGrowthObjective,
   hasSpotifyGrowthObjective,
   platform,
-  isDesktopLayout,
-  className,
 }) => {
   const { conversionsPreferences } = useControlsStore(getControlsStoreState)
   const { facebookPixelEvent } = conversionsPreferences
@@ -57,33 +48,25 @@ const ResultsStats = ({
   }, [adData, aggregatedAdData, facebookPixelEvent, currency, platform])
 
   return (
-    <div className={[
-      'col-span-12 grid grid-cols-12 sm:gap-x-12',
-      className,
-    ].join(' ')}
-    >
-      {(isDesktopLayout || metricType === 'engagement') && (
-        <div className="col-span-12 sm:col-span-4">
-          {newAudienceData ? (
-            <ResultsNewAudienceStats data={newAudienceData} />
-          ) : (
-            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-twitter" />
-          )}
-        </div>
-      )}
+    <div className="col-span-12 grid grid-cols-12 sm:gap-x-12">
+      <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0">
+        {newAudienceData ? (
+          <ResultsNewAudienceStats data={newAudienceData} />
+        ) : (
+          <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-twitter" />
+        )}
+      </div>
 
-      {(isDesktopLayout || metricType === 'nurture') && (
-        <div className="col-span-12 sm:col-span-4">
-          {existingAudienceData ? (
-            <ResultsExistingAudienceStats data={existingAudienceData} />
-          ) : (
-            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-green" />
-          )}
-        </div>
-      )}
+      <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0">
+        {existingAudienceData ? (
+          <ResultsExistingAudienceStats data={existingAudienceData} />
+        ) : (
+          <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-green" />
+        )}
+      </div>
 
-      {hasSalesObjective && (isDesktopLayout || metricType === 'growth') && (
-        <div className="col-span-12 sm:col-span-4">
+      {hasSalesObjective && (
+        <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0">
           {conversionData ? (
             <ResultsConversionStats data={conversionData} currency={currency} />
           ) : (
@@ -92,7 +75,7 @@ const ResultsStats = ({
         </div>
       )}
 
-      {(hasInstagramGrowthObjective || hasSpotifyGrowthObjective) && (isDesktopLayout || metricType === 'growth') && (
+      {(hasInstagramGrowthObjective || hasSpotifyGrowthObjective) && (
         <div className="col-span-12 sm:col-span-4">
           {platformData ? (
             <ResultsPlatformGrowthStats data={platformData} />
@@ -102,12 +85,6 @@ const ResultsStats = ({
         </div>
       )}
 
-      {(! hasInstagramGrowthObjective && ! hasSpotifyGrowthObjective) && ! hasSalesObjective && (isDesktopLayout || metricType === 'growth') && (
-        <ResultsConversionsActivator
-          className="col-span-12 sm:col-span-4 flex flex-col sm:items-center"
-        />
-      )}
-
     </div>
   )
 }
@@ -115,13 +92,10 @@ const ResultsStats = ({
 ResultsStats.propTypes = {
   adData: PropTypes.object.isRequired,
   aggregatedAdData: PropTypes.object.isRequired,
-  metricType: PropTypes.string.isRequired,
   hasSalesObjective: PropTypes.bool.isRequired,
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,
   hasSpotifyGrowthObjective: PropTypes.bool.isRequired,
   platform: PropTypes.string,
-  isDesktopLayout: PropTypes.bool.isRequired,
-  className: PropTypes.string.isRequired,
 }
 
 ResultsStats.defaultProps = {

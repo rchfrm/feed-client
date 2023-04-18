@@ -68,7 +68,7 @@ const ResultsAbsoluteChart = ({
         {tooltipMessage ? (
           <ResultsAbsoluteChartTooltip title={tooltipTitles[0]} message={tooltipMessage} />
         ) : (
-          <p className="text-center text-xs">{isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}</p>
+          <p className="mb-0 text-center text-xs">{isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}</p>
         )}
       </div>
       <ChartIcon className="h-6 w-6 -mx-1 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
@@ -86,7 +86,7 @@ const ResultsAbsoluteChart = ({
           {tooltipMessage ? (
             <ResultsAbsoluteChartTooltip title={tooltipTitles[1]} message={tooltipMessage} />
           ) : (
-            <p className="text-center text-xs">{isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}</p>
+            <p className="text-center text-xs mb-0">{isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}</p>
           )}
         </div>
       </div>
