@@ -40,7 +40,6 @@ const ResultsFollowerGrowth = ({ platform, hasInstagramGrowthObjective }) => {
         </>
       )}
       <ResultsFollowGrowthChartLoader
-        platform={platform}
         period={period}
         dataSources={dataSources}
         setDataSources={setDataSources}

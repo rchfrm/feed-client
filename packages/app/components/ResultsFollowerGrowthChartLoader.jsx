@@ -6,7 +6,6 @@ import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
 import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, formatBreakdownOptionValues } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthChartLoader = ({
-  platform,
   period,
   dataSources,
   setDataSources,
@@ -30,10 +29,7 @@ const ResultsFollowerGrowthChartLoader = ({
       setIsLoading(true)
     }
 
-    const data = await getDataSources({
-      [platform]: dataSourceName,
-      facebook: platform === 'facebook' ? ['facebook_ad_spend_feed', dataSourceName] : 'facebook_ad_spend_feed',
-    }, artistId)
+    const data = await getDataSources(['facebook_ad_spend_feed', dataSourceName], artistId)
 
     // Format the data sources to make sure that ad spend and growth data periods match
     const formattedDataSources = formatDataSources(data, dataSourceName)
@@ -95,7 +91,6 @@ const ResultsFollowerGrowthChartLoader = ({
 }
 
 ResultsFollowerGrowthChartLoader.propTypes = {
-  platform: PropTypes.string.isRequired,
   period: PropTypes.string.isRequired,
   dataSources: PropTypes.object,
   setDataSources: PropTypes.func.isRequired,

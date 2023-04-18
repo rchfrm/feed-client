@@ -12,16 +12,23 @@ const ResultsFollowerGrowthChart = ({
 }) => {
   const { followerGrowth, adSpend } = dataSources || {}
 
+  const checkSpendDays = (condition) => {
+    const values = Object.values(adSpend || {})
+    return values.slice(1, values.length - 1).some((x) => Boolean(x) === condition)
+  }
+
   const legendItems = [
     {
       label: 'Green line',
       description: 'Change in followers in Feed campaign so far.',
       color: brandColors.green,
+      shouldShow: checkSpendDays(true),
     },
     {
       label: 'Red line',
       description: 'Followers without Feed.',
       color: brandColors.red,
+      shouldShow: checkSpendDays(false),
     },
   ]
 

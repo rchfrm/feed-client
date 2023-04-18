@@ -15,7 +15,7 @@ const ResultsFollowerGrowthFilters = ({
   hasInstagramGrowthObjective,
 }) => {
   return (
-    <div className="flex flex-col sm:flex-row sm:justify-between">
+    <div className="flex flex-col sm:flex-row">
       <ResultsFollowerGrowthFiltersPeriod
         period={period}
         setPeriod={setPeriod}
