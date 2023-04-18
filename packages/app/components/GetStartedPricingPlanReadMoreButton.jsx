@@ -10,7 +10,6 @@ import brandColors from '@/constants/brandColors'
 const GetStartedPricingPlanReadMoreButton = ({
   plan,
   handleSidePanel,
-  isDisabled,
 }) => {
   const { name } = plan
 
@@ -38,7 +37,7 @@ const GetStartedPricingPlanReadMoreButton = ({
       <div>
         <Button
           version="text"
-          onClick={() => handleSidePanel(plan, isDisabled)}
+          onClick={() => handleSidePanel(plan)}
           className="h-4 mr-1"
           trackComponentName="GetStartedPricingPlanReadMoreButton"
         >
@@ -53,10 +52,6 @@ const GetStartedPricingPlanReadMoreButton = ({
 GetStartedPricingPlanReadMoreButton.propTypes = {
   plan: PropTypes.object.isRequired,
   handleSidePanel: PropTypes.func.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
-}
-
-GetStartedPricingPlanReadMoreButton.defaultProps = {
 }
 
 export default GetStartedPricingPlanReadMoreButton

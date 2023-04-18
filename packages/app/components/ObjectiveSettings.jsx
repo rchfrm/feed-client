@@ -2,20 +2,18 @@ import React from 'react'
 import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 import MarkdownText from '@/elements/MarkdownText'
 import DisabledSection from '@/app/DisabledSection'
-import DisabledActionPrompt from '@/app/DisabledActionPrompt'
-import ObjectiveSettingsObjectiveSelector from '@/app/ObjectiveSettingsObjectiveSelector'
-import ObjectiveSettingsPlatformSelector from '@/app/ObjectiveSettingsPlatformSelector'
-import ObjectiveSettingsDefaultLink from '@/app/ObjectiveSettingsDefaultLink'
+import ObjectiveButton from '@/app/ObjectiveButton'
+import ObjectiveContactFooter from '@/app/ObjectiveContactFooter'
+import ObjectiveSettingsInstagramNotConnected from '@/app/ObjectiveSettingsInstagramNotConnected'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
-import { updateArtist, getPreferencesObject } from '@/app/helpers/artistHelpers'
+import { updateArtist, getPreferencesObject, getObjectiveString, getArtistIntegrationByPlatform, platforms } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/controlsPageCopy'
 
 const getControlsStoreState = (state) => ({
-  defaultLink: state.defaultLink,
-  postsPreferences: state.postsPreferences,
   updatePreferences: state.updatePreferences,
   optimizationPreferences: state.optimizationPreferences,
   nestedLinks: state.nestedLinks,
@@ -23,84 +21,73 @@ const getControlsStoreState = (state) => ({
 })
 
 const ObjectiveSettings = () => {
-  const { artist, setPostPreferences } = React.useContext(ArtistContext)
-  const { hasFreePlan, hasBasicPlan, hasSetUpProfile } = artist
-  const { defaultLink, postsPreferences, updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { defaultLinkId } = postsPreferences
+  const { updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective, platform: currentPlatform } = optimizationPreferences
 
-  const [objective, setObjective] = React.useState(optimizationPreferences.objective)
-  const [platform, setPlatform] = React.useState(optimizationPreferences.platform)
-  const [type, setType] = React.useState('')
+  const [platform, setPlatform] = React.useState(currentPlatform)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
-  const [objectiveChangeSteps, setObjectiveChangeSteps] = React.useState([])
-  const [shouldRestoreObjective, setShouldRestoreObjective] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
-  const [error, setError] = React.useState(null)
 
-  const hasGrowthObjective = objective === 'growth'
-  const isObjectiveChange = type === 'objective'
-  const isPlatformChange = type === 'platform'
-
+  const { artist, setPostPreferences } = React.useContext(ArtistContext)
+  const { hasSetUpProfile } = artist
+  const hasInstagramConnected = Boolean(getArtistIntegrationByPlatform(artist, 'instagram')?.accountId)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
+  const hasInstagramOrSpotifyGrowth = objective === 'growth' && (currentPlatform === 'instagram' || currentPlatform === 'spotify')
+  const saveIntegrationLink = useSaveIntegrationLink()
 
-  const save = async ({ objective, platform, savedLink }, objectiveChangeSteps, forceRun = false) => {
-    if (shouldRestoreObjective) {
-      setShouldRestoreObjective(false)
-      return
-    }
+  const save = async ({ platform, newLink }) => {
+    let integrationLink = getLinkByPlatform(nestedLinks, platform)
 
-    if (objectiveChangeSteps.length > 0 && ! forceRun) {
+    if (! integrationLink?.accountId && ! newLink) {
       setShouldShowAlert(true)
       return
     }
 
-    const hasGrowthObjective = objective === 'growth'
-    let link = savedLink
-
     setIsLoading(true)
 
-    if (hasGrowthObjective && ! link) {
-      link = getLinkByPlatform(nestedLinks, platform)
+    if (newLink) {
+      const { savedLink } = await saveIntegrationLink({ platform }, newLink.href)
+      integrationLink = savedLink
     }
 
     const { res: updatedArtist, error } = await updateArtist(artist, {
       objective,
       platform,
-      ...(objective !== 'growth' && { platform: 'website' }),
-      defaultLink: link?.id || defaultLinkId,
+      defaultLink: integrationLink.id,
     })
 
     if (error) {
-      setError(error)
       setIsLoading(false)
       return
     }
 
-    if (link) {
+    if (integrationLink) {
       // Set the new link as the default link
-      updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: link })
+      updateLinks('chooseNewDefaultLink', { newArtist: updatedArtist, newLink: integrationLink })
 
       // Update artist status
-      setPostPreferences('default_link_id', link.id)
+      setPostPreferences('default_link_id', integrationLink.id)
     }
 
     // Update targeting values
-    const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
-
+    const isInstagram = platform === 'instagram'
     saveTargetingSettings({
       ...targetingState,
-      platforms: isFacebookOrInstagram ? [platform] : [],
+      platforms: isInstagram ? [platform] : [],
     })
 
     // Update preferences object in controls store
     updatePreferences(getPreferencesObject(updatedArtist))
-
     setIsLoading(false)
   }
 
   const onCancel = () => {
-    setShouldRestoreObjective(true)
     setShouldShowAlert(false)
+  }
+
+  const handleClick = (platform) => {
+    setPlatform(platform)
+    save({ platform })
   }
 
   return (
@@ -110,72 +97,39 @@ const ObjectiveSettings = () => {
         section="objective"
         isDisabled={! hasSetUpProfile}
       >
-        <MarkdownText markdown={copy.objectiveIntro} className={['inline-block', ! hasBasicPlan ? 'mb-12' : 'mb-4'].join(' ')} />
-        <DisabledSection
-          section="objective-traffic"
-          isDisabled={hasBasicPlan && hasSetUpProfile}
-        >
-          <div className="relative mb-4">
-            <ObjectiveSettingsObjectiveSelector
-              objective={objective}
-              setObjective={setObjective}
-              platform={platform}
-              setPlatform={setPlatform}
-              setType={setType}
-              shouldShowAlert={shouldShowAlert}
-              setObjectiveChangeSteps={setObjectiveChangeSteps}
-              shouldRestoreObjective={shouldRestoreObjective && isObjectiveChange}
-              setShouldRestoreObjective={setShouldRestoreObjective}
-              save={save}
-              isLoading={isLoading && isObjectiveChange}
-              error={error}
-            />
-            {hasFreePlan && (
-              <DisabledActionPrompt
-                section="objective-sales"
-                version="small"
-                className="-mt-6"
-              />
-            )}
+        <MarkdownText markdown={copy.objectiveIntro} className="mb-10" />
+        <div className="relative">
+          {! hasInstagramOrSpotifyGrowth && (
+            <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, currentPlatform)}</p>
+          )}
+          <div className="flex flex-col lg:flex-row mb-10">
+            {[platforms[0], platforms[1]].map((growthPlatform) => {
+              const { value } = growthPlatform
+              return (
+                <ObjectiveButton
+                  key={value}
+                  platform={growthPlatform}
+                  setPlatform={handleClick}
+                  isActive={currentPlatform === value}
+                  isLoading={isLoading && platform === value}
+                  isDisabled={value === 'instagram' && ! hasInstagramConnected}
+                  className="first:mb-4 lg:first:mb-0 lg:first:mr-8"
+                />
+              )
+            })}
           </div>
-        </DisabledSection>
-        {hasGrowthObjective ? (
-          <div className="relative">
-            <ObjectiveSettingsPlatformSelector
-              objective={objective}
-              platform={platform}
-              setPlatform={setPlatform}
-              setType={setType}
-              shouldShowAlert={shouldShowAlert}
-              setObjectiveChangeSteps={setObjectiveChangeSteps}
-              shouldRestoreObjective={shouldRestoreObjective && isPlatformChange}
-              setShouldRestoreObjective={setShouldRestoreObjective}
-              save={save}
-              isLoading={isLoading && isPlatformChange}
-              error={error}
-            />
-          </div>
-        ) : (
-          <ObjectiveSettingsDefaultLink
-            defaultLink={defaultLink}
-            setPostPreferences={setPostPreferences}
-            objective={objective}
-            label="Default Link"
-            className="mb-8"
-          />
-        )}
+          {! hasInstagramConnected && <ObjectiveSettingsInstagramNotConnected />}
+          <ObjectiveContactFooter />
+        </div>
       </DisabledSection>
       {shouldShowAlert && (
         <ObjectiveSettingsChangeAlert
-          objectiveChangeSteps={objectiveChangeSteps}
-          shouldShowAlert={shouldShowAlert}
-          setShouldShowAlert={setShouldShowAlert}
-          onCancel={onCancel}
-          save={save}
           objective={objective}
           platform={platform}
-          setPlatform={setPlatform}
-          isLoading={isLoading}
+          shouldShowAlert={shouldShowAlert}
+          setShouldShowAlert={setShouldShowAlert}
+          onConfirm={save}
+          onCancel={onCancel}
         />
       )}
     </div>

@@ -12,13 +12,11 @@ import useSaveLinkToLinkBank from '@/app/hooks/useSaveLinkToLinkBank'
 import useSaveIntegrationLink from '@/app/hooks/useSaveIntegrationLink'
 
 import GetStartedObjective from '@/app/GetStartedObjective'
-import GetStartedPlatform from '@/app/GetStartedPlatform'
 import GetStartedDefaultLink from '@/app/GetStartedDefaultLink'
 import GetStartedPricing from '@/app/GetStartedPricing'
 import GetStartedConnectFacebook from '@/app/GetStartedConnectFacebook'
 import GetStartedPostsSelection from '@/app/GetStartedPostsSelection'
 import GetStartedAdAccount from '@/app/GetStartedAdAccount'
-import GetStartedFacebookPixel from '@/app/GetStartedFacebookPixel'
 import GetStartedLocation from '@/app/GetStartedLocation'
 import GetStartedDailyBudget from '@/app/GetStartedDailyBudget'
 import GetStartedPaymentMethod from '@/app/GetStartedPaymentMethod'
@@ -76,27 +74,20 @@ const GetStartedWizard = () => {
   const initialSteps = React.useMemo(() => [
     {
       id: 0,
-      name: profileStatus.objective,
+      name: profileStatus.platform,
       title: 'Your objective',
       section: getStartedSections.objective,
       component: <GetStartedObjective />,
     },
     {
       id: 1,
-      name: profileStatus.platform,
-      title: 'Your objective',
-      section: getStartedSections.objective,
-      component: <GetStartedPlatform />,
-    },
-    {
-      id: 2,
       name: profileStatus.defaultLink,
       title: 'Your objective',
       section: getStartedSections.objective,
       component: <GetStartedDefaultLink />,
     },
     {
-      id: 3,
+      id: 2,
       name: profileStatus.pricingPlan,
       title: 'Your plan',
       section: getStartedSections.pricingPlan,
@@ -104,7 +95,7 @@ const GetStartedWizard = () => {
       shouldSkip: isManaged,
     },
     {
-      id: 4,
+      id: 3,
       name: profileStatus.connectProfile,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
@@ -112,28 +103,21 @@ const GetStartedWizard = () => {
       shouldSkip: Boolean(user.artists.length),
     },
     {
-      id: 5,
+      id: 4,
       name: profileStatus.posts,
       title: 'Promoting your posts',
       section: getStartedSections.postPromotion,
       component: <GetStartedPostsSelection />,
     },
     {
-      id: 6,
+      id: 5,
       name: profileStatus.adAccount,
       title: 'Your ad account',
       section: getStartedSections.adAccount,
       component: <GetStartedAdAccount />,
     },
     {
-      id: 7,
-      name: profileStatus.facebookPixel,
-      title: 'Your pixel',
-      section: getStartedSections.adAccount,
-      component: <GetStartedFacebookPixel />,
-    },
-    {
-      id: 8,
+      id: 6,
       name: profileStatus.location,
       title: 'Your location',
       section: getStartedSections.adAccount,
@@ -141,14 +125,14 @@ const GetStartedWizard = () => {
       shouldSkip: (Object.keys(locations || {}).length || artist.country_code),
     },
     {
-      id: 9,
+      id: 7,
       name: profileStatus.budget,
       title: 'Budget',
       section: getStartedSections.targeting,
       component: <GetStartedDailyBudget />,
     },
     {
-      id: 10,
+      id: 8,
       name: profileStatus.paymentMethod,
       title: 'Your payment method',
       section: getStartedSections.targeting,
@@ -156,7 +140,7 @@ const GetStartedWizard = () => {
       shouldSkip: hasFreePlan || isManaged,
     },
     {
-      id: 11,
+      id: 9,
       title: '',
       component: <GetStartedSummary />,
     },
@@ -198,15 +182,15 @@ const GetStartedWizard = () => {
       defaultLink: storedDefaultLink,
     } = wizardState
 
-    const isFacebookOrInstagram = storedPlatform === 'facebook' || storedPlatform === 'instagram'
+    const isInstagram = storedPlatform === 'instagram'
 
     let link = ''
 
-    // If the chosen platform is either Facebook or Instagram we get the link from the linkbank
-    if (isFacebookOrInstagram) {
+    // If the chosen platform is Instagram we get the link from the linkbank
+    if (isInstagram) {
       link = getLinkByPlatform(nestedLinks, storedPlatform)
     } else if (storedObjective === 'growth') {
-      // If the objective is growth but the platform is not Facebook or Instagram we save the link as new integration link
+      // Otherwise we save the link as new integration link
       const { savedLink, error } = await saveIntegrationLink({ platform: storedPlatform }, storedDefaultLink?.href)
 
       if (error) {
@@ -256,7 +240,7 @@ const GetStartedWizard = () => {
     // Update targeting values
     saveTargetingSettings({
       ...targetingState,
-      platforms: isFacebookOrInstagram ? [storedPlatform] : [],
+      platforms: isInstagram ? [storedPlatform] : [],
     })
 
     // Remove stored data from localstorage

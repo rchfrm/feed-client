@@ -1,18 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import useControlsStore from '@/app/stores/controlsStore'
-
-import Button from '@/elements/Button'
 import Input from '@/elements/Input'
-
 import { getIntegrationInfo, testValidIntegration } from '@/helpers/integrationHelpers'
-import { splitLinks } from '@/app/helpers/linksHelpers'
 import { enforceUrlProtocol } from '@/helpers/utils'
-
-const getControlsStoreState = (state) => ({
-  nestedLinks: state.nestedLinks,
-})
 
 const DefaultLinkInput = ({
   link,
@@ -22,18 +12,9 @@ const DefaultLinkInput = ({
   objective,
   platform,
   setIsDisabled,
-  toggleSelect,
 }) => {
-  const hasGrowthObjective = objective === 'growth'
   const defaultPlaceholder = 'https://'
-
-  const {
-    nestedLinks,
-  } = useControlsStore(getControlsStoreState)
-
   const [placeholder, setPlaceholder] = React.useState(defaultPlaceholder)
-  const { looseLinks } = splitLinks(nestedLinks)
-  const shouldShowButton = ! hasGrowthObjective && looseLinks.length > 0
 
   const handleChange = (e) => {
     if (error) {
@@ -44,26 +25,17 @@ const DefaultLinkInput = ({
   }
 
   React.useEffect(() => {
-    if (hasGrowthObjective) {
-      const { placeholderUrl } = getIntegrationInfo({ platform })
+    const { placeholderUrl } = getIntegrationInfo({ platform })
 
-      setPlaceholder(placeholderUrl)
-      return
-    }
-    setPlaceholder(defaultPlaceholder)
-  }, [hasGrowthObjective, objective, platform])
+    setPlaceholder(placeholderUrl)
+  }, [platform])
 
   React.useEffect(() => {
-    if (! hasGrowthObjective) {
-      setIsDisabled(! link.href)
-      return
-    }
-
     const sanitisedLink = enforceUrlProtocol(link.href, true)
     const hasError = ! testValidIntegration(sanitisedLink, platform)
 
     setIsDisabled(! link.href || hasError)
-  }, [hasGrowthObjective, objective, platform, link, setIsDisabled])
+  }, [objective, platform, link, setIsDisabled])
 
   React.useEffect(() => {
     return () => setIsDisabled(false)
@@ -83,16 +55,6 @@ const DefaultLinkInput = ({
         placeholder={placeholder}
         className="mb-8"
       />
-      {shouldShowButton && (
-        <Button
-          version="text"
-          onClick={toggleSelect}
-          className="absolute bottom-2 text-xs"
-          trackComponentName="DefaultLinkInput"
-        >
-          Choose from your existing links
-        </Button>
-      )}
     </div>
   )
 }
@@ -105,7 +67,6 @@ DefaultLinkInput.propTypes = {
   objective: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
   setIsDisabled: PropTypes.func.isRequired,
-  toggleSelect: PropTypes.func.isRequired,
 }
 
 DefaultLinkInput.defaultProps = {

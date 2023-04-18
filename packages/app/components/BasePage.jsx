@@ -47,7 +47,9 @@ const BasePage = ({
     const hasArtists = user.artists.length
     // Turn off global loading when:
     // User has no artists (ie, login or signup)
-    if (user.artists && ! hasArtists) return toggleGlobalLoading(false)
+    if (user.artists && ! hasArtists) {
+      toggleGlobalLoading(false)
+    }
     // Page is not artist sensitive and page is not controls sensitive and it's not an auth page (ie, login or signup)
     if (! artistRequired && ! controlsRequired && ! authPage) {
       toggleGlobalLoading(false)
@@ -60,7 +62,8 @@ const BasePage = ({
     if (controlsRequired && ! controlsLoading) {
       toggleGlobalLoading(false)
     }
-  }, [artistLoading, artistRequired, authPage, toggleGlobalLoading, user, controlsRequired, controlsLoading])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [artistLoading, artistRequired, authPage, toggleGlobalLoading, controlsRequired, controlsLoading])
 
   return (
     <>

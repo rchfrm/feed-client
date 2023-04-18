@@ -57,37 +57,14 @@ export default {
   facebookPixelEventFooter: `"Purchase" is recommended based on your objective`,
   integrationLinksIntro: `Integrations are what Feed uses to connect with and show you data from other platforms.`,
   objectiveIntro: 'This is the outcome Feed is set-up to work towards.',
-  alertPlatformTitle: 'Where would you like to grow?',
-  alertPlatformDescription: `You can always change this later on. You'll also have the option to send people to multiple platforms using different posts.`,
-  alertBudgetTitle: 'Adjust your daily budget',
-  alertBudgetDescription: `You can change this at any time. We recommend spreading budget out over a longer period of time as consistency boosts ad performance.`,
-  alertLinkTitle: (objective, platform) => {
-    if (objective === 'sales') {
-      return 'Enter the link to your store'
-    }
-
-    if (objective === 'traffic') {
-      return 'Enter the link to your website'
-    }
-
+  objectiveInstagramNotConnected: "Facebook and Instagram aren't fully linked. Follow [these instructions](https://tryfeed.co/blog/link-business-facebook-and-instagram-account) to link them and unlock the Instagram growth objective.",
+  alertLinkTitle: (platform) => {
     const platformName = platforms.find(({ value }) => value === platform)?.name
 
     return `Connect to ${platformName}`
   },
-  alertLinkDescription: (objective, platform) => {
-    if (objective === 'sales') {
-      return 'Set the homepage for now, you can choose to send people to specific product pages later on.'
-    }
-
-    if (objective === 'traffic') {
-      return 'If you have multiple pages, set the homepage for now. You can choose to send people to different pages and/or change this setting later on.'
-    }
-
+  alertLinkDescription: (platform) => {
     return `Enter your ${getPlatform(platform)} URL.`
   },
-  alertNewPixelTitle: 'Create your Facebook Pixel',
-  alertNewPixelDescription: `You can install this pixel on your website(s) for this profile. Don't worry if you can't install your pixel yet, there's no harm in including one in your ads anyway.`,
-  alertSelectPixelTitle: 'Select your Facebook Pixel',
-  alertSelectPixelDescription: `This is the pixel that you have installed on your website(s) for this profile. Don't worry if you haven't installed a pixel yet, there's no harm in including one in your ads anyway.`,
   profileInviteDescription: (profileName) => `Invite someone else to manage ${profileName ? `**${profileName}**` : 'your'} ads. Enter their email below to send them a link.`,
 }

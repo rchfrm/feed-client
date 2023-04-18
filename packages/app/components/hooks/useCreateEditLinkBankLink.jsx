@@ -127,7 +127,7 @@ const useCreateEditLinkBankLink = ({
 
   // TEST AS INTEGRATION LINKS
   const testLinkAsIntegration = (link) => {
-    const platformsToTest = ['spotify', 'soundcloud', 'youtube']
+    const platformsToTest = ['spotify']
     return platformsToTest.find((platform) => testValidIntegration(link, platform))
   }
 
