@@ -54,7 +54,7 @@
     "react": "^18.2.0",
     "react-accessible-accordion": "^3.3.3",
     "react-async": "^10.0.1",
-    "react-chartjs-2": "^2.9.0",
+    "react-chartjs-2": "^5.2.0",
     "react-datocms": "^1.6.6",
     "react-device-detect": "^1.13.1",
     "react-dom": "^18.2.0",
