@@ -71,7 +71,7 @@ export default function HomePage({ pageData }) {
           </div>
           {hasPartners && <Partners partners={partners} />}
         </Section>
-        <Section className={['justify-center md:flex hidden'].join(' ')} fullWidth>
+        <Section className={['justify-center md:flex hidden'].join(' ')} isFullWidth>
           <TryFeed
             buttonText="Start a campaign"
             className={[
@@ -96,7 +96,7 @@ export default function HomePage({ pageData }) {
         </Section>
         <Features features={copy.features} />
         <PricingPlans />
-        <Section className={['justify-center flex'].join(' ')} fullWidth>
+        <Section className={['justify-center flex'].join(' ')} isFullWidth>
           <TryFeed
             buttonText="Start a campaign"
             className={[

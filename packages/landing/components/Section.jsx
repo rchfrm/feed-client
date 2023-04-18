@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 
-const Section = ({ children, className, fullWidth }) => {
+const Section = ({ children, className, isFullWidth }) => {
   return (
     <section
       className={[
         'p-4',
         'minContent:p-6',
-        fullWidth ? '' : 'md:max-w-screen-lg md:mx-auto',
+        isFullWidth ? '' : 'md:max-w-screen-lg md:mx-auto',
         className,
       ].join(' ')}
     >
@@ -18,12 +18,12 @@ const Section = ({ children, className, fullWidth }) => {
 Section.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  fullWidth: PropTypes.bool,
+  isFullWidth: PropTypes.bool,
 }
 
 Section.defaultProps = {
   className: '',
-  fullWidth: false,
+  isFullWidth: false,
 }
 
 export default Section

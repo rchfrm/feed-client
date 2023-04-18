@@ -67,7 +67,7 @@ const ArticleSummaryItem = ({ article, className, section }) => {
         <Button
           version="text"
           label={`Read more about ${title}`}
-          trackComponentName="BlogSummaryItem"
+          trackComponentName="ArticleSummaryItem"
           className="no-underline"
         >
           <strong>Read more</strong>

@@ -9,7 +9,7 @@ const TertiaryCTA = ({
 }) => {
   return (
     <Section
-      fullWidth
+      isFullWidth
     >
       <NewsletterSignup
         className={[
@@ -34,10 +34,6 @@ const TertiaryCTA = ({
   )
 }
 
-TertiaryCTA.displayName = 'TertiaryCTA'
-
-export default TertiaryCTA
-
 TertiaryCTA.propTypes = {
   header: PropTypes.string,
   trackLocation: PropTypes.string,
@@ -47,3 +43,5 @@ TertiaryCTA.defaultProps = {
   header: '',
   trackLocation: 'feed-landing',
 }
+
+export default TertiaryCTA
