@@ -12,9 +12,9 @@ const TheHeaderHamburger = ({ linksOpen, toggleLinks, className }) => {
       className={className}
     >
       {linksOpen ? (
-        <CrossIcon className="w-10 h-auto" />
+        <CrossIcon className="w-10 minContent:w-14 h-auto" />
       ) : (
-        <MenuIcon className="w-10 h-auto" />
+        <MenuIcon className="w-10 minContent:w-14 h-auto" />
       )}
     </button>
 

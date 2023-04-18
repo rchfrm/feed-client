@@ -17,7 +17,7 @@ input[type=url],
 input[type=number],
 select,
 textarea {
-  font-size: 16px;
+  font-size: 13px;
   letter-spacing: 0.05em;
 }
 
@@ -137,7 +137,7 @@ textarea {
   height: var(--button-height);
   font-family: var(--font);
   width: 100%;
-  
+
   &::placeholder{
     color: var(--grey-dark);
   }
@@ -148,7 +148,7 @@ textarea {
 }
 
 .input--box-small {
-  height: var(--sp-9);
+  height: var(--sp-10);
 }
 
 /* TEXTAREA */
@@ -189,7 +189,7 @@ textarea {
   .input--container._success &,
   .input--container._error & {
     left: auto;
-    right: var(--sp-5); 
+    right: var(--sp-5);
   }
 
   svg {
@@ -252,7 +252,7 @@ select {
 
 .select--white {
   color: var(--offwhite);
-  
+
   &.select--box {
     border: 2px solid var(--offwhite);
   }
@@ -420,7 +420,7 @@ select {
     &::after {
       background-color: var(--offwhite);
       transform: scale(0.4) translateZ(0);
-    } 
+    }
   }
 }
 

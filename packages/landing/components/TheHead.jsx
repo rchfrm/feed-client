@@ -1,24 +1,15 @@
 import React from 'react'
 import Head from 'next/head'
 import Favicons from '@/elements/Favicons'
-import useGlobalInfoStore from '@/landing/store/globalInfoStore'
+import copy from '@/landing/copy/LandingPageCopy'
 
-const getGlobalInfo = (state) => state
+const siteName = `Feed | ${copy.header}`
+const { description } = copy
+const url = 'https://storage.googleapis.com/feed-public/Feed-OG-1200.jpeg'
 const siteUrl = 'https://tryfeed.co'
+const twitterAccount = '@feed_hq'
 
 const TheHead = () => {
-  const {
-    globalSeo: {
-      siteName,
-      twitterAccount,
-      fallbackSeo: {
-        description,
-        image: {
-          url,
-        },
-      },
-    },
-  } = useGlobalInfoStore(getGlobalInfo)
   return (
     <Head>
       <meta charSet="utf-8" />

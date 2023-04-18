@@ -36,23 +36,3 @@ export const size = (url, size, format) => {
   const { basicUrl } = parseUrl(url)
   return resize(basicUrl, sizes[size], format)
 }
-
-export const getLazySrc = (image) => {
-  const width = 20
-  const format = 'jpg'
-  const blur = 200
-  return `${image.url}?q=${50}&w=${width}&blur=${blur}&fm=${format}`
-}
-
-export const getSrc = ({ image, width, ratio, format, blur }) => {
-  // If width is a string, then use it as a size name
-  if (typeof width === 'string') {
-    const { w } = sizes[width]
-    return `${size(image.url, width, format)} ${w}w`
-  }
-  // If width is an integer...
-  const crop = !! ratio
-  const height = crop ? width / ratio : null
-  const fit = crop ? 'crop' : null
-  return `${resize(image.url, { w: width, h: height, fit, blur }, format)} ${width}w`
-}

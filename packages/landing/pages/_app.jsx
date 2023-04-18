@@ -34,16 +34,7 @@ const FeedLanding = ({ Component, pageProps }) => {
 
       <TheHeader />
 
-      <main
-        className={[
-          'block',
-          'flex-auto',
-          'w-full',
-          'mt-24',
-        ].join(' ')}
-      >
-        <Component {...pageProps} />
-      </main>
+      <Component {...pageProps} />
 
       <TheFooter />
 

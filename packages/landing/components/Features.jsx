@@ -5,17 +5,14 @@ import Section from '@/landing/Section'
 
 const Features = ({ features }) => {
   return (
-    <Section
-      id="features"
-      className={['max-w-screen-md', 'mx-auto'].join(' ')}
-    >
+    <Section id="features">
       <ul
         className={[
           'flex',
           'flex-column',
-          'gap-15',
+          'mb-0',
+          'gap-y-8',
           'text-xl',
-          'sm:text-base',
           'md:p-5',
           'md:text-xl',
         ].join(' ')}

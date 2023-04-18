@@ -1,22 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import NewsletterSignup from '@/landing/NewsletterSignup'
-
-import * as primaryStyles from '@/landing/PrimaryCTA.module.css'
 import Section from '@/landing/Section'
 
-const TertiaryCTA = React.forwardRef(({
+const TertiaryCTA = ({
   header,
   trackLocation,
-}, ref) => {
+}) => {
   return (
     <Section
-      ref={ref}
-      className={[
-        primaryStyles.primaryCTASection,
-      ].join(' ')}
-      fullWidth
+      isFullWidth
     >
       <NewsletterSignup
         className={[
@@ -39,11 +32,7 @@ const TertiaryCTA = React.forwardRef(({
       />
     </Section>
   )
-})
-
-TertiaryCTA.displayName = 'TertiaryCTA'
-
-export default TertiaryCTA
+}
 
 TertiaryCTA.propTypes = {
   header: PropTypes.string,
@@ -54,3 +43,5 @@ TertiaryCTA.defaultProps = {
   header: '',
   trackLocation: 'feed-landing',
 }
+
+export default TertiaryCTA

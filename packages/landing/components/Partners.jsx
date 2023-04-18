@@ -1,59 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import PartnerItem from '@/landing/PartnerItem'
 
-import useSwiperWithBreakpoint from '@/landing/hooks/useSwiperWithBreakpoint'
-import Section from '@/landing/Section'
-
 const Partners = ({ partners }) => {
-  const swiperContainer = React.useRef(null)
-  const swiperPagination = React.useRef(null)
-  const isSwiperActive = useSwiperWithBreakpoint({
-    breakpoint: 992,
-    items: partners,
-    containerEl: swiperContainer.current,
-    paginationEl: swiperPagination.current,
-  })
-
   return (
-    <Section
-      className={[
-        'relative',
-        'bg-offwhite',
-        isSwiperActive ? 'py-20' : 'py-10 sm:py-20',
-      ].join(' ')}
-      fullWidth
-    >
-      <div ref={swiperContainer} className="swiper-container">
-        <ul className={[
-          'swiper-wrapper',
-          ! isSwiperActive ? 'grid grid-cols-12 col-span-12 gap-8 px-0 md:px-40 mb-0 box-border' : 'flex items-center',
-        ].join(' ')}
-        >
-          {partners.map((partner) => {
-            const { website } = partner
-            return (
-              <PartnerItem
-                key={website}
-                partner={partner}
-                isSwiperActive={isSwiperActive}
-                className="swiper-slide"
-              />
-            )
-          })}
-        </ul>
-      </div>
-      <div
-        ref={swiperPagination}
+    <div className="flex flex-col md:self-center">
+      <p className="text-center text-xs minContent:text-sm">Trusted by</p>
+      <ul
         className={[
-          'swiper-pagination',
-          'absolute bottom-4 -translate-x-1/2',
-          ! isSwiperActive ? 'hidden' : null,
+          'flex',
+          'flex-wrap',
+          'gap-8',
+          'justify-center',
+          'align-center',
         ].join(' ')}
-        style={{ left: '50%' }}
-      />
-    </Section>
+      >
+        {partners.map((partner) => {
+          const { website } = partner
+          return (
+            <PartnerItem
+              key={website}
+              partner={partner}
+            />
+          )
+        })}
+      </ul>
+    </div>
   )
 }
 
