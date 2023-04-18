@@ -51,6 +51,7 @@ const ButtonFacebook = ({
   return (
     <Button
       href={href}
+      version="custom"
       onClick={onClick}
       className={[className, 'relative bg-fb border-fb hover:bg-fb hover:border-fb hover:bg-opacity-90 text-offwhite'].join(' ')}
       ref={buttonRef}
