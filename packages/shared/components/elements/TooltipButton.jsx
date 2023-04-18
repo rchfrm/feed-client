@@ -5,9 +5,10 @@ import TooltipIcon from '@/icons/TooltipIcon'
 import TooltipMessage from '@/elements/TooltipMessage'
 
 import { track } from '@/helpers/trackingHelpers'
+import brandColors from '@/constants/brandColors'
 
 const TooltipButton = (props) => {
-  const { buttonClasses, buttonStyle, buttonText, trackLabel, trackLocation, size } = props
+  const { buttonClasses, buttonStyle, buttonText, trackLabel, trackLocation, size, fill } = props
   const [showMessage, setShowMessage] = React.useState(false)
   // Get ref to message
   const messageRef = React.useRef(null)
@@ -70,6 +71,7 @@ const TooltipButton = (props) => {
             'button--tooltip-icon',
             getSizeClass(size),
           ].join(' ')}
+          fill={fill}
         />
       </a>
     </div>
@@ -83,6 +85,7 @@ TooltipButton.propTypes = {
   trackLabel: PropTypes.string,
   trackLocation: PropTypes.string,
   size: PropTypes.string,
+  fill: PropTypes.string,
 }
 
 TooltipButton.defaultProps = {
@@ -92,6 +95,7 @@ TooltipButton.defaultProps = {
   trackLabel: '',
   trackLocation: '',
   size: 'medium',
+  fill: brandColors.black,
 }
 
 export default TooltipButton

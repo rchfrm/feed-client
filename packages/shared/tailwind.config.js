@@ -76,6 +76,38 @@ module.exports = (contentFiles) => ({
         insta: '#E75A7C',
         twitter: '#5BC0EB',
         sc: '#FDE74C',
+        gradient: {
+          1: {
+            light: '#D2EFFF',
+            DEFAULT: '#B9E6FF',
+            dark: '#5BC1FB',
+          },
+          3: {
+            light: '#D0DBFF',
+            DEFAULT: '#B8C9FF',
+            dark: '#5B82FB',
+          },
+          5: {
+            light: '#D4CFFF',
+            DEFAULT: '#BBB4FF',
+            dark: '#6858FF',
+          },
+          7: {
+            light: '#E4CBFF',
+            DEFAULT: '#D5AEFF',
+            dark: '#A85BFB',
+          },
+          9: {
+            light: '#FECCFF',
+            DEFAULT: '#FEA5FF',
+            dark: '#F95BFB',
+          },
+          11: {
+            light: '#FFB7C5',
+            DEFAULT: '#FF9BAF',
+            dark: '#FB5B7C',
+          },
+        },
       },
       height: {
         22: '5.5rem',

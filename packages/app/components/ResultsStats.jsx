@@ -48,44 +48,47 @@ const ResultsStats = ({
   }, [adData, aggregatedAdData, facebookPixelEvent, currency, platform])
 
   return (
-    <div className="col-span-12 grid grid-cols-12 sm:gap-x-12">
-      <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0">
-        {newAudienceData ? (
-          <ResultsNewAudienceStats data={newAudienceData} />
-        ) : (
-          <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-twitter" />
-        )}
-      </div>
-
-      <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0">
-        {existingAudienceData ? (
-          <ResultsExistingAudienceStats data={existingAudienceData} />
-        ) : (
-          <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-green" />
-        )}
-      </div>
-
-      {hasSalesObjective && (
-        <div className="col-span-12 sm:col-span-4 mb-8 sm:mb-0">
-          {conversionData ? (
-            <ResultsConversionStats data={conversionData} currency={currency} />
+    <>
+      <p className="mb-3"><span className="font-bold">Period: </span>Last 30 days</p>
+      <div className="grid grid-cols-12 border border-solid border-grey-light rounded-dialogue overflow-hidden">
+        <div className="col-span-12 sm:col-span-4 sm:border-r border-solid border-grey-light">
+          {newAudienceData ? (
+            <ResultsNewAudienceStats data={newAudienceData} />
           ) : (
-            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-insta" />
+            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-twitter" />
           )}
         </div>
-      )}
 
-      {(hasInstagramGrowthObjective || hasSpotifyGrowthObjective) && (
-        <div className="col-span-12 sm:col-span-4">
-          {platformData ? (
-            <ResultsPlatformGrowthStats data={platformData} />
+        <div className="col-span-12 sm:col-span-4 border-b sm:border-r border-solid border-grey-light">
+          {existingAudienceData ? (
+            <ResultsExistingAudienceStats data={existingAudienceData} />
           ) : (
-            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-insta" />
+            <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-green" />
           )}
         </div>
-      )}
 
-    </div>
+        {hasSalesObjective && (
+          <div className="col-span-12 sm:col-span-4">
+            {conversionData ? (
+              <ResultsConversionStats data={conversionData} currency={currency} />
+            ) : (
+              <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-insta" />
+            )}
+          </div>
+        )}
+
+        {(hasInstagramGrowthObjective || hasSpotifyGrowthObjective) && (
+          <div className="col-span-12 sm:col-span-4">
+            {platformData ? (
+              <ResultsPlatformGrowthStats data={platformData} />
+            ) : (
+              <MarkdownText markdown={copy.statsNoData} className="px-16 text-center text-xl text-insta" />
+            )}
+          </div>
+        )}
+
+      </div>
+    </>
   )
 }
 

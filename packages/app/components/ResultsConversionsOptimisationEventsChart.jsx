@@ -24,7 +24,7 @@ const ResultsConversionsOptimisationEventsChart = ({ data }) => {
               'absolute',
               'top-0 left-0',
               'w-full h-full',
-              'bg-insta',
+              'bg-gradient-11-dark',
               'rounded-full',
             ].join(' ')}
           />

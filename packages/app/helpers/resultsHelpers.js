@@ -61,19 +61,19 @@ export const adMetricTypes = [
     name: 'engagement',
     key: 'unaware',
     valueKey: 'engaged',
-    color: brandColors.blue,
+    color: brandColors.gradient[1].dark,
   },
   {
     name: 'nurture',
     key: 'on_platform',
     valueKey: 'reach',
-    color: brandColors.green,
+    color: brandColors.gradient[7].dark,
   },
   {
     name: 'growth',
     key: 'conversions',
     valueKey: ['sales_value', 'events_count'],
-    color: brandColors.redLight,
+    color: brandColors.gradient[11].dark,
   },
 ]
 

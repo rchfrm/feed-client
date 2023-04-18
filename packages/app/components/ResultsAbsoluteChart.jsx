@@ -58,7 +58,7 @@ const ResultsAbsoluteChart = ({
       <div style={{ width: `${prevPeriodProportion}%` }}>
         <div
           ref={prevPeriodChartRef}
-          className="flex justify-center items-center h-7 bg-twitter opacity-50 rounded-full mb-1"
+          className="flex justify-center items-center h-7 opacity-50 rounded-dialogue mb-1"
           style={{ backgroundColor: color, transform: 'scale(0)' }}
         >
           {tooltipMessage && (
@@ -66,16 +66,16 @@ const ResultsAbsoluteChart = ({
           )}
         </div>
         {tooltipMessage ? (
-          <ResultsAbsoluteChartTooltip title={tooltipTitles[0]} message={tooltipMessage} />
+          <ResultsAbsoluteChartTooltip title={tooltipTitles[0]} message={tooltipMessage} color={color} />
         ) : (
-          <p className="mb-0 text-center text-xs">{isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}</p>
+          <p className="mb-0 text-center text-xs" style={{ color, filter: 'brightness(50%)' }}>{isPurchase ? formatCurrency(prevPeriod, currency) : formatNumber(prevPeriod)}</p>
         )}
       </div>
-      <ChartIcon className="h-6 w-6 -mx-1 z-10" fill={color} direction="right" style={{ filter: 'brightness(75%)' }} />
+      <ChartIcon className="h-6 w-6 mx-1 z-10" fill={color} direction="right" style={{ filter: 'brightness(50%)' }} />
       <div style={{ width: `${currentPeriodProportion}%` }}>
         <div
           ref={nextPeriodChartRef}
-          className="flex justify-center items-center h-7 bg-twitter rounded-full mb-1"
+          className="flex justify-center items-center h-7 rounded-dialogue mb-1"
           style={{ backgroundColor: color, transform: 'scale(0)' }}
         >
           {tooltipMessage && (
@@ -84,9 +84,9 @@ const ResultsAbsoluteChart = ({
         </div>
         <div className="text-center text-xs font-bold">
           {tooltipMessage ? (
-            <ResultsAbsoluteChartTooltip title={tooltipTitles[1]} message={tooltipMessage} />
+            <ResultsAbsoluteChartTooltip title={tooltipTitles[1]} message={tooltipMessage} color={color} />
           ) : (
-            <p className="text-center text-xs mb-0">{isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}</p>
+            <p className="text-center text-xs mb-0" style={{ color, filter: 'brightness(50%)' }}>{isPurchase ? formatCurrency(currPeriod, currency) : formatNumber(absoluteGrowth)}</p>
           )}
         </div>
       </div>
