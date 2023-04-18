@@ -74,7 +74,7 @@ const MailchimpForm = ({
               {/* GDPR */}
               <fieldset name="interestgroup_field">
                 <CheckboxInput
-                  buttonLabel="Tick the GDPR box to show you want our emails."
+                  buttonLabel="Yes, sign me up."
                   className="text-xs"
                   value="Y"
                   id="gdpr_9737"
