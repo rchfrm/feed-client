@@ -2,12 +2,10 @@ import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
-import MarkdownText from '@/elements/MarkdownText'
 import ResultsContent from '@/app/ResultsContent'
 import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { getAdBenchmark, getAggregatedAdBenchmark } from '@/app/helpers/resultsHelpers'
-import copy from '@/app/copy/ResultsPageCopy'
 
 const getControlsStoreState = (state) => ({
   isSpendingPaused: state.isSpendingPaused,
@@ -25,10 +23,8 @@ const ResultsLoader = () => {
 
   const handleDataRequest = async (getData, data, setData) => {
     if (data) {
-      setIsLoading(false)
       return
     }
-    setIsLoading(true)
 
     const { res, error } = await getData(artistId)
 
@@ -38,7 +34,6 @@ const ResultsLoader = () => {
       return
     }
 
-    setIsLoading(false)
     setData(res)
   }
 
@@ -46,17 +41,14 @@ const ResultsLoader = () => {
     if (! isMounted()) {
       return
     }
-    setIsLoading(true)
 
     await Promise.all([
       handleDataRequest(getAdBenchmark, adData, setAdData),
       handleDataRequest(getAggregatedAdBenchmark, aggregatedAdData, setAggregatedAdData),
     ])
-  }, [])
 
-  if (! hasSetUpProfile) {
-    return <MarkdownText markdown={copy.noResultsData(isSpendingPaused, hasSetUpProfile)} />
-  }
+    setIsLoading(false)
+  }, [])
 
   if (isLoading) return <Spinner />
 
@@ -68,6 +60,7 @@ const ResultsLoader = () => {
       aggregatedAdData={aggregatedAdData}
       isSpendingPaused={isSpendingPaused}
       hasSetUpProfile={hasSetUpProfile}
+      isLoading={isLoading}
     />
   )
 }

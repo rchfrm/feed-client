@@ -116,7 +116,7 @@ const Select = ({
           />
           {/* Loading icon */}
           {loading && (
-            <Spinner className="select--spinner" />
+            <Spinner className="select--spinner" width={version.includes('small') ? 15 : null} />
           )}
         </div>
       </label>

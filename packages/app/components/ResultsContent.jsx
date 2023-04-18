@@ -15,6 +15,7 @@ const ResultsContent = ({
   aggregatedAdData,
   isSpendingPaused,
   hasSetUpProfile,
+  isLoading,
 }) => {
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
@@ -24,7 +25,7 @@ const ResultsContent = ({
   const hasInstagramGrowthObjective = hasGrowthObjective && platform === 'instagram'
   const hasSpotifyGrowthObjective = hasGrowthObjective && platform === 'spotify'
 
-  if (! adData) {
+  if (! isLoading && ! adData) {
     return <MarkdownText markdown={copy.noResultsData(isSpendingPaused, hasSetUpProfile)} />
   }
 
@@ -33,16 +34,19 @@ const ResultsContent = ({
       {hasGrowthObjective && (
         <ResultsFollowerGrowth
           platform={platform}
+          hasInstagramGrowthObjective={hasInstagramGrowthObjective}
         />
       )}
-      <ResultsStats
-        adData={adData}
-        aggregatedAdData={aggregatedAdData}
-        hasSalesObjective={hasSalesObjective}
-        hasInstagramGrowthObjective={hasInstagramGrowthObjective}
-        hasSpotifyGrowthObjective={hasSpotifyGrowthObjective}
-        platform={platform}
-      />
+      {adData && aggregatedAdData && (
+        <ResultsStats
+          adData={adData}
+          aggregatedAdData={aggregatedAdData}
+          hasSalesObjective={hasSalesObjective}
+          hasInstagramGrowthObjective={hasInstagramGrowthObjective}
+          hasSpotifyGrowthObjective={hasSpotifyGrowthObjective}
+          platform={platform}
+        />
+      )}
     </>
   )
 }
@@ -52,6 +56,7 @@ ResultsContent.propTypes = {
   aggregatedAdData: PropTypes.object,
   isSpendingPaused: PropTypes.bool.isRequired,
   hasSetUpProfile: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 }
 
 ResultsContent.defaultProps = {

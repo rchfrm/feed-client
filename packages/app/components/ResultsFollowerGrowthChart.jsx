@@ -32,16 +32,16 @@ const ResultsFollowerGrowthChart = ({
     },
   ]
 
-  if (isLoading || ! followerGrowth) {
-    return <Spinner />
-  }
-
   return (
     <>
-      <ChartLine
-        data={[followerGrowth, adSpend]}
-        currency={currency}
-      />
+      {(isLoading || ! followerGrowth) ? (
+        <Spinner className="w-full aspect-[2/1] flex justify-center items-center" />
+      ) : (
+        <ChartLine
+          data={[followerGrowth, adSpend]}
+          currency={currency}
+        />
+      )}
       <ResultsFollowerGrowthChartLegend
         items={legendItems}
       />

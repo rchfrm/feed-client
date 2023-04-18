@@ -3,10 +3,11 @@ import * as api from '@/helpers/api'
 import moment from 'moment'
 import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
-import { formatCurrency } from '@/helpers/utils'
+import { formatCurrency, capitalise } from '@/helpers/utils'
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 import insightDataSources from '@/constants/insightDataSources'
+import countries from '@/constants/countries'
 
 export const formatServerData = ({ dailyData, dates = {}, currentDataSource, currentPlatform, projection }) => {
   // Convert dates object to array
@@ -76,14 +77,39 @@ export const adMetricTypes = [
     color: brandColors.gradient[11].dark,
   },
 ]
+export const instagramDataSources = {
+  all: 'instagram_follower_count',
+  gender: 'instagram_audience_gender_age',
+  country: 'instagram_audience_country',
+  city: 'instagram_audience_city',
+}
 
 export const followerGrowthDataSources = {
   facebook: 'facebook_likes',
-  instagram: 'instagram_follower_count',
+  instagram: instagramDataSources.all,
   soundcloud: 'soundcloud_follower_count',
   spotify: 'spotify_follower_count',
   youtube: 'youtube_subscriber_count',
 }
+
+export const dataSourceOptions = [
+  {
+    name: 'All',
+    value: instagramDataSources.all,
+  },
+  {
+    name: 'Gender and age',
+    value: instagramDataSources.gender,
+  },
+  {
+    name: 'Country',
+    value: instagramDataSources.country,
+  },
+  {
+    name: 'City',
+    value: instagramDataSources.city,
+  },
+]
 
 const formatResultsData = (data) => {
   const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
@@ -463,7 +489,7 @@ export const getStatsData = (adData, aggregatedAdData, platform) => {
 }
 
 export const getDataSources = async (dataSources, artistId) => {
-  const data = await getDataSourceValue(Object.values(dataSources), artistId)
+  const data = await getDataSourceValue(dataSources, artistId)
 
   const formattedData = Object.entries(data).reduce((result, [key, dataSource]) => {
     return {
@@ -479,7 +505,7 @@ export const getDataSources = async (dataSources, artistId) => {
   return formattedData
 }
 
-export const formatDataSources = (dataSources, platform) => {
+export const formatDataSources = (dataSources, dataSourceName) => {
   const sortedDataSources = Object.values(dataSources).sort((a, b) => Object.keys(a.dailyData).length - Object.keys(b.dailyData).length)
   const intersectingKeys = Object.keys(sortedDataSources[0].dailyData).filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
 
@@ -496,7 +522,7 @@ export const formatDataSources = (dataSources, platform) => {
 
   return {
     adSpend: filterDataSource(dataSources.facebook_ad_spend_feed),
-    followerGrowth: filterDataSource(dataSources[followerGrowthDataSources[platform]]),
+    followerGrowth: filterDataSource(dataSources[dataSourceName]),
   }
 }
 
@@ -570,6 +596,18 @@ export const getSlicedDataSources = (period, initialDataSources) => {
   }
 
   return getLastThirtyDays(initialDataSources)
+}
+
+export const formatBreakdownOptionValues = (key, dataSourceName) => {
+  if (dataSourceName === instagramDataSources.gender) {
+    return capitalise(key.replaceAll('_', ' '))
+  }
+
+  if (dataSourceName === instagramDataSources.country) {
+    return countries.find((country) => country.id === key)?.name
+  }
+
+  return key
 }
 
 // GET AD BENCHMARK

@@ -10,6 +10,7 @@ const ResultsFollowerGrowthHeader = ({
   period,
   currency,
   platform,
+  breakdownBy,
 }) => {
   const { adSpend, followerGrowth } = dataSources
   const dateKeys = Object.keys(Object.values(dataSources)[0])
@@ -20,7 +21,7 @@ const ResultsFollowerGrowthHeader = ({
   const totalFollowersAddedInPeriod = sumAddedFollowers(followerGrowth, spendingPeriodIndexes)
   const totalSpendInPeriod = Object.values(adSpend).reduce((a, b) => a + b, 0)
   const costPerFollower = Math.abs(totalSpendInPeriod / totalFollowersAddedInPeriod)
-  const shouldShowCostPerFollower = totalFollowersAddedInPeriod > 0 && Number.isFinite(costPerFollower)
+  const shouldShowCostPerFollower = totalFollowersAddedInPeriod > 0 && ! breakdownBy && Number.isFinite(costPerFollower)
 
   return (
     <div className="w-full rounded-dialogue mb-4 p-5 bg-green-bg-light text-xl sm:text-2xl">
@@ -28,7 +29,7 @@ const ResultsFollowerGrowthHeader = ({
         <>
           <div className="mb-2">
             <span className="font-bold bg-green-bg-dark rounded-dialogue mr-1 px-1.5 py-0.5">{abbreviateNumber(Math.abs(totalFollowersAddedInPeriod))}</span>
-            <span className="mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedInPeriod, platform)}</span>
+            <span className="mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedInPeriod, platform, shouldShowCostPerFollower)}</span>
             {shouldShowCostPerFollower && <><span className="font-bold bg-green-bg-dark rounded-dialogue mx-1 py-0.5"> {formatCurrency(costPerFollower, currency)} </span>each.</>}
           </div>
           <MarkdownText markdown={copy.followerGrowthHeaderSubtitle({ period, startDate, endDate })} className="mb-0 text-xs text-green-dark" />
@@ -45,6 +46,7 @@ ResultsFollowerGrowthHeader.propTypes = {
   period: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.string.isRequired,
 }
 
 export default ResultsFollowerGrowthHeader
