@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
-import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, formatBreakdownOptionValues } from '@/app/helpers/resultsHelpers'
+import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, formatBreakdownOptionValues, calculateMinAndMaxGrowthProjection } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthChartLoader = ({
   period,
@@ -18,7 +18,7 @@ const ResultsFollowerGrowthChartLoader = ({
   currency,
   hasInstagramGrowthObjective,
 }) => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
 
   const [initialDataSources, setInitialDataSources] = React.useState(null)
 
@@ -33,6 +33,7 @@ const ResultsFollowerGrowthChartLoader = ({
 
     // Format the data sources to make sure that ad spend and growth data periods match
     const formattedDataSources = formatDataSources(data, dataSourceName)
+    console.log(calculateMinAndMaxGrowthProjection(formattedDataSources, artist))
 
     setInitialDataSources(formattedDataSources)
     setDataSources(formattedDataSources)
