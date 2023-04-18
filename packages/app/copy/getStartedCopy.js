@@ -4,7 +4,7 @@ import { capitalise, formatCurrency } from '@/helpers/utils'
 
 export default {
   objectiveSubtitle: 'What are you trying to achieve?',
-  objectiveContact: 'Looking for Website sales or visits? [Get in touch](mailto:team@tryfeed.co)',
+  objectiveContact: 'Looking for Website sales or visits? [Get in touch](mailto:help@tryfeed.co)',
   defaultLinkSubtitle: (platform) => {
     return `Enter the link to your ${getPlatform(platform)}`
   },
