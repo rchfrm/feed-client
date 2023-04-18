@@ -17,7 +17,6 @@ export const PRICING = 'https://tryfeed.co/pricing'
 export const CONNECT_ACCOUNTS = '/connect-accounts'
 export const POSTS = '/'
 export const POST = '/posts/[id]'
-export const INSIGHTS = '/insights'
 export const ACCOUNT = '/account'
 export const PAYMENT = '/account?add-payment'
 export const CONNECTIONS = '/account?connections'
@@ -46,7 +45,6 @@ export const restrictedPages = [
   POSTS,
   POST,
   CONTROLS,
-  INSIGHTS,
   ACCOUNT,
   PAYMENT,
   CONNECTIONS,
@@ -84,7 +82,6 @@ export const generalPages = [
   CONTROLS,
   ...controlsPages,
   RESULTS,
-  INSIGHTS,
 ]
 
 export const subPages = [
