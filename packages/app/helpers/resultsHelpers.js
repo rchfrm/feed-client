@@ -505,6 +505,62 @@ export const getDataSources = async (dataSources, artistId) => {
   return formattedData
 }
 
+export const calculateMinAndMaxGrowthProjection = (dailyData) => {
+  // Before campaign start
+  const followerCountAtCampaignStart = 0
+  const followerCount1WeekBeforeCampaignStart = 0
+  const followerCount1MonthBeforeCampaignStart = 0
+
+  const oneHundredEightyDaysAgo = 0
+  const artistCreatedAt = 0
+  const dateLastCampaignEnded = 0
+  const campaignStartDate = 0
+  const followerCountAtCalculationStartDate = 0
+
+  const dailyGrowthRateSevenDaysBeforeCampaignStart = (1 + ((followerCountAtCampaignStart - followerCount1WeekBeforeCampaignStart) / followerCount1WeekBeforeCampaignStart)) ** (1 / 7)
+  const dailyGrowthRateThirtyDaysBeforeCampaignStart = (1 + ((followerCountAtCampaignStart - followerCount1MonthBeforeCampaignStart) / followerCount1MonthBeforeCampaignStart)) ** (1 / 30)
+
+  const calculationStartDate = oneHundredEightyDaysAgo || artistCreatedAt || dateLastCampaignEnded
+  const numberOfDaysInPeriodBeforeCampaignStart = campaignStartDate - calculationStartDate
+  const dailyGrowthRateMaxBeforeCampaignStart = (1 + ((followerCountAtCampaignStart - followerCountAtCalculationStartDate) / followerCountAtCalculationStartDate)) ** (1 / numberOfDaysInPeriodBeforeCampaignStart)
+
+
+  // After campaign end
+  const followerCountAtCampaignEnd = 0
+  const followerCount1WeekAfterCampaignEnd = 0
+  const followerCount1MonthAfterCampaignEnd = 0
+
+  const oneHundredEightyDaysAfterCampaignEnd = 0
+  const dateOfMostRecentData = 0
+  const dateNextCampaignStarted = 0
+  const campaignEndDate = 0
+  const followerCountAtCalculationEndDate = 0
+
+  const dailyGrowthRateSevenDaysAfterCampaignEnd = (1 + ((followerCount1WeekAfterCampaignEnd - followerCountAtCampaignEnd) / followerCountAtCampaignEnd)) ** (1 / 7)
+  const dailyGrowthRateThirtyDaysAfterCampaignEnd = (1 + ((followerCount1MonthAfterCampaignEnd - followerCountAtCampaignEnd) / followerCountAtCampaignEnd)) ** (1 / 30)
+
+  const calculationEndDate = oneHundredEightyDaysAfterCampaignEnd || dateOfMostRecentData || dateNextCampaignStarted
+  const numberOfDaysInPeriodAfterCampaignEnd = calculationEndDate - campaignEndDate
+  const dailyGrowthRateMaxAfterCampaignEnd = (1 + ((followerCountAtCalculationEndDate - followerCountAtCampaignEnd) / followerCountAtCampaignEnd)) ** (1 / numberOfDaysInPeriodAfterCampaignEnd)
+
+  const lowestDailyGrowthRate = Math.max(dailyGrowthRateSevenDaysAfterCampaignEnd, dailyGrowthRateThirtyDaysAfterCampaignEnd, dailyGrowthRateMaxAfterCampaignEnd)
+  const highestDailyGrowthRate = Math.max(dailyGrowthRateSevenDaysBeforeCampaignStart, dailyGrowthRateThirtyDaysBeforeCampaignStart, dailyGrowthRateMaxBeforeCampaignStart)
+  const dailyGrowthRates = [lowestDailyGrowthRate, highestDailyGrowthRate]
+
+  const [minProjection, maxProjection] = dailyGrowthRates.map((dailyGrowthRate) => {
+    return dailyData.map((day) => {
+      const daysSinceCalculationStartDate = day
+
+      return followerCountAtCalculationStartDate * (1 + dailyGrowthRate) ** daysSinceCalculationStartDate
+    })
+  })
+
+  return {
+    minProjection,
+    maxProjection,
+  }
+}
+
 export const formatDataSources = (dataSources, dataSourceName) => {
   const sortedDataSources = Object.values(dataSources).sort((a, b) => Object.keys(a.dailyData).length - Object.keys(b.dailyData).length)
   const intersectingKeys = Object.keys(sortedDataSources[0].dailyData).filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
