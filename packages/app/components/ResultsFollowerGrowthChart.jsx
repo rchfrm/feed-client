@@ -10,7 +10,11 @@ const ResultsFollowerGrowthChart = ({
   currency,
   isLoading,
 }) => {
-  const { followerGrowth, adSpend } = dataSources || {}
+  const {
+    followerGrowth,
+    adSpend,
+    projections,
+  } = dataSources || {}
 
   const checkSpendDays = (condition) => {
     const values = Object.values(adSpend || {})
@@ -30,15 +34,24 @@ const ResultsFollowerGrowthChart = ({
       color: brandColors.red,
       shouldShow: checkSpendDays(false),
     },
+    {
+      label: 'Red shaded area',
+      description: 'Range of projected follower growth without Feed.',
+      color: brandColors.red,
+      shouldShow: checkSpendDays(true),
+      hasGradient: true,
+    },
   ]
 
   return (
     <>
-      {(isLoading || ! followerGrowth) ? (
+      {(isLoading || ! followerGrowth || (! projections?.length && checkSpendDays(true))) ? (
         <Spinner className="w-full aspect-[2/1] flex justify-center items-center" />
       ) : (
         <ChartLine
-          data={[followerGrowth, adSpend]}
+          primaryData={followerGrowth}
+          secondaryData={adSpend}
+          projections={projections}
           currency={currency}
         />
       )}

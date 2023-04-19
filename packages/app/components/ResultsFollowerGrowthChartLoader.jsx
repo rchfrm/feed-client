@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
-import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, formatBreakdownOptionValues, calculateMinAndMaxGrowthProjection } from '@/app/helpers/resultsHelpers'
+import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, formatBreakdownOptionValues } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthChartLoader = ({
   period,
@@ -33,7 +33,6 @@ const ResultsFollowerGrowthChartLoader = ({
 
     // Format the data sources to make sure that ad spend and growth data periods match
     const formattedDataSources = formatDataSources(data, dataSourceName)
-    console.log(calculateMinAndMaxGrowthProjection(formattedDataSources, artist))
 
     setInitialDataSources(formattedDataSources)
     setDataSources(formattedDataSources)
@@ -64,9 +63,6 @@ const ResultsFollowerGrowthChartLoader = ({
       return
     }
 
-    const slicedDataSources = getSlicedDataSources(period, initialDataSources)
-    const { followerGrowth } = slicedDataSources
-
     const setDailyDataByBreakdown = (followerGrowth) => {
       return Object.entries(followerGrowth).reduce((result, [key, value]) => {
         return {
@@ -76,11 +72,15 @@ const ResultsFollowerGrowthChartLoader = ({
       }, {})
     }
 
-    setDataSources({
-      ...slicedDataSources,
+    const { followerGrowth } = initialDataSources
+    const updatedDataSources = {
+      ...initialDataSources,
       followerGrowth: breakdownBy ? setDailyDataByBreakdown(followerGrowth) : followerGrowth,
-    })
-  }, [initialDataSources, period, setDataSources, breakdownBy])
+    }
+
+    const slicedDataSources = getSlicedDataSources(period, updatedDataSources, artist)
+    setDataSources(slicedDataSources)
+  }, [initialDataSources, period, setDataSources, breakdownBy, artist])
 
   return (
     <ResultsFollowerGrowthChart

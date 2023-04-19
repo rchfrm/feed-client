@@ -505,27 +505,6 @@ export const getDataSources = async (dataSources, artistId) => {
   return formattedData
 }
 
-export const formatDataSources = (dataSources, dataSourceName) => {
-  const sortedDataSources = Object.values(dataSources).sort((a, b) => Object.keys(a.dailyData).length - Object.keys(b.dailyData).length)
-  const intersectingKeys = Object.keys(sortedDataSources[0].dailyData).filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
-
-  const filterDataSource = ({ dailyData }) => {
-    return Object.keys(dailyData)
-      .filter((key) => intersectingKeys.includes(key))
-      .reduce((obj, key) => {
-        return {
-          ...obj,
-          [key]: dailyData[key],
-        }
-      }, {})
-  }
-
-  return {
-    adSpend: filterDataSource(dataSources.facebook_ad_spend_feed),
-    followerGrowth: filterDataSource(dataSources[dataSourceName]),
-  }
-}
-
 const sliceDataSource = (dataSource, start, end) => {
   return Object.fromEntries(Object.entries(dataSource).slice(start, end))
 }
@@ -568,6 +547,17 @@ const getLatestCampaign = (initialDataSources) => {
   }), {})
 }
 
+const getAllCampaigns = (initialDataSources) => {
+  const spendingPeriodIndexes = getSpendingPeriodIndexes(initialDataSources.adSpend, 1)
+
+  return spendingPeriodIndexes.map(([start, end]) => {
+    return Object.entries(initialDataSources).reduce((result, [key, dataSource]) => ({
+      ...result,
+      [key]: sliceDataSource(dataSource, start, end + 1),
+    }), {})
+  })
+}
+
 const getLastThirtyDays = (initialDataSources) => {
   const getLastThirtyDaysIndexes = (dataSource) => {
     const keys = Object.keys(dataSource)
@@ -584,18 +574,6 @@ const getLastThirtyDays = (initialDataSources) => {
     ...result,
     [key]: sliceDataSource(dataSource, start, end),
   }), {})
-}
-
-export const getSlicedDataSources = (period, initialDataSources) => {
-  if (period === 'all') {
-    return initialDataSources
-  }
-
-  if (period === 'campaign') {
-    return getLatestCampaign(initialDataSources)
-  }
-
-  return getLastThirtyDays(initialDataSources)
 }
 
 export const formatBreakdownOptionValues = (key, dataSourceName) => {
@@ -661,18 +639,21 @@ export const calculateMinAndMaxGrowthProjection = (initialDataSources, artist) =
     dailyGrowthRateMaxAfterCampaignEnd,
   ].filter(Boolean)
 
-  const lowestDailyGrowthRate = Math.min(...dailyGrowthRates)
-  const highestDailyGrowthRate = Math.max(...dailyGrowthRates)
+  const lowestDailyGrowthRate = 0.8
+  const highestDailyGrowthRate = 0.9
+  // const lowestDailyGrowthRate = Math.min(...dailyGrowthRates)
+  // const highestDailyGrowthRate = Math.max(...dailyGrowthRates)
 
   const [minProjection, maxProjection] = [lowestDailyGrowthRate, highestDailyGrowthRate].map((dailyGrowthRate) => {
-    return Object.entries(campaign.followerGrowth).reduce((result, [key]) => {
+    return Object.entries(campaign.followerGrowth).reduce((result, [key, value], index) => {
       const calculationStartDate = moment.max([moment(campaignStartDate), moment(allDateKeys[0])]).format('YYYY-MM-DD')
       const daysSinceCalculationStartDate = moment(key).diff(moment(calculationStartDate), 'days')
       const followerCountAtCalculationStartDate = initialDataSources.followerGrowth[calculationStartDate]
 
       return {
         ...result,
-        [key]: (followerCountAtCalculationStartDate * (1 + dailyGrowthRate) ** daysSinceCalculationStartDate),
+        // [key]: (followerCountAtCalculationStartDate * (1 + dailyGrowthRate) ** daysSinceCalculationStartDate),
+        [key]: index === 0 ? value : value * dailyGrowthRate,
       }
     }, {})
   })
@@ -680,6 +661,51 @@ export const calculateMinAndMaxGrowthProjection = (initialDataSources, artist) =
   return {
     minProjection,
     maxProjection,
+  }
+}
+
+export const getSlicedDataSources = (period, initialDataSources, artist) => {
+  let slicedDataSources = null
+
+  if (period === 'all') {
+    slicedDataSources = initialDataSources
+  }
+
+  if (period === 'campaign') {
+    slicedDataSources = getLatestCampaign(initialDataSources)
+  }
+
+  if (period === '30d') {
+    slicedDataSources = getLastThirtyDays(initialDataSources)
+  }
+
+  const allCampaigns = getAllCampaigns(slicedDataSources)
+  const projections = allCampaigns.map((campaign) => calculateMinAndMaxGrowthProjection(campaign, artist))
+
+  return {
+    ...slicedDataSources,
+    projections,
+  }
+}
+
+export const formatDataSources = (dataSources, dataSourceName) => {
+  const sortedDataSources = Object.values(dataSources).sort((a, b) => Object.keys(a.dailyData).length - Object.keys(b.dailyData).length)
+  const intersectingKeys = Object.keys(sortedDataSources[0].dailyData).filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
+
+  const filterDataSource = ({ dailyData }) => {
+    return Object.keys(dailyData)
+      .filter((key) => intersectingKeys.includes(key))
+      .reduce((obj, key) => {
+        return {
+          ...obj,
+          [key]: dailyData[key],
+        }
+      }, {})
+  }
+
+  return {
+    adSpend: filterDataSource(dataSources.facebook_ad_spend_feed),
+    followerGrowth: filterDataSource(dataSources[dataSourceName]),
   }
 }
 
