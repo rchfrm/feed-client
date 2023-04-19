@@ -23,7 +23,11 @@ ResultsFollowerGrowthChartLegendItem.propTypes = {
   label: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  hasGradient: PropTypes.bool.isRequired,
+  hasGradient: PropTypes.bool,
+}
+
+ResultsFollowerGrowthChartLegendItem.defaultProps = {
+  hasGradient: PropTypes.false,
 }
 
 export default ResultsFollowerGrowthChartLegendItem
