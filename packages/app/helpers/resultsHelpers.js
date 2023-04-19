@@ -611,21 +611,21 @@ export const formatBreakdownOptionValues = (key, dataSourceName) => {
 }
 
 export const calculateMinAndMaxGrowthProjection = (initialDataSources, artist) => {
-  const latestCampaignDataSources = getLatestCampaign(initialDataSources)
-  const { followerGrowth } = latestCampaignDataSources
-  const dateKeys = Object.keys(followerGrowth)
+  const campaign = getLatestCampaign(initialDataSources)
+  const campaignDateKeys = Object.keys(campaign.followerGrowth)
+  const allDateKeys = Object.keys(initialDataSources.followerGrowth)
 
   // Before campaign start
-  const campaignStartDate = dateKeys[0]
-  const followerCountAtCampaignStart = followerGrowth[campaignStartDate]
+  const campaignStartDate = campaignDateKeys[0]
+  const followerCountAtCampaignStart = campaign.followerGrowth[campaignStartDate]
   const followerCountOneWeekBeforeCampaignStart = initialDataSources.followerGrowth[moment(campaignStartDate).subtract(7, 'days').format('YYYY-MM-DD')]
   const followerCountOneMonthBeforeCampaignStart = initialDataSources.followerGrowth[moment(campaignStartDate).subtract(30, 'days').format('YYYY-MM-DD')]
 
-  const oneHundredEightyDaysAgo = moment().subtract(7, 'days').format('YYYY-MM-DD')
-  const artistCreatedAt = moment(artist.created_at).format('YYYY-MM-DD')
-  const dateLastCampaignEnded = dateKeys[dateKeys.length - 1]
-  // Fix
-  const calculationStartDate = oneHundredEightyDaysAgo || artistCreatedAt || dateLastCampaignEnded
+  const oneHundredEightyDaysAgo = moment().subtract(180, 'days')
+  const artistCreatedAt = moment(artist.created_at)
+  const dateLastCampaignEnded = moment(campaignDateKeys[campaignDateKeys.length - 1])
+  const calculationStartDate = moment.max([oneHundredEightyDaysAgo, artistCreatedAt, dateLastCampaignEnded]).format('YYYY-MM-DD')
+
   const followerCountAtCalculationStartDate = initialDataSources.followerGrowth[calculationStartDate]
   const numberOfDaysInPeriodBeforeCampaignStart = moment(calculationStartDate).diff(moment(campaignStartDate), 'days')
 
@@ -634,18 +634,17 @@ export const calculateMinAndMaxGrowthProjection = (initialDataSources, artist) =
   const dailyGrowthRateMaxBeforeCampaignStart = (1 + ((followerCountAtCampaignStart - followerCountAtCalculationStartDate) / followerCountAtCalculationStartDate)) ** (1 / numberOfDaysInPeriodBeforeCampaignStart)
 
   // After campaign end
-  const campaignEndDate = dateKeys[dateKeys.length - 1]
-  const followerCountAtCampaignEnd = followerGrowth[campaignEndDate]
+  const campaignEndDate = campaignDateKeys[campaignDateKeys.length - 1]
+  const followerCountAtCampaignEnd = campaign.followerGrowth[campaignEndDate]
   const followerCount1WeekAfterCampaignEnd = initialDataSources.followerGrowth[moment(campaignStartDate).add(7, 'days').format('YYYY-MM-DD')]
-  // Fix
-  const followerCount1MonthAfterCampaignEnd = initialDataSources.followerGrowth[moment(campaignStartDate).add(25, 'days').format('YYYY-MM-DD')]
+  const followerCount1MonthAfterCampaignEnd = initialDataSources.followerGrowth[moment(campaignStartDate).add(30, 'days').format('YYYY-MM-DD')]
 
-  const oneHundredEightyDaysAfterCampaignEnd = moment().add(180, 'days').format('YYYY-MM-DD')
-  const dateOfMostRecentData = moment().format('YYYY-MM-DD')
-  // Fix
-  const dateNextCampaignStarted = 0
-  // Fix
-  const calculationEndDate = dateOfMostRecentData || oneHundredEightyDaysAfterCampaignEnd || dateNextCampaignStarted
+  const oneHundredEightyDaysAfterCampaignEnd = moment(campaignEndDate).add(180, 'days')
+  // TODO: fill in these two values
+  const dateOfMostRecentData = moment()
+  const dateNextCampaignStarted = moment()
+  const calculationEndDate = moment.min([oneHundredEightyDaysAfterCampaignEnd, dateOfMostRecentData, dateNextCampaignStarted]).format('YYYY-MM-DD')
+
   const followerCountAtCalculationEndDate = initialDataSources.followerGrowth[calculationEndDate]
   const numberOfDaysInPeriodAfterCampaignEnd = moment(calculationEndDate).diff(moment(campaignEndDate), 'days')
 
@@ -660,17 +659,20 @@ export const calculateMinAndMaxGrowthProjection = (initialDataSources, artist) =
     dailyGrowthRateSevenDaysAfterCampaignEnd,
     dailyGrowthRateThirtyDaysAfterCampaignEnd,
     dailyGrowthRateMaxAfterCampaignEnd,
-  ]
+  ].filter(Boolean)
+
   const lowestDailyGrowthRate = Math.min(...dailyGrowthRates)
   const highestDailyGrowthRate = Math.max(...dailyGrowthRates)
 
   const [minProjection, maxProjection] = [lowestDailyGrowthRate, highestDailyGrowthRate].map((dailyGrowthRate) => {
-    return Object.entries(followerGrowth).reduce((result, [key]) => {
-      const daysSinceCalculationStartDate = moment(calculationStartDate).diff(moment(key), 'days')
+    return Object.entries(campaign.followerGrowth).reduce((result, [key]) => {
+      const calculationStartDate = moment.max([moment(campaignStartDate), moment(allDateKeys[0])]).format('YYYY-MM-DD')
+      const daysSinceCalculationStartDate = moment(key).diff(moment(calculationStartDate), 'days')
+      const followerCountAtCalculationStartDate = initialDataSources.followerGrowth[calculationStartDate]
 
       return {
         ...result,
-        [key]: followerCountAtCalculationStartDate * (1 + dailyGrowthRate) ** daysSinceCalculationStartDate,
+        [key]: (followerCountAtCalculationStartDate * (1 + dailyGrowthRate) ** daysSinceCalculationStartDate),
       }
     }, {})
   })
