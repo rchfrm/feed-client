@@ -91,7 +91,7 @@ const nextConfig = {
       },
       {
         source: '/blog/link-business-facebook-and-instagram-account',
-        destination: '/blog/link-facebook-to-instagram',
+        destination: '/help/link-facebook-to-instagram',
         permanent: true,
       },
       {
