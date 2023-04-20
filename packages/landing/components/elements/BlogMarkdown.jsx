@@ -8,8 +8,8 @@ const MarkdownImage = (paragraph) => {
   const { node } = paragraph
   if (node.children[0].type === 'image') {
     const { url, alt: metastring } = node.children[0]
-    const alt = metastring.match(/(?<={alt:)(.*?)(?=})/g)[0]
-    const [width, height] = metastring.match(/(?<={dimensions:)(.*?)(?=})/g)[0].split('x')
+    const alt = metastring.match(/(?:{alt:)(.*?)(?=})/)[1]
+    const [width, height] = metastring.match(/(?:{dimensions:)(.*?)(?=})/)[1].split('x')
     const isPriority = Boolean(metastring.match('{priority}'))
 
     return (
