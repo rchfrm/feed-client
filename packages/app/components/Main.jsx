@@ -93,6 +93,8 @@ function Main({ children }) {
       return
     }
 
+    console.log('Profile setup status', getProfileSetupStatus())
+
     updateProfileSetUpStatus(getProfileSetupStatus() || profileStatus.confirmSetup)
   }, [profileSetupConditions, artistId, user, controlsLoading])
 
