@@ -86,12 +86,10 @@ const useCheckProfileSetupStatus = () => {
       name: profileStatus.paymentMethod,
       isComplete: isManaged || plan === 'free',
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, dailyBudget, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.platform])
+  ], [platform, wizardState?.platform, wizardState?.defaultLink?.href, wizardState?.plan, defaultLink?.href, plan, isManaged, user.artists.length, enabledPosts.length, adAccountId, locations, artist.country_code, dailyBudget])
 
   const getProfileSetupStatus = () => {
-    const conditionName = profileSetupConditions.find((condition) => ! condition.isComplete)?.name
-    console.log('conditionName', conditionName)
-    return conditionName
+    return profileSetupConditions.find((condition) => ! condition.isComplete)?.name
   }
 
   return { getProfileSetupStatus, profileSetupConditions }
