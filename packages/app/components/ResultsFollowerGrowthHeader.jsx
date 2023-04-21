@@ -18,18 +18,19 @@ const ResultsFollowerGrowthHeader = ({
   const endDate = dateKeys[dateKeys.length - 1]
 
   const amountSpentInCampaign = Object.values(adSpend).reduce((a, b) => a + b, 0)
-  const costPerFollower = getCostPerFollower(dataSources, amountSpentInCampaign)
+  const { estimatedTotalFollowersAddedByFeed, costPerFollower } = getCostPerFollower(dataSources, amountSpentInCampaign) || {}
   const spendingPeriodIndexes = getSpendingPeriodIndexes(adSpend, 1)
-  const totalFollowersAddedInPeriod = sumAddedFollowers(followerGrowth, spendingPeriodIndexes)
-  const shouldShowCostPerFollower = totalFollowersAddedInPeriod > 0 && ! breakdownBy && Number.isFinite(costPerFollower)
+  const totalFollowersAddedInGeneral = sumAddedFollowers(followerGrowth, spendingPeriodIndexes)
+  const shouldShowCostPerFollower = (estimatedTotalFollowersAddedByFeed > 0 && totalFollowersAddedInGeneral > 0) && ! breakdownBy && Number.isFinite(costPerFollower)
+  const totalFollowersAddedByFeed = estimatedTotalFollowersAddedByFeed < totalFollowersAddedInGeneral ? estimatedTotalFollowersAddedByFeed : totalFollowersAddedInGeneral
 
   return (
     <div className="w-full rounded-dialogue mb-4 p-5 bg-green-bg-light text-xl sm:text-2xl">
       {amountSpentInCampaign ? (
         <>
           <div className="mb-2">
-            <span className="font-bold bg-green-bg-dark rounded-dialogue mr-1 px-1.5 py-0.5">{abbreviateNumber(Math.abs(totalFollowersAddedInPeriod))}</span>
-            <span className="mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedInPeriod, platform, shouldShowCostPerFollower)}</span>
+            <span className="font-bold bg-green-bg-dark rounded-dialogue mr-1 px-1.5 py-0.5">{abbreviateNumber(Math.abs(totalFollowersAddedByFeed))}</span>
+            <span className="mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedByFeed, platform, shouldShowCostPerFollower)}</span>
             {shouldShowCostPerFollower && <><span className="font-bold bg-green-bg-dark rounded-dialogue mx-1 py-0.5"> {formatCurrency(costPerFollower, currency)} </span>each.</>}
           </div>
           <MarkdownText markdown={copy.followerGrowthHeaderSubtitle({ period, startDate, endDate })} className="mb-0 text-xs text-green-dark" />

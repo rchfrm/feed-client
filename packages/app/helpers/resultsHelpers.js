@@ -585,19 +585,22 @@ export const getCostPerFollower = (dataSources, amountSpentInCampaign) => {
 
   const allCampaigns = getAllCampaigns(dataSources)
 
-  const estimatedNumberOfFollowersAddedByFeed = allCampaigns.map((campaign, index) => {
+  const estimatedTotalFollowersAddedByFeed = allCampaigns.map((campaign, index) => {
     const projection = projections[index]
     const projectionDateKeys = Object.keys(projection.minProjection)
     const mostRecentDate = projectionDateKeys[projectionDateKeys.length - 1]
-    const minProjectedFollowerCount = projection.maxProjection[mostRecentDate]
-    const maxProjectedFollowerCount = projection.minProjection[mostRecentDate]
+    const minProjectedFollowerCount = projection.minProjection[mostRecentDate]
+    const maxProjectedFollowerCount = projection.maxProjection[mostRecentDate]
     const actualCampaignFollowerCount = campaign.followerGrowth[mostRecentDate]
-    const averageProjectedFollowerCount = (maxProjectedFollowerCount + minProjectedFollowerCount) / 2
+    const averageProjectedFollowerCount = (minProjectedFollowerCount + maxProjectedFollowerCount) / 2
 
     return actualCampaignFollowerCount - averageProjectedFollowerCount
   }).reduce((a, b) => a + b, 0)
 
-  return amountSpentInCampaign / estimatedNumberOfFollowersAddedByFeed
+  return {
+    estimatedTotalFollowersAddedByFeed,
+    costPerFollower: amountSpentInCampaign / estimatedTotalFollowersAddedByFeed,
+  }
 }
 
 export const formatBreakdownOptionValues = (key, dataSourceName) => {
@@ -663,8 +666,8 @@ export const calculateMinAndMaxGrowthProjection = (initialDataSources, artist) =
     dailyGrowthRateMaxAfterCampaignEnd,
   ].filter(Boolean)
 
-  const lowestDailyGrowthRate = 0.8
-  const highestDailyGrowthRate = 0.9
+  const lowestDailyGrowthRate = 10
+  const highestDailyGrowthRate = 40
   // const lowestDailyGrowthRate = Math.min(...dailyGrowthRates)
   // const highestDailyGrowthRate = Math.max(...dailyGrowthRates)
 
@@ -677,7 +680,7 @@ export const calculateMinAndMaxGrowthProjection = (initialDataSources, artist) =
       return {
         ...result,
         // [key]: (followerCountAtCalculationStartDate * (1 + dailyGrowthRate) ** daysSinceCalculationStartDate),
-        [key]: index === 0 ? value : value * dailyGrowthRate,
+        [key]: index === 0 ? value : value - dailyGrowthRate,
       }
     }, {})
   })
