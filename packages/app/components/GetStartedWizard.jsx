@@ -97,7 +97,7 @@ const GetStartedWizard = () => {
     {
       id: 3,
       name: profileStatus.connectProfile,
-      title: 'Promoting your posts',
+      title: 'Connect your profiles',
       section: getStartedSections.postPromotion,
       component: <GetStartedConnectFacebook />,
       shouldSkip: Boolean(user.artists.length),
