@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Select from '@/elements/Select'
-import { dataSourceOptions } from '@/app/helpers/resultsHelpers'
+import ResultsFollowerGrowthFiltersBreakdownLocation from '@/app/ResultsFollowerGrowthFiltersBreakdownLocation'
+import ResultsFollowerGrowthFiltersBreakdownAgeGender from '@/app/ResultsFollowerGrowthFiltersBreakdownAgeGender'
+import { dataSourceOptions, instagramDataSources } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthFiltersBreakdown = ({
   dataSourceName,
@@ -12,6 +14,8 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
   isLoading,
 }) => {
   const name = dataSourceOptions.find(({ value }) => value === dataSourceName)?.name
+  const isLocationBreakdown = dataSourceName === instagramDataSources.country || dataSourceName === instagramDataSources.city
+
   const handleChange = (e) => {
     const { target: { name, value } } = e
 
@@ -36,18 +40,20 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
         />
       </div>
       {breakdownOptions.length > 0 && (
-        <div>
-          <p className="mb-2">{name}</p>
-          <Select
-            name="breakdown"
-            version="small box"
+        isLocationBreakdown ? (
+          <ResultsFollowerGrowthFiltersBreakdownLocation
+            name={name}
+            breakdownBy={breakdownBy}
+            breakdownOptions={breakdownOptions}
             handleChange={handleChange}
-            options={breakdownOptions}
-            selectedValue={breakdownBy}
             loading={isLoading}
-            className="w-40"
           />
-        </div>
+        ) : (
+          <ResultsFollowerGrowthFiltersBreakdownAgeGender
+            breakdownBy={breakdownBy}
+            breakdownOptions={breakdownOptions}
+          />
+        )
       )}
     </div>
   )
