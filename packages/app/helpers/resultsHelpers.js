@@ -615,6 +615,57 @@ export const formatBreakdownOptionValues = (key, dataSourceName) => {
   return key
 }
 
+export const getBreakdownOptions = (
+  dataSources,
+  dataSourceName,
+  selectedCities,
+) => {
+  const options = Object.keys(Object.values(dataSources.followerGrowth)[0]).map((key) => ({
+    name: formatBreakdownOptionValues(key, dataSourceName),
+    value: key,
+  }))
+
+  if (dataSourceName === instagramDataSources.country) {
+    options.unshift(
+      { name: 'Targeted Countries', value: 'targeted' },
+      { name: 'Non-targeted Countries', value: 'non-targeted' },
+    )
+  }
+
+  if (selectedCities.length && dataSourceName === instagramDataSources.city) {
+    options.unshift(
+      { name: 'Targeted Cities', value: 'targeted' },
+      { name: 'Non-targeted Cities', value: 'non-targeted' },
+    )
+  }
+
+  return options
+}
+
+const getBreakdownValue = (breakdownBy, value, targetedLocations, nonTargetedLocations) => {
+  if (breakdownBy === 'targeted') {
+    return targetedLocations.reduce((result, location) => result + (value[location] || 0), 0)
+  }
+
+  if (breakdownBy === 'non-targeted') {
+    return nonTargetedLocations.reduce((result, location) => result + (value[location] || 0), 0)
+  }
+
+  return value[breakdownBy]
+}
+
+export const getBreakdownData = (breakdownBy, followerGrowth, targetedLocations) => {
+  const allLocations = Object.keys(Object.values(followerGrowth)[0])
+  const nonTargetedLocations = allLocations.filter((location) => ! targetedLocations.includes(location))
+
+  return Object.entries(followerGrowth).reduce((result, [key, value]) => {
+    return {
+      ...result,
+      [key]: getBreakdownValue(breakdownBy, value, targetedLocations, nonTargetedLocations),
+    }
+  }, {})
+}
+
 export const calculateMinAndMaxGrowthProjection = (initialDataSources, artist) => {
   const campaign = getLatestCampaign(initialDataSources)
   const campaignDateKeys = Object.keys(campaign.followerGrowth)

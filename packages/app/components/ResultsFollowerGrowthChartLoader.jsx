@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
-import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, formatBreakdownOptionValues } from '@/app/helpers/resultsHelpers'
+import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, getBreakdownOptions, getBreakdownData } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthChartLoader = ({
   period,
@@ -19,6 +20,7 @@ const ResultsFollowerGrowthChartLoader = ({
   hasInstagramGrowthObjective,
 }) => {
   const { artistId, artist } = React.useContext(ArtistContext)
+  const { selectedCountries, selectedCities } = React.useContext(TargetingContext)
 
   const [initialDataSources, setInitialDataSources] = React.useState(null)
 
@@ -49,10 +51,7 @@ const ResultsFollowerGrowthChartLoader = ({
       return
     }
 
-    const options = Object.keys(Object.values(formattedDataSources.followerGrowth)[0]).map((key) => ({
-      name: formatBreakdownOptionValues(key, dataSourceName),
-      value: key,
-    }))
+    const options = getBreakdownOptions(formattedDataSources, dataSourceName, selectedCities)
     setBreakdownOptions(options)
     setBreakdownBy(options[0].value)
     setIsLoading(false)
@@ -63,24 +62,17 @@ const ResultsFollowerGrowthChartLoader = ({
       return
     }
 
-    const setDailyDataByBreakdown = (followerGrowth) => {
-      return Object.entries(followerGrowth).reduce((result, [key, value]) => {
-        return {
-          ...result,
-          [key]: value[breakdownBy],
-        }
-      }, {})
-    }
+    const targetedLocations = dataSourceName === instagramDataSources.country ? selectedCountries : selectedCities
 
     const { followerGrowth } = initialDataSources
     const updatedDataSources = {
       ...initialDataSources,
-      followerGrowth: breakdownBy ? setDailyDataByBreakdown(followerGrowth) : followerGrowth,
+      followerGrowth: breakdownBy ? getBreakdownData(breakdownBy, followerGrowth, targetedLocations) : followerGrowth,
     }
 
     const slicedDataSources = getSlicedDataSources(period, updatedDataSources, artist)
     setDataSources(slicedDataSources)
-  }, [initialDataSources, period, setDataSources, breakdownBy, artist])
+  }, [initialDataSources, period, setDataSources, breakdownBy, artist, selectedCountries, selectedCities, dataSourceName])
 
   return (
     <ResultsFollowerGrowthChart
