@@ -4,7 +4,7 @@ import PostCard from '@/app/PostCard'
 import PostNotPromotableReason from '@/app/PostNotPromotableReason'
 import PostsNone from '@/app/PostsNone'
 import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
-import ArtistContext from '@/app/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 const PostsList = ({
   posts,
