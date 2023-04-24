@@ -588,8 +588,7 @@ export const formatBreakdownOptionValues = (key, dataSourceName) => {
   return key
 }
 
-export const calculateMinAndMaxGrowthProjection = (initialDataSources, artist) => {
-  const campaign = getLatestCampaign(initialDataSources)
+export const calculateMinAndMaxGrowthProjection = (initialDataSources, campaign, artist) => {
   const campaignDateKeys = Object.keys(campaign.followerGrowth)
   const allDateKeys = Object.keys(initialDataSources.followerGrowth)
 
@@ -680,7 +679,7 @@ export const getSlicedDataSources = (period, initialDataSources, artist) => {
   }
 
   const allCampaigns = getAllCampaigns(slicedDataSources)
-  const projections = allCampaigns.map((campaign) => calculateMinAndMaxGrowthProjection(campaign, artist))
+  const projections = allCampaigns.map((campaign) => calculateMinAndMaxGrowthProjection(initialDataSources, campaign, artist))
 
   return {
     ...slicedDataSources,
