@@ -41,7 +41,8 @@ const PricingPlanUpgradePayment = ({
 
   const stripe = useStripe()
 
-  const { currency, prorations: { amount = 0 } = {} } = prorationsPreview || {}
+  const { currency, prorations } = prorationsPreview || {}
+  const amount = isFreePlan ? 0 : prorations?.amount
   const isDisabled = (! isFreePlan && ! amount) || Boolean(error)
 
   const {
@@ -150,12 +151,14 @@ const PricingPlanUpgradePayment = ({
           canChooseFree={canChooseFree}
         />
       )}
-      <PricingProrationsLoader
-        profilesToUpgrade={profilesToUpgrade}
-        setProfilesToUpgrade={setProfilesToUpgrade}
-        prorationsPreview={prorationsPreview}
-        setProrationsPreview={setProrationsPreview}
-      />
+      {! isFreePlan && (
+        <PricingProrationsLoader
+          profilesToUpgrade={profilesToUpgrade}
+          setProfilesToUpgrade={setProfilesToUpgrade}
+          prorationsPreview={prorationsPreview}
+          setProrationsPreview={setProrationsPreview}
+        />
+      )}
       <Error error={error} />
     </div>
   )
