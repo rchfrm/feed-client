@@ -1,11 +1,8 @@
 import React from 'react'
-
 import useControlsStore from '@/app/stores/controlsStore'
-
 import { UserContext } from '@/app/contexts/UserContext'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
-
 import { getArtistIntegrationByPlatform, profileStatus } from '@/app/helpers/artistHelpers'
 import { getLinkById } from '@/app/helpers/linksHelpers'
 import { getLocalStorage } from '@/helpers/utils'
@@ -39,6 +36,7 @@ const useCheckProfileSetupStatus = () => {
   const {
     daily_budget: dailyBudget,
     plan,
+    is_managed: isManaged,
   } = artist
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
@@ -62,7 +60,7 @@ const useCheckProfileSetupStatus = () => {
     },
     {
       name: profileStatus.pricingPlan,
-      isComplete: Boolean(plan || wizardState?.plan),
+      isComplete: Boolean(plan || wizardState?.plan) || isManaged,
     },
     {
       name: profileStatus.connectProfile,
@@ -86,9 +84,9 @@ const useCheckProfileSetupStatus = () => {
     },
     {
       name: profileStatus.paymentMethod,
-      isComplete: false,
+      isComplete: isManaged || plan === 'free',
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, dailyBudget, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.platform])
+  ], [platform, wizardState?.platform, wizardState?.defaultLink?.href, wizardState?.plan, defaultLink?.href, plan, isManaged, user.artists.length, enabledPosts.length, adAccountId, locations, artist.country_code, dailyBudget])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => ! condition.isComplete)?.name

@@ -84,6 +84,7 @@ const GetStartedDailyBudget = () => {
   const checkAndUpdateCompletedSetupAt = async () => {
     if (! hasSetUpProfile) {
       const { res: artistUpdated, error } = await updateCompletedSetupAt(artistId)
+
       if (error) {
         setError(error)
         setIsLoading(false)
@@ -92,6 +93,7 @@ const GetStartedDailyBudget = () => {
       }
 
       updateArtist(artistUpdated)
+      await saveTargeting('', { ...targetingState, status: 1 })
     }
   }
 
@@ -103,16 +105,13 @@ const GetStartedDailyBudget = () => {
   }
 
   const handleNext = async (budget) => {
-    if (budget === initialTargetingState.budget) {
-      next()
-      return
+    if (budget !== initialTargetingState.budget) {
+      setIsLoading(true)
+      await saveBudget(budget)
     }
 
-    setIsLoading(true)
-
-    await saveBudget(budget)
-
     if (hasFreePlan || isManaged) {
+      setIsLoading(true)
       await checkAndUpdateCompletedSetupAt()
     }
 
