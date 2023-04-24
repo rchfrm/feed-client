@@ -4,7 +4,7 @@ import Select from '@/elements/Select'
 
 const ResultsFollowerGrowthFiltersBreakdownAgeGender = () => {
   const [gender, setGender] = React.useState('all')
-  const [age, setAge] = React.useState({ min: '13', max: '64' })
+  const [age, setAge] = React.useState({ min: 13, max: 99 })
 
   const genderOptions = [
     {
@@ -25,9 +25,6 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = () => {
     },
   ]
 
-  const minAgeValues = ['13', '18', '25', '35', '45', '55', '65+']
-  const maxAgeValues = ['17', '24', '34', '44', '54', '64', 'None']
-
   const handleChange = (e) => {
     const { target: { name, value } } = e
 
@@ -36,6 +33,11 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = () => {
       [name]: value,
     })
   }
+
+  const minAgeValues = [13, 18, 25, 35, 45, 55, 65]
+  const maxAgeValues = [17, 24, 34, 44, 54, 64, 99]
+  const minAgeOptions = minAgeValues.filter((x) => x < age.max).map((y) => ({ name: y === 65 ? '65+' : y, value: y }))
+  const maxAgeOptions = maxAgeValues.filter((x) => x > age.min).map((y) => ({ name: y === 99 ? 'None' : y, value: y }))
 
   return (
     <div className="flex">
@@ -55,7 +57,7 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = () => {
             name="min"
             version="small box"
             handleChange={handleChange}
-            options={minAgeValues.map((age) => ({ name: age, value: age }))}
+            options={minAgeOptions}
             selectedValue={age.min}
             className="w-16 mr-1"
           />
@@ -63,7 +65,7 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = () => {
             name="max"
             version="small box"
             handleChange={handleChange}
-            options={maxAgeValues.map((age) => ({ name: age, value: age }))}
+            options={maxAgeOptions}
             selectedValue={age.max}
             className="w-16"
           />
