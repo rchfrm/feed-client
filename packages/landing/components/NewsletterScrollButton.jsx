@@ -93,6 +93,7 @@ const NewsletterScrollButton = ({
           onClick={() => {
             const headerHeight = document.getElementById('header').offsetHeight
             scrollToEl({ el: newsletterEl, offset: -headerHeight })
+            setIsVisible(false)
           }}
         >
           <strong style={{ marginTop: '-0.12em' }}>

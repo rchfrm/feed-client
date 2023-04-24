@@ -5,6 +5,18 @@ body {
   color: var(--black);
 }
 
+blockquote {
+  font-style: italic;
+  font-size: 1.25em;
+  line-height: 1.5;
+  margin-bottom: var(--sp-5);
+  padding: var(--sp-5);
+  border-left: 4px solid var(--green);
+  background-color: var(--green-bg-light);
+  width: 100%;
+
+}
+
 /* Basic type styles */
 a {
   color: inherit;

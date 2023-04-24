@@ -21,7 +21,7 @@ const getControlsStoreState = (state) => ({
 const useCheckProfileSetupStatus = () => {
   // Get local storage state
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
-  const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
+  const { platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
 
   // Get controls store values
   const {
@@ -30,29 +30,19 @@ const useCheckProfileSetupStatus = () => {
     optimizationPreferences,
   } = useControlsStore(getControlsStoreState)
 
-  const objective = optimizationPreferences.objective || storedObjective
   const platform = optimizationPreferences.platform || storedPlatform
   const defaultLink = getLinkById(nestedLinks, postsPreferences?.defaultLinkId) || storedDefaultLink
-
-  const hasSalesObjective = objective === 'sales'
 
   // Get artist context values
   const { artist, enabledPosts } = React.useContext(ArtistContext)
 
   const {
-    feedMinBudgetInfo: {
-      majorUnit: {
-        minRecommendedStories,
-      } = {},
-    },
     daily_budget: dailyBudget,
     plan,
   } = artist
 
   const facebookIntegration = getArtistIntegrationByPlatform(artist, 'facebook')
   const adAccountId = facebookIntegration?.adaccount_id
-  const facebookPixelId = facebookIntegration?.pixel_id
-  const hasSufficientBudget = (! hasSalesObjective && Boolean(dailyBudget)) || (hasSalesObjective && dailyBudget >= minRecommendedStories)
 
   // Get user context value
   const { user } = React.useContext(UserContext)
@@ -63,12 +53,8 @@ const useCheckProfileSetupStatus = () => {
   // Define profile setup conditions
   const profileSetupConditions = React.useMemo(() => [
     {
-      name: profileStatus.objective,
-      isComplete: Boolean(objective || wizardState?.objective),
-    },
-    {
       name: profileStatus.platform,
-      isComplete: objective !== 'growth' || Boolean(platform || wizardState?.platform),
+      isComplete: Boolean(platform || wizardState?.platform),
     },
     {
       name: profileStatus.defaultLink,
@@ -91,22 +77,18 @@ const useCheckProfileSetupStatus = () => {
       isComplete: Boolean(adAccountId),
     },
     {
-      name: profileStatus.facebookPixel,
-      isComplete: objective !== 'sales' || Boolean(facebookPixelId),
-    },
-    {
       name: profileStatus.location,
       isComplete: (Object.keys(locations || {}).length || artist.country_code),
     },
     {
       name: profileStatus.budget,
-      isComplete: hasSufficientBudget,
+      isComplete: Boolean(dailyBudget),
     },
     {
       name: profileStatus.paymentMethod,
       isComplete: false,
     },
-  ], [adAccountId, artist.country_code, defaultLink?.href, locations, facebookPixelId, hasSufficientBudget, objective, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.objective, wizardState?.platform])
+  ], [adAccountId, artist.country_code, defaultLink?.href, locations, dailyBudget, platform, plan, enabledPosts, user.artists.length, wizardState?.plan, wizardState?.defaultLink?.href, wizardState?.platform])
 
   const getProfileSetupStatus = () => {
     return profileSetupConditions.find((condition) => ! condition.isComplete)?.name

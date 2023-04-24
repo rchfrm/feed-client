@@ -28,17 +28,6 @@ export const getIntegrationInfo = (integration) => {
         accountIdKey: 'username', // TODO
         color: brandColors[platform],
       }
-    case 'soundcloud':
-      return {
-        title: 'Soundcloud',
-        titleVerbose: 'Soundcloud profile',
-        baseUrl: 'https://soundcloud.com/',
-        placeholderUrl: 'https://soundcloud.com/< account ID>',
-        accountIdKey: 'username',
-        color: brandColors[platform],
-        musicOnly: true,
-        editable: true,
-      }
     case 'spotify':
       return {
         title: 'Spotify',
@@ -48,30 +37,6 @@ export const getIntegrationInfo = (integration) => {
         accountIdKey: 'artist_id',
         color: brandColors[platform],
         musicOnly: true,
-        editable: true,
-      }
-    case 'twitter':
-      return {
-        title: 'Twitter',
-        titleVerbose: 'Twitter account',
-        baseUrl: 'https://twitter.com/',
-        placeholderUrl: 'https://twitter.com/<username>',
-        accountIdKey: 'username',
-        color: brandColors[platform],
-        musicOnly: false,
-        editable: true,
-        hidden: false,
-      }
-    case 'youtube':
-      return {
-        title: 'YouTube',
-        titleVerbose: 'YouTube channel',
-        baseUrl: 'https://youtube.com/',
-        placeholderUrl: 'https://youtube.com/<channel ID>',
-        channelIdKey: 'channel_id',
-        userIdKey: 'user_id',
-        customIdKey: 'custom_id',
-        color: brandColors[platform],
         editable: true,
       }
     case 'tiktok':
@@ -101,11 +66,7 @@ export const getIntegrationUrl = (integration, baseUrl) => {
 const getAccountId = (integration = {}, integrationInfo) => {
   const { platform } = integration
   if (! platform) return null
-  const { accountIdKey, channelIdKey, userIdKey, customIdKey } = integrationInfo || getIntegrationInfo({ platform })
-  // Handle YouTube
-  if (platform === 'youtube') {
-    return integration[userIdKey] ?? integration[channelIdKey] ?? integration[customIdKey]
-  }
+  const { accountIdKey } = integrationInfo || getIntegrationInfo({ platform })
   // TODO: Once we've build the functionality to ask the user which advertiser to use, return the real account id
   if (platform === 'tiktok' && Object.prototype.hasOwnProperty.call(integration, 'advertiser_id')) {
     return 'tikTokAccountId'
@@ -115,18 +76,11 @@ const getAccountId = (integration = {}, integrationInfo) => {
 }
 
 // Get account ID KEY from integration
-const getAccountIdKey = (integration, href) => {
-  const { platform, accountIdKey } = integration
+const getAccountIdKey = (integration) => {
+  const { accountIdKey } = integration
   // If key is already defined on integration, return it
   if (accountIdKey) return accountIdKey
   const integrationInfo = getIntegrationInfo(integration)
-  // Fetch key for youtube
-  if (platform === 'youtube') {
-    const { channelIdKey, userIdKey, customIdKey } = integrationInfo
-    if (href.includes('/user/')) return userIdKey
-    if (href.includes('/channel/')) return channelIdKey
-    return customIdKey
-  }
   // Fetch key for the rest
   return integrationInfo.accountIdKey
 }
@@ -136,9 +90,6 @@ const integrationPlaceholders = {
   facebook: null,
   instagram: null,
   spotify: null,
-  soundcloud: null,
-  twitter: null,
-  youtube: null,
   tiktok: null,
 }
 
@@ -154,23 +105,8 @@ export const dummyIntegrations = [
     color: '',
   },
   {
-    platform: 'soundcloud',
-    title: 'SoundCloud',
-    color: '',
-  },
-  {
     platform: 'spotify',
     title: 'Spotify',
-    color: '',
-  },
-  {
-    platform: 'twitter',
-    title: 'Twitter',
-    color: '',
-  },
-  {
-    platform: 'youtube',
-    title: 'Youtube',
     color: '',
   },
   {
@@ -192,24 +128,9 @@ export const dummyIntegrationLinks = [
     titleVerbose: 'Instagram profile',
   },
   {
-    platform: 'soundcloud',
-    href: 'not connected',
-    titleVerbose: 'SoundCloud profile',
-  },
-  {
     platform: 'spotify',
     href: 'not connected',
     titleVerbose: 'Spotify profile',
-  },
-  {
-    platform: 'twitter',
-    href: 'not connected',
-    titleVerbose: 'Twitter account',
-  },
-  {
-    platform: 'youtube',
-    href: 'not connected',
-    titleVerbose: 'Youtube account',
   },
   {
     platform: 'tiktok',
@@ -257,15 +178,6 @@ export const getIntegrationRegex = (platform, trim) => {
     case 'spotify':
       if (trim) return /^(?:(?:(?:https?:)?\/\/)?open.spotify.com\/|spotify:)(artist)(?:\/|:)/
       return /^(?:(?:(?:https?:)?\/\/)?open.spotify.com\/|spotify:)(artist)(?:\/|:)([A-Za-z0-9]+)/
-    // https://regexr.com/5et0m
-    case 'soundcloud':
-      if (trim) return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\//
-      return /^(?:(?:https?:)?\/\/)?(?:soundcloud.com|snd.sc)\/([^/]+)/
-    case 'twitter':
-      return /^(?:(?:https?:)?\/\/)?(?:twitter.com)\/([^/|?]+)/
-    case 'youtube':
-      if (trim) return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/|c\/|user\/)?/
-      return /((http|https):\/\/|)(www\.|)youtube\.com\/(channel\/([a-zA-Z0-9-_]{24})|c\/([a-zA-Z0-9-_]+)|user\/([a-zA-Z0-9-_]+)|([a-zA-Z0-9-_]+))$/
     case 'instagram':
       if (trim) return /(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\//
       return /(?:(?:http|https):\/\/)?(?:www\.)?(?:instagram\.com|instagr\.am)\/([A-Za-z0-9-_.]+)/
@@ -295,6 +207,6 @@ export const updateIntegration = async (artistId, integration, href, action = 'a
   }
   const integrationRegex = testValidIntegration(href, platform)
   const accountId = integrationRegex.filter(Boolean).pop()
-  const accountIdKey = getAccountIdKey(integration, href)
+  const accountIdKey = getAccountIdKey(integration)
   return appServer.updateIntegration(artistId, [{ platform, accountIdKey, value: accountId }])
 }

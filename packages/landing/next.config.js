@@ -13,9 +13,6 @@ dotenv.config()
 
 const sharedPath = path.resolve(__dirname, '../shared')
 
-// UTIL FOR FETCHING GLOBAL DATA
-const fetchGlobalInfo = require('./helpers/fetchGlobalInfo')
-
 // NEXT CONFIG
 const build_env = process.env.BUILD_ENV || process.env.NODE_ENV
 
@@ -34,6 +31,11 @@ const nextConfig = {
     release_version: process.env.RELEASE_VERSION,
   },
   webpack: (config, { webpack }) => {
+    // Support import of markdown files
+    config.module.rules.push({
+      test: /\.md$/,
+      use: 'raw-loader',
+    })
     // Reduce size of moment.js
     config.plugins.push(
       // Ignore all locale files of moment.js
@@ -60,7 +62,6 @@ const nextConfig = {
     if (! cacheDirExists) {
       await fs.mkdirSync('./tempData')
     }
-    await fetchGlobalInfo()
     // HANDLE REDIRECTS
     return [
       {
@@ -79,6 +80,21 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/blog/the-lifetime-value-of-a-spotify-follower',
+        destination: '/blog/spotify-follower-ltv',
+        permanent: true,
+      },
+      {
+        source: '/blog/setting-a-music-marketing-budget',
+        destination: '/blog/music-marketing-budget',
+        permanent: true,
+      },
+      {
+        source: '/blog/link-business-facebook-and-instagram-account',
+        destination: '/help/link-facebook-to-instagram',
+        permanent: true,
+      },
+      {
         source: '/join',
         destination: 'https://app.tryfeed.co/join',
         permanent: true,
@@ -86,6 +102,17 @@ const nextConfig = {
     ]
   },
   transpilePackages: [sharedPath],
+  images: {
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/feed-public/**',
+      },
+    ],
+  },
 }
 
 module.exports = withPlugins([

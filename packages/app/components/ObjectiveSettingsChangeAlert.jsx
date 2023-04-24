@@ -1,62 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import useAsyncEffect from 'use-async-effect'
-
 import useAlertModal from '@/hooks/useAlertModal'
-
-import Spinner from '@/elements/Spinner'
+import ObjectiveSettingsChangeAlertDefaultLink from '@/app/ObjectiveSettingsChangeAlertDefaultLink'
 
 const ObjectiveSettingsChangeAlert = ({
-  objectiveChangeSteps,
+  platform,
+  objective,
   shouldShowAlert,
   setShouldShowAlert,
   onCancel,
-  save,
-  objective,
-  platform,
-  setPlatform,
-  isLoading,
+  onConfirm,
 }) => {
-  const [shouldSave, setShouldSave] = React.useState(false)
-  const [hasError, setHasError] = React.useState(false)
-  const [isDisabled, setIsDisabled] = React.useState(false)
-  const [currentStep, setCurrentStep] = React.useState(0)
-  const [forceSave, setForceSave] = React.useState(false)
-  const [savedLink, setSavedLink] = React.useState(null)
-
-  const isLastStep = currentStep + 1 === objectiveChangeSteps.length
-  const isFirstRender = React.useRef(true)
-
-  const alertContents = React.useMemo(() => {
-    if (objectiveChangeSteps.length) {
-      // Add additional props to the alert content component
-      const StepComponent = React.cloneElement(
-        objectiveChangeSteps[currentStep].component,
-        {
-          shouldSave,
-          setShouldSave,
-          setHasError,
-          setIsDisabled,
-          objective,
-          platform,
-          setPlatform,
-          setSavedLink,
-          setForceSave,
-        },
-      )
-      return isLoading ? (
-        <Spinner className="h-48 flex items-center" width={28} />
-      ) : (
-        StepComponent
-      )
-    }
-  }, [objectiveChangeSteps, currentStep, shouldSave, platform, setPlatform, objective, isLoading])
-
+  const [link, setLink] = React.useState({ href: '' })
+  const [isDisabled, setIsDisabled] = React.useState(true)
   const { showAlert, closeAlert } = useAlertModal()
 
   // Set alert content and buttons
   React.useEffect(() => {
-    if (! shouldShowAlert) return closeAlert()
+    if (! shouldShowAlert) {
+      return closeAlert()
+    }
 
     const buttons = [
       {
@@ -69,63 +32,43 @@ const ObjectiveSettingsChangeAlert = ({
       {
         text: 'Save',
         onClick: () => {
-          setShouldSave(true)
+          onConfirm({ platform, newLink: link })
+          setShouldShowAlert(false)
         },
-        shouldCloseOnConfirm: false,
         isDisabled,
       },
     ]
     showAlert({
-      children: alertContents,
+      children: (
+        <ObjectiveSettingsChangeAlertDefaultLink
+          objective={objective}
+          platform={platform}
+          link={link}
+          setLink={setLink}
+          setIsDisabled={setIsDisabled}
+        />
+      ),
       buttons,
       onClose: onCancel,
     })
-  }, [shouldShowAlert, onCancel, alertContents, showAlert, closeAlert, currentStep, objectiveChangeSteps.length, isDisabled, isLastStep])
+  }, [shouldShowAlert, onConfirm, onCancel, showAlert, closeAlert, link, objective, isDisabled, setShouldShowAlert, platform])
 
-  useAsyncEffect(async () => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      return
-    }
-
-    // Save objective changes and close alert if it's the last step, the step data is saved and there were no errors
-    if ((isLastStep && ! shouldSave && ! hasError) || forceSave) {
-      await save({ objective, platform, savedLink }, [], true)
-
-      closeAlert(false)
-      setShouldShowAlert(false)
-      return
-    }
-
-    // Go to next step
-    if (! shouldSave && ! isLastStep) {
-      setCurrentStep((currentStep) => currentStep + 1)
-    }
-  }, [shouldSave, forceSave])
-
-  // Hide alert when unmounting
   React.useEffect(() => {
     return () => {
       closeAlert(false)
     }
   }, [closeAlert])
 
-  // No render
   return null
 }
 
 ObjectiveSettingsChangeAlert.propTypes = {
-  objectiveChangeSteps: PropTypes.array.isRequired,
-  shouldShowAlert: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  save: PropTypes.func.isRequired,
-  objective: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
-  setPlatform: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-}
-
-ObjectiveSettingsChangeAlert.defaultProps = {
+  objective: PropTypes.string.isRequired,
+  shouldShowAlert: PropTypes.bool.isRequired,
+  setShouldShowAlert: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
 }
 
 export default ObjectiveSettingsChangeAlert

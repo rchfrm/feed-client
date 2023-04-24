@@ -455,9 +455,11 @@ export const formatProfileAmounts = (organizationArtists, profileAmounts) => {
 
 export const formatProfilesToUpgrade = (profilesToUpgrade) => {
   return Object.keys(profilesToUpgrade).reduce((acc, cur) => {
-    const [planPrefix] = profilesToUpgrade[cur]?.split('_') || []
+    const [planPrefix, planPeriod] = profilesToUpgrade[cur]?.split('_') || []
 
-    if (planPrefix === 'none') {
+    if (planPeriod) {
+      acc[cur] = profilesToUpgrade[cur]
+    } else if (planPrefix === 'none') {
       acc[cur] = undefined
     } else {
       acc[cur] = getPricingPlanString(profilesToUpgrade[cur])

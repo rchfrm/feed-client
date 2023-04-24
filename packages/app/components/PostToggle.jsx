@@ -13,8 +13,8 @@ const PostToggle = ({
   setPost,
   isEnabled,
   setIsEnabled,
-  disabled,
   isLastPromotableNotRunPost,
+  isDisabled,
   className,
 }) => {
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
@@ -110,7 +110,7 @@ const PostToggle = ({
         state={isEnabled}
         onChange={save}
         isLoading={isLoading}
-        disabled={disabled}
+        disabled={isDisabled}
       />
       <PostSettingsDisableAlert
         shouldShowAlert={shouldShowAlert}
@@ -129,13 +129,13 @@ PostToggle.propTypes = {
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   setPost: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool,
   className: PropTypes.string,
 }
 
 PostToggle.defaultProps = {
-  disabled: false,
+  isDisabled: false,
   className: null,
 }
 

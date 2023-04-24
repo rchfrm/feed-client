@@ -30,7 +30,7 @@ const PostSettings = ({
   const {
     id: postId,
     promotionEnabled,
-    postPromotable,
+    isPromotable,
     conversionsEnabled,
     priorityEnabled,
     promotionEligibility,
@@ -92,10 +92,10 @@ const PostSettings = ({
           <PostSettingsTabs
             campaignType={campaignType}
             setCampaignType={setCampaignType}
-            isDisabled={! postPromotable}
+            isDisabled={! isPromotable}
           />
         )}
-        {! postPromotable && (
+        {! isPromotable && (
           <PostUnpromotable className="w-full max-w-xs mb-10" />
         )}
         {hasSalesObjective && <MarkdownText markdown={copy.postSettingsIntro(campaignType)} />}
@@ -107,13 +107,13 @@ const PostSettings = ({
             updatePost={updatePost}
             isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
             setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
-            isDisabled={isToggleDisabled || ! postPromotable}
             isLastPromotableNotRunPost={isLastPromotableNotRunPost}
+            isDisabled={isToggleDisabled || ! isPromotable}
           />
           <PostSettingsPromotionStatus
             promotionEnabled={promotionEnabled}
             promotionStatus={promotionStatus}
-            postPromotable={postPromotable}
+            isPromotable={isPromotable}
           />
           <PostSettingsScore
             score={normalizedScore}
@@ -134,19 +134,19 @@ const PostSettings = ({
             post={post}
             campaignType={campaignType}
             updatePost={updatePost}
-            isDisabled={isSectionDisabled}
+            isDisabled={isSectionDisabled || ! isPromotable}
           />
           <PostSettingsCallToAction
             post={post}
             campaignType={campaignType}
             updatePost={updatePost}
-            isDisabled={isSectionDisabled}
+            isDisabled={isSectionDisabled || ! isPromotable}
           />
           <PostSettingsCaption
             post={post}
             campaignType={campaignType}
             updatePost={updatePost}
-            isDisabled={isSectionDisabled}
+            isDisabled={isSectionDisabled || ! isPromotable}
           />
         </DisabledSection>
       </div>

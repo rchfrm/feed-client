@@ -48,8 +48,6 @@ Please check your inbox and click the verification link to confirm.`
           return 'target another location'
         case 'linkbank':
           return 'save more links'
-        case 'insights':
-          return 'get some insights'
         case 'budget':
           return 'increase your budget'
         case 'set-budget':
@@ -120,11 +118,6 @@ Please check your inbox and click the verification link to confirm.`
           return 'The "link bank" is your store of links to use across your ads.'
             + '\n\n You might have various product pages, music releases, or blog articles. Here you can save a link to each one and organise them in folders.'
             + '\n\n Those links will then be available to select as your default link or on individual posts.'
-        case 'insights':
-          return 'The insights page is all about the bigger picture.'
-            + '\n\n How has has your Instagram follower count been growing over time?'
-            + '\n\n What about Spotify Monthly Listeners?'
-            + '\n\n Here you can see charts displaying the impact your marketing is having on your audience.'
         case 'budget':
           return `Growth includes a monthly ad spend limit of ${formatCurrency(maxSpendGrowth, currency)}.`
             + `\n\n With Pro this increases to ${formatCurrency(maxSpendPro, currency)}.`
@@ -266,7 +259,6 @@ ${list.join('\n')}`
     if (section === 'post-link') return `${baseString} to set custom links on specific posts`
     if (section === 'post-cta') return `${baseString} to set custom CTAs on specific posts`
     if (section === 'post-caption') return `${baseString} to edit caption of promoted posts`
-    if (section === 'insights') return `${baseString} to track audience data from connected integrations`
     if (section === 'single-post-page') return `${baseString} to use custom settings for specific posts`
     if (section === 'set-budget') return `${baseString} to set a budget`
     if (section === 'profile-select') return `${baseString} to switch between profiles`

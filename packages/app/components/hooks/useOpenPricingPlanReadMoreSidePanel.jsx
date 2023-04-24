@@ -13,13 +13,12 @@ const useOpenPricingPlanReadMoreSidePanel = () => {
     toggleSidePanel,
   } = React.useContext(SidePanelContext)
 
-  const openPricingPlanReadMoreSidePanel = React.useCallback((plan, currencyCode, objective, isDisabled) => {
+  const openPricingPlanReadMoreSidePanel = React.useCallback((plan, currencyCode, objective) => {
     const content = (
       <GetStartedPricingReadMore
         plan={plan}
         currencyCode={currencyCode}
         objective={objective}
-        isDisabled={isDisabled}
       />
     )
     const button = <Button onClick={() => toggleSidePanel(false)} trackComponentName="PricingPlanReadMoreSidePanel" isSidePanel>Done</Button>

@@ -22,7 +22,4 @@ GetStartedPricingPlansHeader.propTypes = {
   setCurrency: PropTypes.func.isRequired,
 }
 
-GetStartedPricingPlansHeader.defaultProps = {
-}
-
 export default GetStartedPricingPlansHeader

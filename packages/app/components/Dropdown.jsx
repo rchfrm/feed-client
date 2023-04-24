@@ -52,14 +52,13 @@ const Dropdown = ({
       >
         {! disabled && (
           <div className={[
-            'mr-1',
             'transition-transform duration-100 transform origin-center',
             isOpen ? 'rotate-90' : null,
           ].join(' ')}
           >
             <CaretIcon
               direction="right"
-              className="w-3 h-3"
+              className="w-7 h-auto"
             />
           </div>
         )}
@@ -74,7 +73,7 @@ const Dropdown = ({
           ].join(' ')}
         >
           {items.map((item) => (
-            <li key={item}>
+            <li key={item} className="mb-1 last:mb-0">
               <button
                 onClick={() => onClick(item)}
                 className="font-semibold"

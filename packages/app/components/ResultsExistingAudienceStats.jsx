@@ -21,33 +21,28 @@ const ResultsExistingAudienceStats = ({ data }) => {
     : abbreviateNumber(chartData.find((o) => o.type === 'curr')?.value)
 
   return (
-    <>
-      <div className="flex sm:flex-col items-center justify-between">
-        <div>
-          <p className="text-xl sm:text-center">Step 2: <strong>Nurture</strong></p>
-          <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
-            <MarkdownText
-              markdown={data.copy || ''}
-              className="mb-6 sm:mb-0 sm:text-center"
-            />
-          </div>
+    <div className="flex flex-col items-center justify-between">
+      <div className="flex sm:flex-col items-center w-full p-3 bg-gradient-5">
+        <p className="mb-0 mr-2 sm:mr-0 sm:text-center text-gradient-5-dark brightness-[50%]">Step 2</p>
+        <p className="mb-0 font-bold text-xl sm:text-center text-gradient-5-dark brightness-[50%]">Nurture</p>
+      </div>
+      <div className="py-10 px-8 sm:p-8">
+        <div className="flex items-top" style={{ minHeight: isDesktopLayout ? '88px' : null }}>
+          <MarkdownText markdown={data.copy || ''} className="mb-6 sm:mb-0 sm:text-center text-gradient-5-dark brightness-[50%]" />
         </div>
         <div className="flex flex-column items-center justify-center">
-          <p
-            className="text-3xl mb-1 sm:text-6xl text-center font-bold"
-            style={{ color: brandColors.green }}
-          >
+          <p className="text-3xl mb-1 sm:text-6xl text-center font-bold text-gradient-5-dark brightness-[50%]">
             {mainValue}
           </p>
-          <p className="hidden sm:block text-xs mb-0 sm:mb-8">of your audience reached</p>
+          <p className="hidden sm:block text-xs mb-0 sm:mb-5 text-gradient-5-dark brightness-[50%]">of your audience reached</p>
         </div>
+        {isMainChart ? (
+          <ResultsExistingAudienceChart data={chartData} />
+        ) : (
+          <ResultsFallbackChart data={chartData} color={brandColors.gradient[7].dark} />
+        )}
       </div>
-      {isMainChart ? (
-        <ResultsExistingAudienceChart data={chartData} />
-      ) : (
-        <ResultsFallbackChart data={chartData} color={brandColors.green} />
-      )}
-    </>
+    </div>
   )
 }
 

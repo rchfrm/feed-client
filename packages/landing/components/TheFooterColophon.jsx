@@ -1,29 +1,37 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 import moment from 'moment'
 import Link from 'next/link'
+import MarkdownText from '@/elements/MarkdownText'
 
-import MarkdownText from '@/landing/elements/MarkdownText'
+const legalLinks = [
+  {
+    title: 'Terms of Service',
+    slug: 'terms',
+  },
+  {
+    title: 'Cookie Policy',
+    slug: 'cookies',
+  },
+  {
+    title: 'Privacy Policy',
+    slug: 'privacy',
+  },
+]
 
-const TheFooterColophon = ({
-  colophon,
-  className,
-  legalLinks,
-}) => {
+const TheFooterColophon = () => {
   const year = moment().format('YYYY')
-  const sentence = `© ${year} ${colophon}`
+  const sentence = `© ${year} **Feed**`
 
   return (
     <>
-      <MarkdownText markdown={sentence} className={[className, 'small--p'].join(' ')} />
+      <MarkdownText markdown={sentence} className={['pt-6', 'text-center', 'mb-4', 'small--p'].join(' ')} />
       <div className="text--block small--p text-center pt-2">
         <p>
-          {legalLinks.map(({ title, href }, index) => {
+          {legalLinks.map(({ title, slug }, index) => {
             const isLast = index === legalLinks.length - 1
             return (
-              <React.Fragment key={href}>
-                <Link href={href} className="underline">
+              <React.Fragment key={slug}>
+                <Link href={`/legal/${slug}`} className="underline">
                   {title}
                 </Link>
                 {! isLast && ' | '}
@@ -34,12 +42,6 @@ const TheFooterColophon = ({
       </div>
     </>
   )
-}
-
-TheFooterColophon.propTypes = {
-  colophon: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-  legalLinks: PropTypes.array.isRequired,
 }
 
 export default TheFooterColophon

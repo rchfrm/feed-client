@@ -1,18 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import useControlsStore from '@/app/stores/controlsStore'
-import useBreakpointTest from '@/hooks/useBreakpointTest'
-
 import ResultsStats from '@/app/ResultsStats'
-import RadioButtonTabs from '@/app/RadioButtonTabs'
-import ResultsTabContent from '@/app/ResultsTabContent'
-import ResultsSpendOverview from '@/app/ResultsSpendOverview'
-
+import ResultsFollowerGrowth from '@/app/ResultsFollowerGrowth'
 import MarkdownText from '@/elements/MarkdownText'
-
-import { adMetricTypes } from '@/app/helpers/resultsHelpers'
-
 import copy from '@/app/copy/ResultsPageCopy'
 
 const getControlsStoreState = (state) => ({
@@ -23,64 +14,40 @@ const ResultsContent = ({
   adData,
   aggregatedAdData,
   isSpendingPaused,
-  hasNoProfiles,
+  hasSetUpProfile,
+  isLoading,
 }) => {
-  const [metricType, setMetricType] = React.useState('engagement')
-
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
+
   const hasSalesObjective = objective === 'sales'
   const hasGrowthObjective = objective === 'growth'
   const hasInstagramGrowthObjective = hasGrowthObjective && platform === 'instagram'
   const hasSpotifyGrowthObjective = hasGrowthObjective && platform === 'spotify'
 
-  const isDesktopLayout = useBreakpointTest('sm')
-
-  if (! adData) return <MarkdownText markdown={copy.noResultsData(isSpendingPaused)} />
+  if (! isLoading && ! adData) {
+    return <MarkdownText markdown={copy.noResultsData(isSpendingPaused, hasSetUpProfile)} />
+  }
 
   return (
-    <div>
-      <div className="grid grid-cols-12 sm:gap-x-12 mb-8">
-        <div className={[
-          'col-span-12',
-        ].join(' ')}
-        >
-          <div className={[
-            'grid grid-cols-12 sm:gap-x-12',
-            'gap-y-8 sm:gap-y-16',
-            'sm:mb-0',
-          ].join(' ')}
-          >
-            <ResultsStats
-              adData={adData}
-              aggregatedAdData={aggregatedAdData}
-              metricType={metricType}
-              hasSalesObjective={hasSalesObjective}
-              hasInstagramGrowthObjective={hasInstagramGrowthObjective}
-              hasSpotifyGrowthObjective={hasSpotifyGrowthObjective}
-              platform={platform}
-              isDesktopLayout={isDesktopLayout}
-              className={isDesktopLayout ? 'order-1' : 'order-2'}
-            />
-            <RadioButtonTabs
-              tabs={adMetricTypes}
-              activeTab={metricType}
-              setActiveTab={setMetricType}
-              shouldHideTab={! hasSalesObjective && ! hasGrowthObjective}
-              tabToHideIndex={2}
-              hasNoProfiles={hasNoProfiles}
-              className={isDesktopLayout ? 'order-2' : 'order-1'}
-            />
-            <ResultsTabContent
-              adData={adData}
-              metricType={metricType}
-              className="order-3"
-            />
-          </div>
-        </div>
-      </div>
-      <ResultsSpendOverview spend={adData.spend} />
-    </div>
+    <>
+      {hasGrowthObjective && (
+        <ResultsFollowerGrowth
+          platform={platform}
+          hasInstagramGrowthObjective={hasInstagramGrowthObjective}
+        />
+      )}
+      {adData && aggregatedAdData && (
+        <ResultsStats
+          adData={adData}
+          aggregatedAdData={aggregatedAdData}
+          hasSalesObjective={hasSalesObjective}
+          hasInstagramGrowthObjective={hasInstagramGrowthObjective}
+          hasSpotifyGrowthObjective={hasSpotifyGrowthObjective}
+          platform={platform}
+        />
+      )}
+    </>
   )
 }
 
@@ -88,7 +55,8 @@ ResultsContent.propTypes = {
   adData: PropTypes.object,
   aggregatedAdData: PropTypes.object,
   isSpendingPaused: PropTypes.bool.isRequired,
-  hasNoProfiles: PropTypes.bool.isRequired,
+  hasSetUpProfile: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 }
 
 ResultsContent.defaultProps = {

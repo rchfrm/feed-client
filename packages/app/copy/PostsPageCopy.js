@@ -20,14 +20,13 @@ export default {
     },
   },
 
-  importingPosts: 'Gathering your recent posts from Facebook & Instagram...',
   spendingPaused: 'Your campaigns are paused. Set a budget from the controls page to start running ads.',
 
   // POST SETTINGS
   // --------------
   globalConnectionsIntro: `Add the links that you'd like to use in your ads.
 
-Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also enable **Feed** to track the number of followers you have on the Insights page. `,
+Adding links to your profiles on _Twitter_, _YouTube_, _Soundcloud_, and _Spotify_ will also enable **Feed** to track the number of followers you have on the Results page. `,
 
   globalConnectionsTooltipSlides: [
     `Set the default link used in every ad by clicking the asterisk (*) to the left of the link. You can still set different links on individual posts.`,
@@ -151,14 +150,14 @@ If you delete it, the post will revert to using the default link. Are you sure y
 
 Do you want to add **Spotify** as an integration instead?
 
-This way you can use the link in your ads, and track follower and listener data on the Insights page, and include Spotify listeners in your audience calculation on the Controls page?`
+This way you can use the link in your ads, and track follower and listener data on the Results page, and include Spotify listeners in your audience calculation on the Controls page?`
     }
     const { title: platformTitle } = getIntegrationInfo({ platform })
     return `${intro}
 
 Do you want to add **${platformTitle}** as an integration instead?
 
-This way you can use the link in your ads and track follower and listener data on the Insights page?`
+This way you can use the link in your ads and track follower and listener data on the Results page?`
   },
 
   confirmPrioritizePost: (isPrioritized, isArchived) => {
@@ -203,7 +202,7 @@ Would you like to continue?`
     const base = 'The caption is not editable because'
 
     if (post.postType === 'story') return `${base} this is a story.`
-    if (! post.postPromotable) return `${base} the post is not promotable.`
+    if (! post.isPromotable) return `${base} the post is not promotable.`
 
     return ''
   },

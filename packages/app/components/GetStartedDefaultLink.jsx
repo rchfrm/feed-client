@@ -51,9 +51,7 @@ const GetStartedDefaultLink = () => {
 
   const objective = optimizationPreferences?.objective || storedObjective
   const platform = optimizationPreferences?.platform || storedPlatform
-  const isFacebookOrInstagram = platform === 'facebook' || platform === 'instagram'
-  const hasGrowthObjective = objective === 'growth'
-  const hasSalesObjective = objective === 'sales'
+  const isInstagram = platform === 'instagram'
 
   const updateLink = (linkId, link) => {
     if (link) {
@@ -65,7 +63,7 @@ const GetStartedDefaultLink = () => {
 
   const saveAsDefaultLink = async (newLinkId, newLink) => {
     if (newLinkId) {
-      const { res: newArtist, error } = await setDefaultLink({ artistId, linkId: newLinkId, hasSalesObjective })
+      const { res: newArtist, error } = await setDefaultLink({ artistId, linkId: newLinkId })
 
       if (error) {
         const setDefaultLinkError = `Error setting link as default: ${error.message}`
@@ -84,11 +82,6 @@ const GetStartedDefaultLink = () => {
         postsPreferences: {
           defaultLinkId: default_link_id,
         },
-        ...(hasSalesObjective && {
-          conversionsPreferences: {
-            defaultLinkId: default_link_id,
-          },
-        }),
       })
 
       // Update artist status
@@ -133,17 +126,12 @@ const GetStartedDefaultLink = () => {
     }
 
     // Otherwise save the data in the db
-    let action = 'add'
+    const action = 'add'
     setIsLoading(true)
 
     // Check if the link already exists in the linkbank
     const existingLink = getLinkByHref(nestedLinks, link.href)
     const currentLink = existingLink || link
-
-    // Edit the link if the link already exists in the linkbank and it's not an integration link
-    if (currentLink.id && ! hasGrowthObjective) {
-      action = 'edit'
-    }
 
     // Skip api request if the link hasn't changed
     if (currentLink.href && (currentLink.href === defaultLink.href)) {
@@ -154,7 +142,7 @@ const GetStartedDefaultLink = () => {
 
     let savedLink = ''
 
-    if (hasGrowthObjective && ! isFacebookOrInstagram) {
+    if (! isInstagram) {
       // Save the link in the linkbank as integration link
       const { savedLink: integrationLink, error } = await saveIntegrationLink({ platform }, currentLink.href)
 
@@ -198,7 +186,7 @@ const GetStartedDefaultLink = () => {
 
   return (
     <div className="flex flex-1 flex-column mb-6 sm:mb-0">
-      <h3 className="mb-4 font-medium text-lg">{copy.defaultLinkSubtitle(objective, platform)}</h3>
+      <h3 className="mb-4 font-medium text-lg">{copy.defaultLinkSubtitle(platform)}</h3>
       <Error error={error} />
       <form
         onSubmit={onSubmit}
@@ -207,14 +195,11 @@ const GetStartedDefaultLink = () => {
         <DefaultLinkForm
           link={link}
           setLink={setLink}
-          updateLink={updateLink}
           objective={objective}
           platform={platform}
           error={error}
           setError={setError}
           setIsDisabled={setIsDisabled}
-          isLoading={isLoading}
-          className="w-full"
         />
         <Button
           type="submit"

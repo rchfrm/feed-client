@@ -1,149 +1,128 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import produce from 'immer'
-
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  TimeScale,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+import 'chartjs-adapter-moment'
 import { Line } from 'react-chartjs-2'
-
-import * as utils from '@/helpers/utils'
-import * as insightsHelpers from '@/app/helpers/insightsHelpers'
-
+import { formatCurrency } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
-const baseLineConfig = {
-  backgroundColor: 'transparent',
-  spanGaps: true,
-}
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  TimeScale,
+  Tooltip,
+  Legend,
+)
 
-const baseChartConfig = {
-  maintainAspectRatio: true,
-  responsive: true,
-  backgroundColor: 'transparent',
-  elements: {
-    point: {
-      pointStyle: 'line',
-    },
-    line: {
-      tension: 0,
-    },
-  },
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [{
-      gridLines: {
+const ChartLine = ({
+  data,
+  currency,
+}) => {
+  const primaryData = data[0]
+  const secondaryData = Object.values(data[1])
+
+  const array = Object.values(primaryData)
+  const minValue = Math.min(...array)
+  const maxValue = Math.max(...array)
+  const buffer = Math.round((maxValue - minValue) / 10)
+
+  const options = {
+    plugins: {
+      legend: {
         display: false,
       },
-      ticks: {
-        maxTicksLimit: 3,
-        maxRotation: 0,
-        minRotation: 0,
-      },
-    }],
-    yAxes: [{
-      gridLines: {
-        drawBorder: false,
-      },
-      ticks: {
-        padding: 5,
-        callback: (value) => {
-          return utils.abbreviateNumber(value)
-        },
-        maxTicksLimit: 3,
-      },
-    }],
-  },
-  tooltips: {
-    backgroundColor: utils.hexToRGBA(brandColors.offwhite, 0.9),
-    titleFontFamily: "'Inter', 'sans-serif'",
-    bodyFontFamily: "'Inter', 'sans-serif'",
-    titleFontSize: 16,
-    bodyFontSize: 15,
-    titleMarginBottom: 9,
-    titleFontColor: brandColors.black,
-    bodyFontColor: brandColors.black,
-    bodySpacing: 5,
-    xPadding: 15,
-    yPadding: 15,
-    callbacks: {
-      label(tooltipItem, chart) {
-        const { value, datasetIndex } = tooltipItem
-        const datasetName = chart.datasets[datasetIndex].label
+      tooltip: {
+        padding: 10,
+        backgroundColor: brandColors.black,
+        displayColors: false,
+        yAlign: 'bottom',
+        callbacks: {
+          title: () => null,
+          label: (context) => {
+            const label = [
+              `Date: ${moment(context.label).format('DD MMM YYYY')}`,
+              `Followers: ${context.formattedValue}`,
+            ]
+            const adSpend = secondaryData[context.dataIndex]
 
-        return ` ${datasetName}: ${value}`
+            if (adSpend) {
+              label.push(`Ad spend: ${formatCurrency(adSpend, currency)}`)
+            }
+
+            return label
+          },
+        },
       },
     },
-  },
-}
-
-const ChartLine = ({ data, maintainAspectRatio }) => {
-  const [dateLabels, setDateLabels] = React.useState([])
-  const [chartDataSets, setChartDataSets] = React.useState([])
-  const [chartOptions, setChartOptions] = React.useState({})
-
-  const createChartData = (data) => {
-    const { source: currentDataSource, platform: currentPlatform } = data
-
-    // Stop if no data source
-    if (! data.source) return
-
-    // Define relevant moments
-    const earliestMoment = moment(data.earliest.date, 'YYYY-MM-DD')
-    const latestMoment = moment(data.mostRecent.date, 'YYYY-MM-DD')
-
-    // Calculate granularity
-    const granularity = insightsHelpers.calcGranularity(earliestMoment, latestMoment)
-
-    // Get period dates and values from the data, based on the granularity
-    const [periodDates, periodValues] = insightsHelpers.getChartData(data, granularity)
-
-    // Cycle through the dates and add the relevant labels
-    const periodLabels = insightsHelpers.getPeriodLabels(periodDates)
-    setDateLabels(periodLabels)
-
-    return {
-      ...baseLineConfig,
-      borderColor: brandColors[currentPlatform].bg,
-      label: currentDataSource,
-      data: periodValues,
-    }
+    elements: {
+      point: {
+        pointStyle: 'circle',
+        backgroundColor: brandColors.white,
+        borderColor: brandColors.black,
+        hitRadius: 3,
+        hoverBorderWidth: 2,
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          maxRotation: 0,
+          color: brandColors.black,
+          precision: 0,
+          callback: (value) => {
+            return [moment(value).format('D MMM'), moment(value).format('YY')]
+          },
+        },
+        type: 'time',
+      },
+      y: {
+        grid: {
+          drawTicks: false,
+        },
+        ticks: {
+          padding: 10,
+          color: brandColors.black,
+          precision: 0,
+        },
+        suggestedMin: minValue - buffer,
+        suggestedMax: maxValue + buffer,
+      },
+    },
   }
 
-  React.useEffect(() => {
-    const chartData = data.map((dataSource) => {
-      return createChartData(dataSource)
-    })
-
-    const newChartOptions = produce(baseChartConfig, (draftConfig) => {
-      // Edit aspect ratio
-      if (! maintainAspectRatio) {
-        draftConfig.maintainAspectRatio = false
-      }
-    })
-    setChartOptions(newChartOptions)
-
-    setChartDataSets(chartData)
-  }, [data, maintainAspectRatio])
+  const dataSets = [{
+    data: primaryData,
+    segment: {
+      borderColor: (context) => (secondaryData[context.p0DataIndex] ? brandColors.green : brandColors.red),
+    },
+    pointRadius: 0,
+  }]
 
   return (
     <Line
       data={{
-        labels: dateLabels,
-        datasets: chartDataSets,
+        datasets: dataSets,
       }}
-      options={chartOptions}
+      options={options}
     />
   )
 }
 
-export default ChartLine
-
 ChartLine.propTypes = {
   data: PropTypes.array.isRequired,
-  maintainAspectRatio: PropTypes.bool,
+  currency: PropTypes.string.isRequired,
 }
 
-ChartLine.defaultProps = {
-  maintainAspectRatio: false,
-}
+export default ChartLine

@@ -64,6 +64,39 @@ const brandColors = {
   redBorder,
   redBgDark,
   redBgLight,
+  // Gradient
+  gradient: {
+    1: {
+      light: '#B9E6FF',
+      regular: '#D2EFFF',
+      dark: '#5BC1FB',
+    },
+    3: {
+      light: '#B8C9FF',
+      regular: '#D0DBFF',
+      dark: '#5B82FB',
+    },
+    5: {
+      light: '#BBB4FF',
+      regular: '#D4CFFF',
+      dark: '#6858FF',
+    },
+    7: {
+      light: '#D5AEFF',
+      regular: '#E4CBFF',
+      dark: '#A85BFB',
+    },
+    9: {
+      light: '#FEA5FF',
+      regular: '#FECCFF',
+      dark: '#F95BFB',
+    },
+    11: {
+      light: '#FF9BAF',
+      regular: '#FFB7C5',
+      dark: '#FB5B7C',
+    },
+  },
   // Platform colors
   facebook: {
     bg: '#26547C',

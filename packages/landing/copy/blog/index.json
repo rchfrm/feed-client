@@ -1,0 +1,38 @@
+{
+  "spotify-follower-ltv": {
+    "title": "The lifetime value of a Spotify follower",
+    "author": "Nick Edwards",
+    "publishedAt": "2023-03-11",
+    "updatedAt": null,
+    "slug": "spotify-follower-ltv",
+    "excerpt": "How much income does the average Spotify follower generate? It might be more than you think!",
+    "image": {
+      "url": "https://storage.googleapis.com/feed-public/Feed_Blog-Headphones_on_pink_background.jpg",
+      "alt": "Pattern of headphones on pink gradient background"
+    }
+  },
+  "music-marketing-strategies": {
+    "title": "23 music marketing strategies for 2023",
+    "author": "Joshua Jacobson",
+    "publishedAt": "2022-01-01",
+    "updatedAt": "2023-04-17",
+    "slug": "music-marketing-strategies",
+    "excerpt": "A list of the 23 most highly recommended music marketing strategies to help you grow your audience in 2023.",
+    "image": {
+      "url": "https://storage.googleapis.com/feed-public/newsFeed-Crowd.jpg",
+      "alt": "Crowd of people at concert"
+    }
+  },
+  "music-marketing-budget": {
+    "title": "Setting a music marketing budget",
+    "author": "Joshua Jacobson",
+    "publishedAt": "2023-02-14",
+    "updatedAt": null,
+    "slug": "music-marketing-budget",
+    "excerpt": "You've poured a lot of time and money into making music...here's a guide to setting (and spending) a marketing budget.",
+    "image": {
+      "url": "https://storage.googleapis.com/feed-public/newsFeed-Laptop_on_desk.jpg",
+      "alt": "Laptop on desk"
+    }
+  }
+}

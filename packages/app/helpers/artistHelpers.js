@@ -14,7 +14,7 @@ import moment from 'moment'
  * @param {string} [token]
  * @returns {Promise<any>}
  */
-export const createArtist = async (artist, plan, token) => {
+export const createArtist = async (artist, plan, isManaged, token) => {
   return api.post('/artists', {
     name: artist.name,
     location: null,
@@ -25,6 +25,7 @@ export const createArtist = async (artist, plan, token) => {
       },
     },
     plan,
+    is_managed: isManaged,
   }, token)
 }
 
@@ -586,6 +587,7 @@ export const platforms = [
 ]
 
 export const getPlatform = (platform) => {
+  if (platform === 'instagram') return 'Instagram username'
   if (platform === 'youtube') return 'Youtube channel'
   if (platform === 'spotify') return 'Spotify Artist page'
   if (platform === 'soundcloud') return 'SoundCloud account'
@@ -598,7 +600,6 @@ export const getPlatformNameByValue = (platform) => {
 }
 
 export const profileStatus = {
-  objective: 'objective',
   platform: 'platform',
   defaultLink: 'default-link',
   pricingPlan: 'pricing-plan',
@@ -626,18 +627,8 @@ export const getObjectiveString = (objective, platform) => {
   return objectiveString
 }
 
-export const getObjectiveColor = (objective, platform) => {
-  if (objective === 'growth' && platform) {
-    return brandColors[platform]?.bg
-  }
-
-  if (objective === 'sales') {
-    return brandColors.instagram.bg
-  }
-
-  if (objective === 'traffic') {
-    return brandColors.green
-  }
+export const getObjectiveColor = (platform) => {
+  return brandColors[platform]?.bg
 }
 
 export const getPreferencesObject = (updatedArtist) => {
@@ -683,14 +674,6 @@ export const hasPlan = (artist, planPrefix) => {
 
   const { plan, status } = artist
   return plan.includes(planPrefix) && (planPrefix === 'legacy' || status === 'active')
-}
-
-export const hasAllProfilesOnLegacyPlan = (organizationArtists) => {
-  if (! organizationArtists.length) {
-    return false
-  }
-
-  return organizationArtists.every(({ plan }) => plan === 'legacy_monthly')
 }
 
 export const hasAllProfilesOnNoPlan = (organizationArtists) => {

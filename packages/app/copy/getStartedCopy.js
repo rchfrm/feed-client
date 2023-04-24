@@ -1,48 +1,11 @@
 /* eslint-disable quotes */
-import { platforms, getPlatform } from '@/app/helpers/artistHelpers'
+import { getPlatform } from '@/app/helpers/artistHelpers'
 import { capitalise, formatCurrency } from '@/helpers/utils'
 
 export default {
-  profileStatus: (status, objective, platform, defaultPaymentMethod) => {
-    if (status === 'objective') return `What's your objective?`
-    if (status === 'platform') return 'Select the platform to grow'
-    if (status === 'default-link') {
-      if (objective === 'growth' && (platform !== 'facebook' && platform !== 'instagram')) {
-        const platformName = platforms.find(({ value }) => value === platform)?.name
-
-        return `Connect to ${platformName}`
-      }
-
-      return 'Enter your website link'
-    }
-    if (status === 'pricing-plan') return 'Select your pricing plan'
-    if (status === 'connect-profile') return 'Connect to Facebook'
-    if (status === 'posts') return 'Select the posts to promote'
-    if (status === 'ad-account') return 'Select your ad account'
-    if (status === 'facebook-pixel') return 'Select your Facebook pixel'
-    if (status === 'location') return 'Where are you based?'
-    if (status === 'budget') return 'How much would you like to spend?'
-    if (status === 'payment-method') return defaultPaymentMethod ? 'Confirm your payment method' : 'Add a payment method'
-
-    return ''
-  },
   objectiveSubtitle: 'What are you trying to achieve?',
-  objectivePlanFooter: (isRestricted) => {
-    if (isRestricted) {
-      return 'Available on Growth and Pro'
-    }
-    return 'Available in all plans'
-  },
-  objectiveDisabledFooter: (isRestricted) => {
-    if (isRestricted) {
-      return 'Select <span className="text-insta font-bold">Growth</span> or <span className="text-insta font-bold">Pro</span> to use this objective'
-    }
-  },
-  platformSubtitle: 'Which platform would you like to focus on initially?',
-  defaultLinkSubtitle: (objective, platform) => {
-    if (objective !== 'growth') {
-      return 'Enter the link to your website or landing page'
-    }
+  objectiveContact: 'Looking for Website sales or visits? [Get in touch](mailto:help@tryfeed.co)',
+  defaultLinkSubtitle: (platform) => {
     return `Enter the link to your ${getPlatform(platform)}`
   },
   pricingSubtitle: 'Select the features and pricing to suit you',
@@ -62,37 +25,14 @@ export default {
     return 'These are the posts we recommend promoting first...'
   },
   adAccountSubtitle: 'Which Facebook ad account would you like Feed to use?',
-  facebookPixelSubtitle: (pixels, shouldShowPixelSelector, defaultLinkHref) => {
-    if (shouldShowPixelSelector) {
-      if (pixels.length) {
-        return `Which Meta pixel is installed on ${defaultLinkHref}?`
-      }
-      return 'How should your Facebook Pixel be named?'
-    }
-
-    return "Looks like you don't have a Facebook Pixel! Happy for us to create one?"
-  },
   locationSubtitle: 'Where are you based?',
   budgetSubtitle: 'What is your daily budget for advertising?',
-  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, planPeriod, amount, isManaged) => {
-    if (isManaged) {
-      return `#### No payment method needed.
-
-      Simply click next to complete the get started process.`
-    }
+  paymentMethodSubtitle: (defaultPaymentMethod, planPrefix, amount, shouldUpgradeBothProfiles) => {
     const baseString = defaultPaymentMethod ? 'Confirm your default card' : 'Add a card'
 
-    if (planPrefix === 'free' || planPrefix === 'legacy') {
-      if (defaultPaymentMethod) {
-        return 'Confirm your default card and start running ads.'
-      }
+    return `${baseString} to pay ${amount} for your first month of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
 
-      return `#### Enter your card details below.
-
-This is to cover Feed's 10% service fee. You won't be charged in months where you don't run ads.`
-    }
-
-    return `${baseString} to pay ${amount} for your first ${planPeriod === 'monthly' ? 'month' : 'year'} of <span className="text-insta font-bold">${capitalise(planPrefix)}</span> and start running ads.
+    ${shouldUpgradeBothProfiles ? `Additional profiles with an active budget that are currently on the free tier will be upgraded to growth${planPrefix === 'growth' ? ' also.' : '.'}` : ''}
 
 You will be invoiced separately by Facebook for the ad spend.`
   },
@@ -116,13 +56,9 @@ You will be invoiced separately by Facebook for the ad spend.`
   reviewDescription: 'Feed has submitted your ads for approval!',
   objectiveSummary: (objective, platform, isDesktopLayout) => {
     if (! objective) {
-      return isDesktopLayout ? 'Grow, sell or drive traffic' : 'Objective'
+      return isDesktopLayout ? 'Grow or sell' : 'Objective'
     }
 
-    if (objective && objective === 'growth') {
-      return `${platform && platform !== 'website' ? capitalise(platform) : `Audience`} growth`
-    }
-
-    return `${capitalise(platform)} ${objective}`
+    return `${capitalise(platform)} growth`
   },
 }

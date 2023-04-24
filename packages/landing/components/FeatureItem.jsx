@@ -1,33 +1,21 @@
 import PropTypes from 'prop-types'
-
-import { Image } from 'react-datocms'
-
-import MarkdownText from '@/landing/elements/MarkdownText'
+import MarkdownText from '@/elements/MarkdownText'
 
 const FeatureItem = ({
   header,
   copy,
   className,
-  image,
   index,
 }) => {
-  const {
-    url: imageSrc,
-    mimeType,
-    responsiveImage,
-    width,
-    height,
-  } = image
   const shouldReverse = index % 2 !== 0
-  const isSvg = mimeType === 'image/svg+xml'
   return (
     <li className={className}>
       <div
         className={[
-          'mb-7',
-          'sm:mb-0',
+          'mb-0',
           shouldReverse ? 'sm:col-start-2' : null,
           shouldReverse ? 'sm:row-start-1' : null,
+          shouldReverse ? 'sm:text-left' : 'sm:text-right',
         ].join(' ')}
       >
         <h3
@@ -38,42 +26,12 @@ const FeatureItem = ({
             'decoration-3',
             'mb-7',
             'leading-tight',
+            'minContent:text-2xl',
           ].join(' ')}
         >
           {header}
         </h3>
-        <MarkdownText className="sm:mb-0" markdown={copy} />
-      </div>
-      <div
-        className={[
-          shouldReverse ? 'sm:col-start-1' : null,
-          shouldReverse ? 'sm:row-start-1' : null,
-        ].join(' ')}
-      >
-        {imageSrc && (
-          isSvg ? (
-            <img
-              className={[
-
-              ].join(' ')}
-              src={imageSrc}
-              alt={header}
-              width={width}
-              height={height}
-            />
-          ) : (
-            <Image
-              data={{
-                ...responsiveImage,
-                alt: header,
-              }}
-              fadeInDuration={1}
-              className={[
-
-              ].join(' ')}
-            />
-          )
-        )}
+        <MarkdownText className="text-base minContent:text-lg sm:mb-0 sm:max-w-sm" markdown={copy} />
       </div>
     </li>
   )
@@ -82,7 +40,6 @@ const FeatureItem = ({
 FeatureItem.propTypes = {
   header: PropTypes.string.isRequired,
   copy: PropTypes.string.isRequired,
-  image: PropTypes.object.isRequired,
   className: PropTypes.string,
   index: PropTypes.number.isRequired,
 }

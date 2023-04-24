@@ -1,48 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
 import Button from '@/elements/Button'
-import copy from '@/landing/copy/LandingPageCopy'
-import ArrowIcon from '@/icons/ArrowIcon'
 import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
-import useGlobalInfoStore from '@/landing/store/globalInfoStore'
-import brandColors from '@/constants/brandColors'
 
-const getJoinLink = (state) => state.joinLink
-
-export default function TryFeed({ className, buttonText, trackLocation }) {
+export default function TryFeed({ className, trackLocation, buttonText }) {
   // Track link before outbound
-  const joinLink = useGlobalInfoStore(getJoinLink)
+  const joinLink = 'https://app.tryfeed.co/join'
 
   return (
     <div className={className}>
-      <Link href={joinLink} className="no-underline">
-        <Button
-          className={[
-            className,
-            'bg-insta hover:bg-insta border-insta hover:border-insta hover:bg-opacity-90 text-offwhite',
-          ].join(' ')}
-          onClick={() => {
-            mixpanelExternalLinkClick(joinLink, { location: trackLocation })
-          }}
-          trackComponentName="TryFeed"
-        >
-          {buttonText}
-          <ArrowIcon direction="right" fill={brandColors.white} className="ml-1" />
-        </Button>
-      </Link>
+      <Button
+        className={[
+          'w-full',
+          'h-full',
+        ].join(' ')}
+        onClick={() => {
+          mixpanelExternalLinkClick(joinLink, { location: trackLocation })
+        }}
+        trackComponentName="TryFeed"
+      >
+        {buttonText}
+      </Button>
     </div>
   )
 }
 
 TryFeed.propTypes = {
   className: PropTypes.string,
-  buttonText: PropTypes.string,
   trackLocation: PropTypes.string,
+  buttonText: PropTypes.string,
 }
 
 TryFeed.defaultProps = {
   className: null,
-  buttonText: copy.navigation.primaryCTAText,
   trackLocation: '',
+  buttonText: 'Sign up',
 }

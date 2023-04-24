@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import MarkdownText from '@/landing/elements/MarkdownText'
 import CheckboxInput from '@/landing/elements/CheckboxInput'
 import Button from '@/elements/Button'
-
 import copy from '@/landing/copy/LandingPageCopy'
 import track from '@/landing/helpers/trackingHelpers'
+import MarkdownText from '@/elements/MarkdownText'
 
 const { mailchimp: mailchimpCopy } = copy
 
@@ -76,7 +74,7 @@ const MailchimpForm = ({
               {/* GDPR */}
               <fieldset name="interestgroup_field">
                 <CheckboxInput
-                  buttonLabel="Tick the GDPR box to show you want our emails."
+                  buttonLabel="Yes, sign me up."
                   className="text-xs"
                   value="Y"
                   id="gdpr_9737"

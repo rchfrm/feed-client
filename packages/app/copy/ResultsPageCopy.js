@@ -1,6 +1,6 @@
 import * as ROUTES from '@/app/constants/routes'
-import { capitalise, formatNumber, getNestedObjectByValue } from '@/helpers/utils'
-import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
+import { formatNumber, getNestedObjectByValue } from '@/helpers/utils'
+import moment from 'moment'
 
 const optimisationsEventsDictionary = {
   omni_purchase: {
@@ -42,6 +42,14 @@ const optimisationsEventsDictionary = {
 }
 
 const versusLastMonth = (prevValue) => `, versus ${prevValue} last month`
+
+const getFollowerStringByPlatform = (platform) => {
+  if (platform === 'instagram') return 'Instagram followers'
+  if (platform === 'facebook') return 'Facebook likes'
+  if (platform === 'youtube') return 'Youtube subscribers'
+  if (platform === 'spotify') return 'Spotify followers'
+  if (platform === 'soundcloud') return 'SoundCloud followers'
+}
 
 export default {
   newAudienceOnPlatformMainDescription: (relativeValue) => `The total number that have engaged with your posts has grown **${relativeValue}%**.`,
@@ -140,77 +148,18 @@ export default {
     }
   },
   platformGrowthTooltip: 'This is estimated based on your historical organic growth, and the organic growth of other similar profiles. We compare this data with how much you grow whilst using Feed to calculate the uplift.',
-  postDescription: (name, value, isPurchase) => {
-    if (name === 'engagement') {
-      return `This post was the most effective at reaching new audiences, with **${formatNumber(value)}** people engaging with your content for the first time.`
-    }
-    if (name === 'nurture') {
-      return `This post was the most effective at nurturing the relationship with your existing audience, reaching **${formatNumber(value)}** people.`
-    }
-    return isPurchase ? (
-      `This post was the most effective at generating sales with a total value of **${value}**.`
-    ) : (
-      `This post was the most effective by generating **${formatNumber(value)}** sale(s).`
-    )
-  },
   statsNoData: 'Feed is setting up your ads',
-  postsStatsNoData: (isSpendingPaused) => {
-    if (isSpendingPaused) {
-      return `Your spending is currently paused. [Resume](${ROUTES.CONTROLS_BUDGET}) in order to see your most effective posts here.`
+  noResultsData: (isSpendingPaused, hasSetUpProfile) => {
+    if (! hasSetUpProfile) {
+      return `There is currently no results data available. Complete setting up your account [here](${ROUTES.GET_STARTED}).`
     }
 
-    return "Your most effective post isn't available yet, once you've been using Feed for a bit longer it will appear here."
-  },
-  conversionsActivatorTitle: 'Use the “sales” objective to get purchases on your website.',
-  conversionsActivatorDescription: 'Use the "sales" objective to see results in this section!',
-  noResultsData: (isSpendingPaused) => {
     if (isSpendingPaused) {
       return `There is currently no results data available. Set a budget and start promoting your posts [here](${ROUTES.CONTROLS_BUDGET})!`
     }
+
     return 'Your results will appear here soon (within 24 hours of starting ads).'
   },
-  noSpendReachDescription: (value, hasNoProfiles, isMobile) => {
-    if (hasNoProfiles) {
-      return `On average, a post on Facebook or Instagram will reach **${value.toFixed(1)}%** of the total audience.`
-    }
-
-    if (isMobile) {
-      return 'The percentage of your audience reached by a typical post.'
-    }
-
-    return `Your posts reach **${value.toFixed(1)}%** of your addressable audience.`
-  },
-  noSpendEngageDescription: (value, hasNoProfiles) => {
-    if (hasNoProfiles) {
-      return `**${value.toFixed(1)}%** of followers engage with the average post.`
-    }
-
-    return `**${value.toFixed(1)}%** of your followers engage with each post on average.`
-  },
-  noSpendGrowthDescription: (value, platform, rate, hasNoProfiles) => {
-    const numberRate = Number(rate)
-    if (hasNoProfiles) {
-      if (numberRate < 0) {
-        return 'Did you know the average Instagram profile is actually shrinking?'
-      }
-
-      if (numberRate === 0) {
-        return "Did you know the average Instagram profile actually doesn't grow?"
-      }
-
-      return `The average Instagram grows **${rate}%** a month. With 5,000 followers, that's an extra **${value}**.`
-    }
-
-    if (value === 0) {
-      return `Your ${capitalise(platform)} following is steady.`
-    }
-
-    const rateString = `_(${rate >= 0 ? '+' : ''}${rate}%)_`
-    const changeDescription = value > 0 ? 'adding' : 'losing'
-
-    return `You're ${changeDescription} **${value}** ${capitalise(platform)} followers a month on average ${rateString}.`
-  },
-  noSpendTotalFollowersDescription: "We don't have enough historical information yet, so check back later to see growth insights.",
   quartileDescription: (quartile, percentile) => {
     if (quartile === 1) {
       return `Room to improve, but better than **${percentile}%** of others`
@@ -228,52 +177,10 @@ export default {
       return `One of the best - top **${(100 - percentile).toFixed(1)}%**!`
     }
   },
-  postsChartTitle: (metricType, hasNoProfiles) => {
-    if (hasNoProfiles) {
-      return 'Recent post performance'
-    }
-
-    if (metricType === 'reach') {
-      return 'Reach of your recent posts'
-    }
-
-    return 'Engagement rate of your recent posts'
-  },
-  postsChartDescription: (metricType, hasNoProfiles) => {
-    if (hasNoProfiles) {
-      return 'Connect your Facebook and Instagram pages, to see how your recent posts compare to each other, and how you compare to other similar profiles.'
-    }
-
-    if (metricType === 'reach') {
-      return "See the estimated percentage of your audience your posts have reached in the last 30 days. Your audience isn't just followers, it’s also people who have engaged with you before but haven’t followed you yet."
-    }
-
-    return 'See the percentage of your followers that engaged with your posts from the last 30 days.'
-  },
-  postsChartNoData: 'No posts found within the last 30 days.',
-  organicGrowthChartDescription: 'See how your Facebook Likes and Instagram Followers are growing over time.',
-  engageChartDescription: (platform, isChartBar) => `Your audience ${isChartBar ? `on ${getPlatformNameByValue(platform)}` : 'across Instagram and Facebook'} is everyone who has engaged with your posts in the last year. This is often a much larger group than the number who follow you! Step 1: **Reach** is all about growing that audience, here's how it's developing.`,
-  adGrowthChartTitle: (platform) => {
-    if (platform === 'instagram') return 'Your Instagram following'
-    if (platform === 'facebook') return 'Your Facebook likes'
-    if (platform === 'youtube') return 'Your Youtube subscribers'
-    if (platform === 'spotify') return 'Your Spotify followers'
-    if (platform === 'soundcloud') return 'Your SoundCloud followers'
-  },
-  adGrowthChartDescription: (platform) => `Step 3: **Grow** is about growing your followers on ${getPlatformNameByValue(platform)}. Here's how it's been going, the black line shows how much you spent through Feed, so you can see when you were spending and when you weren't.`,
-  chartNoData: (subject) => `There is currently no ${subject} data available.`,
-  headerMenuText: (resultsType, isLast30Days, dateFrom, dateTo) => {
-    const resultsTypeString = `**<span className="green--underline">${capitalise(resultsType)}</span>** insights`
-
-    if (! isLast30Days && (! dateFrom || ! dateTo)) {
-      return resultsTypeString
-    }
-
-    if (isLast30Days) {
-      return `${resultsTypeString}, **last 30 days...**`
-    }
-
-    return `${resultsTypeString} from **${dateFrom}** to **${dateTo}**`
-  },
   connectAccounts: `[Connect your accounts](${ROUTES.CONNECT_ACCOUNTS}) to see how you compare!`,
+  followerGrowthHeaderTitle: (totalFollowersAddedInPeriod, platform, shouldShowCostPerFollower) => `${totalFollowersAddedInPeriod < 0 ? `${getFollowerStringByPlatform(platform)} lost` : `extra ${getFollowerStringByPlatform(platform)} added`}${shouldShowCostPerFollower ? ', at an estimated' : '.'}`,
+  followerGrowthHeaderSubtitle: ({ period, startDate, endDate }) => {
+    return `Based on Feed campaign${period !== 'campaign' ? 's' : ''} between **${moment(startDate).format('D MMMM')}** and **${moment(endDate).format('D MMMM YYYY')}**`
+  },
+  noCampaigns: 'There were **no active** Feed campaigns during this period.',
 }
