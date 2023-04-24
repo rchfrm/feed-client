@@ -7,6 +7,7 @@ import AddPaymentForm from '@/app/AddPaymentForm'
 
 import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
+import ArtistContext from '@/app/contexts/ArtistContext'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -14,13 +15,16 @@ const getBillingStoreState = (state) => ({
 })
 
 const PricingPlanUpgradePaymentMethod = ({
+  profilesToUpgrade,
   setCurrentStep,
   setSidePanelButton,
 }) => {
+  const { artist } = React.useContext(ArtistContext)
+  const isUpgradeToFree = profilesToUpgrade[artist.id] === 'free'
   const [addPaymentMethod, setAddPaymentMethod] = React.useState(() => {})
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
-  const [success, setSuccess] = React.useState(false)
+  const [success, setSuccess] = React.useState(isUpgradeToFree)
 
   const {
     organization: {
