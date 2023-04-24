@@ -167,21 +167,27 @@ export const handleInitialize = (draftState, payload) => {
   if (! orgArtists || ! selectedArtistID || ! selectedArtistPlan) return draftState
 
   const hasMultipleActiveProfiles = orgArtists.filter((artist) => {
-    return artist.status === 'active'
-      && Boolean(artist.plan)
-      && ! artist.plan.includes('free')
+    return (
+      artist.id !== selectedArtistID // An artist other than the selected one
+      && artist.status === 'active' // That is active
+      && Boolean(artist.plan) // And has a plan
+      && (
+        ! artist.plan.includes('free') // That is not a free plan
+        || artist.preferences.targeting.status === 1 // Or is a free plan with an active budget
+      )
+    )
   }).length > 0
 
   return orgArtists.reduce((acc, orgArtist) => {
     if (orgArtist.id === selectedArtistID) {
       acc[orgArtist.id] = selectedArtistPlan
-    } else if (orgArtist.plan?.includes('free')) {
+    } else if (hasMultipleActiveProfiles && orgArtist.plan === 'free') {
       acc[orgArtist.id] = 'growth'
-    } else if (hasMultipleActiveProfiles && ! orgArtist.plan) {
-      acc[orgArtist.id] = 'none'
-    } else {
+    } else if (hasMultipleActiveProfiles && Boolean(orgArtist.plan)) {
       const [planPrefix] = orgArtist.plan?.split('_') || ['growth']
       acc[orgArtist.id] = planPrefix
+    } else {
+      acc[orgArtist.id] = 'none'
     }
 
     return acc
