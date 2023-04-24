@@ -88,7 +88,8 @@ const WizardContextProvider = ({
 
     setCurrentStep(firstIncompleteStepIndex >= 0 ? firstIncompleteStepIndex : lastStep)
     setIsLoading(false)
-  }, [currentStep, lastStep, profileSetupStatus, steps])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastStep, profileSetupStatus, steps])
 
   return (
     <WizardContext.Provider
