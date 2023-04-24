@@ -1,18 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-
 import { useImmerReducer } from 'use-immer'
-
 import ProgressBar from '@/app/ProgressBar'
 import ChevronIcon from '@/icons/ChevronIcon'
 import Spinner from '@/elements/Spinner'
-
 import ArrowIcon from '@/icons/ArrowIcon'
-
 import brandColors from '@/constants/brandColors'
 import { isObject } from '@/helpers/utils'
-import { profileStatus } from '@/app/helpers/artistHelpers'
 
 const initialContext = {
   next: () => {},
@@ -85,7 +80,7 @@ const WizardContextProvider = ({
   }
 
   React.useEffect(() => {
-    if (! profileSetupStatus || profileSetupStatus === profileStatus.confirmSetup || currentStep) return
+    if (! profileSetupStatus || currentStep) return
 
     const firstIncompleteStepIndex = steps.findIndex((step) => {
       return step.name === profileSetupStatus
@@ -93,8 +88,7 @@ const WizardContextProvider = ({
 
     setCurrentStep(firstIncompleteStepIndex >= 0 ? firstIncompleteStepIndex : lastStep)
     setIsLoading(false)
-    // eslint-disable-next-line
-  }, [profileSetupStatus])
+  }, [currentStep, lastStep, profileSetupStatus, steps])
 
   return (
     <WizardContext.Provider

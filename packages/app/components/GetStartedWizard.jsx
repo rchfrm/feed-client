@@ -141,6 +141,7 @@ const GetStartedWizard = () => {
     },
     {
       id: 9,
+      name: profileStatus.confirmSetup,
       title: '',
       component: <GetStartedSummary />,
     },
