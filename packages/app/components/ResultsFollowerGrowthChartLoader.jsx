@@ -54,7 +54,6 @@ const ResultsFollowerGrowthChartLoader = ({
 
     const options = getBreakdownOptions(formattedDataSources, dataSourceName, selectedCities)
     setBreakdownOptions(options)
-    setBreakdownBy(options[0].value)
     setIsLoading(false)
   }, [dataSourceName])
 

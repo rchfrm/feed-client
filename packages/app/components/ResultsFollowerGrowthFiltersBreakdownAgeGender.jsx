@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ResultsFollowerGrowthFilterOptions from '@/app/ResultsFollowerGrowthFilterOptions'
 import Select from '@/elements/Select'
 
-const ResultsFollowerGrowthFiltersBreakdownAgeGender = () => {
+const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ setBreakdownBy }) => {
   const [gender, setGender] = React.useState('all')
   const [age, setAge] = React.useState({ min: 13, max: 99 })
 
@@ -33,6 +34,14 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = () => {
       [name]: value,
     })
   }
+
+  React.useEffect(() => {
+    setBreakdownBy({
+      gender,
+      min: age.min,
+      max: age.max,
+    })
+  }, [gender, age, setBreakdownBy])
 
   const minAgeValues = [13, 18, 25, 35, 45, 55, 65]
   const maxAgeValues = [17, 24, 34, 44, 54, 64, 99]
@@ -73,6 +82,10 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = () => {
       </div>
     </div>
   )
+}
+
+ResultsFollowerGrowthFiltersBreakdownAgeGender.propTypes = {
+  setBreakdownBy: PropTypes.func.isRequired,
 }
 
 export default ResultsFollowerGrowthFiltersBreakdownAgeGender

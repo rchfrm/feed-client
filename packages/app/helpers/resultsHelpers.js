@@ -590,7 +590,7 @@ export const getCostPerFollower = (dataSources, amountSpentInCampaign) => {
     const projectionDateKeys = Object.keys(projection.minProjection)
     const mostRecentDate = projectionDateKeys[projectionDateKeys.length - 1]
     const minProjectedFollowerCount = projection.minProjection[mostRecentDate]
-    const maxProjectedFollowerCount = projection.maxProjection[mostRecentDate]
+    const maxProjectedFollowerCount = projection.maxProjection?.[mostRecentDate]
     const actualCampaignFollowerCount = campaign.followerGrowth[mostRecentDate]
     const averageProjectedFollowerCount = (minProjectedFollowerCount + maxProjectedFollowerCount) / 2
 
@@ -642,26 +642,46 @@ export const getBreakdownOptions = (
   return options
 }
 
-const getBreakdownValue = (breakdownBy, value, targetedLocations, nonTargetedLocations) => {
-  if (breakdownBy === 'targeted') {
-    return targetedLocations.reduce((result, location) => result + (value[location] || 0), 0)
-  }
-
-  if (breakdownBy === 'non-targeted') {
-    return nonTargetedLocations.reduce((result, location) => result + (value[location] || 0), 0)
+const getBreakdownValue = (breakdownBy, value, filteredKeys) => {
+  if (filteredKeys.length > 0) {
+    return filteredKeys.reduce((result, key) => result + (value[key] || 0), 0)
   }
 
   return value[breakdownBy]
 }
 
+const getFilteredkeys = (breakdownBy, allKeys, targetedLocations) => {
+  let filteredKeys = []
+
+  if (breakdownBy === 'targeted') {
+    filteredKeys = targetedLocations
+  }
+
+  if (breakdownBy === 'non-targeted') {
+    filteredKeys = allKeys.filter((location) => ! targetedLocations.includes(location))
+  }
+
+  if (typeof breakdownBy === 'object' && breakdownBy !== null) {
+    const shouldIncludeKey = (key) => {
+      const [gender, minAge, , maxAge = 99] = key.split('_')
+
+      return ((breakdownBy.gender === 'all' || gender === breakdownBy.gender) && minAge >= breakdownBy.min && maxAge <= breakdownBy.max)
+    }
+
+    filteredKeys = allKeys.filter(shouldIncludeKey)
+  }
+
+  return filteredKeys
+}
+
 export const getBreakdownData = (breakdownBy, followerGrowth, targetedLocations) => {
-  const allLocations = Object.keys(Object.values(followerGrowth)[0])
-  const nonTargetedLocations = allLocations.filter((location) => ! targetedLocations.includes(location))
+  const allKeys = Object.keys(Object.values(followerGrowth)[0])
+  const filteredKeys = getFilteredkeys(breakdownBy, allKeys, targetedLocations)
 
   return Object.entries(followerGrowth).reduce((result, [key, value]) => {
     return {
       ...result,
-      [key]: getBreakdownValue(breakdownBy, value, targetedLocations, nonTargetedLocations),
+      [key]: getBreakdownValue(breakdownBy, value, filteredKeys),
     }
   }, {})
 }

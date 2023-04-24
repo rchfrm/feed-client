@@ -5,10 +5,15 @@ import Select from '@/elements/Select'
 const ResultsFollowerGrowthFiltersBreakdownLocation = ({
   name,
   breakdownBy,
+  setBreakdownBy,
   breakdownOptions,
   handleChange,
   isLoading,
 }) => {
+  React.useEffect(() => {
+    setBreakdownBy(breakdownOptions[0].value)
+  }, [setBreakdownBy, breakdownOptions])
+
   return (
     <div>
       <p className="mb-2">{name}</p>

@@ -44,14 +44,14 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
           <ResultsFollowerGrowthFiltersBreakdownLocation
             name={name}
             breakdownBy={breakdownBy}
+            setBreakdownBy={setBreakdownBy}
             breakdownOptions={breakdownOptions}
             handleChange={handleChange}
             loading={isLoading}
           />
         ) : (
           <ResultsFollowerGrowthFiltersBreakdownAgeGender
-            breakdownBy={breakdownBy}
-            breakdownOptions={breakdownOptions}
+            setBreakdownBy={setBreakdownBy}
           />
         )
       )}
