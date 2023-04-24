@@ -17,6 +17,7 @@ const ResultsFollowerGrowthChartLoader = ({
   setIsLoading,
   currency,
   hasInstagramGrowthObjective,
+  monthlyGrowthRateFallback,
 }) => {
   const { artistId, artist } = React.useContext(ArtistContext)
 
@@ -78,9 +79,9 @@ const ResultsFollowerGrowthChartLoader = ({
       followerGrowth: breakdownBy ? setDailyDataByBreakdown(followerGrowth) : followerGrowth,
     }
 
-    const slicedDataSources = getSlicedDataSources(period, updatedDataSources, artist)
+    const slicedDataSources = getSlicedDataSources(period, updatedDataSources, artist, monthlyGrowthRateFallback)
     setDataSources(slicedDataSources)
-  }, [initialDataSources, period, setDataSources, breakdownBy, artist])
+  }, [initialDataSources, period, setDataSources, breakdownBy, artist, monthlyGrowthRateFallback])
 
   return (
     <ResultsFollowerGrowthChart
@@ -103,10 +104,12 @@ ResultsFollowerGrowthChartLoader.propTypes = {
   setIsLoading: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,
+  monthlyGrowthRateFallback: PropTypes.number,
 }
 
 ResultsFollowerGrowthChartLoader.defaultProps = {
   dataSources: null,
+  monthlyGrowthRateFallback: null,
 }
 
 export default ResultsFollowerGrowthChartLoader

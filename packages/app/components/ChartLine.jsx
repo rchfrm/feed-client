@@ -106,11 +106,12 @@ const ChartLine = ({
   }
 
   const projectionDataSets = projections.map((projection) => {
-    return Object.entries(projection).map(([key, value]) => {
+    return Object.entries(projection).map(([key, value], index, projection) => {
+      const isOneProjection = projection.length === 1
       return {
         data: value,
         title: 'projection',
-        showLine: false,
+        showLine: isOneProjection,
         ...(key === 'minProjection' && {
           fill: '+1',
           backgroundColor: 'rgba(250, 84, 80, 0.4)',
