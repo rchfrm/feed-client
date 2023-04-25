@@ -33,6 +33,7 @@ const ResultsFollowerGrowthFiltersBreakdownLocation = ({
 ResultsFollowerGrowthFiltersBreakdownLocation.propTypes = {
   name: PropTypes.string.isRequired,
   breakdownBy: PropTypes.string.isRequired,
+  setBreakdownBy: PropTypes.func.isRequired,
   breakdownOptions: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,

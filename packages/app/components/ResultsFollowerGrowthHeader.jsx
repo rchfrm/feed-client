@@ -29,7 +29,7 @@ const ResultsFollowerGrowthHeader = ({
       {amountSpentInCampaign ? (
         <>
           <div className="mb-2">
-            <span className="font-bold bg-green-bg-dark rounded-dialogue mr-1 px-1.5 py-0.5">{abbreviateNumber(Math.abs(totalFollowersAddedByFeed))}</span>
+            <span className="font-bold bg-green-bg-dark rounded-dialogue mr-1 px-1.5 py-0.5">{abbreviateNumber(Math.abs(Math.round(totalFollowersAddedByFeed)))}</span>
             <span className="mb-2">{copy.followerGrowthHeaderTitle(totalFollowersAddedByFeed, platform, shouldShowCostPerFollower)}</span>
             {shouldShowCostPerFollower && <><span className="font-bold bg-green-bg-dark rounded-dialogue mx-1 py-0.5"> {formatCurrency(costPerFollower, currency)} </span>each.</>}
           </div>
