@@ -590,9 +590,13 @@ export const getCostPerFollower = (dataSources, amountSpentInCampaign) => {
     const projectionDateKeys = Object.keys(projection.minProjection)
     const mostRecentDate = projectionDateKeys[projectionDateKeys.length - 1]
     const minProjectedFollowerCount = projection.minProjection[mostRecentDate]
-    const maxProjectedFollowerCount = projection.maxProjection[mostRecentDate]
+    const maxProjectedFollowerCount = projection.maxProjection?.[mostRecentDate] || 0
     const actualCampaignFollowerCount = campaign.followerGrowth[mostRecentDate]
-    const averageProjectedFollowerCount = (minProjectedFollowerCount + maxProjectedFollowerCount) / 2
+    const averageProjectedFollowerCount = maxProjectedFollowerCount ? (minProjectedFollowerCount + maxProjectedFollowerCount) / 2 : minProjectedFollowerCount
+
+    console.log(`Campaign ${index} - Actual: ${actualCampaignFollowerCount}`)
+    console.log(`Campaign ${index} - Average projected: ${averageProjectedFollowerCount}`)
+    console.log(`Campaign ${index} - Difference: ${actualCampaignFollowerCount - averageProjectedFollowerCount}`)
 
     return actualCampaignFollowerCount - averageProjectedFollowerCount
   }).reduce((a, b) => a + b, 0)

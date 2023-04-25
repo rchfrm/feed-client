@@ -116,6 +116,11 @@ const ChartLine = ({
           fill: '+1',
           backgroundColor: 'rgba(250, 84, 80, 0.4)',
         }),
+        ...(isOneProjection && {
+          borderColor: brandColors.red,
+          borderDash: [5, 2],
+          borderWidth: 2,
+        }),
       }
     })
   }).flat()
