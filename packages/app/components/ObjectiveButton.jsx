@@ -21,7 +21,7 @@ const ObjectiveButton = ({
       trackComponentName="ObjectiveButton"
       className={[
         className,
-        isActive ? 'bg-green-bg-light pointer-events-none' : null,
+        isActive ? '!bg-green-bg-light pointer-events-none' : null,
       ].join(' ')}
       isLoading={isLoading}
       isDisabled={isDisabled}
