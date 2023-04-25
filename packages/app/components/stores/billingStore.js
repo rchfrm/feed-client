@@ -1,6 +1,7 @@
 import create from 'zustand'
 import produce from 'immer'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
+import { hasActiveBudget, hasActiveGrowthOrProPlan } from '@/app/helpers/artistHelpers'
 
 const initialState = {
   organization: {},
@@ -14,17 +15,6 @@ const initialState = {
 }
 
 const canChooseFree = (organizationArtists) => {
-  const hasActiveBudget = (artist) => {
-    return (
-      artist.preferences.targeting.status === 1
-      && artist.plan === 'free'
-    )
-  }
-  const hasActiveGrowthOrProPlan = (artist) => {
-    if (! artist.plan) return false
-    const planPrefix = artist.plan.split('_')[0]
-    return (planPrefix === 'growth' || planPrefix === 'pro') && artist.status === 'active'
-  }
   return ! organizationArtists.some((artist) => {
     return hasActiveGrowthOrProPlan(artist) || hasActiveBudget(artist)
   })

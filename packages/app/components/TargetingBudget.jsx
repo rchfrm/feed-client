@@ -13,6 +13,7 @@ import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 import copy from '@/app/copy/targetingPageCopy'
 import { mayExceedSpendCap } from '@/app/helpers/budgetHelpers'
+import { hasActiveBudget } from '@/app/helpers/artistHelpers'
 
 const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,
@@ -53,11 +54,14 @@ const TargetingBudget = ({
   } = React.useContext(ArtistContext)
 
   const { organizationArtists } = useBillingStore(getBillingStoreState)
-  const hasAnotherOrgProfileSpending = organizationArtists.some((artist) => artist.id !== artistId && artist.preferences.targeting.status === 1)
+  const anotherProfileHasActiveBudget = organizationArtists.some((artist) => {
+    if (artist.id === artistId) return false
+    return hasActiveBudget(artist)
+  })
   const isDisabled = ! hasSetUpProfile
     || hasNoPlan
     || status !== 'active'
-    || (hasFreePlan && hasAnotherOrgProfileSpending)
+    || (hasFreePlan && anotherProfileHasActiveBudget)
 
   const { campaignBudget } = targetingState
   const dayAfterEndDate = moment(campaignBudget?.endDate).add(1, 'days')
