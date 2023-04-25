@@ -10,6 +10,17 @@ const initialState = {
   artistCurrency: {},
   defaultPaymentMethod: null,
   organizationInvites: [],
+  canChooseFree: false,
+}
+
+const canChooseFree = (organizationArtists) => {
+  const hasActiveBudget = (artist) => artist.preferences.targeting.status === 1
+  const hasActiveGrowthOrProPlan = (artist) => {
+    if (! artist.plan) return false
+    const planPrefix = artist.plan.split('_')[0]
+    return (planPrefix === 'growth' || planPrefix === 'pro') && artist.status !== 'active'
+  }
+  return ! organizationArtists.some((artist) => hasActiveGrowthOrProPlan(artist) || hasActiveBudget(artist))
 }
 
 // FETCH BILLING DETAILS
@@ -85,6 +96,7 @@ const setupBilling = (set, get) => async (user, artist) => {
     billingDetails,
     defaultPaymentMethod,
     artistCurrency,
+    canChooseFree: canChooseFree(organizationArtists),
   })
 }
 
@@ -144,13 +156,18 @@ export const addOrganizationArtist = (set, get) => (artist) => {
   const organizationArtistsUpdated = produce(organizationArtists || [], (draftState) => {
     draftState.push(artist)
   })
+
   set({
     organizationArtists: organizationArtistsUpdated,
+    canChooseFree: canChooseFree(organizationArtistsUpdated),
   })
 }
 
 export const updateOrganizationArtists = (set) => async (organizationArtists) => {
-  set({ organizationArtists })
+  set({
+    organizationArtists,
+    canChooseFree: canChooseFree(organizationArtists),
+  })
 }
 
 const updateUpcomingInvoice = (set) => (upcomingInvoice) => {

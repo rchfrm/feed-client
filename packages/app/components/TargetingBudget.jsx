@@ -11,7 +11,6 @@ import TargetingBudgetTabs from '@/app/TargetingBudgetTabs'
 import TargetingCampaignBudget from '@/app/TargetingCampaignBudget'
 import ControlsSettingsSectionFooter from '@/app/ControlsSettingsSectionFooter'
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
-import { hasAProfileOnGrowthOrPro } from '@/app/helpers/artistHelpers'
 import copy from '@/app/copy/targetingPageCopy'
 import { mayExceedSpendCap } from '@/app/helpers/budgetHelpers'
 
@@ -49,15 +48,15 @@ const TargetingBudget = ({
       hasProPlan,
       hasNoPlan,
       plan,
-      hasCancelledPlan,
+      status,
     },
   } = React.useContext(ArtistContext)
 
   const { organizationArtists } = useBillingStore(getBillingStoreState)
   const hasAnotherOrgProfileSpending = organizationArtists.some((artist) => artist.id !== artistId && artist.preferences.targeting.status === 1)
   const isDisabled = ! hasSetUpProfile
-    || hasCancelledPlan
-    || (hasNoPlan && hasAProfileOnGrowthOrPro(organizationArtists))
+    || hasNoPlan
+    || status !== 'active'
     || (hasFreePlan && hasAnotherOrgProfileSpending)
 
   const { campaignBudget } = targetingState
