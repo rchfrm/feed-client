@@ -18,7 +18,8 @@ const GetStartedSummarySentence = ({ className }) => {
   const isLastStep = currentStep === lastStep
   const isDesktopLayout = useBreakpointTest('xs')
 
-  const { artist: { hasLegacyPlan } } = React.useContext(ArtistContext)
+  const { artist: { is_managed: isManaged } } = React.useContext(ArtistContext)
+  const showPricingPlan = ! isManaged
 
   return (
     <>
@@ -30,7 +31,7 @@ const GetStartedSummarySentence = ({ className }) => {
       ].join(' ')}
       >
         <GetStartedSummarySentenceObjective />
-        {! hasLegacyPlan && <GetStartedSummarySentencePricingPlan />}
+        {showPricingPlan && <GetStartedSummarySentencePricingPlan />}
         <GetStartedSummarySentencePosts />
         <GetStartedSummarySentenceAdAccount />
         <GetStartedSummarySentenceTargeting />

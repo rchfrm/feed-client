@@ -35,7 +35,7 @@ const PostNotPromotableReason = ({ post, status }) => {
 
 PostNotPromotableReason.propTypes = {
   post: PropTypes.object.isRequired,
-  status: PropTypes.object.isRequired,
+  status: PropTypes.string.isRequired,
 }
 
 export default PostNotPromotableReason

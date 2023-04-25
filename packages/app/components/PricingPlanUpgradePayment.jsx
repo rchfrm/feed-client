@@ -98,7 +98,7 @@ const PricingPlanUpgradePayment = ({
 
     setCurrentStep((currentStep) => currentStep + 1)
     setIsLoading(false)
-  }, [profilesToUpgrade, organizationId, setStatus, setPlan, updateOrganizationArtists, stripe, defaultPaymentMethod.id, setCurrentStep, artistId])
+  }, [profilesToUpgrade, organizationId, setStatus, setPlan, updateOrganizationArtists, stripe, defaultPaymentMethod, setCurrentStep, artistId])
 
   React.useEffect(() => {
     const button = (
@@ -124,9 +124,12 @@ const PricingPlanUpgradePayment = ({
   }, [upgradePlan, setSidePanelButton, amount, isDisabled, currency, isLoading, isFreePlan])
 
   React.useEffect(() => {
-    // Get the current profile
     const currentProfile = organizationArtists.find((profile) => profile.id === artistId)
-
+    const isUpgradeToFree = profilesToUpgrade[artistId] === 'free'
+    if (isUpgradeToFree) {
+      setUpgradableProfiles([currentProfile])
+      return
+    }
     // Filter out the current profile and any with an active pro plan
     const filteredProfiles = organizationArtists.filter((profile) => {
       const [planPrefix] = profile?.plan?.split('_') || []
@@ -137,7 +140,7 @@ const PricingPlanUpgradePayment = ({
 
     // Make sure that the currently active profile is the first item in the array
     setUpgradableProfiles([currentProfile, ...filteredProfiles])
-  }, [artistId, organizationArtists, setProfilesToUpgrade])
+  }, [artistId, organizationArtists, profilesToUpgrade, setProfilesToUpgrade])
 
   return (
     <div>
