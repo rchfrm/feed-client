@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Select from '@/elements/Select'
+import { isObject } from '@/helpers/utils'
 
 const ResultsFollowerGrowthFiltersBreakdownLocation = ({
   name,
@@ -22,7 +23,7 @@ const ResultsFollowerGrowthFiltersBreakdownLocation = ({
         version="small box"
         handleChange={handleChange}
         options={breakdownOptions}
-        selectedValue={breakdownBy}
+        selectedValue={isObject(breakdownBy) ? breakdownOptions[0].value : breakdownBy}
         loading={isLoading}
         className="w-full xxs:w-40"
       />
@@ -32,7 +33,10 @@ const ResultsFollowerGrowthFiltersBreakdownLocation = ({
 
 ResultsFollowerGrowthFiltersBreakdownLocation.propTypes = {
   name: PropTypes.string.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
   setBreakdownBy: PropTypes.func.isRequired,
   breakdownOptions: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired,

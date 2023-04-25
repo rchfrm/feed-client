@@ -47,7 +47,10 @@ ResultsFollowerGrowthHeader.propTypes = {
   period: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
 }
 
 export default ResultsFollowerGrowthHeader

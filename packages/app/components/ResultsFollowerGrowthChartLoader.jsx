@@ -87,7 +87,10 @@ ResultsFollowerGrowthChartLoader.propTypes = {
   setDataSources: PropTypes.func.isRequired,
   dataSourceName: PropTypes.string.isRequired,
   setBreakdownOptions: PropTypes.func.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
   setBreakdownBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setIsLoading: PropTypes.func.isRequired,

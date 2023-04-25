@@ -41,7 +41,7 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
           handleChange={handleChange}
           options={dataSourceOptions}
           selectedValue={dataSourceName}
-          className="w-full xxs:w-40 mr-8 mb-5"
+          className="w-full xxs:w-32 mr-8 mb-5"
         />
       </div>
       {shouldShowBreakdown && (
@@ -68,7 +68,10 @@ ResultsFollowerGrowthFiltersBreakdown.propTypes = {
   dataSourceName: PropTypes.string.isRequired,
   setDataSourceName: PropTypes.func.isRequired,
   breakdownOptions: PropTypes.array.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
   setBreakdownBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 }

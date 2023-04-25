@@ -535,3 +535,9 @@ export const convertLocalToUTCDate = (date) => {
   date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
   return date
 }
+
+export const findClosestNumber = (number, allNumbers, isRoundUp = false) => {
+  return allNumbers.reduce((prev, curr) => {
+    return ((isRoundUp ? Math.abs(curr - number) <= Math.abs(prev - number) : Math.abs(curr - number) < Math.abs(prev - number)) ? curr : prev)
+  })
+}

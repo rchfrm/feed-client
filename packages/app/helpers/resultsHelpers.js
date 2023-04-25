@@ -3,7 +3,7 @@ import * as api from '@/helpers/api'
 import moment from 'moment'
 import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
-import { formatCurrency, capitalise } from '@/helpers/utils'
+import { formatCurrency, capitalise, isObject } from '@/helpers/utils'
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 import insightDataSources from '@/constants/insightDataSources'
@@ -661,7 +661,7 @@ const getFilteredkeys = (breakdownBy, allKeys, targetedLocations) => {
     filteredKeys = allKeys.filter((location) => ! targetedLocations.includes(location))
   }
 
-  if (typeof breakdownBy === 'object' && breakdownBy !== null) {
+  if (isObject(breakdownBy)) {
     const shouldIncludeKey = (key) => {
       const [gender, minAge, , maxAge = 99] = key.split('_')
 
@@ -669,6 +669,10 @@ const getFilteredkeys = (breakdownBy, allKeys, targetedLocations) => {
     }
 
     filteredKeys = allKeys.filter(shouldIncludeKey)
+
+    if (breakdownBy.preset === 'non-targeted') {
+      filteredKeys = allKeys.filter((key) => ! filteredKeys.includes(key))
+    }
   }
 
   return filteredKeys

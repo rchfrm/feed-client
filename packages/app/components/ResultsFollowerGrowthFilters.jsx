@@ -40,7 +40,10 @@ ResultsFollowerGrowthFilters.propTypes = {
   dataSourceName: PropTypes.string.isRequired,
   setDataSourceName: PropTypes.func.isRequired,
   breakdownOptions: PropTypes.array.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
   setBreakdownBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,

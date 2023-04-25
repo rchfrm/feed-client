@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ResultsFollowerGrowthFilterOptions from '@/app/ResultsFollowerGrowthFilterOptions'
 
-const ResultsFollowerGrowthFiltersBreakdownGender = ({ gender, setGender }) => {
+const ResultsFollowerGrowthFiltersBreakdownGender = ({ gender, setGender, isDisabled }) => {
   const genderOptions = [
     {
       title: 'All',
@@ -30,6 +30,7 @@ const ResultsFollowerGrowthFiltersBreakdownGender = ({ gender, setGender }) => {
         setValue={setGender}
         options={genderOptions}
         className="w-full xxs:w-auto mb-5 lg:mb-0 mr-8"
+        isDisabled={isDisabled}
       />
     </div>
   )
@@ -38,6 +39,7 @@ const ResultsFollowerGrowthFiltersBreakdownGender = ({ gender, setGender }) => {
 ResultsFollowerGrowthFiltersBreakdownGender.propTypes = {
   gender: PropTypes.string.isRequired,
   setGender: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 export default ResultsFollowerGrowthFiltersBreakdownGender

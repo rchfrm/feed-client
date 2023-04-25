@@ -2,10 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Select from '@/elements/Select'
 
-const ResultsFollowerGrowthFiltersBreakdownAge = ({ age, setAge }) => {
-  const minAgeValues = [13, 18, 25, 35, 45, 55, 65]
-  const maxAgeValues = [17, 24, 34, 44, 54, 64, 99]
-
+const ResultsFollowerGrowthFiltersBreakdownAge = ({
+  age,
+  setAge,
+  minAgeValues,
+  maxAgeValues,
+  isDisabled,
+}) => {
   const minAgeOptions = minAgeValues.filter((x) => x < age.max).map((y) => ({ name: y === 65 ? '65+' : y, value: y }))
   const maxAgeOptions = maxAgeValues.filter((x) => x > age.min).map((y) => ({ name: y === 99 ? 'None' : y, value: y }))
 
@@ -29,6 +32,7 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({ age, setAge }) => {
           options={minAgeOptions}
           selectedValue={age.min}
           className="w-1/2 xxs:w-16 mr-1 mb-5"
+          disabled={isDisabled}
         />
         <Select
           name="max"
@@ -37,6 +41,7 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({ age, setAge }) => {
           options={maxAgeOptions}
           selectedValue={age.max}
           className="w-1/2 xxs:w-16 mb-5"
+          disabled={isDisabled}
         />
       </div>
     </div>
@@ -44,8 +49,11 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({ age, setAge }) => {
 }
 
 ResultsFollowerGrowthFiltersBreakdownAge.propTypes = {
-  age: PropTypes.string.isRequired,
+  age: PropTypes.object.isRequired,
   setAge: PropTypes.func.isRequired,
+  minAgeValues: PropTypes.array.isRequired,
+  maxAgeValues: PropTypes.array.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 export default ResultsFollowerGrowthFiltersBreakdownAge
