@@ -28,9 +28,7 @@ const ResultsFollowerGrowthChartLoader = ({
   useAsyncEffect(async (isMounted) => {
     if (! isMounted()) return
 
-    if (! initialDataSources) {
-      setIsLoading(true)
-    }
+    setIsLoading(true)
 
     const data = await getDataSources(['facebook_ad_spend_feed', dataSourceName], artistId)
 

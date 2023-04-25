@@ -590,9 +590,9 @@ export const getCostPerFollower = (dataSources, amountSpentInCampaign) => {
     const projectionDateKeys = Object.keys(projection.minProjection)
     const mostRecentDate = projectionDateKeys[projectionDateKeys.length - 1]
     const minProjectedFollowerCount = projection.minProjection[mostRecentDate]
-    const maxProjectedFollowerCount = projection.maxProjection?.[mostRecentDate]
+    const maxProjectedFollowerCount = projection.maxProjection?.[mostRecentDate] || 0
     const actualCampaignFollowerCount = campaign.followerGrowth[mostRecentDate]
-    const averageProjectedFollowerCount = (minProjectedFollowerCount + maxProjectedFollowerCount) / 2
+    const averageProjectedFollowerCount = maxProjectedFollowerCount ? (minProjectedFollowerCount + maxProjectedFollowerCount) / 2 : minProjectedFollowerCount
 
     return actualCampaignFollowerCount - averageProjectedFollowerCount
   }).reduce((a, b) => a + b, 0)
@@ -609,7 +609,7 @@ export const formatBreakdownOptionValues = (key, dataSourceName) => {
   }
 
   if (dataSourceName === instagramDataSources.country) {
-    return countries.find((country) => country.id === key)?.name
+    return countries.find((country) => country.id === key)?.name || key
   }
 
   return key
