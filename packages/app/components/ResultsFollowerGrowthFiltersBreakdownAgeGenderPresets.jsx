@@ -4,7 +4,6 @@ import Select from '@/elements/Select'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { findClosestNumber } from '@/helpers/utils'
 
-
 const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
   preset,
   setPreset,
