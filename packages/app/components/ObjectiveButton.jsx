@@ -15,30 +15,37 @@ const ObjectiveButton = ({
   const { name, value } = platform
 
   return (
-    <Button
-      version="secondary"
-      onClick={() => setPlatform(value)}
-      trackComponentName="ObjectiveButton"
+    <div
       className={[
+        '[&>button]:border-green',
         className,
-        isActive ? '!bg-green-bg-light pointer-events-none' : null,
       ].join(' ')}
-      isLoading={isLoading}
-      isDisabled={isDisabled}
     >
-      <PlatformIcon
-        platform={value}
-        className="w-5 h-auto mr-2"
-        title={value}
-      />
-      {name} growth
-      {! isActive && (
+      <Button
+        version={isActive ? 'tertiary' : 'secondary'}
+        onClick={() => setPlatform(value)}
+        trackComponentName="ObjectiveButton"
+        className={[
+          isActive ? 'pointer-events-none' : null,
+          'w-full',
+        ].join(' ')}
+        isLoading={isLoading}
+        isDisabled={isDisabled}
+      >
+        <PlatformIcon
+          platform={value}
+          className="w-5 h-auto mr-2"
+          title={value}
+        />
+        {name} growth
+        {! isActive && (
         <ArrowIcon
           className="w-7 h-auto ml-1"
           direction="right"
         />
-      )}
-    </Button>
+        )}
+      </Button>
+    </div>
   )
 }
 
