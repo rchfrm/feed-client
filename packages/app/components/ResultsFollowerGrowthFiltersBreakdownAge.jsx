@@ -28,7 +28,7 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({ age, setAge }) => {
           handleChange={handleChange}
           options={minAgeOptions}
           selectedValue={age.min}
-          className="w-16 mr-1"
+          className="w-1/2 xxs:w-16 mr-1 mb-5"
         />
         <Select
           name="max"
@@ -36,7 +36,7 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({ age, setAge }) => {
           handleChange={handleChange}
           options={maxAgeOptions}
           selectedValue={age.max}
-          className="w-16"
+          className="w-1/2 xxs:w-16 mb-5"
         />
       </div>
     </div>

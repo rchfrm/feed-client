@@ -16,7 +16,7 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ setBreakdownBy }) => {
   }, [gender, age, setBreakdownBy])
 
   return (
-    <div className="flex">
+    <div className="flex flex-col xxs:flex-row">
       <ResultsFollowerGrowthFiltersBreakdownGender
         gender={gender}
         setGender={setGender}

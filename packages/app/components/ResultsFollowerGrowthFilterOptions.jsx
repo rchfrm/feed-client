@@ -23,7 +23,7 @@ const ResultsFollowerGrowthFilterOptions = ({
           key={option.value}
           onClick={() => onClick(option.value)}
           className={[
-            'py-1 px-3 font-bold',
+            'flex-auto py-1 px-3 font-bold',
             value === option.value ? 'text-black bg-green' : null,
           ].join(' ')}
         >

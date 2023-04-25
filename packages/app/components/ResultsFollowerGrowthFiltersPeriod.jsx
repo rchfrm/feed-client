@@ -22,14 +22,14 @@ const ResultsFollowerGrowthFiltersPeriod = ({
   ]
 
   return (
-    <div className="flex flex-col sm:flex-row sm:justify-between mr-8">
+    <div className="flex flex-col sm:flex-row sm:justify-between lg:mr-8">
       <div>
         <p className="text-xs mb-2">Filter by</p>
         <ResultsFollowerGrowthFilterOptions
           value={period}
           setValue={setPeriod}
           options={periods}
-          className="mb-6"
+          className="w-full xxs:w-auto mb-5"
         />
       </div>
     </div>

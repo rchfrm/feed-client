@@ -24,7 +24,7 @@ const ResultsFollowerGrowthFiltersBreakdownLocation = ({
         options={breakdownOptions}
         selectedValue={breakdownBy}
         loading={isLoading}
-        className="w-40"
+        className="w-full xxs:w-40"
       />
     </div>
   )
@@ -36,7 +36,11 @@ ResultsFollowerGrowthFiltersBreakdownLocation.propTypes = {
   setBreakdownBy: PropTypes.func.isRequired,
   breakdownOptions: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
+}
+
+ResultsFollowerGrowthFiltersBreakdownLocation.defaultProps = {
+  isLoading: false,
 }
 
 export default ResultsFollowerGrowthFiltersBreakdownLocation

@@ -14,6 +14,7 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
   isLoading,
 }) => {
   const name = dataSourceOptions.find(({ value }) => value === dataSourceName)?.name
+  const shouldShowBreakdown = breakdownOptions.length > 0 && name !== 'All'
   const isLocationBreakdown = dataSourceName === instagramDataSources.country || dataSourceName === instagramDataSources.city
 
   const handleChange = (e) => {
@@ -27,7 +28,11 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
   }
 
   return (
-    <div className="flex flex-row text-xs">
+    <div className={[
+      'flex flex-col text-xs',
+      ! isLocationBreakdown ? 'sm:flex-row' : 'xxs:flex-row',
+    ].join(' ')}
+    >
       <div>
         <p className="mb-2">Breakdown</p>
         <Select
@@ -36,10 +41,10 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
           handleChange={handleChange}
           options={dataSourceOptions}
           selectedValue={dataSourceName}
-          className="w-40 mr-8"
+          className="w-full xxs:w-40 mr-8 mb-5"
         />
       </div>
-      {breakdownOptions.length > 0 && (
+      {shouldShowBreakdown && (
         isLocationBreakdown ? (
           <ResultsFollowerGrowthFiltersBreakdownLocation
             name={name}

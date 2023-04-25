@@ -29,7 +29,7 @@ const ResultsFollowerGrowthFiltersBreakdownGender = ({ gender, setGender }) => {
         value={gender}
         setValue={setGender}
         options={genderOptions}
-        className="mr-8"
+        className="w-full xxs:w-auto mb-5 lg:mb-0 mr-8"
       />
     </div>
   )
