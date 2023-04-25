@@ -25,7 +25,7 @@ const PricingPlanUpgradeSummary = ({
     return (
       <div>
         <h2 className="mb-8 pr-12">Thank you!</h2>
-        <MarkdownText markdown="You are now on the free plan!" />
+        <MarkdownText markdown="You are now on the free plan." />
       </div>
     )
   }

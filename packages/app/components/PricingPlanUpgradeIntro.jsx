@@ -7,6 +7,11 @@ import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
 import copy from '@/app/copy/global'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
+import useBillingStore from '@/app/stores/billingStore'
+
+const getBillingStoreState = (state) => ({
+  canChooseFree: state.canChooseFree,
+})
 
 const PricingPlanUpgradeIntro = ({
   currencyCode,
@@ -18,7 +23,9 @@ const PricingPlanUpgradeIntro = ({
 }) => {
   const { artist } = React.useContext(ArtistContext)
   const { toggleSidePanel } = React.useContext(SidePanelContext)
-  const { hasCancelledPlan } = artist
+  const { hasCancelledPlan, hasNoPlan } = artist
+  const { canChooseFree } = useBillingStore(getBillingStoreState)
+  const hasNoPlanOrCancelled = (hasNoPlan || hasCancelledPlan) && canChooseFree
 
   const next = React.useCallback(() => {
     setCurrentStep((currentStep) => currentStep + 1)
@@ -33,7 +40,7 @@ const PricingPlanUpgradeIntro = ({
     }
     const buttonText = () => {
       if (hasBillingAccess) {
-        return hasCancelledPlan ? 'Continue' : 'Upgrade'
+        return hasNoPlanOrCancelled ? 'Continue' : 'Upgrade'
       }
       return 'Close'
     }
@@ -58,7 +65,7 @@ const PricingPlanUpgradeIntro = ({
   return (
     <div>
       <h2 className="mb-8 pr-12">{copy.pricingUpgradeIntroTitle(section)}</h2>
-      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currencyCode, hasCancelledPlan, hasBillingAccess)} className="mb-8" />
+      <MarkdownText markdown={copy.pricingUpgradeIntroDescription(section, currencyCode, hasNoPlanOrCancelled, hasBillingAccess)} className="mb-8" />
       {isUpgradeToPro && (
         <PricingPlanUpgradeIntroPlan currencyCode={currencyCode} />
       )}
