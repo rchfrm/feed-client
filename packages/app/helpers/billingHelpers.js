@@ -90,6 +90,7 @@ export const getStripeClientSecret = async (organizationId, type) => {
 /**
  * @param {string} organizationId
  * @param {object} profilesToUpgrade
+ * @param {string} promoCode
  * @returns {Promise<any>}
  */
 export const getProrationsPreview = async (organizationId, profilesToUpgrade, promoCode) => {
