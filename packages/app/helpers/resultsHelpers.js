@@ -609,7 +609,7 @@ export const formatBreakdownOptionValues = (key, dataSourceName) => {
   }
 
   if (dataSourceName === instagramDataSources.country) {
-    return countries.find((country) => country.id === key)?.name
+    return countries.find((country) => country.id === key)?.name || key
   }
 
   return key
