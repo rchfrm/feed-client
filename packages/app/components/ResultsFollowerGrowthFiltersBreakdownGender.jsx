@@ -1,26 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ResultsFollowerGrowthFilterOptions from '@/app/ResultsFollowerGrowthFilterOptions'
+import { capitalise } from '@/helpers/utils'
 
 const ResultsFollowerGrowthFiltersBreakdownGender = ({ gender, setGender, isDisabled }) => {
-  const genderOptions = [
-    {
-      title: 'All',
-      value: 'all',
-    },
-    {
-      title: 'Female',
-      value: 'female',
-    },
-    {
-      title: 'Male',
-      value: 'male',
-    },
-    {
-      title: 'Unknown',
-      value: 'unknown',
-    },
-  ]
+  const genders = ['all', 'female', 'male', 'unknown']
+  const genderOptions = genders.map((gender) => ({ title: capitalise(gender), value: gender }))
 
   return (
     <div>
