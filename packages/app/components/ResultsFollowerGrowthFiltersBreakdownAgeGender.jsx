@@ -19,8 +19,8 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ name, setBreakdownBy }
         name,
         value: {
           gender,
-          min: age.min,
-          max: age.max,
+          min: age?.min,
+          max: age?.max,
           preset,
         },
       })
@@ -34,6 +34,8 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ name, setBreakdownBy }
         preset={preset}
         setPreset={setPreset}
         setBreakdownBy={setBreakdownBy}
+        setGender={setGender}
+        setAge={setAge}
         minAgeValues={minAgeValues}
         maxAgeValues={maxAgeValues}
       />

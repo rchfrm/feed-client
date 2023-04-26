@@ -9,8 +9,8 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({
   maxAgeValues,
   isDisabled,
 }) => {
-  const minAgeOptions = minAgeValues.filter((x) => x < age.max).map((y) => ({ name: y === 65 ? '65+' : y, value: y }))
-  const maxAgeOptions = maxAgeValues.filter((x) => x > age.min).map((y) => ({ name: y === 99 ? 'None' : y, value: y }))
+  const minAgeOptions = minAgeValues.filter((x) => x < age?.max).map((y) => ({ name: y === 65 ? '65+' : y, value: y }))
+  const maxAgeOptions = maxAgeValues.filter((x) => x > age?.min).map((y) => ({ name: y === 99 ? 'None' : y, value: y }))
 
   const handleChange = (e) => {
     const { target: { name, value } } = e
@@ -30,7 +30,7 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({
           version="small box"
           handleChange={handleChange}
           options={minAgeOptions}
-          selectedValue={age.min}
+          selectedValue={age?.min}
           className="w-1/2 xxs:w-16 mr-1 mb-5"
           disabled={isDisabled}
         />
@@ -39,7 +39,7 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({
           version="small box"
           handleChange={handleChange}
           options={maxAgeOptions}
-          selectedValue={age.max}
+          selectedValue={age?.max}
           className="w-1/2 xxs:w-16 mb-5"
           disabled={isDisabled}
         />

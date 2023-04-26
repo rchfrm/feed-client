@@ -9,6 +9,8 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
   preset,
   setPreset,
   setBreakdownBy,
+  setGender,
+  setAge,
   minAgeValues,
   maxAgeValues,
 }) => {
@@ -31,7 +33,11 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
   ]
 
   const getAgeAndGender = (ageMin, ageMax, genders, preset) => {
-    const gender = genders.length === 0 ? 'all' : genders[0]
+    const genderDictionary = {
+      men: 'male',
+      women: 'female',
+    }
+    const gender = genders.length === 0 ? 'all' : genderDictionary[genders[0]]
 
     return {
       name,
@@ -50,8 +56,33 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
   }
 
   React.useEffect(() => {
-    if (preset !== 'none') {
-      setBreakdownBy(getAgeAndGender(ageMin, ageMax, genders, preset))
+    const breakdown = getAgeAndGender(ageMin, ageMax, genders, preset)
+
+    if (preset === 'targeted' || preset === 'non-targeted') {
+      setBreakdownBy(breakdown)
+    }
+
+    if (preset === 'targeted') {
+      setGender(breakdown.value.gender)
+      setAge({
+        min: breakdown.value.min,
+        max: breakdown.value.max,
+      })
+      return
+    }
+
+    if (preset === 'none') {
+      setGender('all')
+      setAge({
+        min: minAgeValues[0],
+        max: maxAgeValues[maxAgeValues.length - 1],
+      })
+      return
+    }
+
+    if (preset === 'non-targeted') {
+      setGender('')
+      setAge(null)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preset, ageMin, ageMax, genders, setBreakdownBy])
@@ -78,6 +109,8 @@ ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets.propTypes = {
   preset: PropTypes.string.isRequired,
   setPreset: PropTypes.func.isRequired,
   setBreakdownBy: PropTypes.func.isRequired,
+  setGender: PropTypes.func.isRequired,
+  setAge: PropTypes.func.isRequired,
   minAgeValues: PropTypes.array.isRequired,
   maxAgeValues: PropTypes.array.isRequired,
 }
