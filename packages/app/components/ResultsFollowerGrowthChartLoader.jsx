@@ -60,7 +60,10 @@ const ResultsFollowerGrowthChartLoader = ({
       return
     }
 
-    const targetedLocations = dataSourceName === instagramDataSources.country ? selectedCountries : selectedCities
+    let targetedLocations = []
+    if (breakdownBy?.name === 'location') {
+      targetedLocations = dataSourceName === instagramDataSources.country ? selectedCountries : selectedCities
+    }
 
     const { followerGrowth } = initialDataSources
     const updatedDataSources = {
