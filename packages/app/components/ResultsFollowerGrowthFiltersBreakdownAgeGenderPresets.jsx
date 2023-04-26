@@ -5,6 +5,7 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { findClosestNumber } from '@/helpers/utils'
 
 const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
+  name,
   preset,
   setPreset,
   setBreakdownBy,
@@ -33,10 +34,13 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
     const gender = genders.length === 0 ? 'all' : genders[0]
 
     return {
-      gender,
-      min: ! minAgeValues.includes(ageMin) ? findClosestNumber(ageMin, minAgeValues) : ageMin,
-      max: ! maxAgeValues.includes(ageMax) ? findClosestNumber(ageMax, maxAgeValues, true) : ageMax,
-      preset,
+      name,
+      value: {
+        gender,
+        min: ! minAgeValues.includes(ageMin) ? findClosestNumber(ageMin, minAgeValues) : ageMin,
+        max: ! maxAgeValues.includes(ageMax) ? findClosestNumber(ageMax, maxAgeValues, true) : ageMax,
+        preset,
+      },
     }
   }
 
@@ -70,6 +74,7 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
 }
 
 ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets.propTypes = {
+  name: PropTypes.string.isRequired,
   preset: PropTypes.string.isRequired,
   setPreset: PropTypes.func.isRequired,
   setBreakdownBy: PropTypes.func.isRequired,

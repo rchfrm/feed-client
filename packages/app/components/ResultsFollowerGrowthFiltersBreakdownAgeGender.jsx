@@ -4,7 +4,7 @@ import ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets from '@/app/Results
 import ResultsFollowerGrowthFiltersBreakdownGender from '@/app/ResultsFollowerGrowthFiltersBreakdownGender'
 import ResultsFollowerGrowthFiltersBreakdownAge from '@/app/ResultsFollowerGrowthFiltersBreakdownAge'
 
-const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ setBreakdownBy }) => {
+const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ name, setBreakdownBy }) => {
   const [preset, setPreset] = React.useState('targeted')
   const [gender, setGender] = React.useState('all')
   const [age, setAge] = React.useState({ min: 13, max: 99 })
@@ -16,17 +16,21 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ setBreakdownBy }) => {
   React.useEffect(() => {
     if (hasNoPresets) {
       setBreakdownBy({
-        gender,
-        min: age.min,
-        max: age.max,
-        preset,
+        name,
+        value: {
+          gender,
+          min: age.min,
+          max: age.max,
+          preset,
+        },
       })
     }
-  }, [gender, age, setBreakdownBy, preset, hasNoPresets])
+  }, [name, gender, age, setBreakdownBy, preset, hasNoPresets])
 
   return (
     <div className="flex flex-col xxs:flex-row">
       <ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets
+        name={name}
         preset={preset}
         setPreset={setPreset}
         setBreakdownBy={setBreakdownBy}
@@ -50,6 +54,7 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ setBreakdownBy }) => {
 }
 
 ResultsFollowerGrowthFiltersBreakdownAgeGender.propTypes = {
+  name: PropTypes.string.isRequired,
   setBreakdownBy: PropTypes.func.isRequired,
 }
 
