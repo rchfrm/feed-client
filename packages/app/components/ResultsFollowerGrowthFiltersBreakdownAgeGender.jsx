@@ -28,7 +28,7 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ name, setBreakdownBy }
   }, [name, gender, age, setBreakdownBy, preset, hasNoPresets])
 
   return (
-    <div className="flex flex-col xxs:flex-row">
+    <div className="flex flex-col xs:flex-row">
       <ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets
         name={name}
         preset={preset}
@@ -37,18 +37,20 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGender = ({ name, setBreakdownBy }
         minAgeValues={minAgeValues}
         maxAgeValues={maxAgeValues}
       />
-      <ResultsFollowerGrowthFiltersBreakdownGender
-        gender={gender}
-        setGender={setGender}
-        isDisabled={! hasNoPresets}
-      />
-      <ResultsFollowerGrowthFiltersBreakdownAge
-        age={age}
-        setAge={setAge}
-        minAgeValues={minAgeValues}
-        maxAgeValues={maxAgeValues}
-        isDisabled={! hasNoPresets}
-      />
+      <div className="flex flex-col xxs:flex-row">
+        <ResultsFollowerGrowthFiltersBreakdownGender
+          gender={gender}
+          setGender={setGender}
+          isDisabled={! hasNoPresets}
+        />
+        <ResultsFollowerGrowthFiltersBreakdownAge
+          age={age}
+          setAge={setAge}
+          minAgeValues={minAgeValues}
+          maxAgeValues={maxAgeValues}
+          isDisabled={! hasNoPresets}
+        />
+      </div>
     </div>
   )
 }

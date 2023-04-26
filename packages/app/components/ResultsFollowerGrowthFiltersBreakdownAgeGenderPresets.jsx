@@ -66,7 +66,7 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
           handleChange={handleChange}
           options={presetOptions}
           selectedValue={preset}
-          className="w-1/2 xxs:w-32 mr-1 mb-5 mr-8"
+          className="w-full xxs:w-32 mb-5 xs:mr-8"
         />
       </div>
     </div>
