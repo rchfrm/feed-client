@@ -11,6 +11,7 @@ const PostsList = ({
   status,
   setPosts,
   filterBy,
+  sortBy,
   setIsPostActionsOpen,
   isSpendingPaused,
   className,
@@ -44,6 +45,7 @@ const PostsList = ({
                 index={index}
                 status={status}
                 setPosts={setPosts}
+                sortBy={sortBy}
                 setIsPostActionsOpen={setIsPostActionsOpen}
                 isLastPromotableNotRunPost={isLastPromotableNotRunPost}
               />
@@ -63,6 +65,7 @@ PostsList.propTypes = {
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
   filterBy: PropTypes.object.isRequired,
+  sortBy: PropTypes.string.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
   isSpendingPaused: PropTypes.bool.isRequired,
   className: PropTypes.string,

@@ -4,8 +4,11 @@ import PostToggle from '@/app/PostToggle'
 
 const PostSettingsToggle = ({
   post,
+  status,
   campaignType,
+  setPosts,
   updatePost,
+  sortBy,
   isEnabled,
   setIsEnabled,
   isDisabled,
@@ -34,9 +37,12 @@ const PostSettingsToggle = ({
         ].join(' ')}
       >
         <PostToggle
+          status={status}
           campaignType={campaignType}
           post={post}
           setPost={updatePost}
+          setPosts={setPosts}
+          sortBy={sortBy}
           isEnabled={isEnabled}
           setIsEnabled={setIsEnabled}
           isLastPromotableNotRunPost={isLastPromotableNotRunPost}
@@ -58,8 +64,11 @@ const PostSettingsToggle = ({
 
 PostSettingsToggle.propTypes = {
   post: PropTypes.object.isRequired,
+  status: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
+  setPosts: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,
+  sortBy: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,

@@ -8,6 +8,7 @@ const PostCard = ({
   index,
   status,
   setPosts,
+  sortBy,
   setIsPostActionsOpen,
   isLastPromotableNotRunPost,
   className,
@@ -34,6 +35,7 @@ const PostCard = ({
         index={index}
         status={status}
         setPosts={setPosts}
+        sortBy={sortBy}
         setIsPostActionsOpen={setIsPostActionsOpen}
         isLastPromotableNotRunPost={isLastPromotableNotRunPost}
       />
@@ -46,6 +48,7 @@ PostCard.propTypes = {
   index: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
+  sortBy: PropTypes.string.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
   className: PropTypes.string,
