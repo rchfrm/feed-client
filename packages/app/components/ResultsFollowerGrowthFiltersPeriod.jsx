@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ResultsFollowerGrowthFilterOptions from '@/app/ResultsFollowerGrowthFilterOptions'
 
 const ResultsFollowerGrowthFiltersPeriod = ({
   period,
@@ -20,28 +21,16 @@ const ResultsFollowerGrowthFiltersPeriod = ({
     },
   ]
 
-  const onClick = (value) => {
-    setPeriod(value)
-  }
-
   return (
-    <div className="flex flex-col sm:flex-row sm:justify-between mr-8">
+    <div className="flex flex-col sm:flex-row sm:justify-between lg:mr-8">
       <div>
         <p className="text-xs mb-2">Filter by</p>
-        <div className="inline-flex mb-6 rounded-dialogue overflow-hidden text-sm text-grey-dark bg-offwhite">
-          {periods.map(({ title, value }) => (
-            <button
-              key={value}
-              onClick={() => onClick(value)}
-              className={[
-                'py-1 px-3 font-bold',
-                period === value ? 'text-black bg-green' : null,
-              ].join(' ')}
-            >
-              {title}
-            </button>
-          ))}
-        </div>
+        <ResultsFollowerGrowthFilterOptions
+          value={period}
+          setValue={setPeriod}
+          options={periods}
+          className="w-full xxs:w-auto mb-5"
+        />
       </div>
     </div>
   )
