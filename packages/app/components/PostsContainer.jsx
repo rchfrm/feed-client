@@ -19,7 +19,6 @@ const PostsContainer = ({
   status,
   posts,
   setPosts,
-  getPosts,
   filterBy,
   setFilterBy,
   sortBy,
@@ -103,7 +102,6 @@ const PostsContainer = ({
                 posts={posts}
                 status={status}
                 setPosts={setPosts}
-                getPosts={getPosts}
                 filterBy={filterBy}
                 sortBy={sortBy}
                 setIsPostActionsOpen={setIsPostActionsOpen}

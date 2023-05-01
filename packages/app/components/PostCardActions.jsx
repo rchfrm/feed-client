@@ -68,6 +68,7 @@ PostCardActions.propTypes = {
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
   sortBy: PropTypes.string.isRequired,
+  setIsPostActionsOpen: PropTypes.func.isRequired,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
 }
 

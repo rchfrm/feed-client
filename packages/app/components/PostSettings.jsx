@@ -29,7 +29,6 @@ const PostSettings = ({
   className,
 }) => {
   const {
-    id: postId,
     promotionEnabled,
     isPromotable,
     conversionsEnabled,
@@ -103,7 +102,6 @@ const PostSettings = ({
         <div className="flex flex-wrap">
           <PostSettingsToggle
             post={post}
-            postId={postId}
             status={status}
             campaignType={campaignType}
             setPosts={setPosts}
