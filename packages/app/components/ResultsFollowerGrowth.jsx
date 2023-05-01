@@ -6,10 +6,10 @@ import ResultsFollowerGrowthHeader from '@/app/ResultsFollowerGrowthHeader'
 import ResultsFollowGrowthChartLoader from '@/app/ResultsFollowerGrowthChartLoader'
 import { followerGrowthDataSources } from '@/app/helpers/resultsHelpers'
 
-const ResultsFollowerGrowth = ({ platform, hasInstagramGrowthObjective }) => {
+const ResultsFollowerGrowth = ({ platform, hasInstagramGrowthObjective, monthlyGrowthRateFallback }) => {
   const [dataSources, setDataSources] = React.useState(null)
   const [dataSourceName, setDataSourceName] = React.useState(followerGrowthDataSources[platform])
-  const [breakdownBy, setBreakdownBy] = React.useState('')
+  const [breakdownBy, setBreakdownBy] = React.useState(null)
   const [breakdownOptions, setBreakdownOptions] = React.useState([])
   const [period, setPeriod] = React.useState('all')
   const [isLoading, setIsLoading] = React.useState(false)
@@ -51,6 +51,7 @@ const ResultsFollowerGrowth = ({ platform, hasInstagramGrowthObjective }) => {
         setIsLoading={setIsLoading}
         currency={currency}
         hasInstagramGrowthObjective={hasInstagramGrowthObjective}
+        monthlyGrowthRateFallback={monthlyGrowthRateFallback}
       />
     </div>
   )
@@ -59,6 +60,11 @@ const ResultsFollowerGrowth = ({ platform, hasInstagramGrowthObjective }) => {
 ResultsFollowerGrowth.propTypes = {
   platform: PropTypes.string.isRequired,
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,
+  monthlyGrowthRateFallback: PropTypes.number,
+}
+
+ResultsFollowerGrowth.defaultProps = {
+  monthlyGrowthRateFallback: null,
 }
 
 export default ResultsFollowerGrowth

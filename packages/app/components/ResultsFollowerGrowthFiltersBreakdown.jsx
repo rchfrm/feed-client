@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Select from '@/elements/Select'
-import { dataSourceOptions } from '@/app/helpers/resultsHelpers'
+import ResultsFollowerGrowthFiltersBreakdownLocation from '@/app/ResultsFollowerGrowthFiltersBreakdownLocation'
+import ResultsFollowerGrowthFiltersBreakdownAgeGender from '@/app/ResultsFollowerGrowthFiltersBreakdownAgeGender'
+import { dataSourceOptions, instagramDataSources } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthFiltersBreakdown = ({
   dataSourceName,
@@ -11,19 +13,22 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
   setBreakdownBy,
   isLoading,
 }) => {
-  const name = dataSourceOptions.find(({ value }) => value === dataSourceName)?.name
-  const handleChange = (e) => {
-    const { target: { name, value } } = e
+  const dataSourceOptionName = dataSourceOptions.find(({ value }) => value === dataSourceName)?.name
+  const shouldShowBreakdown = breakdownOptions.length > 0 && dataSourceOptionName !== 'All'
+  const isLocationBreakdown = dataSourceName === instagramDataSources.country || dataSourceName === instagramDataSources.city
 
-    if (name === 'datasource') {
-      setDataSourceName(value)
-      return
-    }
-    setBreakdownBy(value)
+  const handleChange = (e) => {
+    const { target: { value } } = e
+
+    setDataSourceName(value)
   }
 
   return (
-    <div className="flex flex-row text-xs">
+    <div className={[
+      'flex flex-col text-xs',
+      ! isLocationBreakdown ? 'sm:flex-row' : 'xxs:flex-row',
+    ].join(' ')}
+    >
       <div>
         <p className="mb-2">Breakdown</p>
         <Select
@@ -32,22 +37,25 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
           handleChange={handleChange}
           options={dataSourceOptions}
           selectedValue={dataSourceName}
-          className="w-40 mr-8"
+          className="w-full xxs:w-32 mr-8 mb-5"
         />
       </div>
-      {breakdownOptions.length > 0 && (
-        <div>
-          <p className="mb-2">{name}</p>
-          <Select
-            name="breakdown"
-            version="small box"
-            handleChange={handleChange}
-            options={breakdownOptions}
-            selectedValue={breakdownBy}
+      {shouldShowBreakdown && (
+        isLocationBreakdown ? (
+          <ResultsFollowerGrowthFiltersBreakdownLocation
+            name="location"
+            title={dataSourceOptionName}
+            breakdownBy={breakdownBy}
+            setBreakdownBy={setBreakdownBy}
+            breakdownOptions={breakdownOptions}
             loading={isLoading}
-            className="w-40"
           />
-        </div>
+        ) : (
+          <ResultsFollowerGrowthFiltersBreakdownAgeGender
+            name="age-gender"
+            setBreakdownBy={setBreakdownBy}
+          />
+        )
       )}
     </div>
   )
@@ -57,9 +65,13 @@ ResultsFollowerGrowthFiltersBreakdown.propTypes = {
   dataSourceName: PropTypes.string.isRequired,
   setDataSourceName: PropTypes.func.isRequired,
   breakdownOptions: PropTypes.array.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.object,
   setBreakdownBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+}
+
+ResultsFollowerGrowthFiltersBreakdown.defaultProps = {
+  breakdownBy: null,
 }
 
 export default ResultsFollowerGrowthFiltersBreakdown

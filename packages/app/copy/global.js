@@ -222,11 +222,18 @@ ${list.join('\n')}`
 
     return `You have paid ${formatCurrency(amount, currency)}.`
       + `\n\n ${list.join('\n')}`
-    // TODO: Add message to use feature from initial prompt that opened the upgrade flow. "Close this window to..."
   },
   pricingProfileFootnote: '^ A profile is a Facebook page and Instagram account for the same person, brand or company',
-  disabledReason: (section, hasSetUpProfile, hasOverflow, hasCancelledPlan, plan, status) => {
-    if (plan && status === 'incomplete') {
+  disabledReason: (
+    section,
+    hasSetUpProfile,
+    hasOverflow,
+    canChooseFree,
+    plan,
+    status,
+  ) => {
+    const isIncomplete = plan && status === 'incomplete'
+    if (isIncomplete) {
       const [planPrefix] = plan.split('_')
       return `Finish upgrade to <span className="text-insta font-bold">${capitalise(planPrefix)}</span>`
     }
@@ -235,7 +242,8 @@ ${list.join('\n')}`
       ? 'Choose a plan'
       : `Choose the <span className="text-insta font-bold">Growth</span> plan`
     const planBaseString = `Upgrade to <span className="text-insta font-bold">Growth</span>`
-    const baseString = hasCancelledPlan ? noPlanBaseString : planBaseString
+    const hasInactivePlan = ! plan || status !== 'active'
+    const baseString = hasInactivePlan && canChooseFree ? noPlanBaseString : planBaseString
 
     if (! hasSetUpProfile) {
       if (section === 'objective') return `${setupBaseString} choose your objective`

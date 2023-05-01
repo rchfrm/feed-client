@@ -15,6 +15,11 @@ import brandColors from '@/constants/brandColors'
 import * as ROUTES from '@/app/constants/routes'
 
 import globalCopy from '@/app/copy/global'
+import useBillingStore from '@/app/stores/billingStore'
+
+const getBillingStoreState = (state) => ({
+  canChooseFree: state.canChooseFree,
+})
 
 const DisabledActionPrompt = ({
   version,
@@ -27,8 +32,9 @@ const DisabledActionPrompt = ({
   const isSmallSize = version === 'small'
   const hasBorder = version === 'border'
 
-  const { artist: { hasSetUpProfile, hasCancelledPlan, plan, status } } = React.useContext(ArtistContext)
+  const { artist: { hasSetUpProfile, plan, status } } = React.useContext(ArtistContext)
   const openPricingPlanUpgradeSidePanel = useOpenPricingPlanUpgradeSidePanel()
+  const { canChooseFree } = useBillingStore(getBillingStoreState)
 
   const ref = React.useRef()
   const hasOverflow = useHasOverflow(ref)
@@ -66,7 +72,7 @@ const DisabledActionPrompt = ({
         fill={brandColors.instagram.bg}
       />
       <MarkdownText
-        markdown={copy || globalCopy.disabledReason(section, hasSetUpProfile, hasOverflow, hasCancelledPlan, plan, status)}
+        markdown={copy || globalCopy.disabledReason(section, hasSetUpProfile, hasOverflow, canChooseFree, plan, status)}
         className={[isSmallSize ? 'mx-1' : 'mx-2', 'mb-0'].join(' ')}
       />
       {isButton && (

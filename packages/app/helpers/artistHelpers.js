@@ -684,12 +684,26 @@ export const hasAllProfilesOnNoPlan = (organizationArtists) => {
   return organizationArtists.every(({ plan }) => ! plan)
 }
 
-export const hasAProfileOnGrowthOrPro = (organizationArtists) => {
-  return organizationArtists.some(({ plan, status }) => {
-    const [planPrefix] = plan?.split('_') || []
+export const hasActiveBudget = (artist) => {
+  const targetingStatus = artist.preferences.targeting.status
+  if (targetingStatus === 0) {
+    return false
+  }
+  // If targeting status is 1, it means that the artist has a budget
+  if (Boolean(artist.plan) && artist.status === 'active') {
+    return true
+  }
+  return false
+}
 
-    return (planPrefix === 'growth' || planPrefix === 'pro') && status === 'active'
-  })
+export const hasActiveGrowthOrProPlan = (artist) => {
+  if (! artist.plan) return false
+  const planPrefix = artist.plan.split('_')[0]
+  return (planPrefix === 'growth' || planPrefix === 'pro') && artist.status === 'active'
+}
+
+export const hasAProfileOnGrowthOrPro = (organizationArtists) => {
+  return organizationArtists.some((artist) => hasActiveGrowthOrProPlan(artist))
 }
 
 // Update artist

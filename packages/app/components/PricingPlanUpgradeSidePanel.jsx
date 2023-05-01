@@ -19,6 +19,7 @@ const getBillingStoreState = (state) => ({
   defaultPaymentMethod: state.defaultPaymentMethod,
   artistCurrency: state.artistCurrency,
   organizationArtists: state.organizationArtists,
+  canChooseFree: state.canChooseFree,
 })
 
 const profilesToUpgradeReducer = (draftState, action) => {
@@ -50,12 +51,10 @@ const PricingPlanUpgradeSidePanel = ({ section }) => {
     defaultPaymentMethod,
     organizationArtists,
   } = useBillingStore(getBillingStoreState)
+  const canChooseFree = useBillingStore(getBillingStoreState).canChooseFree && section === 'set-budget'
 
   const hasBillingAccess = ! orgLoading && !! organization.id
-  const hasNoOrgProfilesSpending = organizationArtists.every((artist) => artist.preferences.targeting.status !== 1)
   const currencyCode = defaultPaymentMethod?.currency || artistCurrency
-  const isSettingBudget = section === 'set-budget'
-  const canChooseFree = hasCancelledPlan && isSettingBudget && hasNoOrgProfilesSpending
 
   const [currentStep, setCurrentStep] = React.useState(0)
 

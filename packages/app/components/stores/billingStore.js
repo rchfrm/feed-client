@@ -1,6 +1,7 @@
 import create from 'zustand'
 import produce from 'immer'
 import * as billingHelpers from '@/app/helpers/billingHelpers'
+import { hasActiveBudget, hasActiveGrowthOrProPlan } from '@/app/helpers/artistHelpers'
 
 const initialState = {
   organization: {},
@@ -10,6 +11,13 @@ const initialState = {
   artistCurrency: {},
   defaultPaymentMethod: null,
   organizationInvites: [],
+  canChooseFree: false,
+}
+
+const canChooseFree = (organizationArtists) => {
+  return ! organizationArtists.some((artist) => {
+    return hasActiveGrowthOrProPlan(artist) || hasActiveBudget(artist)
+  })
 }
 
 // FETCH BILLING DETAILS
@@ -85,6 +93,7 @@ const setupBilling = (set, get) => async (user, artist) => {
     billingDetails,
     defaultPaymentMethod,
     artistCurrency,
+    canChooseFree: canChooseFree(organizationArtists),
   })
 }
 
@@ -144,13 +153,18 @@ export const addOrganizationArtist = (set, get) => (artist) => {
   const organizationArtistsUpdated = produce(organizationArtists || [], (draftState) => {
     draftState.push(artist)
   })
+
   set({
     organizationArtists: organizationArtistsUpdated,
+    canChooseFree: canChooseFree(organizationArtistsUpdated),
   })
 }
 
 export const updateOrganizationArtists = (set) => async (organizationArtists) => {
-  set({ organizationArtists })
+  set({
+    organizationArtists,
+    canChooseFree: canChooseFree(organizationArtists),
+  })
 }
 
 const updateUpcomingInvoice = (set) => (upcomingInvoice) => {

@@ -65,7 +65,7 @@ const TargetingDailyBudgetPauseButton = ({
   return (
     <Button
       size="small"
-      color="yellow"
+      color={isPaused ? 'green' : 'yellow'}
       isDisabled={isDisabled}
       style={{ paddingBottom: '0.3rem' }}
       onClick={onClick}

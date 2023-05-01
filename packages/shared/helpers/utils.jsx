@@ -542,3 +542,9 @@ export const removeDuplicatesByKey = (key, array) => {
       t[key] === value[key]
     )))
 }
+
+export const findClosestNumber = (number, allNumbers, isRoundUp = false) => {
+  return allNumbers.reduce((prev, curr) => {
+    return ((isRoundUp ? Math.abs(curr - number) <= Math.abs(prev - number) : Math.abs(curr - number) < Math.abs(prev - number)) ? curr : prev)
+  })
+}

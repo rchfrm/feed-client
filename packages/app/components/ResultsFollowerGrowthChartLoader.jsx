@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 import ResultsFollowerGrowthChart from '@/app/ResultsFollowerGrowthChart'
-import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, formatBreakdownOptionValues } from '@/app/helpers/resultsHelpers'
+import { getDataSources, formatDataSources, getSlicedDataSources, instagramDataSources, getBreakdownOptions, getBreakdownData } from '@/app/helpers/resultsHelpers'
 
 const ResultsFollowerGrowthChartLoader = ({
   period,
@@ -17,17 +18,17 @@ const ResultsFollowerGrowthChartLoader = ({
   setIsLoading,
   currency,
   hasInstagramGrowthObjective,
+  monthlyGrowthRateFallback,
 }) => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
+  const { selectedCountries, selectedCities } = React.useContext(TargetingContext)
 
   const [initialDataSources, setInitialDataSources] = React.useState(null)
 
   useAsyncEffect(async (isMounted) => {
     if (! isMounted()) return
 
-    if (! initialDataSources) {
-      setIsLoading(true)
-    }
+    setIsLoading(true)
 
     const data = await getDataSources(['facebook_ad_spend_feed', dataSourceName], artistId)
 
@@ -44,17 +45,13 @@ const ResultsFollowerGrowthChartLoader = ({
 
     if (dataSourceName === instagramDataSources.all) {
       setBreakdownOptions([])
-      setBreakdownBy('')
+      setBreakdownBy(null)
       setIsLoading(false)
       return
     }
 
-    const options = Object.keys(Object.values(formattedDataSources.followerGrowth)[0]).map((key) => ({
-      name: formatBreakdownOptionValues(key, dataSourceName),
-      value: key,
-    }))
+    const options = getBreakdownOptions(formattedDataSources, dataSourceName, selectedCities)
     setBreakdownOptions(options)
-    setBreakdownBy(options[0].value)
     setIsLoading(false)
   }, [dataSourceName])
 
@@ -63,23 +60,20 @@ const ResultsFollowerGrowthChartLoader = ({
       return
     }
 
-    const slicedDataSources = getSlicedDataSources(period, initialDataSources)
-    const { followerGrowth } = slicedDataSources
-
-    const setDailyDataByBreakdown = (followerGrowth) => {
-      return Object.entries(followerGrowth).reduce((result, [key, value]) => {
-        return {
-          ...result,
-          [key]: value[breakdownBy],
-        }
-      }, {})
+    let targetedLocations = []
+    if (breakdownBy?.name === 'location') {
+      targetedLocations = dataSourceName === instagramDataSources.country ? selectedCountries : selectedCities
     }
 
-    setDataSources({
-      ...slicedDataSources,
-      followerGrowth: breakdownBy ? setDailyDataByBreakdown(followerGrowth) : followerGrowth,
-    })
-  }, [initialDataSources, period, setDataSources, breakdownBy])
+    const { followerGrowth } = initialDataSources
+    const updatedDataSources = {
+      ...initialDataSources,
+      followerGrowth: breakdownBy ? getBreakdownData(breakdownBy, followerGrowth, targetedLocations) : followerGrowth,
+    }
+
+    const slicedDataSources = getSlicedDataSources(period, updatedDataSources, artist, monthlyGrowthRateFallback)
+    setDataSources(slicedDataSources)
+  }, [initialDataSources, period, setDataSources, breakdownBy, artist, monthlyGrowthRateFallback, selectedCountries, selectedCities, dataSourceName])
 
   return (
     <ResultsFollowerGrowthChart
@@ -96,16 +90,19 @@ ResultsFollowerGrowthChartLoader.propTypes = {
   setDataSources: PropTypes.func.isRequired,
   dataSourceName: PropTypes.string.isRequired,
   setBreakdownOptions: PropTypes.func.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.object,
   setBreakdownBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setIsLoading: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,
+  monthlyGrowthRateFallback: PropTypes.number,
 }
 
 ResultsFollowerGrowthChartLoader.defaultProps = {
+  breakdownBy: null,
   dataSources: null,
+  monthlyGrowthRateFallback: null,
 }
 
 export default ResultsFollowerGrowthChartLoader
