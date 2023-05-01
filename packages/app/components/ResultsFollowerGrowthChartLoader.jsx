@@ -45,7 +45,7 @@ const ResultsFollowerGrowthChartLoader = ({
 
     if (dataSourceName === instagramDataSources.all) {
       setBreakdownOptions([])
-      setBreakdownBy('')
+      setBreakdownBy(null)
       setIsLoading(false)
       return
     }
@@ -60,7 +60,10 @@ const ResultsFollowerGrowthChartLoader = ({
       return
     }
 
-    const targetedLocations = dataSourceName === instagramDataSources.country ? selectedCountries : selectedCities
+    let targetedLocations = []
+    if (breakdownBy?.name === 'location') {
+      targetedLocations = dataSourceName === instagramDataSources.country ? selectedCountries : selectedCities
+    }
 
     const { followerGrowth } = initialDataSources
     const updatedDataSources = {
@@ -87,7 +90,7 @@ ResultsFollowerGrowthChartLoader.propTypes = {
   setDataSources: PropTypes.func.isRequired,
   dataSourceName: PropTypes.string.isRequired,
   setBreakdownOptions: PropTypes.func.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.object,
   setBreakdownBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   setIsLoading: PropTypes.func.isRequired,
@@ -97,6 +100,7 @@ ResultsFollowerGrowthChartLoader.propTypes = {
 }
 
 ResultsFollowerGrowthChartLoader.defaultProps = {
+  breakdownBy: null,
   dataSources: null,
   monthlyGrowthRateFallback: null,
 }

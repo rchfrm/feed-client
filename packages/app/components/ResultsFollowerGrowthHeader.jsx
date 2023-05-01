@@ -21,7 +21,7 @@ const ResultsFollowerGrowthHeader = ({
   const { estimatedTotalFollowersAddedByFeed, costPerFollower } = getCostPerFollower(dataSources, amountSpentInCampaign) || {}
   const spendingPeriodIndexes = getSpendingPeriodIndexes(adSpend, 1)
   const totalFollowersAddedInGeneral = sumAddedFollowers(followerGrowth, spendingPeriodIndexes)
-  const shouldShowCostPerFollower = (estimatedTotalFollowersAddedByFeed > 0 && totalFollowersAddedInGeneral > 0) && ! breakdownBy && Number.isFinite(costPerFollower)
+  const shouldShowCostPerFollower = (estimatedTotalFollowersAddedByFeed > 0 && totalFollowersAddedInGeneral > 0) && ! breakdownBy?.value && Number.isFinite(costPerFollower)
   const totalFollowersAddedByFeed = estimatedTotalFollowersAddedByFeed < totalFollowersAddedInGeneral ? estimatedTotalFollowersAddedByFeed : totalFollowersAddedInGeneral
 
   return (
@@ -47,7 +47,11 @@ ResultsFollowerGrowthHeader.propTypes = {
   period: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   platform: PropTypes.string.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.object,
+}
+
+ResultsFollowerGrowthHeader.defaultProps = {
+  breakdownBy: null,
 }
 
 export default ResultsFollowerGrowthHeader

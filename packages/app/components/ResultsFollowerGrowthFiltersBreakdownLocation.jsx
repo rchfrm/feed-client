@@ -3,26 +3,38 @@ import PropTypes from 'prop-types'
 import Select from '@/elements/Select'
 
 const ResultsFollowerGrowthFiltersBreakdownLocation = ({
+  title,
   name,
   breakdownBy,
   setBreakdownBy,
   breakdownOptions,
-  handleChange,
   isLoading,
 }) => {
+  const handleChange = (e) => {
+    const { target: { value } } = e
+
+    setBreakdownBy({
+      name,
+      value,
+    })
+  }
+
   React.useEffect(() => {
-    setBreakdownBy(breakdownOptions[0].value)
-  }, [setBreakdownBy, breakdownOptions])
+    setBreakdownBy({
+      name,
+      value: breakdownOptions[0].value,
+    })
+  }, [name, setBreakdownBy, breakdownOptions])
 
   return (
     <div>
-      <p className="mb-2">{name}</p>
+      <p className="mb-2">{title}</p>
       <Select
         name="breakdown"
         version="small box"
         handleChange={handleChange}
         options={breakdownOptions}
-        selectedValue={breakdownBy}
+        selectedValue={breakdownBy?.value || breakdownOptions[0].value}
         loading={isLoading}
         className="w-full xxs:w-40"
       />
@@ -31,15 +43,16 @@ const ResultsFollowerGrowthFiltersBreakdownLocation = ({
 }
 
 ResultsFollowerGrowthFiltersBreakdownLocation.propTypes = {
+  title: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.object,
   setBreakdownBy: PropTypes.func.isRequired,
   breakdownOptions: PropTypes.array.isRequired,
-  handleChange: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
 }
 
 ResultsFollowerGrowthFiltersBreakdownLocation.defaultProps = {
+  breakdownBy: null,
   isLoading: false,
 }
 

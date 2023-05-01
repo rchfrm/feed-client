@@ -6,6 +6,7 @@ const ResultsFollowerGrowthFilterOptions = ({
   setValue,
   options,
   className,
+  isDisabled,
 }) => {
   const onClick = (value) => {
     setValue(value)
@@ -15,6 +16,7 @@ const ResultsFollowerGrowthFilterOptions = ({
     <div className={[
       'inline-flex overflow-hidden',
       'rounded-dialogue text-sm text-grey-dark bg-offwhite',
+      isDisabled ? 'pointer-events-none grayscale opacity-50' : null,
       className,
     ].join(' ')}
     >
@@ -38,10 +40,12 @@ ResultsFollowerGrowthFilterOptions.propTypes = {
   value: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
+  isDisabled: PropTypes.bool,
   className: PropTypes.string,
 }
 
 ResultsFollowerGrowthFilterOptions.defaultProps = {
+  isDisabled: false,
   className: null,
 }
 

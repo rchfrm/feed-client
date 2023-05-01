@@ -9,7 +9,7 @@ import { followerGrowthDataSources } from '@/app/helpers/resultsHelpers'
 const ResultsFollowerGrowth = ({ platform, hasInstagramGrowthObjective, monthlyGrowthRateFallback }) => {
   const [dataSources, setDataSources] = React.useState(null)
   const [dataSourceName, setDataSourceName] = React.useState(followerGrowthDataSources[platform])
-  const [breakdownBy, setBreakdownBy] = React.useState('')
+  const [breakdownBy, setBreakdownBy] = React.useState(null)
   const [breakdownOptions, setBreakdownOptions] = React.useState([])
   const [period, setPeriod] = React.useState('all')
   const [isLoading, setIsLoading] = React.useState(false)

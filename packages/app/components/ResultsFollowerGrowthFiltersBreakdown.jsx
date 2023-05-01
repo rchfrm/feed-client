@@ -13,18 +13,14 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
   setBreakdownBy,
   isLoading,
 }) => {
-  const name = dataSourceOptions.find(({ value }) => value === dataSourceName)?.name
-  const shouldShowBreakdown = breakdownOptions.length > 0 && name !== 'All'
+  const dataSourceOptionName = dataSourceOptions.find(({ value }) => value === dataSourceName)?.name
+  const shouldShowBreakdown = breakdownOptions.length > 0 && dataSourceOptionName !== 'All'
   const isLocationBreakdown = dataSourceName === instagramDataSources.country || dataSourceName === instagramDataSources.city
 
   const handleChange = (e) => {
-    const { target: { name, value } } = e
+    const { target: { value } } = e
 
-    if (name === 'datasource') {
-      setDataSourceName(value)
-      return
-    }
-    setBreakdownBy(value)
+    setDataSourceName(value)
   }
 
   return (
@@ -41,21 +37,22 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
           handleChange={handleChange}
           options={dataSourceOptions}
           selectedValue={dataSourceName}
-          className="w-full xxs:w-40 mr-8 mb-5"
+          className="w-full xxs:w-32 mr-8 mb-5"
         />
       </div>
       {shouldShowBreakdown && (
         isLocationBreakdown ? (
           <ResultsFollowerGrowthFiltersBreakdownLocation
-            name={name}
+            name="location"
+            title={dataSourceOptionName}
             breakdownBy={breakdownBy}
             setBreakdownBy={setBreakdownBy}
             breakdownOptions={breakdownOptions}
-            handleChange={handleChange}
             loading={isLoading}
           />
         ) : (
           <ResultsFollowerGrowthFiltersBreakdownAgeGender
+            name="age-gender"
             setBreakdownBy={setBreakdownBy}
           />
         )
@@ -68,9 +65,13 @@ ResultsFollowerGrowthFiltersBreakdown.propTypes = {
   dataSourceName: PropTypes.string.isRequired,
   setDataSourceName: PropTypes.func.isRequired,
   breakdownOptions: PropTypes.array.isRequired,
-  breakdownBy: PropTypes.string.isRequired,
+  breakdownBy: PropTypes.object,
   setBreakdownBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+}
+
+ResultsFollowerGrowthFiltersBreakdown.defaultProps = {
+  breakdownBy: null,
 }
 
 export default ResultsFollowerGrowthFiltersBreakdown

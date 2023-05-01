@@ -647,28 +647,35 @@ const getBreakdownValue = (breakdownBy, value, filteredKeys) => {
     return filteredKeys.reduce((result, key) => result + (value[key] || 0), 0)
   }
 
-  return value[breakdownBy]
+  return value[breakdownBy?.value]
 }
 
 const getFilteredkeys = (breakdownBy, allKeys, targetedLocations) => {
+  const { name, value } = breakdownBy
   let filteredKeys = []
 
-  if (breakdownBy === 'targeted') {
-    filteredKeys = targetedLocations
+  if (name === 'location') {
+    if (value === 'targeted') {
+      filteredKeys = targetedLocations
+    }
+
+    if (value === 'non-targeted') {
+      filteredKeys = allKeys.filter((location) => ! targetedLocations.includes(location))
+    }
   }
 
-  if (breakdownBy === 'non-targeted') {
-    filteredKeys = allKeys.filter((location) => ! targetedLocations.includes(location))
-  }
-
-  if (typeof breakdownBy === 'object' && breakdownBy !== null) {
+  if (name === 'age-gender') {
     const shouldIncludeKey = (key) => {
       const [gender, minAge, , maxAge = 99] = key.split('_')
 
-      return ((breakdownBy.gender === 'all' || gender === breakdownBy.gender) && minAge >= breakdownBy.min && maxAge <= breakdownBy.max)
+      return ((value.gender === 'all' || gender === value.gender) && minAge >= value.min && maxAge <= value.max)
     }
 
     filteredKeys = allKeys.filter(shouldIncludeKey)
+
+    if (value.preset === 'non-targeted') {
+      filteredKeys = allKeys.filter((key) => ! filteredKeys.includes(key))
+    }
   }
 
   return filteredKeys
