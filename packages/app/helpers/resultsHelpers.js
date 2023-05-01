@@ -576,6 +576,33 @@ const getLastThirtyDays = (initialDataSources) => {
   }), {})
 }
 
+export const getCostPerFollower = (dataSources, amountSpentInCampaign) => {
+  const { projections = [] } = dataSources
+
+  if (! projections.length) {
+    return
+  }
+
+  const allCampaigns = getAllCampaigns(dataSources)
+
+  const estimatedTotalFollowersAddedByFeed = allCampaigns.map((campaign, index) => {
+    const projection = projections[index]
+    const projectionDateKeys = Object.keys(projection.minProjection)
+    const mostRecentDate = projectionDateKeys[projectionDateKeys.length - 1]
+    const minProjectedFollowerCount = projection.minProjection[mostRecentDate]
+    const maxProjectedFollowerCount = projection.maxProjection?.[mostRecentDate] || 0
+    const actualCampaignFollowerCount = campaign.followerGrowth[mostRecentDate]
+    const averageProjectedFollowerCount = maxProjectedFollowerCount ? (minProjectedFollowerCount + maxProjectedFollowerCount) / 2 : minProjectedFollowerCount
+
+    return actualCampaignFollowerCount - averageProjectedFollowerCount
+  }).reduce((a, b) => a + b, 0)
+
+  return {
+    estimatedTotalFollowersAddedByFeed,
+    costPerFollower: amountSpentInCampaign / estimatedTotalFollowersAddedByFeed,
+  }
+}
+
 export const formatBreakdownOptionValues = (key, dataSourceName) => {
   if (dataSourceName === instagramDataSources.gender) {
     return capitalise(key.replaceAll('_', ' '))
