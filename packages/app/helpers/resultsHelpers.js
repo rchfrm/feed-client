@@ -505,27 +505,6 @@ export const getDataSources = async (dataSources, artistId) => {
   return formattedData
 }
 
-export const formatDataSources = (dataSources, dataSourceName) => {
-  const sortedDataSources = Object.values(dataSources).sort((a, b) => Object.keys(a.dailyData).length - Object.keys(b.dailyData).length)
-  const intersectingKeys = Object.keys(sortedDataSources[0].dailyData).filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
-
-  const filterDataSource = ({ dailyData }) => {
-    return Object.keys(dailyData)
-      .filter((key) => intersectingKeys.includes(key))
-      .reduce((obj, key) => {
-        return {
-          ...obj,
-          [key]: dailyData[key],
-        }
-      }, {})
-  }
-
-  return {
-    adSpend: filterDataSource(dataSources.facebook_ad_spend_feed),
-    followerGrowth: filterDataSource(dataSources[dataSourceName]),
-  }
-}
-
 const sliceDataSource = (dataSource, start, end) => {
   return Object.fromEntries(Object.entries(dataSource).slice(start, end))
 }
@@ -568,6 +547,17 @@ const getLatestCampaign = (initialDataSources) => {
   }), {})
 }
 
+const getAllCampaigns = (initialDataSources) => {
+  const spendingPeriodIndexes = getSpendingPeriodIndexes(initialDataSources.adSpend, 1)
+
+  return spendingPeriodIndexes.map(([start, end]) => {
+    return Object.entries(initialDataSources).reduce((result, [key, dataSource]) => ({
+      ...result,
+      [key]: sliceDataSource(dataSource, start, end + 1),
+    }), {})
+  })
+}
+
 const getLastThirtyDays = (initialDataSources) => {
   const getLastThirtyDaysIndexes = (dataSource) => {
     const keys = Object.keys(dataSource)
@@ -586,18 +576,6 @@ const getLastThirtyDays = (initialDataSources) => {
   }), {})
 }
 
-export const getSlicedDataSources = (period, initialDataSources) => {
-  if (period === 'all') {
-    return initialDataSources
-  }
-
-  if (period === 'campaign') {
-    return getLatestCampaign(initialDataSources)
-  }
-
-  return getLastThirtyDays(initialDataSources)
-}
-
 export const formatBreakdownOptionValues = (key, dataSourceName) => {
   if (dataSourceName === instagramDataSources.gender) {
     return capitalise(key.replaceAll('_', ' '))
@@ -608,6 +586,192 @@ export const formatBreakdownOptionValues = (key, dataSourceName) => {
   }
 
   return key
+}
+
+const calculateDailyPercentageChange = (startingValue, finalValue, daysInPeriod) => {
+  if (! startingValue || ! finalValue || ! daysInPeriod) {
+    return undefined
+  }
+
+  const percentageChange = (finalValue - startingValue) / startingValue
+  return (1 + percentageChange) ** (1 / daysInPeriod) - 1
+}
+
+const limitDate = (dates, maxOrMin = 'max') => {
+  const filteredMoments = []
+
+  dates.forEach((date) => {
+    if (date) {
+      filteredMoments.push(moment(date, 'YYYY-MM-DD'))
+    }
+  })
+
+  if (maxOrMin === 'max') {
+    return moment.max(filteredMoments).format('YYYY-MM-DD')
+  }
+
+  return moment.min(filteredMoments).format('YYYY-MM-DD')
+}
+
+export const calculateMinAndMaxGrowthProjection = (
+  campaign,
+  initialDataSources,
+  artist,
+  dailyGrowthRateFallback,
+) => {
+  const campaignDateKeys = Object.keys(campaign.followerGrowth)
+  const allDateKeys = Object.keys(initialDataSources.followerGrowth)
+
+  // Before campaign start
+  const { previousCampaignEnd } = campaign
+  const campaignStartDate = campaignDateKeys[0]
+  const followerCountAtCampaignStart = campaign.followerGrowth[campaignStartDate]
+  const oneWeekBeforeCampaignStart = moment(campaignStartDate).subtract(7, 'days').format('YYYY-MM-DD')
+  const oneWeekBeforeCampaignStartLimited = limitDate([oneWeekBeforeCampaignStart, previousCampaignEnd])
+  const followerCountOneWeekBeforeCampaignStart = initialDataSources.followerGrowth[oneWeekBeforeCampaignStartLimited]
+
+  const oneMonthBeforeCampaignStart = moment(campaignStartDate).subtract(30, 'days').format('YYYY-MM-DD')
+  const oneMonthBeforeCampaignStartLimited = limitDate([oneMonthBeforeCampaignStart, previousCampaignEnd])
+  const followerCountOneMonthBeforeCampaignStart = initialDataSources.followerGrowth[oneMonthBeforeCampaignStartLimited]
+
+  const oneHundredEightyBeforeCampaignStart = moment(campaignStartDate).subtract(180, 'days').format('YYYY-MM-DD')
+  const artistCreatedAt = moment(artist.created_at).format('YYYY-MM-DD')
+  const oneHundredEightyBeforeCampaignStartLimited = limitDate([oneHundredEightyBeforeCampaignStart, previousCampaignEnd, artistCreatedAt])
+  const followerCountOneHundredEightyBeforeCampaignStart = initialDataSources.followerGrowth[oneHundredEightyBeforeCampaignStartLimited]
+  const numberOfDaysInPeriodBeforeCampaignStart = moment(oneHundredEightyBeforeCampaignStartLimited).diff(moment(campaignStartDate), 'days')
+
+  const dailyGrowthRateSevenDaysBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneWeekBeforeCampaignStart, followerCountAtCampaignStart, 7)
+  const dailyGrowthRateThirtyDaysBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneMonthBeforeCampaignStart, followerCountAtCampaignStart, 30)
+  const dailyGrowthRateMaxBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneHundredEightyBeforeCampaignStart, followerCountAtCampaignStart, numberOfDaysInPeriodBeforeCampaignStart)
+
+  // After campaign end
+  // const { nextCampaignStart } = campaign
+  // const campaignEndDate = campaignDateKeys[campaignDateKeys.length - 1]
+  // const followerCountAtCampaignEnd = campaign.followerGrowth[campaignEndDate]
+  // const oneWeekAfterCampaignEnd = moment(campaignEndDate).add(7, 'days').format('YYYY-MM-DD')
+  // const oneWeekAfterCampaignEndLimited = limitDate([oneWeekAfterCampaignEnd, nextCampaignStart], 'min')
+  // const followerCount1WeekAfterCampaignEnd = initialDataSources.followerGrowth[oneWeekAfterCampaignEndLimited]
+  // const oneMonthAfterCampaignEnd = moment(campaignEndDate).add(30, 'days').format('YYYY-MM-DD')
+  // const oneMonthAfterCampaignEndLimited = limitDate([oneMonthAfterCampaignEnd, nextCampaignStart], 'min')
+  // const followerCount1MonthAfterCampaignEnd = initialDataSources.followerGrowth[oneMonthAfterCampaignEndLimited]
+
+  // const oneHundredEightyDaysAfterCampaignEnd = moment(campaignEndDate).add(180, 'days').format('YYYY-MM-DD')
+  // const dateOfMostRecentData = allDateKeys[allDateKeys.length - 1]
+  // const oneHundredsEightyDaysAfterCampaignEndLimited = limitDate([oneHundredEightyDaysAfterCampaignEnd, nextCampaignStart, dateOfMostRecentData], 'min')
+
+  // const followerCountAtCalculationEndDate = initialDataSources.followerGrowth[oneHundredsEightyDaysAfterCampaignEndLimited]
+  // const numberOfDaysInPeriodAfterCampaignEnd = moment(oneHundredsEightyDaysAfterCampaignEndLimited).diff(moment(campaignEndDate), 'days')
+
+  // const dailyGrowthRateSevenDaysAfterCampaignEnd = calculateDailyPercentageChange(followerCountAtCampaignEnd, followerCount1WeekAfterCampaignEnd, 7)
+  // const dailyGrowthRateThirtyDaysAfterCampaignEnd = calculateDailyPercentageChange(followerCountAtCampaignEnd, followerCount1MonthAfterCampaignEnd, 30)
+  // const dailyGrowthRateMaxAfterCampaignEnd = calculateDailyPercentageChange(followerCountAtCampaignEnd, followerCountAtCalculationEndDate, numberOfDaysInPeriodAfterCampaignEnd)
+
+  const dailyGrowthRates = [
+    dailyGrowthRateSevenDaysBeforeCampaignStart,
+    dailyGrowthRateThirtyDaysBeforeCampaignStart,
+    dailyGrowthRateMaxBeforeCampaignStart,
+    // dailyGrowthRateSevenDaysAfterCampaignEnd,
+    // dailyGrowthRateThirtyDaysAfterCampaignEnd,
+    // dailyGrowthRateMaxAfterCampaignEnd,
+  ].filter(Boolean)
+
+  const lowestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.min(...dailyGrowthRates) : dailyGrowthRateFallback
+  const highestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.max(...dailyGrowthRates) : dailyGrowthRateFallback
+
+  const lowestAndHighestAreEqual = lowestDailyGrowthRate === highestDailyGrowthRate
+
+  const growthRates = lowestAndHighestAreEqual ? [lowestDailyGrowthRate] : [lowestDailyGrowthRate, highestDailyGrowthRate]
+
+  const [minProjection, maxProjection] = growthRates.map((dailyGrowthRate) => {
+    return Object.entries(campaign.followerGrowth).reduce((result, [key]) => {
+      const calculationStartDate = moment.max([moment(campaignStartDate), moment(allDateKeys[0])]).format('YYYY-MM-DD')
+      const daysSinceCalculationStartDate = moment(key).diff(moment(calculationStartDate), 'days')
+      const followerCountAtCalculationStartDate = initialDataSources.followerGrowth[calculationStartDate]
+
+      const followerCountAtKey = followerCountAtCalculationStartDate * (1 + dailyGrowthRate) ** daysSinceCalculationStartDate
+
+      const followerCountAtKeyRounded = Math.round(followerCountAtKey)
+
+      return {
+        ...result,
+        [key]: followerCountAtKeyRounded,
+      }
+    }, {})
+  })
+
+  const projections = {
+    minProjection,
+  }
+
+  if (maxProjection) {
+    projections.maxProjection = maxProjection
+  }
+
+  return projections
+}
+
+export const getSlicedDataSources = (
+  period,
+  initialDataSources,
+  artist,
+  monthlyGrowthRateFallback,
+) => {
+  const dailyGrowthRateFallback = (1 + monthlyGrowthRateFallback) ** (1 / 30) - 1
+
+  let slicedDataSources = null
+
+  if (period === 'all') {
+    slicedDataSources = initialDataSources
+  }
+
+  if (period === 'campaign') {
+    slicedDataSources = getLatestCampaign(initialDataSources)
+  }
+
+  if (period === '30d') {
+    slicedDataSources = getLastThirtyDays(initialDataSources)
+  }
+
+  const allCampaigns = getAllCampaigns(slicedDataSources)
+  const projections = allCampaigns.map((campaign, index) => {
+    const nextCampaign = allCampaigns[index - 1]
+    const previousCampaign = allCampaigns[index + 1]
+    campaign.nextCampaignStart = nextCampaign && Object.keys(nextCampaign.adSpend)[0]
+    const previousCampaignDates = previousCampaign && Object.keys(previousCampaign.adSpend)
+    campaign.previousCampaignEnd = previousCampaignDates && previousCampaignDates[previousCampaignDates.length - 1]
+    return calculateMinAndMaxGrowthProjection(
+      campaign,
+      initialDataSources,
+      artist,
+      dailyGrowthRateFallback,
+    )
+  })
+
+  return {
+    ...slicedDataSources,
+    projections,
+  }
+}
+
+export const formatDataSources = (dataSources, dataSourceName) => {
+  const sortedDataSources = Object.values(dataSources).sort((a, b) => Object.keys(a.dailyData).length - Object.keys(b.dailyData).length)
+  const intersectingKeys = Object.keys(sortedDataSources[0].dailyData).filter((key) => Object.keys(sortedDataSources[1].dailyData).includes(key))
+
+  const filterDataSource = ({ dailyData }) => {
+    return Object.keys(dailyData)
+      .filter((key) => intersectingKeys.includes(key))
+      .reduce((obj, key) => {
+        return {
+          ...obj,
+          [key]: dailyData[key],
+        }
+      }, {})
+  }
+
+  return {
+    adSpend: filterDataSource(dataSources.facebook_ad_spend_feed),
+    followerGrowth: filterDataSource(dataSources[dataSourceName]),
+  }
 }
 
 // GET AD BENCHMARK

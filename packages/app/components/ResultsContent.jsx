@@ -24,6 +24,7 @@ const ResultsContent = ({
   const hasGrowthObjective = objective === 'growth'
   const hasInstagramGrowthObjective = hasGrowthObjective && platform === 'instagram'
   const hasSpotifyGrowthObjective = hasGrowthObjective && platform === 'spotify'
+  const monthlyGrowthRateFallback = (hasInstagramGrowthObjective || hasSpotifyGrowthObjective) && aggregatedAdData[`${platform}_${objective}`]['180d'].organic.rate.value
 
   if (! isLoading && ! adData) {
     return <MarkdownText markdown={copy.noResultsData(isSpendingPaused, hasSetUpProfile)} />
@@ -35,6 +36,7 @@ const ResultsContent = ({
         <ResultsFollowerGrowth
           platform={platform}
           hasInstagramGrowthObjective={hasInstagramGrowthObjective}
+          monthlyGrowthRateFallback={monthlyGrowthRateFallback}
         />
       )}
       {adData && aggregatedAdData && (

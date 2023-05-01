@@ -17,17 +17,16 @@ const ResultsFollowerGrowthChartLoader = ({
   setIsLoading,
   currency,
   hasInstagramGrowthObjective,
+  monthlyGrowthRateFallback,
 }) => {
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
 
   const [initialDataSources, setInitialDataSources] = React.useState(null)
 
   useAsyncEffect(async (isMounted) => {
     if (! isMounted()) return
 
-    if (! initialDataSources) {
-      setIsLoading(true)
-    }
+    setIsLoading(true)
 
     const data = await getDataSources(['facebook_ad_spend_feed', dataSourceName], artistId)
 
@@ -63,9 +62,6 @@ const ResultsFollowerGrowthChartLoader = ({
       return
     }
 
-    const slicedDataSources = getSlicedDataSources(period, initialDataSources)
-    const { followerGrowth } = slicedDataSources
-
     const setDailyDataByBreakdown = (followerGrowth) => {
       return Object.entries(followerGrowth).reduce((result, [key, value]) => {
         return {
@@ -75,11 +71,15 @@ const ResultsFollowerGrowthChartLoader = ({
       }, {})
     }
 
-    setDataSources({
-      ...slicedDataSources,
+    const { followerGrowth } = initialDataSources
+    const updatedDataSources = {
+      ...initialDataSources,
       followerGrowth: breakdownBy ? setDailyDataByBreakdown(followerGrowth) : followerGrowth,
-    })
-  }, [initialDataSources, period, setDataSources, breakdownBy])
+    }
+
+    const slicedDataSources = getSlicedDataSources(period, updatedDataSources, artist, monthlyGrowthRateFallback)
+    setDataSources(slicedDataSources)
+  }, [initialDataSources, period, setDataSources, breakdownBy, artist, monthlyGrowthRateFallback])
 
   return (
     <ResultsFollowerGrowthChart
@@ -102,10 +102,12 @@ ResultsFollowerGrowthChartLoader.propTypes = {
   setIsLoading: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
   hasInstagramGrowthObjective: PropTypes.bool.isRequired,
+  monthlyGrowthRateFallback: PropTypes.number,
 }
 
 ResultsFollowerGrowthChartLoader.defaultProps = {
   dataSources: null,
+  monthlyGrowthRateFallback: null,
 }
 
 export default ResultsFollowerGrowthChartLoader

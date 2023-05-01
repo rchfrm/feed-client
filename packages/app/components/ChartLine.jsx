@@ -10,6 +10,7 @@ import {
   TimeScale,
   Tooltip,
   Legend,
+  Filler,
 } from 'chart.js'
 import 'chartjs-adapter-moment'
 import { Line } from 'react-chartjs-2'
@@ -24,18 +25,19 @@ ChartJS.register(
   TimeScale,
   Tooltip,
   Legend,
+  Filler,
 )
 
 const ChartLine = ({
-  data,
+  primaryData,
+  secondaryData,
+  projections,
   currency,
 }) => {
-  const primaryData = data[0]
-  const secondaryData = Object.values(data[1])
-
-  const array = Object.values(primaryData)
-  const minValue = Math.min(...array)
-  const maxValue = Math.max(...array)
+  const primaryDataValues = Object.values(primaryData)
+  const secondaryDataValues = Object.values(secondaryData)
+  const minValue = Math.min(...primaryDataValues)
+  const maxValue = Math.max(...primaryDataValues)
   const buffer = Math.round((maxValue - minValue) / 10)
 
   const options = {
@@ -55,9 +57,9 @@ const ChartLine = ({
               `Date: ${moment(context.label).format('DD MMM YYYY')}`,
               `Followers: ${context.formattedValue}`,
             ]
-            const adSpend = secondaryData[context.dataIndex]
+            const adSpend = secondaryDataValues[context.dataIndex]
 
-            if (adSpend) {
+            if (adSpend && context.dataset.title !== 'projection') {
               label.push(`Ad spend: ${formatCurrency(adSpend, currency)}`)
             }
 
@@ -73,6 +75,7 @@ const ChartLine = ({
         borderColor: brandColors.black,
         hitRadius: 3,
         hoverBorderWidth: 2,
+        pointRadius: 0,
       },
     },
     scales: {
@@ -102,13 +105,35 @@ const ChartLine = ({
     },
   }
 
-  const dataSets = [{
-    data: primaryData,
-    segment: {
-      borderColor: (context) => (secondaryData[context.p0DataIndex] ? brandColors.green : brandColors.red),
+  const projectionDataSets = projections.map((projection) => {
+    return Object.entries(projection).map(([key, value], index, projection) => {
+      const isOneProjection = projection.length === 1
+      return {
+        data: value,
+        title: 'projection',
+        showLine: isOneProjection,
+        ...(key === 'minProjection' && {
+          fill: '+1',
+          backgroundColor: 'rgba(250, 84, 80, 0.4)',
+        }),
+        ...(isOneProjection && {
+          borderColor: brandColors.red,
+          borderDash: [5, 2],
+          borderWidth: 2,
+        }),
+      }
+    })
+  }).flat()
+
+  const dataSets = [
+    {
+      data: primaryData,
+      segment: {
+        borderColor: (context) => (secondaryDataValues[context.p0DataIndex] ? brandColors.green : brandColors.red),
+      },
     },
-    pointRadius: 0,
-  }]
+    ...projectionDataSets,
+  ]
 
   return (
     <Line
@@ -121,7 +146,9 @@ const ChartLine = ({
 }
 
 ChartLine.propTypes = {
-  data: PropTypes.array.isRequired,
+  primaryData: PropTypes.object.isRequired,
+  secondaryData: PropTypes.object.isRequired,
+  projections: PropTypes.array.isRequired,
   currency: PropTypes.string.isRequired,
 }
 
