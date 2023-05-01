@@ -535,3 +535,10 @@ export const convertLocalToUTCDate = (date) => {
   date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
   return date
 }
+
+export const removeDuplicatesByKey = (key, array) => {
+  return array.filter((value, index, self) =>
+    index === self.findIndex((t) => (
+      t[key] === value[key]
+    )))
+}

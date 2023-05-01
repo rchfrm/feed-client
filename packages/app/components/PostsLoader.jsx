@@ -38,6 +38,8 @@ const PostsLoader = ({
       setIsLoading(true)
     }
 
+    setHasLoadedAll(false)
+
     const { res: posts, formattedPosts, error } = await getPosts({
       limit,
       artistId,

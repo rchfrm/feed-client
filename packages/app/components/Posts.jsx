@@ -5,6 +5,7 @@ import { UserContext } from '@/app/contexts/UserContext'
 import useControlsStore from '@/app/stores/controlsStore'
 import PostsNoArtists from '@/app/PostsNoArtists'
 import PostsLoader from '@/app/PostsLoader'
+import { removeDuplicatesByKey } from '@/helpers/utils'
 
 const postsInitialState = {
   active: [],
@@ -35,7 +36,7 @@ const postsReducer = (draftState, postsAction) => {
       draftState[status] = posts
       break
     case 'add-posts':
-      draftState[status].push(...posts)
+      draftState[status] = removeDuplicatesByKey('id', [...draftState[status], ...posts])
       break
     case 'toggle-promotion':
       draftState[status].splice(index, 1)
