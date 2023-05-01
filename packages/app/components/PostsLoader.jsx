@@ -22,6 +22,7 @@ const PostsLoader = ({
   const [hasLoadedAll, setHasLoadedAll] = React.useState(false)
   const [error, setError] = React.useState(null)
 
+  const isInitialRender = React.useRef(true)
   const limit = 5
   const cursor = React.useRef('')
 
@@ -87,6 +88,17 @@ const PostsLoader = ({
 
     setIsLoading(false)
   }, [artistId, filterBy, sortBy, isLoadingMore])
+
+  React.useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false
+      return
+    }
+
+    if (posts.length === 0 && status !== 'pending' && ! hasLoadedAll) {
+      setIsLoadingMore(true)
+    }
+  }, [posts.length, status, hasLoadedAll])
 
   React.useEffect(() => {
     if (! artistId) {
