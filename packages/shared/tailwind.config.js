@@ -155,7 +155,4 @@ module.exports = (contentFiles) => ({
     borderStyle: ['responsive', 'last', 'first'],
     flexDirection: ['responsive', 'even'],
   },
-  plugins: [
-    lineClampPlugin,
-  ],
 })
