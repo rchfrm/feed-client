@@ -727,27 +727,30 @@ export const calculateMinAndMaxGrowthProjection = (
   const campaignDateKeys = Object.keys(campaign.followerGrowth)
   const allDateKeys = Object.keys(initialDataSources.followerGrowth)
 
+  const artistCreatedAt = moment(artist.created_at).format('YYYY-MM-DD')
+
   // Before campaign start
   const { previousCampaignEnd } = campaign
   const campaignStartDate = campaignDateKeys[0]
   const followerCountAtCampaignStart = campaign.followerGrowth[campaignStartDate]
   const oneWeekBeforeCampaignStart = moment(campaignStartDate).subtract(7, 'days').format('YYYY-MM-DD')
-  const oneWeekBeforeCampaignStartLimited = limitDate([oneWeekBeforeCampaignStart, previousCampaignEnd])
+  const oneWeekBeforeCampaignStartLimited = limitDate([oneWeekBeforeCampaignStart, previousCampaignEnd, artistCreatedAt])
   const followerCountOneWeekBeforeCampaignStart = initialDataSources.followerGrowth[oneWeekBeforeCampaignStartLimited]
+  const daysBetweenCampaignStartAndOneWeekBefore = moment(campaignStartDate).diff(oneWeekBeforeCampaignStartLimited, 'days')
 
   const oneMonthBeforeCampaignStart = moment(campaignStartDate).subtract(30, 'days').format('YYYY-MM-DD')
-  const oneMonthBeforeCampaignStartLimited = limitDate([oneMonthBeforeCampaignStart, previousCampaignEnd])
+  const oneMonthBeforeCampaignStartLimited = limitDate([oneMonthBeforeCampaignStart, previousCampaignEnd, artistCreatedAt])
   const followerCountOneMonthBeforeCampaignStart = initialDataSources.followerGrowth[oneMonthBeforeCampaignStartLimited]
+  const daysBetweenCampaignStartAndOneMonthBefore = moment(campaignStartDate).diff(oneMonthBeforeCampaignStartLimited, 'days')
 
   const oneHundredEightyBeforeCampaignStart = moment(campaignStartDate).subtract(180, 'days').format('YYYY-MM-DD')
-  const artistCreatedAt = moment(artist.created_at).format('YYYY-MM-DD')
   const oneHundredEightyBeforeCampaignStartLimited = limitDate([oneHundredEightyBeforeCampaignStart, previousCampaignEnd, artistCreatedAt])
   const followerCountOneHundredEightyBeforeCampaignStart = initialDataSources.followerGrowth[oneHundredEightyBeforeCampaignStartLimited]
-  const numberOfDaysInPeriodBeforeCampaignStart = moment(oneHundredEightyBeforeCampaignStartLimited).diff(moment(campaignStartDate), 'days')
+  const daysBetweenCampaignStartAnd180DaysBefore = moment(campaignStartDate).diff(oneHundredEightyBeforeCampaignStartLimited, 'days')
 
-  const dailyGrowthRateSevenDaysBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneWeekBeforeCampaignStart, followerCountAtCampaignStart, 7)
-  const dailyGrowthRateThirtyDaysBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneMonthBeforeCampaignStart, followerCountAtCampaignStart, 30)
-  const dailyGrowthRateMaxBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneHundredEightyBeforeCampaignStart, followerCountAtCampaignStart, numberOfDaysInPeriodBeforeCampaignStart)
+  const dailyGrowthRateSevenDaysBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneWeekBeforeCampaignStart, followerCountAtCampaignStart, daysBetweenCampaignStartAndOneWeekBefore)
+  const dailyGrowthRateThirtyDaysBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneMonthBeforeCampaignStart, followerCountAtCampaignStart, daysBetweenCampaignStartAndOneMonthBefore)
+  const dailyGrowthRateMaxBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneHundredEightyBeforeCampaignStart, followerCountAtCampaignStart, daysBetweenCampaignStartAnd180DaysBefore)
 
   // After campaign end
   // const { nextCampaignStart } = campaign
@@ -778,10 +781,13 @@ export const calculateMinAndMaxGrowthProjection = (
     // dailyGrowthRateSevenDaysAfterCampaignEnd,
     // dailyGrowthRateThirtyDaysAfterCampaignEnd,
     // dailyGrowthRateMaxAfterCampaignEnd,
-  ].filter(Boolean)
+  ].filter((r) => r !== undefined)
 
+  console.log('dailyGrowthRates', dailyGrowthRates)
   const lowestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.min(...dailyGrowthRates) : dailyGrowthRateFallback
+  console.log('lowestDailyGrowthRate', lowestDailyGrowthRate)
   const highestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.max(...dailyGrowthRates) : dailyGrowthRateFallback
+  console.log('highestDailyGrowthRate', highestDailyGrowthRate)
 
   const lowestAndHighestAreEqual = lowestDailyGrowthRate === highestDailyGrowthRate
 
