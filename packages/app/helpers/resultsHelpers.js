@@ -783,11 +783,8 @@ export const calculateMinAndMaxGrowthProjection = (
     // dailyGrowthRateMaxAfterCampaignEnd,
   ].filter((r) => r !== undefined)
 
-  console.log('dailyGrowthRates', dailyGrowthRates)
   const lowestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.min(...dailyGrowthRates) : dailyGrowthRateFallback
-  console.log('lowestDailyGrowthRate', lowestDailyGrowthRate)
   const highestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.max(...dailyGrowthRates) : dailyGrowthRateFallback
-  console.log('highestDailyGrowthRate', highestDailyGrowthRate)
 
   const lowestAndHighestAreEqual = lowestDailyGrowthRate === highestDailyGrowthRate
 

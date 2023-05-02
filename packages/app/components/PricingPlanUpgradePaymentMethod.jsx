@@ -7,7 +7,7 @@ import AddPaymentForm from '@/app/AddPaymentForm'
 
 import Button from '@/elements/Button'
 import ArrowIcon from '@/icons/ArrowIcon'
-import ArtistContext from '@/app/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,

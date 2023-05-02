@@ -60,7 +60,7 @@ const PricingPlanUpgradeIntro = ({
     )
 
     setSidePanelButton(button)
-  }, [hasBillingAccess, hasCancelledPlan, next, setSidePanelButton, toggleSidePanel])
+  }, [hasBillingAccess, hasCancelledPlan, hasNoPlanOrCancelled, next, setSidePanelButton, toggleSidePanel])
 
   return (
     <div>
