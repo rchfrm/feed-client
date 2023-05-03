@@ -21,7 +21,7 @@ const PlatformIcon = ({
   className,
   style,
 }) => {
-  const color = fill || brandColors[platform].bg
+  const color = fill || brandColors[platform]?.bg
   switch (platform) {
   // Platform logos
     case 'apple':
@@ -44,6 +44,8 @@ const PlatformIcon = ({
       return <GlobeIcon fill={color} className={className} style={style} title={title || platform} />
     case 'tiktok':
       return <TikTokIcon fill={color} className={className} style={style} title={title || platform} />
+    case 'custom':
+      return null
     default:
       throw new Error('Could not find platform icon')
   }

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useControlsStore from '@/app/stores/controlsStore'
@@ -14,7 +15,7 @@ const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
 })
 
-const AdCreation = () => {
+const AdCreation = ({ setPosts }) => {
   const { defaultLink } = useControlsStore(getControlsStoreState)
   const campaignType = 'all'
 
@@ -49,7 +50,7 @@ const AdCreation = () => {
       ...(! isDefaultLink && {
         link: {
           type: 'linkbank',
-          linkId: currentLink.id,
+          linkId: currentLink.linkId,
           campaignType,
         },
       }),
@@ -63,15 +64,23 @@ const AdCreation = () => {
     formData.append('file', file)
     formData.append('data', JSON.stringify(data))
 
-    const { error } = await createAd(artistId, formData)
+    const { res: posts, error } = await createAd(artistId, formData)
     if (error) {
       setError(error)
       setIsLoading(false)
     }
 
+    setPosts({
+      type: 'add-posts',
+      payload: {
+        status: 'pending',
+        posts,
+      },
+    })
+
     setIsLoading(false)
     toggleSidePanel(false)
-  }, [file, message, isDefaultLink, currentLink?.id, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel])
+  }, [file, message, isDefaultLink, currentLink?.linkId, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel, setPosts])
 
   React.useEffect(() => {
     const button = (
@@ -123,6 +132,10 @@ const AdCreation = () => {
       <Error error={error} />
     </div>
   )
+}
+
+AdCreation.propTypes = {
+  setPosts: PropTypes.func.isRequired,
 }
 
 export default AdCreation

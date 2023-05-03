@@ -545,18 +545,21 @@ export const canBePromoted = (eligibility, postType) => {
     return Object.values(eligibility).some(Boolean)
   }
   const pluralPostType = getPostTypePlural(postType)
-  return eligibility[pluralPostType]
+  return eligibility?.[pluralPostType]
 }
 
-export const createAd = (artistId, formData) => {
-  const endpoint = `/artists/${artistId}/custom_assets`
+export const createAd = async (artistId, formData) => {
+  const endpoint = `/artists/${artistId}/assets`
   const payload = formData
   const errorTracking = {
     category: 'Post',
     action: 'Create ad',
   }
 
-  return requestWithCatch('post', endpoint, payload, errorTracking)
+  const { res, error } = await requestWithCatch('post', endpoint, payload, errorTracking)
+  const formattedPosts = formatPostsResponse([res])
+
+  return { res: formattedPosts, error }
 }
 
 /**
