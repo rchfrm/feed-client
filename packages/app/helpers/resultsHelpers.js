@@ -718,14 +718,26 @@ const limitDate = (dates, maxOrMin = 'max') => {
   return moment.min(filteredMoments).format('YYYY-MM-DD')
 }
 
-export const calculateMinAndMaxGrowthProjection = (
+export const projectGrowth = (dailyGrowthRate, followerGrowth) => {
+  const dates = Object.keys(followerGrowth).sort()
+  const startDate = dates[0]
+  const startMoment = moment(startDate, 'YYYY-MM-DD')
+  const startingValue = followerGrowth[startDate]
+  return dates.reduce((projection, date) => {
+    const dateMoment = moment(date, 'YYYY-MM-DD')
+    const daysInPeriod = dateMoment.diff(startMoment, 'days')
+    const projectedValue = startingValue * (1 + dailyGrowthRate) ** daysInPeriod
+    projection[date] = Math.round(projectedValue)
+    return projection
+  }, {})
+}
+
+export const calculateMinAndMaxGrowthRates = (
   campaign,
   initialDataSources,
   artist,
-  dailyGrowthRateFallback,
 ) => {
   const campaignDateKeys = Object.keys(campaign.followerGrowth)
-  const allDateKeys = Object.keys(initialDataSources.followerGrowth)
 
   const artistCreatedAt = moment(artist.created_at).format('YYYY-MM-DD')
 
@@ -752,70 +764,25 @@ export const calculateMinAndMaxGrowthProjection = (
   const dailyGrowthRateThirtyDaysBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneMonthBeforeCampaignStart, followerCountAtCampaignStart, daysBetweenCampaignStartAndOneMonthBefore)
   const dailyGrowthRateMaxBeforeCampaignStart = calculateDailyPercentageChange(followerCountOneHundredEightyBeforeCampaignStart, followerCountAtCampaignStart, daysBetweenCampaignStartAnd180DaysBefore)
 
-  // After campaign end
-  // const { nextCampaignStart } = campaign
-  // const campaignEndDate = campaignDateKeys[campaignDateKeys.length - 1]
-  // const followerCountAtCampaignEnd = campaign.followerGrowth[campaignEndDate]
-  // const oneWeekAfterCampaignEnd = moment(campaignEndDate).add(7, 'days').format('YYYY-MM-DD')
-  // const oneWeekAfterCampaignEndLimited = limitDate([oneWeekAfterCampaignEnd, nextCampaignStart], 'min')
-  // const followerCount1WeekAfterCampaignEnd = initialDataSources.followerGrowth[oneWeekAfterCampaignEndLimited]
-  // const oneMonthAfterCampaignEnd = moment(campaignEndDate).add(30, 'days').format('YYYY-MM-DD')
-  // const oneMonthAfterCampaignEndLimited = limitDate([oneMonthAfterCampaignEnd, nextCampaignStart], 'min')
-  // const followerCount1MonthAfterCampaignEnd = initialDataSources.followerGrowth[oneMonthAfterCampaignEndLimited]
-
-  // const oneHundredEightyDaysAfterCampaignEnd = moment(campaignEndDate).add(180, 'days').format('YYYY-MM-DD')
-  // const dateOfMostRecentData = allDateKeys[allDateKeys.length - 1]
-  // const oneHundredsEightyDaysAfterCampaignEndLimited = limitDate([oneHundredEightyDaysAfterCampaignEnd, nextCampaignStart, dateOfMostRecentData], 'min')
-
-  // const followerCountAtCalculationEndDate = initialDataSources.followerGrowth[oneHundredsEightyDaysAfterCampaignEndLimited]
-  // const numberOfDaysInPeriodAfterCampaignEnd = moment(oneHundredsEightyDaysAfterCampaignEndLimited).diff(moment(campaignEndDate), 'days')
-
-  // const dailyGrowthRateSevenDaysAfterCampaignEnd = calculateDailyPercentageChange(followerCountAtCampaignEnd, followerCount1WeekAfterCampaignEnd, 7)
-  // const dailyGrowthRateThirtyDaysAfterCampaignEnd = calculateDailyPercentageChange(followerCountAtCampaignEnd, followerCount1MonthAfterCampaignEnd, 30)
-  // const dailyGrowthRateMaxAfterCampaignEnd = calculateDailyPercentageChange(followerCountAtCampaignEnd, followerCountAtCalculationEndDate, numberOfDaysInPeriodAfterCampaignEnd)
-
   const dailyGrowthRates = [
     dailyGrowthRateSevenDaysBeforeCampaignStart,
     dailyGrowthRateThirtyDaysBeforeCampaignStart,
     dailyGrowthRateMaxBeforeCampaignStart,
-    // dailyGrowthRateSevenDaysAfterCampaignEnd,
-    // dailyGrowthRateThirtyDaysAfterCampaignEnd,
-    // dailyGrowthRateMaxAfterCampaignEnd,
   ].filter((r) => r !== undefined)
 
-  const lowestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.min(...dailyGrowthRates) : dailyGrowthRateFallback
-  const highestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.max(...dailyGrowthRates) : dailyGrowthRateFallback
+  const lowestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.min(...dailyGrowthRates) : undefined
+  const highestDailyGrowthRate = dailyGrowthRates.length > 0 ? Math.max(...dailyGrowthRates) : undefined
+
+  campaign.startDate = campaignStartDate
+  campaign.minRate = lowestDailyGrowthRate
 
   const lowestAndHighestAreEqual = lowestDailyGrowthRate === highestDailyGrowthRate
 
-  const growthRates = lowestAndHighestAreEqual ? [lowestDailyGrowthRate] : [lowestDailyGrowthRate, highestDailyGrowthRate]
-
-  const [minProjection, maxProjection] = growthRates.map((dailyGrowthRate) => {
-    return Object.entries(campaign.followerGrowth).reduce((result, [key]) => {
-      const calculationStartDate = moment.max([moment(campaignStartDate), moment(allDateKeys[0])]).format('YYYY-MM-DD')
-      const daysSinceCalculationStartDate = moment(key).diff(moment(calculationStartDate), 'days')
-      const followerCountAtCalculationStartDate = initialDataSources.followerGrowth[calculationStartDate]
-
-      const followerCountAtKey = followerCountAtCalculationStartDate * (1 + dailyGrowthRate) ** daysSinceCalculationStartDate
-
-      const followerCountAtKeyRounded = Math.round(followerCountAtKey)
-
-      return {
-        ...result,
-        [key]: followerCountAtKeyRounded,
-      }
-    }, {})
-  })
-
-  const projections = {
-    minProjection,
+  if (highestDailyGrowthRate && ! lowestAndHighestAreEqual) {
+    campaign.maxRate = highestDailyGrowthRate
   }
 
-  if (maxProjection) {
-    projections.maxProjection = maxProjection
-  }
-
-  return projections
+  return campaign
 }
 
 export const getSlicedDataSources = (
@@ -841,18 +808,47 @@ export const getSlicedDataSources = (
   }
 
   const allCampaigns = getAllCampaigns(slicedDataSources)
-  const projections = allCampaigns.map((campaign, index) => {
+  const campaignGrowthRates = allCampaigns.map((campaign, index) => {
     const nextCampaign = allCampaigns[index - 1]
     const previousCampaign = allCampaigns[index + 1]
     campaign.nextCampaignStart = nextCampaign && Object.keys(nextCampaign.adSpend)[0]
     const previousCampaignDates = previousCampaign && Object.keys(previousCampaign.adSpend)
     campaign.previousCampaignEnd = previousCampaignDates && previousCampaignDates[previousCampaignDates.length - 1]
-    return calculateMinAndMaxGrowthProjection(
+    return calculateMinAndMaxGrowthRates(
       campaign,
       initialDataSources,
       artist,
-      dailyGrowthRateFallback,
     )
+  })
+
+  const projections = campaignGrowthRates.map((campaign) => {
+    const campaignStartMoment = moment(campaign.startDate, 'YYYY-MM-DD')
+    const previousGrowthRates = campaignGrowthRates.filter((previousCampaign) => {
+      const previousCampaignStartMoment = moment(previousCampaign.startDate, 'YYYY-MM-DD')
+      return (
+        previousCampaignStartMoment.diff(campaignStartMoment, 'days') <= 180
+        && previousCampaign.startDate <= campaign.startDate
+      )
+    })
+
+    const previousRates = previousGrowthRates.reduce((acc, p) => {
+      if (p.maxRate !== undefined && typeof p.maxRate === 'number') {
+        acc.push(p.maxRate)
+      }
+      if (p.minRate !== undefined && typeof p.minRate === 'number') {
+        acc.push(p.minRate)
+      }
+      return acc
+    }, [])
+    const minRate = previousRates.length > 0 ? Math.min(...previousRates) : dailyGrowthRateFallback
+    const maxRate = previousRates.length > 0 ? Math.max(...previousRates) : undefined
+    campaign.minRate = minRate
+    campaign.minProjection = projectGrowth(minRate, campaign.followerGrowth)
+    if (maxRate && maxRate !== minRate) {
+      campaign.maxRate = maxRate
+      campaign.maxProjection = projectGrowth(maxRate, campaign.followerGrowth)
+    }
+    return campaign
   })
 
   return {

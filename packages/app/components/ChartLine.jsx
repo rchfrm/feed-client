@@ -106,7 +106,13 @@ const ChartLine = ({
   }
 
   const projectionDataSets = projections.map((projection) => {
-    return Object.entries(projection).map(([key, value], index, projection) => {
+    const dailyProjections = {
+      minProjection: projection.minProjection,
+    }
+    if (projection.maxProjection) {
+      dailyProjections.maxProjection = projection.maxProjection
+    }
+    return Object.entries(dailyProjections).map(([key, value], index, projection) => {
       const isOneProjection = projection.length === 1
       return {
         data: value,
