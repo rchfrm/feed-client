@@ -86,7 +86,7 @@ export const instagramDataSources = {
 
 export const followerGrowthDataSources = {
   facebook: 'facebook_likes',
-  instagram: instagramDataSources.all,
+  instagram: instagramDataSources.country,
   soundcloud: 'soundcloud_follower_count',
   spotify: 'spotify_follower_count',
   youtube: 'youtube_subscriber_count',
