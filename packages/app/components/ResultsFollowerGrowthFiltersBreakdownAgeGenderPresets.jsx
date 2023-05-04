@@ -89,7 +89,7 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
 
   return (
     <div>
-      <p className="mb-2">Presets</p>
+      <p className="mb-2 text-xs">Preset</p>
       <div className="flex">
         <Select
           name="min"
@@ -97,7 +97,7 @@ const ResultsFollowerGrowthFiltersBreakdownAgeGenderPresets = ({
           handleChange={handleChange}
           options={presetOptions}
           selectedValue={preset}
-          className="w-full xxs:w-32 mb-5 xs:mr-8"
+          className="w-full xxs:w-32 mb-5 text-xs"
         />
       </div>
     </div>

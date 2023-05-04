@@ -28,7 +28,7 @@ const ResultsFollowerGrowthFiltersBreakdownLocation = ({
 
   return (
     <div>
-      <p className="mb-2">{title}</p>
+      <p className="mb-2 text-xs">{title}</p>
       <Select
         name="breakdown"
         version="small box"
@@ -36,7 +36,7 @@ const ResultsFollowerGrowthFiltersBreakdownLocation = ({
         options={breakdownOptions}
         selectedValue={breakdownBy?.value || breakdownOptions[0].value}
         loading={isLoading}
-        className="w-full xxs:w-40"
+        className="w-full xxs:w-40 text-xs"
       />
     </div>
   )
