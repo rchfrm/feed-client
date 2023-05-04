@@ -44,7 +44,7 @@ const canvasToBlob = (canvas) => {
   })
 }
 
-export const getCroppedImageBlob = (image, crop) => {
+export const getCroppedImageBlob = async (image, crop) => {
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')
 
@@ -76,5 +76,10 @@ export const getCroppedImageBlob = (image, crop) => {
   context.drawImage(image, 0, 0)
   context.restore()
 
-  return canvasToBlob(canvas)
+  const blob = await canvasToBlob(canvas)
+
+  return {
+    canvas,
+    blob,
+  }
 }

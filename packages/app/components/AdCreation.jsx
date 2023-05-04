@@ -20,6 +20,8 @@ const AdCreation = ({ setPosts }) => {
   const campaignType = 'all'
 
   const [file, setFile] = React.useState(null)
+  const [fileName, setFileName] = React.useState('')
+  const [fileDimensions, setFileDimensions] = React.useState(null)
   const [message, setMessage] = React.useState('')
   const [isDefaultLink, setIsDefaultLink] = React.useState(true)
   const [currentLink, setCurrentLink] = React.useState({
@@ -61,7 +63,8 @@ const AdCreation = ({ setPosts }) => {
         },
       }),
     }
-    formData.append('file', file)
+    formData.append('file', file, fileName)
+    formData.append('dimensions', JSON.stringify(fileDimensions))
     formData.append('data', JSON.stringify(data))
 
     const { res: posts, error } = await createAd(artistId, formData)
@@ -80,7 +83,7 @@ const AdCreation = ({ setPosts }) => {
 
     setIsLoading(false)
     toggleSidePanel(false)
-  }, [file, message, isDefaultLink, currentLink?.linkId, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel, setPosts])
+  }, [file, message, isDefaultLink, currentLink?.linkId, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel, setPosts, fileName, fileDimensions])
 
   React.useEffect(() => {
     const button = (
@@ -102,7 +105,11 @@ const AdCreation = ({ setPosts }) => {
     <div className="pr-10">
       <h2 className="mb-8">Create ad</h2>
       <p className="font-bold">1. Upload image</p>
-      <FileUpload setFile={setFile} />
+      <FileUpload
+        setFile={setFile}
+        setFileName={setFileName}
+        setFileDimensions={setFileDimensions}
+      />
       <p className="font-bold">2. Enter a caption</p>
       <TextArea
         name="message"

@@ -7,7 +7,7 @@ import { validateFile, getCroppedImageBlob } from '@/app/helpers/fileUploadHelpe
 import brandColors from '@/constants/brandColors'
 import 'react-image-crop/dist/ReactCrop.css'
 
-const FileUpload = ({ setFile }) => {
+const FileUpload = ({ setFile, setFileName, setFileDimensions }) => {
   const [fileUrl, setFileUrl] = React.useState('')
   const [isDragging, setIsDragging] = React.useState(false)
   const [crop, setCrop] = React.useState(null)
@@ -31,8 +31,9 @@ const FileUpload = ({ setFile }) => {
     }
 
     const blobUrl = URL.createObjectURL(blob)
-    setFileUrl(blobUrl)
     setFile(blob)
+    setFileUrl(blobUrl)
+    setFileName(fileInputRef.current.value.split('\\').pop())
   }
 
   const onChange = (e) => {
@@ -63,14 +64,28 @@ const FileUpload = ({ setFile }) => {
     e.preventDefault()
   }
 
+  const onLoad = (e) => {
+    setFileDimensions({
+      width: e.target.naturalWidth,
+      height: e.target.naturalHeight,
+    })
+  }
+
   const onComplete = async (crop) => {
-    const blob = await getCroppedImageBlob(imageRef.current, crop)
+    const { canvas, blob } = await getCroppedImageBlob(imageRef.current, crop)
+
     setFile(blob)
+    setFileDimensions({
+      width: canvas.width,
+      height: canvas.height,
+    })
   }
 
   const reset = () => {
     setFileUrl('')
     setFile(null)
+    setFileName('')
+    setFileDimensions(null)
     setError(null)
     fileInputRef.current.value = null
   }
@@ -108,7 +123,7 @@ const FileUpload = ({ setFile }) => {
               onComplete={onComplete}
               className="h-full"
             >
-              <img src={fileUrl} ref={imageRef} alt="file upload" className="h-full object-contain" />
+              <img src={fileUrl} ref={imageRef} onLoad={onLoad} alt="file upload" className="h-full object-contain" />
             </ReactCrop>
             <button onClick={reset} className="absolute top-3 right-3">
               <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
@@ -132,6 +147,8 @@ const FileUpload = ({ setFile }) => {
 
 FileUpload.propTypes = {
   setFile: PropTypes.func.isRequired,
+  setFileName: PropTypes.func.isRequired,
+  setFileDimensions: PropTypes.func.isRequired,
 }
 
 export default FileUpload
