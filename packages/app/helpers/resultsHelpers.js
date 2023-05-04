@@ -694,7 +694,7 @@ export const getBreakdownData = (breakdownBy, followerGrowth, targetedLocations)
 }
 
 const calculateDailyPercentageChange = (startingValue, finalValue, daysInPeriod) => {
-  if (! startingValue || ! finalValue || ! daysInPeriod) {
+  if (! startingValue || ! finalValue || ! daysInPeriod || daysInPeriod < 3) {
     return undefined
   }
 
