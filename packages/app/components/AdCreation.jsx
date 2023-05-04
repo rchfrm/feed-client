@@ -71,7 +71,7 @@ const AdCreation = ({ setPosts }) => {
     }
 
     setPosts({
-      type: 'add-posts',
+      type: 'add-posts-with-priority',
       payload: {
         status: 'pending',
         posts,
