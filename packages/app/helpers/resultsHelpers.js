@@ -807,10 +807,23 @@ export const getSlicedDataSources = (
     slicedDataSources = getLastThirtyDays(initialDataSources)
   }
 
-  const allCampaigns = getAllCampaigns(slicedDataSources)
-  const campaignGrowthRates = allCampaigns.map((campaign, index) => {
-    const nextCampaign = allCampaigns[index - 1]
-    const previousCampaign = allCampaigns[index + 1]
+  const allCampaigns = getAllCampaigns(initialDataSources)
+  const allCampaignGrowthRates = allCampaigns.map((campaign) => {
+    const campaignStart = Object.keys(campaign.adSpend).sort()[0]
+    const campaignStartMoment = moment(campaignStart, 'YYYY-MM-DD')
+    const campaignsAfterThisOne = allCampaigns.filter((c) => {
+      const cStart = Object.keys(c.adSpend).sort()[0]
+      const cStartMoment = moment(cStart, 'YYYY-MM-DD')
+      return cStartMoment.isAfter(campaignStartMoment, 'days')
+    })
+    const campaignsBeforeThisOne = allCampaigns.filter((c) => {
+      const dates = Object.keys(c.adSpend).sort()
+      const cEnd = dates[dates.length - 1]
+      const cEndMoment = moment(cEnd, 'YYYY-MM-DD')
+      return cEndMoment.isBefore(campaignStartMoment, 'days')
+    })
+    const nextCampaign = campaignsAfterThisOne[campaignsAfterThisOne.length - 1]
+    const previousCampaign = campaignsBeforeThisOne[0]
     campaign.nextCampaignStart = nextCampaign && Object.keys(nextCampaign.adSpend)[0]
     const previousCampaignDates = previousCampaign && Object.keys(previousCampaign.adSpend)
     campaign.previousCampaignEnd = previousCampaignDates && previousCampaignDates[previousCampaignDates.length - 1]
@@ -821,9 +834,9 @@ export const getSlicedDataSources = (
     )
   })
 
-  const projections = campaignGrowthRates.map((campaign) => {
+  const allCampaignProjections = allCampaignGrowthRates.map((campaign) => {
     const campaignStartMoment = moment(campaign.startDate, 'YYYY-MM-DD')
-    const previousGrowthRates = campaignGrowthRates.filter((previousCampaign) => {
+    const previousGrowthRates = allCampaignGrowthRates.filter((previousCampaign) => {
       const previousCampaignStartMoment = moment(previousCampaign.startDate, 'YYYY-MM-DD')
       return (
         previousCampaignStartMoment.diff(campaignStartMoment, 'days') <= 180
@@ -851,9 +864,16 @@ export const getSlicedDataSources = (
     return campaign
   })
 
+  const allVisibleCampaigns = getAllCampaigns(slicedDataSources)
+  const visibleCampaignProjections = allVisibleCampaigns.map((campaign) => {
+    const campaignDates = Object.keys(campaign.adSpend).sort()
+    const campaignStart = campaignDates[0]
+    return allCampaignProjections.find((c) => c.startDate === campaignStart)
+  })
+
   return {
     ...slicedDataSources,
-    projections,
+    projections: visibleCampaignProjections,
   }
 }
 
