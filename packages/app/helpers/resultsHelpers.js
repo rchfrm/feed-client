@@ -587,6 +587,9 @@ export const getCostPerFollower = (dataSources, amountSpentInCampaign) => {
 
   const estimatedTotalFollowersAddedByFeed = allCampaigns.map((campaign, index) => {
     const projection = projections[index]
+    if (! projection) {
+      return 0
+    }
     const projectionDateKeys = Object.keys(projection.minProjection)
     const mostRecentDate = projectionDateKeys[projectionDateKeys.length - 1]
     const minProjectedFollowerCount = projection.minProjection[mostRecentDate]
