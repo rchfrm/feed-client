@@ -1,16 +1,30 @@
-export const validateFile = (blob) => {
-  const maxSize = 5 // MB
-  const allowedFileExtensions = ['png', 'jpeg', 'jpg', 'gif']
-  const allowedMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif']
-  const { name, type, size } = blob
+export const validateFile = (blob, type) => {
+  const maxSizePerType = {
+    image: 5,
+    video: 10,
+  }
+
+  const allowedFileExtensions = {
+    image: ['png', 'jpeg', 'jpg', 'gif'],
+    video: ['mp4'],
+  }
+
+  const allowedMimeTypes = {
+    image: ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'],
+    video: ['video/mp4'],
+  }
+
+  const maxSize = maxSizePerType[type]
+  const { name, size } = blob
   const fileExtension = name.split('.').pop()
 
-  if (! allowedFileExtensions.includes(fileExtension) || ! allowedMimeTypes.includes(type)) {
-    return { message: 'File format must be either PNG or JPG/JPEG' }
+  if (allowedFileExtensions[type].includes(fileExtension) || ! allowedMimeTypes[type].includes(blob.type)) {
+    const formatter = new Intl.ListFormat('en', { style: 'short', type: 'disjunction' })
+    return { message: `File format must be either ${formatter.format(allowedFileExtensions[type])}` }
   }
 
   if (size / (1024 * 1024) > maxSize) {
-    return { message: 'The image size is too big! ( Max. 5MB )' }
+    return { message: `The ${type} size is too big! ( Max. ${maxSize}MB )` }
   }
 }
 

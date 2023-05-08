@@ -104,7 +104,7 @@ const AdCreation = ({ setPosts }) => {
   return (
     <div className="pr-10">
       <h2 className="mb-8">Create ad</h2>
-      <p className="font-bold">1. Upload image</p>
+      <p className="font-bold">1. Upload file</p>
       <FileUpload
         setFile={setFile}
         setFileName={setFileName}
