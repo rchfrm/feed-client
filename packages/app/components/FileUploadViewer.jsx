@@ -12,17 +12,21 @@ const FileUploadViewer = React.forwardRef(({
   setFileUrl,
   setFile,
   setFileName,
-  setFileDimensions,
+  setMetaData,
   setError,
 }, ref) => {
   const [crop, setCrop] = React.useState(null)
   const imageRef = React.useRef(null)
 
   const onLoad = (e) => {
-    const prefix = type === 'image' ? 'natural' : 'video'
-    setFileDimensions({
+    const isVideo = type === 'video'
+    const prefix = isVideo ? 'video' : 'natural'
+
+    setMetaData({
+      type,
       width: e.target[`${prefix}Width`],
       height: e.target[`${prefix}Height`],
+      ...(isVideo && { duration: e.target.duration }),
     })
   }
 
@@ -30,7 +34,8 @@ const FileUploadViewer = React.forwardRef(({
     const { canvas, blob } = await getCroppedImageBlob(imageRef.current, crop)
 
     setFile(blob)
-    setFileDimensions({
+    setMetaData({
+      type,
       width: canvas.width,
       height: canvas.height,
     })
@@ -40,7 +45,7 @@ const FileUploadViewer = React.forwardRef(({
     setFileUrl('')
     setFile(null)
     setFileName('')
-    setFileDimensions(null)
+    setMetaData(null)
     setError(null)
     ref.current.value = null
   }
@@ -83,7 +88,7 @@ FileUploadViewer.propTypes = {
   setFileUrl: PropTypes.func.isRequired,
   setFile: PropTypes.func.isRequired,
   setFileName: PropTypes.func.isRequired,
-  setFileDimensions: PropTypes.func.isRequired,
+  setMetaData: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
 }
 

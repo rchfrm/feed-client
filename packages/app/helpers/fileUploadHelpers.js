@@ -18,7 +18,7 @@ export const validateFile = (blob, type) => {
   const { name, size } = blob
   const fileExtension = name.split('.').pop()
 
-  if (allowedFileExtensions[type].includes(fileExtension) || ! allowedMimeTypes[type].includes(blob.type)) {
+  if (! allowedFileExtensions[type].includes(fileExtension) || ! allowedMimeTypes[type].includes(blob.type)) {
     const formatter = new Intl.ListFormat('en', { style: 'short', type: 'disjunction' })
     return { message: `File format must be either ${formatter.format(allowedFileExtensions[type])}` }
   }

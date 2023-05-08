@@ -4,7 +4,7 @@ import FileUploadViewer from '@/app/FileUploadViewer'
 import Error from '@/elements/Error'
 import { validateFile } from '@/app/helpers/fileUploadHelpers'
 
-const FileUpload = ({ setFile, setFileName, setFileDimensions }) => {
+const FileUpload = ({ setFile, setFileName, setMetaData }) => {
   const [fileUrl, setFileUrl] = React.useState('')
   const [type, setType] = React.useState('')
   const [isDragging, setIsDragging] = React.useState(false)
@@ -95,7 +95,7 @@ const FileUpload = ({ setFile, setFileName, setFileDimensions }) => {
             setFileUrl={setFileUrl}
             setFile={setFile}
             setFileName={setFileName}
-            setFileDimensions={setFileDimensions}
+            setMetaData={setMetaData}
             setError={setError}
             ref={fileInputRef}
           />
@@ -118,7 +118,7 @@ const FileUpload = ({ setFile, setFileName, setFileDimensions }) => {
 FileUpload.propTypes = {
   setFile: PropTypes.func.isRequired,
   setFileName: PropTypes.func.isRequired,
-  setFileDimensions: PropTypes.func.isRequired,
+  setMetaData: PropTypes.func.isRequired,
 }
 
 export default FileUpload
