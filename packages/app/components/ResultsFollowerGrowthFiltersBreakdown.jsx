@@ -24,20 +24,16 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
   }
 
   return (
-    <div className={[
-      'flex flex-col text-xs',
-      ! isLocationBreakdown ? 'sm:flex-row' : 'xxs:flex-row',
-    ].join(' ')}
-    >
+    <>
       <div>
-        <p className="mb-2">Breakdown</p>
+        <p className="text-xs mb-2">Breakdown</p>
         <Select
           name="datasource"
           version="small box"
           handleChange={handleChange}
           options={dataSourceOptions}
           selectedValue={dataSourceName}
-          className="w-full xxs:w-32 mr-8 mb-5"
+          className="w-full xxs:w-32 mb-5 text-xs"
         />
       </div>
       {shouldShowBreakdown && (
@@ -57,7 +53,7 @@ const ResultsFollowerGrowthFiltersBreakdown = ({
           />
         )
       )}
-    </div>
+    </>
   )
 }
 

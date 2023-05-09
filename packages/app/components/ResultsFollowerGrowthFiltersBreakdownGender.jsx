@@ -9,12 +9,12 @@ const ResultsFollowerGrowthFiltersBreakdownGender = ({ gender, setGender, isDisa
 
   return (
     <div>
-      <p className="mb-2">Gender</p>
+      <p className="mb-2 text-xs">Gender</p>
       <ResultsFollowerGrowthFilterOptions
         value={gender}
         setValue={setGender}
         options={genderOptions}
-        className="w-full xxs:w-auto mb-5 lg:mb-0 mr-8"
+        className="w-full xxs:w-auto mb-5 lg:mb-0 text-xs"
         isDisabled={isDisabled}
       />
     </div>

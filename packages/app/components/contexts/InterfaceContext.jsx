@@ -9,7 +9,7 @@ import * as ROUTES from '@/app/constants/routes'
 
 const initialState = {
   isMenuOpen: false,
-  isNavExpanded: true,
+  isNavExpanded: false,
   header: {
     visible: true,
     text: '',

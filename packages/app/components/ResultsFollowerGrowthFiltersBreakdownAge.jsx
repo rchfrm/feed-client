@@ -23,7 +23,7 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({
 
   return (
     <div>
-      <p className="mb-2">Age</p>
+      <p className="mb-2 text-xs">Age</p>
       <div className="flex">
         <Select
           name="min"
@@ -31,7 +31,7 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({
           handleChange={handleChange}
           options={minAgeOptions}
           selectedValue={age?.min}
-          className="w-1/2 xxs:w-16 mr-1 mb-5"
+          className="w-1/2 xxs:w-16 mr-1 mb-5 text-xs"
           disabled={isDisabled}
         />
         <Select
@@ -40,7 +40,7 @@ const ResultsFollowerGrowthFiltersBreakdownAge = ({
           handleChange={handleChange}
           options={maxAgeOptions}
           selectedValue={age?.max}
-          className="w-1/2 xxs:w-16 mb-5"
+          className="w-1/2 xxs:w-16 mb-5 text-xs"
           disabled={isDisabled}
         />
       </div>

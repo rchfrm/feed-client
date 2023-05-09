@@ -26,6 +26,7 @@ const ResultsFollowerGrowthFilterOptions = ({
           onClick={() => onClick(option.value)}
           className={[
             'flex-auto py-1 px-3 font-bold',
+            'whitespace-nowrap',
             value === option.value ? 'text-black bg-green' : null,
           ].join(' ')}
         >

@@ -105,25 +105,32 @@ const ChartLine = ({
     },
   }
 
-  const projectionDataSets = projections.map((projection) => {
-    return Object.entries(projection).map(([key, value], index, projection) => {
-      const isOneProjection = projection.length === 1
-      return {
-        data: value,
-        title: 'projection',
-        showLine: isOneProjection,
-        ...(key === 'minProjection' && {
-          fill: '+1',
-          backgroundColor: 'rgba(250, 84, 80, 0.4)',
-        }),
-        ...(isOneProjection && {
-          borderColor: brandColors.red,
-          borderDash: [5, 2],
-          borderWidth: 2,
-        }),
+  const projectionDataSets = projections.filter((p) => p !== undefined)
+    .map((projection) => {
+      const dailyProjections = {
+        minProjection: projection.minProjection,
       }
-    })
-  }).flat()
+      if (projection.maxProjection) {
+        dailyProjections.maxProjection = projection.maxProjection
+      }
+      return Object.entries(dailyProjections).map(([key, value], index, projection) => {
+        const isOneProjection = projection.length === 1
+        return {
+          data: value,
+          title: 'projection',
+          showLine: isOneProjection,
+          ...(key === 'minProjection' && {
+            fill: '+1',
+            backgroundColor: 'rgba(250, 84, 80, 0.4)',
+          }),
+          ...(isOneProjection && {
+            borderColor: brandColors.red,
+            borderDash: [5, 2],
+            borderWidth: 2,
+          }),
+        }
+      })
+    }).flat()
 
   const dataSets = [
     {
