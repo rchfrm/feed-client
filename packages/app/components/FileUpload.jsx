@@ -4,9 +4,12 @@ import FileUploadViewer from '@/app/FileUploadViewer'
 import Error from '@/elements/Error'
 import { validateFile } from '@/app/helpers/fileUploadHelpers'
 
-const FileUpload = ({ setFile, setFileName, setMetaData }) => {
+const FileUpload = ({
+  files,
+  setFiles,
+  setFileName,
+}) => {
   const [fileUrl, setFileUrl] = React.useState('')
-  const [type, setType] = React.useState('')
   const [isDragging, setIsDragging] = React.useState(false)
   const [error, setError] = React.useState(null)
 
@@ -21,7 +24,6 @@ const FileUpload = ({ setFile, setFileName, setMetaData }) => {
     }
 
     const type = blob.type.split('/')[0]
-    setType(type)
 
     const error = validateFile(blob, type)
     if (error) {
@@ -30,9 +32,16 @@ const FileUpload = ({ setFile, setFileName, setMetaData }) => {
     }
 
     const blobUrl = URL.createObjectURL(blob)
-    setFile(blob)
     setFileUrl(blobUrl)
-    setFileName(fileInputRef.current.value.split('\\').pop())
+    setFiles([{
+      file: blob,
+      metaData: {
+        type,
+      },
+    }])
+
+    const name = fileInputRef.current.value.split('\\').pop()
+    setFileName(name.replace(/\.[^/.]+$/, ''))
   }
 
   const onChange = (e) => {
@@ -90,12 +99,11 @@ const FileUpload = ({ setFile, setFileName, setMetaData }) => {
         />
         {fileUrl ? (
           <FileUploadViewer
-            type={type}
+            type={files[0].metaData.type}
+            files={files}
             fileUrl={fileUrl}
             setFileUrl={setFileUrl}
-            setFile={setFile}
-            setFileName={setFileName}
-            setMetaData={setMetaData}
+            setFiles={setFiles}
             setError={setError}
             ref={fileInputRef}
           />
@@ -116,9 +124,9 @@ const FileUpload = ({ setFile, setFileName, setMetaData }) => {
 }
 
 FileUpload.propTypes = {
-  setFile: PropTypes.func.isRequired,
+  files: PropTypes.array.isRequired,
+  setFiles: PropTypes.func.isRequired,
   setFileName: PropTypes.func.isRequired,
-  setMetaData: PropTypes.func.isRequired,
 }
 
 export default FileUpload

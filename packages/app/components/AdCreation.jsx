@@ -19,9 +19,8 @@ const AdCreation = ({ setPosts }) => {
   const { defaultLink } = useControlsStore(getControlsStoreState)
   const campaignType = 'all'
 
-  const [file, setFile] = React.useState(null)
+  const [files, setFiles] = React.useState([])
   const [fileName, setFileName] = React.useState('')
-  const [metaData, setMetaData] = React.useState(null)
   const [message, setMessage] = React.useState('')
   const [isDefaultLink, setIsDefaultLink] = React.useState(true)
   const [currentLink, setCurrentLink] = React.useState({
@@ -63,8 +62,11 @@ const AdCreation = ({ setPosts }) => {
         },
       }),
     }
-    formData.append('file', file, fileName)
-    formData.append('metaData', JSON.stringify(metaData))
+
+    files.forEach((file) => {
+      formData.append('files', file.file, `${fileName}.${file.file.type.split('/').pop()}`)
+    })
+    formData.append('metaData', JSON.stringify(files.map((file) => file.metaData)))
     formData.append('data', JSON.stringify(data))
 
     const { res: posts, error } = await createAd(artistId, formData)
@@ -83,14 +85,14 @@ const AdCreation = ({ setPosts }) => {
 
     setIsLoading(false)
     toggleSidePanel(false)
-  }, [file, message, isDefaultLink, currentLink?.linkId, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel, setPosts, fileName, metaData])
+  }, [files, message, isDefaultLink, currentLink?.linkId, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel, setPosts, fileName])
 
   React.useEffect(() => {
     const button = (
       <Button
         onClick={save}
         trackComponentName="AdCreation"
-        isDisabled={! file || ! message}
+        isDisabled={files.length === 0 || ! message}
         isLoading={isLoading}
         isSidePanel
       >
@@ -99,16 +101,16 @@ const AdCreation = ({ setPosts }) => {
     )
 
     setSidePanelButton(button)
-  }, [setSidePanelButton, save, message, file, isLoading])
+  }, [setSidePanelButton, save, message, files, isLoading])
 
   return (
     <div className="pr-10">
       <h2 className="mb-8">Create ad</h2>
       <p className="font-bold">1. Upload file</p>
       <FileUpload
-        setFile={setFile}
+        files={files}
+        setFiles={setFiles}
         setFileName={setFileName}
-        setMetaData={setMetaData}
       />
       <p className="font-bold">2. Enter a caption</p>
       <TextArea

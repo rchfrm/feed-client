@@ -97,3 +97,15 @@ export const getCroppedImageBlob = async (image, crop) => {
     blob,
   }
 }
+
+export const createVideoThumbnail = async (video) => {
+  const width = video.videoWidth
+  const height = video.videoHeight
+  const canvas = document.createElement('canvas')
+  canvas.width = video.videoWidth
+  canvas.height = video.videoHeight
+  const context = canvas.getContext('2d')
+  context.drawImage(video, 0, 0, width, height)
+
+  return canvasToBlob(canvas)
+}
