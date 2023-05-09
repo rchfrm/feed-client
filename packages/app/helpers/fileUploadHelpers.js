@@ -1,20 +1,16 @@
 export const validateFile = (blob, type) => {
-  const maxSizePerType = {
-    image: 5,
-    video: 10,
-  }
+  const maxSize = 5 // MB
 
   const allowedFileExtensions = {
     image: ['png', 'jpeg', 'jpg', 'gif'],
-    video: ['mp4'],
+    video: ['mp4', 'mov'],
   }
 
   const allowedMimeTypes = {
     image: ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'],
-    video: ['video/mp4'],
+    video: ['video/mp4', 'video/quicktime'],
   }
 
-  const maxSize = maxSizePerType[type]
   const { name, size } = blob
   const fileExtension = name.split('.').pop()
 
