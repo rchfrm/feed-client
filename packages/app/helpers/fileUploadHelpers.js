@@ -1,7 +1,7 @@
 export const fileMimeType = {
-  'image/gif': 'gif',
-  'image/jpeg': 'jpg',
   'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/gif': 'gif',
   'video/mp4': 'mp4',
   'video/quicktime': 'mov',
 }
@@ -15,7 +15,7 @@ export const validateFile = (blob, type) => {
   }
 
   const allowedMimeTypes = {
-    image: ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'],
+    image: ['image/png', 'image/jpeg', 'image/gif'],
     video: ['video/mp4', 'video/quicktime'],
   }
 
