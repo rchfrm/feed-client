@@ -10,6 +10,7 @@ import TextArea from '@/elements/TextArea'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import { createAd } from '@/app/helpers/postsHelpers'
+import { fileMimeType } from '@/app/helpers/fileUploadHelpers'
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
@@ -63,8 +64,8 @@ const AdCreation = ({ setPosts }) => {
       }),
     }
 
-    files.forEach((file) => {
-      formData.append('files', file.file, `${fileName}.${file.file.type.split('/').pop()}`)
+    files.forEach(({ file }) => {
+      formData.append('files', file, `${fileName}.${fileMimeType[file.type]}`)
     })
     formData.append('metaData', JSON.stringify(files.map((file) => file.metaData)))
     formData.append('data', JSON.stringify(data))
