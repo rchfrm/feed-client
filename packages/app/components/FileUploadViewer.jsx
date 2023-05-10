@@ -96,12 +96,10 @@ const FileUploadViewer = React.forwardRef(({
         </ReactCrop>
       ) : (
         <video
-          width="260"
-          height="150"
-          controls
-          className="h-full"
           onCanPlay={onLoad}
           onSeeked={onSeeked}
+          className="h-full w-auto"
+          controls
         >
           <source src={fileUrl} />
           Your browser does not support the video tag.
