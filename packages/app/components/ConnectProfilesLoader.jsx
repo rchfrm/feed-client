@@ -11,10 +11,14 @@ import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
 import ConnectProfilesButtonHelp from '@/app/ConnectProfilesButtonHelp'
-
-// IMPORT HELPERS
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+import useBillingStore from '@/app/stores/billingStore'
+import { getBusinessesOnSignUp } from '@/app/helpers/artistHelpers'
+
+const getBillingStoreState = (state) => ({
+  hasManagedArtist: state.hasManagedArtist,
+})
 
 const ConnectProfilesLoader = ({
   isConnecting,
@@ -27,6 +31,7 @@ const ConnectProfilesLoader = ({
   const [pageLoading, setPageLoading] = React.useState(true)
   const [errors, setErrors] = React.useState([])
   const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
+  const { hasManagedArtist } = useBillingStore(getBillingStoreState)
 
   const {
     auth,
@@ -62,11 +67,13 @@ const ConnectProfilesLoader = ({
     // If missing scopes, we need to show the connect button
     if (missingScopes.length) return setPageLoading(false)
 
-    // Stop here if we haven either auth or fb auth errors
+    // Stop here if we haven't either auth or fb auth errors
     if (errors.length) return setPageLoading(false)
 
     // Start fetching artists
-    const { res, error } = await artistHelpers.getArtistOnSignUp()
+    const { res: businesses } = await artistHelpers.getBusinessesOnSignUp()
+    const firstBusiness = businesses && businesses.length && businesses[0]
+    const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness.id)
 
     if (error) {
       if (! isMounted()) return

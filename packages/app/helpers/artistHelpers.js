@@ -153,14 +153,32 @@ export const getSortedArtistAccountsArray = (artistAccounts) => {
 }
 
 /**
+ * @param {string | undefined} businessId
  * @returns {Promise<any>}
  */
-export const getArtistOnSignUp = async () => {
+export const getArtistOnSignUp = async (businessId) => {
   const requestUrl = '/artists/available'
-  const payload = null
+  let payload = null
+  if (businessId) {
+    payload = { businessId }
+  }
   const errorTracking = {
     category: 'Artist',
     action: 'Get available artists',
+  }
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
+/**
+ * @returns {Promise<any>}
+ */
+
+export const getBusinessesOnSignUp = async () => {
+  const requestUrl = '/actions/facebook/businesses'
+  const payload = null
+  const errorTracking = {
+    category: 'Artist',
+    action: 'Get available Facebook businesses',
   }
   return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }
