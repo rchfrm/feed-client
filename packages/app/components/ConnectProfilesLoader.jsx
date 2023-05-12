@@ -72,7 +72,7 @@ const ConnectProfilesLoader = ({
 
     // Start fetching artists
     const { res: businesses } = await artistHelpers.getBusinessesOnSignUp()
-    const firstBusiness = businesses && businesses.length && businesses[0]
+    const firstBusiness = businesses && businesses.length && businesses[3]
     const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness.id)
 
     if (error) {
@@ -116,7 +116,7 @@ const ConnectProfilesLoader = ({
     const artistsFiltered = ! user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
     // Add ad accounts to artists
-    const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered })
+    const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered, businessId: firstBusiness.id })
 
     if (! isMounted()) return
 

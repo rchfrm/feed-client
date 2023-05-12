@@ -22,6 +22,7 @@ export const createArtist = async (artist, plan, isManaged, token) => {
       facebook: {
         page_id: artist.page_id,
         instagram_id: artist.instagram_id,
+        business_id: artist.business_id,
       },
     },
     plan,
@@ -200,7 +201,7 @@ export const removeAlreadyConnectedArtists = (newArtists, userArtists) => {
   })
 }
 
-export const processArtists = ({ artists }) => {
+export const processArtists = ({ artists, businessId }) => {
   const artistsProcessed = Object.values(artists).map((artist) => {
     const {
       instagram_username,
@@ -216,6 +217,7 @@ export const processArtists = ({ artists }) => {
     // Return processed account
     return {
       ...artist,
+      business_id: businessId,
       facebook_page_url: facebookPageUrl,
       instagram_url: instaPageUrl,
       picture: `${picture}?width=500`,
