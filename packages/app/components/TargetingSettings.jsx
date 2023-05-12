@@ -11,6 +11,7 @@ import Error from '@/elements/Error'
 import TargetingSettingsHelp from '@/app/TargetingSettingsHelp'
 import TargetingAgeSlider from '@/app/TargetingAgeSlider'
 import TargetingLocations from '@/app/TargetingLocations'
+import TargetingInterests from '@/app/TargetingInterests'
 import TargetingSettingsSaveContainer from '@/app/TargetingSettingsSaveContainer'
 import TargetingGenderSelector from '@/app/TargetingGenderSelector'
 import TargetingPlatformsSelector from '@/app/TargetingPlatformsSelector'
@@ -101,9 +102,10 @@ const TargetingSettings = () => {
             <TargetingLocations
               initialCityKeys={initialTargetingState.cityKeys}
               initialCountryCodes={initialTargetingState.countryCodes}
-              className="mb-3"
+              className="mb-16"
             />
           </div>
+          <TargetingInterests className="mb-3" />
           {/* DESKTOP BUDGET SETTER */}
           <TargetingSettingsSaveContainer
             disableSaving={disableSaving}

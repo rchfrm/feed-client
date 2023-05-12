@@ -1,10 +1,7 @@
 import React from 'react'
-
 import TargetingLocationsSearchResultsItem from '@/app/TargetingLocationsSearchResultsItem'
-import TargetingLocationsSearchSuccess from '@/app/TargetingLocationsSearchSuccess'
-
+import TargetingSearchSuccess from '@/app/TargetingLSearchSuccess'
 import Search from '@/elements/Search'
-
 import { getGeoLocations } from '@/app/helpers/targetingHelpers'
 
 const TargetingLocationsSearch = () => {
@@ -14,7 +11,7 @@ const TargetingLocationsSearch = () => {
   return (
     ! location ? (
       <>
-        <p className="text-lg">Search for another location</p>
+        <p>Search for another location:</p>
         <Search
           name="location"
           onChange={getGeoLocations}
@@ -25,18 +22,13 @@ const TargetingLocationsSearch = () => {
         />
       </>
     ) : (
-      <TargetingLocationsSearchSuccess
+      <TargetingSearchSuccess
         name={name}
-        setLocation={setLocation}
+        type="location"
+        setValue={setLocation}
       />
     )
   )
-}
-
-TargetingLocationsSearch.propTypes = {
-}
-
-TargetingLocationsSearch.defaultProps = {
 }
 
 export default TargetingLocationsSearch
