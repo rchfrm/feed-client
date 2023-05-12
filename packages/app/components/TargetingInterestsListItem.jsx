@@ -4,8 +4,8 @@ import produce from 'immer'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import TrashIcon from '@/icons/TrashIcon'
 
-const TargetingInterestsListItem = ({ name, id }) => {
-  const { targetingState: { interests }, setTargetingState } = React.useContext(TargetingContext)
+const TargetingInterestsListItem = ({ name, id, interests }) => {
+  const { setTargetingState } = React.useContext(TargetingContext)
 
   const remove = (id) => {
     const filteredInterests = interests.filter((interest) => interest.id !== id)

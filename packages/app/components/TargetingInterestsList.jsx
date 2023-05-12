@@ -5,6 +5,10 @@ import TargetingInterestsListItem from '@/app/TargetingInterestsListItem'
 const TargetingInterestsList = () => {
   const { targetingState: { interests } } = React.useContext(TargetingContext)
 
+  if (interests.length === 0) {
+    return <p className="mb-8 font-bold italic">No interests added yet.</p>
+  }
+
   return (
     <ul className="flex flex-wrap">
       {interests.map(({ name, id }) => {
@@ -13,6 +17,7 @@ const TargetingInterestsList = () => {
             key={id}
             name={name}
             id={id}
+            interests={interests}
           />
         )
       })}
