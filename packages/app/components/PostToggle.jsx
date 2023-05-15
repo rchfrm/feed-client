@@ -1,16 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostSettingsDisableAlert from '@/app/PostSettingsDisableAlert'
-import { togglePromotionEnabled, setPostPriority } from '@/app/helpers/postsHelpers'
+import { getPosts, postsConfig, togglePromotionEnabled, setPostPriority } from '@/app/helpers/postsHelpers'
+import * as ROUTES from '@/app/constants/routes'
 
 const PostToggle = ({
+  status,
   campaignType,
   post,
   setPost,
+  setPosts,
+  sortBy,
   isEnabled,
   setIsEnabled,
+  isLastPromotableNotRunPost,
   isDisabled,
   className,
 }) => {
@@ -43,12 +49,52 @@ const PostToggle = ({
     }
   }, [artistId, postId, setPost, post.priorityEnabled])
 
+  const goToControlsPage = () => {
+    Router.push({
+      pathname: ROUTES.CONTROLS_BUDGET,
+    })
+  }
+
+  const getMorePosts = React.useCallback(async () => {
+    const { formattedPosts } = await getPosts({
+      limit: 5,
+      artistId,
+      sortBy,
+      filterBy: postsConfig[status].filterBy,
+      cursor: post.id,
+    })
+
+    if (formattedPosts.length === 0) {
+      setOnAlertConfirm(() => goToControlsPage)
+      setShouldShowAlert(true)
+
+      return []
+    }
+
+    return formattedPosts
+  }, [artistId, post.id, sortBy, status])
+
   const save = React.useCallback(async (value, forceRun = false) => {
     if (isPostActive && ! forceRun) {
       setOnAlertConfirm(() => () => save(value, true))
       setShouldShowAlert(true)
 
       return
+    }
+
+    if (isLastPromotableNotRunPost && ! forceRun) {
+      const newPosts = await getMorePosts()
+      if (! newPosts.length) {
+        return
+      }
+
+      setPosts({
+        type: 'add-posts',
+        payload: {
+          status,
+          posts: newPosts,
+        },
+      })
     }
 
     setIsEnabled(value)
@@ -83,7 +129,7 @@ const PostToggle = ({
     })
     checkAndDeprioritize(newStatus, updatedPost)
     setIsLoading(false)
-  }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign, isPostActive])
+  }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign, isPostActive, isLastPromotableNotRunPost, getMorePosts, setPosts, status])
 
   const onConfirm = () => {
     onAlertConfirm()
@@ -107,6 +153,7 @@ const PostToggle = ({
         onConfirm={onConfirm}
         onCancel={onCancel}
         campaignType={campaignType}
+        isPostActive={isPostActive}
       />
     </div>
   )
@@ -114,10 +161,14 @@ const PostToggle = ({
 
 PostToggle.propTypes = {
   post: PropTypes.object.isRequired,
+  status: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   setPost: PropTypes.func.isRequired,
+  setPosts: PropTypes.func.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  isLastPromotableNotRunPost: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool,
   className: PropTypes.string,
 }

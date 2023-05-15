@@ -103,7 +103,9 @@ const PostsContainer = ({
                 status={status}
                 setPosts={setPosts}
                 filterBy={filterBy}
+                sortBy={sortBy}
                 setIsPostActionsOpen={setIsPostActionsOpen}
+                isSpendingPaused={isSpendingPaused}
                 className="mb-5"
               />
             </>

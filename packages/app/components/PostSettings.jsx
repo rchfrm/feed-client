@@ -23,11 +23,12 @@ const getControlsStoreState = (state) => ({
 const PostSettings = ({
   post,
   status: initialStatus,
-  setPost,
+  setPosts,
+  sortBy,
+  isLastPromotableNotRunPost,
   className,
 }) => {
   const {
-    id: postId,
     promotionEnabled,
     isPromotable,
     conversionsEnabled,
@@ -74,7 +75,7 @@ const PostSettings = ({
   const updatePost = ({ type, payload }) => {
     setStatus((status) => payload.newStatus || status)
 
-    setPost({
+    setPosts({
       type,
       payload: {
         status: payload.status || status,
@@ -101,11 +102,14 @@ const PostSettings = ({
         <div className="flex flex-wrap">
           <PostSettingsToggle
             post={post}
-            postId={postId}
+            status={status}
             campaignType={campaignType}
+            setPosts={setPosts}
             updatePost={updatePost}
+            sortBy={sortBy}
             isEnabled={isConversionsCampaign ? isConversionsEnabled : isPromotionEnabled}
             setIsEnabled={isConversionsCampaign ? setIsConversionsEnabled : setIsPromotionEnabled}
+            isLastPromotableNotRunPost={isLastPromotableNotRunPost}
             isDisabled={isToggleDisabled || ! isPromotable}
           />
           <PostSettingsPromotionStatus
@@ -155,7 +159,9 @@ const PostSettings = ({
 PostSettings.propTypes = {
   post: PropTypes.object.isRequired,
   status: PropTypes.string,
-  setPost: PropTypes.func.isRequired,
+  setPosts: PropTypes.func.isRequired,
+  sortBy: PropTypes.string.isRequired,
+  isLastPromotableNotRunPost: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 

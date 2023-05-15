@@ -536,6 +536,13 @@ export const convertLocalToUTCDate = (date) => {
   return date
 }
 
+export const removeDuplicatesByKey = (key, array) => {
+  return array.filter((value, index, self) =>
+    index === self.findIndex((t) => (
+      t[key] === value[key]
+    )))
+}
+
 export const findClosestNumber = (number, allNumbers, isRoundUp = false) => {
   return allNumbers.reduce((prev, curr) => {
     return ((isRoundUp ? Math.abs(curr - number) <= Math.abs(prev - number) : Math.abs(curr - number) < Math.abs(prev - number)) ? curr : prev)

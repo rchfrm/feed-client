@@ -11,9 +11,12 @@ const PostsList = ({
   status,
   setPosts,
   filterBy,
+  sortBy,
   setIsPostActionsOpen,
+  isSpendingPaused,
   className,
 }) => {
+  const isLastPromotableNotRunPost = ! isSpendingPaused && status === 'pending' && posts.length === 1
   const { artist } = React.useContext(ArtistContext)
   const isCustomAdFeatureEnabled = Boolean(artist.feature_flags.custom_ads_enabled)
   const isActiveOrPending = status === 'active' || status === 'pending'
@@ -42,7 +45,9 @@ const PostsList = ({
                 index={index}
                 status={status}
                 setPosts={setPosts}
+                sortBy={sortBy}
                 setIsPostActionsOpen={setIsPostActionsOpen}
+                isLastPromotableNotRunPost={isLastPromotableNotRunPost}
               />
               {(! post.isPromotable || status === 'rejected') && (
                 <PostNotPromotableReason post={post} status={status} />
@@ -60,7 +65,9 @@ PostsList.propTypes = {
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
   filterBy: PropTypes.object.isRequired,
+  sortBy: PropTypes.string.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
+  isSpendingPaused: PropTypes.bool.isRequired,
   className: PropTypes.string,
 }
 
