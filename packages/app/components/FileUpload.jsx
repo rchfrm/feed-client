@@ -1,20 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactCrop from 'react-image-crop'
+import FileUploadViewer from '@/app/FileUploadViewer'
 import Error from '@/elements/Error'
-import TrashIcon from '@/icons/TrashIcon'
-import { validateFile, getCroppedImageBlob } from '@/app/helpers/fileUploadHelpers'
-import brandColors from '@/constants/brandColors'
-import 'react-image-crop/dist/ReactCrop.css'
+import { validateFile } from '@/app/helpers/fileUploadHelpers'
 
-const FileUpload = ({ setFile, setFileName, setFileDimensions }) => {
+const FileUpload = ({
+  files,
+  setFiles,
+  setFileName,
+}) => {
   const [fileUrl, setFileUrl] = React.useState('')
   const [isDragging, setIsDragging] = React.useState(false)
-  const [crop, setCrop] = React.useState(null)
   const [error, setError] = React.useState(null)
 
   const fileInputRef = React.useRef(null)
-  const imageRef = React.useRef(null)
 
   const upload = (blob) => {
     setIsDragging(false)
@@ -24,16 +23,25 @@ const FileUpload = ({ setFile, setFileName, setFileDimensions }) => {
       return
     }
 
-    const error = validateFile(blob)
+    const type = blob.type.split('/')[0]
+
+    const error = validateFile(blob, type)
     if (error) {
       setError(error)
       return
     }
 
     const blobUrl = URL.createObjectURL(blob)
-    setFile(blob)
     setFileUrl(blobUrl)
-    setFileName(fileInputRef.current.value.split('\\').pop())
+    setFiles([{
+      file: blob,
+      metaData: {
+        type,
+      },
+    }])
+
+    const name = fileInputRef.current.value.split('\\').pop()
+    setFileName(name.replace(/\.[^/.]+$/, ''))
   }
 
   const onChange = (e) => {
@@ -64,32 +72,6 @@ const FileUpload = ({ setFile, setFileName, setFileDimensions }) => {
     e.preventDefault()
   }
 
-  const onLoad = (e) => {
-    setFileDimensions({
-      width: e.target.naturalWidth,
-      height: e.target.naturalHeight,
-    })
-  }
-
-  const onComplete = async (crop) => {
-    const { canvas, blob } = await getCroppedImageBlob(imageRef.current, crop)
-
-    setFile(blob)
-    setFileDimensions({
-      width: canvas.width,
-      height: canvas.height,
-    })
-  }
-
-  const reset = () => {
-    setFileUrl('')
-    setFile(null)
-    setFileName('')
-    setFileDimensions(null)
-    setError(null)
-    fileInputRef.current.value = null
-  }
-
   return (
     <div className="mb-10">
       <div
@@ -116,19 +98,15 @@ const FileUpload = ({ setFile, setFileName, setFileDimensions }) => {
           aria-label="file upload"
         />
         {fileUrl ? (
-          <>
-            <ReactCrop
-              crop={crop}
-              onChange={setCrop}
-              onComplete={onComplete}
-              className="h-full"
-            >
-              <img src={fileUrl} ref={imageRef} onLoad={onLoad} alt="file upload" className="h-full object-contain" />
-            </ReactCrop>
-            <button onClick={reset} className="absolute top-3 right-3">
-              <TrashIcon className="w-4 h-auto" fill={brandColors.red} />
-            </button>
-          </>
+          <FileUploadViewer
+            type={files[0].metaData.type}
+            files={files}
+            fileUrl={fileUrl}
+            setFileUrl={setFileUrl}
+            setFiles={setFiles}
+            setError={setError}
+            ref={fileInputRef}
+          />
         ) : (
           <p className="mb-0 text-center">Drag and drop file or click to upload</p>
         )}
@@ -146,9 +124,9 @@ const FileUpload = ({ setFile, setFileName, setFileDimensions }) => {
 }
 
 FileUpload.propTypes = {
-  setFile: PropTypes.func.isRequired,
+  files: PropTypes.array.isRequired,
+  setFiles: PropTypes.func.isRequired,
   setFileName: PropTypes.func.isRequired,
-  setFileDimensions: PropTypes.func.isRequired,
 }
 
 export default FileUpload
