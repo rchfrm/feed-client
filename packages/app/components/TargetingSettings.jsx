@@ -34,7 +34,9 @@ const TargetingSettings = () => {
     errorUpdatingSettings,
   } = React.useContext(TargetingContext)
 
-  const { artist: { hasSetUpProfile } } = React.useContext(ArtistContext)
+  const { artist } = React.useContext(ArtistContext)
+  const { hasSetUpProfile } = artist
+  const isInterestTargetingFeatureEnabled = Boolean(artist.feature_flags.interest_targeting_enabled)
 
   React.useEffect(() => {
     return () => cancelUpdateSettings()
@@ -105,7 +107,9 @@ const TargetingSettings = () => {
               className="mb-16"
             />
           </div>
-          <TargetingInterests className="mb-3" />
+          {isInterestTargetingFeatureEnabled && (
+            <TargetingInterests className="mb-3" />
+          )}
           {/* DESKTOP BUDGET SETTER */}
           <TargetingSettingsSaveContainer
             disableSaving={disableSaving}
