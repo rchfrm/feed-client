@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useControlsStore from '@/app/stores/controlsStore'
@@ -9,16 +10,18 @@ import TextArea from '@/elements/TextArea'
 import Button from '@/elements/Button'
 import Error from '@/elements/Error'
 import { createAd } from '@/app/helpers/postsHelpers'
+import { fileMimeType } from '@/app/helpers/fileUploadHelpers'
 
 const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
 })
 
-const AdCreation = () => {
+const AdCreation = ({ setPosts }) => {
   const { defaultLink } = useControlsStore(getControlsStoreState)
   const campaignType = 'all'
 
-  const [file, setFile] = React.useState(null)
+  const [files, setFiles] = React.useState([])
+  const [fileName, setFileName] = React.useState('')
   const [message, setMessage] = React.useState('')
   const [isDefaultLink, setIsDefaultLink] = React.useState(true)
   const [currentLink, setCurrentLink] = React.useState({
@@ -49,7 +52,7 @@ const AdCreation = () => {
       ...(! isDefaultLink && {
         link: {
           type: 'linkbank',
-          linkId: currentLink.id,
+          linkId: currentLink.linkId,
           campaignType,
         },
       }),
@@ -60,25 +63,37 @@ const AdCreation = () => {
         },
       }),
     }
-    formData.append('file', file)
+
+    files.forEach(({ file }) => {
+      formData.append('files', file, `${fileName}.${fileMimeType[file.type]}`)
+    })
+    formData.append('metaData', JSON.stringify(files.map((file) => file.metaData)))
     formData.append('data', JSON.stringify(data))
 
-    const { error } = await createAd(artistId, formData)
+    const { res: posts, error } = await createAd(artistId, formData)
     if (error) {
       setError(error)
       setIsLoading(false)
     }
 
+    setPosts({
+      type: 'add-posts-with-priority',
+      payload: {
+        status: 'pending',
+        posts,
+      },
+    })
+
     setIsLoading(false)
     toggleSidePanel(false)
-  }, [file, message, isDefaultLink, currentLink?.id, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel])
+  }, [files, message, isDefaultLink, currentLink?.linkId, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel, setPosts, fileName])
 
   React.useEffect(() => {
     const button = (
       <Button
         onClick={save}
         trackComponentName="AdCreation"
-        isDisabled={! file || ! message}
+        isDisabled={files.length === 0 || ! message}
         isLoading={isLoading}
         isSidePanel
       >
@@ -87,13 +102,17 @@ const AdCreation = () => {
     )
 
     setSidePanelButton(button)
-  }, [setSidePanelButton, save, message, file, isLoading])
+  }, [setSidePanelButton, save, message, files, isLoading])
 
   return (
     <div className="pr-10">
       <h2 className="mb-8">Create ad</h2>
-      <p className="font-bold">1. Upload image</p>
-      <FileUpload setFile={setFile} />
+      <p className="font-bold">1. Upload file</p>
+      <FileUpload
+        files={files}
+        setFiles={setFiles}
+        setFileName={setFileName}
+      />
       <p className="font-bold">2. Enter a caption</p>
       <TextArea
         name="message"
@@ -123,6 +142,10 @@ const AdCreation = () => {
       <Error error={error} />
     </div>
   )
+}
+
+AdCreation.propTypes = {
+  setPosts: PropTypes.func.isRequired,
 }
 
 export default AdCreation

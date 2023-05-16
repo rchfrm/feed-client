@@ -24,20 +24,22 @@ const PostDetails = ({ post, className }) => {
             <p className="mb-6 sm:mb-0 pl-4">{publishedTime}</p>
           </div>
         </div>
-        <div className="mb-6">
-          <p className="mb-2 text-lg font-bold">Link</p>
-          <div className="flex items-center sm:w-2/3 pl-4">
-            <LinkIcon className="w-5 h-auto inline mr-1 flex-shrink-0" />
-            <a
-              href={permalinkUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block no-underline no--hover truncate"
-            >
-              {permalinkUrl}
-            </a>
+        {permalinkUrl && (
+          <div className="mb-6">
+            <p className="mb-2 text-lg font-bold">Link</p>
+            <div className="flex items-center sm:w-2/3 pl-4">
+              <LinkIcon className="w-5 h-auto inline mr-1 flex-shrink-0" />
+              <a
+                href={permalinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block no-underline no--hover truncate"
+              >
+                {permalinkUrl}
+              </a>
+            </div>
           </div>
-        </div>
+        )}
         {message && (
           <div>
             <p className="mb-2 text-lg font-bold">Caption</p>

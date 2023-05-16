@@ -29,7 +29,7 @@ const PostsList = ({
         className,
       ].join(' ')}
     >
-      {showCreateAdButton && <PostCardCreateAdButton className="col-span-6 sm:col-span-3 lg:col-span-2" />}
+      {showCreateAdButton && <PostCardCreateAdButton setPosts={setPosts} className="col-span-6 sm:col-span-3 lg:col-span-2" />}
       {! posts.length ? (
         <PostsNone filterBy={filterBy} className="col-span-12" />
       ) : (
