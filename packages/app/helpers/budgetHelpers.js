@@ -171,7 +171,7 @@ export const calcLocationsCost = (budgetInfo, locationOptions) => {
 }
 
 export const calcMinReccBudget = (budgetInfo, locationOptions) => {
-  if (! Object.keys(budgetInfo).length || ! Object.keys(locationOptions).length) return null
+  if (! Object.keys(budgetInfo).length) return null
 
   const { minorUnit: { minRecommendedBase } } = budgetInfo
   const locationCost = calcLocationsCost(budgetInfo, locationOptions)

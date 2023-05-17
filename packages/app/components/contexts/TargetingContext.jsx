@@ -203,17 +203,10 @@ const TargetingContextProvider = ({ children }) => {
     setErrorFetchingSettings(null)
     // Fetch popular locations and create location options object
     const { popularLocations } = await targetingHelpers.fetchPopularLocations(artistId)
-    if (popularLocations.countries.length === 0 && Boolean(country_code)) {
-      popularLocations.countries = [country_code]
-    }
     setPopularLocations(popularLocations)
     const locationOptions = createLocationOptions(targetingState, popularLocations)
     // Set initial countries (to trigger min budget)
-    const { cityKeys } = targetingState
-    let { countryCodes } = targetingState
-    if (countryCodes.length === 0 && Boolean(country_code)) {
-      countryCodes = [country_code]
-    }
+    const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
     // Set min recc budget
     const minReccBudget = budgetHelpers.calcMinReccBudget(feedMinBudgetInfo, locationOptions)
