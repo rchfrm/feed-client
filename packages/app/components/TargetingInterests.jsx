@@ -6,6 +6,7 @@ import TargetingInterestsList from '@/app/TargetingInterestsList'
 import TargetingInterestsSearch from '@/app/TargetingInterestsSearch'
 import DisabledSection from '@/app/DisabledSection'
 import MarkdownText from '@/elements/MarkdownText'
+import copy from '@/app/copy/targetingPageCopy'
 
 const TargetingInterests = ({
   className,
@@ -15,7 +16,7 @@ const TargetingInterests = ({
   return (
     <section className={[className].join(' ')}>
       <TargetingSectionHeader className="mb-5" header="Interests" />
-      <MarkdownText markdown="Facebook interest targeting is the process of targeting ads to an audience of Facebook users based on their assumed interests." />
+      <MarkdownText markdown={copy.interestDescription} />
       <DisabledSection
         section="interests"
         isDisabled={hasBasicPlan && hasSetUpProfile}
