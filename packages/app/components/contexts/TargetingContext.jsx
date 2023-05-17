@@ -81,6 +81,7 @@ const TargetingContextProvider = ({ children }) => {
       feedMinBudgetInfo: {
         currencyOffset,
       },
+      country_code,
     },
     updateBudget,
     updateSpendingPaused,
@@ -144,15 +145,6 @@ const TargetingContextProvider = ({ children }) => {
     })
   }, [])
 
-  // // UPDATE BUDGET IF RECC IS MORE THAN CURRENT
-  // React.useEffect(() => {
-  //   if (targetingState.budget < minReccBudget) {
-  //     updateTargetingBudget(minReccBudget)
-  //   }
-  // // eslint-disable-next-line
-  // }, [minReccBudget])
-
-
   // GET DESKTOP LAYOUT TEST
   const { desktopLayoutWidth } = initialState
   const isDesktopLayout = useBreakpointTest(desktopLayoutWidth)
@@ -167,7 +159,7 @@ const TargetingContextProvider = ({ children }) => {
   const [selectedCities, setSelectedCities] = React.useState(initialState.selectedCities)
   const [selectedCountries, setSelectedCountries] = React.useState(initialState.selectedCountries)
 
-  // Budget slider instance (can be used to get, set and reset the slider value from outside of the Slider component)
+  // Budget slider instance (can be used to get, set and reset the slider value from outside the Slider component)
   const [budgetSlider, setBudgetSlider] = React.useState(null)
 
   // * Function to set selected cities and countries
@@ -213,7 +205,7 @@ const TargetingContextProvider = ({ children }) => {
     const { popularLocations } = await targetingHelpers.fetchPopularLocations(artistId)
     setPopularLocations(popularLocations)
     const locationOptions = createLocationOptions(targetingState, popularLocations)
-    // Set inital countries (to trigger min budget)
+    // Set initial countries (to trigger min budget)
     const { cityKeys, countryCodes } = targetingState
     updateLocationsArrays({ cityKeys, countryCodes })
     // Set min recc budget
@@ -224,9 +216,9 @@ const TargetingContextProvider = ({ children }) => {
     setTargetingState(targetingState)
     updateSpending((targetingState.budget / currencyOffset), ! targetingState.status)
     setSettingsReady(true)
-  }, [feedMinBudgetInfo, createLocationOptions, updateSpending, currencyOffset, artistId])
+  }, [artistId, createLocationOptions, feedMinBudgetInfo, updateSpending, currencyOffset])
 
-  // DISABLE SAVING (eg if budget is too small)
+  // DISABLE SAVING (e.g. if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
   React.useEffect(() => {
     // GET BUDGET INFO
@@ -326,7 +318,7 @@ const TargetingContextProvider = ({ children }) => {
     }
     setTargetingState(resetState)
     // Reset selected locations
-    // Set inital countries  (to trigger min budget)
+    // Set initial countries  (to trigger min budget)
     const { cityKeys, countryCodes } = resetState
     updateLocationsArrays({ cityKeys, countryCodes })
   }, [targetingState, initialTargetingState])
@@ -355,7 +347,7 @@ const TargetingContextProvider = ({ children }) => {
       if (! isMounted()) return
 
       const { error } = state
-      initPage(state, error)
+      await initPage(state, error)
     }
   }, [artistId])
 
