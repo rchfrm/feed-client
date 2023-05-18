@@ -10,6 +10,7 @@ import Spinner from '@/elements/Spinner'
 import { updateArtist, getPreferencesObject, optimizations } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/getStartedCopy'
+import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
 
 const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
@@ -31,7 +32,9 @@ const GetStartedObjective = () => {
     nestedLinks,
     updateLinks,
   } = useControlsStore(getControlsStoreState)
-  const { objective: currentObjective, platform: currentPlatform } = optimizationPreferences
+  const wizardState = ! artistId ? (JSON.parse(getLocalStorage('getStartedWizard')) || {}) : {}
+  const currentObjective = optimizationPreferences?.objective || wizardState?.objective
+  const currentPlatform = optimizationPreferences?.platform || wizardState?.platform
 
   const unsetDefaultLink = (artist) => {
     // Unset the link in the controls store
@@ -48,21 +51,28 @@ const GetStartedObjective = () => {
     setPostPreferences('default_link_id', null)
   }
 
-  const handleNextStep = async (opt) => {
-    const isInstagram = opt.platform === 'instagram'
+  const handleNextStep = async (optimization) => {
+    const isInstagram = optimization.platform === 'instagram'
     const nextStep = isInstagram ? 2 : 1
 
     // If the platform and objective hasn't changed just go to the next step
-    if (opt.platform === currentPlatform && opt.objective === currentObjective) {
+    if (optimization.platform === currentPlatform && optimization.objective === currentObjective) {
       goToStep(nextStep)
       return
     }
 
     if (! artistId) {
+      setLocalStorage('getStartedWizard', JSON.stringify({
+        ...wizardState,
+        objective: optimization.objective,
+        platform: optimization.platform,
+        defaultLink: isInstagram ? { href: optimization.platform } : null,
+      }))
+
       updatePreferences({
         optimizationPreferences: {
-          objective: opt.objective,
-          platform: opt.platform,
+          objective: optimization.objective,
+          platform: optimization.platform,
         },
       })
 
@@ -74,9 +84,9 @@ const GetStartedObjective = () => {
 
     // Otherwise save the data in the db
     const { res: updatedArtist, error } = await updateArtist(artist, {
-      objective: opt.objective,
-      platform: opt.platform,
-      defaultLink: isInstagram ? getLinkByPlatform(nestedLinks, opt.platform).id : null,
+      objective: optimization.objective,
+      platform: optimization.platform,
+      defaultLink: isInstagram ? getLinkByPlatform(nestedLinks, optimization.platform).id : null,
     })
 
     if (error) {
@@ -97,7 +107,7 @@ const GetStartedObjective = () => {
 
     saveTargetingSettings({
       ...targetingState,
-      platforms: isInstagram ? [opt.platform] : [],
+      platforms: isInstagram ? [optimization.platform] : [],
     })
 
     setIsLoading(false)

@@ -30,7 +30,7 @@ const getBillingStoreState = (state) => ({
 const GetStartedPricing = () => {
   const { artistId, setPlan, artist } = React.useContext(ArtistContext)
   const { currency: artistCurrency } = artist
-  const wizardState = JSON.parse(getLocalStorage('getStartedWizard')) || {}
+  const wizardState = ! artistId ? (JSON.parse(getLocalStorage('getStartedWizard')) || {}) : {}
   const { objective: storedObjective } = wizardState || {}
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
