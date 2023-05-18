@@ -137,8 +137,8 @@ const ObjectiveSettings = () => {
       </DisabledSection>
       {shouldShowAlert && (
         <ObjectiveSettingsChangeAlert
-          objective={objective}
-          platform={optimization}
+          objective={optimization.objective}
+          platform={optimization.platform}
           shouldShowAlert={shouldShowAlert}
           setShouldShowAlert={setShouldShowAlert}
           onConfirm={save}
