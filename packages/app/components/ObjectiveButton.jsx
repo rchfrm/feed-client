@@ -5,14 +5,17 @@ import PlatformIcon from '@/icons/PlatformIcon'
 import ArrowIcon from '@/icons/ArrowIcon'
 
 const ObjectiveButton = ({
-  platform,
-  setPlatform,
+  optimization,
+  setOptimization,
   isActive,
   isLoading,
   isDisabled,
   className,
 }) => {
-  const { name, value } = platform
+  const {
+    name,
+    platform,
+  } = optimization
 
   return (
     <div
@@ -23,7 +26,7 @@ const ObjectiveButton = ({
     >
       <Button
         version={isActive ? 'tertiary' : 'secondary'}
-        onClick={() => setPlatform(value)}
+        onClick={() => setOptimization(optimization)}
         trackComponentName="ObjectiveButton"
         className={[
           isActive ? 'pointer-events-none' : null,
@@ -33,11 +36,11 @@ const ObjectiveButton = ({
         isDisabled={isDisabled}
       >
         <PlatformIcon
-          platform={value}
+          platform={platform}
           className="w-5 h-auto mr-2"
-          title={value}
+          title={name}
         />
-        {name} growth
+        {name}
         {! isActive && (
         <ArrowIcon
           className="w-7 h-auto ml-1"
@@ -50,8 +53,12 @@ const ObjectiveButton = ({
 }
 
 ObjectiveButton.propTypes = {
-  platform: PropTypes.object.isRequired,
-  setPlatform: PropTypes.func.isRequired,
+  optimization: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    objective: PropTypes.string.isRequired,
+    platform: PropTypes.string.isRequired,
+  }).isRequired,
+  setOptimization: PropTypes.func.isRequired,
   isActive: PropTypes.bool,
   isLoading: PropTypes.bool,
   isDisabled: PropTypes.bool,

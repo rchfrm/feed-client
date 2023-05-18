@@ -545,21 +545,21 @@ export const getArtistPayload = (data, artist) => {
   }
 }
 
-export const objectives = [
+export const optimizations = [
   {
-    name: 'Audience growth',
-    value: 'growth',
-    isRestricted: false,
+    name: 'Instagram growth',
+    objective: 'growth',
+    platform: 'instagram',
   },
   {
-    name: 'Website visits',
-    value: 'traffic',
-    isRestricted: false,
+    name: 'Instagram conversations',
+    objective: 'conversations',
+    platform: 'instagram',
   },
   {
-    name: 'Website sales',
-    value: 'sales',
-    isRestricted: true,
+    name: 'Spotify growth',
+    objective: 'growth',
+    platform: 'spotify',
   },
 ]
 
@@ -616,7 +616,7 @@ export const profileStatus = {
 export const getObjectiveString = (objective, platform) => {
   if (! objective || ! platform) return null
 
-  const objectiveString = objectives.find(({ value }) => objective === value).name
+  const objectiveString = optimizations.find((objectiveDetails) => objective === objectiveDetails.objective).name
 
   if (platform !== 'website') {
     const platformString = getPlatformNameByValue(platform)

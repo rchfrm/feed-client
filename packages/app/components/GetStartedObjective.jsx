@@ -144,7 +144,7 @@ const GetStartedObjective = () => {
                     <ObjectiveButton
                       key={platform.value}
                       platform={platform}
-                      setPlatform={setPlatform}
+                      setOptimization={setPlatform}
                       className="first:mb-4 xs:first:mb-0 xs:first:mr-12"
                     />
                   )
