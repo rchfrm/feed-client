@@ -226,7 +226,7 @@ const TargetingContextProvider = ({ children }) => {
       minHard: minHardBudget,
     } = {} } = feedMinBudgetInfo
     const isBudgetTooSmall = targetingState.budget < minHardBudget
-    const noLocations = ! selectedCountries.length && ! selectedCities.length
+    const noLocations = ! selectedCountries.length && ! selectedCities.length && ! country_code
 
     // Disable with budget reason
     if (isBudgetTooSmall) return setDisableSaving('budget')
