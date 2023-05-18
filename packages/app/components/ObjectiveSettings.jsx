@@ -43,7 +43,11 @@ const ObjectiveSettings = () => {
   const hasInstagramOrSpotifyGrowth = currentOptimization.platform === 'instagram' || currentOptimization.platform === 'spotify'
   const saveIntegrationLink = useSaveIntegrationLink()
 
-  const save = async ({ platform, newLink }) => {
+  const save = async ({ optimization, newLink }) => {
+    const {
+      platform,
+      objective,
+    } = optimization
     let integrationLink = getLinkByPlatform(nestedLinks, platform)
 
     if (! integrationLink?.accountId && ! newLink) {
@@ -59,8 +63,8 @@ const ObjectiveSettings = () => {
     }
 
     const { res: updatedArtist, error } = await updateArtist(artist, {
-      objective: optimization.objective,
-      platform: optimization.platform,
+      objective,
+      platform,
       defaultLink: integrationLink.id,
     })
 
@@ -94,8 +98,10 @@ const ObjectiveSettings = () => {
   }
 
   const handleClick = (newOptimization) => {
+    // TODO : On first click saves optimization as current optimization.
+    //  Only on second click does it save the new one.
     setOptimization(newOptimization)
-    save({ platform: newOptimization.platform })
+    save({ optimization: newOptimization })
   }
 
   return (
@@ -111,20 +117,21 @@ const ObjectiveSettings = () => {
             <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, currentPlatform)}</p>
           )}
           <div className="flex flex-col lg:flex-row mb-10 gap-y-4 lg:gap-x-8 flex-wrap">
-            {optimizations.reduce((acc, optimization) => {
+            {optimizations.reduce((acc, opt) => {
               const hasConversationsAccess = Boolean(artist.feature_flags?.conversations_objective_enabled)
-              if (optimization.objective === 'conversations' && ! hasConversationsAccess) return acc
+              if (opt.objective === 'conversations' && ! hasConversationsAccess) return acc
 
-              const key = `${optimization.platform}_${optimization.objective}`
-              const isActive = currentOptimization.platform === optimization.platform && currentOptimization.objective === optimization.objective
+              const key = `${opt.platform}_${opt.objective}`
+              const isActive = currentOptimization.platform === opt.platform && currentOptimization.objective === opt.objective
+              const isSelected = optimization.platform === opt.platform && optimization.objective === opt.objective
               const button = (
                 <ObjectiveButton
                   key={key}
-                  optimization={optimization}
+                  optimization={opt}
                   setOptimization={handleClick}
                   isActive={isActive}
-                  isLoading={isLoading}
-                  isDisabled={optimization.platform === 'instagram' && ! hasInstagramConnected}
+                  isLoading={isLoading && isSelected}
+                  isDisabled={opt.platform === 'instagram' && ! hasInstagramConnected}
                 />
               )
               acc.push(button)
