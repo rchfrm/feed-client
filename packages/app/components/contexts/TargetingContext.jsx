@@ -216,7 +216,7 @@ const TargetingContextProvider = ({ children }) => {
     setTargetingState(targetingState)
     updateSpending((targetingState.budget / currencyOffset), ! targetingState.status)
     setSettingsReady(true)
-  }, [artistId, country_code, createLocationOptions, feedMinBudgetInfo, updateSpending, currencyOffset])
+  }, [artistId, createLocationOptions, feedMinBudgetInfo, updateSpending, currencyOffset])
 
   // DISABLE SAVING (e.g. if budget is too small)
   const [disableSaving, setDisableSaving] = React.useState(initialState.disableSaving)
