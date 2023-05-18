@@ -165,7 +165,7 @@ const GetStartedWizard = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artistId])
 
-  // Once a profile has been created we use the data in localstorage to patch the newly created profile with these values
+  // Once a profile has been created we use the data in local storage to patch the newly created profile with these values
   useAsyncEffect(async (isMounted) => {
     if (
       ! isMounted()
