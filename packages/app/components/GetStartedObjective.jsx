@@ -49,6 +49,9 @@ const GetStartedObjective = () => {
 
     // Update artist context
     setPostPreferences('default_link_id', null)
+
+    // Update local storage default link value
+    setLocalStorage('getStartedWizard', JSON.stringify({ ...wizardState, defaultLink: null }))
   }
 
   const handleNextStep = async (optimization) => {
