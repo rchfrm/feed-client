@@ -30,7 +30,7 @@ const PostsLoader = ({
   const previousIsLoadingMore = usePrevious(isLoadingMore)
 
   useAsyncEffect(async (isMounted) => {
-    if (! artistId || (! isLoadingMore && previousIsLoadingMore)) {
+    if (! artistId || isLoading || (! isLoadingMore && previousIsLoadingMore)) {
       return
     }
 
