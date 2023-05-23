@@ -135,21 +135,19 @@ const GetStartedObjective = () => {
           ) : (
             <>
               <div className="flex flex-col xs:flex-row xs:justify-center mb-5 gap-y-4 xs:gap-x-8 xs:flex-wrap">
-                {optimizations.reduce((acc, opt) => {
+                {optimizations.map((opt) => {
                   const hasConversationsAccess = Boolean(artist.feature_flags?.conversations_objective_enabled)
-                  if (opt.objective === 'conversations' && ! hasConversationsAccess) return acc
+                  if (opt.objective === 'conversations' && ! hasConversationsAccess) return null
 
                   const key = `${opt.platform}_${opt.objective}`
-                  const button = (
+                  return (
                     <ObjectiveButton
                       key={key}
                       optimization={opt}
                       setOptimization={setOptimization}
                     />
                   )
-                  acc.push(button)
-                  return acc
-                }, [])}
+                })}
               </div>
               <ObjectiveContactFooter
                 className="justify-center"

@@ -14,12 +14,10 @@ import {
   getPreferencesObject,
   getObjectiveString,
   getArtistIntegrationByPlatform,
-  platforms,
   optimizations,
 } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/controlsPageCopy'
-import { capitalise } from '@/helpers/utils'
 
 const getControlsStoreState = (state) => ({
   updatePreferences: state.updatePreferences,
@@ -98,8 +96,6 @@ const ObjectiveSettings = () => {
   }
 
   const handleClick = (newOptimization) => {
-    // TODO : On first click saves optimization as current optimization.
-    //  Only on second click does it save the new one.
     setOptimization(newOptimization)
     save({ optimization: newOptimization })
   }
@@ -114,17 +110,17 @@ const ObjectiveSettings = () => {
         <MarkdownText markdown={copy.objectiveIntro} className="mb-10" />
         <div className="relative">
           {! hasInstagramOrSpotifyGrowth && (
-            <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, currentPlatform)}</p>
+            <p><span className="font-bold">Current objective: </span>{getObjectiveString(currentOptimization.objective, currentOptimization.platform)}</p>
           )}
           <div className="flex flex-col lg:flex-row mb-10 gap-y-4 lg:gap-x-8 flex-wrap">
-            {optimizations.reduce((acc, opt) => {
+            {optimizations.map((opt) => {
               const hasConversationsAccess = Boolean(artist.feature_flags?.conversations_objective_enabled)
-              if (opt.objective === 'conversations' && ! hasConversationsAccess) return acc
+              if (opt.objective === 'conversations' && ! hasConversationsAccess) return null
 
               const key = `${opt.platform}_${opt.objective}`
               const isActive = currentOptimization.platform === opt.platform && currentOptimization.objective === opt.objective
               const isSelected = optimization.platform === opt.platform && optimization.objective === opt.objective
-              const button = (
+              return (
                 <ObjectiveButton
                   key={key}
                   optimization={opt}
@@ -134,9 +130,7 @@ const ObjectiveSettings = () => {
                   isDisabled={opt.platform === 'instagram' && ! hasInstagramConnected}
                 />
               )
-              acc.push(button)
-              return acc
-            }, [])}
+            })}
           </div>
           {! hasInstagramConnected && <ObjectiveSettingsInstagramNotConnected />}
           <ObjectiveContactFooter />
