@@ -5,7 +5,7 @@ import usePrevious from 'use-previous'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsContainer from '@/app/PostsContainer'
 import Error from '@/elements/Error'
-import { postsConfig, getPosts } from '@/app/helpers/postsHelpers'
+import { postsConfig, getPosts, sortTypes } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
   status,
@@ -17,7 +17,7 @@ const PostsLoader = ({
   setStatusToRefresh,
   className,
 }) => {
-  const [sortBy, setSortBy] = React.useState([initialSortBy])
+  const [sortBy, setSortBy] = React.useState(initialSortBy)
   const [filterBy, setFilterBy] = React.useState({})
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
@@ -163,7 +163,7 @@ PostsLoader.propTypes = {
 }
 
 PostsLoader.defaultProps = {
-  initialSortBy: 'publishedTime',
+  initialSortBy: sortTypes.find(({ name }) => name === 'Date').value,
   isSpendingPaused: false,
   className: null,
 }

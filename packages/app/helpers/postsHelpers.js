@@ -107,12 +107,16 @@ export const filterTypes = [
 
 export const sortTypes = [
   {
-    value: 'publishedTime',
-    name: 'Date',
+    name: 'Queue',
+    value: ['promotionStatus', 'priorityEnabled', 'normalizedScore'],
   },
   {
-    value: 'normalizedScore',
+    name: 'Date',
+    value: 'publishedTime',
+  },
+  {
     name: 'Score',
+    value: 'normalizedScore',
   },
 ]
 

@@ -6,6 +6,7 @@ import useControlsStore from '@/app/stores/controlsStore'
 import PostsNoArtists from '@/app/PostsNoArtists'
 import PostsLoader from '@/app/PostsLoader'
 import { removeDuplicatesByKey } from '@/helpers/utils'
+import { sortTypes } from '@/app/helpers/postsHelpers'
 
 const postsInitialState = {
   active: [],
@@ -91,7 +92,7 @@ const Posts = () => {
         />
         <PostsLoader
           status="pending"
-          initialSortBy="normalizedScore"
+          initialSortBy={sortTypes.find(({ name }) => name === 'Queue').value}
           posts={posts.pending}
           setPosts={setPosts}
           isSpendingPaused={isSpendingPaused}
