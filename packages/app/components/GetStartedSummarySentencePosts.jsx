@@ -38,7 +38,7 @@ const GetStartedSummarySentencePosts = () => {
     // Fetch posts which are opted in for promotion
     const res = await server.getPosts({
       artistId,
-      sortBy: ['normalized_score'],
+      sortBy: ['normalizedScore'],
       filterBy: {
         promotion_enabled: [true],
       },

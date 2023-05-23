@@ -91,7 +91,7 @@ const Posts = () => {
         />
         <PostsLoader
           status="pending"
-          initialSortBy="normalized_score"
+          initialSortBy="normalizedScore"
           posts={posts.pending}
           setPosts={setPosts}
           isSpendingPaused={isSpendingPaused}

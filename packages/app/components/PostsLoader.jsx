@@ -17,7 +17,7 @@ const PostsLoader = ({
   setStatusToRefresh,
   className,
 }) => {
-  const [sortBy, setSortBy] = React.useState(initialSortBy)
+  const [sortBy, setSortBy] = React.useState([initialSortBy])
   const [filterBy, setFilterBy] = React.useState({})
   const [isLoading, setIsLoading] = React.useState(false)
   const [isLoadingMore, setIsLoadingMore] = React.useState(false)
@@ -163,7 +163,7 @@ PostsLoader.propTypes = {
 }
 
 PostsLoader.defaultProps = {
-  initialSortBy: 'published_time',
+  initialSortBy: 'publishedTime',
   isSpendingPaused: false,
   className: null,
 }

@@ -107,11 +107,11 @@ export const filterTypes = [
 
 export const sortTypes = [
   {
-    value: 'published_time',
+    value: 'publishedTime',
     name: 'Date',
   },
   {
-    value: 'normalized_score',
+    value: 'normalizedScore',
     name: 'Score',
   },
 ]

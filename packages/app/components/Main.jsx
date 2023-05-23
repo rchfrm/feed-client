@@ -73,7 +73,7 @@ function Main({ children }) {
   const fetchEnabledPosts = async () => {
     const enabledPosts = await server.getPosts({
       artistId,
-      sortBy: ['normalized_score'],
+      sortBy: ['normalizedScore'],
       filterBy: {
         promotion_enabled: [true],
       },

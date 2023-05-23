@@ -8,10 +8,10 @@ const PostsSorter = ({
   sortBy,
   setSortBy,
 }) => {
-  const options = status === 'pending' ? [{ name: 'Position', value: 'promotionStatus' }, ...sortTypes] : sortTypes
+  const options = status === 'pending' ? [{ name: 'Queue', value: ['promotionStatus', 'priorityEnabled', 'normalizedScore'] }, ...sortTypes] : sortTypes
 
   const handleChange = ({ target }) => {
-    setSortBy(target.value)
+    setSortBy([target.value])
   }
 
   return (
