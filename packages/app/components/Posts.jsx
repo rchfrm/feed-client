@@ -82,6 +82,7 @@ const Posts = () => {
           posts={posts.active}
           setPosts={setPosts}
           isSpendingPaused={isSpendingPaused}
+          setStatusToRefresh={setStatusToRefresh}
           className={isSpendingPaused ? 'bg-yellow-bg-light border-yellow-border' : 'border-2 border-green'}
         />
         <PostsLoader
