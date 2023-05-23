@@ -13,6 +13,7 @@ const PostSettingsToggle = ({
   setIsEnabled,
   isDisabled,
   isLastPromotableNotRunPost,
+  setStatusToRefresh,
 }) => {
   return (
     <div
@@ -46,6 +47,7 @@ const PostSettingsToggle = ({
           isEnabled={isEnabled}
           setIsEnabled={setIsEnabled}
           isLastPromotableNotRunPost={isLastPromotableNotRunPost}
+          setStatusToRefresh={setStatusToRefresh}
           isDisabled={isDisabled}
           className="ml-5 sm:ml-0 mr-4"
         />
@@ -73,6 +75,7 @@ PostSettingsToggle.propTypes = {
   setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
 }
 
 export default PostSettingsToggle

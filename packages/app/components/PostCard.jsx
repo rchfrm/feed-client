@@ -11,6 +11,7 @@ const PostCard = ({
   sortBy,
   setIsPostActionsOpen,
   isLastPromotableNotRunPost,
+  setStatusToRefresh,
   className,
 }) => {
   return (
@@ -38,6 +39,7 @@ const PostCard = ({
         sortBy={sortBy}
         setIsPostActionsOpen={setIsPostActionsOpen}
         isLastPromotableNotRunPost={isLastPromotableNotRunPost}
+        setStatusToRefresh={setStatusToRefresh}
       />
     </div>
   )
@@ -51,6 +53,7 @@ PostCard.propTypes = {
   sortBy: PropTypes.string.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

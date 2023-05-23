@@ -11,6 +11,7 @@ const PostCardActions = ({
   sortBy,
   setIsPostActionsOpen,
   isLastPromotableNotRunPost,
+  setStatusToRefresh,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const dropdownRef = React.useRef(null)
@@ -56,6 +57,7 @@ const PostCardActions = ({
           sortBy={sortBy}
           setIsOpen={setIsOpen}
           isLastPromotableNotRunPost={isLastPromotableNotRunPost}
+          setStatusToRefresh={setStatusToRefresh}
         />
       )}
     </div>
@@ -70,6 +72,7 @@ PostCardActions.propTypes = {
   sortBy: PropTypes.string.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
 }
 
 export default PostCardActions

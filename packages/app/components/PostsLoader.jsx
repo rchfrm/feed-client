@@ -13,6 +13,8 @@ const PostsLoader = ({
   posts,
   setPosts,
   isSpendingPaused,
+  shouldRefresh,
+  setStatusToRefresh,
   className,
 }) => {
   const [sortBy, setSortBy] = React.useState(initialSortBy)
@@ -28,9 +30,15 @@ const PostsLoader = ({
 
   const { artistId } = React.useContext(ArtistContext)
   const previousIsLoadingMore = usePrevious(isLoadingMore)
+  const previousShouldRefresh = usePrevious(shouldRefresh)
 
   useAsyncEffect(async (isMounted) => {
-    if (! artistId || isLoading || (! isLoadingMore && previousIsLoadingMore)) {
+    if (
+      ! artistId
+      || isLoading
+      || (! isLoadingMore && previousIsLoadingMore)
+      || (! shouldRefresh && previousShouldRefresh)
+    ) {
       return
     }
 
@@ -64,6 +72,10 @@ const PostsLoader = ({
       setHasLoadedAll(true)
     }
 
+    if (shouldRefresh) {
+      setStatusToRefresh('')
+    }
+
     const lastPost = posts[posts.length - 1]
     cursor.current = lastPost?.id
 
@@ -89,7 +101,7 @@ const PostsLoader = ({
     })
 
     setIsLoading(false)
-  }, [artistId, filterBy, sortBy, isLoadingMore])
+  }, [artistId, filterBy, sortBy, isLoadingMore, shouldRefresh])
 
   React.useEffect(() => {
     if (isInitialRender.current) {
@@ -132,6 +144,7 @@ const PostsLoader = ({
         setIsLoadingMore={setIsLoadingMore}
         hasLoadedAll={hasLoadedAll}
         isSpendingPaused={isSpendingPaused}
+        setStatusToRefresh={setStatusToRefresh}
         className={className}
       />
     </>
@@ -144,6 +157,8 @@ PostsLoader.propTypes = {
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
   isSpendingPaused: PropTypes.bool,
+  shouldRefresh: PropTypes.bool.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

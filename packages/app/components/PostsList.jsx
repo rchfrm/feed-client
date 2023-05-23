@@ -14,6 +14,7 @@ const PostsList = ({
   sortBy,
   setIsPostActionsOpen,
   isSpendingPaused,
+  setStatusToRefresh,
   className,
 }) => {
   const isLastPromotableNotRunPost = ! isSpendingPaused && status === 'pending' && posts.length === 1
@@ -29,7 +30,7 @@ const PostsList = ({
         className,
       ].join(' ')}
     >
-      {showCreateAdButton && <PostCardCreateAdButton setPosts={setPosts} className="col-span-6 sm:col-span-3 lg:col-span-2" />}
+      {showCreateAdButton && <PostCardCreateAdButton setStatusToRefresh={setStatusToRefresh} className="col-span-6 sm:col-span-3 lg:col-span-2" />}
       {! posts.length ? (
         <PostsNone filterBy={filterBy} className="col-span-12" />
       ) : (
@@ -48,6 +49,7 @@ const PostsList = ({
                 sortBy={sortBy}
                 setIsPostActionsOpen={setIsPostActionsOpen}
                 isLastPromotableNotRunPost={isLastPromotableNotRunPost}
+                setStatusToRefresh={setStatusToRefresh}
               />
               {(! post.isPromotable || status === 'rejected') && (
                 <PostNotPromotableReason post={post} status={status} />
@@ -68,6 +70,7 @@ PostsList.propTypes = {
   sortBy: PropTypes.string.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
   isSpendingPaused: PropTypes.bool.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 
