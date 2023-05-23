@@ -42,7 +42,7 @@ const PostsLoader = ({
       return
     }
 
-    if (! isLoadingMore) {
+    if (! isLoadingMore && ! shouldRefresh) {
       setIsLoading(true)
     }
 
