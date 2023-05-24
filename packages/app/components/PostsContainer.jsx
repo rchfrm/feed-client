@@ -94,11 +94,12 @@ const PostsContainer = ({
                   filterBy={filterBy}
                   setFilterBy={setFilterBy}
                 />
-                <PostsSorter
-                  status={status}
-                  sortBy={sortBy}
-                  setSortBy={setSortBy}
-                />
+                {status !== 'pending' && (
+                  <PostsSorter
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                  />
+                )}
               </div>
               <PostsList
                 posts={posts}

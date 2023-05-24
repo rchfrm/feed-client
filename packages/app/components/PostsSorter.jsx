@@ -4,11 +4,10 @@ import Select from '@/elements/Select'
 import { sortTypes } from '@/app/helpers/postsHelpers'
 
 const PostsSorter = ({
-  status,
   sortBy,
   setSortBy,
 }) => {
-  const options = status !== 'pending' ? sortTypes.filter(({ name }) => name !== 'Queue') : sortTypes
+  const options = sortTypes.filter(({ name }) => name !== 'Queue')
 
   const handleChange = ({ target }) => {
     setSortBy([target.value])
