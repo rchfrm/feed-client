@@ -617,13 +617,6 @@ export const getObjectiveString = (objective, platform) => {
   if (! objective || ! platform) return null
 
   const objectiveString = optimizations.find((objectiveDetails) => objective === objectiveDetails.objective).name
-
-  if (platform !== 'website') {
-    const platformString = getPlatformNameByValue(platform)
-
-    return `${platformString} growth`
-  }
-
   return objectiveString
 }
 
