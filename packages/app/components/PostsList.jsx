@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
-import PostNotPromotableReason from '@/app/PostNotPromotableReason'
+import PostStatus from '@/app/PostStatus'
 import PostsNone from '@/app/PostsNone'
 import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -51,9 +51,7 @@ const PostsList = ({
                 isLastPromotableNotRunPost={isLastPromotableNotRunPost}
                 setStatusToRefresh={setStatusToRefresh}
               />
-              {(! post.isPromotable || status === 'rejected') && (
-                <PostNotPromotableReason post={post} status={status} />
-              )}
+              <PostStatus post={post} status={status} />
             </div>
           )
         })

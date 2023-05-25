@@ -192,6 +192,35 @@ export const formatAdRejectionReason = (reason) => {
   return formattedReason
 }
 
+export const getRejectionReason = (ads) => {
+  const [reason] = Object.values(ads || {}).reduce((reasons, ad) => {
+    if (! ad?.ad_review_feedback?.global) {
+      return reasons
+    }
+    return [...reasons, Object.keys(ad?.ad_review_feedback?.global)[0]]
+  }, [])
+
+  return formatAdRejectionReason(reason)
+}
+
+export const getPostStatus = (post, status) => {
+  const { isPromotable, notPromotableReason } = post
+
+  if (status === 'rejected') {
+    return getRejectionReason(post?.ads) || 'Unknown'
+  }
+
+  if (! isPromotable && notPromotableReason) {
+    return notPromotableReason
+  }
+
+  if (post.promotionStatus === 'in_review') {
+    return 'In Review'
+  }
+
+  return ''
+}
+
 // Get post link data
 export const getPostCallToActionData = (post) => {
   const {
