@@ -201,7 +201,7 @@ Would you like to continue?`
   captionNotEditableReason: (post) => {
     const base = 'The caption is not editable because'
 
-    if (post.postType === 'story') return `${base} this is a story.`
+    if (post.postType === 'story' && post.platform !== 'custom') return `${base} this is a story.`
     if (! post.isPromotable) return `${base} the post is not promotable.`
 
     return ''
