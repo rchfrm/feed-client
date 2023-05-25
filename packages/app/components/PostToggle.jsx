@@ -34,15 +34,13 @@ const PostToggle = ({
     const { promotionEnabled, conversionsEnabled } = updatedPost
 
     if (post.priorityEnabled && ! promotionEnabled && ! conversionsEnabled) {
-      const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: false })
-      const { priorityEnabled } = updatedPost
+      await setPostPriority({ artistId, assetId: postId, priorityEnabled: false })
 
       setPost({
         type: 'toggle-priority',
         payload: {
           status,
           postId,
-          priorityEnabled,
         },
       })
     }
