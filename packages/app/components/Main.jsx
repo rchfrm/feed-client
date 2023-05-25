@@ -90,7 +90,6 @@ function Main({ children }) {
     if (isFirstRender.current && artistId) {
       isFirstRender.current = false
       await fetchEnabledPosts()
-      return
     }
 
     updateProfileSetUpStatus(getProfileSetupStatus() || profileStatus.confirmSetup)

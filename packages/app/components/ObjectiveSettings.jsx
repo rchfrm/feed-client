@@ -9,7 +9,13 @@ import ObjectiveButton from '@/app/ObjectiveButton'
 import ObjectiveContactFooter from '@/app/ObjectiveContactFooter'
 import ObjectiveSettingsInstagramNotConnected from '@/app/ObjectiveSettingsInstagramNotConnected'
 import ObjectiveSettingsChangeAlert from '@/app/ObjectiveSettingsChangeAlert'
-import { updateArtist, getPreferencesObject, getObjectiveString, getArtistIntegrationByPlatform, platforms } from '@/app/helpers/artistHelpers'
+import {
+  updateArtist,
+  getPreferencesObject,
+  getObjectiveString,
+  getArtistIntegrationByPlatform,
+  optimizations,
+} from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/controlsPageCopy'
 
@@ -22,9 +28,9 @@ const getControlsStoreState = (state) => ({
 
 const ObjectiveSettings = () => {
   const { updatePreferences, nestedLinks, updateLinks, optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { objective, platform: currentPlatform } = optimizationPreferences
+  const currentOptimization = optimizations.find((opt) => opt.objective === optimizationPreferences.objective && opt.platform === optimizationPreferences.platform)
 
-  const [platform, setPlatform] = React.useState(currentPlatform)
+  const [optimization, setOptimization] = React.useState(currentOptimization)
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -32,10 +38,14 @@ const ObjectiveSettings = () => {
   const { hasSetUpProfile } = artist
   const hasInstagramConnected = Boolean(getArtistIntegrationByPlatform(artist, 'instagram')?.accountId)
   const { targetingState, saveTargetingSettings } = React.useContext(TargetingContext)
-  const hasInstagramOrSpotifyGrowth = objective === 'growth' && (currentPlatform === 'instagram' || currentPlatform === 'spotify')
+  const hasInstagramOrSpotifyGrowth = currentOptimization.platform === 'instagram' || currentOptimization.platform === 'spotify'
   const saveIntegrationLink = useSaveIntegrationLink()
 
-  const save = async ({ platform, newLink }) => {
+  const save = async ({ optimization, newLink }) => {
+    const {
+      platform,
+      objective,
+    } = optimization
     let integrationLink = getLinkByPlatform(nestedLinks, platform)
 
     if (! integrationLink?.accountId && ! newLink) {
@@ -85,9 +95,9 @@ const ObjectiveSettings = () => {
     setShouldShowAlert(false)
   }
 
-  const handleClick = (platform) => {
-    setPlatform(platform)
-    save({ platform })
+  const handleClick = (newOptimization) => {
+    setOptimization(newOptimization)
+    save({ optimization: newOptimization })
   }
 
   return (
@@ -100,20 +110,24 @@ const ObjectiveSettings = () => {
         <MarkdownText markdown={copy.objectiveIntro} className="mb-10" />
         <div className="relative">
           {! hasInstagramOrSpotifyGrowth && (
-            <p><span className="font-bold">Current objective: </span>{getObjectiveString(objective, currentPlatform)}</p>
+            <p><span className="font-bold">Current objective: </span>{getObjectiveString(currentOptimization.objective, currentOptimization.platform)}</p>
           )}
-          <div className="flex flex-col lg:flex-row mb-10">
-            {[platforms[0], platforms[1]].map((growthPlatform) => {
-              const { value } = growthPlatform
+          <div className="flex flex-col lg:flex-row mb-10 gap-y-4 lg:gap-x-8 flex-wrap">
+            {optimizations.map((opt) => {
+              const hasConversationsAccess = Boolean(artist.feature_flags?.conversations_objective_enabled)
+              if (opt.objective === 'conversations' && ! hasConversationsAccess) return null
+
+              const key = `${opt.platform}_${opt.objective}`
+              const isActive = currentOptimization.platform === opt.platform && currentOptimization.objective === opt.objective
+              const isSelected = optimization.platform === opt.platform && optimization.objective === opt.objective
               return (
                 <ObjectiveButton
-                  key={value}
-                  platform={growthPlatform}
-                  setPlatform={handleClick}
-                  isActive={currentPlatform === value}
-                  isLoading={isLoading && platform === value}
-                  isDisabled={value === 'instagram' && ! hasInstagramConnected}
-                  className="first:mb-4 lg:first:mb-0 lg:first:mr-8"
+                  key={key}
+                  optimization={opt}
+                  setOptimization={handleClick}
+                  isActive={isActive}
+                  isLoading={isLoading && isSelected}
+                  isDisabled={opt.platform === 'instagram' && ! hasInstagramConnected}
                 />
               )
             })}
@@ -124,8 +138,8 @@ const ObjectiveSettings = () => {
       </DisabledSection>
       {shouldShowAlert && (
         <ObjectiveSettingsChangeAlert
-          objective={objective}
-          platform={platform}
+          objective={optimization.objective}
+          platform={optimization.platform}
           shouldShowAlert={shouldShowAlert}
           setShouldShowAlert={setShouldShowAlert}
           onConfirm={save}
