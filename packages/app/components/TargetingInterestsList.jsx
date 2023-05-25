@@ -3,7 +3,9 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import TargetingInterestsListItem from '@/app/TargetingInterestsListItem'
 
 const TargetingInterestsList = () => {
-  const { targetingState: { interests } } = React.useContext(TargetingContext)
+  const { targetingState } = React.useContext(TargetingContext)
+
+  const interests = targetingState.interests || []
 
   if (interests.length === 0) {
     return <p className="mb-8 font-bold italic">No interests added yet.</p>
