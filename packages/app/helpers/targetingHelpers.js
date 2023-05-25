@@ -325,6 +325,17 @@ export const getGeoLocations = (query) => {
   return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }
 
+export const getInterests = (query) => {
+  const requestUrl = `/actions/search/interests?q=${query}`
+  const payload = null
+  const errorTracking = {
+    category: 'Targeting',
+    action: 'Fetch interests',
+  }
+
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
 export const getTotalSpentInPeriod = (dailyData, startDate) => {
   if (! dailyData) return 0
 
