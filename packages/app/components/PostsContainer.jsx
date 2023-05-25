@@ -134,7 +134,7 @@ PostsContainer.propTypes = {
   setPosts: PropTypes.func.isRequired,
   filterBy: PropTypes.object.isRequired,
   setFilterBy: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.array.isRequired,
   setSortBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isLoadingMore: PropTypes.bool.isRequired,

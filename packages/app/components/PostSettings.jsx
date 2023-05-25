@@ -162,7 +162,7 @@ PostSettings.propTypes = {
   post: PropTypes.object.isRequired,
   status: PropTypes.string,
   setPosts: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.array.isRequired,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
   setStatusToRefresh: PropTypes.func.isRequired,
   className: PropTypes.string,

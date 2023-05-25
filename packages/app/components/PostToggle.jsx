@@ -164,7 +164,7 @@ PostToggle.propTypes = {
   setIsEnabled: PropTypes.func.isRequired,
   setPost: PropTypes.func.isRequired,
   setPosts: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.array.isRequired,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
   setStatusToRefresh: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool,

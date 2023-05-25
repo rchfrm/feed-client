@@ -65,7 +65,7 @@ PostsList.propTypes = {
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
   filterBy: PropTypes.object.isRequired,
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.array.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
   isSpendingPaused: PropTypes.bool.isRequired,
   setStatusToRefresh: PropTypes.func.isRequired,

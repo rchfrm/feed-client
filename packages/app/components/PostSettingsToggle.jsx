@@ -70,7 +70,7 @@ PostSettingsToggle.propTypes = {
   campaignType: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.array.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool.isRequired,

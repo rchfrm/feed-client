@@ -18,7 +18,7 @@ const PostsSorter = ({
       <p className="mr-2 sm:mr-4 md:mr-2 mb-0 font-bold">Sort:</p>
       <Select
         options={options}
-        selectedValue={sortBy}
+        selectedValue={sortBy[0]}
         name="sort"
         handleChange={handleChange}
         version="small box"
@@ -29,7 +29,7 @@ const PostsSorter = ({
 }
 
 PostsSorter.propTypes = {
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.array.isRequired,
   setSortBy: PropTypes.func.isRequired,
 }
 

@@ -153,18 +153,20 @@ const PostsLoader = ({
 
 PostsLoader.propTypes = {
   status: PropTypes.string.isRequired,
-  initialSortBy: PropTypes.string,
+  initialSortBy: PropTypes.array,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
   isSpendingPaused: PropTypes.bool,
-  shouldRefresh: PropTypes.bool.isRequired,
-  setStatusToRefresh: PropTypes.func.isRequired,
+  shouldRefresh: PropTypes.bool,
+  setStatusToRefresh: PropTypes.func,
   className: PropTypes.string,
 }
 
 PostsLoader.defaultProps = {
-  initialSortBy: sortTypes.find(({ name }) => name === 'Date').value,
+  initialSortBy: [sortTypes.find(({ name }) => name === 'Date').value],
   isSpendingPaused: false,
+  shouldRefresh: false,
+  setStatusToRefresh: () => {},
   className: null,
 }
 
