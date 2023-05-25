@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import produce from 'immer'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
+import { formatInterestSearchResponse } from '@/app/helpers/targetingHelpers'
 
 const TargetingInterestsSearchResultsItem = ({ item: interest, onClick: setInterest }) => {
   const [interestAlreadyExists, setInterestAlreadyExists] = React.useState(false)
@@ -10,9 +11,11 @@ const TargetingInterestsSearchResultsItem = ({ item: interest, onClick: setInter
   const { targetingState, setTargetingState } = React.useContext(TargetingContext)
 
   const updateTargetingState = (interest) => {
+    const formattedInterest = formatInterestSearchResponse(interest)
+
     setTargetingState((targetingState) => {
       return produce(targetingState, (draftState) => {
-        draftState.interests.push(interest)
+        draftState.interests.push(formattedInterest)
       })
     })
   }

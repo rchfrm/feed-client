@@ -4,15 +4,13 @@ import produce from 'immer'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import TrashIcon from '@/icons/TrashIcon'
 
-const TargetingInterestsListItem = ({ name, id, interests }) => {
+const TargetingInterestsListItem = ({ name, id, index }) => {
   const { setTargetingState } = React.useContext(TargetingContext)
 
-  const remove = (id) => {
-    const filteredInterests = interests.filter((interest) => interest.id !== id)
-
+  const remove = () => {
     setTargetingState((targetingState) => {
       return produce(targetingState, (draftState) => {
-        draftState.interests = filteredInterests
+        draftState.interests[index].isActive = false
       })
     })
   }
@@ -33,6 +31,7 @@ const TargetingInterestsListItem = ({ name, id, interests }) => {
 TargetingInterestsListItem.propTypes = {
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
 }
 
 export default TargetingInterestsListItem

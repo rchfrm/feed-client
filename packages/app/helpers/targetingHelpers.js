@@ -411,3 +411,15 @@ export const budgetPauseReasonOptions = [
     value: 'other',
   },
 ]
+
+export const formatInterestSearchResponse = (interest) => {
+  return {
+    name: interest.name,
+    topic: interest.topic,
+    platformId: interest.id,
+    audienceSizeLowerBound: interest.audience_size_lower_bound,
+    audienceSizeUpperBound: interest.audience_size_upper_bound,
+    path: interest.path,
+    isActive: true,
+  }
+}
