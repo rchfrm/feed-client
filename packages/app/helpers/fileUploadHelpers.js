@@ -7,7 +7,7 @@ export const fileMimeType = {
 }
 
 export const validateFile = (blob, type) => {
-  const maxSize = 5 // MB
+  const maxSize = type === 'image' ? 5 : 1024 // MB
 
   const allowedFileExtensions = {
     image: ['png', 'jpeg', 'jpg', 'gif'],
