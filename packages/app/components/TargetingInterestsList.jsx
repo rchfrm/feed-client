@@ -13,12 +13,11 @@ const TargetingInterestsList = () => {
 
   return (
     <ul className="flex flex-wrap">
-      {interests.map(({ name, id }, index) => {
+      {interests.map(({ name, platformId }, index) => {
         return (
           <TargetingInterestsListItem
-            key={id}
+            key={platformId}
             name={name}
-            id={id}
             index={index}
           />
         )
