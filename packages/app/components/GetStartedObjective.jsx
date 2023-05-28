@@ -7,7 +7,7 @@ import ObjectiveButton from '@/app/ObjectiveButton'
 import ObjectiveContactFooter from '@/app/ObjectiveContactFooter'
 import Error from '@/elements/Error'
 import Spinner from '@/elements/Spinner'
-import { updateArtist, getPreferencesObject, optimizations } from '@/app/helpers/artistHelpers'
+import { updateArtist, getPreferencesObject, optimizations, hiddenPlatforms } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/getStartedCopy'
 import { getLocalStorage, setLocalStorage } from '@/helpers/utils'
@@ -138,6 +138,7 @@ const GetStartedObjective = () => {
                 {optimizations.map((opt) => {
                   const hasConversationsAccess = Boolean(artist.feature_flags?.conversations_objective_enabled)
                   if (opt.objective === 'conversations' && ! hasConversationsAccess) return null
+                  if (hiddenPlatforms.includes(opt.platform)) return null
 
                   const key = `${opt.platform}_${opt.objective}`
                   return (

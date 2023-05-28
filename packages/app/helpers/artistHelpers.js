@@ -561,6 +561,38 @@ export const optimizations = [
     objective: 'growth',
     platform: 'spotify',
   },
+  {
+    name: 'Facebook growth',
+    objective: 'growth',
+    platform: 'facebook',
+  },
+  {
+    name: 'Soundcloud growth',
+    objective: 'growth',
+    platform: 'soundcloud',
+  },
+  {
+    name: 'YouTube growth',
+    objective: 'growth',
+    platform: 'youtube',
+  },
+  {
+    name: 'Website visits',
+    objective: 'traffic',
+    platform: 'website',
+  },
+  {
+    name: 'Website sales',
+    objective: 'sales',
+    platform: 'website',
+  },
+]
+
+export const hiddenPlatforms = [
+  'website',
+  'facebook',
+  'soundcloud',
+  'youtube',
 ]
 
 export const platforms = [

@@ -14,7 +14,7 @@ import {
   getPreferencesObject,
   getObjectiveString,
   getArtistIntegrationByPlatform,
-  optimizations,
+  optimizations, hiddenPlatforms,
 } from '@/app/helpers/artistHelpers'
 import { getLinkByPlatform } from '@/app/helpers/linksHelpers'
 import copy from '@/app/copy/controlsPageCopy'
@@ -116,6 +116,7 @@ const ObjectiveSettings = () => {
             {optimizations.map((opt) => {
               const hasConversationsAccess = Boolean(artist.feature_flags?.conversations_objective_enabled)
               if (opt.objective === 'conversations' && ! hasConversationsAccess) return null
+              if (hiddenPlatforms.includes(opt.platform)) return null
 
               const key = `${opt.platform}_${opt.objective}`
               const isActive = currentOptimization.platform === opt.platform && currentOptimization.objective === opt.objective
