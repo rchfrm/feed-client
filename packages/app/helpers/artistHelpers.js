@@ -648,8 +648,12 @@ export const profileStatus = {
 export const getObjectiveString = (objective, platform) => {
   if (! objective || ! platform) return null
 
-  const objectiveString = optimizations.find((objectiveDetails) => objective === objectiveDetails.objective).name
-  return objectiveString
+  return optimizations.find((objectiveDetails) => {
+    return (
+      objective === objectiveDetails.objective
+      && platform === objectiveDetails.platform
+    )
+  }).name
 }
 
 export const getObjectiveColor = (platform) => {
