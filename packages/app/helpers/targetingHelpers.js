@@ -412,11 +412,12 @@ export const budgetPauseReasonOptions = [
   },
 ]
 
-export const formatInterestSearchResponse = (interest) => {
+export const formatInterestSearchResponse = (interest, platform) => {
   return {
     name: interest.name,
     topic: interest.topic,
     platformId: interest.id,
+    platform,
     audienceSizeLowerBound: interest.audience_size_lower_bound,
     audienceSizeUpperBound: interest.audience_size_upper_bound,
     path: interest.path,
