@@ -20,7 +20,7 @@ const PostsList = ({
   const { artist } = React.useContext(ArtistContext)
   const isCustomAdFeatureEnabled = Boolean(artist.feature_flags.custom_ads_enabled)
   const isActiveOrPending = status === 'active' || status === 'pending'
-  const showCreateAdButton = isCustomAdFeatureEnabled && isActiveOrPending && ! posts.length
+  const showCreateAdButton = isCustomAdFeatureEnabled && isActiveOrPending
   return (
     <ul
       className={[
