@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-
 import useDebounce from '@/app/hooks/useDebounce'
-
 import SearchResultsList from '@/elements/SearchResultsList'
 import Input from '@/elements/Input'
 import Spinner from '@/elements/Spinner'
@@ -14,13 +12,15 @@ const Search = ({
   label,
   onChange,
   onClick,
+  searchResults,
+  setSearchResults,
   listItem,
   placeholder,
   limit,
+  params,
   className,
 }) => {
   const [query, setQuery] = React.useState('')
-  const [searchResults, setSearchResults] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(false)
   const [hasFetchedData, setHasFetchedData] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -48,7 +48,7 @@ const Search = ({
 
     setIsLoading(true)
 
-    const { res, error } = await onChange(debouncedQuery)
+    const { res, error } = await onChange(debouncedQuery, ...params)
 
     if (error) {
       setError(error)
@@ -93,16 +93,22 @@ Search.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  searchResults: PropTypes.array,
+  setSearchResults: PropTypes.func,
   listItem: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   limit: PropTypes.number,
+  params: PropTypes.array,
   className: PropTypes.string,
 }
 
 Search.defaultProps = {
   label: '',
+  searchResults: [],
+  setSearchResults: () => null,
   placeholder: '',
   limit: 5,
+  params: [],
   className: '',
 }
 

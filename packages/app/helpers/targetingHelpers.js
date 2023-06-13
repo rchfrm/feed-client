@@ -325,8 +325,8 @@ export const getGeoLocations = (query) => {
   return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }
 
-export const getInterests = (query) => {
-  const requestUrl = `/actions/search/interests?q=${query}`
+export const getInterests = (query, artistId, platform) => {
+  const requestUrl = `/actions/search/interests?q=${query}&artistId=${artistId}&platform=${platform}`
   const payload = null
   const errorTracking = {
     category: 'Targeting',
@@ -412,12 +412,12 @@ export const budgetPauseReasonOptions = [
   },
 ]
 
-export const formatInterestSearchResponse = (interest, platform) => {
+export const formatInterestSearchResponse = (interest) => {
   return {
-    name: interest.name,
+    name: interest.name || interest.keyword,
     topic: interest.topic,
-    platformId: interest.id,
-    platform,
+    platformId: interest.id.toString(),
+    platform: interest.keyword ? 'tiktok' : 'meta',
     audienceSizeLowerBound: interest.audience_size_lower_bound,
     audienceSizeUpperBound: interest.audience_size_upper_bound,
     path: interest.path,

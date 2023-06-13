@@ -5,6 +5,7 @@ import Search from '@/elements/Search'
 import { getGeoLocations } from '@/app/helpers/targetingHelpers'
 
 const TargetingLocationsSearch = () => {
+  const [locations, setLocations] = React.useState([])
   const [location, setLocation] = React.useState(null)
   const { name } = location || {}
 
@@ -16,6 +17,8 @@ const TargetingLocationsSearch = () => {
           name="location"
           onChange={getGeoLocations}
           onClick={setLocation}
+          searchResults={locations}
+          setSearchResults={setLocations}
           listItem={TargetingLocationsSearchResultsItem}
           placeholder="Start typing to search..."
           className="mb-4"

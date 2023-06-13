@@ -6,13 +6,12 @@ import { formatInterestSearchResponse } from '@/app/helpers/targetingHelpers'
 
 const TargetingInterestsSearchResultsItem = ({ item: interest, onClick: setInterest }) => {
   const [interestAlreadyExists, setInterestAlreadyExists] = React.useState(false)
-  const { name } = interest
-  const platform = 'meta'
+  const { name, keyword } = interest
 
   const { targetingState, setTargetingState } = React.useContext(TargetingContext)
 
   const updateTargetingState = (interest) => {
-    const formattedInterest = formatInterestSearchResponse(interest, platform)
+    const formattedInterest = formatInterestSearchResponse(interest)
 
     setTargetingState((targetingState) => {
       return produce(targetingState, (draftState) => {
@@ -41,7 +40,7 @@ const TargetingInterestsSearchResultsItem = ({ item: interest, onClick: setInter
   return (
     <li className="mb-3 pl-12">
       <button onClick={saveInterest} className="flex items-center text-left">
-        <span className="font-bold underline">{name}</span>
+        <span className="font-bold underline">{name || keyword}</span>
         {interestAlreadyExists && <span className="ml-3 text-xs text-green">Already exists!</span>}
       </button>
     </li>
