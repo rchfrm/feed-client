@@ -45,7 +45,8 @@ const TargetingSettingsSaveContainer = ({
     if (isMobileAndIsSidePanelOpen) {
       setSidePanelButton(saveButton)
     }
-  }, [isMobileAndIsSidePanelOpen, setSidePanelButton, saveButton])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobileAndIsSidePanelOpen, setSidePanelButton])
 
   if (isMobileAndIsSidePanelOpen) return null
 
