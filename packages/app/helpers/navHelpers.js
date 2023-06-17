@@ -37,6 +37,10 @@ export const primaryLinks = [
 
 export const secondaryLinks = [
   {
+    href: ROUTES.DASHBOARD,
+    title: 'Dashboard',
+  },
+  {
     href: ROUTES.POSTS,
     title: 'Posts',
     matchingHrefs: [ROUTES.POST],
