@@ -194,7 +194,6 @@ const CampaignsOverview = () => {
       zoomOnDoubleClick={false}
       zoomOnPinch={false}
       className="flex-1"
-      fitView
     />
   )
 }

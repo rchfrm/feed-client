@@ -53,7 +53,7 @@ const CampaignsOverviewAudienceNode = ({
           id={`source-${id}`}
           position={sourcePosition}
           isValidConnection={(connection) => connection.target === target}
-          className="w-16"
+          className={['!w-2 !h-2', isCustomAudience ? isActive ? '!bg-gradient-2-dark' : '!bg-gradient-2-light' : '!bg-gradient-1-dark'].join(' ')}
         />
       )}
       {targetPosition !== 'hidden' && (
@@ -61,7 +61,7 @@ const CampaignsOverviewAudienceNode = ({
           type="target"
           id={`target-${id}`}
           position={targetPosition}
-          className="w-16"
+          className={['!w-2 !h-2', isActive ? '!bg-gradient-2-dark' : '!bg-gradient-2-light'].join(' ')}
         />
       )}
     </div>
