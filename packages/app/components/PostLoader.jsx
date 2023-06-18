@@ -67,7 +67,7 @@ const PostLoader = ({ postId }) => {
 
     if (error) {
       if (error.message === 'Not Found' || error.error === 'Not Found') {
-        Router.push(ROUTES.HOME)
+        Router.push(ROUTES.POSTS)
         return
       }
 

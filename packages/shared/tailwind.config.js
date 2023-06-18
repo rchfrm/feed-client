@@ -80,6 +80,11 @@ module.exports = (contentFiles) => ({
             DEFAULT: '#B9E6FF',
             dark: '#5BC1FB',
           },
+          2: {
+            light: '#D0DBFF',
+            DEFAULT: '#B8C9FF',
+            dark: '#5B82FB',
+          },
           3: {
             light: '#D0DBFF',
             DEFAULT: '#B8C9FF',

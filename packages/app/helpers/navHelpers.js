@@ -37,8 +37,8 @@ export const primaryLinks = [
 
 export const secondaryLinks = [
   {
-    href: ROUTES.DASHBOARD,
-    title: 'Dashboard',
+    href: ROUTES.HOME,
+    title: 'Home',
   },
   {
     href: ROUTES.POSTS,

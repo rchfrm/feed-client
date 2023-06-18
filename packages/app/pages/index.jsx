@@ -1,18 +1,16 @@
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import Posts from '@/app/Posts'
+import CampaignsOverview from '@/app/CampaignsOverview'
 
 const headerConfig = {
-  text: 'ads',
+  text: 'campaigns',
 }
 
 const Page = () => (
   <BasePage
     headerConfig={headerConfig}
-    artistRequired
-    hasNoProfilesPage
   >
-    <Posts />
+    <CampaignsOverview />
   </BasePage>
 )
 

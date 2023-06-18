@@ -11,7 +11,7 @@ import copy from '@/app/copy/getStartedCopy'
 const GetStartedSummary = () => {
   const goToPostsPage = () => {
     Router.push({
-      pathname: ROUTES.HOME,
+      pathname: ROUTES.POSTS,
       query: {
         promotion_enabled: true,
         sort_by: 'normalized_score',
