@@ -19,7 +19,8 @@ const CampaignsOverviewCampaignNode = ({
       'w-40 pl-4 p-3',
       'text-sm rounded-dialogue',
       data.isConnected ? 'bg-green-bg-light' : 'bg-offwhite',
-    ].join(' ')}>
+    ].join(' ')}
+    >
       <div className="absolute -top-2 -left-7 h-4 w-4 bg-white z-10">
         <InstagramIcon className="h-4 w-auto" />
       </div>
@@ -65,12 +66,12 @@ const CampaignsOverviewCampaignNode = ({
         className="w-16"
       />
     </div>
-  );
+  )
 }
 
 CampaignsOverviewCampaignNode.propTypes = {
   id: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   sourcePosition: PropTypes.string.isRequired,
   targetPosition: PropTypes.string.isRequired,
 }

@@ -1,40 +1,39 @@
-import React, { useCallback } from 'react';
-import ReactFlow, { applyEdgeChanges, applyNodeChanges } from 'reactflow';
-import { Position } from 'reactflow';
+import React from 'react'
+import ReactFlow, { Position, applyEdgeChanges, applyNodeChanges } from 'reactflow'
 import CampaignsOverviewAudienceNode from '@/app/CampaignsOverviewAudienceNode'
 import CampaignsOverviewCampaignNode from '@/app/CampaignsOverviewCampaignNode'
-import 'reactflow/dist/style.css';
+import 'reactflow/dist/style.css'
 
-const audiences = [
-  {
-    type: 'look_alike',
-    platform: 'instagram',
-    engaged: 494000,
-  },
-  {
-    type: 'on_platform',
-    platform: 'instagram',
-    engaged: 118000,
-    retentionDays: 360,
-  },
-  {
-    type: 'on_platform',
-    platform: 'instagram',
-    engaged: 75000,
-    retentionDays: 30,
-  },
-]
+// const audiences = [
+//   {
+//     type: 'look_alike',
+//     platform: 'instagram',
+//     engaged: 494000,
+//   },
+//   {
+//     type: 'on_platform',
+//     platform: 'instagram',
+//     engaged: 118000,
+//     retentionDays: 360,
+//   },
+//   {
+//     type: 'on_platform',
+//     platform: 'instagram',
+//     engaged: 75000,
+//     retentionDays: 30,
+//   },
+// ]
 
-const campaigns = [
-  {
-    engagementRate: 8.8,
-    costPerEngagement: 0.055,
-  },
-  {
-    engagementRate: 7.2,
-    costPerEngagement: 0.073,
-  },
-]
+// const campaigns = [
+//   {
+//     engagementRate: 8.8,
+//     costPerEngagement: 0.055,
+//   },
+//   {
+//     engagementRate: 7.2,
+//     costPerEngagement: 0.073,
+//   },
+// ]
 
 const initialNodes = [
   {
@@ -70,7 +69,7 @@ const initialNodes = [
     data: {
       audienceType: 'custom',
       label: '75k engaged on Instagram last month',
-    }
+    },
   },
   {
     id: '4',
@@ -133,58 +132,56 @@ const defaultEdgeOptions = {
     stroke: '#5B82FB',
     strokeWidth: '2px',
     strokeDasharray: '5px',
-    opacity: 0.2
+    opacity: 0.2,
   },
 };
 
 const CampaignsOverview = () => {
   const [nodes, setNodes] = React.useState(initialNodes)
   const [edges, setEdges] = React.useState(initialEdges)
-  
-  const onConnect = useCallback((params) => {
+
+  const onConnect = (params) => {
     setEdges((edges) => {
       const updatedEdges = edges.map((edge) => {
         return edge.target === params.target ? { ...edge, style: { opacity: 1 } } : edge
-      }
-    )
+      })
       return updatedEdges
-    }), []
+    })
 
     setNodes((nodes) => {
-      const updatedNodes = nodes.map((node) =>
-        node.id === params.target ? { ...node, data: { ...node.data, isConnected: true } } : node
-      )
+      const updatedNodes = nodes.map((node) => {
+        return node.id === params.target ? { ...node, data: { ...node.data, isConnected: true } } : node
+      })
       return updatedNodes
     })
-  })
+  }
 
-  const onNodesChange = useCallback(
+  const onNodesChange = React.useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
+    [setNodes],
   )
 
-  const onEdgesChange = useCallback(
+  const onEdgesChange = React.useCallback(
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
+    [setEdges],
   )
 
   return (
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        defaultEdgeOptions={defaultEdgeOptions}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-        nodesDraggable={false}
-        panOnDrag={false}
-        selectNodesOnDrag={false}
-        zoomOnScroll={false}
-        className="flex-1"
-      >
-      </ReactFlow>
-  );
-};
+    <ReactFlow
+      nodes={nodes}
+      edges={edges}
+      defaultEdgeOptions={defaultEdgeOptions}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      nodeTypes={nodeTypes}
+      nodesDraggable={false}
+      panOnDrag={false}
+      selectNodesOnDrag={false}
+      zoomOnScroll={false}
+      className="flex-1"
+    />
+  )
+}
 
 export default CampaignsOverview

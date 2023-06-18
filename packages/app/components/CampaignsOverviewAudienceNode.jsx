@@ -21,7 +21,8 @@ const CampaignsOverviewAudienceNode = ({
       'border-solid border-2 border-b-4',
       'text-[#203578]',
       isCustomAudience ? 'bg-gradient-2-light border-gradient-2-dark' : 'bg-gradient-1-light border-gradient-1-dark',
-      ].join(' ')}>
+    ].join(' ')}
+    >
       <div className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-dialogue z-10">
         <InstagramIcon className="h-4 w-auto" />
       </div>
@@ -31,12 +32,13 @@ const CampaignsOverviewAudienceNode = ({
           'w-14 h-10 mr-2',
           'rounded-dialogue',
           isCustomAudience ? 'bg-[#5B82FB]' : 'bg-gradient-1-dark',
-          ].join(' ')}>
-            {isCustomAudience ? (
-              <HeartIcon fill="#FFF" className="h-5 w-auto" />
-            ) : (
-              <ProfileIcon fill="#FFF" className="h-6 w-auto" />
-            )}
+        ].join(' ')}
+        >
+          {isCustomAudience ? (
+            <HeartIcon fill="#FFF" className="h-5 w-auto" />
+          ) : (
+            <ProfileIcon fill="#FFF" className="h-6 w-auto" />
+          )}
         </div>
         <div>{label}</div>
       </div>
@@ -58,12 +60,12 @@ const CampaignsOverviewAudienceNode = ({
         />
       )}
     </div>
-  );
+  )
 }
 
 CampaignsOverviewAudienceNode.propTypes = {
   id: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   sourcePosition: PropTypes.string.isRequired,
   targetPosition: PropTypes.string.isRequired,
 }
