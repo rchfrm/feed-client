@@ -11,14 +11,14 @@ const CampaignsOverviewCampaignNode = ({
   sourcePosition,
   targetPosition,
 }) => {
-  const { engagementRate, costPerEngagement } = data || {}
+  const { engagementRate, costPerEngagement, isActive } = data || {}
 
   return (
     <div className={[
       'flex flex-col',
       'w-40 pl-4 p-3',
       'text-sm rounded-dialogue',
-      data.isConnected ? 'bg-green-bg-light' : 'bg-offwhite',
+      isActive ? 'bg-green-bg-light' : 'bg-offwhite',
     ].join(' ')}
     >
       <div className="absolute -top-2 -left-7 h-4 w-4 bg-white z-10">
@@ -27,12 +27,12 @@ const CampaignsOverviewCampaignNode = ({
       <CampaignsOverviewCampaignNodeTriangle className="top-0 -left-[23px] border-r-black" />
       <CampaignsOverviewCampaignNodeTriangle className="scale-y-[-1] top-[41px] -left-[23px] border-r-black" />
       <CampaignsOverviewCampaignNodeTriangle
-        isActive={data.isConnected}
+        isActive={isActive}
         className="top-0 -left-[21px] border-r-offwhite"
         activeClass="!border-r-green-bg-light"
       />
       <CampaignsOverviewCampaignNodeTriangle
-        isActive={data.isConnected}
+        isActive={isActive}
         className="scale-y-[-1] top-[41px] -left-[21px] border-r-offwhite"
         activeClass="!border-r-green-bg-light"
       />

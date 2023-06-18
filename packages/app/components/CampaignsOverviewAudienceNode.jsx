@@ -4,6 +4,7 @@ import { Handle } from 'reactflow'
 import HeartIcon from '@/icons/HeartIcon'
 import ProfileIcon from '@/icons/ProfileIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
+import brandColors from '@/constants/brandColors'
 
 const CampaignsOverviewAudienceNode = ({
   id,
@@ -11,7 +12,7 @@ const CampaignsOverviewAudienceNode = ({
   sourcePosition,
   targetPosition,
 }) => {
-  const { target, label, audienceType } = data || {}
+  const { target, label, audienceType, isActive } = data || {}
   const isCustomAudience = audienceType === 'custom'
 
   return (
@@ -20,7 +21,9 @@ const CampaignsOverviewAudienceNode = ({
       'text-sm rounded-dialogue',
       'border-solid border-2 border-b-4',
       'text-[#203578]',
-      isCustomAudience ? 'bg-gradient-2-light border-gradient-2-dark' : 'bg-gradient-1-light border-gradient-1-dark',
+      isCustomAudience
+        ? isActive ? 'bg-gradient-2-light border-gradient-2-dark' : 'bg-white border-gradient-2-light text-gradient-2-dark'
+        : 'bg-gradient-1-light border-gradient-1-dark',
     ].join(' ')}
     >
       <div className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-dialogue z-10">
@@ -31,11 +34,13 @@ const CampaignsOverviewAudienceNode = ({
           'flex items-center justify-center',
           'w-14 h-10 mr-2',
           'rounded-dialogue',
-          isCustomAudience ? 'bg-[#5B82FB]' : 'bg-gradient-1-dark',
+          isCustomAudience
+            ? isActive ? 'bg-gradient-2-dark' : 'border-2 border-solid border-gradient-2-light'
+            : 'bg-gradient-1-dark',
         ].join(' ')}
         >
           {isCustomAudience ? (
-            <HeartIcon fill="#FFF" className="h-5 w-auto" />
+            <HeartIcon fill={isActive ? brandColors.white : brandColors.gradient[2].light} className="h-5 w-auto" />
           ) : (
             <ProfileIcon fill="#FFF" className="h-6 w-auto" />
           )}
