@@ -29,7 +29,7 @@ const CampaignsOverviewAudienceNode = ({
       <div className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-dialogue z-10">
         <InstagramIcon className="h-4 w-auto" />
       </div>
-      <div className="flex">
+      <div className="flex items-center">
         <div className={[
           'flex items-center justify-center',
           'w-14 h-10 mr-2',
