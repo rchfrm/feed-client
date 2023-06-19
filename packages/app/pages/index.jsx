@@ -1,6 +1,6 @@
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
-import CampaignsOverview from '@/app/CampaignsOverview'
+import CampaignsOverviewLoader from '@/app/CampaignsOverviewLoader'
 
 const headerConfig = {
   text: 'campaigns',
@@ -10,7 +10,7 @@ const Page = () => (
   <BasePage
     headerConfig={headerConfig}
   >
-    <CampaignsOverview />
+    <CampaignsOverviewLoader />
   </BasePage>
 )
 

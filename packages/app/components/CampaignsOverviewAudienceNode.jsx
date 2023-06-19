@@ -53,7 +53,8 @@ const CampaignsOverviewAudienceNode = ({
           id={`source-${id}`}
           position={sourcePosition}
           isValidConnection={(connection) => connection.target === target}
-          className={['!w-2 !h-2', isCustomAudience ? isActive ? '!bg-gradient-2-dark' : '!bg-gradient-2-light' : '!bg-gradient-1-dark'].join(' ')}
+          className={['!w-2 !h-2 left-0', isCustomAudience ? isActive ? '!bg-gradient-2-dark' : '!bg-gradient-2-light' : '!bg-gradient-1-dark'].join(' ')}
+          style={{ left: '33%' }}
         />
       )}
       {targetPosition !== 'hidden' && (
