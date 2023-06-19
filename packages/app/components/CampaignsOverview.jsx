@@ -61,11 +61,12 @@ const CampaignsOverview = ({
       onConnect={onConnect}
       nodeTypes={nodeTypes}
       nodesDraggable={false}
-      panOnDrag={false}
       selectNodesOnDrag={false}
       zoomOnScroll={false}
       zoomOnDoubleClick={false}
-      zoomOnPinch={false}
+      elementsSelectable={false}
+      disableKeyboardA11y
+      panOnScroll
       className="flex-1"
     />
   )
