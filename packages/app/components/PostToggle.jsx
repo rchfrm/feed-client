@@ -17,6 +17,7 @@ const PostToggle = ({
   isEnabled,
   setIsEnabled,
   isLastPromotableNotRunPost,
+  setStatusToRefresh,
   isDisabled,
   className,
 }) => {
@@ -33,21 +34,19 @@ const PostToggle = ({
     const { promotionEnabled, conversionsEnabled } = updatedPost
 
     if (post.priorityEnabled && ! promotionEnabled && ! conversionsEnabled) {
-      const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: false })
-      const { priorityEnabled } = updatedPost
+      await setPostPriority({ artistId, assetId: postId, priorityEnabled: false })
 
       setPost({
         type: 'toggle-priority',
         payload: {
           status,
-          newStatus: priorityEnabled ? 'pending' : 'inactive',
           postId,
-          post: updatedPost,
-          priorityEnabled,
         },
       })
     }
-  }, [artistId, postId, setPost, post.priorityEnabled])
+
+    setStatusToRefresh(promotionEnabled ? 'pending' : 'inactive')
+  }, [artistId, postId, setPost, post.priorityEnabled, setStatusToRefresh])
 
   const goToControlsPage = () => {
     Router.push({
@@ -119,9 +118,7 @@ const PostToggle = ({
     setPost({
       type: 'toggle-promotion',
       payload: {
-        newStatus,
         postId,
-        post: updatedPost,
         promotionEnabled,
         conversionsEnabled,
         promotableStatus,
@@ -167,8 +164,9 @@ PostToggle.propTypes = {
   setIsEnabled: PropTypes.func.isRequired,
   setPost: PropTypes.func.isRequired,
   setPosts: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.array.isRequired,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool,
   className: PropTypes.string,
 }

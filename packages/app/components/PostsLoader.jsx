@@ -5,7 +5,7 @@ import usePrevious from 'use-previous'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsContainer from '@/app/PostsContainer'
 import Error from '@/elements/Error'
-import { postsConfig, getPosts } from '@/app/helpers/postsHelpers'
+import { postsConfig, getPosts, sortTypes } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
   status,
@@ -13,6 +13,8 @@ const PostsLoader = ({
   posts,
   setPosts,
   isSpendingPaused,
+  shouldRefresh,
+  setStatusToRefresh,
   className,
 }) => {
   const [sortBy, setSortBy] = React.useState(initialSortBy)
@@ -28,13 +30,19 @@ const PostsLoader = ({
 
   const { artistId } = React.useContext(ArtistContext)
   const previousIsLoadingMore = usePrevious(isLoadingMore)
+  const previousShouldRefresh = usePrevious(shouldRefresh)
 
   useAsyncEffect(async (isMounted) => {
-    if (! artistId || (! isLoadingMore && previousIsLoadingMore)) {
+    if (
+      ! artistId
+      || isLoading
+      || (! isLoadingMore && previousIsLoadingMore)
+      || (! shouldRefresh && previousShouldRefresh)
+    ) {
       return
     }
 
-    if (! isLoadingMore) {
+    if (! isLoadingMore && ! shouldRefresh) {
       setIsLoading(true)
     }
 
@@ -64,6 +72,10 @@ const PostsLoader = ({
       setHasLoadedAll(true)
     }
 
+    if (shouldRefresh) {
+      setStatusToRefresh('')
+    }
+
     const lastPost = posts[posts.length - 1]
     cursor.current = lastPost?.id
 
@@ -89,7 +101,7 @@ const PostsLoader = ({
     })
 
     setIsLoading(false)
-  }, [artistId, filterBy, sortBy, isLoadingMore])
+  }, [artistId, filterBy, sortBy, isLoadingMore, shouldRefresh])
 
   React.useEffect(() => {
     if (isInitialRender.current) {
@@ -132,6 +144,7 @@ const PostsLoader = ({
         setIsLoadingMore={setIsLoadingMore}
         hasLoadedAll={hasLoadedAll}
         isSpendingPaused={isSpendingPaused}
+        setStatusToRefresh={setStatusToRefresh}
         className={className}
       />
     </>
@@ -140,16 +153,20 @@ const PostsLoader = ({
 
 PostsLoader.propTypes = {
   status: PropTypes.string.isRequired,
-  initialSortBy: PropTypes.string,
+  initialSortBy: PropTypes.array,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
   isSpendingPaused: PropTypes.bool,
+  shouldRefresh: PropTypes.bool,
+  setStatusToRefresh: PropTypes.func,
   className: PropTypes.string,
 }
 
 PostsLoader.defaultProps = {
-  initialSortBy: 'published_time',
+  initialSortBy: [sortTypes.find(({ name }) => name === 'Date').value],
   isSpendingPaused: false,
+  shouldRefresh: false,
+  setStatusToRefresh: () => {},
   className: null,
 }
 
