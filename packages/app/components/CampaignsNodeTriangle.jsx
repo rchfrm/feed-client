@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const CampaignsOverviewCampaignNodeTriangle = ({ isActive, className, activeClass }) => {
+const CampaignsNodeTriangle = ({ isActive, className, activeClass }) => {
   return (
     <div className={[
       'absolute',
@@ -16,13 +16,14 @@ const CampaignsOverviewCampaignNodeTriangle = ({ isActive, className, activeClas
   )
 }
 
-CampaignsOverviewCampaignNodeTriangle.propTypes = {
+CampaignsNodeTriangle.propTypes = {
   isActive: PropTypes.bool,
   className: PropTypes.string.isRequired,
+  activeClass: PropTypes.string.isRequired,
 }
 
-CampaignsOverviewCampaignNodeTriangle.defaultProps = {
+CampaignsNodeTriangle.defaultProps = {
   isActive: false,
 }
 
-export default CampaignsOverviewCampaignNodeTriangle
+export default CampaignsNodeTriangle
