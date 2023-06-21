@@ -21,11 +21,8 @@
     "mixpanel-browser": "^2.40.0",
     "nouislider-react": "^3.3.8",
     "react-datepicker": "^4.8.0",
-    "react-draggable": "^4.4.5",
     "react-image-crop": "^10.0.8",
-    "react-lineto": "^3.3.0",
     "react-xarrows": "^2.0.2",
     "sysend": "^1.3.5"
-  },
-  "devDependencies": {}
+  }
 }
