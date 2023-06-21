@@ -199,13 +199,13 @@ const CampaignsLoader = () => {
   }, [])
 
   return (
-    <>
+    <div onDragOver={(e) => e.preventDefault()}>
       <CampaignsHeader />
       <Campaigns
         initialNodes={initialNodes}
         initialEdges={initialEdges}
       />
-    </>
+    </div>
   )
 }
 
