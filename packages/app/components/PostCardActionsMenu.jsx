@@ -21,6 +21,7 @@ const PostCardActionsMenu = ({
   sortBy,
   setIsOpen,
   isLastPromotableNotRunPost,
+  setStatusToRefresh,
 }) => {
   const [action, setAction] = React.useState(null)
 
@@ -50,12 +51,11 @@ const PostCardActionsMenu = ({
       type: 'toggle-promotion',
       payload: {
         status,
-        newStatus: promotionEnabled ? 'pending' : 'inactive',
         postId,
-        post: updatedPost,
       },
     })
 
+    setStatusToRefresh(promotionEnabled ? 'pending' : 'inactive')
     setIsOpen(false)
   }
 
@@ -65,6 +65,7 @@ const PostCardActionsMenu = ({
     priorityEnabled,
   }) => {
     if (! priorityEnabled || promotionEnabled || conversionsEnabled) {
+      setStatusToRefresh(promotionEnabled ? 'pending' : 'inactive')
       setIsOpen(false)
       return
     }
@@ -78,15 +79,11 @@ const PostCardActionsMenu = ({
       return
     }
 
-    const { priorityEnabled } = updatedPost
-
     setPosts({
       type: 'toggle-priority',
       payload: {
         status,
-        newStatus: priorityEnabled ? 'pending' : 'inactive',
         postId,
-        post: updatedPost,
       },
     })
 
@@ -100,6 +97,7 @@ const PostCardActionsMenu = ({
       setPosts,
       sortBy,
       isLastPromotableNotRunPost,
+      setStatusToRefresh,
     })
   }
 
@@ -188,9 +186,10 @@ PostCardActionsMenu.propTypes = {
   index: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.array.isRequired,
   setIsOpen: PropTypes.func.isRequired,
   isLastPromotableNotRunPost: PropTypes.bool.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
 }
 
 export default PostCardActionsMenu

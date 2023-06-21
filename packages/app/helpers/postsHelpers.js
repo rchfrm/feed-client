@@ -18,7 +18,7 @@ export const postsConfig = {
   },
   pending: {
     name: 'Queue',
-    filterBy: { promotion_status: 'inactive', promotion_enabled: true },
+    filterBy: { promotion_status: ['inactive', 'in_review'], promotion_enabled: true },
     action: 'Edit ad or push to front',
   },
   inactive: {
@@ -107,12 +107,16 @@ export const filterTypes = [
 
 export const sortTypes = [
   {
-    value: 'published_time',
-    name: 'Date',
+    name: 'Queue',
+    value: ['promotionStatus', 'priorityEnabled', 'normalizedScore'],
   },
   {
-    value: 'normalized_score',
+    name: 'Date',
+    value: 'publishedTime',
+  },
+  {
     name: 'Score',
+    value: 'normalizedScore',
   },
 ]
 
@@ -186,6 +190,35 @@ export const formatAdRejectionReason = (reason) => {
   formattedReason = reason?.toLowerCase().replaceAll('_', ' ')
   formattedReason = capitalise(formattedReason)
   return formattedReason
+}
+
+export const getRejectionReason = (ads) => {
+  const [reason] = Object.values(ads || {}).reduce((reasons, ad) => {
+    if (! ad?.ad_review_feedback?.global) {
+      return reasons
+    }
+    return [...reasons, Object.keys(ad?.ad_review_feedback?.global)[0]]
+  }, [])
+
+  return formatAdRejectionReason(reason)
+}
+
+export const getPostStatus = (post, status) => {
+  const { isPromotable, notPromotableReason } = post
+
+  if (status === 'rejected') {
+    return getRejectionReason(post?.ads) || 'Unknown'
+  }
+
+  if (! isPromotable && notPromotableReason) {
+    return notPromotableReason
+  }
+
+  if (post.promotionStatus === 'in_review') {
+    return 'In Review'
+  }
+
+  return ''
 }
 
 // Get post link data

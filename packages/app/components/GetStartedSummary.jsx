@@ -14,7 +14,7 @@ const GetStartedSummary = () => {
       pathname: ROUTES.POSTS,
       query: {
         promotion_enabled: true,
-        sort_by: 'normalized_score',
+        sort_by: 'normalizedScore',
       },
     })
   }

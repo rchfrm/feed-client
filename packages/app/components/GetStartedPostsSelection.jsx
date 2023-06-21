@@ -78,7 +78,7 @@ const GetStartedPostsSelection = () => {
   const fetchPosts = async (postType, limit) => {
     return server.getPosts({
       artistId,
-      sortBy: ['normalized_score'],
+      sortBy: ['normalizedScore'],
       filterBy: {
         [postType]: [true],
         ...(postType === 'is_promotable' && { promotion_enabled: [false] }),

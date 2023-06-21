@@ -16,7 +16,7 @@ const getControlsStoreState = (state) => ({
   defaultLink: state.defaultLink,
 })
 
-const AdCreation = ({ setPosts }) => {
+const AdCreation = ({ setStatusToRefresh }) => {
   const { defaultLink } = useControlsStore(getControlsStoreState)
   const campaignType = 'all'
 
@@ -70,23 +70,16 @@ const AdCreation = ({ setPosts }) => {
     formData.append('metaData', JSON.stringify(files.map((file) => file.metaData)))
     formData.append('data', JSON.stringify(data))
 
-    const { res: posts, error } = await createAd(artistId, formData)
+    const { error } = await createAd(artistId, formData)
     if (error) {
       setError(error)
       setIsLoading(false)
     }
 
-    setPosts({
-      type: 'add-posts-with-priority',
-      payload: {
-        status: 'pending',
-        posts,
-      },
-    })
-
     setIsLoading(false)
     toggleSidePanel(false)
-  }, [files, message, isDefaultLink, currentLink?.linkId, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel, setPosts, fileName])
+    setStatusToRefresh('pending')
+  }, [files, message, isDefaultLink, currentLink?.linkId, currentCallToAction, isDefaultCallToAction, artistId, campaignType, toggleSidePanel, fileName, setStatusToRefresh])
 
   React.useEffect(() => {
     const button = (
@@ -145,7 +138,7 @@ const AdCreation = ({ setPosts }) => {
 }
 
 AdCreation.propTypes = {
-  setPosts: PropTypes.func.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
 }
 
 export default AdCreation
