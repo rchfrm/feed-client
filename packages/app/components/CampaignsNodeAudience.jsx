@@ -11,7 +11,7 @@ const CampaignsNodeAudience = ({
   node,
   onDragOver,
   onDrop,
-  onClick,
+  getPosition,
 }) => {
   const {
     id,
@@ -29,7 +29,6 @@ const CampaignsNodeAudience = ({
     <div
       id={id}
       ref={nodeRef}
-      onClick={onClick}
       style={{
         order: ! isDesktopLayout ? node.order : null,
         top: isDesktopLayout ? node.position.y : null,
@@ -42,7 +41,7 @@ const CampaignsNodeAudience = ({
         isCustomAudience
           ? isActive ? 'bg-gradient-2-light border-gradient-2-dark' : 'bg-white border-gradient-2-light text-gradient-2-dark'
           : 'bg-gradient-1-light border-gradient-1-dark',
-        isDesktopLayout ? 'absolute' : 'relative mb-8',
+        isDesktopLayout ? 'absolute' : 'relative mb-12',
       ].join(' ')}
       onDragOver={onDragOver}
       onDrop={onDrop}
@@ -71,11 +70,12 @@ const CampaignsNodeAudience = ({
       </div>
       {handlers.map((handler) => (
         <CampaignsNodeConnector
-          key={handler.anchor.position}
+          key={handler.position}
           node={node}
           handler={handler}
           nodeRef={nodeRef}
           className={isCustomAudience ? 'bg-gradient-2-dark' : 'bg-gradient-1-dark'}
+          getPosition={getPosition}
         />
       ))}
     </div>
@@ -86,7 +86,7 @@ CampaignsNodeAudience.propTypes = {
   node: PropTypes.object.isRequired,
   onDragOver: PropTypes.func.isRequired,
   onDrop: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  getPosition: PropTypes.func.isRequired,
 }
 
 export default CampaignsNodeAudience

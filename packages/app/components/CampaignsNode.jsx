@@ -8,6 +8,7 @@ const CampaignsNode = ({
   nodes,
   edges,
   updateEdges,
+  getPosition,
 }) => {
   const { id, type } = node
 
@@ -31,11 +32,6 @@ const CampaignsNode = ({
     }
   }
 
-  const onClick = () => {
-    // eslint-disable-next-line
-    console.log(id)
-  }
-
   const nodeComponents = {
     audience: CampaignsNodeAudience,
     campaign: CampaignsNodeCampaign,
@@ -48,7 +44,7 @@ const CampaignsNode = ({
       node={node}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      onClick={onClick}
+      getPosition={getPosition}
     />
   )
 }
@@ -58,6 +54,7 @@ CampaignsNode.propTypes = {
   nodes: PropTypes.array.isRequired,
   edges: PropTypes.array.isRequired,
   updateEdges: PropTypes.func.isRequired,
+  getPosition: PropTypes.func.isRequired,
 }
 
 export default CampaignsNode

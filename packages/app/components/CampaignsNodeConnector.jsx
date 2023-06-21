@@ -10,7 +10,7 @@ const connectPointOffset = {
     transform: 'translate(-50%, -50%)',
   },
   right: {
-    left: '112%',
+    left: '100%',
     top: '50%',
     transform: 'translate(-50%, -50%)',
   },
@@ -20,8 +20,8 @@ const connectPointOffset = {
     transform: 'translate(-50%, -50%)',
   },
   bottom: {
-    left: '30%',
-    top: '105%',
+    left: '50%',
+    top: '100%',
     transform: 'translate(-50%, -50%)',
   },
 }
@@ -31,11 +31,13 @@ const CampaignsNodeConnector = ({
   handler,
   nodeRef,
   className,
+  getPosition,
 }) => {
   const [, setPosition] = React.useState({})
   const [isDragging, setIsDragging] = React.useState(false)
   const connectorRef = React.useRef()
   const { id } = node
+  const position = getPosition(handler)
 
   const onDragStart = (e) => {
     setIsDragging(true)
@@ -54,9 +56,9 @@ const CampaignsNodeConnector = ({
   const onDragEnd = () => {
     setIsDragging(false)
     connectorRef.current.style.position = 'absolute'
-    connectorRef.current.style.left = connectPointOffset[handler?.anchor.position].left
-    connectorRef.current.style.top = connectPointOffset[handler?.anchor.position].top
-    connectorRef.current.style.transform = connectPointOffset[handler?.anchor.position].transform
+    connectorRef.current.style.left = connectPointOffset[position].left
+    connectorRef.current.style.top = connectPointOffset[position].top
+    connectorRef.current.style.transform = connectPointOffset[position].transform
     connectorRef.current.style.opacity = 0.5
   }
 
@@ -72,7 +74,7 @@ const CampaignsNodeConnector = ({
           className,
         ].join(' ')}
         style={{
-          ...connectPointOffset[handler?.anchor.position],
+          ...connectPointOffset[position],
         }}
         draggable
       />
@@ -80,7 +82,7 @@ const CampaignsNodeConnector = ({
         <Xarrow
           start={nodeRef}
           end={connectorRef}
-          startAnchor={handler.anchor}
+          startAnchor={position}
           lineColor={brandColors.gradient[2].dark}
           strokeWidth={2}
           showHead={false}

@@ -13,13 +13,21 @@ const Campaigns = ({
   const [edges, setEdges] = React.useState(initialEdges)
   const isDesktopLayout = useBreakpointTest('xs')
 
+  const getPosition = (handler) => {
+    const position = ! isDesktopLayout
+      ? handler.type === 'source' ? 'bottom' : 'top'
+      : handler?.position
+
+    return position
+  }
+
   const updateEdges = (edges, nodes) => {
     setEdges(edges)
     setNodes(nodes)
   }
 
   return (
-    <div className={isDesktopLayout ? 'relative' : 'flex flex-col items-center'}>
+    <div className={isDesktopLayout ? 'relative h-[300px] overflow-hidden overflow-x-scroll' : 'flex flex-col items-center'}>
       {nodes.map((node) => (
         <CampaignsNode
           key={node.id}
@@ -27,11 +35,12 @@ const Campaigns = ({
           nodes={nodes}
           edges={edges}
           updateEdges={updateEdges}
+          getPosition={getPosition}
         />
       ))}
       {edges.map((edge) => {
-        const startAnchor = nodes.find((node) => node.id === edge.source)?.handlers.find((handle) => handle.type === 'source')?.anchor
-        const endAnchor = nodes.find((node) => node.id === edge.target)?.handlers.find((handle) => handle.type === 'target')?.anchor
+        const startAnchor = getPosition(nodes.find((node) => node.id === edge.source)?.handlers.find((handle) => handle.type === 'source'))
+        const endAnchor = getPosition(nodes.find((node) => node.id === edge.target)?.handlers.find((handle) => handle.type === 'target'))
 
         return (
           <Xarrow

@@ -9,7 +9,7 @@ const initialNodes = [
   {
     id: '1',
     type: 'audience',
-    position: { x: 10, y: 0 },
+    position: { x: 10, y: 10 },
     target: '5',
     order: '1',
     data: {
@@ -20,14 +20,14 @@ const initialNodes = [
     handlers: [
       {
         type: 'source',
-        anchor: { position: 'bottom', offset: { x: -41 } },
+        position: 'bottom',
       },
     ],
   },
   {
     id: '2',
     type: 'audience',
-    position: { x: 320, y: 0 },
+    position: { x: 320, y: 10 },
     target: '6',
     order: '3',
     data: {
@@ -38,18 +38,18 @@ const initialNodes = [
     handlers: [
       {
         type: 'target',
-        anchor: { position: 'left', offset: { x: 0 } },
+        position: 'left',
       },
       {
         type: 'source',
-        anchor: { position: 'bottom', offset: { x: -41 } },
+        position: 'bottom',
       },
     ],
   },
   {
     id: '3',
     type: 'audience',
-    position: { x: 630, y: 0 },
+    position: { x: 630, y: 10 },
     target: '7',
     order: '5',
     data: {
@@ -60,18 +60,18 @@ const initialNodes = [
     handlers: [
       {
         type: 'target',
-        anchor: { position: 'left', offset: { x: 0 } },
+        position: 'left',
       },
       {
         type: 'source',
-        anchor: { position: 'bottom', offset: { x: -41 } },
+        position: 'bottom',
       },
     ],
   },
   {
     id: '4',
     type: 'audience',
-    position: { x: 940, y: 0 },
+    position: { x: 940, y: 10 },
     target: '0',
     order: '7',
     data: {
@@ -82,14 +82,14 @@ const initialNodes = [
     handlers: [
       {
         type: 'target',
-        anchor: { position: 'left', offset: { x: 0 } },
+        position: 'left',
       },
     ],
   },
   {
     id: '5',
     type: 'campaign',
-    position: { x: 90, y: 125 },
+    position: { x: 90, y: 135 },
     target: '2',
     order: '2',
     data: {
@@ -100,18 +100,18 @@ const initialNodes = [
     handlers: [
       {
         type: 'target',
-        anchor: { position: 'left', offset: { x: 0 } },
+        position: 'left',
       },
       {
         type: 'source',
-        anchor: { position: 'right', offset: { x: 15 } },
+        position: 'right',
       },
     ],
   },
   {
     id: '6',
     type: 'campaign',
-    position: { x: 400, y: 125 },
+    position: { x: 400, y: 135 },
     target: '3',
     order: '4',
     data: {
@@ -122,18 +122,18 @@ const initialNodes = [
     handlers: [
       {
         type: 'target',
-        anchor: { position: 'left', offset: { x: 0 } },
+        position: 'left',
       },
       {
         type: 'source',
-        anchor: { position: 'right', offset: { x: 15 } },
+        position: 'right',
       },
     ],
   },
   {
     id: '7',
     type: 'campaign',
-    position: { x: 710, y: 125 },
+    position: { x: 710, y: 135 },
     target: '4',
     order: '6',
     data: {
@@ -144,11 +144,11 @@ const initialNodes = [
     handlers: [
       {
         type: 'target',
-        anchor: { position: 'left', offset: { x: 0 } },
+        position: 'left',
       },
       {
         type: 'source',
-        anchor: { position: 'right', offset: { x: 15 } },
+        position: 'right',
       },
     ],
   },
@@ -204,7 +204,6 @@ const CampaignsLoader = () => {
       <Campaigns
         initialNodes={initialNodes}
         initialEdges={initialEdges}
-        // nodeTypes={nodeTypes}
       />
     </>
   )
