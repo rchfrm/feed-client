@@ -8,155 +8,147 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 const initialNodes = [
   {
     id: '1',
-    order: '1',
-    target: '5',
-    position: { x: 10, y: 0 },
     type: 'audience',
+    position: { x: 10, y: 0 },
+    target: '5',
+    order: '1',
+    data: {
+      audienceType: 'lookalike',
+      label: <p className="mb-0"><strong>494k</strong> similar to your Instagram followers</p>,
+    },
     isActive: true,
     handlers: [
       {
         type: 'source',
-        anchor: {
-          position: 'bottom',
-          offset: { x: -41 },
-        },
+        anchor: { position: 'bottom', offset: { x: -41 } },
       },
     ],
   },
   {
     id: '2',
-    order: '3',
-    target: '6',
-    position: { x: 320, y: 0 },
     type: 'audience',
+    position: { x: 320, y: 0 },
+    target: '6',
+    order: '3',
+    data: {
+      audienceType: 'custom',
+      label: <p className="mb-0"><strong>118k</strong> engaged on Instagram in last year</p>,
+    },
     isActive: false,
     handlers: [
       {
         type: 'target',
-        anchor: {
-          position: 'left',
-          offset: { x: 0 },
-        },
+        anchor: { position: 'left', offset: { x: 0 } },
       },
       {
         type: 'source',
-        anchor: {
-          position: 'bottom',
-          offset: { x: -41 },
-        },
+        anchor: { position: 'bottom', offset: { x: -41 } },
       },
     ],
   },
   {
     id: '3',
-    order: '5',
-    target: '7',
-    position: { x: 630, y: 0 },
     type: 'audience',
+    position: { x: 630, y: 0 },
+    target: '7',
+    order: '5',
+    data: {
+      audienceType: 'custom',
+      label: <p className="mb-0"><strong>75k</strong> engaged on Instagram last month</p>,
+    },
     isActive: false,
     handlers: [
       {
         type: 'target',
-        anchor: {
-          position: 'left',
-          offset: { x: 0 },
-        },
+        anchor: { position: 'left', offset: { x: 0 } },
       },
       {
         type: 'source',
-        anchor: {
-          position: 'bottom',
-          offset: { x: -41 },
-        },
+        anchor: { position: 'bottom', offset: { x: -41 } },
       },
     ],
   },
   {
     id: '4',
-    order: '7',
-    target: '0',
-    position: { x: 940, y: 0 },
     type: 'audience',
+    position: { x: 940, y: 0 },
+    target: '0',
+    order: '7',
+    data: {
+      audienceType: 'custom',
+      label: <p className="mb-0"><strong>24k</strong> followers on Instagram</p>,
+    },
     isActive: false,
     handlers: [
       {
         type: 'target',
-        anchor: {
-          position: 'left',
-          offset: { x: 0 },
-        },
+        anchor: { position: 'left', offset: { x: 0 } },
       },
     ],
   },
   {
     id: '5',
-    order: '2',
-    target: '2',
-    position: { x: 90, y: 125 },
     type: 'campaign',
+    position: { x: 90, y: 125 },
+    target: '2',
+    order: '2',
+    data: {
+      engagementRate: 8.8,
+      costPerEngagement: 0.055,
+    },
     isActive: false,
     handlers: [
       {
         type: 'target',
-        anchor: {
-          position: 'left',
-          offset: { x: 0 },
-        },
+        anchor: { position: 'left', offset: { x: 0 } },
       },
       {
         type: 'source',
-        anchor: {
-          position: 'right',
-          offset: { x: 0 },
-        },
+        anchor: { position: 'right', offset: { x: 15 } },
       },
     ],
   },
   {
     id: '6',
-    order: '4',
-    target: '3',
-    position: { x: 400, y: 125 },
     type: 'campaign',
+    position: { x: 400, y: 125 },
+    target: '3',
+    order: '4',
+    data: {
+      engagementRate: 7.9,
+      costPerEngagement: 0.061,
+    },
     isActive: false,
     handlers: [
       {
         type: 'target',
-        anchor: {
-          position: 'left',
-          offset: { x: 0 },
-        },
+        anchor: { position: 'left', offset: { x: 0 } },
       },
       {
         type: 'source',
-        anchor: {
-          position: 'right',
-          offset: { x: 0 },
-        },
+        anchor: { position: 'right', offset: { x: 15 } },
       },
     ],
   },
   {
     id: '7',
-    order: '6',
-    target: '4',
-    position: { x: 710, y: 125 },
     type: 'campaign',
+    position: { x: 710, y: 125 },
+    target: '4',
+    order: '6',
+    data: {
+      engagementRate: 7.2,
+      costPerEngagement: 0.073,
+    },
     isActive: false,
     handlers: [
       {
         type: 'target',
-        anchor: {
-          position: 'left',
-          offset: { x: 0 },
-        },
+        anchor: { position: 'left', offset: { x: 0 } },
       },
       {
         type: 'source',
-        anchor: {
-          position: 'right',
-          offset: { x: 0 },
-        },
+        anchor: { position: 'right', offset: { x: 15 } },
       },
     ],
   },

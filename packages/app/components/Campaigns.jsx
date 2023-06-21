@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Xarrow from 'react-xarrows'
 import CampaignsNode from '@/app/CampaignsNode'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import brandColors from '@/constants/brandColors'
 
 const Campaigns = ({
   initialNodes,
@@ -18,7 +19,7 @@ const Campaigns = ({
   }
 
   return (
-    <div className={isDesktopLayout ? 'relative' : 'flex flex-col'}>
+    <div className={isDesktopLayout ? 'relative' : 'flex flex-col items-center'}>
       {nodes.map((node) => (
         <CampaignsNode
           key={node.id}
@@ -42,7 +43,7 @@ const Campaigns = ({
             path="grid"
             gridBreak="25%"
             strokeWidth={2}
-            lineColor={edge.isActive ? '#5B82FB' : '#D0DBFF'}
+            lineColor={edge.isActive ? brandColors.gradient[2].dark : brandColors.gradient[2].light}
             style={{ opacity: 0 }}
             showHead={false}
             dashness

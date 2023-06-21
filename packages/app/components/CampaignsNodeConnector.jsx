@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Xarrow from 'react-xarrows'
+import brandColors from '@/constants/brandColors'
 
 const connectPointOffset = {
   left: {
@@ -9,7 +10,7 @@ const connectPointOffset = {
     transform: 'translate(-50%, -50%)',
   },
   right: {
-    left: '100%',
+    left: '112%',
     top: '50%',
     transform: 'translate(-50%, -50%)',
   },
@@ -29,6 +30,7 @@ const CampaignsNodeConnector = ({
   node,
   handler,
   nodeRef,
+  className,
 }) => {
   const [, setPosition] = React.useState({})
   const [isDragging, setIsDragging] = React.useState(false)
@@ -66,8 +68,8 @@ const CampaignsNodeConnector = ({
         onDrag={onDrag}
         onDragEnd={onDragEnd}
         className={[
-          'absolute w-3 h-3 rounded-full',
-          node.type === 'audience' ? 'bg-gradient-2-dark' : 'bg-green-bg-dark',
+          'absolute w-2.5 h-2.5 rounded-full',
+          className,
         ].join(' ')}
         style={{
           ...connectPointOffset[handler?.anchor.position],
@@ -79,7 +81,7 @@ const CampaignsNodeConnector = ({
           start={nodeRef}
           end={connectorRef}
           startAnchor={handler.anchor}
-          lineColor="#5B82FB"
+          lineColor={brandColors.gradient[2].dark}
           strokeWidth={2}
           showHead={false}
           dashness
