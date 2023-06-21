@@ -19,7 +19,7 @@ const CampaignsNode = ({
   }
 
   const onDrop = (e) => {
-    const sourceId = e.dataTransfer.getData("edge")
+    const sourceId = e.dataTransfer.getData('edge')
     const allowedTargetId = nodes.find((node) => node.id === sourceId).target
 
     if (id === allowedTargetId) {
@@ -35,6 +35,7 @@ const CampaignsNode = ({
   }
 
   const onClick = () => {
+    // eslint-disable-next-line
     console.log(id)
   }
 
@@ -44,7 +45,7 @@ const CampaignsNode = ({
       ref={nodeRef}
       onClick={onClick}
       style={{
-        order: !isDesktopLayout ? node.order : null,
+        order: ! isDesktopLayout ? node.order : null,
         top: isDesktopLayout ? node.position.y : null,
         left: isDesktopLayout ? node.position.x : null,
       }}
@@ -52,10 +53,13 @@ const CampaignsNode = ({
         'z-10 rounded-dialogue w-full',
         node.isActive ? 'opacity-100' : 'opacity-50',
         isDesktopLayout ? 'absolute' : 'mb-8',
-        node.type === 'audience' ? 'xs:w-52 h-16 border-2 border-b-[6px] border-solid bg-gradient-2-light border-gradient-2-dark' : 'xs:w-40 h-20 bg-green-bg-light border-solid border-l-2 border-black'
+        node.type === 'audience'
+          ? 'xs:w-52 h-16 border-2 border-b-[6px] border-solid bg-gradient-2-light border-gradient-2-dark'
+          : 'xs:w-40 h-20 bg-green-bg-light border-solid border-l-2 border-black',
       ].join(' ')}
       onDragOver={onDragOver}
       onDrop={onDrop}
+      role="button"
     >
       {handlers.map((handler) => (
         <CampaignsNodeConnector

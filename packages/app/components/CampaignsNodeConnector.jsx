@@ -4,25 +4,25 @@ import Xarrow from 'react-xarrows'
 
 const connectPointOffset = {
   left: {
-    left: "0px",
-    top: "50%",
-    transform: "translate(-50%, -50%)"
+    left: '0px',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
   },
   right: {
-    left: "100%",
-    top: "50%",
-    transform: "translate(-50%, -50%)"
+    left: '100%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
   },
   top: {
-    left: "50%",
-    top: "0px",
-    transform: "translate(-50%, -50%)"
+    left: '50%',
+    top: '0px',
+    transform: 'translate(-50%, -50%)',
   },
   bottom: {
-    left: "30%",
-    top: "105%",
-    transform: "translate(-50%, -50%)"
-  }
+    left: '30%',
+    top: '105%',
+    transform: 'translate(-50%, -50%)',
+  },
 }
 
 const CampaignsNodeConnector = ({
@@ -43,13 +43,13 @@ const CampaignsNodeConnector = ({
   const onDrag = (e) => {
     setPosition({})
     connectorRef.current.style.position = 'fixed'
-    connectorRef.current.style.left = e.clientX + 'px'
-    connectorRef.current.style.top = e.clientY + 'px'
+    connectorRef.current.style.left = `${e.clientX}px`
+    connectorRef.current.style.top = `${e.clientY}px`
     connectorRef.current.style.transform = 'none'
     connectorRef.current.style.opacity = 0.5
   }
 
-  const onDragEnd = (e) => {
+  const onDragEnd = () => {
     setIsDragging(false)
     connectorRef.current.style.position = 'absolute'
     connectorRef.current.style.left = connectPointOffset[handler?.anchor.position].left
@@ -70,7 +70,7 @@ const CampaignsNodeConnector = ({
           node.type === 'audience' ? 'bg-gradient-2-dark' : 'bg-green-bg-dark',
         ].join(' ')}
         style={{
-          ...connectPointOffset[handler?.anchor.position]
+          ...connectPointOffset[handler?.anchor.position],
         }}
         draggable
       />
