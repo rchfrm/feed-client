@@ -243,6 +243,9 @@ const TargetingContextProvider = ({ children }) => {
 
   const updateOrganizationArtists = React.useCallback((spendingStatus) => {
     const currentOrganizationArtistIndex = organizationArtists.findIndex((artist) => artist.id === artistId)
+    if (currentOrganizationArtistIndex === -1) {
+      return
+    }
     const updatedOrganizationArtists = produce(organizationArtists, (draftState) => {
       draftState[currentOrganizationArtistIndex].preferences.targeting.status = spendingStatus
     })
