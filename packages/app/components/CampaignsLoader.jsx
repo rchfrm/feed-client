@@ -2,7 +2,8 @@ import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
-import { getAudiences, getCampaigns } from '@/app/helpers/campaignsHelpers'
+import Error from '@/elements/Error'
+import { getAudiences, getCampaigns, getAdSets } from '@/app/helpers/campaignsHelpers'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 const initialNodes = [
@@ -164,43 +165,63 @@ const initialEdges = [
 ]
 
 const CampaignsLoader = () => {
+  const [audiences, setAudiences] = React.useState([])
+  const [campaigns, setCampaigns] = React.useState([])
+  const [adSets, setAdSets] = React.useState([])
+  const [error, setError] = React.useState(null)
+
   const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
-    const { res1, error1 } = await getAudiences(artistId)
-    if (! isMounted()) return
-
-    if (error1) {
+    if (! artistId) {
       return
     }
 
-    // eslint-disable-next-line
-    console.log(res1)
-
-    const { res2, error2 } = await getCampaigns(artistId)
-    if (! isMounted()) return
-
-    if (error2) {
+    const { res: audiences, error: audiencesError } = await getAudiences(artistId)
+    if (! isMounted()) {
       return
     }
 
-    // eslint-disable-next-line
-    console.log(res2)
+    if (audiencesError) {
+      setError(audiencesError)
+      return
+    }
+    setAudiences(audiences)
 
-    // const { res3, error3 } = await getAdSets(artistId, campaignId)
-    // if (! isMounted()) return
+    const { res: campaigns, error: campaignsError } = await getCampaigns(artistId)
+    if (! isMounted()) {
+      return
+    }
 
-    // if (error3) {
-    //   return
-    // }
+    if (campaignsError) {
+      setError(campaignsError)
+      return
+    }
+    setCampaigns(campaigns)
 
-    // // eslint-disable-next-line
-    // console.log(res3)
-  }, [])
+    if (campaigns.length > 0) {
+      const adSetsPromises = campaigns.map(async (campaign) => {
+        return getAdSets(artistId, campaign.id)
+      })
+
+      const adSets = await Promise.all(adSetsPromises)
+      setAdSets(adSets.map(({ res }) => res).flat())
+    }
+  }, [artistId])
+
+  React.useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(audiences)
+    // eslint-disable-next-line no-console
+    console.log(campaigns)
+    // eslint-disable-next-line no-console
+    console.log(adSets)
+  }, [audiences, campaigns, adSets])
 
   return (
     <div onDragOver={(e) => e.preventDefault()}>
       <CampaignsHeader />
+      <Error error={error} />
       <Campaigns
         initialNodes={initialNodes}
         initialEdges={initialEdges}
