@@ -193,8 +193,16 @@ export const abbreviateNumber = (number) => {
     return `${(number / 1000).toFixed(1)}k`
   }
 
-  if (number >= 10000) {
+  if (number < 1000000) {
     return `${(number / 1000).toFixed(0)}k`
+  }
+
+  if (number < 100000000) {
+    return `${(number / 1000000).toFixed(1)}m`
+  }
+
+  if (number >= 100000000) {
+    return `${(number / 1000000).toFixed(0)}m`
   }
 }
 
