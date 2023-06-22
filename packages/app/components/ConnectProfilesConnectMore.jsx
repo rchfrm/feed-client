@@ -18,6 +18,7 @@ const ConnectProfilesConnectMore = ({
   auth,
   errors,
   setErrors,
+  hasArtists,
   isSidePanel,
   setSelectedProfile,
   setIsConnecting,
@@ -26,7 +27,9 @@ const ConnectProfilesConnectMore = ({
   const { missingScopes: { ads: missingScopes } } = auth
   const { setSidePanelButton, sidePanelOpen } = React.useContext(SidePanelContext)
   const isDesktopLayout = useBreakpointTest('sm')
-  const scopes = requiredScopesAds.filter((scope) => scope !== 'business_management')
+  const scopes = hasArtists
+    ? requiredScopesAds.filter((scope) => scope !== 'business_management')
+    : requiredScopesAds
 
   React.useEffect(() => {
     if (! sidePanelOpen || isDesktopLayout) return
@@ -92,6 +95,7 @@ ConnectProfilesConnectMore.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
+  hasArtists: PropTypes.bool,
   isSidePanel: PropTypes.bool,
   setSelectedProfile: PropTypes.func,
   setIsConnecting: PropTypes.func,
@@ -100,6 +104,7 @@ ConnectProfilesConnectMore.propTypes = {
 
 ConnectProfilesConnectMore.defaultProps = {
   errors: [],
+  hasArtists: true,
   isSidePanel: false,
   setSelectedProfile: () => {},
   setIsConnecting: () => {},

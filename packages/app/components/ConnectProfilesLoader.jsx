@@ -62,7 +62,7 @@ const ConnectProfilesLoader = ({
     // If missing scopes, we need to show the connect button
     if (missingScopes.length) return setPageLoading(false)
 
-    // Stop here if we haven either auth or fb auth errors
+    // Stop here if we haven't either auth or fb auth errors
     if (errors.length) return setPageLoading(false)
 
     // Start fetching artists
@@ -151,6 +151,7 @@ const ConnectProfilesLoader = ({
           auth={auth}
           errors={errors}
           setErrors={setErrors}
+          hasArtists={artistAccounts.length > 0}
           isConnecting={isConnecting}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
