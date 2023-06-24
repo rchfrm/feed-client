@@ -15,7 +15,11 @@ const CampaignsNodeCampaign = ({
     id,
     handlers,
     isActive,
-    data: { engagementRate, costPerEngagement },
+    data: {
+      label,
+      engagementRate,
+      costPerEngagement,
+    },
   } = node
   const isDesktopLayout = useBreakpointTest('xs')
   const nodeRef = React.useRef()
@@ -65,10 +69,11 @@ const CampaignsNodeCampaign = ({
             </div>
           </>
         ) : (
-          <>
-            <p className="mb-1 font-bold">+ Add campaign</p>
-            <p className="mb-0 text-xs">Encourage people to visit your profile.</p>
-          </>
+          // <>
+          //   <p className="mb-1 font-bold">+ Add campaign</p>
+          //   <p className="mb-0 text-xs">Encourage people to visit your profile.</p>
+          // </>
+          <div className="text-xs">{label}</div>
         )}
       </div>
       {handlers.map((handler) => (

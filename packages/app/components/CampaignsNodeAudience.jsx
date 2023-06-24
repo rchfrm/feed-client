@@ -4,6 +4,7 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import CampaignsNodeConnector from '@/app/CampaignsNodeConnector'
 import HeartIcon from '@/icons/HeartIcon'
 import ProfileIcon from '@/icons/ProfileIcon'
+import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
 import brandColors from '@/constants/brandColors'
 
@@ -18,12 +19,20 @@ const CampaignsNodeAudience = ({
     handlers,
     isActive,
     data: {
-      label, audienceType,
+      platform,
+      label,
+      audienceType,
     },
   } = node
   const isDesktopLayout = useBreakpointTest('xs')
   const nodeRef = React.useRef()
   const isCustomAudience = audienceType === 'custom'
+
+  const icons = {
+    facebook: FacebookIcon,
+    instagram: InstagramIcon,
+  }
+  const PlatformIcon = icons[platform]
 
   return (
     <div
@@ -47,8 +56,8 @@ const CampaignsNodeAudience = ({
       onDrop={onDrop}
       role="button"
     >
-      <div className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-dialogue z-10">
-        <InstagramIcon className="h-4 w-auto" />
+      <div className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-[5px] z-10 overflow-hidden">
+        <PlatformIcon className="h-4 w-auto" />
       </div>
       <div className="flex items-center">
         <div className={[

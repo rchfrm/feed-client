@@ -18,7 +18,7 @@ const CampaignsNode = ({
 
   const onDrop = (e) => {
     const sourceId = e.dataTransfer.getData('edge')
-    const allowedTargetId = nodes.find((node) => node.id === sourceId).target
+    const allowedTargetId = (Number(sourceId) + 1).toString()
 
     if (id === allowedTargetId) {
       const updatedEdges = edges.map((edge) => {
