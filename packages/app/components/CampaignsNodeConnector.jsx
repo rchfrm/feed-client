@@ -27,7 +27,7 @@ const connectPointOffset = {
 }
 
 const CampaignsNodeConnector = ({
-  node,
+  id,
   handler,
   nodeRef,
   className,
@@ -36,7 +36,6 @@ const CampaignsNodeConnector = ({
   const [, setPosition] = React.useState({})
   const [isDragging, setIsDragging] = React.useState(false)
   const connectorRef = React.useRef()
-  const { id } = node
   const position = getPosition(handler)
 
   const onDragStart = (e) => {
@@ -94,9 +93,11 @@ const CampaignsNodeConnector = ({
 }
 
 CampaignsNodeConnector.propTypes = {
-  node: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
   handler: PropTypes.object.isRequired,
   nodeRef: PropTypes.object.isRequired,
+  className: PropTypes.string.isRequired,
+  getPosition: PropTypes.func.isRequired,
 }
 
 export default CampaignsNodeConnector

@@ -6,10 +6,10 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import brandColors from '@/constants/brandColors'
 
 const Campaigns = ({
-  initialNodes,
+  initialNodeGroups,
   initialEdges,
 }) => {
-  const [nodes, setNodes] = React.useState(initialNodes)
+  const [nodeGroups, setNodeGroups] = React.useState(initialNodeGroups)
   const [edges, setEdges] = React.useState(initialEdges)
   const isDesktopLayout = useBreakpointTest('xs')
 
@@ -23,37 +23,62 @@ const Campaigns = ({
 
   const updateEdges = (edges, nodes) => {
     setEdges(edges)
-    setNodes(nodes)
+    setNodeGroups(nodes)
   }
 
   return (
-    <div className={isDesktopLayout ? 'relative h-[300px] overflow-hidden overflow-x-scroll' : 'flex flex-col items-center'}>
-      {nodes.map((node) => (
-        <CampaignsNode
-          key={node.id}
-          node={node}
-          nodes={nodes}
-          edges={edges}
-          updateEdges={updateEdges}
-          getPosition={getPosition}
-        />
+    <div className={isDesktopLayout ? 'relative h-[350px] overflow-hidden overflow-x-scroll' : 'flex flex-col items-center'}>
+      {nodeGroups.map((group) => (
+        <div
+          key={group.id}
+          style={{
+            top: isDesktopLayout ? group.position.y : null,
+            left: isDesktopLayout ? group.position.x : null,
+            minHeight: ! isDesktopLayout ? 80 : null,
+            height: ! isDesktopLayout ? group.nodes.length * 10 : null,
+          }}
+          className={[
+            isDesktopLayout ? 'absolute' : 'relative w-3/4 mx-auto mb-12',
+          ].join(' ')}
+        >
+          {group.nodes.map((node, index) => (
+            <CampaignsNode
+              key={`${group.id} -${index}`}
+              index={index}
+              group={group}
+              node={node}
+              nodeGroups={nodeGroups}
+              edges={edges}
+              updateEdges={updateEdges}
+              getPosition={getPosition}
+              isActive={group.isActive}
+              isLast={index === group.nodes.length - 1}
+            />
+          ))}
+        </div>
       ))}
       {edges.map((edge) => {
-        const startAnchor = getPosition(nodes.find((node) => node.id === edge.source)?.handlers.find((handle) => handle.type === 'source'))
-        const endAnchor = getPosition(nodes.find((node) => node.id === edge.target)?.handlers.find((handle) => handle.type === 'target'))
+        const sourceGroup = nodeGroups.find((group) => group?.id === edge.source)
+        const targetGroup = nodeGroups.find((group) => group?.id === edge.target)
+
+        if (! sourceGroup || ! targetGroup) {
+          return
+        }
+
+        const startAnchor = getPosition(sourceGroup.nodes[0].handlers.find((handle) => handle.type === 'source'))
+        const endAnchor = getPosition(targetGroup.nodes[0].handlers.find((handle) => handle.type === 'target'))
 
         return (
           <Xarrow
+            key={edge.source}
             start={edge.source}
             end={edge.target}
             startAnchor={startAnchor}
             endAnchor={endAnchor}
-            key={`${edge.source} - ${edge.source}`}
             path="grid"
             gridBreak="25%"
             strokeWidth={2}
             lineColor={edge.isActive ? brandColors.gradient[2].dark : brandColors.gradient[2].light}
-            style={{ opacity: 0 }}
             showHead={false}
             dashness
           />
@@ -64,7 +89,7 @@ const Campaigns = ({
 }
 
 Campaigns.propTypes = {
-  initialNodes: PropTypes.array.isRequired,
+  initialNodeGroups: PropTypes.array.isRequired,
   initialEdges: PropTypes.array.isRequired,
 }
 

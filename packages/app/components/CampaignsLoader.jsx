@@ -3,11 +3,11 @@ import useAsyncEffect from 'use-async-effect'
 import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
-import { getAudiences, getCampaigns, getAdSets, makeNodes, makeEdges } from '@/app/helpers/campaignsHelpers'
+import { getAudiences, getLookalikesAudiences, getCampaigns, getAdSets, getNodeGroups, getEdges } from '@/app/helpers/campaignsHelpers'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 const CampaignsLoader = () => {
-  const [initialNodes, setInitialNodes] = React.useState([])
+  const [initialNodeGroups, setInitialNodeGroups] = React.useState([])
   const [initialEdges, setInitialEdges] = React.useState([])
   const [error, setError] = React.useState(null)
 
@@ -28,6 +28,17 @@ const CampaignsLoader = () => {
       return
     }
 
+    let lookalikesAudiences = []
+    if (audiences.length > 0) {
+      const adSetsPromises = audiences.map(async (audience) => {
+        return getLookalikesAudiences(artistId, audience.id)
+      })
+
+      const res = await Promise.all(adSetsPromises)
+      const flattenedLookalikesAudiences = res.map(({ res }) => res).flat()
+      lookalikesAudiences = flattenedLookalikesAudiences
+    }
+
     const { res: campaigns, error: campaignsError } = await getCampaigns(artistId)
     if (! isMounted()) {
       return
@@ -45,17 +56,19 @@ const CampaignsLoader = () => {
       })
 
       const res = await Promise.all(adSetsPromises)
-      const flattenedAdSets = res.map(({ res }) => res).flat()
+      const flattenedAdSets = res.map(({ res }, index) => {
+        return res.map((adSet) => ({ ...adSet, platform: campaigns[index].platform }))
+      }).flat()
       adSets = flattenedAdSets
     }
 
-    const nodes = makeNodes(audiences, adSets).slice(0, -3)
-    const edges = makeEdges(nodes)
-    setInitialNodes(nodes)
+    const nodeGroups = getNodeGroups(audiences, lookalikesAudiences, adSets)
+    const edges = getEdges(nodeGroups)
+    setInitialNodeGroups(nodeGroups)
     setInitialEdges(edges)
   }, [artistId])
 
-  if (initialNodes.length === 0 || initialEdges.length === 0) {
+  if (initialNodeGroups.length === 0 || initialEdges.length === 0) {
     return
   }
 
@@ -64,7 +77,7 @@ const CampaignsLoader = () => {
       <CampaignsHeader />
       <Error error={error} />
       <Campaigns
-        initialNodes={initialNodes}
+        initialNodeGroups={initialNodeGroups}
         initialEdges={initialEdges}
       />
     </div>

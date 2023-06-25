@@ -3,49 +3,54 @@ import PropTypes from 'prop-types'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import CampaignsNodeConnector from '@/app/CampaignsNodeConnector'
 import HeartIcon from '@/icons/HeartIcon'
+import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
 
 const CampaignsNodeCampaign = ({
+  index,
+  group,
   node,
   onDragOver,
   onDrop,
   getPosition,
+  isActive,
+  isLast,
 }) => {
   const {
-    id,
     handlers,
-    isActive,
-    data: {
-      label,
-      engagementRate,
-      costPerEngagement,
-    },
+    label,
+    platform,
   } = node
-  const isDesktopLayout = useBreakpointTest('xs')
   const nodeRef = React.useRef()
+  const engagementRate = 0
+  const costPerEngagement = 0
+  const isDesktopLayout = useBreakpointTest('xs')
+
+  const icons = {
+    facebook: FacebookIcon,
+    instagram: InstagramIcon,
+  }
+  const PlatformIcon = icons[platform]
 
   return (
     <div
-      id={id}
+      id={isLast ? group.id : null}
       ref={nodeRef}
-      style={{
-        order: ! isDesktopLayout ? node.order : null,
-        top: isDesktopLayout ? node.position.y : null,
-        left: isDesktopLayout ? node.position.x : null,
-      }}
       className={[
-        'w-3/4 xs:w-36 h-[74px] z-10',
+        'w-full xs:w-36 h-[74px] z-10 absolute',
         'p-2 rounded-dialogue',
         isActive ? 'bg-green-bg-light' : 'bg-white border-solid border-2 border-green',
-        isDesktopLayout ? 'absolute' : 'relative mb-12',
       ].join(' ')}
+      style={{ top: `${index * 5}px`, left: isDesktopLayout ? `${index * 5}px` : null }}
       onDragOver={onDragOver}
       onDrop={onDrop}
       role="button"
     >
-      <div className="absolute -top-2 -left-2 h-4 w-4 bg-white z-10">
-        <InstagramIcon className="h-4 w-auto" />
-      </div>
+      {PlatformIcon && (
+        <div className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-[5px] z-10 overflow-hidden">
+          <PlatformIcon className="h-4 w-auto" />
+        </div>
+      )}
       <div className={[
         'flex h-full items-center text-sm',
         isActive ? 'flex-row xs:flex-col justify-around xs:justify-center' : 'flex-col justify-center xs:items-start',
@@ -76,25 +81,31 @@ const CampaignsNodeCampaign = ({
           <div className="text-xs">{label}</div>
         )}
       </div>
-      {handlers.map((handler) => (
-        <CampaignsNodeConnector
-          key={handler.position}
-          node={node}
-          handler={handler}
-          nodeRef={nodeRef}
-          className="bg-green-bg-dark"
-          getPosition={getPosition}
-        />
-      ))}
+      {isLast && (
+        handlers.map((handler) => (
+          <CampaignsNodeConnector
+            key={handler.position}
+            id={group.id}
+            handler={handler}
+            nodeRef={nodeRef}
+            getPosition={getPosition}
+            className="bg-green-bg-dark"
+          />
+        ))
+      )}
     </div>
   )
 }
 
 CampaignsNodeCampaign.propTypes = {
+  group: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
   node: PropTypes.object.isRequired,
   onDragOver: PropTypes.func.isRequired,
   onDrop: PropTypes.func.isRequired,
   getPosition: PropTypes.func.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  isLast: PropTypes.bool.isRequired,
 }
 
 export default CampaignsNodeCampaign

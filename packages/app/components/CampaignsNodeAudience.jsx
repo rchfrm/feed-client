@@ -9,24 +9,23 @@ import InstagramIcon from '@/icons/InstagramIcon'
 import brandColors from '@/constants/brandColors'
 
 const CampaignsNodeAudience = ({
+  group,
+  index,
   node,
   onDragOver,
   onDrop,
   getPosition,
+  isActive,
+  isLast,
 }) => {
   const {
-    id,
     handlers,
-    isActive,
-    data: {
-      platform,
-      label,
-      audienceType,
-    },
+    platform,
+    label,
   } = node
-  const isDesktopLayout = useBreakpointTest('xs')
   const nodeRef = React.useRef()
-  const isCustomAudience = audienceType === 'custom'
+  const isCustomAudience = group.subType === 'custom'
+  const isDesktopLayout = useBreakpointTest('xs')
 
   const icons = {
     facebook: FacebookIcon,
@@ -36,34 +35,32 @@ const CampaignsNodeAudience = ({
 
   return (
     <div
-      id={id}
+      id={isLast ? group.id : null}
       ref={nodeRef}
-      style={{
-        order: ! isDesktopLayout ? node.order : null,
-        top: isDesktopLayout ? node.position.y : null,
-        left: isDesktopLayout ? node.position.x : null,
-      }}
       className={[
-        'w-3/4 xs:w-52 z-10 p-1.5',
+        'w-full xs:w-52 p-1.5 z-10 absolute',
         'border-2 border-b-[6px] border-solid rounded-dialogue',
         'text-sm text-[#203578]',
         isCustomAudience
           ? isActive ? 'bg-gradient-2-light border-gradient-2-dark' : 'bg-white border-gradient-2-light text-gradient-2-dark'
           : 'bg-gradient-1-light border-gradient-1-dark',
-        isDesktopLayout ? 'absolute' : 'relative mb-12',
       ].join(' ')}
+      style={{ top: `${index * 5}px`, left: isDesktopLayout ? `${index * 5}px` : null }}
       onDragOver={onDragOver}
       onDrop={onDrop}
       role="button"
     >
-      <div className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-[5px] z-10 overflow-hidden">
-        <PlatformIcon className="h-4 w-auto" />
-      </div>
+      {PlatformIcon && (
+        <div className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-[5px] z-10 overflow-hidden">
+          <PlatformIcon className="h-4 w-auto" />
+        </div>
+      )}
       <div className="flex items-center">
         <div className={[
           'flex items-center justify-center flex-shrink-0',
           'w-8 h-[38px] mr-2',
           'rounded-dialogue',
+          'border-2 border-solid border-gradient-2-light',
           isCustomAudience
             ? isActive ? 'bg-gradient-2-dark' : 'border-2 border-solid border-gradient-2-light'
             : 'bg-gradient-1-dark',
@@ -77,25 +74,34 @@ const CampaignsNodeAudience = ({
         </div>
         <div>{label}</div>
       </div>
-      {handlers.map((handler) => (
-        <CampaignsNodeConnector
-          key={handler.position}
-          node={node}
-          handler={handler}
-          nodeRef={nodeRef}
-          className={isCustomAudience ? 'bg-gradient-2-dark' : 'bg-gradient-1-dark'}
-          getPosition={getPosition}
-        />
-      ))}
+      {isLast && (
+        handlers.map((handler) => (
+          <CampaignsNodeConnector
+            key={handler.position}
+            id={group.id}
+            handler={handler}
+            nodeRef={nodeRef}
+            getPosition={getPosition}
+            className={[
+              isCustomAudience ? 'bg-gradient-2-dark' : 'bg-gradient-1-dark',
+              handler.type === 'target' ? 'pointer-events-none' : null,
+            ].join(' ')}
+          />
+        ))
+      )}
     </div>
   )
 }
 
 CampaignsNodeAudience.propTypes = {
+  group: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
   node: PropTypes.object.isRequired,
   onDragOver: PropTypes.func.isRequired,
   onDrop: PropTypes.func.isRequired,
   getPosition: PropTypes.func.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  isLast: PropTypes.bool.isRequired,
 }
 
 export default CampaignsNodeAudience
