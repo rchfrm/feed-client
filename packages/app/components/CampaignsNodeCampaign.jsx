@@ -16,11 +16,8 @@ const CampaignsNodeCampaign = ({
   isActive,
   isLast,
 }) => {
-  const {
-    handlers,
-    label,
-    platform,
-  } = node
+  const { handlers } = group
+  const { label, platform } = node
   const nodeRef = React.useRef()
   const engagementRate = 0
   const costPerEngagement = 0
@@ -57,6 +54,8 @@ const CampaignsNodeCampaign = ({
       ].join(' ')}
       >
         {isActive ? (
+          <div className="text-xs">{label}</div>
+        ) : (
           <>
             <div className="flex items-center mb-0.5 justify-center xs:justify-start">
               {isActive && <HeartIcon className="h-3 w-auto mr-1 flex-shrink-0" />}
@@ -73,12 +72,10 @@ const CampaignsNodeCampaign = ({
               </div>
             </div>
           </>
-        ) : (
           // <>
           //   <p className="mb-1 font-bold">+ Add campaign</p>
           //   <p className="mb-0 text-xs">Encourage people to visit your profile.</p>
           // </>
-          <div className="text-xs">{label}</div>
         )}
       </div>
       {isLast && (

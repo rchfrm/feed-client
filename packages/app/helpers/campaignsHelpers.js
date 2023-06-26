@@ -48,63 +48,6 @@ export const getAdSets = async (artistId, campaignId) => {
   return { res, error }
 }
 
-const makeNode = ({ type, subType, platform, label }) => {
-  const isCampaign = type === 'campaign'
-
-  return {
-    type,
-    subType,
-    platform,
-    label,
-    handlers: [
-      {
-        type: 'target',
-        position: 'left',
-      },
-      {
-        type: 'source',
-        position: isCampaign ? 'right' : 'bottom',
-      },
-    ],
-  }
-}
-
-const getPosition = (index) => {
-  switch (index) {
-    case 0:
-      return 10
-    case 1:
-      return 90
-    case 2:
-      return 320
-    case 3:
-      return 400
-    case 4:
-      return 630
-    case 5:
-      return 710
-    case 6:
-      return 940
-    case 7:
-      return 1030
-    case 8:
-      return 1270
-    default:
-      break
-  }
-}
-
-const makeNodeGroup = ({ index, node }) => {
-  return {
-    id: index.toString(),
-    type: node.type,
-    subType: node.subType,
-    position: { x: getPosition(index), y: node.type === 'audience' ? 10 : 225 },
-    isActive: true,
-    nodes: [node],
-  }
-}
-
 const getAudienceGroupIndex = (name) => {
   switch (true) {
     case name.includes('Lookalike'):
@@ -137,44 +80,81 @@ const getCampaignGroupIndex = (identifier) => {
   }
 }
 
-const makeOrAddToGroup = (index, node, nodeGroups) => {
-  if (nodeGroups[index]) {
-    nodeGroups[index].nodes.push(node)
+const getPosition = (group, nodeGroups) => {
+  const { type, id } = group
+  const isAudience = type === 'audience'
+  const spacing = 310
+  const startValue = isAudience ? 10 : 90
+  const nodeGroupsByType = nodeGroups.filter((group) => group?.type === type)
+  const index = nodeGroupsByType.findIndex((group) => group.id === id)
+
+  return {
+    x: startValue + (spacing * index),
+    y: isAudience ? 10 : 225,
+  }
+}
+
+const makeNodeGroup = ({ groupIndex, node }) => {
+  const isAudience = node.type === 'audience'
+
+  return {
+    id: groupIndex.toString(),
+    type: node.type,
+    subType: node.subType,
+    isActive: true,
+    nodes: [node],
+    handlers: [
+      {
+        type: 'target',
+        position: 'left',
+      },
+      {
+        type: 'source',
+        position: isAudience ? 'bottom' : 'right',
+      },
+    ],
+  }
+}
+
+const makeOrAddToGroup = (groupIndex, node, nodeGroups) => {
+  if (nodeGroups[groupIndex]) {
+    nodeGroups[groupIndex].nodes.push(node)
     return
   }
 
-  const nodeGroup = makeNodeGroup({ index, node })
-  nodeGroups[index] = nodeGroup
+  const nodeGroup = makeNodeGroup({ groupIndex, node })
+  nodeGroups[groupIndex] = nodeGroup
+
   return nodeGroup
 }
 
 export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   const nodeGroups = []
 
-  audiences.forEach((audience) => {
-    const { name, platform, approximate_count } = audience
-    const groupIndex = getAudienceGroupIndex(name)
-
-    const node = makeNode({
-      type: 'audience',
-      subType: 'custom',
-      platform,
-      label: `${name} - ${approximate_count}`,
-    })
-
-    makeOrAddToGroup(groupIndex, node, nodeGroups)
-  })
-
   lookalikesAudiences.forEach((audience) => {
     const { name, approximate_count } = audience
     const groupIndex = getAudienceGroupIndex(name)
 
-    const node = makeNode({
+    const node = {
       type: 'audience',
       subType: 'lookalike',
       platform: '',
       label: `${name} - ${approximate_count}`,
-    })
+    }
+
+    makeOrAddToGroup(groupIndex, node, nodeGroups)
+  })
+
+  audiences.forEach((audience) => {
+    const { name, platform, approximate_count } = audience
+    const groupIndex = getAudienceGroupIndex(name)
+
+    const node = {
+      type: 'audience',
+      subType: 'custom',
+      platform,
+      label: `${name} - ${approximate_count}`,
+    }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
@@ -183,16 +163,16 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
     const { name, identifier, platform, optimization_goal } = adSet
     const groupIndex = getCampaignGroupIndex(identifier)
 
-    const node = makeNode({
+    const node = {
       type: 'campaign',
       platform,
       label: `${name} - ${optimization_goal}`,
-    })
+    }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
-  return nodeGroups
+  return nodeGroups.map((group) => ({ ...group, position: getPosition(group, nodeGroups) }))
 }
 
 export const getEdges = (nodeGroups) => {

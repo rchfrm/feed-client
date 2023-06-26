@@ -18,11 +18,8 @@ const CampaignsNodeAudience = ({
   isActive,
   isLast,
 }) => {
-  const {
-    handlers,
-    platform,
-    label,
-  } = node
+  const { handlers } = group
+  const { platform, label } = node
   const nodeRef = React.useRef()
   const isCustomAudience = group.subType === 'custom'
   const isDesktopLayout = useBreakpointTest('xs')

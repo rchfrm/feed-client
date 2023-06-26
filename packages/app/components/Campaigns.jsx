@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Xarrow from 'react-xarrows'
-import CampaignsNode from '@/app/CampaignsNode'
+import CampaignsNodeGroup from '@/app/CampaignsNodeGroup'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import brandColors from '@/constants/brandColors'
 
@@ -29,33 +29,14 @@ const Campaigns = ({
   return (
     <div className={isDesktopLayout ? 'relative h-[350px] overflow-hidden overflow-x-scroll' : 'flex flex-col items-center'}>
       {nodeGroups.map((group) => (
-        <div
+        <CampaignsNodeGroup
           key={group.id}
-          style={{
-            top: isDesktopLayout ? group.position.y : null,
-            left: isDesktopLayout ? group.position.x : null,
-            minHeight: ! isDesktopLayout ? 80 : null,
-            height: ! isDesktopLayout ? group.nodes.length * 10 : null,
-          }}
-          className={[
-            isDesktopLayout ? 'absolute' : 'relative w-3/4 mx-auto mb-12',
-          ].join(' ')}
-        >
-          {group.nodes.map((node, index) => (
-            <CampaignsNode
-              key={`${group.id} -${index}`}
-              index={index}
-              group={group}
-              node={node}
-              nodeGroups={nodeGroups}
-              edges={edges}
-              updateEdges={updateEdges}
-              getPosition={getPosition}
-              isActive={group.isActive}
-              isLast={index === group.nodes.length - 1}
-            />
-          ))}
-        </div>
+          group={group}
+          nodeGroups={nodeGroups}
+          edges={edges}
+          updateEdges={updateEdges}
+          getPosition={getPosition}
+        />
       ))}
       {edges.map((edge) => {
         const sourceGroup = nodeGroups.find((group) => group?.id === edge.source)
@@ -65,8 +46,8 @@ const Campaigns = ({
           return
         }
 
-        const startAnchor = getPosition(sourceGroup.nodes[0].handlers.find((handle) => handle.type === 'source'))
-        const endAnchor = getPosition(targetGroup.nodes[0].handlers.find((handle) => handle.type === 'target'))
+        const startAnchor = getPosition(sourceGroup.handlers.find((handle) => handle.type === 'source'))
+        const endAnchor = getPosition(targetGroup.handlers.find((handle) => handle.type === 'target'))
 
         return (
           <Xarrow
