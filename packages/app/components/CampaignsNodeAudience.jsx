@@ -69,7 +69,7 @@ const CampaignsNodeAudience = ({
             <ProfileIcon fill="#FFF" className="h-6 w-auto" />
           )}
         </div>
-        <div>{label}</div>
+        <div className="text-xs">{label}</div>
       </div>
       {isLast && (
         handlers.map((handler) => (

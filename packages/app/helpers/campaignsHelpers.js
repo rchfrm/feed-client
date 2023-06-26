@@ -90,7 +90,7 @@ const getPosition = (group, nodeGroups) => {
 
   return {
     x: startValue + (spacing * index),
-    y: isAudience ? 10 : 225,
+    y: isAudience ? 10 : 155,
   }
 }
 
