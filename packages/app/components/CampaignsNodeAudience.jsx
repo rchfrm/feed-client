@@ -38,7 +38,7 @@ const CampaignsNodeAudience = ({
       id={isLast ? group.id : null}
       ref={nodeRef}
       className={[
-        'w-full xs:w-52 p-1.5 z-10 absolute',
+        'w-full xs:w-52 p-1.5 z-10 absolute cursor-default',
         'border-2 border-b-[6px] border-solid rounded-dialogue',
         'text-sm text-[#203578]',
         isCustomAudience
@@ -83,8 +83,8 @@ const CampaignsNodeAudience = ({
             nodeRef={nodeRef}
             getPosition={getPosition}
             className={[
+              'pointer-events-none',
               isCustomAudience ? 'bg-gradient-2-dark' : 'bg-gradient-1-dark',
-              handler.type === 'target' ? 'pointer-events-none' : null,
             ].join(' ')}
           />
         ))

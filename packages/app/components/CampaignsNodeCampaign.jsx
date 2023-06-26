@@ -37,7 +37,7 @@ const CampaignsNodeCampaign = ({
       id={isLast ? group.id : null}
       ref={nodeRef}
       className={[
-        'w-full xs:w-36 h-[74px] z-10 absolute',
+        'w-full xs:w-36 h-[74px] z-10 absolute cursor-default',
         'p-2 rounded-dialogue',
         isActive ? 'bg-green-bg-light' : 'bg-white border-solid border-2 border-green',
       ].join(' ')}
@@ -89,7 +89,7 @@ const CampaignsNodeCampaign = ({
             handler={handler}
             nodeRef={nodeRef}
             getPosition={getPosition}
-            className="bg-green-bg-dark"
+            className="pointer-events-none bg-green-bg-dark"
           />
         ))
       )}

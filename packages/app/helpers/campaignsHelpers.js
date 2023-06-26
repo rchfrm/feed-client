@@ -100,7 +100,7 @@ const makeNodeGroup = ({ index, node }) => {
     type: node.type,
     subType: node.subType,
     position: { x: getPosition(index), y: node.type === 'audience' ? 10 : 225 },
-    isActive: node?.subType === 'lookalike',
+    isActive: true,
     nodes: [node],
   }
 }
@@ -202,7 +202,7 @@ export const getEdges = (nodeGroups) => {
     if (index === nodeGroups.length - 1) {
       return
     }
-    edges.push({ source: group.id, target: (index + 1).toString(), isActive: false })
+    edges.push({ source: group.id, target: (index + 1).toString(), isActive: true })
   })
 
   return edges
