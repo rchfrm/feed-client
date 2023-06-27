@@ -1,4 +1,5 @@
 import React from 'react'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import BasePage from '@/app/BasePage'
 import CampaignsLoader from '@/app/CampaignsLoader'
 import testPageReady from '@/hoc/testPageReady'
@@ -8,9 +9,11 @@ const headerConfig = {
 }
 
 const Page = () => {
+  const { artistId } = React.useContext(ArtistContext)
+
   return (
     <BasePage headerConfig={headerConfig}>
-      <CampaignsLoader />
+      <CampaignsLoader key={artistId} />
     </BasePage>
   )
 }

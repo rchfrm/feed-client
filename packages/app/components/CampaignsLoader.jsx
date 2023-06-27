@@ -1,15 +1,16 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
 import { getAudiences, getLookalikesAudiences, getCampaigns, getAdSets, getNodeGroups, getEdges } from '@/app/helpers/campaignsHelpers'
-import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 const CampaignsLoader = () => {
-  const [initialNodeGroups, setInitialNodeGroups] = React.useState([])
-  const [initialEdges, setInitialEdges] = React.useState([])
+  const [nodeGroups, setNodeGroups] = React.useState([])
+  const [edges, setEdges] = React.useState([])
   const [error, setError] = React.useState(null)
+  const [isLoading, setIsLoading] = React.useState(true)
 
   const { artistId } = React.useContext(ArtistContext)
 
@@ -20,11 +21,13 @@ const CampaignsLoader = () => {
 
     const { res: audiences, error: audiencesError } = await getAudiences(artistId)
     if (! isMounted()) {
+      setIsLoading(false)
       return
     }
 
     if (audiencesError) {
       setError(audiencesError)
+      setIsLoading(false)
       return
     }
 
@@ -41,11 +44,13 @@ const CampaignsLoader = () => {
 
     const { res: campaigns, error: campaignsError } = await getCampaigns(artistId)
     if (! isMounted()) {
+      setIsLoading(false)
       return
     }
 
     if (campaignsError) {
       setError(campaignsError)
+      setIsLoading(false)
       return
     }
 
@@ -64,21 +69,26 @@ const CampaignsLoader = () => {
 
     const nodeGroups = getNodeGroups(audiences, lookalikesAudiences, adSets)
     const edges = getEdges(nodeGroups)
-    setInitialNodeGroups(nodeGroups)
-    setInitialEdges(edges)
+
+    setNodeGroups(nodeGroups)
+    setEdges(edges)
+    setIsLoading(false)
   }, [artistId])
 
-  if (initialNodeGroups.length === 0 || initialEdges.length === 0) {
-    return
-  }
+  // if (initialNodeGroups.length === 0 || initialEdges.length === 0) {
+  //   return
+  // }
 
   return (
     <div onDragOver={(e) => e.preventDefault()}>
       <CampaignsHeader />
       <Error error={error} />
       <Campaigns
-        initialNodeGroups={initialNodeGroups}
-        initialEdges={initialEdges}
+        nodeGroups={nodeGroups}
+        setNodeGroups={setNodeGroups}
+        edges={edges}
+        setEdges={setEdges}
+        isLoading={isLoading}
       />
     </div>
   )
