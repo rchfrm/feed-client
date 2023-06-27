@@ -38,7 +38,9 @@ const CampaignsLoader = () => {
       })
 
       const res = await Promise.all(adSetsPromises)
-      const flattenedLookalikesAudiences = res.map(({ res }) => res).flat()
+      const flattenedLookalikesAudiences = res.map(({ res }, index) => {
+        return res.map((lookalikesAudience) => ({ ...lookalikesAudience, platform: audiences[index].platform }))
+      }).flat()
       lookalikesAudiences = flattenedLookalikesAudiences
     }
 
@@ -74,10 +76,6 @@ const CampaignsLoader = () => {
     setEdges(edges)
     setIsLoading(false)
   }, [artistId])
-
-  // if (initialNodeGroups.length === 0 || initialEdges.length === 0) {
-  //   return
-  // }
 
   return (
     <div onDragOver={(e) => e.preventDefault()}>

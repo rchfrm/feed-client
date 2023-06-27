@@ -1,4 +1,6 @@
 import { requestWithCatch } from '@/helpers/api'
+import { capitalise } from '@/helpers/utils'
+import copy from '@/app/copy/campaignsCopy'
 
 export const getAudiences = async (artistId) => {
   const endpoint = `/artists/${artistId}/audiences`
@@ -132,41 +134,41 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   const nodeGroups = []
 
   lookalikesAudiences.forEach((audience) => {
-    const { name, approximate_count } = audience
+    const { name, platform, approximate_count, retention_days } = audience
     const groupIndex = getAudienceGroupIndex(name)
 
     const node = {
       type: 'audience',
       subType: 'lookalike',
-      platform: '',
-      label: `${name} - ${approximate_count}`,
+      platform,
+      label: copy.nodeLabel(name, platform, approximate_count, retention_days),
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
   audiences.forEach((audience) => {
-    const { name, platform, approximate_count } = audience
+    const { name, platform, approximate_count, retention_days } = audience
     const groupIndex = getAudienceGroupIndex(name)
 
     const node = {
       type: 'audience',
       subType: 'custom',
       platform,
-      label: `${name} - ${approximate_count}`,
+      label: copy.nodeLabel(name, platform, approximate_count, retention_days),
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
   adSets.forEach((adSet) => {
-    const { name, identifier, platform, optimization_goal } = adSet
+    const { identifier, platform } = adSet
     const groupIndex = getCampaignGroupIndex(identifier)
 
     const node = {
       type: 'campaign',
       platform,
-      label: `${name} - ${optimization_goal}`,
+      label: capitalise(identifier.replace(/_/g, ' ')),
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)

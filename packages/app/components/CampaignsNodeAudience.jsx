@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import CampaignsNodeConnector from '@/app/CampaignsNodeConnector'
 import HeartIcon from '@/icons/HeartIcon'
-import ProfileIcon from '@/icons/ProfileIcon'
+import UsersIcon from '@/icons/UsersIcon'
 import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
 import brandColors from '@/constants/brandColors'
+import MarkdownText from '@/elements/MarkdownText'
 
 const CampaignsNodeAudience = ({
   group,
@@ -60,16 +61,16 @@ const CampaignsNodeAudience = ({
           'border-2 border-solid border-gradient-2-light',
           isCustomAudience
             ? isActive ? 'bg-gradient-2-dark' : 'border-2 border-solid border-gradient-2-light'
-            : 'bg-gradient-1-dark',
+            : 'bg-gradient-1-dark border-none',
         ].join(' ')}
         >
           {isCustomAudience ? (
             <HeartIcon fill={isActive ? brandColors.white : brandColors.gradient[2].light} className="h-5 w-auto" />
           ) : (
-            <ProfileIcon fill="#FFF" className="h-6 w-auto" />
+            <UsersIcon fill="#FFF" className="h-5 w-auto" />
           )}
         </div>
-        <div className="text-xs">{label}</div>
+        <MarkdownText markdown={label} className="text-xs mb-0" />
       </div>
       {isLast && (
         handlers.map((handler) => (
