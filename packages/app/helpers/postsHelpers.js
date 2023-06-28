@@ -18,7 +18,11 @@ export const postsConfig = {
   },
   pending: {
     name: 'Queue',
-    filterBy: { promotion_status: ['inactive', 'in_review'], promotion_enabled: true },
+    filterBy: {
+      promotion_status: ['inactive', 'in_review'],
+      promotion_enabled: true,
+      is_promotable: true,
+    },
     action: 'Edit ad or push to front',
   },
   inactive: {
