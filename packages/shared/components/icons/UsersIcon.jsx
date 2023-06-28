@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import brandColors from '@/constants/brandColors'
 
 const UsersIcon = ({ fill, className }) => {

@@ -72,10 +72,6 @@ const CampaignsNodeCampaign = ({
               </div>
             </div>
           </>
-          // <>
-          //   <p className="mb-1 font-bold">+ Add campaign</p>
-          //   <p className="mb-0 text-xs">Encourage people to visit your profile.</p>
-          // </>
         )}
       </div>
       {isLast && (
