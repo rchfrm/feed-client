@@ -18,7 +18,11 @@ export const postsConfig = {
   },
   pending: {
     name: 'Queue',
-    filterBy: { promotion_status: 'inactive', promotion_enabled: true },
+    filterBy: {
+      promotion_status: ['inactive', 'in_review'],
+      promotion_enabled: true,
+      is_promotable: true,
+    },
     action: 'Edit ad or push to front',
   },
   inactive: {
@@ -107,12 +111,16 @@ export const filterTypes = [
 
 export const sortTypes = [
   {
-    value: 'published_time',
-    name: 'Date',
+    name: 'Queue',
+    value: ['promotionStatus', 'priorityEnabled', 'normalizedScore'],
   },
   {
-    value: 'normalized_score',
+    name: 'Date',
+    value: 'publishedTime',
+  },
+  {
     name: 'Score',
+    value: 'normalizedScore',
   },
 ]
 
@@ -186,6 +194,40 @@ export const formatAdRejectionReason = (reason) => {
   formattedReason = reason?.toLowerCase().replaceAll('_', ' ')
   formattedReason = capitalise(formattedReason)
   return formattedReason
+}
+
+export const getRejectionReason = (ads) => {
+  const [reason] = Object.values(ads || {}).reduce((reasons, ad) => {
+    const adReviewFeedback = ad?.ad_review_feedback?.global
+    const issuesInfo = ad?.issues_info
+    if (adReviewFeedback) {
+      return [...reasons, Object.keys(adReviewFeedback)[0]]
+    }
+    if (issuesInfo) {
+      return [...reasons, issuesInfo[0].error_summary]
+    }
+    return reasons
+  }, [])
+
+  return formatAdRejectionReason(reason)
+}
+
+export const getPostStatus = (post, status) => {
+  const { isPromotable, notPromotableReason } = post
+
+  if (status === 'rejected') {
+    return getRejectionReason(post?.ads) || 'Unknown'
+  }
+
+  if (! isPromotable && notPromotableReason) {
+    return notPromotableReason
+  }
+
+  if (post.promotionStatus === 'in_review') {
+    return 'In Review'
+  }
+
+  return ''
 }
 
 // Get post link data
@@ -545,18 +587,21 @@ export const canBePromoted = (eligibility, postType) => {
     return Object.values(eligibility).some(Boolean)
   }
   const pluralPostType = getPostTypePlural(postType)
-  return eligibility[pluralPostType]
+  return eligibility?.[pluralPostType]
 }
 
-export const createAd = (artistId, formData) => {
-  const endpoint = `/artists/${artistId}/custom_assets`
+export const createAd = async (artistId, formData) => {
+  const endpoint = `/artists/${artistId}/assets`
   const payload = formData
   const errorTracking = {
     category: 'Post',
     action: 'Create ad',
   }
 
-  return requestWithCatch('post', endpoint, payload, errorTracking)
+  const { res, error } = await requestWithCatch('post', endpoint, payload, errorTracking)
+  const formattedPosts = formatPostsResponse([res])
+
+  return { res: formattedPosts, error }
 }
 
 /**

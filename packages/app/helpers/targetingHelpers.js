@@ -325,6 +325,17 @@ export const getGeoLocations = (query) => {
   return api.requestWithCatch('get', requestUrl, payload, errorTracking)
 }
 
+export const getInterests = (query) => {
+  const requestUrl = `/actions/search/interests?q=${query}`
+  const payload = null
+  const errorTracking = {
+    category: 'Targeting',
+    action: 'Fetch interests',
+  }
+
+  return api.requestWithCatch('get', requestUrl, payload, errorTracking)
+}
+
 export const getTotalSpentInPeriod = (dailyData, startDate) => {
   if (! dailyData) return 0
 
@@ -400,3 +411,16 @@ export const budgetPauseReasonOptions = [
     value: 'other',
   },
 ]
+
+export const formatInterestSearchResponse = (interest, platform) => {
+  return {
+    name: interest.name,
+    topic: interest.topic,
+    platformId: interest.id,
+    platform,
+    audienceSizeLowerBound: interest.audience_size_lower_bound,
+    audienceSizeUpperBound: interest.audience_size_upper_bound,
+    path: interest.path,
+    isActive: true,
+  }
+}

@@ -158,6 +158,7 @@ const ConnectProfilesLoader = ({
           auth={auth}
           errors={errors}
           setErrors={setErrors}
+          hasArtists={artistAccounts.length > 0}
           isConnecting={isConnecting}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}

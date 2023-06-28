@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import TickCircleIcon from '@/icons/TickCircleIcon'
-
 import brandColors from '@/constants/brandColors'
 
-const TargetingLocationsSearchSuccess = ({ name, setLocation }) => {
+const TargetingSearchSuccess = ({ name, type, setValue }) => {
   const resetSavedLocation = () => {
-    setLocation(null)
+    setValue(null)
   }
 
   return (
@@ -17,18 +15,16 @@ const TargetingLocationsSearchSuccess = ({ name, setLocation }) => {
         className="mr-2"
       />
       <button onClick={resetSavedLocation} className="text-left">{name} added!
-        <span className="ml-1 underline">Add another location?</span>
+        <span className="ml-1 underline">Add another {type}?</span>
       </button>
     </div>
   )
 }
 
-TargetingLocationsSearchSuccess.propTypes = {
+TargetingSearchSuccess.propTypes = {
   name: PropTypes.string.isRequired,
-  setLocation: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
 }
 
-TargetingLocationsSearchSuccess.defaultProps = {
-}
-
-export default TargetingLocationsSearchSuccess
+export default TargetingSearchSuccess

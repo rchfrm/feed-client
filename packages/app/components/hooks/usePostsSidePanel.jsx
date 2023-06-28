@@ -27,13 +27,19 @@ const usePostsSidePanel = () => {
     post,
     status,
     setPosts,
+    sortBy,
+    isLastPromotableNotRunPost,
+    setStatusToRefresh,
   }) => {
     setSidePanelButton(CLOSE_BUTTON)
     setSidePanelContent((
       <PostSettings
         post={post}
         status={status}
-        setPost={setPosts}
+        setPosts={setPosts}
+        sortBy={sortBy}
+        isLastPromotableNotRunPost={isLastPromotableNotRunPost}
+        setStatusToRefresh={setStatusToRefresh}
       />
     ))
     setSidePanelContentLabel('Post Settings')

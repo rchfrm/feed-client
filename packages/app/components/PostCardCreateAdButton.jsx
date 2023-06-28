@@ -5,11 +5,11 @@ import AdCreation from '@/app/AdCreation'
 import PlusIcon from '@/icons/PlusIcon'
 import brandColors from '@/constants/brandColors'
 
-const PostCardCreateAdButton = ({ className }) => {
+const PostCardCreateAdButton = ({ setStatusToRefresh, className }) => {
   const { setSidePanelContent, toggleSidePanel } = React.useContext(SidePanelContext)
 
   const openSidePanel = () => {
-    setSidePanelContent(<AdCreation />)
+    setSidePanelContent(<AdCreation setStatusToRefresh={setStatusToRefresh} />)
     toggleSidePanel(true)
   }
 
@@ -32,6 +32,7 @@ const PostCardCreateAdButton = ({ className }) => {
 }
 
 PostCardCreateAdButton.propTypes = {
+  setStatusToRefresh: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

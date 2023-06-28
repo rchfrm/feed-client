@@ -565,22 +565,54 @@ export const getArtistPayload = (data, artist) => {
   }
 }
 
-export const objectives = [
+export const optimizations = [
   {
-    name: 'Audience growth',
-    value: 'growth',
-    isRestricted: false,
+    name: 'Instagram growth',
+    objective: 'growth',
+    platform: 'instagram',
+  },
+  {
+    name: 'Instagram conversations',
+    objective: 'conversations',
+    platform: 'instagram',
+  },
+  {
+    name: 'Spotify growth',
+    objective: 'growth',
+    platform: 'spotify',
+  },
+  {
+    name: 'Facebook growth',
+    objective: 'growth',
+    platform: 'facebook',
+  },
+  {
+    name: 'Soundcloud growth',
+    objective: 'growth',
+    platform: 'soundcloud',
+  },
+  {
+    name: 'YouTube growth',
+    objective: 'growth',
+    platform: 'youtube',
   },
   {
     name: 'Website visits',
-    value: 'traffic',
-    isRestricted: false,
+    objective: 'traffic',
+    platform: 'website',
   },
   {
     name: 'Website sales',
-    value: 'sales',
-    isRestricted: true,
+    objective: 'sales',
+    platform: 'website',
   },
+]
+
+export const hiddenPlatforms = [
+  'website',
+  'facebook',
+  'soundcloud',
+  'youtube',
 ]
 
 export const platforms = [
@@ -636,15 +668,12 @@ export const profileStatus = {
 export const getObjectiveString = (objective, platform) => {
   if (! objective || ! platform) return null
 
-  const objectiveString = objectives.find(({ value }) => objective === value).name
-
-  if (platform !== 'website') {
-    const platformString = getPlatformNameByValue(platform)
-
-    return `${platformString} growth`
-  }
-
-  return objectiveString
+  return optimizations.find((objectiveDetails) => {
+    return (
+      objective === objectiveDetails.objective
+      && platform === objectiveDetails.platform
+    )
+  }).name
 }
 
 export const getObjectiveColor = (platform) => {

@@ -5,6 +5,8 @@ import { UserContext } from '@/app/contexts/UserContext'
 import useControlsStore from '@/app/stores/controlsStore'
 import PostsNoArtists from '@/app/PostsNoArtists'
 import PostsLoader from '@/app/PostsLoader'
+import { removeDuplicatesByKey } from '@/helpers/utils'
+import { sortTypes } from '@/app/helpers/postsHelpers'
 
 const postsInitialState = {
   active: [],
@@ -19,10 +21,8 @@ const postsReducer = (draftState, postsAction) => {
 
   const {
     posts,
-    post,
     postId,
     status,
-    newStatus,
     links,
     callToActions,
     adMessages,
@@ -35,15 +35,13 @@ const postsReducer = (draftState, postsAction) => {
       draftState[status] = posts
       break
     case 'add-posts':
-      draftState[status].push(...posts)
+      draftState[status] = removeDuplicatesByKey('id', [...draftState[status], ...posts])
       break
     case 'toggle-promotion':
       draftState[status].splice(index, 1)
-      draftState[newStatus].push(post)
       break
     case 'toggle-priority':
       draftState[status].splice(index, 1)
-      draftState[newStatus].unshift(post)
       break
     case 'update-links':
       draftState[status][index].links = links
@@ -67,6 +65,8 @@ const getControlsStoreState = (state) => ({
 
 const Posts = () => {
   const [posts, setPosts] = useImmerReducer(postsReducer, postsInitialState)
+  const [statusToRefresh, setStatusToRefresh] = React.useState('')
+
   const { artist } = React.useContext(ArtistContext)
   const { hasSetUpProfile } = artist
   const { user } = React.useContext(UserContext)
@@ -82,6 +82,7 @@ const Posts = () => {
           posts={posts.active}
           setPosts={setPosts}
           isSpendingPaused={isSpendingPaused}
+          setStatusToRefresh={setStatusToRefresh}
           className={isSpendingPaused ? 'bg-yellow-bg-light border-yellow-border' : 'border-2 border-green'}
         />
         <PostsLoader
@@ -92,15 +93,20 @@ const Posts = () => {
         />
         <PostsLoader
           status="pending"
-          initialSortBy="normalized_score"
+          initialSortBy={sortTypes.find(({ name }) => name === 'Queue').value}
           posts={posts.pending}
           setPosts={setPosts}
+          isSpendingPaused={isSpendingPaused}
+          shouldRefresh={statusToRefresh === 'pending'}
+          setStatusToRefresh={setStatusToRefresh}
           className="border-grey-light bg-offwhite"
         />
         <PostsLoader
           status="inactive"
           posts={posts.inactive}
           setPosts={setPosts}
+          shouldRefresh={statusToRefresh === 'inactive'}
+          setStatusToRefresh={setStatusToRefresh}
           className="border-grey-light bg-offwhite"
         />
         <PostsLoader

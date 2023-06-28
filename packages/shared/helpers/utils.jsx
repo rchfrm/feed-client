@@ -193,8 +193,20 @@ export const abbreviateNumber = (number) => {
     return `${(number / 1000).toFixed(1)}k`
   }
 
-  if (number >= 10000) {
+  if (number < 1000000) {
     return `${(number / 1000).toFixed(0)}k`
+  }
+
+  if (number < 100000000) {
+    return `${(number / 1000000).toFixed(1)}m`
+  }
+
+  if (number < 1000000000) {
+    return `${(number / 1000000).toFixed(0)}m`
+  }
+
+  if (number >= 1000000000) {
+    return `${(number / 1000000000).toFixed(1)}b`
   }
 }
 
@@ -534,6 +546,13 @@ export const convertLocalToUTCDate = (date) => {
   date = new Date(date)
   date = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
   return date
+}
+
+export const removeDuplicatesByKey = (key, array) => {
+  return array.filter((value, index, self) =>
+    index === self.findIndex((t) => (
+      t[key] === value[key]
+    )))
 }
 
 export const findClosestNumber = (number, allNumbers, isRoundUp = false) => {

@@ -100,6 +100,8 @@ We are working on adding custom locations, but it would be really helpful if you
   locationSettingsTooltip: `By default, Nurture (retargeting) audiences are global. This means you can reach everyone who has engaged with you before.`,
   locationSettingsIntro: `Apply location targeting to Nurture audiences`,
 
+  interestDescription: 'Find and add interests to get your ads in front of people based on their long-term interests and interaction.',
+
   successMessage: (settingsSavedInitial) => {
     if (settingsSavedInitial) {
       return `Thanks! We'll be in touch shortly confirming you're all set, and your ads will start running shortly after that`

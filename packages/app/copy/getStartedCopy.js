@@ -59,6 +59,6 @@ You will be invoiced separately by Facebook for the ad spend.`
       return isDesktopLayout ? 'Grow or sell' : 'Objective'
     }
 
-    return `${capitalise(platform)} growth`
+    return `${capitalise(platform)} ${objective}`
   },
 }

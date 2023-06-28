@@ -5,7 +5,7 @@ import usePrevious from 'use-previous'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import PostsContainer from '@/app/PostsContainer'
 import Error from '@/elements/Error'
-import { postsConfig, getPosts } from '@/app/helpers/postsHelpers'
+import { postsConfig, getPosts, sortTypes } from '@/app/helpers/postsHelpers'
 
 const PostsLoader = ({
   status,
@@ -13,6 +13,8 @@ const PostsLoader = ({
   posts,
   setPosts,
   isSpendingPaused,
+  shouldRefresh,
+  setStatusToRefresh,
   className,
 }) => {
   const [sortBy, setSortBy] = React.useState(initialSortBy)
@@ -22,20 +24,29 @@ const PostsLoader = ({
   const [hasLoadedAll, setHasLoadedAll] = React.useState(false)
   const [error, setError] = React.useState(null)
 
+  const isInitialRender = React.useRef(true)
   const limit = 5
   const cursor = React.useRef('')
 
   const { artistId } = React.useContext(ArtistContext)
   const previousIsLoadingMore = usePrevious(isLoadingMore)
+  const previousShouldRefresh = usePrevious(shouldRefresh)
 
   useAsyncEffect(async (isMounted) => {
-    if (! artistId || (! isLoadingMore && previousIsLoadingMore)) {
+    if (
+      ! artistId
+      || isLoading
+      || (! isLoadingMore && previousIsLoadingMore)
+      || (! shouldRefresh && previousShouldRefresh)
+    ) {
       return
     }
 
-    if (! isLoadingMore) {
+    if (! isLoadingMore && ! shouldRefresh) {
       setIsLoading(true)
     }
+
+    setHasLoadedAll(false)
 
     const { res: posts, formattedPosts, error } = await getPosts({
       limit,
@@ -59,6 +70,10 @@ const PostsLoader = ({
 
     if (isLoadingMore && ! posts.length) {
       setHasLoadedAll(true)
+    }
+
+    if (shouldRefresh) {
+      setStatusToRefresh('')
     }
 
     const lastPost = posts[posts.length - 1]
@@ -86,7 +101,18 @@ const PostsLoader = ({
     })
 
     setIsLoading(false)
-  }, [artistId, filterBy, sortBy, isLoadingMore])
+  }, [artistId, filterBy, sortBy, isLoadingMore, shouldRefresh])
+
+  React.useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false
+      return
+    }
+
+    if (posts.length === 0 && status !== 'pending' && ! hasLoadedAll) {
+      setIsLoadingMore(true)
+    }
+  }, [posts.length, status, hasLoadedAll])
 
   React.useEffect(() => {
     if (! artistId) {
@@ -118,6 +144,7 @@ const PostsLoader = ({
         setIsLoadingMore={setIsLoadingMore}
         hasLoadedAll={hasLoadedAll}
         isSpendingPaused={isSpendingPaused}
+        setStatusToRefresh={setStatusToRefresh}
         className={className}
       />
     </>
@@ -126,16 +153,20 @@ const PostsLoader = ({
 
 PostsLoader.propTypes = {
   status: PropTypes.string.isRequired,
-  initialSortBy: PropTypes.string,
+  initialSortBy: PropTypes.array,
   posts: PropTypes.array.isRequired,
   setPosts: PropTypes.func.isRequired,
   isSpendingPaused: PropTypes.bool,
+  shouldRefresh: PropTypes.bool,
+  setStatusToRefresh: PropTypes.func,
   className: PropTypes.string,
 }
 
 PostsLoader.defaultProps = {
-  initialSortBy: 'published_time',
+  initialSortBy: [sortTypes.find(({ name }) => name === 'Date').value],
   isSpendingPaused: false,
+  shouldRefresh: false,
+  setStatusToRefresh: () => {},
   className: null,
 }
 

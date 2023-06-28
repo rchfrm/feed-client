@@ -35,7 +35,9 @@ const GetStartedDefaultLink = () => {
     defaultLink,
   } = useControlsStore(getControlsStoreState)
 
-  const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
+  const { artistId, setPostPreferences } = React.useContext(ArtistContext)
+
+  const wizardState = ! artistId ? (JSON.parse(getLocalStorage('getStartedWizard')) || {}) : {}
   const { objective: storedObjective, platform: storedPlatform, defaultLink: storedDefaultLink } = wizardState || {}
 
   const [link, setLink] = React.useState(defaultLink || storedDefaultLink || {})
@@ -44,7 +46,7 @@ const GetStartedDefaultLink = () => {
   const [isDisabled, setIsDisabled] = React.useState(false)
 
   const { next } = React.useContext(WizardContext)
-  const { artistId, setPostPreferences } = React.useContext(ArtistContext)
+
 
   const saveLinkToLinkBank = useSaveLinkToLinkBank()
   const saveIntegrationLink = useSaveIntegrationLink()

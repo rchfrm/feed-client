@@ -11,8 +11,6 @@ const getControlsStoreState = (state) => ({
   nestedLinks: state.nestedLinks,
   postsPreferences: state.postsPreferences,
   optimizationPreferences: state.optimizationPreferences,
-  updateProfileSetUpStatus: state.updateProfileSetUpStatus,
-  budget: state.budget,
 })
 
 const useCheckProfileSetupStatus = () => {

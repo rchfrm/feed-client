@@ -73,7 +73,7 @@ function Main({ children }) {
   const fetchEnabledPosts = async () => {
     const enabledPosts = await server.getPosts({
       artistId,
-      sortBy: ['normalized_score'],
+      sortBy: ['normalizedScore'],
       filterBy: {
         promotion_enabled: [true],
       },
@@ -90,7 +90,6 @@ function Main({ children }) {
     if (isFirstRender.current && artistId) {
       isFirstRender.current = false
       await fetchEnabledPosts()
-      return
     }
 
     updateProfileSetUpStatus(getProfileSetupStatus() || profileStatus.confirmSetup)

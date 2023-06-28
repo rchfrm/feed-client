@@ -1,16 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import ToggleSwitch from '@/elements/ToggleSwitch'
 import PostSettingsDisableAlert from '@/app/PostSettingsDisableAlert'
-import { togglePromotionEnabled, setPostPriority } from '@/app/helpers/postsHelpers'
+import { getPosts, postsConfig, togglePromotionEnabled, setPostPriority } from '@/app/helpers/postsHelpers'
+import * as ROUTES from '@/app/constants/routes'
 
 const PostToggle = ({
+  status,
   campaignType,
   post,
   setPost,
+  setPosts,
+  sortBy,
   isEnabled,
   setIsEnabled,
+  isLastPromotableNotRunPost,
+  setStatusToRefresh,
   isDisabled,
   className,
 }) => {
@@ -27,21 +34,44 @@ const PostToggle = ({
     const { promotionEnabled, conversionsEnabled } = updatedPost
 
     if (post.priorityEnabled && ! promotionEnabled && ! conversionsEnabled) {
-      const { res: updatedPost } = await setPostPriority({ artistId, assetId: postId, priorityEnabled: false })
-      const { priorityEnabled } = updatedPost
+      await setPostPriority({ artistId, assetId: postId, priorityEnabled: false })
 
       setPost({
         type: 'toggle-priority',
         payload: {
           status,
-          newStatus: priorityEnabled ? 'pending' : 'inactive',
           postId,
-          post: updatedPost,
-          priorityEnabled,
         },
       })
     }
-  }, [artistId, postId, setPost, post.priorityEnabled])
+
+    setStatusToRefresh(promotionEnabled ? 'pending' : 'inactive')
+  }, [artistId, postId, setPost, post.priorityEnabled, setStatusToRefresh])
+
+  const goToControlsPage = () => {
+    Router.push({
+      pathname: ROUTES.CONTROLS_BUDGET,
+    })
+  }
+
+  const getMorePosts = React.useCallback(async () => {
+    const { formattedPosts } = await getPosts({
+      limit: 5,
+      artistId,
+      sortBy,
+      filterBy: postsConfig[status].filterBy,
+      cursor: post.id,
+    })
+
+    if (formattedPosts.length === 0) {
+      setOnAlertConfirm(() => goToControlsPage)
+      setShouldShowAlert(true)
+
+      return []
+    }
+
+    return formattedPosts
+  }, [artistId, post.id, sortBy, status])
 
   const save = React.useCallback(async (value, forceRun = false) => {
     if (isPostActive && ! forceRun) {
@@ -49,6 +79,21 @@ const PostToggle = ({
       setShouldShowAlert(true)
 
       return
+    }
+
+    if (isLastPromotableNotRunPost && ! forceRun) {
+      const newPosts = await getMorePosts()
+      if (! newPosts.length) {
+        return
+      }
+
+      setPosts({
+        type: 'add-posts',
+        payload: {
+          status,
+          posts: newPosts,
+        },
+      })
     }
 
     setIsEnabled(value)
@@ -73,9 +118,7 @@ const PostToggle = ({
     setPost({
       type: 'toggle-promotion',
       payload: {
-        newStatus,
         postId,
-        post: updatedPost,
         promotionEnabled,
         conversionsEnabled,
         promotableStatus,
@@ -83,7 +126,7 @@ const PostToggle = ({
     })
     checkAndDeprioritize(newStatus, updatedPost)
     setIsLoading(false)
-  }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign, isPostActive])
+  }, [artistId, postId, campaignType, checkAndDeprioritize, setPost, setIsEnabled, isConversionsCampaign, isPostActive, isLastPromotableNotRunPost, getMorePosts, setPosts, status])
 
   const onConfirm = () => {
     onAlertConfirm()
@@ -107,6 +150,7 @@ const PostToggle = ({
         onConfirm={onConfirm}
         onCancel={onCancel}
         campaignType={campaignType}
+        isPostActive={isPostActive}
       />
     </div>
   )
@@ -114,10 +158,15 @@ const PostToggle = ({
 
 PostToggle.propTypes = {
   post: PropTypes.object.isRequired,
+  status: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
   isEnabled: PropTypes.bool.isRequired,
   setIsEnabled: PropTypes.func.isRequired,
   setPost: PropTypes.func.isRequired,
+  setPosts: PropTypes.func.isRequired,
+  sortBy: PropTypes.array.isRequired,
+  isLastPromotableNotRunPost: PropTypes.bool.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool,
   className: PropTypes.string,
 }

@@ -28,6 +28,7 @@ const PostsContainer = ({
   setIsLoadingMore,
   hasLoadedAll,
   isSpendingPaused,
+  setStatusToRefresh,
   className,
 }) => {
   const [isOpen, setIsOpen] = React.useState(status === 'active')
@@ -93,17 +94,22 @@ const PostsContainer = ({
                   filterBy={filterBy}
                   setFilterBy={setFilterBy}
                 />
-                <PostsSorter
-                  sortBy={sortBy}
-                  setSortBy={setSortBy}
-                />
+                {status !== 'pending' && (
+                  <PostsSorter
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                  />
+                )}
               </div>
               <PostsList
                 posts={posts}
                 status={status}
                 setPosts={setPosts}
                 filterBy={filterBy}
+                sortBy={sortBy}
                 setIsPostActionsOpen={setIsPostActionsOpen}
+                isSpendingPaused={isSpendingPaused}
+                setStatusToRefresh={setStatusToRefresh}
                 className="mb-5"
               />
             </>
@@ -128,13 +134,14 @@ PostsContainer.propTypes = {
   setPosts: PropTypes.func.isRequired,
   filterBy: PropTypes.object.isRequired,
   setFilterBy: PropTypes.func.isRequired,
-  sortBy: PropTypes.string.isRequired,
+  sortBy: PropTypes.array.isRequired,
   setSortBy: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isLoadingMore: PropTypes.bool.isRequired,
   setIsLoadingMore: PropTypes.func.isRequired,
   hasLoadedAll: PropTypes.bool.isRequired,
   isSpendingPaused: PropTypes.bool,
+  setStatusToRefresh: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

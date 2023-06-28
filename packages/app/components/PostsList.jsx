@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PostCard from '@/app/PostCard'
-import PostNotPromotableReason from '@/app/PostNotPromotableReason'
+import PostStatus from '@/app/PostStatus'
 import PostsNone from '@/app/PostsNone'
 import PostCardCreateAdButton from '@/app/PostCardCreateAdButton'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
@@ -11,13 +11,17 @@ const PostsList = ({
   status,
   setPosts,
   filterBy,
+  sortBy,
   setIsPostActionsOpen,
+  isSpendingPaused,
+  setStatusToRefresh,
   className,
 }) => {
+  const isLastPromotableNotRunPost = ! isSpendingPaused && status === 'pending' && posts.length === 1
   const { artist } = React.useContext(ArtistContext)
   const isCustomAdFeatureEnabled = Boolean(artist.feature_flags.custom_ads_enabled)
   const isActiveOrPending = status === 'active' || status === 'pending'
-  const showCreateAdButton = isCustomAdFeatureEnabled && isActiveOrPending && ! posts.length
+  const showCreateAdButton = isCustomAdFeatureEnabled && isActiveOrPending
   return (
     <ul
       className={[
@@ -26,7 +30,7 @@ const PostsList = ({
         className,
       ].join(' ')}
     >
-      {showCreateAdButton && <PostCardCreateAdButton className="col-span-6 sm:col-span-3 lg:col-span-2" />}
+      {showCreateAdButton && <PostCardCreateAdButton setStatusToRefresh={setStatusToRefresh} className="col-span-6 sm:col-span-3 lg:col-span-2" />}
       {! posts.length ? (
         <PostsNone filterBy={filterBy} className="col-span-12" />
       ) : (
@@ -42,11 +46,12 @@ const PostsList = ({
                 index={index}
                 status={status}
                 setPosts={setPosts}
+                sortBy={sortBy}
                 setIsPostActionsOpen={setIsPostActionsOpen}
+                isLastPromotableNotRunPost={isLastPromotableNotRunPost}
+                setStatusToRefresh={setStatusToRefresh}
               />
-              {(! post.isPromotable || status === 'rejected') && (
-                <PostNotPromotableReason post={post} status={status} />
-              )}
+              <PostStatus post={post} status={status} />
             </div>
           )
         })
@@ -60,7 +65,10 @@ PostsList.propTypes = {
   status: PropTypes.string.isRequired,
   setPosts: PropTypes.func.isRequired,
   filterBy: PropTypes.object.isRequired,
+  sortBy: PropTypes.array.isRequired,
   setIsPostActionsOpen: PropTypes.func.isRequired,
+  isSpendingPaused: PropTypes.bool.isRequired,
+  setStatusToRefresh: PropTypes.func.isRequired,
   className: PropTypes.string,
 }
 

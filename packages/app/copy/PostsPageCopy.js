@@ -46,7 +46,13 @@ Do you want to continue?`,
   linkTrackingIntro: `Should UTM parameters be added automatically to the end of links?`,
 
   // Warning when turning off active post
-  postStatusConfirmation: (campaignType) => `Ads created from this post will soon stop running to ${campaignType === 'all' ? 'Grow & Nurture' : 'Convert'} audiences.`,
+  disablePostWarning: (isPostActive, campaignType) => {
+    if (isPostActive) {
+      return `Ads created from this post will soon stop running to ${campaignType === 'all' ? 'Grow & Nurture' : 'Convert'} audiences.`
+    }
+
+    return 'By turning off this post there will be no posts available to run ads with. Do you want to pause the budget instead?'
+  },
 
   // FILTER TOOLTIPS
   // ----------------
@@ -195,7 +201,7 @@ Would you like to continue?`
   captionNotEditableReason: (post) => {
     const base = 'The caption is not editable because'
 
-    if (post.postType === 'story') return `${base} this is a story.`
+    if (post.postType === 'story' && post.platform !== 'custom') return `${base} this is a story.`
     if (! post.isPromotable) return `${base} the post is not promotable.`
 
     return ''
