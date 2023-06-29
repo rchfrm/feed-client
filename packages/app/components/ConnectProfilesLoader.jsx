@@ -27,7 +27,9 @@ const ConnectProfilesLoader = ({
 }) => {
   const [allArtistAccounts, setAllArtistAccounts] = React.useState([])
   const [artistAccounts, setArtistAccounts] = React.useState([])
+  const [businesses, setBusinesses] = React.useState([])
   const [selectedProfile, setSelectedProfile] = React.useState(null)
+  const [selectedBusiness, setSelectedBusiness] = React.useState(null)
   const [pageLoading, setPageLoading] = React.useState(true)
   const [errors, setErrors] = React.useState([])
   const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
@@ -72,7 +74,14 @@ const ConnectProfilesLoader = ({
 
     // Start fetching artists
     const { res: businesses } = await artistHelpers.getBusinessesOnSignUp()
-    const firstBusiness = businesses && businesses.length && businesses[3]
+    let firstBusiness
+    if (businesses && businesses.length) {
+      [firstBusiness] = businesses
+      setBusinesses(businesses)
+      setSelectedBusiness(firstBusiness)
+    }
+    // TODO 1 : If there are multiple businesses, show menu to switch between them.
+    //  Make sure no businesses doesn't cause an error.
     const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness.id)
 
     if (error) {
