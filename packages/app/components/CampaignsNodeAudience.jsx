@@ -11,7 +11,6 @@ import MarkdownText from '@/elements/MarkdownText'
 
 const CampaignsNodeAudience = ({
   group,
-  index,
   node,
   onDragOver,
   onDrop,
@@ -43,7 +42,10 @@ const CampaignsNodeAudience = ({
           ? isActive ? 'bg-gradient-2-light border-gradient-2-dark' : 'bg-white border-gradient-2-light text-gradient-2-dark'
           : 'bg-gradient-1-light border-gradient-1-dark',
       ].join(' ')}
-      style={{ top: `${index * 5}px`, left: isDesktopLayout ? `${index * 5}px` : null }}
+      style={{
+        top: isDesktopLayout ? node.position.y : null,
+        left: isDesktopLayout ? node.position.x : null,
+      }}
       onDragOver={onDragOver}
       onDrop={onDrop}
       role="button"
@@ -93,7 +95,6 @@ const CampaignsNodeAudience = ({
 
 CampaignsNodeAudience.propTypes = {
   group: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
   node: PropTypes.object.isRequired,
   onDragOver: PropTypes.func.isRequired,
   onDrop: PropTypes.func.isRequired,

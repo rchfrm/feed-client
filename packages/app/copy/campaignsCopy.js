@@ -9,7 +9,7 @@ export default {
 
     const getCountriesString = (countries) => {
       if (countries.length === 1) {
-        return `the ${countries[0]}`
+        return `${countries[0]}`
       }
 
       if (countries.length > 3) {

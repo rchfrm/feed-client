@@ -98,17 +98,34 @@ const getCampaignGroupIndex = (identifier) => {
   }
 }
 
-const getPosition = (group, nodeGroups) => {
+const getPosition = (nodeIndex, group, nodeGroups) => {
   const { type, id } = group
   const isAudience = type === 'audience'
-  const spacing = 310
-  const startValue = isAudience ? 10 : 90
+  const startValue = isAudience ? 10 : 121
+  const spacingX = 280
+  const spacingY = 80
+
+  const currentGroupNodesLength = group.nodes.length
+  const groupNodesLengths = nodeGroups.filter((group) => group).map((group) => group.nodes.length)
+  const maxGroupNodesLength = Math.max(...groupNodesLengths)
   const nodeGroupsByType = nodeGroups.filter((group) => group?.type === type)
-  const index = nodeGroupsByType.findIndex((group) => group.id === id)
+  const groupIndex = nodeGroupsByType.findIndex((group) => group.id === id)
+
+  const getYPosition = () => {
+    if (isAudience) {
+      if (currentGroupNodesLength === maxGroupNodesLength) {
+        return startValue + (nodeIndex * spacingY)
+      }
+
+      return startValue + (maxGroupNodesLength - (nodeIndex - 1) * spacingY)
+    }
+
+    return maxGroupNodesLength * 100
+  }
 
   return {
-    x: startValue + (spacing * index),
-    y: isAudience ? 10 : 155,
+    x: startValue + (spacingX * groupIndex),
+    y: getYPosition(),
   }
 }
 
@@ -203,7 +220,7 @@ export const getNodeGroups = (audiences, lookalikesAudiencesGroups, adSets) => {
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
-  return nodeGroups.map((group) => ({ ...group, position: getPosition(group, nodeGroups) }))
+  return nodeGroups.map((group) => ({ ...group, nodes: group.nodes.map((node, index) => ({ ...node, position: getPosition(index, group, nodeGroups) })) }))
 }
 
 export const getEdges = (nodeGroups) => {

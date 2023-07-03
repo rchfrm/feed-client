@@ -18,16 +18,13 @@ const CampaignsNodeGroup = ({
         isDesktopLayout ? 'absolute' : 'relative w-3/4 mx-auto mb-12',
       ].join(' ')}
       style={{
-        top: isDesktopLayout ? group.position.y : null,
-        left: isDesktopLayout ? group.position.x : null,
         minHeight: ! isDesktopLayout ? 80 : null,
         height: ! isDesktopLayout ? group.nodes.length * 10 : null,
       }}
     >
       {group.nodes.map((node, index) => (
         <CampaignsNode
-          key={`${group.id} -${index}`}
-          index={index}
+          key={`${group.id}-${index}`}
           group={group}
           node={node}
           nodeGroups={nodeGroups}

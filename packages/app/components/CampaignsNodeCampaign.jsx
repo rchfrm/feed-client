@@ -8,7 +8,6 @@ import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
 
 const CampaignsNodeCampaign = ({
-  index,
   group,
   node,
   onDragOver,
@@ -39,7 +38,10 @@ const CampaignsNodeCampaign = ({
         'p-2 rounded-dialogue',
         isActive ? 'bg-green-bg-light' : 'bg-white border-solid border-2 border-green',
       ].join(' ')}
-      style={{ top: `${index * 5}px`, left: isDesktopLayout ? `${index * 5}px` : null }}
+      style={{
+        top: isDesktopLayout ? node.position.y : null,
+        left: isDesktopLayout ? node.position.x : null,
+      }}
       onDragOver={onDragOver}
       onDrop={onDrop}
       role="button"
@@ -93,7 +95,6 @@ const CampaignsNodeCampaign = ({
 
 CampaignsNodeCampaign.propTypes = {
   group: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
   node: PropTypes.object.isRequired,
   onDragOver: PropTypes.func.isRequired,
   onDrop: PropTypes.func.isRequired,

@@ -4,7 +4,6 @@ import CampaignsNodeAudience from '@/app/CampaignsNodeAudience'
 import CampaignsNodeCampaign from '@/app/CampaignsNodeCampaign'
 
 const CampaignsNode = ({
-  index,
   group,
   node,
   nodeGroups,
@@ -46,7 +45,6 @@ const CampaignsNode = ({
   return (
     <Node
       group={group}
-      index={index}
       node={node}
       isActive={isActive}
       onDragOver={onDragOver}
@@ -58,7 +56,6 @@ const CampaignsNode = ({
 }
 
 CampaignsNode.propTypes = {
-  index: PropTypes.number.isRequired,
   group: PropTypes.object.isRequired,
   node: PropTypes.object.isRequired,
   nodeGroups: PropTypes.array.isRequired,
