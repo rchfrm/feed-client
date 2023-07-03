@@ -19,8 +19,16 @@ export default {
       return `${countries.join(',')}`
     }
 
+    const getPlatformString = (platform) => {
+      if (! platform) {
+        return 'people who have'
+      }
+
+      return `your ${capitalise(platform)} followers`
+    }
+
     if (name.includes('Lookalike')) {
-      return `**${abbreviateNumber(approximateCount)}** similar to your ${capitalise(platform)} followers in ${getCountriesString(countries)}`
+      return `**${abbreviateNumber(approximateCount)}** similar to ${getPlatformString(platform)} in ${getCountriesString(countries)}`
     }
 
     if (['1y', '28d', '7d'].some((period) => name.includes(period))) {

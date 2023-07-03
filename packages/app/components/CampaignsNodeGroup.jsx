@@ -13,15 +13,7 @@ const CampaignsNodeGroup = ({
   const isDesktopLayout = useBreakpointTest('xs')
 
   return (
-    <div
-      className={[
-        isDesktopLayout ? 'absolute' : 'relative w-3/4 mx-auto mb-12',
-      ].join(' ')}
-      style={{
-        minHeight: ! isDesktopLayout ? 80 : null,
-        height: ! isDesktopLayout ? group.nodes.length * 10 : null,
-      }}
-    >
+    <div className={isDesktopLayout ? null : 'relative w-3/4 mx-auto mb-8'}>
       {group.nodes.map((node, index) => (
         <CampaignsNode
           key={`${group.id}-${index}`}

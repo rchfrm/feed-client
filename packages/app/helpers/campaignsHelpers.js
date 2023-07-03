@@ -101,11 +101,11 @@ const getCampaignGroupIndex = (identifier) => {
 const getPosition = (nodeIndex, group, nodeGroups) => {
   const { type, id } = group
   const isAudience = type === 'audience'
-  const startValue = isAudience ? 10 : 121
+  const startValueY = isAudience ? 10 : 30
+  const startValueX = isAudience ? startValueY : 80
   const spacingX = 280
   const spacingY = 80
 
-  const currentGroupNodesLength = group.nodes.length
   const groupNodesLengths = nodeGroups.filter((group) => group).map((group) => group.nodes.length)
   const maxGroupNodesLength = Math.max(...groupNodesLengths)
   const nodeGroupsByType = nodeGroups.filter((group) => group?.type === type)
@@ -113,18 +113,14 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
 
   const getYPosition = () => {
     if (isAudience) {
-      if (currentGroupNodesLength === maxGroupNodesLength) {
-        return startValue + (nodeIndex * spacingY)
-      }
-
-      return startValue + (maxGroupNodesLength - (nodeIndex - 1) * spacingY)
+      return startValueY + ((maxGroupNodesLength - (nodeIndex + 1)) * spacingY)
     }
 
-    return maxGroupNodesLength * 100
+    return startValueY + (maxGroupNodesLength * spacingY)
   }
 
   return {
-    x: startValue + (spacingX * groupIndex),
+    x: startValueX + (spacingX * groupIndex),
     y: getYPosition(),
   }
 }

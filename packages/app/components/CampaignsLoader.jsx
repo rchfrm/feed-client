@@ -16,6 +16,7 @@ const CampaignsLoader = () => {
   const [edges, setEdges] = React.useState([])
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
+  const [shouldShowCampaigns, setShouldShowCampaigns] = React.useState(true)
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
@@ -66,13 +67,17 @@ const CampaignsLoader = () => {
     const filteredAudiences = excludeAudiences({ audiences, adSets, objective, platform })
 
     let lookalikesAudiencesGroups = []
-    if (filteredAudiences.length > 0) {
-      const adSetsPromises = filteredAudiences.map(async (audience) => {
+    if (audiences.length > 0) {
+      const lookalikesAudiencesPromises = audiences.map(async (audience) => {
         return getLookalikesAudiences(artistId, audience.id)
       })
 
-      const res = await Promise.all(adSetsPromises)
-      lookalikesAudiencesGroups = res.map(({ res }, index) => ({ res, platform: filteredAudiences[index].platform }))
+      const res = await Promise.all(lookalikesAudiencesPromises)
+      lookalikesAudiencesGroups = res.map(({ res }, index) => ({ res, platform: audiences[index].platform }))
+    }
+
+    if (filteredAudiences.length === 0 || adSets.length === 0) {
+      setShouldShowCampaigns(false)
     }
 
     const nodeGroups = getNodeGroups(filteredAudiences, lookalikesAudiencesGroups, adSets)
@@ -85,15 +90,17 @@ const CampaignsLoader = () => {
 
   return (
     <div onDragOver={(e) => e.preventDefault()}>
-      <CampaignsHeader />
+      <CampaignsHeader shouldShowCampaigns={shouldShowCampaigns} />
       <Error error={error} />
-      <Campaigns
-        nodeGroups={nodeGroups}
-        setNodeGroups={setNodeGroups}
-        edges={edges}
-        setEdges={setEdges}
-        isLoading={isLoading}
-      />
+      {shouldShowCampaigns && (
+        <Campaigns
+          nodeGroups={nodeGroups}
+          setNodeGroups={setNodeGroups}
+          edges={edges}
+          setEdges={setEdges}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   )
 }

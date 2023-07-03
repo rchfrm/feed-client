@@ -30,7 +30,7 @@ const Campaigns = ({
 
   return (
     <div className={[
-      isDesktopLayout ? 'relative h-[350px] overflow-hidden overflow-x-scroll' : 'flex flex-col items-center',
+      isDesktopLayout ? 'relative h-[800px] overflow-hidden overflow-x-scroll' : 'flex flex-col items-center',
     ].join(' ')}
     >
       {isLoading ? (

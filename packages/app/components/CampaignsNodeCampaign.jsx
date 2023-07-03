@@ -34,8 +34,9 @@ const CampaignsNodeCampaign = ({
       id={isLast ? group.id : null}
       ref={nodeRef}
       className={[
-        'w-full xs:w-36 h-[74px] z-10 absolute cursor-default',
+        'w-full xs:w-36 h-[74px] z-10 cursor-default',
         'p-2 rounded-dialogue',
+        isDesktopLayout ? 'absolute' : 'relative mb-4',
         isActive ? 'bg-green-bg-light' : 'bg-white border-solid border-2 border-green',
       ].join(' ')}
       style={{

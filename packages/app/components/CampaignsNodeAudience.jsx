@@ -35,9 +35,10 @@ const CampaignsNodeAudience = ({
       id={isLast ? group.id : null}
       ref={nodeRef}
       className={[
-        'w-full xs:w-52 p-1.5 z-10 absolute cursor-default',
+        'w-full xs:w-52 p-1.5 z-10 cursor-default',
         'border-2 border-b-[6px] border-solid rounded-dialogue',
         'text-sm text-[#203578]',
+        isDesktopLayout ? 'absolute' : 'relative mb-4',
         isCustomAudience
           ? isActive ? 'bg-gradient-2-light border-gradient-2-dark' : 'bg-white border-gradient-2-light text-gradient-2-dark'
           : 'bg-gradient-1-light border-gradient-1-dark',
