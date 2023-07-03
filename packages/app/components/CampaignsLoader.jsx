@@ -4,7 +4,7 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
-import { getAudiences, getLookalikesAudiences, getCampaigns, getAdSets, getNodeGroups, getEdges } from '@/app/helpers/campaignsHelpers'
+import { getAudiences, getLookalikesAudiences, excludeAudiences, getCampaigns, getAdSets, getNodeGroups, getEdges } from '@/app/helpers/campaignsHelpers'
 
 const CampaignsLoader = () => {
   const [nodeGroups, setNodeGroups] = React.useState([])
@@ -17,31 +17,6 @@ const CampaignsLoader = () => {
   useAsyncEffect(async (isMounted) => {
     if (! artistId) {
       return
-    }
-
-    const { res: audiences, error: audiencesError } = await getAudiences(artistId)
-    if (! isMounted()) {
-      setIsLoading(false)
-      return
-    }
-
-    if (audiencesError) {
-      setError(audiencesError)
-      setIsLoading(false)
-      return
-    }
-
-    let lookalikesAudiences = []
-    if (audiences.length > 0) {
-      const adSetsPromises = audiences.map(async (audience) => {
-        return getLookalikesAudiences(artistId, audience.id)
-      })
-
-      const res = await Promise.all(adSetsPromises)
-      const flattenedLookalikesAudiences = res.map(({ res }, index) => {
-        return res.map((lookalikesAudience) => ({ ...lookalikesAudience, platform: audiences[index].platform }))
-      }).flat()
-      lookalikesAudiences = flattenedLookalikesAudiences
     }
 
     const { res: campaigns, error: campaignsError } = await getCampaigns(artistId)
@@ -69,7 +44,35 @@ const CampaignsLoader = () => {
       adSets = flattenedAdSets
     }
 
-    const nodeGroups = getNodeGroups(audiences, lookalikesAudiences, adSets)
+    const { res: audiences, error: audiencesError } = await getAudiences(artistId)
+    if (! isMounted()) {
+      setIsLoading(false)
+      return
+    }
+
+    if (audiencesError) {
+      setError(audiencesError)
+      setIsLoading(false)
+      return
+    }
+
+    const filteredAudiences = excludeAudiences(audiences, adSets)
+    console.log(filteredAudiences)
+
+    let lookalikesAudiences = []
+    if (filteredAudiences.length > 0) {
+      const adSetsPromises = filteredAudiences.map(async (audience) => {
+        return getLookalikesAudiences(artistId, audience.id)
+      })
+
+      const res = await Promise.all(adSetsPromises)
+      const flattenedLookalikesAudiences = res.map(({ res }, index) => {
+        return res.map((lookalikesAudience) => ({ ...lookalikesAudience, platform: filteredAudiences[index].platform }))
+      }).flat()
+      lookalikesAudiences = flattenedLookalikesAudiences
+    }
+
+    const nodeGroups = getNodeGroups(filteredAudiences, lookalikesAudiences, adSets)
     const edges = getEdges(nodeGroups)
 
     setNodeGroups(nodeGroups)

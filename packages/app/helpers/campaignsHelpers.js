@@ -50,6 +50,17 @@ export const getAdSets = async (artistId, campaignId) => {
   return { res, error }
 }
 
+export const excludeAudiences = (audiences, adSets) => {
+  const customAudiencesIds = adSets.map((adSet) => adSet.targeting.custom_audiences.map((customAudience) => customAudience.id)).flat()
+  const uniqueCustomAudiencesIds = ([...new Set(customAudiencesIds)])
+
+  return audiences.filter((audience) => {
+    return uniqueCustomAudiencesIds.includes(audience.platform_id)
+      && audience.is_current
+      && audience.retention_days !== 7
+  })
+}
+
 const getAudienceGroupIndex = (name) => {
   switch (true) {
     case name.includes('Lookalike'):
