@@ -1,15 +1,26 @@
 import { abbreviateNumber, capitalise } from '@/helpers/utils'
 
 export default {
-  nodeLabel: (name, platform, approximateCount, retentionDays) => {
+  nodeLabel: ({ name, platform, approximateCount, retentionDays, countries }) => {
     const dictionary = {
-      7: 'week',
       28: 'month',
       365: 'year',
     }
 
+    const getCountriesString = (countries) => {
+      if (countries.length === 1) {
+        return `the ${countries[0]}`
+      }
+
+      if (countries.length > 3) {
+        return `${countries.length} countries`
+      }
+
+      return `${countries.join(',')}`
+    }
+
     if (name.includes('Lookalike')) {
-      return `**${abbreviateNumber(approximateCount)}** similar to your ${capitalise(platform)} followers`
+      return `**${abbreviateNumber(approximateCount)}** similar to your ${capitalise(platform)} followers in ${getCountriesString(countries)}`
     }
 
     if (['1y', '28d', '7d'].some((period) => name.includes(period))) {

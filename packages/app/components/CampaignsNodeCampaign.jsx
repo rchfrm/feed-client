@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 import CampaignsNodeConnector from '@/app/CampaignsNodeConnector'
 import HeartIcon from '@/icons/HeartIcon'
 import FacebookIcon from '@/icons/FacebookIcon'
@@ -17,17 +18,17 @@ const CampaignsNodeCampaign = ({
   isLast,
 }) => {
   const { handlers } = group
-  const { label, platform } = node
+  const { label } = node
   const nodeRef = React.useRef()
   const engagementRate = 0
   const costPerEngagement = 0
   const isDesktopLayout = useBreakpointTest('xs')
+  const { targetingState: { platforms } } = React.useContext(TargetingContext)
 
   const icons = {
-    facebook: FacebookIcon,
-    instagram: InstagramIcon,
+    facebook: <FacebookIcon className="h-4 w-auto" />,
+    instagram: <InstagramIcon className="h-4 w-auto" />,
   }
-  const PlatformIcon = icons[platform]
 
   return (
     <div
@@ -43,11 +44,11 @@ const CampaignsNodeCampaign = ({
       onDrop={onDrop}
       role="button"
     >
-      {PlatformIcon && (
-        <div className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-[5px] z-10 overflow-hidden">
-          <PlatformIcon className="h-4 w-auto" />
+      {platforms.map((platform) => (
+        <div key={platform} className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-[5px] z-10 overflow-hidden">
+          {icons[platform]}
         </div>
-      )}
+      ))}
       <div className={[
         'flex h-full items-center text-sm',
         isActive ? 'flex-row xs:flex-col justify-around xs:justify-center' : 'flex-col justify-center xs:items-start',

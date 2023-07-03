@@ -1,10 +1,15 @@
 import React from 'react'
 import useAsyncEffect from 'use-async-effect'
+import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
 import { getAudiences, getLookalikesAudiences, excludeAudiences, getCampaigns, getAdSets, getNodeGroups, getEdges } from '@/app/helpers/campaignsHelpers'
+
+const getControlsStoreState = (state) => ({
+  optimizationPreferences: state.optimizationPreferences,
+})
 
 const CampaignsLoader = () => {
   const [nodeGroups, setNodeGroups] = React.useState([])
@@ -12,6 +17,8 @@ const CampaignsLoader = () => {
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
 
+  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
+  const { objective, platform } = optimizationPreferences
   const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
@@ -56,23 +63,19 @@ const CampaignsLoader = () => {
       return
     }
 
-    const filteredAudiences = excludeAudiences(audiences, adSets)
-    console.log(filteredAudiences)
+    const filteredAudiences = excludeAudiences({ audiences, adSets, objective, platform })
 
-    let lookalikesAudiences = []
+    let lookalikesAudiencesGroups = []
     if (filteredAudiences.length > 0) {
       const adSetsPromises = filteredAudiences.map(async (audience) => {
         return getLookalikesAudiences(artistId, audience.id)
       })
 
       const res = await Promise.all(adSetsPromises)
-      const flattenedLookalikesAudiences = res.map(({ res }, index) => {
-        return res.map((lookalikesAudience) => ({ ...lookalikesAudience, platform: filteredAudiences[index].platform }))
-      }).flat()
-      lookalikesAudiences = flattenedLookalikesAudiences
+      lookalikesAudiencesGroups = res.map(({ res }, index) => ({ res, platform: filteredAudiences[index].platform }))
     }
 
-    const nodeGroups = getNodeGroups(filteredAudiences, lookalikesAudiences, adSets)
+    const nodeGroups = getNodeGroups(filteredAudiences, lookalikesAudiencesGroups, adSets)
     const edges = getEdges(nodeGroups)
 
     setNodeGroups(nodeGroups)

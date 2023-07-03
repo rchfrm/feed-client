@@ -50,14 +50,17 @@ export const getAdSets = async (artistId, campaignId) => {
   return { res, error }
 }
 
-export const excludeAudiences = (audiences, adSets) => {
+export const excludeAudiences = ({ audiences, adSets, objective, platform }) => {
   const customAudiencesIds = adSets.map((adSet) => adSet.targeting.custom_audiences.map((customAudience) => customAudience.id)).flat()
   const uniqueCustomAudiencesIds = ([...new Set(customAudiencesIds)])
+  const isInstagram = platform === 'instagram'
 
   return audiences.filter((audience) => {
-    return uniqueCustomAudiencesIds.includes(audience.platform_id)
-      && audience.is_current
+    return audience.is_current
       && audience.retention_days !== 7
+      && uniqueCustomAudiencesIds.includes(audience.platform_id)
+      && (! audience.name.includes('Ig followers') || (objective === 'growth' && isInstagram))
+      && (! audience.name.includes('28') || (objective === 'conversations' && isInstagram))
   })
 }
 
@@ -69,10 +72,8 @@ const getAudienceGroupIndex = (name) => {
       return 2
     case name.includes('28d'):
       return 4
-    case name.includes('7d'):
-      return 6
     case name.includes('followers'):
-      return 8
+      return 6
     default:
       break
   }
@@ -84,10 +85,14 @@ const getCampaignGroupIndex = (identifier) => {
       return 1
     case identifier.includes('entice_traffic'):
       return 3
-    case identifier.includes('remind_traffic'):
+    case identifier.includes('entice_landing_page'):
       return 5
-    case identifier.includes('remind_engage'):
+    case identifier.includes('remind_traffic'):
       return 7
+    case identifier.includes('remind_engage'):
+      return 9
+    case identifier.includes('remind_landing_page'):
+      return 11
     default:
       break
   }
@@ -131,7 +136,9 @@ const makeNodeGroup = ({ groupIndex, node }) => {
 
 const makeOrAddToGroup = (groupIndex, node, nodeGroups) => {
   if (nodeGroups[groupIndex]) {
-    nodeGroups[groupIndex].nodes.push(node)
+    if (node.type === 'audience') {
+      nodeGroups[groupIndex].nodes.push(node)
+    }
     return
   }
 
@@ -141,45 +148,56 @@ const makeOrAddToGroup = (groupIndex, node, nodeGroups) => {
   return nodeGroup
 }
 
-export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
+export const getNodeGroups = (audiences, lookalikesAudiencesGroups, adSets) => {
   const nodeGroups = []
 
-  lookalikesAudiences.forEach((audience) => {
-    const { name, platform, approximate_count, retention_days } = audience
+  lookalikesAudiencesGroups.forEach(({ res, platform }) => {
+    if (res.length === 0) {
+      return
+    }
+
+    const { name } = res[0]
     const groupIndex = getAudienceGroupIndex(name)
+
+    const { approximateCount, countries } = res.reduce((result, { approximate_count, countries_text }) => {
+      return {
+        approximateCount: result.approximateCount + approximate_count,
+        countries: [...result.countries, countries_text],
+      }
+    }, { approximateCount: 0, countries: [] })
 
     const node = {
       type: 'audience',
       subType: 'lookalike',
       platform,
-      label: copy.nodeLabel(name, platform, approximate_count, retention_days),
+      label: copy.nodeLabel({ name, platform, approximateCount, countries }),
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
   audiences.forEach((audience) => {
-    const { name, platform, approximate_count, retention_days } = audience
+    const { name, platform, approximate_count: approximateCount, retention_days: retentionDays } = audience
     const groupIndex = getAudienceGroupIndex(name)
 
     const node = {
       type: 'audience',
       subType: 'custom',
       platform,
-      label: copy.nodeLabel(name, platform, approximate_count, retention_days),
+      label: copy.nodeLabel({ name, platform, approximateCount, retentionDays }),
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
   adSets.forEach((adSet) => {
-    const { identifier, platform } = adSet
+    const { identifier } = adSet
+    const [a, b] = identifier.split('_')
     const groupIndex = getCampaignGroupIndex(identifier)
 
     const node = {
       type: 'campaign',
-      platform,
-      label: capitalise(identifier.replace(/_/g, ' ')),
+      label: `${capitalise(a)} ${b}`,
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
