@@ -1,5 +1,39 @@
 import { requestWithCatch } from '@/helpers/api'
 import copy from '@/app/copy/campaignsCopy'
+import { capitalise } from '@/helpers/utils'
+
+const indexes = {
+  lookalikesOrInterest: '0',
+  enticeEngage: '1',
+  engaged1Y: '2',
+  remindTraffic: '3',
+  engaged28D: '4',
+  enticeTraffic: '5',
+  igFollowers: '6',
+  enticeLanding: '7',
+  websiteVisitors: '8',
+  remindEngage: '9',
+  remindLanding: '11',
+  remindConversions: '13',
+  offPlatform: '15',
+}
+
+const getAudienceGroupIdentifier = (name) => {
+  switch (true) {
+    case (name.includes('Interest') || name.includes('Lookalike')):
+      return 'lookalikesOrInterest'
+    case name.includes('1y'):
+      return 'engaged1Y'
+    case name.includes('28d'):
+      return 'engaged28D'
+    case name.includes('followers'):
+      return 'igFollowers'
+    case name.includes('visitors'):
+      return 'websiteVisitors'
+    default:
+      break
+  }
+}
 
 export const getAudiences = async (artistId) => {
   const endpoint = `/artists/${artistId}/audiences`
@@ -63,46 +97,6 @@ export const excludeAudiences = ({ audiences, adSets, objective, platform }) => 
   })
 }
 
-const getAudienceGroupIndex = (name) => {
-  switch (true) {
-    case (name.includes('Interest') || name.includes('Lookalike')):
-      return 0
-    case name.includes('1y'):
-      return 2
-    case name.includes('28d'):
-      return 4
-    case name.includes('followers'):
-      return 6
-    case name.includes('visitors'):
-      return 8
-    default:
-      break
-  }
-}
-
-const getCampaignGroupIndex = (identifier) => {
-  switch (true) {
-    case identifier.includes('entice_engage'):
-      return 1
-    case identifier.includes('entice_traffic'):
-      return 3
-    case identifier.includes('remind_traffic'):
-      return 5
-    case identifier.includes('entice_landing'):
-      return 7
-    case identifier.includes('remind_engage'):
-      return 9
-    case identifier.includes('remind_landing'):
-      return 11
-    case identifier.includes('remind_conversions'):
-      return 13
-    case identifier.includes('off_platform'):
-      return 15
-    default:
-      break
-  }
-}
-
 const getPosition = (nodeIndex, group, nodeGroups) => {
   const { type, id } = group
   const isAudience = type === 'audience'
@@ -134,7 +128,7 @@ const makeNodeGroup = ({ groupIndex, node }) => {
   const isAudience = node.type === 'audience'
 
   return {
-    id: groupIndex.toString(),
+    id: groupIndex,
     type: node.type,
     subType: node.subType,
     isActive: true,
@@ -170,7 +164,8 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   // Create audiences node group(s)
   audiences.forEach((audience) => {
     const { name, platform, approximate_count: approximateCount, retention_days: retentionDays } = audience
-    const groupIndex = getAudienceGroupIndex(name)
+    const identifier = getAudienceGroupIdentifier(name)
+    const groupIndex = indexes[identifier]
 
     const node = {
       type: 'audience',
@@ -191,7 +186,8 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
 
   Object.values(lookalikesAudiencesKeyedByAudienceId).forEach((audiences) => {
     const { name, platform } = audiences[0]
-    const groupIndex = getAudienceGroupIndex(name)
+    const identifier = getAudienceGroupIdentifier(name)
+    const groupIndex = indexes[identifier]
 
     const { approximateCount, countries } = audiences.reduce((result, { approximate_count, countries_text }) => {
       return {
@@ -214,7 +210,7 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   const adSetsKeyedByIdentifier = adSets.reduce((result, adSet) => {
     const { identifier } = adSet
     const [a, b] = identifier.split('_')
-    const key = `${a}_${b}`
+    const key = `${a}${capitalise(b)}`
 
     result[key] = result[key] || []
     result[key].push(adSet)
@@ -222,7 +218,7 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   }, {})
 
   Object.keys(adSetsKeyedByIdentifier).forEach((identifier) => {
-    const groupIndex = getCampaignGroupIndex(identifier)
+    const groupIndex = indexes[identifier]
 
     const node = {
       type: 'campaign',
@@ -239,34 +235,58 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
 const getTarget = (objective, platform) => {
   if (platform === 'instagram') {
     if (objective === 'growth') {
-      return '6'
+      return indexes.igFollowers
     }
 
     if (objective === 'conversations') {
-      return '4'
+      return indexes.engaged28D
     }
   }
 
   if (objective === 'traffic') {
-    return '8'
+    return indexes.websiteVisitors
   }
 
   return ''
 }
 
-export const getEdges = (nodeGroups, objective, platform) => {
+export const getEdges = (objective, platform) => {
+  const { lookalikesOrInterest, enticeEngage, engaged1Y, enticeTraffic, remindTraffic } = indexes
+
   const edges = [
     // lookalikes -> entice engage -> Fb/Ig engaged 1y
-    { source: '0', target: '1', isActive: true },
-    { source: '1', target: '2', isActive: true },
-
+    {
+      source: lookalikesOrInterest,
+      target: enticeEngage,
+      isActive: true,
+    },
+    {
+      source: enticeEngage,
+      target: engaged1Y,
+      isActive: true,
+    },
     // lookalikes -> entice traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
-    { source: '0', target: '3', isActive: true },
-    { source: '3', target: getTarget(objective, platform), isActive: true },
-
+    // {
+    //   source: lookalikesOrInterest,
+    //   target: enticeTraffic,
+    //   isActive: true,
+    // },
+    // {
+    //   source: enticeTraffic,
+    //   target: getTarget(objective, platform),
+    //   isActive: true,
+    // },
     // Fb/Ig engaged 1y -> remind traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
-    { source: '2', target: '5', isActive: true },
-    { source: '5', target: getTarget(objective, platform), isActive: true },
+    {
+      source: engaged1Y,
+      target: remindTraffic,
+      isActive: true,
+    },
+    {
+      source: remindTraffic,
+      target: getTarget(objective, platform),
+      isActive: true,
+    },
   ]
 
   return edges

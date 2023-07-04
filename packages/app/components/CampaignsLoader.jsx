@@ -85,7 +85,7 @@ const CampaignsLoader = () => {
     }
 
     const nodeGroups = getNodeGroups(filteredAudiences, lookalikesAudiences, adSets)
-    const edges = getEdges(nodeGroups)
+    const edges = getEdges(objective, platform)
 
     setNodeGroups(nodeGroups)
     setEdges(edges)
