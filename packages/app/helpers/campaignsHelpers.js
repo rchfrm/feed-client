@@ -1,6 +1,6 @@
 import { requestWithCatch } from '@/helpers/api'
-import copy from '@/app/copy/campaignsCopy'
 import { capitalise } from '@/helpers/utils'
+import copy from '@/app/copy/campaignsCopy'
 
 const indexes = {
   lookalikesOrInterest: '0',
@@ -158,6 +158,58 @@ const makeOrAddToGroup = (groupIndex, node, nodeGroups) => {
   return nodeGroup
 }
 
+const sumMetrics = (adSets) => {
+  const totals = {
+    spend: 0,
+    impressions: 0,
+    clicks: 0,
+    likes: 0,
+    saves: 0,
+    shares: 0,
+    comments: 0,
+  }
+
+  adSets.forEach(({ metrics }) => {
+    if (! metrics) {
+      return
+    }
+
+    Object.keys(metrics).forEach((date) => {
+      const values = metrics[date]
+      totals.spend += Number(values.spend || 0)
+      totals.impressions += Number(values.impressions || 0)
+      totals.clicks += Number(values.clicks || 0)
+      totals.likes += Number(values.actions?.post_reaction || 0)
+      totals.saves += Number(values.actions?.onsite_conversion?.post_save || 0)
+      totals.shares += Number(values.actions?.posts || 0)
+      totals.comments += Number(values.actions?.comment || 0)
+    })
+  })
+
+  return totals
+}
+
+const getEngagementRateAndCost = (adSets) => {
+  const {
+    spend,
+    impressions,
+    clicks,
+    likes,
+    saves,
+    shares,
+    comments,
+  } = sumMetrics(adSets) || {}
+
+  const totalEngagements = clicks + likes + shares + comments + saves
+  const engagementRate = Number((totalEngagements / impressions).toFixed(4))
+  const costPerEngagement = Number((spend / totalEngagements).toFixed(4))
+
+  return {
+    engagementRate,
+    costPerEngagement,
+  }
+}
+
 export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   const nodeGroups = []
 
@@ -217,19 +269,28 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
     return result
   }, {})
 
-  Object.keys(adSetsKeyedByIdentifier).forEach((identifier) => {
+  Object.entries(adSetsKeyedByIdentifier).forEach(([identifier, adSets]) => {
     const groupIndex = indexes[identifier]
+    const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets)
 
     const node = {
       type: 'campaign',
       label: identifier,
+      engagementRate,
+      costPerEngagement,
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
   // Add x and y position to each node
-  return nodeGroups.map((group) => ({ ...group, nodes: group.nodes.map((node, index) => ({ ...node, position: getPosition(index, group, nodeGroups) })) }))
+  return nodeGroups.map((group) => ({
+    ...group,
+    nodes: group.nodes.map((node, index) => ({
+      ...node,
+      position: getPosition(index, group, nodeGroups),
+    })),
+  }))
 }
 
 const getTarget = (objective, platform) => {
