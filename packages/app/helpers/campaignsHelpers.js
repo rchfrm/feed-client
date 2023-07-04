@@ -50,7 +50,7 @@ export const getAdSets = async (artistId, campaignId) => {
 }
 
 export const excludeAudiences = ({ audiences, adSets, objective, platform }) => {
-  const customAudiencesIds = adSets.map((adSet) => adSet.targeting.custom_audiences.map((customAudience) => customAudience.id)).flat()
+  const customAudiencesIds = adSets.map((adSet) => adSet.targeting?.custom_audiences?.map((customAudience) => customAudience?.id)).flat() || []
   const uniqueCustomAudiencesIds = ([...new Set(customAudiencesIds)])
   const isInstagram = platform === 'instagram'
 
@@ -65,7 +65,7 @@ export const excludeAudiences = ({ audiences, adSets, objective, platform }) => 
 
 const getAudienceGroupIndex = (name) => {
   switch (true) {
-    case name.includes('Lookalike'):
+    case (name.includes('Interest') || name.includes('Lookalike')):
       return 0
     case name.includes('1y'):
       return 2
@@ -73,6 +73,8 @@ const getAudienceGroupIndex = (name) => {
       return 4
     case name.includes('followers'):
       return 6
+    case name.includes('visitors'):
+      return 8
     default:
       break
   }
@@ -84,14 +86,18 @@ const getCampaignGroupIndex = (identifier) => {
       return 1
     case identifier.includes('entice_traffic'):
       return 3
-    case identifier.includes('entice_landing_page'):
-      return 5
     case identifier.includes('remind_traffic'):
+      return 5
+    case identifier.includes('entice_landing'):
       return 7
     case identifier.includes('remind_engage'):
       return 9
-    case identifier.includes('remind_landing_page'):
+    case identifier.includes('remind_landing'):
       return 11
+    case identifier.includes('remind_conversions'):
+      return 13
+    case identifier.includes('off_platform'):
+      return 15
     default:
       break
   }
@@ -230,15 +236,38 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   return nodeGroups.map((group) => ({ ...group, nodes: group.nodes.map((node, index) => ({ ...node, position: getPosition(index, group, nodeGroups) })) }))
 }
 
-export const getEdges = (nodeGroups) => {
-  const edges = []
-
-  nodeGroups.forEach((group, index) => {
-    if (index === nodeGroups.length - 1) {
-      return
+const getTarget = (objective, platform) => {
+  if (platform === 'instagram') {
+    if (objective === 'growth') {
+      return '6'
     }
-    edges.push({ source: group.id, target: (index + 1).toString(), isActive: true })
-  })
+
+    if (objective === 'conversations') {
+      return '4'
+    }
+  }
+
+  if (objective === 'traffic') {
+    return '8'
+  }
+
+  return ''
+}
+
+export const getEdges = (nodeGroups, objective, platform) => {
+  const edges = [
+    // lookalikes -> entice engage -> Fb/Ig engaged 1y
+    { source: '0', target: '1', isActive: true },
+    { source: '1', target: '2', isActive: true },
+
+    // lookalikes -> entice traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
+    { source: '0', target: '3', isActive: true },
+    { source: '3', target: getTarget(objective, platform), isActive: true },
+
+    // Fb/Ig engaged 1y -> remind traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
+    { source: '2', target: '5', isActive: true },
+    { source: '5', target: getTarget(objective, platform), isActive: true },
+  ]
 
   return edges
 }

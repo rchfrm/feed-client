@@ -33,7 +33,8 @@ export default {
         return `${countries.length} countries`
       }
 
-      return `${countries.join(',')}`
+      const formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' })
+      return formatter.format(countries)
     }
 
     if (['1y', '28d'].some((period) => name.includes(period))) {

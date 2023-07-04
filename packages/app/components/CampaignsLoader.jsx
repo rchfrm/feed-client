@@ -80,7 +80,7 @@ const CampaignsLoader = () => {
       lookalikesAudiences = flattenedLookalikesAudiences
     }
 
-    if (filteredAudiences.length === 0 || adSets.length === 0) {
+    if (audiences.length === 0 || adSets.length === 0) {
       setShouldShowCampaigns(false)
     }
 
