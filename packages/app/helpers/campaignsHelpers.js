@@ -183,7 +183,7 @@ export const getNodeGroups = (audiences, lookalikesAudiencesGroups, adSets) => {
       type: 'audience',
       subType: 'lookalike',
       platform,
-      label: copy.nodeLabel({ name, platform, approximateCount, countries }),
+      label: copy.lookalikesAudiencesLabel({ name, approximateCount, countries }),
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
@@ -197,7 +197,7 @@ export const getNodeGroups = (audiences, lookalikesAudiencesGroups, adSets) => {
       type: 'audience',
       subType: 'custom',
       platform,
-      label: copy.nodeLabel({ name, platform, approximateCount, retentionDays }),
+      label: copy.audiencesLabel({ name, approximateCount, retentionDays, platform }),
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)

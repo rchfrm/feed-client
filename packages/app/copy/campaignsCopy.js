@@ -1,11 +1,28 @@
 import { abbreviateNumber, capitalise } from '@/helpers/utils'
 
+const dictionary = {
+  28: 'month',
+  365: 'year',
+}
+
 export default {
-  nodeLabel: ({ name, platform, approximateCount, retentionDays, countries }) => {
-    const dictionary = {
-      28: 'month',
-      365: 'year',
+  audiencesLabel: ({ name, approximateCount, retentionDays, platform }) => {
+    const baseString = `**${abbreviateNumber(approximateCount)}**`
+
+    if (['1y', '28d'].some((period) => name.includes(period))) {
+      return `${baseString} engaged on ${capitalise(platform)} last ${dictionary[retentionDays]}`
     }
+
+    if (name.includes('followers')) {
+      return `${baseString} followers on ${capitalise(platform)}`
+    }
+
+    if (name.includes('visitors')) {
+      return `${baseString} website visitors`
+    }
+  },
+  lookalikesAudiencesLabel: ({ name, approximateCount, countries }) => {
+    const baseString = `**${abbreviateNumber(approximateCount)}** similar to`
 
     const getCountriesString = (countries) => {
       if (countries.length === 1) {
@@ -19,24 +36,16 @@ export default {
       return `${countries.join(',')}`
     }
 
-    const getPlatformString = (platform) => {
-      if (! platform) {
-        return 'people who have'
-      }
-
-      return `your ${capitalise(platform)} followers`
-    }
-
-    if (name.includes('Lookalike')) {
-      return `**${abbreviateNumber(approximateCount)}** similar to ${getPlatformString(platform)} in ${getCountriesString(countries)}`
-    }
-
-    if (['1y', '28d', '7d'].some((period) => name.includes(period))) {
-      return `**${abbreviateNumber(approximateCount)}** engaged on ${capitalise(platform)} last ${dictionary[retentionDays]}`
+    if (['1y', '28d'].some((period) => name.includes(period))) {
+      return `${baseString} people who have engaged with you in ${getCountriesString(countries)}`
     }
 
     if (name.includes('followers')) {
-      return `**${abbreviateNumber(approximateCount)}** followers on ${capitalise(platform)}`
+      return `${baseString} your Instagram followers in ${getCountriesString(countries)}`
+    }
+
+    if (name.includes('visitors')) {
+      return `${baseString} your website visitors in ${getCountriesString(countries)}`
     }
   },
 }
