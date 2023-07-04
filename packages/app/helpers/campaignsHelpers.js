@@ -251,7 +251,7 @@ const getTarget = (objective, platform) => {
 }
 
 export const getEdges = (objective, platform) => {
-  const { lookalikesOrInterest, enticeEngage, engaged1Y, enticeTraffic, remindTraffic } = indexes
+  const { lookalikesOrInterest, enticeEngage, engaged1Y, remindTraffic } = indexes
 
   const edges = [
     // lookalikes -> entice engage -> Fb/Ig engaged 1y
