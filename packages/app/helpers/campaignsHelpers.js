@@ -1,5 +1,4 @@
 import { requestWithCatch } from '@/helpers/api'
-import { capitalise } from '@/helpers/utils'
 import copy from '@/app/copy/campaignsCopy'
 
 export const getAudiences = async (artistId) => {
@@ -149,9 +148,7 @@ const makeNodeGroup = ({ groupIndex, node }) => {
 
 const makeOrAddToGroup = (groupIndex, node, nodeGroups) => {
   if (nodeGroups[groupIndex]) {
-    if (node.type === 'audience') {
-      nodeGroups[groupIndex].nodes.push(node)
-    }
+    nodeGroups[groupIndex].nodes.push(node)
     return
   }
 
@@ -161,18 +158,36 @@ const makeOrAddToGroup = (groupIndex, node, nodeGroups) => {
   return nodeGroup
 }
 
-export const getNodeGroups = (audiences, lookalikesAudiencesGroups, adSets) => {
+export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   const nodeGroups = []
 
-  lookalikesAudiencesGroups.forEach(({ res, platform }) => {
-    if (res.length === 0) {
-      return
-    }
-
-    const { name } = res[0]
+  // Create audiences node group(s)
+  audiences.forEach((audience) => {
+    const { name, platform, approximate_count: approximateCount, retention_days: retentionDays } = audience
     const groupIndex = getAudienceGroupIndex(name)
 
-    const { approximateCount, countries } = res.reduce((result, { approximate_count, countries_text }) => {
+    const node = {
+      type: 'audience',
+      subType: 'custom',
+      platform,
+      label: copy.audiencesLabel({ name, approximateCount, retentionDays, platform }),
+    }
+
+    makeOrAddToGroup(groupIndex, node, nodeGroups)
+  })
+
+  // Create lookalikes audiences node group
+  const lookalikesAudiencesKeyedByAudienceId = lookalikesAudiences.reduce((result, audience) => {
+    result[audience.audience_id] = result[audience.audience_id] || []
+    result[audience.audience_id].push(audience)
+    return result
+  }, {})
+
+  Object.values(lookalikesAudiencesKeyedByAudienceId).forEach((audiences) => {
+    const { name, platform } = audiences[0]
+    const groupIndex = getAudienceGroupIndex(name)
+
+    const { approximateCount, countries } = audiences.reduce((result, { approximate_count, countries_text }) => {
       return {
         approximateCount: result.approximateCount + approximate_count,
         countries: [...result.countries, countries_text],
@@ -189,33 +204,29 @@ export const getNodeGroups = (audiences, lookalikesAudiencesGroups, adSets) => {
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
-  audiences.forEach((audience) => {
-    const { name, platform, approximate_count: approximateCount, retention_days: retentionDays } = audience
-    const groupIndex = getAudienceGroupIndex(name)
-
-    const node = {
-      type: 'audience',
-      subType: 'custom',
-      platform,
-      label: copy.audiencesLabel({ name, approximateCount, retentionDays, platform }),
-    }
-
-    makeOrAddToGroup(groupIndex, node, nodeGroups)
-  })
-
-  adSets.forEach((adSet) => {
+  // Create ad sets node groups
+  const adSetsKeyedByIdentifier = adSets.reduce((result, adSet) => {
     const { identifier } = adSet
     const [a, b] = identifier.split('_')
+    const key = `${a}_${b}`
+
+    result[key] = result[key] || []
+    result[key].push(adSet)
+    return result
+  }, {})
+
+  Object.keys(adSetsKeyedByIdentifier).forEach((identifier) => {
     const groupIndex = getCampaignGroupIndex(identifier)
 
     const node = {
       type: 'campaign',
-      label: `${capitalise(a)} ${b}`,
+      label: identifier,
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
+  // Add x and y position to each node
   return nodeGroups.map((group) => ({ ...group, nodes: group.nodes.map((node, index) => ({ ...node, position: getPosition(index, group, nodeGroups) })) }))
 }
 
