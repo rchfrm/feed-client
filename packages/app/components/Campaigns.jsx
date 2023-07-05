@@ -13,6 +13,7 @@ const Campaigns = ({
   setEdges,
   isLoading,
 }) => {
+  const maxGroupNodesLength = Math.max(...nodeGroups.filter((group) => group).map((group) => group.nodes.length))
   const isDesktopLayout = useBreakpointTest('xs')
 
   const getPosition = (handler) => {
@@ -29,9 +30,11 @@ const Campaigns = ({
   }
 
   return (
-    <div className={[
-      isDesktopLayout ? 'relative h-[800px] overflow-hidden overflow-x-scroll' : 'flex flex-col items-center',
-    ].join(' ')}
+    <div
+      className={[
+        isDesktopLayout ? 'relative overflow-hidden overflow-x-scroll' : 'flex flex-col items-center',
+      ].join(' ')}
+      style={{ height: `${(maxGroupNodesLength * 80) + 125}px` }}
     >
       {isLoading ? (
         <Spinner width={40} className="mt-20" />

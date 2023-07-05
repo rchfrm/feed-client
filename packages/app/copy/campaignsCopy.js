@@ -17,7 +17,7 @@ export default {
       return `${baseString} followers on ${capitalise(platform)}`
     }
 
-    if (name.includes('visitors')) {
+    if (name.includes('Website Visitors')) {
       return `${baseString} website visitors`
     }
   },
@@ -41,11 +41,11 @@ export default {
       return `${baseString} people who have engaged with you in ${getCountriesString(countries)}`
     }
 
-    if (name.includes('followers')) {
+    if (name.includes('Ig followers')) {
       return `${baseString} your Instagram followers in ${getCountriesString(countries)}`
     }
 
-    if (name.includes('visitors')) {
+    if (name.includes('Website Visitors')) {
       return `${baseString} your website visitors in ${getCountriesString(countries)}`
     }
   },

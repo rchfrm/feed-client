@@ -1,6 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const CampaignsHeader = ({ shouldShowCampaigns }) => {
+const CampaignsHeader = ({
+  campaigns,
+  shouldShowCampaigns,
+}) => {
+  // eslint-disable-next-line no-console
+  console.log(campaigns)
+
   return (
     <>
       <h1>Your campaigns</h1>
@@ -14,6 +21,11 @@ const CampaignsHeader = ({ shouldShowCampaigns }) => {
       )}
     </>
   )
+}
+
+CampaignsHeader.propTypes = {
+  campaigns: PropTypes.array.isRequired,
+  shouldShowCampaigns: PropTypes.bool.isRequired,
 }
 
 export default CampaignsHeader

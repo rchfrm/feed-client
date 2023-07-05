@@ -17,10 +17,8 @@ const CampaignsNodeCampaign = ({
   isLast,
 }) => {
   const { handlers } = group
-  const { label } = node
+  const { engagementRate, costPerEngagement, label } = node
   const nodeRef = React.useRef()
-  const engagementRate = 0
-  const costPerEngagement = 0
   const isDesktopLayout = useBreakpointTest('xs')
   const { targetingState: { platforms } } = React.useContext(TargetingContext)
 
@@ -35,7 +33,7 @@ const CampaignsNodeCampaign = ({
       ref={nodeRef}
       className={[
         'w-full xs:w-36 h-[74px] z-10 cursor-default',
-        'p-2 rounded-dialogue',
+        'p-1 rounded-dialogue',
         isDesktopLayout ? 'absolute' : 'relative mb-4',
         isActive ? 'bg-green-bg-light' : 'bg-white border-solid border-2 border-green',
       ].join(' ')}
@@ -47,7 +45,7 @@ const CampaignsNodeCampaign = ({
       onDrop={onDrop}
       role="button"
     >
-      {platforms.map((platform) => (
+      {platforms?.map((platform) => (
         <div key={platform} className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-[5px] z-10 overflow-hidden">
           {icons[platform]}
         </div>
@@ -57,13 +55,11 @@ const CampaignsNodeCampaign = ({
         isActive ? 'flex-row xs:flex-col justify-around xs:justify-center' : 'flex-col justify-center xs:items-start',
       ].join(' ')}
       >
-        {isActive ? (
-          <div className="text-xs">{label}</div>
-        ) : (
+        {isActive && (
           <>
             <div className="flex items-center mb-0.5 justify-center xs:justify-start">
               {isActive && <HeartIcon className="h-3 w-auto mr-1 flex-shrink-0" />}
-              <p className="mb-0 font-bold">Engagements</p>
+              <p className="mb-1 font-bold">Engagements</p>
             </div>
             <div className="flex">
               <div className="flex flex-col items-center mr-2 text-xs bg-green-bg-dark p-1 rounded-dialogue">
@@ -75,6 +71,7 @@ const CampaignsNodeCampaign = ({
                 <div className="text-[8px]">per eng.</div>
               </div>
             </div>
+            <div className="absolute -bottom-5 text-[8px]">{label}</div>
           </>
         )}
       </div>

@@ -12,6 +12,7 @@ const getControlsStoreState = (state) => ({
 })
 
 const CampaignsLoader = () => {
+  const [campaigns, setCampaigns] = React.useState([])
   const [nodeGroups, setNodeGroups] = React.useState([])
   const [edges, setEdges] = React.useState([])
   const [error, setError] = React.useState(null)
@@ -38,6 +39,8 @@ const CampaignsLoader = () => {
       setIsLoading(false)
       return
     }
+
+    setCampaigns(campaigns)
 
     let adSets = []
     if (campaigns.length > 0) {
@@ -94,7 +97,10 @@ const CampaignsLoader = () => {
 
   return (
     <div onDragOver={(e) => e.preventDefault()}>
-      <CampaignsHeader shouldShowCampaigns={shouldShowCampaigns} />
+      <CampaignsHeader
+        campaigns={campaigns}
+        shouldShowCampaigns={shouldShowCampaigns}
+      />
       <Error error={error} />
       {shouldShowCampaigns && (
         <Campaigns
