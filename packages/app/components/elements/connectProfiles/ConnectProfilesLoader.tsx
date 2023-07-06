@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import Spinner from '@/elements/Spinner'
-import ConnectProfilesIsConnecting from './ConnectProfilesIsConnecting'
 import ConnectProfilesList, { Business, ArtistAccount } from '@/app/elements/connectProfiles/ConnectProfilesList'
 import ConnectProfilesConnectMore from '@/app/elements/connectProfiles/ConnectProfilesConnectMore'
 import ConnectProfilesButtonHelp from '@/app/elements/connectProfiles/ConnectProfilesButtonHelp'
@@ -11,8 +10,7 @@ import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 import { Nullable } from 'shared/types/common'
-import {scalarOptions} from "yaml";
-import Null = scalarOptions.Null;
+import ConnectProfilesIsConnecting from '@/app/elements/connectProfiles/ConnectProfilesIsConnecting'
 
 
 const getBillingStoreState = (state) => ({
@@ -21,7 +19,7 @@ const getBillingStoreState = (state) => ({
 
 interface ConnectProfilesLoaderProps {
   isConnecting: boolean,
-  setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsConnecting: Dispatch<SetStateAction<boolean>>,
   className: string,
 }
 
@@ -78,7 +76,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     if (errors.length) return setPageLoading(false)
 
     // Start fetching artists
-    // const { res: businesses } = await artistHelpers.getBusinesses()
+    const { res: businesses } = await artistHelpers.getBusinesses()
     let firstBusiness: Business
     if (businesses && businesses.length) {
       [firstBusiness] = businesses
@@ -150,7 +148,9 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
         <ConnectProfilesList
           allArtistAccounts={allArtistAccounts}
           artistAccounts={artistAccounts}
+          businesses={businesses}
           selectedBusiness={selectedBusiness}
+          setSelectedBusiness={setSelectedBusiness}
           setNewArtistName={setNewArtistName}
           setIsConnecting={setIsConnecting}
           setErrors={setErrors}

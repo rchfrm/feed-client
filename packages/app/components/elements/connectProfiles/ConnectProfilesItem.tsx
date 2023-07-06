@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import Router from 'next/router'
 import useBillingStore from '@/app/stores/billingStore'
 import { UserContext } from '@/app/contexts/UserContext'
@@ -8,7 +8,7 @@ import ArrowIcon from '@/icons/ArrowIcon'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import * as ROUTES from '@/app/constants/routes'
 import { getLocalStorage } from '@/helpers/utils'
-import {ArtistAccount} from "./ConnectProfilesList";
+import { ArtistAccount } from '@/app/elements/connectProfiles/ConnectProfilesList'
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
@@ -16,10 +16,10 @@ const getBillingStoreState = (state) => ({
 
 interface ConnectProfilesItemProps {
   profile: ArtistAccount,
-  setNewArtistName: React.Dispatch<React.SetStateAction<string>>,
-  setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
+  setNewArtistName: Dispatch<SetStateAction<string>>,
+  setIsConnecting: Dispatch<SetStateAction<boolean>>,
   isConnected: boolean,
-  setErrors: React.Dispatch<React.SetStateAction<any[]>>,
+  setErrors: Dispatch<SetStateAction<any[]>>,
   className?: string,
 }
 

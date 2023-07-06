@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import ConnectProfilesAlreadyConnected from '@/app/elements/connectProfiles/ConnectProfilesAlreadyConnected'
 import ConnectProfilesNotConnected from '@/app/elements/connectProfiles/ConnectProfilesNotConnected'
 import { Nullable } from 'shared/types/common'
@@ -24,16 +24,20 @@ export interface Business {
 type ConnectProfilesListProps = {
   allArtistAccounts: ArtistAccount[],
   artistAccounts: ArtistAccount[],
+  businesses: Business[],
   selectedBusiness: Business,
-  setNewArtistName: React.Dispatch<React.SetStateAction<string>>,
-  setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
-  setErrors: React.Dispatch<React.SetStateAction<any[]>>,
+  setSelectedBusiness: Dispatch<SetStateAction<Business>>,
+  setNewArtistName: Dispatch<SetStateAction<string>>,
+  setIsConnecting: Dispatch<SetStateAction<boolean>>,
+  setErrors: Dispatch<SetStateAction<any[]>>,
 }
 
 const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
   allArtistAccounts,
   artistAccounts,
+  businesses,
   selectedBusiness,
+  setSelectedBusiness,
   setNewArtistName,
   setIsConnecting,
   setErrors,
@@ -47,7 +51,9 @@ const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
       {artistAccounts.length > 0 && (
         <ConnectProfilesNotConnected
           artistAccounts={artistAccounts}
+          businesses={businesses}
           selectedBusiness={selectedBusiness}
+          setSelectedBusiness={setSelectedBusiness}
           setNewArtistName={setNewArtistName}
           setIsConnecting={setIsConnecting}
           setErrors={setErrors}
