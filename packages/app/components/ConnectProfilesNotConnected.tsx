@@ -1,16 +1,25 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { UserContext } from '@/app/contexts/UserContext'
 import ConnectProfilesItem from '@/app/ConnectProfilesItem'
 import DisabledSection from '@/app/DisabledSection'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import useBillingStore from '@/app/stores/billingStore'
+import { ArtistAccount, Business } from '@/app/ConnectProfilesList'
 
 const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,
 })
 
-const ConnectProfilesNotConnected = ({
+interface ConnectProfilesNotConnectedProps {
+  artistAccounts: ArtistAccount[],
+  selectedBusiness: Business,
+  setSelectedProfile: (profile: any) => void,
+  setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
+  setErrors: React.Dispatch<React.SetStateAction<any[]>>,
+  className: string,
+}
+
+const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = ({
   artistAccounts,
   selectedBusiness,
   setSelectedProfile,
@@ -20,7 +29,7 @@ const ConnectProfilesNotConnected = ({
 }) => {
   const { userLoading } = React.useContext(UserContext)
   const { organizationArtists } = useBillingStore(getBillingStoreState)
-  const hasActiveBasicPlan = organizationArtists.some((artist) => artist.plan === 'basic_monthy' && artist.status === 'active')
+  const hasActiveBasicPlan: boolean = organizationArtists.some((artist) => artist.plan === 'basic_monthly' && artist.status === 'active')
 
   const sortedArtistAccounts = React.useMemo(() => {
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
@@ -54,22 +63,6 @@ const ConnectProfilesNotConnected = ({
       </DisabledSection>
     </div>
   )
-}
-
-ConnectProfilesNotConnected.propTypes = {
-  artistAccounts: PropTypes.array.isRequired,
-  selectedBusiness: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    profile_picture_uri: PropTypes.string,
-  }),
-  setSelectedProfile: PropTypes.func.isRequired,
-  setIsConnecting: PropTypes.func.isRequired,
-  setErrors: PropTypes.func.isRequired,
-}
-
-ConnectProfilesNotConnected.defaultProps = {
-  selectedBusiness: undefined,
 }
 
 export default ConnectProfilesNotConnected

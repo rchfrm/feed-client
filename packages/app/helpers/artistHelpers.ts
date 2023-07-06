@@ -1,13 +1,13 @@
 import produce from 'immer'
 import uniqBy from 'lodash/uniqBy'
 import get from 'lodash/get'
-
 import * as utils from '@/helpers/utils'
 import * as api from '@/helpers/api'
-import { requiredScopesSignup, requiredScopesAccount, requiredScopesAds } from '@/helpers/firebaseHelpers'
-
+import { requiredScopesAccount, requiredScopesAds, requiredScopesSignup } from '@/helpers/firebaseHelpers'
 import brandColors from '@/constants/brandColors'
 import moment from 'moment'
+import { Dictionary } from 'ts-essentials'
+import { ArtistAccount } from '@/app/ConnectProfilesList'
 
 /**
  * @param {string} artist
@@ -157,7 +157,7 @@ export const getSortedArtistAccountsArray = (artistAccounts) => {
  * @param {string | undefined} businessId
  * @returns {Promise<any>}
  */
-export const getArtistOnSignUp = async (businessId) => {
+export const getArtistOnSignUp = async (businessId?: string): Promise<{ res: { accounts: Dictionary<ArtistAccount> }, error }> => {
   const requestUrl = '/artists/available'
   let payload = null
   if (businessId) {
@@ -174,7 +174,7 @@ export const getArtistOnSignUp = async (businessId) => {
  * @returns {Promise<any>}
  */
 
-export const getBusinessesOnSignUp = async () => {
+export const getBusinesses = async () => {
   const requestUrl = '/actions/facebook/businesses'
   const payload = null
   const errorTracking = {
@@ -188,12 +188,18 @@ export const sortArtistsAlphabetically = (artists) => {
   return utils.sortArrayByKey(artists, 'name')
 }
 
-/**
- * @param {object} newArtists
- * @param {array} userArtists
- * @returns {object}
- */
-export const removeAlreadyConnectedArtists = (newArtists, userArtists) => {
+interface UserArtist {
+  facebook_page_id: string
+  id: string
+  name: string
+  notification_count: number
+  role: EntityUserAccessRole
+}
+
+export const removeAlreadyConnectedArtists = (
+  newArtists: Dictionary<ArtistAccount>,
+  userArtists: UserArtist[],
+) => {
   return produce(newArtists, (draftState) => {
     userArtists.forEach(({ facebook_page_id }) => {
       delete draftState[facebook_page_id]
@@ -201,8 +207,11 @@ export const removeAlreadyConnectedArtists = (newArtists, userArtists) => {
   })
 }
 
-export const processArtists = ({ artists, businessId }) => {
-  const artistsProcessed = Object.values(artists).map((artist) => {
+export const processArtists = (
+  artists: Dictionary<ArtistAccount>,
+  businessId: string,
+) => {
+  return Object.values(artists).map((artist) => {
     const {
       instagram_username,
       picture,
@@ -223,8 +232,6 @@ export const processArtists = ({ artists, businessId }) => {
       picture: `${picture}?width=500`,
     }
   })
-
-  return artistsProcessed
 }
 
 /**
@@ -890,7 +897,23 @@ export const acceptProfileInvite = async (token) => {
   return api.requestWithCatch('post', requestUrl, payload, errorTracking)
 }
 
-export const formatProfileUsers = (profileUsers, profileInvites) => {
+export enum EntityUserAccessRole {
+  SYS_ADMIN = 'sysadmin',
+  OWNER = 'owner',
+  ADMIN = 'admin',
+  COLLABORATOR = 'collaborator',
+}
+
+interface ArtistUser {
+  id: string
+  name?: string
+  role: EntityUserAccessRole
+  email: string
+}
+export const formatProfileUsers = (
+  profileUsers: Dictionary<ArtistUser>,
+  profileInvites,
+) => {
   const formattedProfileUsers = Object.values(profileUsers).reduce((result, profileUser) => {
     result.push({
       id: profileUser.id,

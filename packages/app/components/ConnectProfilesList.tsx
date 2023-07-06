@@ -3,7 +3,7 @@ import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnect
 import ConnectProfilesNotConnected from '@/app/ConnectProfilesNotConnected'
 import { Nullable } from 'shared/types/common'
 
-interface ArtistAccount {
+export interface ArtistAccount {
   adaccount_id: Nullable<string>,
   exists: boolean,
   instagram_id: Nullable<string>,
@@ -15,7 +15,7 @@ interface ArtistAccount {
   picture: Nullable<string>
 }
 
-interface Business {
+export interface Business {
   id: string,
   name: string,
   profile_picture_uri: Nullable<string>

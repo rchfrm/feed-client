@@ -1,33 +1,39 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import Spinner from '@/elements/Spinner'
 import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
-import ConnectProfilesList from '@/app/ConnectProfilesList'
+import ConnectProfilesList, { Business, ArtistAccount } from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
 import ConnectProfilesButtonHelp from '@/app/ConnectProfilesButtonHelp'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import useBillingStore from '@/app/stores/billingStore'
-import { getBusinessesOnSignUp } from '@/app/helpers/artistHelpers'
+import { Nullable } from 'shared/types/common'
+
 
 const getBillingStoreState = (state) => ({
   hasManagedArtist: state.hasManagedArtist,
 })
 
-const ConnectProfilesLoader = ({
+interface ConnectProfilesLoaderProps {
+  isConnecting: boolean,
+  setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
+  className: string,
+}
+
+const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   isConnecting,
   setIsConnecting,
   className,
 }) => {
-  const [allArtistAccounts, setAllArtistAccounts] = React.useState([])
-  const [artistAccounts, setArtistAccounts] = React.useState([])
-  const [businesses, setBusinesses] = React.useState([])
+  const [allArtistAccounts, setAllArtistAccounts] = React.useState<ArtistAccount[]>([])
+  const [artistAccounts, setArtistAccounts] = React.useState<ArtistAccount[]>([])
+  const [businesses, setBusinesses] = React.useState<Business[]>([])
   const [selectedProfile, setSelectedProfile] = React.useState(null)
-  const [selectedBusiness, setSelectedBusiness] = React.useState(null)
-  const [pageLoading, setPageLoading] = React.useState(true)
+  const [selectedBusiness, setSelectedBusiness] = React.useState<Nullable<Business>>(null)
+  const [pageLoading, setPageLoading] = React.useState<boolean>(true)
   const [errors, setErrors] = React.useState([])
   const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
   const { hasManagedArtist } = useBillingStore(getBillingStoreState)
@@ -70,8 +76,8 @@ const ConnectProfilesLoader = ({
     if (errors.length) return setPageLoading(false)
 
     // Start fetching artists
-    const { res: businesses } = await getBusinessesOnSignUp()
-    let firstBusiness
+    const { res: businesses } = await artistHelpers.getBusinesses()
+    let firstBusiness: Business
     if (businesses && businesses.length) {
       [firstBusiness] = businesses
       setBusinesses(businesses)
@@ -114,7 +120,6 @@ const ConnectProfilesLoader = ({
       })
     }
 
-
     setAllArtistAccounts(Object.values(artistAccounts).map((artist) => artist))
 
     // Remove profiles that have already been connected
@@ -122,7 +127,7 @@ const ConnectProfilesLoader = ({
     const artistsFiltered = ! user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
     // Add ad accounts to artists
-    const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered, businessId: firstBusiness.id })
+    const processedArtists = artistHelpers.processArtists(artistsFiltered, firstBusiness.id)
 
     if (! isMounted()) return
 
@@ -166,7 +171,6 @@ const ConnectProfilesLoader = ({
           errors={errors}
           setErrors={setErrors}
           hasArtists={artistAccounts.length > 0}
-          isConnecting={isConnecting}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
           isCannotListPagesError={isCannotListPagesError}
@@ -174,16 +178,6 @@ const ConnectProfilesLoader = ({
       </div>
     </div>
   )
-}
-
-ConnectProfilesLoader.propTypes = {
-  isConnecting: PropTypes.bool.isRequired,
-  setIsConnecting: PropTypes.func.isRequired,
-  className: PropTypes.string,
-}
-
-ConnectProfilesLoader.defaultProps = {
-  className: null,
 }
 
 export default ConnectProfilesLoader
