@@ -25,6 +25,7 @@ type ConnectProfilesListProps = {
   allArtistAccounts: ArtistAccount[],
   artistAccounts: ArtistAccount[],
   selectedBusiness: Business,
+  setNewArtistName: React.Dispatch<React.SetStateAction<string>>,
   setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
   setErrors: React.Dispatch<React.SetStateAction<any[]>>,
 }
@@ -33,6 +34,7 @@ const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
   allArtistAccounts,
   artistAccounts,
   selectedBusiness,
+  setNewArtistName,
   setIsConnecting,
   setErrors,
 }) => {
@@ -46,6 +48,7 @@ const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
         <ConnectProfilesNotConnected
           artistAccounts={artistAccounts}
           selectedBusiness={selectedBusiness}
+          setNewArtistName={setNewArtistName}
           setIsConnecting={setIsConnecting}
           setErrors={setErrors}
           className="mb-10"

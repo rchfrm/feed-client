@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Router from 'next/router'
 import useBillingStore from '@/app/stores/billingStore'
 import { UserContext } from '@/app/contexts/UserContext'
@@ -9,14 +8,24 @@ import ArrowIcon from '@/icons/ArrowIcon'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import * as ROUTES from '@/app/constants/routes'
 import { getLocalStorage } from '@/helpers/utils'
+import {ArtistAccount} from "./ConnectProfilesList";
 
 const getBillingStoreState = (state) => ({
   organization: state.organization,
 })
 
-const ConnectProfilesItem = ({
+interface ConnectProfilesItemProps {
+  profile: ArtistAccount,
+  setNewArtistName: React.Dispatch<React.SetStateAction<string>>,
+  setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
+  isConnected: boolean,
+  setErrors: React.Dispatch<React.SetStateAction<any[]>>,
+  className?: string,
+}
+
+const ConnectProfilesItem: React.FC<ConnectProfilesItemProps> = ({
   profile,
-  setSelectedProfile,
+  setNewArtistName,
   setIsConnecting,
   isConnected,
   setErrors,
@@ -32,7 +41,7 @@ const ConnectProfilesItem = ({
 
   const createArtist = async () => {
     setIsConnecting(true)
-    setSelectedProfile(profile)
+    setNewArtistName(name)
 
     if (isManaged) {
       plan = 'legacy_monthly'
@@ -78,22 +87,6 @@ const ConnectProfilesItem = ({
       </Wrapper>
     </li>
   )
-}
-
-ConnectProfilesItem.propTypes = {
-  profile: PropTypes.object.isRequired,
-  setSelectedProfile: PropTypes.func,
-  setIsConnecting: PropTypes.func,
-  isConnected: PropTypes.bool.isRequired,
-  setErrors: PropTypes.func,
-  className: PropTypes.string,
-}
-
-ConnectProfilesItem.defaultProps = {
-  setSelectedProfile: () => {},
-  setIsConnecting: () => {},
-  setErrors: () => {},
-  className: null,
 }
 
 export default ConnectProfilesItem

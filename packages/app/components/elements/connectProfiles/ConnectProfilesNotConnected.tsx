@@ -13,6 +13,7 @@ const getBillingStoreState = (state) => ({
 interface ConnectProfilesNotConnectedProps {
   artistAccounts: ArtistAccount[],
   selectedBusiness: Business,
+  setNewArtistName: React.Dispatch<React.SetStateAction<string>>,
   setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
   setErrors: React.Dispatch<React.SetStateAction<any[]>>,
   className: string,
@@ -21,6 +22,7 @@ interface ConnectProfilesNotConnectedProps {
 const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = ({
   artistAccounts,
   selectedBusiness,
+  setNewArtistName,
   setIsConnecting,
   setErrors,
   className,
@@ -29,7 +31,7 @@ const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = 
   const { organizationArtists } = useBillingStore(getBillingStoreState)
   const hasActiveBasicPlan: boolean = organizationArtists.some((artist) => artist.plan === 'basic_monthly' && artist.status === 'active')
 
-  const sortedArtistAccounts = React.useMemo(() => {
+  const sortedArtistAccounts = React.useMemo<ArtistAccount[]>(() => {
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
   }, [artistAccounts])
 
@@ -49,6 +51,7 @@ const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = 
               <ConnectProfilesItem
                 key={artistAccount.page_id}
                 profile={artistAccount}
+                setNewArtistName={setNewArtistName}
                 setIsConnecting={setIsConnecting}
                 isConnected={false}
                 setErrors={setErrors}

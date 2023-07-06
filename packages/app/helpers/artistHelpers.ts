@@ -141,13 +141,7 @@ export const updateLocation = (artistId, countryCode) => {
   return api.requestWithCatch('patch', requestUrl, payload, errorTracking)
 }
 
-/**
- * Create sorted array of artist accounts
- * First show accounts that don't already exists, then sort name alphabetically
- * @param {object} artistAccounts
- * @returns {array}
- */
-export const getSortedArtistAccountsArray = (artistAccounts) => {
+export const getSortedArtistAccountsArray = (artistAccounts: ArtistAccount[]): ArtistAccount[] => {
   return artistAccounts.sort((a, b) => {
     return ((a.exists === b.exists) ? 0 : a.exists ? 1 : -1) || a.name.localeCompare(b.name)
   })
@@ -234,14 +228,7 @@ export const processArtists = (
   })
 }
 
-/**
- * Receives object of keyed artist account by ID
- * Converts empty strings to null
- * Returns newly formed artist account
- * @param {array} artistAccounts
- * @returns {object}
- */
-export const sanitiseArtistAccountUrls = (artistAccount) => {
+export const sanitiseArtistAccountUrls = (artistAccount: ArtistAccount): ArtistAccount => {
   return produce(artistAccount, (draftState) => {
     // Loop over artist props
     Object.entries(artistAccount).forEach(([key, value]) => {

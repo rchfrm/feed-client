@@ -3,7 +3,7 @@ import useAsyncEffect from 'use-async-effect'
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
 import Spinner from '@/elements/Spinner'
-import ConnectProfilesIsConnecting from '@/app/elements/connectProfiles/ConnectProfilesIsConnecting'
+import ConnectProfilesIsConnecting from './ConnectProfilesIsConnecting'
 import ConnectProfilesList, { Business, ArtistAccount } from '@/app/elements/connectProfiles/ConnectProfilesList'
 import ConnectProfilesConnectMore from '@/app/elements/connectProfiles/ConnectProfilesConnectMore'
 import ConnectProfilesButtonHelp from '@/app/elements/connectProfiles/ConnectProfilesButtonHelp'
@@ -11,6 +11,8 @@ import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 import { Nullable } from 'shared/types/common'
+import {scalarOptions} from "yaml";
+import Null = scalarOptions.Null;
 
 
 const getBillingStoreState = (state) => ({
@@ -32,6 +34,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   const [artistAccounts, setArtistAccounts] = React.useState<ArtistAccount[]>([])
   const [businesses, setBusinesses] = React.useState<Business[]>([])
   const [selectedBusiness, setSelectedBusiness] = React.useState<Nullable<Business>>(null)
+  const [newArtistName, setNewArtistName] = React.useState<Nullable<string>>(null)
   const [pageLoading, setPageLoading] = React.useState<boolean>(true)
   const [errors, setErrors] = React.useState([])
   const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
@@ -75,7 +78,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     if (errors.length) return setPageLoading(false)
 
     // Start fetching artists
-    const { res: businesses } = await artistHelpers.getBusinesses()
+    // const { res: businesses } = await artistHelpers.getBusinesses()
     let firstBusiness: Business
     if (businesses && businesses.length) {
       [firstBusiness] = businesses
@@ -136,7 +139,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   }, [userLoading, isConnecting])
 
   if (isConnecting && artistAccounts.length > 0) {
-    return <ConnectProfilesIsConnecting />
+    return <ConnectProfilesIsConnecting profileName={newArtistName} />
   }
 
   if (pageLoading || isConnecting) return <Spinner />
@@ -148,6 +151,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
           allArtistAccounts={allArtistAccounts}
           artistAccounts={artistAccounts}
           selectedBusiness={selectedBusiness}
+          setNewArtistName={setNewArtistName}
           setIsConnecting={setIsConnecting}
           setErrors={setErrors}
         />

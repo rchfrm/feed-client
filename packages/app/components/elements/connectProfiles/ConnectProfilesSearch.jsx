@@ -25,6 +25,7 @@ const ConnectProfilesSearch = ({
         <ul className="xs:pl-16">
           <ConnectProfilesItem
             profile={artistAccount}
+            setNewArtistName={setNewArtistName}
             setSelectedProfile={setSelectedProfile}
             setIsConnecting={setIsConnecting}
             isConnected={false}
