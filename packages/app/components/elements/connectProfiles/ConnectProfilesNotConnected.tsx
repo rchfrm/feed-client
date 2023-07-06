@@ -76,13 +76,19 @@ const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = 
     <div className={[className].join(' ')}>
       <h2>Connect more</h2>
       {businesses.length > 1 && (
-        <>
-          <Select selectedValue={selectedBusiness.id} handleChange={handleSelect} name="business" options={businessOptions} loading={availableArtistsLoading} />
-          <Input name="search" value={searchQuery} handleChange={handleInput} />
-        </>
+        <Select label="Select Facebook business" selectedValue={selectedBusiness.id} handleChange={handleSelect} name="business" options={businessOptions} loading={availableArtistsLoading} />
 
       )}
-      {searchQuery && <p>{`${artistAccounts.length} result${artistAccounts.length === 1 ? '' : 's'} found searching for "${searchQuery}".`}</p>}
+      {businesses.length > 0 && (
+        <>
+          <Input label="Search by name" name="search" value={searchQuery} handleChange={handleInput} />
+          {availableArtistsLoading ? (
+            <p>{`Searching${searchQuery && ` for ${searchQuery}`}...`}</p>
+          ) : (
+            <p>{`Found ${artistAccounts.length} result${artistAccounts.length === 1 ? '' : 's'}${searchQuery && ` for "${searchQuery}"`}.`}</p>
+          )}
+        </>
+      )}
       <DisabledSection
         section="connect-accounts"
         isDisabled={hasActiveBasicPlan}
