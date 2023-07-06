@@ -1,12 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import useAsyncEffect from 'use-async-effect'
-
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
-
 import Spinner from '@/elements/Spinner'
-
 import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
 import ConnectProfilesList from '@/app/ConnectProfilesList'
 import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
@@ -73,7 +70,7 @@ const ConnectProfilesLoader = ({
     if (errors.length) return setPageLoading(false)
 
     // Start fetching artists
-    const { res: businesses } = await artistHelpers.getBusinessesOnSignUp()
+    const { res: businesses } = await getBusinessesOnSignUp()
     let firstBusiness
     if (businesses && businesses.length) {
       [firstBusiness] = businesses

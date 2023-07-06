@@ -1,9 +1,36 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 import ConnectProfilesNotConnected from '@/app/ConnectProfilesNotConnected'
+import { Nullable } from 'shared/types/common'
 
-const ConnectProfilesList = ({
+interface ArtistAccount {
+  adaccount_id: Nullable<string>,
+  exists: boolean,
+  instagram_id: Nullable<string>,
+  instagram_username: Nullable<string>,
+  location: Nullable<string>,
+  name: string,
+  page_id: string,
+  page_token: string,
+  picture: Nullable<string>
+}
+
+interface Business {
+  id: string,
+  name: string,
+  profile_picture_uri: Nullable<string>
+}
+
+type ConnectProfilesListProps = {
+  allArtistAccounts: ArtistAccount[],
+  artistAccounts: ArtistAccount[],
+  selectedBusiness: Business,
+  setSelectedProfile: (profile: any) => void,
+  setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
+  setErrors: React.Dispatch<React.SetStateAction<any[]>>,
+}
+
+const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
   allArtistAccounts,
   artistAccounts,
   selectedBusiness,
@@ -29,23 +56,6 @@ const ConnectProfilesList = ({
       )}
     </div>
   )
-}
-
-ConnectProfilesList.propTypes = {
-  allArtistAccounts: PropTypes.array.isRequired,
-  artistAccounts: PropTypes.array.isRequired,
-  selectedBusiness: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    profile_picture_uri: PropTypes.string,
-  }),
-  setSelectedProfile: PropTypes.func.isRequired,
-  setIsConnecting: PropTypes.func.isRequired,
-  setErrors: PropTypes.func.isRequired,
-}
-
-ConnectProfilesList.defaultProps = {
-  selectedBusiness: undefined,
 }
 
 export default ConnectProfilesList
