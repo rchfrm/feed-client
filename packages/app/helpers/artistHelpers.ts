@@ -151,11 +151,17 @@ export const getSortedArtistAccountsArray = (artistAccounts: ArtistAccount[]): A
  * @param {string | undefined} businessId
  * @returns {Promise<any>}
  */
-export const getArtistOnSignUp = async (businessId?: string): Promise<{ res: { accounts: Dictionary<ArtistAccount> }, error }> => {
+export const getArtistOnSignUp = async (
+  businessId?: string,
+  query?: string,
+): Promise<{ res: { accounts: Dictionary<ArtistAccount> }, error }> => {
   const requestUrl = '/artists/available'
   let payload = null
   if (businessId) {
     payload = { businessId }
+    if (query) {
+      payload.query = query
+    }
   }
   const errorTracking = {
     category: 'Artist',

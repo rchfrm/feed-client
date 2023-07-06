@@ -6,6 +6,7 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 import { ArtistAccount, Business } from '@/app/elements/connectProfiles/ConnectProfilesList'
 import Select from '../../../../shared/components/elements/Select'
+import Input from '../../../../shared/components/elements/Input'
 
 const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,
@@ -14,6 +15,8 @@ const getBillingStoreState = (state) => ({
 interface ConnectProfilesNotConnectedProps {
   artistAccounts: ArtistAccount[],
   availableArtistsLoading: boolean,
+  searchQuery?: string,
+  setSearchQuery: Dispatch<SetStateAction<string>>
   businesses: Business[],
   selectedBusiness: Business,
   setSelectedBusiness: Dispatch<SetStateAction<Business>>,
@@ -26,6 +29,8 @@ interface ConnectProfilesNotConnectedProps {
 const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = ({
   artistAccounts,
   availableArtistsLoading,
+  searchQuery,
+  setSearchQuery,
   businesses,
   selectedBusiness,
   setSelectedBusiness,
@@ -48,7 +53,7 @@ const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = 
     return artistHelpers.getSortedArtistAccountsArray(artistAccounts)
   }, [artistAccounts])
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const newBusinessId = e.target.value
     if (newBusinessId === selectedBusiness.id) return
 
@@ -58,14 +63,26 @@ const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = 
     setSelectedBusiness(newSelectedBusiness)
   }
 
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const newSearchQuery = e.target.value
+    if (newSearchQuery === searchQuery) return
+
+    setSearchQuery(newSearchQuery)
+  }
+
   if (userLoading) return null
 
   return (
     <div className={[className].join(' ')}>
       <h2>Connect more</h2>
       {businesses.length > 1 && (
-        <Select selectedValue={selectedBusiness.id} handleChange={handleChange} name="business" options={businessOptions} loading={availableArtistsLoading} />
+        <>
+          <Select selectedValue={selectedBusiness.id} handleChange={handleSelect} name="business" options={businessOptions} loading={availableArtistsLoading} />
+          <Input name="search" value={searchQuery} handleChange={handleInput} />
+        </>
+
       )}
+      {searchQuery && <p>{`${artistAccounts.length} result${artistAccounts.length === 1 ? '' : 's'} found searching for "${searchQuery}".`}</p>}
       <DisabledSection
         section="connect-accounts"
         isDisabled={hasActiveBasicPlan}

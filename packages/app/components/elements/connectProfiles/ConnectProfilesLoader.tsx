@@ -11,6 +11,7 @@ import * as artistHelpers from '@/app/helpers/artistHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 import { Nullable } from 'shared/types/common'
 import ConnectProfilesIsConnecting from '@/app/elements/connectProfiles/ConnectProfilesIsConnecting'
+import useDebounce from '../../hooks/useDebounce'
 
 
 const getBillingStoreState = (state) => ({
@@ -32,12 +33,15 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   const [artistAccounts, setArtistAccounts] = React.useState<ArtistAccount[]>([])
   const [businesses, setBusinesses] = React.useState<Business[]>([])
   const [selectedBusiness, setSelectedBusiness] = React.useState<Nullable<Business>>(null)
+  const [searchQuery, setSearchQuery] = React.useState<string>('Mc')
   const [newArtistName, setNewArtistName] = React.useState<Nullable<string>>(null)
   const [pageLoading, setPageLoading] = React.useState<boolean>(true)
   const [availableArtistsLoading, setAvailableArtistsLoading] = React.useState<boolean>(false)
   const [errors, setErrors] = React.useState([])
   const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
   const { hasManagedArtist } = useBillingStore(getBillingStoreState)
+
+  const debouncedSearchQuery = useDebounce(searchQuery, 300)
 
   const {
     auth,
@@ -79,10 +83,10 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     // On first load, get all the businesses a user has access to
     let firstBusiness: Business
     if (businesses.length === 0 && ! selectedBusiness) {
-      const { res: businesses } = await artistHelpers.getBusinesses()
-      if (businesses && businesses.length) {
-        [firstBusiness] = businesses
-        setBusinesses(businesses)
+      const { res: availableBusinesses } = await artistHelpers.getBusinesses()
+      if (availableBusinesses && availableBusinesses.length) {
+        [firstBusiness] = availableBusinesses
+        setBusinesses(availableBusinesses)
         setSelectedBusiness(firstBusiness)
       }
     } else {
@@ -91,7 +95,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
 
     // Start fetching artists
     setAvailableArtistsLoading(true)
-    const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness?.id)
+    const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness?.id, debouncedSearchQuery)
 
     if (error) {
       if (! isMounted()) return
@@ -118,7 +122,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     const { accounts: artistAccounts } = res
 
     // Error if no artist accounts
-    if (Object.keys(artistAccounts).length === 0) {
+    if (Object.keys(artistAccounts).length === 0 && ! searchQuery) {
       setErrors([...errors, { message: 'No accounts were found' }])
       setPageLoading(false)
       setAvailableArtistsLoading(false)
@@ -145,7 +149,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
 
     setPageLoading(false)
     setAvailableArtistsLoading(false)
-  }, [selectedBusiness, userLoading, isConnecting])
+  }, [selectedBusiness, debouncedSearchQuery, userLoading, isConnecting])
 
   if (isConnecting && artistAccounts.length > 0) {
     return <ConnectProfilesIsConnecting profileName={newArtistName} />
@@ -160,6 +164,8 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
           allArtistAccounts={allArtistAccounts}
           artistAccounts={artistAccounts}
           availableArtistsLoading={availableArtistsLoading}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
           businesses={businesses}
           selectedBusiness={selectedBusiness}
           setSelectedBusiness={setSelectedBusiness}

@@ -25,6 +25,8 @@ type ConnectProfilesListProps = {
   allArtistAccounts: ArtistAccount[],
   artistAccounts: ArtistAccount[],
   availableArtistsLoading: boolean,
+  searchQuery?: string,
+  setSearchQuery: Dispatch<SetStateAction<string>>
   businesses: Business[],
   selectedBusiness: Business,
   setSelectedBusiness: Dispatch<SetStateAction<Business>>,
@@ -37,6 +39,8 @@ const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
   allArtistAccounts,
   artistAccounts,
   availableArtistsLoading,
+  searchQuery,
+  setSearchQuery,
   businesses,
   selectedBusiness,
   setSelectedBusiness,
@@ -50,19 +54,19 @@ const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
         allArtistAccounts={allArtistAccounts}
         className="mb-10"
       />
-      {artistAccounts.length > 0 && (
-        <ConnectProfilesNotConnected
-          artistAccounts={artistAccounts}
-          availableArtistsLoading={availableArtistsLoading}
-          businesses={businesses}
-          selectedBusiness={selectedBusiness}
-          setSelectedBusiness={setSelectedBusiness}
-          setNewArtistName={setNewArtistName}
-          setIsConnecting={setIsConnecting}
-          setErrors={setErrors}
-          className="mb-10"
-        />
-      )}
+      <ConnectProfilesNotConnected
+        artistAccounts={artistAccounts}
+        availableArtistsLoading={availableArtistsLoading}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        businesses={businesses}
+        selectedBusiness={selectedBusiness}
+        setSelectedBusiness={setSelectedBusiness}
+        setNewArtistName={setNewArtistName}
+        setIsConnecting={setIsConnecting}
+        setErrors={setErrors}
+        className="mb-10"
+      />
     </div>
   )
 }
