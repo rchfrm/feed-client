@@ -7,7 +7,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 
 import GetStartedConnectFacebookNoProfiles from '@/app/GetStartedConnectFacebookNoProfiles'
 import GetStartedConnectFacebookProfiles from '@/app/GetStartedConnectFacebookProfiles'
-import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
+import ConnectProfilesIsConnecting from '@/app/elements/connectProfiles/ConnectProfilesIsConnecting'
 
 import Spinner from '@/elements/Spinner'
 
