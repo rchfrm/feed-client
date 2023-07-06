@@ -23,6 +23,7 @@ const GetStartedAdAccount = () => {
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
+    // TODO : Update this to get ad accounts in business if system user doesn't have access to any
     const { res, error } = await getAdAccounts(artistId)
     if (! isMounted()) return
 
