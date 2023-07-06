@@ -34,6 +34,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   const [selectedBusiness, setSelectedBusiness] = React.useState<Nullable<Business>>(null)
   const [newArtistName, setNewArtistName] = React.useState<Nullable<string>>(null)
   const [pageLoading, setPageLoading] = React.useState<boolean>(true)
+  const [availableArtistsLoading, setAvailableArtistsLoading] = React.useState<boolean>(false)
   const [errors, setErrors] = React.useState([])
   const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
   const { hasManagedArtist } = useBillingStore(getBillingStoreState)
@@ -75,16 +76,21 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     // Stop here if we haven't either auth or fb auth errors
     if (errors.length) return setPageLoading(false)
 
-    // Start fetching artists
-    const { res: businesses } = await artistHelpers.getBusinesses()
+    // On first load, get all the businesses a user has access to
     let firstBusiness: Business
-    if (businesses && businesses.length) {
-      [firstBusiness] = businesses
-      setBusinesses(businesses)
-      setSelectedBusiness(firstBusiness)
+    if (businesses.length === 0 && ! selectedBusiness) {
+      const { res: businesses } = await artistHelpers.getBusinesses()
+      if (businesses && businesses.length) {
+        [firstBusiness] = businesses
+        setBusinesses(businesses)
+        setSelectedBusiness(firstBusiness)
+      }
+    } else {
+      firstBusiness = selectedBusiness
     }
-    // TODO 1 : If there are multiple businesses, show menu to switch between them.
-    //  Make sure no businesses doesn't cause an error.
+
+    // Start fetching artists
+    setAvailableArtistsLoading(true)
     const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness?.id)
 
     if (error) {
@@ -92,17 +98,20 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
 
       if (error.message === 'user cache is not available') {
         setPageLoading(false)
+        setAvailableArtistsLoading(false)
         return
       }
 
       if (error.message === 'cannot list facebook pages') {
         setIsCannotListPagesError(true)
         setPageLoading(false)
+        setAvailableArtistsLoading(false)
         return
       }
 
       setErrors([...errors, error])
       setPageLoading(false)
+      setAvailableArtistsLoading(false)
       return
     }
 
@@ -112,6 +121,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     if (Object.keys(artistAccounts).length === 0) {
       setErrors([...errors, { message: 'No accounts were found' }])
       setPageLoading(false)
+      setAvailableArtistsLoading(false)
 
       // Track
       fireSentryError({
@@ -134,7 +144,8 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     setArtistAccounts(processedArtists)
 
     setPageLoading(false)
-  }, [userLoading, isConnecting])
+    setAvailableArtistsLoading(false)
+  }, [selectedBusiness, userLoading, isConnecting])
 
   if (isConnecting && artistAccounts.length > 0) {
     return <ConnectProfilesIsConnecting profileName={newArtistName} />
@@ -148,6 +159,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
         <ConnectProfilesList
           allArtistAccounts={allArtistAccounts}
           artistAccounts={artistAccounts}
+          availableArtistsLoading={availableArtistsLoading}
           businesses={businesses}
           selectedBusiness={selectedBusiness}
           setSelectedBusiness={setSelectedBusiness}

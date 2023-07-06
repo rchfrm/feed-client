@@ -13,6 +13,7 @@ const getBillingStoreState = (state) => ({
 
 interface ConnectProfilesNotConnectedProps {
   artistAccounts: ArtistAccount[],
+  availableArtistsLoading: boolean,
   businesses: Business[],
   selectedBusiness: Business,
   setSelectedBusiness: Dispatch<SetStateAction<Business>>,
@@ -24,6 +25,7 @@ interface ConnectProfilesNotConnectedProps {
 
 const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = ({
   artistAccounts,
+  availableArtistsLoading,
   businesses,
   selectedBusiness,
   setSelectedBusiness,
@@ -61,7 +63,9 @@ const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = 
   return (
     <div className={[className].join(' ')}>
       <h2>Connect more</h2>
-      <Select selectedValue={selectedBusiness.id} handleChange={handleChange} name="business" options={businessOptions} />
+      {businesses.length > 1 && (
+        <Select selectedValue={selectedBusiness.id} handleChange={handleChange} name="business" options={businessOptions} loading={availableArtistsLoading} />
+      )}
       <DisabledSection
         section="connect-accounts"
         isDisabled={hasActiveBasicPlan}

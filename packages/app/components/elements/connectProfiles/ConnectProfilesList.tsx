@@ -24,6 +24,7 @@ export interface Business {
 type ConnectProfilesListProps = {
   allArtistAccounts: ArtistAccount[],
   artistAccounts: ArtistAccount[],
+  availableArtistsLoading: boolean,
   businesses: Business[],
   selectedBusiness: Business,
   setSelectedBusiness: Dispatch<SetStateAction<Business>>,
@@ -35,6 +36,7 @@ type ConnectProfilesListProps = {
 const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
   allArtistAccounts,
   artistAccounts,
+  availableArtistsLoading,
   businesses,
   selectedBusiness,
   setSelectedBusiness,
@@ -51,6 +53,7 @@ const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
       {artistAccounts.length > 0 && (
         <ConnectProfilesNotConnected
           artistAccounts={artistAccounts}
+          availableArtistsLoading={availableArtistsLoading}
           businesses={businesses}
           selectedBusiness={selectedBusiness}
           setSelectedBusiness={setSelectedBusiness}
