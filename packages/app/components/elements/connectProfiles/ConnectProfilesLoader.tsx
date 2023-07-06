@@ -31,7 +31,6 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   const [allArtistAccounts, setAllArtistAccounts] = React.useState<ArtistAccount[]>([])
   const [artistAccounts, setArtistAccounts] = React.useState<ArtistAccount[]>([])
   const [businesses, setBusinesses] = React.useState<Business[]>([])
-  const [selectedProfile, setSelectedProfile] = React.useState(null)
   const [selectedBusiness, setSelectedBusiness] = React.useState<Nullable<Business>>(null)
   const [pageLoading, setPageLoading] = React.useState<boolean>(true)
   const [errors, setErrors] = React.useState([])
@@ -85,7 +84,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     }
     // TODO 1 : If there are multiple businesses, show menu to switch between them.
     //  Make sure no businesses doesn't cause an error.
-    const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness.id)
+    const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness?.id)
 
     if (error) {
       if (! isMounted()) return
@@ -127,7 +126,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     const artistsFiltered = ! user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
     // Add ad accounts to artists
-    const processedArtists = artistHelpers.processArtists(artistsFiltered, firstBusiness.id)
+    const processedArtists = artistHelpers.processArtists(artistsFiltered, firstBusiness?.id)
 
     if (! isMounted()) return
 
@@ -137,7 +136,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   }, [userLoading, isConnecting])
 
   if (isConnecting && artistAccounts.length > 0) {
-    return <ConnectProfilesIsConnecting profile={selectedProfile} />
+    return <ConnectProfilesIsConnecting />
   }
 
   if (pageLoading || isConnecting) return <Spinner />
@@ -149,7 +148,6 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
           allArtistAccounts={allArtistAccounts}
           artistAccounts={artistAccounts}
           selectedBusiness={selectedBusiness}
-          setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
           setErrors={setErrors}
         />
@@ -171,7 +169,6 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
           errors={errors}
           setErrors={setErrors}
           hasArtists={artistAccounts.length > 0}
-          setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
           isCannotListPagesError={isCannotListPagesError}
         />

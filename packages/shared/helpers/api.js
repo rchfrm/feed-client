@@ -1,10 +1,8 @@
 import axios from 'axios'
-
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 const host = process.env.react_app_api_url
-
 const axiosInstance = axios.create()
 
 const retryConfig = {
@@ -97,9 +95,9 @@ export async function request(method, path, options, token) {
     },
   }
 
-  // if (token !== false) {
-  //   req.headers.Authorization = `Bearer ${token}`
-  // }
+  if (token !== false) {
+    req.headers.Authorization = `Bearer ${token}`
+  }
 
   if (options && options.data) {
     req.data = options.data

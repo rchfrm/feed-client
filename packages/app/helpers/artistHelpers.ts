@@ -209,7 +209,7 @@ export const removeAlreadyConnectedArtists = (
 
 export const processArtists = (
   artists: Dictionary<ArtistAccount>,
-  businessId: string,
+  businessId?: string,
 ) => {
   return Object.values(artists).map((artist) => {
     const {

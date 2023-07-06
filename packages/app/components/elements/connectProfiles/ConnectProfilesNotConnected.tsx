@@ -13,7 +13,6 @@ const getBillingStoreState = (state) => ({
 interface ConnectProfilesNotConnectedProps {
   artistAccounts: ArtistAccount[],
   selectedBusiness: Business,
-  setSelectedProfile: (profile: any) => void,
   setIsConnecting: React.Dispatch<React.SetStateAction<boolean>>,
   setErrors: React.Dispatch<React.SetStateAction<any[]>>,
   className: string,
@@ -22,7 +21,6 @@ interface ConnectProfilesNotConnectedProps {
 const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = ({
   artistAccounts,
   selectedBusiness,
-  setSelectedProfile,
   setIsConnecting,
   setErrors,
   className,
@@ -51,7 +49,6 @@ const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = 
               <ConnectProfilesItem
                 key={artistAccount.page_id}
                 profile={artistAccount}
-                setSelectedProfile={setSelectedProfile}
                 setIsConnecting={setIsConnecting}
                 isConnected={false}
                 setErrors={setErrors}
