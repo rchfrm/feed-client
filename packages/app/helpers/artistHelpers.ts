@@ -7,7 +7,7 @@ import { requiredScopesAccount, requiredScopesAds, requiredScopesSignup } from '
 import brandColors from '@/constants/brandColors'
 import moment from 'moment'
 import { Dictionary } from 'ts-essentials'
-import { ArtistAccount } from '@/app/ConnectProfilesList'
+import { ArtistAccount } from '@/app/elements/connectProfiles/ConnectProfilesList'
 
 /**
  * @param {string} artist

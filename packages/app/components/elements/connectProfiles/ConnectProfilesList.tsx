@@ -1,6 +1,6 @@
 import React from 'react'
-import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
-import ConnectProfilesNotConnected from '@/app/ConnectProfilesNotConnected'
+import ConnectProfilesAlreadyConnected from '@/app/elements/connectProfiles/ConnectProfilesAlreadyConnected'
+import ConnectProfilesNotConnected from '@/app/elements/connectProfiles/ConnectProfilesNotConnected'
 import { Nullable } from 'shared/types/common'
 
 export interface ArtistAccount {

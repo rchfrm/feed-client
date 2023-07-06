@@ -97,9 +97,9 @@ export async function request(method, path, options, token) {
     },
   }
 
-  if (token !== false) {
-    req.headers.Authorization = `Bearer ${token}`
-  }
+  // if (token !== false) {
+  //   req.headers.Authorization = `Bearer ${token}`
+  // }
 
   if (options && options.data) {
     req.data = options.data
@@ -172,11 +172,17 @@ export function deleteRequest(path, data, token) {
   * @param {string} url
   * @param {object} payload
   * @param {object} trackError { category, action }
-  * @param {string} token
+  * @param {string} [token]
   * @returns {Promise<object>} { res, error }
   * * Makes requests  and returns errors as if the request were successful with an `error.message` key filled out
 */
-export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
+export const requestWithCatch = async (
+  requestType,
+  url,
+  payload = null,
+  trackError,
+  token,
+) => {
   if (! requestType) {
     throw new Error('Please include a request type')
   }

@@ -1,10 +1,10 @@
 import React from 'react'
 import { UserContext } from '@/app/contexts/UserContext'
-import ConnectProfilesItem from '@/app/ConnectProfilesItem'
+import ConnectProfilesItem from '@/app/elements/connectProfiles/ConnectProfilesItem'
 import DisabledSection from '@/app/DisabledSection'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import useBillingStore from '@/app/stores/billingStore'
-import { ArtistAccount, Business } from '@/app/ConnectProfilesList'
+import { ArtistAccount, Business } from '@/app/elements/connectProfiles/ConnectProfilesList'
 
 const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,

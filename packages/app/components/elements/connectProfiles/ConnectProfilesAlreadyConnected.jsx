@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { UserContext } from '@/app/contexts/UserContext'
-
 import ConnectProfilesItem from '@/app/elements/connectProfiles/ConnectProfilesItem'
 
 const ConnectProfilesAlreadyConnected = ({ allArtistAccounts, className }) => {
