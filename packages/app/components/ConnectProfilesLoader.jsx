@@ -146,6 +146,7 @@ const ConnectProfilesLoader = ({
         <ConnectProfilesList
           allArtistAccounts={allArtistAccounts}
           artistAccounts={artistAccounts}
+          selectedBusiness={selectedBusiness}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
           setErrors={setErrors}

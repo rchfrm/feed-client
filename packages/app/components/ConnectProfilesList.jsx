@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import ConnectProfilesAlreadyConnected from '@/app/ConnectProfilesAlreadyConnected'
 import ConnectProfilesNotConnected from '@/app/ConnectProfilesNotConnected'
 
 const ConnectProfilesList = ({
   allArtistAccounts,
   artistAccounts,
+  selectedBusiness,
   setSelectedProfile,
   setIsConnecting,
   setErrors,
@@ -20,6 +20,7 @@ const ConnectProfilesList = ({
       {artistAccounts.length > 0 && (
         <ConnectProfilesNotConnected
           artistAccounts={artistAccounts}
+          selectedBusiness={selectedBusiness}
           setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
           setErrors={setErrors}
@@ -33,12 +34,18 @@ const ConnectProfilesList = ({
 ConnectProfilesList.propTypes = {
   allArtistAccounts: PropTypes.array.isRequired,
   artistAccounts: PropTypes.array.isRequired,
+  selectedBusiness: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    profile_picture_uri: PropTypes.string,
+  }),
   setSelectedProfile: PropTypes.func.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
   setErrors: PropTypes.func.isRequired,
 }
 
 ConnectProfilesList.defaultProps = {
+  selectedBusiness: undefined,
 }
 
 export default ConnectProfilesList

@@ -1,11 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { UserContext } from '@/app/contexts/UserContext'
-
 import ConnectProfilesItem from '@/app/ConnectProfilesItem'
 import DisabledSection from '@/app/DisabledSection'
-
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 
@@ -15,6 +12,7 @@ const getBillingStoreState = (state) => ({
 
 const ConnectProfilesNotConnected = ({
   artistAccounts,
+  selectedBusiness,
   setSelectedProfile,
   setIsConnecting,
   setErrors,
@@ -33,15 +31,12 @@ const ConnectProfilesNotConnected = ({
   return (
     <div className={[className].join(' ')}>
       <h2>Connect more</h2>
+      {selectedBusiness && (<p>{selectedBusiness.name}</p>)}
       <DisabledSection
         section="connect-accounts"
         isDisabled={hasActiveBasicPlan}
       >
-        <ul
-          className={[
-            'xs:pl-16',
-          ].join(' ')}
-        >
+        <ul className="xs:pl-16">
           {sortedArtistAccounts.map((artistAccount) => {
             return (
               <ConnectProfilesItem
@@ -63,12 +58,18 @@ const ConnectProfilesNotConnected = ({
 
 ConnectProfilesNotConnected.propTypes = {
   artistAccounts: PropTypes.array.isRequired,
+  selectedBusiness: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    profile_picture_uri: PropTypes.string,
+  }),
   setSelectedProfile: PropTypes.func.isRequired,
   setIsConnecting: PropTypes.func.isRequired,
   setErrors: PropTypes.func.isRequired,
 }
 
 ConnectProfilesNotConnected.defaultProps = {
+  selectedBusiness: undefined,
 }
 
 export default ConnectProfilesNotConnected
