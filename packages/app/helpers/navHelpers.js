@@ -39,6 +39,7 @@ export const secondaryLinks = [
   {
     href: ROUTES.HOME,
     title: 'Home',
+    matchingHrefs: [ROUTES.CAMPAIGN, ROUTES.CAMPAIGNS],
   },
   {
     href: ROUTES.POSTS,
