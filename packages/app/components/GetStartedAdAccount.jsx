@@ -33,6 +33,10 @@ const GetStartedAdAccount = () => {
       return
     }
     const { adaccounts: adAccounts } = res
+    if (! adAccounts || adAccounts.length === 0) {
+      setError({ message: 'No ad accounts found' })
+      setIsLoading(false)
+    }
 
     setAdAccounts(adAccounts)
   }, [])
@@ -102,6 +106,7 @@ const GetStartedAdAccount = () => {
           setAdAccountId={setAdAccountId}
           adAccounts={adAccounts}
           className="w-full mb-12"
+          disabled={adAccounts.length === 0}
         />
         <Button
           onClick={handleNext}
