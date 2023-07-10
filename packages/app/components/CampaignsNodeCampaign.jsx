@@ -7,7 +7,6 @@ import CampaignsNodeConnector from '@/app/CampaignsNodeConnector'
 import HeartIcon from '@/icons/HeartIcon'
 import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
-import * as ROUTES from '@/app/constants/routes'
 
 const CampaignsNodeCampaign = ({
   index,
@@ -32,7 +31,7 @@ const CampaignsNodeCampaign = ({
 
   const handleClick = () => {
     Router.push({
-      pathname: `${ROUTES.CAMPAIGN}/${campaignId}`,
+      pathname: `campaigns/${campaignId}`,
     })
   }
 
