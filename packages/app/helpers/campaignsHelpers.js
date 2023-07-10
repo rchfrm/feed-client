@@ -293,6 +293,7 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets, hasTargeti
       label: identifier,
       engagementRate,
       costPerEngagement,
+      campaignId: adSets[0].campaignId,
       isActive: true,
     }
 

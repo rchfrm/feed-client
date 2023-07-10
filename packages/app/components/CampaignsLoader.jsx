@@ -53,7 +53,7 @@ const CampaignsLoader = () => {
 
       const res = await Promise.all(adSetsPromises)
       const flattenedAdSets = res.map(({ res }, index) => {
-        return res.map((adSet) => ({ ...adSet, platform: campaigns[index].platform }))
+        return res.map((adSet) => ({ ...adSet, platform: campaigns[index].platform, campaignId: campaigns[index].id }))
       }).flat()
       adSets = flattenedAdSets
     }

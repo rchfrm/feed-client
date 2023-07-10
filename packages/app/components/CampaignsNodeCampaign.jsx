@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import CampaignsNodeConnector from '@/app/CampaignsNodeConnector'
 import HeartIcon from '@/icons/HeartIcon'
 import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
+import * as ROUTES from '@/app/constants/routes'
 
 const CampaignsNodeCampaign = ({
   index,
@@ -17,7 +19,7 @@ const CampaignsNodeCampaign = ({
   isActive,
 }) => {
   const { handlers } = group
-  const { engagementRate, costPerEngagement, label } = node
+  const { campaignId, engagementRate, costPerEngagement, label } = node
   const nodeRef = React.useRef()
   const isDesktopLayout = useBreakpointTest('xs')
   const { targetingState: { platforms } } = React.useContext(TargetingContext)
@@ -28,13 +30,19 @@ const CampaignsNodeCampaign = ({
     instagram: <InstagramIcon className="h-4 w-auto" />,
   }
 
+  const handleClick = () => {
+    Router.push({
+      pathname: `${ROUTES.CAMPAIGN}/${campaignId}`,
+    })
+  }
+
   return (
     <div
       id={isLast ? group.id : `${group.id}-${index}`}
       ref={nodeRef}
       className={[
         'w-full xs:w-36 h-[74px] z-10 cursor-default',
-        'p-1 rounded-dialogue',
+        'p-1 rounded-dialogue cursor-pointer',
         isDesktopLayout ? 'absolute' : 'relative mb-4',
         isActive ? 'bg-green-bg-light' : 'bg-white border-solid border-2 border-green',
       ].join(' ')}
@@ -44,6 +52,7 @@ const CampaignsNodeCampaign = ({
       }}
       onDragOver={onDragOver}
       onDrop={onDrop}
+      onClick={handleClick}
       role="button"
     >
       {platforms?.map((platform) => (
