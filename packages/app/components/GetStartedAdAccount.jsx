@@ -23,7 +23,6 @@ const GetStartedAdAccount = () => {
 
   // Get all ad accounts and convert them to the correct select options object shape
   useAsyncEffect(async (isMounted) => {
-    // TODO : Update this to get ad accounts in business if system user doesn't have access to any
     const { res, error } = await getAdAccounts(artistId)
     if (! isMounted()) return
 
@@ -32,7 +31,7 @@ const GetStartedAdAccount = () => {
 
       return
     }
-    const { adaccounts: adAccounts } = res
+    const { adAccounts } = res
     if (! adAccounts || adAccounts.length === 0) {
       setError({ message: 'No ad accounts found' })
       setIsLoading(false)
@@ -106,7 +105,7 @@ const GetStartedAdAccount = () => {
           setAdAccountId={setAdAccountId}
           adAccounts={adAccounts}
           className="w-full mb-12"
-          disabled={adAccounts.length === 0}
+          disabled={adAccounts?.length === 0}
         />
         <Button
           onClick={handleNext}
