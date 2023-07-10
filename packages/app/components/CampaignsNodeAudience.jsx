@@ -72,7 +72,7 @@ const CampaignsNodeAudience = ({
       }}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      onClick={handleClick}
+      onClick={isCreateAudience ? handleClick : null}
       role="button"
     >
       {platforms?.map((platform, index) => (
