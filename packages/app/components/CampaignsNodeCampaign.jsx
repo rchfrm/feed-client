@@ -8,19 +8,20 @@ import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
 
 const CampaignsNodeCampaign = ({
+  index,
   group,
   node,
   onDragOver,
   onDrop,
   getPosition,
   isActive,
-  isLast,
 }) => {
   const { handlers } = group
   const { engagementRate, costPerEngagement, label } = node
   const nodeRef = React.useRef()
   const isDesktopLayout = useBreakpointTest('xs')
   const { targetingState: { platforms } } = React.useContext(TargetingContext)
+  const isLast = index === group.nodes.length - 1
 
   const icons = {
     facebook: <FacebookIcon className="h-4 w-auto" />,
@@ -29,7 +30,7 @@ const CampaignsNodeCampaign = ({
 
   return (
     <div
-      id={isLast ? group.id : null}
+      id={isLast ? group.id : `${group.id}-${index}`}
       ref={nodeRef}
       className={[
         'w-full xs:w-36 h-[74px] z-10 cursor-default',
@@ -92,13 +93,13 @@ const CampaignsNodeCampaign = ({
 }
 
 CampaignsNodeCampaign.propTypes = {
+  index: PropTypes.number.isRequired,
   group: PropTypes.object.isRequired,
   node: PropTypes.object.isRequired,
   onDragOver: PropTypes.func.isRequired,
   onDrop: PropTypes.func.isRequired,
   getPosition: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
-  isLast: PropTypes.bool.isRequired,
 }
 
 export default CampaignsNodeCampaign

@@ -2,6 +2,7 @@ import React from 'react'
 import useAsyncEffect from 'use-async-effect'
 import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { TargetingContext } from '@/app/contexts/TargetingContext'
 import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
@@ -18,13 +19,15 @@ const CampaignsLoader = () => {
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [shouldShowCampaigns, setShouldShowCampaigns] = React.useState(true)
+  const { targetingState } = React.useContext(TargetingContext)
+  const { interests = [] } = targetingState
 
   const { optimizationPreferences } = useControlsStore(getControlsStoreState)
   const { objective, platform } = optimizationPreferences
   const { artistId } = React.useContext(ArtistContext)
 
   useAsyncEffect(async (isMounted) => {
-    if (! artistId) {
+    if (! artistId || ! targetingState) {
       return
     }
 
@@ -87,13 +90,14 @@ const CampaignsLoader = () => {
       setShouldShowCampaigns(false)
     }
 
-    const nodeGroups = getNodeGroups(filteredAudiences, lookalikesAudiences, adSets)
-    const edges = getEdges(objective, platform)
+    const hasTargetingInterests = interests.filter(({ isActive }) => isActive).length > 0
+    const nodeGroups = getNodeGroups(filteredAudiences, lookalikesAudiences, adSets, hasTargetingInterests)
+    const edges = getEdges(nodeGroups, objective, platform)
 
     setNodeGroups(nodeGroups)
     setEdges(edges)
     setIsLoading(false)
-  }, [artistId])
+  }, [artistId, targetingState])
 
   return (
     <div onDragOver={(e) => e.preventDefault()}>

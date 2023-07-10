@@ -112,7 +112,11 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
 
   const getYPosition = () => {
     if (isAudience) {
-      return startValueY + ((maxGroupNodesLength - (nodeIndex + 1)) * spacingY)
+      if (group.nodes.length === maxGroupNodesLength) {
+        return startValueY + (nodeIndex * spacingY)
+      }
+
+      return startValueY + ((Math.abs(nodeIndex + maxGroupNodesLength - 2)) * spacingY)
     }
 
     return startValueY + (maxGroupNodesLength * spacingY)
@@ -210,7 +214,16 @@ const getEngagementRateAndCost = (adSets) => {
   }
 }
 
-export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
+const makeCreateAudienceNode = () => {
+  return {
+    type: 'audience',
+    subType: 'create',
+    label: 'Create interest targeting audience',
+    isActive: false,
+  }
+}
+
+export const getNodeGroups = (audiences, lookalikesAudiences, adSets, hasTargetingInterests) => {
   const nodeGroups = []
 
   // Create audiences node group(s)
@@ -224,6 +237,7 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
       subType: 'custom',
       platform,
       label: copy.audiencesLabel({ name, approximateCount, retentionDays, platform }),
+      isActive: true,
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
@@ -253,6 +267,7 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
       subType: 'lookalike',
       platform,
       label: copy.lookalikesAudiencesLabel({ name, approximateCount, countries }),
+      isActive: true,
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
@@ -278,10 +293,15 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
       label: identifier,
       engagementRate,
       costPerEngagement,
+      isActive: true,
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
+
+  if (! hasTargetingInterests && nodeGroups.length > 0) {
+    nodeGroups[0].nodes.unshift(makeCreateAudienceNode())
+  }
 
   // Add x and y position to each node
   return nodeGroups.map((group) => ({
@@ -311,17 +331,42 @@ const getTarget = (objective, platform) => {
   return ''
 }
 
-export const getEdges = (objective, platform) => {
+const makeEdgesBetweenNodes = (nodeGroups) => {
+  return nodeGroups.map((nodeGroup) => nodeGroup.nodes.map((node, index) => {
+    const isLast = index === nodeGroup.nodes.length - 1
+    const isLol = index === nodeGroup.nodes.length - 2
+    if (isLast || ! node.isActive) {
+      return
+    }
+
+    return {
+      type: 'node',
+      source: `${nodeGroup.id}-${index}`,
+      target: isLol ? nodeGroup.id : `${nodeGroup.id}-${index + 1}`,
+      isActive: true,
+    }
+  })).flat().filter((edge) => edge)
+}
+
+export const getEdges = (nodeGroups, objective, platform) => {
   const { lookalikesOrInterest, enticeEngage, engaged1Y, remindTraffic } = indexes
 
+  const edgesBetweenNodes = makeEdgesBetweenNodes(nodeGroups)
+
   const edges = [
+    // edges between nodes
+    ...edgesBetweenNodes,
+
+    // edges between node groups
     // lookalikes -> entice engage -> Fb/Ig engaged 1y
     {
+      type: 'group',
       source: lookalikesOrInterest,
       target: enticeEngage,
       isActive: true,
     },
     {
+      type: 'group',
       source: enticeEngage,
       target: engaged1Y,
       isActive: true,
@@ -339,11 +384,13 @@ export const getEdges = (objective, platform) => {
     // },
     // Fb/Ig engaged 1y -> remind traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
     {
+      type: 'group',
       source: engaged1Y,
       target: remindTraffic,
       isActive: true,
     },
     {
+      type: 'group',
       source: remindTraffic,
       target: getTarget(objective, platform),
       isActive: true,
