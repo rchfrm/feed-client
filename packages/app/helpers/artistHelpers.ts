@@ -77,13 +77,9 @@ export const getAdAccounts = async (artistId) => {
 * @returns {Promise<object>} { res, error }
 */
 export const setAdAccount = (artistId, adAccountId) => {
-  const requestUrl = `/artists/${artistId}`
+  const requestUrl = `/artists/${artistId}/set_ad_account`
   const payload = {
-    integrations: {
-      facebook: {
-        adaccount_id: adAccountId,
-      },
-    },
+    adAccountId,
   }
   const errorTracking = {
     category: 'Artist',
