@@ -9,4 +9,4 @@ const contentFiles = [
   '../shared/components/*.{jsx,tsx}',
 ]
 
-module.exports = config(contentFiles)
+export default config(contentFiles)

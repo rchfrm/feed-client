@@ -1,4 +1,4 @@
-const config = require('../shared/tailwind.config.js')
+import config from '../shared/tailwind.config'
 
 const contentFiles = [
   './components/**/*.{jsx,tsx}',
@@ -9,4 +9,4 @@ const contentFiles = [
   '../shared/components/*.{jsx,tsx}',
 ]
 
-module.exports = config(contentFiles)
+export default config(contentFiles)
