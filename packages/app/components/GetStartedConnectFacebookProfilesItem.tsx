@@ -17,7 +17,7 @@ const GetStartedConnectFacebookProfilesItem: React.FC<GetStartedConnectFacebookP
   setSelectedProfile,
   setIsConnecting,
 }) => {
-  const { picture, name, instagram_username, page_id } = profile
+  const { picture, name, instagram_username } = profile
   const { user } = React.useContext(UserContext)
   const { connectArtist } = React.useContext(ArtistContext)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
