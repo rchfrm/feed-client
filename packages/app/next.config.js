@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const fs = require('fs')
 // Next plugins
@@ -39,7 +40,6 @@ if (! REACT_APP_API_URL) {
   throw Error('NO API URL SPECIFIED')
 }
 
-// NEXT CONFIG
 const nextConfig = {
   // Save environment variables
   env: {
