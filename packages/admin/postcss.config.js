@@ -1,3 +1,4 @@
-import config from '../shared/postcss.config'
+/* eslint-disable @typescript-eslint/no-var-requires */
+const config = require('../shared/postcss.config.js')
 
-export default config('../shared')
+module.exports = config('../shared')

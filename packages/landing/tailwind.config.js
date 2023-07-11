@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const config = require('../shared/tailwind.config.js')
 
 const contentFiles = [

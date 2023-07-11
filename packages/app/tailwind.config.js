@@ -1,4 +1,5 @@
-import config from '../shared/tailwind.config'
+/* eslint-disable @typescript-eslint/no-var-requires */
+const config = require('../shared/tailwind.config.js')
 
 const contentFiles = [
   './components/**/*.jsx',
@@ -8,4 +9,4 @@ const contentFiles = [
   '../shared/components/**/*.jsx',
   '../shared/components/*.jsx',
 ]
-export default config(contentFiles)
+module.exports = config(contentFiles)

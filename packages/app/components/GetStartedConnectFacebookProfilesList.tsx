@@ -1,9 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-
+import React, { Dispatch, SetStateAction } from 'react'
 import GetStartedConnectFacebookProfilesItem from '@/app/GetStartedConnectFacebookProfilesItem'
+import { ArtistAccount } from '@/app/elements/connectProfiles/ConnectProfilesList'
 
-const GetStartedConnectFacebookProfilesList = ({
+interface GetStartedConnectFacebookProfilesListProps {
+  profiles: ArtistAccount[]
+  setSelectedProfile: Dispatch<SetStateAction<string>>
+  setIsConnecting: Dispatch<SetStateAction<boolean>>
+}
+
+const GetStartedConnectFacebookProfilesList: React.FC<GetStartedConnectFacebookProfilesListProps> = ({
   profiles,
   setIsConnecting,
   setSelectedProfile,
@@ -26,15 +31,6 @@ const GetStartedConnectFacebookProfilesList = ({
       </div>
     </>
   )
-}
-
-GetStartedConnectFacebookProfilesList.propTypes = {
-  profiles: PropTypes.array.isRequired,
-  setIsConnecting: PropTypes.func.isRequired,
-  setSelectedProfile: PropTypes.func.isRequired,
-}
-
-GetStartedConnectFacebookProfilesList.defaultProps = {
 }
 
 export default GetStartedConnectFacebookProfilesList

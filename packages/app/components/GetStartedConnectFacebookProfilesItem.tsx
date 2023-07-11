@@ -1,20 +1,23 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-
+import React, { Dispatch, SetStateAction } from 'react'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { UserContext } from '@/app/contexts/UserContext'
-
 import ArrowIcon from '@/icons/ArrowIcon'
-
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import { getLocalStorage } from '@/helpers/utils'
+import { ArtistAccount } from '@/app/elements/connectProfiles/ConnectProfilesList'
 
-const GetStartedConnectFacebookProfilesItem = ({
+interface GetStartedConnectFacebookProfilesItemProps {
+  profile: ArtistAccount
+  setSelectedProfile: Dispatch<SetStateAction<string>>
+  setIsConnecting: Dispatch<SetStateAction<boolean>>
+}
+
+const GetStartedConnectFacebookProfilesItem: React.FC<GetStartedConnectFacebookProfilesItemProps> = ({
   profile,
   setSelectedProfile,
   setIsConnecting,
 }) => {
-  const { picture, name, instagram_username } = profile
+  const { picture, name, instagram_username, page_id } = profile
   const { user } = React.useContext(UserContext)
   const { connectArtist } = React.useContext(ArtistContext)
   const wizardState = JSON.parse(getLocalStorage('getStartedWizard'))
@@ -22,7 +25,7 @@ const GetStartedConnectFacebookProfilesItem = ({
 
   const createArtist = async () => {
     setIsConnecting(true)
-    setSelectedProfile(profile)
+    setSelectedProfile(profile.name)
 
     // Santise URLs
     const artistAccountSanitised = artistHelpers.sanitiseArtistAccountUrls(profile)
@@ -65,15 +68,6 @@ const GetStartedConnectFacebookProfilesItem = ({
       </div>
     </button>
   )
-}
-
-GetStartedConnectFacebookProfilesItem.propTypes = {
-  profile: PropTypes.object.isRequired,
-  setSelectedProfile: PropTypes.func.isRequired,
-  setIsConnecting: PropTypes.func.isRequired,
-}
-
-GetStartedConnectFacebookProfilesItem.defaultProps = {
 }
 
 export default GetStartedConnectFacebookProfilesItem
