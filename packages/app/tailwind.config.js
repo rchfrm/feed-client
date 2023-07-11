@@ -1,11 +1,12 @@
 import config from '../shared/tailwind.config'
 
 const contentFiles = [
-  './components/**/*.jsx',
-  './components/*.jsx',
-  './pages/**/*.jsx',
-  './pages/*.jsx',
-  '../shared/components/**/*.jsx',
-  '../shared/components/*.jsx',
+  './components/**/*.{jsx,tsx}',
+  './components/*.{jsx,tsx}',
+  './pages/**/*.{jsx,tsx}',
+  './pages/*.{jsx,tsx}',
+  '../shared/components/**/*.{jsx,tsx}',
+  '../shared/components/*.{jsx,tsx}',
 ]
-export default config(contentFiles)
+
+module.exports = config(contentFiles)
