@@ -35,11 +35,10 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   const [selectedBusiness, setSelectedBusiness] = React.useState<Nullable<Business>>(null)
   const [searchQuery, setSearchQuery] = React.useState<string>('')
   const [newArtistName, setNewArtistName] = React.useState<Nullable<string>>(null)
-  const [pageLoading, setPageLoading] = React.useState<boolean>(true)
+  const [isPageLoading, setIsPageLoading] = React.useState<boolean>(true)
   const [availableArtistsLoading, setAvailableArtistsLoading] = React.useState<boolean>(false)
   const [errors, setErrors] = React.useState([])
   const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
-  const { hasManagedArtist } = useBillingStore(getBillingStoreState)
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300)
 
@@ -75,10 +74,10 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     if (userLoading || isConnecting) return
 
     // If missing scopes, we need to show the connect button
-    if (missingScopes.length) return setPageLoading(false)
+    if (missingScopes.length) return setIsPageLoading(false)
 
     // Stop here if we haven't either auth or fb auth errors
-    if (errors.length) return setPageLoading(false)
+    if (errors.length) return setIsPageLoading(false)
 
     // On first load, get all the businesses a user has access to
     let firstBusiness: Business
@@ -101,20 +100,20 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
       if (! isMounted()) return
 
       if (error.message === 'user cache is not available') {
-        setPageLoading(false)
+        setIsPageLoading(false)
         setAvailableArtistsLoading(false)
         return
       }
 
       if (error.message === 'cannot list facebook pages') {
         setIsCannotListPagesError(true)
-        setPageLoading(false)
+        setIsPageLoading(false)
         setAvailableArtistsLoading(false)
         return
       }
 
       setErrors([...errors, error])
-      setPageLoading(false)
+      setIsPageLoading(false)
       setAvailableArtistsLoading(false)
       return
     }
@@ -124,7 +123,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     // Error if no artist accounts
     if (Object.keys(artistAccounts).length === 0 && ! searchQuery) {
       setErrors([...errors, { message: 'No accounts were found' }])
-      setPageLoading(false)
+      setIsPageLoading(false)
       setAvailableArtistsLoading(false)
 
       // Track
@@ -147,7 +146,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
 
     setArtistAccounts(processedArtists)
 
-    setPageLoading(false)
+    setIsPageLoading(false)
     setAvailableArtistsLoading(false)
   }, [selectedBusiness, debouncedSearchQuery, userLoading, isConnecting])
 
@@ -155,7 +154,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     return <ConnectProfilesIsConnecting profileName={newArtistName} />
   }
 
-  if (pageLoading || isConnecting) return <Spinner />
+  if (isPageLoading || isConnecting) return <Spinner />
 
   return (
     <div className={className}>

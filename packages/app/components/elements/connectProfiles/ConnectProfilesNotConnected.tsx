@@ -5,8 +5,8 @@ import DisabledSection from '@/app/DisabledSection'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
 import useBillingStore from '@/app/stores/billingStore'
 import { ArtistAccount, Business } from '@/app/elements/connectProfiles/ConnectProfilesList'
-import Select from '../../../../shared/components/elements/Select'
-import Input from '../../../../shared/components/elements/Input'
+import Select from '@/elements/Select'
+import Input from '@/elements/Input'
 
 const getBillingStoreState = (state) => ({
   organizationArtists: state.organizationArtists,
