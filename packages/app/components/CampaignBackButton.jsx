@@ -1,5 +1,7 @@
 import React from 'react'
 import Router from 'next/router'
+import Button from '@/elements/Button'
+import BackIcon from '@/icons/BackIcon'
 import * as ROUTES from '@/app/constants/routes'
 
 const CampaignBackButton = () => {
@@ -8,14 +10,17 @@ const CampaignBackButton = () => {
   }
 
   return (
-    <>
-      <div>CampaignBackButton</div>
-      <button
-        onClick={handleClick}
-      >
-        Back
-      </button>
-    </>
+    <Button
+      version="secondary"
+      onClick={handleClick}
+      trackComponentName="CampaignBackButton"
+      className="w-12 h-10"
+    >
+      <BackIcon
+        direction="right"
+        className="w-5 h-auto"
+      />
+    </Button>
   )
 }
 

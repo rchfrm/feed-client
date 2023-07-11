@@ -5,9 +5,11 @@ import CampaignMetrics from '@/app/CampaignMetrics'
 import CampaignChart from '@/app/CampaignChart'
 
 const Campaign = ({ id }) => {
+  // eslint-disable-next-line no-console
+  console.log(id)
+
   return (
     <>
-      <div>Campaign {id}</div>
       <CampaignHeader />
       <CampaignTabs />
       <CampaignMetrics />

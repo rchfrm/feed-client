@@ -2,7 +2,9 @@ import React from 'react'
 
 const CampaignMetrics = () => {
   return (
-    <div>CampaignMetrics</div>
+    <div
+      className="w-full h-40 mb-10 border border-b-3 border-solid border-grey-light rounded-dialogue"
+    />
   )
 }
 

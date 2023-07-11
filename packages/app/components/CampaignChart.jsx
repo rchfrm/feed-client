@@ -2,7 +2,7 @@ import React from 'react'
 
 const CampaignChart = () => {
   return (
-    <div>CampaignChart</div>
+    <div className="font-bold">Timeline</div>
   )
 }
 

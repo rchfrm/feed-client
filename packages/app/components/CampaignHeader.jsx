@@ -4,10 +4,10 @@ import CampaignNodes from '@/app/CampaignNodes'
 
 const CampaignHeader = () => {
   return (
-    <>
+    <div className="flex mb-10">
       <CampaignBackButton />
       <CampaignNodes />
-    </>
+    </div>
   )
 }
 
