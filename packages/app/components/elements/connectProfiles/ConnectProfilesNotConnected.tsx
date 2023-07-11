@@ -14,7 +14,7 @@ const getBillingStoreState = (state) => ({
 
 interface ConnectProfilesNotConnectedProps {
   artistAccounts: ArtistAccount[],
-  availableArtistsLoading: boolean,
+  isLoadingAvailableArtists: boolean,
   searchQuery?: string,
   setSearchQuery: Dispatch<SetStateAction<string>>
   businesses: Business[],
@@ -28,7 +28,7 @@ interface ConnectProfilesNotConnectedProps {
 
 const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = ({
   artistAccounts,
-  availableArtistsLoading,
+  isLoadingAvailableArtists,
   searchQuery,
   setSearchQuery,
   businesses,
@@ -76,13 +76,13 @@ const ConnectProfilesNotConnected: React.FC<ConnectProfilesNotConnectedProps> = 
     <div className={[className].join(' ')}>
       <h2>Connect more</h2>
       {businesses.length > 1 && (
-        <Select label="Select Facebook business" selectedValue={selectedBusiness.id} handleChange={handleSelect} name="business" options={businessOptions} loading={availableArtistsLoading} />
+        <Select label="Select Facebook business" selectedValue={selectedBusiness.id} handleChange={handleSelect} name="business" options={businessOptions} loading={isLoadingAvailableArtists} />
 
       )}
       {businesses.length > 0 && (
         <>
           <Input label="Search by name" name="search" value={searchQuery} handleChange={handleInput} />
-          {availableArtistsLoading ? (
+          {isLoadingAvailableArtists ? (
             <p>{`Searching${searchQuery && ` for ${searchQuery}`}...`}</p>
           ) : (
             <p>{`Found ${artistAccounts.length} result${artistAccounts.length === 1 ? '' : 's'}${searchQuery && ` for "${searchQuery}"`}.`}</p>

@@ -8,15 +8,9 @@ import ConnectProfilesConnectMore from '@/app/elements/connectProfiles/ConnectPr
 import ConnectProfilesButtonHelp from '@/app/elements/connectProfiles/ConnectProfilesButtonHelp'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
-import useBillingStore from '@/app/stores/billingStore'
 import { Nullable } from 'shared/types/common'
 import ConnectProfilesIsConnecting from '@/app/elements/connectProfiles/ConnectProfilesIsConnecting'
-import useDebounce from '../../hooks/useDebounce'
-
-
-const getBillingStoreState = (state) => ({
-  hasManagedArtist: state.hasManagedArtist,
-})
+import useDebounce from '@/app/hooks/useDebounce'
 
 interface ConnectProfilesLoaderProps {
   isConnecting: boolean,
@@ -36,7 +30,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   const [searchQuery, setSearchQuery] = React.useState<string>('')
   const [newArtistName, setNewArtistName] = React.useState<Nullable<string>>(null)
   const [isPageLoading, setIsPageLoading] = React.useState<boolean>(true)
-  const [availableArtistsLoading, setAvailableArtistsLoading] = React.useState<boolean>(false)
+  const [isLoadingAvailableArtists, setIsLoadingAvailableArtists] = React.useState<boolean>(false)
   const [errors, setErrors] = React.useState([])
   const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
 
@@ -93,7 +87,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     }
 
     // Start fetching artists
-    setAvailableArtistsLoading(true)
+    setIsLoadingAvailableArtists(true)
     const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness?.id, debouncedSearchQuery)
 
     if (error) {
@@ -101,20 +95,20 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
 
       if (error.message === 'user cache is not available') {
         setIsPageLoading(false)
-        setAvailableArtistsLoading(false)
+        setIsLoadingAvailableArtists(false)
         return
       }
 
       if (error.message === 'cannot list facebook pages') {
         setIsCannotListPagesError(true)
         setIsPageLoading(false)
-        setAvailableArtistsLoading(false)
+        setIsLoadingAvailableArtists(false)
         return
       }
 
       setErrors([...errors, error])
       setIsPageLoading(false)
-      setAvailableArtistsLoading(false)
+      setIsLoadingAvailableArtists(false)
       return
     }
 
@@ -124,7 +118,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     if (Object.keys(artistAccounts).length === 0 && ! searchQuery) {
       setErrors([...errors, { message: 'No accounts were found' }])
       setIsPageLoading(false)
-      setAvailableArtistsLoading(false)
+      setIsLoadingAvailableArtists(false)
 
       // Track
       fireSentryError({
@@ -147,7 +141,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
     setArtistAccounts(processedArtists)
 
     setIsPageLoading(false)
-    setAvailableArtistsLoading(false)
+    setIsLoadingAvailableArtists(false)
   }, [selectedBusiness, debouncedSearchQuery, userLoading, isConnecting])
 
   if (isConnecting && artistAccounts.length > 0) {
@@ -162,7 +156,7 @@ const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
         <ConnectProfilesList
           allArtistAccounts={allArtistAccounts}
           artistAccounts={artistAccounts}
-          availableArtistsLoading={availableArtistsLoading}
+          isLoadingAvailableArtists={isLoadingAvailableArtists}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           businesses={businesses}

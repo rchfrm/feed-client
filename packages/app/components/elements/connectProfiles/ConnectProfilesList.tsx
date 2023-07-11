@@ -24,7 +24,7 @@ export interface Business {
 type ConnectProfilesListProps = {
   allArtistAccounts: ArtistAccount[],
   artistAccounts: ArtistAccount[],
-  availableArtistsLoading: boolean,
+  isLoadingAvailableArtists: boolean,
   searchQuery?: string,
   setSearchQuery: Dispatch<SetStateAction<string>>
   businesses: Business[],
@@ -38,7 +38,7 @@ type ConnectProfilesListProps = {
 const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
   allArtistAccounts,
   artistAccounts,
-  availableArtistsLoading,
+  isLoadingAvailableArtists,
   searchQuery,
   setSearchQuery,
   businesses,
@@ -56,7 +56,7 @@ const ConnectProfilesList: React.FC<ConnectProfilesListProps> = ({
       />
       <ConnectProfilesNotConnected
         artistAccounts={artistAccounts}
-        availableArtistsLoading={availableArtistsLoading}
+        isLoadingAvailableArtists={isLoadingAvailableArtists}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         businesses={businesses}
