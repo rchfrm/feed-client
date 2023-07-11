@@ -1,16 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
-import ConnectProfilesSearch from '@/app/ConnectProfilesSearch'
-
+import ConnectProfilesSearch from '@/app/elements/connectProfiles/ConnectProfilesSearch'
 import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
-
 import copy from '@/app/copy/connectProfilesCopy'
 import { requiredScopesAds } from '@/helpers/firebaseHelpers'
 

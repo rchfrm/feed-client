@@ -1,32 +1,40 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { Dispatch, SetStateAction } from 'react'
 import useAsyncEffect from 'use-async-effect'
-
 import { AuthContext } from '@/contexts/AuthContext'
 import { UserContext } from '@/app/contexts/UserContext'
-
 import Spinner from '@/elements/Spinner'
-
-import ConnectProfilesIsConnecting from '@/app/ConnectProfilesIsConnecting'
-import ConnectProfilesList from '@/app/ConnectProfilesList'
-import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
-import ConnectProfilesButtonHelp from '@/app/ConnectProfilesButtonHelp'
-
-// IMPORT HELPERS
+import ConnectProfilesList, { Business, ArtistAccount } from '@/app/elements/connectProfiles/ConnectProfilesList'
+import ConnectProfilesConnectMore from '@/app/elements/connectProfiles/ConnectProfilesConnectMore'
+import ConnectProfilesButtonHelp from '@/app/elements/connectProfiles/ConnectProfilesButtonHelp'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 import * as artistHelpers from '@/app/helpers/artistHelpers'
+import { Nullable } from 'shared/types/common'
+import ConnectProfilesIsConnecting from '@/app/elements/connectProfiles/ConnectProfilesIsConnecting'
+import useDebounce from '@/app/hooks/useDebounce'
 
-const ConnectProfilesLoader = ({
+interface ConnectProfilesLoaderProps {
+  isConnecting: boolean,
+  setIsConnecting: Dispatch<SetStateAction<boolean>>,
+  className: string,
+}
+
+const ConnectProfilesLoader: React.FC<ConnectProfilesLoaderProps> = ({
   isConnecting,
   setIsConnecting,
   className,
 }) => {
-  const [allArtistAccounts, setAllArtistAccounts] = React.useState([])
-  const [artistAccounts, setArtistAccounts] = React.useState([])
-  const [selectedProfile, setSelectedProfile] = React.useState(null)
-  const [pageLoading, setPageLoading] = React.useState(true)
+  const [allArtistAccounts, setAllArtistAccounts] = React.useState<ArtistAccount[]>([])
+  const [artistAccounts, setArtistAccounts] = React.useState<ArtistAccount[]>([])
+  const [businesses, setBusinesses] = React.useState<Business[]>([])
+  const [selectedBusiness, setSelectedBusiness] = React.useState<Nullable<Business>>(null)
+  const [searchQuery, setSearchQuery] = React.useState<string>('')
+  const [newArtistName, setNewArtistName] = React.useState<Nullable<string>>(null)
+  const [isPageLoading, setIsPageLoading] = React.useState<boolean>(true)
+  const [isLoadingAvailableArtists, setIsLoadingAvailableArtists] = React.useState<boolean>(false)
   const [errors, setErrors] = React.useState([])
   const [isCannotListPagesError, setIsCannotListPagesError] = React.useState(false)
+
+  const debouncedSearchQuery = useDebounce(searchQuery, 300)
 
   const {
     auth,
@@ -60,39 +68,57 @@ const ConnectProfilesLoader = ({
     if (userLoading || isConnecting) return
 
     // If missing scopes, we need to show the connect button
-    if (missingScopes.length) return setPageLoading(false)
+    if (missingScopes.length) return setIsPageLoading(false)
 
     // Stop here if we haven't either auth or fb auth errors
-    if (errors.length) return setPageLoading(false)
+    if (errors.length) return setIsPageLoading(false)
+
+    // On first load, get all the businesses a user has access to
+    let firstBusiness: Business
+    if (businesses.length === 0 && ! selectedBusiness) {
+      const { res: availableBusinesses } = await artistHelpers.getBusinesses()
+      if (availableBusinesses && availableBusinesses.length) {
+        [firstBusiness] = availableBusinesses
+        setBusinesses(availableBusinesses)
+        setSelectedBusiness(firstBusiness)
+      }
+    } else {
+      firstBusiness = selectedBusiness
+    }
 
     // Start fetching artists
-    const { res, error } = await artistHelpers.getArtistOnSignUp()
+    setIsLoadingAvailableArtists(true)
+    const { res, error } = await artistHelpers.getArtistOnSignUp(firstBusiness?.id, debouncedSearchQuery)
 
     if (error) {
       if (! isMounted()) return
 
       if (error.message === 'user cache is not available') {
-        setPageLoading(false)
+        setIsPageLoading(false)
+        setIsLoadingAvailableArtists(false)
         return
       }
 
       if (error.message === 'cannot list facebook pages') {
         setIsCannotListPagesError(true)
-        setPageLoading(false)
+        setIsPageLoading(false)
+        setIsLoadingAvailableArtists(false)
         return
       }
 
       setErrors([...errors, error])
-      setPageLoading(false)
+      setIsPageLoading(false)
+      setIsLoadingAvailableArtists(false)
       return
     }
 
     const { accounts: artistAccounts } = res
 
     // Error if no artist accounts
-    if (Object.keys(artistAccounts).length === 0) {
+    if (Object.keys(artistAccounts).length === 0 && ! searchQuery) {
       setErrors([...errors, { message: 'No accounts were found' }])
-      setPageLoading(false)
+      setIsPageLoading(false)
+      setIsLoadingAvailableArtists(false)
 
       // Track
       fireSentryError({
@@ -101,7 +127,6 @@ const ConnectProfilesLoader = ({
       })
     }
 
-
     setAllArtistAccounts(Object.values(artistAccounts).map((artist) => artist))
 
     // Remove profiles that have already been connected
@@ -109,20 +134,21 @@ const ConnectProfilesLoader = ({
     const artistsFiltered = ! user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
     // Add ad accounts to artists
-    const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered })
+    const processedArtists = artistHelpers.processArtists(artistsFiltered, firstBusiness?.id)
 
     if (! isMounted()) return
 
     setArtistAccounts(processedArtists)
 
-    setPageLoading(false)
-  }, [userLoading, isConnecting])
+    setIsPageLoading(false)
+    setIsLoadingAvailableArtists(false)
+  }, [selectedBusiness, debouncedSearchQuery, userLoading, isConnecting])
 
   if (isConnecting && artistAccounts.length > 0) {
-    return <ConnectProfilesIsConnecting profile={selectedProfile} />
+    return <ConnectProfilesIsConnecting profileName={newArtistName} />
   }
 
-  if (pageLoading || isConnecting) return <Spinner />
+  if (isPageLoading || isConnecting) return <Spinner />
 
   return (
     <div className={className}>
@@ -130,7 +156,13 @@ const ConnectProfilesLoader = ({
         <ConnectProfilesList
           allArtistAccounts={allArtistAccounts}
           artistAccounts={artistAccounts}
-          setSelectedProfile={setSelectedProfile}
+          isLoadingAvailableArtists={isLoadingAvailableArtists}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          businesses={businesses}
+          selectedBusiness={selectedBusiness}
+          setSelectedBusiness={setSelectedBusiness}
+          setNewArtistName={setNewArtistName}
           setIsConnecting={setIsConnecting}
           setErrors={setErrors}
         />
@@ -152,24 +184,12 @@ const ConnectProfilesLoader = ({
           errors={errors}
           setErrors={setErrors}
           hasArtists={artistAccounts.length > 0}
-          isConnecting={isConnecting}
-          setSelectedProfile={setSelectedProfile}
           setIsConnecting={setIsConnecting}
           isCannotListPagesError={isCannotListPagesError}
         />
       </div>
     </div>
   )
-}
-
-ConnectProfilesLoader.propTypes = {
-  isConnecting: PropTypes.bool.isRequired,
-  setIsConnecting: PropTypes.func.isRequired,
-  className: PropTypes.string,
-}
-
-ConnectProfilesLoader.defaultProps = {
-  className: null,
 }
 
 export default ConnectProfilesLoader

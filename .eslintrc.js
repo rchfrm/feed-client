@@ -10,22 +10,17 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
+    'plugin:@typescript-eslint/recommended',
   ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-  parser: 'babel-eslint',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    sourceType: 'module',
-  },
+  parser: '@typescript-eslint/parser',
   plugins: [
     'react',
+    '@typescript-eslint',
   ],
-
   rules: {
     camelcase: 'off',
     'no-shadow': 'off',
@@ -55,11 +50,14 @@ module.exports = {
     'react/button-has-type': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/no-danger': 'off',
+    'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'space-unary-ops': ['error', {
       overrides: {
         '!': true,
       },
     }],
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': 'warn',
     // A11y things
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/media-has-caption': 'off',
@@ -71,6 +69,9 @@ module.exports = {
 
   ignorePatterns: ['node_modules/', '.next/'],
   settings: {
+    react: {
+      version: 'detect',
+    },
     'import/resolver': {
       alias: {
         map: [
@@ -106,7 +107,7 @@ module.exports = {
           ['@', './packages/shared/components'],
           ['~', './packages/shared'],
         ],
-        extensions: ['.ts', '.js', '.jsx', '.json', '.css'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css'],
       },
     },
   },

@@ -5,7 +5,7 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 
 import ButtonHelp from '@/elements/ButtonHelp'
 
-import ConnectProfilesConnectMore from '@/app/ConnectProfilesConnectMore'
+import ConnectProfilesConnectMore from '@/app/elements/connectProfiles/ConnectProfilesConnectMore'
 
 import copy from '@/app/copy/connectProfilesCopy'
 

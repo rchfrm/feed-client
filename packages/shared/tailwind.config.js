@@ -1,4 +1,4 @@
-module.exports = (contentFiles) => ({
+const config = (contentFiles) => ({
   content: contentFiles,
   theme: {
     screens: {
@@ -154,3 +154,5 @@ module.exports = (contentFiles) => ({
     flexDirection: ['responsive', 'even'],
   },
 })
+
+export default config

@@ -30,7 +30,7 @@ const GetStartedSummarySentenceAdAccount = () => {
       return
     }
     // Get the selected ad account name from the ad accounts array
-    const { name } = res.adaccounts.find(({ id }) => id === adAccountId)
+    const { name } = res.adAccounts.find(({ id }) => id === adAccountId)
     const nameContainsAdAccountString = name.toLowerCase().includes('ad account')
 
     setAdAccountName(nameContainsAdAccountString ? name : `${name} ad account`)

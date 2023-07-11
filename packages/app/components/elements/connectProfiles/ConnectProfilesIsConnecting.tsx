@@ -1,9 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 import Spinner from '@/elements/Spinner'
 
-const ConnectProfilesIsConnecting = ({ profile, className }) => {
+interface ConnectProfilesIsConnectingProps {
+  profileName: string
+  className?: string
+}
+
+const ConnectProfilesIsConnecting: React.FC<ConnectProfilesIsConnectingProps> = ({ profileName, className }) => {
   return (
     <div className={[
       'flex flex-1 flex-column justify-center items-center',
@@ -15,22 +18,12 @@ const ConnectProfilesIsConnecting = ({ profile, className }) => {
         Setting up
         {' '}
         <div className="inline">
-          <span className="font-bold">{profile.name}</span>
+          <span className="font-bold">{profileName}</span>
         </div>
         ...
       </div>
     </div>
   )
-}
-
-ConnectProfilesIsConnecting.propTypes = {
-  profile: PropTypes.object,
-  className: PropTypes.string,
-}
-
-ConnectProfilesIsConnecting.defaultProps = {
-  profile: {},
-  className: null,
 }
 
 export default ConnectProfilesIsConnecting
