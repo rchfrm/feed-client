@@ -3,7 +3,7 @@ import { useState } from 'react'
 import BasePage from '@/app/BasePage'
 import testPageReady from '@/hoc/testPageReady'
 
-import ConnectProfilesLoader from '@/app/ConnectProfilesLoader'
+import ConnectProfilesLoader from '@/app/elements/connectProfiles/ConnectProfilesLoader'
 
 const headerConfig = {
   text: 'connect',

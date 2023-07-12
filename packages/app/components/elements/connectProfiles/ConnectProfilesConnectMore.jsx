@@ -1,16 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { SidePanelContext } from '@/contexts/SidePanelContext'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
-
 import ConnectFacebookButton from '@/app/ConnectFacebookButton'
-import ConnectProfilesSearch from '@/app/ConnectProfilesSearch'
-
+import ConnectProfilesSearch from '@/app/elements/connectProfiles/ConnectProfilesSearch'
 import MissingScopesMessage from '@/elements/MissingScopesMessage'
 import MarkdownText from '@/elements/MarkdownText'
 import Error from '@/elements/Error'
-
 import copy from '@/app/copy/connectProfilesCopy'
 import { requiredScopesAds } from '@/helpers/firebaseHelpers'
 
@@ -18,6 +14,7 @@ const ConnectProfilesConnectMore = ({
   auth,
   errors,
   setErrors,
+  hasArtists,
   isSidePanel,
   setSelectedProfile,
   setIsConnecting,
@@ -26,7 +23,9 @@ const ConnectProfilesConnectMore = ({
   const { missingScopes: { ads: missingScopes } } = auth
   const { setSidePanelButton, sidePanelOpen } = React.useContext(SidePanelContext)
   const isDesktopLayout = useBreakpointTest('sm')
-  const scopes = requiredScopesAds.filter((scope) => scope !== 'business_management')
+  const scopes = hasArtists
+    ? requiredScopesAds.filter((scope) => scope !== 'business_management')
+    : requiredScopesAds
 
   React.useEffect(() => {
     if (! sidePanelOpen || isDesktopLayout) return
@@ -92,6 +91,7 @@ ConnectProfilesConnectMore.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.array,
   setErrors: PropTypes.func.isRequired,
+  hasArtists: PropTypes.bool,
   isSidePanel: PropTypes.bool,
   setSelectedProfile: PropTypes.func,
   setIsConnecting: PropTypes.func,
@@ -100,6 +100,7 @@ ConnectProfilesConnectMore.propTypes = {
 
 ConnectProfilesConnectMore.defaultProps = {
   errors: [],
+  hasArtists: true,
   isSidePanel: false,
   setSelectedProfile: () => {},
   setIsConnecting: () => {},

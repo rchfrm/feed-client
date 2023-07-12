@@ -18,7 +18,11 @@ export const postsConfig = {
   },
   pending: {
     name: 'Queue',
-    filterBy: { promotion_status: ['inactive', 'in_review'], promotion_enabled: true },
+    filterBy: {
+      promotion_status: ['inactive', 'in_review'],
+      promotion_enabled: true,
+      is_promotable: true,
+    },
     action: 'Edit ad or push to front',
   },
   inactive: {
@@ -194,10 +198,15 @@ export const formatAdRejectionReason = (reason) => {
 
 export const getRejectionReason = (ads) => {
   const [reason] = Object.values(ads || {}).reduce((reasons, ad) => {
-    if (! ad?.ad_review_feedback?.global) {
-      return reasons
+    const adReviewFeedback = ad?.ad_review_feedback?.global
+    const issuesInfo = ad?.issues_info
+    if (adReviewFeedback) {
+      return [...reasons, Object.keys(adReviewFeedback)[0]]
     }
-    return [...reasons, Object.keys(ad?.ad_review_feedback?.global)[0]]
+    if (issuesInfo) {
+      return [...reasons, issuesInfo[0].error_summary]
+    }
+    return reasons
   }, [])
 
   return formatAdRejectionReason(reason)

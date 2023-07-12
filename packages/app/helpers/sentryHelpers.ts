@@ -1,8 +1,9 @@
 import * as Sentry from '@sentry/browser'
+import { Breadcrumb } from '@sentry/browser'
 
 let sentryConfigured = false
 
-export const configureSentry = (userId) => {
+export const configureSentry = (userId: string): void => {
   if (sentryConfigured) return
   sentryConfigured = true
   Sentry.configureScope((scope) => {
@@ -10,7 +11,19 @@ export const configureSentry = (userId) => {
   })
 }
 
-export const fireSentryError = ({ category, action, label, description }) => {
+interface SentryError {
+  action?: string,
+  category?: string,
+  description?: string,
+  label?: string,
+}
+export const fireSentryError = (error: SentryError): void => {
+  const {
+    action,
+    category,
+    description,
+    label,
+  } = error
   let message = ''
   if (description) message += `${description}\n`
   if (category) message += `Error category: ${category}\n`
@@ -19,7 +32,19 @@ export const fireSentryError = ({ category, action, label, description }) => {
   Sentry.captureException(new Error(message))
 }
 
-export const fireSentryBreadcrumb = ({ category, action, label, description }) => {
+interface SentryBreadcrumb {
+  action?: string,
+  category: string,
+  description?: string,
+  label?: string,
+}
+export const fireSentryBreadcrumb = (breadcrumb: SentryBreadcrumb): void => {
+  const {
+    action,
+    category,
+    description,
+    label,
+  } = breadcrumb
   let message = ''
   if (description) message += `${description}\n`
   if (action) message += `action: ${action}\n`

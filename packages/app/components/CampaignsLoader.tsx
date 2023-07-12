@@ -7,13 +7,14 @@ import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
 import { getAudiences, getLookalikesAudiences, excludeAudiences, getCampaigns, getAdSets, getNodeGroups, getEdges } from '@/app/helpers/campaignsHelpers'
+import { Campaign } from '../types/api'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
 })
 
 const CampaignsLoader = () => {
-  const [campaigns, setCampaigns] = React.useState([])
+  const [campaigns, setCampaigns] = React.useState<Campaign[]>([])
   const [nodeGroups, setNodeGroups] = React.useState([])
   const [edges, setEdges] = React.useState([])
   const [error, setError] = React.useState(null)
@@ -103,7 +104,6 @@ const CampaignsLoader = () => {
     <div onDragOver={(e) => e.preventDefault()}>
       <CampaignsHeader
         campaigns={campaigns}
-        shouldShowCampaigns={shouldShowCampaigns}
       />
       <Error error={error} />
       {shouldShowCampaigns && (

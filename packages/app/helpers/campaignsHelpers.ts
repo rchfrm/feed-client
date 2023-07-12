@@ -1,6 +1,7 @@
 import { requestWithCatch } from '@/helpers/api'
 import { capitalise } from '@/helpers/utils'
 import copy from '@/app/copy/campaignsCopy'
+import { Campaign } from '../types/api'
 
 const indexes = {
   lookalikesOrInterest: '0',
@@ -59,7 +60,7 @@ export const getLookalikesAudiences = async (artistId, audienceId) => {
   return { res, error }
 }
 
-export const getCampaigns = async (artistId) => {
+export const getCampaigns = async (artistId: string): Promise<{ res: Campaign[], error: any }> => {
   const endpoint = `/artists/${artistId}/campaigns`
   const payload = null
   const errorTracking = {
@@ -116,7 +117,7 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
         return startValueY + (nodeIndex * spacingY)
       }
 
-      return startValueY + ((Math.abs(nodeIndex + maxGroupNodesLength - 2)) * spacingY)
+      return startValueY + ((maxGroupNodesLength - (group.nodes.length - nodeIndex)) * spacingY)
     }
 
     return startValueY + (maxGroupNodesLength * spacingY)

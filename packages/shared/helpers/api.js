@@ -1,10 +1,8 @@
 import axios from 'axios'
-
 import * as firebaseHelpers from '@/helpers/firebaseHelpers'
 import { fireSentryError } from '@/app/helpers/sentryHelpers'
 
 const host = process.env.react_app_api_url
-
 const axiosInstance = axios.create()
 
 const retryConfig = {
@@ -172,11 +170,17 @@ export function deleteRequest(path, data, token) {
   * @param {string} url
   * @param {object} payload
   * @param {object} trackError { category, action }
-  * @param {string} token
+  * @param {string} [token]
   * @returns {Promise<object>} { res, error }
   * * Makes requests  and returns errors as if the request were successful with an `error.message` key filled out
 */
-export const requestWithCatch = async (requestType, url, payload = null, trackError, token) => {
+export const requestWithCatch = async (
+  requestType,
+  url,
+  payload = null,
+  trackError,
+  token,
+) => {
   if (! requestType) {
     throw new Error('Please include a request type')
   }
