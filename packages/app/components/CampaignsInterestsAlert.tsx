@@ -1,9 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { Dispatch, SetStateAction } from 'react'
 import useAlertModal from '@/hooks/useAlertModal'
 import TargetingInterests from '@/app/TargetingInterests'
 
-const CampaignsInterestsAlert = ({
+interface CampaignsHeaderProps {
+  shouldShowAlert: boolean
+  setShouldShowAlert: Dispatch<SetStateAction<boolean>>
+  onCancel: () => void
+  onConfirm: () => Promise<void>
+}
+
+const CampaignsInterestsAlert: React.FC<CampaignsHeaderProps> = ({
   shouldShowAlert,
   setShouldShowAlert,
   onCancel,
@@ -50,11 +56,6 @@ const CampaignsInterestsAlert = ({
   }, [closeAlert])
 
   return null
-}
-
-CampaignsInterestsAlert.propTypes = {
-  shouldShowAlert: PropTypes.bool.isRequired,
-  setShouldShowAlert: PropTypes.func.isRequired,
 }
 
 export default CampaignsInterestsAlert
