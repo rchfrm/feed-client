@@ -12,6 +12,13 @@ const initialState = {
   defaultPaymentMethod: null,
   organizationInvites: [],
   canChooseFree: false,
+  hasManagedArtist: false,
+}
+
+const hasManagedArtist = (organizationArtists) => {
+  return organizationArtists.some((artist) => {
+    return artist.is_managed
+  })
 }
 
 const canChooseFree = (organizationArtists) => {
@@ -38,6 +45,8 @@ const fetchOrganizationDetails = async (organization) => {
     billingDetails,
     defaultPaymentMethod,
     organizationArtists,
+    canChooseFree: canChooseFree(organizationArtists),
+    hasManagedArtist: hasManagedArtist(organizationArtists),
   }
 }
 
@@ -94,6 +103,7 @@ const setupBilling = (set, get) => async (user, artist) => {
     defaultPaymentMethod,
     artistCurrency,
     canChooseFree: canChooseFree(organizationArtists),
+    hasManagedArtist: hasManagedArtist(organizationArtists),
   })
 }
 
@@ -156,7 +166,8 @@ export const addOrganizationArtist = (set, get) => (artist) => {
 
   set({
     organizationArtists: organizationArtistsUpdated,
-    canChooseFree: canChooseFree(organizationArtistsUpdated),
+    canChooseFree: canChooseFree(organizationArtists),
+    hasManagedArtist: hasManagedArtist(organizationArtists),
   })
 }
 
@@ -164,6 +175,7 @@ export const updateOrganizationArtists = (set) => async (organizationArtists) =>
   set({
     organizationArtists,
     canChooseFree: canChooseFree(organizationArtists),
+    hasManagedArtist: hasManagedArtist(organizationArtists),
   })
 }
 

@@ -50,8 +50,9 @@ const AdAccountSelector = ({
       setIsLoading(false)
       return
     }
-    const { adaccounts } = res
-    const options = adaccounts.map(({ id, name }) => ({ name, value: id }))
+
+    const { adAccounts: adAccountsServer } = res
+    const options = adAccountsServer.map(({ id, name }) => ({ name, value: id }))
 
     setAdAccountOptions(options)
     setIsLoading(false)

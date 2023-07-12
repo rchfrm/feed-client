@@ -1,3 +1,3 @@
-const config = require('../shared/postcss.config.js')
+import config from '../shared/postcss.config'
 
-module.exports = config('../shared')
+export default config('../shared')
