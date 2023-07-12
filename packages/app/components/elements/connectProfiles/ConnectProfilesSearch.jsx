@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ConnectProfilesSearchForm from '@/app/ConnectProfilesSearchForm'
-import ConnectProfilesItem from '@/app/ConnectProfilesItem'
+import ConnectProfilesSearchForm from '@/app/elements/connectProfiles/ConnectProfilesSearchForm'
+import ConnectProfilesItem from '@/app/elements/connectProfiles/ConnectProfilesItem'
 import MarkdownText from '@/elements/MarkdownText'
 import copy from '@/app/copy/connectProfilesCopy'
 
@@ -25,6 +25,7 @@ const ConnectProfilesSearch = ({
         <ul className="xs:pl-16">
           <ConnectProfilesItem
             profile={artistAccount}
+            setNewArtistName={setNewArtistName}
             setSelectedProfile={setSelectedProfile}
             setIsConnecting={setIsConnecting}
             isConnected={false}
