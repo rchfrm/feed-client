@@ -1,10 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import brandColors from '@/constants/brandColors'
 import MarkdownText from '@/elements/MarkdownText'
 import HeartIcon from '@/icons/HeartIcon'
 
-const CampaigNode = ({ type, label, className }) => {
+interface CampaigNodeProps {
+  type: string
+  label: string
+  className?: string
+}
+
+const CampaigNode: React.FC<CampaigNodeProps> = ({ type, label, className }) => {
   const isAudience = type === 'audience'
 
   return (
@@ -32,16 +37,6 @@ const CampaigNode = ({ type, label, className }) => {
       </div>
     </div>
   )
-}
-
-CampaigNode.propTypes = {
-  type: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  className: PropTypes.string,
-}
-
-CampaigNode.defaultProps = {
-  className: null,
 }
 
 export default CampaigNode

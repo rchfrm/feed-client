@@ -4,7 +4,7 @@ import Button from '@/elements/Button'
 import BackIcon from '@/icons/BackIcon'
 import * as ROUTES from '@/app/constants/routes'
 
-const CampaignBackButton = () => {
+const CampaignBackButton: React.FC = () => {
   const handleClick = () => {
     Router.push(ROUTES.HOME)
   }
@@ -17,7 +17,6 @@ const CampaignBackButton = () => {
       className="w-12 h-10"
     >
       <BackIcon
-        direction="right"
         className="w-5 h-auto"
       />
     </Button>

@@ -4,7 +4,11 @@ import CampaignTabs from '@/app/CampaignTabs'
 import CampaignMetrics from '@/app/CampaignMetrics'
 import CampaignChart from '@/app/CampaignChart'
 
-const Campaign = ({ id }) => {
+interface CampaignProps {
+  id: string
+}
+
+const Campaign: React.FC<CampaignProps> = ({ id }) => {
   // eslint-disable-next-line no-console
   console.log(id)
 

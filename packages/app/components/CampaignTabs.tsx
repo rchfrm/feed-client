@@ -2,7 +2,11 @@ import React from 'react'
 import UsersIcon from '@/icons/UsersIcon'
 import brandColors from '../../shared/constants/brandColors'
 
-const CampaignTabs = ({ className }) => {
+interface CampaignTabsProps {
+  className?: string
+}
+
+const CampaignTabs: React.FC<CampaignTabsProps> = ({ className }) => {
   const [tab, setTab] = React.useState('results')
 
   const options = [
@@ -23,7 +27,7 @@ const CampaignTabs = ({ className }) => {
     },
   ]
 
-  const onClick = (value) => {
+  const onClick = (value: string) => {
     setTab(value)
   }
 

@@ -1,8 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import brandColors from '@/constants/brandColors'
 
-const BackIcon = ({ fill, className, style }) => {
+interface BackIconProps {
+  fill?: string,
+  className?: string,
+  style?: object,
+}
+
+const BackIcon: React.FC<BackIconProps> = ({ fill = brandColors.black, className, style }) => {
   return (
     <svg
       width="20"
@@ -27,18 +32,6 @@ const BackIcon = ({ fill, className, style }) => {
       />
     </svg>
   )
-}
-
-BackIcon.propTypes = {
-  fill: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.object,
-}
-
-BackIcon.defaultProps = {
-  fill: brandColors.black,
-  className: null,
-  style: null,
 }
 
 export default BackIcon

@@ -1,7 +1,7 @@
 import React from 'react'
 import CampaigNode from '@/app/CampaigNode'
 
-const CampaignNodes = () => {
+const CampaignNodes: React.FC = () => {
   return (
     <div className="w-full flex justify-center">
       <CampaigNode type="audience" label="Engaged on Instagram in the last year" />
