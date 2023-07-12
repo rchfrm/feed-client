@@ -117,7 +117,7 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
         return startValueY + (nodeIndex * spacingY)
       }
 
-      return startValueY + ((Math.abs(nodeIndex + maxGroupNodesLength - 2)) * spacingY)
+      return startValueY + ((maxGroupNodesLength - (group.nodes.length - nodeIndex)) * spacingY)
     }
 
     return startValueY + (maxGroupNodesLength * spacingY)
