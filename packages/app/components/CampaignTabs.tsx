@@ -1,24 +1,30 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
+import ChartIcon from '@/icons/ChartIcon'
+import ImageIcon from '@/icons/ImageIcon'
 import UsersIcon from '@/icons/UsersIcon'
 import brandColors from '../../shared/constants/brandColors'
 
 interface CampaignTabsProps {
+  tab: string
+  setTab: Dispatch<SetStateAction<string>>
   className?: string
 }
 
-const CampaignTabs: React.FC<CampaignTabsProps> = ({ className }) => {
-  const [tab, setTab] = React.useState('results')
-
+const CampaignTabs: React.FC<CampaignTabsProps> = ({
+  tab,
+  setTab,
+  className,
+}) => {
   const options = [
     {
       title: 'Results',
       value: 'results',
-      icon: 'users',
+      icon: 'chart',
     },
     {
       title: 'Ads',
       value: 'ads',
-      icon: 'users',
+      icon: 'image',
     },
     {
       title: 'Audiences',
@@ -32,6 +38,8 @@ const CampaignTabs: React.FC<CampaignTabsProps> = ({ className }) => {
   }
 
   const icons = {
+    chart: ChartIcon,
+    image: ImageIcon,
     users: UsersIcon,
   }
 
@@ -56,7 +64,7 @@ const CampaignTabs: React.FC<CampaignTabsProps> = ({ className }) => {
               isActive ? 'text-black bg-green' : null,
             ].join(' ')}
           >
-            <Icon className="w-3 mr-2" fill={isActive ? brandColors.black : brandColors.greyDark} />
+            <Icon className={[icon === 'users' ? 'w-3' : 'w-4', 'mr-2'].join(' ')} fill={isActive ? brandColors.black : brandColors.greyDark} />
             {title}
           </button>
         )
