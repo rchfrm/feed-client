@@ -98,40 +98,31 @@ export const excludeAudiences = (
   platformTargeting: Platform[],
   objective: string,
 ): Audience[] => {
-  console.log('objective', objective)
-  console.log('platformTargeting', platformTargeting)
   const isTargetingFacebookOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.FACEBOOK
-  console.log('isTargetingFacebookOnly', isTargetingFacebookOnly)
   const isTargetingInstagramOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.INSTAGRAM
-  console.log('isTargetingInstagramOnly', isTargetingInstagramOnly)
+
   return audiences.filter((audience) => {
     if (! audience.is_current) {
-      console.log(`${audience.name} is not current`)
       return false
     }
 
     if (audience.retention_days === RetentionPeriods.WEEK) {
-      console.log(`${audience.name} retention period is 1 week`)
       return false
     }
 
     if (audience.platform === Platform.FACEBOOK && isTargetingInstagramOnly) {
-      console.log(`${audience.name} is on Facebook and Feed is targeting Instagram only`)
       return false
     }
 
     if (audience.platform === Platform.INSTAGRAM && isTargetingFacebookOnly) {
-      console.log(`${audience.name} is on Instagram and Feed is targeting Facebook only`)
       return false
     }
 
     if (objective !== 'growth' && audience.name.includes('Ig followers')) {
-      console.log(`${audience.name} is excluded as objective is not growth`)
       return false
     }
 
     if (objective !== 'conversations' && audience.name.includes('28')) {
-      console.log(`${audience.name} is excluded as objective is not conversations`)
       return false
     }
 
@@ -216,7 +207,7 @@ const makeOrAddToGroup = (groupIndex: string, node: OverviewNode, nodeGroups: Ov
   return nodeGroup
 }
 
-const sumMetrics = (adSets) => {
+const sumMetrics = (adSets: AdSet[]) => {
   const totals = {
     spend: 0,
     impressions: 0,
@@ -247,7 +238,7 @@ const sumMetrics = (adSets) => {
   return totals
 }
 
-const getEngagementRateAndCost = (adSets) => {
+const getEngagementRateAndCost = (adSets: AdSet[]) => {
   const {
     spend,
     impressions,
@@ -259,8 +250,8 @@ const getEngagementRateAndCost = (adSets) => {
   } = sumMetrics(adSets) || {}
 
   const totalEngagements = clicks + likes + shares + comments + saves
-  const engagementRate = Number((totalEngagements / impressions).toFixed(4))
-  const costPerEngagement = Number((spend / totalEngagements).toFixed(4))
+  const engagementRate = Number(((totalEngagements / impressions) * 100).toFixed(2))
+  const costPerEngagement = Number((spend / totalEngagements).toFixed(3))
 
   return {
     engagementRate,
