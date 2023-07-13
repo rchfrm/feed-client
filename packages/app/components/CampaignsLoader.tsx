@@ -14,7 +14,7 @@ import {
   getLookalikesAudiences,
   getNodeGroups,
 } from '@/app/helpers/campaignsHelpers'
-import { AdSetWithPlatform, Campaign, LookalikeWithPlatform } from '@/app/types/api'
+import { AdSetWithPlatform, Campaign, LookalikeWithPlatform, Platform } from '@/app/types/api'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -28,9 +28,9 @@ const CampaignsLoader = () => {
   const [isLoading, setIsLoading] = React.useState(true)
   const [shouldShowCampaigns, setShouldShowCampaigns] = React.useState(true)
 
-  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { objective, platform } = optimizationPreferences
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist: { preferences } } = React.useContext(ArtistContext)
+  const { objective, platform } = preferences.optimization
+  const targetedPlatforms: Platform[] = preferences.targeting.platforms
 
   useAsyncEffect(async (isMounted) => {
     if (! artistId) {
@@ -75,7 +75,7 @@ const CampaignsLoader = () => {
       return
     }
 
-    const filteredAudiences = excludeAudiences(audiences, adSets, objective, platform)
+    const filteredAudiences = excludeAudiences(audiences, targetedPlatforms, objective)
 
     let lookalikeAudiences: LookalikeWithPlatform[] = []
     if (audiences.length > 0) {

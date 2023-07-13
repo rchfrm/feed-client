@@ -1,7 +1,7 @@
 import { requestWithCatch } from '@/helpers/api'
 import { capitalise } from '@/helpers/utils'
 import copy from '@/app/copy/campaignsCopy'
-import { AdSet, Audience, Campaign, Lookalike, LookalikeWithPlatform, Platform } from '@/app/types/api'
+import { AdSet, Audience, Campaign, Lookalike, LookalikeWithPlatform, Platform, RetentionPeriods } from '@/app/types/api'
 import {
   Edge,
   OverviewNode,
@@ -95,20 +95,47 @@ export const getAdSets = async (artistId: string, campaignId: string): Promise<{
 
 export const excludeAudiences = (
   audiences: Audience[],
-  adSets: AdSet[],
+  platformTargeting: Platform[],
   objective: string,
-  platform: string,
 ): Audience[] => {
-  const customAudiencesIds = adSets.map((adSet) => adSet.targeting.custom_audiences?.map((customAudience) => customAudience.id)).flat() || []
-  const uniqueCustomAudiencesIds = ([...new Set<string>(customAudiencesIds)])
-  const isInstagram = platform === Platform.INSTAGRAM
-
+  console.log('objective', objective)
+  console.log('platformTargeting', platformTargeting)
+  const isTargetingFacebookOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.FACEBOOK
+  console.log('isTargetingFacebookOnly', isTargetingFacebookOnly)
+  const isTargetingInstagramOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.INSTAGRAM
+  console.log('isTargetingInstagramOnly', isTargetingInstagramOnly)
   return audiences.filter((audience) => {
-    return audience.is_current
-      && audience.retention_days !== 7
-      && uniqueCustomAudiencesIds.includes(audience.platform_id)
-      && (! audience.name.includes('Ig followers') || (objective === 'growth' && isInstagram))
-      && (! audience.name.includes('28') || (objective === 'conversations' && isInstagram))
+    if (! audience.is_current) {
+      console.log(`${audience.name} is not current`)
+      return false
+    }
+
+    if (audience.retention_days === RetentionPeriods.WEEK) {
+      console.log(`${audience.name} retention period is 1 week`)
+      return false
+    }
+
+    if (audience.platform === Platform.FACEBOOK && isTargetingInstagramOnly) {
+      console.log(`${audience.name} is on Facebook and Feed is targeting Instagram only`)
+      return false
+    }
+
+    if (audience.platform === Platform.INSTAGRAM && isTargetingFacebookOnly) {
+      console.log(`${audience.name} is on Instagram and Feed is targeting Facebook only`)
+      return false
+    }
+
+    if (objective !== 'growth' && audience.name.includes('Ig followers')) {
+      console.log(`${audience.name} is excluded as objective is not growth`)
+      return false
+    }
+
+    if (objective !== 'conversations' && audience.name.includes('28')) {
+      console.log(`${audience.name} is excluded as objective is not conversations`)
+      return false
+    }
+
+    return true
   })
 }
 
