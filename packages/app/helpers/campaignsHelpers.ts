@@ -380,7 +380,16 @@ const getTarget = (objective, platform): string => {
 }
 
 export const getEdges = (objective, platform) => {
-  const { lookalikesOrInterest, enticeEngage, engaged1Y, remindTraffic } = indexes
+  const {
+    lookalikesOrInterest,
+    engaged1Y,
+    engaged28D,
+    enticeEngage,
+    remindEngage,
+    remindTraffic,
+  } = indexes
+
+  // TODO: How do I get campaigns to stack vertically?
 
   const edges: Edge[] = [
     // lookalikes -> entice engage -> Fb/Ig engaged 1y
@@ -392,6 +401,16 @@ export const getEdges = (objective, platform) => {
     {
       source: enticeEngage,
       target: engaged1Y,
+      isActive: true,
+    },
+    {
+      source: engaged1Y,
+      target: remindEngage,
+      isActive: true,
+    },
+    {
+      source: remindEngage,
+      target: engaged28D,
       isActive: true,
     },
     // lookalikes -> entice traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
@@ -406,16 +425,16 @@ export const getEdges = (objective, platform) => {
     //   isActive: true,
     // },
     // Fb/Ig engaged 1y -> remind traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
-    {
-      source: engaged1Y,
-      target: remindTraffic,
-      isActive: true,
-    },
-    {
-      source: remindTraffic,
-      target: getTarget(objective, platform),
-      isActive: true,
-    },
+    // {
+    //   source: engaged1Y,
+    //   target: remindTraffic,
+    //   isActive: true,
+    // },
+    // {
+    //   source: remindTraffic,
+    //   target: getTarget(objective, platform),
+    //   isActive: true,
+    // },
   ]
 
   return edges
