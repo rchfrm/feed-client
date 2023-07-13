@@ -16,9 +16,7 @@ const CampaignResultsMetrics: React.FC = () => {
   }
 
   return (
-    <div
-      className="relative w-full flex flex-col sm:flex-row mb-10 p-6 border border-b-4 border-solid border-grey-light rounded-dialogue"
-    >
+    <div className="relative w-full flex flex-col sm:flex-row mb-10 p-6 border border-b-4 border-solid border-grey-light rounded-dialogue">
       <div className="flex flex-col sm:flex-row mb-4 sm:mb-0 sm:mr-6">
         <div className="w-full sm:w-auto h-full flex flex-col justify-center mb-2 sm:mb-0 sm:mr-4 p-4 bg-green-bg-dark rounded-dialogue">
           <div className="text-green-dark text-sm">Engagement Rate</div>
