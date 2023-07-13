@@ -5,8 +5,16 @@ import { ArtistContext } from '@/app/contexts/ArtistContext'
 import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
-import { getAudiences, getLookalikesAudiences, excludeAudiences, getCampaigns, getAdSets, getNodeGroups, getEdges } from '@/app/helpers/campaignsHelpers'
-import { Campaign } from '../types/api'
+import {
+  excludeAudiences,
+  getAdSets,
+  getAudiences,
+  getCampaigns,
+  getEdges,
+  getLookalikesAudiences,
+  getNodeGroups,
+} from '@/app/helpers/campaignsHelpers'
+import { AdSetWithPlatform, Campaign, LookalikeWithPlatform } from '@/app/types/api'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -43,17 +51,16 @@ const CampaignsLoader = () => {
 
     setCampaigns(campaigns)
 
-    let adSets = []
+    let adSets: AdSetWithPlatform[] = []
     if (campaigns.length > 0) {
       const adSetsPromises = campaigns.map(async (campaign) => {
         return getAdSets(artistId, campaign.id)
       })
 
       const res = await Promise.all(adSetsPromises)
-      const flattenedAdSets = res.map(({ res }, index) => {
+      adSets = res.map(({ res }, index) => {
         return res.map((adSet) => ({ ...adSet, platform: campaigns[index].platform }))
       }).flat()
-      adSets = flattenedAdSets
     }
 
     const { res: audiences, error: audiencesError } = await getAudiences(artistId)
@@ -68,20 +75,22 @@ const CampaignsLoader = () => {
       return
     }
 
-    const filteredAudiences = excludeAudiences({ audiences, adSets, objective, platform })
+    const filteredAudiences = excludeAudiences(audiences, adSets, objective, platform)
 
-    let lookalikesAudiences = []
+    let lookalikesAudiences: LookalikeWithPlatform[] = []
     if (audiences.length > 0) {
       const lookalikesAudiencesPromises = audiences.map(async (audience) => {
         return getLookalikesAudiences(artistId, audience.id)
       })
 
       const res = await Promise.all(lookalikesAudiencesPromises)
-      const flattenedLookalikesAudiences = res.map(({ res }, index) => {
-        return res.map((lookalikesAudience) => ({ ...lookalikesAudience, platform: audiences[index].platform, retention_days: audiences[index].retention_days }))
+      lookalikesAudiences = res.map(({ res }, index) => {
+        return res.map((lookalikesAudience) => ({
+          ...lookalikesAudience,
+          platform: audiences[index].platform,
+          retention_days: audiences[index].retention_days,
+        }))
       }).flat()
-
-      lookalikesAudiences = flattenedLookalikesAudiences
     }
 
     if (audiences.length === 0 || adSets.length === 0) {

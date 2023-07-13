@@ -30,6 +30,7 @@
       "@/constants/*": ["shared/constants/*"],
       "@/helpers/*": ["shared/helpers/*"],
       "@/graphQl/*": ["shared/graphQl/*"],
+      "@/types/*": ["shared/types/*"],
       "@/*": ["shared/components/*"],
       "~/*": ["shared/*"]
     }

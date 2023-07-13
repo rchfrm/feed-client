@@ -1,7 +1,16 @@
 import { requestWithCatch } from '@/helpers/api'
 import { capitalise } from '@/helpers/utils'
 import copy from '@/app/copy/campaignsCopy'
-import { Campaign } from '@/app/types/api'
+import { AdSet, Audience, Campaign, Lookalike, LookalikeWithPlatform, Platform } from '@/app/types/api'
+import {
+  Edge,
+  OverviewNode,
+  OverviewNodeGroup,
+  OverviewNodeGroupHandleType,
+  OverviewNodeSubType,
+  OverviewNodeType,
+} from '@/app/types/overview'
+import { Dictionary } from '@/types/common'
 
 const indexes = {
   lookalikesOrInterest: '0',
@@ -36,7 +45,7 @@ const getAudienceGroupIdentifier = (name) => {
   }
 }
 
-export const getAudiences = async (artistId) => {
+export const getAudiences = async (artistId: string): Promise<{ res: Audience[], error: any }> => {
   const endpoint = `/artists/${artistId}/audiences`
   const payload = null
   const errorTracking = {
@@ -48,7 +57,7 @@ export const getAudiences = async (artistId) => {
   return { res, error }
 }
 
-export const getLookalikesAudiences = async (artistId, audienceId) => {
+export const getLookalikesAudiences = async (artistId: string, audienceId: string): Promise<{ res: Lookalike[], error: any }> => {
   const endpoint = `/artists/${artistId}/audiences/${audienceId}/lookalikes`
   const payload = null
   const errorTracking = {
@@ -72,7 +81,7 @@ export const getCampaigns = async (artistId: string): Promise<{ res: Campaign[],
   return { res, error }
 }
 
-export const getAdSets = async (artistId, campaignId) => {
+export const getAdSets = async (artistId: string, campaignId: string): Promise<{ res: AdSet[], error: any }> => {
   const endpoint = `artists/${artistId}/campaigns/${campaignId}/adsets`
   const payload = null
   const errorTracking = {
@@ -84,10 +93,15 @@ export const getAdSets = async (artistId, campaignId) => {
   return { res, error }
 }
 
-export const excludeAudiences = ({ audiences, adSets, objective, platform }) => {
-  const customAudiencesIds = adSets.map((adSet) => adSet.targeting?.custom_audiences?.map((customAudience) => customAudience?.id)).flat() || []
-  const uniqueCustomAudiencesIds = ([...new Set(customAudiencesIds)])
-  const isInstagram = platform === 'instagram'
+export const excludeAudiences = (
+  audiences: Audience[],
+  adSets: AdSet[],
+  objective: string,
+  platform: string,
+): Audience[] => {
+  const customAudiencesIds = adSets.map((adSet) => adSet.targeting.custom_audiences?.map((customAudience) => customAudience.id)).flat() || []
+  const uniqueCustomAudiencesIds = ([...new Set<string>(customAudiencesIds)])
+  const isInstagram = platform === Platform.INSTAGRAM
 
   return audiences.filter((audience) => {
     return audience.is_current
@@ -125,8 +139,8 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
   }
 }
 
-const makeNodeGroup = ({ groupIndex, node }) => {
-  const isAudience = node.type === 'audience'
+const makeNodeGroup = (groupIndex: string, node: OverviewNode): OverviewNodeGroup => {
+  const isAudience = node.type === OverviewNodeType.AUDIENCE
 
   return {
     id: groupIndex,
@@ -136,24 +150,26 @@ const makeNodeGroup = ({ groupIndex, node }) => {
     nodes: [node],
     handlers: [
       {
-        type: 'target',
+        type: OverviewNodeGroupHandleType.TARGET,
         position: 'left',
       },
       {
-        type: 'source',
+        type: OverviewNodeGroupHandleType.SOURCE,
         position: isAudience ? 'bottom' : 'right',
       },
     ],
   }
 }
 
-const makeOrAddToGroup = (groupIndex, node, nodeGroups) => {
+const makeOrAddToGroup = (groupIndex: string, node: OverviewNode, nodeGroups: OverviewNodeGroup[]) => {
   if (nodeGroups[groupIndex]) {
+    const index = Number(groupIndex)
+    const nodeGroup = nodeGroups[index]
     nodeGroups[groupIndex].nodes.push(node)
     return
   }
 
-  const nodeGroup = makeNodeGroup({ groupIndex, node })
+  const nodeGroup = makeNodeGroup(groupIndex, node)
   nodeGroups[groupIndex] = nodeGroup
 
   return nodeGroup
@@ -211,8 +227,8 @@ const getEngagementRateAndCost = (adSets) => {
   }
 }
 
-export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
-  const nodeGroups = []
+export const getNodeGroups = (audiences: Audience[], lookalikesAudiences: LookalikeWithPlatform[], adSets: AdSet[]) => {
+  const nodeGroups: OverviewNodeGroup[] = []
 
   // Create audiences node group(s)
   audiences.forEach((audience) => {
@@ -221,8 +237,8 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
     const groupIndex = indexes[identifier]
 
     const node = {
-      type: 'audience',
-      subType: 'custom',
+      type: OverviewNodeType.AUDIENCE,
+      subType: OverviewNodeSubType.CUSTOM,
       platform,
       label: copy.audiencesLabel({ name, approximateCount, retentionDays, platform }),
     }
@@ -231,18 +247,21 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   })
 
   // Create lookalikes audiences node group
-  const lookalikesAudiencesKeyedByAudienceId = lookalikesAudiences.reduce((result, audience) => {
-    result[audience.audience_id] = result[audience.audience_id] || []
-    result[audience.audience_id].push(audience)
+  const lookalikesAudiencesKeyedByAudienceId: Dictionary<LookalikeWithPlatform[]> = lookalikesAudiences.reduce((result: Dictionary<LookalikeWithPlatform[]>, lookalike: LookalikeWithPlatform) => {
+    const audienceId = lookalike.audience_id
+    if (! result[audienceId]) {
+      result[audienceId] = []
+    }
+    result[audienceId].push(lookalike)
     return result
   }, {})
 
-  Object.values(lookalikesAudiencesKeyedByAudienceId).forEach((audiences) => {
-    const { name, platform } = audiences[0]
+  Object.values(lookalikesAudiencesKeyedByAudienceId).forEach((lookalikes) => {
+    const { name, platform } = lookalikes[0]
     const identifier = getAudienceGroupIdentifier(name)
     const groupIndex = indexes[identifier]
 
-    const { approximateCount, countries } = audiences.reduce((result, { approximate_count, countries_text }) => {
+    const { approximateCount, countries } = lookalikes.reduce((result, { approximate_count, countries_text }) => {
       return {
         approximateCount: result.approximateCount + approximate_count,
         countries: [...result.countries, countries_text],
@@ -250,8 +269,8 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
     }, { approximateCount: 0, countries: [] })
 
     const node = {
-      type: 'audience',
-      subType: 'lookalike',
+      type: OverviewNodeType.AUDIENCE,
+      subType: OverviewNodeSubType.LOOKALIKE,
       platform,
       label: copy.lookalikesAudiencesLabel({ name, approximateCount, countries }),
     }
@@ -260,12 +279,14 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   })
 
   // Create ad sets node groups
-  const adSetsKeyedByIdentifier = adSets.reduce((result, adSet) => {
+  const adSetsKeyedByIdentifier: Dictionary<AdSet[]> = adSets.reduce((result, adSet) => {
     const { identifier } = adSet
     const [a, b] = identifier.split('_')
     const key = `${a}${capitalise(b)}`
 
-    result[key] = result[key] || []
+    if (! result[key]) {
+      result[key] = []
+    }
     result[key].push(adSet)
     return result
   }, {})
@@ -274,8 +295,8 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
     const groupIndex = indexes[identifier]
     const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets)
 
-    const node = {
-      type: 'campaign',
+    const node: OverviewNode = {
+      type: OverviewNodeType.CAMPAIGN,
       label: identifier,
       engagementRate,
       costPerEngagement,
@@ -294,7 +315,7 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets) => {
   }))
 }
 
-const getTarget = (objective, platform) => {
+const getTarget = (objective, platform): string => {
   if (platform === 'instagram') {
     if (objective === 'growth') {
       return indexes.igFollowers
@@ -315,7 +336,7 @@ const getTarget = (objective, platform) => {
 export const getEdges = (objective, platform) => {
   const { lookalikesOrInterest, enticeEngage, engaged1Y, remindTraffic } = indexes
 
-  const edges = [
+  const edges: Edge[] = [
     // lookalikes -> entice engage -> Fb/Ig engaged 1y
     {
       source: lookalikesOrInterest,
