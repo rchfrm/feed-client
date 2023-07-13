@@ -6,7 +6,7 @@ import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
 import {
-  excludeAudiences,
+  excludeAudiences, excludeLookalikes,
   getAdSets,
   getAudiences,
   getCampaigns,
@@ -77,14 +77,14 @@ const CampaignsLoader = () => {
 
     const filteredAudiences = excludeAudiences(audiences, adSets, objective, platform)
 
-    let lookalikesAudiences: LookalikeWithPlatform[] = []
+    let lookalikeAudiences: LookalikeWithPlatform[] = []
     if (audiences.length > 0) {
       const lookalikesAudiencesPromises = audiences.map(async (audience) => {
         return getLookalikesAudiences(artistId, audience.id)
       })
 
       const res = await Promise.all(lookalikesAudiencesPromises)
-      lookalikesAudiences = res.map(({ res }, index) => {
+      lookalikeAudiences = res.map(({ res }, index) => {
         return res.map((lookalikesAudience) => ({
           ...lookalikesAudience,
           platform: audiences[index].platform,
@@ -93,11 +93,13 @@ const CampaignsLoader = () => {
       }).flat()
     }
 
+    const filteredLookalikes = excludeLookalikes(lookalikeAudiences, adSets)
+
     if (audiences.length === 0 || adSets.length === 0) {
       setShouldShowCampaigns(false)
     }
 
-    const nodeGroups = getNodeGroups(filteredAudiences, lookalikesAudiences, adSets)
+    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, adSets)
     const edges = getEdges(objective, platform)
 
     setNodeGroups(nodeGroups)

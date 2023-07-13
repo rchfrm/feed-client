@@ -112,6 +112,20 @@ export const excludeAudiences = (
   })
 }
 
+export const excludeLookalikes = (
+  lookalikes: LookalikeWithPlatform[],
+  adSets: AdSet[],
+): LookalikeWithPlatform[] => {
+  const enticeAdSets = adSets.filter((adSet) => adSet.identifier.startsWith('entice'))
+  return lookalikes.filter((lookalike) => {
+    const adSet = enticeAdSets.find((adSet) => {
+      const audienceIds = adSet.targeting.custom_audiences.map((a) => a.id)
+      return audienceIds.includes(lookalike.platform_id)
+    })
+    return Boolean(adSet)
+  })
+}
+
 const getPosition = (nodeIndex, group, nodeGroups) => {
   const { type, id } = group
   const isAudience = type === 'audience'

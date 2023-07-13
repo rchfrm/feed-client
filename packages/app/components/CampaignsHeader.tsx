@@ -1,5 +1,5 @@
 import React from 'react'
-import { Campaign } from '../types/api'
+import { Campaign } from '@/app/types/api'
 
 
 interface CampaignsHeaderProps {
@@ -8,9 +8,6 @@ interface CampaignsHeaderProps {
 const CampaignsHeader: React.FC<CampaignsHeaderProps> = ({
   campaigns,
 }) => {
-  // eslint-disable-next-line no-console
-  console.log(campaigns)
-
   return (
     <>
       <h1>Your campaigns</h1>
