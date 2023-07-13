@@ -1,7 +1,7 @@
 import { requestWithCatch } from '@/helpers/api'
 import { capitalise } from '@/helpers/utils'
 import copy from '@/app/copy/campaignsCopy'
-import { Campaign } from '../types/api'
+import { Campaign } from '@/app/types/api'
 
 const indexes = {
   lookalikesOrInterest: '0',
