@@ -6,6 +6,7 @@ import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
 import {
+  excludeAdSets,
   excludeAudiences, excludeLookalikes,
   getAdSets,
   getAudiences,
@@ -63,6 +64,8 @@ const CampaignsLoader = () => {
       }).flat()
     }
 
+    const filteredAdSets = excludeAdSets(adSets, objective)
+
     const { res: audiences, error: audiencesError } = await getAudiences(artistId)
     if (! isMounted()) {
       setIsLoading(false)
@@ -93,13 +96,13 @@ const CampaignsLoader = () => {
       }).flat()
     }
 
-    const filteredLookalikes = excludeLookalikes(lookalikeAudiences, adSets)
+    const filteredLookalikes = excludeLookalikes(lookalikeAudiences, filteredAdSets)
 
     if (audiences.length === 0 || adSets.length === 0) {
       setShouldShowCampaigns(false)
     }
 
-    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, adSets)
+    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets)
     const edges = getEdges(objective, platform)
 
     setNodeGroups(nodeGroups)

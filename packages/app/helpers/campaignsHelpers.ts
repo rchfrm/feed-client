@@ -144,6 +144,20 @@ export const excludeLookalikes = (
   })
 }
 
+export const excludeAdSets = (
+  adSets: AdSet[],
+  objective: string,
+): AdSet[] => {
+  return adSets.filter((adSet) => {
+    if (objective !== 'conversations' && adSet.name.startsWith('remind_engage')) {
+      return false
+    }
+
+    // TODO: If no results in latest spending period
+    return true
+  })
+}
+
 const getPosition = (nodeIndex, group, nodeGroups) => {
   const { type, id } = group
   const isAudience = type === 'audience'
