@@ -27,13 +27,13 @@ const CampaignsNodeAudience = ({
   const saveTargeting = useSaveTargeting({ initialTargetingState, targetingState, saveTargetingSettings })
 
   const { handlers } = group
-  const { label, subType } = node
+  const { label, subType, platform } = node
   const nodeRef = React.useRef()
   const isCustomAudience = subType === 'custom'
   const isCreateAudience = subType === 'create'
   const isDesktopLayout = useBreakpointTest('xs')
   const isLast = index === group.nodes.length - 1
-  const platforms = isCreateAudience ? ['instagram', 'facebook'] : [node.platform]
+  const platforms = isCreateAudience ? ['instagram', 'facebook'] : platform ? [platform] : []
 
   const icons = {
     facebook: <FacebookIcon className="h-4 w-auto" />,
@@ -75,7 +75,7 @@ const CampaignsNodeAudience = ({
       onClick={isCreateAudience ? handleClick : null}
       role="button"
     >
-      {platforms?.map((platform, index) => (
+      {platforms.map((platform, index) => (
         <div
           key={platform}
           className="absolute -top-2 -left-2 h-4 w-4 bg-white rounded-[5px] z-10 overflow-hidden"
