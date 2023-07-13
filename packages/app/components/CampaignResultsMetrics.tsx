@@ -3,6 +3,18 @@ import ChevronIcon from '@/icons/ChevronIcon'
 import brandColors from '@/constants/brandColors'
 
 const CampaignResultsMetrics: React.FC = () => {
+  const metrics = {
+    spend: '£179.23',
+    impressions: 34287,
+    views: 1065,
+    engagements: 9977,
+    clicks: 11,
+    likes: 9779,
+    shares: 0,
+    comments: 10,
+    saves: 177,
+  }
+
   return (
     <div
       className="relative w-full flex flex-col sm:flex-row mb-10 p-6 border border-b-4 border-solid border-grey-light rounded-dialogue"
@@ -35,42 +47,12 @@ const CampaignResultsMetrics: React.FC = () => {
       </div>
       <div className="flex-1 items-between">
         <div className="flex flex-wrap -mx-2">
-          <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
-            <div className="text-anthracite">Spend</div>
-            <div>£179.23</div>
-          </div>
-          <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
-            <div className="text-anthracite">Impressions</div>
-            <div className="text-sm">34287</div>
-          </div>
-          <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
-            <div className="text-anthracite">Views</div>
-            <div className="text-sm">1065</div>
-          </div>
-          <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
-            <div className="text-anthracite">Engagements</div>
-            <div className="text-sm">9977</div>
-          </div>
-          <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
-            <div className="text-anthracite">Clicks</div>
-            <div className="text-sm">11</div>
-          </div>
-          <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
-            <div className="text-anthracite">Likes</div>
-            <div className="text-sm">9779</div>
-          </div>
-          <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
-            <div className="text-anthracite">Shares</div>
-            <div className="text-sm">0</div>
-          </div>
-          <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
-            <div className="text-anthracite">Comments</div>
-            <div className="text-sm">10</div>
-          </div>
-          <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
-            <div className="text-anthracite">Saves</div>
-            <div className="text-sm">177</div>
-          </div>
+          {Object.entries(metrics).map(([ key, value]) => (
+            <div className="flex-1 mx-2 mb-4 p-2 text-xs bg-offwhite rounded-dialogue">
+              <div className="text-anthracite">{key}</div>
+              <div className='text-sm'>{value}</div>
+            </div>
+          ))}
         </div>
         <div className="w-full p-2 text-xs text-center mt-auto bg-offwhite rounded-dialogue">Select up to 2 factors to  show on the chart below.</div>
       </div>
