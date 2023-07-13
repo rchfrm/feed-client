@@ -43,15 +43,27 @@ const ResultsFollowerGrowthChart = ({
     },
   ]
 
+  const data = [{
+    primaryData: followerGrowth,
+    secondaryData: adSpend,
+    projections,
+    color: {
+      primary: brandColors.green,
+      secondary: brandColors.red,
+    },
+    label: {
+      primary: 'Followers',
+      secondary: 'Ad spend',
+    }
+  }]
+
   return (
     <>
       {(isLoading || ! followerGrowth || (! projections?.length && checkSpendDays(true))) ? (
         <Spinner className="w-full aspect-[2/1] flex justify-center items-center" />
       ) : (
         <ChartLine
-          primaryData={followerGrowth}
-          secondaryData={adSpend}
-          projections={projections}
+          data={data}
           currency={currency}
         />
       )}

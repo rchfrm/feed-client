@@ -942,3 +942,52 @@ export const getAggregatedAdBenchmark = async () => {
 
   return { res: res.data, error }
 }
+
+export const getProjection = (projections) => {
+  const projection = projections.filter((p) => p !== undefined).map((projection) => {
+    const dailyProjections = {
+      minProjection: projection.minProjection,
+    }
+
+    if (projection.maxProjection) {
+      dailyProjections.maxProjection = projection.maxProjection
+    }
+
+    return Object.entries(dailyProjections).map(([key, value], _, projection) => {
+      const isOneProjection = projection.length === 1
+
+      return {
+        data: value,
+        title: 'projection',
+        showLine: isOneProjection,
+        ...(key === 'minProjection' && {
+          fill: '+1',
+          backgroundColor: 'rgba(250, 84, 80, 0.4)',
+        }),
+        ...(isOneProjection && {
+          borderColor: brandColors.red,
+          borderDash: [5, 2],
+          borderWidth: 2,
+        }),
+      }
+    })
+  }).flat()
+
+  return projection
+}
+
+export const makeLabel = (context, data, currency) => {
+  const label = [
+    `Date: ${moment(context.label).format('DD MMM YYYY')}`,
+    `${data.label.primary}: ${context.formattedValue}`,
+  ]
+
+  if (data?.secondaryData) {
+    const secondaryValue = Object.values(data?.secondaryData)[context.dataIndex]
+    if (secondaryValue && context.dataset.title !== 'projection') {
+      label.push(`${data.label.secondary}: ${formatCurrency(secondaryValue, currency)}`)
+    }
+  }
+
+  return label
+}

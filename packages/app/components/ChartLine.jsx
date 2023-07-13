@@ -14,8 +14,8 @@ import {
 } from 'chart.js'
 import 'chartjs-adapter-moment'
 import { Line } from 'react-chartjs-2'
-import { formatCurrency } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
+import { getProjection, makeLabel } from '@/app/helpers/resultsHelpers'
 
 ChartJS.register(
   CategoryScale,
@@ -29,15 +29,27 @@ ChartJS.register(
 )
 
 const ChartLine = ({
-  primaryData,
-  secondaryData,
-  projections,
+  data,
   currency,
 }) => {
-  const primaryDataValues = Object.values(primaryData)
-  const secondaryDataValues = Object.values(secondaryData)
-  const minValue = Math.min(...primaryDataValues)
-  const maxValue = Math.max(...primaryDataValues)
+  const minValues = []
+  const maxValues = []
+  const projectionDataSets = []
+
+  data.forEach((x) => {
+    const primaryValues = Object.values(x.primaryData)
+    minValues.push(Math.min(...primaryValues))
+    maxValues.push(Math.max(...primaryValues))
+
+    if (x.projections.length > 0) {
+      const projection = getProjection(x.projections)
+
+      projectionDataSets.push(...projection)
+    }
+  })
+
+  const minValue = Math.min(...minValues)
+  const maxValue = Math.max(...maxValues)
   const buffer = Math.round((maxValue - minValue) / 10)
 
   const options = {
@@ -53,17 +65,11 @@ const ChartLine = ({
         callbacks: {
           title: () => null,
           label: (context) => {
-            const label = [
-              `Date: ${moment(context.label).format('DD MMM YYYY')}`,
-              `Followers: ${context.formattedValue}`,
-            ]
-            const adSpend = secondaryDataValues[context.dataIndex]
-
-            if (adSpend && context.dataset.title !== 'projection') {
-              label.push(`Ad spend: ${formatCurrency(adSpend, currency)}`)
+            if (context.datasetIndex === 0) {
+              return makeLabel(context, data[0], currency)
             }
-
-            return label
+            
+            return makeLabel(context, context.dataset.title === 'projection' ? data[0] : data[1], currency)
           },
         },
       },
@@ -105,40 +111,17 @@ const ChartLine = ({
     },
   }
 
-  const projectionDataSets = projections.filter((p) => p !== undefined)
-    .map((projection) => {
-      const dailyProjections = {
-        minProjection: projection.minProjection,
-      }
-      if (projection.maxProjection) {
-        dailyProjections.maxProjection = projection.maxProjection
-      }
-      return Object.entries(dailyProjections).map(([key, value], index, projection) => {
-        const isOneProjection = projection.length === 1
-        return {
-          data: value,
-          title: 'projection',
-          showLine: isOneProjection,
-          ...(key === 'minProjection' && {
-            fill: '+1',
-            backgroundColor: 'rgba(250, 84, 80, 0.4)',
-          }),
-          ...(isOneProjection && {
-            borderColor: brandColors.red,
-            borderDash: [5, 2],
-            borderWidth: 2,
-          }),
-        }
-      })
-    }).flat()
-
-  const dataSets = [
-    {
+  const mainDataSets = data.map(({ primaryData, secondaryData, color}) => {
+    return {
       data: primaryData,
       segment: {
-        borderColor: (context) => (secondaryDataValues[context.p0DataIndex] ? brandColors.green : brandColors.red),
+        borderColor: (context) => secondaryData ? Object.values(secondaryData)[context.p0DataIndex] ? color.primary : color.secondary : color.primary,
       },
-    },
+    }
+  })
+
+  const dataSets = [
+    ...mainDataSets,
     ...projectionDataSets,
   ]
 
@@ -153,9 +136,7 @@ const ChartLine = ({
 }
 
 ChartLine.propTypes = {
-  primaryData: PropTypes.object.isRequired,
-  secondaryData: PropTypes.object.isRequired,
-  projections: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
   currency: PropTypes.string.isRequired,
 }
 
