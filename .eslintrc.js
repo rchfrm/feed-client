@@ -10,6 +10,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
+    'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended',
   ],
   globals: {
@@ -20,6 +21,7 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
+    'import',
   ],
   rules: {
     camelcase: 'off',
@@ -73,6 +75,10 @@ module.exports = {
       version: 'detect',
     },
     'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './packages/*/tsconfig.json',
+      },
       alias: {
         map: [
           // The app

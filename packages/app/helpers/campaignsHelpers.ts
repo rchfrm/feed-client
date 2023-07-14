@@ -1,7 +1,16 @@
 import { requestWithCatch } from '@/helpers/api'
 import { capitalise } from '@/helpers/utils'
 import copy from '@/app/copy/campaignsCopy'
-import { Campaign } from '../types/api'
+import { AdSet, Audience, Campaign, Lookalike, LookalikeWithPlatform, Platform, RetentionPeriods } from '@/app/types/api'
+import {
+  Edge,
+  OverviewNode,
+  OverviewNodeGroup,
+  OverviewNodeGroupHandleType,
+  OverviewNodeSubType,
+  OverviewNodeType,
+} from '@/app/types/overview'
+import { Dictionary } from '@/types/common'
 
 const indexes = {
   lookalikesOrInterest: '0',
@@ -36,7 +45,7 @@ const getAudienceGroupIdentifier = (name) => {
   }
 }
 
-export const getAudiences = async (artistId) => {
+export const getAudiences = async (artistId: string): Promise<{ res: Audience[], error: any }> => {
   const endpoint = `/artists/${artistId}/audiences`
   const payload = null
   const errorTracking = {
@@ -48,7 +57,7 @@ export const getAudiences = async (artistId) => {
   return { res, error }
 }
 
-export const getLookalikesAudiences = async (artistId, audienceId) => {
+export const getLookalikesAudiences = async (artistId: string, audienceId: string): Promise<{ res: Lookalike[], error: any }> => {
   const endpoint = `/artists/${artistId}/audiences/${audienceId}/lookalikes`
   const payload = null
   const errorTracking = {
@@ -72,7 +81,7 @@ export const getCampaigns = async (artistId: string): Promise<{ res: Campaign[],
   return { res, error }
 }
 
-export const getAdSets = async (artistId, campaignId) => {
+export const getAdSets = async (artistId: string, campaignId: string): Promise<{ res: AdSet[], error: any }> => {
   const endpoint = `artists/${artistId}/campaigns/${campaignId}/adsets`
   const payload = null
   const errorTracking = {
@@ -84,17 +93,68 @@ export const getAdSets = async (artistId, campaignId) => {
   return { res, error }
 }
 
-export const excludeAudiences = ({ audiences, adSets, objective, platform }) => {
-  const customAudiencesIds = adSets.map((adSet) => adSet.targeting?.custom_audiences?.map((customAudience) => customAudience?.id)).flat() || []
-  const uniqueCustomAudiencesIds = ([...new Set(customAudiencesIds)])
-  const isInstagram = platform === 'instagram'
+export const excludeAudiences = (
+  audiences: Audience[],
+  platformTargeting: Platform[],
+  objective: string,
+): Audience[] => {
+  const isTargetingFacebookOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.FACEBOOK
+  const isTargetingInstagramOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.INSTAGRAM
 
   return audiences.filter((audience) => {
-    return audience.is_current
-      && audience.retention_days !== 7
-      && uniqueCustomAudiencesIds.includes(audience.platform_id)
-      && (! audience.name.includes('Ig followers') || (objective === 'growth' && isInstagram))
-      && (! audience.name.includes('28') || (objective === 'conversations' && isInstagram))
+    if (! audience.is_current) {
+      return false
+    }
+
+    if (audience.retention_days === RetentionPeriods.WEEK) {
+      return false
+    }
+
+    if (audience.platform === Platform.FACEBOOK && isTargetingInstagramOnly) {
+      return false
+    }
+
+    if (audience.platform === Platform.INSTAGRAM && isTargetingFacebookOnly) {
+      return false
+    }
+
+    if (objective !== 'growth' && audience.name.includes('Ig followers')) {
+      return false
+    }
+
+    if (objective !== 'conversations' && audience.name.includes('28')) {
+      return false
+    }
+
+    return true
+  })
+}
+
+export const excludeLookalikes = (
+  lookalikes: LookalikeWithPlatform[],
+  adSets: AdSet[],
+): LookalikeWithPlatform[] => {
+  const enticeAdSets = adSets.filter((adSet) => adSet.identifier.startsWith('entice'))
+  return lookalikes.filter((lookalike) => {
+    const adSet = enticeAdSets.find((adSet) => {
+      const audienceIds = adSet.targeting.custom_audiences.map((a) => a.id)
+      return audienceIds.includes(lookalike.platform_id)
+    })
+    return Boolean(adSet)
+  })
+}
+
+export const excludeAdSets = (
+  adSets: AdSet[],
+  objective: string,
+): AdSet[] => {
+  return adSets.filter((adSet) => {
+    if (objective !== 'conversations' && adSet.name.startsWith('remind_engage')) {
+      return false
+    }
+
+    // TODO: If no results in latest spending period
+    return true
   })
 }
 
@@ -113,13 +173,16 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
 
   const getYPosition = () => {
     if (isAudience) {
+      // If it's the node group with the most nodes, stack nodes from top to bottom
       if (group.nodes.length === maxGroupNodesLength) {
         return startValueY + (nodeIndex * spacingY)
       }
 
+      // Else make sure the nodes are pushed down and stacked from top to bottom
       return startValueY + ((maxGroupNodesLength - (group.nodes.length - nodeIndex)) * spacingY)
     }
 
+    // If it's a campaign node group, position the node below the audience node groups row
     return startValueY + (maxGroupNodesLength * spacingY)
   }
 
@@ -129,8 +192,8 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
   }
 }
 
-const makeNodeGroup = ({ groupIndex, node }) => {
-  const isAudience = node.type === 'audience'
+const makeNodeGroup = (groupIndex: string, node: OverviewNode): OverviewNodeGroup => {
+  const isAudience = node.type === OverviewNodeType.AUDIENCE
 
   return {
     id: groupIndex,
@@ -140,30 +203,32 @@ const makeNodeGroup = ({ groupIndex, node }) => {
     nodes: [node],
     handlers: [
       {
-        type: 'target',
+        type: OverviewNodeGroupHandleType.TARGET,
         position: 'left',
       },
       {
-        type: 'source',
+        type: OverviewNodeGroupHandleType.SOURCE,
         position: isAudience ? 'bottom' : 'right',
       },
     ],
   }
 }
 
-const makeOrAddToGroup = (groupIndex, node, nodeGroups) => {
+const makeOrAddToGroup = (groupIndex: string, node: OverviewNode, nodeGroups: OverviewNodeGroup[]) => {
   if (nodeGroups[groupIndex]) {
+    const index = Number(groupIndex)
+    const nodeGroup = nodeGroups[index]
     nodeGroups[groupIndex].nodes.push(node)
     return
   }
 
-  const nodeGroup = makeNodeGroup({ groupIndex, node })
+  const nodeGroup = makeNodeGroup(groupIndex, node)
   nodeGroups[groupIndex] = nodeGroup
 
   return nodeGroup
 }
 
-const sumMetrics = (adSets) => {
+const sumMetrics = (adSets: AdSet[]) => {
   const totals = {
     spend: 0,
     impressions: 0,
@@ -194,7 +259,7 @@ const sumMetrics = (adSets) => {
   return totals
 }
 
-const getEngagementRateAndCost = (adSets) => {
+const getEngagementRateAndCost = (adSets: AdSet[]) => {
   const {
     spend,
     impressions,
@@ -206,8 +271,8 @@ const getEngagementRateAndCost = (adSets) => {
   } = sumMetrics(adSets) || {}
 
   const totalEngagements = clicks + likes + shares + comments + saves
-  const engagementRate = Number((totalEngagements / impressions).toFixed(4))
-  const costPerEngagement = Number((spend / totalEngagements).toFixed(4))
+  const engagementRate = Number(((totalEngagements / impressions) * 100).toFixed(2))
+  const costPerEngagement = Number((spend / totalEngagements).toFixed(3))
 
   return {
     engagementRate,
@@ -224,8 +289,8 @@ const makeCreateAudienceNode = () => {
   }
 }
 
-export const getNodeGroups = (audiences, lookalikesAudiences, adSets, hasTargetingInterests) => {
-  const nodeGroups = []
+export const getNodeGroups = (audiences: Audience[], lookalikesAudiences: LookalikeWithPlatform[], adSets: AdSet[], hasTargetingInterests: boolean) => {
+  const nodeGroups: OverviewNodeGroup[] = []
 
   // Create audiences node group(s)
   audiences.forEach((audience) => {
@@ -234,8 +299,8 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets, hasTargeti
     const groupIndex = indexes[identifier]
 
     const node = {
-      type: 'audience',
-      subType: 'custom',
+      type: OverviewNodeType.AUDIENCE,
+      subType: OverviewNodeSubType.CUSTOM,
       platform,
       label: copy.audiencesLabel({ name, approximateCount, retentionDays, platform }),
       isActive: true,
@@ -245,18 +310,21 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets, hasTargeti
   })
 
   // Create lookalikes audiences node group
-  const lookalikesAudiencesKeyedByAudienceId = lookalikesAudiences.reduce((result, audience) => {
-    result[audience.audience_id] = result[audience.audience_id] || []
-    result[audience.audience_id].push(audience)
+  const lookalikesAudiencesKeyedByAudienceId: Dictionary<LookalikeWithPlatform[]> = lookalikesAudiences.reduce((result: Dictionary<LookalikeWithPlatform[]>, lookalike: LookalikeWithPlatform) => {
+    const audienceId = lookalike.audience_id
+    if (! result[audienceId]) {
+      result[audienceId] = []
+    }
+    result[audienceId].push(lookalike)
     return result
   }, {})
 
-  Object.values(lookalikesAudiencesKeyedByAudienceId).forEach((audiences) => {
-    const { name, platform } = audiences[0]
+  Object.values(lookalikesAudiencesKeyedByAudienceId).forEach((lookalikes) => {
+    const { name, platform } = lookalikes[0]
     const identifier = getAudienceGroupIdentifier(name)
     const groupIndex = indexes[identifier]
 
-    const { approximateCount, countries } = audiences.reduce((result, { approximate_count, countries_text }) => {
+    const { approximateCount, countries } = lookalikes.reduce((result, { approximate_count, countries_text }) => {
       return {
         approximateCount: result.approximateCount + approximate_count,
         countries: [...result.countries, countries_text],
@@ -264,8 +332,8 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets, hasTargeti
     }, { approximateCount: 0, countries: [] })
 
     const node = {
-      type: 'audience',
-      subType: 'lookalike',
+      type: OverviewNodeType.AUDIENCE,
+      subType: OverviewNodeSubType.LOOKALIKE,
       platform,
       label: copy.lookalikesAudiencesLabel({ name, approximateCount, countries }),
       isActive: true,
@@ -275,12 +343,14 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets, hasTargeti
   })
 
   // Create ad sets node groups
-  const adSetsKeyedByIdentifier = adSets.reduce((result, adSet) => {
+  const adSetsKeyedByIdentifier: Dictionary<AdSet[]> = adSets.reduce((result, adSet) => {
     const { identifier } = adSet
     const [a, b] = identifier.split('_')
     const key = `${a}${capitalise(b)}`
 
-    result[key] = result[key] || []
+    if (! result[key]) {
+      result[key] = []
+    }
     result[key].push(adSet)
     return result
   }, {})
@@ -289,8 +359,8 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets, hasTargeti
     const groupIndex = indexes[identifier]
     const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets)
 
-    const node = {
-      type: 'campaign',
+    const node: OverviewNode = {
+      type: OverviewNodeType.CAMPAIGN,
       label: identifier,
       engagementRate,
       costPerEngagement,
@@ -315,7 +385,7 @@ export const getNodeGroups = (audiences, lookalikesAudiences, adSets, hasTargeti
   }))
 }
 
-const getTarget = (objective, platform) => {
+const getTarget = (objective, platform): string => {
   if (platform === 'instagram') {
     if (objective === 'growth') {
       return indexes.igFollowers
@@ -336,7 +406,7 @@ const getTarget = (objective, platform) => {
 const makeEdgesBetweenNodes = (nodeGroups) => {
   return nodeGroups.map((nodeGroup) => nodeGroup.nodes.map((node, index) => {
     const isLast = index === nodeGroup.nodes.length - 1
-    const isLol = index === nodeGroup.nodes.length - 2
+    const isPenultimate = index === nodeGroup.nodes.length - 2
     if (isLast || ! node.isActive) {
       return
     }
@@ -344,18 +414,27 @@ const makeEdgesBetweenNodes = (nodeGroups) => {
     return {
       type: 'node',
       source: `${nodeGroup.id}-${index}`,
-      target: isLol ? nodeGroup.id : `${nodeGroup.id}-${index + 1}`,
+      target: isPenultimate ? nodeGroup.id : `${nodeGroup.id}-${index + 1}`,
       isActive: true,
     }
   })).flat().filter((edge) => edge)
 }
 
 export const getEdges = (nodeGroups, objective, platform) => {
-  const { lookalikesOrInterest, enticeEngage, engaged1Y, remindTraffic } = indexes
+  const {
+    lookalikesOrInterest,
+    engaged1Y,
+    engaged28D,
+    enticeEngage,
+    remindEngage,
+    remindTraffic,
+  } = indexes
 
+  // TODO: How do I get campaigns to stack vertically?
+  
   const edgesBetweenNodes = makeEdgesBetweenNodes(nodeGroups)
 
-  const edges = [
+  const edges: Edge[] = [
     // edges between nodes
     ...edgesBetweenNodes,
 
@@ -373,6 +452,18 @@ export const getEdges = (nodeGroups, objective, platform) => {
       target: engaged1Y,
       isActive: true,
     },
+    {
+      type: 'group',
+      source: engaged1Y,
+      target: remindEngage,
+      isActive: true,
+    },
+    {
+      type: 'group',
+      source: remindEngage,
+      target: engaged28D,
+      isActive: true,
+    },
     // lookalikes -> entice traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
     // {
     //   source: lookalikesOrInterest,
@@ -385,18 +476,16 @@ export const getEdges = (nodeGroups, objective, platform) => {
     //   isActive: true,
     // },
     // Fb/Ig engaged 1y -> remind traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
-    {
-      type: 'group',
-      source: engaged1Y,
-      target: remindTraffic,
-      isActive: true,
-    },
-    {
-      type: 'group',
-      source: remindTraffic,
-      target: getTarget(objective, platform),
-      isActive: true,
-    },
+    // {
+    //   source: engaged1Y,
+    //   target: remindTraffic,
+    //   isActive: true,
+    // },
+    // {
+    //   source: remindTraffic,
+    //   target: getTarget(objective, platform),
+    //   isActive: true,
+    // },
   ]
 
   return edges

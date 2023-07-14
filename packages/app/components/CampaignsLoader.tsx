@@ -6,8 +6,17 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import Campaigns from '@/app/Campaigns'
 import CampaignsHeader from '@/app/CampaignsHeader'
 import Error from '@/elements/Error'
-import { getAudiences, getLookalikesAudiences, excludeAudiences, getCampaigns, getAdSets, getNodeGroups, getEdges } from '@/app/helpers/campaignsHelpers'
-import { Campaign } from '../types/api'
+import {
+  excludeAdSets,
+  excludeAudiences, excludeLookalikes,
+  getAdSets,
+  getAudiences,
+  getCampaigns,
+  getEdges,
+  getLookalikesAudiences,
+  getNodeGroups,
+} from '@/app/helpers/campaignsHelpers'
+import { AdSetWithPlatform, Campaign, LookalikeWithPlatform, Platform } from '@/app/types/api'
 
 const getControlsStoreState = (state) => ({
   optimizationPreferences: state.optimizationPreferences,
@@ -23,9 +32,9 @@ const CampaignsLoader = () => {
   const { targetingState } = React.useContext(TargetingContext)
   const { interests = [] } = targetingState
 
-  const { optimizationPreferences } = useControlsStore(getControlsStoreState)
-  const { objective, platform } = optimizationPreferences
-  const { artistId } = React.useContext(ArtistContext)
+  const { artistId, artist: { preferences } } = React.useContext(ArtistContext)
+  const { objective, platform } = preferences.optimization
+  const targetedPlatforms: Platform[] = preferences.targeting.platforms
 
   useAsyncEffect(async (isMounted) => {
     if (! artistId || ! targetingState) {
@@ -46,18 +55,19 @@ const CampaignsLoader = () => {
 
     setCampaigns(campaigns)
 
-    let adSets = []
+    let adSets: AdSetWithPlatform[] = []
     if (campaigns.length > 0) {
       const adSetsPromises = campaigns.map(async (campaign) => {
         return getAdSets(artistId, campaign.id)
       })
 
       const res = await Promise.all(adSetsPromises)
-      const flattenedAdSets = res.map(({ res }, index) => {
+      adSets = res.map(({ res }, index) => {
         return res.map((adSet) => ({ ...adSet, platform: campaigns[index].platform, campaignId: campaigns[index].id }))
       }).flat()
-      adSets = flattenedAdSets
     }
+
+    const filteredAdSets = excludeAdSets(adSets, objective)
 
     const { res: audiences, error: audiencesError } = await getAudiences(artistId)
     if (! isMounted()) {
@@ -71,28 +81,32 @@ const CampaignsLoader = () => {
       return
     }
 
-    const filteredAudiences = excludeAudiences({ audiences, adSets, objective, platform })
+    const filteredAudiences = excludeAudiences(audiences, targetedPlatforms, objective)
 
-    let lookalikesAudiences = []
+    let lookalikeAudiences: LookalikeWithPlatform[] = []
     if (audiences.length > 0) {
       const lookalikesAudiencesPromises = audiences.map(async (audience) => {
         return getLookalikesAudiences(artistId, audience.id)
       })
 
       const res = await Promise.all(lookalikesAudiencesPromises)
-      const flattenedLookalikesAudiences = res.map(({ res }, index) => {
-        return res.map((lookalikesAudience) => ({ ...lookalikesAudience, platform: audiences[index].platform, retention_days: audiences[index].retention_days }))
+      lookalikeAudiences = res.map(({ res }, index) => {
+        return res.map((lookalikesAudience) => ({
+          ...lookalikesAudience,
+          platform: audiences[index].platform,
+          retention_days: audiences[index].retention_days,
+        }))
       }).flat()
-
-      lookalikesAudiences = flattenedLookalikesAudiences
     }
+
+    const filteredLookalikes = excludeLookalikes(lookalikeAudiences, filteredAdSets)
 
     if (audiences.length === 0 || adSets.length === 0) {
       setShouldShowCampaigns(false)
     }
 
     const hasTargetingInterests = interests.filter(({ isActive }) => isActive).length > 0
-    const nodeGroups = getNodeGroups(filteredAudiences, lookalikesAudiences, adSets, hasTargetingInterests)
+    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, hasTargetingInterests)
     const edges = getEdges(nodeGroups, objective, platform)
 
     setNodeGroups(nodeGroups)
