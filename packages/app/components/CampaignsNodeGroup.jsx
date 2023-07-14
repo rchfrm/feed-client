@@ -17,14 +17,14 @@ const CampaignsNodeGroup = ({
       {group.nodes.map((node, index) => (
         <CampaignsNode
           key={`${group.id}-${index}`}
+          index={index}
           group={group}
           node={node}
           nodeGroups={nodeGroups}
           edges={edges}
           updateEdges={updateEdges}
           getPosition={getPosition}
-          isActive={group.isActive}
-          isLast={index === group.nodes.length - 1}
+          isActive={node.isActive}
         />
       ))}
     </div>

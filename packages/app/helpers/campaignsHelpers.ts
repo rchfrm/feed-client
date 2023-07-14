@@ -173,9 +173,16 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
 
   const getYPosition = () => {
     if (isAudience) {
-      return startValueY + ((maxGroupNodesLength - (nodeIndex + 1)) * spacingY)
+      // If it's the node group with the most nodes, stack nodes from top to bottom
+      if (group.nodes.length === maxGroupNodesLength) {
+        return startValueY + (nodeIndex * spacingY)
+      }
+
+      // Else make sure the nodes are pushed down and stacked from top to bottom
+      return startValueY + ((maxGroupNodesLength - (group.nodes.length - nodeIndex)) * spacingY)
     }
 
+    // If it's a campaign node group, position the node below the audience node groups row
     return startValueY + (maxGroupNodesLength * spacingY)
   }
 
@@ -273,7 +280,16 @@ const getEngagementRateAndCost = (adSets: AdSet[]) => {
   }
 }
 
-export const getNodeGroups = (audiences: Audience[], lookalikesAudiences: LookalikeWithPlatform[], adSets: AdSet[]) => {
+const makeCreateAudienceNode = () => {
+  return {
+    type: 'audience',
+    subType: 'create',
+    label: 'Create interest targeting audience',
+    isActive: false,
+  }
+}
+
+export const getNodeGroups = (audiences: Audience[], lookalikesAudiences: LookalikeWithPlatform[], adSets: AdSet[], hasTargetingInterests: boolean) => {
   const nodeGroups: OverviewNodeGroup[] = []
 
   // Create audiences node group(s)
@@ -287,6 +303,7 @@ export const getNodeGroups = (audiences: Audience[], lookalikesAudiences: Lookal
       subType: OverviewNodeSubType.CUSTOM,
       platform,
       label: copy.audiencesLabel({ name, approximateCount, retentionDays, platform }),
+      isActive: true,
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
@@ -319,6 +336,7 @@ export const getNodeGroups = (audiences: Audience[], lookalikesAudiences: Lookal
       subType: OverviewNodeSubType.LOOKALIKE,
       platform,
       label: copy.lookalikesAudiencesLabel({ name, approximateCount, countries }),
+      isActive: true,
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
@@ -346,10 +364,15 @@ export const getNodeGroups = (audiences: Audience[], lookalikesAudiences: Lookal
       label: identifier,
       engagementRate,
       costPerEngagement,
+      isActive: true,
     }
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
+
+  if (! hasTargetingInterests && nodeGroups.length > 0) {
+    nodeGroups[0].nodes.unshift(makeCreateAudienceNode())
+  }
 
   // Add x and y position to each node
   return nodeGroups.map((group) => ({
@@ -379,7 +402,24 @@ const getTarget = (objective, platform): string => {
   return ''
 }
 
-export const getEdges = (objective, platform) => {
+const makeEdgesBetweenNodes = (nodeGroups) => {
+  return nodeGroups.map((nodeGroup) => nodeGroup.nodes.map((node, index) => {
+    const isLast = index === nodeGroup.nodes.length - 1
+    const isPenultimate = index === nodeGroup.nodes.length - 2
+    if (isLast || ! node.isActive) {
+      return
+    }
+
+    return {
+      type: 'node',
+      source: `${nodeGroup.id}-${index}`,
+      target: isPenultimate ? nodeGroup.id : `${nodeGroup.id}-${index + 1}`,
+      isActive: true,
+    }
+  })).flat().filter((edge) => edge)
+}
+
+export const getEdges = (nodeGroups, objective, platform) => {
   const {
     lookalikesOrInterest,
     engaged1Y,
@@ -390,25 +430,35 @@ export const getEdges = (objective, platform) => {
   } = indexes
 
   // TODO: How do I get campaigns to stack vertically?
+  
+  const edgesBetweenNodes = makeEdgesBetweenNodes(nodeGroups)
 
   const edges: Edge[] = [
+    // edges between nodes
+    ...edgesBetweenNodes,
+
+    // edges between node groups
     // lookalikes -> entice engage -> Fb/Ig engaged 1y
     {
+      type: 'group',
       source: lookalikesOrInterest,
       target: enticeEngage,
       isActive: true,
     },
     {
+      type: 'group',
       source: enticeEngage,
       target: engaged1Y,
       isActive: true,
     },
     {
+      type: 'group',
       source: engaged1Y,
       target: remindEngage,
       isActive: true,
     },
     {
+      type: 'group',
       source: remindEngage,
       target: engaged28D,
       isActive: true,

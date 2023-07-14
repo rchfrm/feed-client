@@ -39,6 +39,7 @@ interface OverviewNodeGroupHandler {
 }
 
 export interface Edge {
+  type: string,
   source: string,
   target: string,
   isActive: boolean,
