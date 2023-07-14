@@ -18,29 +18,33 @@ const CampaignResultsMetrics: React.FC = () => {
   return (
     <div className="relative w-full flex flex-col sm:flex-row mb-10 p-6 border border-b-4 border-solid border-grey-light rounded-dialogue">
       <div className="flex flex-col sm:flex-row mb-4 sm:mb-0 sm:mr-6">
-        <div className="w-full sm:w-auto h-full flex flex-col justify-center mb-2 sm:mb-0 sm:mr-4 p-4 bg-green-bg-dark rounded-dialogue">
-          <div className="text-green-dark text-sm">Engagement Rate</div>
-          <div className="flex">
-            <ChevronIcon
-              className="w-6 mr-1"
-              fill={brandColors.black}
-              direction="up"
-            />
-            <div className="text-2xl font-bold">7.20%</div>
+        <div className="w-full sm:w-auto h-full flex flex-row sm:flex-col justify-between sm:justify-center mb-2 sm:mb-0 sm:mr-4 p-4 bg-green-bg-dark rounded-dialogue">
+          <div className="w-24 sm:w-auto flex items-center text-green-dark text-sm">Engagement Rate</div>
+          <div className="flex flex-col items-end sm:items-start">
+            <div className="flex">
+              <ChevronIcon
+                className="w-6 mr-1"
+                fill={brandColors.black}
+                direction="up"
+              />
+              <div className="text-2xl font-bold">7.20%</div>
+            </div>
+            <div className="text-sm"><span className="text-green-dark">Average:</span> 1.72%</div>
           </div>
-          <div className="text-sm"><span className="text-green-dark">Average:</span> 1.72%</div>
         </div>
-        <div className="w-full sm:w-auto h-full flex flex-col justify-center mb-2 sm:mb-0 p-4 bg-yellow-bg-dark rounded-dialogue">
-          <div className="text-yellow-dark text-sm">Cost per engagement</div>
-          <div className="flex">
-            <ChevronIcon
-              className="w-6 mr-1"
-              fill={brandColors.black}
-              direction="up"
-            />
-            <div className="text-2xl font-bold">£0.0726</div>
+        <div className="w-full sm:w-auto h-full fflex flex-row sm:flex-col justify-between sm:justify-center mb-2 sm:mb-0 p-4 bg-yellow-bg-dark rounded-dialogue">
+          <div className="w-24 sm:w-auto flex items-center text-yellow-dark text-sm">Cost per engagement</div>
+          <div className="flex flex-col items-end sm:items-start">
+            <div className="flex">
+              <ChevronIcon
+                className="w-6 mr-1"
+                fill={brandColors.black}
+                direction="up"
+              />
+              <div className="text-2xl font-bold">£0.0726</div>
+            </div>
+            <div className="text-sm"><span className="text-yellow-dark">Average:</span> £1.72</div>
           </div>
-          <div className="text-sm"><span className="text-yellow-dark">Average:</span> £1.72</div>
         </div>
       </div>
       <div className="flex-1 items-between">
