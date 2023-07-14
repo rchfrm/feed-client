@@ -31,6 +31,7 @@ ChartJS.register(
 const ChartLine = ({
   data,
   currency,
+  hasMultiAxis,
 }) => {
   const minValues = []
   const maxValues = []
@@ -97,6 +98,7 @@ const ChartLine = ({
         type: 'time',
       },
       y: {
+        position: 'left',
         grid: {
           drawTicks: false,
         },
@@ -108,7 +110,23 @@ const ChartLine = ({
         suggestedMin: minValue - buffer,
         suggestedMax: maxValue + buffer,
       },
-    },
+      ...(hasMultiAxis && {
+        y1: {
+          position: 'right',
+          grid: {
+            drawTicks: false,
+            drawOnChartArea: false,
+          },
+          ticks: {
+            padding: 10,
+            color: brandColors.black,
+            precision: 0,
+          },
+          suggestedMin: minValue - buffer,
+          suggestedMax: maxValue + buffer,
+        }
+      }),
+    }
   }
 
   const mainDataSets = data.map(({ primaryData, secondaryData, color}) => {
@@ -138,6 +156,11 @@ const ChartLine = ({
 ChartLine.propTypes = {
   data: PropTypes.array.isRequired,
   currency: PropTypes.string.isRequired,
+  hasMultiAxis: PropTypes.bool,
+}
+
+ChartLine.defaultProps = {
+  hasMultiAxis: false,
 }
 
 export default ChartLine

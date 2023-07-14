@@ -4,7 +4,7 @@ import ChartLegend from '@/app/ChartLegend'
 import brandColors from '@/constants/brandColors'
 
 const CampaignResultsChart: React.FC = () => {
-  // TODO (Campaign detail page): Add labels ('Engagement rate' and 'Cost per engagement') to the chart's left and right y-axis
+  // TODO (Campaign detail page): Format both y-axis' labels (left, right) based on the two data sets (engagement rate and cost per engagement)
 
   const legendItems = [
     {
@@ -80,6 +80,7 @@ const CampaignResultsChart: React.FC = () => {
       <ChartLine
         data={data}
         currency="GBP"
+        hasMultiAxis
       />
       <ChartLegend items={legendItems} />
     </>
