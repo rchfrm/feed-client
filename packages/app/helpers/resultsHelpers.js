@@ -505,7 +505,7 @@ export const getDataSources = async (dataSources, artistId) => {
   return formattedData
 }
 
-const sliceDataSource = (dataSource, start, end) => {
+export const sliceDataSource = (dataSource, start, end) => {
   return Object.fromEntries(Object.entries(dataSource).slice(start, end))
 }
 

@@ -8,6 +8,7 @@ export enum OverviewNodeType {
 export enum OverviewNodeSubType {
   CUSTOM = 'custom',
   LOOKALIKE = 'lookalike',
+  CREATE = 'create',
 }
 
 export interface OverviewNode {
@@ -15,8 +16,18 @@ export interface OverviewNode {
   subType?: OverviewNodeSubType
   label: string
   platform?: Platform
-  engagementRate?: number,
-  costPerEngagement?: number,
+  engagementRate?: number
+  costPerEngagement?: number
+  position?: {
+    x: number
+    y: number
+  }
+  isActive: boolean
+}
+
+export interface OverviewPeriod {
+  start?: Date
+  end?: Date
 }
 
 export interface OverviewNodeGroup {

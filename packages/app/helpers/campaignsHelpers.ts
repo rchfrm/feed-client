@@ -1,7 +1,16 @@
 import { requestWithCatch } from '@/helpers/api'
 import { capitalise } from '@/helpers/utils'
 import copy from '@/app/copy/campaignsCopy'
-import { AdSet, Audience, Campaign, Lookalike, LookalikeWithPlatform, Platform, RetentionPeriods } from '@/app/types/api'
+import {
+  AdSet,
+  Audience,
+  Campaign,
+  DataSourceResponse,
+  Lookalike,
+  LookalikeWithPlatform,
+  Platform,
+  RetentionPeriods,
+} from '@/app/types/api'
 import {
   Edge,
   OverviewNode,
@@ -147,8 +156,22 @@ export const excludeLookalikes = (
 export const excludeAdSets = (
   adSets: AdSet[],
   objective: string,
+  adSpend?: DataSourceResponse,
 ): AdSet[] => {
   return adSets.filter((adSet) => {
+    if (! adSpend) {
+      return false
+    }
+
+    const adSpendEntries = Object.entries(adSpend.daily_data)
+    const spendingDays = adSpendEntries.filter((entry) => {
+      const spend = entry[1] as number
+      return spend > 0
+    })
+    const latestSpendingDay = spendingDays[spendingDays.length - 1][0]
+    const adSetMetricDates = Object.keys(adSet.metrics)
+    const dateAdSetLastActive = adSetMetricDates[adSetMetricDates.length - 1]
+
     if (objective !== 'conversations' && adSet.name.startsWith('remind_engage')) {
       return false
     }
@@ -159,11 +182,15 @@ export const excludeAdSets = (
     }
 
     // TODO: If no results in latest spending period
-    { return true }
+    return true
   })
 }
 
-const getPosition = (nodeIndex, group, nodeGroups) => {
+const getPosition = (
+  nodeIndex: number,
+  group: OverviewNodeGroup,
+  nodeGroups: OverviewNodeGroup[],
+): { x: number, y: number } => {
   const { type, id } = group
   const isAudience = type === 'audience'
   const startValueY = isAudience ? 10 : 30
@@ -176,7 +203,7 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
   const nodeGroupsByType = nodeGroups.filter((group) => group?.type === type)
   const groupIndex = nodeGroupsByType.findIndex((group) => group.id === id)
 
-  const getYPosition = () => {
+  const getYPosition = (): number => {
     if (isAudience) {
       // If it's the node group with the most nodes, stack nodes from top to bottom
       if (group.nodes.length === maxGroupNodesLength) {
@@ -287,14 +314,19 @@ const getEngagementRateAndCost = (adSets: AdSet[]) => {
 
 const makeCreateAudienceNode = () => {
   return {
-    type: 'audience',
-    subType: 'create',
+    type: OverviewNodeType.AUDIENCE,
+    subType: OverviewNodeSubType.CREATE,
     label: 'Create interest targeting audience',
     isActive: false,
   }
 }
 
-export const getNodeGroups = (audiences: Audience[], lookalikesAudiences: LookalikeWithPlatform[], adSets: AdSet[], hasTargetingInterests: boolean) => {
+export const getNodeGroups = (
+  audiences: Audience[],
+  lookalikesAudiences: LookalikeWithPlatform[],
+  adSets: AdSet[],
+  hasTargetingInterests: boolean,
+): OverviewNodeGroup[] => {
   const nodeGroups: OverviewNodeGroup[] = []
 
   // Create audiences node group(s)
@@ -434,8 +466,6 @@ export const getEdges = (nodeGroups, objective, platform) => {
     remindTraffic,
   } = indexes
 
-  // TODO: How do I get campaigns to stack vertically?
-  
   const edgesBetweenNodes = makeEdgesBetweenNodes(nodeGroups)
 
   const edges: Edge[] = [

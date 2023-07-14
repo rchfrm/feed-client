@@ -318,3 +318,20 @@ export interface LookalikeSpecOrigin {
   name: string
   type: string
 }
+
+export interface DataSourceResponse {
+  id: string
+  artist_id: string
+  name: string
+  platform: Nullable<Platform>
+  period: Nullable<string>
+  title: Nullable<string>
+  description: Nullable<string>
+  daily_data: IDataSourceData
+}
+
+export type DataType = number | string | Dictionary<number> | Dictionary<string>
+
+export interface IDataSourceData<T = DataType> {
+  [key: string]: T
+}

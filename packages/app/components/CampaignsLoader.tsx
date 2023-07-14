@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { Reducer } from 'react'
 import useAsyncEffect from 'use-async-effect'
-import useControlsStore from '@/app/stores/controlsStore'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import Campaigns from '@/app/Campaigns'
@@ -16,16 +15,49 @@ import {
   getLookalikesAudiences,
   getNodeGroups,
 } from '@/app/helpers/campaignsHelpers'
-import { AdSetWithPlatform, Campaign, LookalikeWithPlatform, Platform } from '@/app/types/api'
+import { AdSetWithPlatform, Campaign, DataSourceResponse, LookalikeWithPlatform, Platform } from '@/app/types/api'
+import { getSpendingPeriodIndexes } from '@/app/helpers/resultsHelpers'
+import { getDataSourceValue } from '@/app/helpers/appServer'
+import { Dictionary, ReducerAction } from '@/types/common'
+import { Edge, OverviewNodeGroup, OverviewPeriod } from '@/app/types/overview'
 
-const getControlsStoreState = (state) => ({
-  optimizationPreferences: state.optimizationPreferences,
-})
+enum ReducerActionType {
+  'SET_START',
+  'SET_END',
+  'SET_BOTH'
+}
+
+type OverviewPeriodReducerAction =
+  | { type: ReducerActionType.SET_START, payload: { start: Date } }
+  | { type: ReducerActionType.SET_END, payload: { end: Date } }
+  | { type: ReducerActionType.SET_BOTH, payload: { start: Date, end: Date } }
+
+const reducer: Reducer<OverviewPeriod, OverviewPeriodReducerAction> = (state: OverviewPeriod, action) => {
+  switch (action.type) {
+    case ReducerActionType.SET_START:
+      return { ...state, start: action.payload.start }
+
+    case ReducerActionType.SET_END:
+      return { ...state, end: action.payload.end }
+
+    case ReducerActionType.SET_BOTH:
+      return {
+        ...state,
+        start: action.payload.start,
+        end: action.payload.end,
+      }
+
+    default:
+      return { ...state }
+  }
+}
 
 const CampaignsLoader = () => {
   const [campaigns, setCampaigns] = React.useState<Campaign[]>([])
-  const [nodeGroups, setNodeGroups] = React.useState([])
-  const [edges, setEdges] = React.useState([])
+  const [nodeGroups, setNodeGroups] = React.useState<OverviewNodeGroup[]>([])
+  const [edges, setEdges] = React.useState<Edge[]>([])
+  const [period, setPeriod] = React.useReducer<Reducer<OverviewPeriod, OverviewPeriodReducerAction>>(reducer, {})
+
   const [error, setError] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(true)
   const [shouldShowCampaigns, setShouldShowCampaigns] = React.useState(true)
@@ -40,6 +72,17 @@ const CampaignsLoader = () => {
     if (! artistId || ! targetingState) {
       return
     }
+
+    const facebookAdSpendName = 'facebook_ad_spend_feed'
+    const dataSources: Dictionary<DataSourceResponse> = await getDataSourceValue([facebookAdSpendName], artistId)
+    const facebookAdSpendData = dataSources[facebookAdSpendName]
+    const facebookAdSpendDailyData = facebookAdSpendData.daily_data
+    const [start, end] = getSpendingPeriodIndexes(facebookAdSpendDailyData, 1)[0]
+    const latestSpendingPeriod = {
+      start: new Date(Object.keys(facebookAdSpendDailyData)[start]),
+      end: new Date(Object.keys(facebookAdSpendDailyData)[end]),
+    }
+    setPeriod({ type: ReducerActionType.SET_BOTH, payload: latestSpendingPeriod })
 
     const { res: campaigns, error: campaignsError } = await getCampaigns(artistId)
     if (! isMounted()) {
@@ -67,7 +110,7 @@ const CampaignsLoader = () => {
       }).flat()
     }
 
-    const filteredAdSets = excludeAdSets(adSets, objective)
+    const filteredAdSets = excludeAdSets(adSets, objective, facebookAdSpendData)
 
     const { res: audiences, error: audiencesError } = await getAudiences(artistId)
     if (! isMounted()) {
