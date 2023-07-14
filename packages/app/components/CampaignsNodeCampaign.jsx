@@ -6,6 +6,7 @@ import CampaignsNodeConnector from '@/app/CampaignsNodeConnector'
 import HeartIcon from '@/icons/HeartIcon'
 import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
+import CampaignsNodeCampaignHeader from '@/app/CampaignsNodeCampaignHeader'
 
 const CampaignsNodeCampaign = ({
   index,
@@ -18,6 +19,7 @@ const CampaignsNodeCampaign = ({
 }) => {
   const { handlers } = group
   const { engagementRate, costPerEngagement, label } = node
+  const isTrafficCampaign = label.endsWith('Traffic')
   const nodeRef = React.useRef()
   const isDesktopLayout = useBreakpointTest('xs')
   const { targetingState: { platforms } } = React.useContext(TargetingContext)
@@ -33,8 +35,8 @@ const CampaignsNodeCampaign = ({
       id={isLast ? group.id : `${group.id}-${index}`}
       ref={nodeRef}
       className={[
-        'w-full xs:w-36 h-[74px] z-10 cursor-default',
-        'p-1 rounded-dialogue',
+        'w-full xs:w-36 z-10 cursor-default',
+        'p-3 rounded-dialogue',
         isDesktopLayout ? 'absolute' : 'relative mb-4',
         isActive ? 'bg-green-bg-light' : 'bg-white border-solid border-2 border-green',
       ].join(' ')}
@@ -52,27 +54,23 @@ const CampaignsNodeCampaign = ({
         </div>
       ))}
       <div className={[
-        'flex h-full items-center text-sm',
-        isActive ? 'flex-row xs:flex-col justify-around xs:justify-center' : 'flex-col justify-center xs:items-start',
+        'flex h-full text-sm gap-y-2',
+        isActive ? 'flex-row xs:flex-col' : 'flex-col',
       ].join(' ')}
       >
         {isActive && (
           <>
-            <div className="flex items-center mb-0.5 justify-center xs:justify-start">
-              {isActive && <HeartIcon className="h-3 w-auto mr-1 flex-shrink-0" />}
-              <p className="mb-1 font-bold">Engagements</p>
-            </div>
-            <div className="flex">
-              <div className="flex flex-col items-center mr-2 text-xs bg-green-bg-dark p-1 rounded-dialogue">
+            <CampaignsNodeCampaignHeader isActive={isActive} isTrafficCampaign={isTrafficCampaign} />
+            <div className="flex gap-x-2">
+              <div className="flex flex-col items-center xs:w-full text-xs bg-green-bg-dark p-1 rounded-dialogue">
                 <div className="-mb-0.5 text-green-dark text-xs -mb-1 font-bold">{engagementRate}%</div>
                 <div className="text-[8px]">eng. rate</div>
               </div>
-              <div className="flex flex-col items-center text-xs bg-green-bg-dark p-1 rounded-dialogue">
+              <div className="flex flex-col items-center xs:w-full text-xs bg-green-bg-dark p-1 rounded-dialogue">
                 <div className="-mb-0.5 text-green-dark text-xs -mb-1 font-bold">£{costPerEngagement}</div>
                 <div className="text-[8px]">per eng.</div>
               </div>
             </div>
-            <div className="absolute -bottom-5 text-[8px]">{label}</div>
           </>
         )}
       </div>
