@@ -113,13 +113,16 @@ const getPosition = (nodeIndex, group, nodeGroups) => {
 
   const getYPosition = () => {
     if (isAudience) {
+      // If it's the node group with the most nodes, stack nodes from top to bottom
       if (group.nodes.length === maxGroupNodesLength) {
         return startValueY + (nodeIndex * spacingY)
       }
 
+      // Else make sure the nodes are pushed down and stacked from top to bottom
       return startValueY + ((maxGroupNodesLength - (group.nodes.length - nodeIndex)) * spacingY)
     }
 
+    // If it's a campaign node group, position the node below the audience node groups row
     return startValueY + (maxGroupNodesLength * spacingY)
   }
 
