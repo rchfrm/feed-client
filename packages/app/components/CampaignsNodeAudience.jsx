@@ -14,13 +14,13 @@ import brandColors from '@/constants/brandColors'
 import MarkdownText from '@/elements/MarkdownText'
 
 const CampaignsNodeAudience = ({
-  index,
   group,
   node,
   onDragOver,
   onDrop,
   getPosition,
   isActive,
+  isLast,
 }) => {
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const { targetingState, initialTargetingState, saveTargetingSettings } = React.useContext(TargetingContext)
@@ -32,7 +32,6 @@ const CampaignsNodeAudience = ({
   const isCustomAudience = subType === 'custom'
   const isCreateAudience = subType === 'create'
   const isDesktopLayout = useBreakpointTest('xs')
-  const isLast = index === group.nodes.length - 1
   const platforms = isCreateAudience ? ['instagram', 'facebook'] : platform ? [platform] : []
 
   const icons = {
@@ -54,7 +53,7 @@ const CampaignsNodeAudience = ({
 
   return (
     <div
-      id={isLast ? group.id : `${group.id}-${index}`}
+      id={isLast ? group.id : null}
       ref={nodeRef}
       className={[
         'w-full xs:w-52 p-1.5 z-10',
@@ -138,6 +137,7 @@ CampaignsNodeAudience.propTypes = {
   onDrop: PropTypes.func.isRequired,
   getPosition: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
+  isLast: PropTypes.bool.isRequired,
 }
 
 export default CampaignsNodeAudience

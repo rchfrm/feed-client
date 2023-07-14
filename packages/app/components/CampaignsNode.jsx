@@ -4,7 +4,6 @@ import CampaignsNodeAudience from '@/app/CampaignsNodeAudience'
 import CampaignsNodeCampaign from '@/app/CampaignsNodeCampaign'
 
 const CampaignsNode = ({
-  index,
   group,
   node,
   nodeGroups,
@@ -12,6 +11,7 @@ const CampaignsNode = ({
   updateEdges,
   getPosition,
   isActive,
+  isLast,
 }) => {
   const { id: groupId, type } = group
 
@@ -44,13 +44,13 @@ const CampaignsNode = ({
 
   return (
     <Node
-      index={index}
       group={group}
       node={node}
       isActive={isActive}
       onDragOver={onDragOver}
       onDrop={onDrop}
       getPosition={getPosition}
+      isLast={isLast}
     />
   )
 }
@@ -64,6 +64,7 @@ CampaignsNode.propTypes = {
   updateEdges: PropTypes.func.isRequired,
   getPosition: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
+  isLast: PropTypes.bool.isRequired,
 }
 
 export default CampaignsNode

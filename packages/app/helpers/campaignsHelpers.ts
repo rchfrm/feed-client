@@ -450,23 +450,6 @@ const getTarget = (objective, platform): string => {
   return ''
 }
 
-const makeEdgesBetweenNodes = (nodeGroups) => {
-  return nodeGroups.map((nodeGroup) => nodeGroup.nodes.map((node, index) => {
-    const isLast = index === nodeGroup.nodes.length - 1
-    const isPenultimate = index === nodeGroup.nodes.length - 2
-    if (isLast || ! node.isActive) {
-      return
-    }
-
-    return {
-      type: 'node',
-      source: `${nodeGroup.id}-${index}`,
-      target: isPenultimate ? nodeGroup.id : `${nodeGroup.id}-${index + 1}`,
-      isActive: true,
-    }
-  })).flat().filter((edge) => edge)
-}
-
 export const getEdges = (nodeGroups, objective, platform) => {
   const {
     lookalikesOrInterest,
@@ -478,13 +461,8 @@ export const getEdges = (nodeGroups, objective, platform) => {
     remindTraffic,
   } = indexes
 
-  const edgesBetweenNodes = makeEdgesBetweenNodes(nodeGroups)
 
   const edges: Edge[] = [
-    // edges between nodes
-    ...edgesBetweenNodes,
-
-    // edges between node groups
     // lookalikes -> entice engage -> Fb/Ig engaged 1y
     {
       type: 'group',
