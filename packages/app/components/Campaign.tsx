@@ -18,6 +18,7 @@ const Campaign: React.FC<CampaignProps> = ({ id }) => {
     audiences: <div>Audiences</div>
   }
 
+  // TODO (Campaign detail page): Add period, daily budget and pause button to the bottom of the page
   return (
     <>
       <CampaignHeader />

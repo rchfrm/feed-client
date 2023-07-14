@@ -3,6 +3,8 @@ import ChartLine from '@/app/ChartLine'
 import brandColors from '@/constants/brandColors'
 
 const CampaignResultsChart: React.FC = () => {
+  // TODO (Campaign detail page): Add labels ('Engagement rate' and 'Cost per engagement') to the chart's left and right y-axis and add a legend
+
   const data = [
     {
       primaryData: {
