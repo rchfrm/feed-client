@@ -17,6 +17,7 @@ const CampaignsNodeGroup = ({
       {group.nodes.map((node, index) => (
         <CampaignsNode
           key={`${group.id}-${index}`}
+          index={index}
           group={group}
           node={node}
           nodeGroups={nodeGroups}

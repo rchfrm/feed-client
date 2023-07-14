@@ -51,14 +51,15 @@ const Campaigns = ({
             />
           ))}
           {edges.map((edge) => {
-            const sourceGroup = nodeGroups.find((group) => group?.id === edge.source)
-            const targetGroup = nodeGroups.find((group) => group?.id === edge.target)
-            const startAnchor = getPosition(sourceGroup?.handlers.find((handle) => handle.type === 'source'))
-            const endAnchor = getPosition(targetGroup?.handlers.find((handle) => handle.type === 'target'))
+            const sourceGroup = nodeGroups.find((group) => group?.id === edge.source.split('-')[0])
+            const targetGroup = nodeGroups.find((group) => group?.id === edge.target.split('-')[0])
 
             if (! sourceGroup || ! targetGroup) {
               return
             }
+
+            const startAnchor = getPosition(sourceGroup?.handlers.find((handle) => handle.type === 'source'))
+            const endAnchor = getPosition(targetGroup?.handlers.find((handle) => handle.type === 'target'))
 
             return (
               <Xarrow

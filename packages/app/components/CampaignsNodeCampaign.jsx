@@ -9,6 +9,7 @@ import InstagramIcon from '@/icons/InstagramIcon'
 import CampaignsNodeCampaignHeader from '@/app/CampaignsNodeCampaignHeader'
 
 const CampaignsNodeCampaign = ({
+  index,
   group,
   node,
   onDragOver,
@@ -31,7 +32,7 @@ const CampaignsNodeCampaign = ({
 
   return (
     <div
-      id={isLast ? group.id : null}
+      id={`${group.id}-${index}`}
       ref={nodeRef}
       className={[
         'w-full xs:w-36 z-10 cursor-default',
@@ -73,8 +74,7 @@ const CampaignsNodeCampaign = ({
           </>
         )}
       </div>
-      {isLast && (
-        handlers.map((handler) => (
+      {handlers.map((handler) => (
           <CampaignsNodeConnector
             key={handler.position}
             id={group.id}
@@ -84,7 +84,7 @@ const CampaignsNodeCampaign = ({
             className="pointer-events-none bg-green-bg-dark"
           />
         ))
-      )}
+      }
     </div>
   )
 }

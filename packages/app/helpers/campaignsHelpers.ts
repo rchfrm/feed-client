@@ -23,8 +23,8 @@ import { Dictionary } from '@/types/common'
 
 const indexes = {
   lookalikesOrInterest: '0',
-  enticeEngage: '1',
-  enticeTraffic: '1',
+  enticeEngage: '1-0',
+  enticeTraffic: '1-1',
   engaged1Y: '2',
   remindTraffic: '3',
   engaged28D: '4',
@@ -344,7 +344,7 @@ export const getNodeGroups = (
   audiences.forEach((audience) => {
     const { name, platform, approximate_count: approximateCount, retention_days: retentionDays } = audience
     const identifier = getAudienceGroupIdentifier(name)
-    const groupIndex = indexes[identifier]
+    const groupIndex = indexes[identifier]?.split('-')[0]
 
     const node = {
       type: OverviewNodeType.AUDIENCE,
@@ -370,7 +370,7 @@ export const getNodeGroups = (
   Object.values(lookalikesAudiencesKeyedByAudienceId).forEach((lookalikes) => {
     const { name, platform } = lookalikes[0]
     const identifier = getAudienceGroupIdentifier(name)
-    const groupIndex = indexes[identifier]
+    const groupIndex = indexes[identifier]?.split('-')[0]
 
     const { approximateCount, countries } = lookalikes.reduce((result, { approximate_count, countries_text }) => {
       return {
@@ -404,7 +404,7 @@ export const getNodeGroups = (
   }, {})
 
   Object.entries(adSetsKeyedByIdentifier).forEach(([identifier, adSets]) => {
-    const groupIndex = indexes[identifier]
+    const groupIndex = indexes[identifier]?.split('-')[0]
     const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets)
 
     const node: OverviewNode = {
@@ -468,6 +468,12 @@ export const getEdges = (nodeGroups, objective, platform) => {
       type: 'group',
       source: lookalikesOrInterest,
       target: enticeEngage,
+      isActive: true,
+    },
+    {
+      type: 'group',
+      source: lookalikesOrInterest,
+      target: enticeTraffic,
       isActive: true,
     },
     {

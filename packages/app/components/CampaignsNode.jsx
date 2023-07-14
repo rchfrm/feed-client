@@ -4,6 +4,7 @@ import CampaignsNodeAudience from '@/app/CampaignsNodeAudience'
 import CampaignsNodeCampaign from '@/app/CampaignsNodeCampaign'
 
 const CampaignsNode = ({
+  index,
   group,
   node,
   nodeGroups,
@@ -44,6 +45,7 @@ const CampaignsNode = ({
 
   return (
     <Node
+      index={index}
       group={group}
       node={node}
       isActive={isActive}
