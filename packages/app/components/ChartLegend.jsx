@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ResultsFollowerGrowthChartLegendItem from '@/app/ResultsFollowerGrowthChartLegendItem'
+import ChartLegendItem from '@/app/ChartLegendItem'
 
-const ResultsFollowerGrowthChartLegend = ({ items }) => {
+const ChartLegend = ({ items }) => {
   return (
     <ul className="flex w-full ml-3 pt-4 border-t border-solid border-grey-light">
       {items.map(({ label, description, color, shouldShow, hasGradient }) => {
@@ -11,7 +11,7 @@ const ResultsFollowerGrowthChartLegend = ({ items }) => {
         }
 
         return (
-          <ResultsFollowerGrowthChartLegendItem
+          <ChartLegendItem
             key={label}
             label={label}
             description={description}
@@ -24,8 +24,8 @@ const ResultsFollowerGrowthChartLegend = ({ items }) => {
   )
 }
 
-ResultsFollowerGrowthChartLegend.propTypes = {
+ChartLegend.propTypes = {
   items: PropTypes.array.isRequired,
 }
 
-export default ResultsFollowerGrowthChartLegend
+export default ChartLegend

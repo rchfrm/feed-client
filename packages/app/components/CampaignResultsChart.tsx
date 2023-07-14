@@ -1,9 +1,23 @@
 import React from 'react'
 import ChartLine from '@/app/ChartLine'
+import ChartLegend from '@/app/ChartLegend'
 import brandColors from '@/constants/brandColors'
 
 const CampaignResultsChart: React.FC = () => {
-  // TODO (Campaign detail page): Add labels ('Engagement rate' and 'Cost per engagement') to the chart's left and right y-axis and add a legend
+  // TODO (Campaign detail page): Add labels ('Engagement rate' and 'Cost per engagement') to the chart's left and right y-axis
+
+  const legendItems = [
+    {
+      description: 'Engagement rate',
+      color: brandColors.green,
+      shouldShow: true,
+    },
+    {
+      description: 'Cost per engagement',
+      color: brandColors.yellow,
+      shouldShow: true,
+    },
+  ]
 
   const data = [
     {
@@ -26,7 +40,7 @@ const CampaignResultsChart: React.FC = () => {
       secondaryData: null,
       projections: [],
       color: {
-        primary: brandColors.yellow,
+        primary: brandColors.green,
       },
       label: {
         primary: 'Engagement rate',
@@ -52,7 +66,7 @@ const CampaignResultsChart: React.FC = () => {
       secondaryData: null,
       projections: [],
       color: {
-        primary: brandColors.green,
+        primary: brandColors.yellow,
       },
       label: {
         primary: 'Cost per engagement',
@@ -67,6 +81,7 @@ const CampaignResultsChart: React.FC = () => {
         data={data}
         currency="GBP"
       />
+      <ChartLegend items={legendItems} />
     </>
   )
 }

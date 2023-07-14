@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ChartLine from '@/app/ChartLine'
-import ResultsFollowerGrowthChartLegend from '@/app/ResultsFollowerGrowthChartLegend'
+import ChartLegend from '@/app/ChartLegend'
 import Spinner from '@/elements/Spinner'
 import brandColors from '@/constants/brandColors'
 
@@ -67,9 +67,7 @@ const ResultsFollowerGrowthChart = ({
           currency={currency}
         />
       )}
-      <ResultsFollowerGrowthChartLegend
-        items={legendItems}
-      />
+      <ChartLegend items={legendItems} />
     </>
   )
 }
