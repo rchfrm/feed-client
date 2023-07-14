@@ -59,8 +59,8 @@ export interface AdSet {
   is_deleted: boolean
   is_enabled: boolean
   is_external: boolean
-  lifetime_metrics: Dictionary<AdSetInsightsLifetimeResponse | ITikTokMetrics>
-  metrics: Dictionary<AdSetInsightsDailyResponse | ITikTokMetrics>
+  lifetime_metrics: Dictionary<AdSetInsightsLifetimeResponse>
+  metrics: Dictionary<AdSetInsightsDailyResponse>
   name: string
   next_recovery_check_at: Nullable<Date>
   optimization_goal: string
@@ -84,14 +84,27 @@ export interface AdSetWithPlatform extends AdSet {
 export interface AdInsightsDailyResponse {
   date_start: string
   date_stop: string
-  actions?: Dictionary<string>
-  action_values?: Dictionary<string>
+  actions?: AdActions
+  action_values?: AdActions
   impressions?: string
+  clicks?: Dictionary<string>
   outbound_clicks?: Dictionary<string>
   spend?: string
   video_thruplay_watched_actions?: Dictionary<string>
   unique_outbound_clicks?: Dictionary<string>
   unique_inline_link_clicks?: string
+}
+
+export interface AdActions {
+  onsite_conversion: {
+    post_save: string
+  }
+  page_engagement: string
+  post_engagement: string
+  post_reaction: string
+  video_view: string
+  posts: string
+  comment: string
 }
 
 export type AdSetInsightsDailyResponse = AdInsightsDailyResponse

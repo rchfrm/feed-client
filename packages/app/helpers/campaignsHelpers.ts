@@ -153,8 +153,13 @@ export const excludeAdSets = (
       return false
     }
 
+    const [, adSetOptimization] = adSet.identifier.split('_')
+    if (objective === 'conversations' && adSetOptimization === 'traffic') {
+      return false
+    }
+
     // TODO: If no results in latest spending period
-    return true
+    { return true }
   })
 }
 
