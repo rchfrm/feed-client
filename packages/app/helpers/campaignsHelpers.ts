@@ -24,10 +24,10 @@ import { Dictionary } from '@/types/common'
 const indexes = {
   lookalikesOrInterest: '0',
   enticeEngage: '1',
+  enticeTraffic: '1',
   engaged1Y: '2',
   remindTraffic: '3',
   engaged28D: '4',
-  enticeTraffic: '5',
   igFollowers: '6',
   enticeLanding: '7',
   websiteVisitors: '8',
@@ -192,30 +192,41 @@ const getPosition = (
   nodeGroups: OverviewNodeGroup[],
 ): { x: number, y: number } => {
   const { type, id } = group
-  const isAudience = type === 'audience'
-  const startValueY = isAudience ? 10 : 30
-  const startValueX = isAudience ? startValueY : 80
-  const spacingX = 280
-  const spacingY = 80
+  const isAudience = type === OverviewNodeType.AUDIENCE
 
-  const groupNodesLengths = nodeGroups.filter((group) => group).map((group) => group.nodes.length)
-  const maxGroupNodesLength = Math.max(...groupNodesLengths)
+  const audienceGroupNodeLengths = nodeGroups.filter((group) => group.type === OverviewNodeType.AUDIENCE).map((group) => group.nodes.length)
+  const audienceMaxGroupNodesLength = Math.max(...audienceGroupNodeLengths)
+  const campaignGroupNodeLengths = nodeGroups.filter((group) => group.type === OverviewNodeType.AUDIENCE).map((group) => group.nodes.length)
+  const campaignMaxGroupNodesLength = Math.max(...campaignGroupNodeLengths)
+
+  const audienceNodeHeight = 60
+  const campaignNodeHeight = 85
+  const nodeHeight = isAudience ? audienceNodeHeight : campaignNodeHeight
+  const audienceNodeWidth = 208
+  const gapX = audienceNodeWidth / 2
+  const gapY = 20
+  const spacingX = gapX + audienceNodeWidth
+  const spacingY = gapY + nodeHeight
+  const startValueY = isAudience
+    ? 10
+    : 10 + (spacingY * audienceMaxGroupNodesLength)
+  const startValueX = isAudience ? startValueY : (audienceNodeWidth / 2) + gapY
+
   const nodeGroupsByType = nodeGroups.filter((group) => group?.type === type)
   const groupIndex = nodeGroupsByType.findIndex((group) => group.id === id)
 
   const getYPosition = (): number => {
     if (isAudience) {
       // If it's the node group with the most nodes, stack nodes from top to bottom
-      if (group.nodes.length === maxGroupNodesLength) {
+      if (group.nodes.length === audienceMaxGroupNodesLength) {
         return startValueY + (nodeIndex * spacingY)
       }
 
       // Else make sure the nodes are pushed down and stacked from top to bottom
-      return startValueY + ((maxGroupNodesLength - (group.nodes.length - nodeIndex)) * spacingY)
+      return startValueY + ((audienceMaxGroupNodesLength - (group.nodes.length - nodeIndex)) * spacingY)
     }
 
-    // If it's a campaign node group, position the node below the audience node groups row
-    return startValueY + (maxGroupNodesLength * spacingY)
+    return startValueY + (nodeIndex * spacingY)
   }
 
   return {
@@ -462,6 +473,7 @@ export const getEdges = (nodeGroups, objective, platform) => {
     engaged1Y,
     engaged28D,
     enticeEngage,
+    enticeTraffic,
     remindEngage,
     remindTraffic,
   } = indexes

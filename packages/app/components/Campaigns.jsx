@@ -34,7 +34,7 @@ const Campaigns = ({
       className={[
         isDesktopLayout ? 'relative overflow-hidden overflow-x-scroll' : 'flex flex-col items-center',
       ].join(' ')}
-      style={{ height: `${(maxGroupNodesLength * 80) + 125}px` }}
+      style={{ height: `${(maxGroupNodesLength * 80 * 2) + 125}px` }}
     >
       {isLoading ? (
         <Spinner width={40} className="mt-20" />
