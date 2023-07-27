@@ -143,10 +143,6 @@ export const getSortedArtistAccountsArray = (artistAccounts: ArtistAccount[]): A
   })
 }
 
-/**
- * @param {string | undefined} businessId
- * @returns {Promise<any>}
- */
 export const getArtistOnSignUp = async (
   businessId?: string,
   query?: string,
