@@ -77,7 +77,7 @@ const GetStartedConnectFacebook = () => {
     const userArtists = user?.artists || []
     const artistsFiltered = ! user.artists.length ? artistAccounts : artistHelpers.removeAlreadyConnectedArtists(artistAccounts, userArtists)
 
-    const processedArtists = artistHelpers.processArtists({ artists: artistsFiltered })
+    const processedArtists = artistHelpers.processArtists(artistsFiltered)
 
     // Handle connecting a single artist
     if (processedArtists.length === 1 && isPlatformRedirect && ! artistId) {
