@@ -23,12 +23,14 @@ import { Dictionary } from '@/types/common'
 
 const indexes = {
   lookalikesOrInterest: '0',
+  interests: '0-0',
+  lookalikes: '0-1',
   enticeEngage: '1-0',
   enticeTraffic: '1-1',
-  engaged1Y: '2',
-  remindTraffic: '3',
+  engaged1Y: '2-0',
+  remindTraffic: '3-0',
   engaged28D: '4',
-  igFollowers: '6',
+  igFollowers: '6-0',
   enticeLanding: '7',
   websiteVisitors: '8',
   remindEngage: '9',
@@ -422,6 +424,21 @@ export const getNodeGroups = (
     nodeGroups[0].nodes.unshift(makeCreateAudienceNode())
   }
 
+  // Sort campaign nodes so that "lower value interactions" appear first
+  nodeGroups.forEach((nodeGroup) => {
+    if (nodeGroup.type === OverviewNodeType.AUDIENCE || nodeGroup.nodes.length < 2) return
+
+    nodeGroup.nodes.sort((a, b) => {
+      if (a.label.includes('Engage') && b.label.includes('Traffic')) {
+        return -1
+      }
+      if (a.label.includes('Traffic') && b.label.includes('Engage')) {
+        return 1
+      }
+      return 0
+    })
+  })
+
   // Add x and y position to each node
   return nodeGroups.map((group) => ({
     ...group,
@@ -452,13 +469,15 @@ const getTarget = (objective, platform): string => {
 
 export const getEdges = (nodeGroups, objective, platform) => {
   const {
-    lookalikesOrInterest,
+    lookalikes,
+    interests,
     engaged1Y,
     engaged28D,
     enticeEngage,
     enticeTraffic,
     remindEngage,
     remindTraffic,
+    igFollowers,
   } = indexes
 
 
@@ -466,13 +485,13 @@ export const getEdges = (nodeGroups, objective, platform) => {
     // lookalikes -> entice engage -> Fb/Ig engaged 1y
     {
       type: 'group',
-      source: lookalikesOrInterest,
+      source: lookalikes,
       target: enticeEngage,
       isActive: true,
     },
     {
       type: 'group',
-      source: lookalikesOrInterest,
+      source: lookalikes,
       target: enticeTraffic,
       isActive: true,
     },
@@ -485,37 +504,21 @@ export const getEdges = (nodeGroups, objective, platform) => {
     {
       type: 'group',
       source: engaged1Y,
-      target: remindEngage,
+      target: remindTraffic,
       isActive: true,
     },
     {
       type: 'group',
-      source: remindEngage,
-      target: engaged28D,
+      source: remindTraffic,
+      target: igFollowers,
       isActive: true,
     },
-    // lookalikes -> entice traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
-    // {
-    //   source: lookalikesOrInterest,
-    //   target: enticeTraffic,
-    //   isActive: true,
-    // },
-    // {
-    //   source: enticeTraffic,
-    //   target: getTarget(objective, platform),
-    //   isActive: true,
-    // },
-    // Fb/Ig engaged 1y -> remind traffic -> Ig followers || Ig engaged 28d || Website visitors 180d
-    // {
-    //   source: engaged1Y,
-    //   target: remindTraffic,
-    //   isActive: true,
-    // },
-    // {
-    //   source: remindTraffic,
-    //   target: getTarget(objective, platform),
-    //   isActive: true,
-    // },
+    {
+      type: 'group',
+      source: enticeTraffic,
+      target: igFollowers,
+      isActive: true,
+    },
   ]
 
   return edges

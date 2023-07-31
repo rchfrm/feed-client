@@ -14,6 +14,7 @@ import brandColors from '@/constants/brandColors'
 import MarkdownText from '@/elements/MarkdownText'
 
 const CampaignsNodeAudience = ({
+  index,
   group,
   node,
   onDragOver,
@@ -53,7 +54,7 @@ const CampaignsNodeAudience = ({
 
   return (
     <div
-      id={isLast ? group.id : null}
+      id={`${group.id}-${index}`}
       ref={nodeRef}
       className={[
         'w-full xs:w-52 p-1.5 z-10',
@@ -102,21 +103,19 @@ const CampaignsNodeAudience = ({
         </div>
         <MarkdownText markdown={label} className="text-xs mb-0" />
       </div>
-      {isLast && (
-        handlers.map((handler) => (
-          <CampaignsNodeConnector
-            key={handler.position}
-            id={group.id}
-            handler={handler}
-            nodeRef={nodeRef}
-            getPosition={getPosition}
-            className={[
-              isCreateAudience ? null : 'pointer-events-none',
-              isCustomAudience ? 'bg-gradient-2-dark' : 'bg-gradient-1-dark',
-            ].join(' ')}
-          />
-        ))
-      )}
+      {handlers.map((handler) => (
+        <CampaignsNodeConnector
+          key={handler.position}
+          id={group.id}
+          handler={handler}
+          nodeRef={nodeRef}
+          getPosition={getPosition}
+          className={[
+            isCreateAudience ? null : 'pointer-events-none',
+            isCustomAudience ? 'bg-gradient-2-dark' : 'bg-gradient-1-dark',
+          ].join(' ')}
+        />
+      ))}
       {shouldShowAlert && (
         <CampaignsInterestsAlert
           shouldShowAlert={shouldShowAlert}

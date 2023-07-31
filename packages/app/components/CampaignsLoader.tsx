@@ -18,7 +18,7 @@ import {
 import { AdSetWithPlatform, Campaign, DataSourceResponse, LookalikeWithPlatform, Platform } from '@/app/types/api'
 import { getSpendingPeriodIndexes } from '@/app/helpers/resultsHelpers'
 import { getDataSourceValue } from '@/app/helpers/appServer'
-import { Dictionary, ReducerAction } from '@/types/common'
+import { Dictionary } from '@/types/common'
 import { Edge, OverviewNodeGroup, OverviewPeriod } from '@/app/types/overview'
 
 enum ReducerActionType {

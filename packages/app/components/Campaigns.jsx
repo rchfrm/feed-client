@@ -63,13 +63,13 @@ const Campaigns = ({
 
             return (
               <Xarrow
-                key={edge.source}
+                key={`${edge.source} to ${edge.target}`}
                 start={edge.source}
                 end={edge.target}
                 startAnchor={startAnchor}
                 endAnchor={endAnchor}
                 path="grid"
-                gridBreak="25%"
+                gridBreak="100%-20"
                 strokeWidth={2}
                 lineColor={edge.isActive ? brandColors.gradient[2].dark : brandColors.gradient[2].light}
                 showHead={false}
