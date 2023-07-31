@@ -77,7 +77,13 @@ const CampaignsLoader = () => {
     const dataSources: Dictionary<DataSourceResponse> = await getDataSourceValue([facebookAdSpendName], artistId)
     const facebookAdSpendData = dataSources[facebookAdSpendName]
     const facebookAdSpendDailyData = facebookAdSpendData.daily_data
-    const [start, end] = getSpendingPeriodIndexes(facebookAdSpendDailyData, 1)[0]
+    const spendingPeriodIndexes = getSpendingPeriodIndexes(facebookAdSpendDailyData, 1)
+    if (! spendingPeriodIndexes || spendingPeriodIndexes.length === 0) {
+      setIsLoading(false)
+      return
+    }
+
+    const [start, end] = spendingPeriodIndexes[0]
     const latestSpendingPeriod = {
       start: new Date(Object.keys(facebookAdSpendDailyData)[start]),
       end: new Date(Object.keys(facebookAdSpendDailyData)[end]),
