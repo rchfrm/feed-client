@@ -44,7 +44,7 @@ export enum OverviewNodeGroupHandleType {
   SOURCE = 'source',
 }
 
-interface OverviewNodeGroupHandler {
+export interface OverviewNodeGroupHandler {
   type: OverviewNodeGroupHandleType
   position: 'top' | 'right' | 'bottom' | 'left'
 }

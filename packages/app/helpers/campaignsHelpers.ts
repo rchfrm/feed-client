@@ -14,7 +14,7 @@ import {
 import {
   Edge,
   OverviewNode,
-  OverviewNodeGroup,
+  OverviewNodeGroup, OverviewNodeGroupHandler,
   OverviewNodeGroupHandleType,
   OverviewNodeSubType,
   OverviewNodeType,
@@ -240,22 +240,27 @@ const getPosition = (
 const makeNodeGroup = (groupIndex: string, node: OverviewNode): OverviewNodeGroup => {
   const isAudience = node.type === OverviewNodeType.AUDIENCE
 
+  const handlers: OverviewNodeGroupHandler[] = [
+    {
+      type: OverviewNodeGroupHandleType.SOURCE,
+      position: isAudience ? 'bottom' : 'right',
+    },
+  ]
+
+  if (groupIndex !== '0') {
+    handlers.push({
+      type: OverviewNodeGroupHandleType.TARGET,
+      position: 'left',
+    })
+  }
+
   return {
     id: groupIndex,
     type: node.type,
     subType: node.subType,
     isActive: true,
     nodes: [node],
-    handlers: [
-      {
-        type: OverviewNodeGroupHandleType.TARGET,
-        position: 'left',
-      },
-      {
-        type: OverviewNodeGroupHandleType.SOURCE,
-        position: isAudience ? 'bottom' : 'right',
-      },
-    ],
+    handlers,
   }
 }
 
