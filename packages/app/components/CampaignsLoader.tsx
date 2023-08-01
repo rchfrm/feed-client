@@ -163,7 +163,8 @@ const CampaignsLoader = () => {
 
     const targetingInterests: TargetingInterest[] = interests.filter(({ isActive }) => isActive)
     const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, targetingInterests, period)
-    const edges = getEdges(nodeGroups, objective, platform)
+    const hasActiveBudget = targetingState.status === 1
+    const edges = getEdges(nodeGroups, objective, platform, hasActiveBudget)
 
     setNodeGroups(nodeGroups)
     setEdges(edges)

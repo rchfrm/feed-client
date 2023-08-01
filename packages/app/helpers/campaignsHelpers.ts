@@ -17,7 +17,7 @@ import {
   NodeIndexes,
   OverviewNode,
   OverviewNodeAudience,
-  OverviewNodeBase,
+  OverviewNodeBase, OverviewNodeCampaign,
   OverviewNodeEngageAdSet,
   OverviewNodeGroup,
   OverviewNodeGroupHandler,
@@ -290,6 +290,8 @@ const sumMetrics = (adSets: AdSet[], period: OverviewPeriod) => {
     comments: 0,
   }
 
+  let lastAdSpendDate: Date
+
   adSets.forEach(({ metrics }) => {
     if (! metrics) {
       return
@@ -297,10 +299,15 @@ const sumMetrics = (adSets: AdSet[], period: OverviewPeriod) => {
 
     Object.keys(metrics).forEach((dateString) => {
       const date = new Date(dateString)
+      const values = metrics[dateString]
+      const spend = Number(values.spend || 0)
+      if ((! lastAdSpendDate || date > lastAdSpendDate) && spend) {
+        lastAdSpendDate = date
+      }
+
       if (date < period.start || date > period.end) return
 
-      const values = metrics[dateString]
-      totals.spend += Number(values.spend || 0)
+      totals.spend += spend
       totals.impressions += Number(values.impressions || 0)
       totals.clicks += Number(values.clicks || 0)
       totals.likes += Number(values.actions?.post_reaction || 0)
@@ -310,18 +317,21 @@ const sumMetrics = (adSets: AdSet[], period: OverviewPeriod) => {
     })
   })
 
-  return totals
+  return { totals, lastAdSpendDate }
 }
 
-const getEngagementRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick<OverviewNodeEngageAdSet, 'engagementRate' | 'costPerEngagement'> => {
+const getEngagementRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick<OverviewNodeEngageAdSet, 'engagementRate' | 'costPerEngagement' | 'lastAdSpendDate'> => {
   const {
-    spend,
-    impressions,
-    clicks,
-    likes,
-    saves,
-    shares,
-    comments,
+    totals: {
+      spend,
+      impressions,
+      clicks,
+      likes,
+      saves,
+      shares,
+      comments,
+    },
+    lastAdSpendDate,
   } = sumMetrics(adSets, period) || {}
 
   const totalEngagements = clicks + likes + shares + comments + saves
@@ -331,20 +341,25 @@ const getEngagementRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick
   return {
     engagementRate,
     costPerEngagement,
+    lastAdSpendDate,
   }
 }
 
-const getClickRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick<OverviewNodeTrafficAdSet, 'cpc' | 'ctr'> => {
+const getClickRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick<OverviewNodeTrafficAdSet, 'cpc' | 'ctr' | 'lastAdSpendDate'> => {
   const {
-    clicks,
-    spend,
-    impressions,
+    totals: {
+      clicks,
+      spend,
+      impressions,
+    },
+    lastAdSpendDate,
   } = sumMetrics(adSets, period) || {}
   const ctr = Number(((clicks / impressions) * 100).toFixed(2))
   const cpc = Number((spend / clicks).toFixed(3))
   return {
     ctr,
     cpc,
+    lastAdSpendDate,
   }
 }
 
@@ -459,19 +474,20 @@ export const getNodeGroups = (
     let node: OverviewNode
     const isEngagementCampaign = identifier.endsWith('ENGAGE')
     if (isEngagementCampaign) {
-      const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets, period)
+      const { engagementRate, costPerEngagement, lastAdSpendDate } = getEngagementRateAndCost(adSets, period)
       node = Object.assign(nodeBase, {
         engagementRate,
         costPerEngagement,
+        lastAdSpendDate,
       })
     } else {
-      const { cpc, ctr } = getClickRateAndCost(adSets, period)
+      const { cpc, ctr, lastAdSpendDate } = getClickRateAndCost(adSets, period)
       node = Object.assign(nodeBase, {
         ctr,
         cpc,
+        lastAdSpendDate,
       })
     }
-
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
@@ -518,7 +534,23 @@ const getTrafficTarget = (objective, platform): string => {
   return NODE_INDEXES.WEBSITE_VISITORS
 }
 
-export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, platform: Platform) => {
+const yesterday = new Date()
+yesterday.setDate(yesterday.getDate() - 1)
+yesterday.setHours(0, 0, 0, 0)
+
+const isCampaignActive = (nodeGroups: OverviewNodeGroup[], campaignIndex: NodeIndexes): boolean => {
+  const groupIndex = Number(campaignIndex.split('-')[0])
+  const node = nodeGroups[groupIndex].nodes.find((node) => node.index === campaignIndex) as OverviewNodeCampaign
+  console.log('yesterday', yesterday)
+  return node.lastAdSpendDate > yesterday
+}
+
+export const getEdges = (
+  nodeGroups: OverviewNodeGroup[],
+  objective: string,
+  platform: Platform,
+  hasActiveBudget: boolean,
+) => {
   const {
     LOOKALIKES,
     INTERESTS,
@@ -537,13 +569,13 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
       type: 'group',
       source: LOOKALIKES,
       target: ENTICE_ENGAGE,
-      isActive: true,
+      isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_ENGAGE),
     },
     {
       type: 'group',
       source: ENTICE_ENGAGE,
       target: ENGAGED_1Y,
-      isActive: true,
+      isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_ENGAGE),
     },
   ]
 
@@ -553,13 +585,13 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
         type: 'group',
         source: INTERESTS,
         target: INTERESTS_ENGAGE,
-        isActive: true,
+        isActive: hasActiveBudget && isCampaignActive(nodeGroups, INTERESTS_ENGAGE),
       },
       {
         type: 'group',
         source: INTERESTS_ENGAGE,
         target: ENGAGED_1Y,
-        isActive: true,
+        isActive: hasActiveBudget && isCampaignActive(nodeGroups, INTERESTS_ENGAGE),
       },
     ]
     edges.push(...interestsEngageEdges)
@@ -571,13 +603,13 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
         type: 'group',
         source: ENGAGED_1Y,
         target: REMIND_ENGAGE,
-        isActive: true,
+        isActive: hasActiveBudget && isCampaignActive(nodeGroups, REMIND_ENGAGE),
       },
       {
         type: 'group',
         source: REMIND_ENGAGE,
         target: ENGAGED_28D,
-        isActive: true,
+        isActive: hasActiveBudget && isCampaignActive(nodeGroups, REMIND_ENGAGE),
       },
     ]
     edges.push(...remindEngageEdges)
@@ -589,13 +621,13 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
         type: 'group',
         source: LOOKALIKES,
         target: ENTICE_TRAFFIC,
-        isActive: true,
+        isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
       },
       {
         type: 'group',
         source: ENGAGED_1Y,
         target: REMIND_TRAFFIC,
-        isActive: true,
+        isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
       },
     ]
     edges.push(...trafficCampaigns)
@@ -606,13 +638,13 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
           type: 'group',
           source: ENTICE_TRAFFIC,
           target: getTrafficTarget(objective, platform),
-          isActive: true,
+          isActive: isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
         },
         {
           type: 'group',
           source: REMIND_TRAFFIC,
           target: getTrafficTarget(objective, platform),
-          isActive: true,
+          isActive: isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
         },
       ]
       edges.push(...trafficTargets)

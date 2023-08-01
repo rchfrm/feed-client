@@ -48,12 +48,16 @@ export interface OverviewNodeAudience extends OverviewNodeBase {
   platforms: Platform[]
 }
 
-export interface OverviewNodeEngageAdSet extends OverviewNodeBase {
+export interface OverviewNodeCampaign extends OverviewNodeBase {
+  lastAdSpendDate: Date
+}
+
+export interface OverviewNodeEngageAdSet extends OverviewNodeCampaign {
   engagementRate: number
   costPerEngagement: number
 }
 
-export interface OverviewNodeTrafficAdSet extends OverviewNodeBase {
+export interface OverviewNodeTrafficAdSet extends OverviewNodeCampaign {
   ctr: number
   cpc: number
 }
