@@ -6,12 +6,12 @@ import {
   createBudgetSummaryString,
   getLastUpdatedAtDate,
 } from '@/app/helpers/campaignsHelpers'
-import { formatDate, getCurrencySymbol } from '@/helpers/utils'
+import { formatDate } from '@/helpers/utils'
 import MarkdownText from '@/elements/MarkdownText'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { hasActiveCampaignBudget, getRemainingBudget, getRemainingDays } from '@/app/helpers/targetingHelpers'
 import { Dictionary } from 'ts-essentials'
-import ArtistContext from '@/app/contexts/ArtistContext'
+import { ArtistContext } from '@/app/contexts/ArtistContext'
 
 
 interface CampaignsHeaderProps {

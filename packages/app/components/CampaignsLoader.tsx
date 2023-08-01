@@ -178,8 +178,6 @@ const CampaignsLoader = () => {
     setIsLoading(false)
   }, [artistId, targetingState])
 
-  // TODO : Fix positioning if multiple audiences
-  // TODO : Fix wording of interests audience if there are only 2 audiences
   // TODO : Add something on mobile version to use desktop for now
 
   return (

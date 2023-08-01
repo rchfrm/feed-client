@@ -382,13 +382,14 @@ const makeCreateAudienceNode = (): OverviewNodeAudience => {
 const makeInterestAudienceNode = (interests: TargetingInterest[]): OverviewNodeAudience => {
   const interestsCount = interests.length - 2
   const interestsSortedByLength = interests.slice().sort((a, b) => a.name.length - b.name.length)
-  const first3Interests = interestsSortedByLength.slice(0, 2).map((interest) => interest.name)
+  const first2Interests = interestsSortedByLength.slice(0, 2).map((interest) => interest.name)
+  const label = `People interested in ${interestsCount > 0 ? first2Interests.join(', ') : `**${first2Interests.join(' and ')}**`} ${interestsCount > 0 ? `and **${interestsCount}** more` : ''}`
   return {
     type: OverviewNodeType.AUDIENCE,
     subType: OverviewNodeSubType.INTERESTS,
     index: NODE_INDEXES.INTERESTS,
     platforms: [Platform.FACEBOOK, Platform.INSTAGRAM],
-    label: `People interested in ${first3Interests.join(', ')} and **${interestsCount}** more`,
+    label,
     isActive: interests.length > 0,
   }
 }
@@ -708,7 +709,7 @@ export const createBudgetSummaryString = (
 ): string => {
   const currencySymbol = getCurrencySymbol(currency)
   if (isCampaignBudget) {
-    return `**${daysRemaining} days** and **${currencySymbol}${budget}** left in the campaign`
+    return `**${daysRemaining} days** and **${currencySymbol}${budget}** remaining`
   }
   return ` a total budget of **${currencySymbol}${budget} a day**`
 }
