@@ -185,51 +185,78 @@ export const excludeAdSets = (
   })
 }
 
-const getPosition = (
-  nodeIndex: number,
-  group: OverviewNodeGroup,
-  nodeGroups: OverviewNodeGroup[],
-): { x: number, y: number } => {
-  const { type, id } = group
-  const isAudience = type === OverviewNodeType.AUDIENCE
+const nodeGroupsKeyedByType = (nodeGroups: OverviewNodeGroup[]): {
+  maxNodesInGroup: number,
+  keyedNodeGroups: Record<OverviewNodeType, OverviewNodeGroup[]>,
+} => {
+  let maxNodesInGroup = nodeGroups[0].nodes.length
+  const keyedNodeGroups = nodeGroups.reduce((acc: Record<OverviewNodeType, OverviewNodeGroup[]>, cur: OverviewNodeGroup): Record<OverviewNodeType, OverviewNodeGroup[]> => {
+    const groupType = cur.type
+    const nodeCount = cur.nodes.length
 
-  const audienceGroupNodeLengths = nodeGroups.filter((group) => group.type === OverviewNodeType.AUDIENCE).map((group) => group.nodes.length)
-  const audienceMaxGroupNodesLength = Math.max(...audienceGroupNodeLengths)
+    if (nodeCount > maxNodesInGroup) {
+      maxNodesInGroup = nodeCount
+    }
+
+    acc[groupType].push(cur)
+
+    return acc
+  }, { [OverviewNodeType.AUDIENCE]: [], [OverviewNodeType.CAMPAIGN]: [] })
+  return {
+    maxNodesInGroup,
+    keyedNodeGroups,
+  }
+}
+
+const getNodePositions = (
+  nodeGroups: OverviewNodeGroup[],
+): OverviewNodeGroup[] => {
+  const { maxNodesInGroup, keyedNodeGroups } = nodeGroupsKeyedByType(nodeGroups)
 
   const audienceNodeHeight = 60
   const campaignNodeHeight = 85
-  const nodeHeight = isAudience ? audienceNodeHeight : campaignNodeHeight
   const audienceNodeWidth = 208
   const gapX = audienceNodeWidth / 2
   const gapY = 20
   const spacingX = gapX + audienceNodeWidth
-  const spacingY = gapY + nodeHeight
-  const startValueY = isAudience
-    ? 10
-    : 10 + (spacingY * audienceMaxGroupNodesLength)
-  const startValueX = isAudience ? startValueY : 10 + (audienceNodeWidth / 2) + gapY
+  const spacingY = gapY + campaignNodeHeight
 
-  const nodeGroupsByType = nodeGroups.filter((group) => group?.type === type)
-  const groupIndex = nodeGroupsByType.findIndex((group) => group.id === id)
+  const hasActiveInterestTargeting = hasInterestsNode(nodeGroups)
 
-  const getYPosition = (): number => {
-    if (isAudience) {
-      // If it's the node group with the most nodes, stack nodes from top to bottom
-      if (group.nodes.length === audienceMaxGroupNodesLength) {
-        return startValueY + (nodeIndex * spacingY)
-      }
+  const getPosition = (nodeIndex: number, group: OverviewNodeGroup): { x: number, y: number } => {
+    const node = group.nodes[nodeIndex]
+    const { type, id } = group
+    const isAudience = type === OverviewNodeType.AUDIENCE
 
-      // Else make sure the nodes are pushed down and stacked from top to bottom
-      return startValueY + ((audienceMaxGroupNodesLength - (group.nodes.length - nodeIndex)) * spacingY)
+    const isInterestsNode = node.subType === OverviewNodeSubType.INTERESTS || node.label.startsWith('interests') || node.subType === OverviewNodeSubType.CREATE
+    const interestsRowHeight = ! isInterestsNode
+      ? hasActiveInterestTargeting
+        ? audienceNodeHeight + campaignNodeHeight + (3 * gapY)
+        : audienceNodeHeight + (2 * gapY)
+      : 0
+
+    const startValueY = isAudience
+      ? 10 + interestsRowHeight
+      : 10 + interestsRowHeight + audienceNodeHeight + gapY
+    const startValueX = isAudience ? 10 : 10 + (audienceNodeWidth / 2) + gapY
+
+    const nodeGroupsOfSameType = keyedNodeGroups[type]
+    const groupIndex = nodeGroupsOfSameType.findIndex((group) => group.id === id)
+    const groupContainsInterest = group.nodes.find(({ subType }) => subType === OverviewNodeSubType.CREATE || subType === OverviewNodeSubType.INTERESTS)
+
+    return {
+      x: startValueX + (spacingX * groupIndex),
+      y: startValueY + (spacingY * (groupContainsInterest && ! isInterestsNode ? nodeIndex - 1 : nodeIndex)),
     }
-
-    return startValueY + (nodeIndex * spacingY)
   }
 
-  return {
-    x: startValueX + (spacingX * groupIndex),
-    y: getYPosition(),
-  }
+  return nodeGroups.map((group) => ({
+    ...group,
+    nodes: group.nodes.map((node, index) => ({
+      ...node,
+      position: getPosition(index, group),
+    })),
+  }))
 }
 
 const makeNodeGroup = (groupIndex: string, node: OverviewNodeBase): OverviewNodeGroup => {
@@ -489,13 +516,7 @@ export const getNodeGroups = (
   })
 
   // Add x and y position to each node
-  return nodeGroups.map((group) => ({
-    ...group,
-    nodes: group.nodes.map((node, index) => ({
-      ...node,
-      position: getPosition(index, group, nodeGroups),
-    })),
-  }))
+  return getNodePositions(nodeGroups)
 }
 
 const getTrafficTarget = (objective, platform): string => {
@@ -506,9 +527,13 @@ const getTrafficTarget = (objective, platform): string => {
   return indexes.websiteVisitors
 }
 
+const hasInterestsNode = (nodeGroups: OverviewNodeGroup[]): boolean => {
+  const enticeNodeGroup: OverviewNodeGroup = nodeGroups[indexes.lookalikesOrInterest]
+  return Boolean(enticeNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
+}
+
 export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, platform: Platform) => {
   const {
-    lookalikesOrInterest,
     lookalikes,
     interests,
     engaged1Y,
@@ -536,9 +561,7 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
     },
   ]
 
-  const enticeNodeGroup: OverviewNodeGroup = nodeGroups[lookalikesOrInterest]
-  const hasInterestsNode = Boolean(enticeNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
-  if (hasInterestsNode) {
+  if (hasInterestsNode(nodeGroups)) {
     const interestsEngageEdges: Edge[] = [
       {
         type: 'group',
