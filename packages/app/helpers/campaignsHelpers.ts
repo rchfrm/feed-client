@@ -178,6 +178,11 @@ const nodeGroupsKeyedByType = (nodeGroups: OverviewNodeGroup[]): Record<Overview
   }, { [OverviewNodeType.AUDIENCE]: [], [OverviewNodeType.CAMPAIGN]: [] })
 }
 
+const hasInterestsNode = (nodeGroups: OverviewNodeGroup[]): boolean => {
+  const enticeNodeGroup: OverviewNodeGroup = nodeGroups[NODE_INDEXES.lookalikesOrInterest]
+  return Boolean(enticeNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
+}
+
 const getNodePositions = (
   nodeGroups: OverviewNodeGroup[],
 ): OverviewNodeGroup[] => {
@@ -507,11 +512,6 @@ const getTrafficTarget = (objective, platform): string => {
   }
 
   return NODE_INDEXES.websiteVisitors
-}
-
-const hasInterestsNode = (nodeGroups: OverviewNodeGroup[]): boolean => {
-  const enticeNodeGroup: OverviewNodeGroup = nodeGroups[NODE_INDEXES.lookalikesOrInterest]
-  return Boolean(enticeNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
 }
 
 export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, platform: Platform) => {
