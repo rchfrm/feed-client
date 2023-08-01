@@ -8,6 +8,7 @@ export enum OverviewNodeType {
 export enum OverviewNodeSubType {
   CUSTOM = 'custom',
   LOOKALIKE = 'lookalike',
+  INTERESTS = 'interests',
   CREATE = 'create',
 }
 

@@ -14,7 +14,8 @@ import {
 } from '@/app/types/api'
 import {
   Edge,
-  OverviewNode, OverviewNodeAudience,
+  OverviewNode,
+  OverviewNodeAudience,
   OverviewNodeBase,
   OverviewNodeEngageAdSet,
   OverviewNodeGroup,
@@ -352,7 +353,7 @@ const makeInterestAudienceNode = (interests: TargetingInterest[]): OverviewNodeA
   const first3Interests = interestsSortedByLength.slice(0, 2).map((interest) => interest.name)
   return {
     type: OverviewNodeType.AUDIENCE,
-    subType: OverviewNodeSubType.LOOKALIKE,
+    subType: OverviewNodeSubType.INTERESTS,
     platforms: [Platform.FACEBOOK, Platform.INSTAGRAM],
     label: `People interested in ${first3Interests.join(', ')} and **${interestsCount}** more`,
     isActive: interests.length > 0,
@@ -477,6 +478,12 @@ export const getNodeGroups = (
       if (a.label.includes('Traffic') && b.label.includes('Engage')) {
         return 1
       }
+      if (a.label.startsWith('interests') && b.label.startsWith('entice')) {
+        return -1
+      }
+      if (a.label.startsWith('entice') && b.label.startsWith('interests')) {
+        return 1
+      }
       return 0
     })
   })
@@ -499,11 +506,14 @@ const getTrafficTarget = (objective, platform): string => {
   return indexes.websiteVisitors
 }
 
-export const getEdges = (nodeGroups, objective, platform) => {
+export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, platform: Platform) => {
   const {
+    lookalikesOrInterest,
     lookalikes,
+    interests,
     engaged1Y,
     engaged28D,
+    interestsEngage,
     enticeEngage,
     enticeTraffic,
     remindEngage,
@@ -525,6 +535,26 @@ export const getEdges = (nodeGroups, objective, platform) => {
       isActive: true,
     },
   ]
+
+  const enticeNodeGroup: OverviewNodeGroup = nodeGroups[lookalikesOrInterest]
+  const hasInterestsNode = Boolean(enticeNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
+  if (hasInterestsNode) {
+    const interestsEngageEdges: Edge[] = [
+      {
+        type: 'group',
+        source: interests,
+        target: interestsEngage,
+        isActive: true,
+      },
+      {
+        type: 'group',
+        source: interestsEngage,
+        target: engaged1Y,
+        isActive: true,
+      },
+    ]
+    edges.push(...interestsEngageEdges)
+  }
 
   if (objective === 'conversations' && platform === Platform.INSTAGRAM) {
     const remindEngageEdges: Edge[] = [
