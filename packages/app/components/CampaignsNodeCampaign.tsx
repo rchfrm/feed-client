@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import { TargetingContext } from '@/app/contexts/TargetingContext'
 import CampaignsNodeConnector from '@/app/CampaignsNodeConnector'

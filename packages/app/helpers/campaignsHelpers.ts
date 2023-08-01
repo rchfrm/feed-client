@@ -191,7 +191,6 @@ const getPosition = (
   const audienceGroupNodeLengths = nodeGroups.filter((group) => group.type === OverviewNodeType.AUDIENCE).map((group) => group.nodes.length)
   const audienceMaxGroupNodesLength = Math.max(...audienceGroupNodeLengths)
   const campaignGroupNodeLengths = nodeGroups.filter((group) => group.type === OverviewNodeType.AUDIENCE).map((group) => group.nodes.length)
-  const campaignMaxGroupNodesLength = Math.max(...campaignGroupNodeLengths)
 
   const audienceNodeHeight = 60
   const campaignNodeHeight = 85
@@ -258,8 +257,6 @@ const makeNodeGroup = (groupIndex: string, node: OverviewNodeBase): OverviewNode
 
 const makeOrAddToGroup = (groupIndex: string, node: OverviewNodeBase, nodeGroups: OverviewNodeGroup[]) => {
   if (nodeGroups[groupIndex]) {
-    const index = Number(groupIndex)
-    const nodeGroup = nodeGroups[index]
     nodeGroups[groupIndex].nodes.push(node)
     return
   }
@@ -483,14 +480,12 @@ const getTrafficTarget = (objective, platform): string => {
 export const getEdges = (nodeGroups, objective, platform) => {
   const {
     lookalikes,
-    interests,
     engaged1Y,
     engaged28D,
     enticeEngage,
     enticeTraffic,
     remindEngage,
     remindTraffic,
-    igFollowers,
   } = indexes
 
   // enticeEngage is in all objectives
