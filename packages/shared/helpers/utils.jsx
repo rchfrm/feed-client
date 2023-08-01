@@ -81,7 +81,6 @@ export const getPostMediaType = (src) => {
 
   if (src) {
     if (src.indexOf('youtube.com/embed/') >= 0) {
-      const videoIdIndex = src.indexOf('youtube.com/embed/') + 18
       type = 'iframe'
     }
   }

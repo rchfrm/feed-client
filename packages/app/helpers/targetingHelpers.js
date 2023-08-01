@@ -343,11 +343,9 @@ export const getTotalSpentInPeriod = (dailyData, startDate) => {
   const startDateIndex = dateKeys.findIndex((key) => key === moment(startDate).format('yyyy-MM-DD'))
   const endDateIndex = dateKeys.length
 
-  const totalSpent = dateKeys.slice(startDateIndex, endDateIndex).reduce((total, key) => {
+  return dateKeys.slice(startDateIndex, endDateIndex).reduce((total, key) => {
     return total + dailyData[key]
   }, 0)
-
-  return totalSpent
 }
 
 export const getSpendingData = (dailyData) => {

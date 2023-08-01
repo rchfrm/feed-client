@@ -18,7 +18,6 @@ import {
 import {
   AdSet,
   AdSetWithPlatform,
-  Campaign,
   DataSourceResponse,
   LookalikeWithPlatform,
   Platform,
