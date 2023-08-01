@@ -16,6 +16,7 @@ import {
   getNodeGroups,
 } from '@/app/helpers/campaignsHelpers'
 import {
+  AdSet,
   AdSetWithPlatform,
   Campaign,
   DataSourceResponse,
@@ -25,7 +26,7 @@ import {
 } from '@/app/types/api'
 import { getSpendingPeriodIndexes } from '@/app/helpers/resultsHelpers'
 import { getDataSourceValue } from '@/app/helpers/appServer'
-import { Dictionary } from '@/types/common'
+import { Dictionary } from 'ts-essentials'
 import { Edge, OverviewNodeGroup, OverviewPeriod } from '@/app/types/overview'
 
 enum ReducerActionType {
@@ -60,7 +61,8 @@ const reducer: Reducer<OverviewPeriod, OverviewPeriodReducerAction> = (state: Ov
 }
 
 const CampaignsLoader = () => {
-  const [campaigns, setCampaigns] = React.useState<Campaign[]>([])
+  const [adSets, setAdSets] = React.useState<AdSet[]>([])
+  const [adSpendData, setAdSpendData] = React.useState<Dictionary<number>>({})
   const [nodeGroups, setNodeGroups] = React.useState<OverviewNodeGroup[]>([])
   const [edges, setEdges] = React.useState<Edge[]>([])
   const [period, setPeriod] = React.useReducer<Reducer<OverviewPeriod, OverviewPeriodReducerAction>>(reducer, {})
@@ -90,6 +92,8 @@ const CampaignsLoader = () => {
       return
     }
 
+    setAdSpendData(facebookAdSpendDailyData as Dictionary<number>)
+
     const [start, end] = spendingPeriodIndexes[0]
     const latestSpendingPeriod = {
       start: new Date(Object.keys(facebookAdSpendDailyData)[start]),
@@ -109,8 +113,6 @@ const CampaignsLoader = () => {
       return
     }
 
-    setCampaigns(campaigns)
-
     let adSets: AdSetWithPlatform[] = []
     if (campaigns.length > 0) {
       const adSetsPromises = campaigns.map(async (campaign) => {
@@ -124,6 +126,8 @@ const CampaignsLoader = () => {
     }
 
     const filteredAdSets = excludeAdSets(adSets, objective, facebookAdSpendData)
+
+    setAdSets(filteredAdSets)
 
     const { res: audiences, error: audiencesError } = await getAudiences(artistId)
     if (! isMounted()) {
@@ -171,10 +175,15 @@ const CampaignsLoader = () => {
     setIsLoading(false)
   }, [artistId, targetingState])
 
+  // TODO : Add information to campaigns header
+  // TODO : Add something on mobile version to use desktop for now
+
   return (
     <div onDragOver={(e) => e.preventDefault()}>
       <CampaignsHeader
-        campaigns={campaigns}
+        adSets={adSets}
+        adSpendData={adSpendData}
+        isLoading={isLoading}
       />
       <Error error={error} />
       {shouldShowCampaigns && (

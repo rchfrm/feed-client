@@ -26,7 +26,8 @@ import {
   OverviewNodeTrafficAdSet,
   OverviewNodeType, OverviewPeriod,
 } from '@/app/types/overview'
-import { Dictionary } from '@/types/common'
+import { Dictionary } from 'ts-essentials'
+import { getCurrencySymbol } from '@/helpers/utils'
 
 const getAudienceGroupIndex = (name: string): NodeIndexes | undefined => {
   switch (true) {
@@ -541,7 +542,6 @@ yesterday.setHours(0, 0, 0, 0)
 const isCampaignActive = (nodeGroups: OverviewNodeGroup[], campaignIndex: NodeIndexes): boolean => {
   const groupIndex = Number(campaignIndex.split('-')[0])
   const node = nodeGroups[groupIndex].nodes.find((node) => node.index === campaignIndex) as OverviewNodeCampaign
-  console.log('yesterday', yesterday)
   return node.lastAdSpendDate > yesterday
 }
 
@@ -653,3 +653,59 @@ export const getEdges = (
 
   return edges
 }
+
+export const getLastUpdatedAtDate = (adSets: AdSet[]): Date | undefined => {
+  let lastUpdatedAtDate: Date
+  adSets.forEach((adSet) => {
+    const updatedAt = new Date(adSet.updated_at)
+    if (! lastUpdatedAtDate || updatedAt > lastUpdatedAtDate) {
+      lastUpdatedAtDate = updatedAt
+    }
+  })
+  return lastUpdatedAtDate
+}
+
+export const countActiveAdSets = (adSets: AdSet[]): Map<string, number> => {
+  const counts = new Map<string, number>()
+  adSets.forEach((adSet) => {
+    const { identifier } = adSet
+    const indexOfFirstUnderscore = identifier.indexOf('_') + 1
+    const indexOfFinalUnderscore = identifier.lastIndexOf('_')
+    const identifierShort = identifier.slice(indexOfFirstUnderscore, indexOfFinalUnderscore)
+    let count = counts.get(identifierShort) || 0
+    count += 1
+    counts.set(identifierShort, count)
+  })
+  return counts
+}
+
+export const createActiveAdSetString = (counts: Map<string, number>): string => {
+  const optimisationDict = {
+    engage: 'engagement',
+    traffic: 'traffic',
+  }
+  const countArray = Array.from(counts)
+  if (counts.size === 1) {
+    const [optimisation, count] = countArray[0]
+    return `There are currently **${count} active ${optimisationDict[optimisation]} campaigns**`
+  }
+  const totalCount = countArray.reduce((acc, [, count]): number => acc + count, 0)
+  const strings: string[] = Array.from(counts).map(([optimisation, count]) => {
+    return `${count} ${optimisationDict[optimisation]}`
+  })
+  return `There are currently **${totalCount} active campaigns** (${strings.slice(0, -1).join(', ')} and ${strings.slice(-1)})`
+}
+
+export const createBudgetSummaryString = (
+  isCampaignBudget: boolean,
+  currency: string,
+  budget: number,
+  daysRemaining?: number,
+): string => {
+  const currencySymbol = getCurrencySymbol(currency)
+  if (isCampaignBudget) {
+    return `**${daysRemaining} days** and **${currencySymbol}${budget}** left in the campaign`
+  }
+  return ` a total budget of **${currencySymbol}${budget} a day**`
+}
+

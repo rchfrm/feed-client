@@ -1,4 +1,5 @@
-import { Dictionary, Nullable } from '@/types/common'
+import { Nullable } from '@/types/common'
+import { Dictionary } from 'ts-essentials'
 
 export enum Platform {
   FACEBOOK = 'facebook',
@@ -48,7 +49,7 @@ export interface Campaign {
 
 export interface AdSet {
   artist_id: string
-  attribution_spec: Dictionary[]
+  attribution_spec: Dictionary<any>[]
   budget_remaining: string
   campaign_id: string
   created_at: Date
@@ -75,7 +76,7 @@ export interface AdSet {
   started_running_at: Nullable<Date>
   status: string
   targeting: TargetingResponse
-  updated_at: Date
+  updated_at: string
 }
 
 export interface AdSetWithPlatform extends AdSet {
