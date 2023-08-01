@@ -154,7 +154,6 @@ export const excludeLookalikes = (
 export const excludeAdSets = (
   adSets: AdSet[],
   objective: string,
-  period: OverviewPeriod,
   adSpend?: DataSourceResponse,
 ): AdSet[] => {
   return adSets.filter((adSet) => {

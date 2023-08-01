@@ -127,7 +127,7 @@ const CampaignsLoader = () => {
       }).flat()
     }
 
-    const filteredAdSets = excludeAdSets(adSets, objective, period, facebookAdSpendData)
+    const filteredAdSets = excludeAdSets(adSets, objective, facebookAdSpendData)
 
     setAdSets(filteredAdSets)
 
@@ -184,6 +184,7 @@ const CampaignsLoader = () => {
       <CampaignsHeader
         adSets={adSets}
         adSpendData={adSpendData}
+        period={period}
         isLoading={isLoading}
       />
       <Error error={error} />

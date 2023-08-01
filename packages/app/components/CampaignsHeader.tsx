@@ -12,16 +12,19 @@ import { TargetingContext } from '@/app/contexts/TargetingContext'
 import { hasActiveCampaignBudget, getRemainingBudget, getRemainingDays } from '@/app/helpers/targetingHelpers'
 import { Dictionary } from 'ts-essentials'
 import { ArtistContext } from '@/app/contexts/ArtistContext'
+import { OverviewPeriod } from '@/app/types/overview'
 
 
 interface CampaignsHeaderProps {
   adSets: AdSet[]
   adSpendData: Dictionary<number>
+  period: OverviewPeriod
   isLoading: boolean
 }
 const CampaignsHeader: React.FC<CampaignsHeaderProps> = ({
   adSets,
   adSpendData,
+  period,
   isLoading,
 }) => {
   const { targetingState } = React.useContext(TargetingContext)
@@ -43,16 +46,20 @@ const CampaignsHeader: React.FC<CampaignsHeaderProps> = ({
   const remainingDays = isCampaignBudget && getRemainingDays(targetingState.campaignBudget.endDate)
   const budgetSummaryString = createBudgetSummaryString(isCampaignBudget, artistCurrency, remainingBudget, remainingDays)
   const campaignSummary = `${createActiveAdSetString(counts)}, with ${budgetSummaryString}.`
+  const noCampaignsString = period && period.start && period.end
+    ? `Showing data from the last campaign which ended on **${formatDate(period.end, false)}**.`
+    : ''
+  const dataUpdatedString = `**Data updated:** _${formatDate(lastUpdatedAt)}_`
   return (
     <>
       <h1>Your campaigns</h1>
       {shouldShowCampaigns ? (
         <div className="mb-8">
-          <MarkdownText markdown={campaignSummary} />
-          <p className="small--p">Data updated {formatDate(lastUpdatedAt)}</p>
+          <MarkdownText markdown={`There are currently no active campaigns. ${campaignSummary}`} />
+          <MarkdownText markdown={dataUpdatedString} className="small--p" />
         </div>
       ) : (
-        <p>There is currently no campaigns data available.</p>
+        <MarkdownText markdown={noCampaignsString} />
       )}
     </>
   )
