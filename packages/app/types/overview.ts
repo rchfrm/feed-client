@@ -1,4 +1,5 @@
 import { Platform } from '@/app/types/api'
+import { ObjectValues } from '@/types/common'
 
 export enum OverviewNodeType {
   AUDIENCE = 'audience',
@@ -12,9 +13,30 @@ export enum OverviewNodeSubType {
   CREATE = 'create',
 }
 
+export const NODE_INDEXES = {
+  lookalikesOrInterest: '0',
+  interests: '0-0',
+  lookalikes: '0-1',
+  interestsEngage: '1-0',
+  enticeEngage: '1-1',
+  enticeTraffic: '1-2',
+  engaged1Y: '2-0',
+  remindTraffic: '3-0',
+  engaged28D: '4-0',
+  igFollowers: '6-0',
+  enticeLanding: '7',
+  websiteVisitors: '8',
+  remindEngage: '9-0',
+  remindLanding: '11',
+  remindConversions: '13',
+  offPlatform: '15',
+} as const
+export type NodeIndexes = ObjectValues<typeof NODE_INDEXES>;
+
 export interface OverviewNodeBase {
   type: OverviewNodeType
   subType?: OverviewNodeSubType
+  index: NodeIndexes
   label: string
   position?: {
     x: number

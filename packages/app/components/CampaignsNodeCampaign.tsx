@@ -6,6 +6,7 @@ import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
 import CampaignsNodeCampaignHeader from '@/app/CampaignsNodeCampaignHeader'
 import {
+  NODE_INDEXES,
   OverviewNode,
   OverviewNodeEngageAdSet,
   OverviewNodeGroup,
@@ -60,7 +61,7 @@ const CampaignsNodeCampaign: React.FC<CampaignsNodeCampaignProps> = ({
 
   return (
     <div
-      id={`${group.id}-${index}`}
+      id={node.index}
       ref={nodeRef}
       className={[
         'w-full xs:w-36 z-10 cursor-default',

@@ -14,6 +14,8 @@ import {
 } from '@/app/types/api'
 import {
   Edge,
+  NODE_INDEXES,
+  NodeIndexes,
   OverviewNode,
   OverviewNodeAudience,
   OverviewNodeBase,
@@ -27,37 +29,20 @@ import {
 } from '@/app/types/overview'
 import { Dictionary } from '@/types/common'
 
-const indexes = {
-  lookalikesOrInterest: '0',
-  interests: '0-0',
-  lookalikes: '0-1',
-  interestsEngage: '1-0',
-  enticeEngage: '1-1',
-  enticeTraffic: '1-2',
-  engaged1Y: '2-0',
-  remindTraffic: '3-0',
-  engaged28D: '4-0',
-  igFollowers: '6-0',
-  enticeLanding: '7',
-  websiteVisitors: '8',
-  remindEngage: '9-0',
-  remindLanding: '11',
-  remindConversions: '13',
-  offPlatform: '15',
-}
-
-const getAudienceGroupIdentifier = (name) => {
+const getAudienceGroupIndex = (name: string): NodeIndexes | undefined => {
   switch (true) {
-    case (name.includes('Interest') || name.includes('Lookalike')):
-      return 'lookalikesOrInterest'
+    case (name.includes('Interest')):
+      return NODE_INDEXES.interests
+    case (name.includes('Lookalike')):
+      return NODE_INDEXES.lookalikes
     case name.includes('1y'):
-      return 'engaged1Y'
+      return NODE_INDEXES.engaged1Y
     case name.includes('28d'):
-      return 'engaged28D'
+      return NODE_INDEXES.engaged28D
     case name.includes('followers'):
-      return 'igFollowers'
+      return NODE_INDEXES.igFollowers
     case name.includes('visitors'):
-      return 'websiteVisitors'
+      return NODE_INDEXES.websiteVisitors
     default:
       break
   }
@@ -368,6 +353,7 @@ const makeCreateAudienceNode = (): OverviewNodeAudience => {
   return {
     type: OverviewNodeType.AUDIENCE,
     subType: OverviewNodeSubType.CREATE,
+    index: NODE_INDEXES.interests,
     platforms: [Platform.INSTAGRAM, Platform.FACEBOOK],
     label: 'Create interest targeting audience',
     isActive: false,
@@ -381,6 +367,7 @@ const makeInterestAudienceNode = (interests: TargetingInterest[]): OverviewNodeA
   return {
     type: OverviewNodeType.AUDIENCE,
     subType: OverviewNodeSubType.INTERESTS,
+    index: NODE_INDEXES.interests,
     platforms: [Platform.FACEBOOK, Platform.INSTAGRAM],
     label: `People interested in ${first3Interests.join(', ')} and **${interestsCount}** more`,
     isActive: interests.length > 0,
@@ -398,12 +385,13 @@ export const getNodeGroups = (
   // Create audiences node group(s)
   audiences.forEach((audience) => {
     const { name, platform, approximate_count: approximateCount, retention_days: retentionDays } = audience
-    const identifier = getAudienceGroupIdentifier(name)
-    const groupIndex = indexes[identifier]?.split('-')[0]
+    const nodeIndex = getAudienceGroupIndex(name)
+    const groupIndex = nodeIndex?.split('-')[0]
 
     const node: OverviewNodeAudience = {
       type: OverviewNodeType.AUDIENCE,
       subType: OverviewNodeSubType.CUSTOM,
+      index: nodeIndex,
       platforms: [platform],
       label: copy.audiencesLabel({ name, approximateCount, retentionDays, platform }),
       isActive: true,
@@ -424,8 +412,8 @@ export const getNodeGroups = (
 
   Object.values(lookalikesAudiencesKeyedByAudienceId).forEach((lookalikes) => {
     const { name, platform } = lookalikes[0]
-    const identifier = getAudienceGroupIdentifier(name)
-    const groupIndex = indexes[identifier]?.split('-')[0]
+    const nodeIndex = getAudienceGroupIndex(name)
+    const groupIndex = nodeIndex?.split('-')[0]
 
     const { approximateCount, countries } = lookalikes.reduce((result, { approximate_count, countries_text }) => {
       return {
@@ -437,6 +425,7 @@ export const getNodeGroups = (
     const node: OverviewNodeAudience = {
       type: OverviewNodeType.AUDIENCE,
       subType: OverviewNodeSubType.LOOKALIKE,
+      index: nodeIndex,
       platforms: [platform],
       label: copy.lookalikesAudiencesLabel({ name, approximateCount, countries }),
       isActive: true,
@@ -459,9 +448,11 @@ export const getNodeGroups = (
   }, {})
 
   Object.entries(adSetsKeyedByIdentifier).forEach(([identifier, adSets]) => {
-    const groupIndex = indexes[identifier]?.split('-')[0]
+    const nodeIndex = NODE_INDEXES[identifier]
+    const groupIndex = nodeIndex?.split('-')[0]
     const nodeBase: OverviewNodeBase = {
       type: OverviewNodeType.CAMPAIGN,
+      index: nodeIndex,
       label: identifier,
       isActive: true,
     }
@@ -521,14 +512,14 @@ export const getNodeGroups = (
 
 const getTrafficTarget = (objective, platform): string => {
   if (platform === Platform.INSTAGRAM && objective === 'growth') {
-    return indexes.igFollowers
+    return NODE_INDEXES.igFollowers
   }
 
-  return indexes.websiteVisitors
+  return NODE_INDEXES.websiteVisitors
 }
 
 const hasInterestsNode = (nodeGroups: OverviewNodeGroup[]): boolean => {
-  const enticeNodeGroup: OverviewNodeGroup = nodeGroups[indexes.lookalikesOrInterest]
+  const enticeNodeGroup: OverviewNodeGroup = nodeGroups[NODE_INDEXES.lookalikesOrInterest]
   return Boolean(enticeNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
 }
 
@@ -543,7 +534,7 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
     enticeTraffic,
     remindEngage,
     remindTraffic,
-  } = indexes
+  } = NODE_INDEXES
 
   // enticeEngage is in all objectives
   const edges: Edge[] = [

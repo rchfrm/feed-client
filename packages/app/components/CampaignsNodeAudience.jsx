@@ -13,6 +13,8 @@ import InstagramIcon from '@/icons/InstagramIcon'
 import brandColors from '@/constants/brandColors'
 import MarkdownText from '@/elements/MarkdownText'
 
+import { NODE_INDEXES } from '@/app/types/overview'
+
 const CampaignsNodeAudience = ({
   index,
   group,
@@ -52,7 +54,7 @@ const CampaignsNodeAudience = ({
 
   return (
     <div
-      id={`${group.id}-${index}`}
+      id={node.index}
       ref={nodeRef}
       className={[
         'w-full xs:w-52 p-1.5 z-10',

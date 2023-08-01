@@ -11,12 +11,14 @@ const CampaignsNodeGroup = ({
   getPosition,
 }) => {
   const isDesktopLayout = useBreakpointTest('xs')
+  const nodeIndex = group.nodes[0].index
+  const groupIndex = nodeIndex?.split('-')[0]
 
   return (
     <div className={isDesktopLayout ? null : 'relative w-3/4 mx-auto mb-8'}>
       {group.nodes.map((node, index) => (
         <CampaignsNode
-          key={`${group.id}-${index}`}
+          key={groupIndex}
           index={index}
           group={group}
           node={node}
