@@ -190,7 +190,6 @@ const getPosition = (
 
   const audienceGroupNodeLengths = nodeGroups.filter((group) => group.type === OverviewNodeType.AUDIENCE).map((group) => group.nodes.length)
   const audienceMaxGroupNodesLength = Math.max(...audienceGroupNodeLengths)
-  const campaignGroupNodeLengths = nodeGroups.filter((group) => group.type === OverviewNodeType.AUDIENCE).map((group) => group.nodes.length)
 
   const audienceNodeHeight = 60
   const campaignNodeHeight = 85
@@ -203,7 +202,7 @@ const getPosition = (
   const startValueY = isAudience
     ? 10
     : 10 + (spacingY * audienceMaxGroupNodesLength)
-  const startValueX = isAudience ? startValueY : (audienceNodeWidth / 2) + gapY
+  const startValueX = isAudience ? startValueY : 10 + (audienceNodeWidth / 2) + gapY
 
   const nodeGroupsByType = nodeGroups.filter((group) => group?.type === type)
   const groupIndex = nodeGroupsByType.findIndex((group) => group.id === id)
