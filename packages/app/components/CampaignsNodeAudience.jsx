@@ -13,8 +13,6 @@ import InstagramIcon from '@/icons/InstagramIcon'
 import brandColors from '@/constants/brandColors'
 import MarkdownText from '@/elements/MarkdownText'
 
-import { NODE_INDEXES } from '@/app/types/overview'
-
 const CampaignsNodeAudience = ({
   group,
   node,

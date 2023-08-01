@@ -6,7 +6,6 @@ import FacebookIcon from '@/icons/FacebookIcon'
 import InstagramIcon from '@/icons/InstagramIcon'
 import CampaignsNodeCampaignHeader from '@/app/CampaignsNodeCampaignHeader'
 import {
-  NODE_INDEXES,
   OverviewNode,
   OverviewNodeEngageAdSet,
   OverviewNodeGroup,

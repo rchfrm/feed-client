@@ -170,33 +170,18 @@ export const excludeAdSets = (
   })
 }
 
-const nodeGroupsKeyedByType = (nodeGroups: OverviewNodeGroup[]): {
-  maxNodesInGroup: number,
-  keyedNodeGroups: Record<OverviewNodeType, OverviewNodeGroup[]>,
-} => {
-  let maxNodesInGroup = nodeGroups[0].nodes.length
-  const keyedNodeGroups = nodeGroups.reduce((acc: Record<OverviewNodeType, OverviewNodeGroup[]>, cur: OverviewNodeGroup): Record<OverviewNodeType, OverviewNodeGroup[]> => {
+const nodeGroupsKeyedByType = (nodeGroups: OverviewNodeGroup[]): Record<OverviewNodeType, OverviewNodeGroup[]> => {
+  return nodeGroups.reduce((acc: Record<OverviewNodeType, OverviewNodeGroup[]>, cur: OverviewNodeGroup): Record<OverviewNodeType, OverviewNodeGroup[]> => {
     const groupType = cur.type
-    const nodeCount = cur.nodes.length
-
-    if (nodeCount > maxNodesInGroup) {
-      maxNodesInGroup = nodeCount
-    }
-
     acc[groupType].push(cur)
-
     return acc
   }, { [OverviewNodeType.AUDIENCE]: [], [OverviewNodeType.CAMPAIGN]: [] })
-  return {
-    maxNodesInGroup,
-    keyedNodeGroups,
-  }
 }
 
 const getNodePositions = (
   nodeGroups: OverviewNodeGroup[],
 ): OverviewNodeGroup[] => {
-  const { maxNodesInGroup, keyedNodeGroups } = nodeGroupsKeyedByType(nodeGroups)
+  const keyedNodeGroups = nodeGroupsKeyedByType(nodeGroups)
 
   const audienceNodeHeight = 60
   const campaignNodeHeight = 85
