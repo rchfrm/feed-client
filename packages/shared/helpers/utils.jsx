@@ -1,4 +1,3 @@
-// import React from 'react'
 import moment from 'moment'
 import url from 'url'
 import produce from 'immer'
@@ -151,6 +150,18 @@ export const formatCurrency = (value, currency = 'GBP', hideMinorUnits = false) 
     currencyDisplay: 'narrowSymbol',
     ...(hideMinorUnits && { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
   })
+}
+
+/**
+ * @param {Date} date
+ * @returns {string}
+ */
+export const formatDate = (date) => {
+  const yyyy = date.getFullYear()
+  const mm = (`0${date.getMonth() + 1}`).slice(-2)
+  const dd = (`0${date.getDate()}`).slice(-2)
+
+  return `${yyyy}-${mm}-${dd}`
 }
 
 /**

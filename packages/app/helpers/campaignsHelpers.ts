@@ -1,5 +1,5 @@
 import { requestWithCatch } from '@/helpers/api'
-import { capitalise } from '@/helpers/utils'
+import { capitalise, formatDate } from '@/helpers/utils'
 import copy from '@/app/copy/campaignsCopy'
 import {
   AdSet,
@@ -25,7 +25,7 @@ import {
   OverviewNodeGroupHandleType,
   OverviewNodeSubType,
   OverviewNodeTrafficAdSet,
-  OverviewNodeType,
+  OverviewNodeType, OverviewPeriod,
 } from '@/app/types/overview'
 import { Dictionary } from '@/types/common'
 
@@ -280,7 +280,7 @@ const makeOrAddToGroup = (groupIndex: string, node: OverviewNodeBase, nodeGroups
   return nodeGroup
 }
 
-const sumMetrics = (adSets: AdSet[]) => {
+const sumMetrics = (adSets: AdSet[], period: OverviewPeriod) => {
   const totals = {
     spend: 0,
     impressions: 0,
@@ -296,8 +296,11 @@ const sumMetrics = (adSets: AdSet[]) => {
       return
     }
 
-    Object.keys(metrics).forEach((date) => {
-      const values = metrics[date]
+    Object.keys(metrics).forEach((dateString) => {
+      const date = new Date(dateString)
+      if (date < period.start || date > period.end) return
+
+      const values = metrics[dateString]
       totals.spend += Number(values.spend || 0)
       totals.impressions += Number(values.impressions || 0)
       totals.clicks += Number(values.clicks || 0)
@@ -311,7 +314,7 @@ const sumMetrics = (adSets: AdSet[]) => {
   return totals
 }
 
-const getEngagementRateAndCost = (adSets: AdSet[]): Pick<OverviewNodeEngageAdSet, 'engagementRate' | 'costPerEngagement'> => {
+const getEngagementRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick<OverviewNodeEngageAdSet, 'engagementRate' | 'costPerEngagement'> => {
   const {
     spend,
     impressions,
@@ -320,7 +323,7 @@ const getEngagementRateAndCost = (adSets: AdSet[]): Pick<OverviewNodeEngageAdSet
     saves,
     shares,
     comments,
-  } = sumMetrics(adSets) || {}
+  } = sumMetrics(adSets, period) || {}
 
   const totalEngagements = clicks + likes + shares + comments + saves
   const engagementRate = Number(((totalEngagements / impressions) * 100).toFixed(2))
@@ -332,12 +335,12 @@ const getEngagementRateAndCost = (adSets: AdSet[]): Pick<OverviewNodeEngageAdSet
   }
 }
 
-const getClickRateAndCost = (adSets: AdSet[]): Pick<OverviewNodeTrafficAdSet, 'cpc' | 'ctr'> => {
+const getClickRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick<OverviewNodeTrafficAdSet, 'cpc' | 'ctr'> => {
   const {
     clicks,
     spend,
     impressions,
-  } = sumMetrics(adSets) || {}
+  } = sumMetrics(adSets, period) || {}
   const ctr = Number(((clicks / impressions) * 100).toFixed(2))
   const cpc = Number((spend / clicks).toFixed(3))
   return {
@@ -376,6 +379,7 @@ export const getNodeGroups = (
   lookalikesAudiences: LookalikeWithPlatform[],
   adSets: AdSet[],
   targetingInterests: TargetingInterest[],
+  period: OverviewPeriod,
 ): OverviewNodeGroup[] => {
   const nodeGroups: OverviewNodeGroup[] = []
 
@@ -456,13 +460,13 @@ export const getNodeGroups = (
     let node: OverviewNode
     const isEngagementCampaign = identifier.endsWith('ENGAGE')
     if (isEngagementCampaign) {
-      const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets)
+      const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets, period)
       node = Object.assign(nodeBase, {
         engagementRate,
         costPerEngagement,
       })
     } else {
-      const { cpc, ctr } = getClickRateAndCost(adSets)
+      const { cpc, ctr } = getClickRateAndCost(adSets, period)
       node = Object.assign(nodeBase, {
         ctr,
         cpc,
