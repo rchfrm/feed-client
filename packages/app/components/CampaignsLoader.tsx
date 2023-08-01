@@ -15,7 +15,14 @@ import {
   getLookalikesAudiences,
   getNodeGroups,
 } from '@/app/helpers/campaignsHelpers'
-import { AdSetWithPlatform, Campaign, DataSourceResponse, LookalikeWithPlatform, Platform } from '@/app/types/api'
+import {
+  AdSetWithPlatform,
+  Campaign,
+  DataSourceResponse,
+  LookalikeWithPlatform,
+  Platform,
+  TargetingInterest,
+} from '@/app/types/api'
 import { getSpendingPeriodIndexes } from '@/app/helpers/resultsHelpers'
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { Dictionary } from '@/types/common'
@@ -154,8 +161,8 @@ const CampaignsLoader = () => {
       setShouldShowCampaigns(false)
     }
 
-    const hasTargetingInterests = interests.filter(({ isActive }) => isActive).length > 0
-    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, hasTargetingInterests)
+    const targetingInterests: TargetingInterest[] = interests.filter(({ isActive }) => isActive)
+    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, targetingInterests)
     const edges = getEdges(nodeGroups, objective, platform)
 
     setNodeGroups(nodeGroups)

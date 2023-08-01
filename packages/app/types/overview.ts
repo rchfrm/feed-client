@@ -15,12 +15,15 @@ export interface OverviewNodeBase {
   type: OverviewNodeType
   subType?: OverviewNodeSubType
   label: string
-  platform?: Platform
   position?: {
     x: number
     y: number
   }
   isActive: boolean
+}
+
+export interface OverviewNodeAudience extends OverviewNodeBase {
+  platforms: Platform[]
 }
 
 export interface OverviewNodeEngageAdSet extends OverviewNodeBase {

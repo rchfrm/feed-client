@@ -172,6 +172,14 @@ export interface TargetingResponse {
   brand_safety_content_filter_levels?: string[]
 }
 
+export type TargetingInterest = {
+  id: number
+  isActive: boolean
+  platformId: string
+  platform: string
+  name: string
+}
+
 interface IdName {
   id: string
   name: string

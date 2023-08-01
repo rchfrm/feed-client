@@ -10,15 +10,18 @@ import {
   LookalikeWithPlatform,
   Platform,
   RetentionPeriods,
+  TargetingInterest,
 } from '@/app/types/api'
 import {
   Edge,
-  OverviewNode,
-  OverviewNodeBase, OverviewNodeEngageAdSet,
+  OverviewNode, OverviewNodeAudience,
+  OverviewNodeBase,
+  OverviewNodeEngageAdSet,
   OverviewNodeGroup,
   OverviewNodeGroupHandler,
   OverviewNodeGroupHandleType,
-  OverviewNodeSubType, OverviewNodeTrafficAdSet,
+  OverviewNodeSubType,
+  OverviewNodeTrafficAdSet,
   OverviewNodeType,
 } from '@/app/types/overview'
 import { Dictionary } from '@/types/common'
@@ -332,12 +335,26 @@ const getClickRateAndCost = (adSets: AdSet[]): Pick<OverviewNodeTrafficAdSet, 'c
   }
 }
 
-const makeCreateAudienceNode = () => {
+const makeCreateAudienceNode = (): OverviewNodeAudience => {
   return {
     type: OverviewNodeType.AUDIENCE,
     subType: OverviewNodeSubType.CREATE,
+    platforms: [Platform.INSTAGRAM, Platform.FACEBOOK],
     label: 'Create interest targeting audience',
     isActive: false,
+  }
+}
+
+const makeInterestAudienceNode = (interests: TargetingInterest[]): OverviewNodeAudience => {
+  const interestsCount = interests.length - 2
+  const interestsSortedByLength = interests.slice().sort((a, b) => a.name.length - b.name.length)
+  const first3Interests = interestsSortedByLength.slice(0, 2).map((interest) => interest.name)
+  return {
+    type: OverviewNodeType.AUDIENCE,
+    subType: OverviewNodeSubType.LOOKALIKE,
+    platforms: [Platform.FACEBOOK, Platform.INSTAGRAM],
+    label: `People interested in ${first3Interests.join(', ')} and **${interestsCount}** more`,
+    isActive: interests.length > 0,
   }
 }
 
@@ -345,7 +362,7 @@ export const getNodeGroups = (
   audiences: Audience[],
   lookalikesAudiences: LookalikeWithPlatform[],
   adSets: AdSet[],
-  hasTargetingInterests: boolean,
+  targetingInterests: TargetingInterest[],
 ): OverviewNodeGroup[] => {
   const nodeGroups: OverviewNodeGroup[] = []
 
@@ -355,10 +372,10 @@ export const getNodeGroups = (
     const identifier = getAudienceGroupIdentifier(name)
     const groupIndex = indexes[identifier]?.split('-')[0]
 
-    const node = {
+    const node: OverviewNodeAudience = {
       type: OverviewNodeType.AUDIENCE,
       subType: OverviewNodeSubType.CUSTOM,
-      platform,
+      platforms: [platform],
       label: copy.audiencesLabel({ name, approximateCount, retentionDays, platform }),
       isActive: true,
     }
@@ -388,10 +405,10 @@ export const getNodeGroups = (
       }
     }, { approximateCount: 0, countries: [] })
 
-    const node = {
+    const node: OverviewNodeAudience = {
       type: OverviewNodeType.AUDIENCE,
       subType: OverviewNodeSubType.LOOKALIKE,
-      platform,
+      platforms: [platform],
       label: copy.lookalikesAudiencesLabel({ name, approximateCount, countries }),
       isActive: true,
     }
@@ -439,8 +456,13 @@ export const getNodeGroups = (
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
-  if (! hasTargetingInterests && nodeGroups.length > 0) {
-    nodeGroups[0].nodes.unshift(makeCreateAudienceNode())
+  const hasTargetingInterests = targetingInterests.length > 0
+  if (nodeGroups.length > 0) {
+    if (! hasTargetingInterests) {
+      nodeGroups[0].nodes.unshift(makeCreateAudienceNode())
+    } else {
+      nodeGroups[0].nodes.unshift(makeInterestAudienceNode(targetingInterests))
+    }
   }
 
   // Sort campaign nodes so that "lower value interactions" appear first
