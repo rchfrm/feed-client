@@ -21,7 +21,6 @@ const CampaignsNodeAudience = ({
   onDrop,
   getPosition,
   isActive,
-  isLast,
 }) => {
   const [shouldShowAlert, setShouldShowAlert] = React.useState(false)
   const { targetingState, initialTargetingState, saveTargetingSettings } = React.useContext(TargetingContext)
@@ -136,7 +135,6 @@ CampaignsNodeAudience.propTypes = {
   onDrop: PropTypes.func.isRequired,
   getPosition: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
-  isLast: PropTypes.bool.isRequired,
 }
 
 export default CampaignsNodeAudience

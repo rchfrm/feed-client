@@ -514,7 +514,7 @@ export const getSpendingPeriodIndexes = (adSpend, minConsecutiveDays) => {
   const indexes = []
   let end
 
-  for (let index = array.length; index >= 0; index -= 1) {
+  for (let index = array.length - 1; index >= 0; index -= 1) {
     if (! end && (array.slice(index - minConsecutiveDays, index).every((spend) => Boolean(spend)))) {
       end = index
     }
@@ -532,7 +532,7 @@ export const sumAddedFollowers = (followerGrowth, spendingPeriodIndexes) => {
   const array = Object.values(followerGrowth)
 
   const result = spendingPeriodIndexes.reduce((total, [start, end]) => {
-    return (array[end === array.length ? end - 1 : end] - array[start]) + total
+    return (array[end] - array[start]) + total
   }, 0)
 
   return result

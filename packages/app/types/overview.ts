@@ -11,19 +11,29 @@ export enum OverviewNodeSubType {
   CREATE = 'create',
 }
 
-export interface OverviewNode {
+export interface OverviewNodeBase {
   type: OverviewNodeType
   subType?: OverviewNodeSubType
   label: string
   platform?: Platform
-  engagementRate?: number
-  costPerEngagement?: number
   position?: {
     x: number
     y: number
   }
   isActive: boolean
 }
+
+export interface OverviewNodeEngageAdSet extends OverviewNodeBase {
+  engagementRate: number
+  costPerEngagement: number
+}
+
+export interface OverviewNodeTrafficAdSet extends OverviewNodeBase {
+  ctr: number
+  cpc: number
+}
+
+export type OverviewNode = OverviewNodeEngageAdSet | OverviewNodeTrafficAdSet
 
 export interface OverviewPeriod {
   start?: Date
@@ -35,7 +45,7 @@ export interface OverviewNodeGroup {
   type: OverviewNodeType
   subType: OverviewNodeSubType
   isActive: boolean
-  nodes: OverviewNode[]
+  nodes: OverviewNodeBase[]
   handlers: OverviewNodeGroupHandler[]
 }
 

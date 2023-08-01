@@ -12,7 +12,6 @@ const CampaignsNode = ({
   updateEdges,
   getPosition,
   isActive,
-  isLast,
 }) => {
   const { id: groupId, type } = group
 
@@ -52,7 +51,6 @@ const CampaignsNode = ({
       onDragOver={onDragOver}
       onDrop={onDrop}
       getPosition={getPosition}
-      isLast={isLast}
     />
   )
 }
@@ -66,7 +64,6 @@ CampaignsNode.propTypes = {
   updateEdges: PropTypes.func.isRequired,
   getPosition: PropTypes.func.isRequired,
   isActive: PropTypes.bool.isRequired,
-  isLast: PropTypes.bool.isRequired,
 }
 
 export default CampaignsNode

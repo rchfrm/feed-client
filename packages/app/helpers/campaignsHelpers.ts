@@ -14,9 +14,11 @@ import {
 import {
   Edge,
   OverviewNode,
-  OverviewNodeGroup, OverviewNodeGroupHandler,
+  OverviewNodeBase, OverviewNodeEngageAdSet,
+  OverviewNodeGroup,
+  OverviewNodeGroupHandler,
   OverviewNodeGroupHandleType,
-  OverviewNodeSubType,
+  OverviewNodeSubType, OverviewNodeTrafficAdSet,
   OverviewNodeType,
 } from '@/app/types/overview'
 import { Dictionary } from '@/types/common'
@@ -165,15 +167,6 @@ export const excludeAdSets = (
       return false
     }
 
-    const adSpendEntries = Object.entries(adSpend.daily_data)
-    const spendingDays = adSpendEntries.filter((entry) => {
-      const spend = entry[1] as number
-      return spend > 0
-    })
-    const latestSpendingDay = spendingDays[spendingDays.length - 1][0]
-    const adSetMetricDates = Object.keys(adSet.metrics)
-    const dateAdSetLastActive = adSetMetricDates[adSetMetricDates.length - 1]
-
     if (objective !== 'conversations' && adSet.name.startsWith('remind_engage')) {
       return false
     }
@@ -183,7 +176,6 @@ export const excludeAdSets = (
       return false
     }
 
-    // TODO: If no results in latest spending period
     return true
   })
 }
@@ -237,7 +229,7 @@ const getPosition = (
   }
 }
 
-const makeNodeGroup = (groupIndex: string, node: OverviewNode): OverviewNodeGroup => {
+const makeNodeGroup = (groupIndex: string, node: OverviewNodeBase): OverviewNodeGroup => {
   const isAudience = node.type === OverviewNodeType.AUDIENCE
 
   const handlers: OverviewNodeGroupHandler[] = [
@@ -264,7 +256,7 @@ const makeNodeGroup = (groupIndex: string, node: OverviewNode): OverviewNodeGrou
   }
 }
 
-const makeOrAddToGroup = (groupIndex: string, node: OverviewNode, nodeGroups: OverviewNodeGroup[]) => {
+const makeOrAddToGroup = (groupIndex: string, node: OverviewNodeBase, nodeGroups: OverviewNodeGroup[]) => {
   if (nodeGroups[groupIndex]) {
     const index = Number(groupIndex)
     const nodeGroup = nodeGroups[index]
@@ -309,7 +301,7 @@ const sumMetrics = (adSets: AdSet[]) => {
   return totals
 }
 
-const getEngagementRateAndCost = (adSets: AdSet[]) => {
+const getEngagementRateAndCost = (adSets: AdSet[]): Pick<OverviewNodeEngageAdSet, 'engagementRate' | 'costPerEngagement'> => {
   const {
     spend,
     impressions,
@@ -327,6 +319,20 @@ const getEngagementRateAndCost = (adSets: AdSet[]) => {
   return {
     engagementRate,
     costPerEngagement,
+  }
+}
+
+const getClickRateAndCost = (adSets: AdSet[]): Pick<OverviewNodeTrafficAdSet, 'cpc' | 'ctr'> => {
+  const {
+    clicks,
+    spend,
+    impressions,
+  } = sumMetrics(adSets) || {}
+  const ctr = Number(((clicks / impressions) * 100).toFixed(2))
+  const cpc = Number((spend / clicks).toFixed(3))
+  return {
+    ctr,
+    cpc,
   }
 }
 
@@ -412,15 +418,27 @@ export const getNodeGroups = (
 
   Object.entries(adSetsKeyedByIdentifier).forEach(([identifier, adSets]) => {
     const groupIndex = indexes[identifier]?.split('-')[0]
-    const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets)
-
-    const node: OverviewNode = {
+    const nodeBase: OverviewNodeBase = {
       type: OverviewNodeType.CAMPAIGN,
       label: identifier,
-      engagementRate,
-      costPerEngagement,
       isActive: true,
     }
+    let node: OverviewNode
+    const isEngagementCampaign = identifier.endsWith('Engage')
+    if (isEngagementCampaign) {
+      const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets)
+      node = Object.assign(nodeBase, {
+        engagementRate,
+        costPerEngagement,
+      })
+    } else {
+      const { cpc, ctr } = getClickRateAndCost(adSets)
+      node = Object.assign(nodeBase, {
+        ctr,
+        cpc,
+      })
+    }
+
 
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })

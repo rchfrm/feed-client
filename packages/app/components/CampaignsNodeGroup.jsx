@@ -25,7 +25,6 @@ const CampaignsNodeGroup = ({
           updateEdges={updateEdges}
           getPosition={getPosition}
           isActive={node.isActive}
-          isLast={index === group.nodes.length - 1}
         />
       ))}
     </div>
