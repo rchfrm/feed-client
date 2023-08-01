@@ -15,7 +15,6 @@ import {
 } from '@/app/types/overview'
 
 type CampaignsNodeCampaignProps = {
-  index: null
   group: OverviewNodeGroup
   node: OverviewNode
   onDragOver: React.DragEventHandler<HTMLDivElement>
@@ -25,7 +24,6 @@ type CampaignsNodeCampaignProps = {
 }
 
 const CampaignsNodeCampaign: React.FC<CampaignsNodeCampaignProps> = ({
-  index,
   group,
   node,
   onDragOver,

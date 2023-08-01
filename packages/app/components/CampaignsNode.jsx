@@ -56,7 +56,7 @@ const CampaignsNode = ({
 }
 
 CampaignsNode.propTypes = {
-  index: PropTypes.number.isRequired,
+  index: PropTypes.string.isRequired,
   group: PropTypes.object.isRequired,
   node: PropTypes.object.isRequired,
   nodeGroups: PropTypes.array.isRequired,

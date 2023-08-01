@@ -227,7 +227,13 @@ const getNodePositions = (
 
     const nodeGroupsOfSameType = keyedNodeGroups[type]
     const groupIndex = nodeGroupsOfSameType.findIndex((group) => group.id === id)
-    const groupContainsInterest = group.nodes.find(({ subType }) => subType === OverviewNodeSubType.CREATE || subType === OverviewNodeSubType.INTERESTS)
+    const groupContainsInterest = group.nodes.find(({ subType, label }) => {
+      return (
+        subType === OverviewNodeSubType.CREATE
+        || subType === OverviewNodeSubType.INTERESTS
+        || label.startsWith('interests')
+      )
+    })
 
     return {
       x: startValueX + (spacingX * groupIndex),

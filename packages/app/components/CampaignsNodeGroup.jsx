@@ -18,8 +18,8 @@ const CampaignsNodeGroup = ({
     <div className={isDesktopLayout ? null : 'relative w-3/4 mx-auto mb-8'}>
       {group.nodes.map((node, index) => (
         <CampaignsNode
-          key={groupIndex}
-          index={index}
+          key={node.index}
+          index={node.index}
           group={group}
           node={node}
           nodeGroups={nodeGroups}

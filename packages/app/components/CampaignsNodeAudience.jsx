@@ -16,7 +16,6 @@ import MarkdownText from '@/elements/MarkdownText'
 import { NODE_INDEXES } from '@/app/types/overview'
 
 const CampaignsNodeAudience = ({
-  index,
   group,
   node,
   onDragOver,
@@ -129,7 +128,6 @@ const CampaignsNodeAudience = ({
 }
 
 CampaignsNodeAudience.propTypes = {
-  index: PropTypes.number.isRequired,
   group: PropTypes.object.isRequired,
   node: PropTypes.object.isRequired,
   onDragOver: PropTypes.func.isRequired,
