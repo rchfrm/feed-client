@@ -73,7 +73,7 @@ const Campaigns = ({
                 strokeWidth={2}
                 lineColor={edge.isActive ? brandColors.gradient[2].dark : brandColors.gradient[2].light}
                 showHead={false}
-                dashness
+                dashness={{ strokeLen: 8, nonStrokeLen: 8 }}
               />
             )
           })}

@@ -69,7 +69,7 @@ const CampaignsNodeConnector = ({
         onDrag={onDrag}
         onDragEnd={onDragEnd}
         className={[
-          'absolute w-2.5 h-2.5 rounded-full',
+          'absolute w-0 h-0 rounded-full',
           className,
         ].join(' ')}
         style={{

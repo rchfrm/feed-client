@@ -91,12 +91,12 @@ const CampaignsNodeCampaign: React.FC<CampaignsNodeCampaignProps> = ({
             <CampaignsNodeCampaignHeader isActive={isActive} isTrafficCampaign={isTrafficCampaign} />
             <div className="flex gap-x-2">
               <div className="flex flex-col items-center xs:w-full text-xs bg-green-bg-dark p-1 rounded-dialogue">
-                <div className="-mb-0.5 text-green-dark text-xs -mb-1 font-bold">{resultRate}%</div>
-                <div className="text-[8px]">{resultRateDescription}</div>
+                <div className="-mb-0.5 text-green-text text-xs -mb-1 font-bold">{resultRate}%</div>
+                <div className="text-green-text text-[8px]">{resultRateDescription}</div>
               </div>
               <div className="flex flex-col items-center xs:w-full text-xs bg-green-bg-dark p-1 rounded-dialogue">
-                <div className="-mb-0.5 text-green-dark text-xs -mb-1 font-bold">£{costPerResult}</div>
-                <div className="text-[8px]">{costPerResultDescription}</div>
+                <div className="-mb-0.5 text-green-text text-xs -mb-1 font-bold">£{costPerResult}</div>
+                <div className="text-green-text text-[8px]">{costPerResultDescription}</div>
               </div>
             </div>
           </>
