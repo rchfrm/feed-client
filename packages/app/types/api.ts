@@ -3,6 +3,7 @@ import { Dictionary, Nullable } from '@/types/common'
 export enum Platform {
   FACEBOOK = 'facebook',
   INSTAGRAM = 'instagram',
+  SPOTIFY = 'spotify',
 }
 
 export type SpecialAdCategory = 'HOUSING' | 'CREDIT' | 'EMPLOYMENT' | 'NONE'

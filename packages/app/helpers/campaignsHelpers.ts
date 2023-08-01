@@ -543,34 +543,7 @@ export const getEdges = (nodeGroups, objective, platform) => {
       ]
       edges.push(...trafficTargets)
     }
-
-    // TODO: Connect remindTraffic adsets
   }
-
-  // {
-  //   type: 'group',
-  //   source: lookalikes,
-  //   target: enticeTraffic,
-  //   isActive: true,
-  // },
-  // {
-  //   type: 'group',
-  //   source: engaged1Y,
-  //   target: remindTraffic,
-  //   isActive: true,
-  // },
-  // {
-  //   type: 'group',
-  //   source: remindTraffic,
-  //   target: igFollowers,
-  //   isActive: true,
-  // },
-  // {
-  //   type: 'group',
-  //   source: enticeTraffic,
-  //   target: igFollowers,
-  //   isActive: true,
-  // },
 
   return edges
 }
