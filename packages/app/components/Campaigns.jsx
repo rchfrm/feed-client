@@ -17,11 +17,9 @@ const Campaigns = ({
   const isDesktopLayout = useBreakpointTest('xs')
 
   const getPosition = (handler) => {
-    const position = ! isDesktopLayout
+    return ! isDesktopLayout
       ? handler.type === 'source' ? 'bottom' : 'top'
       : handler?.position
-
-    return position
   }
 
   const updateEdges = (edges, nodes) => {

@@ -82,7 +82,6 @@ export const getPostMediaType = (src) => {
   if (src) {
     if (src.indexOf('youtube.com/embed/') >= 0) {
       const videoIdIndex = src.indexOf('youtube.com/embed/') + 18
-      src = src.slice(videoIdIndex, videoIdIndex + 11)
       type = 'iframe'
     }
   }
@@ -294,8 +293,8 @@ export const getVideoDetails = (url) => {
 
 
 /**
-* @param {url} string
-* @param {quality} string
+* @param {string} url
+* @param {string} quality
 * @returns {string}
 */
 export const getVideoThumb = (url, quality = 'hqdefault') => {
@@ -368,6 +367,7 @@ export const removeWWWFromUrl = (url) => {
 // Add a protocol if missing, else leaves the same
 /**
  * @param {string} url
+ * @param {boolean} forceSSH
  * @returns {string}
  */
 export const enforceUrlProtocol = (url, forceSSH = false) => {
@@ -380,7 +380,7 @@ export const enforceUrlProtocol = (url, forceSSH = false) => {
 }
 
 /**
- * @param {string} url To pass, url must include a protocol (ie, https?://)
+ * @param {string} urlString To pass, url must include a protocol (ie, https?://)
  * @param {boolean} addUrlProtocol if true, adds a protocol
  * @returns {boolean}
  */
@@ -400,6 +400,7 @@ export const testValidEmail = (email) => {
 
 /**
  * @param {string} key
+ * @param {string} value
  * @returns {string} value
  */
 export const setLocalStorage = (key, value) => {
