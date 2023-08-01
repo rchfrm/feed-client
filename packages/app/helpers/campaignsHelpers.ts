@@ -154,19 +154,26 @@ export const excludeLookalikes = (
 export const excludeAdSets = (
   adSets: AdSet[],
   objective: string,
+  period: OverviewPeriod,
   adSpend?: DataSourceResponse,
 ): AdSet[] => {
   return adSets.filter((adSet) => {
+    const { name, identifier, metrics } = adSet
     if (! adSpend) {
       return false
     }
 
-    if (objective !== 'conversations' && adSet.name.startsWith('remind_engage')) {
+    if (objective !== 'conversations' && name.startsWith('remind_engage')) {
       return false
     }
 
-    const [, adSetOptimization] = adSet.identifier.split('_')
+    const [, adSetOptimization] = identifier.split('_')
     if (objective === 'conversations' && adSetOptimization === 'traffic') {
+      return false
+    }
+
+    const metricDates = Object.keys(metrics)
+    if (metricDates.length === 0) {
       return false
     }
 
