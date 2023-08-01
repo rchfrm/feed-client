@@ -115,9 +115,12 @@ const CampaignsLoader = () => {
 
     let adSets: AdSetWithPlatform[] = []
     if (campaigns.length > 0) {
-      const adSetsPromises = campaigns.map(async (campaign) => {
-        return getAdSets(artistId, campaign.id)
-      })
+      const adSetsPromises: Promise<{res: AdSet[], error: any}>[] = campaigns.reduce((acc: Promise<{res: AdSet[], error: any}>[], campaign) => {
+        if (campaign.is_current && ! campaign.is_deleted) {
+          acc.push(getAdSets(artistId, campaign.id))
+        }
+        return acc
+      }, [])
 
       const res = await Promise.all(adSetsPromises)
       adSets = res.map(({ res }, index) => {
@@ -175,7 +178,8 @@ const CampaignsLoader = () => {
     setIsLoading(false)
   }, [artistId, targetingState])
 
-  // TODO : Add information to campaigns header
+  // TODO : Fix positioning if multiple audiences
+  // TODO : Fix wording of interests audience if there are only 2 audiences
   // TODO : Add something on mobile version to use desktop for now
 
   return (

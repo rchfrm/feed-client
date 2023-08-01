@@ -109,6 +109,10 @@ export const excludeAudiences = (
       return false
     }
 
+    if (audience.is_deleted) {
+      return false
+    }
+
     if (audience.retention_days === RetentionPeriods.WEEK) {
       return false
     }
