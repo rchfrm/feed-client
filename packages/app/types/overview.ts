@@ -50,7 +50,7 @@ export interface OverviewNodeGroupHandler {
 }
 
 export interface Edge {
-  type: string,
+  type: 'group',
   source: string,
   target: string,
   isActive: boolean,

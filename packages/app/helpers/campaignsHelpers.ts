@@ -29,11 +29,11 @@ const indexes = {
   enticeTraffic: '1-1',
   engaged1Y: '2-0',
   remindTraffic: '3-0',
-  engaged28D: '4',
+  engaged28D: '4-0',
   igFollowers: '6-0',
   enticeLanding: '7',
   websiteVisitors: '8',
-  remindEngage: '9',
+  remindEngage: '9-0',
   remindLanding: '11',
   remindConversions: '13',
   offPlatform: '15',
@@ -454,22 +454,12 @@ export const getNodeGroups = (
   }))
 }
 
-const getTarget = (objective, platform): string => {
-  if (platform === 'instagram') {
-    if (objective === 'growth') {
-      return indexes.igFollowers
-    }
-
-    if (objective === 'conversations') {
-      return indexes.engaged28D
-    }
+const getTrafficTarget = (objective, platform): string => {
+  if (platform === Platform.INSTAGRAM && objective === 'growth') {
+    return indexes.igFollowers
   }
 
-  if (objective === 'traffic') {
-    return indexes.websiteVisitors
-  }
-
-  return ''
+  return indexes.websiteVisitors
 }
 
 export const getEdges = (nodeGroups, objective, platform) => {
@@ -485,9 +475,8 @@ export const getEdges = (nodeGroups, objective, platform) => {
     igFollowers,
   } = indexes
 
-
+  // enticeEngage is in all objectives
   const edges: Edge[] = [
-    // lookalikes -> entice engage -> Fb/Ig engaged 1y
     {
       type: 'group',
       source: lookalikes,
@@ -496,35 +485,92 @@ export const getEdges = (nodeGroups, objective, platform) => {
     },
     {
       type: 'group',
-      source: lookalikes,
-      target: enticeTraffic,
-      isActive: true,
-    },
-    {
-      type: 'group',
       source: enticeEngage,
       target: engaged1Y,
       isActive: true,
     },
-    {
-      type: 'group',
-      source: engaged1Y,
-      target: remindTraffic,
-      isActive: true,
-    },
-    {
-      type: 'group',
-      source: remindTraffic,
-      target: igFollowers,
-      isActive: true,
-    },
-    {
-      type: 'group',
-      source: enticeTraffic,
-      target: igFollowers,
-      isActive: true,
-    },
   ]
+
+  if (objective === 'conversations' && platform === Platform.INSTAGRAM) {
+    const remindEngageEdges: Edge[] = [
+      {
+        type: 'group',
+        source: engaged1Y,
+        target: remindEngage,
+        isActive: true,
+      },
+      {
+        type: 'group',
+        source: remindEngage,
+        target: engaged28D,
+        isActive: true,
+      },
+    ]
+    edges.push(...remindEngageEdges)
+  }
+
+  if (objective !== 'conversations') {
+    const trafficCampaigns: Edge[] = [
+      {
+        type: 'group',
+        source: lookalikes,
+        target: enticeTraffic,
+        isActive: true,
+      },
+      {
+        type: 'group',
+        source: engaged1Y,
+        target: remindTraffic,
+        isActive: true,
+      },
+    ]
+    edges.push(...trafficCampaigns)
+
+    if (platform === Platform.INSTAGRAM || objective === 'traffic' || objective === 'sales') {
+      const trafficTargets: Edge[] = [
+        {
+          type: 'group',
+          source: enticeTraffic,
+          target: getTrafficTarget(objective, platform),
+          isActive: true,
+        },
+        {
+          type: 'group',
+          source: remindTraffic,
+          target: getTrafficTarget(objective, platform),
+          isActive: true,
+        },
+      ]
+      edges.push(...trafficTargets)
+    }
+
+    // TODO: Connect remindTraffic adsets
+  }
+
+  // {
+  //   type: 'group',
+  //   source: lookalikes,
+  //   target: enticeTraffic,
+  //   isActive: true,
+  // },
+  // {
+  //   type: 'group',
+  //   source: engaged1Y,
+  //   target: remindTraffic,
+  //   isActive: true,
+  // },
+  // {
+  //   type: 'group',
+  //   source: remindTraffic,
+  //   target: igFollowers,
+  //   isActive: true,
+  // },
+  // {
+  //   type: 'group',
+  //   source: enticeTraffic,
+  //   target: igFollowers,
+  //   isActive: true,
+  // },
 
   return edges
 }
