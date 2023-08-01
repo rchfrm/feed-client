@@ -31,7 +31,7 @@ const CampaignsNodeCampaign: React.FC<CampaignsNodeCampaignProps> = ({
   isActive,
 }) => {
   const { handlers } = group
-  const isTrafficCampaign = node.label.endsWith('Traffic')
+  const isTrafficCampaign = node.label.endsWith('TRAFFIC')
   let resultRate: number
   let costPerResult: number
   let resultRateDescription: string

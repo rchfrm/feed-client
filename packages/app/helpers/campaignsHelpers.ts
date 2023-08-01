@@ -32,17 +32,17 @@ import { Dictionary } from '@/types/common'
 const getAudienceGroupIndex = (name: string): NodeIndexes | undefined => {
   switch (true) {
     case (name.includes('Interest')):
-      return NODE_INDEXES.interests
+      return NODE_INDEXES.INTERESTS
     case (name.includes('Lookalike')):
-      return NODE_INDEXES.lookalikes
+      return NODE_INDEXES.LOOKALIKES
     case name.includes('1y'):
-      return NODE_INDEXES.engaged1Y
+      return NODE_INDEXES.ENGAGED_1Y
     case name.includes('28d'):
-      return NODE_INDEXES.engaged28D
+      return NODE_INDEXES.ENGAGED_28D
     case name.includes('followers'):
-      return NODE_INDEXES.igFollowers
+      return NODE_INDEXES.INSTAGRAM_FOLLOWERS
     case name.includes('visitors'):
-      return NODE_INDEXES.websiteVisitors
+      return NODE_INDEXES.WEBSITE_VISITORS
     default:
       break
   }
@@ -179,8 +179,9 @@ const nodeGroupsKeyedByType = (nodeGroups: OverviewNodeGroup[]): Record<Overview
 }
 
 const hasInterestsNode = (nodeGroups: OverviewNodeGroup[]): boolean => {
-  const enticeNodeGroup: OverviewNodeGroup = nodeGroups[NODE_INDEXES.lookalikesOrInterest]
-  return Boolean(enticeNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
+  const interestsNodeIndex = NODE_INDEXES.INTERESTS.split('-')[0]
+  const interestsNodeGroup: OverviewNodeGroup = nodeGroups[interestsNodeIndex]
+  return Boolean(interestsNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
 }
 
 const getNodePositions = (
@@ -203,7 +204,7 @@ const getNodePositions = (
     const { type, id } = group
     const isAudience = type === OverviewNodeType.AUDIENCE
 
-    const isInterestsNode = node.subType === OverviewNodeSubType.INTERESTS || node.label.startsWith('interests') || node.subType === OverviewNodeSubType.CREATE
+    const isInterestsNode = node.subType === OverviewNodeSubType.INTERESTS || node.label.startsWith('INTERESTS') || node.subType === OverviewNodeSubType.CREATE
     const interestsRowHeight = ! isInterestsNode
       ? hasActiveInterestTargeting
         ? audienceNodeHeight + campaignNodeHeight + (3 * gapY)
@@ -221,7 +222,7 @@ const getNodePositions = (
       return (
         subType === OverviewNodeSubType.CREATE
         || subType === OverviewNodeSubType.INTERESTS
-        || label.startsWith('interests')
+        || label.startsWith('INTERESTS')
       )
     })
 
@@ -349,7 +350,7 @@ const makeCreateAudienceNode = (): OverviewNodeAudience => {
   return {
     type: OverviewNodeType.AUDIENCE,
     subType: OverviewNodeSubType.CREATE,
-    index: NODE_INDEXES.interests,
+    index: NODE_INDEXES.INTERESTS,
     platforms: [Platform.INSTAGRAM, Platform.FACEBOOK],
     label: 'Create interest targeting audience',
     isActive: false,
@@ -363,7 +364,7 @@ const makeInterestAudienceNode = (interests: TargetingInterest[]): OverviewNodeA
   return {
     type: OverviewNodeType.AUDIENCE,
     subType: OverviewNodeSubType.INTERESTS,
-    index: NODE_INDEXES.interests,
+    index: NODE_INDEXES.INTERESTS,
     platforms: [Platform.FACEBOOK, Platform.INSTAGRAM],
     label: `People interested in ${first3Interests.join(', ')} and **${interestsCount}** more`,
     isActive: interests.length > 0,
@@ -434,7 +435,7 @@ export const getNodeGroups = (
   const adSetsKeyedByIdentifier: Dictionary<AdSet[]> = adSets.reduce((result, adSet) => {
     const { identifier } = adSet
     const [a, b] = identifier.split('_')
-    const key = `${a}${capitalise(b)}`
+    const key = `${a.toUpperCase()}_${b.toUpperCase()}`
 
     if (! result[key]) {
       result[key] = []
@@ -453,7 +454,7 @@ export const getNodeGroups = (
       isActive: true,
     }
     let node: OverviewNode
-    const isEngagementCampaign = identifier.endsWith('Engage')
+    const isEngagementCampaign = identifier.endsWith('ENGAGE')
     if (isEngagementCampaign) {
       const { engagementRate, costPerEngagement } = getEngagementRateAndCost(adSets)
       node = Object.assign(nodeBase, {
@@ -486,16 +487,16 @@ export const getNodeGroups = (
     if (nodeGroup.type === OverviewNodeType.AUDIENCE || nodeGroup.nodes.length < 2) return
 
     nodeGroup.nodes.sort((a, b) => {
-      if (a.label.includes('Engage') && b.label.includes('Traffic')) {
+      if (a.label.includes('ENGAGE') && b.label.includes('TRAFFIC')) {
         return -1
       }
-      if (a.label.includes('Traffic') && b.label.includes('Engage')) {
+      if (a.label.includes('TRAFFIC') && b.label.includes('ENGAGE')) {
         return 1
       }
-      if (a.label.startsWith('interests') && b.label.startsWith('entice')) {
+      if (a.label.startsWith('INTERESTS') && b.label.startsWith('ENTICE')) {
         return -1
       }
-      if (a.label.startsWith('entice') && b.label.startsWith('interests')) {
+      if (a.label.startsWith('ENTICE') && b.label.startsWith('INTERESTS')) {
         return 1
       }
       return 0
@@ -508,37 +509,37 @@ export const getNodeGroups = (
 
 const getTrafficTarget = (objective, platform): string => {
   if (platform === Platform.INSTAGRAM && objective === 'growth') {
-    return NODE_INDEXES.igFollowers
+    return NODE_INDEXES.INSTAGRAM_FOLLOWERS
   }
 
-  return NODE_INDEXES.websiteVisitors
+  return NODE_INDEXES.WEBSITE_VISITORS
 }
 
 export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, platform: Platform) => {
   const {
-    lookalikes,
-    interests,
-    engaged1Y,
-    engaged28D,
-    interestsEngage,
-    enticeEngage,
-    enticeTraffic,
-    remindEngage,
-    remindTraffic,
+    LOOKALIKES,
+    INTERESTS,
+    ENGAGED_1Y,
+    ENGAGED_28D,
+    INTERESTS_ENGAGE,
+    ENTICE_ENGAGE,
+    ENTICE_TRAFFIC,
+    REMIND_ENGAGE,
+    REMIND_TRAFFIC,
   } = NODE_INDEXES
 
   // enticeEngage is in all objectives
   const edges: Edge[] = [
     {
       type: 'group',
-      source: lookalikes,
-      target: enticeEngage,
+      source: LOOKALIKES,
+      target: ENTICE_ENGAGE,
       isActive: true,
     },
     {
       type: 'group',
-      source: enticeEngage,
-      target: engaged1Y,
+      source: ENTICE_ENGAGE,
+      target: ENGAGED_1Y,
       isActive: true,
     },
   ]
@@ -547,14 +548,14 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
     const interestsEngageEdges: Edge[] = [
       {
         type: 'group',
-        source: interests,
-        target: interestsEngage,
+        source: INTERESTS,
+        target: INTERESTS_ENGAGE,
         isActive: true,
       },
       {
         type: 'group',
-        source: interestsEngage,
-        target: engaged1Y,
+        source: INTERESTS_ENGAGE,
+        target: ENGAGED_1Y,
         isActive: true,
       },
     ]
@@ -565,14 +566,14 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
     const remindEngageEdges: Edge[] = [
       {
         type: 'group',
-        source: engaged1Y,
-        target: remindEngage,
+        source: ENGAGED_1Y,
+        target: REMIND_ENGAGE,
         isActive: true,
       },
       {
         type: 'group',
-        source: remindEngage,
-        target: engaged28D,
+        source: REMIND_ENGAGE,
+        target: ENGAGED_28D,
         isActive: true,
       },
     ]
@@ -583,14 +584,14 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
     const trafficCampaigns: Edge[] = [
       {
         type: 'group',
-        source: lookalikes,
-        target: enticeTraffic,
+        source: LOOKALIKES,
+        target: ENTICE_TRAFFIC,
         isActive: true,
       },
       {
         type: 'group',
-        source: engaged1Y,
-        target: remindTraffic,
+        source: ENGAGED_1Y,
+        target: REMIND_TRAFFIC,
         isActive: true,
       },
     ]
@@ -600,13 +601,13 @@ export const getEdges = (nodeGroups: OverviewNodeGroup[], objective: string, pla
       const trafficTargets: Edge[] = [
         {
           type: 'group',
-          source: enticeTraffic,
+          source: ENTICE_TRAFFIC,
           target: getTrafficTarget(objective, platform),
           isActive: true,
         },
         {
           type: 'group',
-          source: remindTraffic,
+          source: REMIND_TRAFFIC,
           target: getTrafficTarget(objective, platform),
           isActive: true,
         },

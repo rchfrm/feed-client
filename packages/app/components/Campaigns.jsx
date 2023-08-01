@@ -51,8 +51,10 @@ const Campaigns = ({
             />
           ))}
           {edges.map((edge) => {
-            const sourceGroup = nodeGroups.find((group) => group?.id === edge.source.split('-')[0])
-            const targetGroup = nodeGroups.find((group) => group?.id === edge.target.split('-')[0])
+            const edgeSourceGroupId = edge.source.split('-')[0]
+            const edgeTargetGroupId = edge.target.split('-')[0]
+            const sourceGroup = nodeGroups[edgeSourceGroupId]
+            const targetGroup = nodeGroups[edgeTargetGroupId]
 
             if (! sourceGroup || ! targetGroup) {
               return

@@ -14,22 +14,21 @@ export enum OverviewNodeSubType {
 }
 
 export const NODE_INDEXES = {
-  lookalikesOrInterest: '0',
-  interests: '0-0',
-  lookalikes: '0-1',
-  interestsEngage: '1-0',
-  enticeEngage: '1-1',
-  enticeTraffic: '1-2',
-  engaged1Y: '2-0',
-  remindTraffic: '3-0',
-  engaged28D: '4-0',
-  igFollowers: '6-0',
-  enticeLanding: '7',
-  websiteVisitors: '8',
-  remindEngage: '9-0',
-  remindLanding: '11',
-  remindConversions: '13',
-  offPlatform: '15',
+  INTERESTS: '0-0',
+  LOOKALIKES: '0-1',
+  INTERESTS_ENGAGE: '1-0',
+  ENTICE_ENGAGE: '1-1',
+  ENTICE_TRAFFIC: '1-2',
+  ENGAGED_1Y: '2-0',
+  REMIND_TRAFFIC: '3-0',
+  ENGAGED_28D: '4-0',
+  INSTAGRAM_FOLLOWERS: '6-0',
+  ENTICE_LANDING: '7',
+  WEBSITE_VISITORS: '8',
+  REMIND_ENGAGE: '9-0',
+  REMIND_LANDING: '11',
+  REMIND_CONVERSIONS: '13',
+  OFF_PLATFORM: '15',
 } as const
 export type NodeIndexes = ObjectValues<typeof NODE_INDEXES>;
 
