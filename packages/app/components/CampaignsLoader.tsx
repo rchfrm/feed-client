@@ -134,7 +134,7 @@ const CampaignsLoader = () => {
       }).flat()
     }
 
-    const filteredAdSets = excludeAdSets(adSets, objective, period, facebookAdSpendData)
+    const filteredAdSets = excludeAdSets(adSets, objective, latestSpendingPeriod, facebookAdSpendData)
 
     setAdSets(filteredAdSets)
 
@@ -175,7 +175,7 @@ const CampaignsLoader = () => {
     }
 
     const targetingInterests: TargetingInterest[] = interests.filter(({ isActive }) => isActive)
-    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, targetingInterests, period)
+    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, targetingInterests, latestSpendingPeriod)
     const hasActiveBudget = targetingState.status === 1
     const edges = getEdges(nodeGroups, objective, platform, hasActiveBudget)
 
@@ -185,7 +185,6 @@ const CampaignsLoader = () => {
   }, [artistId, targetingState])
 
   // TODO : Test creating an interest targeting audience
-  // TODO : Removing an interest targeting audience
 
   if (! isDesktopLayout) {
     return (
