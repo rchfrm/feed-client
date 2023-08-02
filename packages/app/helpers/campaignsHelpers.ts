@@ -431,6 +431,7 @@ export const getNodeGroups = (
   audiences: Audience[],
   lookalikesAudiences: LookalikeWithPlatform[],
   adSets: AdSet[],
+  hasActiveBudget: boolean,
   hasInterestTargetingAccess: boolean,
   targetingInterests: TargetingInterest[],
   period: OverviewPeriod,
@@ -550,7 +551,7 @@ export const getNodeGroups = (
       })
     }
 
-    if (node.lastAdSpendDate < yesterday) {
+    if (node.lastAdSpendDate < yesterday || ! hasActiveBudget) {
       node.isActive = false
     }
 
@@ -698,13 +699,13 @@ export const getEdges = (
           type: 'group',
           source: ENTICE_TRAFFIC,
           target: getTrafficTarget(objective, platform),
-          isActive: isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
+          isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
         },
         {
           type: 'group',
           source: REMIND_TRAFFIC,
           target: getTrafficTarget(objective, platform),
-          isActive: isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
+          isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
         },
       ]
       edges.push(...trafficTargets)

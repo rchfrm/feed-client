@@ -172,14 +172,18 @@ const CampaignsLoader = () => {
 
     const filteredLookalikes = excludeLookalikes(lookalikeAudiences, filteredAdSets)
 
-    if (audiences.length === 0 || adSets.length === 0) {
+    // TODO : Look into Victor Ray as there are no ad sets
+    // TODO : Look into Isabella Kensignton as there is no retargeting audience
+    if (filteredAdSets.length === 0) {
       setShouldShowCampaigns(false)
+      setIsLoading(false)
+      return
     }
 
     const targetingInterests: TargetingInterest[] = interests.filter(({ isActive }) => isActive)
     const hasInterestTargetingAccess = !! feature_flags.interest_targeting_enabled
-    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, hasInterestTargetingAccess, targetingInterests, latestSpendingPeriod)
     const hasActiveBudget = targetingState.status === 1
+    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, hasActiveBudget, hasInterestTargetingAccess, targetingInterests, latestSpendingPeriod)
     const edges = getEdges(nodeGroups, objective, platform, hasActiveBudget)
 
     setNodeGroups(nodeGroups)
