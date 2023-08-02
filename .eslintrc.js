@@ -10,6 +10,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
+    'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended',
   ],
   globals: {
@@ -20,6 +21,7 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
+    'import',
   ],
   rules: {
     camelcase: 'off',
@@ -73,12 +75,17 @@ module.exports = {
       version: 'detect',
     },
     'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './packages/*/tsconfig.json',
+      },
       alias: {
         map: [
           // The app
           ['@/app/copy', './packages/app/copy'],
           ['@/app/constants', './packages/app/constants'],
           ['@/app/helpers', './packages/app/helpers'],
+          ['@/app/types', './packages/app/types'],
           ['@/app/graphQl', './packages/app/graphQl'],
           ['@/app/tempGlobalData', './packages/app/tempGlobalData'],
           ['@/app', './packages/app/components'],
@@ -103,6 +110,7 @@ module.exports = {
           ['@/hooks', './packages/shared/components/hooks'],
           ['@/constants', './packages/shared/constants'],
           ['@/helpers', './packages/shared/helpers'],
+          ['@/types', './packages/shared/types'],
           ['@/graphQl', './packages/shared/graphQl'],
           ['@', './packages/shared/components'],
           ['~', './packages/shared'],

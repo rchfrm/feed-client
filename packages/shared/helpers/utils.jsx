@@ -1,4 +1,3 @@
-// import React from 'react'
 import moment from 'moment'
 import url from 'url'
 import produce from 'immer'
@@ -82,8 +81,6 @@ export const getPostMediaType = (src) => {
 
   if (src) {
     if (src.indexOf('youtube.com/embed/') >= 0) {
-      const videoIdIndex = src.indexOf('youtube.com/embed/') + 18
-      src = src.slice(videoIdIndex, videoIdIndex + 11)
       type = 'iframe'
     }
   }
@@ -151,6 +148,30 @@ export const formatCurrency = (value, currency = 'GBP', hideMinorUnits = false) 
     currencyDisplay: 'narrowSymbol',
     ...(hideMinorUnits && { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
   })
+}
+
+/**
+ * @param {Date} date
+ * @param {boolean} includeTime
+ * @returns {string}
+ */
+export const formatDate = (date, includeTime = true) => {
+  if (! date) {
+    return ''
+  }
+  const month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const yy = date.getFullYear().toString().slice(-2)
+  const MM = date.getMonth()
+  const dd = date.getDate()
+
+  if (! includeTime) {
+    return `${dd} ${month_names[MM]} '${yy}`
+  }
+
+  const hh = date.getHours()
+  const mm = `0${date.getMinutes()}`.slice(-2)
+
+  return `${dd} ${month_names[MM]} '${yy} at ${hh}:${mm}`
 }
 
 /**
@@ -283,8 +304,8 @@ export const getVideoDetails = (url) => {
 
 
 /**
-* @param {url} string
-* @param {quality} string
+* @param {string} url
+* @param {string} quality
 * @returns {string}
 */
 export const getVideoThumb = (url, quality = 'hqdefault') => {
@@ -357,6 +378,7 @@ export const removeWWWFromUrl = (url) => {
 // Add a protocol if missing, else leaves the same
 /**
  * @param {string} url
+ * @param {boolean} forceSSH
  * @returns {string}
  */
 export const enforceUrlProtocol = (url, forceSSH = false) => {
@@ -369,7 +391,7 @@ export const enforceUrlProtocol = (url, forceSSH = false) => {
 }
 
 /**
- * @param {string} url To pass, url must include a protocol (ie, https?://)
+ * @param {string} urlString To pass, url must include a protocol (ie, https?://)
  * @param {boolean} addUrlProtocol if true, adds a protocol
  * @returns {boolean}
  */
@@ -389,6 +411,7 @@ export const testValidEmail = (email) => {
 
 /**
  * @param {string} key
+ * @param {string} value
  * @returns {string} value
  */
 export const setLocalStorage = (key, value) => {

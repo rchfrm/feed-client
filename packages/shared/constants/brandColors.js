@@ -71,6 +71,11 @@ const brandColors = {
       regular: '#D2EFFF',
       dark: '#5BC1FB',
     },
+    2: {
+      light: '#D0DBFF',
+      regular: '#B8C9FF',
+      dark: '#5B82FB',
+    },
     3: {
       light: '#B8C9FF',
       regular: '#D0DBFF',

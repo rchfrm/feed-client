@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ProfileIcon from '@/icons/ProfileIcon'
+import UserIcon from '@/icons/UserIcon'
 
 import brandColors from '@/constants/brandColors'
 
@@ -21,7 +21,7 @@ const ArtistImage = ({ pageId, size, name, className }) => {
 
   return (
     error || ! pageId ? (
-      <ProfileIcon className={className} fill={brandColors.offwhite} />
+      <UserIcon className={className} fill={brandColors.offwhite} />
     ) : (
       <img className={className} alt={name} src={src} />
     )

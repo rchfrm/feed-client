@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ProfileIcon from '@/icons/ProfileIcon'
+import UserIcon from '@/icons/UserIcon'
 import NotificationIcon from '@/icons/NotificationIcon'
 import CreditCardIcon from '@/icons/CreditCardIcon'
 import FaqIcon from '@/icons/FaqIcon'
@@ -9,7 +9,7 @@ import LogOutIcon from '@/icons/LogOutIcon'
 import brandColors from '@/constants/brandColors'
 
 const getIcon = (icon) => {
-  if (icon === 'account') return ProfileIcon
+  if (icon === 'account') return UserIcon
   if (icon === 'notifications') return NotificationIcon
   if (icon === 'billing') return CreditCardIcon
   if (icon === 'faqs') return FaqIcon

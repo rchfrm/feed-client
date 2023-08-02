@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import brandColors from '@/constants/brandColors'
 
-const ProfileIcon = ({ fill, className }) => {
+const UserIcon = ({ fill, className }) => {
   return (
     <svg
       fill="none"
@@ -22,14 +21,14 @@ const ProfileIcon = ({ fill, className }) => {
   )
 }
 
-ProfileIcon.propTypes = {
+UserIcon.propTypes = {
   fill: PropTypes.string,
   className: PropTypes.string,
 }
 
-ProfileIcon.defaultProps = {
+UserIcon.defaultProps = {
   fill: brandColors.black,
   className: '',
 }
 
-export default ProfileIcon
+export default UserIcon

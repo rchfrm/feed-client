@@ -14,8 +14,9 @@ export const FAQS = '/faqs'
 export const FAQS_SLUG = '/faqs/[slug]'
 export const PRICING = 'https://tryfeed.co/pricing'
 
+export const CAMPAIGNS = '/'
 export const CONNECT_ACCOUNTS = '/connect-accounts'
-export const POSTS = '/'
+export const POSTS = '/posts'
 export const POST = '/posts/[id]'
 export const ACCOUNT = '/account'
 export const PAYMENT = '/account?add-payment'
@@ -35,13 +36,14 @@ export const CONTROLS_TEAM = '/controls/team'
 export const BILLING = '/billing'
 export const GET_STARTED = '/get-started'
 
-export const HOME = POSTS
+export const HOME = CAMPAIGNS
 
 // Array of RESTRICTED PAGES
 export const restrictedPages = [
   CONFIRM_EMAIL,
   PROFILE_INVITE_SUCCESS,
   CONNECT_ACCOUNTS,
+  CAMPAIGNS,
   POSTS,
   POST,
   CONTROLS,
@@ -82,6 +84,7 @@ export const generalPages = [
   CONTROLS,
   ...controlsPages,
   RESULTS,
+  CAMPAIGNS,
 ]
 
 export const subPages = [

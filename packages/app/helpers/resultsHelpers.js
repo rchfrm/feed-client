@@ -3,7 +3,7 @@ import * as api from '@/helpers/api'
 import moment from 'moment'
 import brandColors from '@/constants/brandColors'
 import resultsCopy from '@/app/copy/ResultsPageCopy'
-import { formatCurrency, capitalise } from '@/helpers/utils'
+import { capitalise, formatCurrency } from '@/helpers/utils'
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { getPlatformNameByValue } from '@/app/helpers/artistHelpers'
 import insightDataSources from '@/constants/insightDataSources'
@@ -112,7 +112,7 @@ export const dataSourceOptions = [
 ]
 
 const formatResultsData = (data) => {
-  const formattedData = Object.entries(data).reduce((newObject, [key, value]) => {
+  return Object.entries(data).reduce((newObject, [key, value]) => {
     const { asset, ...stats } = value
     const metricType = adMetricTypes.find((type) => type.key === key)
 
@@ -127,8 +127,6 @@ const formatResultsData = (data) => {
 
     return newObject
   }, { posts: [] })
-
-  return formattedData
 }
 
 export const convertChartValues = (adsReachProportion, organicReachProportion) => {
@@ -491,7 +489,7 @@ export const getStatsData = (adData, aggregatedAdData, platform) => {
 export const getDataSources = async (dataSources, artistId) => {
   const data = await getDataSourceValue(dataSources, artistId)
 
-  const formattedData = Object.entries(data).reduce((result, [key, dataSource]) => {
+  return Object.entries(data).reduce((result, [key, dataSource]) => {
     return {
       ...result,
       [key]: formatServerData({
@@ -501,11 +499,9 @@ export const getDataSources = async (dataSources, artistId) => {
       }),
     }
   }, {})
-
-  return formattedData
 }
 
-const sliceDataSource = (dataSource, start, end) => {
+export const sliceDataSource = (dataSource, start, end) => {
   return Object.fromEntries(Object.entries(dataSource).slice(start, end))
 }
 
@@ -514,7 +510,7 @@ export const getSpendingPeriodIndexes = (adSpend, minConsecutiveDays) => {
   const indexes = []
   let end
 
-  for (let index = array.length; index >= 0; index -= 1) {
+  for (let index = array.length - 1; index >= 0; index -= 1) {
     if (! end && (array.slice(index - minConsecutiveDays, index).every((spend) => Boolean(spend)))) {
       end = index
     }
@@ -531,11 +527,9 @@ export const getSpendingPeriodIndexes = (adSpend, minConsecutiveDays) => {
 export const sumAddedFollowers = (followerGrowth, spendingPeriodIndexes) => {
   const array = Object.values(followerGrowth)
 
-  const result = spendingPeriodIndexes.reduce((total, [start, end]) => {
-    return (array[end === array.length ? end - 1 : end] - array[start]) + total
+  return spendingPeriodIndexes.reduce((total, [start, end]) => {
+    return (array[end] - array[start]) + total
   }, 0)
-
-  return result
 }
 
 const getLatestCampaign = (initialDataSources) => {
