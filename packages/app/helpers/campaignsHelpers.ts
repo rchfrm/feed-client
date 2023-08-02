@@ -29,6 +29,11 @@ import {
 import { Dictionary } from 'ts-essentials'
 import { getCurrencySymbol } from '@/helpers/utils'
 
+
+const yesterday = new Date()
+yesterday.setDate(yesterday.getDate() - 1)
+yesterday.setHours(0, 0, 0, 0)
+
 const getAudienceGroupIndex = (name: string): NodeIndexes | undefined => {
   switch (true) {
     case (name.includes('Interest')):
@@ -409,7 +414,7 @@ const makeInterestAudienceNode = (interests: TargetingInterest[]): OverviewNodeA
   }
 }
 
-const getCampaignType = (identifier: keyof typeof NODE_INDEXES): string => {
+export const getCampaignType = (identifier: keyof typeof NODE_INDEXES): string => {
   identifier.toUpperCase()
   if (identifier.endsWith('ENGAGE')) return 'engagement'
   if (identifier.endsWith('TRAFFIC')) return 'traffic'
@@ -540,6 +545,10 @@ export const getNodeGroups = (
       })
     }
 
+    if (node.lastAdSpendDate < yesterday) {
+      node.isActive = false
+    }
+
     makeOrAddToGroup(groupIndex, node, nodeGroups)
   })
 
@@ -584,10 +593,6 @@ const getTrafficTarget = (objective, platform): string => {
 
   return NODE_INDEXES.WEBSITE_VISITORS
 }
-
-const yesterday = new Date()
-yesterday.setDate(yesterday.getDate() - 1)
-yesterday.setHours(0, 0, 0, 0)
 
 const isCampaignActive = (nodeGroups: OverviewNodeGroup[], campaignIndex: NodeIndexes): boolean => {
   const groupIndex = Number(campaignIndex.split('-')[0])
