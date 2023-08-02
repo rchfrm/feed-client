@@ -152,9 +152,13 @@ export const formatCurrency = (value, currency = 'GBP', hideMinorUnits = false) 
 
 /**
  * @param {Date} date
+ * @param {boolean} includeTime
  * @returns {string}
  */
 export const formatDate = (date, includeTime = true) => {
+  if (! date) {
+    return ''
+  }
   const month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const yy = date.getFullYear().toString().slice(-2)
   const MM = date.getMonth()

@@ -20,7 +20,7 @@ const config = (contentFiles) => ({
       none: '0',
       sm: '0.125rem',
       button: '3px',
-      dialogue: '6px',
+      dialogue: '8px',
       pill: '30px',
       lg: '0.5rem',
       full: '9999px',

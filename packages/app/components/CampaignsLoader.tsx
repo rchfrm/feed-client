@@ -27,6 +27,9 @@ import { getSpendingPeriodIndexes } from '@/app/helpers/resultsHelpers'
 import { getDataSourceValue } from '@/app/helpers/appServer'
 import { Dictionary } from 'ts-essentials'
 import { Edge, OverviewNodeGroup, OverviewPeriod } from '@/app/types/overview'
+import useBreakpointTest from '@/hooks/useBreakpointTest'
+import ConstructionIcon from '@/icons/ConstructionIcon'
+import brandColors from '@/constants/brandColors'
 
 enum ReducerActionType {
   'SET_START',
@@ -75,6 +78,8 @@ const CampaignsLoader = () => {
   const { artistId, artist: { preferences } } = React.useContext(ArtistContext)
   const { objective, platform } = preferences.optimization
   const targetedPlatforms: Platform[] = preferences.targeting.platforms
+
+  const isDesktopLayout = useBreakpointTest('xs')
 
   useAsyncEffect(async (isMounted) => {
     if (! artistId || ! targetingState) {
@@ -177,7 +182,36 @@ const CampaignsLoader = () => {
     setIsLoading(false)
   }, [artistId, targetingState])
 
-  // TODO : Add something on mobile version to use desktop for now
+  // TODO : Look into Sydney Gordon, make sure height of overview is set correctly.
+  //  Issue with displaying interests_engage ad set as there are no metrics
+  // TODO : Test creating an interest targeting audience
+  // TODO : Removing an interest targeting audience
+
+  if (! isDesktopLayout) {
+    return (
+      <div
+        className={[
+          'border-[1px]',
+          'rounded-[16px]',
+          'border-grey-light',
+          'border-solid',
+          'p-8',
+          'text-center',
+          'max-w-fit',
+          'w-3/4',
+          'm-auto',
+          'flex',
+          'flex-col',
+          'items-center',
+        ].join(' ')}
+      >
+        <ConstructionIcon width={64} className="mb-5" fill={brandColors.yellow} />
+        <h1>Under construction</h1>
+        <p>The mobile view is coming soon!</p>
+        <p>In the meantime, switch to desktop to see your campaign overview.</p>
+      </div>
+    )
+  }
 
   return (
     <div onDragOver={(e) => e.preventDefault()}>
