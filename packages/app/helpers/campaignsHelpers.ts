@@ -154,6 +154,7 @@ export const excludeLookalikes = (
 export const excludeAdSets = (
   adSets: AdSet[],
   objective: string,
+  period: OverviewPeriod,
   adSpend?: DataSourceResponse,
 ): AdSet[] => {
   return adSets.filter((adSet) => {
@@ -176,7 +177,11 @@ export const excludeAdSets = (
       return false
     }
 
-    return true
+    const metricDatesInPeriod = metricDates.filter((dateString) => {
+      const date = new Date(dateString)
+      return date >= period.start && date <= period.end
+    })
+    return metricDatesInPeriod.length !== 0
   })
 }
 

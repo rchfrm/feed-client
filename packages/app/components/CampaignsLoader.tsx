@@ -132,7 +132,7 @@ const CampaignsLoader = () => {
       }).flat()
     }
 
-    const filteredAdSets = excludeAdSets(adSets, objective, facebookAdSpendData)
+    const filteredAdSets = excludeAdSets(adSets, objective, period, facebookAdSpendData)
 
     setAdSets(filteredAdSets)
 
