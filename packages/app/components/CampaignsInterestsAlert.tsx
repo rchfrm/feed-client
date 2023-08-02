@@ -44,6 +44,8 @@ const CampaignsInterestsAlert: React.FC<CampaignsHeaderProps> = ({
       children: (
         <TargetingInterests className="h-[360px]" />
       ),
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       buttons,
       onClose: onCancel,
     })
