@@ -413,6 +413,7 @@ export const getNodeGroups = (
   audiences: Audience[],
   lookalikesAudiences: LookalikeWithPlatform[],
   adSets: AdSet[],
+  hasInterestTargetingAccess: boolean,
   targetingInterests: TargetingInterest[],
   period: OverviewPeriod,
 ): OverviewNodeGroup[] => {
@@ -447,7 +448,9 @@ export const getNodeGroups = (
   }, {})
 
   Object.values(lookalikesAudiencesKeyedByAudienceId).forEach((lookalikes) => {
-    const { name, platform } = lookalikes[0]
+    const lookalike = lookalikes[0]
+    const { name } = lookalikes[0]
+    const platforms = lookalike.platform ? [lookalike.platform] : [Platform.FACEBOOK, Platform.INSTAGRAM]
     const nodeIndex = getAudienceGroupIndex(name)
     const groupIndex = nodeIndex?.split('-')[0]
 
@@ -462,7 +465,7 @@ export const getNodeGroups = (
       type: OverviewNodeType.AUDIENCE,
       subType: OverviewNodeSubType.LOOKALIKE,
       index: nodeIndex,
-      platforms: [platform],
+      platforms,
       label: copy.lookalikesAudiencesLabel({ name, approximateCount, countries }),
       isActive: true,
     }
@@ -514,7 +517,7 @@ export const getNodeGroups = (
   })
 
   const hasTargetingInterests = targetingInterests.length > 0
-  if (nodeGroups.length > 0) {
+  if (nodeGroups.length > 0 && hasInterestTargetingAccess) {
     if (! hasTargetingInterests) {
       nodeGroups[0].nodes.unshift(makeCreateAudienceNode())
     } else {

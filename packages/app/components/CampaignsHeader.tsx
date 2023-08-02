@@ -34,9 +34,11 @@ const CampaignsHeader: React.FC<CampaignsHeaderProps> = ({
       min_daily_budget_info,
     },
   } = React.useContext(ArtistContext)
-  if (isLoading || ! adSets) {
+
+  if (isLoading) {
     return null
   }
+
   const lastUpdatedAt = getLastUpdatedAtDate(adSets)
   const counts = countActiveAdSets(adSets)
   const shouldShowCampaigns = targetingState.status === 1 && Array.from(counts).reduce((acc, [, count]) => acc + count, 0) > 1

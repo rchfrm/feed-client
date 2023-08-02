@@ -313,7 +313,7 @@ export interface Lookalike {
 }
 
 export interface LookalikeWithPlatform extends Lookalike {
-  platform: Platform
+  platform?: Platform
 }
 
 export interface LookalikeSpec {

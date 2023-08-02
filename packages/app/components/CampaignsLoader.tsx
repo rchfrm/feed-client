@@ -75,7 +75,7 @@ const CampaignsLoader = () => {
   const { targetingState } = React.useContext(TargetingContext)
   const { interests = [] } = targetingState
 
-  const { artistId, artist: { preferences } } = React.useContext(ArtistContext)
+  const { artistId, artist: { feature_flags, preferences } } = React.useContext(ArtistContext)
   const { objective, platform } = preferences.optimization
   const targetedPlatforms: Platform[] = preferences.targeting.platforms
 
@@ -175,14 +175,15 @@ const CampaignsLoader = () => {
     }
 
     const targetingInterests: TargetingInterest[] = interests.filter(({ isActive }) => isActive)
-    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, targetingInterests, latestSpendingPeriod)
+    const hasInterestTargetingAccess = !! feature_flags.interest_targeting_enabled
+    const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, hasInterestTargetingAccess, targetingInterests, latestSpendingPeriod)
     const hasActiveBudget = targetingState.status === 1
     const edges = getEdges(nodeGroups, objective, platform, hasActiveBudget)
 
     setNodeGroups(nodeGroups)
     setEdges(edges)
     setIsLoading(false)
-  }, [artistId, targetingState])
+  }, [artistId, targetingState, feature_flags])
 
   // TODO : Test creating an interest targeting audience
 
