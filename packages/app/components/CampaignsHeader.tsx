@@ -55,11 +55,11 @@ const CampaignsHeader: React.FC<CampaignsHeaderProps> = ({
       <h1>Your campaigns</h1>
       {shouldShowCampaigns ? (
         <div className="mb-8">
-          <MarkdownText markdown={`There are currently no active campaigns. ${campaignSummary}`} />
+          <MarkdownText markdown={campaignSummary} />
           <MarkdownText markdown={dataUpdatedString} className="small--p" />
         </div>
       ) : (
-        <MarkdownText markdown={noCampaignsString} />
+        <MarkdownText markdown={`There are currently no active campaigns. ${noCampaignsString}`} />
       )}
     </>
   )

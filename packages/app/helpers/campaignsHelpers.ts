@@ -196,7 +196,11 @@ const nodeGroupsKeyedByType = (nodeGroups: OverviewNodeGroup[]): Record<Overview
 const hasInterestsNode = (nodeGroups: OverviewNodeGroup[]): boolean => {
   const interestsNodeIndex = NODE_INDEXES.INTERESTS.split('-')[0]
   const interestsNodeGroup: OverviewNodeGroup = nodeGroups[interestsNodeIndex]
-  return Boolean(interestsNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
+  const hasInterestsAudience = Boolean(interestsNodeGroup.nodes.find((node) => node.subType === OverviewNodeSubType.INTERESTS))
+  const interestsEngageNodeIndex = NODE_INDEXES.INTERESTS_ENGAGE.split('-')[0]
+  const interestsEngageNodeGroup: OverviewNodeGroup = nodeGroups[interestsEngageNodeIndex]
+  const hasInterestsEngageAdSet = Boolean(interestsEngageNodeGroup.nodes.find((node) => node.index === NODE_INDEXES.INTERESTS_ENGAGE))
+  return hasInterestsAudience && hasInterestsEngageAdSet
 }
 
 const getNodePositions = (

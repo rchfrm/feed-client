@@ -86,6 +86,8 @@ const CampaignsLoader = () => {
       return
     }
 
+    setIsLoading(true)
+
     const facebookAdSpendName = 'facebook_ad_spend_feed'
     const dataSources: Dictionary<DataSourceResponse> = await getDataSourceValue([facebookAdSpendName], artistId)
     const facebookAdSpendData = dataSources[facebookAdSpendName]
@@ -182,8 +184,6 @@ const CampaignsLoader = () => {
     setIsLoading(false)
   }, [artistId, targetingState])
 
-  // TODO : Look into Sydney Gordon, make sure height of overview is set correctly.
-  //  Issue with displaying interests_engage ad set as there are no metrics
   // TODO : Test creating an interest targeting audience
   // TODO : Removing an interest targeting audience
 
