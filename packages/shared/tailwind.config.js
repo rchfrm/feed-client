@@ -20,7 +20,7 @@ const config = (contentFiles) => ({
       none: '0',
       sm: '0.125rem',
       button: '3px',
-      dialogue: '6px',
+      dialogue: '8px',
       pill: '30px',
       lg: '0.5rem',
       full: '9999px',
@@ -79,6 +79,11 @@ const config = (contentFiles) => ({
             light: '#D2EFFF',
             DEFAULT: '#B9E6FF',
             dark: '#5BC1FB',
+          },
+          2: {
+            light: '#D0DBFF',
+            DEFAULT: '#B8C9FF',
+            dark: '#5B82FB',
           },
           3: {
             light: '#D0DBFF',

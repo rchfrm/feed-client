@@ -343,11 +343,9 @@ export const getTotalSpentInPeriod = (dailyData, startDate) => {
   const startDateIndex = dateKeys.findIndex((key) => key === moment(startDate).format('yyyy-MM-DD'))
   const endDateIndex = dateKeys.length
 
-  const totalSpent = dateKeys.slice(startDateIndex, endDateIndex).reduce((total, key) => {
+  return dateKeys.slice(startDateIndex, endDateIndex).reduce((total, key) => {
     return total + dailyData[key]
   }, 0)
-
-  return totalSpent
 }
 
 export const getSpendingData = (dailyData) => {
@@ -423,4 +421,43 @@ export const formatInterestSearchResponse = (interest, platform) => {
     path: interest.path,
     isActive: true,
   }
+}
+
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+/**
+ * @param {{ campaignBudget?: { endDate: string }}} targeting
+ * @returns {boolean}
+ */
+export const hasActiveCampaignBudget = (targeting) => {
+  const campaignEndDateString = targeting?.campaignBudget?.endDate
+  if (campaignEndDateString) {
+    const campaignEndDate = new Date(campaignEndDateString)
+    if (campaignEndDate > today) {
+      return true
+    }
+  }
+  return false
+}
+
+/**
+ * @param {{ startDate: string, totalBudget: number }} campaignBudget
+ * @param {{ [key: string]: number }} adSpendData
+ * @returns {number}
+ */
+export const getRemainingBudget = (campaignBudget, adSpendData) => {
+  const startDate = new Date(campaignBudget.startDate)
+  const totalSpent = getTotalSpentInPeriod(adSpendData, startDate)
+  return Number((campaignBudget.totalBudget - totalSpent).toFixed(2))
+}
+
+/**
+ * @param {string} endDateString
+ * @return {number}
+ */
+export const getRemainingDays = (endDateString) => {
+  const endDate = new Date(endDateString)
+  const oneDayInMilliseconds = 1000 * 60 * 60 * 24
+  const diffInMilliseconds = endDate - today
+  return Math.round(diffInMilliseconds / oneDayInMilliseconds)
 }
