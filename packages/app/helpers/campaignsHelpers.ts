@@ -12,7 +12,7 @@ import {
   TargetingInterest,
 } from '@/app/types/api'
 import {
-  Edge,
+  Edge, IDENTIFIERS,
   NODE_INDEXES,
   NodeIndexes,
   OverviewNode,
@@ -409,6 +409,14 @@ const makeInterestAudienceNode = (interests: TargetingInterest[]): OverviewNodeA
   }
 }
 
+const getCampaignType = (identifier: keyof typeof NODE_INDEXES): string => {
+  identifier.toUpperCase()
+  if (identifier.endsWith('ENGAGE')) return 'engagement'
+  if (identifier.endsWith('TRAFFIC')) return 'traffic'
+  if (identifier.endsWith('LANDING_PAGE')) return 'landing_page_view'
+  if (identifier.endsWith('CONVERSIONS')) return 'conversion'
+}
+
 export const getNodeGroups = (
   audiences: Audience[],
   lookalikesAudiences: LookalikeWithPlatform[],
@@ -476,8 +484,7 @@ export const getNodeGroups = (
   // Create ad sets node groups
   const adSetsKeyedByIdentifier: Dictionary<AdSet[]> = adSets.reduce((result, adSet) => {
     const { identifier } = adSet
-    const [a, b] = identifier.split('_')
-    const key = `${a.toUpperCase()}_${b.toUpperCase()}`
+    const key = identifier.replace(/(_stories)|(_posts)/, '').toUpperCase()
 
     if (! result[key]) {
       result[key] = []
@@ -496,15 +503,35 @@ export const getNodeGroups = (
       isActive: true,
     }
     let node: OverviewNode
-    const isEngagementCampaign = identifier.endsWith('ENGAGE')
-    if (isEngagementCampaign) {
+    const campaignType = getCampaignType(identifier as IDENTIFIERS)
+
+    if (campaignType === 'engagement') {
       const { engagementRate, costPerEngagement, lastAdSpendDate } = getEngagementRateAndCost(adSets, period)
       node = Object.assign(nodeBase, {
         engagementRate,
         costPerEngagement,
         lastAdSpendDate,
       })
-    } else {
+    }
+    if (campaignType === 'traffic') {
+      const { cpc, ctr, lastAdSpendDate } = getClickRateAndCost(adSets, period)
+      node = Object.assign(nodeBase, {
+        ctr,
+        cpc,
+        lastAdSpendDate,
+      })
+    }
+    if (campaignType === 'landing_page_view') {
+      // TODO : Add LPV results
+      const { cpc, ctr, lastAdSpendDate } = getClickRateAndCost(adSets, period)
+      node = Object.assign(nodeBase, {
+        ctr,
+        cpc,
+        lastAdSpendDate,
+      })
+    }
+    if (campaignType === 'conversion') {
+      // TODO : Add conversions results
       const { cpc, ctr, lastAdSpendDate } = getClickRateAndCost(adSets, period)
       node = Object.assign(nodeBase, {
         ctr,
@@ -691,30 +718,24 @@ export const getLastUpdatedAtDate = (adSets: AdSet[]): Date | undefined => {
 export const countActiveAdSets = (adSets: AdSet[]): Map<string, number> => {
   const counts = new Map<string, number>()
   adSets.forEach((adSet) => {
-    const { identifier } = adSet
-    const indexOfFirstUnderscore = identifier.indexOf('_') + 1
-    const indexOfFinalUnderscore = identifier.lastIndexOf('_')
-    const identifierShort = identifier.slice(indexOfFirstUnderscore, indexOfFinalUnderscore)
-    let count = counts.get(identifierShort) || 0
+    const identifier = adSet.identifier.replace(/(_stories)|(_posts)/g, '').toUpperCase()
+    const campaignType = getCampaignType(identifier as IDENTIFIERS)
+    let count = counts.get(campaignType) || 0
     count += 1
-    counts.set(identifierShort, count)
+    counts.set(campaignType, count)
   })
   return counts
 }
 
 export const createActiveAdSetString = (counts: Map<string, number>): string => {
-  const optimisationDict = {
-    engage: 'engagement',
-    traffic: 'traffic',
-  }
   const countArray = Array.from(counts)
   if (counts.size === 1) {
     const [optimisation, count] = countArray[0]
-    return `There are currently **${count} active ${optimisationDict[optimisation]} campaigns**`
+    return `There are currently **${count} active ${optimisation.replaceAll('_', ' ')} campaigns**`
   }
   const totalCount = countArray.reduce((acc, [, count]): number => acc + count, 0)
   const strings: string[] = Array.from(counts).map(([optimisation, count]) => {
-    return `${count} ${optimisationDict[optimisation]}`
+    return `${count} ${optimisation.replaceAll('_', ' ')}`
   })
   return `There are currently **${totalCount} active campaigns** (${strings.slice(0, -1).join(', ')} and ${strings.slice(-1)})`
 }
