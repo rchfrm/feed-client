@@ -5,7 +5,7 @@ import artistContext from '@/app/contexts/ArtistContext'
 import { Platform } from '@/app/types/api'
 
 const SubHeaderLinks = () => {
-  const { artist, hasSetUpProfile } = React.useContext(artistContext)
+  const { artist } = React.useContext(artistContext)
   return (
     <ul className={[
       'flex justify-center w-full md:w-auto mb-0 md:mr-4 px-auto',
@@ -17,7 +17,7 @@ const SubHeaderLinks = () => {
         const { platform } = artist.preferences.optimization
         const hasSpotifyOrInstagramObjective = platform === Platform.SPOTIFY || platform === Platform.INSTAGRAM
         const isHomeRoute = title === 'Home'
-        if ((! hasSpotifyOrInstagramObjective || ! hasSetUpProfile) && isHomeRoute) {
+        if ((! hasSpotifyOrInstagramObjective || ! artist.hasSetUpProfile) && isHomeRoute) {
           return null
         }
         return (

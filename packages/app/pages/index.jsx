@@ -12,18 +12,18 @@ const headerConfig = {
 }
 
 const Page = () => {
-  const { artist, artistId, hasSetUpProfile } = React.useContext(ArtistContext)
+  const { artist, artistId } = React.useContext(ArtistContext)
   const { platform } = artist.preferences.optimization
   const hasSpotifyOrInstagramObjective = platform === Platform.SPOTIFY || platform === Platform.INSTAGRAM
   const router = useRouter()
 
   React.useEffect(() => {
-    if (! hasSpotifyOrInstagramObjective || ! hasSetUpProfile) {
+    if (! hasSpotifyOrInstagramObjective || ! artist.hasSetUpProfile) {
       router.push(ROUTES.POSTS)
     }
-  }, [hasSetUpProfile, hasSpotifyOrInstagramObjective, router])
+  }, [artist.hasSetUpProfile, hasSpotifyOrInstagramObjective, router])
 
-  if (! hasSpotifyOrInstagramObjective || ! hasSetUpProfile) {
+  if (! hasSpotifyOrInstagramObjective || ! artist.hasSetUpProfile) {
     return null
   }
 
