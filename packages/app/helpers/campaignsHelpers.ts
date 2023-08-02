@@ -105,11 +105,16 @@ export const excludeAudiences = (
   audiences: Audience[],
   platformTargeting: Platform[],
   objective: string,
+  adAccountId?: string,
 ): Audience[] => {
   const isTargetingFacebookOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.FACEBOOK
   const isTargetingInstagramOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.INSTAGRAM
 
   return audiences.filter((audience) => {
+    if (adAccountId && audience.platform_account_id !== adAccountId) {
+      return false
+    }
+
     if (! audience.is_current) {
       return false
     }

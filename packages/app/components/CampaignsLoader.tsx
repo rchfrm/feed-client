@@ -75,7 +75,7 @@ const CampaignsLoader = () => {
   const { targetingState } = React.useContext(TargetingContext)
   const { interests = [] } = targetingState
 
-  const { artistId, artist: { feature_flags, preferences } } = React.useContext(ArtistContext)
+  const { artistId, artist: { feature_flags, preferences, integrations } } = React.useContext(ArtistContext)
   const { objective, platform } = preferences.optimization
   const targetedPlatforms: Platform[] = preferences.targeting.platforms
 
@@ -150,7 +150,9 @@ const CampaignsLoader = () => {
       return
     }
 
-    const filteredAudiences = excludeAudiences(audiences, targetedPlatforms, objective)
+    const facebookIntegration = integrations.find((i) => i.platform === Platform.FACEBOOK)
+    const adAccount = facebookIntegration?.adaccount_id
+    const filteredAudiences = excludeAudiences(audiences, targetedPlatforms, objective, adAccount)
 
     let lookalikeAudiences: LookalikeWithPlatform[] = []
     if (audiences.length > 0) {
@@ -183,7 +185,7 @@ const CampaignsLoader = () => {
     setNodeGroups(nodeGroups)
     setEdges(edges)
     setIsLoading(false)
-  }, [artistId, targetingState, feature_flags])
+  }, [artistId, targetingState, feature_flags, integrations])
 
   // TODO : Test creating an interest targeting audience
 
