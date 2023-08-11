@@ -126,10 +126,7 @@ const CampaignsLoader = () => {
     } else {
       const today = new Date()
       today.setHours(0, 0, 0, 0)
-      latestSpendingPeriod = {
-        start: today,
-        end: today,
-      }
+      latestSpendingPeriod = { start: today, end: today }
     }
 
     setPeriod({ type: ReducerActionType.SET_BOTH, payload: latestSpendingPeriod })
@@ -161,7 +158,7 @@ const CampaignsLoader = () => {
       }).flat()
     }
 
-    const filteredAdSets = excludeAdSets(adSets, objective, latestSpendingPeriod, facebookAdSpendData)
+    const filteredAdSets = excludeAdSets(adSets, objective, latestSpendingPeriod, hasStartedFirstCampaignToday, facebookAdSpendData)
 
     setAdSets(filteredAdSets)
 
@@ -210,7 +207,7 @@ const CampaignsLoader = () => {
     const targetingInterests: TargetingInterest[] = interests.filter(({ isActive }) => isActive)
     const hasInterestTargetingAccess = !! featureFlags.interest_targeting_enabled
     const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, hasActiveBudget, hasInterestTargetingAccess, targetingInterests, latestSpendingPeriod)
-    const edges = getEdges(nodeGroups, objective, platform, hasActiveBudget)
+    const edges = getEdges(nodeGroups, objective, platform, hasActiveBudget, hasStartedFirstCampaignToday)
 
     setNodeGroups(nodeGroups)
     setEdges(edges)
