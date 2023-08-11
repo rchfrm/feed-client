@@ -58,13 +58,13 @@ export interface OverviewNodeCampaign extends OverviewNodeBase {
 }
 
 export interface OverviewNodeEngageAdSet extends OverviewNodeCampaign {
-  engagementRate: number
-  costPerEngagement: number
+  engagementRate: number | '--'
+  costPerEngagement: number | '--'
 }
 
 export interface OverviewNodeTrafficAdSet extends OverviewNodeCampaign {
-  ctr: number
-  cpc: number
+  ctr: number | '--'
+  cpc: number | '--'
 }
 
 export type OverviewNode = OverviewNodeEngageAdSet | OverviewNodeTrafficAdSet

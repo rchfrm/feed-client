@@ -370,8 +370,8 @@ const getEngagementRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick
   } = sumMetrics(adSets, period) || {}
 
   const totalEngagements = clicks + likes + shares + comments + saves
-  const engagementRate = Number(((totalEngagements / impressions) * 100).toFixed(2))
-  const costPerEngagement = Number((spend / totalEngagements).toFixed(3))
+  const engagementRate = impressions > 0 ? Number(((totalEngagements / impressions) * 100).toFixed(2)) : '--'
+  const costPerEngagement = totalEngagements > 0 ? Number((spend / totalEngagements).toFixed(3)) : '--'
 
   return {
     engagementRate,
@@ -389,8 +389,8 @@ const getClickRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick<Over
     },
     lastAdSpendDate,
   } = sumMetrics(adSets, period) || {}
-  const ctr = Number(((clicks / impressions) * 100).toFixed(2))
-  const cpc = Number((spend / clicks).toFixed(3))
+  const ctr = impressions > 0 ? Number(((clicks / impressions) * 100).toFixed(2)) : '--'
+  const cpc = clicks > 0 ? Number((spend / clicks).toFixed(3)) : '--'
   return {
     ctr,
     cpc,
