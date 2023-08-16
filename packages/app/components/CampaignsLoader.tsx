@@ -31,8 +31,6 @@ import useBreakpointTest from '@/hooks/useBreakpointTest'
 import ConstructionIcon from '@/icons/ConstructionIcon'
 import brandColors from '@/constants/brandColors'
 import { areSameDayUTC } from '@/helpers/dateHelpers'
-import firebase from 'firebase'
-import database = firebase.database;
 
 enum ReducerActionType {
   'SET_START',
