@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 
 const DisabledSection = ({
