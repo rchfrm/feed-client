@@ -5,7 +5,7 @@ import { mixpanelExternalLinkClick } from '@/landing/helpers/mixpanelHelpers'
 
 export default function TryFeed({ className, trackLocation, buttonText }) {
   // Track link before outbound
-  const joinLink = 'https://app.tryfeed.co/join'
+  const joinLink = 'mailto:help@tryfeed.co'
 
   return (
     <div className={className}>
@@ -34,5 +34,5 @@ TryFeed.propTypes = {
 TryFeed.defaultProps = {
   className: null,
   trackLocation: '',
-  buttonText: 'Sign up',
+  buttonText: 'Request access',
 }

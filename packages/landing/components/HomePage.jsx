@@ -57,7 +57,6 @@ export default function HomePage({ pageData }) {
               ].join(' ')}
             />
             <TryFeed
-              buttonText="Start a campaign"
               className={[
                 'mt-4',
                 'minContent:self-center',
@@ -73,7 +72,6 @@ export default function HomePage({ pageData }) {
         </Section>
         <Section className={['justify-center md:flex hidden'].join(' ')} isFullWidth>
           <TryFeed
-            buttonText="Start a campaign"
             className={[
               'w-full',
               'flex',
@@ -98,7 +96,6 @@ export default function HomePage({ pageData }) {
         <PricingPlans />
         <Section className={['justify-center flex'].join(' ')} isFullWidth>
           <TryFeed
-            buttonText="Start a campaign"
             className={[
               'w-full',
               'flex',
