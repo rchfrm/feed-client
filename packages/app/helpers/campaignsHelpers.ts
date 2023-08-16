@@ -165,6 +165,7 @@ export const excludeAdSets = (
   adSets: AdSet[],
   objective: string,
   period: OverviewPeriod,
+  hasStartedFirstCampaignToday: boolean,
   adSpend?: DataSourceResponse,
 ): AdSet[] => {
   return adSets.filter((adSet) => {
@@ -180,6 +181,10 @@ export const excludeAdSets = (
     const [, adSetOptimization] = identifier.split('_')
     if (objective === 'conversations' && adSetOptimization === 'traffic') {
       return false
+    }
+
+    if (hasStartedFirstCampaignToday) {
+      return true
     }
 
     const metricDates = Object.keys(metrics)
@@ -365,8 +370,8 @@ const getEngagementRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick
   } = sumMetrics(adSets, period) || {}
 
   const totalEngagements = clicks + likes + shares + comments + saves
-  const engagementRate = Number(((totalEngagements / impressions) * 100).toFixed(2))
-  const costPerEngagement = Number((spend / totalEngagements).toFixed(3))
+  const engagementRate = impressions > 0 ? Number(((totalEngagements / impressions) * 100).toFixed(2)) : '--'
+  const costPerEngagement = totalEngagements > 0 ? Number((spend / totalEngagements).toFixed(3)) : '--'
 
   return {
     engagementRate,
@@ -384,8 +389,8 @@ const getClickRateAndCost = (adSets: AdSet[], period: OverviewPeriod): Pick<Over
     },
     lastAdSpendDate,
   } = sumMetrics(adSets, period) || {}
-  const ctr = Number(((clicks / impressions) * 100).toFixed(2))
-  const cpc = Number((spend / clicks).toFixed(3))
+  const ctr = impressions > 0 ? Number(((clicks / impressions) * 100).toFixed(2)) : '--'
+  const cpc = clicks > 0 ? Number((spend / clicks).toFixed(3)) : '--'
   return {
     ctr,
     cpc,
@@ -600,7 +605,8 @@ const getTrafficTarget = (objective, platform): string => {
   return NODE_INDEXES.WEBSITE_VISITORS
 }
 
-const isCampaignActive = (nodeGroups: OverviewNodeGroup[], campaignIndex: NodeIndexes): boolean => {
+const isCampaignActive = (hasStartedFirstCampaignToday: boolean, nodeGroups: OverviewNodeGroup[], campaignIndex: NodeIndexes): boolean => {
+  if (hasStartedFirstCampaignToday) return true
   const groupIndex = Number(campaignIndex.split('-')[0])
   const node = nodeGroups[groupIndex].nodes.find((node) => node.index === campaignIndex) as OverviewNodeCampaign
   return node.lastAdSpendDate > yesterday
@@ -611,6 +617,7 @@ export const getEdges = (
   objective: string,
   platform: Platform,
   hasActiveBudget: boolean,
+  hasStartedFirstCampaignToday: boolean,
 ) => {
   const {
     LOOKALIKES,
@@ -630,13 +637,13 @@ export const getEdges = (
       type: 'group',
       source: LOOKALIKES,
       target: ENTICE_ENGAGE,
-      isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_ENGAGE),
+      isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, ENTICE_ENGAGE),
     },
     {
       type: 'group',
       source: ENTICE_ENGAGE,
       target: ENGAGED_1Y,
-      isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_ENGAGE),
+      isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, ENTICE_ENGAGE),
     },
   ]
 
@@ -646,13 +653,13 @@ export const getEdges = (
         type: 'group',
         source: INTERESTS,
         target: INTERESTS_ENGAGE,
-        isActive: hasActiveBudget && isCampaignActive(nodeGroups, INTERESTS_ENGAGE),
+        isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, INTERESTS_ENGAGE),
       },
       {
         type: 'group',
         source: INTERESTS_ENGAGE,
         target: ENGAGED_1Y,
-        isActive: hasActiveBudget && isCampaignActive(nodeGroups, INTERESTS_ENGAGE),
+        isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, INTERESTS_ENGAGE),
       },
     ]
     edges.push(...interestsEngageEdges)
@@ -664,13 +671,13 @@ export const getEdges = (
         type: 'group',
         source: ENGAGED_1Y,
         target: REMIND_ENGAGE,
-        isActive: hasActiveBudget && isCampaignActive(nodeGroups, REMIND_ENGAGE),
+        isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, REMIND_ENGAGE),
       },
       {
         type: 'group',
         source: REMIND_ENGAGE,
         target: ENGAGED_28D,
-        isActive: hasActiveBudget && isCampaignActive(nodeGroups, REMIND_ENGAGE),
+        isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, REMIND_ENGAGE),
       },
     ]
     edges.push(...remindEngageEdges)
@@ -682,13 +689,13 @@ export const getEdges = (
         type: 'group',
         source: LOOKALIKES,
         target: ENTICE_TRAFFIC,
-        isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
+        isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, ENTICE_TRAFFIC),
       },
       {
         type: 'group',
         source: ENGAGED_1Y,
         target: REMIND_TRAFFIC,
-        isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
+        isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, ENTICE_TRAFFIC),
       },
     ]
     edges.push(...trafficCampaigns)
@@ -699,13 +706,13 @@ export const getEdges = (
           type: 'group',
           source: ENTICE_TRAFFIC,
           target: getTrafficTarget(objective, platform),
-          isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
+          isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, ENTICE_TRAFFIC),
         },
         {
           type: 'group',
           source: REMIND_TRAFFIC,
           target: getTrafficTarget(objective, platform),
-          isActive: hasActiveBudget && isCampaignActive(nodeGroups, ENTICE_TRAFFIC),
+          isActive: hasActiveBudget && isCampaignActive(hasStartedFirstCampaignToday, nodeGroups, ENTICE_TRAFFIC),
         },
       ]
       edges.push(...trafficTargets)

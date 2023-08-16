@@ -14,6 +14,8 @@ import {
   OverviewNodeTrafficAdSet,
 } from '@/app/types/overview'
 import { getCampaignType } from '@/app/helpers/campaignsHelpers'
+import ArtistContext from '@/app/contexts/ArtistContext'
+import { getCurrencySymbol } from '@/helpers/utils'
 
 type CampaignsNodeCampaignProps = {
   group: OverviewNodeGroup
@@ -32,10 +34,12 @@ const CampaignsNodeCampaign: React.FC<CampaignsNodeCampaignProps> = ({
   getPosition,
   isActive,
 }) => {
+  const { artistCurency } = React.useContext(ArtistContext)
+  const currencySymbol = getCurrencySymbol(artistCurency)
   const { handlers } = group
   const campaignType = getCampaignType(node.label as IDENTIFIERS)
-  let resultRate: number
-  let costPerResult: number
+  let resultRate: number | '--'
+  let costPerResult: number | '--'
   let resultRateDescription: string
   let costPerResultDescription: string
   if (campaignType === 'engagement') {
@@ -95,7 +99,7 @@ const CampaignsNodeCampaign: React.FC<CampaignsNodeCampaignProps> = ({
                 ! isActive ? 'bg-green-bg-light' : 'bg-green-bg-dark',
               ].join(' ')}
             >
-              <div className="-mb-0.5 text-green-text text-xs -mb-1 font-bold">{resultRate}%</div>
+              <div className="-mb-0.5 text-green-text text-xs -mb-1 font-bold">{resultRate}{resultRate !== '--' ? '%' : ''}</div>
               <div className="text-green-text text-[8px]">{resultRateDescription}</div>
             </div>
             <div
@@ -104,7 +108,7 @@ const CampaignsNodeCampaign: React.FC<CampaignsNodeCampaignProps> = ({
                 ! isActive ? 'bg-green-bg-light' : 'bg-green-bg-dark',
               ].join(' ')}
             >
-              <div className="-mb-0.5 text-green-text text-xs -mb-1 font-bold">£{costPerResult}</div>
+              <div className="-mb-0.5 text-green-text text-xs -mb-1 font-bold">{costPerResult !== '--' ? currencySymbol : ''}{costPerResult}</div>
               <div className="text-green-text text-[8px]">{costPerResultDescription}</div>
             </div>
           </div>

@@ -30,6 +30,7 @@ import { Edge, OverviewNodeGroup, OverviewPeriod } from '@/app/types/overview'
 import useBreakpointTest from '@/hooks/useBreakpointTest'
 import ConstructionIcon from '@/icons/ConstructionIcon'
 import brandColors from '@/constants/brandColors'
+import { areSameDayUTC } from '@/helpers/dateHelpers'
 
 enum ReducerActionType {
   'SET_START',
@@ -75,7 +76,15 @@ const CampaignsLoader = () => {
   const { targetingState } = React.useContext(TargetingContext)
   const { interests = [] } = targetingState
 
-  const { artistId, artist: { feature_flags, preferences, integrations } } = React.useContext(ArtistContext)
+  const {
+    artistId,
+    artist: {
+      feature_flags: featureFlags,
+      preferences,
+      integrations,
+      budget_initially_activated_at: budgetInitiallyActivatedAt,
+    },
+  } = React.useContext(ArtistContext)
   const { objective, platform } = preferences.optimization
   const targetedPlatforms: Platform[] = preferences.targeting.platforms
 
@@ -93,18 +102,31 @@ const CampaignsLoader = () => {
     const facebookAdSpendData = dataSources[facebookAdSpendName]
     const facebookAdSpendDailyData = facebookAdSpendData.daily_data
     const spendingPeriodIndexes = getSpendingPeriodIndexes(facebookAdSpendDailyData, 1)
-    if (! spendingPeriodIndexes || spendingPeriodIndexes.length === 0) {
+
+    const hasActiveBudget = targetingState.status === 1
+    const budgetInitiallyActivatedDate = new Date(budgetInitiallyActivatedAt)
+    const hasStartedFirstCampaignToday = hasActiveBudget && areSameDayUTC(budgetInitiallyActivatedDate)
+
+    if ((! spendingPeriodIndexes || spendingPeriodIndexes.length === 0) && ! hasStartedFirstCampaignToday) {
       setIsLoading(false)
       return
     }
 
     setAdSpendData(facebookAdSpendDailyData as Dictionary<number>)
 
-    const [start, end] = spendingPeriodIndexes[0]
-    const latestSpendingPeriod = {
-      start: new Date(Object.keys(facebookAdSpendDailyData)[start]),
-      end: new Date(Object.keys(facebookAdSpendDailyData)[end]),
+    let latestSpendingPeriod: { start: Date, end: Date }
+    if (! hasStartedFirstCampaignToday) {
+      const [start, end] = spendingPeriodIndexes[0]
+      latestSpendingPeriod = {
+        start: new Date(Object.keys(facebookAdSpendDailyData)[start]),
+        end: new Date(Object.keys(facebookAdSpendDailyData)[end]),
+      }
+    } else {
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      latestSpendingPeriod = { start: today, end: today }
     }
+
     setPeriod({ type: ReducerActionType.SET_BOTH, payload: latestSpendingPeriod })
 
     const { res: campaigns, error: campaignsError } = await getCampaigns(artistId)
@@ -134,7 +156,7 @@ const CampaignsLoader = () => {
       }).flat()
     }
 
-    const filteredAdSets = excludeAdSets(adSets, objective, latestSpendingPeriod, facebookAdSpendData)
+    const filteredAdSets = excludeAdSets(adSets, objective, latestSpendingPeriod, hasStartedFirstCampaignToday, facebookAdSpendData)
 
     setAdSets(filteredAdSets)
 
@@ -181,15 +203,14 @@ const CampaignsLoader = () => {
     }
 
     const targetingInterests: TargetingInterest[] = interests.filter(({ isActive }) => isActive)
-    const hasInterestTargetingAccess = !! feature_flags.interest_targeting_enabled
-    const hasActiveBudget = targetingState.status === 1
+    const hasInterestTargetingAccess = !! featureFlags.interest_targeting_enabled
     const nodeGroups = getNodeGroups(filteredAudiences, filteredLookalikes, filteredAdSets, hasActiveBudget, hasInterestTargetingAccess, targetingInterests, latestSpendingPeriod)
-    const edges = getEdges(nodeGroups, objective, platform, hasActiveBudget)
+    const edges = getEdges(nodeGroups, objective, platform, hasActiveBudget, hasStartedFirstCampaignToday)
 
     setNodeGroups(nodeGroups)
     setEdges(edges)
     setIsLoading(false)
-  }, [artistId, targetingState, feature_flags, integrations])
+  }, [artistId, targetingState, featureFlags, integrations, budgetInitiallyActivatedAt])
 
   // TODO : Test creating an interest targeting audience
 

@@ -1,26 +1,42 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Spinner from '@/elements/Spinner'
 import { track } from '@/helpers/trackingHelpers'
 import { getStringFromChildrenProp, getLinkType } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
-const Button = React.forwardRef(({
-  type,
-  size,
-  color,
-  version,
+interface ButtonProps {
+  children: React.ReactNode
+  trackComponentName: string
+  type?: 'button' | 'submit' | 'reset'
+  size?: 'x-small' | 'small' | 'medium' | 'large'
+  color?: keyof typeof brandColors
+  version?: 'primary' | 'secondary' | 'tertiary' | 'text'
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  isLoading?: boolean
+  isDisabled?: boolean
+  isSidePanel?: boolean
+  className?: string
+  spinnerFill?: string
+  id?: string
+  href?: string
+}
+
+const Button: React.FC<ButtonProps> = ({
   children,
-  onClick,
-  isLoading,
-  isDisabled,
-  isSidePanel,
   trackComponentName,
-  className,
-  href,
-  spinnerFill,
+  type = 'button',
+  size = 'large',
+  color = 'green',
+  version = 'primary',
+  onClick,
+  isLoading = false,
+  isDisabled = false,
+  isSidePanel = false,
+  className = '',
+  href = '',
+  spinnerFill = brandColors.black,
   id,
-}, ref) => {
+}) => {
   const classes = {
     'x-small': 'h-[22px] p-2 text-xs',
     small: 'h-8 p-2 text-[13px]',
@@ -77,7 +93,6 @@ const Button = React.forwardRef(({
       href={href}
       target={href ? target : ''}
       rel={href ? rel : ''}
-      ref={ref}
       id={id}
     >
       {isLoading && (
@@ -100,40 +115,8 @@ const Button = React.forwardRef(({
       </span>
     </Tag>
   )
-})
+}
 
 Button.displayName = 'Button'
-
-Button.propTypes = {
-  type: PropTypes.string,
-  size: PropTypes.string,
-  color: PropTypes.string,
-  version: PropTypes.string,
-  onClick: PropTypes.func,
-  isDisabled: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  isSidePanel: PropTypes.bool,
-  className: PropTypes.string,
-  href: PropTypes.string,
-  spinnerFill: PropTypes.string,
-  id: PropTypes.string,
-  trackComponentName: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-}
-
-Button.defaultProps = {
-  type: 'button',
-  size: 'large',
-  color: 'green',
-  version: 'primary',
-  onClick: () => {},
-  isDisabled: false,
-  isLoading: false,
-  isSidePanel: false,
-  className: '',
-  href: '',
-  spinnerFill: brandColors.black,
-  id: null,
-}
 
 export default Button

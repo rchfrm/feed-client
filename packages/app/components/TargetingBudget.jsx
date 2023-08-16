@@ -14,8 +14,10 @@ import DisabledActionPrompt from '@/app/DisabledActionPrompt'
 import copy from '@/app/copy/targetingPageCopy'
 import { mayExceedSpendCap } from '@/app/helpers/budgetHelpers'
 import { hasActiveBudget } from '@/app/helpers/artistHelpers'
+import Anchor from '@/landing/elements/Anchor'
 
 const getBillingStoreState = (state) => ({
+  organization: state.organization,
   organizationArtists: state.organizationArtists,
 })
 
@@ -29,31 +31,32 @@ const TargetingBudget = ({
     targetingLoading,
   } = React.useContext(TargetingContext)
 
-  const {
-    artistId,
-    artist: {
-      feedMinBudgetInfo: {
-        currencyCode = 'GBP',
-        currencyOffset = 100,
-        minorUnit: {
-          minRecommendedStories,
-        } = {},
-        string: {
-          minRecommendedStories: minRecommendedStoriesString,
-        } = {},
-      } = {},
-      hasSetUpProfile,
-      hasLegacyPlan,
-      hasBasicPlan,
-      hasFreePlan,
-      hasProPlan,
-      hasNoPlan,
-      plan,
-      status,
-    },
-  } = React.useContext(ArtistContext)
+  const { artistId, artist } = React.useContext(ArtistContext)
 
-  const { organizationArtists } = useBillingStore(getBillingStoreState)
+  const {
+    feedMinBudgetInfo: {
+      currencyCode = 'GBP',
+      currencyOffset = 100,
+      minorUnit: {
+        minRecommendedStories,
+      } = {},
+      string: {
+        minRecommendedStories: minRecommendedStoriesString,
+      } = {},
+    } = {},
+    hasSetUpProfile,
+    hasLegacyPlan,
+    hasBasicPlan,
+    hasFreePlan,
+    hasProPlan,
+    hasNoPlan,
+    plan,
+    status,
+  } = artist
+
+  const { organization, organizationArtists } = useBillingStore(getBillingStoreState)
+  const isManaged = organization.is_managed
+  const selectedArtistHasActiveBudget = hasActiveBudget(artist)
   const anotherProfileHasActiveBudget = organizationArtists.some((artist) => {
     if (artist.id === artistId) return false
     return hasActiveBudget(artist)
@@ -102,55 +105,60 @@ const TargetingBudget = ({
         className,
       ].join(' ')}
     >
-      {targetingLoading ? (
-        <Spinner width={36} className="h-full" />
-      ) : (
-        <>
-          <h2 className="mb-5">Budget</h2>
-          <DisabledSection
-            section="set-budget"
-            isDisabled={isDisabled}
-            className="relative mt-4"
-          >
-            <TargetingBudgetTabs
-              budgetType={budgetType}
-              setBudgetType={setBudgetType}
-              hasActiveCampaignBudget={hasActiveCampaignBudget}
-              targetingState={targetingState}
-            />
-            {isDailyBudget ? (
-              <TargetingDailyBudget />
-            ) : (
-              <TargetingCampaignBudget
-                initialTargetingState={initialTargetingState}
-                targetingState={targetingState}
-                saveTargetingSettings={saveTargetingSettings}
-                currency={currencyCode}
-                currencyOffset={currencyOffset}
+      {targetingLoading ? <Spinner width={36} className="h-full" />
+        : ! isManaged && ! selectedArtistHasActiveBudget ? (
+          <>
+            <h2 className="mb-5">Budget</h2>
+            <p>We are not currently accepting new campaigns directly through Feed.</p>
+            <p>If you would like to set something up, please email <Anchor href="mailto:help@tryfeed.co">help@tryfeed.co</Anchor>.</p>
+          </>
+        ) : (
+          <>
+            <h2 className="mb-5">Budget</h2>
+            <DisabledSection
+              section="set-budget"
+              isDisabled={isDisabled}
+              className="relative mt-4"
+            >
+              <TargetingBudgetTabs
+                budgetType={budgetType}
+                setBudgetType={setBudgetType}
                 hasActiveCampaignBudget={hasActiveCampaignBudget}
+                targetingState={targetingState}
               />
-            )}
-          </DisabledSection>
-          {shouldShowWarning && (
-            hasBudgetBelowMinRecommendedStories && ! mayHitSpendCap ? (
-              <ControlsSettingsSectionFooter
-                copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
-                className="mt-5 text-insta"
-              />
-            ) : (
-              ! hasLegacyPlan && ! hasBasicPlan && (
-                <DisabledActionPrompt
-                  copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
-                  section="budget"
-                  version="small"
-                  isButton={! hasProPlan}
-                  className="mt-5"
+              {isDailyBudget ? (
+                <TargetingDailyBudget />
+              ) : (
+                <TargetingCampaignBudget
+                  initialTargetingState={initialTargetingState}
+                  targetingState={targetingState}
+                  saveTargetingSettings={saveTargetingSettings}
+                  currency={currencyCode}
+                  currencyOffset={currencyOffset}
+                  hasActiveCampaignBudget={hasActiveCampaignBudget}
                 />
+              )}
+            </DisabledSection>
+            {shouldShowWarning && (
+              hasBudgetBelowMinRecommendedStories && ! mayHitSpendCap ? (
+                <ControlsSettingsSectionFooter
+                  copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
+                  className="mt-5 text-insta"
+                />
+              ) : (
+                ! hasLegacyPlan && ! hasBasicPlan && (
+                  <DisabledActionPrompt
+                    copy={copy.budgetFooter(plan, budgetData, mayHitSpendCap)}
+                    section="budget"
+                    version="small"
+                    isButton={! hasProPlan}
+                    className="mt-5"
+                  />
+                )
               )
-            )
-          )}
-        </>
-      )}
+            )}
+          </>
+        )}
     </section>
   )
 }
