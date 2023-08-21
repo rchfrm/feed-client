@@ -4,9 +4,9 @@ import { track } from '@/helpers/trackingHelpers'
 import { getStringFromChildrenProp, getLinkType } from '@/helpers/utils'
 import brandColors from '@/constants/brandColors'
 
-interface ButtonProps {
-  children: React.ReactNode
-  trackComponentName: string
+export interface ButtonProps {
+  children?: React.ReactNode
+  trackComponentName?: string
   type?: 'button' | 'submit' | 'reset'
   size?: 'x-small' | 'small' | 'medium' | 'large'
   color?: keyof typeof brandColors

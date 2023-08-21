@@ -1,27 +1,6 @@
 import React from 'react'
-
 import shallow from 'zustand/shallow'
-
-import useAlertStore from '@/stores/alertStore'
-
-/*
-* EXAMPLE BUTTONS
-buttons: [
-  {
-    text: 'Ok',
-    onClick: 'dismiss',
-  },
-  {
-    text: 'Connect facebook',
-    onClick: () => { console.info('how are you?') },
-  },
-  {
-    text: 'External link',
-    href: 'https://www.home.com,
-    version: 'secondary',
-  }
-]
-*/
+import useAlertStore, { AlertButton } from '@/stores/alertStore'
 
 
 const getAlertsStoreState = (state) => ({
@@ -34,7 +13,7 @@ const getAlertsStoreState = (state) => ({
   setIsIntegrationError: state.setIsIntegrationError,
 })
 
-const useAlertModal = (props) => {
+const useAlertModal = () => {
   const {
     close,
     open,
@@ -45,14 +24,22 @@ const useAlertModal = (props) => {
     setIsIntegrationError,
   } = useAlertStore(getAlertsStoreState, shallow)
 
-  const defaultButtons = React.useMemo(() => {
+  const defaultButtons: AlertButton[] = React.useMemo(() => {
     return [{
       text: 'Ok',
       color: 'green',
       onClick: close,
     }]
   }, [close])
-  const showAlert = React.useCallback(({ copy, children = null, buttons = defaultButtons, onClose = () => {}, isIntegrationError = false }) => {
+  const showAlert = React.useCallback((
+    {
+      copy,
+      children = null,
+      buttons = defaultButtons,
+      onClose = () => {},
+      isIntegrationError = false,
+    },
+  ) => {
     // Set store
     setCopy(copy)
     setChildren(children)
@@ -61,8 +48,7 @@ const useAlertModal = (props) => {
     setIsIntegrationError(isIntegrationError)
     // Open
     open()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props])
+  }, [defaultButtons, open, setButtons, setChildren, setCopy, setIsIntegrationError, setOnClose])
 
   return { showAlert, closeAlert: close, setButtons }
 }

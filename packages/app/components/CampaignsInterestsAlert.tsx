@@ -1,6 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import useAlertModal from '@/hooks/useAlertModal'
 import TargetingInterests from '@/app/TargetingInterests'
+import { ButtonProps } from '@/elements/Button'
+import { AlertButton } from '@/stores/alertStore'
 
 interface CampaignsHeaderProps {
   shouldShowAlert: boolean
@@ -23,7 +25,7 @@ const CampaignsInterestsAlert: React.FC<CampaignsHeaderProps> = ({
       return closeAlert()
     }
 
-    const buttons = [
+    const buttons: AlertButton[] = [
       {
         text: 'Cancel',
         onClick: () => {
@@ -41,11 +43,10 @@ const CampaignsInterestsAlert: React.FC<CampaignsHeaderProps> = ({
       },
     ]
     showAlert({
+      copy: 'Add interests',
       children: (
         <TargetingInterests className="h-[360px]" />
       ),
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       buttons,
       onClose: onCancel,
     })
