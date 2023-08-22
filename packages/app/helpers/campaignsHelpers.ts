@@ -12,19 +12,22 @@ import {
   TargetingInterest,
 } from '@/app/types/api'
 import {
-  Edge, IDENTIFIERS,
+  Edge,
+  IDENTIFIERS,
   NODE_INDEXES,
   NodeIndexes,
   OverviewNode,
   OverviewNodeAudience,
-  OverviewNodeBase, OverviewNodeCampaign,
+  OverviewNodeBase,
+  OverviewNodeCampaign,
   OverviewNodeEngageAdSet,
   OverviewNodeGroup,
   OverviewNodeGroupHandler,
   OverviewNodeGroupHandleType,
   OverviewNodeSubType,
   OverviewNodeTrafficAdSet,
-  OverviewNodeType, OverviewPeriod,
+  OverviewNodeType,
+  OverviewPeriod,
 } from '@/app/types/overview'
 import { Dictionary } from 'ts-essentials'
 import { getCurrencySymbol } from '@/helpers/utils'
@@ -109,6 +112,7 @@ export const excludeAudiences = (
 ): Audience[] => {
   const isTargetingFacebookOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.FACEBOOK
   const isTargetingInstagramOnly = platformTargeting.length === 1 && platformTargeting[0] === Platform.INSTAGRAM
+  const hasInstagramAudiences = audiences.find((audience) => audience.platform === Platform.INSTAGRAM)
 
   return audiences.filter((audience) => {
     if (adAccountId && audience.platform_account_id !== adAccountId) {
@@ -128,7 +132,7 @@ export const excludeAudiences = (
     }
 
     if (audience.platform === Platform.FACEBOOK && isTargetingInstagramOnly) {
-      return false
+      return ! hasInstagramAudiences
     }
 
     if (audience.platform === Platform.INSTAGRAM && isTargetingFacebookOnly) {

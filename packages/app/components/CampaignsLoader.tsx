@@ -195,7 +195,7 @@ const CampaignsLoader = () => {
     const filteredLookalikes = excludeLookalikes(lookalikeAudiences, filteredAdSets)
 
     // TODO : Look into Victor Ray as there are no ad sets
-    // TODO : Look into Isabella Kensignton as there is no retargeting audience
+    // TODO : Look into Isabella Kensington as there is no retargeting audience
     if (filteredAdSets.length === 0) {
       setShouldShowCampaigns(false)
       setIsLoading(false)
