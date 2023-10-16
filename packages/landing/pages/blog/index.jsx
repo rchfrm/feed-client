@@ -9,10 +9,6 @@ export default function BlogOverview() {
   return (
     <>
       <MetaTags pageTitle="newsFeed" />
-      <Section className={['grid', 'grid-cols-12', 'gap-x-4', 'pb-0'].join(' ')}>
-        <h2 className={['col-span-12', 'md:col-span-6', 'md:col-start-4'].join(' ')}>Subscribe</h2>
-        <NewsletterSignup className={['col-span-12', 'md:col-span-6', 'md:col-start-4'].join(' ')} trackLocation="feed-blog" />
-      </Section>
       <ArticleSummary articles={articleValues} section="blog" />
     </>
   )
