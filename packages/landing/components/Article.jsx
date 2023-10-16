@@ -37,20 +37,6 @@ const Article = ({
           ].join(' ')}
         />
       </Section>
-
-      <div ref={newsletterRef}>
-        <TertiaryCTA
-          header="Join our newsletter"
-          trackLocation="feed-blog"
-        />
-      </div>
-
-      {isDesktopWidth && newsletterRef.current && (
-        <NewsletterScrollButton
-          newsletterEl={newsletterRef.current}
-          isFixed
-        />
-      )}
     </>
   )
 }
